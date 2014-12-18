@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://Tencent.com/OSS/C2C/Finance/BatchPay_Service" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://Tencent.com/OSS/C2C/Finance/BatchPay_Service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://Tencent.com/OSS/C2C/Finance/BatchPay_Service">
+      <s:element name="RefundOther_ShowData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strBatchID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RefundOther_ShowDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RefundOther_ShowDataResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefundState_Other">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="batchid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefundState_OtherResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRefundState_OtherResult" type="tns:ArrayOfParam" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfParam">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Param" type="tns:Param" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Param">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ParamName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ParamValue" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ParamFlag" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RefundOther_InitGrid_R">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="beginDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="endDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="banktype" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="status" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="proposer" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="refundPath" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RefundOther_InitGrid_RResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RefundOther_InitGrid_RResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetZWDicValueByKey">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetZWDicValueByKeyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetZWDicValueByKeyResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DataSet" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:element ref="s:schema" />
+            <s:any />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ArrayOfParam" nillable="true" type="tns:ArrayOfParam" />
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="RefundOther_ShowDataSoapIn">
+    <wsdl:part name="parameters" element="tns:RefundOther_ShowData" />
+  </wsdl:message>
+  <wsdl:message name="RefundOther_ShowDataSoapOut">
+    <wsdl:part name="parameters" element="tns:RefundOther_ShowDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRefundState_OtherSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRefundState_Other" />
+  </wsdl:message>
+  <wsdl:message name="GetRefundState_OtherSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRefundState_OtherResponse" />
+  </wsdl:message>
+  <wsdl:message name="RefundOther_InitGrid_RSoapIn">
+    <wsdl:part name="parameters" element="tns:RefundOther_InitGrid_R" />
+  </wsdl:message>
+  <wsdl:message name="RefundOther_InitGrid_RSoapOut">
+    <wsdl:part name="parameters" element="tns:RefundOther_InitGrid_RResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetZWDicValueByKeySoapIn">
+    <wsdl:part name="parameters" element="tns:GetZWDicValueByKey" />
+  </wsdl:message>
+  <wsdl:message name="GetZWDicValueByKeySoapOut">
+    <wsdl:part name="parameters" element="tns:GetZWDicValueByKeyResponse" />
+  </wsdl:message>
+  <wsdl:message name="RefundOther_ShowDataHttpGetIn">
+    <wsdl:part name="strBatchID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RefundOther_ShowDataHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetRefundState_OtherHttpGetIn">
+    <wsdl:part name="batchid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetRefundState_OtherHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfParam" />
+  </wsdl:message>
+  <wsdl:message name="RefundOther_InitGrid_RHttpGetIn">
+    <wsdl:part name="beginDate" type="s:string" />
+    <wsdl:part name="endDate" type="s:string" />
+    <wsdl:part name="banktype" type="s:string" />
+    <wsdl:part name="status" type="s:string" />
+    <wsdl:part name="proposer" type="s:string" />
+    <wsdl:part name="refundPath" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RefundOther_InitGrid_RHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetZWDicValueByKeyHttpGetIn">
+    <wsdl:part name="key" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetZWDicValueByKeyHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="RefundOther_ShowDataHttpPostIn">
+    <wsdl:part name="strBatchID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RefundOther_ShowDataHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetRefundState_OtherHttpPostIn">
+    <wsdl:part name="batchid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetRefundState_OtherHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfParam" />
+  </wsdl:message>
+  <wsdl:message name="RefundOther_InitGrid_RHttpPostIn">
+    <wsdl:part name="beginDate" type="s:string" />
+    <wsdl:part name="endDate" type="s:string" />
+    <wsdl:part name="banktype" type="s:string" />
+    <wsdl:part name="status" type="s:string" />
+    <wsdl:part name="proposer" type="s:string" />
+    <wsdl:part name="refundPath" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RefundOther_InitGrid_RHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetZWDicValueByKeyHttpPostIn">
+    <wsdl:part name="key" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetZWDicValueByKeyHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="BatchPay_ServiceSoap">
+    <wsdl:operation name="RefundOther_ShowData">
+      <wsdl:input message="tns:RefundOther_ShowDataSoapIn" />
+      <wsdl:output message="tns:RefundOther_ShowDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefundState_Other">
+      <wsdl:input message="tns:GetRefundState_OtherSoapIn" />
+      <wsdl:output message="tns:GetRefundState_OtherSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RefundOther_InitGrid_R">
+      <wsdl:input message="tns:RefundOther_InitGrid_RSoapIn" />
+      <wsdl:output message="tns:RefundOther_InitGrid_RSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetZWDicValueByKey">
+      <wsdl:input message="tns:GetZWDicValueByKeySoapIn" />
+      <wsdl:output message="tns:GetZWDicValueByKeySoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="BatchPay_ServiceHttpGet">
+    <wsdl:operation name="RefundOther_ShowData">
+      <wsdl:input message="tns:RefundOther_ShowDataHttpGetIn" />
+      <wsdl:output message="tns:RefundOther_ShowDataHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefundState_Other">
+      <wsdl:input message="tns:GetRefundState_OtherHttpGetIn" />
+      <wsdl:output message="tns:GetRefundState_OtherHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RefundOther_InitGrid_R">
+      <wsdl:input message="tns:RefundOther_InitGrid_RHttpGetIn" />
+      <wsdl:output message="tns:RefundOther_InitGrid_RHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetZWDicValueByKey">
+      <wsdl:input message="tns:GetZWDicValueByKeyHttpGetIn" />
+      <wsdl:output message="tns:GetZWDicValueByKeyHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="BatchPay_ServiceHttpPost">
+    <wsdl:operation name="RefundOther_ShowData">
+      <wsdl:input message="tns:RefundOther_ShowDataHttpPostIn" />
+      <wsdl:output message="tns:RefundOther_ShowDataHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefundState_Other">
+      <wsdl:input message="tns:GetRefundState_OtherHttpPostIn" />
+      <wsdl:output message="tns:GetRefundState_OtherHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RefundOther_InitGrid_R">
+      <wsdl:input message="tns:RefundOther_InitGrid_RHttpPostIn" />
+      <wsdl:output message="tns:RefundOther_InitGrid_RHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetZWDicValueByKey">
+      <wsdl:input message="tns:GetZWDicValueByKeyHttpPostIn" />
+      <wsdl:output message="tns:GetZWDicValueByKeyHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BatchPay_ServiceSoap" type="tns:BatchPay_ServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="RefundOther_ShowData">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/BatchPay_Service/RefundOther_ShowData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefundState_Other">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/BatchPay_Service/GetRefundState_Other" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RefundOther_InitGrid_R">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/BatchPay_Service/RefundOther_InitGrid_R" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetZWDicValueByKey">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/BatchPay_Service/GetZWDicValueByKey" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BatchPay_ServiceSoap12" type="tns:BatchPay_ServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="RefundOther_ShowData">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/BatchPay_Service/RefundOther_ShowData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefundState_Other">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/BatchPay_Service/GetRefundState_Other" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RefundOther_InitGrid_R">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/BatchPay_Service/RefundOther_InitGrid_R" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetZWDicValueByKey">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/BatchPay_Service/GetZWDicValueByKey" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BatchPay_ServiceHttpGet" type="tns:BatchPay_ServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="RefundOther_ShowData">
+      <http:operation location="/RefundOther_ShowData" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefundState_Other">
+      <http:operation location="/GetRefundState_Other" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RefundOther_InitGrid_R">
+      <http:operation location="/RefundOther_InitGrid_R" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetZWDicValueByKey">
+      <http:operation location="/GetZWDicValueByKey" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BatchPay_ServiceHttpPost" type="tns:BatchPay_ServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="RefundOther_ShowData">
+      <http:operation location="/RefundOther_ShowData" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefundState_Other">
+      <http:operation location="/GetRefundState_Other" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RefundOther_InitGrid_R">
+      <http:operation location="/RefundOther_InitGrid_R" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetZWDicValueByKey">
+      <http:operation location="/GetZWDicValueByKey" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BatchPay_Service">
+    <wsdl:port name="BatchPay_ServiceSoap" binding="tns:BatchPay_ServiceSoap">
+      <soap:address location="http://localhost:61131/BatchPay_Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="BatchPay_ServiceSoap12" binding="tns:BatchPay_ServiceSoap12">
+      <soap12:address location="http://localhost:61131/BatchPay_Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="BatchPay_ServiceHttpGet" binding="tns:BatchPay_ServiceHttpGet">
+      <http:address location="http://localhost:61131/BatchPay_Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="BatchPay_ServiceHttpPost" binding="tns:BatchPay_ServiceHttpPost">
+      <http:address location="http://localhost:61131/BatchPay_Service.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

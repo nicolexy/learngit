@@ -1,0 +1,63 @@
+SELECT {FONT-SIZE: 12px;	FONT-FAMILY: "宋体"}
+INPUT {font-family: "宋体", "Arial", "Helvetica"; font-size: 12px}
+.chn {FONT-SIZE: 12px; FONT-FAMILY: 宋体}
+A.a0:link {FONT-SIZE: 12px; COLOR: #000000; TEXT-DECORATION: underline}
+A.a0:visited {FONT-SIZE: 12px; COLOR: #000000; TEXT-DECORATION:	underline}
+A.a0:hover {FONT-SIZE: 12px; COLOR: #ff6600; TEXT-DECORATION: underline}
+A.a2:link {FONT-SIZE: 12px; COLOR: #ffffff; TEXT-DECORATION: underline}
+A.a2:visited {FONT-SIZE: 12px; COLOR: #ffffff; TEXT-DECORATION:	underline}
+A.a2:hover {FONT-SIZE: 12px; COLOR: #ff6600; TEXT-DECORATION: underline}
+
+.p1{font-size:12px;}
+
+a,tr,table {  font-size: 9pt; font-weight: 100}
+.fonts8 {  font-size: 8pt; line-height: 12pt: FONT-FAMILY: "宋体", "Times New Roman", "Helvetica", sans-serif}
+.fonts10 {  font-size: 10.2pt; line-height: 13pt}
+.fonts11 {  font-size: 12pt}
+.textstyler {  font-size: 9pt; line-height: 16pt}
+.notable {  font-size: 9pt; line-height: 0pt}
+.menutext { letter-spacing: 0.1em }
+.title {  font-size: 12pt; line-height: 16pt; font-weight: 300}
+a:link {  color: #000000; text-decoration: none}
+a:visited {  color: #000000; text-decoration: none}
+a:hover {  color: #FF0000; text-decoration: underline;font-weight:none}
+a.link01:link {  color: #000000; text-decoration: none}
+a.link01:visited {  color: #000000; text-decoration: none}
+a.link01:hover {  color: #000000; text-decoration: underline}
+.table { border: 0px #FFFFFF ;cellspacing: 0px  ;cellpadding: 0px }
+.tr { border: #FFFFFF ;bgcolor:#FFFFFF }
+.td { border: #FFFFFF ;bgcolor:#FFFFFF }
+.table1 {  color: #000000; border: 1px #CCCCCC solid; font-family: "宋体", "Arial Narrow", "Times New Roman"; font-size: 9pt }
+.tr1 {  border: #FFFFFF ;color: #000000}
+.td1 {  border: #CCCCCC ;color: #000000}
+
+.title01 {  font-size: 14pt}
+.fonts5 {  font-size: 5pt}
+.repeat {  background-repeat: no-repeat}
+.border01 {  border-color: black black #666666; border-style: solid; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 1px; border-left-width: 0px}
+
+.sms {  font-size: 9pt; color: #FFFFFF; text-decoration: none}
+a.sms:active {  color: #CCCCCC}
+a.sms:hover {  color: #FFFFFF; text-decoration: underline}
+a.sms:link {  color: #FFFFFF; text-decoration: none}
+a.sms:visited {  color: #FFFFFF}
+
+.index_top {  font-size: 9pt; text-decoration: none}
+.index_top:hover {  text-decoration: underline}
+.input {   font-size: 9pt; BORDER-BOTTOM: #000000 1px solid; BORDER-LEFT: #000000 1px solid; BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid;; font-family: "宋体", "Arial", "Helvetica"; background-color: #efefef}
+td { font-family: "宋体", "Arial", "Helvetica"; font-size: 12px}
+.disabled { font-family: "宋体"; font-size: 9pt; color: #000000; background-color: #DDDDDD }
+BODY {
+    scrollbar-face-color: #eeeeee;
+    scrollbar-shadow-color: #eeeeee;
+    scrollbar-highlight-color: #eeeeee;
+    scrollbar-3dlight-color: #eeeeee;
+    scrollbar-darkshadow-color: #eeeeee;
+    scrollbar-track-color: #eeeeee;
+    scrollbar-arrow-color: #eeeeee;
+}
+
+.disabledinput {FONT-SIZE: 12px; color: #FFFFFF; FONT-FAMILY: 宋体;background:#DFDFDF}
+.readonly{
+  BACKGROUND-COLOR: #EEEEEE;
+}

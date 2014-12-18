@@ -1,0 +1,214 @@
+A:link {
+	COLOR: #444444; TEXT-DECORATION: none
+}
+
+A:visited {
+	COLOR: #444444; TEXT-DECORATION: none
+}
+
+A:hover {
+	TEXT-DECORATION: none;
+	color: #FF9900;
+}
+
+A:active {
+	COLOR: #444444; TEXT-DECORATION: none
+}
+
+.Left_tree {
+	FONT: 12px/25px Tahoma, "宋体"; TEXT-TRANSFORM: capitalize; COLOR: #000000; TEXT-INDENT: 2px; TEXT-ALIGN: left; TEXT-DECORATION: none
+}
+
+.Right_table_bk {
+	BACKGROUND-POSITION: left 50%; FONT: 12px/22px tahoma; VERTICAL-ALIGN: top; TEXT-TRANSFORM: capitalize; COLOR: #000000; TEXT-INDENT: 10px; TEXT-DECORATION: none
+}
+
+.images_inside {
+	VERTICAL-ALIGN: bottom; TEXT-DECORATION: none
+}
+
+.text_inside {
+	FONT: 12px/18px Tahoma, 宋体; VERTICAL-ALIGN: baseline; TEXT-TRANSFORM: capitalize; COLOR: #333333; TEXT-INDENT: 2px; TEXT-ALIGN: left; TEXT-DECORATION: none
+}
+
+.text_select {
+	FONT: 12px/20px Tahoma, 宋体; VERTICAL-ALIGN: middle; TEXT-TRANSFORM: capitalize; COLOR: #333333; TEXT-INDENT: 2px; TEXT-ALIGN: left; TEXT-DECORATION: none
+}
+
+.WhiteBg_Bktext {
+	PADDING-RIGHT: 3px;
+	PADDING-LEFT: 3px;
+	PADDING-BOTTOM: 3px;
+	FONT: 12px/18px Tahoma, 宋体;
+	TEXT-TRANSFORM: capitalize;
+	COLOR: #000000;
+	PADDING-TOP: 3px;
+	BACKGROUND-COLOR: #ffffff;
+	TEXT-ALIGN: left;
+	TEXT-DECORATION: none;
+	letter-spacing: 1px;
+	word-spacing: 1px;
+}
+
+.bk_12_right {
+	font-family: "宋体";
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	color: #000000;
+	text-decoration: none;
+	text-align: right;
+}
+
+.img_grayline 	{	border: 1px solid #CCCCCC }
+
+.Table_top {
+	background-color: #31A6FF;
+	color: #FFFFFF;
+	font-family: Tahoma, "宋体";
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-decoration: none;
+	text-indent: 5px;
+	text-align: left;
+}
+
+.List_1 {
+	font-family: Tahoma, "宋体";
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	color: #663300;
+	text-decoration: none;
+	text-align: left;
+	text-indent: 10px;
+}
+
+.List_2 {
+	font-family: Tahoma, "宋体";
+	font-size: 14px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	color: #CE8100;
+	text-decoration: none;
+	text-align: left;
+	text-indent: 10px;
+	letter-spacing: 1px;
+}
+
+.Bluebg_Bktext {
+	PADDING-RIGHT: 3px;
+	PADDING-LEFT: 3px;
+	PADDING-BOTTOM: 3px;
+	FONT: 12px/20px Tahoma, "宋体";
+	TEXT-TRANSFORM: capitalize;
+	COLOR: #000000;
+	PADDING-TOP: 3px;
+	BACKGROUND-COLOR: #F4FBFF;
+	TEXT-DECORATION: none;
+	text-indent: 3px;
+}
+
+.Bluebg_Bktext_on {
+	PADDING-RIGHT: 3px;
+	PADDING-LEFT: 3px;
+	PADDING-BOTTOM: 3px;
+	FONT: 12px/20px Tahoma, "宋体";
+	TEXT-TRANSFORM: capitalize;
+	COLOR: #000000;
+	PADDING-TOP: 3px;
+	BACKGROUND-COLOR: #FFFFFF;
+	TEXT-DECORATION: none;
+	text-indent: 3px;
+}
+
+.Graybg_Bktext_on {
+	PADDING-RIGHT: 3px;
+	PADDING-LEFT: 3px;
+	PADDING-BOTTOM: 3px;
+	FONT: 12px/20px Tahoma, "宋体";
+	TEXT-TRANSFORM: capitalize;
+	COLOR: #000000;
+	PADDING-TOP: 3px;
+	BACKGROUND-COLOR: #E4E4E4;
+	TEXT-DECORATION: none;
+	text-indent: 3px;
+}
+
+.Graybg_Bktext {
+	PADDING-RIGHT: 3px;
+	PADDING-LEFT: 3px;
+	PADDING-BOTTOM: 3px;
+	FONT: 12px/20px Tahoma, "宋体";
+	TEXT-TRANSFORM: capitalize;
+	COLOR: #000000;
+	PADDING-TOP: 3px;
+	BACKGROUND-COLOR: #FFFFFF;
+	TEXT-DECORATION: none;
+	text-indent: 3px;
+}
+
+.Selectbg_Bktext 
+{
+	PADDING-RIGHT: 3px;
+	PADDING-LEFT: 3px;
+	PADDING-BOTTOM: 3px;
+	FONT: 12px/20px Tahoma, "宋体";
+	TEXT-TRANSFORM: capitalize;
+	COLOR: #000000;
+	PADDING-TOP: 3px;
+	BACKGROUND-COLOR: #C7E5FC;
+	TEXT-DECORATION: none;
+	text-indent: 3px;
+}
+
+.Yellowbg_Bktext 
+{
+	PADDING-RIGHT: 3px;
+	PADDING-LEFT: 3px;
+	PADDING-BOTTOM: 3px;
+	FONT: 12px/20px Tahoma, "宋体";
+	TEXT-TRANSFORM: capitalize;
+	COLOR: #000000;
+	PADDING-TOP: 3px;
+	BACKGROUND-COLOR: #FBF9DD;
+	TEXT-DECORATION: none;
+	text-indent: 3px;
+}
+
+.Yellowbg_Bktext_on
+{
+	PADDING-RIGHT: 3px;
+	PADDING-LEFT: 3px;
+	PADDING-BOTTOM: 3px;
+	FONT: 12px/20px Tahoma, "宋体";
+	TEXT-TRANSFORM: capitalize;
+	COLOR: #000000;
+	PADDING-TOP: 3px;
+	BACKGROUND-COLOR: #F2F1E3;
+	TEXT-DECORATION: none;
+	text-indent: 3px;	
+}
+
+.Text_1 {
+	FONT: 12px/25px Tahoma, "宋体"; TEXT-TRANSFORM: capitalize; COLOR: #000000; TEXT-INDENT: 2px; TEXT-ALIGN: left; TEXT-DECORATION: none
+}
+
+.QueryTable
+{
+	Z-INDEX: 101; 
+	LEFT: 28%; 
+	WIDTH: 448px; 
+	POSITION: absolute; 
+	TOP: 38%; 
+	HEIGHT: 56px;
+}

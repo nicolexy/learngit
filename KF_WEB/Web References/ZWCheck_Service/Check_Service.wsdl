@@ -1,0 +1,736 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="http://Tencent.com/OSS/C2C/Finance/Check_WebService" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" targetNamespace="http://Tencent.com/OSS/C2C/Finance/Check_WebService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://Tencent.com/OSS/C2C/Finance/Check_WebService">
+      <s:import namespace="http://www.w3.org/2001/XMLSchema" />
+      <s:element name="StartCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strMainID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strMemo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strLevelValue" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="myParams" type="tns:ArrayOfParam" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfParam">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Param" type="tns:Param" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Param">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ParamName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ParamValue" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ParamFlag" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="StartCheckResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="Finance_Header" type="tns:Finance_Header" />
+      <s:complexType name="Finance_Header">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UserPassword" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UserIP" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SzKey" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="OperID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="RightString" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DoCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckMemo" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iCheckResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DoCheckResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ExecuteCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecuteCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExecuteCheckResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="QueryExedCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="QueryExedCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="QueryExedCheckResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="QueryObjCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strObjID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="QueryObjCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="QueryObjCheckResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckUserPage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="uid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckUserPageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CheckUserPageResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getCheckParam">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="checkID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getCheckParamResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getCheckParamResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IDIsInCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IDIsInCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IDIsInCheckResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="upFinishState">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="upFinishStateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="upFinishStateResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RecallCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RecallCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RecallCheckResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConfirmCancelCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConfirmCancelCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ConfirmCancelCheckResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPendingApproval">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="checkTypes" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="auditor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filter" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageIndex" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageSize" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetPendingApprovalResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPendingApprovalResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCheckByObjId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="objId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCheckByObjIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCheckByObjIdResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLaseApproval">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="approvalTypes" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLaseApprovalResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLaseApprovalResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StartCheckNew">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strMainID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strMemo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StartCheckNewResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StartCheckNewResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DoCheckNew">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckMemo" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iCheckResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DoCheckNewResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DoCheckNewResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCheckLogByType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="logType" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCheckLogByTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCheckLogByTypeResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValiCheckRight">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strUserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValiCheckRightResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ValiCheckRightResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="StartCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:StartCheck" />
+  </wsdl:message>
+  <wsdl:message name="StartCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:StartCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="StartCheckFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="DoCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:DoCheck" />
+  </wsdl:message>
+  <wsdl:message name="DoCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:DoCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="DoCheckFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:ExecuteCheck" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:ExecuteCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteCheckFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="QueryExedCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:QueryExedCheck" />
+  </wsdl:message>
+  <wsdl:message name="QueryExedCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:QueryExedCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="QueryObjCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:QueryObjCheck" />
+  </wsdl:message>
+  <wsdl:message name="QueryObjCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:QueryObjCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="QueryObjCheckFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="CheckUserPageSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckUserPage" />
+  </wsdl:message>
+  <wsdl:message name="CheckUserPageSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckUserPageResponse" />
+  </wsdl:message>
+  <wsdl:message name="getCheckParamSoapIn">
+    <wsdl:part name="parameters" element="tns:getCheckParam" />
+  </wsdl:message>
+  <wsdl:message name="getCheckParamSoapOut">
+    <wsdl:part name="parameters" element="tns:getCheckParamResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDIsInCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:IDIsInCheck" />
+  </wsdl:message>
+  <wsdl:message name="IDIsInCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:IDIsInCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="upFinishStateSoapIn">
+    <wsdl:part name="parameters" element="tns:upFinishState" />
+  </wsdl:message>
+  <wsdl:message name="upFinishStateSoapOut">
+    <wsdl:part name="parameters" element="tns:upFinishStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="RecallCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:RecallCheck" />
+  </wsdl:message>
+  <wsdl:message name="RecallCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:RecallCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConfirmCancelCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:ConfirmCancelCheck" />
+  </wsdl:message>
+  <wsdl:message name="ConfirmCancelCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:ConfirmCancelCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPendingApprovalSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPendingApproval" />
+  </wsdl:message>
+  <wsdl:message name="GetPendingApprovalSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPendingApprovalResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCheckByObjIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCheckByObjId" />
+  </wsdl:message>
+  <wsdl:message name="GetCheckByObjIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCheckByObjIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLaseApprovalSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLaseApproval" />
+  </wsdl:message>
+  <wsdl:message name="GetLaseApprovalSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLaseApprovalResponse" />
+  </wsdl:message>
+  <wsdl:message name="StartCheckNewSoapIn">
+    <wsdl:part name="parameters" element="tns:StartCheckNew" />
+  </wsdl:message>
+  <wsdl:message name="StartCheckNewSoapOut">
+    <wsdl:part name="parameters" element="tns:StartCheckNewResponse" />
+  </wsdl:message>
+  <wsdl:message name="StartCheckNewFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="DoCheckNewSoapIn">
+    <wsdl:part name="parameters" element="tns:DoCheckNew" />
+  </wsdl:message>
+  <wsdl:message name="DoCheckNewSoapOut">
+    <wsdl:part name="parameters" element="tns:DoCheckNewResponse" />
+  </wsdl:message>
+  <wsdl:message name="DoCheckNewFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="GetCheckLogByTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCheckLogByType" />
+  </wsdl:message>
+  <wsdl:message name="GetCheckLogByTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCheckLogByTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ValiCheckRightSoapIn">
+    <wsdl:part name="parameters" element="tns:ValiCheckRight" />
+  </wsdl:message>
+  <wsdl:message name="ValiCheckRightSoapOut">
+    <wsdl:part name="parameters" element="tns:ValiCheckRightResponse" />
+  </wsdl:message>
+  <wsdl:portType name="Check_ServiceSoap">
+    <wsdl:operation name="StartCheck">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">提请一个审批</documentation>
+      <wsdl:input message="tns:StartCheckSoapIn" />
+      <wsdl:output message="tns:StartCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DoCheck">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">进行一个审批</documentation>
+      <wsdl:input message="tns:DoCheckSoapIn" />
+      <wsdl:output message="tns:DoCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteCheck">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">执行审批完的动作</documentation>
+      <wsdl:input message="tns:ExecuteCheckSoapIn" />
+      <wsdl:output message="tns:ExecuteCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="QueryExedCheck">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">查询相应的listID是否执行</documentation>
+      <wsdl:input message="tns:QueryExedCheckSoapIn" />
+      <wsdl:output message="tns:QueryExedCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="QueryObjCheck">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">查询主体ID还有什么审批没有完成</documentation>
+      <wsdl:input message="tns:QueryObjCheckSoapIn" />
+      <wsdl:output message="tns:QueryObjCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckUserPage">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">查询登陆的用户具有的权限，显示不同的页面</documentation>
+      <wsdl:input message="tns:CheckUserPageSoapIn" />
+      <wsdl:output message="tns:CheckUserPageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getCheckParam">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">查询审批ID对应的相关参数信息t_check_param</documentation>
+      <wsdl:input message="tns:getCheckParamSoapIn" />
+      <wsdl:output message="tns:getCheckParamSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IDIsInCheck">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">查询相应的ID是否处于审批中</documentation>
+      <wsdl:input message="tns:IDIsInCheckSoapIn" />
+      <wsdl:output message="tns:IDIsInCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="upFinishState">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">更新审批为完成状态</documentation>
+      <wsdl:input message="tns:upFinishStateSoapIn" />
+      <wsdl:output message="tns:upFinishStateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RecallCheck">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">更新审批为完成状态</documentation>
+      <wsdl:input message="tns:RecallCheckSoapIn" />
+      <wsdl:output message="tns:RecallCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmCancelCheck">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">确认撤销(主要针对那些无法无法审批或无法执行的任务单)</documentation>
+      <wsdl:input message="tns:ConfirmCancelCheckSoapIn" />
+      <wsdl:output message="tns:ConfirmCancelCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPendingApproval">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">获取指定审批类型的待审批数据</documentation>
+      <wsdl:input message="tns:GetPendingApprovalSoapIn" />
+      <wsdl:output message="tns:GetPendingApprovalSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckByObjId">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">获取指定objid的审批数据</documentation>
+      <wsdl:input message="tns:GetCheckByObjIdSoapIn" />
+      <wsdl:output message="tns:GetCheckByObjIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLaseApproval">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">获取最近的一条审批数据</documentation>
+      <wsdl:input message="tns:GetLaseApprovalSoapIn" />
+      <wsdl:output message="tns:GetLaseApprovalSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StartCheckNew">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">提请一个审批(返回审批流编号)</documentation>
+      <wsdl:input message="tns:StartCheckNewSoapIn" />
+      <wsdl:output message="tns:StartCheckNewSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DoCheckNew">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">进行一次审批，返回相应审批流程是否完成</documentation>
+      <wsdl:input message="tns:DoCheckNewSoapIn" />
+      <wsdl:output message="tns:DoCheckNewSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckLogByType">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">按照类别获取审批日志</documentation>
+      <wsdl:input message="tns:GetCheckLogByTypeSoapIn" />
+      <wsdl:output message="tns:GetCheckLogByTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ValiCheckRight">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">获得当前审批人权限信息</documentation>
+      <wsdl:input message="tns:ValiCheckRightSoapIn" />
+      <wsdl:output message="tns:ValiCheckRightSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Check_ServiceSoap" type="tns:Check_ServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="StartCheck">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/StartCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:StartCheckFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DoCheck">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/DoCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:DoCheckFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteCheck">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/ExecuteCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ExecuteCheckFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryExedCheck">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/QueryExedCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryObjCheck">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/QueryObjCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:QueryObjCheckFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckUserPage">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/CheckUserPage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCheckParam">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/getCheckParam" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IDIsInCheck">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/IDIsInCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="upFinishState">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/upFinishState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RecallCheck">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/RecallCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmCancelCheck">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/ConfirmCancelCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPendingApproval">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/GetPendingApproval" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckByObjId">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/GetCheckByObjId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLaseApproval">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/GetLaseApproval" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StartCheckNew">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/StartCheckNew" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:StartCheckNewFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DoCheckNew">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/DoCheckNew" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:DoCheckNewFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckLogByType">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/GetCheckLogByType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValiCheckRight">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/ValiCheckRight" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Check_Service">
+    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+    <wsdl:port name="Check_ServiceSoap" binding="tns:Check_ServiceSoap">
+      <soap:address location="http://admin.cf.zw/FINANCE_SERVICE/Check_Service.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,16 @@
+﻿<configuration>
+  <configSections>
+    <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net" />
+  </configSections>
+  <appSettings>
+    <!--log4net-->
+    <add key="log4net.Config" value="Configs\Log4net.config"/>
+    <add key="log4net.Config.Watch" value="False"/>
+    <!--emailHelper-->
+    <add key="SmtpServer" value=""/>
+    <add key="SmtpServerPort" value=""/>
+    <add key="EmailFromAddress" value=""/>
+    <add key="EmailUserName" value=""/>
+    <add key="EmailPassword" value=""/>
+  </appSettings>
+</configuration>

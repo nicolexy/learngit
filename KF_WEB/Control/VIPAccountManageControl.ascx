@@ -1,0 +1,3 @@
+<%@ Register TagPrefix="uc1" TagName="MenuControl" Src="MenuControl.ascx" %>
+<%@ Control Language="c#" AutoEventWireup="True" Codebehind="VIPAccountManageControl.ascx.cs" Inherits="TENCENT.OSS.CFT.KF.KF_Web.Control.VIPAccountManageControl" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
+<uc1:MenuControl id="menuControl" runat="server"></uc1:MenuControl>

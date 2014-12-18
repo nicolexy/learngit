@@ -1,0 +1,1315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetPDF">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="spid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPDFResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPDFResult" type="s:base64Binary" />
+            <s:element minOccurs="1" maxOccurs="1" name="length" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsStandardBargin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="spid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsStandardBarginResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsStandardBarginResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MCHDetailAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="spid" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="isModify" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MCHDetailAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMerInfoForOverseaCardOMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="merchantId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMerInfoForOverseaCardOMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMerInfoForOverseaCardOMSResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="QueryTradeProperty">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="spid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="QueryTradePropertyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="QueryTradePropertyResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WXModifyTradeProperty">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="spid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WXModifyTradePropertyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WXModifyTradePropertyResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ModifyTradeProperty">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="spid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="item_type" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ModifyTradePropertyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ModifyTradePropertyResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestForSpoa">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="spid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestForSpoaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TestForSpoaResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FreezeSP">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="spid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="reason" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="oprator" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FreezeSPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FreezeSPResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LostOfSpid">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fspid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="opuser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="freson" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LostOfSpidResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LostOfSpidResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ClosePay">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fspid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="opuser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="freson" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ClosePayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ClosePayResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OpenPay">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fspid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="opuser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="freson" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OpenPayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OpenPayResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CloseRefund">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fspid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="opuser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="freson" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CloseRefundResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CloseRefundResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OpenRefund">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fspid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="opuser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="freson" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OpenRefundResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OpenRefundResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CloseAgency">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fspid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="opuser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="freson" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CloseAgencyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CloseAgencyResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OpenAgency">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fspid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="opuser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="freson" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OpenAgencyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OpenAgencyResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RestoreOfSpid">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fspid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="opuser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="freson" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RestoreOfSpidResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RestoreOfSpidResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExpelSP">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="spid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="reason" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="oprator" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExpelSPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExpelSPResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetspidInfoSelfHelp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WWWAdress" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetspidInfoSelfHelpResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetspidInfoSelfHelpResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetspidInfoAgency">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Fdomain" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetspidInfoAgencyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetspidInfoAgencyResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MerchantHelper">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="param">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MerchantHelperResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MerchantHelperResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetApplyCpInfoX">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="spid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetApplyCpInfoXResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetApplyCpInfoXResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MerchantDataSync">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="param">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MerchantDataSyncResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MerchantDataSyncResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendFlatSP">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AppID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="Spid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Reason" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CheckTime" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendFlatSPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendFlatSPResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertAgencyData">
+        <s:complexType />
+      </s:element>
+      <s:element name="InsertAgencyDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertAgencyApply">
+        <s:complexType />
+      </s:element>
+      <s:element name="InsertAgencyApplyResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAllt_mod_des">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAllt_mod_desResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllt_mod_desResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertBargainInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Info">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertBargainInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertBargainInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mailToStr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mailccStr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mailSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mailBody" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="htmlFormat" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="fileAttachment" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SendMailResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetPDFSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPDF" />
+  </wsdl:message>
+  <wsdl:message name="GetPDFSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPDFResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsStandardBarginSoapIn">
+    <wsdl:part name="parameters" element="tns:IsStandardBargin" />
+  </wsdl:message>
+  <wsdl:message name="IsStandardBarginSoapOut">
+    <wsdl:part name="parameters" element="tns:IsStandardBarginResponse" />
+  </wsdl:message>
+  <wsdl:message name="MCHDetailAddressSoapIn">
+    <wsdl:part name="parameters" element="tns:MCHDetailAddress" />
+  </wsdl:message>
+  <wsdl:message name="MCHDetailAddressSoapOut">
+    <wsdl:part name="parameters" element="tns:MCHDetailAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMerInfoForOverseaCardOMSSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMerInfoForOverseaCardOMS" />
+  </wsdl:message>
+  <wsdl:message name="GetMerInfoForOverseaCardOMSSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMerInfoForOverseaCardOMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="QueryTradePropertySoapIn">
+    <wsdl:part name="parameters" element="tns:QueryTradeProperty" />
+  </wsdl:message>
+  <wsdl:message name="QueryTradePropertySoapOut">
+    <wsdl:part name="parameters" element="tns:QueryTradePropertyResponse" />
+  </wsdl:message>
+  <wsdl:message name="WXModifyTradePropertySoapIn">
+    <wsdl:part name="parameters" element="tns:WXModifyTradeProperty" />
+  </wsdl:message>
+  <wsdl:message name="WXModifyTradePropertySoapOut">
+    <wsdl:part name="parameters" element="tns:WXModifyTradePropertyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ModifyTradePropertySoapIn">
+    <wsdl:part name="parameters" element="tns:ModifyTradeProperty" />
+  </wsdl:message>
+  <wsdl:message name="ModifyTradePropertySoapOut">
+    <wsdl:part name="parameters" element="tns:ModifyTradePropertyResponse" />
+  </wsdl:message>
+  <wsdl:message name="TestForSpoaSoapIn">
+    <wsdl:part name="parameters" element="tns:TestForSpoa" />
+  </wsdl:message>
+  <wsdl:message name="TestForSpoaSoapOut">
+    <wsdl:part name="parameters" element="tns:TestForSpoaResponse" />
+  </wsdl:message>
+  <wsdl:message name="FreezeSPSoapIn">
+    <wsdl:part name="parameters" element="tns:FreezeSP" />
+  </wsdl:message>
+  <wsdl:message name="FreezeSPSoapOut">
+    <wsdl:part name="parameters" element="tns:FreezeSPResponse" />
+  </wsdl:message>
+  <wsdl:message name="LostOfSpidSoapIn">
+    <wsdl:part name="parameters" element="tns:LostOfSpid" />
+  </wsdl:message>
+  <wsdl:message name="LostOfSpidSoapOut">
+    <wsdl:part name="parameters" element="tns:LostOfSpidResponse" />
+  </wsdl:message>
+  <wsdl:message name="ClosePaySoapIn">
+    <wsdl:part name="parameters" element="tns:ClosePay" />
+  </wsdl:message>
+  <wsdl:message name="ClosePaySoapOut">
+    <wsdl:part name="parameters" element="tns:ClosePayResponse" />
+  </wsdl:message>
+  <wsdl:message name="OpenPaySoapIn">
+    <wsdl:part name="parameters" element="tns:OpenPay" />
+  </wsdl:message>
+  <wsdl:message name="OpenPaySoapOut">
+    <wsdl:part name="parameters" element="tns:OpenPayResponse" />
+  </wsdl:message>
+  <wsdl:message name="CloseRefundSoapIn">
+    <wsdl:part name="parameters" element="tns:CloseRefund" />
+  </wsdl:message>
+  <wsdl:message name="CloseRefundSoapOut">
+    <wsdl:part name="parameters" element="tns:CloseRefundResponse" />
+  </wsdl:message>
+  <wsdl:message name="OpenRefundSoapIn">
+    <wsdl:part name="parameters" element="tns:OpenRefund" />
+  </wsdl:message>
+  <wsdl:message name="OpenRefundSoapOut">
+    <wsdl:part name="parameters" element="tns:OpenRefundResponse" />
+  </wsdl:message>
+  <wsdl:message name="CloseAgencySoapIn">
+    <wsdl:part name="parameters" element="tns:CloseAgency" />
+  </wsdl:message>
+  <wsdl:message name="CloseAgencySoapOut">
+    <wsdl:part name="parameters" element="tns:CloseAgencyResponse" />
+  </wsdl:message>
+  <wsdl:message name="OpenAgencySoapIn">
+    <wsdl:part name="parameters" element="tns:OpenAgency" />
+  </wsdl:message>
+  <wsdl:message name="OpenAgencySoapOut">
+    <wsdl:part name="parameters" element="tns:OpenAgencyResponse" />
+  </wsdl:message>
+  <wsdl:message name="RestoreOfSpidSoapIn">
+    <wsdl:part name="parameters" element="tns:RestoreOfSpid" />
+  </wsdl:message>
+  <wsdl:message name="RestoreOfSpidSoapOut">
+    <wsdl:part name="parameters" element="tns:RestoreOfSpidResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExpelSPSoapIn">
+    <wsdl:part name="parameters" element="tns:ExpelSP" />
+  </wsdl:message>
+  <wsdl:message name="ExpelSPSoapOut">
+    <wsdl:part name="parameters" element="tns:ExpelSPResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetspidInfoSelfHelpSoapIn">
+    <wsdl:part name="parameters" element="tns:GetspidInfoSelfHelp" />
+  </wsdl:message>
+  <wsdl:message name="GetspidInfoSelfHelpSoapOut">
+    <wsdl:part name="parameters" element="tns:GetspidInfoSelfHelpResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetspidInfoAgencySoapIn">
+    <wsdl:part name="parameters" element="tns:GetspidInfoAgency" />
+  </wsdl:message>
+  <wsdl:message name="GetspidInfoAgencySoapOut">
+    <wsdl:part name="parameters" element="tns:GetspidInfoAgencyResponse" />
+  </wsdl:message>
+  <wsdl:message name="MerchantHelperSoapIn">
+    <wsdl:part name="parameters" element="tns:MerchantHelper" />
+  </wsdl:message>
+  <wsdl:message name="MerchantHelperSoapOut">
+    <wsdl:part name="parameters" element="tns:MerchantHelperResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetApplyCpInfoXSoapIn">
+    <wsdl:part name="parameters" element="tns:GetApplyCpInfoX" />
+  </wsdl:message>
+  <wsdl:message name="GetApplyCpInfoXSoapOut">
+    <wsdl:part name="parameters" element="tns:GetApplyCpInfoXResponse" />
+  </wsdl:message>
+  <wsdl:message name="MerchantDataSyncSoapIn">
+    <wsdl:part name="parameters" element="tns:MerchantDataSync" />
+  </wsdl:message>
+  <wsdl:message name="MerchantDataSyncSoapOut">
+    <wsdl:part name="parameters" element="tns:MerchantDataSyncResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendFlatSPSoapIn">
+    <wsdl:part name="parameters" element="tns:SendFlatSP" />
+  </wsdl:message>
+  <wsdl:message name="SendFlatSPSoapOut">
+    <wsdl:part name="parameters" element="tns:SendFlatSPResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertAgencyDataSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertAgencyData" />
+  </wsdl:message>
+  <wsdl:message name="InsertAgencyDataSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertAgencyDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertAgencyApplySoapIn">
+    <wsdl:part name="parameters" element="tns:InsertAgencyApply" />
+  </wsdl:message>
+  <wsdl:message name="InsertAgencyApplySoapOut">
+    <wsdl:part name="parameters" element="tns:InsertAgencyApplyResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllt_mod_desSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllt_mod_des" />
+  </wsdl:message>
+  <wsdl:message name="GetAllt_mod_desSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllt_mod_desResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertBargainInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertBargainInfo" />
+  </wsdl:message>
+  <wsdl:message name="InsertBargainInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertBargainInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendMailSoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail" />
+  </wsdl:message>
+  <wsdl:message name="SendMailSoapOut">
+    <wsdl:part name="parameters" element="tns:SendMailResponse" />
+  </wsdl:message>
+  <wsdl:portType name="SPOA_ServiceSoap">
+    <wsdl:operation name="GetPDF">
+      <wsdl:input message="tns:GetPDFSoapIn" />
+      <wsdl:output message="tns:GetPDFSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsStandardBargin">
+      <wsdl:input message="tns:IsStandardBarginSoapIn" />
+      <wsdl:output message="tns:IsStandardBarginSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MCHDetailAddress">
+      <wsdl:input message="tns:MCHDetailAddressSoapIn" />
+      <wsdl:output message="tns:MCHDetailAddressSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMerInfoForOverseaCardOMS">
+      <wsdl:input message="tns:GetMerInfoForOverseaCardOMSSoapIn" />
+      <wsdl:output message="tns:GetMerInfoForOverseaCardOMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="QueryTradeProperty">
+      <wsdl:input message="tns:QueryTradePropertySoapIn" />
+      <wsdl:output message="tns:QueryTradePropertySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WXModifyTradeProperty">
+      <wsdl:input message="tns:WXModifyTradePropertySoapIn" />
+      <wsdl:output message="tns:WXModifyTradePropertySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ModifyTradeProperty">
+      <wsdl:input message="tns:ModifyTradePropertySoapIn" />
+      <wsdl:output message="tns:ModifyTradePropertySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TestForSpoa">
+      <wsdl:input message="tns:TestForSpoaSoapIn" />
+      <wsdl:output message="tns:TestForSpoaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FreezeSP">
+      <wsdl:input message="tns:FreezeSPSoapIn" />
+      <wsdl:output message="tns:FreezeSPSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LostOfSpid">
+      <wsdl:input message="tns:LostOfSpidSoapIn" />
+      <wsdl:output message="tns:LostOfSpidSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ClosePay">
+      <wsdl:input message="tns:ClosePaySoapIn" />
+      <wsdl:output message="tns:ClosePaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenPay">
+      <wsdl:input message="tns:OpenPaySoapIn" />
+      <wsdl:output message="tns:OpenPaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CloseRefund">
+      <wsdl:input message="tns:CloseRefundSoapIn" />
+      <wsdl:output message="tns:CloseRefundSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenRefund">
+      <wsdl:input message="tns:OpenRefundSoapIn" />
+      <wsdl:output message="tns:OpenRefundSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CloseAgency">
+      <wsdl:input message="tns:CloseAgencySoapIn" />
+      <wsdl:output message="tns:CloseAgencySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenAgency">
+      <wsdl:input message="tns:OpenAgencySoapIn" />
+      <wsdl:output message="tns:OpenAgencySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RestoreOfSpid">
+      <wsdl:input message="tns:RestoreOfSpidSoapIn" />
+      <wsdl:output message="tns:RestoreOfSpidSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExpelSP">
+      <wsdl:input message="tns:ExpelSPSoapIn" />
+      <wsdl:output message="tns:ExpelSPSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetspidInfoSelfHelp">
+      <wsdl:input message="tns:GetspidInfoSelfHelpSoapIn" />
+      <wsdl:output message="tns:GetspidInfoSelfHelpSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetspidInfoAgency">
+      <wsdl:input message="tns:GetspidInfoAgencySoapIn" />
+      <wsdl:output message="tns:GetspidInfoAgencySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MerchantHelper">
+      <wsdl:input message="tns:MerchantHelperSoapIn" />
+      <wsdl:output message="tns:MerchantHelperSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetApplyCpInfoX">
+      <wsdl:input message="tns:GetApplyCpInfoXSoapIn" />
+      <wsdl:output message="tns:GetApplyCpInfoXSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MerchantDataSync">
+      <wsdl:input message="tns:MerchantDataSyncSoapIn" />
+      <wsdl:output message="tns:MerchantDataSyncSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendFlatSP">
+      <wsdl:input message="tns:SendFlatSPSoapIn" />
+      <wsdl:output message="tns:SendFlatSPSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertAgencyData">
+      <wsdl:input message="tns:InsertAgencyDataSoapIn" />
+      <wsdl:output message="tns:InsertAgencyDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertAgencyApply">
+      <wsdl:input message="tns:InsertAgencyApplySoapIn" />
+      <wsdl:output message="tns:InsertAgencyApplySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllt_mod_des">
+      <wsdl:input message="tns:GetAllt_mod_desSoapIn" />
+      <wsdl:output message="tns:GetAllt_mod_desSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertBargainInfo">
+      <wsdl:input message="tns:InsertBargainInfoSoapIn" />
+      <wsdl:output message="tns:InsertBargainInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail">
+      <wsdl:input message="tns:SendMailSoapIn" />
+      <wsdl:output message="tns:SendMailSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SPOA_ServiceSoap" type="tns:SPOA_ServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetPDF">
+      <soap:operation soapAction="http://tempuri.org/GetPDF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsStandardBargin">
+      <soap:operation soapAction="http://tempuri.org/IsStandardBargin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MCHDetailAddress">
+      <soap:operation soapAction="http://tempuri.org/MCHDetailAddress" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMerInfoForOverseaCardOMS">
+      <soap:operation soapAction="http://tempuri.org/GetMerInfoForOverseaCardOMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryTradeProperty">
+      <soap:operation soapAction="http://tempuri.org/QueryTradeProperty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WXModifyTradeProperty">
+      <soap:operation soapAction="http://tempuri.org/WXModifyTradeProperty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModifyTradeProperty">
+      <soap:operation soapAction="http://tempuri.org/ModifyTradeProperty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestForSpoa">
+      <soap:operation soapAction="http://tempuri.org/TestForSpoa" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FreezeSP">
+      <soap:operation soapAction="http://tempuri.org/FreezeSP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LostOfSpid">
+      <soap:operation soapAction="http://tempuri.org/LostOfSpid" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ClosePay">
+      <soap:operation soapAction="http://tempuri.org/ClosePay" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenPay">
+      <soap:operation soapAction="http://tempuri.org/OpenPay" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseRefund">
+      <soap:operation soapAction="http://tempuri.org/CloseRefund" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenRefund">
+      <soap:operation soapAction="http://tempuri.org/OpenRefund" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseAgency">
+      <soap:operation soapAction="http://tempuri.org/CloseAgency" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenAgency">
+      <soap:operation soapAction="http://tempuri.org/OpenAgency" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RestoreOfSpid">
+      <soap:operation soapAction="http://tempuri.org/RestoreOfSpid" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExpelSP">
+      <soap:operation soapAction="http://tempuri.org/ExpelSP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetspidInfoSelfHelp">
+      <soap:operation soapAction="http://tempuri.org/GetspidInfoSelfHelp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetspidInfoAgency">
+      <soap:operation soapAction="http://tempuri.org/GetspidInfoAgency" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MerchantHelper">
+      <soap:operation soapAction="http://tempuri.org/MerchantHelper" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetApplyCpInfoX">
+      <soap:operation soapAction="http://tempuri.org/GetApplyCpInfoX" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MerchantDataSync">
+      <soap:operation soapAction="http://tempuri.org/MerchantDataSync" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendFlatSP">
+      <soap:operation soapAction="http://tempuri.org/SendFlatSP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertAgencyData">
+      <soap:operation soapAction="http://tempuri.org/InsertAgencyData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertAgencyApply">
+      <soap:operation soapAction="http://tempuri.org/InsertAgencyApply" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllt_mod_des">
+      <soap:operation soapAction="http://tempuri.org/GetAllt_mod_des" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertBargainInfo">
+      <soap:operation soapAction="http://tempuri.org/InsertBargainInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail">
+      <soap:operation soapAction="http://tempuri.org/SendMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SPOA_ServiceSoap12" type="tns:SPOA_ServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetPDF">
+      <soap12:operation soapAction="http://tempuri.org/GetPDF" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsStandardBargin">
+      <soap12:operation soapAction="http://tempuri.org/IsStandardBargin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MCHDetailAddress">
+      <soap12:operation soapAction="http://tempuri.org/MCHDetailAddress" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMerInfoForOverseaCardOMS">
+      <soap12:operation soapAction="http://tempuri.org/GetMerInfoForOverseaCardOMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryTradeProperty">
+      <soap12:operation soapAction="http://tempuri.org/QueryTradeProperty" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WXModifyTradeProperty">
+      <soap12:operation soapAction="http://tempuri.org/WXModifyTradeProperty" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModifyTradeProperty">
+      <soap12:operation soapAction="http://tempuri.org/ModifyTradeProperty" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestForSpoa">
+      <soap12:operation soapAction="http://tempuri.org/TestForSpoa" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FreezeSP">
+      <soap12:operation soapAction="http://tempuri.org/FreezeSP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LostOfSpid">
+      <soap12:operation soapAction="http://tempuri.org/LostOfSpid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ClosePay">
+      <soap12:operation soapAction="http://tempuri.org/ClosePay" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenPay">
+      <soap12:operation soapAction="http://tempuri.org/OpenPay" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseRefund">
+      <soap12:operation soapAction="http://tempuri.org/CloseRefund" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenRefund">
+      <soap12:operation soapAction="http://tempuri.org/OpenRefund" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseAgency">
+      <soap12:operation soapAction="http://tempuri.org/CloseAgency" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenAgency">
+      <soap12:operation soapAction="http://tempuri.org/OpenAgency" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RestoreOfSpid">
+      <soap12:operation soapAction="http://tempuri.org/RestoreOfSpid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExpelSP">
+      <soap12:operation soapAction="http://tempuri.org/ExpelSP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetspidInfoSelfHelp">
+      <soap12:operation soapAction="http://tempuri.org/GetspidInfoSelfHelp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetspidInfoAgency">
+      <soap12:operation soapAction="http://tempuri.org/GetspidInfoAgency" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MerchantHelper">
+      <soap12:operation soapAction="http://tempuri.org/MerchantHelper" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetApplyCpInfoX">
+      <soap12:operation soapAction="http://tempuri.org/GetApplyCpInfoX" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MerchantDataSync">
+      <soap12:operation soapAction="http://tempuri.org/MerchantDataSync" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendFlatSP">
+      <soap12:operation soapAction="http://tempuri.org/SendFlatSP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertAgencyData">
+      <soap12:operation soapAction="http://tempuri.org/InsertAgencyData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertAgencyApply">
+      <soap12:operation soapAction="http://tempuri.org/InsertAgencyApply" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllt_mod_des">
+      <soap12:operation soapAction="http://tempuri.org/GetAllt_mod_des" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertBargainInfo">
+      <soap12:operation soapAction="http://tempuri.org/InsertBargainInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail">
+      <soap12:operation soapAction="http://tempuri.org/SendMail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SPOA_Service">
+    <wsdl:port name="SPOA_ServiceSoap" binding="tns:SPOA_ServiceSoap">
+      <soap:address location="http://10.12.189.114/spoaweb/SPOA_Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SPOA_ServiceSoap12" binding="tns:SPOA_ServiceSoap12">
+      <soap12:address location="http://10.12.189.114/spoaweb/SPOA_Service.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

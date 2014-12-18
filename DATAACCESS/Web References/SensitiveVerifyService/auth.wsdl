@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://auth.cm.com/auth/" name="auth" targetNamespace="http://auth.cm.com/auth/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://auth.cm.com/auth/">
+      <xsd:element name="CheckSession">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="in" type="tns:Request" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="CheckSessionResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="out" type="tns:Result" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="CheckAuth">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="in" type="tns:Request" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="CheckAuthResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="out" type="tns:Result" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="WriteOperationRecord">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="in" type="tns:Request" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="WriteOperationRecordResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="out" type="tns:Result" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="Result">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="status" type="xsd:int" />
+          <xsd:element minOccurs="0" name="status_info" type="xsd:string" />
+          <xsd:element minOccurs="0" name="auth_cm_com_session_key" type="xsd:string" />
+          <xsd:element minOccurs="0" name="user_name" type="xsd:string" />
+          <xsd:element minOccurs="0" name="operation_name" type="xsd:string" />
+          <xsd:element minOccurs="0" name="login_url" type="xsd:string" />
+          <xsd:element minOccurs="0" name="auth_apply_url" type="xsd:string" />
+          <xsd:element minOccurs="0" name="system_id" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="operation_list" type="tns:OpInfo" />
+          <xsd:element minOccurs="0" name="logout_url" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="owner_list" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="LogOut">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="in" type="tns:Request" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="LogOutResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="out" type="tns:Result" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="LookupAuth">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="in" type="tns:Request" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="LookupAuthResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="out" type="tns:Result" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="OpInfo">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="operation_id" type="xsd:int" />
+          <xsd:element minOccurs="0" name="operation_name" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Request">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="user_name" type="xsd:string" />
+          <xsd:element minOccurs="0" name="auth_cm_com_session_key" type="xsd:string" />
+          <xsd:element minOccurs="0" name="auth_cm_com_ticket" type="xsd:string" />
+          <xsd:element minOccurs="0" name="system_id" type="xsd:int" />
+          <xsd:element minOccurs="0" name="operation_id" type="xsd:int" />
+          <xsd:element minOccurs="0" name="user_ip" type="xsd:string" />
+          <xsd:element minOccurs="0" name="user_url" type="xsd:string" />
+          <xsd:element minOccurs="0" name="local_session_id" type="xsd:string" />
+          <xsd:element minOccurs="0" name="operation_log" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="login_mode" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="Echo">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="in" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="EchoResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="LookupBusinessRole">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="in" type="tns:RoleRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="LookupBusinessRoleResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="out" type="tns:RoleResult" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="BusinessRole">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="user_name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="business_id" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="business_name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="role_id" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="role_name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expire_time" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RoleRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="system_id" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="user_name" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RoleResult">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="business_role_list" type="tns:BusinessRole" />
+          <xsd:element name="status" type="xsd:int" />
+          <xsd:element name="status_info" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="GetAllBusinessRole">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="in" type="tns:RoleRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="GetAllBusinessRoleResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="out" type="tns:RoleResult" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="LookupOwner">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="in" type="tns:Request" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="LookupOwnerResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="out" type="tns:Result" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="LookupOperation">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="in" type="tns:Request" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="LookupOperationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="out" type="tns:Result" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="CheckBusinessRole">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="in" type="tns:CheckBusinessRoleRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="CheckBusinessRoleResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="tns:CheckBusinessRoleResult" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="CheckBusinessRoleRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="user_name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="system_id" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="auth_cm_com_session_key" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="user_url" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="user_ip" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="local_session_id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="business_role_relation_list" type="tns:BusinessRoleRelation" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="BusinessRoleRelation">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="business_id" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="role_command" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="CheckAuthByIDList">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="in" type="tns:CheckAuthByIDListRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="NewOperationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="CheckBusinessRoleResult">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="status" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="status_info" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="login_url" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="check_result_list" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CheckAuthByIDListRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="user_name" type="xsd:string" />
+          <xsd:element minOccurs="0" name="system_id" type="xsd:int" />
+          <xsd:element minOccurs="0" name="auth_cm_com_session_key" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="user_url" type="xsd:string" />
+          <xsd:element minOccurs="0" name="user_ip" type="xsd:string" />
+          <xsd:element minOccurs="0" name="local_session_id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="operation_id_list" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CheckAuthByIDListResult">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="status" type="xsd:int" />
+          <xsd:element minOccurs="0" name="status_info" type="xsd:string" />
+          <xsd:element minOccurs="0" name="login_url" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="check_result_list" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CheckAuthByCommandListResult">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="status" type="xsd:int" />
+          <xsd:element minOccurs="0" name="status_info" type="xsd:string" />
+          <xsd:element minOccurs="0" name="login_url" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="check_result_list" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CheckAuthByCommandListRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="user_name" type="xsd:string" />
+          <xsd:element minOccurs="0" name="system_id" type="xsd:int" />
+          <xsd:element minOccurs="0" name="auth_cm_com_session_key" type="xsd:string" />
+          <xsd:element minOccurs="0" name="user_url" type="xsd:string" />
+          <xsd:element minOccurs="0" name="user_ip" type="xsd:string" />
+          <xsd:element minOccurs="0" name="local_session_id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="operation_command_list" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="CheckAuthByIDListResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="tns:CheckAuthByIDListResult" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="CheckAuthByCommandList">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="in" type="tns:CheckAuthByCommandListRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="CheckAuthByCommandListResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="tns:CheckAuthByCommandListResult" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="CheckSessionRequest">
+    <wsdl:part name="parameters" element="tns:CheckSession" />
+  </wsdl:message>
+  <wsdl:message name="CheckSessionResponse">
+    <wsdl:part name="parameters" element="tns:CheckSessionResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckAuthRequest">
+    <wsdl:part name="parameters" element="tns:CheckAuth" />
+  </wsdl:message>
+  <wsdl:message name="CheckAuthResponse">
+    <wsdl:part name="parameters" element="tns:CheckAuthResponse" />
+  </wsdl:message>
+  <wsdl:message name="WriteOperationRecordRequest">
+    <wsdl:part name="parameters" element="tns:WriteOperationRecord" />
+  </wsdl:message>
+  <wsdl:message name="WriteOperationRecordResponse">
+    <wsdl:part name="parameters" element="tns:WriteOperationRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="LogOutRequest">
+    <wsdl:part name="parameters" element="tns:LogOut" />
+  </wsdl:message>
+  <wsdl:message name="LogOutResponse">
+    <wsdl:part name="parameters" element="tns:LogOutResponse" />
+  </wsdl:message>
+  <wsdl:message name="LookupAuthRequest">
+    <wsdl:part name="parameters" element="tns:LookupAuth" />
+  </wsdl:message>
+  <wsdl:message name="LookupAuthResponse">
+    <wsdl:part name="parameters" element="tns:LookupAuthResponse" />
+  </wsdl:message>
+  <wsdl:message name="EchoRequest">
+    <wsdl:part name="parameters" element="tns:Echo" />
+  </wsdl:message>
+  <wsdl:message name="EchoResponse">
+    <wsdl:part name="parameters" element="tns:EchoResponse" />
+  </wsdl:message>
+  <wsdl:message name="LookupBusinessRoleRequest">
+    <wsdl:part name="parameters" element="tns:LookupBusinessRole" />
+  </wsdl:message>
+  <wsdl:message name="LookupBusinessRoleResponse">
+    <wsdl:part name="parameters" element="tns:LookupBusinessRoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllBusinessRoleRequest">
+    <wsdl:part name="parameters" element="tns:GetAllBusinessRole" />
+  </wsdl:message>
+  <wsdl:message name="GetAllBusinessRoleResponse">
+    <wsdl:part name="parameters" element="tns:GetAllBusinessRoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="LookupOwnerRequest">
+    <wsdl:part name="parameters" element="tns:LookupOwner" />
+  </wsdl:message>
+  <wsdl:message name="LookupOwnerResponse">
+    <wsdl:part name="parameters" element="tns:LookupOwnerResponse" />
+  </wsdl:message>
+  <wsdl:message name="LookupOperationRequest">
+    <wsdl:part name="parameters" element="tns:LookupOperation" />
+  </wsdl:message>
+  <wsdl:message name="LookupOperationResponse">
+    <wsdl:part name="parameters" element="tns:LookupOperationResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckBusinessRoleRequest">
+    <wsdl:part name="parameters" element="tns:CheckBusinessRole" />
+  </wsdl:message>
+  <wsdl:message name="CheckBusinessRoleResponse">
+    <wsdl:part name="parameters" element="tns:CheckBusinessRoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="NewOperationResponse">
+    <wsdl:part name="parameters" element="tns:NewOperationResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckAuthByIDListRequest">
+    <wsdl:part name="parameters" element="tns:CheckAuthByIDList" />
+  </wsdl:message>
+  <wsdl:message name="CheckAuthByIDListResponse1">
+    <wsdl:part name="parameters" element="tns:CheckAuthByIDListResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckAuthByCommandListRequest">
+    <wsdl:part name="parameters" element="tns:CheckAuthByCommandList" />
+  </wsdl:message>
+  <wsdl:message name="CheckAuthByCommandListResponse1">
+    <wsdl:part name="parameters" element="tns:CheckAuthByCommandListResponse" />
+  </wsdl:message>
+  <wsdl:portType name="auth">
+    <wsdl:operation name="CheckSession">
+      <wsdl:input message="tns:CheckSessionRequest" />
+      <wsdl:output message="tns:CheckSessionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckAuth">
+      <wsdl:input message="tns:CheckAuthRequest" />
+      <wsdl:output message="tns:CheckAuthResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="WriteOperationRecord">
+      <wsdl:input message="tns:WriteOperationRecordRequest" />
+      <wsdl:output message="tns:WriteOperationRecordResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="LogOut">
+      <wsdl:input message="tns:LogOutRequest" />
+      <wsdl:output message="tns:LogOutResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="LookupAuth">
+      <wsdl:input message="tns:LookupAuthRequest" />
+      <wsdl:output message="tns:LookupAuthResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="Echo">
+      <wsdl:input message="tns:EchoRequest" />
+      <wsdl:output message="tns:EchoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="LookupBusinessRole">
+      <wsdl:input message="tns:LookupBusinessRoleRequest" />
+      <wsdl:output message="tns:LookupBusinessRoleResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusinessRole">
+      <wsdl:input message="tns:GetAllBusinessRoleRequest" />
+      <wsdl:output message="tns:GetAllBusinessRoleResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="LookupOwner">
+      <wsdl:input message="tns:LookupOwnerRequest" />
+      <wsdl:output message="tns:LookupOwnerResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="LookupOperation">
+      <wsdl:input message="tns:LookupOperationRequest" />
+      <wsdl:output message="tns:LookupOperationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckBusinessRole">
+      <wsdl:input message="tns:CheckBusinessRoleRequest" />
+      <wsdl:output message="tns:CheckBusinessRoleResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckAuthByIDList">
+      <wsdl:input message="tns:CheckAuthByIDListRequest" />
+      <wsdl:output message="tns:CheckAuthByIDListResponse1" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckAuthByCommandList">
+      <wsdl:input message="tns:CheckAuthByCommandListRequest" />
+      <wsdl:output message="tns:CheckAuthByCommandListResponse1" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="authSOAP" type="tns:auth">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CheckSession">
+      <soap:operation soapAction="http://auth.cm.com/auth/CheckSession" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckAuth">
+      <soap:operation soapAction="http://auth.cm.com/auth/CheckAuth" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WriteOperationRecord">
+      <soap:operation soapAction="http://auth.cm.com/auth/WriteOperationRecord" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LogOut">
+      <soap:operation soapAction="http://auth.cm.com/auth/LogOut" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LookupAuth">
+      <soap:operation soapAction="http://auth.cm.com/auth/LookupAuth" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Echo">
+      <soap:operation soapAction="http://auth.cm.com/auth/Echo" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LookupBusinessRole">
+      <soap:operation soapAction="http://auth.cm.com/auth/LookupBusinessRole" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBusinessRole">
+      <soap:operation soapAction="http://auth.cm.com/auth/GetAllBusinessRole" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LookupOwner">
+      <soap:operation soapAction="http://auth.cm.com/auth/LookupOwner" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LookupOperation">
+      <soap:operation soapAction="http://auth.cm.com/auth/LookupOperation" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckBusinessRole">
+      <soap:operation soapAction="http://auth.cm.com/auth/CheckBusinessRole" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckAuthByIDList">
+      <soap:operation soapAction="http://auth.cm.com/auth/CheckAuthByIDList" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckAuthByCommandList">
+      <soap:operation soapAction="http://auth.cm.com/auth/CheckAuthByCommandList" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="auth">
+    <wsdl:port name="authSOAP" binding="tns:authSOAP">
+      <soap:address location="http://auth.cm.com:8080/auth" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

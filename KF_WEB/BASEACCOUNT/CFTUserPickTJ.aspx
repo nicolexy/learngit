@@ -1,0 +1,112 @@
+<%@ Page language="c#" Codebehind="CFTUserPickTJ.aspx.cs" AutoEventWireup="True" Inherits="TENCENT.OSS.CFT.KF.KF_Web.BaseAccount.CFTUserPickTJ" %>
+<%@ Import Namespace="TENCENT.OSS.CFT.KF.KF_Web.classLibrary" %>
+<%@ Register TagPrefix="webdiyer" Namespace="Wuqi.Webdiyer" Assembly="AspNetPager" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+  <HEAD>
+		<title>FundQuery</title>
+		<meta content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">
+		<meta content="C#" name="CODE_LANGUAGE">
+		<meta content="JavaScript" name="vs_defaultClientScript">
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+		<style type="text/css">@import url( ../STYLES/ossstyle.css ); .style2 { COLOR: #000000 }
+	.style3 { COLOR: #ff0000 }
+	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
+	</style>
+		<script language="javascript">
+					function openModeBegin()
+					{
+						var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
+						if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue;
+					}
+		</script>
+		<script language="javascript">
+					function openModeEnd()
+					{
+					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxEndDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
+					if(returnValue != null) Form1.TextBoxEndDate.value=returnValue;
+					}
+		</script>
+</HEAD>
+	<body MS_POSITIONING="GridLayout">
+		<form id="Form1" method="post" runat="server">
+			<TABLE id="Table1" style="Z-INDEX: 101; LEFT: 5%; POSITION: absolute; TOP: 5%" cellSpacing="1"
+				cellPadding="1" width="85%" border="1">
+				<TR>
+					<TD bgColor="#e4e5f7" colSpan="3"><FONT face="宋体" color="red"><IMG height="16" src="../IMAGES/Page/post.gif" width="20">
+							&nbsp;&nbsp;自助申诉统计</FONT> </FONT></TD>
+					<TD align="right" bgColor="#e4e5f7" colSpan="2"><FONT face="宋体">操作员代码: <SPAN class="style3">
+								<asp:label id="Label1" runat="server" Width="73px"></asp:label></SPAN></FONT></TD>
+				</TR>
+				<TR>
+					<TD align="right"><asp:label id="Label2" runat="server">处理起始日期</asp:label></TD>
+					<TD><asp:textbox id="TextBoxBeginDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton></TD>
+					<TD align="right"><asp:label id="Label3" runat="server">处理结束日期</asp:label></TD>
+					<TD><asp:textbox id="TextBoxEndDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton></TD>
+					<TD><asp:button id="btnTJ" runat="server" Text="统计" onclick="btnTJ_Click"></asp:button></TD>
+				</TR>
+			</TABLE>
+			<TABLE id="Table2" style="Z-INDEX: 102; LEFT: 5.02%; WIDTH: 85%; POSITION: absolute; TOP: 100px; HEIGHT: 70%"
+				cellSpacing="1" cellPadding="1" width="808" border="1" runat="server">
+				<TR>
+					<TD vAlign="top" colSpan="6"><asp:datagrid id="DataGrid1" runat="server" Width="100%" BorderColor="#E7E7FF" BorderStyle="None"
+							BorderWidth="1px" BackColor="White" CellPadding="3" GridLines="Horizontal" AutoGenerateColumns="False" EnableViewState="False"
+							PageSize="50">
+							<FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
+							<SelectedItemStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#738A9C"></SelectedItemStyle>
+							<AlternatingItemStyle BackColor="#F7F7F7"></AlternatingItemStyle>
+							<ItemStyle ForeColor="#4A3C8C" BackColor="#E7E7FF"></ItemStyle>
+							<HeaderStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#4A3C8C"></HeaderStyle>
+							<Columns>
+								<asp:BoundColumn DataField="FCheckUser" HeaderText="客服帐号"></asp:BoundColumn>
+								<asp:TemplateColumn HeaderText="通过数">
+									<ItemTemplate>
+										<asp:HyperLink id="HL" runat="server" NavigateUrl='<%# GetUrl(1,DataBinder.Eval(Container, "DataItem.FCheckUser").ToString()) %>'>
+											<%# DataBinder.Eval(Container, "DataItem.FCommitCount") %>
+										</asp:HyperLink>
+									</ItemTemplate>
+								</asp:TemplateColumn>
+								<asp:TemplateColumn HeaderText="拒绝数">
+									<ItemTemplate>
+										<asp:HyperLink id="Hyperlink1" runat="server" NavigateUrl='<%# GetUrl(2,DataBinder.Eval(Container, "DataItem.FCheckUser").ToString()) %>'>
+											<%# DataBinder.Eval(Container, "DataItem.FCancelCount") %>
+										</asp:HyperLink>
+									</ItemTemplate>
+								</asp:TemplateColumn>
+								<asp:TemplateColumn HeaderText="直转后台数">
+									<ItemTemplate>
+										<asp:HyperLink id="Hyperlink2" runat="server" NavigateUrl='<%# GetUrl(4,DataBinder.Eval(Container, "DataItem.FCheckUser").ToString()) %>'>
+											<%# DataBinder.Eval(Container, "DataItem.FToBCount") %>
+										</asp:HyperLink>
+									</ItemTemplate>
+								</asp:TemplateColumn>
+								<asp:TemplateColumn HeaderText="其它转后台">
+									<ItemTemplate>
+										<asp:HyperLink id="Hyperlink3" runat="server" NavigateUrl='<%# GetUrl(3,DataBinder.Eval(Container, "DataItem.FCheckUser").ToString()) %>'>
+											<%# DataBinder.Eval(Container, "DataItem.FEToBCount") %>
+										</asp:HyperLink>
+									</ItemTemplate>
+								</asp:TemplateColumn>
+								<asp:TemplateColumn HeaderText="合计">
+									<ItemTemplate>
+										<asp:HyperLink id="Hyperlink4" runat="server" NavigateUrl='<%# GetUrl(9,DataBinder.Eval(Container, "DataItem.FCheckUser").ToString()) %>'>
+											<%# DataBinder.Eval(Container, "DataItem.FTotalCount") %>
+										</asp:HyperLink>
+									</ItemTemplate>
+								</asp:TemplateColumn>
+							</Columns>
+							<PagerStyle HorizontalAlign="Right" ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>
+						</asp:datagrid></TD>
+				</TR>
+				<TR height="25">
+					<TD><asp:label id="Label4" runat="server">申诉数:</asp:label></TD>
+					<TD><asp:label id="labSumCount" runat="server"></asp:label></TD>
+					<TD><asp:label id="Label6" runat="server">已处理:</asp:label></TD>
+					<TD><asp:label id="labHandleCount" runat="server"></asp:label></TD>
+					<TD><asp:label id="Label8" runat="server">未处理:</asp:label></TD>
+					<TD><asp:label id="labothercount" runat="server"></asp:label></TD>
+				</TR>
+			</TABLE>
+		</form>
+	</body>
+</HTML>

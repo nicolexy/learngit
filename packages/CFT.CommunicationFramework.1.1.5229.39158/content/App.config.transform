@@ -1,0 +1,16 @@
+﻿<configuration>
+  <!--此节需要复制到最终应用程序的WEB.CONFIG 或者 APP.CONFIG文件中-->
+  <appSettings>
+    <!--RelayServer Configuration-->
+    <add key="relayServerIP" value="172.25.38.123"/>
+    <add key="relayServerPort" value="22000"/>
+    <add key="RelayDefaultSPId" value="2000000000"/>
+    <!--ICE Server Configuration-->
+    <add key="ICEServerIP" value="172.25.39.53"/>
+    <add key="ICEServerPort" value="6644"/>
+    <add key="ICEUsername" value="rayguo"/>
+    <add key="ICEPassword" value="1111"/>
+    <!--CF-->
+    <add key="TraceCF" value="true" />
+  </appSettings>
+</configuration>

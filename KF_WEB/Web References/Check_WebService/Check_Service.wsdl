@@ -1,0 +1,974 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://Tencent.com/OSS/C2C/Finance/Check_Service" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://Tencent.com/OSS/C2C/Finance/Check_Service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://Tencent.com/OSS/C2C/Finance/Check_Service">
+      <s:element name="SetSendLog">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="operID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetSendLogResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetSendLogResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StartCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strMainID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strMemo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strLevelValue" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="myParams" type="tns:ArrayOfParam" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfParam">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Param" type="tns:Param" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Param">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ParamName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ParamValue" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ParamFlag" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="StartCheckResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="Finance_Header" type="tns:Finance_Header" />
+      <s:complexType name="Finance_Header">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UserIP" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SzKey" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="OperID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="RightString" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UserPassword" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SessionID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SrcUrl" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="ExecuteCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecuteCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExecuteCheckResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCheckLog">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="checkid" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iStartIndex" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="iRecordCount" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCheckLogResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCheckLogResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStartCheckCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStartCheckCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetStartCheckCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFinishCheckCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFinishCheckCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetFinishCheckCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStartCheckData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iStartIndex" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="iRecordCount" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStartCheckDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStartCheckDataResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFinishCheckData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iStartIndex" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="iRecordCount" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFinishCheckDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFinishCheckDataResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetToDoNum">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strCheckType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetToDoNumResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetToDoNumResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getCheckType">
+        <s:complexType />
+      </s:element>
+      <s:element name="getCheckTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getCheckTypeResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="boolean" type="s:boolean" />
+      <s:element name="DataTable" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+            <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="int" type="s:int" />
+      <s:element name="DataSet" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:element ref="s:schema" />
+            <s:any />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SetSendLogSoapIn">
+    <wsdl:part name="parameters" element="tns:SetSendLog" />
+  </wsdl:message>
+  <wsdl:message name="SetSendLogSoapOut">
+    <wsdl:part name="parameters" element="tns:SetSendLogResponse" />
+  </wsdl:message>
+  <wsdl:message name="StartCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:StartCheck" />
+  </wsdl:message>
+  <wsdl:message name="StartCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:StartCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="StartCheckFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:ExecuteCheck" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:ExecuteCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteCheckFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="GetCheckLogSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCheckLog" />
+  </wsdl:message>
+  <wsdl:message name="GetCheckLogSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCheckLogResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCheckLogFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="GetStartCheckCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStartCheckCount" />
+  </wsdl:message>
+  <wsdl:message name="GetStartCheckCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStartCheckCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStartCheckCountFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="GetFinishCheckCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFinishCheckCount" />
+  </wsdl:message>
+  <wsdl:message name="GetFinishCheckCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFinishCheckCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFinishCheckCountFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="GetStartCheckDataSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStartCheckData" />
+  </wsdl:message>
+  <wsdl:message name="GetStartCheckDataSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStartCheckDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStartCheckDataFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="GetFinishCheckDataSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFinishCheckData" />
+  </wsdl:message>
+  <wsdl:message name="GetFinishCheckDataSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFinishCheckDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFinishCheckDataFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="GetToDoNumSoapIn">
+    <wsdl:part name="parameters" element="tns:GetToDoNum" />
+  </wsdl:message>
+  <wsdl:message name="GetToDoNumSoapOut">
+    <wsdl:part name="parameters" element="tns:GetToDoNumResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetToDoNumFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="getCheckTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:getCheckType" />
+  </wsdl:message>
+  <wsdl:message name="getCheckTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:getCheckTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="getCheckTypeFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="SetSendLogHttpGetIn">
+    <wsdl:part name="operID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SetSendLogHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteCheckHttpGetIn">
+    <wsdl:part name="strCheckID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteCheckHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="GetCheckLogHttpGetIn">
+    <wsdl:part name="checkid" type="s:string" />
+    <wsdl:part name="iStartIndex" type="s:string" />
+    <wsdl:part name="iRecordCount" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCheckLogHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="GetStartCheckCountHttpGetIn">
+    <wsdl:part name="strCheckType" type="s:string" />
+    <wsdl:part name="strUserID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetStartCheckCountHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="GetFinishCheckCountHttpGetIn">
+    <wsdl:part name="strCheckType" type="s:string" />
+    <wsdl:part name="strUserID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetFinishCheckCountHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="GetStartCheckDataHttpGetIn">
+    <wsdl:part name="strCheckType" type="s:string" />
+    <wsdl:part name="strUserID" type="s:string" />
+    <wsdl:part name="iStartIndex" type="s:string" />
+    <wsdl:part name="iRecordCount" type="s:string" />
+    <wsdl:part name="strFid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetStartCheckDataHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="GetFinishCheckDataHttpGetIn">
+    <wsdl:part name="strCheckType" type="s:string" />
+    <wsdl:part name="strUserID" type="s:string" />
+    <wsdl:part name="iStartIndex" type="s:string" />
+    <wsdl:part name="iRecordCount" type="s:string" />
+    <wsdl:part name="strFid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetFinishCheckDataHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="GetToDoNumHttpGetIn">
+    <wsdl:part name="strCheckType" type="s:string" />
+    <wsdl:part name="strUserID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetToDoNumHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="getCheckTypeHttpGetIn" />
+  <wsdl:message name="getCheckTypeHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="SetSendLogHttpPostIn">
+    <wsdl:part name="operID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SetSendLogHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteCheckHttpPostIn">
+    <wsdl:part name="strCheckID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteCheckHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="GetCheckLogHttpPostIn">
+    <wsdl:part name="checkid" type="s:string" />
+    <wsdl:part name="iStartIndex" type="s:string" />
+    <wsdl:part name="iRecordCount" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCheckLogHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="GetStartCheckCountHttpPostIn">
+    <wsdl:part name="strCheckType" type="s:string" />
+    <wsdl:part name="strUserID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetStartCheckCountHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="GetFinishCheckCountHttpPostIn">
+    <wsdl:part name="strCheckType" type="s:string" />
+    <wsdl:part name="strUserID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetFinishCheckCountHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="GetStartCheckDataHttpPostIn">
+    <wsdl:part name="strCheckType" type="s:string" />
+    <wsdl:part name="strUserID" type="s:string" />
+    <wsdl:part name="iStartIndex" type="s:string" />
+    <wsdl:part name="iRecordCount" type="s:string" />
+    <wsdl:part name="strFid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetStartCheckDataHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="GetFinishCheckDataHttpPostIn">
+    <wsdl:part name="strCheckType" type="s:string" />
+    <wsdl:part name="strUserID" type="s:string" />
+    <wsdl:part name="iStartIndex" type="s:string" />
+    <wsdl:part name="iRecordCount" type="s:string" />
+    <wsdl:part name="strFid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetFinishCheckDataHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="GetToDoNumHttpPostIn">
+    <wsdl:part name="strCheckType" type="s:string" />
+    <wsdl:part name="strUserID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetToDoNumHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="getCheckTypeHttpPostIn" />
+  <wsdl:message name="getCheckTypeHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:portType name="Check_ServiceSoap">
+    <wsdl:operation name="SetSendLog">
+      <wsdl:input message="tns:SetSendLogSoapIn" />
+      <wsdl:output message="tns:SetSendLogSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StartCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">提请一个审批</wsdl:documentation>
+      <wsdl:input message="tns:StartCheckSoapIn" />
+      <wsdl:output message="tns:StartCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">执行审批完的动作</wsdl:documentation>
+      <wsdl:input message="tns:ExecuteCheckSoapIn" />
+      <wsdl:output message="tns:ExecuteCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckLog">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">读取审批日志</wsdl:documentation>
+      <wsdl:input message="tns:GetCheckLogSoapIn" />
+      <wsdl:output message="tns:GetCheckLogSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStartCheckCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">未审批数量查询</wsdl:documentation>
+      <wsdl:input message="tns:GetStartCheckCountSoapIn" />
+      <wsdl:output message="tns:GetStartCheckCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCheckCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">已审批数量查询</wsdl:documentation>
+      <wsdl:input message="tns:GetFinishCheckCountSoapIn" />
+      <wsdl:output message="tns:GetFinishCheckCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStartCheckData">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">数据绑定处理</wsdl:documentation>
+      <wsdl:input message="tns:GetStartCheckDataSoapIn" />
+      <wsdl:output message="tns:GetStartCheckDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCheckData">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">已审批数据绑定处理</wsdl:documentation>
+      <wsdl:input message="tns:GetFinishCheckDataSoapIn" />
+      <wsdl:output message="tns:GetFinishCheckDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetToDoNum">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">件待执行数量</wsdl:documentation>
+      <wsdl:input message="tns:GetToDoNumSoapIn" />
+      <wsdl:output message="tns:GetToDoNumSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getCheckType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得审批类型</wsdl:documentation>
+      <wsdl:input message="tns:getCheckTypeSoapIn" />
+      <wsdl:output message="tns:getCheckTypeSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Check_ServiceHttpGet">
+    <wsdl:operation name="SetSendLog">
+      <wsdl:input message="tns:SetSendLogHttpGetIn" />
+      <wsdl:output message="tns:SetSendLogHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">执行审批完的动作</wsdl:documentation>
+      <wsdl:input message="tns:ExecuteCheckHttpGetIn" />
+      <wsdl:output message="tns:ExecuteCheckHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckLog">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">读取审批日志</wsdl:documentation>
+      <wsdl:input message="tns:GetCheckLogHttpGetIn" />
+      <wsdl:output message="tns:GetCheckLogHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStartCheckCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">未审批数量查询</wsdl:documentation>
+      <wsdl:input message="tns:GetStartCheckCountHttpGetIn" />
+      <wsdl:output message="tns:GetStartCheckCountHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCheckCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">已审批数量查询</wsdl:documentation>
+      <wsdl:input message="tns:GetFinishCheckCountHttpGetIn" />
+      <wsdl:output message="tns:GetFinishCheckCountHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStartCheckData">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">数据绑定处理</wsdl:documentation>
+      <wsdl:input message="tns:GetStartCheckDataHttpGetIn" />
+      <wsdl:output message="tns:GetStartCheckDataHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCheckData">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">已审批数据绑定处理</wsdl:documentation>
+      <wsdl:input message="tns:GetFinishCheckDataHttpGetIn" />
+      <wsdl:output message="tns:GetFinishCheckDataHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetToDoNum">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">件待执行数量</wsdl:documentation>
+      <wsdl:input message="tns:GetToDoNumHttpGetIn" />
+      <wsdl:output message="tns:GetToDoNumHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getCheckType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得审批类型</wsdl:documentation>
+      <wsdl:input message="tns:getCheckTypeHttpGetIn" />
+      <wsdl:output message="tns:getCheckTypeHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Check_ServiceHttpPost">
+    <wsdl:operation name="SetSendLog">
+      <wsdl:input message="tns:SetSendLogHttpPostIn" />
+      <wsdl:output message="tns:SetSendLogHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">执行审批完的动作</wsdl:documentation>
+      <wsdl:input message="tns:ExecuteCheckHttpPostIn" />
+      <wsdl:output message="tns:ExecuteCheckHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckLog">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">读取审批日志</wsdl:documentation>
+      <wsdl:input message="tns:GetCheckLogHttpPostIn" />
+      <wsdl:output message="tns:GetCheckLogHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStartCheckCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">未审批数量查询</wsdl:documentation>
+      <wsdl:input message="tns:GetStartCheckCountHttpPostIn" />
+      <wsdl:output message="tns:GetStartCheckCountHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCheckCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">已审批数量查询</wsdl:documentation>
+      <wsdl:input message="tns:GetFinishCheckCountHttpPostIn" />
+      <wsdl:output message="tns:GetFinishCheckCountHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStartCheckData">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">数据绑定处理</wsdl:documentation>
+      <wsdl:input message="tns:GetStartCheckDataHttpPostIn" />
+      <wsdl:output message="tns:GetStartCheckDataHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCheckData">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">已审批数据绑定处理</wsdl:documentation>
+      <wsdl:input message="tns:GetFinishCheckDataHttpPostIn" />
+      <wsdl:output message="tns:GetFinishCheckDataHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetToDoNum">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">件待执行数量</wsdl:documentation>
+      <wsdl:input message="tns:GetToDoNumHttpPostIn" />
+      <wsdl:output message="tns:GetToDoNumHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getCheckType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得审批类型</wsdl:documentation>
+      <wsdl:input message="tns:getCheckTypeHttpPostIn" />
+      <wsdl:output message="tns:getCheckTypeHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Check_ServiceSoap" type="tns:Check_ServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SetSendLog">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/SetSendLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StartCheck">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/StartCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:StartCheckFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteCheck">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/ExecuteCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ExecuteCheckFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckLog">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/GetCheckLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetCheckLogFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStartCheckCount">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/GetStartCheckCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetStartCheckCountFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCheckCount">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/GetFinishCheckCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetFinishCheckCountFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStartCheckData">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/GetStartCheckData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetStartCheckDataFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCheckData">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/GetFinishCheckData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetFinishCheckDataFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetToDoNum">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/GetToDoNum" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetToDoNumFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCheckType">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/getCheckType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:getCheckTypeFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Check_ServiceSoap12" type="tns:Check_ServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SetSendLog">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/SetSendLog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StartCheck">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/StartCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:StartCheckFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteCheck">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/ExecuteCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ExecuteCheckFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckLog">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/GetCheckLog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetCheckLogFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStartCheckCount">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/GetStartCheckCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetStartCheckCountFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCheckCount">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/GetFinishCheckCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetFinishCheckCountFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStartCheckData">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/GetStartCheckData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetStartCheckDataFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCheckData">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/GetFinishCheckData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetFinishCheckDataFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetToDoNum">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/GetToDoNum" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetToDoNumFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCheckType">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_Service/getCheckType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:getCheckTypeFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Check_ServiceHttpGet" type="tns:Check_ServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="SetSendLog">
+      <http:operation location="/SetSendLog" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteCheck">
+      <http:operation location="/ExecuteCheck" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckLog">
+      <http:operation location="/GetCheckLog" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStartCheckCount">
+      <http:operation location="/GetStartCheckCount" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCheckCount">
+      <http:operation location="/GetFinishCheckCount" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStartCheckData">
+      <http:operation location="/GetStartCheckData" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCheckData">
+      <http:operation location="/GetFinishCheckData" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetToDoNum">
+      <http:operation location="/GetToDoNum" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCheckType">
+      <http:operation location="/getCheckType" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Check_ServiceHttpPost" type="tns:Check_ServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="SetSendLog">
+      <http:operation location="/SetSendLog" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteCheck">
+      <http:operation location="/ExecuteCheck" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckLog">
+      <http:operation location="/GetCheckLog" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStartCheckCount">
+      <http:operation location="/GetStartCheckCount" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCheckCount">
+      <http:operation location="/GetFinishCheckCount" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStartCheckData">
+      <http:operation location="/GetStartCheckData" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCheckData">
+      <http:operation location="/GetFinishCheckData" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetToDoNum">
+      <http:operation location="/GetToDoNum" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCheckType">
+      <http:operation location="/getCheckType" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Check_Service">
+    <wsdl:port name="Check_ServiceSoap" binding="tns:Check_ServiceSoap">
+      <soap:address location="http://localhost:61131/Check_Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Check_ServiceSoap12" binding="tns:Check_ServiceSoap12">
+      <soap12:address location="http://localhost:61131/Check_Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Check_ServiceHttpGet" binding="tns:Check_ServiceHttpGet">
+      <http:address location="http://localhost:61131/Check_Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Check_ServiceHttpPost" binding="tns:Check_ServiceHttpPost">
+      <http:address location="http://localhost:61131/Check_Service.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

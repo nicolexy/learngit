@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
+  <metadata>
+    <id>CFT.CommunicationFramework</id>
+    <version>1.1.5229.39158</version>
+    <authors>hansonhu</authors>
+    <owners>hansonhu</owners>
+    <projectUrl>http://up.cf.com/index.php/nuget</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Common library and tool for invoke middle through ICE or Relay</description>
+    <dependencies>
+      <group targetFramework=".NETFramework4.0">
+        <dependency id="SunLibrary" version="1.0.5227.40954" />
+      </group>
+    </dependencies>
+    <references>
+      <group targetFramework=".NETFramework4.0">
+        <reference file="CFT.CommunicationFramework.dll" />
+      </group>
+    </references>
+  </metadata>
+</package>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="kf_web">
+</Property><Property Name="Solution File" Value="D:\KF\ZFT_KFWeb_src_V3.0D00730\main\cftcf\KF_WEB\kf_web.sln">
+</Property><Property Name="Date" Value="2013年2月7日">
+</Property><Property Name="Time" Value="10:03">
+</Property></Properties><Event ErrorLevel="1" Project="DataAccess" Source="..\DATAACCESS\DataAccess.csproj" Description="MSB2014: The project-to-project reference with GUID {54B9173D-E1E9-4783-925A-36E08E9690CF} cannot be converted because it is not listed in the file 'D:\KF\ZFT_KFWeb_src_V3.0D00730\main\cftcf\KF_WEB\kf_web.sln'.">
+</Event><Event ErrorLevel="1" Project="DataAccess" Source="..\DATAACCESS\DataAccess.csproj" Description="MSB2014: The project-to-project reference with GUID {A6B127B1-E4DD-46EC-9439-3C5D8BE97E24} cannot be converted because it is not listed in the file 'D:\KF\ZFT_KFWeb_src_V3.0D00730\main\cftcf\KF_WEB\kf_web.sln'.">
+</Event><Event ErrorLevel="1" Project="DataAccess" Source="..\DATAACCESS\DataAccess.csproj" Description="Your project is targeting .NET Framework 2.0 or 3.0. If your project uses assemblies requiring a newer .NET Framework, your project will fail to build. You can change the .NET Framework version by clicking Properties on the project menu and then selecting a new version in the '.NET Framework' dropdown box. (In Visual Basic, this is located on the Compile tab by clicking the 'Advanced Compiler Options...' button.)">
+</Event><Event ErrorLevel="0" Project="DataAccess" Source="..\DATAACCESS\DataAccess.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="DataAccess" Source="..\DATAACCESS\DataAccess.csproj" Description="Converted">
+</Event><Event ErrorLevel="2" Project="http://Localhost/kf_SERVICE/KF_SERVICE.csproj" Source="http://Localhost/kf_SERVICE/KF_SERVICE.csproj" Description="The project path 'C:\inetpub\wwwroot\kf_SERVICE\KF_SERVICE.csproj' does not exist.">
+</Event><Event ErrorLevel="2" Project="http://localhost/kf_web/kf_web.csproj" Source="http://localhost/kf_web/kf_web.csproj" Description="The project path 'C:\inetpub\wwwroot\kf_web\kf_web.csproj' does not exist.">
+</Event><Event ErrorLevel="0" Project="" Source="kf_web.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="kf_web.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="DataAccess" Source="..\DATAACCESS\DataAccess.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

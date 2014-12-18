@@ -1,0 +1,3 @@
+..\..\KF_SERVICE\KF_SERVICE.csproj
+..\..\DATAACCESS\DataAccess.csproj
+..\kf_web.csproj

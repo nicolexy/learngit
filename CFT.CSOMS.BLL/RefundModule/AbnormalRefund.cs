@@ -1,0 +1,244 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Data;
+using CFT.CSOMS.DAL.RefundModule;
+using CFT.CSOMS.COMMLIB;
+using System.Collections;
+
+
+namespace CFT.CSOMS.BLL.RefundModule
+{
+    public class RefundService
+    {
+        private int GetBankType(string strBankName)
+        {         
+            if (string.IsNullOrEmpty(strBankName))
+            {
+                return -1;
+            }
+            switch (strBankName.Trim())
+            {
+                case "招商银行借记卡": //C++：switch语句 只支持实型，string 不支持
+                    {
+                        return 1001;
+                    }
+                case "工商银行借记卡":
+                    {
+                        return 1002;
+                    }
+                case "建行银行借记卡":
+                    {
+                        return 1003;
+                    }
+                case "浦发银行借记卡":
+                    {
+                        return 1004;
+                    }
+                case "农业银行借记卡":
+                    {
+                        return 1005;
+                    }
+                case "民生银行借记卡":
+                    {
+                        return 1006;
+                    }
+                case "兴业银行借记卡":
+                    {
+                        return 1009;
+                    }
+                case "平安银行借记卡":
+                    {
+                        return 1010;
+                    }
+                case "交通银行借记卡":
+                    {
+                        return 1020;
+                    }
+                case "中国银行借记卡":
+                    {
+                        return 1026;
+                    }
+                case "光大银行借记卡":
+                    {
+                        return 1022;
+                    }
+                case "广发银行借记卡":
+                    {
+                        return 1027;
+                    }
+                case "中信银行借记卡":
+                    {
+                        return 1044;
+                    }
+                default:
+                    break;
+            }
+            return -1;
+
+        }
+        public DataSet RequestRefundData(string strUid, string strBank, string strFSPID, string strBeginDate, string strEndDate, int iCheck, int iTrade) 
+        {
+            try
+            {
+                return new AbnormalRefundData().RequestRefundData(strUid, strBank, strFSPID, strBeginDate, strEndDate, iCheck, iTrade);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("查询审批数据异常" + ex.Message);
+            }
+            return null;
+            
+        }
+
+        public bool UpdateRefundData(string strUinId, string strBankListId, string strIdentity, string strBankAccNoOld, string strUserEmail, string strNewBankAccNo, string strBankUserName,
+            string strReason,string strImgCommitment,string strImgIdentity,string strImgBankWater,string strImgCancellation,string strBankName, int nInitBankID,int nNewBankID,
+            int nUserFalg, int nCardType, int nState, out string outMsg)
+        {
+            try
+            {
+                return new AbnormalRefundData().UpdateRefundData(strUinId, strBankListId, strIdentity, strBankAccNoOld, strUserEmail, strNewBankAccNo, strBankUserName, strReason, strImgCommitment, strImgIdentity,
+                    strImgBankWater, strImgCancellation, strBankName, nInitBankID, nNewBankID, nUserFalg, nCardType, nState, out outMsg);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("存入数据异常：" + ex.Message);
+            }
+            return false;
+            
+        }
+
+        public DataSet RequestDetailsData(string strRefundId, out string outMsg)
+        {
+            try
+            {
+                return new AbnormalRefundData().RequestDetailsData(strRefundId, out outMsg);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("请求审批详细数据异常：" + ex.Message);
+            }
+            return null;
+        }
+
+        public void SetRefundCheckState(int nState, string strOldId)
+        {
+            try
+            {
+                new AbnormalRefundData().SetRefundCheckState(nState, strOldId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("更新审批状态出错：" + ex.Message);
+            }
+        }
+        public void SetAbnormalRefundListID(string strCheckId, string strOldId)
+        {
+            try
+            {
+                new AbnormalRefundData().SetAbnormalRefundListID(strCheckId, strOldId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("更新审批ID出错：" + ex.Message);
+            }
+        }
+        //SetAbnormalRefundListID
+        public string GetBankCardBindInformation(string listid, out string msg)
+        {
+            return new AbnormalRefundData().GetBankCardBindInformation(listid, out msg);
+        }
+
+        
+        public void DeleteAbnormalRefundRecord(string strOldId)
+        {
+            try
+            {
+                new AbnormalRefundData().DeleteAbnormalRefundRecord(strOldId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("作废审批记录出错：" + ex.Message);
+            }
+            
+        }
+
+       //查询审批编号
+        public string QueryAbnormalRefundCheckID(string strOldId)
+        {
+            try
+            {
+                return  new AbnormalRefundData().QueryAbnormalRefundCheckID(strOldId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("作废审批记录出错：" + ex.Message);
+            }
+        }
+
+        public DataSet CheckFZWCheckMemo(string strOldId)
+        {
+             try
+            {
+                return  new AbnormalRefundData().CheckFZWCheckMemo(strOldId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("查询退款失败财务转客服处理信息失败：" + ex.Message);
+            }
+        }
+
+        /*
+        /////////////////
+        public bool IsCheckOperator(string strUser, int nState)
+        {
+            try
+            {
+               return new AbnormalRefundData().IsCheckOperator(strUser, nState);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("权限判断出错：" + ex.Message);
+            }
+        }
+
+        public bool SetKFCheckUserInfo(string strUserInfo, string strUserLevel, string strOperator, int nType)
+        {
+            try
+            {
+                return new AbnormalRefundData().SetKFCheckUserInfo(strUserInfo, strUserLevel, strOperator, nType);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("设置审人组信息：" + ex.Message);
+            }
+        }
+
+        public DataTable ReadKFCheckInfo(string strRefundId, int nType)
+        {
+            try
+            {
+                return new AbnormalRefundData().ReadKFCheckInfo(strRefundId, nType);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("读取日志：" + ex.Message);
+            }
+        }
+
+        public bool SetRefundCheckState(string strRefundId, string strUser, int nState, string strMemo, int nResult)
+        {
+            try
+            {
+                return new AbnormalRefundData().SetRefundCheckState(strRefundId, strUser, nState,strMemo,nResult);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("设置审批结果出错：" + ex.Message);
+            }
+        }
+         * */
+
+    }
+}

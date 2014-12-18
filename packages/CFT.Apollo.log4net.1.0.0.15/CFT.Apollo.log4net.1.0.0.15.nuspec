@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>CFT.Apollo.log4net</id>
+    <version>1.0.0.15</version>
+    <title>CFT.Apollo.log4net</title>
+    <authors>hansonhu</authors>
+    <owners>hansonhu</owners>
+    <licenseUrl>http://up.cf.com/index.php/CFT.Apollo.Log4net</licenseUrl>
+    <projectUrl>http://up.cf.com/index.php/CFT.Apollo.Log4net</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>wrapper of log4net, just add configuration file.
+！！！！！！！！！！！！！！
+注意：供特殊项目使用，非特殊情况，请使用CFT.Apollo.Logging。
+若有疑问，请打开上面的项目信息超链接。
+！！！！！！！！！！！！！！
+wrapper of log4net [1.2.13]-nuget[2.0.3]</description>
+    <summary>特殊项目使用，一般项目请使用CFT.Apollo.Logging</summary>
+    <tags>logging log tracing logfiles</tags>
+  </metadata>
+</package>

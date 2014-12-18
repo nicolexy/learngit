@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://Tencent.com/OSS/C2C/Finance/Agent_Service" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://Tencent.com/OSS/C2C/Finance/Agent_Service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://Tencent.com/OSS/C2C/Finance/Agent_Service">
+      <s:element name="GetRemitSpid">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetRemitSpidResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRemitSpidResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetRemitDataList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="batchid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tranType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dataType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="remitType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tranState" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="spid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="remitRec" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="listID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="start" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="max" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRemitDataListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRemitDataListResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Finance_Header" type="tns:Finance_Header" />
+      <s:complexType name="Finance_Header">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UserIP" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SzKey" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="OperID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="RightString" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UserPassword" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SessionID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SrcUrl" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="GetRemitListCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="batchid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tranType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dataType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="remitType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tranState" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="spid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="remitRec" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="listID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRemitListCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetRemitListCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ArrayOfString" nillable="true" type="tns:ArrayOfString" />
+      <s:element name="DataSet" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:element ref="s:schema" />
+            <s:any />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="int" type="s:int" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetRemitSpidSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRemitSpid" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitSpidSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRemitSpidResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitDataListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRemitDataList" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitDataListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRemitDataListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitDataListFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitListCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRemitListCount" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitListCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRemitListCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitListCountFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitSpidHttpGetIn" />
+  <wsdl:message name="GetRemitSpidHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitDataListHttpGetIn">
+    <wsdl:part name="batchid" type="s:string" />
+    <wsdl:part name="tranType" type="s:string" />
+    <wsdl:part name="dataType" type="s:string" />
+    <wsdl:part name="remitType" type="s:string" />
+    <wsdl:part name="tranState" type="s:string" />
+    <wsdl:part name="spid" type="s:string" />
+    <wsdl:part name="remitRec" type="s:string" />
+    <wsdl:part name="listID" type="s:string" />
+    <wsdl:part name="start" type="s:string" />
+    <wsdl:part name="max" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitDataListHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitListCountHttpGetIn">
+    <wsdl:part name="batchid" type="s:string" />
+    <wsdl:part name="tranType" type="s:string" />
+    <wsdl:part name="dataType" type="s:string" />
+    <wsdl:part name="remitType" type="s:string" />
+    <wsdl:part name="tranState" type="s:string" />
+    <wsdl:part name="spid" type="s:string" />
+    <wsdl:part name="remitRec" type="s:string" />
+    <wsdl:part name="listID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitListCountHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitSpidHttpPostIn" />
+  <wsdl:message name="GetRemitSpidHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitDataListHttpPostIn">
+    <wsdl:part name="batchid" type="s:string" />
+    <wsdl:part name="tranType" type="s:string" />
+    <wsdl:part name="dataType" type="s:string" />
+    <wsdl:part name="remitType" type="s:string" />
+    <wsdl:part name="tranState" type="s:string" />
+    <wsdl:part name="spid" type="s:string" />
+    <wsdl:part name="remitRec" type="s:string" />
+    <wsdl:part name="listID" type="s:string" />
+    <wsdl:part name="start" type="s:string" />
+    <wsdl:part name="max" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitDataListHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitListCountHttpPostIn">
+    <wsdl:part name="batchid" type="s:string" />
+    <wsdl:part name="tranType" type="s:string" />
+    <wsdl:part name="dataType" type="s:string" />
+    <wsdl:part name="remitType" type="s:string" />
+    <wsdl:part name="tranState" type="s:string" />
+    <wsdl:part name="spid" type="s:string" />
+    <wsdl:part name="remitRec" type="s:string" />
+    <wsdl:part name="listID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetRemitListCountHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:portType name="Agent_ServiceSoap">
+    <wsdl:operation name="GetRemitSpid">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取邮储汇款商户</wsdl:documentation>
+      <wsdl:input message="tns:GetRemitSpidSoapIn" />
+      <wsdl:output message="tns:GetRemitSpidSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRemitDataList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">邮储汇款查询函数</wsdl:documentation>
+      <wsdl:input message="tns:GetRemitDataListSoapIn" />
+      <wsdl:output message="tns:GetRemitDataListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRemitListCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">邮储汇款记录数查询函数</wsdl:documentation>
+      <wsdl:input message="tns:GetRemitListCountSoapIn" />
+      <wsdl:output message="tns:GetRemitListCountSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Agent_ServiceHttpGet">
+    <wsdl:operation name="GetRemitSpid">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取邮储汇款商户</wsdl:documentation>
+      <wsdl:input message="tns:GetRemitSpidHttpGetIn" />
+      <wsdl:output message="tns:GetRemitSpidHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRemitDataList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">邮储汇款查询函数</wsdl:documentation>
+      <wsdl:input message="tns:GetRemitDataListHttpGetIn" />
+      <wsdl:output message="tns:GetRemitDataListHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRemitListCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">邮储汇款记录数查询函数</wsdl:documentation>
+      <wsdl:input message="tns:GetRemitListCountHttpGetIn" />
+      <wsdl:output message="tns:GetRemitListCountHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Agent_ServiceHttpPost">
+    <wsdl:operation name="GetRemitSpid">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取邮储汇款商户</wsdl:documentation>
+      <wsdl:input message="tns:GetRemitSpidHttpPostIn" />
+      <wsdl:output message="tns:GetRemitSpidHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRemitDataList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">邮储汇款查询函数</wsdl:documentation>
+      <wsdl:input message="tns:GetRemitDataListHttpPostIn" />
+      <wsdl:output message="tns:GetRemitDataListHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRemitListCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">邮储汇款记录数查询函数</wsdl:documentation>
+      <wsdl:input message="tns:GetRemitListCountHttpPostIn" />
+      <wsdl:output message="tns:GetRemitListCountHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Agent_ServiceSoap" type="tns:Agent_ServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetRemitSpid">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Agent_Service/GetRemitSpid" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRemitDataList">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Agent_Service/GetRemitDataList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetRemitDataListFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRemitListCount">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Agent_Service/GetRemitListCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetRemitListCountFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Agent_ServiceSoap12" type="tns:Agent_ServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetRemitSpid">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Agent_Service/GetRemitSpid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRemitDataList">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Agent_Service/GetRemitDataList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetRemitDataListFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRemitListCount">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Agent_Service/GetRemitListCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetRemitListCountFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Agent_ServiceHttpGet" type="tns:Agent_ServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="GetRemitSpid">
+      <http:operation location="/GetRemitSpid" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRemitDataList">
+      <http:operation location="/GetRemitDataList" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRemitListCount">
+      <http:operation location="/GetRemitListCount" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Agent_ServiceHttpPost" type="tns:Agent_ServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="GetRemitSpid">
+      <http:operation location="/GetRemitSpid" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRemitDataList">
+      <http:operation location="/GetRemitDataList" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRemitListCount">
+      <http:operation location="/GetRemitListCount" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Agent_Service">
+    <wsdl:port name="Agent_ServiceSoap" binding="tns:Agent_ServiceSoap">
+      <soap:address location="http://localhost:61131/Agent_Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Agent_ServiceSoap12" binding="tns:Agent_ServiceSoap12">
+      <soap12:address location="http://localhost:61131/Agent_Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Agent_ServiceHttpGet" binding="tns:Agent_ServiceHttpGet">
+      <http:address location="http://localhost:61131/Agent_Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Agent_ServiceHttpPost" binding="tns:Agent_ServiceHttpPost">
+      <http:address location="http://localhost:61131/Agent_Service.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
