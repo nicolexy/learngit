@@ -130,6 +130,23 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="CheckRecoverUid">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="uid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="recoverQQid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckRecoverUidResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CheckRecoverUidResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="Msg" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="freezeTrade">
         <s:complexType>
           <s:sequence>
@@ -383,6 +400,12 @@
   </wsdl:message>
   <wsdl:message name="checkUserRegSoapOut">
     <wsdl:part name="parameters" element="tns:checkUserRegResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckRecoverUidSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckRecoverUid" />
+  </wsdl:message>
+  <wsdl:message name="CheckRecoverUidSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckRecoverUidResponse" />
   </wsdl:message>
   <wsdl:message name="freezeTradeSoapIn">
     <wsdl:part name="parameters" element="tns:freezeTrade" />
@@ -644,6 +667,11 @@
       <wsdl:input message="tns:checkUserRegSoapIn" />
       <wsdl:output message="tns:checkUserRegSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="CheckRecoverUid">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">检查Uid是否存在 在userinfo中，不在t_relation中</wsdl:documentation>
+      <wsdl:input message="tns:CheckRecoverUidSoapIn" />
+      <wsdl:output message="tns:CheckRecoverUidSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="freezeTrade">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">交易管理_交易单冻结管理</wsdl:documentation>
       <wsdl:input message="tns:freezeTradeSoapIn" />
@@ -862,6 +890,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="CheckRecoverUid">
+      <soap:operation soapAction="http://tempuri.org/CheckRecoverUid" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="freezeTrade">
       <soap:operation soapAction="http://tempuri.org/freezeTrade" style="document" />
       <wsdl:input>
@@ -1022,6 +1059,15 @@
     </wsdl:operation>
     <wsdl:operation name="checkUserReg">
       <soap12:operation soapAction="http://tempuri.org/checkUserReg" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckRecoverUid">
+      <soap12:operation soapAction="http://tempuri.org/CheckRecoverUid" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
