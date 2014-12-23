@@ -38,6 +38,16 @@
     <Reference Include="AspNetPager">
       <HintPath>..\Assemblies\AspNetPager.dll</HintPath>
     </Reference>
+    <Reference Include="CFT.Apollo.Common">
+      <HintPath>..\packages\CFT.Apollo.Common.1.0.5436.2324\lib\CFT.Apollo.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.Apollo.CommunicationFramework, Version=1.1.5436.29525, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5436.29525\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.Apollo.Logging">
+      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5436.27776\lib\net40\CFT.Apollo.Logging.dll</HintPath>
+    </Reference>
     <Reference Include="CFT.CommunicationFramework, Version=1.1.5229.39158, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Assemblies\CFT.CommunicationFramework.dll</HintPath>
@@ -141,8 +151,9 @@
     <Content Include="Config\IMCTranfer.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Config\Log4net.config" />
-    <None Include="DataAccess.dll.log4net" />
+    <Content Include="Config\Log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

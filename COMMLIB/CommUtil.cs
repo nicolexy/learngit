@@ -8,11 +8,65 @@ using System.Collections;
 using System.Web.Script.Serialization;
 using System.Security.Cryptography;
 using System.IO;
+using System.Threading;
 
 namespace CFT.CSOMS.COMMLIB
 {
     public class CommUtil
     {
+       
+
+        /// <summary>
+        /// 保证不重复管理器
+        /// 初始值为10，使用时，每次+1；当达到100时，循环使用。 跟在秒后使用。
+        /// </summary>
+        public static int StaticNo = 10; //初始值 当达到99后，则循环，从10开始
+        public static bool StaticNoManageSign = true;
+
+        public static string StaticNoManage()
+        {
+            //如果标志位为false,则等待
+            try
+            {
+                while (!StaticNoManageSign)
+                {
+                    Thread.Sleep(50);
+                }
+
+                StaticNoManageSign = false;
+
+                StaticNo++;
+
+                if (StaticNo > 99)
+                {
+                    StaticNo = 10;  //清空为初始状态
+                }
+            }
+            finally
+            {
+                StaticNoManageSign = true;
+            }
+            return StaticNo.ToString();
+        }
+
+        /// <summary>
+        /// Dictionary按key排序，ASII排序方式
+        /// </summary>
+        /// <param name="dic">待排序的Dictionary</param>
+        /// <returns></returns>
+        public static Dictionary<string, string> DictionarySort(Dictionary<string, string> dic)
+        {
+            Dictionary<string, string> dicASC = new Dictionary<string, string>();
+
+            ArrayList akeys = new ArrayList(dic.Keys);
+            akeys.Sort();
+            foreach (string k in akeys)
+            {
+                dicASC.Add(k.ToString(), dic[k].ToString());
+            }
+            return dicASC;
+        }
+
         /// <summary>  
 
         /// GMT时间转成本地时间  
