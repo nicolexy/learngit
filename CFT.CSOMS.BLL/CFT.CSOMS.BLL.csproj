@@ -81,7 +81,7 @@
       <Name>CFT.CSOMS.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\COMMLIB\commLib.csproj">
-      <Project>{C747901F-7EE1-4AED-AB7B-547C6AEC99A0}</Project>
+      <Project>{c747901f-7ee1-4aed-ab7b-547c6aec99a0}</Project>
       <Name>commLib</Name>
     </ProjectReference>
   </ItemGroup>

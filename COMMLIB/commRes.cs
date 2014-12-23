@@ -1130,7 +1130,13 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 stream.Read(bufferOut, 0, 4);  //读取返回长度
                 int len = BitConverter.ToInt32(bufferOut, 0);
                 bufferOut = new byte[len];
-                stream.Read(bufferOut, 0, len); //读取返回内容
+               // stream.Read(bufferOut, 0, len); //读取返回内容
+
+                int nowindex = 0;
+                while (nowindex < len)
+                {
+                    nowindex += stream.Read(bufferOut, nowindex, len - nowindex); //读取返回内容
+                }
 
                 string answer = Encoding.Default.GetString(bufferOut);
 

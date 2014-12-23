@@ -13,6 +13,7 @@ using System.Web.Mail;
 using System.Net.Sockets;
 using System.Net;
 using TENCENT.OSS.CFT.KF.DataAccess;
+using SunLibrary;
 
 namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 {
@@ -154,6 +155,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 				return false;
 			}
 
+            LogHelper.LogInfo("GetFromRelay send req_params:" + req_params);
+
 			TcpClient tcpClient = new TcpClient();
 			try
 			{
@@ -174,17 +177,26 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 				stream.Read(bufferOut, 0, 4);  //读取返回长度
 				int len = BitConverter.ToInt32(bufferOut, 0);
 				bufferOut = new byte[len];
-				stream.Read(bufferOut, 0, len); //读取返回内容
+				//stream.Read(bufferOut, 0, len); //读取返回内容
+
+                int nowindex = 0;
+                while (nowindex < len)
+                {
+                    nowindex += stream.Read(bufferOut, nowindex, len - nowindex); //读取返回内容
+                }
 
 				strReplyinfo = Encoding.Default.GetString(bufferOut);
                 strReplyinfo = CommQuery.IceDecode(Encoding.UTF8.GetString(Encoding.Default.GetBytes(strReplyinfo)));
 				iResult = 0;
 				Msg = "调用成功";
+
+                LogHelper.LogInfo("GetFromRelay return strReplyinfo:" + strReplyinfo);
 				return true;
 			}
 			catch (Exception e)
 			{
 				Msg = "调用前置机失败：" + e.Message;
+                LogHelper.LogInfo("GetFromRelay error: " + Msg);
 				return false;
 			}
 			finally 
