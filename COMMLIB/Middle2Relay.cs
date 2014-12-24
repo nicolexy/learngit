@@ -186,7 +186,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 }
 
 				strReplyinfo = Encoding.Default.GetString(bufferOut);
-                strReplyinfo = CommQuery.IceDecode(Encoding.UTF8.GetString(Encoding.Default.GetBytes(strReplyinfo)));
+               // strReplyinfo = CommQuery.IceDecode(Encoding.UTF8.GetString(Encoding.Default.GetBytes(strReplyinfo)));
 				iResult = 0;
 				Msg = "调用成功";
 
