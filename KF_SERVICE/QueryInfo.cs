@@ -4390,12 +4390,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
         //同步支付状态
-        public static bool SynPayState(string transid, string createtime)
+        public static bool SynPayState(string transid, string createtime,out string strMsg)
         {
 
             //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("SYNINFO"));
             //MySqlAccess dayw = new MySqlAccess(PublicRes.GetConnString("YW"));
-
+            strMsg = "开始";
             try
             {
                 //da.OpenConn();
@@ -4412,9 +4412,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string msg = "";
                 string strSql = "listid=" + transid + "&state=2"; //配置中增加了state参数
                 string pay_time = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_ORDER, "Fpay_time", out msg);
-
+                strMsg += string.Format("strSql={0} pay_time={1}", strSql, pay_time);
                 if (pay_time == null || pay_time == "")
                 {
+                    strMsg += string.Format("出错原因：{0}",msg);
                     return false;
                 }
 
@@ -4434,7 +4435,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 inmsg1 += "&pay_status=2";
                 inmsg1 += "&pay_time=" + TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetTickFromTime(pay_time);
                 inmsg1 += "&modify_time=" + timestamp;
-
+                
+                strMsg += string.Format("inmsg1={0}", inmsg1);
                 string reply = "";
                 short result;
 
@@ -4445,6 +4447,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     if (result != 0)
                     {
                         Msg = "调用接口syn_update4KZ_service未能成功 result=" + result + "，msg=" + msg;
+
+                        strMsg += string.Format("Msg={0}", Msg);
                         TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.sendLog4Log("TradeSynch.noc2cSynch", Msg);
                         return false;
                     }
@@ -4457,6 +4461,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         else
                         {
                             Msg = "调用接口syn_update4KZ_service未能成功" + reply;
+                            strMsg += string.Format("Msg={0}", Msg);
                             TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.sendLog4Log("TradeSynch.noc2cSynch", Msg);
                             return false;
                         }
@@ -4465,12 +4470,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 else
                 {
                     Msg = "调用接口syn_update4KZ_service未能成功" + inmsg1;
+                    strMsg += string.Format("Msg={0}", Msg);
                     TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.sendLog4Log("TradeSynch.noc2cSynch", Msg);
                     return false;
                 }
             }
             catch (Exception ex)
             {
+                strMsg += string.Format("Exception ex={0}", ex.Message);
                 throw new Exception(ex.Message);
                 return false;
             }
