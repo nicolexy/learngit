@@ -184,7 +184,7 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         System.Data.DataSet GetMspAmendTaskByID(string TaskId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetSpInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetSpInfoResponse")]
-        System.Data.DataSet GetSpInfo(string filter, int topCount, int notInCount);
+        System.Data.DataSet GetSpInfo(string SPID, string ApplyCpInfoID, string CompanyName, string WWWAdress, string WebName, string AppID, int topCount, int notInCount);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/QueryAmendMspInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/QueryAmendMspInfoResponse")]
         System.Data.DataSet QueryAmendMspInfo(string spid, string type, string caccounts);
@@ -441,8 +441,8 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
             return base.Channel.GetMspAmendTaskByID(TaskId);
         }
         
-        public System.Data.DataSet GetSpInfo(string filter, int topCount, int notInCount) {
-            return base.Channel.GetSpInfo(filter, topCount, notInCount);
+        public System.Data.DataSet GetSpInfo(string SPID, string ApplyCpInfoID, string CompanyName, string WWWAdress, string WebName, string AppID, int topCount, int notInCount) {
+            return base.Channel.GetSpInfo(SPID, ApplyCpInfoID, CompanyName, WWWAdress, WebName, AppID, topCount, notInCount);
         }
         
         public System.Data.DataSet QueryAmendMspInfo(string spid, string type, string caccounts) {

@@ -44,6 +44,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
         
         private System.Threading.SendOrPostCallback checkUserRegOperationCompleted;
         
+        private System.Threading.SendOrPostCallback CheckRecoverUidOperationCompleted;
+        
         private System.Threading.SendOrPostCallback freezeTradeOperationCompleted;
         
         private System.Threading.SendOrPostCallback returnStaticStrOperationCompleted;
@@ -130,6 +132,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
         
         /// <remarks/>
         public event checkUserRegCompletedEventHandler checkUserRegCompleted;
+        
+        /// <remarks/>
+        public event CheckRecoverUidCompletedEventHandler CheckRecoverUidCompleted;
         
         /// <remarks/>
         public event freezeTradeCompletedEventHandler freezeTradeCompleted;
@@ -512,6 +517,54 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CheckRecoverUid", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool CheckRecoverUid(string uid, string recoverQQid, out string Msg, out string type) {
+            object[] results = this.Invoke("CheckRecoverUid", new object[] {
+                        uid,
+                        recoverQQid});
+            Msg = ((string)(results[1]));
+            type = ((string)(results[2]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginCheckRecoverUid(string uid, string recoverQQid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("CheckRecoverUid", new object[] {
+                        uid,
+                        recoverQQid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public bool EndCheckRecoverUid(System.IAsyncResult asyncResult, out string Msg, out string type) {
+            object[] results = this.EndInvoke(asyncResult);
+            Msg = ((string)(results[1]));
+            type = ((string)(results[2]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CheckRecoverUidAsync(string uid, string recoverQQid) {
+            this.CheckRecoverUidAsync(uid, recoverQQid, null);
+        }
+        
+        /// <remarks/>
+        public void CheckRecoverUidAsync(string uid, string recoverQQid, object userState) {
+            if ((this.CheckRecoverUidOperationCompleted == null)) {
+                this.CheckRecoverUidOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckRecoverUidOperationCompleted);
+            }
+            this.InvokeAsync("CheckRecoverUid", new object[] {
+                        uid,
+                        recoverQQid}, this.CheckRecoverUidOperationCompleted, userState);
+        }
+        
+        private void OnCheckRecoverUidOperationCompleted(object arg) {
+            if ((this.CheckRecoverUidCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CheckRecoverUidCompleted(this, new CheckRecoverUidCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("Finance_HeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/freezeTrade", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool freezeTrade(string listID, string flstate) {
@@ -643,18 +696,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("Finance_HeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/freezePerAccount", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool freezePerAccount(string uid, int type) {
+        public bool freezePerAccount(string uid, int type, string username) {
             object[] results = this.Invoke("freezePerAccount", new object[] {
                         uid,
-                        type});
+                        type,
+                        username});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginfreezePerAccount(string uid, int type, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginfreezePerAccount(string uid, int type, string username, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("freezePerAccount", new object[] {
                         uid,
-                        type}, callback, asyncState);
+                        type,
+                        username}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -664,18 +719,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
         }
         
         /// <remarks/>
-        public void freezePerAccountAsync(string uid, int type) {
-            this.freezePerAccountAsync(uid, type, null);
+        public void freezePerAccountAsync(string uid, int type, string username) {
+            this.freezePerAccountAsync(uid, type, username, null);
         }
         
         /// <remarks/>
-        public void freezePerAccountAsync(string uid, int type, object userState) {
+        public void freezePerAccountAsync(string uid, int type, string username, object userState) {
             if ((this.freezePerAccountOperationCompleted == null)) {
                 this.freezePerAccountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnfreezePerAccountOperationCompleted);
             }
             this.InvokeAsync("freezePerAccount", new object[] {
                         uid,
-                        type}, this.freezePerAccountOperationCompleted, userState);
+                        type,
+                        username}, this.freezePerAccountOperationCompleted, userState);
         }
         
         private void OnfreezePerAccountOperationCompleted(object arg) {
@@ -1366,6 +1422,48 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    public delegate void CheckRecoverUidCompletedEventHandler(object sender, CheckRecoverUidCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CheckRecoverUidCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CheckRecoverUidCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string Msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+        
+        /// <remarks/>
+        public string type {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[2]));
             }
         }
     }
