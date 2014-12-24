@@ -180,7 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UserRights\UserRights.csproj">
-      <Project>{54B9173D-E1E9-4783-925A-36E08E9690CF}</Project>
+      <Project>{54b9173d-e1e9-4783-925a-36e08e9690cf}</Project>
       <Name>UserRights</Name>
     </ProjectReference>
   </ItemGroup>

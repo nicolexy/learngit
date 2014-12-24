@@ -4462,7 +4462,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BankLib\BankLib.csproj">
-      <Project>{BF8AA36E-9573-49A0-9B3B-2935CCFC8731}</Project>
+      <Project>{bf8aa36e-9573-49a0-9b3b-2935ccfc8731}</Project>
       <Name>BankLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\CFT.CSOMS.BLL\CFT.CSOMS.BLL.csproj">

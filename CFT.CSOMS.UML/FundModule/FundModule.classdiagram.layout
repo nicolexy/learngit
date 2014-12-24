@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 12, 8.5" name="FundModule">
+  <logicalClassDesignerModelMoniker Id="a037c80f-33ba-4ac1-b951-e965c6527d65" />
+  <nestedChildShapes>
+    <classShape Id="2c5ad950-b4fc-4725-b269-2c51a7230d67" absoluteBounds="0.5, 1.5, 3.125, 1.9886168446143473" hideQualifiedName="true" increaseHeight="0.18800345897674561" customColor="181, 193, 223">
+      <classMoniker Id="a53bce7d-e60d-4d65-bd43-ad5e7a4e0560" LastKnownName="Fund" />
+      <nestedChildShapes>
+        <AttributeElementListCompartment Id="3cc2a12f-fb49-4e11-a555-a5e68871dbec" absoluteBounds="0.515, 2.0153356393178306, 3.0949999999999998, 1.0019530927141505" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <OperationElementListCompartment Id="2c680f03-5cf3-4127-8adf-e01a9483de9c" absoluteBounds="0.515, 3.0272887320319812, 3.0949999999999998, 0.36132811258236575" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0f5d419a-b95b-4a71-9a52-f6654c15490d" absoluteBounds="5.5, 0.75, 6.25, 4.7112730101744331" hideQualifiedName="true" increaseHeight="0.18800345897674561" customColor="181, 193, 223">
+      <classMoniker Id="3a420193-4336-444e-81cd-ef0836b1136c" LastKnownName="FundService" />
+      <nestedChildShapes>
+        <AttributeElementListCompartment Id="49d97231-2ff3-4326-811f-555a9b482998" absoluteBounds="5.515, 1.2653356393178306, 6.2200000000000006, 0.36132811258236563" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <OperationElementListCompartment Id="339f5e4c-a31b-4a6b-ae2c-f5bb11b39b01" absoluteBounds="5.515, 1.6366637519001961, 6.2200000000000006, 3.7246092582742376" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</logicalClassDesignerDiagram>

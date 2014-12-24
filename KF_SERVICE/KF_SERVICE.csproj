@@ -280,8 +280,27 @@
     <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Config\IMCTranfer.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Configs\Log4net.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\DB.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\BankLib\BankLib.csproj">
-      <Project>{BF8AA36E-9573-49A0-9B3B-2935CCFC8731}</Project>
+      <Project>{bf8aa36e-9573-49a0-9b3b-2935ccfc8731}</Project>
       <Name>BankLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\CFT.CSOMS.BLL\CFT.CSOMS.BLL.csproj">
@@ -300,25 +319,6 @@
       <Project>{1434c13f-494a-4196-8733-a3edd0e5d6a5}</Project>
       <Name>ICEAccess</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Config\IMCTranfer.config">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Configs\Log4net.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Config\DB.config">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
