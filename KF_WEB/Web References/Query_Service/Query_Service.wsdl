@@ -2,6 +2,16 @@
 <wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://Tencent.com/OSS/C2C/Finance/Query_WebService" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://Tencent.com/OSS/C2C/Finance/Query_WebService/AbstractTypes" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService">
+      <s:element name="DeleteUserCrt">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="qqid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteUserCrtResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="DeleteCrtService">
         <s:complexType>
           <s:sequence>
@@ -1623,6 +1633,32 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="WS_AppealSQuery">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Fno" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FUserType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FState" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iPageStart" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="iPageMax" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WS_AppealSQueryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WS_AppealSQueryResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="WS_AppealSQueryCount">
         <s:complexType>
           <s:sequence>
@@ -3218,15 +3254,26 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="DeleteUserCrt">
+      <s:element name="QueryAgencyInfoById">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="qqid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fid" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="DeleteUserCrtResponse">
-        <s:complexType />
+      <s:element name="QueryAgencyInfoByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="QueryAgencyInfoByIdResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
       </s:element>
       <s:element name="GetShouFuYiList">
         <s:complexType>
@@ -4722,22 +4769,22 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="WS_AppealSQuery">
+      <s:element name="getUserModify">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="Fno" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="FUserType" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="FUser" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="FState" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="iPageStart" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="iPageMax" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="istartIndex" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="length" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="bgdate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="eddate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="whereStr" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="WS_AppealSQueryResponse">
+      <s:element name="getUserModifyResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="WS_AppealSQueryResult">
+            <s:element minOccurs="1" maxOccurs="1" name="getUserModifyResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="ds">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -4745,6 +4792,7 @@
                 </s:sequence>
               </s:complexType>
             </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="Msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -6516,17 +6564,18 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="QueryAgencyInfoById">
+      <s:element name="GetFundListDetail_Subacc">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="fid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="listid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fcurtype" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="QueryAgencyInfoByIdResponse">
+      <s:element name="GetFundListDetail_SubaccResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="QueryAgencyInfoByIdResult">
+            <s:element minOccurs="0" maxOccurs="1" name="GetFundListDetail_SubaccResult">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -6534,6 +6583,7 @@
                 </s:sequence>
               </s:complexType>
             </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="strResp" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -8179,6 +8229,7 @@
             <s:element minOccurs="0" maxOccurs="1" name="qqid" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="strBeginDate" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="strEndDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cur_type" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="iNumStart" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="iNumMax" type="s:int" />
           </s:sequence>
@@ -8433,33 +8484,6 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="getUserReportsResult" type="s:boolean" />
-            <s:element minOccurs="0" maxOccurs="1" name="ds">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-            <s:element minOccurs="0" maxOccurs="1" name="Msg" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="getUserModify">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="istartIndex" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="length" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="bgdate" type="s:dateTime" />
-            <s:element minOccurs="1" maxOccurs="1" name="eddate" type="s:dateTime" />
-            <s:element minOccurs="0" maxOccurs="1" name="whereStr" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="getUserModifyResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="getUserModifyResult" type="s:boolean" />
             <s:element minOccurs="0" maxOccurs="1" name="ds">
               <s:complexType>
                 <s:sequence>
@@ -9696,6 +9720,30 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetListidFromUserOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="qqid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="uid" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="start" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="max" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListidFromUserOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetListidFromUserOrderResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetPayList_List">
         <s:complexType>
           <s:sequence>
@@ -10208,29 +10256,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetFundListDetail_Subacc">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="listid" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="fcurtype" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetFundListDetail_SubaccResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetFundListDetail_SubaccResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-            <s:element minOccurs="0" maxOccurs="1" name="strResp" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="DataSet" nillable="true">
         <s:complexType>
           <s:sequence>
@@ -10272,6 +10297,12 @@
       </s:complexType>
     </s:schema>
   </wsdl:types>
+  <wsdl:message name="DeleteUserCrtSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteUserCrt" />
+  </wsdl:message>
+  <wsdl:message name="DeleteUserCrtSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteUserCrtResponse" />
+  </wsdl:message>
   <wsdl:message name="DeleteCrtServiceSoapIn">
     <wsdl:part name="parameters" element="tns:DeleteCrtService" />
   </wsdl:message>
@@ -10836,6 +10867,12 @@
   <wsdl:message name="AtuoRenewUnbindFinance_Header">
     <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
   </wsdl:message>
+  <wsdl:message name="WS_AppealSQuerySoapIn">
+    <wsdl:part name="parameters" element="tns:WS_AppealSQuery" />
+  </wsdl:message>
+  <wsdl:message name="WS_AppealSQuerySoapOut">
+    <wsdl:part name="parameters" element="tns:WS_AppealSQueryResponse" />
+  </wsdl:message>
   <wsdl:message name="WS_AppealSQueryCountSoapIn">
     <wsdl:part name="parameters" element="tns:WS_AppealSQueryCount" />
   </wsdl:message>
@@ -11382,11 +11419,11 @@
   <wsdl:message name="GetDeleteQueryInfoSoapOut">
     <wsdl:part name="parameters" element="tns:GetDeleteQueryInfoResponse" />
   </wsdl:message>
-  <wsdl:message name="DeleteUserCrtSoapIn">
-    <wsdl:part name="parameters" element="tns:DeleteUserCrt" />
+  <wsdl:message name="QueryAgencyInfoByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:QueryAgencyInfoById" />
   </wsdl:message>
-  <wsdl:message name="DeleteUserCrtSoapOut">
-    <wsdl:part name="parameters" element="tns:DeleteUserCrtResponse" />
+  <wsdl:message name="QueryAgencyInfoByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:QueryAgencyInfoByIdResponse" />
   </wsdl:message>
   <wsdl:message name="GetShouFuYiListSoapIn">
     <wsdl:part name="parameters" element="tns:GetShouFuYiList" />
@@ -11865,11 +11902,11 @@
   <wsdl:message name="WS_AppealDQueryCountSoapOut">
     <wsdl:part name="parameters" element="tns:WS_AppealDQueryCountResponse" />
   </wsdl:message>
-  <wsdl:message name="WS_AppealSQuerySoapIn">
-    <wsdl:part name="parameters" element="tns:WS_AppealSQuery" />
+  <wsdl:message name="getUserModifySoapIn">
+    <wsdl:part name="parameters" element="tns:getUserModify" />
   </wsdl:message>
-  <wsdl:message name="WS_AppealSQuerySoapOut">
-    <wsdl:part name="parameters" element="tns:WS_AppealSQueryResponse" />
+  <wsdl:message name="getUserModifySoapOut">
+    <wsdl:part name="parameters" element="tns:getUserModifyResponse" />
   </wsdl:message>
   <wsdl:message name="getQueryDataSoapIn">
     <wsdl:part name="parameters" element="tns:getQueryData" />
@@ -12411,11 +12448,11 @@
   <wsdl:message name="QueryAgencyBySpidSoapOut">
     <wsdl:part name="parameters" element="tns:QueryAgencyBySpidResponse" />
   </wsdl:message>
-  <wsdl:message name="QueryAgencyInfoByIdSoapIn">
-    <wsdl:part name="parameters" element="tns:QueryAgencyInfoById" />
+  <wsdl:message name="GetFundListDetail_SubaccSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFundListDetail_Subacc" />
   </wsdl:message>
-  <wsdl:message name="QueryAgencyInfoByIdSoapOut">
-    <wsdl:part name="parameters" element="tns:QueryAgencyInfoByIdResponse" />
+  <wsdl:message name="GetFundListDetail_SubaccSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFundListDetail_SubaccResponse" />
   </wsdl:message>
   <wsdl:message name="GetPickListSoapIn">
     <wsdl:part name="parameters" element="tns:GetPickList" />
@@ -13026,12 +13063,6 @@
   <wsdl:message name="getUserReportsSoapOut">
     <wsdl:part name="parameters" element="tns:getUserReportsResponse" />
   </wsdl:message>
-  <wsdl:message name="getUserModifySoapIn">
-    <wsdl:part name="parameters" element="tns:getUserModify" />
-  </wsdl:message>
-  <wsdl:message name="getUserModifySoapOut">
-    <wsdl:part name="parameters" element="tns:getUserModifyResponse" />
-  </wsdl:message>
   <wsdl:message name="GetChildrenInfoSoapIn">
     <wsdl:part name="parameters" element="tns:GetChildrenInfo" />
   </wsdl:message>
@@ -13458,6 +13489,15 @@
   <wsdl:message name="GetPayListForChildrenFinance_Header">
     <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
   </wsdl:message>
+  <wsdl:message name="GetListidFromUserOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:GetListidFromUserOrder" />
+  </wsdl:message>
+  <wsdl:message name="GetListidFromUserOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:GetListidFromUserOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetListidFromUserOrderFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
   <wsdl:message name="GetPayList_ListSoapIn">
     <wsdl:part name="parameters" element="tns:GetPayList_List" />
   </wsdl:message>
@@ -13623,12 +13663,10 @@
   <wsdl:message name="GetPickListCountSoapOut">
     <wsdl:part name="parameters" element="tns:GetPickListCountResponse" />
   </wsdl:message>
-  <wsdl:message name="GetFundListDetail_SubaccSoapIn">
-    <wsdl:part name="parameters" element="tns:GetFundListDetail_Subacc" />
+  <wsdl:message name="DeleteUserCrtHttpGetIn">
+    <wsdl:part name="qqid" type="s:string" />
   </wsdl:message>
-  <wsdl:message name="GetFundListDetail_SubaccSoapOut">
-    <wsdl:part name="parameters" element="tns:GetFundListDetail_SubaccResponse" />
-  </wsdl:message>
+  <wsdl:message name="DeleteUserCrtHttpGetOut" />
   <wsdl:message name="DeleteCrtServiceHttpGetIn">
     <wsdl:part name="qqid" type="s:string" />
   </wsdl:message>
@@ -14166,6 +14204,17 @@
   </wsdl:message>
   <wsdl:message name="AtuoRenewUnbindHttpGetOut">
     <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="WS_AppealSQueryHttpGetIn">
+    <wsdl:part name="Fno" type="s:string" />
+    <wsdl:part name="FUserType" type="s:string" />
+    <wsdl:part name="FUser" type="s:string" />
+    <wsdl:part name="FState" type="s:string" />
+    <wsdl:part name="iPageStart" type="s:string" />
+    <wsdl:part name="iPageMax" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WS_AppealSQueryHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="WS_AppealSQueryCountHttpGetIn">
     <wsdl:part name="Fno" type="s:string" />
@@ -14720,10 +14769,12 @@
   <wsdl:message name="GetDeleteQueryInfoHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
-  <wsdl:message name="DeleteUserCrtHttpGetIn">
-    <wsdl:part name="qqid" type="s:string" />
+  <wsdl:message name="QueryAgencyInfoByIdHttpGetIn">
+    <wsdl:part name="fid" type="s:string" />
   </wsdl:message>
-  <wsdl:message name="DeleteUserCrtHttpGetOut" />
+  <wsdl:message name="QueryAgencyInfoByIdHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
   <wsdl:message name="GetShouFuYiListHttpGetIn">
     <wsdl:part name="qq" type="s:string" />
   </wsdl:message>
@@ -15297,17 +15348,6 @@
   <wsdl:message name="WS_AppealDQueryCountHttpGetOut">
     <wsdl:part name="Body" element="tns:int" />
   </wsdl:message>
-  <wsdl:message name="WS_AppealSQueryHttpGetIn">
-    <wsdl:part name="Fno" type="s:string" />
-    <wsdl:part name="FUserType" type="s:string" />
-    <wsdl:part name="FUser" type="s:string" />
-    <wsdl:part name="FState" type="s:string" />
-    <wsdl:part name="iPageStart" type="s:string" />
-    <wsdl:part name="iPageMax" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="WS_AppealSQueryHttpGetOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
   <wsdl:message name="GetCFTUserAppealListHttpGetIn">
     <wsdl:part name="fuin" type="s:string" />
     <wsdl:part name="u_BeginTime" type="s:string" />
@@ -15860,12 +15900,6 @@
     <wsdl:part name="spid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="QueryAgencyBySpidHttpGetOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
-  <wsdl:message name="QueryAgencyInfoByIdHttpGetIn">
-    <wsdl:part name="fid" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="QueryAgencyInfoByIdHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="GetPickListHttpGetIn">
@@ -16442,6 +16476,7 @@
     <wsdl:part name="qqid" type="s:string" />
     <wsdl:part name="strBeginDate" type="s:string" />
     <wsdl:part name="strEndDate" type="s:string" />
+    <wsdl:part name="cur_type" type="s:string" />
     <wsdl:part name="iNumStart" type="s:string" />
     <wsdl:part name="iNumMax" type="s:string" />
   </wsdl:message>
@@ -16797,6 +16832,15 @@
   <wsdl:message name="GetPayListForChildrenHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
+  <wsdl:message name="GetListidFromUserOrderHttpGetIn">
+    <wsdl:part name="qqid" type="s:string" />
+    <wsdl:part name="uid" type="s:string" />
+    <wsdl:part name="start" type="s:string" />
+    <wsdl:part name="max" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetListidFromUserOrderHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
   <wsdl:message name="GetPayList_ListHttpGetIn">
     <wsdl:part name="u_ID" type="s:string" />
   </wsdl:message>
@@ -17012,6 +17056,10 @@
   <wsdl:message name="GetPickListCountHttpGetOut">
     <wsdl:part name="Body" element="tns:int" />
   </wsdl:message>
+  <wsdl:message name="DeleteUserCrtHttpPostIn">
+    <wsdl:part name="qqid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="DeleteUserCrtHttpPostOut" />
   <wsdl:message name="DeleteCrtServiceHttpPostIn">
     <wsdl:part name="qqid" type="s:string" />
   </wsdl:message>
@@ -17549,6 +17597,17 @@
   </wsdl:message>
   <wsdl:message name="AtuoRenewUnbindHttpPostOut">
     <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="WS_AppealSQueryHttpPostIn">
+    <wsdl:part name="Fno" type="s:string" />
+    <wsdl:part name="FUserType" type="s:string" />
+    <wsdl:part name="FUser" type="s:string" />
+    <wsdl:part name="FState" type="s:string" />
+    <wsdl:part name="iPageStart" type="s:string" />
+    <wsdl:part name="iPageMax" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WS_AppealSQueryHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="WS_AppealSQueryCountHttpPostIn">
     <wsdl:part name="Fno" type="s:string" />
@@ -18103,10 +18162,12 @@
   <wsdl:message name="GetDeleteQueryInfoHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
-  <wsdl:message name="DeleteUserCrtHttpPostIn">
-    <wsdl:part name="qqid" type="s:string" />
+  <wsdl:message name="QueryAgencyInfoByIdHttpPostIn">
+    <wsdl:part name="fid" type="s:string" />
   </wsdl:message>
-  <wsdl:message name="DeleteUserCrtHttpPostOut" />
+  <wsdl:message name="QueryAgencyInfoByIdHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
   <wsdl:message name="GetShouFuYiListHttpPostIn">
     <wsdl:part name="qq" type="s:string" />
   </wsdl:message>
@@ -18680,17 +18741,6 @@
   <wsdl:message name="WS_AppealDQueryCountHttpPostOut">
     <wsdl:part name="Body" element="tns:int" />
   </wsdl:message>
-  <wsdl:message name="WS_AppealSQueryHttpPostIn">
-    <wsdl:part name="Fno" type="s:string" />
-    <wsdl:part name="FUserType" type="s:string" />
-    <wsdl:part name="FUser" type="s:string" />
-    <wsdl:part name="FState" type="s:string" />
-    <wsdl:part name="iPageStart" type="s:string" />
-    <wsdl:part name="iPageMax" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="WS_AppealSQueryHttpPostOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
   <wsdl:message name="GetCFTUserAppealListHttpPostIn">
     <wsdl:part name="fuin" type="s:string" />
     <wsdl:part name="u_BeginTime" type="s:string" />
@@ -19243,12 +19293,6 @@
     <wsdl:part name="spid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="QueryAgencyBySpidHttpPostOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
-  <wsdl:message name="QueryAgencyInfoByIdHttpPostIn">
-    <wsdl:part name="fid" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="QueryAgencyInfoByIdHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="GetPickListHttpPostIn">
@@ -19825,6 +19869,7 @@
     <wsdl:part name="qqid" type="s:string" />
     <wsdl:part name="strBeginDate" type="s:string" />
     <wsdl:part name="strEndDate" type="s:string" />
+    <wsdl:part name="cur_type" type="s:string" />
     <wsdl:part name="iNumStart" type="s:string" />
     <wsdl:part name="iNumMax" type="s:string" />
   </wsdl:message>
@@ -20180,6 +20225,15 @@
   <wsdl:message name="GetPayListForChildrenHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
+  <wsdl:message name="GetListidFromUserOrderHttpPostIn">
+    <wsdl:part name="qqid" type="s:string" />
+    <wsdl:part name="uid" type="s:string" />
+    <wsdl:part name="start" type="s:string" />
+    <wsdl:part name="max" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetListidFromUserOrderHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
   <wsdl:message name="GetPayList_ListHttpPostIn">
     <wsdl:part name="u_ID" type="s:string" />
   </wsdl:message>
@@ -20396,6 +20450,11 @@
     <wsdl:part name="Body" element="tns:int" />
   </wsdl:message>
   <wsdl:portType name="Query_ServiceSoap">
+    <wsdl:operation name="DeleteUserCrt">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除个人证书</wsdl:documentation>
+      <wsdl:input message="tns:DeleteUserCrtSoapIn" />
+      <wsdl:output message="tns:DeleteUserCrtSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="DeleteCrtService">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">关闭证书服务</wsdl:documentation>
       <wsdl:input message="tns:DeleteCrtServiceSoapIn" />
@@ -20763,6 +20822,10 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自动续费解绑</wsdl:documentation>
       <wsdl:input message="tns:AtuoRenewUnbindSoapIn" />
       <wsdl:output message="tns:AtuoRenewUnbindSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WS_AppealSQuery">
+      <wsdl:input message="tns:WS_AppealSQuerySoapIn" />
+      <wsdl:output message="tns:WS_AppealSQuerySoapOut" />
     </wsdl:operation>
     <wsdl:operation name="WS_AppealSQueryCount">
       <wsdl:input message="tns:WS_AppealSQueryCountSoapIn" />
@@ -21142,10 +21205,10 @@
       <wsdl:input message="tns:GetDeleteQueryInfoSoapIn" />
       <wsdl:output message="tns:GetDeleteQueryInfoSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="DeleteUserCrt">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除个人证书</wsdl:documentation>
-      <wsdl:input message="tns:DeleteUserCrtSoapIn" />
-      <wsdl:output message="tns:DeleteUserCrtSoapOut" />
+    <wsdl:operation name="QueryAgencyInfoById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过ID查中介商户详情函数</wsdl:documentation>
+      <wsdl:input message="tns:QueryAgencyInfoByIdSoapIn" />
+      <wsdl:output message="tns:QueryAgencyInfoByIdSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetShouFuYiList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">收易付查询函数</wsdl:documentation>
@@ -21526,9 +21589,10 @@
       <wsdl:input message="tns:WS_AppealDQueryCountSoapIn" />
       <wsdl:output message="tns:WS_AppealDQueryCountSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="WS_AppealSQuery">
-      <wsdl:input message="tns:WS_AppealSQuerySoapIn" />
-      <wsdl:output message="tns:WS_AppealSQuerySoapOut" />
+    <wsdl:operation name="getUserModify">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">返回用户敏感信息修改历史</wsdl:documentation>
+      <wsdl:input message="tns:getUserModifySoapIn" />
+      <wsdl:output message="tns:getUserModifySoapOut" />
     </wsdl:operation>
     <wsdl:operation name="getQueryData">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询处理器（处理多种查询)</wsdl:documentation>
@@ -21930,10 +21994,10 @@
       <wsdl:input message="tns:QueryAgencyBySpidSoapIn" />
       <wsdl:output message="tns:QueryAgencyBySpidSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="QueryAgencyInfoById">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过ID查中介商户详情函数</wsdl:documentation>
-      <wsdl:input message="tns:QueryAgencyInfoByIdSoapIn" />
-      <wsdl:output message="tns:QueryAgencyInfoByIdSoapOut" />
+    <wsdl:operation name="GetFundListDetail_Subacc">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">子帐户充值详细查询函数</wsdl:documentation>
+      <wsdl:input message="tns:GetFundListDetail_SubaccSoapIn" />
+      <wsdl:output message="tns:GetFundListDetail_SubaccSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetPickList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">提现查询函数</wsdl:documentation>
@@ -22350,11 +22414,6 @@
       <wsdl:input message="tns:getUserReportsSoapIn" />
       <wsdl:output message="tns:getUserReportsSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="getUserModify">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">返回用户敏感信息修改历史</wsdl:documentation>
-      <wsdl:input message="tns:getUserModifySoapIn" />
-      <wsdl:output message="tns:getUserModifySoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="GetChildrenInfo">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">得到子帐户详细信息</wsdl:documentation>
       <wsdl:input message="tns:GetChildrenInfoSoapIn" />
@@ -22635,6 +22694,11 @@
       <wsdl:input message="tns:GetPayListForChildrenSoapIn" />
       <wsdl:output message="tns:GetPayListForChildrenSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetListidFromUserOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询交易单ID</wsdl:documentation>
+      <wsdl:input message="tns:GetListidFromUserOrderSoapIn" />
+      <wsdl:output message="tns:GetListidFromUserOrderSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetPayList_List">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询交易信息</wsdl:documentation>
       <wsdl:input message="tns:GetPayList_ListSoapIn" />
@@ -22740,13 +22804,13 @@
       <wsdl:input message="tns:GetPickListCountSoapIn" />
       <wsdl:output message="tns:GetPickListCountSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetFundListDetail_Subacc">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">子帐户充值详细查询函数</wsdl:documentation>
-      <wsdl:input message="tns:GetFundListDetail_SubaccSoapIn" />
-      <wsdl:output message="tns:GetFundListDetail_SubaccSoapOut" />
-    </wsdl:operation>
   </wsdl:portType>
   <wsdl:portType name="Query_ServiceHttpGet">
+    <wsdl:operation name="DeleteUserCrt">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除个人证书</wsdl:documentation>
+      <wsdl:input message="tns:DeleteUserCrtHttpGetIn" />
+      <wsdl:output message="tns:DeleteUserCrtHttpGetOut" />
+    </wsdl:operation>
     <wsdl:operation name="DeleteCrtService">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">关闭证书服务</wsdl:documentation>
       <wsdl:input message="tns:DeleteCrtServiceHttpGetIn" />
@@ -23077,6 +23141,10 @@
       <wsdl:input message="tns:AtuoRenewUnbindHttpGetIn" />
       <wsdl:output message="tns:AtuoRenewUnbindHttpGetOut" />
     </wsdl:operation>
+    <wsdl:operation name="WS_AppealSQuery">
+      <wsdl:input message="tns:WS_AppealSQueryHttpGetIn" />
+      <wsdl:output message="tns:WS_AppealSQueryHttpGetOut" />
+    </wsdl:operation>
     <wsdl:operation name="WS_AppealSQueryCount">
       <wsdl:input message="tns:WS_AppealSQueryCountHttpGetIn" />
       <wsdl:output message="tns:WS_AppealSQueryCountHttpGetOut" />
@@ -23405,10 +23473,10 @@
       <wsdl:input message="tns:GetDeleteQueryInfoHttpGetIn" />
       <wsdl:output message="tns:GetDeleteQueryInfoHttpGetOut" />
     </wsdl:operation>
-    <wsdl:operation name="DeleteUserCrt">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除个人证书</wsdl:documentation>
-      <wsdl:input message="tns:DeleteUserCrtHttpGetIn" />
-      <wsdl:output message="tns:DeleteUserCrtHttpGetOut" />
+    <wsdl:operation name="QueryAgencyInfoById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过ID查中介商户详情函数</wsdl:documentation>
+      <wsdl:input message="tns:QueryAgencyInfoByIdHttpGetIn" />
+      <wsdl:output message="tns:QueryAgencyInfoByIdHttpGetOut" />
     </wsdl:operation>
     <wsdl:operation name="GetShouFuYiList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">收易付查询函数</wsdl:documentation>
@@ -23785,10 +23853,6 @@
       <wsdl:input message="tns:WS_AppealDQueryCountHttpGetIn" />
       <wsdl:output message="tns:WS_AppealDQueryCountHttpGetOut" />
     </wsdl:operation>
-    <wsdl:operation name="WS_AppealSQuery">
-      <wsdl:input message="tns:WS_AppealSQueryHttpGetIn" />
-      <wsdl:output message="tns:WS_AppealSQueryHttpGetOut" />
-    </wsdl:operation>
     <wsdl:operation name="GetCFTUserAppealList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自助申诉查询函数</wsdl:documentation>
       <wsdl:input message="tns:GetCFTUserAppealListHttpGetIn" />
@@ -24108,11 +24172,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过商户号查询中介商户函数</wsdl:documentation>
       <wsdl:input message="tns:QueryAgencyBySpidHttpGetIn" />
       <wsdl:output message="tns:QueryAgencyBySpidHttpGetOut" />
-    </wsdl:operation>
-    <wsdl:operation name="QueryAgencyInfoById">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过ID查中介商户详情函数</wsdl:documentation>
-      <wsdl:input message="tns:QueryAgencyInfoByIdHttpGetIn" />
-      <wsdl:output message="tns:QueryAgencyInfoByIdHttpGetOut" />
     </wsdl:operation>
     <wsdl:operation name="GetPickList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">提现查询函数</wsdl:documentation>
@@ -24614,6 +24673,11 @@
       <wsdl:input message="tns:GetPayListForChildrenHttpGetIn" />
       <wsdl:output message="tns:GetPayListForChildrenHttpGetOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetListidFromUserOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询交易单ID</wsdl:documentation>
+      <wsdl:input message="tns:GetListidFromUserOrderHttpGetIn" />
+      <wsdl:output message="tns:GetListidFromUserOrderHttpGetOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetPayList_List">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询交易信息</wsdl:documentation>
       <wsdl:input message="tns:GetPayList_ListHttpGetIn" />
@@ -24716,6 +24780,11 @@
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:portType name="Query_ServiceHttpPost">
+    <wsdl:operation name="DeleteUserCrt">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除个人证书</wsdl:documentation>
+      <wsdl:input message="tns:DeleteUserCrtHttpPostIn" />
+      <wsdl:output message="tns:DeleteUserCrtHttpPostOut" />
+    </wsdl:operation>
     <wsdl:operation name="DeleteCrtService">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">关闭证书服务</wsdl:documentation>
       <wsdl:input message="tns:DeleteCrtServiceHttpPostIn" />
@@ -25046,6 +25115,10 @@
       <wsdl:input message="tns:AtuoRenewUnbindHttpPostIn" />
       <wsdl:output message="tns:AtuoRenewUnbindHttpPostOut" />
     </wsdl:operation>
+    <wsdl:operation name="WS_AppealSQuery">
+      <wsdl:input message="tns:WS_AppealSQueryHttpPostIn" />
+      <wsdl:output message="tns:WS_AppealSQueryHttpPostOut" />
+    </wsdl:operation>
     <wsdl:operation name="WS_AppealSQueryCount">
       <wsdl:input message="tns:WS_AppealSQueryCountHttpPostIn" />
       <wsdl:output message="tns:WS_AppealSQueryCountHttpPostOut" />
@@ -25374,10 +25447,10 @@
       <wsdl:input message="tns:GetDeleteQueryInfoHttpPostIn" />
       <wsdl:output message="tns:GetDeleteQueryInfoHttpPostOut" />
     </wsdl:operation>
-    <wsdl:operation name="DeleteUserCrt">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除个人证书</wsdl:documentation>
-      <wsdl:input message="tns:DeleteUserCrtHttpPostIn" />
-      <wsdl:output message="tns:DeleteUserCrtHttpPostOut" />
+    <wsdl:operation name="QueryAgencyInfoById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过ID查中介商户详情函数</wsdl:documentation>
+      <wsdl:input message="tns:QueryAgencyInfoByIdHttpPostIn" />
+      <wsdl:output message="tns:QueryAgencyInfoByIdHttpPostOut" />
     </wsdl:operation>
     <wsdl:operation name="GetShouFuYiList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">收易付查询函数</wsdl:documentation>
@@ -25754,10 +25827,6 @@
       <wsdl:input message="tns:WS_AppealDQueryCountHttpPostIn" />
       <wsdl:output message="tns:WS_AppealDQueryCountHttpPostOut" />
     </wsdl:operation>
-    <wsdl:operation name="WS_AppealSQuery">
-      <wsdl:input message="tns:WS_AppealSQueryHttpPostIn" />
-      <wsdl:output message="tns:WS_AppealSQueryHttpPostOut" />
-    </wsdl:operation>
     <wsdl:operation name="GetCFTUserAppealList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自助申诉查询函数</wsdl:documentation>
       <wsdl:input message="tns:GetCFTUserAppealListHttpPostIn" />
@@ -26077,11 +26146,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过商户号查询中介商户函数</wsdl:documentation>
       <wsdl:input message="tns:QueryAgencyBySpidHttpPostIn" />
       <wsdl:output message="tns:QueryAgencyBySpidHttpPostOut" />
-    </wsdl:operation>
-    <wsdl:operation name="QueryAgencyInfoById">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过ID查中介商户详情函数</wsdl:documentation>
-      <wsdl:input message="tns:QueryAgencyInfoByIdHttpPostIn" />
-      <wsdl:output message="tns:QueryAgencyInfoByIdHttpPostOut" />
     </wsdl:operation>
     <wsdl:operation name="GetPickList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">提现查询函数</wsdl:documentation>
@@ -26583,6 +26647,11 @@
       <wsdl:input message="tns:GetPayListForChildrenHttpPostIn" />
       <wsdl:output message="tns:GetPayListForChildrenHttpPostOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetListidFromUserOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询交易单ID</wsdl:documentation>
+      <wsdl:input message="tns:GetListidFromUserOrderHttpPostIn" />
+      <wsdl:output message="tns:GetListidFromUserOrderHttpPostOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetPayList_List">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询交易信息</wsdl:documentation>
       <wsdl:input message="tns:GetPayList_ListHttpPostIn" />
@@ -26686,6 +26755,15 @@
   </wsdl:portType>
   <wsdl:binding name="Query_ServiceSoap" type="tns:Query_ServiceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="DeleteUserCrt">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/DeleteUserCrt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="DeleteCrtService">
       <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/DeleteCrtService" style="document" />
       <wsdl:input>
@@ -27387,6 +27465,15 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:AtuoRenewUnbindFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WS_AppealSQuery">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/WS_AppealSQuery" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -28127,8 +28214,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="DeleteUserCrt">
-      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/DeleteUserCrt" style="document" />
+    <wsdl:operation name="QueryAgencyInfoById">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryAgencyInfoById" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -28841,8 +28928,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="WS_AppealSQuery">
-      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/WS_AppealSQuery" style="document" />
+    <wsdl:operation name="getUserModify">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/getUserModify" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -29590,8 +29677,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="QueryAgencyInfoById">
-      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryAgencyInfoById" style="document" />
+    <wsdl:operation name="GetFundListDetail_Subacc">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetFundListDetail_Subacc" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -30383,15 +30470,6 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getUserModify">
-      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/getUserModify" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetChildrenInfo">
       <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetChildrenInfo" style="document" />
       <wsdl:input>
@@ -30926,6 +31004,16 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetListidFromUserOrder">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetListidFromUserOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetListidFromUserOrderFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetPayList_List">
       <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetPayList_List" style="document" />
       <wsdl:input>
@@ -31128,18 +31216,18 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetFundListDetail_Subacc">
-      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetFundListDetail_Subacc" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="Query_ServiceSoap12" type="tns:Query_ServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="DeleteUserCrt">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/DeleteUserCrt" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="DeleteCrtService">
       <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/DeleteCrtService" style="document" />
       <wsdl:input>
@@ -31841,6 +31929,15 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:AtuoRenewUnbindFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WS_AppealSQuery">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/WS_AppealSQuery" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -32581,8 +32678,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="DeleteUserCrt">
-      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/DeleteUserCrt" style="document" />
+    <wsdl:operation name="QueryAgencyInfoById">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryAgencyInfoById" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -33295,8 +33392,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="WS_AppealSQuery">
-      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/WS_AppealSQuery" style="document" />
+    <wsdl:operation name="getUserModify">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/getUserModify" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -34044,8 +34141,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="QueryAgencyInfoById">
-      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryAgencyInfoById" style="document" />
+    <wsdl:operation name="GetFundListDetail_Subacc">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetFundListDetail_Subacc" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -34837,15 +34934,6 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getUserModify">
-      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/getUserModify" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetChildrenInfo">
       <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetChildrenInfo" style="document" />
       <wsdl:input>
@@ -35380,6 +35468,16 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetListidFromUserOrder">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetListidFromUserOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetListidFromUserOrderFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetPayList_List">
       <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetPayList_List" style="document" />
       <wsdl:input>
@@ -35582,18 +35680,16 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetFundListDetail_Subacc">
-      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetFundListDetail_Subacc" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="Query_ServiceHttpGet" type="tns:Query_ServiceHttpGet">
     <http:binding verb="GET" />
+    <wsdl:operation name="DeleteUserCrt">
+      <http:operation location="/DeleteUserCrt" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
     <wsdl:operation name="DeleteCrtService">
       <http:operation location="/DeleteCrtService" />
       <wsdl:input>
@@ -36175,6 +36271,15 @@
     </wsdl:operation>
     <wsdl:operation name="AtuoRenewUnbind">
       <http:operation location="/AtuoRenewUnbind" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WS_AppealSQuery">
+      <http:operation location="/WS_AppealSQuery" />
       <wsdl:input>
         <http:urlEncoded />
       </wsdl:input>
@@ -36797,12 +36902,14 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="DeleteUserCrt">
-      <http:operation location="/DeleteUserCrt" />
+    <wsdl:operation name="QueryAgencyInfoById">
+      <http:operation location="/QueryAgencyInfoById" />
       <wsdl:input>
         <http:urlEncoded />
       </wsdl:input>
-      <wsdl:output />
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetShouFuYiList">
       <http:operation location="/GetShouFuYiList" />
@@ -37459,15 +37566,6 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="WS_AppealSQuery">
-      <http:operation location="/WS_AppealSQuery" />
-      <wsdl:input>
-        <http:urlEncoded />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetCFTUserAppealList">
       <http:operation location="/GetCFTUserAppealList" />
       <wsdl:input>
@@ -38031,15 +38129,6 @@
     </wsdl:operation>
     <wsdl:operation name="QueryAgencyBySpid">
       <http:operation location="/QueryAgencyBySpid" />
-      <wsdl:input>
-        <http:urlEncoded />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="QueryAgencyInfoById">
-      <http:operation location="/QueryAgencyInfoById" />
       <wsdl:input>
         <http:urlEncoded />
       </wsdl:input>
@@ -38928,6 +39017,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetPayListForChildren">
       <http:operation location="/GetPayListForChildren" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListidFromUserOrder">
+      <http:operation location="/GetListidFromUserOrder" />
       <wsdl:input>
         <http:urlEncoded />
       </wsdl:input>
@@ -39118,6 +39216,13 @@
   </wsdl:binding>
   <wsdl:binding name="Query_ServiceHttpPost" type="tns:Query_ServiceHttpPost">
     <http:binding verb="POST" />
+    <wsdl:operation name="DeleteUserCrt">
+      <http:operation location="/DeleteUserCrt" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
     <wsdl:operation name="DeleteCrtService">
       <http:operation location="/DeleteCrtService" />
       <wsdl:input>
@@ -39699,6 +39804,15 @@
     </wsdl:operation>
     <wsdl:operation name="AtuoRenewUnbind">
       <http:operation location="/AtuoRenewUnbind" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WS_AppealSQuery">
+      <http:operation location="/WS_AppealSQuery" />
       <wsdl:input>
         <mime:content type="application/x-www-form-urlencoded" />
       </wsdl:input>
@@ -40321,12 +40435,14 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="DeleteUserCrt">
-      <http:operation location="/DeleteUserCrt" />
+    <wsdl:operation name="QueryAgencyInfoById">
+      <http:operation location="/QueryAgencyInfoById" />
       <wsdl:input>
         <mime:content type="application/x-www-form-urlencoded" />
       </wsdl:input>
-      <wsdl:output />
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetShouFuYiList">
       <http:operation location="/GetShouFuYiList" />
@@ -40983,15 +41099,6 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="WS_AppealSQuery">
-      <http:operation location="/WS_AppealSQuery" />
-      <wsdl:input>
-        <mime:content type="application/x-www-form-urlencoded" />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetCFTUserAppealList">
       <http:operation location="/GetCFTUserAppealList" />
       <wsdl:input>
@@ -41555,15 +41662,6 @@
     </wsdl:operation>
     <wsdl:operation name="QueryAgencyBySpid">
       <http:operation location="/QueryAgencyBySpid" />
-      <wsdl:input>
-        <mime:content type="application/x-www-form-urlencoded" />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="QueryAgencyInfoById">
-      <http:operation location="/QueryAgencyInfoById" />
       <wsdl:input>
         <mime:content type="application/x-www-form-urlencoded" />
       </wsdl:input>
@@ -42452,6 +42550,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetPayListForChildren">
       <http:operation location="/GetPayListForChildren" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListidFromUserOrder">
+      <http:operation location="/GetListidFromUserOrder" />
       <wsdl:input>
         <mime:content type="application/x-www-form-urlencoded" />
       </wsdl:input>

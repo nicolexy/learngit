@@ -68,6 +68,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                   {
                       Session["uid"] = RefundPublicFun.operatorName;
                   }*/
+                  //财务直接URL调用查询
+                  if (Session["uid"] == null)
+                  {
+                      if (Request.QueryString["system"] != null && Request.QueryString["system"].ToString().Trim() == "admin")
+                      {
+                          Session["uid"] = "caiwu";
+                      }
+                      else 
+                      {
+                          Response.Redirect("../login.aspx?wh=1");
+                      }
+                  }
+                
                   
                   if (!IsPostBack)
                   {
