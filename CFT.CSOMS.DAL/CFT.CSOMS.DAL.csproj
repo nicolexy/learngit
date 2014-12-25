@@ -111,24 +111,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BankLib\BankLib.csproj">
-      <Project>{BF8AA36E-9573-49A0-9B3B-2935CCFC8731}</Project>
-      <Name>BankLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\COMMLIB\commLib.csproj">
-      <Project>{C747901F-7EE1-4AED-AB7B-547C6AEC99A0}</Project>
-      <Name>commLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DATAACCESS\DataAccess.csproj">
-      <Project>{3F80E194-4A0B-4E45-BB3E-5E482BF3139F}</Project>
-      <Name>DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ICEAccess\ICEAccess.csproj">
-      <Project>{1434C13F-494A-4196-8733-A3EDD0E5D6A5}</Project>
-      <Name>ICEAccess</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="Configs\Log4net.config" />
     <None Include="packages.config" />
@@ -181,6 +163,24 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BankLib\BankLib.csproj">
+      <Project>{bf8aa36e-9573-49a0-9b3b-2935ccfc8731}</Project>
+      <Name>BankLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\COMMLIB\commLib.csproj">
+      <Project>{c747901f-7ee1-4aed-ab7b-547c6aec99a0}</Project>
+      <Name>commLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DATAACCESS\DataAccess.csproj">
+      <Project>{3f80e194-4a0b-4e45-bb3e-5e482bf3139f}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ICEAccess\ICEAccess.csproj">
+      <Project>{1434c13f-494a-4196-8733-a3edd0e5d6a5}</Project>
+      <Name>ICEAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
