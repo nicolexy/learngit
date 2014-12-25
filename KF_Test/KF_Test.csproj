@@ -105,8 +105,18 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Config\DB.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Config\IMCTranfer.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Config\Log4net.config" />
+    <None Include="DataAccess.dll.log4net" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\BankLib\BankLib.csproj">
-      <Project>{BF8AA36E-9573-49A0-9B3B-2935CCFC8731}</Project>
+      <Project>{bf8aa36e-9573-49a0-9b3b-2935ccfc8731}</Project>
       <Name>BankLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\CFT.CSOMS.BLL\CFT.CSOMS.BLL.csproj">
@@ -133,16 +143,14 @@
       <Project>{b6f47364-df03-492a-a94d-b4a347cd4991}</Project>
       <Name>KF_SERVICE</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Config\DB.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Config\IMCTranfer.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Config\Log4net.config" />
-    <None Include="DataAccess.dll.log4net" />
+    <ProjectReference Include="..\KF_WEB\kf_web.csproj">
+      <Project>{eda311fe-54ee-4358-93cd-4ad933d34ac6}</Project>
+      <Name>kf_web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UserRights\UserRights.csproj">
+      <Project>{54b9173d-e1e9-4783-925a-36e08e9690cf}</Project>
+      <Name>UserRights</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

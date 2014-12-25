@@ -24,6 +24,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Xml;
 using System.Text.RegularExpressions;
+using SunLibrary;
 
 namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 {
@@ -441,6 +442,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 					{
 						//这里必须返回true，如果false就应该是配置有误。可以报错。
 						Msg = "转换调用relay时出错：" + routevalue;
+                        LogHelper.LogInfo(Msg);
 						return false;
 					}
 				}

@@ -20704,8 +20704,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod]
         public bool SynPayState(string transid, string createtime)
         {
-
-            return SynRecordClass.SynPayState(transid, createtime);
+            string strMsg ="";
+            return SynRecordClass.SynPayState(transid, createtime, out strMsg);
         }
 
         [WebMethod(Description = "获取同步查询列表函数")]
@@ -21325,8 +21325,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         //time没有用处
                         string createtime = "";
-                        if (!SynRecordClass.SynPayState(listid, createtime))
+                        string strMsg = "";
+                        if (!SynRecordClass.SynPayState(listid, createtime,out strMsg))
                         {
+                            log4net.ILog log = log4net.LogManager.GetLogger("BatchSynPayState");
+                            if (log.IsInfoEnabled)
+                            {
+                                log.InfoFormat(string.Format("SynRecordClass.SynPayState返回false,具体原因={0}", strMsg));
+                            }
+                                
+                            
                             msg += listid + "同步失败！";
                             doAllSucc = false;
                             continue;

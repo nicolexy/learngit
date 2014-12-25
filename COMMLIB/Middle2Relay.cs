@@ -234,10 +234,9 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 }
 
 				strReplyinfo = Encoding.Default.GetString(bufferOut);
-                LogHelper.LogInfo("GetFromRelay return strReplyinfo:" + strReplyinfo);
-
-				iResult = 0;
+                LogHelper.LogInfo("GetFromRelay return strReplyinfo:" + strReplyinfo);				iResult = 0;
 				Msg = "调用成功";
+
 				return true;
 			}
 			catch (Exception e)

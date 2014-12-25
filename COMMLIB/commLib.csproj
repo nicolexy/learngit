@@ -186,7 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BackProcessClientCS\BackProcessClientCS.csproj">
-      <Project>{A6B127B1-E4DD-46EC-9439-3C5D8BE97E24}</Project>
+      <Project>{a6b127b1-e4dd-46ec-9439-3c5d8be97e24}</Project>
       <Name>BackProcessClientCS</Name>
     </ProjectReference>
     <ProjectReference Include="..\DATAACCESS\DataAccess.csproj">

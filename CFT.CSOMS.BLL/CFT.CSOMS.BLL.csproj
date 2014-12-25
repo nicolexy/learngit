@@ -72,6 +72,10 @@
     <Compile Include="WechatPay\WechatPayService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\DataSources\System.Data.DataSet.datasource" />
+    <None Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\BankLib\BankLib.csproj">
       <Project>{bf8aa36e-9573-49a0-9b3b-2935ccfc8731}</Project>
       <Name>BankLib</Name>
@@ -84,10 +88,6 @@
       <Project>{c747901f-7ee1-4aed-ab7b-547c6aec99a0}</Project>
       <Name>commLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\DataSources\System.Data.DataSet.datasource" />
-    <None Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
