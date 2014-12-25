@@ -691,6 +691,7 @@ namespace CFT.CSOMS.BLL.FundModule
                     bankRollList.Tables[0].Columns.Add("FtypeText", typeof(string));
                     bankRollList.Tables[0].Columns.Add("FmemoText", typeof(string));
                     bankRollList.Tables[0].Columns.Add("FconStr", typeof(string));
+                    bankRollList.Tables[0].Columns.Add("URL", typeof(string));
 
                     foreach (DataRow dr in bankRollList.Tables[0].Rows)
                     {
