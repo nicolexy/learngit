@@ -1950,42 +1950,42 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     */
 
                     string strSql = "transaction_id=" + listID + "&statusno=5";
-                    //string errMsg = "";
-                    //DataTable dt = CommQuery.GetTableFromICE(strSql, CommQuery.QUERY_MCH_REFUND, out errMsg);
+                    string errMsg = "";
+                    DataTable dt = CommQuery.GetTableFromICE(strSql, CommQuery.QUERY_MCH_REFUND, out errMsg);
 
                     //20141114 FINANCE_OD_QUERY_MCH_REFUND改调relay
                     /////////////////////////////////////
-                    DataTable dt = new DataTable();
-                    string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
-                    string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
+                    //DataTable dt = new DataTable();
+                    //string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
+                    //string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
 
-                    string req = "request_type=100568&ver=1&head_u=&sp_id=&" + strSql;
+                    //string req = "request_type=100568&ver=1&head_u=&sp_id=&" + strSql;
 
 
-                    string Msg = ""; //重置
+                    //string Msg = ""; //重置
 
-                    string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
+                    //string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
 
-                    if (answer == "")
-                    {
-                        dt= null;
-                    }
-                    if (Msg != "")
-                    {
-                        throw new Exception("调relay异常：" + Msg);
-                    }
+                    //if (answer == "")
+                    //{
+                    //    dt= null;
+                    //}
+                    //if (Msg != "")
+                    //{
+                    //    throw new Exception("调relay异常：" + Msg);
+                    //}
 
-                    //解析relay str
-                    DataSet ds = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
-                    if (Msg != "")
-                    {
-                        throw new Exception("解析relay异常：" + Msg);
-                    }
+                    ////解析relay str
+                    //DataSet ds = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
+                    //if (Msg != "")
+                    //{
+                    //    throw new Exception("解析relay异常：" + Msg);
+                    //}
 
-                    if (ds != null && ds.Tables.Count > 0 )
-                    {
-                        dt = ds.Tables[0];
-                    }
+                    //if (ds != null && ds.Tables.Count > 0 )
+                    //{
+                    //    dt = ds.Tables[0];
+                    //}
                     ///////////////////////////////
                  
 

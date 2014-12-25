@@ -3308,95 +3308,98 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\Finance_ManageService\Finance_Manage.disco" />
-    <Content Include="Web References\FQuery_Service\C2CDB_T_TC_BANK.datasource">
+    <None Include="Web References\FQuery_Service\C2CDB_T_TC_BANK.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\FreezeInfo.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\FreezeInfo.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\Query_Service.wsdl" />
-    <Content Include="Web References\FQuery_Service\Reference.map">
+    </None>
+    <None Include="Web References\FQuery_Service\Query_Service.wsdl" />
+    <None Include="Web References\FQuery_Service\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
-    <Content Include="Web References\FQuery_Service\SysBulletinClass.datasource">
+      <LastGenOutput>Reference1.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\FQuery_Service\SysBulletinClass.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\TCreateSessionReply.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\TCreateSessionReply.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_BANKBULLETIN_INFO.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_BANKBULLETIN_INFO.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_BANK_CLASS.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_BANK_CLASS.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_BANK_CODE.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_BANK_CODE.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_BANK_INFO.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_BANK_INFO.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_BANK_KEYS.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_BANK_KEYS.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_CEP_BANKCHANNEL_CLASS.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_CEP_BANKCHANNEL_CLASS.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_CheckType.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_CheckType.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_COIN_PUB.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_COIN_PUB.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_DIC.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_DIC.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_DIRECTPAY_ERRCODEINFO.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_DIRECTPAY_ERRCODEINFO.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_DIRECTPAY_NCINFO.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_DIRECTPAY_NCINFO.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
+    </None>
     <Content Include="Web References\FQuery_Service\T_DIRECTPAY_NCINFO_NEW.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\FQuery_Service\T_Export_Bank.datasource">
+    <None Include="Web References\FQuery_Service\T_DIRECTPAY_NCINFO_NEW1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_Export_Bankrest.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_Export_Bank.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_Export_Task_Comm.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_Export_Bankrest.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_Export_Task_Tmp.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_Export_Task_Comm.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_FILE_MODEL_RELATION.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_Export_Task_Tmp.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_GWQ.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_FILE_MODEL_RELATION.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_GWQ_Account.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_GWQ.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_PRODUCT.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_GWQ_Account.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_PUCNEWSERVICE_INFO.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_PRODUCT.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_SUBJECT.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_PUCNEWSERVICE_INFO.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_USER_MED.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_SUBJECT.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\FQuery_Service\T_ZWDic_Info.datasource">
+    </None>
+    <None Include="Web References\FQuery_Service\T_USER_MED.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </Content>
+    </None>
+    <None Include="Web References\FQuery_Service\T_ZWDic_Info.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\IVRService\IVRService.wsdl" />
     <None Include="Web References\IVRService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -3415,8 +3418,8 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\SPOA_Service\SPOA_Service.disco" />
+    <None Include="Web References\FQuery_Service\Query_Service.disco" />
     <None Include="Web References\ZWCheck_Service\Check_Service.disco" />
-    <Content Include="Web References\FQuery_Service\Query_Service.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -4357,17 +4360,6 @@
     </None>
     <None Include="文档\历史更新记录.txt" />
     <WebReferences Include="Web References\" />
-    <WebReferenceUrl Include="http://10.12.189.114/spoaweb/SPOA_Service.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\SPOA_Service\</RelPath>
-      <UpdateFromURL>http://10.12.189.114/spoaweb/SPOA_Service.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>finance_web_SPOA_Service_SPOA_Service</CachedSettingsPropName>
-    </WebReferenceUrl>
     <WebReferenceUrl Include="http://admin.cf.com/FINANCE_SERVICE/Query_Service.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\FQuery_Service\</RelPath>
@@ -4378,6 +4370,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>finance_web_FQuery_Service_Query_Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://10.12.189.114/spoaweb/SPOA_Service.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\SPOA_Service\</RelPath>
+      <UpdateFromURL>http://10.12.189.114/spoaweb/SPOA_Service.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>finance_web_SPOA_Service_SPOA_Service</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://admin.cf.zw/FINANCE_SERVICE/Check_Service.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -4462,7 +4465,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BankLib\BankLib.csproj">
-      <Project>{BF8AA36E-9573-49A0-9B3B-2935CCFC8731}</Project>
+      <Project>{bf8aa36e-9573-49a0-9b3b-2935ccfc8731}</Project>
       <Name>BankLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\CFT.CSOMS.BLL\CFT.CSOMS.BLL.csproj">
@@ -4486,9 +4489,6 @@
       <Name>KF_SERVICE</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -4506,7 +4506,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>53789</DevelopmentServerPort>
+          <DevelopmentServerPort>38428</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:6903/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

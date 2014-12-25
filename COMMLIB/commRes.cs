@@ -308,6 +308,30 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 				return "";
 			}
 		}
+
+		public static string GetStrByHexStr(string hexstring) 
+		{
+			System.Text.Encoding encode=System.Text.Encoding.GetEncoding("gb2312"); 
+			byte[] b=new byte[hexstring.Length/2]; 
+			for(int i=0;i<hexstring.Length/2;i++) 
+			{
+				b[i]=Convert.ToByte("0x" + hexstring.Substring(i*2,2),16); 
+			} 
+			return encode.GetString(b);
+			
+		}
+
+		public static string convertBase64FromUFT8(string str)
+		{
+			return System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(str.Replace("-","+").Replace("_","/").Replace("%3D","=")));
+		}
+
+		public static string convertToUTF8Base64(string tmp)
+		{
+			byte[] by = System.Text.Encoding.UTF8.GetBytes(tmp.ToCharArray()); 
+			return Convert.ToBase64String(by).Replace("=","%3D").Replace("+","-").Replace("/","_");
+		}
+
 		public static string replaceHtmlStr(string str) 
 		{
 			if(str == null) return null; //furion 20050819
@@ -411,7 +435,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
 	//furion 20141023 增加relay转发，如果配置值就转发，如果无配置，还走原来调用。
 				string routevalue = "";
-				if(Middle2Relay.NeedGoRelay(serviceName))
+				if(Middle2Relay.NeedGoRelay(serviceName,requestMsg))
 				{
 					if(!Middle2Relay.GetRouteParam(serviceName,requestMsg,out routevalue))
 					{
@@ -427,7 +451,12 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 				if(serviceName != "ex_common_query_service" && serviceName != "ui_common_query_service" && serviceName != "order_zwupdate_service" 
 					&& serviceName != "order_update_service"  && serviceName != "order_prerefund_service"  && serviceName != "fund_queryacc_service" 
 					&& serviceName != "deposit_sigleqrycardinfo_service"  && serviceName != "card_query_userinfo_service"  && serviceName != "card_query_merinfo_service"
-					&& serviceName != "card_query_user_service" && serviceName != "ci_common_query_service" &&  serviceName != "common_query_service")
+					&& serviceName != "card_query_user_service" && serviceName != "ci_common_query_service"&& serviceName != "cq_query_tcbanklist_service"
+                    && serviceName != "query_order_service"&& serviceName != "au_zwset_useratt_service"&& serviceName != "au_zwset_prodatt_service"
+                    && serviceName != "au_zwset_reqatt_service" && serviceName != "order_history2real_service" && serviceName != "bank_channel_bulletin_service"
+                    && serviceName != "query_posbankinfo_service"&& serviceName != "bank_pos_single_query_service"&& serviceName != "bank_pos_batch_query_service"
+					&& serviceName !="waika_bank_pos_single_query_service" && serviceName !="waika_bank_pos_batch_query_service"
+					&& serviceName !="zw_prodatt_query_service" &&  serviceName != "common_query_service")
 				{
 					string CFTAcc = ConfigurationManager.AppSettings["CFTAccount"].Trim();
 
@@ -457,7 +486,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 				//				cc.MiddleInvoke(serviceName,requestMsg,0,5000,iceUsr,icePwd,out strReplyInfo,out iResult,out Msg); 
 
 		//furion 20141023 增加relay转发，如果配置值就转发，如果无配置，还走原来调用。
-				if(Middle2Relay.NeedGoRelay(serviceName))
+				if(Middle2Relay.NeedGoRelay(serviceName,requestMsg))
 				{
 					if(!Middle2Relay.GoRelay(serviceName,requestMsg,routevalue, out strReplyInfo,out iResult,out Msg))
 					{
@@ -766,7 +795,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
 //furion 20141023 增加relay转发，如果配置值就转发，如果无配置，还走原来调用。
 				string routevalue = "";
-				if(Middle2Relay.NeedGoRelay(serviceName))
+				if(Middle2Relay.NeedGoRelay(serviceName,requestMsg))
 				{
 					if(!Middle2Relay.GetRouteParam(serviceName,requestMsg,out routevalue))
 					{
@@ -779,7 +808,9 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 				//requestMsg = cf.UnEscape(requestMsg);   //编码
 
 				//ex_common_query_service不需要另前缀或加密 furion 20090527
-				if(serviceName != "ex_common_query_service" && serviceName != "ui_common_query_service" && serviceName != "ui_common_update_service")
+				if(serviceName != "ex_common_query_service" && serviceName != "ui_common_query_service" && serviceName != "ui_common_update_service"
+					&& serviceName != "cq_query_tcbanklist_service"&& serviceName != "query_order_service"&& serviceName != "bank_pos_single_query_service"
+					&& serviceName != "bank_pos_batch_query_service"&& serviceName !="waika_bank_pos_single_query_service"&& serviceName !="zw_prodatt_query_service")
 				{
 					string CFTAcc = ConfigurationManager.AppSettings["CFTAccount"].Trim();
 
@@ -794,7 +825,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 				}
 
 	//furion 20141023 增加relay转发，如果配置值就转发，如果无配置，还走原来调用。
-				if(Middle2Relay.NeedGoRelay(serviceName))
+				if(Middle2Relay.NeedGoRelay(serviceName,requestMsg))
 				{
 					if(!Middle2Relay.GoRelay(serviceName,requestMsg,routevalue, out strReplyInfo,out iResult, out Msg))
 					{

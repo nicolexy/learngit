@@ -69,15 +69,54 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			}
 		}
 
+
+		internal static string GetTrueCMDName(string middlename,string reqMsg)
+		{
+
+			try
+			{
+				if(middlename=="ui_common_update_service"||middlename=="ex_common_query_service")
+				{
+				
+					if(reqMsg=="")
+					{
+						return "";
+					}
+					string[] reqInfos=reqMsg.Split('&');
+					foreach(string oneReq in reqInfos)
+					{
+						if(oneReq.StartsWith("CMD="))
+						{
+							return oneReq;
+						
+						}
+					}
+					return "";
+				}
+				else
+				{
+					return middlename;
+				}
+			}
+			catch(Exception ex)
+			{
+				return "";
+			}
+			
+		}
+		
+
 		/// <summary>
 		/// 本service是否需要走relay，如果需要，先取出路由value，然后加密，然后调用。
 		/// </summary>
 		/// <param name="middlename">接口名称</param>
 		/// <returns></returns>
-		internal static bool NeedGoRelay(string middlename)
+		internal static bool NeedGoRelay(string middlename,string reqMsg)
 		{
 			if(ht_relayconfigs == null || ht_relayconfigs.Count == 0)
 				return false;
+
+			middlename=GetTrueCMDName(middlename,reqMsg);
 
 			return ht_relayconfigs.ContainsKey(middlename.ToLower());
 		}
@@ -95,6 +134,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
 			if(ht_relayconfigs == null || ht_relayconfigs.Count == 0)
 				return false;
+
+			middlename=GetTrueCMDName(middlename,srcparam);
 
 			RelayConfigInfo rci = (RelayConfigInfo)ht_relayconfigs[middlename.ToLower()];
 			return rci.GetRouteParam(srcparam,out Msg);
@@ -114,10 +155,17 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			strReplyinfo = "调用前";
 			iResult = -1;
 
-			if(!NeedGoRelay(middlename))
+			if(!NeedGoRelay(middlename,srcparam))
 			{
 				errMsg = "不需要走relay";
 				return false;
+			}
+
+			string cmdName=GetTrueCMDName(middlename,srcparam);
+			if(cmdName.StartsWith("CMD="))
+			{
+				middlename=GetTrueCMDName(middlename,srcparam);
+				srcparam=srcparam.Replace(middlename+"&","");
 			}
 
 			RelayConfigInfo rci = (RelayConfigInfo)ht_relayconfigs[middlename.ToLower()];
@@ -186,11 +234,10 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 }
 
 				strReplyinfo = Encoding.Default.GetString(bufferOut);
-                strReplyinfo = CommQuery.IceDecode(Encoding.UTF8.GetString(Encoding.Default.GetBytes(strReplyinfo)));
+                LogHelper.LogInfo("GetFromRelay return strReplyinfo:" + strReplyinfo);
+
 				iResult = 0;
 				Msg = "调用成功";
-
-                LogHelper.LogInfo("GetFromRelay return strReplyinfo:" + strReplyinfo);
 				return true;
 			}
 			catch (Exception e)
@@ -277,12 +324,11 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 				return false;
 			}
 
-			//开始调用函数。
-			if(!GetFromRelay(priorstring + "&" + srcparam,out strReplyinfo,out iResult, out errMsg))
-			{
-				return false;
-			}
-
+            //开始调用函数。
+            if (!GetFromRelay(priorstring + "&" + srcparam, out strReplyinfo, out iResult, out errMsg))
+            {
+                return false;
+            }
 			return true;
 		}
 
