@@ -57,37 +57,66 @@
                         }
 
                         string duoFund = "";
-                        string listid=dr["Flistid"].ToString();
+                        string listid = dr["Flistid"].ToString();
                         if (dr["FmemoText"].ToString().Equals("基金申购"))
                         {
                             if (fundBLLService.IfAnewBoughtFund(dr["Flistid"].ToString(), dr["Fcreate_time"].ToString()))
                             {
-                                dr["FmemoText"]="重新申购";
+                                dr["FmemoText"] = "重新申购";
                             }
 
                             duoFund = QueryTradeFundInfo(spId, listid);//查询多基金转换
                             dr["FmemoText"] += duoFund;
                         }
 
-                        if (dr["FmemoText"] .ToString().Equals("提现"))
+                        if (dr["FmemoText"].ToString().Equals("提现"))
                         {
                             duoFund = QueryTradeFundInfo(spId, listid.Substring(listid.Length - 18));//查询多基金转换
                             dr["FmemoText"] += duoFund;
                         }
 
                         dr["FpaynumText"] = classLibrary.setConfig.FenToYuan(dr["Fpaynum"].ToString());
-                        
+
                         dr["FconStr"] = classLibrary.setConfig.FenToYuan(dr["Fcon"].ToString());
 
+                        //非定期基金强赎：
+                        //有安全卡往安全卡赎回，
+                        //无安全卡往绑定快捷卡赎回，
+                        //无绑定卡往解除绑定卡赎回
+                        if (!(bool)(ViewState["HasSafeCard"]))//无安全卡
+                        {
 
-                        dr["URL"] = "GetFundRatePageDetail.aspx?opertype=1&close_flag=1&uin=" + ViewState["uin"].ToString()
-                        + "&spid=" + ViewState["fundSPId"].ToString()
-                        + "&fund_code=" + ViewState["fundCode"].ToString()
-                        + "&total_fee=" + dr["Fbalance"].ToString()
-                        + "&bind_serialno=" + ViewState["bind_serialno"].ToString()
-                        + "&card_tail=" + ViewState["card_tail"].ToString()
-                        + "&mobile=" + ViewState["mobile"].ToString()
-                        + "&bank_type=" + ViewState["bank_type"].ToString();
+                            DataSet ds = queryService.GetBankCardBindList_2(ViewState["uin"].ToString(), "", "", "", "", "", "", "", "", 2, 2, 0, 1);//快捷、已绑定状态的卡
+                            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0] == null || ds.Tables[0].Rows.Count == 0)
+                            {
+                                ds = queryService.GetBankCardBindList_2(ViewState["uin"].ToString(), "", "", "", "", "", "", "", "", 2, 3, 0, 1);//快捷、解绑状态的卡
+                            }
+
+                            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                            {
+                                ViewState["card_tail"] = ds.Tables[0].Rows[0]["Fcard_tail"].ToString();
+                                ViewState["bank_type"] = ds.Tables[0].Rows[0]["Fbank_type"].ToString();
+                                ViewState["mobile"] = ds.Tables[0].Rows[0]["Fmobilephone"].ToString();
+                                ViewState["bind_serialno"] = ds.Tables[0].Rows[0]["Fbind_serialno"].ToString();
+                            }
+                            else
+                            {
+                                ViewState["card_tail"] = "";
+                                ViewState["bank_type"] = "";
+                                ViewState["mobile"] = "";
+                                ViewState["bind_serialno"] = "";
+                                LogHelper.LogInfo("Force redemption no card!");
+                            }
+
+                            dr["URL"] = "GetFundRatePageDetail.aspx?opertype=1&close_flag=1&uin=" + ViewState["uin"].ToString()
+                       + "&spid=" + ViewState["fundSPId"].ToString()
+                       + "&fund_code=" + ViewState["fundCode"].ToString()
+                       + "&total_fee=" + dr["Fbalance"].ToString()
+                       + "&bind_serialno=" + ViewState["bind_serialno"].ToString()
+                       + "&card_tail=" + ViewState["card_tail"].ToString()
+                       + "&mobile=" + ViewState["mobile"].ToString()
+                       + "&bank_type=" + ViewState["bank_type"].ToString();
+                        }
 
                     }
 
