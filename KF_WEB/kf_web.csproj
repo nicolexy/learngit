@@ -3317,6 +3317,7 @@
     <None Include="Web References\FQuery_Service\Query_Service.wsdl" />
     <None Include="Web References\FQuery_Service\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference1.cs</LastGenOutput>
     </None>
     <None Include="Web References\FQuery_Service\SysBulletinClass.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -4505,7 +4506,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>53789</DevelopmentServerPort>
+          <DevelopmentServerPort>38428</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:6903/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

@@ -5,9 +5,6 @@
     <Setting Name="finance_web_Query_Service_Query_Service" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://localhost:61131/Query_Service.asmx</Value>
     </Setting>
-    <Setting Name="finance_web_FQuery_Service_Query_Service" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://admin.cf.com/FINANCE_SERVICE/Query_Service.asmx</Value>
-    </Setting>
     <Setting Name="finance_web_IVRService_IVRService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://localhost:61131/IVRService.asmx</Value>
     </Setting>
@@ -28,6 +25,9 @@
     </Setting>
     <Setting Name="finance_web_ZWCheck_Service_Check_Service" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://admin.cf.zw/FINANCE_SERVICE/Check_Service.asmx</Value>
+    </Setting>
+    <Setting Name="finance_web_FQuery_Service_Query_Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://admin.cf.com/FINANCE_SERVICE/Query_Service.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

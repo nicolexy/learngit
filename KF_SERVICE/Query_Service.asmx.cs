@@ -3184,38 +3184,38 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 */
 
 
-                //string strSql = "listid=" + slistID;
+                string strSql = "listid=" + slistID;
 
-                //DataSet dsbuy = CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_USERPAY_L, out errMsg);
+                DataSet dsbuy = CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_USERPAY_L, out errMsg);
 
                 //20141114 FINANCE_OD_QUERY_USERPAY_L改调relay
                 /////////////////////////////////////
 
-                string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
-                string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
+                //string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
+                //string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
 
-                string req = "request_type=100567&ver=1&head_u=&sp_id=&listid=" + slistID;
+                //string req = "request_type=100567&ver=1&head_u=&sp_id=&listid=" + slistID;
 
 
-                string Msg = ""; //重置
+                //string Msg = ""; //重置
 
-                string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
+                //string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
 
-                if (answer == "")
-                {
-                    return null;
-                }
-                if (Msg != "")
-                {
-                    throw new Exception("调relay异常：" + Msg);
-                }
+                //if (answer == "")
+                //{
+                //    return null;
+                //}
+                //if (Msg != "")
+                //{
+                //    throw new Exception("调relay异常：" + Msg);
+                //}
 
-                //解析relay str
-                DataSet dsbuy = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
-                if (Msg != "")
-                {
-                    throw new Exception("解析relay异常：" + Msg);
-                }
+                ////解析relay str
+                //DataSet dsbuy = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
+                //if (Msg != "")
+                //{
+                //    throw new Exception("解析relay异常：" + Msg);
+                //}
 
                 ///////////////////////////////
 
@@ -12213,37 +12213,37 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string saleuid = PublicRes.ExecuteOne(strSelectSaleID,"ZJ");
                 */
 
-                //string strSql = "listid=" + listid;
-                //DataSet dssale = CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_USERPAY_L, out errMsg);
+                string strSql = "listid=" + listid;
+                DataSet dssale = CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_USERPAY_L, out errMsg);
 
                 //20141114 FINANCE_OD_QUERY_USERPAY_L改调relay
                 /////////////////////////////////////
 
-                string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
-                string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
+                //string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
+                //string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
 
-                string req = "request_type=100567&ver=1&head_u=&sp_id=&listid=" + listid;
+                //string req = "request_type=100567&ver=1&head_u=&sp_id=&listid=" + listid;
 
 
-                string Msg = ""; //重置
+                //string Msg = ""; //重置
 
-                string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
+                //string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
 
-                if (answer == "")
-                {
-                    return null;
-                }
-                if (Msg != "")
-                {
-                    throw new Exception("调relay异常：" + Msg);
-                }
+                //if (answer == "")
+                //{
+                //    return null;
+                //}
+                //if (Msg != "")
+                //{
+                //    throw new Exception("调relay异常：" + Msg);
+                //}
 
-                //解析relay str
-                DataSet dssale = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
-                if (Msg != "")
-                {
-                    throw new Exception("解析relay异常：" + Msg);
-                }
+                ////解析relay str
+                //DataSet dssale = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
+                //if (Msg != "")
+                //{
+                //    throw new Exception("解析relay异常：" + Msg);
+                //}
 
                 ///////////////////////////////
 
@@ -16612,45 +16612,45 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     if (spid.Trim() == "" && tranid.Trim() == "" && drawid.Trim() != "")//只有drawid
                     {
                         //drawid 不为空，先通过drawId查询listid
-                        //string comSql = "draw_id=" + drawid;
-                        //string msg = "";
-                        //tranid = CommQuery.GetOneResultFromICE(comSql, CommQuery.QUERY_REFUND_RELATION, "Ftransaction_id", out msg);
+                        string comSql = "draw_id=" + drawid;
+                        string msg = "";
+                        tranid = CommQuery.GetOneResultFromICE(comSql, CommQuery.QUERY_REFUND_RELATION, "Ftransaction_id", out msg);
 
                         //20141114 FINANCE_OD_QUERY_REFUND_RELATION改调relay
                         /////////////////////////////////////
 
-                        string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
-                        string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
+                       // string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
+                       // string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
 
-                        string req = "request_type=100569&ver=1&head_u=&sp_id=&draw_id=" + drawid;
+                       // string req = "request_type=100569&ver=1&head_u=&sp_id=&draw_id=" + drawid;
 
 
-                       string Msg = ""; //重置
+                       //string Msg = ""; //重置
 
-                        string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
+                       // string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
 
-                        if (answer == "")
-                        {
-                            tranid = "";
-                        }
-                        if (Msg != "")
-                        {
-                            throw new Exception("调relay异常："+Msg);
-                        }
+                       // if (answer == "")
+                       // {
+                       //     tranid = "";
+                       // }
+                       // if (Msg != "")
+                       // {
+                       //     throw new Exception("调relay异常："+Msg);
+                       // }
 
-                        //解析relay str
-                        ds = CommQuery.ParseRelayStr(answer, out Msg);
-                        if (Msg != "")
-                        {
-                            throw new Exception("解析relay异常：" + Msg);
-                        }
+                       // //解析relay str
+                       // ds = CommQuery.ParseRelayStr(answer, out Msg);
+                       // if (Msg != "")
+                       // {
+                       //     throw new Exception("解析relay异常：" + Msg);
+                       // }
 
-                        if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                        {
-                            tranid = ds.Tables[0].Rows[0]["ftransaction_id"].ToString();
-                        }
-                        else
-                            tranid = "";
+                       // if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                       // {
+                       //     tranid = ds.Tables[0].Rows[0]["ftransaction_id"].ToString();
+                       // }
+                       // else
+                       //     tranid = "";
                         ///////////////////////////////
 
 
@@ -16669,38 +16669,38 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         if (start < 0) start = 0;
 
                         string strSql = cuser.ICESQL + "&strlimit=limit " + start + "," + imax;
-                        //string errMsg = "";
-                        //ds = CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_MCH_REFUND, out errMsg);
+                        string errMsg = "";
+                        ds = CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_MCH_REFUND, out errMsg);
 
 
                         //20141114 FINANCE_OD_QUERY_MCH_REFUND改调relay
                         /////////////////////////////////////
 
-                        string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
-                        string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
+                        //string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
+                        //string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
 
-                        string req = "request_type=100568&ver=1&head_u=&sp_id=&" + strSql;
+                        //string req = "request_type=100568&ver=1&head_u=&sp_id=&" + strSql;
 
 
-                        string Msg = ""; //重置
+                        //string Msg = ""; //重置
 
-                        string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
+                        //string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
 
-                        if (answer == "")
-                        {
-                            ds=null;
-                        }
-                        if (Msg != "")
-                        {
-                            throw new Exception("调relay异常：" + Msg);
-                        }
+                        //if (answer == "")
+                        //{
+                        //    ds=null;
+                        //}
+                        //if (Msg != "")
+                        //{
+                        //    throw new Exception("调relay异常：" + Msg);
+                        //}
 
-                        //解析relay str
-                        ds = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
-                        if (Msg != "")
-                        {
-                            throw new Exception("解析relay异常：" + Msg);
-                        }
+                        ////解析relay str
+                        //ds = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
+                        //if (Msg != "")
+                        //{
+                        //    throw new Exception("解析relay异常：" + Msg);
+                        //}
 
                         ///////////////////////////////
 
@@ -20704,8 +20704,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod]
         public bool SynPayState(string transid, string createtime)
         {
-
-            return SynRecordClass.SynPayState(transid, createtime);
+            string strMsg ="";
+            return SynRecordClass.SynPayState(transid, createtime, out strMsg);
         }
 
         [WebMethod(Description = "获取同步查询列表函数")]
@@ -21325,8 +21325,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         //time没有用处
                         string createtime = "";
-                        if (!SynRecordClass.SynPayState(listid, createtime))
+                        string strMsg = "";
+                        if (!SynRecordClass.SynPayState(listid, createtime,out strMsg))
                         {
+                            log4net.ILog log = log4net.LogManager.GetLogger("BatchSynPayState");
+                            if (log.IsInfoEnabled)
+                            {
+                                log.InfoFormat(string.Format("SynRecordClass.SynPayState返回false,具体原因={0}", strMsg));
+                            }
+                                
+                            
                             msg += listid + "同步失败！";
                             doAllSucc = false;
                             continue;
@@ -21373,36 +21381,36 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 */
 
                 string errMsg = "";
-           //     DataSet ds = CommQuery.GetDataSetFromICE(cuser.ICESQL, CommQuery.QUERY_MCH_REFUND, out errMsg);
+                DataSet ds = CommQuery.GetDataSetFromICE(cuser.ICESQL, CommQuery.QUERY_MCH_REFUND, out errMsg);
 
                 //20141114 FINANCE_OD_QUERY_MCH_REFUND改调relay
                 /////////////////////////////////////
 
-                string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
-                string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
+                //string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
+                //string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
 
-                string req = "request_type=100568&ver=1&head_u=&sp_id=&" + cuser.ICESQL;
+                //string req = "request_type=100568&ver=1&head_u=&sp_id=&" + cuser.ICESQL;
 
 
-                string Msg = ""; //重置
+                //string Msg = ""; //重置
 
-                string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
+                //string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
 
-                if (answer == "")
-                {
-                    return null;
-                }
-                if (Msg != "")
-                {
-                    throw new Exception("调relay异常：" + Msg);
-                }
+                //if (answer == "")
+                //{
+                //    return null;
+                //}
+                //if (Msg != "")
+                //{
+                //    throw new Exception("调relay异常：" + Msg);
+                //}
 
-                //解析relay str
-                DataSet ds = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
-                if (Msg != "")
-                {
-                    throw new Exception("解析relay异常：" + Msg);
-                }
+                ////解析relay str
+                //DataSet ds = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
+                //if (Msg != "")
+                //{
+                //    throw new Exception("解析relay异常：" + Msg);
+                //}
 
                 ///////////////////////////////
 
