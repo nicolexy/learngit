@@ -110,7 +110,100 @@
 
                             dr["URL"] = "GetFundRatePageDetail.aspx?opertype=1&close_flag=1&uin=" + ViewState["uin"].ToString()
                        + "&spid=" + ViewState["fundSPId"].ToString()
-                       + "&fund_code=" + ViewState["fundCode"].ToString()
+                       + "&fund_code=" + ViewState["fundCode"].ToString()  private void BindBankRollList(string qqId, string spId, string curtype, DateTime beginDate, DateTime endDate, int pageIndex = 1, int redirectionType = 0, string memo = "")
+        {
+            try
+            {
+                this.bankRollListPager.CurrentPageIndex = pageIndex;
+                int max = pager.PageSize;
+                int start = max * (pageIndex - 1);
+
+                if (string.IsNullOrEmpty(spId))
+                    throw new Exception(string.Format("无法同时查询所有基金的流水信息，请选择指定的基金"));
+
+            //   var bankRollList = queryService.GetChildrenBankRollList(qqId, beginDate, endDate, curtype, start + 1, max, redirectionType, memo);
+                var bankRollList = fundBLLService.GetChildrenBankRollListEx(qqId, spId, curtype, beginDate, endDate, start, max, redirectionType, memo);
+
+                //获取强赎申请URL,未提供强赎功能接口到客服部
+                GeForceRedeemUrl(bankRollList);
+
+                dgBankRollList.DataSource = bankRollList.DefaultView;
+                dgBankRollList.DataBind();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("获取账户流水异常:{0}", ex.Message));
+            }
+        }
+
+        private void GeForceRedeemUrl(DataTable bankRollList)
+        {
+            if (bankRollList != null && bankRollList.Rows.Count > 0)
+            {
+                bool markQuerySfCar = false;
+                foreach (DataRow dr in bankRollList.Rows)
+                {
+                    ViewState["HasSafeCard"] = false;//测试无安全卡
+
+                    try//无安全卡 取绑定卡信息
+                    {
+                        //非定期基金强赎：
+                        //有安全卡往安全卡赎回，
+                        //无安全卡往绑定快捷卡赎回，
+                        //无绑定卡往解除绑定卡赎回
+                        if (!(bool)(ViewState["HasSafeCard"]) && !markQuerySfCar)//无安全卡  
+                        {
+                            markQuerySfCar = true;
+
+                            //先取快捷、已绑定状态的卡
+                            DataSet ds = queryService.GetBankCardBindList_2(ViewState["uin"].ToString(), "", "", "", "", "", "", "", "", 2, 2, 0, 1);
+                            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0] == null || ds.Tables[0].Rows.Count == 0)
+                            {
+                                //取快捷、解绑状态的卡
+                                ds = queryService.GetBankCardBindList_2(ViewState["uin"].ToString(), "", "", "", "", "", "", "", "", 2, 3, 0, 1);
+                            }
+
+                            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                            {
+                                ViewState["card_tail"] = ds.Tables[0].Rows[0]["Fcard_tail"].ToString();
+                                ViewState["bank_type"] = ds.Tables[0].Rows[0]["Fbank_type"].ToString();
+                                ViewState["mobile"] = ds.Tables[0].Rows[0]["Fmobilephone"].ToString();
+                                ViewState["bind_serialno"] = ds.Tables[0].Rows[0]["Fbind_serialno"].ToString();
+                            }
+                            else
+                            {
+                                ViewState["card_tail"] = "";
+                                ViewState["bank_type"] = "";
+                                ViewState["mobile"] = "";
+                                ViewState["bind_serialno"] = "";
+                                LogHelper.LogInfo("Not  bind bank card!");
+                            }
+                        }
+
+                    }
+                    catch
+                    {
+                        LogHelper.LogInfo("Get Bind bank card error!");
+                    }
+
+                    dr["URL"] = "GetFundRatePageDetail.aspx?opertype=1&close_flag=1&uin=" + ViewState["uin"].ToString()
+                 + "&spid=" + ViewState["fundSPId"].ToString()
+                 + "&fund_code=" + ViewState["fundCode"].ToString()
+                 + "&total_fee=" + dr["Fbalance"].ToString()
+                 + "&bind_serialno=" + ViewState["bind_serialno"].ToString()
+                 + "&card_tail=" + ViewState["card_tail"].ToString()
+                 + "&mobile=" + ViewState["mobile"].ToString()
+                 + "&bank_type=" + ViewState["bank_type"].ToString();
+
+                    if (!ClassLib.ValidateRight("BalanceControl", this))
+                    {
+                        //     classLibrary.setConfig.FenToYuan_Table(bankRollList, "Fbalance", "FbalanceText");
+                        dr["FbalanceText"] = "";//没有权限就不显示余额
+                    }
+
+                }
+            }
+        }
                        + "&total_fee=" + dr["Fbalance"].ToString()
                        + "&bind_serialno=" + ViewState["bind_serialno"].ToString()
                        + "&card_tail=" + ViewState["card_tail"].ToString()
