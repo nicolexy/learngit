@@ -81,7 +81,7 @@
         <table id="Table2" style="Z-INDEX: 102; LEFT: 5.02%; WIDTH: 85%; POSITION: absolute; TOP: 154px; HEIGHT: 35%"
             cellspacing="1" cellpadding="1" width="920px" border="1" runat="server">
             <tr>
-                <td valign="top" colspan="13">
+                <td valign="top" colspan="16">
                     <asp:DataGrid ID="DataGrid1" runat="server" BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px"
                         BackColor="White" CellPadding="3" GridLines="Horizontal" AutoGenerateColumns="False" Width="100%">
                         <FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
@@ -108,7 +108,7 @@
                     </asp:DataGrid></td>
             </tr>
             <tr>
-                <td valign="top" colspan="13">
+                <td valign="top" colspan="16">
                     <asp:DataGrid ID="DataGrid2" runat="server" BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px"
                         BackColor="White" CellPadding="3" GridLines="Horizontal" AutoGenerateColumns="False" Width="100%">
                         <FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
@@ -132,7 +132,7 @@
                     </asp:DataGrid></td>
             </tr>
             <tr height="25">
-                <td colspan="13">
+                <td colspan="16">
                     <webdiyer:AspNetPager ID="pager" runat="server" AlwaysShow="True" NumericButtonCount="5" ShowCustomInfoSection="left"
                         PagingButtonSpacing="0" ShowInputBox="always" CssClass="mypager" HorizontalAlign="right"
                         SubmitButtonText="转到" NumericButtonTextFormatString="[{0}]">
@@ -140,7 +140,7 @@
                 </td>
             </tr>
             <tr bgcolor="#e4e5f7">
-                <td align="left" colspan="13" style="height: 20px;">
+                <td align="left" colspan="16" style="height: 20px;">
                     <font><b>详细信息</b></font>
                 </td>
             </tr>
@@ -158,6 +158,9 @@
                 <td>理财通openid</td>
                 <td>错误信息</td>
                 <td>渠道号</td>
+                <td>活动分类</td>
+                <td>奖品类型</td>
+                <td>奖品名称</td>
             </tr>
             <tr>
                 <td>
@@ -186,6 +189,15 @@
                     <asp:Label ID="lb_ErrorInfo" runat="server"></asp:Label></td>
                 <td>
                     <asp:Label ID="lb_ChannelId" runat="server"></asp:Label>
+                </td>
+                <td>
+                    <asp:Label ID="lb_FActType" runat="server"></asp:Label>
+                </td>
+                <td>
+                    <asp:Label ID="lb_FPrizeType" runat="server"></asp:Label>
+                </td>
+                <td>
+                    <asp:Label ID="lb_FPrizeName" runat="server"></asp:Label>
                 </td>
             </tr>
         </table>
