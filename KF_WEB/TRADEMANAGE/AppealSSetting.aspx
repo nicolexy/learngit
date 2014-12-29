@@ -10,11 +10,11 @@
 		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
 		<style type="text/css">@import url( ../STYLES/ossstyle.css ); .style2 { FONT-WEIGHT: bold; COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
-		 p.font1 {
+		 /*p.font1 {
                 font-weight:bold;
                 font-size:14px;
                 color:red;
-		    }
+		    }*/
     </style>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
@@ -51,8 +51,7 @@
 				</TR>
 				<tr>
 					<td colSpan="5"><asp:datagrid id="DataGrid1" runat="server" Width="100%" BackColor="White" BorderWidth="1px" BorderColor="#E7E7FF"
-							BorderStyle="None" CellPadding="1" AutoGenerateColumns="False" GridLines="Horizontal"
-                            OnItemDataBound="DataGrid1_ItemDataBound">
+							BorderStyle="None" CellPadding="1" AutoGenerateColumns="False" GridLines="Horizontal">
 							<FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
 							<SelectedItemStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#738A9C"></SelectedItemStyle>
 							<AlternatingItemStyle BackColor="#F7F7F7"></AlternatingItemStyle>
@@ -83,10 +82,10 @@
 							ShowCustomInfoSection="left" NumericButtonCount="5" AlwaysShow="True" PageSize="15"></webdiyer:aspnetpager></td>
 				</tr>
 			</TABLE>
-              <div id="RemaindDiv" runat="server" visible="true">
+             <%-- <div id="RemaindDiv" runat="server" visible="true">
                 <p class="font1">提醒：<br />请先在“结算规则查询”中核实是否是T+0，若是T+0，必须在“结算规则查询”中先关闭T+0，且次日再操作“暂停结算”。非T+0商户可直接操作“暂停结算”。
                 </p>
-            </div>
+            </div>--%>
 		</form>
 	</body>
 </HTML>

@@ -41,6 +41,7 @@ namespace CFT.CSOMS.DAL.WechatPay
             inmsg += "&limit=" + limit;
             inmsg += "&offset=" + offset;
             inmsg += "&table_suffix=" + bankDate;
+            inmsg += "&MSG_NO=26171006" + DateTime.Now.Ticks.ToString();
 
             string ip = System.Configuration.ConfigurationManager.AppSettings["QueryBankPosIP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["QueryBankPosPORT"].ToString());
@@ -72,6 +73,7 @@ namespace CFT.CSOMS.DAL.WechatPay
             inmsg += "&limit=" + limit;
             inmsg += "&offset=" + offset;
             inmsg += "&table_suffix=" + bankDate;
+            inmsg += "&MSG_NO=26171004" + DateTime.Now.Ticks.ToString();
 
             string ip = System.Configuration.ConfigurationManager.AppSettings["QueryBankPosIP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["QueryBankPosPORT"].ToString());

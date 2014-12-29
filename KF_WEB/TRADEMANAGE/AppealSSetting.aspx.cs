@@ -42,8 +42,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			if (!IsPostBack)
 			{
-				pager.RecordCount= GetCount();
-				BindData(1);
+                //pager.RecordCount= GetCount();
+                //BindData(1);
 			}
 		}
 

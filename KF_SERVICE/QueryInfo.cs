@@ -1950,42 +1950,42 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     */
 
                     string strSql = "transaction_id=" + listID + "&statusno=5";
-                    //string errMsg = "";
-                    //DataTable dt = CommQuery.GetTableFromICE(strSql, CommQuery.QUERY_MCH_REFUND, out errMsg);
+                    string errMsg = "";
+                    DataTable dt = CommQuery.GetTableFromICE(strSql, CommQuery.QUERY_MCH_REFUND, out errMsg);
 
                     //20141114 FINANCE_OD_QUERY_MCH_REFUND改调relay
                     /////////////////////////////////////
-                    DataTable dt = new DataTable();
-                    string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
-                    string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
+                    //DataTable dt = new DataTable();
+                    //string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
+                    //string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
 
-                    string req = "request_type=100568&ver=1&head_u=&sp_id=&" + strSql;
+                    //string req = "request_type=100568&ver=1&head_u=&sp_id=&" + strSql;
 
 
-                    string Msg = ""; //重置
+                    //string Msg = ""; //重置
 
-                    string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
+                    //string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
 
-                    if (answer == "")
-                    {
-                        dt= null;
-                    }
-                    if (Msg != "")
-                    {
-                        throw new Exception("调relay异常：" + Msg);
-                    }
+                    //if (answer == "")
+                    //{
+                    //    dt= null;
+                    //}
+                    //if (Msg != "")
+                    //{
+                    //    throw new Exception("调relay异常：" + Msg);
+                    //}
 
-                    //解析relay str
-                    DataSet ds = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
-                    if (Msg != "")
-                    {
-                        throw new Exception("解析relay异常：" + Msg);
-                    }
+                    ////解析relay str
+                    //DataSet ds = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
+                    //if (Msg != "")
+                    //{
+                    //    throw new Exception("解析relay异常：" + Msg);
+                    //}
 
-                    if (ds != null && ds.Tables.Count > 0 )
-                    {
-                        dt = ds.Tables[0];
-                    }
+                    //if (ds != null && ds.Tables.Count > 0 )
+                    //{
+                    //    dt = ds.Tables[0];
+                    //}
                     ///////////////////////////////
                  
 
@@ -4390,12 +4390,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
         //同步支付状态
-        public static bool SynPayState(string transid, string createtime)
+        public static bool SynPayState(string transid, string createtime,out string strMsg)
         {
 
             //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("SYNINFO"));
             //MySqlAccess dayw = new MySqlAccess(PublicRes.GetConnString("YW"));
-
+            strMsg = "开始";
             try
             {
                 //da.OpenConn();
@@ -4412,9 +4412,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string msg = "";
                 string strSql = "listid=" + transid + "&state=2"; //配置中增加了state参数
                 string pay_time = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_ORDER, "Fpay_time", out msg);
-
+                strMsg += string.Format("strSql={0} pay_time={1}", strSql, pay_time);
                 if (pay_time == null || pay_time == "")
                 {
+                    strMsg += string.Format("出错原因：{0}",msg);
                     return false;
                 }
 
@@ -4434,7 +4435,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 inmsg1 += "&pay_status=2";
                 inmsg1 += "&pay_time=" + TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetTickFromTime(pay_time);
                 inmsg1 += "&modify_time=" + timestamp;
-
+                
+                strMsg += string.Format("inmsg1={0}", inmsg1);
                 string reply = "";
                 short result;
 
@@ -4445,6 +4447,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     if (result != 0)
                     {
                         Msg = "调用接口syn_update4KZ_service未能成功 result=" + result + "，msg=" + msg;
+
+                        strMsg += string.Format("Msg={0}", Msg);
                         TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.sendLog4Log("TradeSynch.noc2cSynch", Msg);
                         return false;
                     }
@@ -4457,6 +4461,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         else
                         {
                             Msg = "调用接口syn_update4KZ_service未能成功" + reply;
+                            strMsg += string.Format("Msg={0}", Msg);
                             TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.sendLog4Log("TradeSynch.noc2cSynch", Msg);
                             return false;
                         }
@@ -4465,12 +4470,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 else
                 {
                     Msg = "调用接口syn_update4KZ_service未能成功" + inmsg1;
+                    strMsg += string.Format("Msg={0}", Msg);
                     TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.sendLog4Log("TradeSynch.noc2cSynch", Msg);
                     return false;
                 }
             }
             catch (Exception ex)
             {
+                strMsg += string.Format("Exception ex={0}", ex.Message);
                 throw new Exception(ex.Message);
                 return false;
             }
