@@ -75,7 +75,17 @@ namespace CFT.CSOMS.DAL.ActivityModule
                 throw new Exception("请先添加活动！");
             }
 
-            string tableId = COMMLIB.CommUtil.GetLCTTableId(payUin);
+            string tableId = string.Empty;
+            if (payUin.IndexOf("@wx.tenpay.com") > 0)
+            {
+                var uin = payUin.Substring(0, payUin.IndexOf("@wx.tenpay.com"));
+                tableId = uin.Substring(uin.Length - 2, 2);
+            }
+            else
+            {
+                tableId = payUin.Substring(payUin.Length - 2, 2);
+            }
+
             LogHelper.LogInfo("微信支付账号" + payUin + "获取tableid:" + tableId);
             if (string.IsNullOrEmpty(tableId))
             {
@@ -91,7 +101,7 @@ namespace CFT.CSOMS.DAL.ActivityModule
 
             StringBuilder Sql = new StringBuilder("");
 
-            Sql.Append("SELECT FActionId,FUin,FPayUin,FSPID,FTransId,FStatus,FMoney,FExpiredTime,FStandby2 from " + tableName1 + " where FActionId IN(" + act_str + ") AND FPayUin='");
+            Sql.Append("SELECT FActionId,FUin,FPayUin,FSPID,FTransId,FStatus,FMoney,FExpiredTime,FStandby2,FActType from " + tableName1 + " where FActionId IN(" + act_str + ") AND FPayUin='");
             Sql.Append(payUin + "'");
 
             if (!string.IsNullOrEmpty(stime))
@@ -117,7 +127,16 @@ namespace CFT.CSOMS.DAL.ActivityModule
         //属于理财通活动的中奖记录查询
         public DataSet QueryLCTPrize(string payUin, string actId)
         {
-            string tableId = COMMLIB.CommUtil.GetLCTTableId(payUin);
+            string tableId = string.Empty;
+            if (payUin.IndexOf("@wx.tenpay.com") > 0)
+            {
+                var uin = payUin.Substring(0, payUin.IndexOf("@wx.tenpay.com"));
+                tableId = uin.Substring(uin.Length - 2, 2);
+            }
+            else
+            {
+                tableId = payUin.Substring(payUin.Length - 2, 2);
+            }
             if (string.IsNullOrEmpty(tableId))
             {
                 throw new ArgumentNullException("tableId为空！");
@@ -130,7 +149,7 @@ namespace CFT.CSOMS.DAL.ActivityModule
             string tableName1 = "db_action_licaitong.t_action_trans_" + tableId;
             string tableName2 = "db_action_licaitong.t_action_prize_" + tableId;
 
-            StringBuilder Sql = new StringBuilder("SELECT b.FPriTransId,b.FPrizeType,b.FPrizeExpiredTime,b.FStartDate,b.FPrizeDesc,b.FErrInfo,b.FSPID as FGiveSpid,b.FStatus as FGiveState,b.FMoney as FPrizeMoney,b.FTransIdB as FGivePosId,b.FCreateTime as FPrizeTime,b.FModifyTime as FPrizeModifyTime FROM ");
+            StringBuilder Sql = new StringBuilder("SELECT b.FPriTransId,b.FPrizeType, b.FStandby2 as FPrizeName,b.FPrizeExpiredTime,b.FStartDate,b.FPrizeDesc,b.FErrInfo,b.FSPID as FGiveSpid,b.FStatus as FGiveState,b.FMoney as FPrizeMoney,b.FTransIdB as FGivePosId,b.FCreateTime as FPrizeTime,b.FModifyTime as FPrizeModifyTime FROM ");
             Sql.Append(tableName2 + " b ");
             Sql.Append(" where b.FPayUin='" + payUin + "' and b.FActionId='" + actId + "'");
 
