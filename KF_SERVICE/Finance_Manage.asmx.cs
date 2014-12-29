@@ -873,7 +873,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 		//freezePerAccount
 		[WebMethod(Description="冻结个人账户")]
 		[SoapHeader("myHeader",Direction=SoapHeaderDirection.In)]
-		public bool freezePerAccount(string uid,int type)  
+        public bool freezePerAccount(string uid, int type, string username)
 		{
 			string mediflag = "false";
 
@@ -953,18 +953,41 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 					newtype = 1;
 				}
 
-				string errMsg = "";
-				int iresult = CommQuery.ExecSqlFromICE(strSql,CommQuery.UPDATE_USERINFO,out errMsg);
+                //echo 20141211 解冻ui_common_update_service接口全部换成ui_unfreeze_user_service
+                if (type == 1)//冻结走之前的流程
+                {
+                    string errMsg = "";
+                    int iresult = CommQuery.ExecSqlFromICE(strSql, CommQuery.UPDATE_USERINFO, out errMsg);
 
-				if(iresult != 1)
-				{
-					throw new LogicException("更新了非一条记录:" + errMsg);
-				}
+                    if (iresult != 1)
+                    {
+                        throw new LogicException("更新了非一条记录:" + errMsg);
+                    }
 
-				strSql += "&curtype=1";
+                    strSql += "&curtype=1";
 
-				//iresult = 
-				CommQuery.ExecSqlFromICE(strSql,CommQuery.UPDATE_BANKUSER,out errMsg);
+                    //iresult = 
+                    CommQuery.ExecSqlFromICE(strSql, CommQuery.UPDATE_BANKUSER, out errMsg);
+
+                }
+                else if (type == 2) //解冻ui_common_update_service接口换成ui_unfreeze_user_service
+                {
+                    string errMsg = "";
+                    string sql = "uid=" + fuid;
+                    string fcredit = CommQuery.GetOneResultFromICE(sql, CommQuery.QUERY_USERINFO, "Fcreid", out errMsg);
+                    string fcretype = CommQuery.GetOneResultFromICE(sql, CommQuery.QUERY_USERINFO, "Fcre_type", out errMsg);
+
+                    string Msg = "";
+                    string req = "uin=" + uid + "&cre_id=" + fcredit + "&cre_type=" + fcretype + "&caller=" + myHeader.UserName;
+                    req += "&source=2&client_ip=" + myHeader.UserIP + "&name=" + username + "&modify_time=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    req += "&op_id=" + myHeader.OperID + "&op_name=" + myHeader.UserName;
+                    CommQuery.GetDSForServiceFromICE(req, "ui_unfreeze_user_service", true, out Msg);
+                    if (Msg != "")
+                    {
+                        throw new Exception("调ui_unfreeze_user_service解冻异常："+Msg);
+                    }
+                }
+
 
 //				if(iresult != 1)
 //				{

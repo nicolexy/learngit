@@ -258,7 +258,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         }
                         else {
                             //走原来流程
-                            exeSign = fm.freezePerAccount(uid, 1);
+                            exeSign = fm.freezePerAccount(uid, 1,"");
                         }
 						
 					}
@@ -506,21 +506,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     }
                     else
                     {
+                        string uname = "";
+                        if (ViewState["tuserName"] != null && ViewState["tuserName"].ToString() != "")
+                        {
+                            uname = ViewState["tuserName"].ToString();
+                        }
+
                         if (ViewState["iswechat"].ToString() == "true")
                         {
                             //微信处理流程
                             //fm.FreezePerAccountWechat(uid, 2);
-                            string uname = "";
-                            if (ViewState["tuserName"] != null && ViewState["tuserName"].ToString() != "") 
-                            {
-                                uname = ViewState["tuserName"].ToString();
-                            }
                             fm.UnFreezePerAccountWechat_New(uid, uname);
                         }
                         else
                         {
                             //走原来流程
-                            fm.freezePerAccount(uid, 2); 
+                            fm.freezePerAccount(uid, 2, uname); 
                         }
                     }
 

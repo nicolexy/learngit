@@ -20,6 +20,7 @@ using CFT.CSOMS.BLL.FundModule;
 using System.Configuration;
 using CFT.CSOMS.COMMLIB;
 using CFT.CSOMS.BLL.CFTAccountModule;
+using CFT.Apollo.Logging;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
@@ -311,6 +312,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             string card_tail = "";
             string bind_serialno = "";
             string bank_type = "";
+            string mobile = "";
             if (safeCardInfo != null && safeCardInfo.Rows.Count > 0)
             {
                 lblSafeBankCardType.Text = BankIO.QueryBankName(safeCardInfo.Rows[0]["Fbank_type"].ToString());
@@ -318,12 +320,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 card_tail = safeCardInfo.Rows[0]["Fcard_tail"].ToString();
                 bind_serialno = PublicRes.objectToString(safeCardInfo, "Fbind_serialno");//绑定序列号
                 bank_type = safeCardInfo.Rows[0]["Fbank_type"].ToString();
+                mobile = safeCardInfo.Rows[0]["Fmobile"].ToString();
+
+                ViewState["HasSafeCard"] = true;//标记是否有安全卡，为后面强赎做准备
             }
+            else
+                ViewState["HasSafeCard"] = false;
 
             //安全卡尾号及类型
             ViewState["card_tail"] = card_tail.Trim();
             ViewState["bank_type"] = bank_type.Trim();
-            ViewState["mobile"] = lblCell.Text.Trim();
+            //20141216 用户绑定银行的手机号更新后会不能强赎，改为取安全卡手机号
+            // ViewState["mobile"] = lblCell.Text.Trim();
+            ViewState["mobile"] = mobile.Trim();
             ViewState["bind_serialno"] = bind_serialno.Trim();
         }
 
@@ -487,100 +496,87 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (string.IsNullOrEmpty(spId))
                     throw new Exception(string.Format("无法同时查询所有基金的流水信息，请选择指定的基金"));
 
-                //var fundInfo = FundService.GetAllFundInfo().Where(i => i.SPId == spId);
+            //   var bankRollList = queryService.GetChildrenBankRollList(qqId, beginDate, endDate, curtype, start + 1, max, redirectionType, memo);
+                var bankRollList = fundBLLService.GetChildrenBankRollListEx(qqId, spId, curtype, beginDate, endDate, start, max, redirectionType, memo);
 
-                //if(fundInfo.Count() < 1)
-                //    throw new Exception(string.Format("找不到{0}对应的基金信息", spId));
+                //获取强赎申请URL,未提供强赎功能接口到客服部
+                GeForceRedeemUrl(bankRollList);
 
-                var bankRollList = queryService.GetChildrenBankRollList(qqId, beginDate, endDate, curtype, start + 1, max, redirectionType, memo);
-
-                if (bankRollList.Tables != null && bankRollList.Tables.Count > 0)
-                {
-                    bankRollList.Tables[0].Columns.Add("FpaynumText", typeof(string));
-                    bankRollList.Tables[0].Columns.Add("FbalanceText", typeof(string)); //账户余额
-                    bankRollList.Tables[0].Columns.Add("FtypeText", typeof(string));
-                    bankRollList.Tables[0].Columns.Add("FmemoText", typeof(string));
-                    bankRollList.Tables[0].Columns.Add("FconStr", typeof(string));
-                    bankRollList.Tables[0].Columns.Add("URL", typeof(string));
-
-                    foreach (DataRow dr in bankRollList.Tables[0].Rows)
-                    {
-                        switch (dr["Ftype"].ToString())
-                        {
-                            case "1":
-                                dr["FtypeText"] = "入";
-                                break;
-                            case "2":
-                                dr["FtypeText"] = "出";
-                                break;
-                            case "3":
-                                dr["FtypeText"] = "冻结";
-                                break;
-                            case "4":
-                                dr["FtypeText"] = "解冻";
-                                break;
-                            default:
-                                dr["FtypeText"] = dr["Ftype"].ToString();
-                                break;
-                        }
-
-                        switch (dr["Fmemo"].ToString())
-                        {
-                            case "余额宝子账户提现":
-                                dr["FmemoText"] = "提现";
-                                break;
-                            default:
-                                dr["FmemoText"] = dr["Fmemo"].ToString();
-                                break;
-                        }
-
-                        string duoFund = "";
-                        string listid=dr["Flistid"].ToString();
-                        if (dr["FmemoText"].ToString().Equals("基金申购"))
-                        {
-                            if (fundBLLService.IfAnewBoughtFund(dr["Flistid"].ToString(), dr["Fcreate_time"].ToString()))
-                            {
-                                dr["FmemoText"]="重新申购";
-                            }
-
-                            duoFund = QueryTradeFundInfo(spId, listid);//查询多基金转换
-                            dr["FmemoText"] += duoFund;
-                        }
-
-                        if (dr["FmemoText"] .ToString().Equals("提现"))
-                        {
-                            duoFund = QueryTradeFundInfo(spId, listid.Substring(listid.Length - 18));//查询多基金转换
-                            dr["FmemoText"] += duoFund;
-                        }
-
-                        dr["FpaynumText"] = classLibrary.setConfig.FenToYuan(dr["Fpaynum"].ToString());
-                        
-                        dr["FconStr"] = classLibrary.setConfig.FenToYuan(dr["Fcon"].ToString());
-
-
-                        dr["URL"] = "GetFundRatePageDetail.aspx?opertype=1&close_flag=1&uin=" + ViewState["uin"].ToString()
-                        + "&spid=" + ViewState["fundSPId"].ToString()
-                        + "&fund_code=" + ViewState["fundCode"].ToString()
-                        + "&total_fee=" + dr["Fbalance"].ToString()
-                        + "&bind_serialno=" + ViewState["bind_serialno"].ToString()
-                        + "&card_tail=" + ViewState["card_tail"].ToString()
-                        + "&mobile=" + ViewState["mobile"].ToString()
-                        + "&bank_type=" + ViewState["bank_type"].ToString();
-
-                    }
-
-                    if (ClassLib.ValidateRight("BalanceControl", this))
-                    {
-                        classLibrary.setConfig.FenToYuan_Table(bankRollList.Tables[0], "Fbalance", "FbalanceText");
-                    }
-
-                    dgBankRollList.DataSource = bankRollList.Tables[0].DefaultView;
-                    dgBankRollList.DataBind();
-                }
+                dgBankRollList.DataSource = bankRollList.DefaultView;
+                dgBankRollList.DataBind();
             }
             catch (Exception ex)
             {
                 throw new Exception(string.Format("获取账户流水异常:{0}", ex.Message));
+            }
+        }
+
+        private void GeForceRedeemUrl(DataTable bankRollList)
+        {
+            if (bankRollList != null && bankRollList.Rows.Count > 0)
+            {
+                bool markQuerySfCar = false;
+                foreach (DataRow dr in bankRollList.Rows)
+                {
+                    ViewState["HasSafeCard"] = false;//测试无安全卡
+
+                    try//无安全卡 取绑定卡信息
+                    {
+                        //非定期基金强赎：
+                        //有安全卡往安全卡赎回，
+                        //无安全卡往绑定快捷卡赎回，
+                        //无绑定卡往解除绑定卡赎回
+                        if (!(bool)(ViewState["HasSafeCard"]) && !markQuerySfCar)//无安全卡  
+                        {
+                            markQuerySfCar = true;
+
+                            //先取快捷、已绑定状态的卡
+                            DataSet ds = queryService.GetBankCardBindList_2(ViewState["uin"].ToString(), "", "", "", "", "", "", "", "", 2, 2, 0, 1);
+                            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0] == null || ds.Tables[0].Rows.Count == 0)
+                            {
+                                //取快捷、解绑状态的卡
+                                ds = queryService.GetBankCardBindList_2(ViewState["uin"].ToString(), "", "", "", "", "", "", "", "", 2, 3, 0, 1);
+                            }
+
+                            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                            {
+                                ViewState["card_tail"] = ds.Tables[0].Rows[0]["Fcard_tail"].ToString();
+                                ViewState["bank_type"] = ds.Tables[0].Rows[0]["Fbank_type"].ToString();
+                                ViewState["mobile"] = ds.Tables[0].Rows[0]["Fmobilephone"].ToString();
+                                ViewState["bind_serialno"] = ds.Tables[0].Rows[0]["Fbind_serialno"].ToString();
+                            }
+                            else
+                            {
+                                ViewState["card_tail"] = "";
+                                ViewState["bank_type"] = "";
+                                ViewState["mobile"] = "";
+                                ViewState["bind_serialno"] = "";
+                                LogHelper.LogInfo("Not  bind bank card!");
+                            }
+                        }
+
+                    }
+                    catch
+                    {
+                        LogHelper.LogInfo("Get Bind bank card error!");
+                    }
+
+                    dr["URL"] = "GetFundRatePageDetail.aspx?opertype=1&close_flag=1&uin=" + ViewState["uin"].ToString()
+                 + "&spid=" + ViewState["fundSPId"].ToString()
+                 + "&fund_code=" + ViewState["fundCode"].ToString()
+                 + "&total_fee=" + dr["Fbalance"].ToString()
+                 + "&bind_serialno=" + ViewState["bind_serialno"].ToString()
+                 + "&card_tail=" + ViewState["card_tail"].ToString()
+                 + "&mobile=" + ViewState["mobile"].ToString()
+                 + "&bank_type=" + ViewState["bank_type"].ToString();
+
+                    if (!ClassLib.ValidateRight("BalanceControl", this))
+                    {
+                        //     classLibrary.setConfig.FenToYuan_Table(bankRollList, "Fbalance", "FbalanceText");
+                        dr["FbalanceText"] = "";//没有权限就不显示余额
+                    }
+
+                }
             }
         }
 
@@ -633,102 +629,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 //if (fundInfo.Count() < 1)
                 //    throw new Exception(string.Format("找不到{0}对应的基金信息", spId));
 
-                DataTable bankRollList = fundBLLService.GetFundRollList(qqId, beginDate, endDate, curtype, start, max, redirectionType);
-
+              //  DataTable bankRollList = fundBLLService.GetFundRollList(qqId, beginDate, endDate, curtype, start, max, redirectionType);
+                //更换成与API接口一致
+                DataTable bankRollList = fundBLLService.BindBankRollListNotChildren(qqId, curtype, beginDate, endDate, start, max, redirectionType);
                 if (bankRollList != null)
                 {
-                    bankRollList.Columns.Add("Fsub_trans_id_str", typeof(string));
-                    bankRollList.Columns.Add("FtypeText", typeof(string));
-                    bankRollList.Columns.Add("Ftotal_fee_str", typeof(string));
-                    bankRollList.Columns.Add("Floading_type_str", typeof(string));
-                    bankRollList.Columns.Add("Fstate_str", typeof(string));
-
-                    if (bankRollList.Rows.Count > 0)
-                    {
-                        foreach (DataRow dr in bankRollList.Rows)
-                        {
-                            dr["Fsub_trans_id_str"] = "104" + dr["Fsub_trans_id"].ToString();
-                            string Fpur_type = dr["Fpur_type"].ToString();
-                            switch (Fpur_type)
-                            {
-                                case "1":
-                                    dr["FtypeText"] = "入";
-                                    break;
-                                case "2":
-                                    dr["FtypeText"] = "认购";
-                                    break;
-                                case "3":
-                                    dr["FtypeText"] = "定投";
-                                    break;
-                                case "4":
-                                    dr["FtypeText"] = "出";
-                                    break;
-                                case "5":
-                                    dr["FtypeText"] = "撤销";
-                                    break;
-                                case "6":
-                                    dr["FtypeText"] = "分红";
-                                    break;
-                                case "7":
-                                    dr["FtypeText"] = "认申购失败";
-                                    break;
-                                case "8":
-                                    dr["FtypeText"] = "比例确认退款";
-                                    break;
-                                case "9":
-                                    dr["FtypeText"] = "赠送收益申购";
-                                    break;
-                                case "10":
-                                    dr["FtypeText"] = "赠送份额申购";
-                                    break;
-                                default:
-                                    dr["FtypeText"] = dr["Fpur_type"].ToString();
-                                    break;
-                            }
-
-                            switch (dr["Floading_type"].ToString())
-                            {
-                                case "0":
-                                    dr["Floading_type_str"] = "普通赎回";
-                                    break;
-                                case "1":
-                                    dr["Floading_type_str"] = "快速赎回";
-                                    break;
-                                default:
-                                    dr["Floading_type_str"] = dr["Floading_type"].ToString();
-                                    break;
-                            }
-
-                            if (Fpur_type != "4")
-                            {//除了出其他都没有赎回方式
-                                dr["Floading_type_str"] = "";
-                            }
-
-                         
-                        }
-                      
-                        Hashtable ht = new Hashtable();
-                        ht.Add("0", "创建申购单");
-                        ht.Add("1", "等待扣款");
-                        ht.Add("2", "代扣成功");
-                        ht.Add("3", "申购成功");
-                        ht.Add("4", "初始赎回单");
-                        ht.Add("5", "到基金公司赎回成功");
-                        ht.Add("6", "到基金公司赎回失败");
-                        ht.Add("7", "申购请求失败，订单失效");
-                        ht.Add("8", "申购单申请退款");
-                        ht.Add("9", "申购单转入退款");
-                        ht.Add("10", "赎回单受理完成");
-                        ht.Add("11", "子账户提现请求成功");
-                        ht.Add("20", "作废");
-
-                        classLibrary.setConfig.DbtypeToPageContent(bankRollList, "Fstate", "Fstate_str", ht);
-
-                        classLibrary.setConfig.FenToYuan_Table(bankRollList, "Ftotal_fee", "Ftotal_fee_str");
-                       
-                    }
-
                     dgBankRollListNotChildren.DataSource = bankRollList.DefaultView;
+                    dgBankRollListNotChildren.DataBind();
+                }
+                else
+                {
+                    dgBankRollListNotChildren.DataSource = null;
                     dgBankRollListNotChildren.DataBind();
                 }
             }

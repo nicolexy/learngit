@@ -26,15 +26,15 @@
                 <td>
                     微信号:<asp:TextBox ID="txtWechatName" runat="server"></asp:TextBox>
                     <asp:HiddenField ID="hfHBUin" runat="server" />
-                    支付交易单号:<asp:TextBox ID="txtPayListId" runat="server"></asp:TextBox>
+                   <%-- 支付交易单号:<asp:TextBox ID="txtPayListId" runat="server"></asp:TextBox>--%>
                 </td>
-                <td>
+                <%--<td>
                     开始日期：
                     <asp:textbox id="TextBoxBeginDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton>
                     
                     结束日期：<asp:textbox id="TextBoxEndDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton>
-                </td>
-                <td align="center">
+                </td>--%>
+                <td align="center" colspan="2">
                     <asp:Button ID="btnQuery" runat="server" Width="80px" Text="查 询" OnClick="btnQuery_Click">
                     </asp:Button>
                 </td>
@@ -73,17 +73,19 @@
                         <Columns>
                             <asp:BoundField DataField="Fcreate_time" HeaderText="日期">
                                 <HeaderStyle Width="150px" HorizontalAlign="Center"></HeaderStyle>
+                                <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="Title" HeaderText="主题">
-                                <HeaderStyle Width="200px"></HeaderStyle>
+                                <HeaderStyle Width="200px"></HeaderStyle> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="Famount_text" HeaderText="金额">
-                                <HeaderStyle Width="80px"></HeaderStyle>
+                                <HeaderStyle Width="80px"></HeaderStyle> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField> 
                             <asp:BoundField DataField="Fwishing" HeaderText="祝福语">
-                                <HeaderStyle Width="110px"></HeaderStyle>
+                                <HeaderStyle Width="110px"></HeaderStyle> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:TemplateField ShowHeader="False">
+                                <HeaderStyle Width="200px"></HeaderStyle>
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lbtnView1" runat="server" CausesValidation="False" CommandArgument='<%#string.Format("{0},{1}",((System.Data.DataRowView)Container.DataItem)["Fsend_list_id"].ToString(), ((System.Data.DataRowView)Container.DataItem)["Fcreate_time"].ToString())%>'
                                         CommandName="ViewDetail" Text="详情"></asp:LinkButton>
@@ -116,18 +118,19 @@
                         BorderColor="#E7E7FF">
                         <Columns>
                             <asp:BoundField DataField="Fcreate_time" HeaderText="日期">
-                            <HeaderStyle HorizontalAlign="Center" Width="150px" />
+                            <HeaderStyle HorizontalAlign="Center" Width="150px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="Freceive_name" HeaderText="好友昵称">
-                            <HeaderStyle Width="200px" />
+                            <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="Freceive_openid_text" HeaderText="微信红包账号">
-                            <HeaderStyle Width="200px" />
+                            <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="Famount_text" HeaderText="领取金额">
-                            <HeaderStyle Width="80px" />
+                            <HeaderStyle Width="80px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="Fwishing" HeaderText="祝福语" />
+                            <asp:BoundField DataField="Fwishing" HeaderText="祝福语"> <ItemStyle  HorizontalAlign="Center"/>
+                            </asp:BoundField>
                         </Columns>
                         <FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
                         <HeaderStyle Font-Bold="True" HorizontalAlign="Center" ForeColor="#F7F7F7" 
@@ -157,21 +160,28 @@
                         BorderColor="#E7E7FF" onrowcommand="gvSendList_RowCommand">
                         <Columns>
                             <asp:BoundField DataField="Fcreate_time" HeaderText="日期">
-                            <HeaderStyle HorizontalAlign="Center" Width="150px" />
+                            <HeaderStyle HorizontalAlign="Center" Width="150px" /><ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="Fpay_listid" HeaderText="订单号">
-                            <HeaderStyle Width="200px" />
+                            <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="Ftotal_amount_text" HeaderText="金额">
-                            <HeaderStyle Width="80px" />
+                            <HeaderStyle Width="80px" /><ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="Fstate_text" HeaderText="状态">
-                            <HeaderStyle Width="200px" />
+                            <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="summary" HeaderText="红包数量" />
-                            <asp:BoundField DataField="refund" HeaderText="退款金额" />
-                            <asp:BoundField DataField="Fwishing" HeaderText="祝福语" />
+                            <asp:BoundField DataField="summary" HeaderText="红包数量" >
+                            <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="refund" HeaderText="退款金额" >
+                            <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="Fwishing" HeaderText="祝福语" >
+                            <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
+                            </asp:BoundField>
                             <asp:TemplateField HeaderText="详情" ShowHeader="False">
+                                 <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lbtnView2" runat="server" CausesValidation="False" CommandArgument='<%#string.Format("{0},{1}",((System.Data.DataRowView)Container.DataItem)["Flistid"].ToString(), ((System.Data.DataRowView)Container.DataItem)["Fcreate_time"].ToString())%>'
                                         CommandName="ViewDetail" Text="详情"></asp:LinkButton>

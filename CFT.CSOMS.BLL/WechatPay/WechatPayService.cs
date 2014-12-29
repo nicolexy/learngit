@@ -155,5 +155,25 @@ namespace CFT.CSOMS.BLL.WechatPay
         {
             return new TradePayData().QueryWxTrans(prime_trans_id);
         }
+
+        public DataSet QueryWebchatHB(string sendData, int flag, string client_ip, int offset, int limit)
+        {
+            string paramName = "";
+            if (flag == 1)
+            {
+                paramName = "send_openid";
+            }
+            else if (flag == 2)
+            {
+                paramName = "rec_openid";
+            }
+            else if (flag == 3)
+            {
+                paramName = "send_listid";
+            }
+            else
+                throw new Exception("flag参数有误，没有对应接口");
+            return new TradePayData().QueryWebchatHB(paramName, sendData, flag, client_ip, offset, limit);
+        }
     }
 }
