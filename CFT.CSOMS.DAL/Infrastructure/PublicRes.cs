@@ -478,6 +478,78 @@ namespace CFT.CSOMS.DAL.Infrastructure
              return ret;
          }
 
+         public static string EncryptZerosPadding(string source)
+         {
+             if (source.Trim() == "")
+                 return "";
+
+             try
+             {
+
+                 DESCryptoServiceProvider des = new DESCryptoServiceProvider();
+
+                 //把字符串放到byte数组中  
+                 byte[] inputByteArray = Encoding.Default.GetBytes(source);
+
+                 byte[] key = { 0x4a, 0x08, 0x80, 0x58, 0x13, 0xad, 0x46, 0x89 };
+
+                 byte[] iv = { 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18 };
+
+                 des.Key = key;
+                 des.IV = iv;
+                 des.Padding = System.Security.Cryptography.PaddingMode.Zeros;//0填充
+                 MemoryStream ms = new MemoryStream();
+                 CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(), CryptoStreamMode.Write);
+
+                 cs.Write(inputByteArray, 0, inputByteArray.Length);
+                 cs.FlushFinalBlock();
+                 string bas64Str = Convert.ToBase64String(ms.ToArray());
+                 return bas64Str.Replace("+", "-").Replace("/", "_");//.Replace("=","%3d").Replace("=","%3D");
+
+
+             }
+             catch (Exception ex)
+             {
+                 return "";
+             }
+         }
+
+         /// <summary>
+         /// 一点通银行卡解密方法
+         /// </summary>
+         /// <param name="base64Bankid"></param>
+         /// <returns></returns>
+         public static string BankIDEncode_ForBankCardUnbind(string base64Bankid)
+         {
+             byte[] iv = { 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18 };
+             byte[] newkey = { 0x4a, 0x08, 0x80, 0x58, 0x13, 0xad, 0x46, 0x89 };
+
+             try
+             {
+                 DESCryptoServiceProvider des = new DESCryptoServiceProvider();
+
+                 //middle的base64转换不标准，这个地方需要替换下 
+                 byte[] inputByteArray = Convert.FromBase64String(base64Bankid.Replace("-", "+").Replace("_", "/").Replace("%3d", "=").Replace("%3D", "="));
+
+                 //建立加密对象的密钥和偏移量，此值重要，不能修改 
+
+                 des.Key = newkey;
+                 des.IV = iv;
+                 //Padding设置为None，这个很重要，因为middle是这个加密的
+                 des.Padding = System.Security.Cryptography.PaddingMode.None;
+                 MemoryStream ms = new MemoryStream();
+                 CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write);
+                 cs.Write(inputByteArray, 0, inputByteArray.Length);
+                 cs.FlushFinalBlock();
+
+                 return System.Text.Encoding.ASCII.GetString(ms.ToArray()).Trim();
+             }
+             catch (Exception ex)
+             {
+                 return base64Bankid;
+             }
+         }
+
     }
     }
 
@@ -570,5 +642,6 @@ namespace CFT.CSOMS.DAL.Infrastructure
             }
         }
 
+       
 
 }
