@@ -518,7 +518,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 bool markQuerySfCar = false;
                 foreach (DataRow dr in bankRollList.Rows)
                 {
-                    ViewState["HasSafeCard"] = false;//测试无安全卡
+                  //  ViewState["HasSafeCard"] = false;//测试无安全卡
 
                     try//无安全卡 取绑定卡信息
                     {

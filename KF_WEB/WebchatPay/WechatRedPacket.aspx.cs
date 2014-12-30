@@ -80,7 +80,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 catch { }//防止不能查询
 
                 //测试接口
-               // hbUin = "onqOjjqoNArgAnXUC-g2QyPfL9fQ";
+              //  hbUin = "onqOjjqoNArgAnXUC-g2QyPfL9fQ";
 
                 hbUin = hbUin.Replace("@hb.tenpay.com", "");
                 ViewState["hbUin"] = hbUin;

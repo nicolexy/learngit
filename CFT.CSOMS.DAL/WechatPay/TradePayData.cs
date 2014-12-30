@@ -57,8 +57,16 @@ namespace CFT.CSOMS.DAL.WechatPay
 
             string op_source = "cft_kf_sys";
            // string key = "2WLTM0CVO9NBG5EQJFPIAH";
+            string ipStr = "";
+            Random ran = new Random();
+            int num = ran.Next(0,2);
+            if (num == 0)
+                ipStr = "WebchatHBIPFir";
+            else if(num == 1)
+                ipStr = "WebchatHBIPSec";
+
             string key = System.Configuration.ConfigurationManager.AppSettings["WebchatHBKey"].ToString();
-            string ip = System.Configuration.ConfigurationManager.AppSettings["WebchatHBIP"].ToString();
+            string ip = System.Configuration.ConfigurationManager.AppSettings[ipStr].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["WebchatHBPORT"].ToString());
 
             Dictionary<string, string> paramsDic = new Dictionary<string, string>();
