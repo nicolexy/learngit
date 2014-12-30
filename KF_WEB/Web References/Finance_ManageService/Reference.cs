@@ -44,6 +44,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
         
         private System.Threading.SendOrPostCallback checkUserRegOperationCompleted;
         
+        private System.Threading.SendOrPostCallback CheckRecoverUidOperationCompleted;
+        
         private System.Threading.SendOrPostCallback freezeTradeOperationCompleted;
         
         private System.Threading.SendOrPostCallback returnStaticStrOperationCompleted;
@@ -130,6 +132,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
         
         /// <remarks/>
         public event checkUserRegCompletedEventHandler checkUserRegCompleted;
+        
+        /// <remarks/>
+        public event CheckRecoverUidCompletedEventHandler CheckRecoverUidCompleted;
         
         /// <remarks/>
         public event freezeTradeCompletedEventHandler freezeTradeCompleted;
@@ -508,6 +513,54 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
             if ((this.checkUserRegCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.checkUserRegCompleted(this, new checkUserRegCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CheckRecoverUid", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool CheckRecoverUid(string uid, string recoverQQid, out string Msg, out string type) {
+            object[] results = this.Invoke("CheckRecoverUid", new object[] {
+                        uid,
+                        recoverQQid});
+            Msg = ((string)(results[1]));
+            type = ((string)(results[2]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginCheckRecoverUid(string uid, string recoverQQid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("CheckRecoverUid", new object[] {
+                        uid,
+                        recoverQQid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public bool EndCheckRecoverUid(System.IAsyncResult asyncResult, out string Msg, out string type) {
+            object[] results = this.EndInvoke(asyncResult);
+            Msg = ((string)(results[1]));
+            type = ((string)(results[2]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CheckRecoverUidAsync(string uid, string recoverQQid) {
+            this.CheckRecoverUidAsync(uid, recoverQQid, null);
+        }
+        
+        /// <remarks/>
+        public void CheckRecoverUidAsync(string uid, string recoverQQid, object userState) {
+            if ((this.CheckRecoverUidOperationCompleted == null)) {
+                this.CheckRecoverUidOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckRecoverUidOperationCompleted);
+            }
+            this.InvokeAsync("CheckRecoverUid", new object[] {
+                        uid,
+                        recoverQQid}, this.CheckRecoverUidOperationCompleted, userState);
+        }
+        
+        private void OnCheckRecoverUidOperationCompleted(object arg) {
+            if ((this.CheckRecoverUidCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CheckRecoverUidCompleted(this, new CheckRecoverUidCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1366,6 +1419,48 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    public delegate void CheckRecoverUidCompletedEventHandler(object sender, CheckRecoverUidCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CheckRecoverUidCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CheckRecoverUidCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string Msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+        
+        /// <remarks/>
+        public string type {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[2]));
             }
         }
     }

@@ -36,16 +36,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://admin.cf.com/FINANCE_SERVICE/Query_Service.asmx")]
-        public string finance_web_FQuery_Service_Query_Service {
-            get {
-                return ((string)(this["finance_web_FQuery_Service_Query_Service"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
         [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:61131/IVRService.asmx")]
         public string finance_web_IVRService_IVRService {
             get {
@@ -110,6 +100,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Properties {
         public string finance_web_ZWCheck_Service_Check_Service {
             get {
                 return ((string)(this["finance_web_ZWCheck_Service_Check_Service"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://admin.cf.com/FINANCE_SERVICE/Query_Service.asmx")]
+        public string finance_web_FQuery_Service_Query_Service {
+            get {
+                return ((string)(this["finance_web_FQuery_Service_Query_Service"]));
             }
         }
     }

@@ -271,6 +271,7 @@
     <EmbeddedResource Include="Language\ErroMessage.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ErroMessage.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Query_Service.asmx.resx">
       <DependentUpon>Query_Service.asmx.cs</DependentUpon>

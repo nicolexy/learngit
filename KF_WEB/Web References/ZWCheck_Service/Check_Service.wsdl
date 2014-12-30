@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="http://Tencent.com/OSS/C2C/Finance/Check_WebService" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" targetNamespace="http://Tencent.com/OSS/C2C/Finance/Check_WebService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://Tencent.com/OSS/C2C/Finance/Check_WebService" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://Tencent.com/OSS/C2C/Finance/Check_WebService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://Tencent.com/OSS/C2C/Finance/Check_WebService">
-      <s:import namespace="http://www.w3.org/2001/XMLSchema" />
       <s:element name="StartCheck">
         <s:complexType>
           <s:sequence>
@@ -39,6 +38,7 @@
           <s:element minOccurs="1" maxOccurs="1" name="OperID" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="RightString" type="s:string" />
         </s:sequence>
+        <s:anyAttribute />
       </s:complexType>
       <s:element name="DoCheck">
         <s:complexType>
@@ -192,6 +192,27 @@
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="ConfirmCancelCheckResult" type="s:boolean" />
             <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCheckLog">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="checkid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCheckLogResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCheckLogResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -416,6 +437,12 @@
   <wsdl:message name="ConfirmCancelCheckSoapOut">
     <wsdl:part name="parameters" element="tns:ConfirmCancelCheckResponse" />
   </wsdl:message>
+  <wsdl:message name="GetCheckLogSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCheckLog" />
+  </wsdl:message>
+  <wsdl:message name="GetCheckLogSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCheckLogResponse" />
+  </wsdl:message>
   <wsdl:message name="GetPendingApprovalSoapIn">
     <wsdl:part name="parameters" element="tns:GetPendingApproval" />
   </wsdl:message>
@@ -466,92 +493,97 @@
   </wsdl:message>
   <wsdl:portType name="Check_ServiceSoap">
     <wsdl:operation name="StartCheck">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">提请一个审批</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">提请一个审批</wsdl:documentation>
       <wsdl:input message="tns:StartCheckSoapIn" />
       <wsdl:output message="tns:StartCheckSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DoCheck">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">进行一个审批</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">进行一个审批</wsdl:documentation>
       <wsdl:input message="tns:DoCheckSoapIn" />
       <wsdl:output message="tns:DoCheckSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ExecuteCheck">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">执行审批完的动作</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">执行审批完的动作</wsdl:documentation>
       <wsdl:input message="tns:ExecuteCheckSoapIn" />
       <wsdl:output message="tns:ExecuteCheckSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="QueryExedCheck">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">查询相应的listID是否执行</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询相应的listID是否执行</wsdl:documentation>
       <wsdl:input message="tns:QueryExedCheckSoapIn" />
       <wsdl:output message="tns:QueryExedCheckSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="QueryObjCheck">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">查询主体ID还有什么审批没有完成</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询主体ID还有什么审批没有完成</wsdl:documentation>
       <wsdl:input message="tns:QueryObjCheckSoapIn" />
       <wsdl:output message="tns:QueryObjCheckSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CheckUserPage">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">查询登陆的用户具有的权限，显示不同的页面</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询登陆的用户具有的权限，显示不同的页面</wsdl:documentation>
       <wsdl:input message="tns:CheckUserPageSoapIn" />
       <wsdl:output message="tns:CheckUserPageSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="getCheckParam">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">查询审批ID对应的相关参数信息t_check_param</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询审批ID对应的相关参数信息t_check_param</wsdl:documentation>
       <wsdl:input message="tns:getCheckParamSoapIn" />
       <wsdl:output message="tns:getCheckParamSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="IDIsInCheck">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">查询相应的ID是否处于审批中</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询相应的ID是否处于审批中</wsdl:documentation>
       <wsdl:input message="tns:IDIsInCheckSoapIn" />
       <wsdl:output message="tns:IDIsInCheckSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="upFinishState">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">更新审批为完成状态</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新审批为完成状态</wsdl:documentation>
       <wsdl:input message="tns:upFinishStateSoapIn" />
       <wsdl:output message="tns:upFinishStateSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="RecallCheck">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">更新审批为完成状态</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新审批为完成状态</wsdl:documentation>
       <wsdl:input message="tns:RecallCheckSoapIn" />
       <wsdl:output message="tns:RecallCheckSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ConfirmCancelCheck">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">确认撤销(主要针对那些无法无法审批或无法执行的任务单)</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">确认撤销(主要针对那些无法无法审批或无法执行的任务单)</wsdl:documentation>
       <wsdl:input message="tns:ConfirmCancelCheckSoapIn" />
       <wsdl:output message="tns:ConfirmCancelCheckSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetCheckLog">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">读取审批日志</wsdl:documentation>
+      <wsdl:input message="tns:GetCheckLogSoapIn" />
+      <wsdl:output message="tns:GetCheckLogSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetPendingApproval">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">获取指定审批类型的待审批数据</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取指定审批类型的待审批数据</wsdl:documentation>
       <wsdl:input message="tns:GetPendingApprovalSoapIn" />
       <wsdl:output message="tns:GetPendingApprovalSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetCheckByObjId">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">获取指定objid的审批数据</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取指定objid的审批数据</wsdl:documentation>
       <wsdl:input message="tns:GetCheckByObjIdSoapIn" />
       <wsdl:output message="tns:GetCheckByObjIdSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetLaseApproval">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">获取最近的一条审批数据</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取最近的一条审批数据</wsdl:documentation>
       <wsdl:input message="tns:GetLaseApprovalSoapIn" />
       <wsdl:output message="tns:GetLaseApprovalSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="StartCheckNew">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">提请一个审批(返回审批流编号)</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">提请一个审批(返回审批流编号)</wsdl:documentation>
       <wsdl:input message="tns:StartCheckNewSoapIn" />
       <wsdl:output message="tns:StartCheckNewSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DoCheckNew">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">进行一次审批，返回相应审批流程是否完成</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">进行一次审批，返回相应审批流程是否完成</wsdl:documentation>
       <wsdl:input message="tns:DoCheckNewSoapIn" />
       <wsdl:output message="tns:DoCheckNewSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetCheckLogByType">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">按照类别获取审批日志</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">按照类别获取审批日志</wsdl:documentation>
       <wsdl:input message="tns:GetCheckLogByTypeSoapIn" />
       <wsdl:output message="tns:GetCheckLogByTypeSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ValiCheckRight">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">获得当前审批人权限信息</documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得当前审批人权限信息</wsdl:documentation>
       <wsdl:input message="tns:ValiCheckRightSoapIn" />
       <wsdl:output message="tns:ValiCheckRightSoapOut" />
     </wsdl:operation>
@@ -661,6 +693,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetCheckLog">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/GetCheckLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetPendingApproval">
       <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/GetPendingApproval" style="document" />
       <wsdl:input>
@@ -727,10 +768,192 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
+  <wsdl:binding name="Check_ServiceSoap12" type="tns:Check_ServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="StartCheck">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/StartCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:StartCheckFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DoCheck">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/DoCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:DoCheckFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteCheck">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/ExecuteCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ExecuteCheckFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryExedCheck">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/QueryExedCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryObjCheck">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/QueryObjCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:QueryObjCheckFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckUserPage">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/CheckUserPage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCheckParam">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/getCheckParam" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IDIsInCheck">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/IDIsInCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="upFinishState">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/upFinishState" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RecallCheck">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/RecallCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmCancelCheck">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/ConfirmCancelCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckLog">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/GetCheckLog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPendingApproval">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/GetPendingApproval" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckByObjId">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/GetCheckByObjId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLaseApproval">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/GetLaseApproval" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StartCheckNew">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/StartCheckNew" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:StartCheckNewFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DoCheckNew">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/DoCheckNew" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:DoCheckNewFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckLogByType">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/GetCheckLogByType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValiCheckRight">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/ValiCheckRight" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
   <wsdl:service name="Check_Service">
-    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
     <wsdl:port name="Check_ServiceSoap" binding="tns:Check_ServiceSoap">
       <soap:address location="http://admin.cf.zw/FINANCE_SERVICE/Check_Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Check_ServiceSoap12" binding="tns:Check_ServiceSoap12">
+      <soap12:address location="http://admin.cf.zw/FINANCE_SERVICE/Check_Service.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

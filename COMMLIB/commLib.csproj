@@ -85,6 +85,25 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CFT.Apollo.Common">
+      <HintPath>..\packages\CFT.Apollo.Common.1.0.5436.2324\lib\CFT.Apollo.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.Apollo.CommunicationFramework, Version=1.1.5436.29525, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5436.29525\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.Apollo.Data, Version=1.0.5471.27778, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.Data.1.0.5471.27778\lib\CFT.Apollo.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.Apollo.Logging, Version=1.0.5444.18012, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5444.18012\lib\net40\CFT.Apollo.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="icecs_gb2312, Version=3.1.1.0, Culture=neutral, PublicKeyToken=1f998c50fec78381">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5436.29525\lib\net40\icecs_gb2312.dll</HintPath>
+    </Reference>
     <Reference Include="Interop.ADODB">
       <HintPath>..\Assemblies\Interop.ADODB.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -101,9 +120,11 @@
       <HintPath>..\Assemblies\Interop.CFTGWCLib.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    <Reference Include="log4net">
+      <HintPath>..\packages\CFT.Apollo.log4net.1.0.0.15\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Apollo">
+      <HintPath>..\packages\MySql.Data.Apllo.6.9.5.32876\lib\MySql.Data.Apollo.dll</HintPath>
     </Reference>
     <Reference Include="SunLibrary">
       <HintPath>..\packages\SunLibrary.1.1.5280.31038\lib\net40\SunLibrary.dll</HintPath>
@@ -146,6 +167,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CommUtil.cs" />
+    <Compile Include="DbConnectionString.cs" />
     <Compile Include="GenID.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -164,7 +186,10 @@
     </Compile>
     <Compile Include="SunlibraryEx.cs" />
     <Compile Include="WeChatHelper.cs" />
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Configs\Log4net.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -186,7 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BackProcessClientCS\BackProcessClientCS.csproj">
-      <Project>{A6B127B1-E4DD-46EC-9439-3C5D8BE97E24}</Project>
+      <Project>{a6b127b1-e4dd-46ec-9439-3c5d8be97e24}</Project>
       <Name>BackProcessClientCS</Name>
     </ProjectReference>
     <ProjectReference Include="..\DATAACCESS\DataAccess.csproj">

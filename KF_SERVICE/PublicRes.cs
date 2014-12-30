@@ -9,6 +9,7 @@ using System.IO;
 using System.Security.Cryptography;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
+using CommLib;
 
 namespace TENCENT.OSS.CFT.KF.KF_Service
 {
@@ -115,7 +116,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         private static string f_strDataSource_statistics;
         private static string f_strUserID_statistics;
         private static string f_strPassword_statistics;
-        
+
         //comprehensive
         private static string f_strDatabase_comprehensive;
         private static string f_strDataSource_comprehensive;
@@ -237,7 +238,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         private static string f_strDataSource_bankbulletin;
         private static string f_strUserID_bankbulletin;
         private static string f_strPassword_bankbulletin;
-        
+
 
         private static string f_strDatabase_inc_new;
         private static string f_strDataSource_inc_new;
@@ -490,8 +491,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             f_strDataSource_zwOldTable = ConfigurationManager.AppSettings["DataSource_ZWOLDTABLE"];
             f_strUserID_zwOldTable = ConfigurationManager.AppSettings["UserID_ZWOLDTABLE"];
             f_strPassword_zwOldTable = ConfigurationManager.AppSettings["Password_ZWOLDTABLE"];
-            
-            
+
+
             f_strDatabase_bs = "mysql";
             f_strDataSource_bs = ConfigurationManager.AppSettings["DataSource_BS"];
             f_strUserID_bs = ConfigurationManager.AppSettings["UserID_BS"];
@@ -690,7 +691,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             f_strDataSource_bankbulletin = ConfigurationManager.AppSettings["DataSource_BANKBULLETIN"];
             f_strUserID_bankbulletin = ConfigurationManager.AppSettings["UserID_BANKBULLETIN"];
             f_strPassword_bankbulletin = ConfigurationManager.AppSettings["Password_BANKBULLETIN"];
-            
+
 
             f_strDatabase_inc_new = "mysql"; ;
             f_strDataSource_inc_new = ConfigurationManager.AppSettings["DataSource_INC_NEW"]; ;
@@ -950,7 +951,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         /// <returns></returns>
         public static string GetConnString(string FlagName, string sepvalue)
         {
-            MySqlAccess daht = new MySqlAccess(GetConnString("HT"));
+            MySqlAccess daht = new MySqlAccess(DbConnectionString.Instance.GetConnectionString("HT"));
             try
             {
                 string strSql = " select FconfigName from c2c_fmdb.t_sepdb where FMinValue<=" + sepvalue + " and FMaxValue>=" + sepvalue
@@ -959,18 +960,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 daht.OpenConn();
                 string configname = daht.GetOneResult(strSql);
 
-                string dbconfig = ConfigurationManager.AppSettings["DB_" + configname];
-                if (dbconfig == null || dbconfig == "")
-                    dbconfig = "mysql";
+                return DbConnectionString.Instance.GetConnectionString(configname);
 
-                string connModule = "Driver=[MySQL ODBC 3.51 Driver]; Server={0}; Database={3}; UID={1}; PWD={2}; Option=3";
-                string db50list = ConfigurationManager.AppSettings["DB50List"];
-                if (db50list.IndexOf(";" + configname + ";") > -1)
-                {
-                    connModule = "Driver=[mysql ODBC 5.2a Driver]; Server={0}; Database={3}; UID={1}; PWD={2};charset=latin1; Option=3";
-                }
-                return String.Format(connModule, ConfigurationManager.AppSettings["DataSource_" + configname], ConfigurationManager.AppSettings["UserID_" + configname]
-                    , ConfigurationManager.AppSettings["Password_" + configname], dbconfig).Replace("[", "{").Replace("]", "}");
+                //string dbconfig = ConfigurationManager.AppSettings["DB_" + configname];
+                //if (dbconfig == null || dbconfig == "")
+                //    dbconfig = "mysql";
+
+                //string connModule = "Driver=[MySQL ODBC 3.51 Driver]; Server={0}; Database={3}; UID={1}; PWD={2}; Option=3";
+                //string db50list = ConfigurationManager.AppSettings["DB50List"];
+                //if (db50list.IndexOf(";" + configname + ";") > -1)
+                //{
+                //    connModule = "Driver=[mysql ODBC 5.2a Driver]; Server={0}; Database={3}; UID={1}; PWD={2};charset=latin1; Option=3";
+                //}
+                
+                //return String.Format(connModule, ConfigurationManager.AppSettings["DataSource_" + configname], ConfigurationManager.AppSettings["UserID_" + configname]
+                //    , ConfigurationManager.AppSettings["Password_" + configname], dbconfig).Replace("[", "{").Replace("]", "}");
             }
             catch
             {
@@ -991,306 +995,379 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             string sConnStr = "";
 
-            string connModule = "Driver=[MySQL ODBC 3.51 Driver]; Server={0}; Database={3}; UID={1}; PWD={2}; Option=3s";
-            string db50list = ConfigurationManager.AppSettings["DB50List"];
-            if (db50list.IndexOf(";" + strDBType + ";") > -1)
-            {
-                connModule = "Driver=[mysql ODBC 5.2a Driver]; Server={0}; Database={3}; UID={1}; PWD={2};charset=latin1; Option=3";
-            }
+            //string connModule = "Driver=[MySQL ODBC 3.51 Driver]; Server={0}; Database={3}; UID={1}; PWD={2}; Option=3s";
+            //string db50list = ConfigurationManager.AppSettings["DB50List"];
+            //if (db50list.IndexOf(";" + strDBType + ";") > -1)
+            //{
+            //    connModule = "Driver=[mysql ODBC 5.2a Driver]; Server={0}; Database={3}; UID={1}; PWD={2};charset=latin1; Option=3";
+            //}
 
             if (strDBType.ToUpper() == "YW")
             {
-                sConnStr = String.Format(connModule, f_strDataSource, f_strUserID, f_strPassword, f_strDatabase);
+                //sConnStr = String.Format(connModule, f_strDataSource, f_strUserID, f_strPassword, f_strDatabase);
+                return DbConnectionString.Instance.GetConnectionString("YW");
             }
             else if (strDBType.ToUpper() == "YWB")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_ywb, f_strUserID_ywb, f_strPassword_ywb, f_strDatabase_ywb);
+                //sConnStr = String.Format(connModule, f_strDataSource_ywb, f_strUserID_ywb, f_strPassword_ywb, f_strDatabase_ywb);
+                return DbConnectionString.Instance.GetConnectionString("YWB");
             }
             else if (strDBType.ToUpper() == "ZL")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_zl, f_strUserID_zl, f_strPassword_zl, f_strDatabase_zl);
+                //sConnStr = String.Format(connModule, f_strDataSource_zl, f_strUserID_zl, f_strPassword_zl, f_strDatabase_zl);
+                return DbConnectionString.Instance.GetConnectionString("ZL");
             }
             else if (strDBType.ToUpper() == "ZLB")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_zlb, f_strUserID_zlb, f_strPassword_zlb, f_strDatabase_zlb);
+                //sConnStr = String.Format(connModule, f_strDataSource_zlb, f_strUserID_zlb, f_strPassword_zlb, f_strDatabase_zlb);
+                return DbConnectionString.Instance.GetConnectionString("ZLB");
             }
-            else if (strDBType.ToUpper() == "HT")
+            else if (strDBType.ToUpper() == "HT")//需要更新key（DataSource_ht）
             {
-                sConnStr = String.Format(connModule, f_strDataSource_ht, f_strUserID_ht, f_strPassword_ht, f_strDatabase_ht);
+                //sConnStr = String.Format(connModule, f_strDataSource_ht, f_strUserID_ht, f_strPassword_ht, f_strDatabase_ht);
+                return DbConnectionString.Instance.GetConnectionString("DataSource_ht");
             }
             else if (strDBType.ToUpper() == "CDK")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_cdk, f_strUserID_cdk, f_strPassword_cdk, f_strDatabase_cdk);
+                //sConnStr = String.Format(connModule, f_strDataSource_cdk, f_strUserID_cdk, f_strPassword_cdk, f_strDatabase_cdk);
+                return DbConnectionString.Instance.GetConnectionString("CDK");
             }
             else if (strDBType.ToUpper() == "STATISTICS")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_statistics, f_strUserID_statistics, f_strPassword_statistics, f_strDatabase_statistics);
+                //sConnStr = String.Format(connModule, f_strDataSource_statistics, f_strUserID_statistics, f_strPassword_statistics, f_strDatabase_statistics);
+                return DbConnectionString.Instance.GetConnectionString("STATISTICS");
             }
             else if (strDBType.ToUpper() == "COMPREHENSIVE")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_comprehensive, f_strUserID_comprehensive, f_strPassword_comprehensive, f_strDatabase_comprehensive);
+                //sConnStr = String.Format(connModule, f_strDataSource_comprehensive, f_strUserID_comprehensive, f_strPassword_comprehensive, f_strDatabase_comprehensive);
+                return DbConnectionString.Instance.GetConnectionString("COMPREHENSIVE");
             }
             else if (strDBType.ToUpper() == "ACTIVITY")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_activity, f_strUserID_activity, f_strPassword_activity, f_strDatabase_activity);
+                //sConnStr = String.Format(connModule, f_strDataSource_activity, f_strUserID_activity, f_strPassword_activity, f_strDatabase_activity);
+                return DbConnectionString.Instance.GetConnectionString("ACTIVITY");
             }
             else if (strDBType.ToUpper() == "WXZFACT")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_wxzfact, f_strUserID_wxzfact, f_strPassword_wxzfact, f_strDatabase_wxzfact);
+                //sConnStr = String.Format(connModule, f_strDataSource_wxzfact, f_strUserID_wxzfact, f_strPassword_wxzfact, f_strDatabase_wxzfact);
+                return DbConnectionString.Instance.GetConnectionString("WXZFACT");
             }
-            else if (strDBType.ToUpper() == "FUND")
+            else if (strDBType.ToUpper() == "FUND")//需要更新key(DataSource_fund)
             {
-                sConnStr = String.Format(connModule, f_strDataSource_fund, f_strUserID_fund, f_strPassword_fund, f_strDatabase_fund);
+                //sConnStr = String.Format(connModule, f_strDataSource_fund, f_strUserID_fund, f_strPassword_fund, f_strDatabase_fund);
+                return DbConnectionString.Instance.GetConnectionString("DataSource_fund");
             }
             else if (strDBType.ToUpper() == "BANKLISTHIS")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_banklisthis, f_strUserID_banklisthis, f_strPassword_banklisthis, f_strDatabase_banklisthis);
+                //sConnStr = String.Format(connModule, f_strDataSource_banklisthis, f_strUserID_banklisthis, f_strPassword_banklisthis, f_strDatabase_banklisthis);
+                return DbConnectionString.Instance.GetConnectionString("BANKLISTHIS");
             }
-            else if (strDBType.ToUpper() == "FCPAY")
+            else if (strDBType.ToUpper() == "FCPAY")//需要更新key（DataSource_FCPAY）
             {
-                sConnStr = String.Format(connModule, f_strDataSource_fcpay, f_strUserID_fcpay, f_strPassword_fcpay, f_strDatabase_fcpay);
+                //sConnStr = String.Format(connModule, f_strDataSource_fcpay, f_strUserID_fcpay, f_strPassword_fcpay, f_strDatabase_fcpay);
+                return DbConnectionString.Instance.GetConnectionString("DataSource_FCPAY");
             }
             else if (strDBType.ToUpper() == "GWQ")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_gwq, f_strUserID_gwq, f_strPassword_gwq, f_strDatabase_gwq);
+                //sConnStr = String.Format(connModule, f_strDataSource_gwq, f_strUserID_gwq, f_strPassword_gwq, f_strDatabase_gwq);
+                return DbConnectionString.Instance.GetConnectionString("GWQ");
             }
             else if (strDBType.ToUpper() == "CFT")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_cft, f_strUserID_cft, f_strPassword_cft, f_strDatabase_cft);
+                //sConnStr = String.Format(connModule, f_strDataSource_cft, f_strUserID_cft, f_strPassword_cft, f_strDatabase_cft);
+                return DbConnectionString.Instance.GetConnectionString("CFT");
             }
             else if (strDBType.ToUpper() == "CFTB")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_cftb, f_strUserID_cftb, f_strPassword_cftb, f_strDatabase_cftb);
+                //sConnStr = String.Format(connModule, f_strDataSource_cftb, f_strUserID_cftb, f_strPassword_cftb, f_strDatabase_cftb);
+                return DbConnectionString.Instance.GetConnectionString("CFTB");
             }
             else if (strDBType.ToUpper() == "FKDJ")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_fkdj, f_strUserID_fkdj, f_strPassword_fkdj, f_strDatabase_fkdj);
+                //sConnStr = String.Format(connModule, f_strDataSource_fkdj, f_strUserID_fkdj, f_strPassword_fkdj, f_strDatabase_fkdj);
+                return DbConnectionString.Instance.GetConnectionString("FKDJ");
             }
             else if (strDBType.ToUpper() == "ZW")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_zw, f_strUserID_zw, f_strPassword_zw, f_strDatabase_zw);
+                //sConnStr = String.Format(connModule, f_strDataSource_zw, f_strUserID_zw, f_strPassword_zw, f_strDatabase_zw);
+                return DbConnectionString.Instance.GetConnectionString("ZW");
             }
             else if (strDBType.ToUpper() == "ZWFK")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_zwfk, f_strUserID_zwfk, f_strPassword_zwfk, f_strDatabase_zwfk);
+                //sConnStr = String.Format(connModule, f_strDataSource_zwfk, f_strUserID_zwfk, f_strPassword_zwfk, f_strDatabase_zwfk);
+                return DbConnectionString.Instance.GetConnectionString("ZWFK");
             }
             else if (strDBType.ToUpper() == "ZWSK")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_zwsk, f_strUserID_zwsk, f_strPassword_zwsk, f_strDatabase_zwsk);
+                //sConnStr = String.Format(connModule, f_strDataSource_zwsk, f_strUserID_zwsk, f_strPassword_zwsk, f_strDatabase_zwsk);
+                return DbConnectionString.Instance.GetConnectionString("ZWSK");
             }
             else if (strDBType.ToUpper() == "ZWTK")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_zwtk, f_strUserID_zwtk, f_strPassword_zwtk, f_strDatabase_zwtk);
+                //sConnStr = String.Format(connModule, f_strDataSource_zwtk, f_strUserID_zwtk, f_strPassword_zwtk, f_strDatabase_zwtk);
+                return DbConnectionString.Instance.GetConnectionString("ZWTK");
             }
             else if (strDBType.ToUpper() == "ZJ")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_zj, f_strUserID_zj, f_strPassword_zj, f_strDatabase_zj);
+                //sConnStr = String.Format(connModule, f_strDataSource_zj, f_strUserID_zj, f_strPassword_zj, f_strDatabase_zj);
+                return DbConnectionString.Instance.GetConnectionString("ZJ");
             }
             else if (strDBType.ToUpper() == "RU")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_ru, f_strUserID_ru, f_strPassword_ru, f_strDatabase_ru);
+                //sConnStr = String.Format(connModule, f_strDataSource_ru, f_strUserID_ru, f_strPassword_ru, f_strDatabase_ru);
+                return DbConnectionString.Instance.GetConnectionString("RU");
             }
             else if (strDBType.ToUpper() == "CRT")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_crt, f_strUserID_crt, f_strPassword_crt, f_strDatabase_crt);
+                //sConnStr = String.Format(connModule, f_strDataSource_crt, f_strUserID_crt, f_strPassword_crt, f_strDatabase_crt);
+                return DbConnectionString.Instance.GetConnectionString("CRT");
             }
             else if (strDBType.ToUpper() == "ZJB")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_zjb, f_strUserID_zjb, f_strPassword_zjb, f_strDatabase_zjb);
+                //sConnStr = String.Format(connModule, f_strDataSource_zjb, f_strUserID_zjb, f_strPassword_zjb, f_strDatabase_zjb);
+                return DbConnectionString.Instance.GetConnectionString("ZJB");
             }
             else if (strDBType.ToUpper() == "INC")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_inc, f_strUserID_inc, f_strPassword_inc, f_strDatabase_inc);
+                //sConnStr = String.Format(connModule, f_strDataSource_inc, f_strUserID_inc, f_strPassword_inc, f_strDatabase_inc);
+                return DbConnectionString.Instance.GetConnectionString("INC");
             }
             else if (strDBType.ToUpper() == "BANKBULLETIN")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_bankbulletin, f_strUserID_bankbulletin, f_strPassword_bankbulletin, f_strDatabase_bankbulletin);
+                //sConnStr = String.Format(connModule, f_strDataSource_bankbulletin, f_strUserID_bankbulletin, f_strPassword_bankbulletin, f_strDatabase_bankbulletin);
+                return DbConnectionString.Instance.GetConnectionString("BANKBULLETIN");
             }
             else if (strDBType.ToUpper() == "INC_NEW")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_inc_new, f_strUserID_inc_new, f_strPassword_inc_new, f_strDatabase_inc_new);
+                //sConnStr = String.Format(connModule, f_strDataSource_inc_new, f_strUserID_inc_new, f_strPassword_inc_new, f_strDatabase_inc_new);
+                return DbConnectionString.Instance.GetConnectionString("INC_NEW");
             }
             else if (strDBType.ToUpper() == "INCB")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_incb, f_strUserID_incb, f_strPassword_incb, f_strDatabase_incb);
+                //sConnStr = String.Format(connModule, f_strDataSource_incb, f_strUserID_incb, f_strPassword_incb, f_strDatabase_incb);
+                return DbConnectionString.Instance.GetConnectionString("INCB");
             }
             else if (strDBType.ToUpper() == "INCB_NEW")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_incb_new, f_strUserID_incb_new, f_strPassword_incb_new, f_strDatabase_incb_new);
+                //sConnStr = String.Format(connModule, f_strDataSource_incb_new, f_strUserID_incb_new, f_strPassword_incb_new, f_strDatabase_incb_new);
+                return DbConnectionString.Instance.GetConnectionString("INCB_NEW");
             }
             else if (strDBType.ToUpper() == "CS")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_cs, f_strUserID_cs, f_strPassword_cs, f_strDatabase_cs);
+                //sConnStr = String.Format(connModule, f_strDataSource_cs, f_strUserID_cs, f_strPassword_cs, f_strDatabase_cs);
+                return DbConnectionString.Instance.GetConnectionString("CS");
             }
             else if (strDBType.ToUpper() == "JSTL")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_jstl, f_strUserID_jstl, f_strPassword_jstl, f_strDatabase_jstl);
+                //sConnStr = String.Format(connModule, f_strDataSource_jstl, f_strUserID_jstl, f_strPassword_jstl, f_strDatabase_jstl);
+                return DbConnectionString.Instance.GetConnectionString("JSTL");
             }
             else if (strDBType.ToUpper() == "JSWECHAT")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_jswechat, f_strUserID_jswechat, f_strPassword_jswechat, f_strDatabase_jswechat);
+                //sConnStr = String.Format(connModule, f_strDataSource_jswechat, f_strUserID_jswechat, f_strPassword_jswechat, f_strDatabase_jswechat);
+                return DbConnectionString.Instance.GetConnectionString("JSWECHAT");
             }
             else if (strDBType.ToUpper() == "JS")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_js, f_strUserID_js, f_strPassword_js, f_strDatabase_js);
+                //sConnStr = String.Format(connModule, f_strDataSource_js, f_strUserID_js, f_strPassword_js, f_strDatabase_js);
+                return DbConnectionString.Instance.GetConnectionString("JS");
             }
             else if (strDBType.ToUpper() == "BS")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_bs, f_strUserID_bs, f_strPassword_bs, f_strDatabase_bs);
+                //sConnStr = String.Format(connModule, f_strDataSource_bs, f_strUserID_bs, f_strPassword_bs, f_strDatabase_bs);
+                return DbConnectionString.Instance.GetConnectionString("BS");
             }
             else if (strDBType.ToUpper() == "BSB")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_bsb, f_strUserID_bsb, f_strPassword_bsb, f_strDatabase_bsb);
+                //sConnStr = String.Format(connModule, f_strDataSource_bsb, f_strUserID_bsb, f_strPassword_bsb, f_strDatabase_bsb);
+                return DbConnectionString.Instance.GetConnectionString("BSB");
             }
             else if (strDBType.ToUpper() == "BSB2")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_bsb2, f_strUserID_bsb2, f_strPassword_bsb2, f_strDatabase_bsb2);
+                //sConnStr = String.Format(connModule, f_strDataSource_bsb2, f_strUserID_bsb2, f_strPassword_bsb2, f_strDatabase_bsb2);
+                return DbConnectionString.Instance.GetConnectionString("BSB2");
             }
             else if (strDBType.ToUpper() == "BD")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_bd, f_strUserID_bd, f_strPassword_bd, f_strDatabase_bd);
+                //sConnStr = String.Format(connModule, f_strDataSource_bd, f_strUserID_bd, f_strPassword_bd, f_strDatabase_bd);
+                return DbConnectionString.Instance.GetConnectionString("BD");
             }
             else if (strDBType.ToUpper() == "DD")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_dd, f_strUserID_dd, f_strPassword_dd, f_strDatabase_dd);
+                //sConnStr = String.Format(connModule, f_strDataSource_dd, f_strUserID_dd, f_strPassword_dd, f_strDatabase_dd);
+                return DbConnectionString.Instance.GetConnectionString("DD");
             }
             else if (strDBType.ToUpper() == "SYNINFO")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_syninfo, f_strUserID_syninfo, f_strPassword_syninfo, f_strDatabase_syninfo);
+                //sConnStr = String.Format(connModule, f_strDataSource_syninfo, f_strUserID_syninfo, f_strPassword_syninfo, f_strDatabase_syninfo);
+                return DbConnectionString.Instance.GetConnectionString("SYNINFO");
             }
             else if (strDBType.ToUpper() == "USER")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_user, f_strUserID_user, f_strPassword_user, f_strDatabase_user);
+                //sConnStr = String.Format(connModule, f_strDataSource_user, f_strUserID_user, f_strPassword_user, f_strDatabase_user);
+                return DbConnectionString.Instance.GetConnectionString("USER");
             }
             else if (strDBType.ToUpper() == "BRL")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_brl, f_strUserID_brl, f_strPassword_brl, f_strDatabase_brl);
+                //sConnStr = String.Format(connModule, f_strDataSource_brl, f_strUserID_brl, f_strPassword_brl, f_strDatabase_brl);
+                return DbConnectionString.Instance.GetConnectionString("BRL");
             }
             else if (strDBType.ToUpper() == "TCP")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_tcp, f_strUserID_tcp, f_strPassword_tcp, f_strDatabase_tcp);
+                //sConnStr = String.Format(connModule, f_strDataSource_tcp, f_strUserID_tcp, f_strPassword_tcp, f_strDatabase_tcp);
+                return DbConnectionString.Instance.GetConnectionString("TCP");
             }
             else if (strDBType.ToUpper() == "ORDER")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_order, f_strUserID_order, f_strPassword_order, f_strDatabase_order);
+                //sConnStr = String.Format(connModule, f_strDataSource_order, f_strUserID_order, f_strPassword_order, f_strDatabase_order);
+                return DbConnectionString.Instance.GetConnectionString("ORDER");
             }
             else if (strDBType.ToUpper() == "MN")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_mn, f_strUserID_mn, f_strPassword_mn, f_strDatabase_mn);
+                //sConnStr = String.Format(connModule, f_strDataSource_mn, f_strUserID_mn, f_strPassword_mn, f_strDatabase_mn);
+                return DbConnectionString.Instance.GetConnectionString("MN");
             }
             else if (strDBType.ToUpper() == "REL")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_rel, f_strUserID_rel, f_strPassword_rel, f_strDatabase_rel);
+                //sConnStr = String.Format(connModule, f_strDataSource_rel, f_strUserID_rel, f_strPassword_rel, f_strDatabase_rel);
+                return DbConnectionString.Instance.GetConnectionString("REL");
             }
             else if (strDBType.ToUpper() == "AP")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_ap, f_strUserID_ap, f_strPassword_ap, f_strDatabase_ap);
+                //sConnStr = String.Format(connModule, f_strDataSource_ap, f_strUserID_ap, f_strPassword_ap, f_strDatabase_ap);
+                return DbConnectionString.Instance.GetConnectionString("AP");
             }
             else if (strDBType.ToUpper() == "HD")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_hd, f_strUserID_hd, f_strPassword_hd, f_strDatabase_hd);
+                //sConnStr = String.Format(connModule, f_strDataSource_hd, f_strUserID_hd, f_strPassword_hd, f_strDatabase_hd);
+                return DbConnectionString.Instance.GetConnectionString("HD");
             }
             else if (strDBType.ToUpper() == "UK")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_uk, f_strUserID_uk, f_strPassword_uk, f_strDatabase_uk);
+                //sConnStr = String.Format(connModule, f_strDataSource_uk, f_strUserID_uk, f_strPassword_uk, f_strDatabase_uk);
+                return DbConnectionString.Instance.GetConnectionString("UK");
             }
             else if (strDBType.ToUpper() == "REMIT")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_remit, f_strUserID_remit, f_strPassword_remit, f_strDatabase_remit);
+                //sConnStr = String.Format(connModule, f_strDataSource_remit, f_strUserID_remit, f_strPassword_remit, f_strDatabase_remit);
+                return DbConnectionString.Instance.GetConnectionString("REMIT");
             }
             else if (strDBType.ToUpper() == "MOBILE")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_mobile, f_strUserID_mobile, f_strPassWord_mobile, f_strDatabase_mobile);
+                //sConnStr = String.Format(connModule, f_strDataSource_mobile, f_strUserID_mobile, f_strPassWord_mobile, f_strDatabase_mobile);
+                return DbConnectionString.Instance.GetConnectionString("MOBILE");
             }
             else if (strDBType.ToUpper() == "QUERYMEMBER0")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_QueryMember0, f_strUserID_QueryMember0, f_strPassWord_QueryMember0, f_strDatabase_QueryMember0);
+                //sConnStr = String.Format(connModule, f_strDataSource_QueryMember0, f_strUserID_QueryMember0, f_strPassWord_QueryMember0, f_strDatabase_QueryMember0);
+                return DbConnectionString.Instance.GetConnectionString("QUERYMEMBER0");
             }
             else if (strDBType.ToUpper() == "QUERYMEMBER1")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_QueryMember1, f_strUserID_QueryMember1, f_strPassWord_QueryMember1, f_strDatabase_QueryMember1);
+                //sConnStr = String.Format(connModule, f_strDataSource_QueryMember1, f_strUserID_QueryMember1, f_strPassWord_QueryMember1, f_strDatabase_QueryMember1);
+                return DbConnectionString.Instance.GetConnectionString("QUERYMEMBER1");
             }
             else if (strDBType.ToUpper() == "QUERYMEMBER2")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_QueryMember2, f_strUserID_QueryMember2, f_strPassWord_QueryMember2, f_strDatabase_QueryMember2);
+                //sConnStr = String.Format(connModule, f_strDataSource_QueryMember2, f_strUserID_QueryMember2, f_strPassWord_QueryMember2, f_strDatabase_QueryMember2);
+                return DbConnectionString.Instance.GetConnectionString("QUERYMEMBER2");
             }
             else if (strDBType.ToUpper() == "PROPERTYTURNOVER")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_PropertyTurnover, f_strUserID_PropertyTurnover, f_strPassWord_PropertyTurnover, f_strDatabase_PropertyTurnover);
+                //sConnStr = String.Format(connModule, f_strDataSource_PropertyTurnover, f_strUserID_PropertyTurnover, f_strPassWord_PropertyTurnover, f_strDatabase_PropertyTurnover);
+                return DbConnectionString.Instance.GetConnectionString("PROPERTYTURNOVER");
             }
             else if (strDBType.ToUpper() == "CARDBIND")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_CardBind, f_strUserID_CardBind, f_strPassWord_CardBind, f_strDatabase_CardBind);
+                //sConnStr = String.Format(connModule, f_strDataSource_CardBind, f_strUserID_CardBind, f_strPassWord_CardBind, f_strDatabase_CardBind);
+                return DbConnectionString.Instance.GetConnectionString("CARDBIND");
             }
             else if (strDBType.ToUpper() == "FOREIGNCARD")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_ForeignCard, f_strUserID_ForeignCard, f_strPassWord_ForeignCard, f_strDatabase_ForeignCard);
+                //sConnStr = String.Format(connModule, f_strDataSource_ForeignCard, f_strUserID_ForeignCard, f_strPassWord_ForeignCard, f_strDatabase_ForeignCard);
+                return DbConnectionString.Instance.GetConnectionString("FOREIGNCARD");
             }
             else if (strDBType.ToUpper() == "MOBILERECHARGE")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_MobileRecharge, f_strUserID_MobileRecharge, f_strPassWord_MobileRecharge, f_strDatabase_MobileRecharge);
+                //sConnStr = String.Format(connModule, f_strDataSource_MobileRecharge, f_strUserID_MobileRecharge, f_strPassWord_MobileRecharge, f_strDatabase_MobileRecharge);
+                return DbConnectionString.Instance.GetConnectionString("MOBILERECHARGE");
             }
             else if (strDBType.ToUpper() == "MOBILEBIND")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_MobileBind, f_strUserID_MobileBind, f_strPassWord_MobileBind, f_strDatabase_MobileBind);
+                //sConnStr = String.Format(connModule, f_strDataSource_MobileBind, f_strUserID_MobileBind, f_strPassWord_MobileBind, f_strDatabase_MobileBind);
+                return DbConnectionString.Instance.GetConnectionString("MOBILEBIND");
             }
             else if (strDBType.ToUpper() == "INTERNETBANK")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_InternetBank, f_strUserID_InternetBank, f_strPassWord_InternetBank, f_strDatabase_InternetBank);
+                //sConnStr = String.Format(connModule, f_strDataSource_InternetBank, f_strUserID_InternetBank, f_strPassWord_InternetBank, f_strDatabase_InternetBank);
+                return DbConnectionString.Instance.GetConnectionString("INTERNETBANK");
             }
             else if (strDBType.ToUpper() == "MOBILETOKEN")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_mt, f_strUserID_mt, f_strPassword_mt, f_strDatabase_mt);
+                //sConnStr = String.Format(connModule, f_strDataSource_mt, f_strUserID_mt, f_strPassword_mt, f_strDatabase_mt);
+                return DbConnectionString.Instance.GetConnectionString("MOBILETOKEN");
             }
             else if (strDBType.ToUpper() == "BSB3")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_bsb3, f_strUserID_bsb3, f_strPassword_bsb3, f_strDatabase_bsb3);
+                //sConnStr = String.Format(connModule, f_strDataSource_bsb3, f_strUserID_bsb3, f_strPassword_bsb3, f_strDatabase_bsb3);
+                return DbConnectionString.Instance.GetConnectionString("BSB3");
             }
             else if (strDBType.ToUpper() == "ZWNEWTABLE")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_zwNewTable, f_strUserID_zwNewTable, f_strPassword_zwNewTable, f_strDatabase_zwNewTable);
+                //sConnStr = String.Format(connModule, f_strDataSource_zwNewTable, f_strUserID_zwNewTable, f_strPassword_zwNewTable, f_strDatabase_zwNewTable);
+                return DbConnectionString.Instance.GetConnectionString("ZWNEWTABLE");
             }
-            else if (strDBType.ToUpper() == "ZWOLDTABLE")
+            else if (strDBType.ToUpper() == "ZWOLDTABLE") //需要对应新key（DataSource_ZWOLDTABLE）
             {
-                sConnStr = String.Format(connModule, f_strDataSource_zwOldTable, f_strUserID_zwOldTable, f_strPassword_zwOldTable, f_strDatabase_zwOldTable);
+                //sConnStr = String.Format(connModule, f_strDataSource_zwOldTable, f_strUserID_zwOldTable, f_strPassword_zwOldTable, f_strDatabase_zwOldTable);
+                return DbConnectionString.Instance.GetConnectionString("DataSource_ZWOLDTABLE");
             }
             else if (strDBType.ToUpper() == "ICONINFO1")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_IconInfo1, f_strUserID_IconInfo1, f_strPassWord_IconInfo1, f_strDatabase_IconInfo1);
+                //sConnStr = String.Format(connModule, f_strDataSource_IconInfo1, f_strUserID_IconInfo1, f_strPassWord_IconInfo1, f_strDatabase_IconInfo1);
+                return DbConnectionString.Instance.GetConnectionString("ICONINFO1");
             }
             else if (strDBType.ToUpper() == "ICONINFO2")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_IconInfo2, f_strUserID_IconInfo2, f_strPassWord_IconInfo2, f_strDatabase_IconInfo2);
+                //sConnStr = String.Format(connModule, f_strDataSource_IconInfo2, f_strUserID_IconInfo2, f_strPassWord_IconInfo2, f_strDatabase_IconInfo2);
+                return DbConnectionString.Instance.GetConnectionString("ICONINFO2");
             }
             else if (strDBType.ToUpper() == "ICONINFO3")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_IconInfo3, f_strUserID_IconInfo3, f_strPassWord_IconInfo3, f_strDatabase_IconInfo3);
+                //sConnStr = String.Format(connModule, f_strDataSource_IconInfo3, f_strUserID_IconInfo3, f_strPassWord_IconInfo3, f_strDatabase_IconInfo3);
+                return DbConnectionString.Instance.GetConnectionString("ICONINFO3");
             }
             else if (strDBType.ToUpper() == "UC")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_uc, f_strUserID_uc, f_strPassword_uc, f_strDatabase_uc);
+                //sConnStr = String.Format(connModule, f_strDataSource_uc, f_strUserID_uc, f_strPassword_uc, f_strDatabase_uc);
+                return DbConnectionString.Instance.GetConnectionString("UC");
             }
             else if (strDBType.ToUpper() == "CFTNEW")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_cftnew, f_strUserID_cftnew, f_strPassword_cftnew, f_strDatabase_cftnew);
+                //sConnStr = String.Format(connModule, f_strDataSource_cftnew, f_strUserID_cftnew, f_strPassword_cftnew, f_strDatabase_cftnew);
+                return DbConnectionString.Instance.GetConnectionString("CFTNEW");
             }
             else if (strDBType.ToUpper() == "IVRNEW")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_ivrnew, f_strUserID_ivrnew, f_strPassword_ivrnew, f_strDatabase_ivrnew);
+                //sConnStr = String.Format(connModule, f_strDataSource_ivrnew, f_strUserID_ivrnew, f_strPassword_ivrnew, f_strDatabase_ivrnew);
+                return DbConnectionString.Instance.GetConnectionString("IVRNEW");
             }
             else if (strDBType.ToUpper() == "WXAA")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_wxaa, f_strUserID_wxaa, f_strPassword_wxaa, f_strDatabase_wxaa);
+                //sConnStr = String.Format(connModule, f_strDataSource_wxaa, f_strUserID_wxaa, f_strPassword_wxaa, f_strDatabase_wxaa);
+                return DbConnectionString.Instance.GetConnectionString("WXAA");
             }
             else if (strDBType.ToUpper() == "WXHONGBAO")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_wxhongbao, f_strUserID_wxhongbao, f_strPassword_wxhongbao, f_strDatabase_wxhongbao);
+                //sConnStr = String.Format(connModule, f_strDataSource_wxhongbao, f_strUserID_wxhongbao, f_strPassword_wxhongbao, f_strDatabase_wxhongbao);
+                return DbConnectionString.Instance.GetConnectionString("WXHONGBAO");
             }
             else if (strDBType.ToUpper() == "WXXESK")
             {
-                sConnStr = String.Format(connModule, f_strDataSource_wxxesk, f_strUserID_wxxesk, f_strPassword_wxxesk, f_strDatabase_wxxesk);
+                //sConnStr = String.Format(connModule, f_strDataSource_wxxesk, f_strUserID_wxxesk, f_strPassword_wxxesk, f_strDatabase_wxxesk);
+                return DbConnectionString.Instance.GetConnectionString("WXXESK");
             }
-            return sConnStr.Replace("[", "{").Replace("]", "}");
+            return sConnStr;//.Replace("[", "{").Replace("]", "}");
         }
 
         public static string GetTableName(string strTable, string strID)  // 返回按照QQ号分表的表名， QQID
@@ -1331,18 +1408,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 string s_db = "";
                 string l_s = strID.Substring(strID.Length - 1);
-                
+
                 if (l_s.ToUpper() == "X")
                 {
                     s_db = "00";
                     return "statistics_db_" + s_db + "." + strTable + "_0";
                 }
-                else 
+                else
                 {
                     s_db = strID.Substring(strID.Length - 2);
                     return "statistics_db_" + s_db + "." + strTable + "_" + strID.Substring(strID.Length - 3, 1);
                 }
-                
+
             }
             else return "statistics_db." + strTable;
         }
@@ -2786,7 +2863,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public static string BankIDEncode_ForRareName(string base64Bankid)
         {
             byte[] iv = { 0x3e, 0x3e, 0x3a, 0x6e, 0x4f, 0x6a, 0x3f, 0x0a };
-            byte[] newkey = { 0x1a, 0x2a, (byte)(-0x58 & 0xFF), 0x59, 0x4a, (byte)(-0x63 & 0xFF), 0x5f, (byte)(-0x4d & 0xFF)};
+            byte[] newkey = { 0x1a, 0x2a, (byte)(-0x58 & 0xFF), 0x59, 0x4a, (byte)(-0x63 & 0xFF), 0x5f, (byte)(-0x4d & 0xFF) };
 
             try
             {
@@ -3009,7 +3086,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         if (log.IsErrorEnabled) log.Error("uid不符号要求！uid=" + fuid);
                     }
                 }
-                if (innerId!="")
+                if (innerId != "")
                 {
                     fuid = innerId;
                 }
@@ -3041,16 +3118,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 DataSet ds = null;
-                string Msg = "";  
-                string errMsg = ""; 
+                string Msg = "";
+                string errMsg = "";
                 //md5
                 string CFTAccount = ConfigurationManager.AppSettings["CFTAccount"];
                 string wxzfAccount = ConfigurationManager.AppSettings["wxzfAccount"];
                 string relay_ip = ConfigurationManager.AppSettings["Relay_IP"];
                 string relay_port = ConfigurationManager.AppSettings["Relay_PORT"];
 
-              //  string sign = "account_no=" + acc_no + "&bank_type=" + bank_type + "&uid=" + uid + "&uidtoc=" + uidtoc + "&key=";
-                string sign = SingedString +"&key=";
+                //  string sign = "account_no=" + acc_no + "&bank_type=" + bank_type + "&uid=" + uid + "&uidtoc=" + uidtoc + "&key=";
+                string sign = SingedString + "&key=";
                 sign = System.Web.HttpUtility.UrlEncode(sign, System.Text.Encoding.GetEncoding("gb2312"));
 
                 Msg = "";
@@ -3065,7 +3142,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 ds = CommQuery.ParseRelayStr(sign_md5, out errMsg);
                 if (errMsg != "")
                 {
-                    throw new Exception("2签名出错:"+errMsg);
+                    throw new Exception("2签名出错:" + errMsg);
                 }
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
