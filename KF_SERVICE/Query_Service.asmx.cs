@@ -17800,7 +17800,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 "Fbank_status,Fcard_tail,Fbank_id,Ftruename,Funchain_time_local,Fmodify_time," +
                                 "Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fcreate_time,Fbind_time_local,Fbind_time_bank,Funchain_time_bank,Fcre_type,Fonce_quota,Fday_quota,Fi_character2 & 0x01 as sms_flag from c2c_db.t_user_bind_tmp where Findex=" + Findex + " and fuid=" + fuid;
                 }
-                return da.dsGetTotalData(Sql);
+                DataSet set = da.dsGetTotalData(Sql);
+                return set;
             }
             catch (Exception err)
             {

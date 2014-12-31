@@ -15,7 +15,7 @@ using TENCENT.OSS.C2C.Finance.Common.CommLib;
 
 namespace CFT.CSOMS.BLL.BankCardBindModule
 {
-    class BankCardBindService
+    public class BankCardBindService
     {
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         /// <summary>
         /// 根据条件查询绑定的卡列表 qqId不能为空
         /// </summary>
-        /// <param name="u_QQID"></param>
+        /// <param name="fuin"></param>
         /// <param name="Fbank_type"></param>
         /// <param name="bankID"></param>
         /// <param name="uid"></param>
@@ -50,18 +50,18 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         /// <param name="limStart"></param>
         /// <param name="limCount"></param>
         /// <returns></returns>
-        public DataSet GetBankCardBindList(string u_QQID, string Fbank_type, string bankID, string uid,
-            string creType, string creID, string protocolno, string phoneno, string strBeginDate, string strEndDate,
-            int queryType, bool isShowAboutDetail, int bindStatue, string bind_serialno, int limStart, int limCount)
+        public DataSet GetBankCardBindList(string fuin, string Fbank_type, string bankID, string uid,
+            string creType, string creID, string protocolno, string phoneno, string strBeginDate, 
+            string strEndDate, int queryType, bool isShowAboutDetail, int bindStatue, string bind_serialno)
         {
             MySqlAccess da = null;
             try
             {
                 string filter = "(1=1)";
                 string fuid = "";
-                if (u_QQID != null && u_QQID.Trim() != "")
+                if (fuin != null && fuin.Trim() != "")
                 {
-                    fuid = CFTAccountModule.AccountService.ConvertToFuid(u_QQID);
+                    fuid = CFTAccountModule.AccountService.ConvertToFuid(fuin);
 
                     if (fuid == null || fuid.Trim() == "")
                     {
@@ -236,7 +236,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                 //加查临时表
                 string Sql2 = "select 2 as FBDIndex , Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
                     "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from c2c_db.t_user_bind_tmp where " + filter;
-                Sql = Sql + " union all " + Sql2 + " limit " + limStart + "," + limCount;
+                Sql = Sql + " union all " + Sql2;// +" limit " +limStart + "," + limCount;
                 return da.dsGetTotalData(Sql);
             }
             catch (Exception err)
@@ -327,10 +327,10 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         /// 获得卡绑定详细信息
         /// </summary>
         /// <param name="fuid"></param>
-        /// <param name="Findex"></param>
-        /// <param name="FBDIndex"></param>
+        /// <param name="findex"></param>
+        /// <param name="fBDIndex"></param>
         /// <returns></returns>
-        public DataSet GetBankCardBindDetail(string fuid, string Findex, string FBDIndex)
+        public DataSet GetBankCardBindDetail(string fuid, string findex, string fBDIndex)
         {
             MySqlAccess da = MySQLAccessFactory.GetMySQLAccess("BD");
             try
@@ -338,18 +338,18 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                 // 2012/5/29 新增加查询字段Fcre_id
                 da.OpenConn();
                 string Sql = "";
-                if (FBDIndex != null && FBDIndex == "1")
+                if (fBDIndex != null && fBDIndex == "1")
                 {
                     Sql = "select Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status," +
                                 "Fbank_status,Fcard_tail,Fbank_id,Ftruename,Funchain_time_local,Fmodify_time," +
                                 "Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fcreate_time,Fbind_time_local,Fbind_time_bank,Funchain_time_bank,Fcre_type,Fonce_quota,Fday_quota,Fi_character2 & 0x01 as sms_flag from "
-                                + PublicRes.GetTName("c2c_db", "t_user_bind", fuid) + " where Findex=" + Findex + " and fuid=" + fuid;
+                                + PublicRes.GetTName("c2c_db", "t_user_bind", fuid) + " where Findex=" + findex + " and fuid=" + fuid;
                 }
-                else if (FBDIndex != null && FBDIndex == "2")//该Findex的记录在临时表
+                else if (fBDIndex != null && fBDIndex == "2")//该Findex的记录在临时表
                 {
                     Sql = "select Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status," +
                                 "Fbank_status,Fcard_tail,Fbank_id,Ftruename,Funchain_time_local,Fmodify_time," +
-                                "Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fcreate_time,Fbind_time_local,Fbind_time_bank,Funchain_time_bank,Fcre_type,Fonce_quota,Fday_quota,Fi_character2 & 0x01 as sms_flag from c2c_db.t_user_bind_tmp where Findex=" + Findex + " and fuid=" + fuid;
+                                "Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fcreate_time,Fbind_time_local,Fbind_time_bank,Funchain_time_bank,Fcre_type,Fonce_quota,Fday_quota,Fi_character2 & 0x01 as sms_flag from c2c_db.t_user_bind_tmp where Findex=" + findex + " and fuid=" + fuid;
                 }
                 return da.dsGetTotalData(Sql);
             }
@@ -371,10 +371,11 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         /// <param name="bankType"></param>
         /// <param name="qqid"></param>
         /// <param name="protocolNo"></param>
-        public void UnbindBankCardBind(String bankType, String qqid, String protocolNo, String userIP)
+        public DataTable UnbindBankCardBind(String bankType, String qqid, String protocolNo, String userIP)
         {
             string msg = "";
-            string iResult = "";
+            DataTable table = new DataTable();
+            table.Columns.Add("result", System.Type.GetType("System.String"));
             try
             {
                 string req = "function=BIND_CANCEL";
@@ -439,10 +440,15 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                             }
                             ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
                         }
-
                         if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
                         {
                             throw new Exception("前置机返回结果有误：" + answer);
+                        }
+                        else
+                        {
+                            DataRow drNew = table.NewRow();
+                            drNew["result"] = ht["result"].ToString();
+                            table.Rows.Add(drNew);
                         }
                     }
                 }
@@ -451,6 +457,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             {
                 throw new Exception("Service处理失败！" + err.Message);
             }
+            return table;
         }
 
 

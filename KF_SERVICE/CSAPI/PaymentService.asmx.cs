@@ -12,6 +12,7 @@ using CFT.CSOMS.Service.CSAPI.Language;
 using CFT.CSOMS.Service.CSAPI.PayMent;
 using System.Configuration;
 using System.Net;
+using System.Data;
 using CFT.CSOMS.COMMLIB;
 
 namespace CFT.CSOMS.Service.CSAPI
@@ -531,6 +532,217 @@ namespace CFT.CSOMS.Service.CSAPI
          #endregion
 
         #region 快捷支付
+
+        [WebMethod]
+        public void GetBankDic()//string appid,string token
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+
+                //必填参数验证
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "token");
+                //token验证
+                //APIUtil.ValidateToken(paramsHt);
+
+                //查询银行字典参数
+                var infos = new CFT.CSOMS.BLL.BankCardBindModule.BankCardBindService().GetBankDic();
+                if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }               
+                APIUtil.Print4DataTable(infos.Tables[0], null, null);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetBankDic").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetBankDic").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        [WebMethod]
+        public void UnbindBankCardBind()//String bankType, String qqid, String protocolNo, String userIP
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+
+                //必填参数验证
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "fbank_type", "fuin", "fprotocol_no", "fuserip", "token");
+                //token验证
+                //APIUtil.ValidateToken(paramsHt);
+
+                String bankType = paramsHt["fbank_type"].ToString();
+                String qqid = paramsHt["fuin"].ToString();
+                String protocolNo = paramsHt["fprotocol_no"].ToString();
+                String userIP = paramsHt["fuserip"].ToString();
+
+                //查询银行字典参数
+                var infos = new CFT.CSOMS.BLL.BankCardBindModule.
+                    BankCardBindService().UnbindBankCardBind(bankType, qqid, protocolNo, userIP);
+
+                if (infos == null || infos.Rows.Count == 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                APIUtil.Print4DataTable(infos, null, null);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("UnbindBankCardBind").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("UnbindBankCardBind").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        [WebMethod]
+        public void UnbingBankCardBindSpecial()//string bankType, string qqid, string card_tail, string bindSerialno, string protocol_no
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+
+                //必填参数验证
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "Fbank_type", "fuin", "fcard_tail", "fbind_serialno", "fprotocol_no", "token");
+                //token验证
+                //APIUtil.ValidateToken(paramsHt);
+
+                String bankType = paramsHt["fbank_type"].ToString();
+                String qqid = paramsHt["fuin"].ToString();
+                String protocolNo = paramsHt["fprotocol_no"].ToString();
+                String Fbind_serialno = paramsHt["fbind_serialno"].ToString();
+                String Fcard_tail = paramsHt["fcard_tail"].ToString();
+
+                //解绑操作
+                var infos = new CFT.CSOMS.BLL.BankCardBindModule.
+                    BankCardBindService().UnBindBankCardBindSpecial(bankType, qqid, Fcard_tail, Fbind_serialno, protocolNo);
+
+                if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+
+                APIUtil.Print4DataTable(infos.Tables[0], null, null);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("UnbingBankCardBindSpecial").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("UnbingBankCardBindSpecial").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        [WebMethod]
+        public void GetBankCardBindList()//string fuin, string Fbank_type, string bankID, string fuid, string creType, string creID, string protocolno, string phoneno, string strBeginDate, string strEndDate,int queryType, int bindStatue
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+
+                //必填参数验证
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "fuin", "querytype", "bindstate", "token");
+                //token验证
+                //APIUtil.ValidateToken(paramsHt);
+
+                String fuin = paramsHt["fuin"].ToString();
+
+                String bankID = paramsHt.ContainsKey("bankid") ? paramsHt["bankid"].ToString() : "";
+                String fuid = paramsHt.ContainsKey("fuid") ? paramsHt["fuid"].ToString() : "";
+                String creType = paramsHt.ContainsKey("cretype") ? paramsHt["cretype"].ToString() : "";
+                String creID = paramsHt.ContainsKey("creid") ? paramsHt["creid"].ToString() : "";
+                String protocolno = paramsHt.ContainsKey("protocolno") ? paramsHt["protocolno"].ToString() : "";
+                String phoneno = paramsHt.ContainsKey("phoneno") ? paramsHt["phoneno"].ToString() : "";
+                String strBeginDate = paramsHt.ContainsKey("strbegindate") ? paramsHt["strbegindate"].ToString() : "";
+                String strEndDate = paramsHt.ContainsKey("strenddate") ? paramsHt["strenddate"].ToString() : "";
+                String Fbank_type = paramsHt.ContainsKey("fbank_type") ? paramsHt["fbank_type"].ToString() : "";
+
+                int queryType = APIUtil.StringToInt(paramsHt["querytype"]);
+                int bindState = 99;
+                if (paramsHt.ContainsKey("bindstate"))
+                {
+                    bindState = APIUtil.StringToInt(paramsHt["bindstate"]);
+                } 
+
+                APIUtil.ValidateDate(strBeginDate, "yyyy-MM-dd HH:mm:ss", true);
+                APIUtil.ValidateDate(strBeginDate, "yyyy-MM-dd HH:mm:ss", true);
+                
+
+                //解绑操作
+                var infos = new CFT.CSOMS.BLL.BankCardBindModule.BankCardBindService().GetBankCardBindList(
+                    fuin, Fbank_type, bankID, fuid, creType, creID, protocolno, phoneno, strBeginDate, strEndDate, queryType, false, bindState, "");
+
+                if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+
+                APIUtil.Print4DataTable(infos.Tables[0], null, null);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetBankCardBindList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetBankCardBindList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        [WebMethod]
+        public void GetBankCardBindDetail()//string fuid, string findex, string fBDIndex
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+
+                //必填参数验证
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "fuid", "findex", "fbdindex", "token");
+                //token验证
+                //APIUtil.ValidateToken(paramsHt);
+
+                String fuid = paramsHt["fuid"].ToString();
+                String findex = paramsHt["findex"].ToString();
+                String fbdindex = paramsHt["fbdindex"].ToString();
+
+                //查询银行绑定详情
+                var infos = new CFT.CSOMS.BLL.BankCardBindModule.
+                    BankCardBindService().GetBankCardBindDetail(fuid, findex, fbdindex);
+
+                if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                APIUtil.Print4DataTable(infos.Tables[0], null, null);
+                
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("UnbindBankCardBind").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("UnbindBankCardBind").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+
         [WebMethod]
         public void QueryBankCardList()//string appid, string bank_card, string date, int offset, int limit, string token
         {
@@ -588,10 +800,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
-
-
-
-
+      
         #endregion
 
         #region 微信帐号
