@@ -1919,6 +1919,13 @@
     <Compile Include="TradeManage\CGIInfoQuery.aspx.designer.cs">
       <DependentUpon>CGIInfoQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TradeManage\PayLimitManage.aspx.cs">
+      <DependentUpon>PayLimitManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\PayLimitManage.aspx.designer.cs">
+      <DependentUpon>PayLimitManage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TradeManage\TradeMigration.aspx.cs">
       <DependentUpon>TradeMigration.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3118,6 +3125,7 @@
     <Content Include="TradeManage\BeforeCancelTradeQuery.aspx" />
     <Content Include="TradeManage\ContractQuery.aspx" />
     <Content Include="TradeManage\CGIInfoQuery.aspx" />
+    <Content Include="TradeManage\PayLimitManage.aspx" />
     <Content Include="TradeManage\TradeMigration.aspx" />
     <Content Include="TradeManage\UnFinishTradeQuery.aspx" />
     <Content Include="TradeManage\MediCertExpireOperate.aspx" />
@@ -4094,6 +4102,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\CGIInfoQuery.aspx.resx">
       <DependentUpon>CGIInfoQuery.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TradeManage\PayLimitManage.aspx.resx">
+      <DependentUpon>PayLimitManage.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\TradeMigration.aspx.resx">
       <DependentUpon>TradeMigration.aspx.cs</DependentUpon>
