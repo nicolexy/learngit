@@ -322,7 +322,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 bank_type = safeCardInfo.Rows[0]["Fbank_type"].ToString();
                 mobile = safeCardInfo.Rows[0]["Fmobile"].ToString();
 
-                ViewState["HasSafeCard"] = true;//标记是否有安全卡，为后面强赎做准备
+                if (string.IsNullOrEmpty(card_tail.Trim()))//可能存在有安全卡记录，此时手机号不为空，卡号及卡类型为空
+                    ViewState["HasSafeCard"] = false;
+                else
+                    ViewState["HasSafeCard"] = true;//标记是否有安全卡，为后面强赎做准备
             }
             else
                 ViewState["HasSafeCard"] = false;
@@ -591,7 +594,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 LinkButton lb = (LinkButton)obj;
                 if (index == 1 && e.Item.ItemIndex == 0 && type!="冻结")//第一页，第一行流水记录才能赎回，且存取状态不能为冻结
                 {
-                    if (DateTime.Now.Hour >= 9 && DateTime.Now.Hour <= 14)//强赎发起时间工作日9：00－15：00，其它时间无法发起强赎，按钮灰色
+                    if (DateTime.Now.Hour >= 9 && DateTime.Now.Hour <= 18)//强赎发起时间工作日9：00－15：00，其它时间无法发起强赎，按钮灰色
                     lb.Visible = true;
                 }
             }
