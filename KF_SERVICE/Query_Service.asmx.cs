@@ -10703,6 +10703,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     throw new Exception("申诉单提交时间不能为空！");
                 }
 
+                #region 查申诉库表
                 DateTime date = DateTime.Parse(submitDate);
                 int i_m = date.Month;
                 string s_m = "";
@@ -10734,17 +10735,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     CFTUserAppealClass cuser2 = new CFTUserAppealClass(fid, table);
                     ds = cuser2.GetResultX(0, 1, "fkdj");
                 }
+                #endregion
+
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     int ftype = int.Parse(ds.Tables[0].Rows[0]["Ftype"].ToString());
+                      ds.Tables[0].Columns.Add("isFreezeListHas", typeof(string));
+                      ds.Tables[0].Columns.Add("FreezeReason", typeof(string));//冻结原因
+
                     if (ftype == 8 || ftype == 19)
                     {
+                        #region 查冻结日志表
                         FreezeQueryClass cuser2 = new FreezeQueryClass(ds.Tables[0].Rows[0]["Fuin"].ToString(), 1);
 
                         DataSet ds2 = cuser2.GetResultX(0, 1, "HT");
 
-                        ds.Tables[0].Columns.Add("isFreezeListHas", typeof(string));
-                        ds.Tables[0].Columns.Add("FreezeReason", typeof(string));//冻结原因
+                        //ds.Tables[0].Columns.Add("isFreezeListHas", typeof(string));
+                        //ds.Tables[0].Columns.Add("FreezeReason", typeof(string));//冻结原因
 
                         if (ds2 != null && ds2.Tables.Count != 0 && ds2.Tables[0].Rows.Count != 0)
                         {
@@ -10756,11 +10763,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                             ds.Tables[0].Rows[0]["isFreezeListHas"] = "0";
                             //throw new  Exception("单号" + dr["fid"] + "风控冻结单的帐号在冻结单表中不存在！");
                         }
+
+                        #endregion
+                    }
+                    else if (ftype == 11)//特殊找回支付密码
+                    {
+                        ds.Tables[0].Rows[0]["isFreezeListHas"] = "";
+                        ds.Tables[0].Rows[0]["FreezeReason"] = "";
                     }
                     else
                     {
                         //只处理类型为8,19的记录
-                        throw new Exception("只处理解冻申诉，记录类型错误：" + ftype);
+                        throw new Exception("只处理解冻申诉、特殊找回支付密码，记录类型错误：" + ftype);
                     } 
                 }
 

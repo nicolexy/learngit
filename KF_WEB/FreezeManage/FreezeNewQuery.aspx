@@ -42,7 +42,7 @@
             <td style="width: 443px; height: 20px" bgcolor="#e4e5f7" colspan="2">
                 <font color="red" face="宋体">
                     <img src="../IMAGES/Page/post.gif" width="20" height="16" alt=""><asp:Label ID="lb_pageTitle"
-                        runat="server">风控解冻审核</asp:Label></font>
+                        runat="server">特殊申诉处理</asp:Label></font>
             </td>
             <td style="height: 20px">
                 <FONT>操作员代码: </FONT><span class="style3"><asp:Label ID="lb_operatorID" runat="server"
@@ -102,14 +102,14 @@
 							<asp:ListItem Value="0" Selected="True">未处理</asp:ListItem>
 							<asp:ListItem Value="1">申诉成功</asp:ListItem>
 							<asp:ListItem Value="2">申诉失败</asp:ListItem>
-							<asp:ListItem Value="3">大额待复核</asp:ListItem>
+							<%--<asp:ListItem Value="3">大额待复核</asp:ListItem>
 							<asp:ListItem Value="4">直接转后台</asp:ListItem>
 							<asp:ListItem Value="5">异常转后台</asp:ListItem>
-							<asp:ListItem Value="6">发邮件失败</asp:ListItem>
+							<asp:ListItem Value="6">发邮件失败</asp:ListItem>--%>
 							<asp:ListItem Value="7">已删除</asp:ListItem>
-							<asp:ListItem Value="8">已锁定状态</asp:ListItem>
+							<%--<asp:ListItem Value="8">已锁定状态</asp:ListItem>
 							<asp:ListItem Value="9">短信撤销状态</asp:ListItem>
-							<asp:ListItem Value="10">直接申诉成功</asp:ListItem>
+							<asp:ListItem Value="10">直接申诉成功</asp:ListItem>--%>
                             <asp:ListItem Value="11">待补充资料</asp:ListItem>
 						    <asp:ListItem Value="12">已补充资料</asp:ListItem>
                 </asp:DropDownList>

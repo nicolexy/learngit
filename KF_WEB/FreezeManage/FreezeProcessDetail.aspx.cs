@@ -149,6 +149,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
                 int ftype = int.Parse(dr2["Ftype"].ToString());
 
+                #region 图片
                 if (!(dr2["FCreImg1"] is DBNull))
                 {
                     if (dr2["FCreImg1"].ToString() != "") 
@@ -205,8 +206,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                         }
                     }
                 }
+                #endregion
 
-				DataSet dsuser =  qs.GetAppealUserInfo(dr2["Fuin"].ToString());
+                #region 查询账户基本信息
+                DataSet dsuser =  qs.GetAppealUserInfo(dr2["Fuin"].ToString());
 				if(dsuser == null || dsuser.Tables.Count == 0 || dsuser.Tables[0].Rows.Count == 0)
 				{
 					//return;
@@ -219,9 +222,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 					this.tbx_regCreNO.Text = PublicRes.GetString(dr3["Fcreid"]);
                     ViewState["OldCreId"] = PublicRes.GetString(dr3["Fcreid"]);
 					this.tbx_restFin.Text = classLibrary.setConfig.FenToYuan((double.Parse(dr3["FBalance"].ToString()) - double.Parse(dr3["Fcon"].ToString())).ToString());
-				}
+                }
+                #endregion
 
-                //其它图片
+                #region//其它图片
                 if (!(dr2["FOtherImage2"] is DBNull))
                 {
                     if (dr2["FOtherImage2"].ToString() != "")
@@ -278,8 +282,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                         }
                     }
                 }
+                #endregion
 
-                
+                #region  自定义标题、内容
                 //自定义标题1
                 if (!(dr2["Fsup_desc1"] is DBNull)) 
                 {
@@ -321,8 +326,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                 {
                     tbx_bczl_zdy.Text = dr2["Fsup_tips4"].ToString();
                 }
-                
-			}
+                #endregion
+            }
+
 
 			if(ViewState["isFreezeListHas"].ToString() == "1")
 			{//冻结单中存在冻结记录
