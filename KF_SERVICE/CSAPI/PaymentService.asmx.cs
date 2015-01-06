@@ -573,6 +573,44 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         [WebMethod]
+        public void SyncBankCardBind()//string bank_type, string bank_id, string card_tail
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+
+                //必填参数验证
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "bank_type", "bank_id", "card_tail", "token");
+                //token验证
+                //APIUtil.ValidateToken(paramsHt);
+
+                String bankType = paramsHt["bank_type"].ToString();
+                String bank_id = paramsHt["bank_id"].ToString();
+                String card_tail = paramsHt["card_tail"].ToString();
+
+                //查询银行字典参数
+                var infos = new CFT.CSOMS.BLL.BankCardBindModule.
+                    BankCardBindService().SyncBankCardBind(bankType, card_tail, bank_id);
+
+                //if (infos == null || infos.Rows.Count == 0)
+                //{
+                    //throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                //}
+                //APIUtil.Print4DataTable(infos, null, null);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("SyncBankCardBind").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("SyncBankCardBind").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        [WebMethod]
         public void UnbindBankCardBind()//String bankType, String qqid, String protocolNo, String userIP
         {
             try
@@ -580,14 +618,14 @@ namespace CFT.CSOMS.Service.CSAPI
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
 
                 //必填参数验证
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "fbank_type", "fuin", "fprotocol_no", "fuserip", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "bank_type", "uin", "protocol_no", "userip", "token");
                 //token验证
                 //APIUtil.ValidateToken(paramsHt);
 
-                String bankType = paramsHt["fbank_type"].ToString();
-                String qqid = paramsHt["fuin"].ToString();
-                String protocolNo = paramsHt["fprotocol_no"].ToString();
-                String userIP = paramsHt["fuserip"].ToString();
+                String bankType = paramsHt["bank_type"].ToString();
+                String qqid = paramsHt["uin"].ToString();
+                String protocolNo = paramsHt["protocol_no"].ToString();
+                String userIP = paramsHt["userip"].ToString();
 
                 //查询银行字典参数
                 var infos = new CFT.CSOMS.BLL.BankCardBindModule.
@@ -619,15 +657,15 @@ namespace CFT.CSOMS.Service.CSAPI
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
 
                 //必填参数验证
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "Fbank_type", "fuin", "fcard_tail", "fbind_serialno", "fprotocol_no", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "bank_type", "uin", "card_tail", "bind_serialno", "protocol_no", "token");
                 //token验证
                 //APIUtil.ValidateToken(paramsHt);
 
-                String bankType = paramsHt["fbank_type"].ToString();
-                String qqid = paramsHt["fuin"].ToString();
-                String protocolNo = paramsHt["fprotocol_no"].ToString();
-                String Fbind_serialno = paramsHt["fbind_serialno"].ToString();
-                String Fcard_tail = paramsHt["fcard_tail"].ToString();
+                String bankType = paramsHt["bank_type"].ToString();
+                String qqid = paramsHt["uin"].ToString();
+                String protocolNo = paramsHt["protocol_no"].ToString();
+                String Fbind_serialno = paramsHt["bind_serialno"].ToString();
+                String Fcard_tail = paramsHt["card_tail"].ToString();
 
                 //解绑操作
                 var infos = new CFT.CSOMS.BLL.BankCardBindModule.
@@ -660,43 +698,79 @@ namespace CFT.CSOMS.Service.CSAPI
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
 
                 //必填参数验证
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "fuin", "querytype", "bindstate", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "query_type", "bind_state", "offset", "limit", "token");
                 //token验证
                 //APIUtil.ValidateToken(paramsHt);
 
-                String fuin = paramsHt["fuin"].ToString();
+                String fuin = paramsHt["uin"].ToString();
 
-                String bankID = paramsHt.ContainsKey("bankid") ? paramsHt["bankid"].ToString() : "";
-                String fuid = paramsHt.ContainsKey("fuid") ? paramsHt["fuid"].ToString() : "";
-                String creType = paramsHt.ContainsKey("cretype") ? paramsHt["cretype"].ToString() : "";
-                String creID = paramsHt.ContainsKey("creid") ? paramsHt["creid"].ToString() : "";
-                String protocolno = paramsHt.ContainsKey("protocolno") ? paramsHt["protocolno"].ToString() : "";
+                String bankID = paramsHt.ContainsKey("bank_id") ? paramsHt["bank_id"].ToString() : "";
+                String fuid = paramsHt.ContainsKey("uid") ? paramsHt["uid"].ToString() : "";
+                String creType = paramsHt.ContainsKey("cre_type") ? paramsHt["cre_type"].ToString() : "";
+                String creID = paramsHt.ContainsKey("cre_id") ? paramsHt["cre_id"].ToString() : "";
+                String protocolno = paramsHt.ContainsKey("protocol_no") ? paramsHt["protocol_no"].ToString() : "";
                 String phoneno = paramsHt.ContainsKey("phoneno") ? paramsHt["phoneno"].ToString() : "";
-                String strBeginDate = paramsHt.ContainsKey("strbegindate") ? paramsHt["strbegindate"].ToString() : "";
-                String strEndDate = paramsHt.ContainsKey("strenddate") ? paramsHt["strenddate"].ToString() : "";
-                String Fbank_type = paramsHt.ContainsKey("fbank_type") ? paramsHt["fbank_type"].ToString() : "";
+                String strBeginDate = paramsHt.ContainsKey("begin_date") ? paramsHt["begin_date"].ToString() : "";
+                String strEndDate = paramsHt.ContainsKey("end_date") ? paramsHt["end_date"].ToString() : "";
+                String Fbank_type = paramsHt.ContainsKey("bank_type") ? paramsHt["bank_type"].ToString() : "";
 
-                int queryType = APIUtil.StringToInt(paramsHt["querytype"]);
+                int queryType = APIUtil.StringToInt(paramsHt["query_type"]);
                 int bindState = 99;
-                if (paramsHt.ContainsKey("bindstate"))
+                if (paramsHt.ContainsKey("bind_state"))
                 {
-                    bindState = APIUtil.StringToInt(paramsHt["bindstate"]);
+                    bindState = APIUtil.StringToInt(paramsHt["bind_state"]);
                 } 
 
                 APIUtil.ValidateDate(strBeginDate, "yyyy-MM-dd HH:mm:ss", true);
                 APIUtil.ValidateDate(strBeginDate, "yyyy-MM-dd HH:mm:ss", true);
-                
+
+                int limStart = APIUtil.StringToInt(paramsHt["offset"].ToString());
+                int limCount = APIUtil.StringToInt(paramsHt["limit"].ToString());
+
 
                 //解绑操作
                 var infos = new CFT.CSOMS.BLL.BankCardBindModule.BankCardBindService().GetBankCardBindList(
-                    fuin, Fbank_type, bankID, fuid, creType, creID, protocolno, phoneno, strBeginDate, strEndDate, queryType, false, bindState, "");
+                    fuin, Fbank_type, bankID, fuid, creType, creID, protocolno, phoneno, strBeginDate, strEndDate, queryType, false, bindState, "", limStart, limCount);
 
                 if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
                 }
 
-                APIUtil.Print4DataTable(infos.Tables[0], null, null);
+                Dictionary<string, string> maps = new Dictionary<string, string>();
+               
+              
+                maps.Add("fuin", "uin");
+                maps.Add("fbank_id", "bank_id");              
+                maps.Add("fbank_type", "bank_type");
+                maps.Add("fcard_tail", "card_tail");
+                maps.Add("ftruename", "truename");
+
+                maps.Add("fbank_status", "bank_status");
+                maps.Add("fbind_type", "bank_type");
+                maps.Add("fbind_status", "bind_status");
+                maps.Add("fbind_flag", "bind_flag");
+
+
+                maps.Add("fprotocol_no", "protocol_no");
+                maps.Add("fbind_serialno", "bind_serialno");
+
+                maps.Add("fuid", "uid");
+                maps.Add("findex", "index");
+                maps.Add("fbdindex", "bdindex");
+
+                maps.Add("fmemo", "memo");
+                maps.Add("fcre_id", "cre_id");                            
+                                
+                maps.Add("ftelephone", "telephone");
+                maps.Add("fmobilephone", "mobilephone");
+
+                maps.Add("fi_character4", "fi_character4");
+                maps.Add("funchain_time_local", "unchain_time_local");
+                maps.Add("fmodify_time", "modify_time");
+                maps.Add("fbind_time_bank", "bind_time_bank");
+                maps.Add("fbind_time_local", "bind_time_local");
+                APIUtil.Print4DataTable(infos.Tables[0], null, maps);
             }
             catch (ServiceException se)
             {
@@ -718,13 +792,13 @@ namespace CFT.CSOMS.Service.CSAPI
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
 
                 //必填参数验证
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "fuid", "findex", "fbdindex", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uid", "index", "bdindex", "token");
                 //token验证
                 //APIUtil.ValidateToken(paramsHt);
 
-                String fuid = paramsHt["fuid"].ToString();
-                String findex = paramsHt["findex"].ToString();
-                String fbdindex = paramsHt["fbdindex"].ToString();
+                String fuid = paramsHt["uid"].ToString();
+                String findex = paramsHt["index"].ToString();
+                String fbdindex = paramsHt["bdindex"].ToString();
 
                 //查询银行绑定详情
                 var infos = new CFT.CSOMS.BLL.BankCardBindModule.
@@ -757,7 +831,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
 
                 //必填参数验证
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "bind_state", "offset", "limit");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "bind_state", "offset", "limit", "token");
                 //token验证
                 //APIUtil.ValidateToken(paramsHt);
 

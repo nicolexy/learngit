@@ -52,8 +52,8 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         /// <param name="limCount"></param>
         /// <returns></returns>
         public DataSet GetBankCardBindList(string fuin, string Fbank_type, string bankID, string uid,
-            string creType, string creID, string protocolno, string phoneno, string strBeginDate, 
-            string strEndDate, int queryType, bool isShowAboutDetail, int bindStatue, string bind_serialno)
+            string creType, string creID, string protocolno, string phoneno, string strBeginDate,
+            string strEndDate, int queryType, bool isShowAboutDetail, int bindStatue, string bind_serialno, int limStart, int limCount)
         {
             MySqlAccess da = null;
             try
@@ -237,7 +237,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                 //加查临时表
                 string Sql2 = "select 2 as FBDIndex , Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
                     "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from c2c_db.t_user_bind_tmp where " + filter;
-                Sql = Sql + " union all " + Sql2;// +" limit " +limStart + "," + limCount;
+                Sql = Sql + " union all " + Sql2 +" limit " +limStart + "," + limCount;
                 return da.dsGetTotalData(Sql);
             }
             catch (Exception err)

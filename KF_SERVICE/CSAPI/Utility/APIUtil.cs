@@ -637,11 +637,22 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
 
                     //列明需要重命名的列
                     String colName = col.ColumnName;
-                    if (colNameMaps != null && colNameMaps.Count > 0 && colNameMaps.ContainsKey(col.ColumnName))
+                    if (colNameMaps != null && colNameMaps.Count > 0)
                     {
-                        if (!String.IsNullOrEmpty(colNameMaps[colName]))
+                        if (colNameMaps.ContainsKey(colName))
                         {
-                            colName = colNameMaps[colName];
+                            if (!String.IsNullOrEmpty(colNameMaps[colName]))
+                            {
+                                colName = colNameMaps[colName];
+                            }
+
+                        }
+                        else if (colNameMaps.ContainsKey(colName.ToLower()))
+                        {
+                            if (!String.IsNullOrEmpty(colNameMaps[colName.ToLower()]))
+                            {
+                                colName = colNameMaps[colName.ToLower()];
+                            }
                         }
                     }
                     sb.Append(String.Format("<{0}>{1}</{0}>", colName.ToLower(), dr[col.ColumnName].ToString()));                    
@@ -692,11 +703,22 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
 
                     //列明需要重命名的列
                     String colName = col.ColumnName;
-                    if (colNameMaps != null && colNameMaps.Count > 0 && colNameMaps.ContainsKey(col.ColumnName))
+                    if (colNameMaps != null && colNameMaps.Count > 0)
                     {
-                        if (!String.IsNullOrEmpty(colNameMaps[colName]))
+                        if (colNameMaps.ContainsKey(colName))
                         {
-                            colName = colNameMaps[colName];
+                            if (!String.IsNullOrEmpty(colNameMaps[colName]))
+                            {
+                                colName = colNameMaps[colName];
+                            }
+
+                        }
+                        else if (colNameMaps.ContainsKey(colName.ToLower()))
+                        {
+                            if (!String.IsNullOrEmpty(colNameMaps[colName.ToLower()]))
+                            {
+                                colName = colNameMaps[colName.ToLower()];
+                            }
                         }
                     }
                     row.Add(colName.ToLower(), dr[col.ColumnName]);
