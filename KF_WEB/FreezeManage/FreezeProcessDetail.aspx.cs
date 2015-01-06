@@ -123,6 +123,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 			{
 				DataRow dr2 = ds2.Tables[0].Rows[0];
 
+                int ftype = int.Parse(dr2["Ftype"].ToString());
+
 				string str = dr2["FState"].ToString();
 
 				ViewState["Fstate"] = dr2["FState"].ToString();
@@ -147,7 +149,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
                 string img_cgi = ConfigurationManager.AppSettings["GetAppealImageCgi"].ToString();
 
-                int ftype = int.Parse(dr2["Ftype"].ToString());
+                //int ftype = int.Parse(dr2["Ftype"].ToString());
+
+                #region 查询账户基本信息
+                DataSet dsuser = qs.GetAppealUserInfo(dr2["Fuin"].ToString());
+                if (dsuser == null || dsuser.Tables.Count == 0 || dsuser.Tables[0].Rows.Count == 0)
+                {
+                    //return;
+                }
+                else
+                {
+                    DataRow dr3 = dsuser.Tables[0].Rows[0];
+
+                    this.tbx_userName.Text = PublicRes.GetString(dr3["Ftruename"]);
+                    this.tbx_regCreNO.Text = PublicRes.GetString(dr3["Fcreid"]);
+                    ViewState["OldCreId"] = PublicRes.GetString(dr3["Fcreid"]);
+                    this.tbx_restFin.Text = classLibrary.setConfig.FenToYuan((double.Parse(dr3["FBalance"].ToString()) - double.Parse(dr3["Fcon"].ToString())).ToString());
+                }
+                #endregion
 
                 #region 图片
                 if (!(dr2["FCreImg1"] is DBNull))
@@ -205,23 +224,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                             this.Image4.ImageUrl = img_cgi + dr2["FProveBanlanceImage"].ToString();  //资金来源截图
                         }
                     }
-                }
-                #endregion
-
-                #region 查询账户基本信息
-                DataSet dsuser =  qs.GetAppealUserInfo(dr2["Fuin"].ToString());
-				if(dsuser == null || dsuser.Tables.Count == 0 || dsuser.Tables[0].Rows.Count == 0)
-				{
-					//return;
-				}
-				else
-				{
-					DataRow dr3 = dsuser.Tables[0].Rows[0];
-
-					this.tbx_userName.Text =  PublicRes.GetString(dr3["Ftruename"]);
-					this.tbx_regCreNO.Text = PublicRes.GetString(dr3["Fcreid"]);
-                    ViewState["OldCreId"] = PublicRes.GetString(dr3["Fcreid"]);
-					this.tbx_restFin.Text = classLibrary.setConfig.FenToYuan((double.Parse(dr3["FBalance"].ToString()) - double.Parse(dr3["Fcon"].ToString())).ToString());
                 }
                 #endregion
 
