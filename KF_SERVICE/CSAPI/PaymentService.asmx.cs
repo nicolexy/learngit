@@ -550,8 +550,15 @@ namespace CFT.CSOMS.Service.CSAPI
                 if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
-                }               
-                APIUtil.Print4DataTable(infos.Tables[0], null, null);
+                }
+
+                Dictionary<string, string> maps = new Dictionary<string, string>();
+                maps.Add("fno", "no");
+                maps.Add("ftype", "type");
+                maps.Add("fvalue", "value");
+                maps.Add("fmemo", "memo");
+                maps.Add("fsymbol", "symbol");
+                APIUtil.Print4DataTable(infos.Tables[0], null, maps);
             }
             catch (ServiceException se)
             {
@@ -742,6 +749,51 @@ namespace CFT.CSOMS.Service.CSAPI
             }
         }
 
+        [WebMethod]
+        public void GetBankCardBindRelationList()//string bank_type, string bank_id, string cre_type, string cre_id, string protocol_no, string phoneno, int bind_state, int limStart, int limCount
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+
+                //必填参数验证
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "bind_state", "offset", "limit");
+                //token验证
+                //APIUtil.ValidateToken(paramsHt);
+
+                String bank_type    =  paramsHt.ContainsKey("bank_type") ?  paramsHt["bank_type"].ToString() : "";
+                String bank_id      =  paramsHt.ContainsKey("bank_id") ? paramsHt["bank_id"].ToString() : "";
+                String cre_type     =  paramsHt.ContainsKey("cre_type") ? paramsHt["cre_type"].ToString() : "";
+                String cre_id       =  paramsHt.ContainsKey("cre_id") ? paramsHt["cre_id"].ToString() : "";
+                String protocol_no  =  paramsHt.ContainsKey("protocol_no") ? paramsHt["protocol_no"].ToString() : "";
+                String phoneno      =  paramsHt.ContainsKey("phoneno") ? paramsHt["phoneno"].ToString() : "";
+
+                int bind_state = APIUtil.StringToInt(paramsHt["bind_state"].ToString());
+                int limStart = APIUtil.StringToInt(paramsHt["offset"].ToString());
+                int limCount = APIUtil.StringToInt(paramsHt["limit"].ToString());
+
+                //查询银行绑定详情
+                var infos = new CFT.CSOMS.BLL.BankCardBindModule.
+                    BankCardBindService().GetBankCardBindRelationList(bank_type, bank_id, cre_type, cre_id, protocol_no, phoneno, bind_state, limStart, limCount);
+
+                if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                APIUtil.Print4DataTable(infos.Tables[0], null, null);
+
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetBankCardBindRelationList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetBankCardBindRelationList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
 
         [WebMethod]
         public void QueryBankCardList()//string appid, string bank_card, string date, int offset, int limit, string token

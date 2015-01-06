@@ -1,0 +1,790 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="47378c45-71b6-4986-82ff-f9a852058aad" name="UMLClassDiagram1" linkedPackageId="f9a17af6-5f85-4637-8808-94a517c34cbd" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="b92df520-4e1b-4ab6-976c-e12d13d6080b" name="BankCardBindService" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="b949d32f-a825-48bd-a7ca-cc380200e4a1" />
+        <ownedOperationsInternal>
+          <operation Id="cdc582b4-e2bb-4137-9998-fe1c4d130950" name="GitBankDic" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="202a6711-10fb-4393-883f-0f16442821ba" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="87839820-6950-4a22-84ed-5c84f4da7026" direction="Return" isUnique="false">
+                  <elementDefinition Id="359eb9bc-faec-41db-a14a-578f31ff8fab" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="fd602486-4f5e-49ea-91ac-59d453a56058" LastKnownName="DataSet" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="bc1bc975-4d20-4d61-af0e-90e35e9a1f77" name="GetBankcardBindList" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="cf49f647-a5df-48c6-ae95-4610872925f9" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="a81fa05b-9e78-4d78-bb40-10017445c236" direction="Return" isUnique="false">
+                  <elementDefinition Id="ed491e44-06b8-4abe-bee2-6e3c1f07c8ea" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="fd602486-4f5e-49ea-91ac-59d453a56058" LastKnownName="DataSet" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="761abee0-610a-4598-aba4-e9376d8929a9" name="bank_type" direction="In">
+                  <elementDefinition Id="443292a1-04c9-4f85-829a-b2621bcc36b5" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="fa6c49e3-8445-4127-b8b0-8055047edf36" LastKnownName="Int" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="29cecb72-674e-41e8-8224-3a41e246ac22" name="bank_id" direction="In">
+                  <elementDefinition Id="a25019ba-b644-41eb-8f99-166850e1f4e8" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="f977070a-6f5c-4563-b197-056be6392d56" name="uid" direction="In">
+                  <elementDefinition Id="4e541aae-3001-410f-abbd-2f5cadd76c08" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="062bf48d-43d3-4d9c-94d1-ef7cc13d485c" name="cre_type" direction="In">
+                  <elementDefinition Id="50681f04-a7c6-4b63-b04a-e294b1bf63b7" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="fa6c49e3-8445-4127-b8b0-8055047edf36" LastKnownName="Int" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="693d9a10-a776-44e6-a963-8ba242b3d37e" name="cre_id" direction="In">
+                  <elementDefinition Id="f8dbd8b1-d803-448e-b20e-7a6dce94995d" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="bd99c635-9944-4358-9dcd-6595a592bebe" name="protocol_no" direction="In">
+                  <elementDefinition Id="2eaff080-7992-484f-8740-3c8414d7ce11" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="4cdea4ad-cb8d-4a63-af7b-04b074073661" name="phoneno" direction="In">
+                  <elementDefinition Id="6e4be6ec-106c-4749-bc43-5370c0580e34" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="c016a5c9-47e5-4f25-abcc-88ba2b190a74" name="begin_date" direction="In">
+                  <elementDefinition Id="d1c155a5-c25f-489f-b043-f7b0e63a8611" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="255363bb-559d-460a-b73d-b18705c9f606" name="end_date" direction="In">
+                  <elementDefinition Id="7e8d18df-26ac-4237-acad-e63f3b09284b" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="3e33724d-6757-4432-b87f-567a82e82ca4" name="query_type" direction="In">
+                  <elementDefinition Id="43d066cb-0ca7-4d7d-be23-da6ee4cb2587" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="23b96035-35bf-4695-8e7d-94e15e0ec5fe" LastKnownName="int" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="9f6da0fa-0538-4e5f-b701-0ff8b8a6e944" name="bind_state" direction="In">
+                  <elementDefinition Id="1beeca7f-a9ea-4980-92f3-fa82b20296f4" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="23b96035-35bf-4695-8e7d-94e15e0ec5fe" LastKnownName="int" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="4fb64bc8-2963-4e1e-ba5d-9d58b44270d4" name="offset" direction="In">
+                  <elementDefinition Id="8876d5a9-f44e-49f2-b154-bcd477bee84e" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="23b96035-35bf-4695-8e7d-94e15e0ec5fe" LastKnownName="int" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="10db47ee-3156-4c9f-a9aa-bfd10aee3eb9" name="limit" direction="In">
+                  <elementDefinition Id="1e48baf1-8da8-4bb8-ab97-d1d9e30aea57" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="23b96035-35bf-4695-8e7d-94e15e0ec5fe" LastKnownName="int" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="2a3780f9-27fc-4103-960d-bf7373a81548" name="GetBankcardBindDetail" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="4ea04362-6750-4580-828c-9c9280cc4f9f" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="6271ad60-05ad-4a8e-a0ed-63355ad9941f" direction="Return" isUnique="false">
+                  <elementDefinition Id="c3e579c7-60dd-4d62-8969-c0e56a54a710" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="fd602486-4f5e-49ea-91ac-59d453a56058" LastKnownName="DataSet" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="c51f105b-942b-442b-8320-08f01bb6eb1f" name="uid" direction="In" isUnique="false">
+                  <elementDefinition Id="4863cf89-f11c-4905-ae5c-0966843452a3" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="f45e8940-39e3-4caf-89c8-cd5d92dac8a9" name="index" direction="In">
+                  <elementDefinition Id="07d452d9-9ede-48c3-a54a-b8204e9cbc9c" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="2e84b9ee-0cde-4882-8368-72f3067af11e" name="bdindex" direction="In">
+                  <elementDefinition Id="085a5e2b-d604-419e-9531-4a9a0e3703fe" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="4997037a-a66e-43ef-bc81-32bbc1c4f0e5" name="UnBindBankcardBind" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="ef00f53a-69bd-45a4-94bc-c6f3b685d1e0" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="e5f345ac-35a5-48b2-b151-ad009db90659" direction="Return" isUnique="false">
+                  <elementDefinition Id="cde359f2-1dff-44aa-b455-60fd36b4d312" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="a6b83d11-f306-4390-a0c6-7fac86255520" LastKnownName="bool" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="207b3f0a-b7c8-40bc-8b16-a6ffd6605713" name="bank_type" direction="In">
+                  <elementDefinition Id="80117d29-2a8d-4d81-b91a-af94337bd2bc" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="fa6c49e3-8445-4127-b8b0-8055047edf36" LastKnownName="Int" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="25ab16a0-3e88-4419-98df-50c0283553ce" name="uin" direction="In">
+                  <elementDefinition Id="73160bd9-a2f4-4c99-9840-d6c9b9c45f41" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="bba4bfa4-ac23-4579-a47f-cdc14bf0c032" name="protocol_no" direction="In">
+                  <elementDefinition Id="75cb8ab7-b320-4dd1-baea-0983f4ef3d3c" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="67717f8f-d5c4-4d07-973f-53804b71a218" name="userip" direction="In">
+                  <elementDefinition Id="167523cf-4a73-4197-a7f5-c73d3adce8e3" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="40d91e4c-7822-499c-b1d6-41b5bd91bea3" name="SyncBankcardBind" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="bc3e4e92-70b7-4e6c-adbe-eeaa6fc6f520" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="ccf034bb-5d1f-4b6d-a92d-d48b520ef09b" direction="Return" isUnique="false">
+                  <elementDefinition Id="3437d59a-c54f-426b-86d8-54dc751d2a64" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="a6b83d11-f306-4390-a0c6-7fac86255520" LastKnownName="bool" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="e971b17b-c30a-4260-8ea4-300fcb15116c" name="bank_type" direction="In">
+                  <elementDefinition Id="adaa8f33-5b88-422b-8592-b50cccd25c3c" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="953e7129-0724-464e-88de-481744708b09" name="bank_id" direction="In">
+                  <elementDefinition Id="7fbe0f5c-00a5-4c1a-a639-b116524a0698" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="692ecc22-fb32-4841-b6f1-abc7b115dcdc" name="card_tail" direction="In">
+                  <elementDefinition Id="8c1cf164-a596-4cec-8eac-9c487245f895" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="d8511f5c-7e19-4add-b32c-587e2317fae0" name="GetBankCardBindRelationList" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="c4e9b138-dcc6-4bab-be1b-1905fc93cc05" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="9b2fd847-53b5-41c9-8e03-8436652a2109" direction="Return" isUnique="false">
+                  <elementDefinition Id="64c752b4-b0b4-4d28-a611-dcce56e1d766" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="fd602486-4f5e-49ea-91ac-59d453a56058" LastKnownName="DataSet" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="15ee82ed-dcf6-4626-a48c-7c4726162273" name="bank_type" direction="In">
+                  <elementDefinition Id="9fcded7b-314c-4a78-b35b-3d2350ae3eec" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="fa6c49e3-8445-4127-b8b0-8055047edf36" LastKnownName="Int" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="bbe23965-ed97-4e0f-9531-12e8da6300d8" name="bank_id" direction="In">
+                  <elementDefinition Id="d4313ca5-0603-4a89-9149-2b0534512418" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="014cba2c-9a2b-4b25-ba11-a8bf4e751a48" name="cre_type" direction="In">
+                  <elementDefinition Id="a605d48f-8f73-4e46-9c2c-d162bcb42e37" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="23b96035-35bf-4695-8e7d-94e15e0ec5fe" LastKnownName="int" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="f1842368-81cd-4bc6-9729-e29243b86986" name="cre_id" direction="In">
+                  <elementDefinition Id="ab556e55-3ad1-46c2-885c-214022e98339" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="98ec5fe5-fb4e-4ba8-9a4d-061f7d804f76" name="protocol_no" direction="In">
+                  <elementDefinition Id="60e59b0d-1474-4c4e-bb37-9d3ef5ea9010" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="df922b54-da6b-449a-85ed-c65b6861cb6e" name="phoneno" direction="In">
+                  <elementDefinition Id="6a13a647-72d4-46b1-ac89-58309b11c85e" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="6a206859-31d0-4500-a54e-2b6f9684c970" name="bind_state" direction="In">
+                  <elementDefinition Id="366c6565-1472-4bf3-842b-93d0661ecd3f" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="fa6c49e3-8445-4127-b8b0-8055047edf36" LastKnownName="Int" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="9c02457c-3b5b-4380-8b1b-97a2c4fb7848" name="offset" direction="In">
+                  <elementDefinition Id="4bd4df82-9f4f-4403-a869-523f10507a80" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="fa6c49e3-8445-4127-b8b0-8055047edf36" LastKnownName="Int" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="4fe54f58-c62d-4dba-85d5-edc79fa5123f" name="limit" direction="In">
+                  <elementDefinition Id="911989f4-4eb0-49fb-bfca-5fb5a7ed01e7" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="fa6c49e3-8445-4127-b8b0-8055047edf36" LastKnownName="Int" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="2dd98e0a-abcb-47e0-964e-530b3a7200b4" name="UnBindBankcardBindSpecial" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="cac6ef7e-97bd-477f-b1b8-1bf02264eaac" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="cb741eab-e84c-4185-af5b-eec56d1d5153" direction="Return" isUnique="false">
+                  <elementDefinition Id="248c125b-a7c3-4246-98ae-4800c26a1d87" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="a6b83d11-f306-4390-a0c6-7fac86255520" LastKnownName="bool" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="98777742-9792-4461-b340-e92e2eed1c16" name="bank_type" direction="In">
+                  <elementDefinition Id="0a100ec6-158a-411b-9b66-5408dcfff8f5" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="23b96035-35bf-4695-8e7d-94e15e0ec5fe" LastKnownName="int" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="9573a07a-c048-4059-ba4b-2f0d84c173fd" name="uin" direction="In">
+                  <elementDefinition Id="ac0d24b9-0c42-46a2-b8a5-207d1fc3c2b1" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="bdf0cb2d-f2b9-442f-b404-e4ba74e8d91b" name="card_detail" direction="In">
+                  <elementDefinition Id="287d5cf0-d5d3-45c1-8ff8-e744797584ff" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="78e5e9d5-ca76-4326-88ba-24b142341341" name="bind_serialno" direction="In">
+                  <elementDefinition Id="0be6b14f-209b-4ee7-b56c-d8c647bcf6db" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="c3c080c0-dd67-4379-b604-7b15f75499ad" name="protocol_no" direction="In">
+                  <elementDefinition Id="0700ddff-1ad6-466c-bc8b-29bc40573ead" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="88113451-b46a-4a28-8e82-df5be1cba7bf" name="String" isAbstract="false" isLeaf="false" cachedFullName="String">
+        <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="9492366f-e31a-4f46-8add-287817bdf92d" name="BankItem" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="7e869114-8489-4fef-81b0-81d37358133a" />
+        <targetEnds>
+          <association Id="2631e2d8-ec5d-4f0f-8b71-b41d2e7b3423" isDerived="false" sourceEndRoleName="BankItem" targetEndRoleName="BankCardBindService" isLeaf="false" isAbstract="false">
+            <classMoniker Id="b92df520-4e1b-4ab6-976c-e12d13d6080b" LastKnownName="BankCardBindService" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a03f9895-26ac-46cc-9988-e3affdd4f762" name="BankItem" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="192039a3-0207-45d9-a041-9f76fa100aa9" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="6459d0d3-2e8c-44bd-8553-79791e343c89" name="BankCardBindService" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="47704116-12b7-4ada-ace4-42be6a2325f6" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="3ab7bb56-5ca5-4a62-acad-190ae9c54281" />
+          </association>
+          <association Id="ea96a734-27e6-471e-b459-d6a7e986b3ec" isDerived="false" sourceEndRoleName="BankItem" targetEndRoleName="BankcardBindItem" isLeaf="false" isAbstract="false">
+            <classMoniker Id="e1e4cbaf-6327-4437-b6ef-989fcd2e2fe9" LastKnownName="BankcardBindItem" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="70682bc0-2b48-4842-a851-bbb41b928885" name="BankItem" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="cbc31d3c-8a3a-4e37-ad1f-e3f1a1e74955" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="53d18d6f-eeba-48f0-9a35-fc7789cd126f" name="BankcardBindItem" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="13bc2d9e-4a20-4c1d-b95f-d4d4aade65c1" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="61fe7b12-a0f5-436e-a4f9-ad30d5d88888" />
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property Id="cebdad16-cc31-4114-b269-3deb94f7e4c2" name="no" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c612ce6e-d3fd-46f5-984e-9bd71b49a0e9" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="954e6519-b83d-41a7-a30a-a92d132add40" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="78ba8d1c-4541-44fa-b779-6264f854dbae" name="value" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="89fec3a3-d0f7-4d92-ad8d-abaf13dccb82" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="4afd5e1e-4411-4371-8053-81de2fbda831" name="type" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="15b319a8-ce61-4d3f-a37e-e855c9031145" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="911e8f71-fd0f-4f41-9583-fe5a358da927" name="symbol" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="e610489c-0ebc-456d-92a0-e393c199de0c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="1a31bdde-8b04-45e1-b714-90a5385598c7" name="memo" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="1a390ca3-94c2-48f5-82e5-c88ed16a99f4" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation Id="8935e3f3-c1e8-4618-8945-5937e7667f6a" name="BankItem" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="1c31ac18-952e-474b-8dd8-c5d24237582e" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="954e6519-b83d-41a7-a30a-a92d132add40" name="String" isAbstract="false" isLeaf="false" cachedFullName="String">
+        <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="fd602486-4f5e-49ea-91ac-59d453a56058" name="DataSet" isAbstract="false" isLeaf="false" cachedFullName="DataSet">
+        <elementDefinition Id="c822d13c-8183-46de-be78-2d63f6f3841a" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="aebb7405-dd11-49c8-baab-e9cea3046afc" name="String" isAbstract="false" isLeaf="false" cachedFullName="String">
+        <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="41eb4cb9-9ca0-4b23-ab24-0ff5241b7a57" name="String" isAbstract="false" isLeaf="false" cachedFullName="String">
+        <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="8a15169b-3cf9-42a7-89cd-482de160f491" name="String" isAbstract="false" isLeaf="false" cachedFullName="String">
+        <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="8ab1e881-f35b-47cd-8a0a-85640c9229ee" name="String" isAbstract="false" isLeaf="false" cachedFullName="String">
+        <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="e1e4cbaf-6327-4437-b6ef-989fcd2e2fe9" name="BankcardBindItem" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="85ad33a6-a602-471d-a70c-582cd32229bc" />
+        <targetEnds>
+          <association Id="97ad500f-202c-4e4b-83f6-530dade517c6" isDerived="false" sourceEndRoleName="BankcardBindItem" targetEndRoleName="BankCardBindService" isLeaf="false" isAbstract="false">
+            <classMoniker Id="b92df520-4e1b-4ab6-976c-e12d13d6080b" LastKnownName="BankCardBindService" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="4c6a1aa1-5309-4adc-a824-9974eb9ad643" name="BankcardBindItem" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="7597c118-dce8-4c18-81ce-6268000f2981" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="2203f323-d97b-4b11-bf31-ab818c5c1f62" name="BankCardBindService" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="c9f46a8a-b706-43ec-aedf-13dd0147dcf5" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="fc6577e4-08b9-4d33-ae41-e8638edfcac7" />
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property Id="cbf5ef7d-1bcd-4d51-8e8e-b71a3e5daa3b" name="day_quota" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="4730dedb-eb4e-409c-a94e-91768839fef3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="597f0cbd-eace-4fcd-a683-c8d8717f6d02" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="96a81770-14ba-4609-bf54-8964d6249d41" name="card_tail" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f1bd9ade-41b7-4873-a1eb-acd0f2f32885" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="aebb7405-dd11-49c8-baab-e9cea3046afc" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="55961941-0b49-4b48-a6bc-a4d4fe07db58" name="cre_id" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d21d88a7-1303-4113-9b92-4a3d0ebbd57b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="41eb4cb9-9ca0-4b23-ab24-0ff5241b7a57" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="0a681b71-7382-4dc3-8dc2-97ba13f2c080" name="bank_type" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="54e8d200-46b6-46e0-8f25-0d75560937a5" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="8a15169b-3cf9-42a7-89cd-482de160f491" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="f37883c2-f086-4cb6-831e-83a4015b94b9" name="uin" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="b60d4e9b-aef8-4e56-ba47-8f7d1817efd5" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="8ab1e881-f35b-47cd-8a0a-85640c9229ee" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="4c7c673a-aeed-481f-9ad2-9af55610898d" name="once_quota" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="fdcbc5d9-7792-4aeb-9af3-215322b4a344" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="ecdf152c-5d2a-4f32-a65c-4bf6706c2ca7" name="sms_flag" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="552034ca-aa3d-45c3-9c9b-2df5dee80047" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="23b96035-35bf-4695-8e7d-94e15e0ec5fe" LastKnownName="int" />
+            </type_NamedElement>
+          </property>
+          <property Id="2766dd24-f863-406e-b7ff-0c3bc59b2e0e" name="bank_id" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="9b41848e-a1cf-4570-a7b6-4ccd38cdbc67" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="4dfb0cee-55ce-4730-b5d3-50f584718d45" name="truename" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="10959293-6439-4e9b-ad7b-25af02cc7ab1" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="d0d8ab54-7c2e-428e-9943-cf0cb9e9a5fc" name="bank_status" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="515cd288-5e33-43ee-ac0f-1e13dcb9e4f8" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="23b96035-35bf-4695-8e7d-94e15e0ec5fe" LastKnownName="int" />
+            </type_NamedElement>
+          </property>
+          <property Id="d2f3c33c-8ca1-4b6a-9afa-1c5888c6ff97" name="bank_status_str" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="06edc325-7b79-4814-8c94-8b50e864082f" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="75015cae-9ec5-4f10-ad20-bff8617f5182" name="bind_type" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="1c657032-e79b-4759-907f-1e5296a5f3ed" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="fa6c49e3-8445-4127-b8b0-8055047edf36" LastKnownName="Int" />
+            </type_NamedElement>
+          </property>
+          <property Id="080e6748-2a2b-42a1-a1b6-8e0dddb9bc40" name="bind_type_str" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="cad19ee7-b792-411f-83bd-69f456e38c7e" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="e9c317d9-a1a4-47d8-aac1-a2967fb649f9" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="ad68cfaa-b2f0-4488-a476-068d4757c143" name="bind_status" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="1c6ad956-cbda-4ce2-86c1-7816fe2643ac" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="fa6c49e3-8445-4127-b8b0-8055047edf36" LastKnownName="Int" />
+            </type_NamedElement>
+          </property>
+          <property Id="e6096967-b5f3-48eb-a928-d7d7cc0a5acd" name="bind_status_str" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="28b51db8-22b5-438e-b7d7-6d1cb7e44b5a" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="dca83d3a-3cb3-4cf5-a959-a87da7d0d4e4" name="bind_flag" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="11ebe4c4-6de3-427c-a48c-cd1a245493c9" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="23b96035-35bf-4695-8e7d-94e15e0ec5fe" LastKnownName="int" />
+            </type_NamedElement>
+          </property>
+          <property Id="a6dbb772-afed-4670-9238-406203d931a8" name="bind_flag_str" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="3abb18bc-f642-4daa-8185-735534e147e6" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="be1de6f5-3013-40e4-91aa-bb13238653bf" name="protocol_no" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="0d2fbfbb-da9e-450d-abf3-de99edbdaa12" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="5991c634-bf5d-4cf5-8eca-d3d7f11a1f14" name="bind_serialno" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="1ef45439-5d78-4d9b-8814-3e8fa2ad6614" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="17884936-db66-4f4e-95e4-b1fd3ae66beb" name="uid" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="fea11aa4-00ae-4d92-a477-3038d016e691" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="ba03364e-0fce-4a55-82fb-c34d896d956e" name="index" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="12bb220f-6169-4321-ad4d-b0f8daeae962" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="a2db1151-096a-4130-88ae-cd05e6a71752" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="346d4f60-96f0-41e5-b55f-203b75c96072" name="memo" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="a35c27eb-cd01-4dee-bb99-881600fddc52" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="2b1a2eca-9c54-4b5f-aab3-2d81dd480d3e" name="cre_id" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="0a3ce56f-4b39-42bc-b8dc-fc8696df4ad3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="41440b2a-0e78-41cb-bd06-f081bebde03f" name="cre_type" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c200c93a-a229-4913-a566-05d6ec09c355" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="23b96035-35bf-4695-8e7d-94e15e0ec5fe" LastKnownName="int" />
+            </type_NamedElement>
+          </property>
+          <property Id="0ce9d112-7fdd-4ca2-9627-5c16953600dd" name="cre_type_str" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="0dd6af05-ab29-4bee-b2a5-3bb958760327" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="89787f55-7d65-4e1b-94d0-e8c39cfc4aa0" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="5013610d-550e-4beb-8ac3-0a767347c45b" name="mobilephone" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="e3dd1f50-bb14-4963-9115-afe937de51cc" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="c5e26744-404b-4c93-ba93-890fec22c367" name="telephone" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f04f3f3c-26db-411c-9177-7cb00de71ab0" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="6fa45f62-b350-4f31-92ec-e1220402b7ab" name="create_time" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="b0063c16-4485-4ebe-9924-f092104ebff3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="1e010443-6e54-40cb-bce0-a908f8a29d45" name="bind_time_bank" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="0fd96518-8a89-4981-9489-d9ae60004d75" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="7715b827-6e84-42de-ac64-dffcfad7da1f" name="bind_time_local" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="b042f4e5-31b9-4547-9a9a-4f37cbdc950f" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="7c0fe67e-dacb-49a0-b48a-0bef57e339b7" name="unchain_time_bank" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="504ebc8c-1250-4e99-afb2-ef49f4dbdbae" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="d682d98f-2611-4bea-8ae8-fb45705fccac" name="unchain_time_local" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="95db0720-5442-45b7-8b24-9be217a97be0" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="88113451-b46a-4a28-8e82-df5be1cba7bf" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation Id="627c3405-0e08-4077-a44d-247364fb91c1" name="BankCardBindItem" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="784bc29c-3437-47d8-ac5c-627cefdad795" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="597f0cbd-eace-4fcd-a683-c8d8717f6d02" name="String" isAbstract="false" isLeaf="false" cachedFullName="String">
+        <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="23b96035-35bf-4695-8e7d-94e15e0ec5fe" name="int" isAbstract="false" isLeaf="false" cachedFullName="int">
+        <elementDefinition Id="0fc0517c-f115-4c20-982a-c576a1aff694" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="fa6c49e3-8445-4127-b8b0-8055047edf36" name="Int" isAbstract="false" isLeaf="false" cachedFullName="Int">
+        <elementDefinition Id="0a902ec3-7e75-456c-b37d-dd3f2dd27b99" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="e9c317d9-a1a4-47d8-aac1-a2967fb649f9" name="String" isAbstract="false" isLeaf="false" cachedFullName="String">
+        <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="a2db1151-096a-4130-88ae-cd05e6a71752" name="String" isAbstract="false" isLeaf="false" cachedFullName="String">
+        <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="89787f55-7d65-4e1b-94d0-e8c39cfc4aa0" name="String" isAbstract="false" isLeaf="false" cachedFullName="String">
+        <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="a6b83d11-f306-4390-a0c6-7fac86255520" name="bool" isAbstract="false" isLeaf="false" cachedFullName="bool">
+        <elementDefinition Id="564cfe2a-467d-42ba-b4f4-34080bfdbc65" />
+      </referencedType>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="f9a17af6-5f85-4637-8808-94a517c34cbd" name="CFT.CSOMS.UML">
+    <elementDefinition Id="ec841149-15fa-4f64-8da8-c3d50639240d" />
+    <profileInstances>
+      <packageHasProfileInstances Id="81a044ac-ff45-4f0a-9191-3faba08549d5">
+        <profileInstance Id="def29d6b-fc68-485f-ad77-acf5a40b6f48" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="bdc276d6-55bd-4480-a72a-bae3021857f6">
+        <profileInstance Id="43fb019a-f415-4dc7-9293-42f038638363" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="761767c3-f4cc-437e-b591-531c71c1ff94">
+        <profileInstance Id="547578e2-be1c-44e2-beaf-90c1bdb5fade" name="CSharpProfile">
+          <elementDefinition Id="c851739c-423f-433b-924b-d681090989e0" />
+        </profileInstance>
+        <elementDefinition Id="fc84e773-73e9-4c11-9e11-cfc7cebd9231" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</logicalClassDesignerModel>

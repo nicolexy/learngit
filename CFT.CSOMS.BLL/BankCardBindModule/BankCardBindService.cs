@@ -30,6 +30,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         }
 
 
+
         /// <summary>
         /// 根据条件查询绑定的卡列表 qqId不能为空
         /// </summary>
@@ -252,6 +253,189 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
 
 
 
+
+        public DataSet GetBankCardBindRelationList(string bank_type, string bank_id, 
+            string cre_type, string cre_id, string protocol_no, string phoneno, int bind_state, int limStart, int limCount)
+        {
+            try
+            {
+                DataSet ds1 = this.GetBankCardBindList_UIN(
+                    bank_type, bank_id, cre_type, cre_id, protocol_no, phoneno, bind_state, limStart, limCount);
+
+                //继续查实时绑定库表，为了查当天记录lxl
+                DataSet ds2 = this.GetBankCardBindList_UIN_2(
+                    bank_type, bank_id, cre_type, cre_id, protocol_no, phoneno, bind_state, limStart, limCount);
+
+                DataSet ds = new DataSet();
+                DataTable dt = new DataTable();
+                ds.Tables.Add(dt);
+                ds.Tables[0].Columns.Add("uin", typeof(string));
+                ds.Tables[0].Columns.Add("bank_type", typeof(string));
+                ds.Tables[0].Columns.Add("cre_id", typeof(string));
+                ds.Tables[0].Columns.Add("bank_id", typeof(string));
+                ds.Tables[0].Columns.Add("card_tail", typeof(string));//20131017 lxl 卡号后四位
+                if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds1.Tables[0].Rows)
+                    {
+                        DataRow drResult = dt.NewRow();
+                        drResult["uin"]         = dr["fuin"].ToString();
+                        drResult["bank_type"]   = dr["Fbank_type"].ToString();
+                        drResult["cre_id"]      = dr["fcre_id"].ToString();
+                        drResult["bank_id"]     = dr["fbank_id"].ToString();
+                        drResult["card_tail"]   = dr["fcard_tail"].ToString();
+                        dt.Rows.Add(drResult);
+                    }
+                }
+                if (ds2 != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds2.Tables[0].Rows)
+                    {
+                        DataRow drResult = dt.NewRow();
+                        drResult["uin"]         = dr["fuin"].ToString();
+                        drResult["bank_type"]   = dr["Fbank_type"].ToString();
+                        drResult["cre_id"]      = dr["fcre_id"].ToString();
+                        drResult["bank_id"]     = dr["fbank_id"].ToString();
+                        drResult["card_tail"]   = dr["fcard_tail"].ToString();
+                        dt.Rows.Add(drResult);
+                    }
+                }
+                return ds;
+            }
+            catch (System.Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+
+        public DataSet GetBankCardBindList_UIN(string Fbank_type, string bankID, 
+            string creType, string creID, string protocolno, string phoneno, int bindStatue, int limStart, int limCount)
+        {
+            MySqlAccess da = null;
+            try
+            {
+                //string bankID_Encode = PublicRes.BankIDEncode_ForBankCardUnbind(bankID);
+                string bankID_Encode = PublicRes.EncryptZerosPadding(bankID);
+
+                // 如果fuid为空则查询c2c_db.t_bind_relation
+                string sql_findUID = "select * from c2c_db.t_bind_relation where ";
+                string sql_findUID_filter = " (1=1) ";
+                int sql_findUID_filter_startLen = sql_findUID_filter.Length;
+
+                if (Fbank_type.Trim() != "")
+                {
+                    sql_findUID_filter += " And Fbank_type=" + Fbank_type;
+                }
+
+                if (bankID != "")
+                {
+                    sql_findUID_filter += " And (Fbank_id='" + bankID + "' or Fbank_id='" + bankID_Encode + "') ";
+                }
+
+                if (creType != "")
+                {
+                    sql_findUID_filter += " And Fcre_type=" + creType;
+                }
+
+                if (creID != "")
+                {
+                    sql_findUID_filter += " And Fcre_id='" + creID + "' ";
+                }
+
+                if (protocolno != "")
+                {
+                    sql_findUID_filter += " And ( Fprotocol_no='" + protocolno + "' or Fbank_id='" + protocolno + "')";
+                }
+
+                if (phoneno != "")
+                {
+                    sql_findUID_filter += " And Fmobilephone='" + phoneno + "' ";
+                }
+
+                if (sql_findUID_filter.Length == sql_findUID_filter_startLen)
+                {
+                    //throw new Exception("请输入必须的查询条件");
+                    return null;
+                }
+
+                sql_findUID += sql_findUID_filter;
+
+                da = MySQLAccessFactory.GetMySQLAccess("HT");
+                da.OpenConn();
+                return da.dsGetTotalData(sql_findUID);
+            }
+            catch (Exception err)
+            {
+                return null;
+            }
+            finally
+            {
+                if (da != null)
+                {
+                    da.Dispose();
+                }
+            }
+
+        }
+
+
+        //可能是当日绑定的卡，但是通过卡号查不到对应的uid，所以不能查到绑卡记录，就要查c2c_db_xx.t_card_bind_relation_x
+        public DataSet GetBankCardBindList_UIN_2(string Fbank_type, string bankID, 
+            string creType, string creID, string protocolno, string phoneno, int bindStatue, int limStart, int limCount)
+        {
+            MySqlAccess da = null;
+            try
+            {
+                da = MySQLAccessFactory.GetMySQLAccess("BD");
+                da.OpenConn();
+
+                if (bankID == "")
+                    return null;
+                int length = bankID.Length;
+                string dbIndex = bankID.Substring(length - 2, 2);
+                string tblIndex = bankID.Substring(length - 3, 1);
+                string sql_findUID_2 = string.Format(@"select * from c2c_db_{0}.t_card_bind_relation_{1} where ", dbIndex, tblIndex);
+                string bankID_md5 = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(bankID, "md5").ToLower();
+
+                string sql_findUID_filter_2 = " (1=1) ";
+                int sql_findUID_filter_startLen_2 = sql_findUID_filter_2.Length;
+
+                if (Fbank_type.Trim() != "")
+                {
+                    sql_findUID_filter_2 += " And Fbank_type=" + Fbank_type;
+                }
+
+                if (bankID != "")
+                {
+                    sql_findUID_filter_2 += " And (Fcard_id='" + bankID + "' or Fcard_id='" + bankID_md5 + "') ";
+                }
+
+                if (sql_findUID_filter_2.Length == sql_findUID_filter_startLen_2)
+                {
+                    return null;
+                }
+                sql_findUID_2 += sql_findUID_filter_2;
+                DataSet ds = da.dsGetTableByRange(sql_findUID_2, limStart, limCount);
+                return ds;
+            }
+            catch (Exception err)
+            {
+                return null;
+            }
+            finally
+            {
+                if (da != null)
+                {
+                    da.Dispose();
+                }
+            }
+
+        }
+
+        
+
         /// <summary>
         /// 同步绑定信息
         /// </summary>
@@ -321,6 +505,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             }
             return false;
         }
+
 
 
         /// <summary>
@@ -396,8 +581,8 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
 
                     string req_params = "ver=1&request_type=8809";
 
-                    string need_bank = dt.Rows[0]["need2bank"].ToString();
-                    if (need_bank != null && need_bank == "1")
+                    var need_bank = dt.Rows[0]["need2bank"];
+                    if (need_bank != null && need_bank.ToString() == "1")
                     {
                         req_params += "&bank_type=" + bankType;
                         req_params += "&card_no=" + dt.Rows[0]["card_no"].ToString();
@@ -459,6 +644,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             }
             return table;
         }
+
 
 
         /// <summary>
