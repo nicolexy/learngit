@@ -8189,7 +8189,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        private static string getCgiString(string instr)
+        public static string getCgiString(string instr)
         {
             if (instr == null || instr.Trim() == "")
                 return "";

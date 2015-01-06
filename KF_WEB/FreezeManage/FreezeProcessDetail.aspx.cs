@@ -14,6 +14,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using Tencent.DotNet.Common.UI;
 using System.Configuration;
 using CFT.CSOMS.BLL.FreezeModule;
+using CFT.CSOMS.BLL.UserAppealModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 {
@@ -144,6 +145,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                 ViewState["TjCreType"] = dr2["FCreType"].ToString(); //证件类型
                 this.tbx_phoneNo.Text = dr2["FReservedMobile"].ToString();//联系电话
                 this.tbx_freezeReason.Text = dr2["FreezeReason"].ToString();//冻结原因
+
+                //以下为添加的展示字段
+                this.tbx_subUserName.Text = PublicRes.GetString(dr2["Ftruename"].ToString());//用户提交姓名
+                this.lblstandard_score.Text = dr2["FStandardScore"].ToString();//免审核标准分
+                this.lblrisk_result.Text = dr2["risk_result"].ToString();//风控标记
+                if (dr2["FClearPps"].ToString() == "1" && dr2["FType"].ToString() == "1")//是否清空密保资料
+                {
+                    this.clear_pps.Text = "清除";
+                }
+                else if (dr2["FType"].ToString() == "1" && dr2["FClearPps"].ToString() != "1")
+                {
+                    this.clear_pps.Text = "不清除";
+                }
+                else
+                {
+                    this.clear_pps.Text = "";
+                }
+                this.lblscore.Text = dr2["FAppealScore"].ToString();//实际得分
+                bool isAuthen = new UserAppealService().GetUserAuthenState(dr2["Fuin"].ToString(), "", 0);//实名认证
+                if (isAuthen)
+                    this.lbauthenState.Text = "是";
+                else
+                    this.lbauthenState.Text = "否";
+                this.lbldetail_score.Text = dr2["detail_score"].ToString();//得分明细
+
 
                 this.tbx_userQA.Text = dr2["FAppealReason"].ToString();  //用户描述
 

@@ -40,15 +40,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         protected global::System.Web.UI.WebControls.Label lb_operatorID;
         
         /// <summary>
-        /// table_freeze control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable table_freeze;
-        
-        /// <summary>
         /// tbx_payAccount control.
         /// </summary>
         /// <remarks>
@@ -67,31 +58,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         protected global::System.Web.UI.WebControls.TextBox tbx_cerNO;
         
         /// <summary>
-        /// tbx_userSubBindMobile control.
+        /// tbx_subUserName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_userSubBindMobile;
+        protected global::System.Web.UI.WebControls.TextBox tbx_subUserName;
         
         /// <summary>
-        /// tbx_lastAddr control.
+        /// tbx_restFin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_lastAddr;
-        
-        /// <summary>
-        /// tbx_userName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_userName;
+        protected global::System.Web.UI.WebControls.TextBox tbx_restFin;
         
         /// <summary>
         /// tbx_regCreNO control.
@@ -103,31 +85,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         protected global::System.Web.UI.WebControls.TextBox tbx_regCreNO;
         
         /// <summary>
-        /// tbx_bindMobile control.
+        /// tbx_userName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_bindMobile;
-        
-        /// <summary>
-        /// tbx_DC control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_DC;
-        
-        /// <summary>
-        /// tbx_restFin control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_restFin;
+        protected global::System.Web.UI.WebControls.TextBox tbx_userName;
         
         /// <summary>
         /// tbx_email control.
@@ -157,121 +121,58 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         protected global::System.Web.UI.WebControls.TextBox tbx_freezeReason;
         
         /// <summary>
-        /// table_special control.
+        /// lblstandard_score control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable table_special;
+        protected global::System.Web.UI.WebControls.TextBox lblstandard_score;
         
         /// <summary>
-        /// Textbox1 control.
+        /// lblrisk_result control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox1;
+        protected global::System.Web.UI.WebControls.TextBox lblrisk_result;
         
         /// <summary>
-        /// Textbox2 control.
+        /// clear_pps control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox2;
+        protected global::System.Web.UI.WebControls.TextBox clear_pps;
         
         /// <summary>
-        /// Textbox3 control.
+        /// lblscore control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox3;
+        protected global::System.Web.UI.WebControls.TextBox lblscore;
         
         /// <summary>
-        /// Textbox4 control.
+        /// lbauthenState control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox4;
+        protected global::System.Web.UI.WebControls.TextBox lbauthenState;
         
         /// <summary>
-        /// Textbox5 control.
+        /// lbldetail_score control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox5;
-        
-        /// <summary>
-        /// Textbox6 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox6;
-        
-        /// <summary>
-        /// Textbox7 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox7;
-        
-        /// <summary>
-        /// Textbox8 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox8;
-        
-        /// <summary>
-        /// Textbox9 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox9;
-        
-        /// <summary>
-        /// Textbox10 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox10;
-        
-        /// <summary>
-        /// Textbox11 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox11;
-        
-        /// <summary>
-        /// Textbox12 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox12;
+        protected global::System.Web.UI.WebControls.TextBox lbldetail_score;
         
         /// <summary>
         /// table_images control.

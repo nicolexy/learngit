@@ -10740,8 +10740,72 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     int ftype = int.Parse(ds.Tables[0].Rows[0]["Ftype"].ToString());
+
+                #region 字段处理
                       ds.Tables[0].Columns.Add("isFreezeListHas", typeof(string));
                       ds.Tables[0].Columns.Add("FreezeReason", typeof(string));//冻结原因
+                      ds.Tables[0].Columns.Add("detail_score", typeof(string)); //得分明细
+                      ds.Tables[0].Columns.Add("risk_result", typeof(string)); //风控标记
+
+                    DataRow dr=ds.Tables[0].Rows[0];
+                      string risk_result = CFTUserAppealClass.getCgiString(dr["FRiskState"].ToString());
+                      if (risk_result == "0")
+                          dr["risk_result"] = "";
+                      else if (risk_result == "1")
+                          dr["risk_result"] = "风控异常单无需人工回访用户";
+                      else if (risk_result == "2")
+                          dr["risk_result"] = "风控异常单需人工回访用户";
+                      else
+                          dr["risk_result"] = risk_result;
+
+                      dr["detail_score"] = CFTUserAppealClass.getCgiString(dr["FDetailScore"].ToString());
+
+                      if (dr["detail_score"].ToString() != "")
+                      {
+                          try
+                          {
+                              string detail_score = System.Web.HttpUtility.UrlDecode(dr["detail_score"].ToString(), System.Text.Encoding.GetEncoding("GB2312"));
+
+                              if (detail_score.IndexOf("PwdProtection") > -1)
+                              {
+                                  detail_score = detail_score.Replace("PwdProtection", "密保校验得分");
+                              }
+                              if (detail_score.IndexOf("CertifiedId") > -1)
+                              {
+                                  detail_score = detail_score.Replace("CertifiedId", "证件号校验得分");
+                              }
+                              if (detail_score.IndexOf("bind_email") > -1)
+                              {
+                                  detail_score = detail_score.Replace("bind_email", "绑定邮箱校验得分");
+                              }
+                              if (detail_score.IndexOf("bind_mobile") > -1)
+                              {
+                                  detail_score = detail_score.Replace("bind_mobile", "绑定手机校验得分");
+                              }
+                              if (detail_score.IndexOf("QQReceipt") > -1)
+                              {
+                                  detail_score = detail_score.Replace("QQReceipt", "QQ申诉回执号得分");
+                              }
+                              if (detail_score.IndexOf("CertifiedBankCard") > -1)
+                              {
+                                  detail_score = detail_score.Replace("CertifiedBankCard", "实名认证银行卡号校验得分");
+                              }
+                              if (detail_score.IndexOf("CreditCardPayHist") > -1)
+                              {
+                                  detail_score = detail_score.Replace("CreditCardPayHist", "信用卡还款信息校验得分");
+                              }
+                              if (detail_score.IndexOf("WithdrawHist") > -1) //andrew 20110419
+                              {
+                                  detail_score = detail_score.Replace("WithdrawHist", "提现记录得分");
+                              }
+
+                              dr["detail_score"] = detail_score;
+
+                          }
+                          catch
+                          { }
+                      }
+                    #endregion
 
                     if (ftype == 8 || ftype == 19)
                     {
@@ -10773,7 +10837,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                     else
                     {
-                        //只处理类型为8,19的记录
+                        //只处理类型为8,19,11的记录
                         throw new Exception("只处理解冻申诉、特殊找回支付密码，记录类型错误：" + ftype);
                     } 
                 }
