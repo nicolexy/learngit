@@ -9997,19 +9997,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             if (ftype != 99)
             {
-                if (ftype == 8)
-                {
-                    strWhere += " and (FType=8 or FType=19) ";
-                }
-                else 
-                {
+                //if (ftype == 8)
+                //{
+                //    strWhere += " and (FType=8 or FType=19) ";
+                //}
+                //else 
+                //{
                     strWhere += " and FType=" + ftype + " ";
-                } 
-            }
-            else
-            {
-                // 8号申诉是风控冻结，有另外的处理入口，申诉处理暂不包含改类型的申诉
-                strWhere += " and FType!=8 and FType !=19 ";
+                //} 
             }
 
             if (QQType == "0")    //"" 所有类型; "0" 非会员; "1" 普通会员; "2" VIP会员

@@ -80,7 +80,7 @@
 
                  <label style="vertical-align: middle; width: 80px; height: 20px">
                     申诉类型：</label>
-                <asp:DropDownList ID="ddlType" runat="server">
+                <asp:DropDownList ID="ddlType" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlType_SelectedIndexChanged">
                     <asp:ListItem Value="8">普通解冻</asp:ListItem>
                     <asp:ListItem Value="19">微信解冻</asp:ListItem>
                     <asp:ListItem Value="11">特殊找回支付密码</asp:ListItem>
@@ -89,15 +89,15 @@
                 <label style="vertical-align: middle; width: 80px; height: 20px">
                     订单状态：</label>
                 <asp:DropDownList ID="ddl_orderState" runat="server">
-                    <asp:ListItem Value="0">未处理</asp:ListItem>
+                    <asp:ListItem Value="0" Selected="True">未处理</asp:ListItem>
                     <asp:ListItem Value="1">结单（已解冻）</asp:ListItem>
                     <asp:ListItem Value="2">待补充资料</asp:ListItem>
                     <asp:ListItem Value="7">已作废</asp:ListItem>
                     <asp:ListItem Value="8">挂起</asp:ListItem>
                     <asp:ListItem Value="10">已补充资料</asp:ListItem>
-                    <asp:ListItem Value="99" Selected="True">所有</asp:ListItem>
+                    <asp:ListItem Value="99">所有</asp:ListItem>
                 </asp:DropDownList>
-                 <asp:DropDownList ID="ddl_orderState2" runat="server" Visible="true">
+                 <asp:DropDownList ID="ddl_orderStateSpecial" runat="server" Visible="false">
                    <asp:ListItem Value="99">所有</asp:ListItem>
 							<asp:ListItem Value="0" Selected="True">未处理</asp:ListItem>
 							<asp:ListItem Value="1">申诉成功</asp:ListItem>

@@ -15,6 +15,7 @@ using Tencent.DotNet.Common.UI;
 using System.Configuration;
 using CFT.CSOMS.BLL.FreezeModule;
 using CFT.CSOMS.BLL.UserAppealModule;
+using System.Web.Services.Protocols;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 {
@@ -103,287 +104,299 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 		public void BindData(int iIndex)
 		{
-			SetAllBtnVisible(false);
+            try
+            {
+                SetAllBtnVisible(false);
 
-			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
-			Query_Service.Finance_Header fh = classLibrary.setConfig.setFH(this);
-			qs.Finance_HeaderValue = fh;
+                Query_Service.Finance_Header fh = classLibrary.setConfig.setFH(this);
+                qs.Finance_HeaderValue = fh;
 
-			this.tbx_payAccount.Text = ViewState["FFreezeID"].ToString();
+                this.tbx_payAccount.Text = ViewState["FFreezeID"].ToString();
 
 
-            DataSet ds2 = qs.GetCFTUserAppealDetail_New(ViewState["FID"].ToString(), ViewState["FSubmitDate"].ToString());
+                DataSet ds2 = qs.GetCFTUserAppealDetail_New(ViewState["FID"].ToString(), ViewState["FSubmitDate"].ToString());
 
-			if(ds2 == null || ds2.Tables.Count == 0 || ds2.Tables[0].Rows.Count == 0)
-			{
-				WebUtils.ShowMessage(this,"查询用户申诉资料结果为空");
-				return;
-			}
-			else
-			{
-				DataRow dr2 = ds2.Tables[0].Rows[0];
-
-                int ftype = int.Parse(dr2["Ftype"].ToString());
-
-				string str = dr2["FState"].ToString();
-
-				ViewState["Fstate"] = dr2["FState"].ToString();
-				ViewState["isFreezeListHas"] = dr2["isFreezeListHas"].ToString();
-
-                //this.tbx_cerNO.Text = dr2["cre_id"].ToString();    //用户提交证件号码
-                //this.tbx_userSubBindMobile.Text = dr2["contact_no"].ToString();//用户提交绑定手机
-                //this.tbx_lastAddr.Text = dr2["FIp"].ToString();//最后一次使用的地址
-                //this.tbx_bindMobile.Text = dr2["mobile"].ToString();//绑定手机
-                this.tbx_email.Text = dr2["FEmail"].ToString();//联系邮箱
-                //this.tbx_phoneNo.Text = dr2["contact_no"].ToString();//联系电话
-                //this.tbx_DC.Text = dr2["DC_timeaddress"].ToString();//近期安装数字证书
-				//this.tbx_userQA.Text = dr2["reason"].ToString();
-
-                this.tbx_cerNO.Text = dr2["FcreId"].ToString();    //用户提交证件号码
-                ViewState["TjCreId"] = dr2["FcreId"].ToString();
-                ViewState["TjCreType"] = dr2["FCreType"].ToString(); //证件类型
-                this.tbx_phoneNo.Text = dr2["FReservedMobile"].ToString();//联系电话
-                this.tbx_freezeReason.Text = dr2["FreezeReason"].ToString();//冻结原因
-
-                //以下为添加的展示字段
-                this.tbx_subUserName.Text = PublicRes.GetString(dr2["Ftruename"].ToString());//用户提交姓名
-                this.lblstandard_score.Text = dr2["FStandardScore"].ToString();//免审核标准分
-                this.lblrisk_result.Text = dr2["risk_result"].ToString();//风控标记
-                if (dr2["FClearPps"].ToString() == "1" && dr2["FType"].ToString() == "1")//是否清空密保资料
+                if (ds2 == null || ds2.Tables.Count == 0 || ds2.Tables[0].Rows.Count == 0)
                 {
-                    this.clear_pps.Text = "清除";
-                }
-                else if (dr2["FType"].ToString() == "1" && dr2["FClearPps"].ToString() != "1")
-                {
-                    this.clear_pps.Text = "不清除";
+                    WebUtils.ShowMessage(this, "查询用户申诉资料结果为空");
+                    return;
                 }
                 else
                 {
-                    this.clear_pps.Text = "";
+                    DataRow dr2 = ds2.Tables[0].Rows[0];
+
+                    int ftype = int.Parse(dr2["Ftype"].ToString());
+
+                    string str = dr2["FState"].ToString();
+
+                    ViewState["Fstate"] = dr2["FState"].ToString();
+                    ViewState["isFreezeListHas"] = dr2["isFreezeListHas"].ToString();
+
+                    //this.tbx_cerNO.Text = dr2["cre_id"].ToString();    //用户提交证件号码
+                    //this.tbx_userSubBindMobile.Text = dr2["contact_no"].ToString();//用户提交绑定手机
+                    //this.tbx_lastAddr.Text = dr2["FIp"].ToString();//最后一次使用的地址
+                    //this.tbx_bindMobile.Text = dr2["mobile"].ToString();//绑定手机
+                    this.tbx_email.Text = dr2["FEmail"].ToString();//联系邮箱
+                    //this.tbx_phoneNo.Text = dr2["contact_no"].ToString();//联系电话
+                    //this.tbx_DC.Text = dr2["DC_timeaddress"].ToString();//近期安装数字证书
+                    //this.tbx_userQA.Text = dr2["reason"].ToString();
+
+                    this.tbx_cerNO.Text = dr2["FcreId"].ToString();    //用户提交证件号码
+                    ViewState["TjCreId"] = dr2["FcreId"].ToString();
+                    ViewState["TjCreType"] = dr2["FCreType"].ToString(); //证件类型
+                    this.tbx_phoneNo.Text = dr2["FReservedMobile"].ToString();//联系电话
+                    this.tbx_freezeReason.Text = dr2["FreezeReason"].ToString();//冻结原因
+
+                    //以下为添加的展示字段
+                    this.tbx_subUserName.Text = PublicRes.GetString(dr2["FOldName"].ToString());//用户提交姓名
+                    this.lblstandard_score.Text = dr2["FStandardScore"].ToString();//免审核标准分
+                    this.lblrisk_result.Text = dr2["risk_result"].ToString();//风控标记
+                    if (dr2["FClearPps"].ToString() == "1" && dr2["FType"].ToString() == "1")//是否清空密保资料
+                    {
+                        this.clear_pps.Text = "清除";
+                    }
+                    else if (dr2["FType"].ToString() == "1" && dr2["FClearPps"].ToString() != "1")
+                    {
+                        this.clear_pps.Text = "不清除";
+                    }
+                    else
+                    {
+                        this.clear_pps.Text = "";
+                    }
+                    this.lblscore.Text = dr2["FAppealScore"].ToString();//实际得分
+                    bool isAuthen = new UserAppealService().GetUserAuthenState(dr2["Fuin"].ToString(), "", 0);//实名认证
+                    if (isAuthen)
+                        this.lbauthenState.Text = "是";
+                    else
+                        this.lbauthenState.Text = "否";
+                    this.lbldetail_score.Text = dr2["detail_score"].ToString();//得分明细
+
+
+                    this.tbx_userQA.Text = dr2["FAppealReason"].ToString();  //用户描述
+
+                    string img_cgi = ConfigurationManager.AppSettings["GetAppealImageCgi"].ToString();
+
+                    //int ftype = int.Parse(dr2["Ftype"].ToString());
+
+                    #region 查询账户基本信息
+                    DataSet dsuser = qs.GetAppealUserInfo(dr2["Fuin"].ToString());
+                    if (dsuser == null || dsuser.Tables.Count == 0 || dsuser.Tables[0].Rows.Count == 0)
+                    {
+                        //return;
+                    }
+                    else
+                    {
+                        DataRow dr3 = dsuser.Tables[0].Rows[0];
+
+                        this.tbx_userName.Text = PublicRes.GetString(dr3["Ftruename"]);
+                        this.tbx_regCreNO.Text = PublicRes.GetString(dr3["Fcreid"]);
+                        ViewState["OldCreId"] = PublicRes.GetString(dr3["Fcreid"]);
+                        this.tbx_restFin.Text = classLibrary.setConfig.FenToYuan((double.Parse(dr3["FBalance"].ToString()) - double.Parse(dr3["Fcon"].ToString())).ToString());
+                    }
+                    #endregion
+
+                    #region 图片
+                    if (!(dr2["FCreImg1"] is DBNull))
+                    {
+                        if (dr2["FCreImg1"].ToString() != "")
+                        {
+                            if (ftype == 19)
+                            {
+                                this.Image1.ImageUrl = dr2["FCreImg1"].ToString();  //身份证正面
+                            }
+                            else
+                            {
+                                this.Image1.ImageUrl = img_cgi + dr2["FCreImg1"].ToString();  //身份证正面
+                            }
+                        }
+                    }
+                    if (!(dr2["FCreImg2"] is DBNull))
+                    {
+                        if (dr2["FCreImg2"].ToString() != "")
+                        {
+                            if (ftype == 19)
+                            {
+                                this.Image2.ImageUrl = dr2["FCreImg2"].ToString();  //身份证反面
+                            }
+                            else
+                            {
+                                this.Image2.ImageUrl = img_cgi + dr2["FCreImg2"].ToString();  //身份证反面
+                            }
+                        }
+                    }
+                    if (!(dr2["FOtherImage1"] is DBNull))
+                    {
+                        if (dr2["FOtherImage1"].ToString() != "")
+                        {
+                            if (ftype == 19)
+                            {
+                                this.Image3.ImageUrl = dr2["FOtherImage1"].ToString();  //银行卡照片
+                            }
+                            else
+                            {
+                                this.Image3.ImageUrl = img_cgi + dr2["FOtherImage1"].ToString();  //银行卡照片
+                            }
+                        }
+                    }
+                    if (!(dr2["FProveBanlanceImage"] is DBNull))
+                    {
+                        if (dr2["FProveBanlanceImage"].ToString() != "")
+                        {
+                            if (ftype == 19)
+                            {
+                                this.Image4.ImageUrl = dr2["FProveBanlanceImage"].ToString();  //资金来源截图
+                            }
+                            else
+                            {
+                                this.Image4.ImageUrl = img_cgi + dr2["FProveBanlanceImage"].ToString();  //资金来源截图
+                            }
+                        }
+                    }
+                    #endregion
+
+                    #region//其它图片
+                    if (!(dr2["FOtherImage2"] is DBNull))
+                    {
+                        if (dr2["FOtherImage2"].ToString() != "")
+                        {
+                            if (ftype == 19)
+                            {
+                                this.img_qtzp1.ImageUrl = dr2["FOtherImage2"].ToString();  //补充其他证件照片
+                            }
+                            else
+                            {
+                                this.img_qtzp1.ImageUrl = img_cgi + dr2["FOtherImage2"].ToString();  //补充其他证件照片
+                            }
+                        }
+                    }
+                    if (!(dr2["FOtherImage3"] is DBNull))
+                    {
+                        if (dr2["FOtherImage3"].ToString() != "")
+                        {
+                            if (ftype == 19)
+                            {
+                                this.img_scbs1.ImageUrl = dr2["FOtherImage3"].ToString();  //补充的手持身份证半身照
+                            }
+                            else
+                            {
+                                this.img_scbs1.ImageUrl = img_cgi + dr2["FOtherImage3"].ToString();  //补充的手持身份证半身照
+                            }
+                        }
+                    }
+                    if (!(dr2["FOtherImage4"] is DBNull))
+                    {
+                        if (dr2["FOtherImage4"].ToString() != "")
+                        {
+                            if (ftype == 19)
+                            {
+                                this.img_hjzm1.ImageUrl = dr2["FOtherImage4"].ToString();  //补充户籍证明照片
+                            }
+                            else
+                            {
+                                this.img_hjzm1.ImageUrl = img_cgi + dr2["FOtherImage4"].ToString();  //补充户籍证明照片
+                            }
+                        }
+                    }
+                    if (!(dr2["FOtherImage5"] is DBNull))
+                    {
+                        if (dr2["FOtherImage5"].ToString() != "")
+                        {
+                            if (ftype == 19)
+                            {
+                                this.img_zljt1.ImageUrl = dr2["FOtherImage5"].ToString();  //补充资料截图
+                            }
+                            else
+                            {
+                                this.img_zljt1.ImageUrl = img_cgi + dr2["FOtherImage5"].ToString();  //补充资料截图
+                            }
+                        }
+                    }
+                    #endregion
+
+                    #region  自定义标题、内容
+                    //自定义标题1
+                    if (!(dr2["Fsup_desc1"] is DBNull))
+                    {
+                        tbx_bcqtzjzp_zdy.Text = dr2["Fsup_desc1"].ToString();
+                    }
+                    //自定义标题2
+                    if (!(dr2["Fsup_desc2"] is DBNull))
+                    {
+                        tbx_bcsfzsczp_zdy.Text = dr2["Fsup_desc2"].ToString();
+                    }
+                    //自定义标题3
+                    if (!(dr2["Fsup_desc3"] is DBNull))
+                    {
+                        tbx_bchjzmzp_zdy.Text = dr2["Fsup_desc3"].ToString();
+                    }
+                    //自定义标题4
+                    if (!(dr2["Fsup_desc4"] is DBNull))
+                    {
+                        tbx_bcjljtzp_zdy.Text = dr2["Fsup_desc4"].ToString();
+                    }
+
+                    //自定义内容1
+                    if (!(dr2["Fsup_tips1"] is DBNull))
+                    {
+                        tbx_qtzp_zdy.Text = dr2["Fsup_tips1"].ToString();
+                    }
+                    //自定义内容2
+                    if (!(dr2["Fsup_tips2"] is DBNull))
+                    {
+                        tbx_scbs_zdy.Text = dr2["Fsup_tips2"].ToString();
+                    }
+                    //自定义内容3
+                    if (!(dr2["Fsup_tips3"] is DBNull))
+                    {
+                        tbx_hjzm_zdy.Text = dr2["Fsup_tips3"].ToString();
+                    }
+                    //自定义内容4
+                    if (!(dr2["Fsup_tips4"] is DBNull))
+                    {
+                        tbx_bczl_zdy.Text = dr2["Fsup_tips4"].ToString();
+                    }
+                    #endregion
                 }
-                this.lblscore.Text = dr2["FAppealScore"].ToString();//实际得分
-                bool isAuthen = new UserAppealService().GetUserAuthenState(dr2["Fuin"].ToString(), "", 0);//实名认证
-                if (isAuthen)
-                    this.lbauthenState.Text = "是";
+
+
+                if (ViewState["isFreezeListHas"].ToString() == "1")
+                {//冻结单中存在冻结记录
+                    if (ViewState["Fstate"].ToString() == "1")
+                    {
+                        // 已结单
+                        this.btn_Del.Visible = true;
+                    }
+                    else if (ViewState["Fstate"].ToString() == "7")
+                    {
+                        // 已作废
+                    }
+                    else
+                    {
+                        // 挂起或者未处理
+                        SetAllBtnVisible(true);
+                    }
+                }
                 else
-                    this.lbauthenState.Text = "否";
-                this.lbldetail_score.Text = dr2["detail_score"].ToString();//得分明细
-
-
-                this.tbx_userQA.Text = dr2["FAppealReason"].ToString();  //用户描述
-
-                string img_cgi = ConfigurationManager.AppSettings["GetAppealImageCgi"].ToString();
-
-                //int ftype = int.Parse(dr2["Ftype"].ToString());
-
-                #region 查询账户基本信息
-                DataSet dsuser = qs.GetAppealUserInfo(dr2["Fuin"].ToString());
-                if (dsuser == null || dsuser.Tables.Count == 0 || dsuser.Tables[0].Rows.Count == 0)
                 {
-                    //return;
-                }
-                else
-                {
-                    DataRow dr3 = dsuser.Tables[0].Rows[0];
-
-                    this.tbx_userName.Text = PublicRes.GetString(dr3["Ftruename"]);
-                    this.tbx_regCreNO.Text = PublicRes.GetString(dr3["Fcreid"]);
-                    ViewState["OldCreId"] = PublicRes.GetString(dr3["Fcreid"]);
-                    this.tbx_restFin.Text = classLibrary.setConfig.FenToYuan((double.Parse(dr3["FBalance"].ToString()) - double.Parse(dr3["Fcon"].ToString())).ToString());
-                }
-                #endregion
-
-                #region 图片
-                if (!(dr2["FCreImg1"] is DBNull))
-                {
-                    if (dr2["FCreImg1"].ToString() != "") 
+                    // 如果该用户不处于冻结状态，则只允许对这个申诉进行作废处理
+                    if (ViewState["Fstate"].ToString() != "7")
                     {
-                        if (ftype == 19)
-                        {
-                            this.Image1.ImageUrl = dr2["FCreImg1"].ToString();  //身份证正面
-                        }
-                        else 
-                        {
-                            this.Image1.ImageUrl = img_cgi + dr2["FCreImg1"].ToString();  //身份证正面
-                        }
+                        this.btn_Del.Visible = true;
                     }
-                }
-                if (!(dr2["FCreImg2"] is DBNull))
-                {
-                    if (dr2["FCreImg2"].ToString() != "")
-                    {
-                        if (ftype == 19)
-                        {
-                            this.Image2.ImageUrl = dr2["FCreImg2"].ToString();  //身份证反面
-                        }
-                        else
-                        {
-                            this.Image2.ImageUrl = img_cgi + dr2["FCreImg2"].ToString();  //身份证反面
-                        }
-                    }
-                }
-                if (!(dr2["FOtherImage1"] is DBNull))
-                {
-                    if (dr2["FOtherImage1"].ToString() != "")
-                    {
-                        if (ftype == 19)
-                        {
-                            this.Image3.ImageUrl = dr2["FOtherImage1"].ToString();  //银行卡照片
-                        }
-                        else
-                        {
-                            this.Image3.ImageUrl = img_cgi + dr2["FOtherImage1"].ToString();  //银行卡照片
-                        }
-                    }
-                }
-                if (!(dr2["FProveBanlanceImage"] is DBNull))
-                {
-                    if (dr2["FProveBanlanceImage"].ToString() != "")
-                    {
-                        if (ftype == 19)
-                        {
-                            this.Image4.ImageUrl = dr2["FProveBanlanceImage"].ToString();  //资金来源截图
-                        }
-                        else
-                        {
-                            this.Image4.ImageUrl = img_cgi + dr2["FProveBanlanceImage"].ToString();  //资金来源截图
-                        }
-                    }
-                }
-                #endregion
 
-                #region//其它图片
-                if (!(dr2["FOtherImage2"] is DBNull))
-                {
-                    if (dr2["FOtherImage2"].ToString() != "")
-                    {
-                        if (ftype == 19)
-                        {
-                            this.img_qtzp1.ImageUrl = dr2["FOtherImage2"].ToString();  //补充其他证件照片
-                        }
-                        else
-                        {
-                            this.img_qtzp1.ImageUrl = img_cgi + dr2["FOtherImage2"].ToString();  //补充其他证件照片
-                        }
-                    }
                 }
-                if (!(dr2["FOtherImage3"] is DBNull))
-                {
-                    if (dr2["FOtherImage3"].ToString() != "")
-                    {
-                        if (ftype == 19)
-                        {
-                            this.img_scbs1.ImageUrl = dr2["FOtherImage3"].ToString();  //补充的手持身份证半身照
-                        }
-                        else
-                        {
-                            this.img_scbs1.ImageUrl = img_cgi + dr2["FOtherImage3"].ToString();  //补充的手持身份证半身照
-                        }
-                    }
-                }
-                if (!(dr2["FOtherImage4"] is DBNull))
-                {
-                    if (dr2["FOtherImage4"].ToString() != "")
-                    {
-                        if (ftype == 19)
-                        {
-                            this.img_hjzm1.ImageUrl = dr2["FOtherImage4"].ToString();  //补充户籍证明照片
-                        }
-                        else
-                        {
-                            this.img_hjzm1.ImageUrl = img_cgi + dr2["FOtherImage4"].ToString();  //补充户籍证明照片
-                        }
-                    }
-                }
-                if (!(dr2["FOtherImage5"] is DBNull))
-                {
-                    if (dr2["FOtherImage5"].ToString() != "")
-                    {
-                        if (ftype == 19)
-                        {
-                            this.img_zljt1.ImageUrl = dr2["FOtherImage5"].ToString();  //补充资料截图
-                        }
-                        else
-                        {
-                            this.img_zljt1.ImageUrl = img_cgi + dr2["FOtherImage5"].ToString();  //补充资料截图
-                        }
-                    }
-                }
-                #endregion
-
-                #region  自定义标题、内容
-                //自定义标题1
-                if (!(dr2["Fsup_desc1"] is DBNull)) 
-                {
-                    tbx_bcqtzjzp_zdy.Text = dr2["Fsup_desc1"].ToString();
-                }
-                //自定义标题2
-                if (!(dr2["Fsup_desc2"] is DBNull))
-                {
-                    tbx_bcsfzsczp_zdy.Text = dr2["Fsup_desc2"].ToString();
-                }
-                //自定义标题3
-                if (!(dr2["Fsup_desc3"] is DBNull))
-                {
-                    tbx_bchjzmzp_zdy.Text = dr2["Fsup_desc3"].ToString();
-                }
-                //自定义标题4
-                if (!(dr2["Fsup_desc4"] is DBNull))
-                {
-                    tbx_bcjljtzp_zdy.Text = dr2["Fsup_desc4"].ToString();
-                }
-
-                //自定义内容1
-                if (!(dr2["Fsup_tips1"] is DBNull))
-                {
-                    tbx_qtzp_zdy.Text = dr2["Fsup_tips1"].ToString();
-                }
-                //自定义内容2
-                if (!(dr2["Fsup_tips2"] is DBNull))
-                {
-                    tbx_scbs_zdy.Text = dr2["Fsup_tips2"].ToString();
-                }
-                //自定义内容3
-                if (!(dr2["Fsup_tips3"] is DBNull))
-                {
-                    tbx_hjzm_zdy.Text = dr2["Fsup_tips3"].ToString();
-                }
-                //自定义内容4
-                if (!(dr2["Fsup_tips4"] is DBNull))
-                {
-                    tbx_bczl_zdy.Text = dr2["Fsup_tips4"].ToString();
-                }
-                #endregion
             }
-
-
-			if(ViewState["isFreezeListHas"].ToString() == "1")
-			{//冻结单中存在冻结记录
-				if(ViewState["Fstate"].ToString() == "1")
-				{
-					// 已结单
-                    this.btn_Del.Visible = true;
-				}
-				else if(ViewState["Fstate"].ToString() == "7")
-				{
-					// 已作废
-				}
-				else
-				{
-					// 挂起或者未处理
-					SetAllBtnVisible(true);
-				}
-			}
-			else
-			{
-				// 如果该用户不处于冻结状态，则只允许对这个申诉进行作废处理
-				if(ViewState["Fstate"].ToString() != "7")
-				{
-					this.btn_Del.Visible = true;
-				}
-                
-			}
+            catch (SoapException eSoap) //捕获soap类异常
+            {
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, "查询异常！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
+            }
 		}
 
 

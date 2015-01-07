@@ -6731,7 +6731,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         [WebMethod(Description = "风控解冻审核的查询NEW")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        public DataSet GetFreezeList_New(string qqid, string szBeginDate, string szEndDate, int iStatue,
+        public DataSet GetFreezeList_New(string qqid, string szBeginDate, string szEndDate, int ftype, int iStatue,
             string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType, out int AllRecordCount)
         {
             RightAndLog rl = new RightAndLog();
@@ -6760,6 +6760,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 AllRecordCount = 0;
                 DataSet ds = null;
 
+                #region 查询申诉记录列表
                 DateTime sdate = DateTime.Parse(szBeginDate);
                 DateTime edate = DateTime.Parse(szEndDate);
                 string table1 = "";
@@ -6783,7 +6784,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         s_m = i_m.ToString();
                     }
                     string table = "db_appeal_" + sdate.Year.ToString() + ".t_tenpay_appeal_trans_" + s_m;
-                    CFTUserAppealClass cuser = new CFTUserAppealClass(qqid, szBeginDate, qedate.ToString("yyyy-MM-dd"), iStatue, 8, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
+                 //   CFTUserAppealClass cuser = new CFTUserAppealClass(qqid, szBeginDate, qedate.ToString("yyyy-MM-dd"), iStatue, 8, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
+                    CFTUserAppealClass cuser = new CFTUserAppealClass(qqid, szBeginDate, qedate.ToString("yyyy-MM-dd"), iStatue, ftype, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
                     ds = cuser.GetResultX(iPageStart, iPageMax, "fkdj");
                     int count1 = cuser.GetCount("fkdj");
 
@@ -6799,7 +6801,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         s_m = i_m.ToString();
                     }
                     table = "db_appeal_" + edate.Year.ToString() + ".t_tenpay_appeal_trans_" + s_m;
-                    CFTUserAppealClass cuser2 = new CFTUserAppealClass(qqid, qsdate.ToString("yyyy-MM-dd"), szEndDate, iStatue, 8, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
+                   // CFTUserAppealClass cuser2 = new CFTUserAppealClass(qqid, qsdate.ToString("yyyy-MM-dd"), szEndDate, iStatue, 8, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
+                    CFTUserAppealClass cuser2 = new CFTUserAppealClass(qqid, qsdate.ToString("yyyy-MM-dd"), szEndDate, iStatue, ftype, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
                     DataSet ds2 = cuser2.GetResultX(iPageStart, iPageMax, "fkdj");
                     int count2 = cuser2.GetCount("fkdj");
                     AllRecordCount = count1 + count2;
@@ -6833,11 +6836,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         s_m = i_m.ToString();
                     }
                     string table = "db_appeal_" + sdate.Year.ToString() + ".t_tenpay_appeal_trans_" + s_m;
-                    CFTUserAppealClass cuser = new CFTUserAppealClass(qqid, szBeginDate, szEndDate, iStatue, 8, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
+                   // CFTUserAppealClass cuser = new CFTUserAppealClass(qqid, szBeginDate, szEndDate, iStatue, 8, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
+                    CFTUserAppealClass cuser = new CFTUserAppealClass(qqid, szBeginDate, szEndDate, iStatue, ftype, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
                     ds = cuser.GetResultX(iPageStart, iPageMax, "fkdj");
                     AllRecordCount = cuser.GetCount("fkdj");
                 }
-                
+                #endregion
+
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                     return null;
 
@@ -6856,23 +6861,29 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         try
                         {
-                            FreezeQueryClass cuser2 = new FreezeQueryClass(dr["Fuin"].ToString(), 1);
-
-                            DataSet ds2 = cuser2.GetResultX(0, 1, "HT");
-
-                            if (ds2 != null && ds2.Tables.Count != 0 && ds2.Tables[0].Rows.Count != 0)
+                            #region 查询冻结日志信息
+                            if (ftype == 8 || ftype == 19)
                             {
-                                dr["FreezeReason"] = ds2.Tables[0].Rows[0]["FFreezeReason"].ToString();
-                                dr["FreezeUser"] = ds2.Tables[0].Rows[0]["FHandleUserID"].ToString();
-                                dr["isFreezeListHas"] = "1";
-                            }
-                            else
-                            {
-                                dr["isFreezeListHas"] = "0";
+                                FreezeQueryClass cuser2 = new FreezeQueryClass(dr["Fuin"].ToString(), 1);
 
-                                //throw new  Exception("单号" + dr["fid"] + "风控冻结单的帐号在冻结单表中不存在！");
-                            }
+                                DataSet ds2 = cuser2.GetResultX(0, 1, "HT");
 
+                                if (ds2 != null && ds2.Tables.Count != 0 && ds2.Tables[0].Rows.Count != 0)
+                                {
+                                    dr["FreezeReason"] = ds2.Tables[0].Rows[0]["FFreezeReason"].ToString();
+                                    dr["FreezeUser"] = ds2.Tables[0].Rows[0]["FHandleUserID"].ToString();
+                                    dr["isFreezeListHas"] = "1";
+                                }
+                                else
+                                {
+                                    dr["isFreezeListHas"] = "0";
+
+                                    //throw new  Exception("单号" + dr["fid"] + "风控冻结单的帐号在冻结单表中不存在！");
+                                }
+                            }
+                            #endregion
+
+                            #region 添加大额标记
                             dr["Fuincolor"] = "";
                             string fuid = PublicRes.ConvertToFuid(dr["Fuin"].ToString());
 
@@ -6894,6 +6905,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                             {
                                 dr["Fuincolor"] = "BIGMONEY";
                             }
+                            #endregion
                         }
                         catch
                         {
