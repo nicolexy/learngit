@@ -195,6 +195,27 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetCheckLog">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="checkid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCheckLogResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCheckLogResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetPendingApproval">
         <s:complexType>
           <s:sequence>
@@ -416,6 +437,12 @@
   <wsdl:message name="ConfirmCancelCheckSoapOut">
     <wsdl:part name="parameters" element="tns:ConfirmCancelCheckResponse" />
   </wsdl:message>
+  <wsdl:message name="GetCheckLogSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCheckLog" />
+  </wsdl:message>
+  <wsdl:message name="GetCheckLogSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCheckLogResponse" />
+  </wsdl:message>
   <wsdl:message name="GetPendingApprovalSoapIn">
     <wsdl:part name="parameters" element="tns:GetPendingApproval" />
   </wsdl:message>
@@ -519,6 +546,11 @@
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">确认撤销(主要针对那些无法无法审批或无法执行的任务单)</documentation>
       <wsdl:input message="tns:ConfirmCancelCheckSoapIn" />
       <wsdl:output message="tns:ConfirmCancelCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckLog">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">读取审批日志</documentation>
+      <wsdl:input message="tns:GetCheckLogSoapIn" />
+      <wsdl:output message="tns:GetCheckLogSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetPendingApproval">
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">获取指定审批类型的待审批数据</documentation>
@@ -654,6 +686,15 @@
     </wsdl:operation>
     <wsdl:operation name="ConfirmCancelCheck">
       <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/ConfirmCancelCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckLog">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Check_WebService/GetCheckLog" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

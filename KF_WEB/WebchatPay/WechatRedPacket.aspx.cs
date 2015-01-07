@@ -3,6 +3,7 @@ using System.Data;
 using System.Linq;
 using System.Web.Services.Protocols;
 using System.Web.UI.WebControls;
+using CFT.CSOMS.BLL.WechatPay;
 using CFT.CSOMS.COMMLIB;
 using Tencent.DotNet.Common.UI;
 
@@ -10,19 +11,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
     public partial class WechatRedPacket : System.Web.UI.Page
     {
-        DateTime beginTime, endTime;
+       // DateTime beginTime, endTime;
         string wechatName,hbUin,payListId;
 
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-            ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
+            //ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
+            //ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
 
             if (!IsPostBack)
             {
-                TextBoxBeginDate.Text = DateTime.Now.AddMonths(-1).ToString("yyyy年MM月dd日");
-                TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                //TextBoxBeginDate.Text = DateTime.Now.AddMonths(-1).ToString("yyyy年MM月dd日");
+                //TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
             }
         }
 
@@ -35,15 +36,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 WebUtils.ShowMessage(this.Page, "微信号输入有误");
             }
 
-            try
-            {
-                beginTime = DateTime.Parse(TextBoxBeginDate.Text.Trim());
-                endTime = DateTime.Parse(TextBoxEndDate.Text.Trim());
-            }
-            catch
-            {
-                throw new Exception("查询日期输入有误");
-            }
+            //try
+            //{
+            //    beginTime = DateTime.Parse(TextBoxBeginDate.Text.Trim());
+            //    endTime = DateTime.Parse(TextBoxEndDate.Text.Trim());
+            //}
+            //catch
+            //{
+            //    throw new Exception("查询日期输入有误");
+            //}
 
             hbUin = hfHBUin.Value.Trim();
 
@@ -60,29 +61,36 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 hfHBUin.Value = hbUin;
             }
 
-            payListId = txtPayListId.Text.Trim();
+           // payListId = txtPayListId.Text.Trim();
         }
 
         protected void btnQuery_Click(object sender, EventArgs e)
         {
             try
             {
+                this.receivePager.RecordCount = 1000;
+                this.sendListPager.RecordCount = 1000;
+                this.redPacketDetailPager.RecordCount = 1000;
                 FetchInput();
 
-                BindBasicInfo(hbUin);
+                try
+                {
+                    BindBasicInfo(hbUin);
+                }
+                catch { }//防止不能查询
 
-                BindReceiveList(hbUin, beginTime, endTime, 0, 20);
+                //测试接口
+              //  hbUin = "onqOjjqoNArgAnXUC-g2QyPfL9fQ";
 
-                BindSendList(hbUin, beginTime, endTime, 0, 20, payListId);
-            }
-            catch (SoapException eSoap) //捕获soap类异常
-            {
-                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+                hbUin = hbUin.Replace("@hb.tenpay.com", "");
+                ViewState["hbUin"] = hbUin;
+                BindReceiveList(hbUin,  1, 10);
+
+                BindSendList(hbUin, 1, 10);
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
         }
 
@@ -101,13 +109,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
         }
 
-        private void BindReceiveList(string hbUin, DateTime beginTime, DateTime endTime, int pageIndex, int pageSize)
+        private void BindReceiveList(string hbUin, int pageIndex, int pageSize)
         {
-            var qs = new Query_Service.Query_Service();
+            //var qs = new Query_Service.Query_Service();
 
-            var dsReceiveList = qs.GetReceiveRedPacketList(hbUin, beginTime, endTime, pageIndex * pageSize, pageSize);
+            //var dsReceiveList = qs.GetReceiveRedPacketList(hbUin, beginTime, endTime, pageIndex * pageSize, pageSize);
+            int max = pageSize;
+            int start = max * (pageIndex - 1);
+            receivePager.CurrentPageIndex = pageIndex;
+            string ip = Request.UserHostAddress.ToString();
+            if (ip == "::1")
+                ip = "127.0.0.1";
 
-            this.receivePager.RecordCount = 1000;
+            var dsReceiveList = new WechatPayService().QueryWebchatHB(hbUin, 2, ip, start, max);
 
             if (dsReceiveList != null && dsReceiveList.Tables.Count > 0)
             {
@@ -124,16 +138,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 gvReceiveList.DataBind();
             }
 
-            this.receivePager.RecordCount = 1000;
         }
 
-        private void BindSendList(string hbUin, DateTime beginTime, DateTime endTime, int pageIndex, int pageSize, string payListId = "")
+        private void BindSendList(string hbUin,  int pageIndex, int pageSize)
         {
-            var qs = new Query_Service.Query_Service();
+            //var qs = new Query_Service.Query_Service();
 
-            var dsSendList = qs.GetSendRedPacketList(hbUin, beginTime, endTime, pageIndex * pageSize, pageSize, payListId);
+            //var dsSendList = qs.GetSendRedPacketList(hbUin, beginTime, endTime, pageIndex * pageSize, pageSize, payListId);
 
-            this.sendListPager.RecordCount = 1000;
+            int max = pageSize;
+            int start = max * (pageIndex - 1);
+            sendListPager.CurrentPageIndex = pageIndex;
+
+            string ip = Request.UserHostAddress.ToString();
+            if (ip == "::1")
+                ip = "127.0.0.1";
+
+            var dsSendList = new WechatPayService().QueryWebchatHB(hbUin, 1, ip, start, max);
+           
 
             if (dsSendList != null && dsSendList.Tables.Count > 0)
             {
@@ -185,13 +207,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             this.sendListPager.RecordCount = 1000;
         }
 
-        private void BindRedPacketDetailList(string sendListId, DateTime createTime, int pageIndex, int pageSize)
+        private void BindRedPacketDetailList(string sendListId, int pageIndex, int pageSize)
         {
-            var qs = new Query_Service.Query_Service();
+            //var qs = new Query_Service.Query_Service();
 
-            var dsDetailList = qs.GetRedPacketDetailList(sendListId, createTime, pageIndex * pageSize, pageSize);
+            //var dsDetailList = qs.GetRedPacketDetailList(sendListId, createTime, pageIndex * pageSize, pageSize);
+            this.redPacketDetailPager.CurrentPageIndex = pageIndex;
+            int max = pageSize;
+            int start = max * (pageIndex - 1);
+            string ip = Request.UserHostAddress.ToString();
+            if (ip == "::1")
+                ip = "127.0.0.1";
 
-            this.receivePager.RecordCount = 1000;
+            var dsDetailList = new WechatPayService().QueryWebchatHB(sendListId, 3, ip, start, max);
+
 
             if (dsDetailList != null && dsDetailList.Tables.Count > 0)
             {
@@ -208,26 +237,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 gvRedPacketDetail.DataBind();
             }
 
-            this.receivePager.RecordCount = 1000;
+           
         }
 
         protected void sendListPager_PageChanged(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
         {
             try
             {
-                FetchInput();
+              //  FetchInput();
                 int currentPage = e.NewPageIndex;
-                sendListPager.CurrentPageIndex = currentPage;
-                BindSendList(hbUin, beginTime, endTime, currentPage - 1, 20);
-            }
-            catch (SoapException eSoap) //捕获soap类异常
-            {
-                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+
+                BindSendList(ViewState["hbUin"].ToString(), currentPage, 10);
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
         }
 
@@ -235,19 +259,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         {
             try
             {
-                FetchInput();
+               // FetchInput();
                 int currentPage = e.NewPageIndex;
-                receivePager.CurrentPageIndex = currentPage;
-                BindReceiveList(hbUin, beginTime, endTime, currentPage - 1, 20);
-            }
-            catch (SoapException eSoap) //捕获soap类异常
-            {
-                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+
+                BindReceiveList(ViewState["hbUin"].ToString(), currentPage, 10);
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
         }
 
@@ -257,7 +276,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             {
                 if (e.CommandName == "ViewDetail")
                 {
-                    DateTime createTime = DateTime.Now;
+                 //   DateTime createTime = DateTime.Now;
 
                     var commandArgs = e.CommandArgument.ToString().Split(',');
 
@@ -270,20 +289,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                     hfCreateTime.Value = commandArgs[1];
 
                    
-                    DateTime.TryParse(commandArgs[1], out createTime);
+                //    DateTime.TryParse(commandArgs[1], out createTime);
 
-                    BindRedPacketDetailList(commandArgs[0], createTime, 0 ,20);
+                    BindRedPacketDetailList(commandArgs[0],1,10);
                 }
                 
             }
-            catch (SoapException eSoap) //捕获soap类异常
-            {
-                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
-            }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
         }
 
@@ -293,7 +307,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             {
                 if (e.CommandName == "ViewDetail")
                 {
-                    DateTime createTime = DateTime.Now;
+                  //  DateTime createTime = DateTime.Now;
 
                     var commandArgs = e.CommandArgument.ToString().Split(',');
 
@@ -306,19 +320,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                     hfCreateTime.Value = commandArgs[1];
 
 
-                    DateTime.TryParse(commandArgs[1], out createTime);
+                  //  DateTime.TryParse(commandArgs[1], out createTime);
 
-                    BindRedPacketDetailList(commandArgs[0], createTime, 0, 20);
+                    BindRedPacketDetailList(commandArgs[0],  1, 10);
                 }
-            }
-            catch (SoapException eSoap) //捕获soap类异常
-            {
-                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
         }
 
@@ -326,22 +335,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         {
             try
             {
-                this.redPacketDetailPager.CurrentPageIndex = e.NewPageIndex;
-
+              
                 var sendListId = hfSendListId.Value;
-                DateTime createTime = DateTime.Now;
-                DateTime.TryParse(hfCreateTime.Value, out createTime);
+                //DateTime createTime = DateTime.Now;
+                //DateTime.TryParse(hfCreateTime.Value, out createTime);
 
-                BindRedPacketDetailList(sendListId, createTime, e.NewPageIndex - 1, 20);
-            }
-            catch (SoapException eSoap) //捕获soap类异常
-            {
-                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+                BindRedPacketDetailList(sendListId, e.NewPageIndex, 10);
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
         }
 

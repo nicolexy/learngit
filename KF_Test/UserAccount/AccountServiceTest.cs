@@ -7,6 +7,7 @@ using CFT.CSOMS.BLL.CFTAccountModule;
 using CFT.CSOMS.COMMLIB;
 using CFT.CSOMS.DAL.CFTAccount;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TENCENT.OSS.C2C.Finance.Common.CommLib;
 
 namespace KF_Test
 {
@@ -57,6 +58,16 @@ namespace KF_Test
             DataSet ds = acc.QueryRealNameInfo(uin, submit_user);
             Assert.AreEqual("0", ds.Tables[0].Rows[0]["result"].ToString());
         }
+
+          [TestMethod]
+        public void ui_unfreeze_user_serviceTest()
+        {
+            string Msg = "";
+            string req = "uin=453294603&op_id=100000000&op_name=echoliao&client_ip=127.0.0.1&memo=test";
+            CommQuery.GetDSForServiceFromICE(req, "ui_unfreeze_user_service", true, out Msg);
+        }
+
+        
 
     }
     

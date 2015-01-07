@@ -475,25 +475,72 @@ namespace CFT.CSOMS.BLL.FundModule
                                 case "10":
                                     dr["FtypeText"] = "赠送份额申购";
                                     break;
+                                case "11":
+                                    dr["FtypeText"] = "从余额购买基金";
+                                    break;
+                                case "12":
+                                    dr["FtypeText"] = "基金赎回到余额";
+                                    break;
                                 default:
                                     dr["FtypeText"] = dr["Fpur_type"].ToString();
                                     break;
                             }
 
-                            switch (dr["Floading_type"].ToString())
+                            if (Fpur_type == "4")
                             {
-                                case "0":
-                                    dr["Floading_type_str"] = "普通赎回";
-                                    break;
-                                case "1":
-                                    dr["Floading_type_str"] = "快速赎回";
-                                    break;
-                                default:
-                                    dr["Floading_type_str"] = dr["Floading_type"].ToString();
-                                    break;
-                            }
+                                switch (dr["Floading_type"].ToString())
+                                {
+                                    case "0":
+                                        dr["Floading_type_str"] = "普通赎回";
+                                        break;
+                                    case "1":
+                                        dr["Floading_type_str"] = "快速赎回";
+                                        break;
+                                    default:
+                                        dr["Floading_type_str"] = dr["Floading_type"].ToString();
+                                        break;
+                                }
 
-                            if (Fpur_type != "4")
+                            }
+                            else if (Fpur_type == "11" || Fpur_type == "12")
+                            {
+                                switch (dr["Fpurpose"].ToString())
+                                {
+                                    case "0":
+                                        dr["Floading_type_str"] = "普通赎回";
+                                        break;
+                                    case "1":
+                                        dr["Floading_type_str"] = "赎回提现";
+                                        break;
+                                    case "2":
+                                        dr["Floading_type_str"] = "消费";
+                                        break;
+                                    case "3":
+                                        dr["Floading_type_str"] = "份额转换";
+                                        break;
+                                    //case "4":
+                                    //    dr["Floading_type_str"] = "";
+                                    //    break;
+                                    case "5":
+                                        dr["Floading_type_str"] = "买合约机";
+                                        break;
+                                    case "6":
+                                        dr["Floading_type_str"] = "余额申购";
+                                        break;
+                                    case "7":
+                                        dr["Floading_type_str"] = "快速赎回到余额";
+                                        break;
+                                    case "8":
+                                        dr["Floading_type_str"] = "合约机赎回提现给商户";
+                                        break;
+                                    case "9":
+                                        dr["Floading_type_str"] = "t+1赎回到余额";
+                                        break;
+                                    default:
+                                        dr["Floading_type_str"] = dr["Fpurpose"].ToString();
+                                        break;
+                                }
+                            }else
                             {//除了出其他都没有赎回方式
                                 dr["Floading_type_str"] = "";
                             }
@@ -644,6 +691,7 @@ namespace CFT.CSOMS.BLL.FundModule
                     bankRollList.Tables[0].Columns.Add("FtypeText", typeof(string));
                     bankRollList.Tables[0].Columns.Add("FmemoText", typeof(string));
                     bankRollList.Tables[0].Columns.Add("FconStr", typeof(string));
+                    bankRollList.Tables[0].Columns.Add("URL", typeof(string));
 
                     foreach (DataRow dr in bankRollList.Tables[0].Rows)
                     {
