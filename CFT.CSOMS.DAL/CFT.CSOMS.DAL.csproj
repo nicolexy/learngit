@@ -64,7 +64,7 @@
   <ItemGroup>
     <Compile Include="ActivityModule\ActivityData.cs" />
     <Compile Include="BalanceModule\BalanceData.cs" />
-    <Compile Include="BankcardUnbind\BankcardUnbindData.cs" />
+    <Compile Include="BankcardUnbind\BankcardbindData.cs" />
     <Compile Include="CFTAccount\AccountData.cs" />
     <Compile Include="CheckModoule\CheckData.cs" />
     <Compile Include="FundModule\LCTBalance.cs" />
