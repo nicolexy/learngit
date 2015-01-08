@@ -9,43 +9,12 @@
         <OperationElementListCompartment Id="e5178ce1-b273-48ae-9be4-00e12cee2107" absoluteBounds="7.14, 2.1011718675494193, 3.0949999999999998, 1.3222655827800431" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="72d4f267-3d64-4bdf-8fb4-a61e75cf4721" absoluteBounds="3, 1, 1.875, 1.0624999801317849" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
-      <classMoniker Id="9492366f-e31a-4f46-8add-287817bdf92d" LastKnownName="BankItem" />
+    <classShape Id="cfa9b134-41f3-4cf7-a3c3-75f58d9d37d4" absoluteBounds="3, 1.375, 2.125, 2.1835936953624091" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
+      <classMoniker Id="e1e4cbaf-6327-4437-b6ef-989fcd2e2fe9" LastKnownName="BankcardBindData" />
       <nestedChildShapes>
-        <AttributeElementListCompartment Id="292982ac-4558-40a5-badd-ff9c64cc75ad" isExpanded="false" absoluteBounds="3.0149999999999997, 1.3900000000000001, 1.8450000000000002, 0.2011718675494194" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
-        <OperationElementListCompartment Id="0e526cc0-f61a-4915-b2c8-04eb6fbecd29" absoluteBounds="3.0149999999999997, 1.6011718675494193, 1.8450000000000002, 0.36132811258236563" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <AttributeElementListCompartment Id="2873f5a0-4eca-4bb0-82b1-5951bbeaa54f" absoluteBounds="3.015, 1.7650000000000001, 2.0949999999999998, 0.2011718675494194" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <OperationElementListCompartment Id="351b5e8d-1c91-4077-aa42-74e3e14f915c" absoluteBounds="3.015, 1.9761718675494193, 2.0949999999999998, 1.4824218278129895" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(4.875 : 1.78124999006589); (7.125 : 1.78124999006589)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="1" targetMultiplicity="1">
-      <associationMoniker Id="2631e2d8-ec5d-4f0f-8b71-b41d2e7b3423" />
-      <relativeChildShapes />
-      <nodes>
-        <classShapeMoniker Id="72d4f267-3d64-4bdf-8fb4-a61e75cf4721" />
-        <classShapeMoniker Id="1b8d0212-b3f9-4abb-aa4e-6294dd1893db" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="cfa9b134-41f3-4cf7-a3c3-75f58d9d37d4" absoluteBounds="3, 3.25, 1.875, 0.90234373509883881" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
-      <classMoniker Id="e1e4cbaf-6327-4437-b6ef-989fcd2e2fe9" LastKnownName="BankcardBindItem" />
-      <nestedChildShapes>
-        <AttributeElementListCompartment Id="2873f5a0-4eca-4bb0-82b1-5951bbeaa54f" isExpanded="false" absoluteBounds="3.0150000000000006, 3.6400000000000006, 1.8450000000000002, 0.2011718675494194" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
-        <OperationElementListCompartment Id="351b5e8d-1c91-4077-aa42-74e3e14f915c" isExpanded="false" absoluteBounds="3.0150000000000006, 3.8511718675494198, 1.8450000000000002, 0.2011718675494194" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(4.875 : 3.83789109271415); (8.6875 : 3.83789109271415); (8.6875 : 3.52343745032946)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="1" targetMultiplicity="1">
-      <associationMoniker Id="97ad500f-202c-4e4b-83f6-530dade517c6" />
-      <relativeChildShapes />
-      <nodes>
-        <classShapeMoniker Id="cfa9b134-41f3-4cf7-a3c3-75f58d9d37d4" />
-        <classShapeMoniker Id="1b8d0212-b3f9-4abb-aa4e-6294dd1893db" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(3.9375 : 2.06249998013178); (3.9375 : 3.25)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="1" targetMultiplicity="1">
-      <associationMoniker Id="ea96a734-27e6-471e-b459-d6a7e986b3ec" />
-      <relativeChildShapes />
-      <nodes>
-        <classShapeMoniker Id="72d4f267-3d64-4bdf-8fb4-a61e75cf4721" />
-        <classShapeMoniker Id="cfa9b134-41f3-4cf7-a3c3-75f58d9d37d4" />
-      </nodes>
-    </associationConnector>
   </nestedChildShapes>
 </logicalClassDesignerDiagram>

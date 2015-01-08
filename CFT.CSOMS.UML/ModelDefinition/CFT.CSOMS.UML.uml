@@ -341,8 +341,8 @@
                   isUnique="false">
                   <type_NamedElement>
                     <undefinedTypeMoniker
-                      Id="564cfe2a-467d-42ba-b4f4-34080bfdbc65"
-                      LastKnownName="bool"
+                      Id="552966ce-08f9-4a93-b1d0-084a5dfaa8aa"
+                      LastKnownName="DataTable"
                       LastKnownLocation="CFT.CSOMS.UML.uml" />
                   </type_NamedElement>
                 </parameter>
@@ -417,8 +417,8 @@
                   isUnique="false">
                   <type_NamedElement>
                     <undefinedTypeMoniker
-                      Id="564cfe2a-467d-42ba-b4f4-34080bfdbc65"
-                      LastKnownName="bool"
+                      Id="552966ce-08f9-4a93-b1d0-084a5dfaa8aa"
+                      LastKnownName="DataTable"
                       LastKnownLocation="CFT.CSOMS.UML.uml" />
                   </type_NamedElement>
                 </parameter>
@@ -621,8 +621,8 @@
                   isUnique="false">
                   <type_NamedElement>
                     <undefinedTypeMoniker
-                      Id="564cfe2a-467d-42ba-b4f4-34080bfdbc65"
-                      LastKnownName="bool"
+                      Id="552966ce-08f9-4a93-b1d0-084a5dfaa8aa"
+                      LastKnownName="DataTable"
                       LastKnownLocation="CFT.CSOMS.UML.uml" />
                   </type_NamedElement>
                 </parameter>
@@ -1347,7 +1347,7 @@
             isAbstract="false">
             <classMoniker
               Id="85ad33a6-a602-471d-a70c-582cd32229bc"
-              LastKnownName="BankcardBindItem"
+              LastKnownName="BankcardBindData"
               LastKnownLocation="CFT.CSOMS.UML.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
@@ -1601,633 +1601,70 @@
     <packageHasNamedElement>
       <class
         Id="85ad33a6-a602-471d-a70c-582cd32229bc"
-        name="BankcardBindItem"
+        name="BankcardBindData"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
-        <targetEnds>
-          <association
-            Id="fc6577e4-08b9-4d33-ae41-e8638edfcac7"
-            isDerived="false"
-            sourceEndRoleName="BankcardBindItem"
-            targetEndRoleName="BankCardBindService"
-            isLeaf="false"
-            isAbstract="false">
-            <classMoniker
-              Id="b949d32f-a825-48bd-a7ca-cc380200e4a1"
-              LastKnownName="BankCardBindService"
-              LastKnownLocation="CFT.CSOMS.UML.uml" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="7597c118-dce8-4c18-81ce-6268000f2981"
-                  name="BankcardBindItem"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="None"
-                  isComposite="false"
-                  isNavigableOwned="false" />
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="c9f46a8a-b706-43ec-aedf-13dd0147dcf5"
-                  name="BankCardBindService"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="None"
-                  isComposite="false" />
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-          </association>
-        </targetEnds>
-        <ownedAttributesInternal>
-          <property
-            Id="4730dedb-eb4e-409c-a94e-91768839fef3"
-            name="day_quota"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="f1bd9ade-41b7-4873-a1eb-acd0f2f32885"
-            name="card_tail"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="d21d88a7-1303-4113-9b92-4a3d0ebbd57b"
-            name="cre_id"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="54e8d200-46b6-46e0-8f25-0d75560937a5"
-            name="bank_type"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="b60d4e9b-aef8-4e56-ba47-8f7d1817efd5"
-            name="uin"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="fdcbc5d9-7792-4aeb-9af3-215322b4a344"
-            name="once_quota"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="552034ca-aa3d-45c3-9c9b-2df5dee80047"
-            name="sms_flag"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <undefinedTypeMoniker
-                Id="0fc0517c-f115-4c20-982a-c576a1aff694"
-                LastKnownName="int"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="9b41848e-a1cf-4570-a7b6-4ccd38cdbc67"
-            name="bank_id"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="10959293-6439-4e9b-ad7b-25af02cc7ab1"
-            name="truename"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="515cd288-5e33-43ee-ac0f-1e13dcb9e4f8"
-            name="bank_status"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <undefinedTypeMoniker
-                Id="0fc0517c-f115-4c20-982a-c576a1aff694"
-                LastKnownName="int"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="06edc325-7b79-4814-8c94-8b50e864082f"
-            name="bank_status_str"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="1c657032-e79b-4759-907f-1e5296a5f3ed"
-            name="bind_type"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <undefinedTypeMoniker
-                Id="0a902ec3-7e75-456c-b37d-dd3f2dd27b99"
-                LastKnownName="Int"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="cad19ee7-b792-411f-83bd-69f456e38c7e"
-            name="bind_type_str"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="1c6ad956-cbda-4ce2-86c1-7816fe2643ac"
-            name="bind_status"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <undefinedTypeMoniker
-                Id="0a902ec3-7e75-456c-b37d-dd3f2dd27b99"
-                LastKnownName="Int"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="28b51db8-22b5-438e-b7d7-6d1cb7e44b5a"
-            name="bind_status_str"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="11ebe4c4-6de3-427c-a48c-cd1a245493c9"
-            name="bind_flag"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <undefinedTypeMoniker
-                Id="0fc0517c-f115-4c20-982a-c576a1aff694"
-                LastKnownName="int"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="3abb18bc-f642-4daa-8185-735534e147e6"
-            name="bind_flag_str"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="0d2fbfbb-da9e-450d-abf3-de99edbdaa12"
-            name="protocol_no"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="1ef45439-5d78-4d9b-8814-3e8fa2ad6614"
-            name="bind_serialno"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="fea11aa4-00ae-4d92-a477-3038d016e691"
-            name="uid"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="12bb220f-6169-4321-ad4d-b0f8daeae962"
-            name="index"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="a35c27eb-cd01-4dee-bb99-881600fddc52"
-            name="memo"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="0a3ce56f-4b39-42bc-b8dc-fc8696df4ad3"
-            name="cre_id"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="c200c93a-a229-4913-a566-05d6ec09c355"
-            name="cre_type"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <undefinedTypeMoniker
-                Id="0fc0517c-f115-4c20-982a-c576a1aff694"
-                LastKnownName="int"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="0dd6af05-ab29-4bee-b2a5-3bb958760327"
-            name="cre_type_str"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="e3dd1f50-bb14-4963-9115-afe937de51cc"
-            name="mobilephone"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="f04f3f3c-26db-411c-9177-7cb00de71ab0"
-            name="telephone"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="b0063c16-4485-4ebe-9924-f092104ebff3"
-            name="create_time"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="0fd96518-8a89-4981-9489-d9ae60004d75"
-            name="bind_time_bank"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="b042f4e5-31b9-4547-9a9a-4f37cbdc950f"
-            name="bind_time_local"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="504ebc8c-1250-4e99-afb2-ef49f4dbdbae"
-            name="unchain_time_bank"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-          <property
-            Id="95db0720-5442-45b7-8b24-9be217a97be0"
-            name="unchain_time_local"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="CFT.CSOMS.UML.uml" />
-            </type_NamedElement>
-          </property>
-        </ownedAttributesInternal>
         <ownedOperationsInternal>
           <operation
             Id="784bc29c-3437-47d8-ac5c-627cefdad795"
-            name="BankCardBindItem"
+            name="BankcardBindData"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="55d247c3-f8f8-42be-8ccc-8697d5972645"
+            name="UnBindBankCardBindSpecial"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="7d530e6d-5308-43d7-91d7-020744929ff6"
+            name="UnbindBankCardBind"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="d8bb309e-a05f-490c-9ce6-2f3044d88942"
+            name="SyncBankCardBind"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="40ec6b12-8fdc-4f0d-9e29-ef4e3efcbaf7"
+            name="GetBankCardBindList"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="026dda35-074e-4af6-a3e7-de3f02ae3e16"
+            name="GetBankCardBindDetail"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="778741f7-ac46-424f-9aba-a248e99abc0c"
+            name="GetBankCardBindList_UIN"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="bde8206d-5002-4561-8db9-9958c9638074"
+            name="GetBankCardBindList_UIN_2"
             isLeaf="false"
             isStatic="false"
             isAbstract="false"
@@ -2289,6 +1726,11 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="552966ce-08f9-4a93-b1d0-084a5dfaa8aa"
+        name="DataTable" />
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType
