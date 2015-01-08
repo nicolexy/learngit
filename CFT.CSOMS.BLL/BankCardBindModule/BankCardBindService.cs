@@ -56,7 +56,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             string creType, string creID, string protocolno, string phoneno, string strBeginDate,
             string strEndDate, int queryType, bool isShowAboutDetail, int bindStatue, string bind_serialno, int limStart, int limCount)
         {
-            return new BankcardUnbindData().GetBankCardBindList(
+            return new BankcardbindData().GetBankCardBindList(
                 fuin, Fbank_type, bankID, uid, creType, creID, protocolno, phoneno, 
                 strBeginDate, strEndDate, queryType, isShowAboutDetail, bindStatue, bind_serialno, limStart, limCount);
             #region 废弃代码
@@ -266,7 +266,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         {
             try
             {
-                BankcardUnbindData dal = new BankcardUnbindData();
+                BankcardbindData dal = new BankcardbindData();
                 DataSet ds1 = dal.GetBankCardBindList_UIN(
                     bank_type, bank_id, cre_type, cre_id, protocol_no, phoneno, bind_state, limStart, limCount);
 
@@ -327,7 +327,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         /// <returns></returns>
         public DataSet GetBankCardBindDetail(string fuid, string findex, string fBDIndex)
         {
-            return new BankcardUnbindData().GetBankCardBindDetail(fuid, findex, fBDIndex);
+            return new BankcardbindData().GetBankCardBindDetail(fuid, findex, fBDIndex);
         }
 
            
@@ -348,7 +348,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             try
             {
                 DataRow dr = table.NewRow();
-                bool ret = new BankcardUnbindData().SyncBankCardBind(bankType, cardTail, bankId);
+                bool ret = new BankcardbindData().SyncBankCardBind(bankType, cardTail, bankId);
                 dr["ret_value"] = ret ? "true" : "false";
             }
             catch (Exception e)
@@ -375,7 +375,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             try
             {
                 DataRow dr = table.NewRow();
-                bool ret = new BankcardUnbindData().UnbindBankCardBind(bankType, qqid, protocolNo, userIP);
+                bool ret = new BankcardbindData().UnbindBankCardBind(bankType, qqid, protocolNo, userIP);
                 dr["ret_value"] = ret ? "true" : "false";
             }
             catch (Exception err)
@@ -404,7 +404,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             try
             {
                 DataRow dr = table.NewRow();
-                bool ret = new BankcardUnbindData().UnBindBankCardBindSpecial(bankType, qqid, card_tail, bindSerialno, protocol_no);
+                bool ret = new BankcardbindData().UnBindBankCardBindSpecial(bankType, qqid, card_tail, bindSerialno, protocol_no);
                 dr["ret_value"] = ret ? "true" : "false";
             }
             catch (Exception err)

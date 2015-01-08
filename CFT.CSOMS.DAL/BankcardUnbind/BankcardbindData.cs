@@ -14,7 +14,7 @@ using TENCENT.OSS.C2C.Finance.Common.CommLib;
 
 namespace CFT.CSOMS.DAL.BankcardUnbind
 {
-    public class BankcardUnbindData
+    public class BankcardbindData
     {
 
         //查询绑卡记录
