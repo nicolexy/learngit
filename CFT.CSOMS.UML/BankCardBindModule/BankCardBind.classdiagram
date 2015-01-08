@@ -408,6 +408,24 @@
     <logicalClassDesignerModelHasTypes>
       <class Id="e1e4cbaf-6327-4437-b6ef-989fcd2e2fe9" name="BankcardBindData" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="85ad33a6-a602-471d-a70c-582cd32229bc" />
+        <targetEnds>
+          <association Id="fe6c692e-76c5-4937-b9d2-ece9cbcae185" isDerived="false" sourceEndRoleName="BankcardBindData" targetEndRoleName="BankCardBindService" isLeaf="false" isAbstract="false">
+            <classMoniker Id="b92df520-4e1b-4ab6-976c-e12d13d6080b" LastKnownName="BankCardBindService" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="dcbe8655-25fa-4f56-94d7-905b9e4492fc" name="BankcardBindData" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="aa1265f1-0a31-4453-a302-d22e11d4a545" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="3d73363a-790e-4861-8850-614096ebc019" name="BankCardBindService" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="1be9b588-6ef9-4084-810d-cb9fa1139877" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="60d9765a-12dc-409f-b0c9-c4a500d6dc56" />
+          </association>
+        </targetEnds>
         <ownedOperationsInternal>
           <operation Id="627c3405-0e08-4077-a44d-247364fb91c1" name="BankcardBindData" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
             <elementDefinition Id="784bc29c-3437-47d8-ac5c-627cefdad795" />

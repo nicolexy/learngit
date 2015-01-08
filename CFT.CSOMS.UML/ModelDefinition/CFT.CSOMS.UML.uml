@@ -1605,6 +1605,47 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="60d9765a-12dc-409f-b0c9-c4a500d6dc56"
+            isDerived="false"
+            sourceEndRoleName="BankcardBindData"
+            targetEndRoleName="BankCardBindService"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="b949d32f-a825-48bd-a7ca-cc380200e4a1"
+              LastKnownName="BankCardBindService"
+              LastKnownLocation="CFT.CSOMS.UML.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="aa1265f1-0a31-4453-a302-d22e11d4a545"
+                  name="BankcardBindData"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="1be9b588-6ef9-4084-810d-cb9fa1139877"
+                  name="BankCardBindService"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
         <ownedOperationsInternal>
           <operation
             Id="784bc29c-3437-47d8-ac5c-627cefdad795"
