@@ -10,6 +10,7 @@ using System.Web;
 using System.Collections;
 using CFT.CSOMS.BLL.TransferMeaning;
 using CFT.CSOMS.DAL.Infrastructure;
+using CFT.CSOMS.DAL.BankcardUnbind;
 using TENCENT.OSS.CFT.KF.DataAccess;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 
@@ -55,6 +56,11 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             string creType, string creID, string protocolno, string phoneno, string strBeginDate,
             string strEndDate, int queryType, bool isShowAboutDetail, int bindStatue, string bind_serialno, int limStart, int limCount)
         {
+            return new BankcardUnbindData().GetBankCardBindList(
+                fuin, Fbank_type, bankID, uid, creType, creID, protocolno, phoneno, 
+                strBeginDate, strEndDate, queryType, isShowAboutDetail, bindStatue, bind_serialno, limStart, limCount);
+            #region 废弃代码
+            
             MySqlAccess da = null;
             try
             {
@@ -249,6 +255,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                 if (da != null)
                     da.Dispose();
             }
+            #endregion
         }
 
 
@@ -259,11 +266,12 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         {
             try
             {
-                DataSet ds1 = this.GetBankCardBindList_UIN(
+                BankcardUnbindData dal = new BankcardUnbindData();
+                DataSet ds1 = dal.GetBankCardBindList_UIN(
                     bank_type, bank_id, cre_type, cre_id, protocol_no, phoneno, bind_state, limStart, limCount);
 
                 //继续查实时绑定库表，为了查当天记录lxl
-                DataSet ds2 = this.GetBankCardBindList_UIN_2(
+                DataSet ds2 = dal.GetBankCardBindList_UIN_2(
                     bank_type, bank_id, cre_type, cre_id, protocol_no, phoneno, bind_state, limStart, limCount);
 
                 DataSet ds = new DataSet();
@@ -310,204 +318,6 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
 
 
 
-        public DataSet GetBankCardBindList_UIN(string Fbank_type, string bankID, 
-            string creType, string creID, string protocolno, string phoneno, int bindStatue, int limStart, int limCount)
-        {
-            MySqlAccess da = null;
-            try
-            {
-                //string bankID_Encode = PublicRes.BankIDEncode_ForBankCardUnbind(bankID);
-                string bankID_Encode = PublicRes.EncryptZerosPadding(bankID);
-
-                // 如果fuid为空则查询c2c_db.t_bind_relation
-                string sql_findUID = "select * from c2c_db.t_bind_relation where ";
-                string sql_findUID_filter = " (1=1) ";
-                int sql_findUID_filter_startLen = sql_findUID_filter.Length;
-
-                if (Fbank_type.Trim() != "")
-                {
-                    sql_findUID_filter += " And Fbank_type=" + Fbank_type;
-                }
-
-                if (bankID != "")
-                {
-                    sql_findUID_filter += " And (Fbank_id='" + bankID + "' or Fbank_id='" + bankID_Encode + "') ";
-                }
-
-                if (creType != "")
-                {
-                    sql_findUID_filter += " And Fcre_type=" + creType;
-                }
-
-                if (creID != "")
-                {
-                    sql_findUID_filter += " And Fcre_id='" + creID + "' ";
-                }
-
-                if (protocolno != "")
-                {
-                    sql_findUID_filter += " And ( Fprotocol_no='" + protocolno + "' or Fbank_id='" + protocolno + "')";
-                }
-
-                if (phoneno != "")
-                {
-                    sql_findUID_filter += " And Fmobilephone='" + phoneno + "' ";
-                }
-
-                if (sql_findUID_filter.Length == sql_findUID_filter_startLen)
-                {
-                    //throw new Exception("请输入必须的查询条件");
-                    return null;
-                }
-
-                sql_findUID += sql_findUID_filter;
-
-                da = MySQLAccessFactory.GetMySQLAccess("HT");
-                da.OpenConn();
-                return da.dsGetTotalData(sql_findUID);
-            }
-            catch (Exception err)
-            {
-                return null;
-            }
-            finally
-            {
-                if (da != null)
-                {
-                    da.Dispose();
-                }
-            }
-
-        }
-
-
-        //可能是当日绑定的卡，但是通过卡号查不到对应的uid，所以不能查到绑卡记录，就要查c2c_db_xx.t_card_bind_relation_x
-        public DataSet GetBankCardBindList_UIN_2(string Fbank_type, string bankID, 
-            string creType, string creID, string protocolno, string phoneno, int bindStatue, int limStart, int limCount)
-        {
-            MySqlAccess da = null;
-            try
-            {
-                da = MySQLAccessFactory.GetMySQLAccess("BD");
-                da.OpenConn();
-
-                if (bankID == "")
-                    return null;
-                int length = bankID.Length;
-                string dbIndex = bankID.Substring(length - 2, 2);
-                string tblIndex = bankID.Substring(length - 3, 1);
-                string sql_findUID_2 = string.Format(@"select * from c2c_db_{0}.t_card_bind_relation_{1} where ", dbIndex, tblIndex);
-                string bankID_md5 = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(bankID, "md5").ToLower();
-
-                string sql_findUID_filter_2 = " (1=1) ";
-                int sql_findUID_filter_startLen_2 = sql_findUID_filter_2.Length;
-
-                if (Fbank_type.Trim() != "")
-                {
-                    sql_findUID_filter_2 += " And Fbank_type=" + Fbank_type;
-                }
-
-                if (bankID != "")
-                {
-                    sql_findUID_filter_2 += " And (Fcard_id='" + bankID + "' or Fcard_id='" + bankID_md5 + "') ";
-                }
-
-                if (sql_findUID_filter_2.Length == sql_findUID_filter_startLen_2)
-                {
-                    return null;
-                }
-                sql_findUID_2 += sql_findUID_filter_2;
-                DataSet ds = da.dsGetTableByRange(sql_findUID_2, limStart, limCount);
-                return ds;
-            }
-            catch (Exception err)
-            {
-                return null;
-            }
-            finally
-            {
-                if (da != null)
-                {
-                    da.Dispose();
-                }
-            }
-
-        }
-
-        
-
-        /// <summary>
-        /// 同步绑定信息
-        /// </summary>
-        /// <param name="bankType"></param>
-        /// <param name="cardTail"></param>
-        /// <param name="bankId"></param>
-        /// <returns></returns>
-        public bool SyncBankCardBind(string bankType, string cardTail, string bankId)
-        {
-            MySqlAccess da = MySQLAccessFactory.GetMySQLAccess("BD");
-            try
-            {
-                if (string.IsNullOrEmpty(cardTail))
-                {
-                    throw new Exception("card_tail参数为空！");
-                }
-                if (string.IsNullOrEmpty(bankId))
-                {
-                    throw new Exception("bankId参数为空！");
-                }
-
-                //对bankid解密
-                string bankID_Encode = PublicRes.BankIDEncode_ForBankCardUnbind(bankId);
-
-                da.OpenConn();
-
-                string bankID_md5 = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(bankID_Encode, "md5").ToLower();
-
-                string table = "c2c_db_" + cardTail.Substring(cardTail.Length - 2, 2) + ".t_card_bind_relation_" + cardTail.Substring(cardTail.Length - 3, 1);
-                string sql = "select Fuin from " + table + " where Fcard_id='" + bankID_md5 + "' and Flstate=1";
-                DataSet ds = da.dsGetTotalData(sql);
-                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                {
-                    //前置机解绑
-                    string Msg = "";
-                    string req = "ver=1&request_type=8809&bank_type=" + bankType + "&card_no=" + bankId;
-                    string qzj_ip = ConfigurationManager.AppSettings["Unbind_QZJ_IP"];
-                    string qzj_port = ConfigurationManager.AppSettings["Unbind_QZJ_PORT"];
-
-                    string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
-
-                    if (answer == "")
-                    {
-                        return false;
-                    }
-                    if (Msg != "")
-                    {
-                        throw new Exception(Msg);
-                    }
-                    Msg = "";
-                    CommQuery.ParseRelayStr(answer, out Msg);
-                    if (Msg != "")
-                    {
-                        throw new Exception(Msg);
-                    }
-                }
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("service处理错误：" + e.Message);
-            }
-            finally
-            {
-                da.Dispose();
-            }
-            return false;
-        }
-
-
-
         /// <summary>
         /// 获得卡绑定详细信息
         /// </summary>
@@ -517,37 +327,39 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         /// <returns></returns>
         public DataSet GetBankCardBindDetail(string fuid, string findex, string fBDIndex)
         {
-            MySqlAccess da = MySQLAccessFactory.GetMySQLAccess("BD");
+            return new BankcardUnbindData().GetBankCardBindDetail(fuid, findex, fBDIndex);
+        }
+
+           
+
+
+
+        /// <summary>
+        /// 同步绑定信息
+        /// </summary>
+        /// <param name="bankType"></param>
+        /// <param name="cardTail"></param>
+        /// <param name="bankId"></param>
+        /// <returns></returns>
+        public DataTable SyncBankCardBind(string bankType, string cardTail, string bankId)
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add("ret_value", System.Type.GetType("System.String"));
             try
             {
-                // 2012/5/29 新增加查询字段Fcre_id
-                da.OpenConn();
-                string Sql = "";
-                if (fBDIndex != null && fBDIndex == "1")
-                {
-                    Sql = "select Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status," +
-                                "Fbank_status,Fcard_tail,Fbank_id,Ftruename,Funchain_time_local,Fmodify_time," +
-                                "Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fcreate_time,Fbind_time_local,Fbind_time_bank,Funchain_time_bank,Fcre_type,Fonce_quota,Fday_quota,Fi_character2 & 0x01 as sms_flag from "
-                                + PublicRes.GetTName("c2c_db", "t_user_bind", fuid) + " where Findex=" + findex + " and fuid=" + fuid;
-                }
-                else if (fBDIndex != null && fBDIndex == "2")//该Findex的记录在临时表
-                {
-                    Sql = "select Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status," +
-                                "Fbank_status,Fcard_tail,Fbank_id,Ftruename,Funchain_time_local,Fmodify_time," +
-                                "Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fcreate_time,Fbind_time_local,Fbind_time_bank,Funchain_time_bank,Fcre_type,Fonce_quota,Fday_quota,Fi_character2 & 0x01 as sms_flag from c2c_db.t_user_bind_tmp where Findex=" + findex + " and fuid=" + fuid;
-                }
-                return da.dsGetTotalData(Sql);
+                DataRow dr = table.NewRow();
+                bool ret = new BankcardUnbindData().SyncBankCardBind(bankType, cardTail, bankId);
+                dr["ret_value"] = ret ? "true" : "false";
             }
-            catch (Exception err)
+            catch (Exception e)
             {
-                return null;
+                throw new Exception("service处理错误：" + e.Message);
             }
-            finally
-            {
-                da.Dispose();
-            }
+            return table;
         }
-      
+
+
+
 
 
         /// <summary>
@@ -558,85 +370,13 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         /// <param name="protocolNo"></param>
         public DataTable UnbindBankCardBind(String bankType, String qqid, String protocolNo, String userIP)
         {
-            string msg = "";
             DataTable table = new DataTable();
-            table.Columns.Add("result", System.Type.GetType("System.String"));
+            table.Columns.Add("ret_value", System.Type.GetType("System.String"));
             try
             {
-                string req = "function=BIND_CANCEL";
-                req += "&bank_type=" + bankType;
-                req += "&qqid=" + qqid;
-                req += "&protocol_no=" + protocolNo;
-                req += "&login_ip=" + userIP;
-                req += "&server_ip=" + userIP;
-                string service_name = "bind_modi_service";
-                DataSet ds = CommQuery.GetOneTableFromICE(req, "FINANCE_OD_UNBIND_BANKTYPE", service_name, out msg);
-                if (ds == null || ds.Tables.Count < 1)
-                {
-                    throw new Exception(msg);
-                }
-                if (ds != null && ds.Tables.Count > 0)
-                {
-                    DataTable dt = ds.Tables[0];
-
-                    string req_params = "ver=1&request_type=8809";
-
-                    var need_bank = dt.Rows[0]["need2bank"];
-                    if (need_bank != null && need_bank.ToString() == "1")
-                    {
-                        req_params += "&bank_type=" + bankType;
-                        req_params += "&card_no=" + dt.Rows[0]["card_no"].ToString();
-                        byte[] b_msg = System.Text.Encoding.Default.GetBytes(req_params);
-                        byte[] b_msg_len = BitConverter.GetBytes(b_msg.Length);
-                        byte[] contData = new byte[b_msg_len.Length + b_msg.Length];
-                        b_msg_len.CopyTo(contData, 0);
-                        b_msg.CopyTo(contData, b_msg_len.Length);
-                        //需要去调用前置机解绑
-                        //commRes.GetTCPReply(req_params, contData, "10.6.206.72", 15005, out msg, "", out iResult);
-                        string qzj_ip = ConfigurationManager.AppSettings["Unbind_QZJ_IP"];
-                        string qzj_port = ConfigurationManager.AppSettings["Unbind_QZJ_PORT"];
-                        TcpClient tcpClient = new TcpClient();
-                        IPAddress ipAddress = IPAddress.Parse(qzj_ip);
-                        IPEndPoint ipPort = new IPEndPoint(ipAddress, Int32.Parse(qzj_port));
-                        tcpClient.Connect(ipPort);
-                        NetworkStream stream = tcpClient.GetStream();
-                        stream.Write(contData, 0, contData.Length);
-                        byte[] bufferOut = new byte[1024];
-                        stream.Read(bufferOut, 0, 1024);
-                        byte[] bufferLen = new byte[4];
-
-                        Array.Copy(bufferOut, 0, bufferLen, 0, 4);
-                        int c = BitConverter.ToInt32(bufferLen, 0);
-                        byte[] cont = new byte[c];
-                        Array.Copy(bufferOut, 4, cont, 0, c);
-                        string answer = Encoding.Default.GetString(cont);
-                        string[] strlist1 = answer.Split('&');
-                        if (strlist1.Length == 0)
-                        {
-                            throw new Exception("前置机返回结果有误：" + answer);
-                        }
-                        Hashtable ht = new Hashtable(strlist1.Length);
-                        foreach (string strtmp in strlist1)
-                        {
-                            string[] strlist2 = strtmp.Split('=');
-                            if (strlist2.Length != 2)
-                            {
-                                continue;
-                            }
-                            ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
-                        }
-                        if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
-                        {
-                            throw new Exception("前置机返回结果有误：" + answer);
-                        }
-                        else
-                        {
-                            DataRow drNew = table.NewRow();
-                            drNew["result"] = ht["result"].ToString();
-                            table.Rows.Add(drNew);
-                        }
-                    }
-                }
+                DataRow dr = table.NewRow();
+                bool ret = new BankcardUnbindData().UnbindBankCardBind(bankType, qqid, protocolNo, userIP);
+                dr["ret_value"] = ret ? "true" : "false";
             }
             catch (Exception err)
             {
@@ -644,6 +384,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             }
             return table;
         }
+
 
 
 
@@ -656,60 +397,21 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         /// <param name="bindSerialno"></param>
         /// <param name="protocol_no"></param>
         /// <returns></returns>
-        public DataSet UnBindBankCardBindSpecial(string bankType, string qqid, string card_tail, string bindSerialno, string protocol_no)
+        public DataTable UnBindBankCardBindSpecial(string bankType, string qqid, string card_tail, string bindSerialno, string protocol_no)
         {
-            string msg = "";
+            DataTable table = new DataTable();
+            table.Columns.Add("ret_value", System.Type.GetType("System.String"));
             try
             {
-                string req = "";
-                if (protocol_no == "0")
-                {
-                    if (card_tail != null && card_tail != "" && card_tail.Length <= 4)
-                    {
-                        //需要参数query_type=3&bank_type=&card_tail=&qqid=&function=BIND_CANCEL
-                        req = "function=BIND_CANCEL&query_type=3";
-                        req += "&bank_type=" + bankType;
-                        req += "&qqid=" + qqid;
-                        req += "&card_tail=" + card_tail;
-                        //测试通过：req = "function=BIND_CANCEL&query_type=3&bank_type=3107&qqid=2817570940&card_tail=7834";
-                    }
-                    else
-                    {
-                        if (bindSerialno == "")
-                        {
-                            msg = "绑定序列号为空，无法解绑";
-                            throw new Exception(msg);
-                        }
-                        else
-                        {
-                            //需要参数query_type=2&bank_type=&qqid=&bind_serialno=$Fbind_serialno
-                            req = "function=BIND_CANCEL&query_type=2";
-                            req += "&bank_type=" + bankType;
-                            req += "&qqid=" + qqid;
-                            req += "&bind_serialno=" + bindSerialno;
-                        }
-                    }
-                }
-                else
-                {
-                    req = "function=BIND_CANCEL&query_type=2";
-                    req += "&bank_type=" + bankType;
-                    req += "&qqid=" + qqid;
-                    req += "&bind_serialno=" + bindSerialno;
-                }
-
-                string service_name = "bind_modi_service";
-                DataSet ds = CommQuery.GetOneTableFromICE(req, "", service_name, out msg);
-                if (ds == null)
-                {
-                    throw new Exception(msg);
-                }
-                return ds;
+                DataRow dr = table.NewRow();
+                bool ret = new BankcardUnbindData().UnBindBankCardBindSpecial(bankType, qqid, card_tail, bindSerialno, protocol_no);
+                dr["ret_value"] = ret ? "true" : "false";
             }
             catch (Exception err)
             {
-                throw new Exception("Service处理失败！" + msg, err);
+                throw new Exception("Service处理失败！", err);
             }
+            return table;
         }
               
     }

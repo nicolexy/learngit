@@ -592,11 +592,11 @@ namespace CFT.CSOMS.Service.CSAPI
                 var infos = new CFT.CSOMS.BLL.BankCardBindModule.
                     BankCardBindService().SyncBankCardBind(bankType, card_tail, bank_id);
 
-                //if (infos == null || infos.Rows.Count == 0)
-                //{
-                    //throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
-                //}
-                //APIUtil.Print4DataTable(infos, null, null);
+                if (infos == null || infos.Rows.Count == 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                APIUtil.Print4DataTable(infos, null, null);
             }
             catch (ServiceException se)
             {
@@ -671,12 +671,12 @@ namespace CFT.CSOMS.Service.CSAPI
                 var infos = new CFT.CSOMS.BLL.BankCardBindModule.
                     BankCardBindService().UnBindBankCardBindSpecial(bankType, qqid, Fcard_tail, Fbind_serialno, protocolNo);
 
-                if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
+                if (infos == null || infos.Rows.Count == 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
                 }
 
-                APIUtil.Print4DataTable(infos.Tables[0], null, null);
+                APIUtil.Print4DataTable(infos, null, null);
             }
             catch (ServiceException se)
             {
