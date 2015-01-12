@@ -54,6 +54,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ZWCheck_Service {
         
         private System.Threading.SendOrPostCallback ConfirmCancelCheckOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetCheckLogOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetPendingApprovalOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetCheckByObjIdOperationCompleted;
@@ -147,6 +149,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ZWCheck_Service {
         
         /// <remarks/>
         public event ConfirmCancelCheckCompletedEventHandler ConfirmCancelCheckCompleted;
+        
+        /// <remarks/>
+        public event GetCheckLogCompletedEventHandler GetCheckLogCompleted;
         
         /// <remarks/>
         public event GetPendingApprovalCompletedEventHandler GetPendingApprovalCompleted;
@@ -641,6 +646,47 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ZWCheck_Service {
             if ((this.ConfirmCancelCheckCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.ConfirmCancelCheckCompleted(this, new ConfirmCancelCheckCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Check_WebService/GetCheckLog", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Check_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Check_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetCheckLog(string checkid) {
+            object[] results = this.Invoke("GetCheckLog", new object[] {
+                        checkid});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginGetCheckLog(string checkid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetCheckLog", new object[] {
+                        checkid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet EndGetCheckLog(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetCheckLogAsync(string checkid) {
+            this.GetCheckLogAsync(checkid, null);
+        }
+        
+        /// <remarks/>
+        public void GetCheckLogAsync(string checkid, object userState) {
+            if ((this.GetCheckLogOperationCompleted == null)) {
+                this.GetCheckLogOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetCheckLogOperationCompleted);
+            }
+            this.InvokeAsync("GetCheckLog", new object[] {
+                        checkid}, this.GetCheckLogOperationCompleted, userState);
+        }
+        
+        private void OnGetCheckLogOperationCompleted(object arg) {
+            if ((this.GetCheckLogCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetCheckLogCompleted(this, new GetCheckLogCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1371,6 +1417,32 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ZWCheck_Service {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    public delegate void GetCheckLogCompletedEventHandler(object sender, GetCheckLogCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetCheckLogCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetCheckLogCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
             }
         }
     }

@@ -214,6 +214,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Activity
                 {
                     lb_ChannelId.Text = string.Empty;
                 }
+                lb_FActType.Text = g_dt.Rows[rid]["FActTypeStr"].ToString();//活动分类
+                lb_FPrizeType.Text = g_dt.Rows[rid]["FPrizeTypeStr"].ToString();//奖品类型
+                lb_FPrizeName.Text = g_dt.Rows[rid]["FPrizeName"].ToString();//奖品名称
             }
         }
 
@@ -232,6 +235,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Activity
             lb_Openid.Text = "";
             lb_ErrorInfo.Text = "";
             lb_ChannelId.Text = "";
+            lb_FActType.Text = "";
+            lb_FPrizeType.Text = "";
+            lb_FPrizeName.Text = "";
         }
     }
 }
