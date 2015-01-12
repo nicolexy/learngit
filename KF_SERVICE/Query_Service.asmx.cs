@@ -7375,18 +7375,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 srcHandleUser = ds.Tables[0].Rows[0]["FCheckUser"].ToString();
                 reqType = int.Parse(ds.Tables[0].Rows[0]["FType"].ToString());
 
-                // 结单的日志只允许补充处理结果
-                if (srcHandleType == 1 || srcHandleType == 2)
+                if (reqType == 8 || reqType == 19)
                 {
-                    if (handleType != 100)
+                    // 结单的日志只允许补充处理结果
+                    if (srcHandleType == 1 || srcHandleType == 2)
                     {
-                        return false;
+                        if (handleType != 100)
+                        {
+                            return false;
+                        }
                     }
-                }
 
-                // 作废的日志就不许再操作了
-                if (srcHandleType == 7)
-                    return false;
+                    // 作废的日志就不许再操作了
+                    if (srcHandleType == 7)
+                        return false;
+                }
+                else if (reqType == 11)//特殊找回密码
+                {
+                    if (!(srcHandleType == 0 || srcHandleType == 12))//除了未处理、已补充资料状态外，不能补充资料操作
+                        return false;
+                }
             }
 
             if (handleResult.Trim() != "")
@@ -7400,8 +7408,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 da_2.OpenConn();
 
+               if (reqType == 8 || reqType == 19)
+                memo = "风控冻结." + memo;
+               else if (reqType ==11)
+                   memo = "特殊找回密码." + memo;
+
                 string sqlCmd_updateAppeal = "update " + table + " set FState=" + handleType
-                    + ",Fcomment='风控冻结." + memo + "', FCheckUser='" + handleUser + "',FCheckTime=Now(),"
+                    + ",Fcomment='" + memo + "', FCheckUser='" + handleUser + "',FCheckTime=Now(),"
                     + " FPickTime=now(),FPickUser='" + handleUser + "',FStandBy1=" + bt
                     + " ,FReCheckTime=now(),FRecheckUser='" + handleUser + "',FCheckInfo='" + handleResult + "',Fsup_desc1='" + zdyBt1
                     + "',Fsup_desc2='" + zdyBt2 + "',Fsup_desc3='" + zdyBt3 + "',Fsup_desc4='" + zdyBt4 + "',Fsup_tips1='" + zdyCont1
@@ -7439,60 +7452,69 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 if (da.ExecSql(sqlCmd))
                 {
                     // 成功更新数据库，则检查是否结单操作并发送邮件
-
-                    if (handleType == 1)
+                    if (reqType == 8 || reqType == 19)
                     {
-                        //结单解冻
-                        if (reqType == 19)
+                        if (handleType == 1)
                         {
-                            //发微信解冻消息
-                            if (uin.IndexOf("@wx.tenpay.com") > 0)
+                            //结单解冻
+                            if (reqType == 19)
                             {
-                                string reqsource = "bus_kf_unfreeze";
-                                string accid = uin.Substring(0, uin.IndexOf("@wx.tenpay.com"));
-                                string templateid = "DeNkYEfSBW7mVQET6QHwnilGWvG8cLssLSyRH0CSDk0";
-                                string cont1 = "你的微信支付账户已排除了安全风险并由保护模式切换至正常模式。";
-                                string cont2 = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                                string cont3 = "请点击详情查看微信支付安全保障介绍";
-                                string msgtype = "unfreeze";
+                                //发微信解冻消息
+                                if (uin.IndexOf("@wx.tenpay.com") > 0)
+                                {
+                                    string reqsource = "bus_kf_unfreeze";
+                                    string accid = uin.Substring(0, uin.IndexOf("@wx.tenpay.com"));
+                                    string templateid = "DeNkYEfSBW7mVQET6QHwnilGWvG8cLssLSyRH0CSDk0";
+                                    string cont1 = "你的微信支付账户已排除了安全风险并由保护模式切换至正常模式。";
+                                    string cont2 = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                                    string cont3 = "请点击详情查看微信支付安全保障介绍";
+                                    string msgtype = "unfreeze";
 
-                                new FreezeService().SendWechatMsg(reqsource, accid, templateid, cont1, cont2, cont3, msgtype);
+                                    new FreezeService().SendWechatMsg(reqsource, accid, templateid, cont1, cont2, cont3, msgtype);
+                                }
+                            }
+                            else
+                            {
+                                string str_params = "http://action.tenpay.com/cuifei/2014/fengkong/unfreeze_suc.shtml?clientuin=$UIN$&clientkey=$KEY$";
+                                str_params = "url=" + System.Web.HttpUtility.UrlEncode(str_params, System.Text.Encoding.GetEncoding("gb2312"));
+                                TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsgQQTips(uin, "2236", str_params);
+                                TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMessage(userPhone, "2236", "userid=" + uin);
                             }
                         }
-                        else 
+                        else if (handleType == 2)
                         {
-                            string str_params = "http://action.tenpay.com/cuifei/2014/fengkong/unfreeze_suc.shtml?clientuin=$UIN$&clientkey=$KEY$";
-                            str_params = "url=" + System.Web.HttpUtility.UrlEncode(str_params, System.Text.Encoding.GetEncoding("gb2312"));
-                            TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsgQQTips(uin, "2236", str_params);
-                            TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMessage(userPhone, "2236", "userid=" + uin);
+                            //补充资料
+                            if (reqType == 19)
+                            {
+                                //发微信补填资料消息
+                                if (uin.IndexOf("@wx.tenpay.com") > 0)
+                                {
+                                    string reqsource = "bus_kf_supple";
+                                    string accid = uin.Substring(0, uin.IndexOf("@wx.tenpay.com"));
+                                    string templateid = "p7DifLpETQvbtDPtRPDSI6x4ufUtnjZXcb6LpVIbZ70";
+                                    string cont1 = "你的微信支付账户仍处于保护模式，请点击详情补充恢复微信支付账户所需资料。";
+                                    string cont2 = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                                    string cont3 = "";
+                                    string msgtype = "supple";
+
+                                    new FreezeService().SendWechatMsg(reqsource, accid, templateid, cont1, cont2, cont3, msgtype);
+                                }
+                            }
+                            else
+                            {
+                                string str_params = "http://action.tenpay.com/cuifei/2014/fengkong/unfreeze_fail.shtml?clientuin=$UIN$&clientkey=$KEY$";
+                                str_params = "url=" + System.Web.HttpUtility.UrlEncode(str_params, System.Text.Encoding.GetEncoding("gb2312"));
+                                TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsgQQTips(uin, "2237", str_params);
+                                TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMessage(userPhone, "2237", "user=" + uin);
+                            }
                         }
                     }
-                    else if (handleType == 2)
+                    else if (reqType == 11)//特殊找回密码 发tips和短信 模板位申请，需更改下面代码
                     {
-                        //补充资料
-                        if (reqType == 19)
-                        {
-                            //发微信补填资料消息
-                            if (uin.IndexOf("@wx.tenpay.com") > 0)
-                            {
-                                string reqsource = "bus_kf_supple";
-                                string accid = uin.Substring(0, uin.IndexOf("@wx.tenpay.com"));
-                                string templateid = "p7DifLpETQvbtDPtRPDSI6x4ufUtnjZXcb6LpVIbZ70";
-                                string cont1 = "你的微信支付账户仍处于保护模式，请点击详情补充恢复微信支付账户所需资料。";
-                                string cont2 = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                                string cont3 = "";
-                                string msgtype = "supple";
-
-                                new FreezeService().SendWechatMsg(reqsource, accid, templateid, cont1, cont2, cont3, msgtype);
-                            }  
-                        }
-                        else 
-                        {
-                            string str_params = "http://action.tenpay.com/cuifei/2014/fengkong/unfreeze_fail.shtml?clientuin=$UIN$&clientkey=$KEY$";
-                            str_params = "url=" + System.Web.HttpUtility.UrlEncode(str_params, System.Text.Encoding.GetEncoding("gb2312"));
-                            TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsgQQTips(uin, "2237", str_params);
-                            TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMessage(userPhone, "2237", "user=" + uin);
-                        }
+                        string str_params = "http://action.tenpay.com/cuifei/2014/fengkong/unfreeze_fail.shtml?clientuin=$UIN$&clientkey=$KEY$";
+                        str_params = "url=" + System.Web.HttpUtility.UrlEncode(str_params, System.Text.Encoding.GetEncoding("gb2312"));
+                      //  TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsgQQTips(uin, "2237", str_params);
+                        TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMessage(userPhone, "2237", "user=" + uin);
                     }
                 }
                 else

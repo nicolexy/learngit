@@ -454,6 +454,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         protected global::System.Web.UI.WebControls.Button btn_manageFastReply;
         
         /// <summary>
+        /// FreezeOperateTR control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow FreezeOperateTR;
+        
+        /// <summary>
         /// btn_hangUp control.
         /// </summary>
         /// <remarks>
@@ -497,6 +506,51 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSynCredit;
+        
+        /// <summary>
+        /// SpecialOperateTR control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow SpecialOperateTR;
+        
+        /// <summary>
+        /// btn_OK control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_OK;
+        
+        /// <summary>
+        /// btn_Cancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_Cancel;
+        
+        /// <summary>
+        /// btn_Delete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_Delete;
+        
+        /// <summary>
+        /// btn_Complement control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_Complement;
         
         /// <summary>
         /// cbBt_bcqtzjzp control.

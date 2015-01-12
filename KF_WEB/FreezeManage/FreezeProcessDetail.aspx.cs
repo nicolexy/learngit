@@ -64,7 +64,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
                 ViewState["FSubmitDate"] = Request.QueryString["fsubmit_date"].ToString().Trim();
 
-				SetAllBtnVisible(false);
+              //  SetAllBtnVisible_Freeze(false); 代码重复
 
 				BindData(1);
 
@@ -92,7 +92,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 
 
-		private void SetAllBtnVisible(bool canSee)
+        private void SetAllBtnVisible_Freeze(bool canSee)
 		{
 			this.btn_Del.Visible = canSee;
 			this.btn_Finish1.Visible = canSee;
@@ -100,13 +100,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 			this.btn_hangUp.Visible = canSee;
 			
 		}
+        private void SetAllBtnVisible_Special(bool canSee)
+        {
+            this.btn_OK.Visible = canSee;
+            this.btn_Cancel.Visible = canSee;
+            this.btn_Delete.Visible = canSee;
+            this.btn_Complement.Visible = canSee;
+
+        }
 
 
 		public void BindData(int iIndex)
 		{
             try
             {
-                SetAllBtnVisible(false);
+                SetAllBtnVisible_Freeze(false);
+                SetAllBtnVisible_Special(false);
 
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
@@ -125,6 +134,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                 }
                 else
                 {
+                    #region 申诉详细信息
                     DataRow dr2 = ds2.Tables[0].Rows[0];
 
                     int ftype = int.Parse(dr2["Ftype"].ToString());
@@ -153,11 +163,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                     this.tbx_subUserName.Text = PublicRes.GetString(dr2["FOldName"].ToString());//用户提交姓名
                     this.lblstandard_score.Text = dr2["FStandardScore"].ToString();//免审核标准分
                     this.lblrisk_result.Text = dr2["risk_result"].ToString();//风控标记
-                    if (dr2["FClearPps"].ToString() == "1" && dr2["FType"].ToString() == "1")//是否清空密保资料
+                    if (dr2["FClearPps"].ToString() == "1" && dr2["FType"].ToString() == "11")//是否清空密保资料
                     {
                         this.clear_pps.Text = "清除";
                     }
-                    else if (dr2["FType"].ToString() == "1" && dr2["FClearPps"].ToString() != "1")
+                    else if (dr2["FType"].ToString() == "11" && dr2["FClearPps"].ToString() != "1")
                     {
                         this.clear_pps.Text = "不清除";
                     }
@@ -179,6 +189,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                     string img_cgi = ConfigurationManager.AppSettings["GetAppealImageCgi"].ToString();
 
                     //int ftype = int.Parse(dr2["Ftype"].ToString());
+                    #endregion
 
                     #region 查询账户基本信息
                     DataSet dsuser = qs.GetAppealUserInfo(dr2["Fuin"].ToString());
@@ -256,7 +267,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                     }
                     #endregion
 
-                    #region//其它图片
+                    #region 其它图片
                     if (!(dr2["FOtherImage2"] is DBNull))
                     {
                         if (dr2["FOtherImage2"].ToString() != "")
@@ -358,34 +369,68 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                         tbx_bczl_zdy.Text = dr2["Fsup_tips4"].ToString();
                     }
                     #endregion
-                }
 
+                    #region 操作按钮控制
+                    if (ftype == 8 || ftype == 19)//解冻结类型
+                    {
+                        this.SpecialOperateTR.Visible = false;
+                     
+                        if (ViewState["isFreezeListHas"].ToString() == "1")
+                        {//冻结单中存在冻结记录
+                            if (ViewState["Fstate"].ToString() == "2")
+                            {
+                                // 已结单
+                                this.btn_Del.Visible = true;
+                            }
+                            else if (ViewState["Fstate"].ToString() == "7")
+                            {
+                                // 已作废
+                            }
+                            else
+                            {
+                                // 挂起或者未处理
+                                SetAllBtnVisible_Freeze(true);
+                            }
+                        }
+                        else
+                        {
+                            // 如果该用户不处于冻结状态，则只允许对这个申诉进行作废处理
+                            if (ViewState["Fstate"].ToString() != "7")
+                            {
+                                this.btn_Del.Visible = true;
+                            }
 
-                if (ViewState["isFreezeListHas"].ToString() == "1")
-                {//冻结单中存在冻结记录
-                    if (ViewState["Fstate"].ToString() == "1")
-                    {
-                        // 已结单
-                        this.btn_Del.Visible = true;
+                        }
                     }
-                    else if (ViewState["Fstate"].ToString() == "7")
+                    else if (ftype == 11)
                     {
-                        // 已作废
-                    }
-                    else
-                    {
-                        // 挂起或者未处理
-                        SetAllBtnVisible(true);
-                    }
-                }
-                else
-                {
-                    // 如果该用户不处于冻结状态，则只允许对这个申诉进行作废处理
-                    if (ViewState["Fstate"].ToString() != "7")
-                    {
-                        this.btn_Del.Visible = true;
+                        this.FreezeOperateTR.Visible = false;
+                        string state=ViewState["Fstate"].ToString();
+                        if (state == "2")//申诉失败能通过
+                        {
+                            this.btn_OK.Visible = true;
+                        }
+                        else if (state == "1" || state == "7")//申诉成功、已删除
+                        {
+                            this.btn_Cancel.Visible = true;
+                        }
+                        else if (state == "11")//待补充资料
+                        {
+                            this.btn_Delete.Visible = true;
+                            this.btn_Cancel.Visible = true;
+
+                        }
+                        else if (state == "0" || state == "12")//未处理、已补充资料
+                        {
+                            SetAllBtnVisible_Special(true);
+                        }
+                        else
+                        {
+                            throw new Exception("待处理申诉类型有误！");
+                        }
                     }
 
+                    #endregion
                 }
             }
             catch (SoapException eSoap) //捕获soap类异常
@@ -420,36 +465,49 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 		}
 		#endregion
 
-		//挂起
-        protected void btn_hangUp_Click(object sender, System.EventArgs e)
-		{
-			if(this.tbx_handleResult.Text.Trim() == "")
-			{
-				WebUtils.ShowMessage(this,"请输入补充的处理结果");
-				return;
-			}
+        #region 解冻操作
 
-			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+        //适用于挂起和作废操作
+        private void OperateUnFreeze(int type)
+        {
+            if (this.tbx_handleResult.Text.Trim() == "")
+            {
+                WebUtils.ShowMessage(this, "请输入补充的处理结果");
+                return;
+            }
 
-			string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
+            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+
+            string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
             string userDesc = classLibrary.setConfig.replaceHtmlStr(this.tbx_userQA.Text);
 
-			try
-			{
-                if (qs.CreateFreezeDiary_NEW(ViewState["FID"].ToString(), 8, Session["uid"].ToString()
-                    , handleResult, "", ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), 0, userDesc,"","","","","","","",""))
-				{
-					Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=s",false);
-				}
-				else
-				{
-					Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=f",false);
-				}
-			}
-			catch(Exception ex)
-			{
-				WebUtils.ShowMessage(this,ex.Message);
-			}
+            try
+            {
+                if (qs.CreateFreezeDiary_NEW(ViewState["FID"].ToString(), type, Session["uid"].ToString()
+                    , handleResult, "", ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), 0, userDesc, "", "", "", "", "", "", "", ""))
+                {
+                    Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=s", false);
+                }
+                else
+                {
+                    Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=f", false);
+                }
+            }
+            catch (SoapException eSoap) //捕获soap类异常
+            {
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this, ex.Message);
+            }
+        }
+
+        //挂起
+        protected void btn_hangUp_Click(object sender, System.EventArgs e)
+		{
+            OperateUnFreeze(8);
 		}
 
         //结单解冻
@@ -479,7 +537,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 				{
 					Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=f",false);
 				}
-			}
+            }
+            catch (SoapException eSoap) //捕获soap类异常
+            {
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
 			catch(Exception ex)
 			{
 				WebUtils.ShowMessage(this,ex.Message);
@@ -489,30 +552,218 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
         //补充资料
 		protected void btn_Finish2_Click(object sender, System.EventArgs e)
 		{
+            CompementResult(2,"");
+		}
+       
+        //作废
+		protected void btn_Del_Click(object sender, System.EventArgs e)
+		{
+            OperateUnFreeze(7);
+            //if(this.tbx_handleResult.Text.Trim() == "")
+            //{
+            //    WebUtils.ShowMessage(this,"请输入补充的处理结果");
+            //    return;
+            //}
+
+            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+
+            //string userDesc = classLibrary.setConfig.replaceHtmlStr(this.tbx_userQA.Text);
+            //string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
+
+            //try
+            //{
+            //    // 作废的话，将FSourceType设置为作废状态
+            //    if (qs.CreateFreezeDiary_NEW(ViewState["FID"].ToString(), 7, Session["uid"].ToString(), handleResult, "", ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), 0, userDesc, "", "", "", "", "", "", "", ""))
+            //    {
+            //        Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=s",false);
+            //    }
+            //    else
+            //    {
+            //        Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=f",false);
+            //    }
+            //}
+            //catch(Exception ex)
+            //{
+            //    WebUtils.ShowMessage(this,ex.Message);
+            //}
+		}
+
+        //补充处理结果
+		protected void btn_addRecord_Click(object sender, System.EventArgs e)
+		{
 			if(this.tbx_handleResult.Text.Trim() == "")
 			{
 				WebUtils.ShowMessage(this,"请输入补充的处理结果");
 				return;
 			}
 
-            var ret = verifyCheckBox();
-            if (ret != "0") 
-            {
-                return;
-            }
-            
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
 			string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
+            string userDesc = classLibrary.setConfig.replaceHtmlStr(this.tbx_userQA.Text);
 
 			try
 			{
-				//如果客服回复不为空，则用户描述必勾选
+                if (qs.CreateFreezeDiary_NEW(ViewState["FID"].ToString(), 100, Session["uid"].ToString()
+                    , handleResult, "", ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), 0, userDesc, "", "", "", "", "", "", "", ""))
+				{
+					Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=s",false);
+				}
+				else
+				{
+					Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=f",false);
+				}
+            }
+            catch (SoapException eSoap) //捕获soap类异常
+            {
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
+			catch(Exception ex)
+			{
+				WebUtils.ShowMessage(this,ex.Message);
+			}
+		}
+
+        //同步身份证号
+        protected void btn_synCreid_Click(object sender, System.EventArgs e) 
+        {
+            try 
+            {
+                bool ret = new FreezeService().SyncCreid(ViewState["FFreezeID"].ToString(), ViewState["OldCreId"].ToString(), ViewState["TjCreId"].ToString(), int.Parse(ViewState["TjCreType"].ToString()), Session["uid"].ToString(), Request.UserHostAddress);
+                if (ret)
+                {
+                    WebUtils.ShowMessage(this, "同步身份证号成功！");
+                }
+                else 
+                {
+                    WebUtils.ShowMessage(this, "同步身份证号失败！");
+                }
+            }
+            catch (SoapException eSoap) //捕获soap类异常
+            {
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this, ex.Message);
+                return;
+            }
+        }
+       
+        #endregion
+
+        #region 特殊申诉操作
+       
+        //拒绝
+        protected void btn_Cancel_Click(object sender, System.EventArgs e)
+        {
+            Func<string, string, string, string, string, string, string, bool> operate = new UserAppealService().CannelAppealSpecial;
+            OperateSepcial(operate);
+        }
+
+        //通过
+        protected void btn_OK_Click(object sender, System.EventArgs e)
+        {
+            Func<string, string, string, string, string, string, string, bool> operate = new UserAppealService().ConfirmAppealSpecial;
+            OperateSepcial(operate);
+        }
+
+        //补充资料
+        protected void btn_Complement_Click(object sender, System.EventArgs e)
+        {
+            CompementResult(11, "&type=11");
+        }
+
+        //删除
+        protected void btn_Delete_Click(object sender, System.EventArgs e)
+        {
+            Func<string, string, string, string, string, string, string, bool> operate = new UserAppealService().DelAppealSpecial;
+            OperateSepcial(operate);
+        }
+       
+        #endregion
+
+
+        //用于特殊找回密码拒绝、通过、删除操作
+        private void OperateSepcial(Func<string, string, string, string, string, string, string, bool> operate)
+        {
+            if (this.tbx_handleResult.Text.Trim() == "")
+            {
+                WebUtils.ShowMessage(this, "请输入补充的处理结果");
+                return;
+            }
+            try
+            {
+                string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
+                string userDesc = classLibrary.setConfig.replaceHtmlStr(this.tbx_userQA.Text);
+
+                string ip = Request.UserHostAddress.ToString();
+
+                DateTime date = DateTime.Parse(ViewState["FSubmitDate"].ToString());
+                int i_m = date.Month;
+                string s_m = "";
+                if (i_m < 10)
+                {
+                    s_m = "0" + i_m;
+                }
+                else
+                {
+                    s_m = i_m.ToString();
+                }
+                string appeal_db = "db_appeal_" + date.Year.ToString();
+                string appeal_tb = "t_tenpay_appeal_trans_" + s_m;
+                //UserAppealService userAppealService = new UserAppealService();
+                //bool succes = userAppealService.CannelAppealSpecial(ViewState["FID"].ToString(), handleResult, userDesc, Session["uid"].ToString(), ip, appeal_db, appeal_tb);
+                bool succes = operate(ViewState["FID"].ToString(), handleResult, userDesc, Session["uid"].ToString(), ip, appeal_db, appeal_tb);
+                if (succes)
+                {
+                    Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=s&type=11", false);
+                }
+                else
+                {
+                    Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=f&type=11", false);
+                }
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this, "操作异常：" + PublicRes.GetErrorMsg(ex.Message));
+            }
+        }
+
+        /// <summary>
+        /// 补充资料操作函数
+        /// </summary>
+        /// <param name="operateType">解冻操作：2   特殊找回密码：11</param>
+        /// <param name="ftype">解冻操作：""   特殊找回密码："&type=11"</param>
+        private void CompementResult(int operateType, string ftype)
+        {
+            if (this.tbx_handleResult.Text.Trim() == "")
+            {
+                WebUtils.ShowMessage(this, "请输入补充的处理结果");
+                return;
+            }
+
+            var ret = verifyCheckBox();
+            if (ret != "0")
+            {
+                return;
+            }
+
+            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+
+            string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
+            string userDesc = classLibrary.setConfig.replaceHtmlStr(this.tbx_userQA.Text);
+
+            try
+            {
+                //如果客服回复不为空，则用户描述必勾选
                 this.cbBt_yhms1.Checked = true;
                 #region 掩码勾选
                 //如果是补填，需要传补填些什么资料 资金来源等
                 Int32 bt = 0;
-                if (this.cbBt_sfzz.Checked) 
+                if (this.cbBt_sfzz.Checked)
                 {
                     //身份证正面
                     bt = bt | 0x00000001;
@@ -644,7 +895,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
                 #endregion
 
-                if (bt == 0) 
+                #region  补填图片标题及内容
+                if (bt == 0)
                 {
                     WebUtils.ShowMessage(this, "请勾选补填信息！");
                     return;
@@ -652,7 +904,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
                 //自定义标题1
                 var zdyBt1 = "";
-                if (cbBt_bcqtzjzp.Checked) 
+                if (cbBt_bcqtzjzp.Checked)
                 {
                     zdyBt1 = tbx_bcqtzjzp_zdy.Text;
                 }
@@ -734,113 +986,34 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                 {
                     zdyCont4 = tbx_bczl_zdy.Text;
                 }
-
-                string userDesc = classLibrary.setConfig.replaceHtmlStr(this.tbx_userQA.Text);
+                #endregion
 
                 // 结单的话，将FSourceType设置为结单状态
-                if (qs.CreateFreezeDiary_NEW(ViewState["FID"].ToString(), 2, Session["uid"].ToString(), handleResult, "", ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), bt, userDesc
+                if (qs.CreateFreezeDiary_NEW(ViewState["FID"].ToString(), operateType, Session["uid"].ToString(), handleResult, "", ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), bt, userDesc
                     , zdyBt1, zdyBt2, zdyBt3, zdyBt4, zdyCont1, zdyCont2, zdyCont3, zdyCont4))
-				{
-					Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=s",false);
-				}
-				else
-				{
-					Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=f",false);
-				}
-			}
-			catch(Exception ex)
-			{
-				WebUtils.ShowMessage(this,ex.Message);
-			}
-		}
-
-        //作废
-		protected void btn_Del_Click(object sender, System.EventArgs e)
-		{
-            if(this.tbx_handleResult.Text.Trim() == "")
-			{
-				WebUtils.ShowMessage(this,"请输入补充的处理结果");
-				return;
-			}
-
-			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-            string userDesc = classLibrary.setConfig.replaceHtmlStr(this.tbx_userQA.Text);
-			string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
-
-			try
-			{
-				// 作废的话，将FSourceType设置为作废状态
-                if (qs.CreateFreezeDiary_NEW(ViewState["FID"].ToString(), 7, Session["uid"].ToString(), handleResult, "", ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), 0, userDesc, "", "", "", "", "", "", "", ""))
-				{
-					Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=s",false);
-				}
-				else
-				{
-					Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=f",false);
-				}
-			}
-			catch(Exception ex)
-			{
-				WebUtils.ShowMessage(this,ex.Message);
-			}
-		}
-
-        //补充处理结果
-		protected void btn_addRecord_Click(object sender, System.EventArgs e)
-		{
-			if(this.tbx_handleResult.Text.Trim() == "")
-			{
-				WebUtils.ShowMessage(this,"请输入补充的处理结果");
-				return;
-			}
-
-			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-			string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
-            string userDesc = classLibrary.setConfig.replaceHtmlStr(this.tbx_userQA.Text);
-
-			try
-			{
-                if (qs.CreateFreezeDiary_NEW(ViewState["FID"].ToString(), 100, Session["uid"].ToString()
-                    , handleResult, "", ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), 0, userDesc, "", "", "", "", "", "", "", ""))
-				{
-					Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=s",false);
-				}
-				else
-				{
-					Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=f",false);
-				}
-			}
-			catch(Exception ex)
-			{
-				WebUtils.ShowMessage(this,ex.Message);
-			}
-		}
-
-        //同步身份证号
-        protected void btn_synCreid_Click(object sender, System.EventArgs e) 
-        {
-            try 
+                {
+                    Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=s" + ftype, false);//ftype适应特殊申诉类型
+                }
+                else
+                {
+                    Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=f" + ftype, false);
+                }
+            }
+            catch (SoapException eSoap) //捕获soap类异常
             {
-                bool ret = new FreezeService().SyncCreid(ViewState["FFreezeID"].ToString(), ViewState["OldCreId"].ToString(), ViewState["TjCreId"].ToString(), int.Parse(ViewState["TjCreType"].ToString()), Session["uid"].ToString(), Request.UserHostAddress);
-                if (ret)
-                {
-                    WebUtils.ShowMessage(this, "同步身份证号成功！");
-                }
-                else 
-                {
-                    WebUtils.ShowMessage(this, "同步身份证号失败！");
-                }
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
             }
             catch (Exception ex)
             {
                 WebUtils.ShowMessage(this, ex.Message);
-                return;
             }
         }
 
-		private void ddl_fastReply1_SelectedIndexChanged(object sender, EventArgs e)
+       
+
+
+        private void ddl_fastReply1_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			string strFastReply = this.ddl_fastReply1.SelectedValue;
 

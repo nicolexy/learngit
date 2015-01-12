@@ -8,6 +8,7 @@ namespace CFT.CSOMS.BLL.UserAppealModule
     using CFT.CSOMS.DAL.Infrastructure;
     public class UserAppealService
     {
+       
         //自助申诉详细页面判断是否实名认证 API接口
         public bool GetUserAuthenState(string uin, string userBankID, int bankType)
         {
@@ -271,5 +272,61 @@ namespace CFT.CSOMS.BLL.UserAppealModule
             }
         }
 
+        public bool UpdateSepcialApealLog(string ffreezeListID, int handleType, string handleUser, string handleResult, string userDesc)
+        {
+            return new UserAppealData().UpdateSepcialApealLog(ffreezeListID, handleType, handleUser, handleResult, userDesc);
+        }
+
+        public bool CannelAppealSpecial(string fid, string Fcomment, string userDesc, string user, string userIP, string appeal_db, string appeal_tb)
+        {
+            UserAppealService userAppealService = new UserAppealService();
+            bool succes = userAppealService.CannelAppeal(fid, Fcomment, "", "", user, userIP, appeal_db, appeal_tb);
+            if (succes)
+            {
+                //11 为申诉类型
+                bool writeLog = userAppealService.UpdateSepcialApealLog(fid, 2, user, Fcomment, userDesc);
+                if (writeLog)
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+
+        public bool DelAppealSpecial(string fid, string Fcomment, string userDesc, string user, string userIP, string appeal_db, string appeal_tb)
+        {
+            UserAppealService userAppealService = new UserAppealService();
+            bool succes = userAppealService.DelAppeal(fid, Fcomment, user, userIP, appeal_db, appeal_tb);
+            if (succes)
+            {
+                //11 为申诉类型
+                bool writeLog = userAppealService.UpdateSepcialApealLog(fid, 7, user, Fcomment, userDesc);
+                if (writeLog)
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+
+        public bool ConfirmAppealSpecial(string fid, string Fcomment, string userDesc, string user, string userIP, string appeal_db, string appeal_tb)
+        {
+            UserAppealService userAppealService = new UserAppealService();
+            bool succes = userAppealService.ConfirmAppeal(fid, Fcomment, user, userIP, appeal_db, appeal_tb);
+            if (succes)
+            {
+                //11 为申诉类型
+                bool writeLog = userAppealService.UpdateSepcialApealLog(fid, 1, user, Fcomment, userDesc);
+                if (writeLog)
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+    
     }
 }

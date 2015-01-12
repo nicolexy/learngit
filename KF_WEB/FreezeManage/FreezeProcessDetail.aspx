@@ -336,7 +336,7 @@
 					</td>
 				</tr>
 			</table>
-			<table border="1" cellSpacing="1" cellPadding="1" width="1200">
+			<table border="1" cellSpacing="1" cellPadding="1" width="1200" runat="server">
 				<tr>
 					<td bgColor="#eeeeee" height="20" width="50%"><asp:checkbox id="cbBt_yhms1" Text="用户描述" Runat="server"></asp:checkbox></td>
 					<td bgColor="#eeeeee" height="20" width="50%">客服处理结果</td>
@@ -352,8 +352,16 @@
 				<tr>
 					<td bgColor="#ffffff" height="10" colSpan="2"></td>
 				</tr>
-				<tr>
+				<tr id="FreezeOperateTR" runat="server">
 					<td bgColor="#ffffff" colSpan="5" align="center"><span style="MARGIN: 0px 30px 0px 0px"><asp:button id="btn_hangUp" runat="server" Width="100" Text="挂 起" onclick="btn_hangUp_Click"></asp:button></span><span style="MARGIN: 0px 30px 0px 0px"><asp:button id="btn_Finish1" runat="server" Width="100" Text="结单（已解冻）" onclick="btn_Finish1_Click"></asp:button></span><span style="MARGIN: 0px 30px 0px 0px"><asp:button id="btn_Finish2" runat="server" Width="100" Text="补充资料" onclick="btn_Finish2_Click"></asp:button></span><span style="MARGIN: 0px 30px 0px 0px"><asp:button id="btn_Del" runat="server" Width="100" Text="作 废" onclick="btn_Del_Click"></asp:button></span><span style="MARGIN: 0px 30px 0px 0px"><asp:button id="btnSynCredit" runat="server" Width="100" Text="同步身份证号" onclick="btn_synCreid_Click"></asp:button></span></td>
+				</tr>
+                <tr id="SpecialOperateTR" runat="server">
+					<td bgColor="#ffffff" colSpan="5" align="center"><span style="MARGIN: 0px 30px 0px 0px">
+                        <asp:button id="btn_OK" runat="server" Width="100" Text="通过" onclick="btn_OK_Click"></asp:button></span><span style="MARGIN: 0px 30px 0px 0px">
+                        <asp:button id="btn_Cancel" runat="server" Width="100" Text="拒绝" onclick="btn_Cancel_Click"></asp:button></span><span style="MARGIN: 0px 30px 0px 0px">
+                        <asp:button id="btn_Delete" runat="server" Width="100" Text="删除" onclick="btn_Delete_Click"></asp:button></span><span style="MARGIN: 0px 30px 0px 0px">
+                       <asp:button id="btn_Complement" runat="server" Width="100" Text="补充资料" onclick="btn_Complement_Click"></asp:button></span>
+					</td>
 				</tr>
 			</table>
             <table border="1" cellSpacing="1" cellPadding="1" width="1200">

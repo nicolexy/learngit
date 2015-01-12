@@ -131,14 +131,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                 int ftype = int.Parse(this.ddlType.SelectedValue);
                 if (ftype == 8 || ftype == 19)
                 {
-                    this.ddl_orderState.Visible = true;
-                    this.ddl_orderStateSpecial.Visible = false;
                     state = int.Parse(this.ddl_orderState.SelectedValue);
                 }
                 else if (ftype == 11)
                 {
-                    this.ddl_orderState.Visible =false;
-                    this.ddl_orderStateSpecial.Visible = true;
                     state = int.Parse(this.ddl_orderStateSpecial.SelectedValue);
                 }
 
@@ -303,6 +299,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                                 }
                         }
 
+                        dr["handleStateName"] = stateName;
                         this.DataGrid_QueryResult.Columns[this.DataGrid_QueryResult.Columns.Count - 7].Visible = false;//隐藏冻结原因列
                     }
                     else
@@ -317,7 +314,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 				this.DataGrid_QueryResult.DataSource = ds;
 				this.DataGrid_QueryResult.DataBind();
-			}
+            }
+            catch (SoapException eSoap) //捕获soap类异常
+            {
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
 			catch(Exception ex)
 			{
                 ShowMsg(ex.Message);
