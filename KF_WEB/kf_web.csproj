@@ -3314,11 +3314,11 @@
     <Content Include="Web References\FQuery_Service\FreezeInfo.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\FQuery_Service\Query_Service.wsdl" />
-    <Content Include="Web References\FQuery_Service\Reference.map">
+    <None Include="Web References\FQuery_Service\Query_Service.wsdl" />
+    <None Include="Web References\FQuery_Service\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <Content Include="Web References\FQuery_Service\SysBulletinClass.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -3416,7 +3416,7 @@
     </None>
     <None Include="Web References\SPOA_Service\SPOA_Service.disco" />
     <None Include="Web References\ZWCheck_Service\Check_Service.disco" />
-    <Content Include="Web References\FQuery_Service\Query_Service.disco" />
+    <None Include="Web References\FQuery_Service\Query_Service.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

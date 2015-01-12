@@ -1087,10 +1087,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //sConnStr = String.Format(connModule, f_strDataSource_fkdj, f_strUserID_fkdj, f_strPassword_fkdj, f_strDatabase_fkdj);
                 return DbConnectionString.Instance.GetConnectionString("FKDJ");
             }
-            else if (strDBType.ToUpper() == "ZW")
+            else if (strDBType.ToUpper() == "ZW" || strDBType.IndexOf("zw")>0)
             {
                 //sConnStr = String.Format(connModule, f_strDataSource_zw, f_strUserID_zw, f_strPassword_zw, f_strDatabase_zw);
-                return DbConnectionString.Instance.GetConnectionString("ZW");
+                if (strDBType.IndexOf("zw") > 0)
+                {
+                    var index = strDBType.Substring(2, strDBType.Length - 2);
+                    return DbConnectionString.Instance.GetConnectionString("ZW" + index);
+                }
+                else
+                {
+                    return DbConnectionString.Instance.GetConnectionString("ZW");
+                }
             }
             else if (strDBType.ToUpper() == "ZWFK")
             {
@@ -2084,6 +2092,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             return ar;
         }
 
+        //TODO: c2c_db.t_middle_user 所在DB已经扩容，但此方法没有调用，故没有修改配置，
         public static string[] returnMiddleInfo(string fqqid, MySqlAccess da)  //帐务调整的共用函数：获取中介账户的相关信息
         {
 
