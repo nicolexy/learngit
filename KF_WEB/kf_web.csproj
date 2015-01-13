@@ -820,6 +820,13 @@
     <Compile Include="Control\commonDataSet.ascx.designer.cs">
       <DependentUpon>commonDataSet.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Control\AccountOperateControl.ascx.cs">
+      <DependentUpon>AccountOperateControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Control\AccountOperateControl.ascx.designer.cs">
+      <DependentUpon>AccountOperateControl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Control\PNRQueryControl.ascx.cs">
       <DependentUpon>PNRQueryControl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2778,6 +2785,9 @@
     <Content Include="Control\commonDataSet.ascx">
       <SubType>UserControl</SubType>
     </Content>
+    <Content Include="Control\AccountOperateControl.ascx">
+      <SubType>UserControl</SubType>
+    </Content>
     <Content Include="Control\PNRQueryControl.ascx">
       <SubType>UserControl</SubType>
     </Content>
@@ -3689,6 +3699,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Control\commonDataSet.ascx.resx">
       <DependentUpon>commonDataSet.ascx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\AccountOperateControl.ascx.resx">
+      <DependentUpon>AccountOperateControl.ascx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Control\PNRQueryControl.ascx.resx">
       <DependentUpon>PNRQueryControl.ascx.cs</DependentUpon>

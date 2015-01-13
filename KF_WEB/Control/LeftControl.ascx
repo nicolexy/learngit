@@ -1,5 +1,6 @@
 <%@ Register TagPrefix="uc1" TagName="AccountManage" Src="AccountManageControl.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="BaseAccount" Src="BaseAccountControl.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="AccountOperate" Src="AccountOperateControl.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="TradeManage" Src="TradeManageControl.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="RiskConManage" Src="RiskConManage.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="OverseasPay" Src="OverseasPay.ascx" %>
@@ -56,6 +57,7 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
                 <tr id="basicInfo" style="display:none">
                     <td >
                         <uc1:BaseAccount id="baseAccount1" runat="server"></uc1:BaseAccount> <!--账户管理-->
+                         <uc1:AccountOperate id="accountOperate1" runat="server"></uc1:AccountOperate> <!--账户操作-->
 			            <uc1:VIPAccountManage id="VIPAccountManage" runat="server"></uc1:VIPAccountManage><!--会员帐号-->
 			            <uc1:SelfHelpAppealManage id="SelfHelpAppealManage1" runat="server"></uc1:SelfHelpAppealManage><!--自助申诉-->
 			            <uc1:NameAuthened id="NameAuthened1" runat="server"></uc1:NameAuthened><!--实名认证-->

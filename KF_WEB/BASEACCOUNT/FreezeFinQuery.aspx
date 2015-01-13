@@ -64,13 +64,16 @@
 								<asp:BoundColumn DataField="strFreason" HeaderText="冻结原因">
 									<HeaderStyle Width="150px"></HeaderStyle>
 								</asp:BoundColumn>
+                                <asp:BoundColumn DataField="strType" HeaderText="状态">
+									<HeaderStyle Width="110px"></HeaderStyle>
+								</asp:BoundColumn>
 								<asp:BoundColumn DataField="strSignName" HeaderText="处理状态">
 									<HeaderStyle Width="110px"></HeaderStyle>
 								</asp:BoundColumn>
 								<asp:BoundColumn DataField="Fconnum" HeaderText="冻结金额（元）">
 									<HeaderStyle Width="120px"></HeaderStyle>
 								</asp:BoundColumn>
-								<asp:BoundColumn DataField="Fmodify_time" HeaderText="冻结时间">
+								<asp:BoundColumn DataField="Fmodify_time" HeaderText="时间">
 									<HeaderStyle Width="160px" HorizontalAlign="Center"></HeaderStyle>
 								</asp:BoundColumn>
 								<asp:BoundColumn DataField="Flistid" HeaderText="订单号/交易单号">

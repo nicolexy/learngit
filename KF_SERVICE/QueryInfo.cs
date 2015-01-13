@@ -6426,7 +6426,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 this.ICESql += "uid=" + strUID;
                 //测试用的UID
                 //this.ICESql += "uid=295191000";
-                this.ICESql += "&start_time=" + strBeginDate + "&end_time=" + strEndDate + "&type=3";
+               // this.ICESql += "&start_time=" + strBeginDate + "&end_time=" + strEndDate + "&type=3";
+
+                //echo 20150113 加上解冻记录查询
+                this.ICESql += "&start_time=" + strBeginDate + "&end_time=" + strEndDate + "&type_list=3,4";
 
                 if (freezeFin != 0)
                 {
