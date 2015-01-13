@@ -503,12 +503,17 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
                 {
                     throw new Exception(msg);
                 }
-                if (ds != null && ds.Tables.Count > 0)
+                if (ds != null && ds.Tables.Count > 0 )
                 {
                     DataTable dt = ds.Tables[0];
                     string req_params = "ver=1&request_type=8809";
-                    var need_bank = dt.Rows[0]["need2bank"];
-                    if (need_bank != null && need_bank.ToString() == "1")
+                    string need_bank = "0";
+                    if (dt.Columns.Contains("need2bank"))
+                    {
+                        need_bank = dt.Rows[0]["need2bank"].ToString();
+                    }
+
+                    if (need_bank != null && need_bank == "1")
                     {
                         req_params += "&bank_type=" + bankType;
                         req_params += "&card_no=" + dt.Rows[0]["card_no"].ToString();
@@ -558,6 +563,13 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
                         else
                         {
                             retVal = ht["result"].ToString().Trim() == "0"; //result 返回为0时是正确的
+                        }
+                    }
+                    else
+                    {
+                        if (dt.Columns.Contains("result"))
+                        {
+                            retVal = dt.Rows[0]["result"].ToString().Trim() == "0"; //result 返回为0时是正确的
                         }
                     }
                 }
