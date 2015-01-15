@@ -31,18 +31,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CFT.Apollo.Common">
-      <HintPath>..\packages\CFT.Apollo.Common.1.0.5436.2324\lib\CFT.Apollo.Common.dll</HintPath>
+    <Reference Include="CFT.Apollo.Common, Version=3.1.5477.31814, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.Common.3.1.5477.31814\lib\CFT.Apollo.Common.dll</HintPath>
     </Reference>
-    <Reference Include="CFT.Apollo.CommunicationFramework">
-      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5436.29525\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
+    <Reference Include="CFT.Apollo.CommunicationFramework, Version=1.1.5491.39151, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5491.39151\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
     </Reference>
-    <Reference Include="CFT.Apollo.Logging">
-      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5436.27776\lib\net40\CFT.Apollo.Logging.dll</HintPath>
+    <Reference Include="CFT.Apollo.Logging, Version=1.0.5444.18012, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5444.18012\lib\net40\CFT.Apollo.Logging.dll</HintPath>
     </Reference>
     <Reference Include="icecs_gb2312, Version=3.1.1.0, Culture=neutral, PublicKeyToken=1f998c50fec78381">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5436.29525\lib\net40\icecs_gb2312.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5491.39151\lib\net40\icecs_gb2312.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

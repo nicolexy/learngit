@@ -89,13 +89,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CFT.Apollo.Common.3.1.5477.31814\lib\CFT.Apollo.Common.dll</HintPath>
     </Reference>
-    <Reference Include="CFT.Apollo.CommunicationFramework, Version=1.1.5436.29525, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="CFT.Apollo.CommunicationFramework, Version=1.1.5491.39151, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5436.29525\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5491.39151\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
     </Reference>
-    <Reference Include="CFT.Apollo.Data, Version=1.0.5484.26303, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="CFT.Apollo.Data, Version=1.0.5492.38307, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CFT.Apollo.Data.1.0.5484.26303\lib\CFT.Apollo.Data.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.Data.1.0.5492.38307\lib\CFT.Apollo.Data.dll</HintPath>
     </Reference>
     <Reference Include="CFT.Apollo.Logging, Version=1.0.5444.18012, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -103,7 +103,7 @@
     </Reference>
     <Reference Include="icecs_gb2312, Version=3.1.1.0, Culture=neutral, PublicKeyToken=1f998c50fec78381">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5436.29525\lib\net40\icecs_gb2312.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5491.39151\lib\net40\icecs_gb2312.dll</HintPath>
     </Reference>
     <Reference Include="Interop.ADODB">
       <HintPath>..\Assemblies\Interop.ADODB.dll</HintPath>
