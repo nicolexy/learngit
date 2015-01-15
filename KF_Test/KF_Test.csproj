@@ -39,29 +39,31 @@
       <HintPath>..\Assemblies\AspNetPager.dll</HintPath>
     </Reference>
     <Reference Include="CFT.Apollo.Common">
-      <HintPath>..\packages\CFT.Apollo.Common.1.0.5436.2324\lib\CFT.Apollo.Common.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.Common.3.1.5477.31814\lib\CFT.Apollo.Common.dll</HintPath>
     </Reference>
     <Reference Include="CFT.Apollo.CommunicationFramework, Version=1.1.5436.29525, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5436.29525\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5491.39151\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
     </Reference>
     <Reference Include="CFT.Apollo.Logging">
-      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5436.27776\lib\net40\CFT.Apollo.Logging.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5444.18012\lib\net40\CFT.Apollo.Logging.dll</HintPath>
     </Reference>
     <Reference Include="CFT.CommunicationFramework, Version=1.1.5229.39158, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Assemblies\CFT.CommunicationFramework.dll</HintPath>
     </Reference>
     <Reference Include="icecs, Version=3.0.1.0, Culture=neutral, PublicKeyToken=1f998c50fec78381" />
+    <Reference Include="icecs_gb2312">
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5491.39151\lib\net40\icecs_gb2312.dll</HintPath>
+    </Reference>
     <Reference Include="Interop.CFTGWCLib, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>..\Assemblies\Interop.CFTGWCLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    <Reference Include="log4net">
+      <HintPath>..\packages\CFT.Apollo.log4net.1.0.0.15\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="SunLibrary, Version=1.1.5280.31037, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -154,6 +156,10 @@
     <Content Include="Config\Log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Configs\Log4net.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

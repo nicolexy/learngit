@@ -88,9 +88,17 @@
     <Reference Include="AspNetPager">
       <HintPath>..\Assemblies\AspNetPager.dll</HintPath>
     </Reference>
+    <Reference Include="CFT.Apollo.Common, Version=3.1.5477.31814, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.Common.3.1.5477.31814\lib\CFT.Apollo.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.Apollo.Logging, Version=1.0.5444.18012, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5444.18012\lib\net40\CFT.Apollo.Logging.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.log4net.1.0.0.15\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
@@ -3049,6 +3057,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="config\Log4net.config" />
+    <Content Include="Configs\Log4net.config" />
     <None Include="DataAccess.dll.log4net" />
     <Content Include="packages.config" />
     <None Include="Properties\DataSources\System.Data.DataSet.datasource" />
