@@ -43,7 +43,7 @@ namespace CFT.CSOMS.DAL.FreezeModule
             args.topcolor = "";
             //冻结，补充资料都是这个链接
             string url = "http://kf.qq.com/touch/weixin/payment_unfreeze_app.html?ADTAG=veda.weixinpay.mp&tj_src=mp";
-            args.navtourl = System.Web.HttpUtility.UrlEncode(url, System.Text.Encoding.GetEncoding("gb2312"));
+            args.navtourl = System.Web.HttpUtility.UrlEncode(url);
 
             args.templateid = templateid; //冻结，解冻，补填模板ID
 
