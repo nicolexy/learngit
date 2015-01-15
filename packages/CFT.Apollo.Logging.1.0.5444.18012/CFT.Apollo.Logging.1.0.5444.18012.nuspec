@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>CFT.Apollo.Logging</id>
+    <version>1.0.5444.18012</version>
+    <title>CFT.Apollo.Logging</title>
+    <authors>hansonhu</authors>
+    <owners>hansonhu</owners>
+    <licenseUrl>http://up.cf.com/index.php/CFT.Apollo.Logging</licenseUrl>
+    <projectUrl>http://up.cf.com/index.php/CFT.Apollo.Logging</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>通用日志操作类，封装CFT.Apollo.Log4net</description>
+    <summary>通用日志操作类</summary>
+    <dependencies>
+      <group targetFramework=".NETFramework4.0">
+        <dependency id="CFT.Apollo.log4net" version="1.0.0.15" />
+        <dependency id="CFT.Apollo.Common" version="1.0.5436.2324" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

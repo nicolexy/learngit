@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>CFT.Apollo.CommunicationFramework</id>
+    <version>1.1.5491.39151</version>
+    <title>CFT.Apollo.CommunicationFramework</title>
+    <authors>hansonhu</authors>
+    <owners>hansonhu</owners>
+    <licenseUrl>http://up.cf.com/index.php/CFT.Apollo.CommunicationFramework</licenseUrl>
+    <projectUrl>http://up.cf.com/index.php/CFT.Apollo.CommunicationFramework</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>CFT.Apollo.CommunicationFramework
+基础通信框架，支持ICE和Relay访问Middle</description>
+    <dependencies>
+      <group targetFramework=".NETFramework4.0">
+        <dependency id="CFT.Apollo.Common" version="1.0.5435.33704" />
+        <dependency id="CFT.Apollo.Logging" version="1.0.5436.27776" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
