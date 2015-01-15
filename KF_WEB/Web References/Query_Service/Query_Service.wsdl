@@ -1633,6 +1633,67 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="ModifyUserInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Params" type="tns:ArrayOfT_FIELD_VALUE" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfT_FIELD_VALUE">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="T_FIELD_VALUE" nillable="true" type="tns:T_FIELD_VALUE" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="T_FIELD_VALUE">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="FieldName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FieldValue" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FOldValue" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FTrueName" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ModifyUserInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ModifyUserInfoResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="modifyUserType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="qqid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="oldusertype" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="modifyUserTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="modifyUserTypeResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="Msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="modifyAttType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="qqid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="atttype" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="oldattid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="modifyAttTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="modifyAttTypeResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="Msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="WS_AppealSQuery">
         <s:complexType>
           <s:sequence>
@@ -10865,6 +10926,33 @@
     <wsdl:part name="parameters" element="tns:AtuoRenewUnbindResponse" />
   </wsdl:message>
   <wsdl:message name="AtuoRenewUnbindFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="ModifyUserInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:ModifyUserInfo" />
+  </wsdl:message>
+  <wsdl:message name="ModifyUserInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:ModifyUserInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ModifyUserInfoFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="modifyUserTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:modifyUserType" />
+  </wsdl:message>
+  <wsdl:message name="modifyUserTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:modifyUserTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="modifyUserTypeFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="modifyAttTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:modifyAttType" />
+  </wsdl:message>
+  <wsdl:message name="modifyAttTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:modifyAttTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="modifyAttTypeFinance_Header">
     <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
   </wsdl:message>
   <wsdl:message name="WS_AppealSQuerySoapIn">
@@ -20823,6 +20911,21 @@
       <wsdl:input message="tns:AtuoRenewUnbindSoapIn" />
       <wsdl:output message="tns:AtuoRenewUnbindSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="ModifyUserInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">修改用户资料表记录</wsdl:documentation>
+      <wsdl:input message="tns:ModifyUserInfoSoapIn" />
+      <wsdl:output message="tns:ModifyUserInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="modifyUserType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">修改用户帐户类型</wsdl:documentation>
+      <wsdl:input message="tns:modifyUserTypeSoapIn" />
+      <wsdl:output message="tns:modifyUserTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="modifyAttType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">修改用户属性类型</wsdl:documentation>
+      <wsdl:input message="tns:modifyAttTypeSoapIn" />
+      <wsdl:output message="tns:modifyAttTypeSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="WS_AppealSQuery">
       <wsdl:input message="tns:WS_AppealSQuerySoapIn" />
       <wsdl:output message="tns:WS_AppealSQuerySoapOut" />
@@ -27470,6 +27573,36 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="ModifyUserInfo">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/ModifyUserInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ModifyUserInfoFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="modifyUserType">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/modifyUserType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:modifyUserTypeFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="modifyAttType">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/modifyAttType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:modifyAttTypeFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="WS_AppealSQuery">
       <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/WS_AppealSQuery" style="document" />
       <wsdl:input>
@@ -31929,6 +32062,36 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:AtuoRenewUnbindFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModifyUserInfo">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/ModifyUserInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ModifyUserInfoFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="modifyUserType">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/modifyUserType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:modifyUserTypeFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="modifyAttType">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/modifyAttType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:modifyAttTypeFinance_Header" part="Finance_Header" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

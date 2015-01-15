@@ -13,6 +13,7 @@ using System.Text;
 using System.Xml;
 using System.Threading;
 using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web
 {
@@ -949,6 +950,33 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             }
         }
 
+        /// <summary>
+        /// 绑定下拉列表
+        /// </summary>
+        /// <param name="ds">Data数据</param>
+        /// <param name="dl">下拉菜单obj</param>
+        /// <param name="Msg"></param>
+        public static void BindDropDownList(DataSet ds, DropDownList dl, out string Msg)
+        {
+            Msg = "";
+            //dl = new DropDownList(); 此处不能使用New
+            //dl.Items.Clear();
+
+            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+            {
+                Msg = "传入DataSet数据为空!";
+            }
+
+            DataTable dt = ds.Tables[0];
+            foreach (DataRow dr in dt.Rows)
+            {
+                ListItem li = new ListItem();
+                li.Text = "【" + dr["Value"].ToString().Trim() + "】" + dr["Text"].ToString().Trim();
+                li.Value = dr["Value"].ToString().Trim();
+
+                dl.Items.Add(li);
+            }
+        }
     }
 
 }

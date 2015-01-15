@@ -1384,4 +1384,284 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
     }
     #endregion
+
+    /// <summary>
+    /// 修改公用类。
+    /// </summary>
+    public class ModifyInfo
+    {
+        public ModifyInfo()
+        {
+        }
+
+        public static string GetASql(string strFieldName, string strValue, FieldType aType)
+        {
+            switch (aType)
+            {
+                case FieldType.INT:
+                    return " " + strFieldName + "=" + strValue;  //PublicRes.GetSqlFromQQ(QQID,"fuid")
+                default:
+                    return " " + strFieldName + "='" + strValue + "'";
+            }
+        }
+
+    }
+
+    /// <summary>
+    /// 字段类型枚举类型
+    /// </summary>
+    public enum FieldType
+    {
+        INT = 0,
+        STR = 1,
+        TIME = 2
+    }
+    public class T_FIELD_VALUE
+    {
+        public string FieldName;
+        public string FieldValue;
+
+        public string FOldValue;
+
+        public string FTrueName;
+
+
+        public T_FIELD_VALUE()
+            : this("", "", "", "")
+        { }
+
+        public T_FIELD_VALUE(string aFieldName, string aFieldValue, string aFoldValue, string aFTrueName)
+        {
+            FieldName = aFieldName;
+            FieldValue = aFieldValue;
+
+            FOldValue = aFoldValue;
+
+            FTrueName = aFTrueName;
+        }
+    }
+
+
+    public class Modify_BaseClass           //修改的基类
+    {
+        public string strTableName;		//要处理的数据表名。
+        public string[] strPrimaryField;	//主键字段（支持联合主键）
+        public Hashtable hs;				//可以更新的字段和类型。
+        public string strDBField = "";		//可以找到数据库的字段名。
+
+        public T_FIELD_VALUE[] fParams;		//传进来修改的字段。
+
+        private string GetSql()
+        {
+            string strDBFieldValue = "";
+            if (fParams != null && fParams.Length > 0)
+            {
+                try
+                {
+                    string strSet = " set";
+                    string strWhere = " where";
+
+                    foreach (T_FIELD_VALUE aField in fParams)
+                    {
+                        string tmp = aField.FieldName;
+
+                        //下面把WEB页传过来的参数调整一下。
+                        tmp = tmp.ToLower();
+                        if (tmp.StartsWith("u_"))
+                        {
+                            tmp = "f" + tmp.Remove(1, 2);
+                        }
+
+                        FieldType aType = (FieldType)hs[tmp];
+                        //
+                        if (((IList)strPrimaryField).Contains(tmp))
+                        {
+                            if (tmp == "fqqid") //因为主健是fuid，而查询时使用的是QQID,所以要做一个转换。这样在传入时，所有的修改仍然可以使用QQID作为主健
+                            {
+                                strWhere += PublicRes.GetSqlFromQQ(aField.FieldValue, "fuid") + " and";
+                            }
+                            else //如果主健是其他的字段
+                            {
+                                strWhere += ModifyInfo.GetASql(tmp, aField.FieldValue, aType) + " and";
+                            }
+                        }
+                        else if (hs.Contains(tmp))
+                        {
+                            strSet += ModifyInfo.GetASql(tmp, aField.FieldValue, aType) + " ,";
+                        }
+
+                        if (tmp == strDBField) strDBFieldValue = aField.FieldValue;
+                    }
+
+                    if (strSet.EndsWith("set")) //没有要更新的值。
+                    {
+                        return "";
+                    }
+
+                    if (strWhere.EndsWith("where")) //没有条件值。
+                    {
+                        return "";
+                    }
+
+                    strSet = strSet.Remove(strSet.Length - 1, 1); //删除最后一个","
+                    strWhere = strWhere.Remove(strWhere.Length - 3, 3);//删除最后一个"and"
+
+                    //					ModifyInfo.GetASql(tmp,aField.FieldValue,aType)
+
+                    string strSql;
+                    if (strDBField == "fqqid")
+                    {
+                        strSql = "update " + PublicRes.GetTableName(strTableName, strDBFieldValue) + strSet + strWhere;
+                    }
+                    else
+                    {
+                        strSql = "update c2c_db." + strTableName + strSet + strWhere;
+                    }
+                    return strSql;
+                }
+                catch (Exception e)
+                {
+                    return "";
+                }
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+
+
+        public bool Execute()
+        {
+            return Execute("YW");
+        }
+
+        public bool Execute(string DBStr)
+        {
+            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString(DBStr));
+            bool result = false;
+            try
+            {
+                da.OpenConn();
+                string strSql = GetSql();
+                if (strSql != "")
+                {
+                    result = da.ExecSql(strSql);
+                }
+                else result = true;
+
+                return result;
+            }
+            finally
+            {
+                da.Dispose();
+            }
+        }
+    }
+
+    /// <summary>
+    /// 用户资料表的修改类
+    /// </summary>
+    public class M_USER_INFO : Modify_BaseClass
+    {
+
+        public M_USER_INFO(T_FIELD_VALUE[] Params)
+        {
+            strPrimaryField = new string[1];
+            strPrimaryField[0] = "fqqid";
+            strTableName = "t_user_info";
+            strDBField = "fqqid";
+            fParams = Params;
+
+            hs = new Hashtable(40);
+            hs.Add("fqqid", FieldType.STR);
+            hs.Add("fcompany_name", FieldType.STR);
+            hs.Add("ftruename", FieldType.STR);
+            hs.Add("fsex", FieldType.STR);
+            hs.Add("fage", FieldType.STR);
+            hs.Add("fphone", FieldType.STR);
+            hs.Add("fmobile", FieldType.STR);
+            hs.Add("femail", FieldType.STR);
+            hs.Add("farea", FieldType.STR);
+            hs.Add("fcity", FieldType.STR);
+            hs.Add("faddress", FieldType.STR);
+            hs.Add("fpcode", FieldType.STR);
+            hs.Add("fmodify_time_c2c", FieldType.TIME);
+            hs.Add("fcre_type", FieldType.STR);
+            hs.Add("fcreid", FieldType.STR);
+            hs.Add("fmemo", FieldType.STR);
+            hs.Add("fmodify_time", FieldType.TIME);
+            hs.Add("fpasswd", FieldType.STR);            //帐户密码
+            hs.Add("fpay_password", FieldType.STR);      //支付密码 加密后
+        }
+
+        public bool Execute_30(string fuser, string ip)
+        {
+            string ICESQL = "";
+            string fqqid = "";
+            foreach (T_FIELD_VALUE aField in fParams)
+            {
+                string tmp = aField.FieldName;
+                tmp = tmp.ToLower();
+
+                if (tmp.StartsWith("f"))
+                {
+                    tmp = tmp.Substring(1, tmp.Length - 1);
+                }
+
+                if (tmp == "qqid")
+                {
+                    ICESQL += "&uid=" + PublicRes.ConvertToFuid(aField.FieldValue);
+
+                    fqqid = aField.FieldValue;
+
+                    continue;
+                }
+
+                ICESQL += "&" + tmp + "=" + aField.FieldValue;
+            }
+
+            ICESQL = ICESQL.Substring(1, ICESQL.Length - 1);
+
+            string errMsg = "";
+
+
+            int iresult = CommQuery.ExecSqlFromICE(ICESQL, CommQuery.UPDATE_USERINFO, out errMsg);
+
+
+            if (iresult == 1)
+            {
+                foreach (T_FIELD_VALUE aField in fParams)
+                {
+
+                    string tmpnew = aField.FieldValue.Trim();
+
+                    string tmpold = aField.FOldValue.Trim();
+                    if (!tmpnew.Equals(tmpold))
+                    {
+                        if (aField.FieldName.ToLower() == "farea")
+                        {
+
+                            tmpold = AreaInfo.GetAreaName(long.Parse(tmpold));
+
+                            tmpnew = AreaInfo.GetAreaName(long.Parse(tmpnew));
+                        }
+                        if (aField.FieldName.ToLower() == "fcity")
+                        {
+                            string oldfarea = fParams[8].FOldValue.Trim();
+                            string newfarea = fParams[8].FieldValue.Trim();
+                            tmpold = AreaInfo.GetCityName(long.Parse(oldfarea), tmpold);
+                            tmpnew =AreaInfo.GetCityName(long.Parse(newfarea), tmpnew);
+                        }
+
+                      //  PublicRes.writeSysLog_kf(fqqid, fuser, ip, tmpold, tmpnew, aField.FTrueName, "changeUserInfo", "");
+
+                    }
+                }
+            }
+            return iresult == 1;
+        }
+    }
+
 }

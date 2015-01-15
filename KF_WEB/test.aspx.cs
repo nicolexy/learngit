@@ -35,6 +35,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
+            var dsDetailList = new WechatPayService().QueryWebchatHB("1000000000201501012000009051", 3, "127.0.0.1", 0, 10);
+
             //发邮件  服务地址变了：10.12.23.14 7600
             // SendEmail("10.12.23.14", 7600, "direct=1&&direct_email=1985119654@qq.com&actiontype=102217&p_name=lxlKF&p_parm1=https://www.tenpay.com/v2/cs/v2");
             //SendEmail("172.25.38.34", 7600, "direct=1&&direct_email=466678748@qq.com&actiontype=2217&p_name=echoCS&p_parm1=https://www.tenpay.com/v2/cs/v2");
@@ -107,9 +109,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
            //OrderDecoupled();
 
 
-            TestRelayInvoke1("10.12.23.14", "22000", "request_type=100569&ver=1&head_u=&sp_id=&draw_id=104201308040012310737");
-            TestRelayInvoke2("10.12.23.14", "22000", "request_type=100568&ver=1&head_u=&sp_id=&transaction_id=2000000501901308040012310734");
-            TestRelayInvoke2("10.12.23.14", "22000", "request_type=100567&ver=1&head_u=&sp_id=&listid=2000000501901204240011520734");
+            //TestRelayInvoke1("10.12.23.14", "22000", "request_type=100569&ver=1&head_u=&sp_id=&draw_id=104201308040012310737");
+            //TestRelayInvoke2("10.12.23.14", "22000", "request_type=100568&ver=1&head_u=&sp_id=&transaction_id=2000000501901308040012310734");
+            //TestRelayInvoke2("10.12.23.14", "22000", "request_type=100567&ver=1&head_u=&sp_id=&listid=2000000501901204240011520734");
         }
 
         private static void OrderDecoupled()

@@ -88,18 +88,25 @@
     <Reference Include="AspNetPager">
       <HintPath>..\Assemblies\AspNetPager.dll</HintPath>
     </Reference>
-    <Reference Include="CFT.Apollo.Common">
-      <HintPath>..\packages\CFT.Apollo.Common.1.0.5436.2324\lib\CFT.Apollo.Common.dll</HintPath>
+    <Reference Include="CFT.Apollo.Common, Version=3.1.5477.31814, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.Common.3.1.5477.31814\lib\CFT.Apollo.Common.dll</HintPath>
     </Reference>
-    <Reference Include="CFT.Apollo.CommunicationFramework">
-      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5436.29525\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
+    <Reference Include="CFT.Apollo.CommunicationFramework, Version=1.1.5491.39151, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5491.39151\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
     </Reference>
-    <Reference Include="CFT.Apollo.Logging">
-      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5436.27776\lib\net40\CFT.Apollo.Logging.dll</HintPath>
+    <Reference Include="CFT.Apollo.Logging, Version=1.0.5444.18012, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5444.18012\lib\net40\CFT.Apollo.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="icecs_gb2312, Version=3.1.1.0, Culture=neutral, PublicKeyToken=1f998c50fec78381">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5491.39151\lib\net40\icecs_gb2312.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.log4net.1.0.0.15\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
@@ -299,8 +306,12 @@
       <DependentUpon>ChangeUserInfo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="BaseAccount\ChangeUserInfo.aspx.designer.cs">
-      <DependentUpon>ChangeUserInfo.aspx</DependentUpon>
+    <Compile Include="BaseAccount\ChangeUserInfo_old.aspx.cs">
+      <DependentUpon>ChangeUserInfo_old.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\ChangeUserInfo_old.aspx.designer.cs">
+      <DependentUpon>ChangeUserInfo_old.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\changeUserName_2.aspx.cs">
       <DependentUpon>changeUserName_2.aspx</DependentUpon>
@@ -2624,7 +2635,8 @@
       <SubType>Form</SubType>
     </Content>
     <Content Include="BaseAccount\ChangeQQOld.aspx" />
-    <Content Include="BaseAccount\ChangeUserInfo.aspx">
+    <Content Include="BaseAccount\ChangeUserInfo.aspx" />
+    <Content Include="BaseAccount\ChangeUserInfo_old.aspx">
       <SubType>Form</SubType>
     </Content>
     <Content Include="BaseAccount\changeUserName_2.aspx">
@@ -3068,6 +3080,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="config\Log4net.config" />
+    <Content Include="Configs\Log4net.config" />
     <None Include="DataAccess.dll.log4net" />
     <Content Include="packages.config" />
     <None Include="Properties\DataSources\System.Data.DataSet.datasource" />
@@ -3501,6 +3514,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\ChangeUserInfo.aspx.resx">
       <DependentUpon>ChangeUserInfo.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BaseAccount\ChangeUserInfo_old.aspx.resx">
+      <DependentUpon>ChangeUserInfo_old.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\changeUserName_2.aspx.resx">
       <DependentUpon>changeUserName_2.aspx.cs</DependentUpon>

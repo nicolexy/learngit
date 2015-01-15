@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Text;
 using CFT.CSOMS.BLL.CFTAccountModule;
 using CFT.CSOMS.BLL.SPOA;
 using CFT.CSOMS.COMMLIB;
@@ -23,6 +24,5 @@ namespace KF_Test
 
           //  relay.GetDSFromRelay(inmsg, ip, port);
         }
-
     }
 }

@@ -28669,6 +28669,174 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
+        [WebMethod(Description = "修改用户资料表记录")]
+        [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
+        public bool ModifyUserInfo(T_FIELD_VALUE[] Params)
+        {
+            if (myHeader == null)
+            {
+                throw new Exception("不正确的调用方法！");
+            }
+            string strUserID = myHeader.UserName;
+            string strPassword = myHeader.UserPassword;
+            string strIP = myHeader.UserIP;
+            string strRightCode = "ModifyUserInfo";
+
+            //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
+
+            try
+            {
+                M_USER_INFO mpl = new M_USER_INFO(Params);
+                return mpl.Execute_30(myHeader.UserName, myHeader.UserIP);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("service发生错误,请联系管理员！" + e.Message.Trim());
+                return false;
+            }
+        }
+
+        [WebMethod(Description = "修改用户帐户类型")]
+        [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
+        public bool modifyUserType(string qqid, string userType, string oldusertype, out string Msg)
+        {
+            Msg = null;
+
+            if (qqid == null)
+            {
+                Msg = "传入的参数不完整！";
+                return false;
+            }
+
+
+            //furion V30_FURION改动 20090310
+            ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+            try
+            {
+                //furion 20061116 email登录修改。
+                string strID = PublicRes.ConvertToFuid(qqid);  //先转换成fuid
+
+                /*
+                // TODO1: 客户信息资料外移
+                //string upStrAcc  = "update " + PublicRes.GetTableName("t_user",qqid)      + " SET Fuser_type = '" + userType + "' where fqqid = '" + qqid + "'";	
+                string upStrAcc  = "update " + PublicRes.GetTName("t_user",strID)      + " SET Fuser_type = '" + userType + "' where fuid =" + strID;	
+                string upStrInfo = "update " + PublicRes.GetTName("t_user_info",strID) + " SET Fuser_type = '" + userType + "' where fuid =" + strID;
+               */
+
+                ice.OpenConn();
+                string strwhere = "where=" + ICEAccess.URLEncode("fcurtype=1&");
+                strwhere += ICEAccess.URLEncode("fuid=" + strID + "&");
+
+                string strUpdate = "data=" + ICEAccess.URLEncode("fuser_type=" + userType);
+                strUpdate += ICEAccess.ICEEncode("&fmodify_time=" + PublicRes.strNowTimeStander);
+
+                string strResp = "";
+
+                //3.0接口测试需要 furion 20090708
+                if (ice.InvokeQuery_Exec(YWSourceType.用户资源, YWCommandCode.修改用户信息, strID, strwhere + "&" + strUpdate, out strResp) != 0)
+                {
+                    throw new Exception("修改个人账户类型出错！" + strResp);
+                }
+
+                /*
+                //if(PublicRes.ExecuteSqlNum(upStrAcc,"YW_30") != 1 || PublicRes.ExecuteSqlNum(upStrInfo,"ZL") != 1)
+                if(PublicRes.ExecuteSqlNum(upStrInfo,"ZL") != 1)
+                    return false;
+                    */
+
+                string strSql = "uid=" + strID;
+                strSql += "&modify_time=" + PublicRes.strNowTimeStander;
+                strSql += "&user_type=" + userType;
+
+                int iresult = CommQuery.ExecSqlFromICE(strSql, CommQuery.UPDATE_USERINFO, out Msg);
+
+                if (iresult != 1)
+                {
+                    return false;
+                }
+                if (!userType.Trim().Equals(oldusertype.Trim()))
+                {
+                    string oldname = oldusertype.Trim() == "1" ? "个人" : "公司";
+                    string newname = userType.Trim() == "1" ? "个人" : "公司";
+                   // PublicRes.writeSysLog_kf(qqid, myHeader.UserName, myHeader.UserIP, oldname, newname, "帐户类型", "changeUserInfo", "");
+                }
+
+                Msg = "修改用户帐户类型成功！";
+                return true;
+            }
+            catch (Exception e)
+            {
+                ice.CloseConn();
+                Msg = "修改帐户类型失败！[" + e.Message.ToString().Replace("'", "’") + "]";
+                SunLibrary.LoggerFactory.Get("Query_Service").Info("modifyUserType:" + Msg);
+                return false;
+            }
+            finally
+            {
+                ice.Dispose();
+            }
+        }
+
+        //furion 20060816
+        [WebMethod(Description = "修改用户属性类型")]
+        [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
+        public bool modifyAttType(string qqid, string atttype, string oldattid, out string Msg)
+        {
+            Msg = null;
+
+            if (qqid == null)
+            {
+                Msg = "传入的参数不完整！";
+                return false;
+            }
+
+            try
+            {
+                //furion 20061116 email登录修改。
+                string strID = PublicRes.ConvertToFuid(qqid);  //先转换成fuid
+
+                //furion V30_FURION改动 20090310
+
+                //string upStrAcc  = "update " + PublicRes.GetTableName("t_user",qqid)      + " SET Fatt_id = '" + atttype + "' where fqqid = '" + qqid + "'";	
+                //string upStrAcc  = "update " + PublicRes.GetTName("t_user",strID)      
+                //+ " SET Fatt_id = '" + atttype + "' where fuid =" + strID;	
+
+                /*
+                string upStrAcc  = "update " + PublicRes.GetTName("t_useratt_info",strID)      
+                    + " SET Fatt_id = '" + atttype + "' where fuid =" + strID;	
+
+                ArrayList al = new ArrayList();
+                al.Add(upStrAcc);
+
+                //PublicRes.Execute(al,"YW_30");
+                PublicRes.Execute(al,"ZL"); */
+
+                string strSql = "uid=" + strID;
+                strSql += "&attid=" + atttype;
+                strSql += "&modify_time=" + CommQuery.ICEEncode(PublicRes.strNowTimeStander);
+
+                if (CommQuery.ExecSqlFromICE(strSql, CommQuery.UPDATE_USERATT, out Msg) < 0)
+                {
+                    return false;
+                }
+                if (!atttype.Trim().Equals(oldattid.Trim()))
+                {
+                    string oldname = oldattid.Trim();
+                    string newname = atttype.Trim();
+                  //  PublicRes.writeSysLog_kf(qqid, myHeader.UserName, myHeader.UserIP, oldname, newname, "产品属性", "changeUserInfo", "");
+                }
+
+                Msg = "修改用户属性类型成功！";
+                return true;
+            }
+            catch (Exception e)
+            {
+                Msg = "修改用户属性类型失败！[" + e.Message.ToString().Replace("'", "’") + "]";
+                SunLibrary.LoggerFactory.Get("Query_Service").Info("modifyAttType:" + Msg);
+                return false;
+            }
+        }
+
 
 
     }//class end

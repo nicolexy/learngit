@@ -91,7 +91,7 @@ namespace CFT.CSOMS.DAL.WechatPay
             string signStr = paramsStr + "&key=" + op_source + key;
             string sign = MD5Helper.Encrypt(signStr).ToUpper();
             //10.208.148.243 28000
-            DataSet dsSend = RelayAccessFactory.GetDSFromRelayFromXML(paramsStr + "&head_u=" + "&sgin=" + sign, ip, port);
+            DataSet dsSend = RelayAccessFactory.GetDSFromRelayFromXML(paramsStr + "&head_u=" + "&sgin=" + sign, ip, port,"utf-8");
             return dsSend;
         }
     }
