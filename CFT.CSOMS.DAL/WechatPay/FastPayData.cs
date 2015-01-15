@@ -32,20 +32,23 @@ namespace CFT.CSOMS.DAL.WechatPay
             //测试
          //   serBankaccno = "WeWfyNvtk7-M7WwTIPZvesYv2WHITL3E";
 
-            string inmsg = "request_type=2617&ver=1&head_u=&sp_id=2000000501&req_id=1006&card_no=" + serBankaccno;
+            //string inmsg = "request_type=2617&ver=1&head_u=&sp_id=2000000501&req_id=1006&card_no=" + serBankaccno;
+
+            string inmsg = "req_id=1006&card_no=" + serBankaccno;
             inmsg += "&biz_type=" + biz_type;
             inmsg += "&start_time="+begintime;
             inmsg +="&end_time="+endtime;
             inmsg += "&limit=" + limit;
             inmsg += "&offset=" + offset;
             inmsg += "&table_suffix=" + bankDate;
+            inmsg += "&MSG_NO=26171006" + DateTime.Now.Ticks.ToString();
 
             string ip = System.Configuration.ConfigurationManager.AppSettings["QueryBankPosIP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["QueryBankPosPORT"].ToString());
 
             //request_type=2617&ver=1&head_u=&sp_id=2000000501&req_id=1006&card_no=8Qz189FjLX5CU24z_L2yWw==&biz_type=10100&start_time=2014-09-29 01:35:33&end_time=2014-09-29 20:35:33&limit=10&offset=0&table_suffix=20140929
             totalNum = 0;
-            return RelayAccessFactory.GetDSFromRelayRowNum(inmsg, ip, port, out totalNum);
+            return RelayAccessFactory.GetDSFromRelayRowNum(out totalNum, inmsg, "2617", ip, port);
         }
 
 
@@ -63,19 +66,21 @@ namespace CFT.CSOMS.DAL.WechatPay
         {
             DateTime d1 = DateTime.ParseExact(bankDate, "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture);
 
-            string inmsg = "request_type=2617&ver=1&head_u=&sp_id=&req_id=1004&bank_type=" + bank_type;
+           // string inmsg = "request_type=2617&ver=1&head_u=&sp_id=&req_id=1004&bank_type=" + bank_type;
+            string inmsg = "req_id=1004&bank_type=" + bank_type;
             inmsg += "&real_bill_no=" + real_bill_no;
             inmsg += "&biz_type=" + biz_type;
             inmsg += "&limit=" + limit;
             inmsg += "&offset=" + offset;
             inmsg += "&table_suffix=" + bankDate;
+            inmsg += "&MSG_NO=26171004" + DateTime.Now.Ticks.ToString();
 
             string ip = System.Configuration.ConfigurationManager.AppSettings["QueryBankPosIP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["QueryBankPosPORT"].ToString());
 
             //request_type=2617&ver=1&head_u=&sp_id=2000000501&req_id=1006&card_no=8Qz189FjLX5CU24z_L2yWw==&biz_type=10100&start_time=2014-09-29 01:35:33&end_time=2014-09-29 20:35:33&limit=10&offset=0&table_suffix=20140929
             totalNum = 0;
-            return RelayAccessFactory.GetDSFromRelayRowNum(inmsg, ip, port, out totalNum);
+            return RelayAccessFactory.GetDSFromRelayRowNum(out totalNum,"2617",inmsg, ip, port);
         }
       
         /// <summary>
@@ -282,7 +287,9 @@ namespace CFT.CSOMS.DAL.WechatPay
 
         public DataSet FastPayLimitQuery(string ip,int port,string cardNo, string bankType, int card_type, int pay_type, int req, int category)
         {
-            string inmsg = "request_type=6952&ver=1&head_u=&sp_id=1000000000&channel_id=1&direct=1&query_dim=&req_type=";
+            //string inmsg = "request_type=6952&ver=1&head_u=&sp_id=1000000000&channel_id=1&direct=1&query_dim=&req_type=";
+
+            string inmsg = "channel_id=1&direct=1&query_dim=&req_type=";
 
             if (req == 25)
             {
@@ -300,7 +307,8 @@ namespace CFT.CSOMS.DAL.WechatPay
                 inmsg += "&category=" + category;
             }
 
-            return RelayAccessFactory.GetDSFromRelay(inmsg, ip, port);
+          //  return RelayAccessFactory.GetDSFromRelay(inmsg, ip, port);
+            return RelayAccessFactory.GetDSFromRelay(inmsg,"6952", ip, port);
         }
 
      

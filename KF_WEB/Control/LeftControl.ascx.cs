@@ -477,7 +477,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             MicroPay1.AddSubMenu("历史订单查询", "BaseAccount/ChildrenHistoryOrderQuery.aspx");
 
             //UserReport
-            baseAccount1.AddSubMenu("意见投诉查询", "BaseAccount/userReport.aspx");
+            //baseAccount1.AddSubMenu("意见投诉查询", "BaseAccount/userReport.aspx");
 
             //HistoryModify
             baseAccount1.AddSubMenu("信息修改历史", "BaseAccount/historyModify.aspx");

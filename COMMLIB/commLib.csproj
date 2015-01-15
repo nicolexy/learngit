@@ -218,7 +218,7 @@
       <Name>BackProcessClientCS</Name>
     </ProjectReference>
     <ProjectReference Include="..\DATAACCESS\DataAccess.csproj">
-      <Project>{3F80E194-4A0B-4E45-BB3E-5E482BF3139F}</Project>
+      <Project>{3f80e194-4a0b-4e45-bb3e-5e482bf3139f}</Project>
       <Name>DataAccess</Name>
     </ProjectReference>
   </ItemGroup>

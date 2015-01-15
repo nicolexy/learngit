@@ -281,5 +281,32 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Activity {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lb_ChannelId;
+        
+        /// <summary>
+        /// lb_FActType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_FActType;
+        
+        /// <summary>
+        /// lb_FPrizeType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_FPrizeType;
+        
+        /// <summary>
+        /// lb_FPrizeName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_FPrizeName;
     }
 }

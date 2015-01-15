@@ -71,6 +71,7 @@ namespace CFT.CSOMS.BLL.ActivityModule
                         //中奖列
                         ds.Tables[0].Columns.Add("FPriTransId", typeof(String));
                         ds.Tables[0].Columns.Add("FPrizeType", typeof(String));
+                        ds.Tables[0].Columns.Add("FPrizeName", typeof(String));
                         ds.Tables[0].Columns.Add("FPrizeExpiredTime", typeof(String));
                         ds.Tables[0].Columns.Add("FStartDate", typeof(String));
                         ds.Tables[0].Columns.Add("FPrizeDesc", typeof(String));
@@ -86,6 +87,7 @@ namespace CFT.CSOMS.BLL.ActivityModule
                         ds.Tables[0].Columns.Add("FMoneyStr", typeof(String));//申购金额
                         ds.Tables[0].Columns.Add("FPrizeMoneyStr", typeof(String));//抽中金额
                         ds.Tables[0].Columns.Add("FUserTypeStr", typeof(String));//用户类型
+                        ds.Tables[0].Columns.Add("FActTypeStr", typeof(String));//活动分类
                         ds.Tables[0].Columns.Add("FPrizeTypeStr", typeof(String));//抽中等级
                         ds.Tables[0].Columns.Add("FGiveStateStr", typeof(String));//赠送状态
                         ds.Tables[0].Columns.Add("FspnameStr", typeof(String));//申购基金
@@ -107,6 +109,7 @@ namespace CFT.CSOMS.BLL.ActivityModule
                         ht2.Add("5", "财富值");
                         ht2.Add("6", "理财通优惠券");
                         ht2.Add("7", "理财通基金份额");
+                        ht2.Add("8", "实物奖品");
 
                         Hashtable ht3 = new Hashtable();
                         ht3.Add("10", "初始状态");
@@ -114,6 +117,13 @@ namespace CFT.CSOMS.BLL.ActivityModule
                         ht3.Add("12", "赠送成功");
                         ht3.Add("13", "赠送失败");
                         ht3.Add("14", "CVK同步成功");
+
+                        Hashtable ht4 = new Hashtable();
+                        ht4.Add("0", "体验账户活动");
+                        ht4.Add("1", "抽奖并送理财通红包活动");
+                        ht4.Add("2", "只抽奖类活动");
+                        ht4.Add("3", "微信平台领取QQ礼包活动");
+                        ht4.Add("4", "手Q平台领取QQ礼包活动");
 
                         FundModule.FundService fundService = new FundModule.FundService();
                         DataTable spDt = null;
@@ -128,6 +138,7 @@ namespace CFT.CSOMS.BLL.ActivityModule
                                 DataRow dr2 = ds2.Tables[0].Rows[0];
                                 dr["FPriTransId"] = dr2["FPriTransId"].ToString();
                                 dr["FPrizeType"] = dr2["FPrizeType"].ToString();
+                                dr["FPrizeName"] = dr2["FPrizeName"].ToString();
                                 dr["FPrizeExpiredTime"] = dr2["FPrizeExpiredTime"].ToString();
                                 dr["FStartDate"] = dr2["FStartDate"].ToString();
                                 dr["FPrizeDesc"] = dr2["FPrizeDesc"].ToString();
@@ -165,6 +176,7 @@ namespace CFT.CSOMS.BLL.ActivityModule
                         COMMLIB.CommUtil.DbtypeToPageContent(ds.Tables[0], "FStatus", "FStateStr", ht1);
                         COMMLIB.CommUtil.DbtypeToPageContent(ds.Tables[0], "FPrizeType", "FPrizeTypeStr", ht2);
                         COMMLIB.CommUtil.DbtypeToPageContent(ds.Tables[0], "FGiveState", "FGiveStateStr", ht3);
+                        COMMLIB.CommUtil.DbtypeToPageContent(ds.Tables[0], "FActType", "FActTypeStr", ht4);
                     }
                     return ds;
 
