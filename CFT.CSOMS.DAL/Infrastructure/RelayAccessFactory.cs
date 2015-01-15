@@ -18,43 +18,29 @@ namespace CFT.CSOMS.DAL.Infrastructure
         /// <summary>
         /// 调relay接口，返回全部字符串 自己拼接全部源串
         /// </summary>
-        /// <param name="inmsg"></param>
-        /// <param name="ip"></param>
-        /// <param name="port"></param>
-        /// <param name="Msg"></param>
+        /// <param name="relayRequestString">全部请求串</param>
+        /// <param name="relayIP"></param>
+        /// <param name="relayPort"></param>
+        /// <param name="coding">解码编码方式</param>
+        /// <param name="invisible">日志是否可视，默认false为可视</param>
+        /// <param name="relayDefaultSPId"></param>
         /// <returns></returns>
-        public static string RelayInvoke(string inmsg, string ip, int port)
+        public static string RelayInvoke(string relayRequestString, string relayIP = "", int relayPort = 0, string coding = "", bool invisible = false, string relayDefaultSPId = "")
         {
-            string answer = "";
-
-            try
+            LogHelper.LogInfo(relayRequestString);
+            //关闭组件日志打印，因打印的可能是乱，编码后手动打印。
+            var relayResponse = RelayHelper.CommunicateWithRelay(relayRequestString, true, relayIP, relayPort);
+            if (!string.IsNullOrEmpty(coding))
             {
-                TENCENT.OSS.CFT.KF.DataAccess.MySqlAccess.WriteSqlLog(ip, "RelayInvoke", "发送包如下:" + inmsg, "KF");
-                using (var conn = new RelayCommunicationConnection(
-                   new RelayConnectionParameter()
-                   {
-                       ServerIp = ip,
-                       ServerPort = port
-                   }))
-                {
-                    var communication = new RelayCommunication();
-                    var request = new RelayRequest()
-                    {
-                        RequestString = inmsg
-                    };
-                    communication.Send<RelayRequest>(conn, request);
-                    var response = communication.Receive<RelayResponse>(conn);
-                    answer = Encoding.Default.GetString(response.ResponseBuffer);
-                }
-                TENCENT.OSS.CFT.KF.DataAccess.MySqlAccess.WriteSqlLog(ip, "RelayInvoke", "返回包如下:" + answer, "KF");
-                return answer;
+                Encoding encoding = Encoding.GetEncoding(coding);
+                string result = encoding.GetString(relayResponse.ResponseBuffer);
+                LogHelper.LogInfo(result);
+                return result;
             }
-            catch (Exception err)
+            else
             {
-                TENCENT.OSS.CFT.KF.DataAccess.MySqlAccess.WriteSqlLog(ip, "RelayInvoke", "发送包如下:" + inmsg, "KF");
-                throw new Exception( "调用relay服务前失败" + err.Message);
+                return Encoding.Default.GetString(relayResponse.ResponseBuffer);
             }
-
         }
 
         //public static IList<T> RelayInvoke<T>(string inmsg, string requsetType, bool encrypt, Func<RelayResponse,IList<T>> Map)
@@ -214,10 +200,11 @@ namespace CFT.CSOMS.DAL.Infrastructure
         /// <param name="port"></param>
         /// <param name="Msg"></param>
         /// <returns></returns>
-        public static DataSet GetDSFromRelayFromXML(string inmsg, string ip, int port)
+        public static DataSet GetDSFromRelayFromXML(string inmsg, string ip, int port, string coding = "")
         {
             string Msg = "";
-            string answer = RelayInvoke(inmsg, ip, port);
+            string answer = RelayInvoke(inmsg, ip, port, coding);// Replace("?/", "</");//解决解析报错问题
+            //   string answer = RelayInvoke(inmsg, ip, port);
             DataSet ds = null;
             if (answer == "")
             {
