@@ -10476,7 +10476,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
-                throw new Exception("service发生错误,请联系管理员！");
+                throw new Exception(string.Format("service发生错误,请联系管理员！{0}", e.Message));
                 return 0;
             }
         }
@@ -10521,9 +10521,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
                 return Count;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new Exception("service发生错误,请联系管理员！");
+                throw new Exception(string.Format("service发生错误,请联系管理员！{0}", ex.Message));
                 return 0;
             }
         }
@@ -10687,7 +10687,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
-                throw new LogicException("Service处理失败！");
+                throw new LogicException(string.Format("service发生错误,请联系管理员！{0}", err.Message));
             }
             finally
             {
@@ -10775,7 +10775,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
-                throw new LogicException("Service处理失败！");
+                throw new LogicException(string.Format("service发生错误,请联系管理员！{0}", err.Message));
             }
         }
 
@@ -10874,7 +10874,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
-                throw new LogicException("Service处理失败！");
+                throw new LogicException(string.Format("service发生错误,请联系管理员！{0}", err.Message));
             }
             finally
             {
@@ -11145,7 +11145,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
                 msg = rl.ErrorMsg;
                 */
-
+                SunLibrary.LoggerFactory.Get("KF_Service CFTCancelAppeal").Info(err.Message);
                 return false;
             }
             catch (Exception err)
@@ -11155,6 +11155,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
                 msg = rl.ErrorMsg;
                 */
+                SunLibrary.LoggerFactory.Get("KF_Service CFTCancelAppeal").Info(err.Message);
                 return false;
             }
             finally
@@ -11206,7 +11207,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
                 msg = rl.ErrorMsg;
                 */
-
+                SunLibrary.LoggerFactory.Get("KF_Service CFTCancelAppealDBTB").Info(err.Message);
                 return false;
             }
             catch (Exception err)
@@ -11216,6 +11217,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
                 msg = rl.ErrorMsg;
                 */
+                SunLibrary.LoggerFactory.Get("KF_Service CFTCancelAppealDBTB").Info(err.Message);
                 return false;
             }
             finally
@@ -11309,7 +11311,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
                 msg = rl.ErrorMsg;
                 */
-
+                SunLibrary.LoggerFactory.Get("KF_Service CFTConfirmAppeal").Info(err.Message);
                 return false;
             }
             catch (Exception err)
@@ -11319,6 +11321,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
                 msg = rl.ErrorMsg;
                 */
+                SunLibrary.LoggerFactory.Get("KF_Service CFTConfirmAppeal").Info(err.Message);
                 return false;
             }
             finally
@@ -11367,7 +11370,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
                 msg = rl.ErrorMsg;
                 */
-
+                SunLibrary.LoggerFactory.Get("KF_Service CFTConfirmAppealDBTB").Info(err.Message);
                 return false;
             }
             catch (Exception err)
@@ -11377,6 +11380,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
                 msg = rl.ErrorMsg;
                 */
+                SunLibrary.LoggerFactory.Get("KF_Service CFTConfirmAppealDBTB").Info(err.Message);
                 return false;
             }
             finally
@@ -11426,7 +11430,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
                 msg = rl.ErrorMsg;
                 */
-
+                SunLibrary.LoggerFactory.Get("KF_Service CFTDelAppeal").Info(err.Message);
                 return false;
             }
             catch (Exception err)
@@ -11436,6 +11440,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
                 msg = rl.ErrorMsg;
                 */
+                SunLibrary.LoggerFactory.Get("KF_Service CFTDelAppeal").Info(err.Message);
                 return false;
             }
             finally
@@ -11485,7 +11490,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
                 msg = rl.ErrorMsg;
                 */
-
+                SunLibrary.LoggerFactory.Get("KF_Service CFTDelAppealDBTB").Info(err.Message);
                 return false;
             }
             catch (Exception err)
@@ -11495,6 +11500,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
                 msg = rl.ErrorMsg;
                 */
+                SunLibrary.LoggerFactory.Get("KF_Service CFTDelAppealDBTB").Info(err.Message);
                 return false;
             }
             finally
@@ -11518,6 +11524,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                              "where user='" + User + "' and OperationType = '" + OperationType + "' and operationday between '" + u_BeginTime.ToString("yyyy-MM-dd") + "' and '" + u_EndTime.ToString("yyyy-MM-dd") + "'";
 
                 return da.dsGetTotalData(Sql);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
             finally
             {
@@ -11649,6 +11659,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 return da.dsGetTotalData(strSql);
                 */
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
             finally
             {
                 da.Dispose();
@@ -11757,7 +11771,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
-                throw new Exception("service发生错误,请联系管理员！");
+                throw new Exception("service发生错误,请联系管理员！" + e.Message);
                 return 0;
             }
         }
@@ -11813,6 +11827,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             catch (Exception e)
             {
                 Msg += "查询QQ号码失败" + PublicRes.replaceMStr(e.Message);
+                SunLibrary.LoggerFactory.Get("KF_Service GetQQByType").Info(Msg);
                 PublicRes.WriteFile(Msg);
                 return false;
             }
