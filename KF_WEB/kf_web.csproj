@@ -306,6 +306,9 @@
       <DependentUpon>ChangeUserInfo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="BaseAccount\ChangeUserInfo.aspx.designer.cs">
+      <DependentUpon>ChangeUserInfo.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\ChangeUserInfo_old.aspx.cs">
       <DependentUpon>ChangeUserInfo_old.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

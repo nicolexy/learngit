@@ -16,13 +16,13 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
- using TENCENT.OSS.CFT.KF.KF_Web;
+using CFT.CSOMS.BLL.CFTAccountModule;
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
 	/// <summary>
 	/// ChangeUserName 的摘要说明。
 	/// </summary>
-	public class ChangeUserInfo : System.Web.UI.Page
+	public partial class ChangeUserInfo : System.Web.UI.Page
 	{
 		protected System.Web.UI.WebControls.ImageButton ImageButton3;
 		protected System.Web.UI.WebControls.Button Button2_Submit;
@@ -91,7 +91,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 		private void SetButtonVisible()
 		{
             string sr = Session["SzKey"].ToString();
-				
+				//客服系统需要加上
 		//	bool userright = AllUserRight.GetOneRightState("ChangeUser",sr); //冻结帐户
 		//	if(!userright) LinkButton1_Edit.Visible = false;
 		}
@@ -389,8 +389,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 		{    
 			this.Button1.Click += new System.EventHandler(this.Button1_Click);
 			this.LinkButton1_Edit.Click += new System.EventHandler(this.LinkButton1_Edit_Click);
-			this.Linkbutton2_Update.Click += new System.EventHandler(this.Linkbutton2_Update_Click);
-			this.ImageButton3.Click += new System.Web.UI.ImageClickEventHandler(this.ImageButton3_Click);
+			//this.Linkbutton2_Update.Click += new System.EventHandler(this.Linkbutton2_Update_Click);
+		//	this.ImageButton3.Click += new System.Web.UI.ImageClickEventHandler(this.ImageButton3_Click);
 			this.Button_Update.Click += new System.EventHandler(this.Button_Update_Click);
 			this.Button3.Click += new System.EventHandler(this.Button3_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
@@ -401,15 +401,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 		private void Button1_Click(object sender, System.EventArgs e)
 		{
 			//Response.Redirect("../TradeManage/Modify_Succ.aspx");
+            if (string.IsNullOrEmpty(this.TX_QQID.Text.Trim()))
+            {
+                WebUtils.ShowMessage(this.Page, "请输入账号！");
+            }
 			selectClick();
+            returnState();
 		}
 
 		private void selectClick()
 		{
 			try
 			{
-				BindInfo(1,1);		
-
+				BindInfo(1,1);
+                BindDataLog(1);//查询日志
 				//furion 20061116 email登录修改
 				ViewState["qqid"] = this.TX_QQID.Text.Trim();
 			}
@@ -424,6 +429,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				WebUtils.ShowMessage(this.Page,emsg.Message);
 			} 
 		}
+
+        private void BindDataLog(int index)
+        {
+            string qqid = this.TX_QQID.Text.Trim();
+            this.logPager.CurrentPageIndex = index;
+
+            //增加分页
+            int max = logPager.PageSize;
+            int start = max * (index - 1);
+
+            var dt = new AccountService().QueryChangeUserInfoLog(this.TX_QQID.Text.Trim(), start, max);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                dgLog.DataSource = dt.DefaultView;
+                dgLog.DataBind();
+            }
+            else
+            {
+                dgLog.DataSource = null;
+                dgLog.DataBind();
+            }
+        }
 
 		private void initBasicInfo()
 		{
@@ -446,127 +473,123 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             PublicRes.BindDropDownList(fm.QueryDicAccName(), ddlAttid, out Msg);
 		}
 
-		private void LinkButton1_Click(object sender, System.EventArgs e)
-		{
 
-			//一些初始值
+        //private void Linkbutton2_Update_Click(object sender, System.EventArgs e)
+        //{
+        //    //修改用户资料
+        //    ModifyInfo();
 
-			this.LinkButton1_Edit.Visible = false;
-			this.Linkbutton2_Update.Visible = true;
+        //    //按钮显示的更新
+        //    this.Linkbutton2_Update.Visible = false;
+        //    this.LinkButton1_Edit.Visible   = true;
+        //    this.Button_Update.Visible = false;
 
-			SetButtonVisible();
+        //    SetButtonVisible();
 
-		}
+        //    //更新之后需要恢复
+        //    this.TextBox2_Ftruename.ReadOnly = true;
+        //    this.Textbox4_Company.ReadOnly   = true; 
+        //    this.Textbox5_Fage.ReadOnly      = true; 
+        //    this.Textbox6_Fphone.ReadOnly    = true; 
+        //    this.Textbox7_Fmobile.ReadOnly   = true; 
+        //    this.Textbox7_Femail.ReadOnly    = true; 
+        //    this.Textbox10_Faddress.ReadOnly = true; 
+        //    this.Textbox11_Fpcode.ReadOnly   = true; 
+        //    this.Textbox13_Fcreid.ReadOnly    = true; 
+        //    this.TX_Memo.ReadOnly             = true; 
+        //    this.TX_Fmodify_time.ReadOnly     = false; 
 
-		private void Linkbutton2_Update_Click(object sender, System.EventArgs e)
-		{
-			//修改用户资料
-			ModifyInfo();
+        //    this.TextBox2_Ftruename.BorderWidth = 0;
+        //    this.TextBox2_Ftruename.BackColor = Color.White;
 
-			//按钮显示的更新
-			this.Linkbutton2_Update.Visible = false;
-			this.LinkButton1_Edit.Visible   = true;
-            this.Button_Update.Visible = false;
+        //    this.Textbox4_Company.BorderWidth = 0;
+        //    this.Textbox4_Company.BackColor = Color.White;
 
-			SetButtonVisible();
+        //    this.Textbox5_Fage.BorderWidth = 0;
+        //    this.Textbox5_Fage.BackColor = Color.White;
 
-			//更新之后需要恢复
-			this.TextBox2_Ftruename.ReadOnly = true;
-			this.Textbox4_Company.ReadOnly   = true; 
-			this.Textbox5_Fage.ReadOnly      = true; 
-			this.Textbox6_Fphone.ReadOnly    = true; 
-			this.Textbox7_Fmobile.ReadOnly   = true; 
-			this.Textbox7_Femail.ReadOnly    = true; 
-			this.Textbox10_Faddress.ReadOnly = true; 
-			this.Textbox11_Fpcode.ReadOnly   = true; 
-			this.Textbox13_Fcreid.ReadOnly    = true; 
-			this.TX_Memo.ReadOnly             = true; 
-			this.TX_Fmodify_time.ReadOnly     = false; 
+        //    this.Textbox6_Fphone.BorderWidth = 0;
+        //    this.Textbox6_Fphone.BackColor = Color.White;
 
-			this.TextBox2_Ftruename.BorderWidth = 0;
-			this.TextBox2_Ftruename.BackColor = Color.White;
+        //    this.Textbox7_Fmobile.BorderWidth = 0;
+        //    this.Textbox7_Fmobile.BackColor = Color.White;
 
-			this.Textbox4_Company.BorderWidth = 0;
-			this.Textbox4_Company.BackColor = Color.White;
+        //    this.Textbox7_Femail.BorderWidth = 0;
+        //    this.Textbox7_Femail.BackColor = Color.White;
 
-			this.Textbox5_Fage.BorderWidth = 0;
-			this.Textbox5_Fage.BackColor = Color.White;
+        //    this.Textbox10_Faddress.BorderWidth = 0;
+        //    this.Textbox10_Faddress.BackColor = Color.White;
 
-			this.Textbox6_Fphone.BorderWidth = 0;
-			this.Textbox6_Fphone.BackColor = Color.White;
+        //    this.Textbox11_Fpcode.BorderWidth = 0;
+        //    this.Textbox11_Fpcode.BackColor = Color.White;
 
-			this.Textbox7_Fmobile.BorderWidth = 0;
-			this.Textbox7_Fmobile.BackColor = Color.White;
+        //    this.Textbox13_Fcreid.BorderWidth = 0;
+        //    this.Textbox13_Fcreid.BackColor = Color.White;
 
-			this.Textbox7_Femail.BorderWidth = 0;
-			this.Textbox7_Femail.BackColor = Color.White;
+        //    this.TX_Memo.BorderWidth =0;
+        //    this.TX_Memo.BackColor = Color.White;
 
-			this.Textbox10_Faddress.BorderWidth = 0;
-			this.Textbox10_Faddress.BackColor = Color.White;
+        //}
 
-			this.Textbox11_Fpcode.BorderWidth = 0;
-			this.Textbox11_Fpcode.BackColor = Color.White;
-
-			this.Textbox13_Fcreid.BorderWidth = 0;
-			this.Textbox13_Fcreid.BackColor = Color.White;
-
-			this.TX_Memo.BorderWidth =0;
-			this.TX_Memo.BackColor = Color.White;
-
-		}
-
+        /// 编辑
 		private void LinkButton1_Edit_Click(object sender, System.EventArgs e)
 		{
 			try
 			{
-				BindInfo(1,1);
-				//this.Label1_Fqqid.Text       = ds.Tables[0].Rows[0]["Fqqid"].ToString();
+			//	BindInfo(1,1);
 
-				//this.TextBox2_Ftruename.ReadOnly = false;
-				this.Textbox4_Company.ReadOnly   = false; 
-				this.Textbox5_Fage.ReadOnly      = false; 
-				this.Textbox6_Fphone.ReadOnly    = false; 
-				//this.Textbox7_Fmobile.ReadOnly   = false; 
-				//this.Textbox7_Femail.ReadOnly    = false; 
-				this.Textbox10_Faddress.ReadOnly = false; 
-				this.Textbox11_Fpcode.ReadOnly   = false; 
-				this.Textbox13_Fcreid.ReadOnly  = false; 
-				this.TX_Memo.ReadOnly        = false; 
-				this.TX_Fmodify_time.ReadOnly = false; 
 
-				//设置显示的样式
-				this.TextBox2_Ftruename.BorderWidth = 1;
-				this.TextBox2_Ftruename.BackColor = Color.GreenYellow;
+                ////this.Label1_Fqqid.Text       = ds.Tables[0].Rows[0]["Fqqid"].ToString();
 
-				this.Textbox4_Company.BorderWidth = 1;
-				this.Textbox4_Company.BackColor = Color.GreenYellow;
+                ////this.TextBox2_Ftruename.ReadOnly = false;
+                //this.Textbox4_Company.ReadOnly = false;
+                //this.Textbox5_Fage.ReadOnly = false;
+                //this.Textbox6_Fphone.ReadOnly = false;
+                ////this.Textbox7_Fmobile.ReadOnly   = false; 
+                ////this.Textbox7_Femail.ReadOnly    = false; 
+                //this.Textbox10_Faddress.ReadOnly = false;
+                //this.Textbox11_Fpcode.ReadOnly = false;
+                //this.Textbox13_Fcreid.ReadOnly = false;
+                this.TX_Memo.ReadOnly = false;
+                //this.TX_Fmodify_time.ReadOnly = false;
 
-				this.Textbox5_Fage.BorderWidth = 1;
-				this.Textbox5_Fage.BackColor = Color.GreenYellow;
+                ////设置显示的样式
+                //this.TextBox2_Ftruename.BorderWidth = 1;
+                //this.TextBox2_Ftruename.BackColor = Color.GreenYellow;
 
-				this.Textbox6_Fphone.BorderWidth = 1;
-				this.Textbox6_Fphone.BackColor = Color.GreenYellow;
+                //this.Textbox4_Company.BorderWidth = 1;
+                //this.Textbox4_Company.BackColor = Color.GreenYellow;
 
-				this.Textbox7_Fmobile.BorderWidth = 1;
-				this.Textbox7_Fmobile.BackColor = Color.GreenYellow;
+                //this.Textbox5_Fage.BorderWidth = 1;
+                //this.Textbox5_Fage.BackColor = Color.GreenYellow;
 
-				this.Textbox7_Femail.BorderWidth =1;
-				this.Textbox7_Femail.BackColor = Color.GreenYellow;
+                //this.Textbox6_Fphone.BorderWidth = 1;
+                //this.Textbox6_Fphone.BackColor = Color.GreenYellow;
 
-				this.Textbox10_Faddress.BorderWidth = 1;
-				this.Textbox10_Faddress.BackColor = Color.GreenYellow;
+                //this.Textbox7_Fmobile.BorderWidth = 1;
+                //this.Textbox7_Fmobile.BackColor = Color.GreenYellow;
 
-				this.Textbox11_Fpcode.BorderWidth = 1;
-				this.Textbox11_Fpcode.BackColor = Color.GreenYellow;
+                //this.Textbox7_Femail.BorderWidth = 1;
+                //this.Textbox7_Femail.BackColor = Color.GreenYellow;
 
-				this.Textbox13_Fcreid.BorderWidth = 1;
-				this.Textbox13_Fcreid.BackColor = Color.GreenYellow;
+                //this.Textbox10_Faddress.BorderWidth = 1;
+                //this.Textbox10_Faddress.BackColor = Color.GreenYellow;
 
-				this.TX_Memo.BorderWidth =1;
-				this.TX_Memo.BackColor = Color.GreenYellow;
+                //this.Textbox11_Fpcode.BorderWidth = 1;
+                //this.Textbox11_Fpcode.BackColor = Color.GreenYellow;
+
+                //this.Textbox13_Fcreid.BorderWidth = 1;
+                //this.Textbox13_Fcreid.BackColor = Color.GreenYellow;
+
+                this.TX_Memo.BorderWidth = 1;
+                this.TX_Memo.BackColor = Color.GreenYellow;
+
+                this.DropDownList2_certify.Enabled = true;//证件类型可选
+                this.ddlType.Enabled = true;//账户类型可选
+                this.ddlAttid.Enabled = true;//产品属性可选
 
 				this.LinkButton1_Edit.Visible = false;
-				this.Linkbutton2_Update.Visible = true;
+				//this.Linkbutton2_Update.Visible = true;
 				this.Button_Update.Visible = true;	
 				this.Button3.Visible = true;
 
@@ -587,72 +610,73 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			//BindInfo();
 		}
 
-		private void Button2_Click(object sender, System.EventArgs e)
-		{
-			
-		}
-
 		private void returnState()
 		{
 			//更新之后需要恢复
-			this.TextBox2_Ftruename.ReadOnly = true;
-			this.Textbox4_Company.ReadOnly   = true; 
-			this.Textbox5_Fage.ReadOnly      = true; 
-			this.Textbox6_Fphone.ReadOnly    = true; 
-			this.Textbox7_Fmobile.ReadOnly   = true; 
-			this.Textbox7_Femail.ReadOnly    = true; 
-			this.Textbox10_Faddress.ReadOnly = true; 
-			this.Textbox11_Fpcode.ReadOnly   = true; 
-			this.Textbox13_Fcreid.ReadOnly    = true; 
+            //this.TextBox2_Ftruename.ReadOnly = true;
+            //this.Textbox4_Company.ReadOnly   = true; 
+            //this.Textbox5_Fage.ReadOnly      = true; 
+            //this.Textbox6_Fphone.ReadOnly    = true; 
+            //this.Textbox7_Fmobile.ReadOnly   = true; 
+            //this.Textbox7_Femail.ReadOnly    = true; 
+            //this.Textbox10_Faddress.ReadOnly = true; 
+            //this.Textbox11_Fpcode.ReadOnly   = true; 
+            //this.Textbox13_Fcreid.ReadOnly    = true; 
 			this.TX_Memo.ReadOnly             = true; 
-			this.TX_Fmodify_time.ReadOnly     = false; 
+            //this.TX_Fmodify_time.ReadOnly     = false; 
 
-			this.TextBox2_Ftruename.BorderWidth = 0;
-			this.TextBox2_Ftruename.BackColor = Color.White;
+            //this.TextBox2_Ftruename.BorderWidth = 0;
+            //this.TextBox2_Ftruename.BackColor = Color.White;
 
-			this.Textbox4_Company.BorderWidth = 0;
-			this.Textbox4_Company.BackColor = Color.White;
+            //this.Textbox4_Company.BorderWidth = 0;
+            //this.Textbox4_Company.BackColor = Color.White;
 
-			this.Textbox5_Fage.BorderWidth = 0;
-			this.Textbox5_Fage.BackColor = Color.White;
+            //this.Textbox5_Fage.BorderWidth = 0;
+            //this.Textbox5_Fage.BackColor = Color.White;
 
-			this.Textbox6_Fphone.BorderWidth = 0;
-			this.Textbox6_Fphone.BackColor = Color.White;
+            //this.Textbox6_Fphone.BorderWidth = 0;
+            //this.Textbox6_Fphone.BackColor = Color.White;
 
-			this.Textbox7_Fmobile.BorderWidth = 0;
-			this.Textbox7_Fmobile.BackColor = Color.White;
+            //this.Textbox7_Fmobile.BorderWidth = 0;
+            //this.Textbox7_Fmobile.BackColor = Color.White;
 
-			this.Textbox7_Femail.BorderWidth = 0;
-			this.Textbox7_Femail.BackColor = Color.White;
+            //this.Textbox7_Femail.BorderWidth = 0;
+            //this.Textbox7_Femail.BackColor = Color.White;
 
-			this.Textbox10_Faddress.BorderWidth = 0;
-			this.Textbox10_Faddress.BackColor = Color.White;
+            //this.Textbox10_Faddress.BorderWidth = 0;
+            //this.Textbox10_Faddress.BackColor = Color.White;
 
-			this.Textbox11_Fpcode.BorderWidth = 0;
-			this.Textbox11_Fpcode.BackColor = Color.White;
+            //this.Textbox11_Fpcode.BorderWidth = 0;
+            //this.Textbox11_Fpcode.BackColor = Color.White;
 
-			this.Textbox13_Fcreid.BorderWidth = 0;
-			this.Textbox13_Fcreid.BackColor = Color.White;
+            //this.Textbox13_Fcreid.BorderWidth = 0;
+            //this.Textbox13_Fcreid.BackColor = Color.White;
 
 			this.TX_Memo.BorderWidth =0;
 			this.TX_Memo.BackColor = Color.White;
+
+            this.DropDownList2_certify.Enabled = false;//证件类型可选
+            this.ddlType.Enabled = false;//账户类型可选
+            this.ddlAttid.Enabled = false;//产品属性可选
+            this.DropDownList1_Sex.Enabled = false;//性别
 		}
 
-		private void Hcity_ServerChange(object sender, System.EventArgs e)
-		{
-//			 Hcity.Value
-		}
+        private void Hcity_ServerChange(object sender, System.EventArgs e)
+        {
+            //			 Hcity.Value
+        }
 
-		private void Button12_Click(object sender, System.EventArgs e)
-		{
-			Response.Write("选择的city:" + this.Hcity.Value);
-			Response.Write("选择的area:" + this.Harea.Value);
-		}
+        private void Button12_Click(object sender, System.EventArgs e)
+        {
+            Response.Write("选择的city:" + this.Hcity.Value);
+            Response.Write("选择的area:" + this.Harea.Value);
+        }
 
+        ///取消
 		private void Button3_Click(object sender, System.EventArgs e)
 		{
 			//按钮显示的更新
-			this.Linkbutton2_Update.Visible = false;
+			//this.Linkbutton2_Update.Visible = false;
 			this.LinkButton1_Edit.Visible   = true;
 			this.Button_Update.Visible = false;
 			this.Button3.Visible = false;
@@ -662,7 +686,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 			SetButtonVisible();
 		}
-
+        
+        //更新
 		private void Button_Update_Click(object sender, System.EventArgs e)
 		{
 			try
@@ -690,7 +715,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				ModifyInfo();
 
 				//按钮显示的更新
-				this.Linkbutton2_Update.Visible = false;
+				//this.Linkbutton2_Update.Visible = false;
 				this.LinkButton1_Edit.Visible   = true;
 				this.Button_Update.Visible = false;
 				this.Button3.Visible = false;
@@ -699,7 +724,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 				WebUtils.ShowMessage(this.Page,"资料修改成功！");
 				//记录操作日志
-				PublicRes.writeSysLog(Session["uid"].ToString(),Request.UserHostAddress,"changeUserInfo","修改用户资料",1,this.TX_QQID.Text,"changeUserInfo");
+			    //PublicRes.writeSysLog(Session["uid"].ToString(),Request.UserHostAddress,"changeUserInfo","修改用户资料",1,this.TX_QQID.Text,"changeUserInfo");
+                //客服系统只运行修改：证件类型、账户类型、产品属性、备注，单独记录日志
+                string commet=setConfig.replaceSqlStr(this.TX_Memo.Text.Trim());
+                string oldatttype = ViewState["Fatt_id"] == null ? this.ddlAttid.SelectedValue : ViewState["Fatt_id"].ToString().Trim();
+                new AccountService().AddChangeUserInfoLog(qqid,
+                    this.DropDownList2_certify.SelectedValue, ViewState["Fcre_type"].ToString().Trim(),
+                    this.ddlType.SelectedValue, ViewState["UserType"].ToString().Trim(),
+                    this.ddlAttid.SelectedValue, oldatttype,
+                    commet, ViewState["Fmemo"].ToString().Trim(),
+                    Session["uid"].ToString());
 
 				SetButtonVisible();
 
@@ -708,25 +742,38 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 				//清空cache
 			//	PublicRes.ReleaseCache(qqid,"qqid");
-		}
+            }
+            catch (SoapException eSoap) //捕获soap类异常
+            {
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
 			catch(Exception er)
 			{
-				WebUtils.ShowMessage(this.Page,"资料修改失败！请重试。 详细原因："+ er.Message.ToString().Replace("'","’"));	
+				WebUtils.ShowMessage(this.Page,"资料修改异常！ 详细原因："+ er.Message.ToString().Replace("'","’"));	
 			}
 		}
 
-		private void CustomValidator1_ServerValidate(object source, System.Web.UI.WebControls.ServerValidateEventArgs args)
-		{
-			if  (args.Value.IndexOf("@") == -1)
-			{
-				args.IsValid = false;
-			}
-				
-		}
+        private void CustomValidator1_ServerValidate(object source, System.Web.UI.WebControls.ServerValidateEventArgs args)
+        {
+            if (args.Value.IndexOf("@") == -1)
+            {
+                args.IsValid = false;
+            }
 
-		private void ImageButton3_Click(object sender, System.Web.UI.ImageClickEventArgs e)
-		{
-		
-		}
+        }
+
+        protected void logPager_PageChanged(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
+        {
+            try
+            {
+                this.logPager.CurrentPageIndex = e.NewPageIndex;
+                BindDataLog(e.NewPageIndex);
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this, string.Format("翻页异常:{0}", ex.Message));
+            }
+        }
 	}
 }

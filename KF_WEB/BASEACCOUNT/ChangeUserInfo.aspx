@@ -1,3 +1,4 @@
+<%@ Register TagPrefix="webdiyer" Namespace="Wuqi.Webdiyer" Assembly="AspNetPager" %>
 <%@ Page language="c#" Codebehind="ChangeUserInfo.aspx.cs" AutoEventWireup="false" Inherits="TENCENT.OSS.CFT.KF.KF_Web.BaseAccount.ChangeUserInfo" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <HTML>
@@ -288,10 +289,9 @@ function init(prov,city)
 								<TD style="WIDTH: 699px" width="699" background="../IMAGES/Page/bg_bl.gif" height="30"><FONT color="#ff0000">&nbsp;<IMG height="16" src="../IMAGES/Page/post.gif" width="20">&nbsp;用户资料</FONT>
 									<DIV align="center"><FONT face="宋体"></FONT></DIV>
 								</TD>
-								<TD width="190" background="../IMAGES/Page/bg_bl.gif">
-									<div align="center"><asp:linkbutton id="LinkButton1_Edit" runat="server" Width="31px" ForeColor="Red" CausesValidation="False">编 辑</asp:linkbutton><asp:linkbutton id="Linkbutton2_Update" runat="server" ForeColor="Red" Visible="False">目前正处于编辑状态</asp:linkbutton></div>
+								<TD width="190" background="../IMAGES/Page/bg_bl.gif" colspan="2">
+									<div align="center"><asp:linkbutton id="LinkButton1_Edit" runat="server" Width="31px" ForeColor="Red" CausesValidation="False">编 辑</asp:linkbutton></div>
 								</TD>
-								<TD align="right" width="1"><asp:imagebutton id="ImageButton3" runat="server" ImageUrl="../Images/Page/down.gif"></asp:imagebutton></TD>
 							</TR>
 							<TR>
 								<TD bgColor="#ffffff" colSpan="3" height="12">
@@ -417,6 +417,70 @@ function init(prov,city)
 			<P align="center"><INPUT id="Harea" style="Z-INDEX: 105; POSITION: absolute; TOP: 432px; LEFT: 172px" type="hidden"
 					name="Harea" runat="server">
 			</P>
+            <table  id="tableLog" border="1" cellspacing="0" cellpadding="0" width="1100" runat="server">
+        <tr>
+            <td style="width: 100%" bgcolor="#e4e5f7" colspan="5">
+                <font color="red">
+                    <img src="../IMAGES/Page/post.gif" width="20" height="16">修改日志</font>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <asp:DataGrid ID="dgLog" runat="server" Width="1100px" ItemStyle-HorizontalAlign="Center"
+                    HeaderStyle-HorizontalAlign="Center" HorizontalAlign="Center" AutoGenerateColumns="False"
+                    GridLines="Horizontal" CellPadding="1" BackColor="White" BorderWidth="1px" BorderStyle="None"
+                    BorderColor="#E7E7FF">
+                    <FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
+                    <SelectedItemStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#738A9C"></SelectedItemStyle>
+                    <AlternatingItemStyle BackColor="#F7F7F7"></AlternatingItemStyle>
+                    <ItemStyle HorizontalAlign="Center" ForeColor="#4A3C8C" BackColor="#E7E7FF"></ItemStyle>
+                    <HeaderStyle Font-Bold="True" HorizontalAlign="Center" ForeColor="#F7F7F7" BackColor="#4A3C8C">
+                    </HeaderStyle>
+                    <Columns>
+                        <asp:BoundColumn DataField="Fqqid" HeaderText="账号">
+                            <HeaderStyle Width="150px" HorizontalAlign="Center"></HeaderStyle>
+                        </asp:BoundColumn>
+                        <asp:BoundColumn DataField="Fcre_type" HeaderText="新证件类型">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
+                        <asp:BoundColumn DataField="Fcre_type_old" HeaderText="旧证件类型">
+                            <HeaderStyle Width="150px"></HeaderStyle>
+                        </asp:BoundColumn>
+                        <asp:BoundColumn DataField="Fuser_type" HeaderText="新账户类型">
+                            <HeaderStyle Width="80px"></HeaderStyle>
+                        </asp:BoundColumn>
+                        <asp:BoundColumn DataField="Fuser_type_old" HeaderText="旧账户类型">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
+                         <asp:BoundColumn DataField="Fattid" HeaderText="新属性">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
+                          <asp:BoundColumn DataField="Fattid_old" HeaderText="旧属性">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
+                         <asp:BoundColumn DataField="Fsubmit_user" HeaderText="操作人员">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
+                         <asp:BoundColumn DataField="Fsubmit_time" HeaderText="操作时间">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
+                          <asp:BoundColumn DataField="Fcommet" HeaderText="新修改原因">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
+                          <asp:BoundColumn DataField="Fcommet_old" HeaderText="修改原因">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
+                    </Columns>
+                    <PagerStyle ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>
+                </asp:DataGrid><webdiyer:AspNetPager ID="logPager" runat="server" HorizontalAlign="right"
+                    NumericButtonCount="5" PagingButtonSpacing="0" ShowInputBox="always" CssClass="mypager"
+                    SubmitButtonText="转到" NumericButtonTextFormatString="[{0}]" AlwaysShow="True" PageSize="5"
+                    OnPageChanged="logPager_PageChanged">
+                </webdiyer:AspNetPager>
+            </td>
+        </tr>
+    </table>
+      <br />
 		</form>
 		</FONT>
 	</body>
