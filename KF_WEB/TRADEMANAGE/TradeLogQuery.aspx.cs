@@ -26,6 +26,7 @@ using Tencent.DotNet.OSS.Web.UI;
 
 using TENCENT.OSS.CFT.KF.Common;
 using CFT.CSOMS.BLL.WechatPay;
+using log4net;
 
 
 
@@ -618,9 +619,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             this.LB_Fspid.Text = ds.Tables[0].Rows[0]["Fspid"].ToString().Trim();
 
             this.lbAdjustFlag.Text = classLibrary.setConfig.convertAdjustSign(ds.Tables[0].Rows[0]["Fadjust_flag"].ToString().Trim());
+            try
+            {
+                //增加退款类型
+                if (!string.IsNullOrEmpty(this.LB_Fbargain_time.Text))
+                {
+                    DateTime begindate = DateTime.Parse(this.LB_Fbargain_time.Text.Trim());
+                    string strBeginTime = begindate.AddDays(-7).ToString("yyyy-MM-dd 00:00:00");
+                    string strEndTime = begindate.AddDays(8).ToString("yyyy-MM-dd 23:59:59");
+                    Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                    DataSet tmpDS = qs.GetB2cReturnList("", strBeginTime, strEndTime, 99, 99, selectStrSession, "", "0000", 99, "", 1, 1, 10);
+
+                    if (tmpDS != null && tmpDS.Tables.Count > 0)
+                    {
+                        this.Frefund_typeName.Text = tmpDS.Tables[0].Rows[0]["Frefund_typeName"].ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log4net.ILog tmpLog = log4net.LogManager.GetLogger("增加退款类型");
+                tmpLog.ErrorFormat("增加退款类型：出错：{0} ", ex.Message);
+            }
 
             //yinhuang 2013.8.12
-            this.Frefund_typeName.Text = ds.Tables[0].Rows[0]["Frefund_type"].ToString(); //退款方式
+           // this.Frefund_typeName.Text = ds.Tables[0].Rows[0]["Frefund_type"].ToString(); //退款方式
             this.FpaybuyName.Text = ds.Tables[0].Rows[0]["Fpaybuy_str"].ToString(); //退买家金额
             this.FpaysaleName.Text = ds.Tables[0].Rows[0]["Fpaysale_str"].ToString(); //退卖家金额
             this.Freq_refund_time.Text = ds.Tables[0].Rows[0]["Freq_refund_time"].ToString(); //请求退款时间

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Data;
 using System.Collections;
 using System.Text;
@@ -11,7 +11,7 @@ using System.Reflection;
 namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 {
 	/// <summary>
-	/// ICEÅúÁ¿²éÑ¯
+	/// ICEæ‰¹é‡æŸ¥è¯¢
 	/// </summary>
 	public class CommQuery
 	{
@@ -42,8 +42,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 				string stmp = System.Web.HttpUtility.UrlDecode(strField,System.Text.Encoding.GetEncoding("gb2312"));
 				return stmp.Replace("?26","&");
 				/*
-				//sreplyÀïÈç¹ûÓĞ°ë¸öºº×ÖÊ±»áÓĞÎÊÌâ. 20091120
-				//°Ñ×Ö·û¸ã³É×Ö½ÚÁ÷,Óöµ½ %26µÄÈı¸ö×Ö½Úºó,Ìæ»»Îª & µÄÒ»¸ö×Ö½Ú.
+				//sreplyé‡Œå¦‚æœæœ‰åŠä¸ªæ±‰å­—æ—¶ä¼šæœ‰é—®é¢˜. 20091120
+				//æŠŠå­—ç¬¦ææˆå­—èŠ‚æµ,é‡åˆ° %26çš„ä¸‰ä¸ªå­—èŠ‚å,æ›¿æ¢ä¸º & çš„ä¸€ä¸ªå­—èŠ‚.
 				byte[] buffer = System.Text.Encoding.GetEncoding("gb2312").GetBytes(stmp);
 				int ilen = buffer.Length;
 				
@@ -73,8 +73,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 		{
 		}
 
-		public static string ÖĞ½éÕÊ»§½áËã = "QUERY_FINANCE_SUM";
-		public static string ½»Ò××Ü»ã = "QUERY_TRADE_SUM";
+		public static string ä¸­ä»‹å¸æˆ·ç»“ç®— = "QUERY_FINANCE_SUM";
+		public static string äº¤æ˜“æ€»æ±‡ = "QUERY_TRADE_SUM";
 		public static string QUERY_TRADE_INFO_BYID = "QUERY_CHARGE_INFO_BY_LOGID";
 		//public static string QUERY_TRADE_INFO_BYDETAIL = "QUERY_CHARGE_INFO_BY_DETAIL";
 		public static string QUERY_TRADE_INFO_BYDETAIL = "QUERY_CHARGE_INFO";
@@ -91,28 +91,28 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 		public static string QUERY_GETCASHINFO_BYID = "QUERY_GETCASHINFO_BYID";
 		public static string QUERY_GETCASHINFO_BYDETAIL = "QUERY_GETCASHINFO_BYDETAIL";
 		
-		public static string ÉÌ»§×ªÕÊ²éÑ¯ = "QUERY_SP_PAYLOG_1";
-		public static string ÉÌ»§×ªÕÊ±ÊÊı = "QUERY_SP_PAYLOG_2";
+		public static string å•†æˆ·è½¬å¸æŸ¥è¯¢ = "QUERY_SP_PAYLOG_1";
+		public static string å•†æˆ·è½¬å¸ç¬”æ•° = "QUERY_SP_PAYLOG_2";
 
-		public static string CÕÊ»§×Ê½ğÁ÷Ë® = "QUERY_USER_BANKROLL";
+		public static string Cå¸æˆ·èµ„é‡‘æµæ°´ = "QUERY_USER_BANKROLL";
 
-		public static string ¸öÈË×Ê½ğÁ÷Ë® = "QUERY_USER_BANKROLL_FULL";
+		public static string ä¸ªäººèµ„é‡‘æµæ°´ = "QUERY_USER_BANKROLL_FULL";
 
-		public static string ½»Ò×µ¥×Ê½ğÁ÷Ë®_¸öÈË = "QUERY_BANKROLL_LISTID_2";
-		public static string ½»Ò×µ¥×Ê½ğÁ÷Ë®_ÉÌ»§ = "QUERY_BANKROLL_LISTID_1";
-		public static string ½»Ò×µ¥×Ê½ğÁ÷Ë®_ÒøĞĞ = "QUERY_BANKROLL_LISTID_3";
+		public static string äº¤æ˜“å•èµ„é‡‘æµæ°´_ä¸ªäºº = "QUERY_BANKROLL_LISTID_2";
+		public static string äº¤æ˜“å•èµ„é‡‘æµæ°´_å•†æˆ· = "QUERY_BANKROLL_LISTID_1";
+		public static string äº¤æ˜“å•èµ„é‡‘æµæ°´_é“¶è¡Œ = "QUERY_BANKROLL_LISTID_3";
 
 		public static string QUERY_USERINFO = "FINANCE_UI_QUERY_USERINFO";
 		public static string UPDATE_USERINFO = "FINANCE_UI_UPDATE_USERINFO";
 		public static string INSERT_USERINFO = "FINANCE_UI_INSERT_USERINFO";
 
-        public static string QUERY_UNFINISHTRADE_BUY= "UNREG_QUERY_PAIPAI_TRANS_1";//²éÑ¯Âò¼ÒÊÇ·ñÓĞÎ´Íê³É½»Ò×
-        public static string QUERY_UNFINISHTRADE_SALE= "UNREG_QUERY_PAIPAI_TRANS_2";//²éÑ¯Âô¼ÒÊÇ·ñÓĞÎ´Íê³É½»Ò×
+        public static string QUERY_UNFINISHTRADE_BUY= "UNREG_QUERY_PAIPAI_TRANS_1";//æŸ¥è¯¢ä¹°å®¶æ˜¯å¦æœ‰æœªå®Œæˆäº¤æ˜“
+        public static string QUERY_UNFINISHTRADE_SALE= "UNREG_QUERY_PAIPAI_TRANS_2";//æŸ¥è¯¢å–å®¶æ˜¯å¦æœ‰æœªå®Œæˆäº¤æ˜“
 
 		public static string QUERY_BANKUSER = "FINANCE_UI_QUERY_BANKUSER";
 		public static string UPDATE_BANKUSER = "FINANCE_UI_UPDATE_BANKUSER";
-		public static string BATCH_BANKUSER ="FINANCE_UI_QUERY_MULTI_BANK";  //¶à¿¨ÌáÏÖ£¬Ò»´Î²é³öËùÓĞ¿¨
-        public static string UPDATE_NON_PRIMIRY_BANK = "FINANCE_UI_MOD_FETCH_BANK_STATUS";  //½â¶³·ÇÖ÷¿¨
+		public static string BATCH_BANKUSER ="FINANCE_UI_QUERY_MULTI_BANK";  //å¤šå¡æç°ï¼Œä¸€æ¬¡æŸ¥å‡ºæ‰€æœ‰å¡
+        public static string UPDATE_NON_PRIMIRY_BANK = "FINANCE_UI_MOD_FETCH_BANK_STATUS";  //è§£å†»éä¸»å¡
 
 		public static string QUERY_DIC = "FINANCE_UI_QUERY_DIC";
 		public static string QUERY_DIC_COUNT = "FINANCE_UI_QUERY_DIC_C";
@@ -154,36 +154,36 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 		public static string INSERT_SPMREFUND = "FINANCE_OD_INSERT_SPMREFUND";
 
 		//public static string QUERY_ORDER = "FINANCE_OD_QUERY_ORDER";
-        public static string QUERY_ORDER = "query_order_service";//Í¨¹ı½Ó¿Ú²éÑ¯¶©µ¥yinhuang 14/8/9
+        public static string QUERY_ORDER = "query_order_service";//é€šè¿‡æ¥å£æŸ¥è¯¢è®¢å•yinhuang 14/8/9
 		public static string UPDATE_ORDER = "FINANCE_OD_UPDATE_ORDER";
 
-		public static string QUERY_TCBANKROLL = "FINANCE_OD_TCBANKROLL";  //Õı³£²éÑ¯
-		public static string QUERY_TCBANKROLL_COUNT = "FINANCE_OD_TCBANKROLL_C";  //Ö»²éÑ¯count
-		public static string QUERY_TCBANKROLL_HISTORY = "FINANCE_OD_TCBANKROLL_H";  //²éÑ¯ÀúÊ·
-		//public static string QUERY_TCBANKROLL_HCOUNT = "FINANCE_OD_TCBANKROLL_HC";  //²éÑ¯ÀúÊ·count ²»ÔÙÍ¨¹ıÕâ¸öÅäÖÃÀ´²éÑ¯¡£andrew 20110324
-		public static string QUERY_TCBANKROLL_PAYSUM = "FINANCE_OD_TCBANKROLL_PAYSUM"; //²éÑ¯Í³¼Æ
+		public static string QUERY_TCBANKROLL = "FINANCE_OD_TCBANKROLL";  //æ­£å¸¸æŸ¥è¯¢
+		public static string QUERY_TCBANKROLL_COUNT = "FINANCE_OD_TCBANKROLL_C";  //åªæŸ¥è¯¢count
+		public static string QUERY_TCBANKROLL_HISTORY = "FINANCE_OD_TCBANKROLL_H";  //æŸ¥è¯¢å†å²
+		//public static string QUERY_TCBANKROLL_HCOUNT = "FINANCE_OD_TCBANKROLL_HC";  //æŸ¥è¯¢å†å²count ä¸å†é€šè¿‡è¿™ä¸ªé…ç½®æ¥æŸ¥è¯¢ã€‚andrew 20110324
+		public static string QUERY_TCBANKROLL_PAYSUM = "FINANCE_OD_TCBANKROLL_PAYSUM"; //æŸ¥è¯¢ç»Ÿè®¡
 
-		public static string QUERY_USEROPLOG = "FINANCE_UI_QUERY_USEROPLOG"; //²éÑ¯²Ù×÷Á÷Ë®±í
+		public static string QUERY_USEROPLOG = "FINANCE_UI_QUERY_USEROPLOG"; //æŸ¥è¯¢æ“ä½œæµæ°´è¡¨
 
-		public static string QUERY_SYNREC_ID = "FINANCE_QUERY_SYNREC_ID"; //ÓÃµ¥ºÅ²éÑ¯Í¬²½¼ÇÂ¼
-		public static string QUERY_SYNREC_SP = "FINANCE_QUERY_SYNREC_SP"; //ÓÃµ¥ºÅ²éÑ¯Í¬²½¼ÇÂ¼
-		public static string QUERY_TCBANKROLL_S = "QUERY_MUL_CHARGE_LIST"; //²éÑ¯c2c_order_db_xx.t_tcbankroll_list_x(°´ÕÕFbank_list·Ö¿â·Ö±í)×ßqueryserver rowenawu 20120301
-		public static string QUERY_TCBANKROLL_DAY="FINANCE_OD_TCBANKROLL_DAY"; //²éÑ¯ c2c_order_db.t_tcbankroll_list_yyyyMMdd (°´Ìì·Ö) ×ßÍ¨ÓÃ²éÑ¯ rowenawu 20120306
-		public static string QUERY_MCH_REFUND = "FINANCE_OD_QUERY_MCH_REFUND";//²éÑ¯c2c_db_xx.t_merch_refund_x£¨transaction_id·Ö¿â·Ö±í£© andrew 20120222
-		public static string QUERY_TRANSPORT ="FINANCE_QUERY_TRANSPORT"; //²éÑ¯ÎïÁ÷µ¥ ¸ÄÎªcommquery
-		public static string QUERY_REFUND_RELATION = "FINANCE_OD_QUERY_REFUND_RELATION";//²éÑ¯c2c_db_xx.t_refund_relation_x(°´ÕÕFdraw_id·Ö¿â·Ö±í) andrew 20120222
-		public static string QUERY_USER_REFUND = "FINANCE_OD_QUERY_USER_REFUND";//²éÑ¯c2c_db_xx.t_user_refund_x(°´ÕÕFsp_uid·Ö¿â·Ö±í) andrew 20120222
-		public static string QUERY_APPEAL_NEW = "FINANCE_UI_QUERY_APPEAL";//²éÑ¯c2c_db_appeal.t_appeal
-		public static string QUERY_MESSAGE = "FINANCE_UI_QUERY_MESSAGE";//²éÑ¯c2c_db_$XX$.t_message_$Y$
-		public static string QUERY_PAIPAI_REFUND = "FINANCE_OD_QUERY_SPM_REFUND";//²éÑ¯ÅÄÅÄÍË¿îÉêÇëµ¥ andrew 20121015
+		public static string QUERY_SYNREC_ID = "FINANCE_QUERY_SYNREC_ID"; //ç”¨å•å·æŸ¥è¯¢åŒæ­¥è®°å½•
+		public static string QUERY_SYNREC_SP = "FINANCE_QUERY_SYNREC_SP"; //ç”¨å•å·æŸ¥è¯¢åŒæ­¥è®°å½•
+		public static string QUERY_TCBANKROLL_S = "QUERY_MUL_CHARGE_LIST"; //æŸ¥è¯¢c2c_order_db_xx.t_tcbankroll_list_x(æŒ‰ç…§Fbank_liståˆ†åº“åˆ†è¡¨)èµ°queryserver rowenawu 20120301
+		public static string QUERY_TCBANKROLL_DAY="FINANCE_OD_TCBANKROLL_DAY"; //æŸ¥è¯¢ c2c_order_db.t_tcbankroll_list_yyyyMMdd (æŒ‰å¤©åˆ†) èµ°é€šç”¨æŸ¥è¯¢ rowenawu 20120306
+		public static string QUERY_MCH_REFUND = "FINANCE_OD_QUERY_MCH_REFUND";//æŸ¥è¯¢c2c_db_xx.t_merch_refund_xï¼ˆtransaction_idåˆ†åº“åˆ†è¡¨ï¼‰ andrew 20120222
+		public static string QUERY_TRANSPORT ="FINANCE_QUERY_TRANSPORT"; //æŸ¥è¯¢ç‰©æµå• æ”¹ä¸ºcommquery
+		public static string QUERY_REFUND_RELATION = "FINANCE_OD_QUERY_REFUND_RELATION";//æŸ¥è¯¢c2c_db_xx.t_refund_relation_x(æŒ‰ç…§Fdraw_idåˆ†åº“åˆ†è¡¨) andrew 20120222
+		public static string QUERY_USER_REFUND = "FINANCE_OD_QUERY_USER_REFUND";//æŸ¥è¯¢c2c_db_xx.t_user_refund_x(æŒ‰ç…§Fsp_uidåˆ†åº“åˆ†è¡¨) andrew 20120222
+		public static string QUERY_APPEAL_NEW = "FINANCE_UI_QUERY_APPEAL";//æŸ¥è¯¢c2c_db_appeal.t_appeal
+		public static string QUERY_MESSAGE = "FINANCE_UI_QUERY_MESSAGE";//æŸ¥è¯¢c2c_db_$XX$.t_message_$Y$
+		public static string QUERY_PAIPAI_REFUND = "FINANCE_OD_QUERY_SPM_REFUND";//æŸ¥è¯¢æ‹æ‹é€€æ¬¾ç”³è¯·å• andrew 20121015
 
-        public static string QUERY_YT_INFO = "FINANCE_OD_QUERY_YT_INFO";//²éÑ¯ÔËÍ¨ÕËºÅĞÅÏ¢
-        public static string QUERY_YT_CERT_NUM = "FINANCE_OD_QUERY_YT_CERT_NUM";//²éÑ¯Éí·İÖ¤¿ªÍ¨ÔËÍ¨ÕËºÅ¸öÊı
-        public static string QUERY_YT_FREEZE_INFO = "FINANCE_OD_QUERY_YT_FREEZE_INFO";//²éÑ¯ÔËÍ¨ÕËºÅ¶³½áĞÅÏ¢
-        public static string QUERY_YT_TRADE_INFO = "FINANCE_OD_QUERY_YT_TRADE_INFO";//²éÑ¯ÔËÍ¨ÕËºÅ½»Ò×ĞÅÏ¢
-        public static string QUERY_EXCHANGE_RATE_HISTROY = "FINANCE_OD_QUERY_EXCHANGE_RATE_H";//²éÑ¯ÀúÊ·Íâ»ã»ãÂÊ¼ÇÂ¼
-        public static string QUERY_FREE_FLOW = "FINANCE_OD_QUERY_FREE_FLOW";//²éÑ¯Ãâ·ÑÁ÷Á¿
-        public static string QUERY_USER_TYPE = "FINANCE_OD_QUERY_USER_TYPE";//²éÑ¯ÓÃ»§ÀàĞÍ
+        public static string QUERY_YT_INFO = "FINANCE_OD_QUERY_YT_INFO";//æŸ¥è¯¢è¿é€šè´¦å·ä¿¡æ¯
+        public static string QUERY_YT_CERT_NUM = "FINANCE_OD_QUERY_YT_CERT_NUM";//æŸ¥è¯¢èº«ä»½è¯å¼€é€šè¿é€šè´¦å·ä¸ªæ•°
+        public static string QUERY_YT_FREEZE_INFO = "FINANCE_OD_QUERY_YT_FREEZE_INFO";//æŸ¥è¯¢è¿é€šè´¦å·å†»ç»“ä¿¡æ¯
+        public static string QUERY_YT_TRADE_INFO = "FINANCE_OD_QUERY_YT_TRADE_INFO";//æŸ¥è¯¢è¿é€šè´¦å·äº¤æ˜“ä¿¡æ¯
+        public static string QUERY_EXCHANGE_RATE_HISTROY = "FINANCE_OD_QUERY_EXCHANGE_RATE_H";//æŸ¥è¯¢å†å²å¤–æ±‡æ±‡ç‡è®°å½•
+        public static string QUERY_FREE_FLOW = "FINANCE_OD_QUERY_FREE_FLOW";//æŸ¥è¯¢å…è´¹æµé‡
+        public static string QUERY_USER_TYPE = "FINANCE_OD_QUERY_USER_TYPE";//æŸ¥è¯¢ç”¨æˆ·ç±»å‹
 
 		public static int UpdateOrderFromICE(string strCmd,out string errMsg)
 		{
@@ -199,7 +199,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			{
 				if(iResult == 0)
 				{
-					errMsg = "¸üĞÂ¶©µ¥³É¹¦";
+					errMsg = "æ›´æ–°è®¢å•æˆåŠŸ";
 					return 0;
 				}
 				else
@@ -210,7 +210,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			}
 			else
 			{
-				errMsg = "µ÷ÓÃICEÊ§°Ü";
+				errMsg = "è°ƒç”¨ICEå¤±è´¥";
 				errMsg += "reply=" + sReply + "||msg=" + sMsg;
 				return -1;
 			}
@@ -230,7 +230,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			{
 				if(iResult == 0)
 				{
-					errMsg = "¶ÔÕÊÍË¿îÔ¤´¦Àí³É¹¦";
+					errMsg = "å¯¹å¸é€€æ¬¾é¢„å¤„ç†æˆåŠŸ";
 					return 0;
 				}
 				else
@@ -241,14 +241,14 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			}
 			else
 			{
-				errMsg = "µ÷ÓÃICEÊ§°Ü";
+				errMsg = "è°ƒç”¨ICEå¤±è´¥";
 				errMsg += "reply=" + sReply + "||msg=" + sMsg;
 				return -1;
 			}
 		}
 
 		/// <summary>
-		/// ×ÊÁÏ¿âµÄ¸üĞÂ¿ÉÒÔ×ßÕâÀï£¬¸üĞÂ¶©µ¥µÄÒª×ßÁíÍâÒ»¸ö½Ó¿Úorder_update_service¡£
+		/// èµ„æ–™åº“çš„æ›´æ–°å¯ä»¥èµ°è¿™é‡Œï¼Œæ›´æ–°è®¢å•çš„è¦èµ°å¦å¤–ä¸€ä¸ªæ¥å£order_update_serviceã€‚
 		/// </summary>
 		/// <param name="strWhere"></param>
 		/// <param name="strCmd"></param>
@@ -267,7 +267,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			//string servicename =  "ex_common_query_service";
 			string servicename =  "ui_common_update_service";
 			bool needsecret = true;
-			//¸üĞÂspmrefundÊ±£¬Ê¹ÓÃĞ¡Å£µÄ½Ó¿Ú
+			//æ›´æ–°spmrefundæ—¶ï¼Œä½¿ç”¨å°ç‰›çš„æ¥å£
 			if(strCmd == "FINANCE_OD_UPDATE_SPMREFUND")
 			{
 				servicename = "order_zwupdate_service";
@@ -279,13 +279,13 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			{
 				if(iResult == 0)
 				{
-					errMsg = "Ö´ĞĞ³É¹¦";
-					//ÕâÀïÒª»ñÈ¡Ó°ÏìÌõÊı¡£ sReplyÀïµÄAFFECTED_ROW²ÎÊı¡£
+					errMsg = "æ‰§è¡ŒæˆåŠŸ";
+					//è¿™é‡Œè¦è·å–å½±å“æ¡æ•°ã€‚ sReplyé‡Œçš„AFFECTED_ROWå‚æ•°ã€‚
 					string[] strlist1 = sReply.Split('&');
 
 					if(strlist1.Length == 0)
 					{
-						errMsg = "µ÷ÓÃUI_UPDATEÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply ;
+						errMsg = "è°ƒç”¨UI_UPDATEå¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply ;
 						return -3;
 					}
 
@@ -298,7 +298,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 						string[] strlist2 = strtmp.Split('=');
 						if(strlist2.Length != 2)
 						{
-							errMsg = "µ÷ÓÃUI_UPDATEÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply ;
+							errMsg = "è°ƒç”¨UI_UPDATEå¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply ;
 							return -4;
 						}
                             
@@ -307,7 +307,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
 					if(!ht.Contains("result") || ht["result"].ToString().Trim() != "0" || !ht.Contains("AFFECTED_ROW") )
 					{
-						errMsg = "µ÷ÓÃUI_UPDATEÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply ;
+						errMsg = "è°ƒç”¨UI_UPDATEå¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply ;
 						return -5;
 					}
 
@@ -323,7 +323,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			}
 			else
 			{
-				errMsg = "µ÷ÓÃICEÊ§°Ü";
+				errMsg = "è°ƒç”¨ICEå¤±è´¥";
 				errMsg += "reply=" + sReply + "||msg=" + sMsg;
 				return -1;
 			}
@@ -350,7 +350,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			if(strlist1.Length == 0)
 			{
 				dsresult = null;
-				errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply ;
+				errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply ;
 				return null;
 			}
 
@@ -362,7 +362,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 				if(strlist2.Length != 2)
 				{
 					dsresult = null;
-					errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply ;
+					errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply ;
 					return null;
 				}
                             
@@ -372,7 +372,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			if(!ht.Contains("result") || ht["result"].ToString().Trim() != "0" || !ht.Contains("row_num") )
 			{
 				dsresult = null;
-				errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply ;
+				errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply ;
 				return null;
 			}
 
@@ -381,7 +381,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			if(irowcount == 0)
 			{
 				dsresult = null;
-				errMsg = "²éÑ¯½á¹ûÎª¿Õ";
+				errMsg = "æŸ¥è¯¢ç»“æœä¸ºç©º";
 				return null;
 			}
 
@@ -398,7 +398,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			if(strsplit3.Length == 0)
 			{
 				dsresult = null;
-				errMsg = "²éÑ¯½á¹ûÖĞÎŞ·¨½âÎö³ö×Ö¶Î";
+				errMsg = "æŸ¥è¯¢ç»“æœä¸­æ— æ³•è§£æå‡ºå­—æ®µ";
 				return null;
 			}
 						
@@ -478,7 +478,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			//			}
 
 			/*
-			if(strCmd=="query_order_service")//×ßquery_order_serviceÈ¥µÄµ¥¶ÀÈ¥²éÑ¯²éÑ¯andrewguo 20120525
+			if(strCmd=="query_order_service")//èµ°query_order_serviceå»çš„å•ç‹¬å»æŸ¥è¯¢æŸ¥è¯¢andrewguo 20120525
 			{
 				return GetDataSetFromICE_OrderServer(strWhere,strCmd,isrealtime,out errMsg);
 			}
@@ -488,11 +488,11 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			{
 				if(iResult == 0)
 				{
-					//¶Ôsreply½øĞĞ½âÎö
+					//å¯¹sreplyè¿›è¡Œè§£æ
 					if(sReply == null || sReply.Trim() == "")
 					{
 						dsresult = null;
-						errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,ÎŞ·µ»Ø½á¹û" + servicename + sInmsg ;
+						errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,æ— è¿”å›ç»“æœ" + servicename + sInmsg ;
 						return null;
 					}
 					else
@@ -502,7 +502,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 						if(strlist1.Length == 0)
 						{
 							dsresult = null;
-							errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply ;
+							errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply ;
 							return null;
 						}
 
@@ -514,7 +514,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 							if(strlist2.Length != 2)
 							{
 								dsresult = null;
-								errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply ;
+								errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply ;
 								return null;
 							}
                             
@@ -524,7 +524,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 						if(!ht.Contains("result") || ht["result"].ToString().Trim() != "0" || !ht.Contains("row_num") )
 						{
 							dsresult = null;
-							errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply ;
+							errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply ;
 							return null;
 						}
 
@@ -533,7 +533,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 						if(irowcount == 0)
 						{
 							dsresult = null;
-							errMsg = "²éÑ¯½á¹ûÎª¿Õ";
+							errMsg = "æŸ¥è¯¢ç»“æœä¸ºç©º";
 							return null;
 						}
 
@@ -550,7 +550,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 						if(strsplit3.Length == 0)
 						{
 							dsresult = null;
-							errMsg = "²éÑ¯½á¹ûÖĞÎŞ·¨½âÎö³ö×Ö¶Î";
+							errMsg = "æŸ¥è¯¢ç»“æœä¸­æ— æ³•è§£æå‡ºå­—æ®µ";
 							return null;
 						}
 						
@@ -611,14 +611,14 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 				else
 				{
 					dsresult = null;
-					errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Üiresult=" + iResult + "|err="  + sMsg;
+					errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥iresult=" + iResult + "|err="  + sMsg;
 					return null;
 				}
 			}
 			else
 			{
 				dsresult = null;
-				errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°ÜÁË:" + sMsg;
+				errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥äº†:" + sMsg;
 				return null;
 			}
 
@@ -651,7 +651,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			//				servicename =  "ex_common_query_service";
 			//			}
 
-			if(strCmd=="query_order_service")//×ßquery_order_serviceÈ¥µÄµ¥¶ÀÈ¥²éÑ¯²éÑ¯andrewguo 20120525
+			if(strCmd=="query_order_service")//èµ°query_order_serviceå»çš„å•ç‹¬å»æŸ¥è¯¢æŸ¥è¯¢andrewguo 20120525
 			{
 				return GetDataSetFromICE_OrderServer(strWhere,strCmd,isrealtime,out errMsg);
 			}
@@ -660,11 +660,11 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			{
 				if(iResult == 0)
 				{
-					//¶Ôsreply½øĞĞ½âÎö
+					//å¯¹sreplyè¿›è¡Œè§£æ
 					if(sReply == null || sReply.Trim() == "")
 					{
 						dsresult = null;
-						errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,ÎŞ·µ»Ø½á¹û" + servicename + sInmsg ;
+						errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,æ— è¿”å›ç»“æœ" + servicename + sInmsg ;
 						return null;
 					}
 					else
@@ -674,7 +674,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 						if(strlist1.Length == 0)
 						{
 							dsresult = null;
-							errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply ;
+							errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply ;
 							return null;
 						}
 
@@ -686,7 +686,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 							if(strlist2.Length != 2)
 							{
 								dsresult = null;
-								errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply ;
+								errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply ;
 								return null;
 							}
                             
@@ -696,7 +696,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 						if(!ht.Contains("result") || ht["result"].ToString().Trim() != "0" || !ht.Contains("row_num") )
 						{
 							dsresult = null;
-							errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply ;
+							errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply ;
 							return null;
 						}
 
@@ -705,7 +705,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 						if(irowcount == 0)
 						{
 							dsresult = null;
-							errMsg = "²éÑ¯½á¹ûÎª¿Õ";
+							errMsg = "æŸ¥è¯¢ç»“æœä¸ºç©º";
 							return null;
 						}
 
@@ -722,7 +722,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 						if(strsplit3.Length == 0)
 						{
 							dsresult = null;
-							errMsg = "²éÑ¯½á¹ûÖĞÎŞ·¨½âÎö³ö×Ö¶Î";
+							errMsg = "æŸ¥è¯¢ç»“æœä¸­æ— æ³•è§£æå‡ºå­—æ®µ";
 							return null;
 						}
 						
@@ -783,25 +783,25 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 				else
 				{
 					dsresult = null;
-					errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Üiresult=" + iResult + "|err="  + sMsg;
+					errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥iresult=" + iResult + "|err="  + sMsg;
 					return null;
 				}
 			}
 			else
 			{
 				dsresult = null;
-				errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°ÜÁË:" + sMsg;
+				errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥äº†:" + sMsg;
 				return null;
 			}
 
 		}
       
-        //Íâ±Ò ¶à±Ê Í¨ÓÃ²éÑ¯
+        //å¤–å¸ å¤šç¬” é€šç”¨æŸ¥è¯¢
         public static DataSet GetDataSetFromICEIA(string strWhere, string strCmd, out string errMsg)
         {
             return GetDataSetFromICEIA(strWhere, strCmd, false, "ex_common_query_service", out errMsg);
         }
-        //Íâ±Òmiddle²éÑ¯
+        //å¤–å¸middleæŸ¥è¯¢
         public static DataSet GetDataSetFromICEIA(string strWhere, string strCmd, bool isrealtime, string servicename, out string errMsg)
         {
             DataSet dsresult = null;
@@ -822,7 +822,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             //				servicename =  "ex_common_query_service";
             //			}
 
-            if (strCmd == "query_order_service")//×ßquery_order_serviceÈ¥µÄµ¥¶ÀÈ¥²éÑ¯²éÑ¯andrewguo 20120525
+            if (strCmd == "query_order_service")//èµ°query_order_serviceå»çš„å•ç‹¬å»æŸ¥è¯¢æŸ¥è¯¢andrewguo 20120525
             {
                 return GetDataSetFromICE_OrderServer(strWhere, strCmd, isrealtime, out errMsg);
             }
@@ -830,11 +830,11 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             {
                 if (iResult == 0)
                 {
-                    //¶Ôsreply½øĞĞ½âÎö
+                    //å¯¹sreplyè¿›è¡Œè§£æ
                     if (sReply == null || sReply.Trim() == "")
                     {
                         dsresult = null;
-                        errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,ÎŞ·µ»Ø½á¹û" + servicename + sInmsg;
+                        errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,æ— è¿”å›ç»“æœ" + servicename + sInmsg;
                         return null;
                     }
                     else
@@ -844,7 +844,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                         if (strlist1.Length == 0)
                         {
                             dsresult = null;
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
 
@@ -856,7 +856,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                             if (strlist2.Length != 2)
                             {
                                 dsresult = null;
-                                errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                                errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                                 return null;
                             }
 
@@ -866,7 +866,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                         if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0" || !ht.Contains("row_num"))
                         {
                             dsresult = null;
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
 
@@ -875,7 +875,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                         if (irowcount == 0)
                         {
                             dsresult = null;
-                            errMsg = "²éÑ¯½á¹ûÎª¿Õ";
+                            errMsg = "æŸ¥è¯¢ç»“æœä¸ºç©º";
                             return null;
                         }
 
@@ -892,7 +892,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                         if (strsplit3.Length == 0)
                         {
                             dsresult = null;
-                            errMsg = "²éÑ¯½á¹ûÖĞÎŞ·¨½âÎö³ö×Ö¶Î";
+                            errMsg = "æŸ¥è¯¢ç»“æœä¸­æ— æ³•è§£æå‡ºå­—æ®µ";
                             return null;
                         }
 
@@ -953,14 +953,14 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 else
                 {
                     dsresult = null;
-                    errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Üiresult=" + iResult + "|err=" + sMsg;
+                    errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥iresult=" + iResult + "|err=" + sMsg;
                     return null;
                 }
             }
             else
             {
                 dsresult = null;
-                errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°ÜÁË:" + sMsg;
+                errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥äº†:" + sMsg;
                 return null;
             }
 
@@ -983,10 +983,10 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             {
                 if (iResult == 0)
                 {
-                    //¶Ôsreply½øĞĞ½âÎö
+                    //å¯¹sreplyè¿›è¡Œè§£æ
                     if (sReply == null || sReply.Trim() == "")
                     {
-                        errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,ÎŞ·µ»Ø½á¹û" + servicename + sInmsg;
+                        errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,æ— è¿”å›ç»“æœ" + servicename + sInmsg;
                         return null;
                     }
                     else
@@ -995,7 +995,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (strlist1.Length == 0)
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
 
@@ -1024,7 +1024,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
                     }
@@ -1032,18 +1032,18 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 }
                 else
                 {
-                    errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Üiresult=" + iResult + "|err=" + sMsg;
+                    errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥iresult=" + iResult + "|err=" + sMsg;
                     return null;
                 }
             }
             else
             {
-                errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°ÜÁË:" + sMsg;
+                errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥äº†:" + sMsg;
                 return null;
             }
         }
         
-        //Íâ±ÒÉÌ»§ĞÅÏ¢²éÑ¯µ÷ÓÃ¹ı middleInvoke  È¥µôCMD²ÎÊı
+        //å¤–å¸å•†æˆ·ä¿¡æ¯æŸ¥è¯¢è°ƒç”¨è¿‡ middleInvoke  å»æ‰CMDå‚æ•°
         public static DataSet FCGetOneTableFromICE(string strWhere, string strCmd, string servicename, bool isCret, out string errMsg)
         {
             DataSet dsresult = null;
@@ -1061,10 +1061,10 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             {
                 if (iResult == 0)
                 {
-                    //¶Ôsreply½øĞĞ½âÎö
+                    //å¯¹sreplyè¿›è¡Œè§£æ
                     if (sReply == null || sReply.Trim() == "")
                     {
-                        errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,ÎŞ·µ»Ø½á¹û" + servicename + sInmsg;
+                        errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,æ— è¿”å›ç»“æœ" + servicename + sInmsg;
                         return null;
                     }
                     else
@@ -1073,7 +1073,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (strlist1.Length == 0)
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
 
@@ -1102,7 +1102,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
                     }
@@ -1110,18 +1110,18 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 }
                 else
                 {
-                    errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Üiresult=" + iResult + "|err=" + sMsg;
+                    errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥iresult=" + iResult + "|err=" + sMsg;
                     return null;
                 }
             }
             else
             {
-                errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°ÜÁË:" + sMsg;
+                errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥äº†:" + sMsg;
                 return null;
             }
         }
 
-        //Íâ±ÒÏµÍ³×ßmiddleInvokeIA  È¥µôCMD²ÎÊı
+        //å¤–å¸ç³»ç»Ÿèµ°middleInvokeIA  å»æ‰CMDå‚æ•°
         public static DataSet AIGetOneTableFromICE(string strWhere, string strCmd, string servicename, bool isCret, out string errMsg)
         {
             DataSet dsresult = null;
@@ -1139,10 +1139,10 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             {
                 if (iResult == 0)
                 {
-                    //¶Ôsreply½øĞĞ½âÎö
+                    //å¯¹sreplyè¿›è¡Œè§£æ
                     if (sReply == null || sReply.Trim() == "")
                     {
-                        errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,ÎŞ·µ»Ø½á¹û" + servicename + sInmsg;
+                        errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,æ— è¿”å›ç»“æœ" + servicename + sInmsg;
                         return null;
                     }
                     else
@@ -1151,7 +1151,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (strlist1.Length == 0)
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
 
@@ -1181,7 +1181,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
                     }
@@ -1189,23 +1189,23 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 }
                 else
                 {
-                    errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Üiresult=" + iResult + "|err=" + sMsg;
+                    errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥iresult=" + iResult + "|err=" + sMsg;
                     return null;
                 }
             }
             else
             {
-                errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°ÜÁË:" + sMsg;
+                errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥äº†:" + sMsg;
                 return null;
             }
         }
 
-        //Íâ±Ò µ¥±Ê Í¨ÓÃ²éÑ¯ ĞèÒªCMD
+        //å¤–å¸ å•ç¬” é€šç”¨æŸ¥è¯¢ éœ€è¦CMD
         public static DataSet GeOnetDataSetFromICEIA(string strWhere, string strCmd, out string errMsg)
         {
             return OneAIGetOneTableFromICE(strWhere, strCmd, "ex_common_query_service", false, out errMsg);
         }
-        //Íâ±Ò µ¥±Ê Í¨ÓÃ²éÑ¯ ĞèÒªCMD
+        //å¤–å¸ å•ç¬” é€šç”¨æŸ¥è¯¢ éœ€è¦CMD
         public static DataSet OneAIGetOneTableFromICE(string strWhere, string strCmd, string servicename, bool isCret, out string errMsg)
         {
             DataSet dsresult = null;
@@ -1223,10 +1223,10 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             {
                 if (iResult == 0)
                 {
-                    //¶Ôsreply½øĞĞ½âÎö
+                    //å¯¹sreplyè¿›è¡Œè§£æ
                     if (sReply == null || sReply.Trim() == "")
                     {
-                        errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,ÎŞ·µ»Ø½á¹û" + servicename + sInmsg;
+                        errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,æ— è¿”å›ç»“æœ" + servicename + sInmsg;
                         return null;
                     }
                     else
@@ -1235,7 +1235,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (strlist1.Length == 0)
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
 
@@ -1265,7 +1265,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
                     }
@@ -1273,13 +1273,13 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 }
                 else
                 {
-                    errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Üiresult=" + iResult + "|err=" + sMsg;
+                    errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥iresult=" + iResult + "|err=" + sMsg;
                     return null;
                 }
             }
             else
             {
-                errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°ÜÁË:" + sMsg;
+                errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥äº†:" + sMsg;
                 return null;
             }
         }
@@ -1289,7 +1289,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
         }
 
-        //¼ÓÃÜ
+        //åŠ å¯†
         public static DataSet GetXmlToDataSetFromICE(string strWhere, string strCmd, string servicename, out string errMsg)
         {
             DataSet dsresult = null;
@@ -1307,10 +1307,10 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             {
                 if (iResult == 0)
                 {
-                    //¶Ôsreply½øĞĞ½âÎö
+                    //å¯¹sreplyè¿›è¡Œè§£æ
                     if (sReply == null || sReply.Trim() == "")
                     {
-                        errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,ÎŞ·µ»Ø½á¹û" + servicename + sInmsg;
+                        errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,æ— è¿”å›ç»“æœ" + servicename + sInmsg;
                         return null;
                     }
                     else
@@ -1320,7 +1320,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (strlist1.Length == 0)
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
 
@@ -1339,11 +1339,11 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
 
-                        //½âÎöxml
+                        //è§£æxml
                         string rec_xml = ht["rec_info"].ToString();
                         if (rec_xml != null && rec_xml != "") {
                             dsresult = new DataSet();
@@ -1382,19 +1382,19 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 }
                 else
                 {
-                    errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Üiresult=" + iResult + "|err=" + sMsg;
+                    errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥iresult=" + iResult + "|err=" + sMsg;
                     return null;
                 }
             }
             else
             {
-                errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°ÜÁË:" + sMsg;
+                errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥äº†:" + sMsg;
                 return null;
             }
 
         }
 
-        //²»¼ÓÃÜ
+        //ä¸åŠ å¯†
         public static DataSet GetXmlToDataSetFromICE(string strWhere, string strCmd, string servicename, out string errMsg,bool iskey)
         {
             DataSet dsresult = null;
@@ -1412,10 +1412,10 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             {
                 if (iResult == 0)
                 {
-                    //¶Ôsreply½øĞĞ½âÎö
+                    //å¯¹sreplyè¿›è¡Œè§£æ
                     if (sReply == null || sReply.Trim() == "")
                     {
-                        errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,ÎŞ·µ»Ø½á¹û" + servicename + sInmsg;
+                        errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,æ— è¿”å›ç»“æœ" + servicename + sInmsg;
                         return null;
                     }
                     else
@@ -1425,7 +1425,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (strlist1.Length == 0)
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
 
@@ -1444,11 +1444,11 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
 
-                        //½âÎöxml
+                        //è§£æxml
                         string rec_xml = ht["rec_info"].ToString();
                         if (rec_xml != null && rec_xml != "")
                         {
@@ -1490,19 +1490,19 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 }
                 else
                 {
-                    errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Üiresult=" + iResult + "|err=" + sMsg;
+                    errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥iresult=" + iResult + "|err=" + sMsg;
                     return null;
                 }
             }
             else
             {
-                errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°ÜÁË:" + sMsg;
+                errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥äº†:" + sMsg;
                 return null;
             }
 
         }
 
-        //¼ÓÃÜ  ²»Í¬Ö®´¦£º½«·µ»Ø½á¹û±àÂë¸ñÊ½×ª³Éuft8
+        //åŠ å¯†  ä¸åŒä¹‹å¤„ï¼šå°†è¿”å›ç»“æœç¼–ç æ ¼å¼è½¬æˆuft8
         public static DataSet GetXmlToDataSetFromICEConvertUTF8(string strWhere, string strCmd, string servicename, out string errMsg)
         {
             DataSet dsresult = null;
@@ -1520,12 +1520,12 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             {
                 if (iResult == 0)
                 {
-                    //½«·µ»Ø½á¹û±àÂë¸ñÊ½×ª³Éuft8
+                    //å°†è¿”å›ç»“æœç¼–ç æ ¼å¼è½¬æˆuft8
                     sReply = Encoding.UTF8.GetString(Encoding.Default.GetBytes(sReply)).Replace("?/","</");
-                    //¶Ôsreply½øĞĞ½âÎö
+                    //å¯¹sreplyè¿›è¡Œè§£æ
                     if (sReply == null || sReply.Trim() == "")
                     {
-                        errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,ÎŞ·µ»Ø½á¹û" + servicename + sInmsg;
+                        errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,æ— è¿”å›ç»“æœ" + servicename + sInmsg;
                         return null;
                     }
                     else
@@ -1535,7 +1535,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (strlist1.Length == 0)
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
 
@@ -1554,11 +1554,11 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
 
-                        //½âÎöxml
+                        //è§£æxml
                         string rec_xml = ht["rec_info"].ToString();
                         if (rec_xml != null && rec_xml != "")
                         {
@@ -1600,19 +1600,19 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 }
                 else
                 {
-                    errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Üiresult=" + iResult + "|err=" + sMsg;
+                    errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥iresult=" + iResult + "|err=" + sMsg;
                     return null;
                 }
             }
             else
             {
-                errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°ÜÁË:" + sMsg;
+                errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥äº†:" + sMsg;
                 return null;
             }
 
         }
 
-        //´Ómiddle½Ó¿Ú»ñÈ¡¼ÇÂ¼×ÜÌõÊı£¬total_num²»ÊÇrow_num
+        //ä»middleæ¥å£è·å–è®°å½•æ€»æ¡æ•°ï¼Œtotal_numä¸æ˜¯row_num
         public static int GetTotalNumFromICE(string strWhere, string strCmd, string servicename, out string errMsg, bool iskey)
         {
             int totalNum = 0;
@@ -1630,10 +1630,10 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             {
                 if (iResult == 0)
                 {
-                    //¶Ôsreply½øĞĞ½âÎö
+                    //å¯¹sreplyè¿›è¡Œè§£æ
                     if (sReply == null || sReply.Trim() == "")
                     {
-                        errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,ÎŞ·µ»Ø½á¹û" + servicename + sInmsg;
+                        errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,æ— è¿”å›ç»“æœ" + servicename + sInmsg;
                         return 0;
                     }
                     else
@@ -1643,7 +1643,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (strlist1.Length == 0)
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return 0;
                         }
 
@@ -1662,7 +1662,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return 0;
                         }
                         totalNum = int.Parse(ht["total_num"].ToString());
@@ -1671,13 +1671,13 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 }
                 else
                 {
-                    errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Üiresult=" + iResult + "|err=" + sMsg;
+                    errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥iresult=" + iResult + "|err=" + sMsg;
                     return 0;
                 }
             }
             else
             {
-                errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°ÜÁË:" + sMsg;
+                errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥äº†:" + sMsg;
                 return 0;
             }
 
@@ -1698,10 +1698,10 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             {
                 if (iResult == 0)
                 {
-                    //¶Ôsreply½øĞĞ½âÎö
+                    //å¯¹sreplyè¿›è¡Œè§£æ
                     if (sReply == null || sReply.Trim() == "")
                     {
-                        errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,ÎŞ·µ»Ø½á¹û" + servicename + strWhere;
+                        errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,æ— è¿”å›ç»“æœ" + servicename + strWhere;
                         return null;
                     }
                     else
@@ -1710,7 +1710,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (strlist1.Length == 0)
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
 
@@ -1739,7 +1739,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
                         {
-                            errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
                     }
@@ -1747,13 +1747,13 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 }
                 else
                 {
-                    errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Üiresult=" + iResult + "|err=" + sMsg;
+                    errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥iresult=" + iResult + "|err=" + sMsg;
                     return null;
                 }
             }
             else
             {
-                errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°ÜÁË:" + sMsg;
+                errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥äº†:" + sMsg;
                 return null;
             }
         }
@@ -1775,11 +1775,11 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             {
                 if (iResult == 0)
                 {
-                    //¶Ôsreply½øĞĞ½âÎö
+                    //å¯¹sreplyè¿›è¡Œè§£æ
                     if (sReply == null || sReply.Trim() == "")
                     {
                         dsresult = null;
-                        errMsg = "ICE²éÑ¯Ê§°Ü,ÎŞ·µ»Ø½á¹û" + servicename + sInmsg;
+                        errMsg = "ICEæŸ¥è¯¢å¤±è´¥,æ— è¿”å›ç»“æœ" + servicename + sInmsg;
                         return null;
                     }
                     else
@@ -1789,7 +1789,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                         if (strlist1.Length == 0)
                         {
                             dsresult = null;
-                            errMsg = "ICE²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "ICEæŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
 
@@ -1801,7 +1801,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                             if (strlist2.Length != 2)
                             {
                                 dsresult = null;
-                                errMsg = "ICE²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                                errMsg = "ICEæŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                                 return null;
                             }
 
@@ -1811,7 +1811,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                         if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
                         {
                             dsresult = null;
-                            errMsg = "ICE²éÑ¯Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply;
+                            errMsg = "ICEæŸ¥è¯¢å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply;
                             return null;
                         }
 
@@ -1820,7 +1820,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                         if (irowcount == 0)
                         {
                             dsresult = null;
-                            errMsg = "²éÑ¯½á¹ûÎª¿Õ";
+                            errMsg = "æŸ¥è¯¢ç»“æœä¸ºç©º";
                             return null;
                         }
 
@@ -1837,7 +1837,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                         if (strsplit3.Length == 0)
                         {
                             dsresult = null;
-                            errMsg = "²éÑ¯½á¹ûÖĞÎŞ·¨½âÎö³ö×Ö¶Î";
+                            errMsg = "æŸ¥è¯¢ç»“æœä¸­æ— æ³•è§£æå‡ºå­—æ®µ";
                             return null;
                         }
 
@@ -1898,14 +1898,14 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 else
                 {
                     dsresult = null;
-                    errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°Üiresult=" + iResult + "|err=" + sMsg;
+                    errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥iresult=" + iResult + "|err=" + sMsg;
                     return null;
                 }
             }
             else
             {
                 dsresult = null;
-                errMsg = "µ÷ÓÃÍ¨ÓÃ²éÑ¯Ê§°ÜÁË:" + sMsg;
+                errMsg = "è°ƒç”¨é€šç”¨æŸ¥è¯¢å¤±è´¥äº†:" + sMsg;
                 return null;
             }
 
@@ -1924,7 +1924,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                 if (strlist1.Length == 0)
                 {
-                    errMsg = "½âÎöxmlÊ§°Ü,·µ»Ø½á¹ûÓĞÎó£º" + xml;
+                    errMsg = "è§£æxmlå¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯ï¼š" + xml;
                     return null;
                 }
 
@@ -1943,7 +1943,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                 if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
                 {
-                    errMsg = "½âÎöxmlÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + xml;
+                    errMsg = "è§£æxmlå¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + xml;
                     return null;
                 }
 
@@ -1987,7 +1987,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             return dsresult;
         }
 
-        //»úÆ±¶©µ¥²éÑ¯cgi·µ»Ø½á¹ûxml½âÎö
+        //æœºç¥¨è®¢å•æŸ¥è¯¢cgiè¿”å›ç»“æœxmlè§£æ
         public static DataSet PaseCgiXmlForTravelPlatform(string xml, out string errMsg)
         {
             DataSet dsresult = null;
@@ -1999,7 +1999,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
      
             if (xml == null || xml == "")
             {
-                errMsg = "½âÎöxmlÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + xml;
+                errMsg = "è§£æxmlå¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + xml;
                 return null;
             }
 
@@ -2008,35 +2008,35 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             XmlElement root = doc.DocumentElement;
             XmlNode retcode = root.SelectSingleNode("retcode");
           
-            if (retcode == null || retcode.InnerText != "00")//²Ù×÷³É¹¦
+            if (retcode == null || retcode.InnerText != "00")//æ“ä½œæˆåŠŸ
             {
-                errMsg = "½âÎöxmlÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + xml;
+                errMsg = "è§£æxmlå¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + xml;
                 return null;
             }
 
-            XmlNode ret_num = root.SelectSingleNode("ret_num");//ÎŞ¼ÇÂ¼
+            XmlNode ret_num = root.SelectSingleNode("ret_num");//æ— è®°å½•
             if (ret_num != null && ret_num.InnerText == "0")
                 dsresult = null;
             else
             {
                 XmlNode records = root.SelectSingleNode("records");
                 XmlNodeList record_el = records.SelectNodes("record");
-                for (int i = 0; i < record_el.Count; i++)//Ñ­»·records
+                for (int i = 0; i < record_el.Count; i++)//å¾ªç¯records
                 {
                     DataRow drfield = dt.NewRow();
                     drfield.BeginEdit();
 
                     XmlNodeList ch_list = record_el[i].ChildNodes;
                     #region
-                    foreach (XmlElement ele in ch_list)//Ñ­»·Ã¿¸örecordÖĞµÄ½Úµã
+                    foreach (XmlElement ele in ch_list)//å¾ªç¯æ¯ä¸ªrecordä¸­çš„èŠ‚ç‚¹
                     {
                         string name = ele.Name.Trim();
                         XmlAttributeCollection listAttr = null;
-                        if (name.Equals("listinfo"))//»ñÈ¡listinfoÖĞµÄÊôĞÔ
+                        if (name.Equals("listinfo"))//è·å–listinfoä¸­çš„å±æ€§
                         {
                             listAttr = ele.Attributes;
                         }
-                        else if (name == "flights")//»ñÈ¡flightsÖĞµÄÊôĞÔ
+                        else if (name == "flights")//è·å–flightsä¸­çš„å±æ€§
                         {
                             XmlNode flightFirstN = ele.FirstChild;
                             if (flightFirstN != null)
@@ -2077,7 +2077,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
           
         }
 
-        //¾Æµê¶©µ¥²éÑ¯cgi·µ»Ø½á¹ûjson½âÎö
+        //é…’åº—è®¢å•æŸ¥è¯¢cgiè¿”å›ç»“æœjsonè§£æ
         public static DataSet PaseCgiJsonForHotelOrderQuery(string json, out string errMsg)
         {
             DataSet dsresult = null;
@@ -2087,13 +2087,13 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
            
             if (json == null || json == "")
             {
-                errMsg = "½âÎöjsonÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + json;
+                errMsg = "è§£æjsonå¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + json;
                 return null;
             }
             try
             {
-                JavaScriptSerializer js = new JavaScriptSerializer();   //ÊµÀı»¯Ò»¸öÄÜ¹»ĞòÁĞ»¯Êı¾İµÄÀà
-                ToHotelOrder list = js.Deserialize<ToHotelOrder>(json);    //½«jsonÊı¾İ×ª»¯Îª¶ÔÏóÀàĞÍ²¢¸³Öµ¸ølist
+                JavaScriptSerializer js = new JavaScriptSerializer();   //å®ä¾‹åŒ–ä¸€ä¸ªèƒ½å¤Ÿåºåˆ—åŒ–æ•°æ®çš„ç±»
+                ToHotelOrder list = js.Deserialize<ToHotelOrder>(json);    //å°†jsonæ•°æ®è½¬åŒ–ä¸ºå¯¹è±¡ç±»å‹å¹¶èµ‹å€¼ç»™list
                 string result = list.result;
                 string res_info = list.res_info;
                 string order_num = list.queryorder_info.order_num;
@@ -2104,13 +2104,13 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             }
             catch
             {
-                errMsg = "½âÎöjsonÊ§°Ü,·µ»Ø½á¹ûÓĞÎó:" + json;
+                errMsg = "è§£æjsonå¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯:" + json;
                 return null;
             }
 
         }
 
-        #region ¾Æµê¶©µ¥²éÑ¯cgi·µ»Ø½á¹ûjsonÖ®¹¹Ôì¶ÔÏó
+        #region é…’åº—è®¢å•æŸ¥è¯¢cgiè¿”å›ç»“æœjsonä¹‹æ„é€ å¯¹è±¡
         public struct ToHotelOrder
         {
             public string result { get; set; }
@@ -2140,7 +2140,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         };
         #endregion
 
-        //ĞÄÒâ¿¨²éÑ¯cgi·µ»Ø½á¹ûjson½âÎö
+        //å¿ƒæ„å¡æŸ¥è¯¢cgiè¿”å›ç»“æœjsonè§£æ
         public static DataSet ParseCgiJsonForXYKQuery(string json, string flag, out string sendCount, out string receiveCount, out string errMsg)
         {
             DataSet dsresult = null;
@@ -2152,13 +2152,13 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
             if (json == null || json == "")
             {
-                errMsg = "½âÎöjsonÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + json;
+                errMsg = "è§£æjsonå¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + json;
                 return null;
             }
             try
             {
-                JavaScriptSerializer js = new JavaScriptSerializer();   //ÊµÀı»¯Ò»¸öÄÜ¹»ĞòÁĞ»¯Êı¾İµÄÀà
-                XYKResultClass list = js.Deserialize<XYKResultClass>(json);    //½«jsonÊı¾İ×ª»¯Îª¶ÔÏóÀàĞÍ²¢¸³Öµ¸ølist
+                JavaScriptSerializer js = new JavaScriptSerializer();   //å®ä¾‹åŒ–ä¸€ä¸ªèƒ½å¤Ÿåºåˆ—åŒ–æ•°æ®çš„ç±»
+                XYKResultClass list = js.Deserialize<XYKResultClass>(json);    //å°†jsonæ•°æ®è½¬åŒ–ä¸ºå¯¹è±¡ç±»å‹å¹¶èµ‹å€¼ç»™list
 
 
                 string result = list.error.code;
@@ -2170,13 +2170,13 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                     receiveCount = list.result.recordonuser.receivecount;
                     if (flag == "send")
                     {
-                        //·¢ËÍ
+                        //å‘é€
                         List<SendDetail> sendDetail = list.result.recordonuser.sendrecord;
                         dt = ToDataTableTow(sendDetail);
                     }
                     else 
                     {
-                        //½ÓÊÕ
+                        //æ¥æ”¶
                         List<ReceiveDetail> receiveDetail = list.result.recordonuser.receiverecord;
                         dt = ToDataTableTow(receiveDetail);
                     }
@@ -2191,13 +2191,13 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             }
             catch
             {
-                errMsg = "½âÎöjsonÊ§°Ü£¡";
+                errMsg = "è§£æjsonå¤±è´¥ï¼";
                 return null;
             }
 
         }
 
-        //ĞÄÒâ¿¨·¢ËÍÏêÇé²éÑ¯cgi·µ»Ø½á¹ûjson½âÎö
+        //å¿ƒæ„å¡å‘é€è¯¦æƒ…æŸ¥è¯¢cgiè¿”å›ç»“æœjsonè§£æ
         public static DataSet ParseCgiJsonForXYKSendDetailQuery(string json, out string errMsg)
         {
             DataSet dsresult = null;
@@ -2207,13 +2207,13 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
             if (json == null || json == "")
             {
-                errMsg = "½âÎöjsonÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + json;
+                errMsg = "è§£æjsonå¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + json;
                 return null;
             }
             try
             {
-                JavaScriptSerializer js = new JavaScriptSerializer();   //ÊµÀı»¯Ò»¸öÄÜ¹»ĞòÁĞ»¯Êı¾İµÄÀà
-                XYKDetailResultClass list = js.Deserialize<XYKDetailResultClass>(json);    //½«jsonÊı¾İ×ª»¯Îª¶ÔÏóÀàĞÍ²¢¸³Öµ¸ølist
+                JavaScriptSerializer js = new JavaScriptSerializer();   //å®ä¾‹åŒ–ä¸€ä¸ªèƒ½å¤Ÿåºåˆ—åŒ–æ•°æ®çš„ç±»
+                XYKDetailResultClass list = js.Deserialize<XYKDetailResultClass>(json);    //å°†jsonæ•°æ®è½¬åŒ–ä¸ºå¯¹è±¡ç±»å‹å¹¶èµ‹å€¼ç»™list
                 string result = list.error.code;
                 string retmsg = list.error.message;
 
@@ -2232,13 +2232,13 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             }
             catch
             {
-                errMsg = "½âÎöjsonÊ§°Ü£¡";
+                errMsg = "è§£æjsonå¤±è´¥ï¼";
                 return null;
             }
 
         }
 
-        #region ĞÄÒâ¿¨¹¹Ôì¶ÔÏó
+        #region å¿ƒæ„å¡æ„é€ å¯¹è±¡
         public struct XYKResultClass
         {
             public XYKRetcodeMsg error;
@@ -2296,7 +2296,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             public string name { get; set; }
         };
 
-        //ÏêÇé
+        //è¯¦æƒ…
         public struct XYKDetailResultClass
         {
             public XYKRetcodeMsg error;
@@ -2325,9 +2325,9 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         #endregion
 
         /// <summary>
-        /// ½«¼¯ºÏÀà×ª»»³ÉDataTable
+        /// å°†é›†åˆç±»è½¬æ¢æˆDataTable
         /// </summary>
-        /// <param name="list">¼¯ºÏÀà</param>
+        /// <param name="list">é›†åˆç±»</param>
         /// <returns></returns>
         public static DataTable ToDataTableTow(IList list)
         {
@@ -2358,7 +2358,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         }
 
         /// <summary>
-        /// ½«·µ»Ø´®½âÎöÖÁdatasetÖĞ
+        /// å°†è¿”å›ä¸²è§£æè‡³datasetä¸­
         /// </summary>
         /// <param name="str"></param>
         /// <param name="errMsg"></param>
@@ -2376,7 +2376,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 if (strlist1.Length == 0)
                 {
                     dsresult = null;
-                    errMsg = "µ÷ÓÃÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + str;
+                    errMsg = "è°ƒç”¨å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + str;
                     return null;
                 }
 
@@ -2396,7 +2396,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
                 {
                     dsresult = null;
-                    errMsg = "µ÷ÓÃÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + str;
+                    errMsg = "è°ƒç”¨å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + str;
                     return null;
                 }
 
@@ -2404,7 +2404,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 DataTable dt = new DataTable();
                 dsresult.Tables.Add(dt);
 
-                //Ìí¼ÓÁĞ
+                //æ·»åŠ åˆ—
                 foreach (string stmp in strlist1)
                 {
                     if (stmp == null || stmp.Trim() == "")
@@ -2421,7 +2421,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 DataRow drfield = dt.NewRow();
                 drfield.BeginEdit();	
 
-                //½âÎöxx1=1&xx2=2
+                //è§£æxx1=1&xx2=2
                 foreach (string stmp in strlist1)
                 {
                     if (stmp == null || stmp.Trim() == "")
@@ -2443,13 +2443,14 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             return dsresult;
         }
 
+
         /// <summary>
-        /// result=0&roll_1=&roll_2=...¸ñÊ½×Ö·û´®½âÎö
+        /// å°†è¿”å›ä¸²è§£æè‡³datasetä¸­
         /// </summary>
         /// <param name="str"></param>
         /// <param name="errMsg"></param>
         /// <returns></returns>
-        public static DataSet ParseRelayPageRow(string str, out string errMsg)
+        public static DataSet ParseHBDetailStr(string str, out string errMsg)
         {
             DataSet dsresult = null;
             Hashtable ht = null;
@@ -2462,7 +2463,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 if (strlist1.Length == 0)
                 {
                     dsresult = null;
-                    errMsg = "µ÷ÓÃÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + str;
+                    errMsg = "è°ƒç”¨å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + str;
                     return null;
                 }
 
@@ -2482,7 +2483,295 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
                 {
                     dsresult = null;
-                    errMsg = "µ÷ÓÃÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + str;
+                    errMsg = "è°ƒç”¨å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + str;
+                    return null;
+                }
+
+                dsresult = new DataSet();
+                DataTable dt = new DataTable();
+                dsresult.Tables.Add(dt);
+
+                /*å¦‚æœæ˜¯æ”¶çº¢åŒ…å­—æ®µã€‚æ ¼å¼å¦‚ä¸‹
+                recv_num=1&row1=amount%3D2900%26answer%3Dæœ‰é’±å°±æ˜¯ä»»æ€§%26b2c_listid%3D2417524760201501069990006953%26client_ip%3D59.37.125.35%26create_time%3D2015-01-06 10:34:22%26
+                recv_listid%3D112417524760201501059990006954%26recv_name%3Dë„êµ¬ä¸­å›½ã§ã¯%26recv_uin%3D1427658086%26state%3D2
+                å†ä¸€æ¬¡è§£æå­—æ®µ*/
+
+                if (!ht.Contains("recv_num") || ht["recv_num"].ToString().Trim() != "0")
+                {
+                    for (int i = 1; i <= int.Parse(ht["recv_num"].ToString()); ++i)
+                    {
+                        string strRowName = string.Format("row{0}", i);
+                        if (!ht.Contains(strRowName))
+                        {
+                            errMsg += "è°ƒç”¨å¤±è´¥,è§£ææ¥æ”¶çº¢åŒ…æœ‰è¯¯ã€‚æœ‰æ¥æ”¶çº¢åŒ…æ•°å€¼ï¼Œå´æ²¡æœ‰è§£æåˆ°å¯¹åº”çš„æ•°æ®" + str;
+                            return null;
+                        }
+                        DataRow row = dt.NewRow();
+                        string rowData = IceDecode(ht[strRowName].ToString());
+                        string[] strlist = rowData.Split('&');
+                        //æ·»åŠ åˆ—
+                        foreach (string stmp in strlist)
+                        {
+                            if (stmp == null || stmp.Trim() == "")
+                                continue;
+
+                            string[] fieldsplit = stmp.Split('=');
+
+                            if (fieldsplit.Length != 2)
+                                continue;
+                            dt.Columns.Add(fieldsplit[0], typeof(string));
+                            row[fieldsplit[0]] = fieldsplit[1];
+                        }
+                        if (ht.Contains("send_uin"))
+                        {
+                            dt.Columns.Add("send_uin", typeof(string));
+                            row["send_uin"] = ht["send_uin"].ToString();
+                        }
+                        if (ht.Contains("send_name"))
+                        {
+                            dt.Columns.Add("send_name", typeof(string));
+                            row["send_name"] = ht["send_name"].ToString();
+                        }
+                        if (ht.Contains("wishing"))
+                        {
+                            dt.Columns.Add("wishing", typeof(string));
+                            row["wishing"] = ht["wishing"].ToString();
+                        }
+                        dt.Rows.Add(row);
+                    }
+                }
+                else
+                {
+                    DataRow row = dt.NewRow();
+                    if (ht.Contains("send_uin"))
+                    {
+                        dt.Columns.Add("send_uin", typeof(string));
+                        row["send_uin"] = ht["send_uin"].ToString();
+                    }
+                    if (ht.Contains("send_name"))
+                    {
+                        dt.Columns.Add("send_name", typeof(string));
+                        row["send_name"] = ht["send_name"].ToString();
+                    }
+                    if (ht.Contains("wishing"))
+                    {
+                        dt.Columns.Add("wishing", typeof(string));
+                        row["wishing"] = ht["wishing"].ToString();
+                    }
+                    dt.Columns.Add("amount", typeof(string));
+                    dt.Columns.Add("recv_uin", typeof(string));
+                    dt.Columns.Add("recv_name", typeof(string));
+                    dt.Columns.Add("create_time", typeof(string));
+                    dt.Rows.Add(row);
+                }
+             }
+
+
+            return dsresult;
+        }
+
+
+        /// <summary>
+        /// æ‰‹Qçº¢åŒ…ç‰¹æ®Šè½¬æ¢
+        /// </summary>
+        /// <param name="ds">æ•°æ®æº</param>
+        /// /// <param name="strFlag">è§£ææ ‡è¯†</param>
+        /// <param name="errMsg">è¿”å›çš„é”™è¯¯ç </param>
+        /// <returns></returns>
+        public static DataTable ParseHQHBDataSet(DataSet ds,out string errMsg)
+        {
+            errMsg = "ParseHQHBDataSet";
+           // DataSet hqDs = new DataSet();
+            //è§£ææ”¶çº¢åŒ…æ•°æ®
+            DataTable dt = new DataTable();
+
+            
+            if (ds.Tables[0].Rows.Count <= 0 || int.Parse(ds.Tables[0].Rows[0]["row_num"].ToString()) < 1)
+            {
+                return null;
+            }
+            //æ·»åŠ åˆ—
+            //string rowName = string.Format("row{0}",1);
+            string strRow = CommQuery.IceDecode(ds.Tables[0].Rows[0]["row1"].ToString());
+            string[] strlist1 = strRow.Split('&'); //result=0&xx1=1&xx2=2
+
+            if (strlist1.Length == 0)
+            {              
+                 errMsg += "è°ƒç”¨å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + strRow;
+                return null;
+            }
+            foreach (string stmp in strlist1)
+            {
+                if (stmp == null || stmp.Trim() == "")
+                    continue;
+
+                string[] fieldsplit = stmp.Split('=');
+
+                if (fieldsplit.Length != 2)
+                    continue;
+
+                dt.Columns.Add(fieldsplit[0]);
+            }
+            //æ·»åŠ æ•°æ®          
+            for (int i = 1; i <= int.Parse(ds.Tables[0].Rows[0]["row_num"].ToString()); ++i)
+            {
+                // DataRow row =  dt.NewRow();
+                string rowName = string.Format("row{0}", i);
+                string rowData = ds.Tables[0].Rows[0][rowName].ToString();
+                string[] strlist2 = rowData.Split('&'); //result=0&xx1=1&xx2=2
+
+                if (strlist2.Length == 0)
+                {
+                    errMsg += "è°ƒç”¨å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + rowData;
+                    return null;
+                }
+       
+
+                DataRow drfield = dt.NewRow();
+                drfield.BeginEdit();
+
+                //è§£æxx1=1&xx2=2
+                foreach (string stmp in strlist2)
+                {
+                    if (stmp == null || stmp.Trim() == "")
+                        continue;
+
+                    string[] fieldsplit = stmp.Split('=');
+
+                    if (fieldsplit.Length != 2)
+                        continue;
+                    //IceDecode
+                   // drfield[fieldsplit[0]] = CommQuery.URLDecode(fieldsplit[1].Trim());
+                    drfield[fieldsplit[0]] = CommQuery.IceDecode(fieldsplit[1].Trim());
+
+                }
+                drfield.EndEdit();
+                dt.Rows.Add(drfield);
+            }
+            return dt;
+           
+        }
+
+        /// <summary>
+        /// æ‰‹Qçº¢åŒ…ç‰¹æ®Šè½¬æ¢
+        /// </summary>
+        /// <param name="ds">æ•°æ®æº</param>
+        /// /// <param name="strFlag">è§£ææ ‡è¯†</param>
+        /// <param name="errMsg">è¿”å›çš„é”™è¯¯ç </param>
+        /// <returns></returns>
+        public static DataTable ParseHQHBetailSet(DataSet ds, out string errMsg)
+        {
+            errMsg = "ParseHQHBetailSet";
+            // DataSet hqDs = new DataSet();
+            //è§£ææ”¶çº¢åŒ…æ•°æ®
+            DataTable dt = new DataTable();
+
+
+            if (ds.Tables[0].Rows.Count <= 0 || int.Parse(ds.Tables[0].Rows[0]["row_num"].ToString()) < 1)
+            {
+                return null;
+            }
+            //æ·»åŠ åˆ—
+            //string rowName = string.Format("row{0}",1);
+            string strRow = ds.Tables[0].Rows[0]["row1"].ToString();
+            string[] strlist1 = strRow.Split('&'); //result=0&xx1=1&xx2=2
+
+            if (strlist1.Length == 0)
+            {
+                errMsg += "è°ƒç”¨å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + strRow;
+                return null;
+            }
+            foreach (string stmp in strlist1)
+            {
+                if (stmp == null || stmp.Trim() == "")
+                    continue;
+
+                string[] fieldsplit = stmp.Split('=');
+
+                if (fieldsplit.Length != 2)
+                    continue;
+
+                dt.Columns.Add(fieldsplit[0]);
+            }
+            //æ·»åŠ æ•°æ®          
+            for (int i = 1; i <= int.Parse(ds.Tables[0].Rows[0]["row_num"].ToString()); ++i)
+            {
+                // DataRow row =  dt.NewRow();
+                string rowName = string.Format("row{0}", i);
+                string rowData = ds.Tables[0].Rows[0][rowName].ToString();
+                string[] strlist2 = rowData.Split('&'); //result=0&xx1=1&xx2=2
+
+                if (strlist2.Length == 0)
+                {
+                    errMsg += "è°ƒç”¨å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + rowData;
+                    return null;
+                }
+
+
+                DataRow drfield = dt.NewRow();
+                drfield.BeginEdit();
+
+                //è§£æxx1=1&xx2=2
+                foreach (string stmp in strlist2)
+                {
+                    if (stmp == null || stmp.Trim() == "")
+                        continue;
+
+                    string[] fieldsplit = stmp.Split('=');
+
+                    if (fieldsplit.Length != 2)
+                        continue;
+
+                    drfield[fieldsplit[0]] = CommQuery.URLDecode(fieldsplit[1].Trim());
+
+                }
+                drfield.EndEdit();
+                dt.Rows.Add(drfield);
+            }
+            return dt;
+
+        }
+
+        /// <summary>
+        /// result=0&roll_1=&roll_2=...æ ¼å¼å­—ç¬¦ä¸²è§£æ
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="errMsg"></param>
+        /// <returns></returns>
+        public static DataSet ParseRelayPageRow(string str, out string errMsg)
+        {
+            DataSet dsresult = null;
+            Hashtable ht = null;
+            errMsg = "";
+
+            if (str != null && str != "")
+            {
+                string[] strlist1 = str.Split('&'); //result=0&xx1=1&xx2=2
+
+                if (strlist1.Length == 0)
+                {
+                    dsresult = null;
+                    errMsg = "è°ƒç”¨å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + str;
+                    return null;
+                }
+
+                ht = new Hashtable(strlist1.Length);
+
+                foreach (string strtmp in strlist1)
+                {
+                    string[] strlist2 = strtmp.Split('=');
+                    if (strlist2.Length != 2)
+                    {
+                        continue;
+                    }
+
+                    ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
+                }
+
+                if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
+                {
+                    dsresult = null;
+                    errMsg = "è°ƒç”¨å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + str;
                     return null;
                 }
 
@@ -2534,11 +2823,11 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
 
         /// <summary>
-        /// ¸ñÊ½×Ö·û´®½âÎö result=0&row1=&row2=&row_num=...¸ñÊ½×Ö·û´®½âÎö
+        /// æ ¼å¼å­—ç¬¦ä¸²è§£æ result=0&row1=&row2=&row_num=...æ ¼å¼å­—ç¬¦ä¸²è§£æ
         /// </summary>
         /// <param name="str"></param>
         /// <param name="errMsg"></param>
-        /// <param name="totalNum">×Ü¼ÇÂ¼Êı</param>
+        /// <param name="totalNum">æ€»è®°å½•æ•°</param>
         /// <returns></returns>
         public static DataSet ParseRelayPageRowNum(string str, out string errMsg,out int totalNum)
         {
@@ -2554,7 +2843,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 if (strlist1.Length == 0)
                 {
                     dsresult = null;
-                    errMsg = "µ÷ÓÃÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + str;
+                    errMsg = "è°ƒç”¨å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + str;
                     totalNum = 0;
                     return null;
                 }
@@ -2575,7 +2864,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
                 {
                     dsresult = null;
-                    errMsg = "µ÷ÓÃÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + str;
+                    errMsg = "è°ƒç”¨å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + str;
                     totalNum = 0;
                     return null;
                 }
@@ -2630,11 +2919,11 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         }
 
         /// <summary>
-        /// ¸ñÊ½×Ö·û´®½âÎö result=0&row0=&row1=&row_num=...¸ñÊ½×Ö·û´®½âÎö
+        /// æ ¼å¼å­—ç¬¦ä¸²è§£æ result=0&row0=&row1=&row_num=...æ ¼å¼å­—ç¬¦ä¸²è§£æ
         /// </summary>
         /// <param name="str"></param>
         /// <param name="errMsg"></param>
-        /// <param name="totalNum">×Ü¼ÇÂ¼Êı</param>
+        /// <param name="totalNum">æ€»è®°å½•æ•°</param>
         /// <returns></returns>
         public static DataSet ParseRelayPageRowNum0(string str, out string errMsg)
         {
@@ -2649,7 +2938,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 if (strlist1.Length == 0)
                 {
                     dsresult = null;
-                    errMsg = "µ÷ÓÃÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + str;
+                    errMsg = "è°ƒç”¨å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + str;
                     return null;
                 }
 
@@ -2669,7 +2958,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
                 {
                     dsresult = null;
-                    errMsg = "µ÷ÓÃÊ§°Ü,·µ»Ø½á¹ûÓĞÎó" + str;
+                    errMsg = "è°ƒç”¨å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + str;
                     return null;
                 }
 
@@ -2722,10 +3011,10 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
         }
         /// <summary> 
-        /// Çå³ıxmlÖĞµÄ²»ºÏ·¨×Ö·û 
+        /// æ¸…é™¤xmlä¸­çš„ä¸åˆæ³•å­—ç¬¦ 
         /// </summary> 
         /// <remarks> 
-        /// ÎŞĞ§×Ö·û£º 
+        /// æ— æ•ˆå­—ç¬¦ï¼š 
         /// 0x00 - 0x08 
         /// 0x0b - 0x0c 
         /// 0x0e - 0x1f 
@@ -2765,7 +3054,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         }
 
 
-		//ĞÂÔö¼¸¸öÍ¨¹ıquery_mul_tcrecv_serviceÀ´²éÑ¯ andrew20120224
+		//æ–°å¢å‡ ä¸ªé€šè¿‡query_mul_tcrecv_serviceæ¥æŸ¥è¯¢ andrew20120224
 		public static DataSet GetDataSetFromICE_QueryServer(string strWhere, string strCmd, out string errMsg)
 		{
             return GetDataSetFromICE(strWhere, strCmd, false, "cq_query_tcbanklist_service", out errMsg);
@@ -2844,8 +3133,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
 
 
-		// ĞÂÔö¼¸¸öÍ¨¹ıquery_order_serviceÀ´²éÑ¯ andrew20120524
-		// ¸Ã·½·¨Ä¿Ç°ÓÃÓÚ²ésp_order_query_service  alex 20120618
+		// æ–°å¢å‡ ä¸ªé€šè¿‡query_order_serviceæ¥æŸ¥è¯¢ andrew20120524
+		// è¯¥æ–¹æ³•ç›®å‰ç”¨äºæŸ¥sp_order_query_service  alex 20120618
 		public static DataSet GetDataSetFromICE_OrderServer(string strWhere, string strCmd, bool issecret, out string errMsg)
 		{
 			DataSet dsresult = null;
@@ -2869,11 +3158,11 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			{
 				if(iResult == 0)
 				{
-					//¶Ôsreply½øĞĞ½âÎö
+					//å¯¹sreplyè¿›è¡Œè§£æ
 					if(sReply == null || sReply.Trim() == "")
 					{
 						dsresult = null;
-						errMsg = "µ÷ÓÃ"+strCmd+"Ê§°Ü,ÎŞ·µ»Ø½á¹û" + strCmd + strWhere ;
+						errMsg = "è°ƒç”¨"+strCmd+"å¤±è´¥,æ— è¿”å›ç»“æœ" + strCmd + strWhere ;
 						return null;
 					}
 					else
@@ -2883,7 +3172,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 						if(strlist1.Length == 0)
 						{
 							dsresult = null;
-							errMsg = "µ÷ÓÃ"+strCmd+"Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply ;
+							errMsg = "è°ƒç”¨"+strCmd+"å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply ;
 							return null;
 						}
 
@@ -2898,7 +3187,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 							if(strlist2.Length != 2)
 							{
 								dsresult = null;
-								errMsg = "µ÷ÓÃ"+strCmd+"Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply ;
+								errMsg = "è°ƒç”¨"+strCmd+"å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply ;
 								return null;
 							}
                             
@@ -2910,11 +3199,11 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 						if(!ht.Contains("result") || ht["result"].ToString().Trim() != "0") //|| !ht.Contains("row_num") )
 						{
 							dsresult = null;
-							errMsg = "µ÷ÓÃ"+strCmd+"Ê§°Ü,·µ»Ø½á¹ûÓĞÎó" + sReply ;
+							errMsg = "è°ƒç”¨"+strCmd+"å¤±è´¥,è¿”å›ç»“æœæœ‰è¯¯" + sReply ;
 							return null;
 						}
 
-						// Ã»ÓĞrow_num£¬ÔòÏÔÊ¾Ò»ĞĞ
+						// æ²¡æœ‰row_numï¼Œåˆ™æ˜¾ç¤ºä¸€è¡Œ
 						if(!ht.Contains("row_num"))
 						{
 							dsresult = new DataSet();
@@ -2945,7 +3234,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 						if(irowcount == 0)
 						{
 							dsresult = null;
-							errMsg = "²éÑ¯½á¹ûÎª¿Õ";
+							errMsg = "æŸ¥è¯¢ç»“æœä¸ºç©º";
 							return null;
 						}
 
@@ -2962,7 +3251,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 						if(strsplit3.Length == 0)
 						{
 							dsresult = null;
-							errMsg = "²éÑ¯½á¹ûÖĞÎŞ·¨½âÎö³ö×Ö¶Î";
+							errMsg = "æŸ¥è¯¢ç»“æœä¸­æ— æ³•è§£æå‡ºå­—æ®µ";
 							return null;
 						}
 						
@@ -3023,14 +3312,14 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 				else
 				{
 					dsresult = null;
-					errMsg = "µ÷ÓÃ"+strCmd+"Ê§°Üiresult=" + iResult + "|err="  + sMsg;
+					errMsg = "è°ƒç”¨"+strCmd+"å¤±è´¥iresult=" + iResult + "|err="  + sMsg;
 					return null;
 				}
 			}
 			else
 			{
 				dsresult = null;
-				errMsg = "µ÷ÓÃ"+strCmd+"Ê§°ÜÁË:" + sMsg;
+				errMsg = "è°ƒç”¨"+strCmd+"å¤±è´¥äº†:" + sMsg;
 				return null;
 			}
 

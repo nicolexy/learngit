@@ -48,6 +48,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
         protected ForeignCurrencyAccount ForeignCurrencyAccount1;
         protected ForeignCardPay ForeignCardPay1;
         protected PNRQueryControl PNRQuery1;
+        
 
         protected void Page_Load(object sender, System.EventArgs e)
         {
@@ -321,6 +322,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 InternetBank.AddSubMenu("会员优惠额度", "InternetBank/MermberDiscount.aspx");
                 InternetBank.AddSubMenu("退款登记", "InternetBank/RefundQuery.aspx");
                 InternetBank.AddSubMenu("自动续费查询", "InternetBank/AtuoRenewQuery.aspx");
+                //手Q业务
+                HandQBusiness.AddSubMenu("手Q红包查询", "HandQBusiness/FindHandQRedPacket.aspx");
 
                 //活动合作
                 ActivityCooperation1.AddSubMenu("打折密码", "NewQueryInfoPages/QueryDiscountCode.aspx");
