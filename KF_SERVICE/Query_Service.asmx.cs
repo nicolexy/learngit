@@ -10477,7 +10477,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
-                throw new Exception("service发生错误,请联系管理员！");
+                throw new Exception(string.Format("service发生错误,请联系管理员！{0}", e.Message));
                 return 0;
             }
         }
@@ -10522,9 +10522,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
                 return Count;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new Exception("service发生错误,请联系管理员！");
+                throw new Exception(string.Format("service发生错误,请联系管理员！{0}", ex.Message));
                 return 0;
             }
         }
