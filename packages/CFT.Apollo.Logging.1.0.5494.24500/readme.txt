@@ -32,4 +32,16 @@
   </runtime>
   
 =================================================
+如版本冲突，请是用程序集重定向
+<configuration>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="CFT.Apollo.Logging" publicKeyToken="" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="3.1.5494.24493" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+ </configuration>
+
 有问题，请访问up

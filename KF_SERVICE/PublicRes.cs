@@ -972,7 +972,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //{
                 //    connModule = "Driver=[mysql ODBC 5.2a Driver]; Server={0}; Database={3}; UID={1}; PWD={2};charset=latin1; Option=3";
                 //}
-                
+
                 //return String.Format(connModule, ConfigurationManager.AppSettings["DataSource_" + configname], ConfigurationManager.AppSettings["UserID_" + configname]
                 //    , ConfigurationManager.AppSettings["Password_" + configname], dbconfig).Replace("[", "{").Replace("]", "}");
             }
@@ -1087,18 +1087,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //sConnStr = String.Format(connModule, f_strDataSource_fkdj, f_strUserID_fkdj, f_strPassword_fkdj, f_strDatabase_fkdj);
                 return DbConnectionString.Instance.GetConnectionString("FKDJ");
             }
-            else if (strDBType.ToUpper() == "ZW" || strDBType.IndexOf("zw")>0)
+            else if (strDBType.ToUpper() == "ZW")
             {
                 //sConnStr = String.Format(connModule, f_strDataSource_zw, f_strUserID_zw, f_strPassword_zw, f_strDatabase_zw);
-                if (strDBType.IndexOf("zw") > 0)
-                {
-                    var index = strDBType.Substring(2, strDBType.Length - 2);
-                    return DbConnectionString.Instance.GetConnectionString("ZW" + index);
-                }
-                else
-                {
-                    return DbConnectionString.Instance.GetConnectionString("ZW");
-                }
+                return DbConnectionString.Instance.GetConnectionString("ZW");
             }
             else if (strDBType.ToUpper() == "ZWFK")
             {
@@ -1374,6 +1366,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 //sConnStr = String.Format(connModule, f_strDataSource_wxxesk, f_strUserID_wxxesk, f_strPassword_wxxesk, f_strDatabase_wxxesk);
                 return DbConnectionString.Instance.GetConnectionString("WXXESK");
+            }
+               
+            else if (System.Text.RegularExpressions.Regex.IsMatch(strDBType, @"^zw(\d{1,2})$"))
+            {
+                var index = strDBType.Substring(2, strDBType.Length - 2);
+                return DbConnectionString.Instance.GetConnectionString("zw" + index);
             }
             return sConnStr;//.Replace("[", "{").Replace("]", "}");
         }

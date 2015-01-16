@@ -27,6 +27,7 @@ using CFT.CSOMS.BLL.SPOA;
 using CFT.CSOMS.BLL.FundModule;
 using CFT.CSOMS.BLL.FreezeModule;
 using CFT.CSOMS.COMMLIB;
+using SunLibrary;
 
 namespace TENCENT.OSS.CFT.KF.KF_Service
 {
@@ -18739,6 +18740,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 da.OpenConn();
                 return da.dsGetTotalData(strSql);
             }
+            catch (Exception ex)
+            {
+                LogHelper.LogInfo("查询数据异常:" + ex.Message);
+                LogHelper.LogInfo("异常堆栈信息:" + new StackTrace().GetFrames().ToString());
+                throw ex;
+            }
             finally
             {
                 da.Dispose();
@@ -21501,6 +21508,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 da.OpenConn();
                 dt = da.GetTable(strSql);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogInfo("查询数据异常:" + ex.Message);
+                LogHelper.LogInfo("异常堆栈:" + new StackTrace().GetFrames().ToString());
+                throw;
             }
             finally
             {

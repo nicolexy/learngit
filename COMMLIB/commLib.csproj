@@ -86,16 +86,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CFT.Apollo.Common">
-      <HintPath>..\packages\CFT.Apollo.Common.1.0.5436.2324\lib\CFT.Apollo.Common.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.Common.3.1.5494.24496\lib\CFT.Apollo.Common.dll</HintPath>
     </Reference>
     <Reference Include="CFT.Apollo.CommunicationFramework">
-      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5435.33704\lib\CFT.Apollo.CommunicationFramework.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5494.24501\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
     </Reference>
     <Reference Include="CFT.Apollo.Data">
-      <HintPath>..\packages\CFT.Apollo.Data.1.0.5493.24852\lib\CFT.Apollo.Data.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.Data.1.0.5494.24505\lib\CFT.Apollo.Data.dll</HintPath>
     </Reference>
     <Reference Include="CFT.Apollo.Logging">
-      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5436.27776\lib\net40\CFT.Apollo.Logging.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5494.24500\lib\net40\CFT.Apollo.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="icecs_gb2312">
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5494.24501\lib\net40\icecs_gb2312.dll</HintPath>
     </Reference>
     <Reference Include="Interop.ADODB">
       <HintPath>..\Assemblies\Interop.ADODB.dll</HintPath>
@@ -117,7 +120,7 @@
       <HintPath>..\packages\CFT.Apollo.log4net.1.0.0.15\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data.Apollo">
-      <HintPath>..\packages\MySql.Data.Apllo.6.9.5.43672\lib\MySql.Data.Apollo.dll</HintPath>
+      <HintPath>..\packages\MySql.Data.Apllo.6.95.5494.24500\lib\MySql.Data.Apollo.dll</HintPath>
     </Reference>
     <Reference Include="SunLibrary">
       <HintPath>..\packages\SunLibrary.1.1.5280.31038\lib\net40\SunLibrary.dll</HintPath>

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using TENCENT.OSS.CFT.KF.DataAccess;
 using CFT.Apollo.Data.ConnectionString;
+using CFT.Apollo.Logging;
+using System.Diagnostics;
 
 namespace CommLib
 {
@@ -49,7 +51,7 @@ namespace CommLib
         }
 
         /// <summary>
-        /// 获取连接字符串
+        /// 获取连接字符串k
         /// </summary>
         /// <param name="dataSourceName">数据库别名</param>
         /// <returns></returns>
@@ -60,9 +62,18 @@ namespace CommLib
                 throw new ArgumentNullException("dataSourceName");
             }
 
-            var connectionString = ConnectionStringHelper.Get(dataSourceName);
+            var connectionString = string.Empty;
+            try
+            {
+                connectionString = ConnectionStringHelper.Get(dataSourceName);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogInfo("获取连接字符串异常:" + ex.Message);
+                LogHelper.LogInfo("异常堆栈:" + new StackTrace().GetFrames().ToString());
+            }
 
-            if (connectionString == null)
+            if (string.IsNullOrEmpty(connectionString))
             {
                 throw new Exception(string.Format("找不到名为\"{0}\"的连接字符串", dataSourceName));
             }
