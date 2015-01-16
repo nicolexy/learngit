@@ -67,9 +67,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			{
 				InitGrid();         
 			}
-			catch
+			catch(Exception ex)
 			{
-				WebUtils.ShowMessage(this.Page,"显示数据时出错，请重试。");
+				WebUtils.ShowMessage(this.Page,string.Format("显示数据时出错，请重试。{0}", ex.Message));
 			}
 		}
 
