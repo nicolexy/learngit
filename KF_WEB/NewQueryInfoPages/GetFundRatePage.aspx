@@ -395,7 +395,10 @@
                         <asp:BoundColumn DataField="Flistid" HeaderText="交易单号">
                             <HeaderStyle Width="150px" HorizontalAlign="Center"></HeaderStyle>
                         </asp:BoundColumn>
-                        <asp:BoundColumn DataField="Fsub_trans_id_str" HeaderText="订单号">
+                        <%--<asp:BoundColumn DataField="Fsub_trans_id_str" HeaderText="订单号">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>--%>
+                         <asp:BoundColumn DataField="Ffetchid" HeaderText="提现单号">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
                         <asp:BoundColumn DataField="FtypeText" HeaderText="存取">

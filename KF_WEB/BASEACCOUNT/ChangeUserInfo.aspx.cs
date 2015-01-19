@@ -405,6 +405,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 WebUtils.ShowMessage(this.Page, "请输入账号！");
             }
+            this.logPager.RecordCount = 1000;
 			selectClick();
             returnState();
 		}
@@ -425,8 +426,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				WebUtils.ShowMessage(this.Page,str);
 			}
 			catch(Exception emsg)
-			{
-				WebUtils.ShowMessage(this.Page,emsg.Message);
+            {
+                string str = PublicRes.GetErrorMsg(emsg.Message.ToString());
+                WebUtils.ShowMessage(this.Page, str);
 			} 
 		}
 
@@ -442,6 +444,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             var dt = new AccountService().QueryChangeUserInfoLog(this.TX_QQID.Text.Trim(), start, max);
             if (dt != null && dt.Rows.Count > 0)
             {
+                dt.Columns.Add("Fcre_type_str", typeof(String));
+                dt.Columns.Add("Fcre_type_old_str", typeof(String));
+                dt.Columns.Add("Fuser_type_str", typeof(String));
+                dt.Columns.Add("Fuser_type_old_str", typeof(String));
+                dt.Columns.Add("Fattid_str", typeof(String));
+                dt.Columns.Add("Fattid_old_str", typeof(String));
+
+                Hashtable htCertify= (Hashtable)ViewState["htCertify"];
+                Hashtable htAttid = (Hashtable)ViewState["htAttid"];
+                Hashtable htUsertype= new Hashtable();
+                htUsertype.Add("0", "未指定");
+                htUsertype.Add("1", "个人");
+                htUsertype.Add("2", "公司");
+
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Fcre_type", "Fcre_type_str", htCertify);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Fcre_type_old", "Fcre_type_old_str", htCertify);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Fuser_type", "Fuser_type_str", htUsertype);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Fuser_type_old", "Fuser_type_old_str", htUsertype);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Fattid", "Fattid_str", htAttid);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Fattid_old", "Fattid_old_str", htAttid);
+
                 dgLog.DataSource = dt.DefaultView;
                 dgLog.DataBind();
             }
@@ -458,7 +481,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			
 			//绑定证件类型
 			setConfig.bindDic("CRE_TYPE",this.DropDownList2_certify); //查询证件类型
-			
+          
 			//绑定性别
 //			setConfig.bindDic("SEX",this.DropDownList1_Sex);//性别
 
@@ -471,6 +494,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			//pbp.BindDropDownList(pm.QueryDicAccName(),ddlAttid,out Msg);
             Finance_ManageService.Finance_Manage fm = new Finance_ManageService.Finance_Manage();
             PublicRes.BindDropDownList(fm.QueryDicAccName(), ddlAttid, out Msg);
+
+            Hashtable htCertify = new Hashtable();
+            foreach (ListItem item in DropDownList2_certify.Items)
+            {
+                htCertify.Add(item.Value.ToString(), item.Text.ToString());
+            }
+
+            Hashtable htAttid = new Hashtable();
+            foreach (ListItem item in ddlAttid.Items)
+            {
+                htAttid.Add(item.Value.ToString(), item.Text.ToString());
+            }
+            ViewState["htCertify"] = htCertify;
+            ViewState["htAttid"] = htAttid;
+
 		}
 
 
@@ -534,9 +572,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         /// 编辑
 		private void LinkButton1_Edit_Click(object sender, System.EventArgs e)
 		{
-			try
-			{
-			//	BindInfo(1,1);
+            try
+            {
+                //	BindInfo(1,1);
 
 
                 ////this.Label1_Fqqid.Text       = ds.Tables[0].Rows[0]["Fqqid"].ToString();
@@ -586,27 +624,50 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 this.DropDownList2_certify.Enabled = true;//证件类型可选
                 this.ddlType.Enabled = true;//账户类型可选
-                this.ddlAttid.Enabled = true;//产品属性可选
 
-				this.LinkButton1_Edit.Visible = false;
-				//this.Linkbutton2_Update.Visible = true;
-				this.Button_Update.Visible = true;	
-				this.Button3.Visible = true;
 
-				//if (this.Button_Update.Visible == true)
-				//Response.Write("True");
+                this.LinkButton1_Edit.Visible = false;
+                //this.Linkbutton2_Update.Visible = true;
+                this.Button_Update.Visible = true;
+                this.Button3.Visible = true;
 
-				SetButtonVisible();
-			}
-			catch(SoapException eSoap)
-			{
-				string str = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-				WebUtils.ShowMessage(this.Page,"更新失败:"+ str);
-			}
-			catch(Exception er)
-			{
-				WebUtils.ShowMessage(this.Page,er.Message.ToString().Replace("'","’"));
-			}
+                //if (this.Button_Update.Visible == true)
+                //Response.Write("True");
+
+                SetButtonVisible();
+
+                Hashtable htCanModify = new Hashtable();
+                htCanModify.Add("1", "普通个人账户");
+                htCanModify.Add("106", "手Q简化注册用户");
+                htCanModify.Add("15", "paipai提现5万");
+                htCanModify.Add("17", "paipai提现5万II");
+                htCanModify.Add("19", "直通车控制用户");
+                htCanModify.Add("31", "paipai简化注册");
+                htCanModify.Add("32", "email简化注册");
+                htCanModify.Add("34", "200W提现");
+                htCanModify.Add("36", "paipai提现10万");
+                htCanModify.Add("41", "QQ回收");
+                htCanModify.Add("46", "paipai提现30万");
+                htCanModify.Add("72", "拍拍商铺提现2W");
+                htCanModify.Add("73", "拍拍商铺提现20W");
+                htCanModify.Add("79", "公司优秀员工发奖");
+                htCanModify.Add("0", "第一个");
+                ViewState["htCanModify"] = htCanModify;
+
+                if (!htCanModify.ContainsKey(this.ddlAttid.SelectedValue))
+                    this.ddlAttid.Enabled = false;//产品属性不可选
+                else
+                    this.ddlAttid.Enabled = true;//产品属性可选
+            }
+            catch (SoapException eSoap)
+            {
+                string str = PublicRes.GetErrorMsg(eSoap.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "更新失败:" + str);
+            }
+            catch (Exception er)
+            {
+                WebUtils.ShowMessage(this.Page, er.Message.ToString().Replace("'", "’"));
+            }
 			//BindInfo();
 		}
 
@@ -692,6 +753,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 		{
 			try
 			{
+                Hashtable htCanModify = (Hashtable)ViewState["htCanModify"];
+
+                if (htCanModify.ContainsKey(ViewState["Fatt_id"].ToString().Trim()))
+                {
+                    if (!htCanModify.ContainsKey(this.ddlAttid.SelectedValue))
+                    {
+                        WebUtils.ShowMessage(this.Page, "账户属性不在相互修改项中！ 1:普通个人账户/34:200W提现/36:paipai提现10万/41:QQ回收/" +
+                        "46 paipai提现30万/72  拍拍商铺提现2W/73拍拍商铺提现20W"
+                        + "/31:paipai简化注册/32:email简化注册/106:手Q简化注册用户/19:直通车控制用户"
+                        + "/15:paipai提现5万/17:paipai提现5万II/79:公司优秀员工发奖");
+                        return;
+                    }
+                }
+
 				//先同时修改3张表彰的姓名 t_user_info,t_user,t_bank_user
 				Finance_ManageService.Finance_Manage fm = new Finance_ManageService.Finance_Manage();
 				Finance_ManageService.Finance_Header fh = new Finance_ManageService.Finance_Header();
@@ -775,5 +850,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 WebUtils.ShowMessage(this, string.Format("翻页异常:{0}", ex.Message));
             }
         }
+
 	}
 }

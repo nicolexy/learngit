@@ -1073,7 +1073,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
         /// <returns></returns>
         public DataTable QueryChangeUserInfoLog(string qqid, int offset, int limit)
         {
-            string sql = "SELECT * FROM c2c_fmdb.t_change_userInfo_log  where Fqqid='" + qqid + "' limit " + offset+","+limit;
+            string sql = string.Format(@"SELECT * FROM c2c_fmdb.t_change_userInfo_log  where Fqqid='{0}' order by Fsubmit_time desc limit {1},{2} ", qqid, offset, limit);
             using (var da = MySQLAccessFactory.GetMySQLAccess("ChangeUserInfoLog"))
             {
                 da.OpenConn();

@@ -409,15 +409,10 @@ function init(prov,city)
 				<asp:button id="Button3" runat="server" Text=" 取 消 " Visible="False" CausesValidation="False"></asp:button></p>
 			<P align="center"><INPUT id="Hcity" style="Z-INDEX: 103; POSITION: absolute; TOP: 432px; LEFT: 42px" type="hidden"
 					name="Hcity" runat="server"></P>
-			<P align="center"><FONT face="宋体"></FONT>&nbsp;</P>
-			<P align="center"><FONT face="宋体"></FONT>&nbsp;</P>
-			<P align="center"><FONT face="宋体">&nbsp;&nbsp;</FONT></P>
-			<P align="center"><FONT face="宋体"></FONT>&nbsp;</P>
-			<P align="center">&nbsp;</P>
 			<P align="center"><INPUT id="Harea" style="Z-INDEX: 105; POSITION: absolute; TOP: 432px; LEFT: 172px" type="hidden"
 					name="Harea" runat="server">
 			</P>
-            <table  id="tableLog" border="1" cellspacing="0" cellpadding="0" width="1100" runat="server">
+            <table  id="tableLog" border="1" cellspacing="0" cellpadding="0" width="90%" align="center" runat="server">
         <tr>
             <td style="width: 100%" bgcolor="#e4e5f7" colspan="5">
                 <font color="red">
@@ -440,22 +435,22 @@ function init(prov,city)
                         <asp:BoundColumn DataField="Fqqid" HeaderText="账号">
                             <HeaderStyle Width="150px" HorizontalAlign="Center"></HeaderStyle>
                         </asp:BoundColumn>
-                        <asp:BoundColumn DataField="Fcre_type" HeaderText="新证件类型">
+                        <asp:BoundColumn DataField="Fcre_type_str" HeaderText="新证件类型">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
-                        <asp:BoundColumn DataField="Fcre_type_old" HeaderText="旧证件类型">
+                        <asp:BoundColumn DataField="Fcre_type_old_str" HeaderText="旧证件类型">
                             <HeaderStyle Width="150px"></HeaderStyle>
                         </asp:BoundColumn>
-                        <asp:BoundColumn DataField="Fuser_type" HeaderText="新账户类型">
+                        <asp:BoundColumn DataField="Fuser_type_str" HeaderText="新账户类型">
                             <HeaderStyle Width="80px"></HeaderStyle>
                         </asp:BoundColumn>
-                        <asp:BoundColumn DataField="Fuser_type_old" HeaderText="旧账户类型">
+                        <asp:BoundColumn DataField="Fuser_type_old_str" HeaderText="旧账户类型">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
-                         <asp:BoundColumn DataField="Fattid" HeaderText="新属性">
+                         <asp:BoundColumn DataField="Fattid_str" HeaderText="新属性">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
-                          <asp:BoundColumn DataField="Fattid_old" HeaderText="旧属性">
+                          <asp:BoundColumn DataField="Fattid_old_str" HeaderText="旧属性">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
                          <asp:BoundColumn DataField="Fsubmit_user" HeaderText="操作人员">
