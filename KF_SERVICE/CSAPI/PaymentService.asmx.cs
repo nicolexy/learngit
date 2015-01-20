@@ -543,7 +543,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 //必填参数验证
                 APIUtil.ValidateParamsNew(paramsHt, "appid", "token");
                 //token验证
-                //APIUtil.ValidateToken(paramsHt);
+                APIUtil.ValidateToken(paramsHt);
 
                 //查询银行字典参数
                 var infos = new CFT.CSOMS.BLL.BankCardBindModule.BankCardBindService().GetBankDic();
@@ -582,7 +582,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 //必填参数验证
                 APIUtil.ValidateParamsNew(paramsHt, "appid", "bank_type", "bank_id", "card_tail", "token");
                 //token验证
-                //APIUtil.ValidateToken(paramsHt);
+                APIUtil.ValidateToken(paramsHt);
 
                 String bankType = paramsHt["bank_type"].ToString();
                 String bank_id = paramsHt["bank_id"].ToString();
@@ -620,7 +620,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 //必填参数验证
                 APIUtil.ValidateParamsNew(paramsHt, "appid", "bank_type", "uin", "protocol_no", "userip", "token");
                 //token验证
-                //APIUtil.ValidateToken(paramsHt);
+                APIUtil.ValidateToken(paramsHt);
 
                 String bankType = paramsHt["bank_type"].ToString();
                 String qqid = paramsHt["uin"].ToString();
@@ -659,7 +659,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 //必填参数验证
                 APIUtil.ValidateParamsNew(paramsHt, "appid", "bank_type", "uin", "card_tail", "bind_serialno", "protocol_no", "token");
                 //token验证
-                //APIUtil.ValidateToken(paramsHt);
+                APIUtil.ValidateToken(paramsHt);
 
                 String bankType = paramsHt["bank_type"].ToString();
                 String qqid = paramsHt["uin"].ToString();
@@ -700,7 +700,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 //必填参数验证
                 APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "query_type", "bind_state", "offset", "limit", "token");
                 //token验证
-                //APIUtil.ValidateToken(paramsHt);
+                APIUtil.ValidateToken(paramsHt);
 
                 String fuin = paramsHt["uin"].ToString();
 
@@ -747,7 +747,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 maps.Add("ftruename", "truename");
 
                 maps.Add("fbank_status", "bank_status");
-                maps.Add("fbind_type", "bank_type");
+                maps.Add("fbind_type", "bind_type");
                 maps.Add("fbind_status", "bind_status");
                 maps.Add("fbind_flag", "bind_flag");
 
@@ -794,7 +794,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 //必填参数验证
                 APIUtil.ValidateParamsNew(paramsHt, "appid", "uid", "index", "bdindex", "token");
                 //token验证
-                //APIUtil.ValidateToken(paramsHt);
+                APIUtil.ValidateToken(paramsHt);
 
                 String fuid = paramsHt["uid"].ToString();
                 String findex = paramsHt["index"].ToString();
@@ -833,7 +833,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 //必填参数验证
                 APIUtil.ValidateParamsNew(paramsHt, "appid", "bind_state", "offset", "limit", "token");
                 //token验证
-                //APIUtil.ValidateToken(paramsHt);
+                APIUtil.ValidateToken(paramsHt);
 
                 String bank_type    =  paramsHt.ContainsKey("bank_type") ?  paramsHt["bank_type"].ToString() : "";
                 String bank_id      =  paramsHt.ContainsKey("bank_id") ? paramsHt["bank_id"].ToString() : "";

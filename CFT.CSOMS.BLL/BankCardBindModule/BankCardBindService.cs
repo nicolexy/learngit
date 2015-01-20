@@ -56,206 +56,93 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             string creType, string creID, string protocolno, string phoneno, string strBeginDate,
             string strEndDate, int queryType, bool isShowAboutDetail, int bindStatue, string bind_serialno, int limStart, int limCount)
         {
-            return new BankcardbindData().GetBankCardBindList(
+            DataSet ds = new BankcardbindData().GetBankCardBindList(
                 fuin, Fbank_type, bankID, uid, creType, creID, protocolno, phoneno, 
                 strBeginDate, strEndDate, queryType, isShowAboutDetail, bindStatue, bind_serialno, limStart, limCount);
-            #region 废弃代码
-            
-            MySqlAccess da = null;
-            try
+
+            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
             {
-                string filter = "(1=1)";
-                string fuid = "";
-                if (fuin != null && fuin.Trim() != "")
-                {
-                    fuid = CFTAccountModule.AccountService.ConvertToFuid(fuin);
-
-                    if (fuid == null || fuid.Trim() == "")
-                    {
-                        throw new Exception("输入的QQ号码有误！");
-                    }
-
-                    filter += " and fuid=" + fuid;
-                }
-
-                if (uid.Trim() != "" && fuid.Trim() == "")
-                {
-                    fuid = uid;
-                    filter += " and fuid=" + uid;
-                }
-
-                //string bankID_Encode = PublicRes.BankIDEncode_ForBankCardUnbind(bankID);
-                string bankID_Encode = PublicRes.EncryptZerosPadding(bankID);
-
-                DataSet ds_findUID = null;
-
-                if (fuid == "")
-                {
-                    // 如果fuid为空则查询c2c_db.t_bind_relation
-                    string sql_findUID = "select fuid from c2c_db.t_bind_relation where ";
-                    string sql_findUID_filter = " (1=1) ";
-                    int sql_findUID_filter_startLen = sql_findUID_filter.Length;
-
-                    if (Fbank_type.Trim() != "")
-                    {
-                        sql_findUID_filter += " And Fbank_type=" + Fbank_type;
-                    }
-
-                    if (bankID != "")
-                    {
-                        sql_findUID_filter += " And (Fbank_id='" + bankID + "' or Fbank_id='" + bankID_Encode + "') ";
-                    }
-
-                    if (creType != "")
-                    {
-                        sql_findUID_filter += " And Fcre_type=" + creType;
-                    }
-
-                    if (creID != "")
-                    {
-                        sql_findUID_filter += " And Fcre_id='" + creID + "' ";
-                    }
-
-                    if (protocolno != "")
-                    {
-                        sql_findUID_filter += " And ( Fprotocol_no='" + protocolno + "' or Fbank_id='" + protocolno + "')";
-                    }
-
-                    if (phoneno != "")
-                    {
-                        sql_findUID_filter += " And Fmobilephone='" + phoneno + "' ";
-                    }
-
-                    if (sql_findUID_filter.Length == sql_findUID_filter_startLen)
-                    {
-                        //throw new Exception("请输入必须的查询条件");
-                        return null;
-                    }
-
-                    sql_findUID += sql_findUID_filter;
-
-                    MySqlAccess da_findUID = MySQLAccessFactory.GetMySQLAccess("HT");
-                    da_findUID.OpenConn();
-                    ds_findUID = da_findUID.dsGetTotalData(sql_findUID);
-                    //DataSet ds_findUID = da_findUID.dsGetTableByRange(sql_findUID,0,1);
-
-                    if (ds_findUID == null || ds_findUID.Tables.Count == 0 || ds_findUID.Tables[0].Rows.Count == 0)
-                    {
-                        return null;
-                    }
-
-                    // 这里的实现需要和产品沟通，因为一个银行卡号，证件号绑定不止一个uid
-
-                    filter += " and fuid in (";
-                    for (int i = 0; i < ds_findUID.Tables[0].Rows.Count; i++)
-                    {
-                        fuid = ds_findUID.Tables[0].Rows[i]["fuid"].ToString();
-                        if (fuid == null || fuid.Trim() == "")
-                            return null;
-                        filter += fuid + ",";
-                    }
-
-                    filter = filter.Substring(0, filter.Length - 1) + ") ";
-
-                    /*
-                    fuid = ds_findUID.Tables[0].Rows[0]["fuid"].ToString();
-                    if(fuid == null || fuid.Trim() == "")
-                        return null;
-                    filter += " and fuid=" + fuid;
-                    */
-
-                    //throw new Exception("必须输入QQ帐号或内部ID作为查询条件！");
-                }
-
-                if (!isShowAboutDetail)
-                {
-                    if (Fbank_type != "")
-                    {
-                        filter += " and Fbank_type=" + Fbank_type;
-                    }
-
-                    if (bankID != null && bankID.Trim() != "")
-                    {
-                        filter += " and (Fbank_id='" + bankID + "' or Fbank_id='" + bankID_Encode + "') ";
-                    }
-
-                    if (creType != null && creType.Trim() != "")
-                    {
-                        filter += " and Fcre_type='" + creType + "' ";
-                    }
-
-                    if (creID.Trim() != "")
-                    {
-                        filter += " and Fcre_id='" + creID + "' ";
-                    }
-
-                    if (protocolno.Trim() != "")
-                    {
-                        filter += " and Fprotocol_no='" + protocolno + "' ";
-                    }
-
-                    if (phoneno != null && phoneno.Trim() != "")
-                    {
-                        filter += " and Fmobilephone='" + phoneno + "' ";
-                    }
-
-                    if (bind_serialno != null && bind_serialno.Trim() != "")//序列号
-                    {
-                        filter += " and Fbind_serialno='" + bind_serialno + "' ";
-                    }
-                }
-
-                if (strBeginDate != null && strBeginDate.Trim() != "")
-                {
-                    filter += " and Fcreate_time>='" + strBeginDate + "' ";
-                }
-
-                if (strEndDate != null && strEndDate.Trim() != "")
-                {
-                    filter += " and Fcreate_time<='" + strEndDate + "' ";
-                }
-
-
-                if (queryType == 1)
-                {
-                    // 一点通
-                    filter += " and ( (Fbind_type >=1 and Fbind_type<=9) or (Fbind_type >=20 and Fbind_type<=29) or (Fbind_type >=100 and Fbind_type<=119)) ";
-                }
-                else if (queryType == 2)
-                {
-                    // 快捷支付
-                    filter += " and Fbind_type >=10 and Fbind_type<=19 ";
-                }
-
-                if (bindStatue != 99)
-                {
-                    filter += " and Fbank_status=" + bindStatue;
-                }
-
-                //filter += " limit " + limStart + "," + limCount;
-
-                da = MySQLAccessFactory.GetMySQLAccess("BD");
-                da.OpenConn();
-                // 有一个专门是Fprotocol_no分表的数据表，所以跟据条件判断查哪个表，因为功能目前暂缓，暂不做
-                // 2012/5/29 新增查询证件号码项
-                string Sql = "select 1 as FBDIndex , Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
-                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from " + PublicRes.GetTName("c2c_db","t_user_bind", fuid) + " where " + filter;
-                //加查临时表
-                string Sql2 = "select 2 as FBDIndex , Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
-                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from c2c_db.t_user_bind_tmp where " + filter;
-                Sql = Sql + " union all " + Sql2 +" limit " +limStart + "," + limCount;
-                return da.dsGetTotalData(Sql);
+                throw new Exception("没有查找到相应的记录！");
             }
-            catch (Exception err)
+
+            DataTable dt = ds.Tables[0];
+            dt.Columns.Add("bank_status_str", typeof(string));
+            dt.Columns.Add("bind_type_str",   typeof(string));
+            dt.Columns.Add("bind_status_str", typeof(string)); 
+            dt.Columns.Add("bind_flag_str",   typeof(string));
+            dt.Columns.Add("xyzf_type_Str",   typeof(string));//信用支付类型
+
+            foreach (DataRow dr in dt.Rows)
             {
-                return null;
+                if (!(dr["Fi_character4"] is DBNull)
+                     && dr["Fi_character4"].ToString() == "33")
+                {
+                    dr["xyzf_type_Str"] = "是";
+                }
+                else
+                {
+                    dr["xyzf_type_Str"] = "否";
+                }
+
+                string Fbank_status = dr["Fbank_status"].ToString();
+                if (Fbank_status == "0")
+                    dr["bank_status_str"] = "未定义";
+                else if (Fbank_status == "1")
+                    dr["bank_status_str"] = "预绑定状态(未激活)";
+                else if (Fbank_status == "2")
+                    dr["bank_status_str"] = "绑定确认(正常)";
+                else if (Fbank_status == "3")
+                    dr["bank_status_str"] = "解除绑定";
+                else
+                    dr["bank_status_str"] = "Unknown";
+
+                string Fbind_type = dr["Fbind_type"].ToString();
+                if (Fbind_type == "0")
+                    dr["bind_type_str"] = "未知类型";
+                else if (Fbind_type == "1")
+                    dr["bind_type_str"] = "普通借记卡关联";
+                else if (Fbind_type == "2")
+                    dr["bind_type_str"] = "银行联名卡关联";
+                else if (Fbind_type == "3")
+                    dr["bind_type_str"] = "信用卡关联";
+                else if (Fbind_type == "4")
+                    dr["bind_type_str"] = "内部绑定";
+                else if (Fbind_type == "20")
+                    dr["bind_type_str"] = "普通信用卡关联";
+                else
+                    dr["bind_type_str"] = "Unknown";
+
+
+
+                string Fbind_status = dr["Fbind_status"].ToString();
+                if (Fbind_status == "0")
+                    dr["bind_status_str"] = "未定义";
+                else if (Fbind_status == "1")
+                    dr["bind_status_str"] = "初始状态";
+                else if (Fbind_status == "2")
+                    dr["bind_status_str"] = "开启";
+                else if (Fbind_status == "3")
+                    dr["bind_status_str"] = "关闭";
+                else if (Fbind_status == "4")
+                    dr["bind_status_str"] = "解除";
+                else if (Fbind_status == "5")
+                    dr["bind_status_str"] = "银行已激活，用户未激活";
+                else
+                    dr["bind_status_str"] = "Unknown";
+
+
+                string Fbind_flag = dr["Fbind_flag"].ToString();
+                if (Fbind_flag == "0")
+                    dr["bind_flag_str"] = "未知";
+                else if (Fbind_flag == "1")
+                    dr["bind_flag_str"] = "有效";
+                else if (Fbind_flag == "2")
+                    dr["bind_flag_str"] = "无效";
+                else
+                    dr["bind_flag_str"] = "Unknown";
+
             }
-            finally
-            {
-                if (da != null)
-                    da.Dispose();
-            }
-            #endregion
+            return ds;
         }
 
 
@@ -312,7 +199,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             }
             catch (System.Exception ex)
             {
-                return null;
+                throw new Exception("service处理错误：" + ex.Message);
             }
         }
 
@@ -327,7 +214,109 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         /// <returns></returns>
         public DataSet GetBankCardBindDetail(string fuid, string findex, string fBDIndex)
         {
-            return new BankcardbindData().GetBankCardBindDetail(fuid, findex, fBDIndex);
+            DataSet ds = new BankcardbindData().GetBankCardBindDetail(fuid, findex, fBDIndex);
+            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+            {
+                throw new Exception("没有查找到相应的记录！");
+            }
+            DataTable dt = ds.Tables[0];
+            dt.Columns.Add("bank_status_str", typeof(string));
+            dt.Columns.Add("bind_type_str", typeof(string));
+            dt.Columns.Add("bind_status_str", typeof(string));
+            dt.Columns.Add("bind_flag_str", typeof(string));
+            dt.Columns.Add("sms_flag_str", typeof(string));
+            dt.Columns.Add("cre_type_str", typeof(string));
+            //dt.Columns.Add("xyzf_type_Str", typeof(string));//信用支付类型
+
+            foreach (DataRow dr in dt.Rows)
+            {              
+                string Fbank_status = dr["Fbank_status"].ToString();
+                if (Fbank_status == "0")
+                    dr["bank_status_str"] = "未定义";
+                else if (Fbank_status == "1")
+                    dr["bank_status_str"] = "预绑定状态(未激活)";
+                else if (Fbank_status == "2")
+                    dr["bank_status_str"] = "绑定确认(正常)";
+                else if (Fbank_status == "3")
+                    dr["bank_status_str"] = "解除绑定";
+                else
+                    dr["bank_status_str"] = "Unknown";
+
+                string Fbind_type = dr["Fbind_type"].ToString();
+                if (Fbind_type == "0")
+                    dr["bind_type_str"] = "未知类型";
+                else if (Fbind_type == "1")
+                    dr["bind_type_str"] = "普通借记卡关联";
+                else if (Fbind_type == "2")
+                    dr["bind_type_str"] = "银行联名卡关联";
+                else if (Fbind_type == "3")
+                    dr["bind_type_str"] = "信用卡关联";
+                else if (Fbind_type == "4")
+                    dr["bind_type_str"] = "内部绑定";
+                else if (Fbind_type == "20")
+                    dr["bind_type_str"] = "普通信用卡关联";
+                else
+                    dr["bind_type_str"] = "Unknown";
+
+
+
+                string Fbind_status = dr["Fbind_status"].ToString();
+                if (Fbind_status == "0")
+                    dr["bind_status_str"] = "未定义";
+                else if (Fbind_status == "1")
+                    dr["bind_status_str"] = "初始状态";
+                else if (Fbind_status == "2")
+                    dr["bind_status_str"] = "开启";
+                else if (Fbind_status == "3")
+                    dr["bind_status_str"] = "关闭";
+                else if (Fbind_status == "4")
+                    dr["bind_status_str"] = "解除";
+                else if (Fbind_status == "5")
+                    dr["bind_status_str"] = "银行已激活，用户未激活";
+                else
+                    dr["bind_status_str"] = "Unknown";
+
+
+                string Fbind_flag = dr["Fbind_flag"].ToString();
+                if (Fbind_flag == "0")
+                    dr["bind_flag_str"] = "未知";
+                else if (Fbind_flag == "1")
+                    dr["bind_flag_str"] = "有效";
+                else if (Fbind_flag == "2")
+                    dr["bind_flag_str"] = "无效";
+                else
+                    dr["bind_flag_str"] = "Unknown";
+
+
+                string sms_flag = dr["sms_flag"].ToString();
+                if (sms_flag == "1")
+                {
+                    dr["sms_flag_str"] = "已开启";
+                }
+                else if (sms_flag == "0")
+                {
+                    dr["sms_flag_str"] = "已关闭";
+                }
+
+                string Fcre_type = dr["Fcre_type"].ToString();
+                if (Fcre_type == "1")
+                {
+                    dr["cre_type_str"] = "身份证";
+                }
+                else if (Fcre_type == "2")
+                {
+                    dr["cre_type_str"] = "护照";
+                }
+                else if (Fcre_type == "3")
+                {
+                    dr["cre_type_str"] = "军官证";
+                }
+                else
+                {
+                    dr["cre_type_str"] = "未知";
+                }
+            }
+            return ds;
         }
 
            

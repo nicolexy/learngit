@@ -15,11 +15,22 @@ using TENCENT.OSS.C2C.Finance.Common.CommLib;
 namespace CFT.CSOMS.DAL.BankcardUnbind
 {
     public class BankcardbindData
-    {
-
-        //查询绑卡记录
+    {        
+        /// <summary>
+        /// 查询绑卡记录
+        /// </summary>
+        /// <param name="Fbank_type"></param>
+        /// <param name="bankID"></param>
+        /// <param name="creType"></param>
+        /// <param name="creID"></param>
+        /// <param name="protocolno"></param>
+        /// <param name="phoneno"></param>
+        /// <param name="bindStatue"></param>
+        /// <param name="limStart"></param>
+        /// <param name="limCount"></param>
+        /// <returns></returns>
         public DataSet GetBankCardBindList_UIN(string Fbank_type, string bankID,
-         string creType, string creID, string protocolno, string phoneno, int bindStatue, int limStart, int limCount)
+            string creType, string creID, string protocolno, string phoneno, int bindStatue, int limStart, int limCount)
         {
             MySqlAccess da = null;
             try
@@ -89,7 +100,19 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
 
 
 
-        //可能是当日绑定的卡，但是通过卡号查不到对应的uid，所以不能查到绑卡记录，就要查c2c_db_xx.t_card_bind_relation_x
+        /// <summary>
+        /// /可能是当日绑定的卡，但是通过卡号查不到对应的uid，所以不能查到绑卡记录，就要查c2c_db_xx.t_card_bind_relation_x
+        /// </summary>
+        /// <param name="Fbank_type"></param>
+        /// <param name="bankID"></param>
+        /// <param name="creType"></param>
+        /// <param name="creID"></param>
+        /// <param name="protocolno"></param>
+        /// <param name="phoneno"></param>
+        /// <param name="bindStatue"></param>
+        /// <param name="limStart"></param>
+        /// <param name="limCount"></param>
+        /// <returns></returns>
         public DataSet GetBankCardBindList_UIN_2(string Fbank_type, string bankID,
             string creType, string creID, string protocolno, string phoneno, int bindStatue, int limStart, int limCount)
         {
