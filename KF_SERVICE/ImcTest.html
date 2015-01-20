@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+	
+    <script src="./Scripts/jquery-1.10.2.js"></script>
+    <script>
+        function send()
+        {
+            var rad = $("input[name='intface']:checked").val();
+			var sfrom = "";
+			
+			var start_url='';
+			start_url='http://localhost:61131';//本地
+			//start_url='http://10.12.199.238:443/kf_service';//238
+			//start_url='http://kf.cf.zw/kf_service/CSAPI/PaymentService.asmx';//114
+			
+			var req = $("#txtReq").val();
+			
+			if(rad == "lct")
+			{
+			    sfrom = $("#sfrom1").val();
+			    start_url=start_url+'/CSAPI/PaymentService.asmx'
+			}
+			else if(rad == "appeal")
+			{
+			    sfrom = $("#sfrom2").val();
+			    start_url=start_url+'/CSAPI/BaseInfoService.asmx'
+			}
+			
+			if(req == "")
+			{
+			    alert("请输入请求参数！");
+				return;
+			}
+			var s_url = "";
+			
+			//理财通查询：
+			if(sfrom == "GetTradeIdByUIN")
+			{
+			    //线上 appid=10001&uin=085e9858eee7f85d8e2fa077c@wx.tenpay.com&token=f5a0e04f4ee1c6c6c5bcec423884a63a 
+				//appid=10001&uin=1563686969&token=b11c9da91afa8fa9debf3d2d3bafaddf
+				s_url = start_url+'/GetTradeIdByUIN';
+			}
+			else if(sfrom == "GetUserProfitList")
+			{
+			    //appid=10001&trade_id=20140311301196518&start_date=&end_date=&currency_type=-1&spid=&offset=0&limit=10&token=0aa384f3e5c520b9109e212456e98fd3
+				s_url = start_url+'/GetUserProfitList';
+			}
+			else if(sfrom == "GetPayCardInfo")
+			{
+			    //appid=10001&uin=1563686969&token=b11c9da91afa8fa9debf3d2d3bafaddf
+				s_url = start_url+'/GetPayCardInfo';
+			}
+			else if(sfrom == "GetBankRollListNotChildren")
+			{
+			    //appid=10001&uin=1563686969&cur_type=1&start_date=2014-01-21 00:00:00&end_date=2014-07-22 23:59:59&redirection_type=0&offset=0&limit=10&token=05ceaf2de5b1c5c08de13cbf1d5dc26c
+				s_url = start_url+'/GetBankRollListNotChildren';
+            }
+            else if (sfrom == "GetUserFundSummary") {
+                //appid=10001&uin=1563686969&token=b11c9da91afa8fa9debf3d2d3bafaddf
+                s_url =start_url+ '/GetUserFundSummary';
+            }
+            else if (sfrom == "GetUserFundAccountInfo") {
+                //appid=10001&uin=1563686969&token=b11c9da91afa8fa9debf3d2d3bafaddf
+                s_url =start_url+ '/GetUserFundAccountInfo';
+            }
+            else if (sfrom == "QueryCloseFundRollList") {
+                //appid=10001&trade_id=20140311301196518&fund_code=000022&start_date=20140121&end_date=20140722&offset=0&limit=10&token=649b954bc6ee4bdd2793c5d1c4926881
+                s_url = start_url+'/QueryCloseFundRollList';
+            }
+          
+            else if (sfrom == "GetChildrenBankRollListEx") {
+                //appid=10001&uin=1563686969&spid=2000000505&curtype=90&start_date=2014-01-21 00:00:00&end_date=2014-07-22  00:00:00&offset=0&limit=10&ftype=0&token=44f2e75e4c4720af0b4f0f59acf01c7d
+                s_url = start_url+'/GetChildrenBankRollListEx';
+            }
+			 else if (sfrom == "QueryBankCardList") {
+			     //appid=10002&bank_card=12345678901&date=20111025&offset=0&limit=10&token=5faa5c24c1a0d0c326084fd7c8c1747f
+                s_url = start_url+'/QueryBankCardList';
+            }else if (sfrom == "GetUINFromWechat") {
+			     //appid=10001&query_type=WeChatMobile&query_string=13724372081&token=8c31a698355b25d0218c0de00609d98f
+                s_url = start_url+'/GetUINFromWechat';
+            }
+
+
+            //自助申诉接口：
+			else if (sfrom == "GetUserAppealList") {
+			    //appid=10001&uin=453294603&start_date=2014-01-01 00:00:00&end_date=2014-08-28 00:00:00&state=99&type=99&qqtype=&dotype=9&offset=0&limit=10&token=f099b4989238ef1e4af4530f83cd6b33
+                s_url = start_url+'/GetUserAppealList';
+            }
+			else if (sfrom == "GetUserAppealDetail") {
+			    //appid=10001&fid=2014040000003527&db=db_appeal_2014&tb=t_tenpay_appeal_trans_04&token=1df91d89b5ac714db3df49f2876e40d5
+                s_url = start_url+'/GetUserAppealDetail';
+            }
+			else if (sfrom == "GetAppealUserInfo") {
+			     //appid=10001&uin=453294603&token=cf0eb513c99e9e6c12ea554bd034a7fd
+                s_url = start_url+'/GetAppealUserInfo';
+            }
+			else if (sfrom == "GetUserAuthenState") {
+			     //appid=10001&uin=453294603&user_bank_id=&bank_type=0&token=6c8e9568f3699e079667c4a748da64ae
+                s_url = start_url+'/GetUserAuthenState';
+            }
+			else if (sfrom == "ConfirmAppeal") {
+			    //appid=10001&fid=2310&user=echo&user_ip=127.0.0.1&comment=测试&db=&tb=&token=a38672e4f9c8d8cd33b143d2afe90bdd
+                s_url = start_url+'/ConfirmAppeal';
+            }
+			else if (sfrom == "CannelAppeal") {
+			    //appid=10001&fid=2310&user=echo&user_ip=127.0.0.1&comment=测试&reason=扫描件整体不清晰&other_reason=&db=&tb=&token=d9a0a167a1d94b10b72058503190d605
+                s_url = start_url+'/CannelAppeal';
+            }
+			else if (sfrom == "DelAppeal") {
+			    //appid=10001&fid=2310&user=echo&user_ip=127.0.0.1&comment=测试&db=&tb=&token=a38672e4f9c8d8cd33b143d2afe90bdd
+                s_url = start_url+'/DelAppeal';
+            }
+			else
+			{
+			    alert("不支持的方法");
+				return;
+			}
+			
+			$.ajax({
+                type: "get",
+                url: s_url,
+                data: req,
+				dataType: "text",
+                success: callSend
+			})
+			
+			//$.post('http://localhost:61131/CSAPI/PaymentService.asmx/GetTradeIdByUIN', {appid:'KfImcKey', uin: '1563686969',token:'10049c0c7ace2939194dd8baaaceb1af' }, callSend);
+           /*
+            $.ajax({
+                type: "post",
+                contentType: "application/json",
+                url: "http://localhost:28442/WebService1.asmx/HelloStr",
+                data: "{}",
+                dataType: "json",
+                success: callSend
+            });
+            */
+        }
+		
+        function callSend(ret)
+        {
+		   $("#txtCont").val(ret);
+        }
+    </script>
+</head>
+<body>
+    <form>
+	 <table>
+        <tr><td>
+		<input type="radio" name="intface" value="lct" >
+		理财通接口：<select name="sfrom1" id="sfrom1">
+				  <option value="GetTradeIdByUIN" selected>GetTradeIdByUIN</option>
+				  <option value="GetUserProfitList">GetUserProfitList</option>
+				  <option value="GetPayCardInfo">GetPayCardInfo</option>
+				  <option value="GetBankRollListNotChildren">GetBankRollListNotChildren</option>
+                  <option value="GetUserFundSummary">GetUserFundSummary</option>
+                  <option value="GetUserFundAccountInfo">GetUserFundAccountInfo</option>
+                  <option value="QueryCloseFundRollList">QueryCloseFundRollList</option>
+                  <option value="GetChildrenBankRollListEx">GetChildrenBankRollListEx</option>
+				  <option value="QueryBankCardList">QueryBankCardList</option>
+                  <option value="GetUINFromWechat">GetUINFromWechat</option>
+			  </select>
+			  </input>
+			  &nbsp;
+			  <input type="radio" name="intface" value="appeal">
+		自助申诉接口：<select name="sfrom2" id="sfrom2" checked>
+				  <option value="GetUserAppealList" selected>GetUserAppealList</option>
+				  <option value="GetUserAppealDetail">GetUserAppealDetail</option>
+				  <option value="GetAppealUserInfo">GetAppealUserInfo</option>
+				  <option value="GetUserAuthenState">GetUserAuthenState</option>
+                  <option value="ConfirmAppeal">ConfirmAppeal</option>
+                  <option value="CannelAppeal">CannelAppeal</option>
+                  <option value="DelAppeal">DelAppeal</option>
+			  </select>
+			  </input>
+		</td></tr>	  
+		<tr><td>
+		<input type="button" value="send" onclick="send()" name="sendReq" />
+
+        </td></tr>
+        <tr><td>
+		参数：<textarea id="txtReq" cols="80" rows="5"></textarea>
+        </td></tr>
+		<tr><td>
+		返回：<textarea id="txtCont" cols="80" rows="20"></textarea>
+		</td></tr>
+		</table>
+    </form>
+</body>
+</html>
