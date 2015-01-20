@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>	
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <script src="./Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+    	var baseUrl = "http://localhost:61131";
+    	var obj = {
+    		"理财通接口":[
+    			{
+    				"id":"GetTradeIdByUIN",  
+    				"req":"appid=10001&uin=1563686969&token=b11c9da91afa8fa9debf3d2d3bafaddf", 
+    				"url": baseUrl + "/CSAPI/PaymentService.asmx"
+    			},
+    			{
+    				"id":"GetUserProfitList", 
+    				"req":"appid=10001&trade_id=20140311301196518&start_date=&end_date=&currency_type=-1&spid=&offset=0&limit=10&token=0aa384f3e5c520b9109e212456e98fd3", 
+    				"url": baseUrl + "/CSAPI/PaymentService.asmx"
+    			},
+    			{
+    				"id":"GetPayCardInfo", 
+    				"req":"appid=10001&uin=1563686969&token=b11c9da91afa8fa9debf3d2d3bafaddf",
+    				"url": baseUrl + "/CSAPI/PaymentService.asmx"
+    			},
+    			{
+    				"id":"GetBankRollListNotChildren",
+    				"req":"appid=10001&uin=1563686969&cur_type=1&start_date=2014-01-21 00:00:00&end_date=2014-07-22 23:59:59&redirection_type=0&offset=0&limit=10&token=05ceaf2de5b1c5c08de13cbf1d5dc26c",
+    				"url": baseUrl + "/CSAPI/PaymentService.asmx"
+    			},
+    			{
+    				"id":"GetUserFundSummary", 
+    				"req":"appid=10001&uin=1563686969&token=b11c9da91afa8fa9debf3d2d3bafaddf", 
+    				"url": baseUrl + "/CSAPI/PaymentService.asmx"
+    			},
+    			{
+    				"id":"GetUserFundAccountInfo", 
+    				"req":"appid=10001&uin=1563686969&token=b11c9da91afa8fa9debf3d2d3bafaddf", 
+    				"url": baseUrl + "/CSAPI/PaymentService.asmx"
+    			},
+    			{
+    				"id":"QueryCloseFundRollList", 
+    				"req":"appid=10001&trade_id=20140311301196518&fund_code=000022&start_date=20140121&end_date=20140722&offset=0&limit=10&token=649b954bc6ee4bdd2793c5d1c4926881", 
+    				"url": baseUrl + "/CSAPI/PaymentService.asmx"
+    			},
+    			{
+    				"id":"GetChildrenBankRollListEx", 
+    				"req":"appid=10001&uin=1563686969&spid=2000000505&curtype=90&start_date=2014-01-21 00:00:00&end_date=2014-07-22  00:00:00&offset=0&limit=10&ftype=0&token=44f2e75e4c4720af0b4f0f59acf01c7d", 
+    				"url": baseUrl + "/CSAPI/PaymentService.asmx"
+    			},
+    			{
+    				"id":"QueryBankCardList",
+    				"req":"appid=10002&bank_card=12345678901&date=20111025&offset=0&limit=10&token=5faa5c24c1a0d0c326084fd7c8c1747f",
+    				"url": baseUrl + "/CSAPI/PaymentService.asmx"
+    			},
+    			{
+    				"id":"GetUINFromWechat", 
+    				"req":"appid=10001&query_type=WeChatMobile&query_string=13724372081&token=8c31a698355b25d0218c0de00609d98f", 
+    				"url": baseUrl + "/CSAPI/PaymentService.asmx"
+    			}
+    		],
+
+    		"自助申诉接口":[
+                {
+                    "id":"GetUserAppealList", 
+                    "req":"appid=10001&uin=453294603&start_date=2014-01-01 00:00:00&end_date=2014-08-28 00:00:00&state=99&type=99&qqtype=&dotype=9&offset=0&limit=10&token=f099b4989238ef1e4af4530f83cd6b33", 
+                    "url": baseUrl + "/CSAPI/BaseInfoService.asmx"
+                },
+                {
+                    "id":"GetUserAppealDetail", 
+                    "req":"appid=10001&fid=2014040000003527&db=db_appeal_2014&tb=t_tenpay_appeal_trans_04&token=1df91d89b5ac714db3df49f2876e40d5", 
+                    "url": baseUrl + "/CSAPI/BaseInfoService.asmx"
+                },
+                {
+                    "id":"GetAppealUserInfo", 
+                    "req":"appid=10001&uin=453294603&token=cf0eb513c99e9e6c12ea554bd034a7fd", 
+                    "url": baseUrl + "/CSAPI/BaseInfoService.asmx"
+                },
+                {
+                    "id":"GetUserAuthenState", 
+                    "req":"appid=10001&uin=453294603&user_bank_id=&bank_type=0&token=6c8e9568f3699e079667c4a748da64ae", 
+                    "url": baseUrl + "/CSAPI/BaseInfoService.asmx"
+                },
+                {
+                    "id":"ConfirmAppeal", 
+                    "req":"appid=10001&fid=2310&user=echo&user_ip=127.0.0.1&comment=测试&db=&tb=&token=a38672e4f9c8d8cd33b143d2afe90bdd", 
+                    "url": baseUrl + "/CSAPI/BaseInfoService.asmx"
+                },
+                {
+                    "id":"CannelAppeal", 
+                    "req":"appid=10001&fid=2310&user=echo&user_ip=127.0.0.1&comment=测试&reason=扫描件整体不清晰&other_reason=&db=&tb=&token=d9a0a167a1d94b10b72058503190d605", 
+                    "url": baseUrl + "/CSAPI/BaseInfoService.asmx"
+                },
+                {
+                    "id":"DelAppeal", 
+                    "req":"appid=10001&fid=2310&user=echo&user_ip=127.0.0.1&comment=测试&db=&tb=&token=a38672e4f9c8d8cd33b143d2afe90bdd", 
+                    "url": baseUrl + "/CSAPI/BaseInfoService.asmx"
+                }
+    		],
+
+    		"快捷支付一点通接口": [
+                {
+                    "id": "GetBankDic",
+                    "req": "appid=10001&token=be8f3a8675c60476b3d961b072a47e1a",
+                    "url": baseUrl + "/CSAPI/PaymentService.asmx"
+                },
+                {
+                    "id": "GetBankCardBindList",
+                    "req": "appid=10001&bank_type=4184&uin=2322405969&bank_id=&uid=&cre_type=&cre_id=500234197805037308&protocol_no=BB2F7432F3CA4ADA860582DCD3C4A1EE&phoneno=15013500723&begin_date=&end_date=&bind_state=99&query_type=0&offset=0&limit=1&token=b12d4049401ae67586d22a936b01dc05",
+                    "url": baseUrl + "/CSAPI/PaymentService.asmx"
+                },
+                {
+                    "id": "GetBankCardBindRelationList",
+                    "req": "appid=10001&bank_type=&bank_id=&cre_type=&cre_id=500234197805037308&protocol_no=&phoneno=&bind_state=99&offset=0&limit=100&token=1721638a064a91a8cec51be4625b6bb7",
+                    "url": baseUrl + "/CSAPI/PaymentService.asmx"
+                },
+                {
+                    "id": "GetBankCardBindDetail",
+                    "req": "appid=10001&uid=298849000&index=20&bdindex=1&token=b4f395605b4e6c5a7b1a61fdd82dac49",
+                    "url": baseUrl + "/CSAPI/PaymentService.asmx"
+                },
+                {
+                    "id": "SyncBankCardBind",
+                    "req": "appid=10001&bank_type=2101&card_tail=1234&bank_id=581234&token=cb49c68289043633e0dd4ab45f793ffa",
+                    "url": baseUrl + "/CSAPI/PaymentService.asmx"
+                },
+                {
+                    "id": "UnbindBankCardBind",
+                    "req": "appid=10001&bank_type=2005&uin=17934958&protocol_no=20110607130744431600000000023808&userip=10.10.10.18&token=675658f8772a47a1d014f0c3f5c4194d",
+                    "url": baseUrl + "/CSAPI/PaymentService.asmx"
+                },
+                {
+                    "id": "UnbingBankCardBindSpecial",
+                    "req": "appid=10001&bank_type=2101&uin=17934958&bind_serialno=10607441730295214000&card_tail=1234&protocol_no=20110607130744426300000000018395&token=cc9d466a64ab8e78cb129cf9990142f0",
+                    "url": baseUrl + "/CSAPI/PaymentService.asmx"
+                }
+    		]
+    	};
+
+
+        //填充默认的测试用例
+        function loadItemData(){
+            var item = $("#name").find("option:selected");
+            $("#txtReq").text(item.attr("req"));
+            $("#txtUrl").val(item.attr("url") + "/" + item.attr("value"));
+            //$("#txtUrl").html(item.attr("url") + "/" + item.attr("value"));
+        }
+
+
+
+        //根据选择的类型加载对应的接口列表
+        function loadItems(){
+            $("#name").empty();
+            var type = $("#type").val();
+            var data = obj[type];
+            for (var i = 0; i < data.length; i++) {
+                var id  = data[i].id;
+                var url = data[i].url;
+                var req = data[i].req;
+                $("#name").append("<option value='"+ id 
+                    + "' url='"+ url + "' req ='"+ req +"'>"+ id + "</option>");
+            };
+        }
+
+
+        //AJAX请求发送数据
+        function sendRequest(){
+            $item = $("#name").find("option:selected");           
+            var req = $("#txtReq").text();
+            var url = $item.attr("url") + "/" + $item.attr("value");
+            //console.log(url);
+            $.ajax({
+                type: "get",
+                url: url,
+                data: req,
+                dataType: "text",
+                success: function (ret) { $("#txtCont").text(ret); }
+            })
+        }
+
+
+    	$(document).ready(function(){
+            //绑定change事件
+            $("#type").change(function(){loadItems();}); 
+            $("#name").change(function(){loadItemData();}); 
+
+    		for(var item in obj)
+            {
+               $("#type").append("<option value='"+ item +"'>"+ item+ "</option>");
+            }
+            loadItems();
+            loadItemData();
+    	});
+    </script>
+</head>
+<body>
+    <form>
+    	<table>
+    	 	<tr>
+                <td>类别：
+                </td>
+    	       	<td>
+    	       		<select id="type"></select>
+    			</td>
+                <td>
+                    接口：<select id="name"></select>
+                </td>
+                <td>
+                    <input type="button" value="发送" onclick="sendRequest();" name="发送"/>
+                </td>
+    		</tr>	
+            <tr>
+                <td>
+                    网址：
+                </td>
+                <td colspan=3>                   
+                    <input type="text" id="txtUrl" style="width:99%" disabled="disabled"/>
+                </td>
+            </tr>  
+            <tr>
+                <td>
+                    参数：
+                </td>
+                <td colspan=3>
+    		      <textarea id="txtReq" cols="80" rows="5"></textarea>
+                </td>
+            </tr>
+    		<tr>
+                <td>
+                    返回：
+                </td>
+                <td colspan=3>
+    		      <textarea id="txtCont" cols="80" rows="20"></textarea>
+    		  </td>
+            </tr>
+    	</table>
+    </form>
+</body>
+</html>
