@@ -17,6 +17,7 @@ using System.Text;
 using System.Net;
 using System.Xml;
 using System.IO;
+using System.Web.Services.Protocols;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 {

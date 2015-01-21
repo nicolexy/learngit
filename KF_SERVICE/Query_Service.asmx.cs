@@ -7511,10 +7511,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                     else if (reqType == 11)//特殊找回密码 发tips和短信 模板位申请，需更改下面代码
                     {
-                        string str_params = "http://action.tenpay.com/cuifei/2014/fengkong/unfreeze_fail.shtml?clientuin=$UIN$&clientkey=$KEY$";
+                        string str_params = "www.tenpay.com/v2/cs/v2/";
                         str_params = "url=" + System.Web.HttpUtility.UrlEncode(str_params, System.Text.Encoding.GetEncoding("gb2312"));
-                      //  TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsgQQTips(uin, "2237", str_params);
-                        TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMessage(userPhone, "2237", "user=" + uin);
+                        //uin = "466678748";
+                        //userPhone = "18718489269";
+                        TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsgQQTips(uin, "102429", str_params);
+                        TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMessage(userPhone, "102429", str_params);
                     }
                 }
                 else
