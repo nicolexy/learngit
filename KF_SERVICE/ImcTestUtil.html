@@ -5,13 +5,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
     <script src="./Scripts/jquery-1.10.2.js"></script>
     <script type="text/javascript">
-    	var baseUrl = "http://localhost:61131";
+        var baseUrl = "http://localhost:61131";
+        //var baseUrl = "http://10.12.199.238:443/kf_service"; //238
+        //var baseUrl = "http://kf.cf.zw/kf_service/"; //114
     	var obj = {
     		"理财通接口":[
     			{
-    				"id":"GetTradeIdByUIN",  
-    				"req":"appid=10001&uin=1563686969&token=b11c9da91afa8fa9debf3d2d3bafaddf", 
-    				"url": baseUrl + "/CSAPI/PaymentService.asmx"
+    				"id":"GetTradeIdByUIN",  //接口名称
+    				"req":"appid=10001&uin=1563686969&token=b11c9da91afa8fa9debf3d2d3bafaddf", //默认的测试数据
+    				"url": baseUrl + "/CSAPI/PaymentService.asmx" //接口所在的URL
     			},
     			{
     				"id":"GetUserProfitList", 

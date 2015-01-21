@@ -533,6 +533,69 @@ namespace CFT.CSOMS.Service.CSAPI
 
         #region 快捷支付
 
+       
+        [WebMethod]
+        public void QueryBankCardList()//string appid, string bank_card, string date, int offset, int limit, string token
+        {
+            try
+            {
+                //SunLibrary.LoggerFactory.Get("QueryBankCardList").InfoFormat("appid:{0},bank_card:{1},date:{2},offset:{6},limit:{7},token:{8}", appid, bank_card, date, offset, limit, token);
+                //APIUtil.ValidateParams("appid|" + appid, "bank_card|" + bank_card, "date|" + date, "offset|" + offset, "limit|" + limit, "token|" + token);
+
+                //APIUtil.ValidateToken(token, appid, bank_card, date, offset.ToString(), limit.ToString());
+
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+
+                //必填参数验证
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "bank_card", "date",  "offset", "limit", "token");
+                //token验证
+                APIUtil.ValidateToken(paramsHt);
+
+                int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
+                int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
+            
+                APIUtil.ValidateDate(paramsHt["date"].ToString(), "yyyyMMdd", false);
+                //offset limit可为-1
+                if (offset != -1 && offset < 0)
+                {
+                    offset = 0;
+                }
+
+                if (limit > 20 || limit < 0)
+                {
+                    limit = 20;
+                }
+
+                //10100 目前接口只查询支付，后续接入其他业务类型，但是要增加接口参数
+                var infos = new CFT.CSOMS.BLL.WechatPay.FastPayService().QueryBankCardList(paramsHt["bank_card"].ToString(), paramsHt["date"].ToString(), 10100,offset, limit);
+                if (infos == null || infos.Tables.Count==0|| infos.Tables[0].Rows.Count == 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+
+                List<Payment.BankCard> list = APIUtil.ConvertTo<Payment.BankCard>(infos.Tables[0]);
+
+                //var ret = new ResultParse<Payment.BankCard>().ReturnToObject(list);
+
+                //return APIUtil.ConverToXml<RetObject<Payment.BankCard>>(ret);
+                APIUtil.Print<Payment.BankCard>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("QueryBankCardList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("QueryBankCardList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+      
+        #endregion
+
+        #region 一点通业务
+
         [WebMethod]
         public void GetBankDic()//string appid,string token
         {
@@ -719,7 +782,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 if (paramsHt.ContainsKey("bind_state"))
                 {
                     bindState = APIUtil.StringToInt(paramsHt["bind_state"]);
-                } 
+                }
 
                 APIUtil.ValidateDate(strBeginDate, "yyyy-MM-dd HH:mm:ss", true);
                 APIUtil.ValidateDate(strBeginDate, "yyyy-MM-dd HH:mm:ss", true);
@@ -738,10 +801,10 @@ namespace CFT.CSOMS.Service.CSAPI
                 }
 
                 Dictionary<string, string> maps = new Dictionary<string, string>();
-               
-              
+
+
                 maps.Add("fuin", "uin");
-                maps.Add("fbank_id", "bank_id");              
+                maps.Add("fbank_id", "bank_id");
                 maps.Add("fbank_type", "bank_type");
                 maps.Add("fcard_tail", "card_tail");
                 maps.Add("ftruename", "truename");
@@ -760,8 +823,8 @@ namespace CFT.CSOMS.Service.CSAPI
                 maps.Add("fbdindex", "bdindex");
 
                 maps.Add("fmemo", "memo");
-                maps.Add("fcre_id", "cre_id");                            
-                                
+                maps.Add("fcre_id", "cre_id");
+
                 maps.Add("ftelephone", "telephone");
                 maps.Add("fmobilephone", "mobilephone");
 
@@ -809,7 +872,7 @@ namespace CFT.CSOMS.Service.CSAPI
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
                 }
                 APIUtil.Print4DataTable(infos.Tables[0], null, null);
-                
+
             }
             catch (ServiceException se)
             {
@@ -835,12 +898,12 @@ namespace CFT.CSOMS.Service.CSAPI
                 //token验证
                 APIUtil.ValidateToken(paramsHt);
 
-                String bank_type    =  paramsHt.ContainsKey("bank_type") ?  paramsHt["bank_type"].ToString() : "";
-                String bank_id      =  paramsHt.ContainsKey("bank_id") ? paramsHt["bank_id"].ToString() : "";
-                String cre_type     =  paramsHt.ContainsKey("cre_type") ? paramsHt["cre_type"].ToString() : "";
-                String cre_id       =  paramsHt.ContainsKey("cre_id") ? paramsHt["cre_id"].ToString() : "";
-                String protocol_no  =  paramsHt.ContainsKey("protocol_no") ? paramsHt["protocol_no"].ToString() : "";
-                String phoneno      =  paramsHt.ContainsKey("phoneno") ? paramsHt["phoneno"].ToString() : "";
+                String bank_type = paramsHt.ContainsKey("bank_type") ? paramsHt["bank_type"].ToString() : "";
+                String bank_id = paramsHt.ContainsKey("bank_id") ? paramsHt["bank_id"].ToString() : "";
+                String cre_type = paramsHt.ContainsKey("cre_type") ? paramsHt["cre_type"].ToString() : "";
+                String cre_id = paramsHt.ContainsKey("cre_id") ? paramsHt["cre_id"].ToString() : "";
+                String protocol_no = paramsHt.ContainsKey("protocol_no") ? paramsHt["protocol_no"].ToString() : "";
+                String phoneno = paramsHt.ContainsKey("phoneno") ? paramsHt["phoneno"].ToString() : "";
 
                 int bind_state = APIUtil.StringToInt(paramsHt["bind_state"].ToString());
                 int limStart = APIUtil.StringToInt(paramsHt["offset"].ToString());
@@ -869,64 +932,6 @@ namespace CFT.CSOMS.Service.CSAPI
             }
         }
 
-        [WebMethod]
-        public void QueryBankCardList()//string appid, string bank_card, string date, int offset, int limit, string token
-        {
-            try
-            {
-                //SunLibrary.LoggerFactory.Get("QueryBankCardList").InfoFormat("appid:{0},bank_card:{1},date:{2},offset:{6},limit:{7},token:{8}", appid, bank_card, date, offset, limit, token);
-                //APIUtil.ValidateParams("appid|" + appid, "bank_card|" + bank_card, "date|" + date, "offset|" + offset, "limit|" + limit, "token|" + token);
-
-                //APIUtil.ValidateToken(token, appid, bank_card, date, offset.ToString(), limit.ToString());
-
-                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
-
-                //必填参数验证
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "bank_card", "date",  "offset", "limit", "token");
-                //token验证
-                APIUtil.ValidateToken(paramsHt);
-
-                int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
-                int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
-            
-                APIUtil.ValidateDate(paramsHt["date"].ToString(), "yyyyMMdd", false);
-                //offset limit可为-1
-                if (offset != -1 && offset < 0)
-                {
-                    offset = 0;
-                }
-
-                if (limit > 20 || limit < 0)
-                {
-                    limit = 20;
-                }
-
-                //10100 目前接口只查询支付，后续接入其他业务类型，但是要增加接口参数
-                var infos = new CFT.CSOMS.BLL.WechatPay.FastPayService().QueryBankCardList(paramsHt["bank_card"].ToString(), paramsHt["date"].ToString(), 10100,offset, limit);
-                if (infos == null || infos.Tables.Count==0|| infos.Tables[0].Rows.Count == 0)
-                {
-                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
-                }
-
-                List<Payment.BankCard> list = APIUtil.ConvertTo<Payment.BankCard>(infos.Tables[0]);
-
-                //var ret = new ResultParse<Payment.BankCard>().ReturnToObject(list);
-
-                //return APIUtil.ConverToXml<RetObject<Payment.BankCard>>(ret);
-                APIUtil.Print<Payment.BankCard>(list);
-            }
-            catch (ServiceException se)
-            {
-                SunLibrary.LoggerFactory.Get("QueryBankCardList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
-                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
-            }
-            catch (Exception ex)
-            {
-                SunLibrary.LoggerFactory.Get("QueryBankCardList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
-                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
-            }
-        }
-      
         #endregion
 
         #region 微信帐号
