@@ -1076,6 +1076,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 				ice.OpenConn();
 				string strwhere = "where=" + ICEAccess.URLEncode("fcurtype=1&");
 				strwhere += ICEAccess.URLEncode("fuid=" + fuid + "&");
+                strwhere += ICEAccess.URLEncode("fstate=" + type + "&");
 
 				string strUpdate = "data=" + ICEAccess.URLEncode("fstate=" + newtype);
 				strUpdate += ICEAccess.URLEncode("&fmodify_time=" + PublicRes.strNowTimeStander);
@@ -1681,13 +1682,5 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
 		}
 
-        [WebMethod(Description = "杂类参数登记表")]
-        [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        public DataSet QueryDicAccName()
-        {
-            string queryStr = "select FSubCode as Value,fstring as Text from c2c_db_au.t_parameter where FName = '帐户属性名称' order by cast(FSubCode as unsigned)";
-            return PublicRes.returnDSAll(queryStr, "account");
-        }
-      
 	}
 }

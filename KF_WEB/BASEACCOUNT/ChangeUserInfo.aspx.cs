@@ -492,8 +492,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 		
             //PermitManage.PermitManage pm = new TENCENT.OSS.C2C.Finance.Finance_Web.PermitManage.PermitManage();
 			//pbp.BindDropDownList(pm.QueryDicAccName(),ddlAttid,out Msg);
-            Finance_ManageService.Finance_Manage fm = new Finance_ManageService.Finance_Manage();
-            PublicRes.BindDropDownList(fm.QueryDicAccName(), ddlAttid, out Msg);
+          //  Finance_ManageService.Finance_Manage fm = new Finance_ManageService.Finance_Manage();
+            PublicRes.BindDropDownList(PermitPara.QueryDicAccName(), ddlAttid, out Msg);
 
             Hashtable htCertify = new Hashtable();
             foreach (ListItem item in DropDownList2_certify.Items)

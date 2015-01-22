@@ -1943,6 +1943,7 @@
     </Compile>
     <Compile Include="TradeManage\PayLimitManage.aspx.cs">
       <DependentUpon>PayLimitManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\PayLimitManage.aspx.designer.cs">
       <DependentUpon>PayLimitManage.aspx</DependentUpon>
