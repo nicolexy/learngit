@@ -69,7 +69,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             try
             {
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                dt = qs.BatPay_InitGrid_R(WeekIndex).Tables[0];
+                var ds = qs.BatPay_InitGrid_R(WeekIndex);
+                if (ds != null && ds.Tables[0] != null)
+                {
+                    dt = ds.Tables[0];
+                }
             }
             catch (Exception ex)
             {
@@ -78,10 +82,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             if (dt != null && dt.Rows.Count > 0)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据时出错！请重试。");
-                return;
-
-
                 ShowBatPay(dt);
             }
         }

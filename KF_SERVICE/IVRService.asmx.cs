@@ -94,7 +94,7 @@ namespace Tencent.KF.IVR
 
                 da.OpenConn();
                 //3:取最早数据(呼叫次数为0或呼叫次数大于0而且第一次呼叫时间已过1小时的最小申诉单ID)
-                string strSql = "select * from t_tenpay_appeal_IVR where Fappealtime>='" + DateTime.Now.AddHours(-48) + "' and (Fcallnum=0 or (Fcallnum=1 and Flastcalltime<='" + onehourprior + "' and Fstate in (1,3))) order by Fappealtime limit 1 ";
+                string strSql = "select * from db_appeal.t_tenpay_appeal_IVR where Fappealtime>='" + DateTime.Now.AddHours(-48) + "' and (Fcallnum=0 or (Fcallnum=1 and Flastcalltime<='" + onehourprior + "' and Fstate in (1,3))) order by Fappealtime limit 1 ";
                 DataTable dt = da.GetTable(strSql);
 
                 if (dt == null || dt.Rows.Count == 0)
@@ -107,7 +107,7 @@ namespace Tencent.KF.IVR
                 strMobile = dt.Rows[0]["Fmobile"].ToString();
                 intCallNum = Int32.Parse(dt.Rows[0]["Fcallnum"].ToString()) + 1;
                 //4:置状态为已发送呼叫,呼叫次数加1,送出数据.
-                strSql = "update t_tenpay_appeal_IVR set Fcallnum=" + intCallNum + ",Fstate=1,Flastcalltime=now(),Fmodifytime=now() where Fappealid=" + strCheckID;
+                strSql = "update db_appeal.t_tenpay_appeal_IVR set Fcallnum=" + intCallNum + ",Fstate=1,Flastcalltime=now(),Fmodifytime=now() where Fappealid=" + strCheckID;
                 if (da.ExecSqlNum(strSql) == 1)
                 {
                     return 1;
@@ -159,7 +159,7 @@ namespace Tencent.KF.IVR
             {
                 da.OpenConn();
                 //2:查询申诉单ID是否存在于外呼表中,根据外呼次数,置相应的字段值,(第N次外呼结果,外呼备注,外呼已完成)
-                string strSql = "select * from t_tenpay_appeal_IVR where FappealID=" + strCheckID;
+                string strSql = "select * from db_appeal.t_tenpay_appeal_IVR where FappealID=" + strCheckID;
                 DataTable dt = da.GetTable(strSql);
 
                 if (dt == null || dt.Rows.Count == 0)
@@ -200,7 +200,7 @@ namespace Tencent.KF.IVR
 
                     //2013.09.02 lxl
                     //判断是高分单还是低分单，低分单拒绝申诉或者人工审批，高分单则是拒绝申诉或直接通过
-                    string SqlDiFen = "select FParameter from t_tenpay_appeal_trans where Fid='" + strCheckID + "' and FParameter not like '%&AUTO_APPEAL=1%'";
+                    string SqlDiFen = "select FParameter from db_appeal.t_tenpay_appeal_trans where Fid='" + strCheckID + "' and FParameter not like '%&AUTO_APPEAL=1%'";
                     DataTable dtDiFen = da.GetTable(SqlDiFen);
 
                     //高分单
@@ -209,12 +209,12 @@ namespace Tencent.KF.IVR
                         if (intResult == 1 || intResult == 4 || intResult == 5 || intResult == 7)//20130716添加intResult == 5，需求修改//20131210 lxl 添加7
                         {
                             //1,4时通过申诉,其余拒绝申诉.
-                            strSql = "update t_tenpay_appeal_IVR set Fstate=2,Fmodifytime=now(),Fcallresult=" + intResult + ",Fcallmemo='" + PublicRes.replaceMStr(strMemo)
+                            strSql = "update db_appeal.t_tenpay_appeal_IVR set Fstate=2,Fmodifytime=now(),Fcallresult=" + intResult + ",Fcallmemo='" + PublicRes.replaceMStr(strMemo)
                                 + "' where Fappealid='" + strCheckID + "'";
                         }
                         else
                         {
-                            strSql = "update t_tenpay_appeal_IVR set Fstate=3,Fmodifytime=now(),Fcallresult=" + intResult + ",Fcallmemo='" + PublicRes.replaceMStr(strMemo)
+                            strSql = "update db_appeal.t_tenpay_appeal_IVR set Fstate=3,Fmodifytime=now(),Fcallresult=" + intResult + ",Fcallmemo='" + PublicRes.replaceMStr(strMemo)
                                 + "' where Fappealid='" + strCheckID + "'";
                         }
                     }
@@ -222,12 +222,12 @@ namespace Tencent.KF.IVR
                     {
                         if (intResult == 2 || (intResult == 6 && dr["Fcallnum"].ToString() == "1")) //2时通过拒绝申诉,其余人工审批
                         {
-                            strSql = "update t_tenpay_appeal_IVR set Fstate=3,Fmodifytime=now(),Fcallresult=" + intResult + ",Fcallmemo='" + PublicRes.replaceMStr(strMemo)
+                            strSql = "update db_appeal.t_tenpay_appeal_IVR set Fstate=3,Fmodifytime=now(),Fcallresult=" + intResult + ",Fcallmemo='" + PublicRes.replaceMStr(strMemo)
                                 + "' where Fappealid='" + strCheckID + "'";
                         }
                         else//Fstate=4加一个状态，表示低分单人工审批
                         {
-                            strSql = "update t_tenpay_appeal_IVR set Fstate=4,Fmodifytime=now(),Fcallresult=" + intResult + ",Fcallmemo='" + PublicRes.replaceMStr(strMemo)
+                            strSql = "update db_appeal.t_tenpay_appeal_IVR set Fstate=4,Fmodifytime=now(),Fcallresult=" + intResult + ",Fcallmemo='" + PublicRes.replaceMStr(strMemo)
                                 + "' where Fappealid='" + strCheckID + "'";
                         }
                     }
@@ -240,7 +240,7 @@ namespace Tencent.KF.IVR
 
 
                     //先判断申诉单表中状态是否变更,原状态(0,8).
-                    strSql = "select Fstate from t_tenpay_appeal_trans where FID=" + strCheckID;
+                    strSql = "select Fstate from db_appeal.t_tenpay_appeal_trans where FID=" + strCheckID;
                     string state = da.GetOneResult(strSql);
 
                     if (state == "0" || state == "8")
@@ -274,7 +274,7 @@ namespace Tencent.KF.IVR
                                 if (CFTUserAppealClass.CancelAppeal(int.Parse(strCheckID), "原绑定手机拒绝", "原绑定手机拒绝", strMemo, "system", "127.0.0.2", out mesg))
                                 {
                                     //避免二次外呼Fcallnum=3,永远不可能有第三次外呼，以此作为标记
-                                    strSql = "update t_tenpay_appeal_IVR set Fcallnum=3, Fmodifytime=now() where Fappealid='" + strCheckID + "'";
+                                    strSql = "update db_appeal.t_tenpay_appeal_IVR set Fcallnum=3, Fmodifytime=now() where Fappealid='" + strCheckID + "'";
                                     if (da.ExecSqlNum(strSql) != 1)
                                     {
                                         loger.err("SendIVRResult", "避免二次外呼更新呼叫单失败" + strCheckID);
@@ -300,7 +300,7 @@ namespace Tencent.KF.IVR
                                 {
                                     return 1;
                                 }
-                                SqlDiFen = "update t_tenpay_appeal_trans set FPickUser='system',FPickTime=now(),Fstate=0 where Fid='" + strCheckID + "' and FUin='" + dr["Fuin"].ToString() + "'";
+                                SqlDiFen = "update db_appeal.t_tenpay_appeal_trans set FPickUser='system',FPickTime=now(),Fstate=0 where Fid='" + strCheckID + "' and FUin='" + dr["Fuin"].ToString() + "'";
                                 da.ExecSql(SqlDiFen);
                                 return 1;
                             }
@@ -310,7 +310,7 @@ namespace Tencent.KF.IVR
                                 if (CFTUserAppealClass.CancelAppeal(int.Parse(strCheckID), "原绑定手机拒绝", "原绑定手机拒绝", strMemo, "system", "127.0.0.2", out mesg))
                                 {
                                     //避免二次外呼
-                                    SqlDiFen = "update t_tenpay_appeal_IVR set Fcallnum=3, Fmodifytime=now() where Fappealid='" + strCheckID + "'";
+                                    SqlDiFen = "update db_appeal.t_tenpay_appeal_IVR set Fcallnum=3, Fmodifytime=now() where Fappealid='" + strCheckID + "'";
                                     if (da.ExecSqlNum(SqlDiFen) != 1)
                                     {
                                         loger.err("SendIVRResult", "避免二次外呼更新呼叫单失败" + strCheckID);
@@ -394,7 +394,7 @@ namespace Tencent.KF.IVR
 				da.OpenConn();
                 daIVRFen.OpenConn();
 				//3:取最早数据(呼叫次数为0或呼叫次数大于0而且第一次呼叫时间已过1小时的最小申诉单ID)
-                string strSql = "select * from t_tenpay_appeal_IVR where Fappealtime>='"+DateTime.Now.AddHours(-48)+"' and (Fcallnum=0 or (Fcallnum=1 and Flastcalltime<='" + onehourprior + "' and Fstate in (1,3))) order by Fappealtime limit 1 ";
+                string strSql = "select * from db_appeal.t_tenpay_appeal_IVR where Fappealtime>='" + DateTime.Now.AddHours(-48) + "' and (Fcallnum=0 or (Fcallnum=1 and Flastcalltime<='" + onehourprior + "' and Fstate in (1,3))) order by Fappealtime limit 1 ";
 				DataTable dt = da.GetTable(strSql);
 
                 if (dt == null || dt.Rows.Count == 0)
@@ -446,7 +446,7 @@ namespace Tencent.KF.IVR
 				//4:置状态为已发送呼叫,呼叫次数加1,送出数据.
                 if (dbName == "" && tbName == "")
                 {
-                    strSql = "update t_tenpay_appeal_IVR set Fcallnum=" + intCallNum + ",Fstate=1,Flastcalltime=now(),Fmodifytime=now() where Fappealid=" + strCheckID;
+                    strSql = "update db_appeal.t_tenpay_appeal_IVR set Fcallnum=" + intCallNum + ",Fstate=1,Flastcalltime=now(),Fmodifytime=now() where Fappealid=" + strCheckID;
                     if (da.ExecSqlNum(strSql) == 1)
                     {
                         return 1;
@@ -524,7 +524,7 @@ namespace Tencent.KF.IVR
                 {
                     #region
                     //2:查询申诉单ID是否存在于外呼表中,根据外呼次数,置相应的字段值,(第N次外呼结果,外呼备注,外呼已完成)
-                    string strSql = "select * from t_tenpay_appeal_IVR where FappealID=" + strCheckID;
+                    string strSql = "select * from db_appeal.t_tenpay_appeal_IVR where FappealID=" + strCheckID;
                     DataTable dt = da.GetTable(strSql);
 
                     if (dt == null || dt.Rows.Count == 0)
@@ -565,7 +565,7 @@ namespace Tencent.KF.IVR
 
                         //2013.09.02 lxl
                         //判断是高分单还是低分单，低分单拒绝申诉或者人工审批，高分单则是拒绝申诉或直接通过
-                        string SqlDiFen = "select FParameter from t_tenpay_appeal_trans where Fid='" + strCheckID + "' and FParameter not like '%&AUTO_APPEAL=1%'";
+                        string SqlDiFen = "select FParameter from db_appeal.t_tenpay_appeal_trans where Fid='" + strCheckID + "' and FParameter not like '%&AUTO_APPEAL=1%'";
                         DataTable dtDiFen = da.GetTable(SqlDiFen);
 
                         //高分单
@@ -574,12 +574,12 @@ namespace Tencent.KF.IVR
                             if (intResult == 1 || intResult == 4 || intResult == 5 || intResult == 7)//20130716添加intResult == 5，需求修改
                             {
                                 //1,4,5时通过申诉,其余拒绝申诉.
-                                strSql = "update t_tenpay_appeal_IVR set Fstate=2,Fmodifytime=now(),Fcallresult=" + intResult + ",Fcallmemo='" + PublicRes.replaceMStr(strMemo)
+                                strSql = "update db_appeal.t_tenpay_appeal_IVR set Fstate=2,Fmodifytime=now(),Fcallresult=" + intResult + ",Fcallmemo='" + PublicRes.replaceMStr(strMemo)
                                     + "' where Fappealid='" + strCheckID + "'";
                             }
                             else
                             {
-                                strSql = "update t_tenpay_appeal_IVR set Fstate=3,Fmodifytime=now(),Fcallresult=" + intResult + ",Fcallmemo='" + PublicRes.replaceMStr(strMemo)
+                                strSql = "update db_appeal.t_tenpay_appeal_IVR set Fstate=3,Fmodifytime=now(),Fcallresult=" + intResult + ",Fcallmemo='" + PublicRes.replaceMStr(strMemo)
                                     + "' where Fappealid='" + strCheckID + "'";
                             }
                         }
@@ -587,12 +587,12 @@ namespace Tencent.KF.IVR
                         {
                             if (intResult == 2 || (intResult == 6 && dr["Fcallnum"].ToString() == "1")) //2时通过拒绝申诉,其余人工审批
                             {
-                                strSql = "update t_tenpay_appeal_IVR set Fstate=3,Fmodifytime=now(),Fcallresult=" + intResult + ",Fcallmemo='" + PublicRes.replaceMStr(strMemo)
+                                strSql = "update db_appeal.t_tenpay_appeal_IVR set Fstate=3,Fmodifytime=now(),Fcallresult=" + intResult + ",Fcallmemo='" + PublicRes.replaceMStr(strMemo)
                                     + "' where Fappealid='" + strCheckID + "'";
                             }
                             else//Fstate=4加一个状态，表示低分单人工审批
                             {
-                                strSql = "update t_tenpay_appeal_IVR set Fstate=4,Fmodifytime=now(),Fcallresult=" + intResult + ",Fcallmemo='" + PublicRes.replaceMStr(strMemo)
+                                strSql = "update db_appeal.t_tenpay_appeal_IVR set Fstate=4,Fmodifytime=now(),Fcallresult=" + intResult + ",Fcallmemo='" + PublicRes.replaceMStr(strMemo)
                                     + "' where Fappealid='" + strCheckID + "'";
                             }
                         }
@@ -605,7 +605,7 @@ namespace Tencent.KF.IVR
 
 
                         //先判断申诉单表中状态是否变更,原状态(0,8).
-                        strSql = "select Fstate from t_tenpay_appeal_trans where FID=" + strCheckID;
+                        strSql = "select Fstate from db_appeal.t_tenpay_appeal_trans where FID=" + strCheckID;
                         string state = da.GetOneResult(strSql);
 
                         if (state == "0" || state == "8")
@@ -639,7 +639,7 @@ namespace Tencent.KF.IVR
                                     if (CFTUserAppealClass.CancelAppeal(int.Parse(strCheckID), "原绑定手机拒绝", "原绑定手机拒绝", strMemo, "system", "127.0.0.2", out mesg))
                                     {
                                         //避免二次外呼Fcallnum=3,永远不可能有第三次外呼，以此作为标记
-                                        strSql = "update t_tenpay_appeal_IVR set Fcallnum=3, Fmodifytime=now() where Fappealid='" + strCheckID + "'";
+                                        strSql = "update db_appeal.t_tenpay_appeal_IVR set Fcallnum=3, Fmodifytime=now() where Fappealid='" + strCheckID + "'";
                                         if (da.ExecSqlNum(strSql) != 1)
                                         {
                                             loger.err("SendIVRResultNew", "避免二次外呼更新呼叫单失败" + strCheckID);
@@ -665,7 +665,7 @@ namespace Tencent.KF.IVR
                                     {
                                         return 1;
                                     }
-                                    SqlDiFen = "update t_tenpay_appeal_trans set FPickUser='system',FPickTime=now(),Fstate=0 where Fid='" + strCheckID + "' and FUin='" + dr["Fuin"].ToString() + "'";
+                                    SqlDiFen = "update db_appeal.t_tenpay_appeal_trans set FPickUser='system',FPickTime=now(),Fstate=0 where Fid='" + strCheckID + "' and FUin='" + dr["Fuin"].ToString() + "'";
                                     da.ExecSql(SqlDiFen);
                                     return 1;
                                 }
@@ -675,7 +675,7 @@ namespace Tencent.KF.IVR
                                     if (CFTUserAppealClass.CancelAppeal(int.Parse(strCheckID), "原绑定手机拒绝", "原绑定手机拒绝", strMemo, "system", "127.0.0.2", out mesg))
                                     {
                                         //避免二次外呼
-                                        SqlDiFen = "update t_tenpay_appeal_IVR set Fcallnum=3, Fmodifytime=now() where Fappealid='" + strCheckID + "'";
+                                        SqlDiFen = "update db_appeal.t_tenpay_appeal_IVR set Fcallnum=3, Fmodifytime=now() where Fappealid='" + strCheckID + "'";
                                         if (da.ExecSqlNum(SqlDiFen) != 1)
                                         {
                                             loger.err("SendIVRResultNew", "避免二次外呼更新呼叫单失败" + strCheckID);
