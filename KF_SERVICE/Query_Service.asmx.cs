@@ -5031,13 +5031,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string sql = "update " + tablename + " set count=0 where Fcreid='" + creid + "'";
 
                 ret = da.ExecSqlNum(sql);
+                LogHelper.LogInfo("证件号码清理执行sql语句:" + sql + ".执行结果:" + ret);
             }
             catch (LogicException err)
             {
+                LogHelper.LogInfo("发生异常:" + err.Message);
+                LogHelper.LogInfo("异常堆栈:" + new StackTrace().GetFrames().ToString());
                 throw;
             }
             catch (Exception e)
             {
+                LogHelper.LogInfo("发生异常:" + e.Message);
+                LogHelper.LogInfo("异常堆栈:" + new StackTrace().GetFrames().ToString());
                 throw new Exception("service发生错误！(" + e.Message + ")");
             }
             finally
@@ -7217,7 +7222,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 da_2.OpenConn();
 
-                string sqlCmd_updateAppeal = "update t_tenpay_appeal_trans set FState=" + handleType
+                string sqlCmd_updateAppeal = "update db_appeal.t_tenpay_appeal_trans set FState=" + handleType
                     + ",Fcomment='风控冻结." + memo + "', FCheckUser='" + handleUser + "',FCheckTime=Now(),"
                     + " FPickTime=now(),FPickUser='" + handleUser + "',"
                     + " FReCheckTime=now(),FRecheckUser='" + handleUser + "'"
@@ -9798,10 +9803,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 #region
                 string Sql;
                 if (IsLockList)  //只执行锁定单
-                    Sql = "select Fid,Fuin,Fuid,Ftype,Fstate,FSubmitTime from t_tenpay_appeal_trans where FSubmitTime>='" + NowFlag.AddDays(-3).ToString("yyyy-MM-dd HH:mm:ss")
+                    Sql = "select Fid,Fuin,Fuid,Ftype,Fstate,FSubmitTime from db_appeal.t_tenpay_appeal_trans where FSubmitTime>='" + NowFlag.AddDays(-3).ToString("yyyy-MM-dd HH:mm:ss")
                         + "' and FSubmitTime<='" + NowFlag.ToString("yyyy-MM-dd HH:mm:ss") + "' and Fstate = 8 and FType in(1,2,5,6,7) and FParameter like '%&AUTO_APPEAL=1%'";
                 else
-                    Sql = "select Fid,Fuin,Fuid,Ftype,Fstate,FSubmitTime from t_tenpay_appeal_trans where FSubmitTime>='" + NowFlag.AddDays(-1).ToString("yyyy-MM-dd HH:mm:ss")
+                    Sql = "select Fid,Fuin,Fuid,Ftype,Fstate,FSubmitTime from db_appeal.t_tenpay_appeal_trans where FSubmitTime>='" + NowFlag.AddDays(-1).ToString("yyyy-MM-dd HH:mm:ss")
                         + "' and FSubmitTime<='" + NowFlag.ToString("yyyy-MM-dd HH:mm:ss") + "' and Fstate in(0,3,4,5,6) and FType in(1,2,5,6,7) and FParameter like '%&AUTO_APPEAL=1%'";
 
                 DataSet ds = dab.dsGetTotalData(Sql);
@@ -9810,7 +9815,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     if (!IsLockList)
                     {
-                        Sql = "update t_tenpay_appeal_trans set FPickUser='system',FPickTime=now(),Fstate=8 where FSubmitTime>='" + NowFlag.AddDays(-1).ToString("yyyy-MM-dd HH:mm:ss")
+                        Sql = "update db_appeal.t_tenpay_appeal_trans set FPickUser='system',FPickTime=now(),Fstate=8 where FSubmitTime>='" + NowFlag.AddDays(-1).ToString("yyyy-MM-dd HH:mm:ss")
                             + "' and FSubmitTime<='" + NowFlag.ToString("yyyy-MM-dd HH:mm:ss") + "' and Fstate in(0,3,4,5,6) and FType in(1,2,5,6,7) and FParameter like '%&AUTO_APPEAL=1%'";
                         da.ExecSql(Sql);
                     }
@@ -9905,10 +9910,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                         damn.Dispose();
                                     }
 
-                                    string strSql = "select count(*) from t_tenpay_appeal_IVR where FAppealID=" + dr["Fid"].ToString();
+                                    string strSql = "select count(*) from db_appeal.t_tenpay_appeal_IVR where FAppealID=" + dr["Fid"].ToString();
                                     if (da.GetOneResult(strSql) == "0")
                                     {
-                                        strSql = "Insert t_tenpay_appeal_IVR(FAppealID,FAppealType,Fuin,Fuid,Fmobile,FAppealTime,Fstate,FPickTime,FmodifyTime) values ("
+                                        strSql = "Insert db_appeal.t_tenpay_appeal_IVR(FAppealID,FAppealType,Fuin,Fuid,Fmobile,FAppealTime,Fstate,FPickTime,FmodifyTime) values ("
                                             + dr["Fid"].ToString() + ",5,'" + dr["Fuin"].ToString() + "','" + dr["Fuid"].ToString() + "','"
                                             + mobile + "','" + DateTime.Parse(dr["FSubmitTime"].ToString()).ToString("yyyy-MM-dd HH:mm:ss") + "',0,now(),now())";
 
@@ -9945,11 +9950,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 #region
                 string Sql2;
                 if (IsLockList)  //只执行锁定单
-                    Sql2 = "select Fid,Fuin,Fuid,Ftype,Fstate,FSubmitTime,FParameter  from t_tenpay_appeal_trans where FSubmitTime>='" + NowFlag.AddDays(-3).ToString("yyyy-MM-dd HH:mm:ss")
+                    Sql2 = "select Fid,Fuin,Fuid,Ftype,Fstate,FSubmitTime,FParameter  from db_appeal.t_tenpay_appeal_trans where FSubmitTime>='" + NowFlag.AddDays(-3).ToString("yyyy-MM-dd HH:mm:ss")
                         + "' and FSubmitTime<='" + NowFlag.ToString("yyyy-MM-dd HH:mm:ss") + "' and Fstate = 8 and FType in(1,2,5,6,7) and FParameter like '%&sheetIVRSate=1%' ";
                 else
                     //低分单，且之前没有被扫描过
-                    Sql2 = "select Fid,Fuin,Fuid,Ftype,Fstate,FSubmitTime,FParameter  from t_tenpay_appeal_trans where FSubmitTime>='" + NowFlag.AddDays(-1).ToString("yyyy-MM-dd HH:mm:ss")
+                    Sql2 = "select Fid,Fuin,Fuid,Ftype,Fstate,FSubmitTime,FParameter  from db_appeal.t_tenpay_appeal_trans where FSubmitTime>='" + NowFlag.AddDays(-1).ToString("yyyy-MM-dd HH:mm:ss")
                             + "' and FSubmitTime<='" + NowFlag.ToString("yyyy-MM-dd HH:mm:ss") + "' and Fstate in(0,3,4,5,6) and FType=5 and FParameter not like '%&AUTO_APPEAL=1%' and FParameter not like '%&sheetIVRSate=1%' ";
 
                 DataSet ds2 = dab.dsGetTotalData(Sql2);
@@ -9969,7 +9974,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         {
                             //&sheetIVRSate=1 低分单已通过该函数，在FParameter中增加标记，以防多次扫描
                             //   string Parameter = dr["FParameter"].ToString() + "&sheetIVRSate=1";
-                            Sql2 = "update t_tenpay_appeal_trans set FPickUser='system',FPickTime=now(),FParameter=concat(FParameter,'&sheetIVRSate=1') where Fid='" + dr["Fid"].ToString() + "' and FUin='" + dr["Fuin"].ToString() + "'";
+                            Sql2 = "update db_appeal.t_tenpay_appeal_trans set FPickUser='system',FPickTime=now(),FParameter=concat(FParameter,'&sheetIVRSate=1') where Fid='" + dr["Fid"].ToString() + "' and FUin='" + dr["Fuin"].ToString() + "'";
                             da.ExecSql(Sql2);
                         }
 
@@ -10055,13 +10060,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                         damn.Dispose();
                                     }
                                     //在写入t_tenpay_appeal_IVR表之前，将Fstate=8
-                                    Sql2 = "update t_tenpay_appeal_trans set FPickUser='system',FPickTime=now(),Fstate=8  where Fid='" + dr["Fid"].ToString() + "' and FUin='" + dr["Fuin"].ToString() + "'";
+                                    Sql2 = "update db_appeal.t_tenpay_appeal_trans set FPickUser='system',FPickTime=now(),Fstate=8  where Fid='" + dr["Fid"].ToString() + "' and FUin='" + dr["Fuin"].ToString() + "'";
                                     da.ExecSql(Sql2);
 
-                                    string strSql = "select count(*) from t_tenpay_appeal_IVR where FAppealID=" + dr["Fid"].ToString();
+                                    string strSql = "select count(*) from db_appeal.t_tenpay_appeal_IVR where FAppealID=" + dr["Fid"].ToString();
                                     if (da.GetOneResult(strSql) == "0")
                                     {
-                                        strSql = "Insert t_tenpay_appeal_IVR(FAppealID,FAppealType,Fuin,Fuid,Fmobile,FAppealTime,Fstate,FPickTime,FmodifyTime) values ("
+                                        strSql = "Insert db_appeal.t_tenpay_appeal_IVR(FAppealID,FAppealType,Fuin,Fuid,Fmobile,FAppealTime,Fstate,FPickTime,FmodifyTime) values ("
                                             + dr["Fid"].ToString() + ",5,'" + dr["Fuin"].ToString() + "','" + dr["Fuid"].ToString() + "','"
                                             + mobile + "','" + DateTime.Parse(dr["FSubmitTime"].ToString()).ToString("yyyy-MM-dd HH:mm:ss") + "',0,now(),now())";
 
@@ -10650,7 +10655,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     if (ftype == 5)
                     {
                         da.OpenConn();
-                        string strSql = "select * from t_tenpay_appeal_IVR where Fappealid=" + fid;
+                        string strSql = "select * from db_appeal.t_tenpay_appeal_IVR where Fappealid=" + fid;
                         DataTable dtivr = da.GetTable(strSql);
 
                         if (dtivr != null && dtivr.Rows.Count == 1)
@@ -11082,7 +11087,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         WhereStr = WhereStr.Substring(0, WhereStr.Length - 1);
 
-                        strSql = " update t_tenpay_appeal_trans set FPickUser='" + username + "',FPickTime=now(),Fstate=8 where Fid in(" + WhereStr + ")";
+                        strSql = " update db_appeal.t_tenpay_appeal_trans set FPickUser='" + username + "',FPickTime=now(),Fstate=8 where Fid in(" + WhereStr + ")";
 
                         da.ExecSql(strSql);
                     }
@@ -11515,7 +11520,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 string Sql = " select sum(SuccessNum) as SuccessNumSum,sum(FailNum) as FailNumSum,sum(DeleteNum) as DeleteNumSum,sum(OtherNum) as OtherNumSum," +
                              "sum(UserClassSuccessNum) as UserClassSuccessNumSum,sum(UserClassFailNum) as UserClassFailNumSum,sum(UserClassOtherNum) as UserClassOtherNumSum " +
-                             "from t_tenpay_appeal_kf_total " +
+                             "from db_appeal.t_tenpay_appeal_kf_total " +
                              "where user='" + User + "' and OperationType = '" + OperationType + "' and operationday between '" + u_BeginTime.ToString("yyyy-MM-dd") + "' and '" + u_EndTime.ToString("yyyy-MM-dd") + "'";
 
                 return da.dsGetTotalData(Sql);
@@ -21513,7 +21518,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 LogHelper.LogInfo("查询数据异常:" + ex.Message);
                 LogHelper.LogInfo("异常堆栈:" + new StackTrace().GetFrames().ToString());
-                throw;
+                throw ex;
             }
             finally
             {
