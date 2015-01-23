@@ -7952,6 +7952,7 @@
             <s:element minOccurs="0" maxOccurs="1" name="qqid" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="szBeginDate" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="szEndDate" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ftype" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="iStatue" type="s:int" />
             <s:element minOccurs="0" maxOccurs="1" name="szListID" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="szFreezeUser" type="s:string" />

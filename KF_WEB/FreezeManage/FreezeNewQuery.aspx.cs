@@ -17,6 +17,7 @@ using System.Text;
 using System.Net;
 using System.Xml;
 using System.IO;
+using System.Web.Services.Protocols;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 {
@@ -96,7 +97,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                 //userid=75942086
                 //TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMessage("13528403205", "102237", "user=75942086");
                 //return;
-
+                #region 查询条件处理
                 string uin = "";
                 if (!string.IsNullOrEmpty(this.tbx_payAccount.Text))
                 {
@@ -126,6 +127,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                     return;
                 }
 
+                //获取申诉状态
+                int state = 99;
+                int ftype = int.Parse(this.ddlType.SelectedValue);
+                if (ftype == 8 || ftype == 19)
+                {
+                    state = int.Parse(this.ddl_orderState.SelectedValue);
+                }
+                else if (ftype == 11)
+                {
+                    state = int.Parse(this.ddl_orderStateSpecial.SelectedValue);
+                }
+
+
+
+                #endregion
 
                 DataSet ds = null;  //结果集
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
@@ -134,9 +150,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
                 int allRecordCount = 0;
 
-                ds = qs.GetFreezeList_New(uin, beginDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"),
-                    int.Parse(this.ddl_orderState.SelectedValue), this.tbx_listNo.Text.Trim(), this.tbx_people.Text.Trim(), this.tbx_reason.Text.Trim(),
-                    (index - 1) * this.pager.PageSize, this.pager.PageSize, this.ddl_queryOrderType.SelectedValue, out allRecordCount);
+                //ds = qs.GetFreezeList_New(uin, beginDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"), 
+                //    int.Parse(this.ddl_orderState.SelectedValue), this.tbx_listNo.Text.Trim(), this.tbx_people.Text.Trim(), this.tbx_reason.Text.Trim(),
+                //    (index - 1) * this.pager.PageSize, this.pager.PageSize, this.ddl_queryOrderType.SelectedValue, out allRecordCount);
+
+                ds = qs.GetFreezeList_New(uin, beginDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"), int.Parse(this.ddlType.SelectedValue),
+                  state, this.tbx_listNo.Text.Trim(), this.tbx_people.Text.Trim(), this.tbx_reason.Text.Trim(),
+                  (index - 1) * this.pager.PageSize, this.pager.PageSize, this.ddl_queryOrderType.SelectedValue, out allRecordCount);
 
                 
 				this.lb_count.Text = allRecordCount.ToString();
@@ -167,82 +187,127 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                             DateTime subTime = DateTime.Parse(dr["FsubmitTime"].ToString());
                             dr["OpUrl"] = @"FreezeProcessDetail.aspx?fid=" + dr["FID"].ToString() + "&ffreeze_id=" + dr["FUin"].ToString() + "&fsubmit_date=" + dr["FsubmitTime"].ToString();
                         }
-                        
                     }
                     
 					dr["DiaryUrl"] = @"FreezeDiary.aspx?FFreezeListID="+ dr["FID"].ToString() + "&ffreeze_id=" + dr["FUin"].ToString();
+                    dr["handleUserName"] = dr["FCheckUser"].ToString();
 
-					string stateName = "{0}";
-
-					if(dr["isFreezeListHas"].ToString() == "0")
-					{
-						stateName = "该账户不处于冻结状态 ({0})";
-					}
-					
-					switch(dr["Fstate"].ToString())
-					{
-						case "0":
-						{
-							stateName = string.Format(stateName,"未处理");
-							//dr["handleStateName"] = stateName;
-							//dr["handleUserName"] = dr["FCheckUser"].ToString();
-							break;
-						}
-						case "1":
-						{
-							stateName = string.Format(stateName,"结单(已解冻)");
-							//dr["handleStateName"] = stateName;
-							//dr["handleUserName"] =  dr["FCheckUser"].ToString();
-							break;
-						}
-						case "2":
-						{
-							stateName = string.Format(stateName,"待补充资料");
-							//dr["handleStateName"] = "结单（未解冻）";
-							//dr["handleUserName"] =  dr["FCheckUser"].ToString();
-							break;
-						}
-						case "7":
-						{
-							stateName = string.Format(stateName,"已作废");
-							//dr["handleStateName"] = "已作废";
-							//dr["handleUserName"] = dr["FCheckUser"].ToString();
-							break;
-						}
-						case "8":
-						{
-							stateName = string.Format(stateName,"挂起");
-							//dr["handleStateName"] = "挂起";
-							//dr["handleUserName"] = dr["FCheckUser"].ToString();
-							break;
-						}
-                        case "10":
+                    #region 状态处理
+                       string stateName = "{0}";
+                    if (ftype == 8 || ftype == 19)//冻结类型状态处理
+                    {
+                        if (dr["isFreezeListHas"].ToString() == "0")
                         {
-                            stateName = string.Format(stateName, "已补充资料");
-                            //dr["handleStateName"] = "挂起";
-                            //dr["handleUserName"] = dr["FCheckUser"].ToString();
-                            break;
+                            stateName = "该账户不处于冻结状态 ({0})";
                         }
-						/*
-						case "5":
-						{
-							dr["handleStateName"] = "补充处理结果";
-							dr["handleUserName"] = dr["FCheckUser"].ToString();
-							break;
-						}
-						*/
-						default:
-						{
-							stateName = string.Format(stateName,"未知" + dr["Fstate"].ToString());
-							//stateName += "(未知" + dr["Fstate"].ToString() + ")";
-							//dr["handleStateName"] = "未知" + dr["Fstate"].ToString();
-							//dr["handleUserName"] = "未知";
-							break;
-						}
-					}
 
-					dr["handleStateName"] = stateName;
-					dr["handleUserName"] = dr["FCheckUser"].ToString();
+                        switch (dr["Fstate"].ToString())
+                        {
+                            case "0":
+                                {
+                                    stateName = string.Format(stateName, "未处理");
+                                    //dr["handleStateName"] = stateName;
+                                    //dr["handleUserName"] = dr["FCheckUser"].ToString();
+                                    break;
+                                }
+                            case "1":
+                                {
+                                    stateName = string.Format(stateName, "结单(已解冻)");
+                                    //dr["handleStateName"] = stateName;
+                                    //dr["handleUserName"] =  dr["FCheckUser"].ToString();
+                                    break;
+                                }
+                            case "2":
+                                {
+                                    stateName = string.Format(stateName, "待补充资料");
+                                    //dr["handleStateName"] = "结单（未解冻）";
+                                    //dr["handleUserName"] =  dr["FCheckUser"].ToString();
+                                    break;
+                                }
+                            case "7":
+                                {
+                                    stateName = string.Format(stateName, "已作废");
+                                    //dr["handleStateName"] = "已作废";
+                                    //dr["handleUserName"] = dr["FCheckUser"].ToString();
+                                    break;
+                                }
+                            case "8":
+                                {
+                                    stateName = string.Format(stateName, "挂起");
+                                    //dr["handleStateName"] = "挂起";
+                                    //dr["handleUserName"] = dr["FCheckUser"].ToString();
+                                    break;
+                                }
+                            case "10":
+                                {
+                                    stateName = string.Format(stateName, "已补充资料");
+                                    //dr["handleStateName"] = "挂起";
+                                    //dr["handleUserName"] = dr["FCheckUser"].ToString();
+                                    break;
+                                }
+                            /*
+                            case "5":
+                            {
+                                dr["handleStateName"] = "补充处理结果";
+                                dr["handleUserName"] = dr["FCheckUser"].ToString();
+                                break;
+                            }
+                            */
+                            default:
+                                {
+                                    stateName = string.Format(stateName, "未知" + dr["Fstate"].ToString());
+                                    //stateName += "(未知" + dr["Fstate"].ToString() + ")";
+                                    //dr["handleStateName"] = "未知" + dr["Fstate"].ToString();
+                                    //dr["handleUserName"] = "未知";
+                                    break;
+                                }
+                        }
+
+                        dr["handleStateName"] = stateName;
+                    }
+                    else if (ftype == 11)//特殊找回支付密码状态
+                    {
+                        switch (dr["Fstate"].ToString())
+                        {
+                            case "0":
+                                {
+                                    stateName = string.Format(stateName, "未处理"); break;
+                                }
+                            case "1":
+                                {
+                                    stateName = string.Format(stateName, "申诉成功"); break;
+                                }
+                            case "2":
+                                {
+                                    stateName = string.Format(stateName, "申诉失败"); break;
+                                }
+                            case "7":
+                                {
+                                    stateName = string.Format(stateName, "已删除"); break;
+                                }
+                            case "11":
+                                {
+                                    stateName = string.Format(stateName, "待补充资料"); break;
+                                }
+                            case "12":
+                                {
+                                    stateName = string.Format(stateName, "已补充资料"); break;
+                                }
+                            default:
+                                {
+                                    stateName = string.Format(stateName, "未知" + dr["Fstate"].ToString());
+                                    break;
+                                }
+                        }
+
+                        dr["handleStateName"] = stateName;
+                        this.DataGrid_QueryResult.Columns[this.DataGrid_QueryResult.Columns.Count - 7].Visible = false;//隐藏冻结原因列
+                    }
+                    else
+                    {
+                        stateName = string.Format(stateName, "申诉类型不对：" + dr["Fstate"].ToString());
+                    }
+                    #endregion
 					
 				}
 
@@ -250,7 +315,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 				this.DataGrid_QueryResult.DataSource = ds;
 				this.DataGrid_QueryResult.DataBind();
-			}
+            }
+            catch (SoapException eSoap) //捕获soap类异常
+            {
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
 			catch(Exception ex)
 			{
                 ShowMsg(ex.Message);
@@ -477,6 +547,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 			}
 		}
 
+        protected void ddlType_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            int ftype = int.Parse(this.ddlType.SelectedValue);
+            if (ftype == 8 || ftype == 19)
+            {
+                this.ddl_orderState.Visible = true;
+                this.ddl_orderStateSpecial.Visible = false;
+            }
+            else if (ftype == 11)
+            {
+                this.ddl_orderState.Visible = false;
+                this.ddl_orderStateSpecial.Visible = true;
+            }
+        }
 
 	}
 }

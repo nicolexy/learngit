@@ -20927,11 +20927,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("Finance_HeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetFreezeList_New", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetFreezeList_New(string qqid, string szBeginDate, string szEndDate, int iStatue, string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType, out int AllRecordCount) {
+        public System.Data.DataSet GetFreezeList_New(string qqid, string szBeginDate, string szEndDate, int ftype, int iStatue, string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType, out int AllRecordCount) {
             object[] results = this.Invoke("GetFreezeList_New", new object[] {
                         qqid,
                         szBeginDate,
                         szEndDate,
+                        ftype,
                         iStatue,
                         szListID,
                         szFreezeUser,
@@ -20944,11 +20945,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetFreezeList_New(string qqid, string szBeginDate, string szEndDate, int iStatue, string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetFreezeList_New(string qqid, string szBeginDate, string szEndDate, int ftype, int iStatue, string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetFreezeList_New", new object[] {
                         qqid,
                         szBeginDate,
                         szEndDate,
+                        ftype,
                         iStatue,
                         szListID,
                         szFreezeUser,
@@ -20966,12 +20968,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         }
         
         /// <remarks/>
-        public void GetFreezeList_NewAsync(string qqid, string szBeginDate, string szEndDate, int iStatue, string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType) {
-            this.GetFreezeList_NewAsync(qqid, szBeginDate, szEndDate, iStatue, szListID, szFreezeUser, szFreezeReason, iPageStart, iPageMax, orderType, null);
+        public void GetFreezeList_NewAsync(string qqid, string szBeginDate, string szEndDate, int ftype, int iStatue, string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType) {
+            this.GetFreezeList_NewAsync(qqid, szBeginDate, szEndDate, ftype, iStatue, szListID, szFreezeUser, szFreezeReason, iPageStart, iPageMax, orderType, null);
         }
         
         /// <remarks/>
-        public void GetFreezeList_NewAsync(string qqid, string szBeginDate, string szEndDate, int iStatue, string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType, object userState) {
+        public void GetFreezeList_NewAsync(string qqid, string szBeginDate, string szEndDate, int ftype, int iStatue, string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType, object userState) {
             if ((this.GetFreezeList_NewOperationCompleted == null)) {
                 this.GetFreezeList_NewOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetFreezeList_NewOperationCompleted);
             }
@@ -20979,6 +20981,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
                         qqid,
                         szBeginDate,
                         szEndDate,
+                        ftype,
                         iStatue,
                         szListID,
                         szFreezeUser,
