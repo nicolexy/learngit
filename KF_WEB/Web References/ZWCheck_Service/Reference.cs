@@ -1049,6 +1049,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ZWCheck_Service {
         
         private string rightStringField;
         
+        private System.Xml.XmlAttribute[] anyAttrField;
+        
         /// <remarks/>
         public string UserName {
             get {
@@ -1106,6 +1108,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ZWCheck_Service {
             }
             set {
                 this.rightStringField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAnyAttributeAttribute()]
+        public System.Xml.XmlAttribute[] AnyAttr {
+            get {
+                return this.anyAttrField;
+            }
+            set {
+                this.anyAttrField = value;
             }
         }
     }

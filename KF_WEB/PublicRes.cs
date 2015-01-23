@@ -13,139 +13,144 @@ using System.Text;
 using System.Xml;
 using System.Threading;
 using System.Web.UI.HtmlControls;
+using CommLib;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web
 {
-	/// <summary>
-	/// PublicRes 的摘要说明。
-	/// </summary>
-	public class PublicRes
-	{
-		public static bool isLatin = false;
-		//furion 20051003 
-		public static string sBeginTime = "1940-01-01 00:00:00";
-		public static string sEndTime = "2040-01-01 00:00:00";
+    /// <summary>
+    /// PublicRes 的摘要说明。
+    /// </summary>
+    public class PublicRes
+    {
+        public static bool isLatin = false;
+        //furion 20051003 
+        public static string sBeginTime = "1940-01-01 00:00:00";
+        public static string sEndTime = "2040-01-01 00:00:00";
 
-		private static string f_strDatabase;
-		private static string f_strDataSource;
-		private static string f_strUserID;
-		private static string f_strPassword;
+        private static string f_strDatabase;
+        private static string f_strDataSource;
+        private static string f_strUserID;
+        private static string f_strPassword;
 
 
-		private static string f_strDatabase_ht;
-		private static string f_strDataSource_ht;
-		private static string f_strUserID_ht;
-		private static string f_strPassword_ht;
+        private static string f_strDatabase_ht;
+        private static string f_strDataSource_ht;
+        private static string f_strUserID_ht;
+        private static string f_strPassword_ht;
 
         //权限系统数据库 au
-		private static string f_strDatabase_au;
-		private static string f_strDataSource_au;
-		private static string f_strUserID_au;
-		private static string f_strPassword_au;
+        private static string f_strDatabase_au;
+        private static string f_strDataSource_au;
+        private static string f_strUserID_au;
+        private static string f_strPassword_au;
 
 
-		//业务库备机 -->修改为资料库备机
-		private static string f_strDatabase_zlb;
-		private static string f_strDataSource_zlb;
-		private static string f_strUserID_zlb;
-		private static string f_strPassword_zlb;
+        //业务库备机 -->修改为资料库备机
+        private static string f_strDatabase_zlb;
+        private static string f_strDataSource_zlb;
+        private static string f_strUserID_zlb;
+        private static string f_strPassword_zlb;
 
-		//新增一个时间跨度,只查询从今天算起指定天内的数据.
-		public static int PersonInfoDayCount = Int32.Parse(ConfigurationManager.AppSettings["PersonInfoDayCount"].Trim());
-		public static int GROUPID = 0;
+        //新增一个时间跨度,只查询从今天算起指定天内的数据.
+        public static int PersonInfoDayCount = Int32.Parse(ConfigurationManager.AppSettings["PersonInfoDayCount"].Trim());
+        public static int GROUPID = 0;
 
-		public static string CharSet = "latin1";
+        public static string CharSet = "latin1";
 
-		public static bool IgnoreLimitCheck = ConfigurationManager.AppSettings["IgnoreLimitCheck"].Trim().ToLower() == "true";
+        public static bool IgnoreLimitCheck = ConfigurationManager.AppSettings["IgnoreLimitCheck"].Trim().ToLower() == "true";
 
-		public static string OutFileToUser = ConfigurationManager.AppSettings["OutFileToUser"]; //test
-		static PublicRes()
-		{
-			f_strDatabase = "mysql";
-			f_strDataSource = ConfigurationManager.AppSettings["DataSource"];
-			f_strUserID = ConfigurationManager.AppSettings["UserID"];
-			f_strPassword = ConfigurationManager.AppSettings["Password"];
+        public static string OutFileToUser = ConfigurationManager.AppSettings["OutFileToUser"]; //test
+        static PublicRes()
+        {
+            f_strDatabase = "mysql";
+            f_strDataSource = ConfigurationManager.AppSettings["DataSource"];
+            f_strUserID = ConfigurationManager.AppSettings["UserID"];
+            f_strPassword = ConfigurationManager.AppSettings["Password"];
 
-			f_strDatabase_zlb = "mysql";
-			f_strDataSource_zlb = ConfigurationManager.AppSettings["DataSource_ZLB"];
-			f_strUserID_zlb = ConfigurationManager.AppSettings["UserID_ZLB"];
-			f_strPassword_zlb = ConfigurationManager.AppSettings["Password_ZLB"];
+            f_strDatabase_zlb = "mysql";
+            f_strDataSource_zlb = ConfigurationManager.AppSettings["DataSource_ZLB"];
+            f_strUserID_zlb = ConfigurationManager.AppSettings["UserID_ZLB"];
+            f_strPassword_zlb = ConfigurationManager.AppSettings["Password_ZLB"];
 
-			f_strDatabase_ht = "mysql";
-			f_strDataSource_ht = ConfigurationManager.AppSettings["DataSource_ht"];
-			f_strUserID_ht = ConfigurationManager.AppSettings["UserID_ht"];
-			f_strPassword_ht = ConfigurationManager.AppSettings["Password_ht"];
+            f_strDatabase_ht = "mysql";
+            f_strDataSource_ht = ConfigurationManager.AppSettings["DataSource_ht"];
+            f_strUserID_ht = ConfigurationManager.AppSettings["UserID_ht"];
+            f_strPassword_ht = ConfigurationManager.AppSettings["Password_ht"];
 
-			f_strDatabase_au = "mysql";
-			f_strDataSource_au = ConfigurationManager.AppSettings["DataSource_au"];
-			f_strUserID_au = ConfigurationManager.AppSettings["UserID_au"];
-			f_strPassword_au = ConfigurationManager.AppSettings["Password_au"];
-
-
-//			f_strServerIP = ConfigurationManager.AppSettings["ServerIP"];
-//			f_iServerPort = Int32.Parse(ConfigurationManager.AppSettings["ServerPort"]);
+            f_strDatabase_au = "mysql";
+            f_strDataSource_au = ConfigurationManager.AppSettings["DataSource_au"];
+            f_strUserID_au = ConfigurationManager.AppSettings["UserID_au"];
+            f_strPassword_au = ConfigurationManager.AppSettings["Password_au"];
 
 
-			GROUPID = Int32.Parse(ConfigurationManager.AppSettings["GROUPID"]);
+            //			f_strServerIP = ConfigurationManager.AppSettings["ServerIP"];
+            //			f_iServerPort = Int32.Parse(ConfigurationManager.AppSettings["ServerPort"]);
 
-			CharSet = ConfigurationManager.AppSettings["CharSet"];
-		}
 
-		public static string GetConnString()
-		{
-			return GetConnString("YWB");
-		}
+            GROUPID = Int32.Parse(ConfigurationManager.AppSettings["GROUPID"]);
 
-		public static string GetConnString(string strDBType)
-		{
-			string sConnStr = "";
+            CharSet = ConfigurationManager.AppSettings["CharSet"];
+        }
 
-            string connModule = "Driver=[MySQL ODBC 3.51 Driver]; Server={0}; Database={3}; UID={1}; PWD={2}; Option=3";
-            string db50list = ConfigurationManager.AppSettings["DB50List"];
-            if (db50list.IndexOf(";" + strDBType + ";") > -1)
+        public static string GetConnString()
+        {
+            return GetConnString("YWB");
+        }
+
+        public static string GetConnString(string strDBType)
+        {
+            string sConnStr = "";
+
+            //string connModule = "Driver=[MySQL ODBC 3.51 Driver]; Server={0}; Database={3}; UID={1}; PWD={2}; Option=3";
+            //string db50list = ConfigurationManager.AppSettings["DB50List"];
+            //if (db50list.IndexOf(";" + strDBType + ";") > -1)
+            //{
+            //    connModule = "Driver=[mysql ODBC 5.2a Driver]; Server={0}; Database={3}; UID={1}; PWD={2};charset=latin1; Option=3";
+            //}
+
+            if (strDBType.ToUpper() == "YW")
             {
-                connModule = "Driver=[mysql ODBC 5.2a Driver]; Server={0}; Database={3}; UID={1}; PWD={2};charset=latin1; Option=3";
+                //sConnStr = String.Format(connModule,f_strDataSource,f_strUserID,f_strPassword,f_strDatabase);
+                return DbConnectionString.Instance.GetConnectionString("YW");
+            }
+            //furion 20090610 web层的这个数据库连接只用来查询数字据字典表的，现改成资料库连接
+            else if (strDBType.ToUpper() == "ZLB")
+            {
+                //sConnStr = String.Format(connModule, f_strDataSource_zlb, f_strUserID_zlb, f_strPassword_zlb, f_strDatabase_zlb);
+                return DbConnectionString.Instance.GetConnectionString("ZLB");
+            }
+            else if (strDBType.ToUpper() == "AU")
+            {
+                //sConnStr = String.Format(connModule, f_strDataSource_au, f_strUserID_au, f_strPassword_au, f_strDatabase_au);
+                return DbConnectionString.Instance.GetConnectionString("AU");
+            }
+            else if (strDBType.ToUpper() == "HT")
+            {
+                //sConnStr = String.Format(connModule, f_strDataSource_ht, f_strUserID_ht, f_strPassword_ht, f_strDatabase_ht);
+                return DbConnectionString.Instance.GetConnectionString("HT");
             }
 
-			if(strDBType.ToUpper() == "YW")
-			{
-				sConnStr = String.Format(connModule,f_strDataSource,f_strUserID,f_strPassword,f_strDatabase);
-			}
-			//furion 20090610 web层的这个数据库连接只用来查询数字据字典表的，现改成资料库连接
-			else if(strDBType.ToUpper() == "ZLB")
-			{
-				sConnStr = String.Format(connModule,f_strDataSource_zlb,f_strUserID_zlb,f_strPassword_zlb,f_strDatabase_zlb);				
-			}
-			else if(strDBType.ToUpper() == "AU")
-			{
-				sConnStr = String.Format(connModule,f_strDataSource_au,f_strUserID_au,f_strPassword_au,f_strDatabase_au);
-			}
-			else if(strDBType.ToUpper() == "HT")
-			{
-				sConnStr = String.Format(connModule,f_strDataSource_ht,f_strUserID_ht,f_strPassword_ht,f_strDatabase_ht);
-			}
+            return sConnStr;//.Replace("[", "{").Replace("]", "}");
+        }
 
-			return sConnStr.Replace("[","{").Replace("]","}");
-		}
-
-		public static string GetString(object aValue)
-		{
-			try
-			{
-				if(aValue != null)
-				{
-					return aValue.ToString().Replace("\\","\\\\").Replace("'","\\'"); 
-				}
-				else
-				{
-					return "";
-				}
-			}
-			catch
-			{
-				return "";
-			}
-		}
+        public static string GetString(object aValue)
+        {
+            try
+            {
+                if (aValue != null)
+                {
+                    return aValue.ToString().Replace("\\", "\\\\").Replace("'", "\\'");
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            catch
+            {
+                return "";
+            }
+        }
 
         public static string GetCurName(string curCode)
         {
@@ -162,97 +167,97 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             return "未知币种（" + curCode + "）";
         }
 
-		public static string GetDateTime(object aValue)
-		{
-			try
-			{
-				if(aValue != null)
-				{
-					DateTime dt = DateTime.Parse(aValue.ToString());
-					return dt.ToString("yyyy-MM-dd HH:mm:ss");
-				}
-				else
-				{
-					return "";
-				}
-			}
-			catch
-			{
-				return "";
-			}
-		}
+        public static string GetDateTime(object aValue)
+        {
+            try
+            {
+                if (aValue != null)
+                {
+                    DateTime dt = DateTime.Parse(aValue.ToString());
+                    return dt.ToString("yyyy-MM-dd HH:mm:ss");
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            catch
+            {
+                return "";
+            }
+        }
 
-		public static string GetInt(object aValue)
-		{
-			try
-			{
-				if(aValue != null)
-				{
-					int num = Int32.Parse(aValue.ToString());
-					return num.ToString();
-				}
-				else
-				{
-					return "0";
-				}
-			}
-			catch
-			{
-				return "0";
-			}
-		}
+        public static string GetInt(object aValue)
+        {
+            try
+            {
+                if (aValue != null)
+                {
+                    int num = Int32.Parse(aValue.ToString());
+                    return num.ToString();
+                }
+                else
+                {
+                    return "0";
+                }
+            }
+            catch
+            {
+                return "0";
+            }
+        }
 
-//		public static string f_strServerIP;
-//		public static int f_iServerPort;
-//
-//		/// <summary>
-//		/// 验证用户名和密码
-//		/// </summary>
-//		/// <param name="LoginUserID">用户名</param>
-//		/// <param name="strPassword">密码</param>
-//		/// <returns></returns>
-//		public static Query_Service.TCreateSessionReply ValidateUser(string LoginUserID, string strPassword, string IP)
-//		{
-//			Query_Service.Query_Service qs = new Query_Service.Query_Service();
-//			
-//			return    qs.ValidUser(LoginUserID, strPassword, IP);         
-//		}
-//
-//		/// <summary>
-//		/// 验证权限.
-//		/// </summary>
-//		/// <param name="szKey">验证服务器返回的KEY</param>
-//		/// <param name="iOperId">验证服务器返回的操作ID</param>
-//		/// <param name="strRightCode">功能ID</param>
-//		/// <returns></returns>
-//		public static bool ValidateRight(string szKey, int iOperId, string strRightCode)
-//		{
-//			int itmp = 0;
-//			try
-//			{
-//				itmp = Int32.Parse(strRightCode);
-//			}
-//			catch
-//			{
-//				return false;
-//			}
-//
-//			return UserRight.ValidateRight(szKey, iOperId, GROUPID, itmp, f_strServerIP, f_iServerPort);
-//		}
-//
-//		/// <summary>
-//		/// 删除验证SESSION
-//		/// </summary>
-//		/// <param name="szKey">验证服务器返回的KEY</param>
-//		/// <param name="iOperId">验证服务器返回的操作ID</param>
-//		public static void DelLoginUser(string szKey, int iOperId)
-//		{
-//			UserRight.DelLoginUser(szKey, iOperId, f_strServerIP, f_iServerPort);
-//		}
+        //		public static string f_strServerIP;
+        //		public static int f_iServerPort;
+        //
+        //		/// <summary>
+        //		/// 验证用户名和密码
+        //		/// </summary>
+        //		/// <param name="LoginUserID">用户名</param>
+        //		/// <param name="strPassword">密码</param>
+        //		/// <returns></returns>
+        //		public static Query_Service.TCreateSessionReply ValidateUser(string LoginUserID, string strPassword, string IP)
+        //		{
+        //			Query_Service.Query_Service qs = new Query_Service.Query_Service();
+        //			
+        //			return    qs.ValidUser(LoginUserID, strPassword, IP);         
+        //		}
+        //
+        //		/// <summary>
+        //		/// 验证权限.
+        //		/// </summary>
+        //		/// <param name="szKey">验证服务器返回的KEY</param>
+        //		/// <param name="iOperId">验证服务器返回的操作ID</param>
+        //		/// <param name="strRightCode">功能ID</param>
+        //		/// <returns></returns>
+        //		public static bool ValidateRight(string szKey, int iOperId, string strRightCode)
+        //		{
+        //			int itmp = 0;
+        //			try
+        //			{
+        //				itmp = Int32.Parse(strRightCode);
+        //			}
+        //			catch
+        //			{
+        //				return false;
+        //			}
+        //
+        //			return UserRight.ValidateRight(szKey, iOperId, GROUPID, itmp, f_strServerIP, f_iServerPort);
+        //		}
+        //
+        //		/// <summary>
+        //		/// 删除验证SESSION
+        //		/// </summary>
+        //		/// <param name="szKey">验证服务器返回的KEY</param>
+        //		/// <param name="iOperId">验证服务器返回的操作ID</param>
+        //		public static void DelLoginUser(string szKey, int iOperId)
+        //		{
+        //			UserRight.DelLoginUser(szKey, iOperId, f_strServerIP, f_iServerPort);
+        //		}
 
 
-		public static void writeSysLog(string strUserID,string ip,string type,string actionEvent,int sign,string id,string opType) //opType: 操作对象的类型
-		{/*客服系统日志是和帐务记一起的，现在要分离出来，客服不记这里
+        public static void writeSysLog(string strUserID, string ip, string type, string actionEvent, int sign, string id, string opType) //opType: 操作对象的类型
+        {/*客服系统日志是和帐务记一起的，现在要分离出来，客服不记这里
 			string signStr;
 			
 			if(sign == 1)
@@ -288,134 +293,134 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 				da.Dispose();
 			}
 */
-		}
+        }
 
-		public static string GetErrorMsg(string ExceptionMsg)
-		{
-			
-			if(ExceptionMsg == null || ExceptionMsg.Trim().Length == 0) return " ";
+        public static string GetErrorMsg(string ExceptionMsg)
+        {
 
-			string resultstr = ExceptionMsg;
+            if (ExceptionMsg == null || ExceptionMsg.Trim().Length == 0) return " ";
 
-			//下面是捕获Soap异常的语句
-			string pattern = "";
+            string resultstr = ExceptionMsg;
 
-			if(ExceptionMsg.IndexOf("SoapException") > 1)
-			{
-				pattern = "---> [^:]+:(.*)\n";
-			}
-			else
-			{
-				pattern = "--> (.*)$";
-			}
+            //下面是捕获Soap异常的语句
+            string pattern = "";
 
-			MatchCollection mc = Regex.Matches(ExceptionMsg,pattern);
+            if (ExceptionMsg.IndexOf("SoapException") > 1)
+            {
+                pattern = "---> [^:]+:(.*)\n";
+            }
+            else
+            {
+                pattern = "--> (.*)$";
+            }
 
-			if(mc.Count > 0)
-			{
-				string str = mc[0].Groups[1].Value;
-				resultstr = str.Replace("'","’").Replace("\r\n","");
-			}
+            MatchCollection mc = Regex.Matches(ExceptionMsg, pattern);
 
-			return resultstr.Replace("'","‘").Replace("\r"," ").Replace("\n"," ");
+            if (mc.Count > 0)
+            {
+                string str = mc[0].Groups[1].Value;
+                resultstr = str.Replace("'", "’").Replace("\r\n", "");
+            }
 
-
-		}
-
-		public static string ExecuteOne(string sqlStr,string dbStr) //查询单个结果
-		{			
-			MySqlAccess da = null;
-			try
-			{
-				da = new MySqlAccess(PublicRes.GetConnString(dbStr));  //连接数据库
-				da.OpenConn();
-				return da.GetOneResult(sqlStr);
-			}
-			finally
-			{
-				da.Dispose();
-			}
-		}
-
-		
-		public static DataSet returnDSAll(string strCmd,string dbStr)
-		{
-			MySqlAccess da = null;
-
-			try 
-			{
-				da = new MySqlAccess(PublicRes.GetConnString(dbStr));  //连接数据库类型
-				da.OpenConn();
-				return da.dsGetTotalData(strCmd);
-			}
-			finally
-			{
-				da.Dispose();
-			}
-		}
-
-		public static bool sendMail(string mailToStr,string mailFromStr,string subject,string content)  //发送邮件
-		{
-			if(PublicRes.IgnoreLimitCheck)
-				return true;
-
-			try
-			{
-				TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend newMail=new TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend();
-				newMail.SendMail(mailToStr,"",subject,content,false,null);
-
-//				MailMessage mail = new MailMessage();
-//				mail.From = mailFromStr;        //发件人
-//				mail.To   = mailToStr;          //收件人
-//				//mail.BodyEncoding = System.Text.Encoding.Unicode;
-//				mail.BodyFormat = MailFormat.Text;
-//				mail.Body = content; //邮件内容
-//				mail.Priority = MailPriority.High; //优先级
-//				mail.Subject  = subject;           //邮件主题
-//
-//				SmtpMail.SmtpServer = ConfigurationManager.AppSettings["smtpServer"].ToString(); //"192.168.1.27";  邮件服务器地址
-//
-//				SmtpMail.Send(mail);
-				return true;
-			}
-			catch(Exception)
-			{
-				return false;
-			}
-		}
+            return resultstr.Replace("'", "‘").Replace("\r", " ").Replace("\n", " ");
 
 
-		public static string strNowTime
-		{
-			get
-			{
-				MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("HT"));
-				try
-				{
-					da.OpenConn();
-					string tmp = da.GetOneResult("select now()");
-					return "'" + tmp + "'";
-				}
-				catch
-				{
-					string tmp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-					return "'" + tmp + "'";
-				}
-				finally
-				{
-					da.Dispose();
-				}
-			}
-		}
+        }
 
-		//查询数据库中的配置值
-		public static string GetZWDicValue(string key)
-		{
-			BatchPay_Service.BatchPay_Service bs=new TENCENT.OSS.CFT.KF.KF_Web.BatchPay_Service.BatchPay_Service();
-			return bs.GetZWDicValueByKey(key); 
-		}
+        public static string ExecuteOne(string sqlStr, string dbStr) //查询单个结果
+        {
+            MySqlAccess da = null;
+            try
+            {
+                da = new MySqlAccess(PublicRes.GetConnString(dbStr));  //连接数据库
+                da.OpenConn();
+                return da.GetOneResult(sqlStr);
+            }
+            finally
+            {
+                da.Dispose();
+            }
+        }
 
-        public static int FtpUploadFile(string ip,string uname,string upwd,string path, string filename) 
+
+        public static DataSet returnDSAll(string strCmd, string dbStr)
+        {
+            MySqlAccess da = null;
+
+            try
+            {
+                da = new MySqlAccess(PublicRes.GetConnString(dbStr));  //连接数据库类型
+                da.OpenConn();
+                return da.dsGetTotalData(strCmd);
+            }
+            finally
+            {
+                da.Dispose();
+            }
+        }
+
+        public static bool sendMail(string mailToStr, string mailFromStr, string subject, string content)  //发送邮件
+        {
+            if (PublicRes.IgnoreLimitCheck)
+                return true;
+
+            try
+            {
+                TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend newMail = new TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend();
+                newMail.SendMail(mailToStr, "", subject, content, false, null);
+
+                //				MailMessage mail = new MailMessage();
+                //				mail.From = mailFromStr;        //发件人
+                //				mail.To   = mailToStr;          //收件人
+                //				//mail.BodyEncoding = System.Text.Encoding.Unicode;
+                //				mail.BodyFormat = MailFormat.Text;
+                //				mail.Body = content; //邮件内容
+                //				mail.Priority = MailPriority.High; //优先级
+                //				mail.Subject  = subject;           //邮件主题
+                //
+                //				SmtpMail.SmtpServer = ConfigurationManager.AppSettings["smtpServer"].ToString(); //"192.168.1.27";  邮件服务器地址
+                //
+                //				SmtpMail.Send(mail);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
+        public static string strNowTime
+        {
+            get
+            {
+                MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("HT"));
+                try
+                {
+                    da.OpenConn();
+                    string tmp = da.GetOneResult("select now()");
+                    return "'" + tmp + "'";
+                }
+                catch
+                {
+                    string tmp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    return "'" + tmp + "'";
+                }
+                finally
+                {
+                    da.Dispose();
+                }
+            }
+        }
+
+        //查询数据库中的配置值
+        public static string GetZWDicValue(string key)
+        {
+            BatchPay_Service.BatchPay_Service bs = new TENCENT.OSS.CFT.KF.KF_Web.BatchPay_Service.BatchPay_Service();
+            return bs.GetZWDicValueByKey(key);
+        }
+
+        public static int FtpUploadFile(string ip, string uname, string upwd, string path, string filename)
         {
             FileInfo fi = new FileInfo(path);
             if (!fi.Exists)
@@ -424,7 +429,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             }
 
             //string ip = "172.25.39.54";
-           // string uname = "cgi_ceppact";
+            // string uname = "cgi_ceppact";
             //string upwd = "cgi!@34";
             string uri = "ftp://" + ip + "/" + filename;
 
@@ -452,27 +457,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 }
                 strm.Close();
                 fs.Close();
-                
+
                 return 0;
             }
             catch (Exception err)
             {
                 reqFtp.Abort();
-                throw new Exception("上传文件到FTP失败"+err.Message);
+                throw new Exception("上传文件到FTP失败" + err.Message);
             }
         }
 
-        public static DataSet readXls(string path) 
+        public static DataSet readXls(string path)
         {
             DataTable ExcelTable;
             DataSet ds = new DataSet();
             string strConn = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path
                     + ";Extended Properties='Excel 8.0;IMEX=1';";
-            OleDbConnection objConn = new OleDbConnection(strConn); 
+            OleDbConnection objConn = new OleDbConnection(strConn);
             objConn.Open();
             DataTable schemaTable = objConn.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, null);
             string tableName = schemaTable.Rows[0][2].ToString().Trim();
-            string strSql = "select * from [" + tableName + "]"; 
+            string strSql = "select * from [" + tableName + "]";
             OleDbCommand objCmd = new OleDbCommand(strSql, objConn);
             OleDbDataAdapter myData = new OleDbDataAdapter(strSql, objConn);
             myData.Fill(ds, tableName);
@@ -493,15 +498,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             row_count++;
             string tableName = schemaTable.Rows[0][2].ToString().Trim();
             string strSql = "insert into [" + tableName + "](F2) values('{0}')";
-            strSql = String.Format(strSql,cont);
+            strSql = String.Format(strSql, cont);
             OleDbCommand objCmd = new OleDbCommand(strSql, objConn);
             objCmd.ExecuteNonQuery();
 
             objConn.Close();
-            
+
         }
 
-        public static string objectToString(DataTable dt, string col_name) 
+        public static string objectToString(DataTable dt, string col_name)
         {
             return objectToString(dt, 0, col_name);
         }
@@ -515,7 +520,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 {
                     return "";
                 }
-                if (dt.Columns.Contains(col_name)) {
+                if (dt.Columns.Contains(col_name))
+                {
                     return dt.Rows[row_id][col_name].ToString();
                 }
             }
@@ -527,16 +533,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             return ret;
         }
 
-        public static bool isWhiteOfSeparate(string spid, string uid) 
+        public static bool isWhiteOfSeparate(string spid, string uid)
         {
             //1205005501=fadyzhuang;amoszhang&1212921601=fadyzhuang;jasoncai
             string str_white = ConfigurationManager.AppSettings["WhiteOfSeparate"].ToString();
             string[] strChars = str_white.Split(new char[] { '|' });
-            foreach (string strChar in strChars) 
+            foreach (string strChar in strChars)
             {
                 string[] strSPs = strChar.Split(new char[] { '=' });
-                if (strSPs[0] == spid) {
-                    if (strSPs[1].IndexOf(uid) > -1) {
+                if (strSPs[0] == spid)
+                {
+                    if (strSPs[1].IndexOf(uid) > -1)
+                    {
                         return true;
                     }
                 }
@@ -544,7 +552,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             return false;
         }
 
-        public static void GetCashTypeList(System.Web.UI.WebControls.DropDownList ddl) 
+        public static void GetCashTypeList(System.Web.UI.WebControls.DropDownList ddl)
         {
             string str_cashtype = ConfigurationManager.AppSettings["CashTypeList"].ToString();
             string[] strChars = str_cashtype.Split(new char[] { '|' });
@@ -568,7 +576,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 pa[i] = new Check_WebService.Param();
                 int indexN = fi[i].Name.IndexOf("Field");
                 pa[i].ParamName = fi[i].Name.Substring(0, indexN);
-              //  pa[i].ParamName = fi[i].Name;
+                //  pa[i].ParamName = fi[i].Name;
                 pa[i].ParamValue = Convert.ToString(fi[i].GetValue(obj));
                 pa[i].ParamFlag = "";
             }
@@ -582,7 +590,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             fh.UserName = page.Session["uid"].ToString();
             fh.UserPassword = "";
             fh.SzKey = page.Session["SzKey"].ToString();
-        //    fh.RightString = page.Session["key"].ToString();
+            //    fh.RightString = page.Session["key"].ToString();
             fh.OperID = Int32.Parse(page.Session["OperID"].ToString());
 
 
@@ -784,8 +792,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             }
             return dsAll;
         }
-       
-  //证件类型
+
+        //证件类型
         public static string GetCreType(string creid)
         {
 
@@ -925,7 +933,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
                     upStr = "uploadfile\\" + System.DateTime.Now.ToString("yyyyMMdd") + "\\CSOMS\\" + folderName;//System.Configuration.ConfigurationManager.AppSettings["uploadPath"].ToString();
 
-                    string targetPath = src  + upStr;
+                    string targetPath = src + upStr;
 
                     PublicRes.CreateDirectory(targetPath);
 
@@ -933,7 +941,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                     inputFile.PostedFile.SaveAs(path);
 
                     //alPath.Add(upStr+ "/" +fileName);	
-                //    alPath = upStr + "/" + fileName;
+                    //    alPath = upStr + "/" + fileName;
                     alPath = upStr.Replace("\\", "/") + "/" + fileName;
                     return alPath;
                 }

@@ -89,17 +89,13 @@
       <HintPath>..\Assemblies\AspNetPager.dll</HintPath>
     </Reference>
     <Reference Include="CFT.Apollo.Common">
-      <HintPath>..\packages\CFT.Apollo.Common.1.0.5436.2324\lib\CFT.Apollo.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="CFT.Apollo.CommunicationFramework">
-      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5436.29525\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.Common.3.1.5494.24496\lib\CFT.Apollo.Common.dll</HintPath>
     </Reference>
     <Reference Include="CFT.Apollo.Logging">
-      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5436.27776\lib\net40\CFT.Apollo.Logging.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5494.24500\lib\net40\CFT.Apollo.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    <Reference Include="log4net">
+      <HintPath>..\packages\CFT.Apollo.log4net.1.0.0.15\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
@@ -1934,6 +1930,13 @@
     <Compile Include="TradeManage\CGIInfoQuery.aspx.designer.cs">
       <DependentUpon>CGIInfoQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TradeManage\PayLimitManage.aspx.cs">
+      <DependentUpon>PayLimitManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\PayLimitManage.aspx.designer.cs">
+      <DependentUpon>PayLimitManage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TradeManage\TradeMigration.aspx.cs">
       <DependentUpon>TradeMigration.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3075,6 +3078,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="config\Log4net.config" />
+    <Content Include="Configs\Log4net.config" />
     <None Include="DataAccess.dll.log4net" />
     <Content Include="packages.config" />
     <None Include="Properties\DataSources\System.Data.DataSet.datasource" />
@@ -3135,6 +3139,7 @@
     <Content Include="TradeManage\BeforeCancelTradeQuery.aspx" />
     <Content Include="TradeManage\ContractQuery.aspx" />
     <Content Include="TradeManage\CGIInfoQuery.aspx" />
+    <Content Include="TradeManage\PayLimitManage.aspx" />
     <Content Include="TradeManage\TradeMigration.aspx" />
     <Content Include="TradeManage\UnFinishTradeQuery.aspx" />
     <Content Include="TradeManage\MediCertExpireOperate.aspx" />
@@ -3325,98 +3330,95 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\Finance_ManageService\Finance_Manage.disco" />
-    <None Include="Web References\FQuery_Service\C2CDB_T_TC_BANK.datasource">
+    <Content Include="Web References\FQuery_Service\C2CDB_T_TC_BANK.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\FreezeInfo.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\FreezeInfo.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
+    </Content>
     <None Include="Web References\FQuery_Service\Query_Service.wsdl" />
     <None Include="Web References\FQuery_Service\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference1.cs</LastGenOutput>
+      <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\FQuery_Service\SysBulletinClass.datasource">
+    <Content Include="Web References\FQuery_Service\SysBulletinClass.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\TCreateSessionReply.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\TCreateSessionReply.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_BANKBULLETIN_INFO.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_BANKBULLETIN_INFO.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_BANK_CLASS.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_BANK_CLASS.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_BANK_CODE.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_BANK_CODE.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_BANK_INFO.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_BANK_INFO.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_BANK_KEYS.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_BANK_KEYS.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_CEP_BANKCHANNEL_CLASS.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_CEP_BANKCHANNEL_CLASS.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_CheckType.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_CheckType.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_COIN_PUB.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_COIN_PUB.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_DIC.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_DIC.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_DIRECTPAY_ERRCODEINFO.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_DIRECTPAY_ERRCODEINFO.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_DIRECTPAY_NCINFO.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_DIRECTPAY_NCINFO.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
+    </Content>
     <Content Include="Web References\FQuery_Service\T_DIRECTPAY_NCINFO_NEW.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <None Include="Web References\FQuery_Service\T_DIRECTPAY_NCINFO_NEW1.datasource">
+    <Content Include="Web References\FQuery_Service\T_Export_Bank.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_Export_Bank.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_Export_Bankrest.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_Export_Bankrest.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_Export_Task_Comm.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_Export_Task_Comm.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_Export_Task_Tmp.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_Export_Task_Tmp.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_FILE_MODEL_RELATION.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_FILE_MODEL_RELATION.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_GWQ.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_GWQ.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_GWQ_Account.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_GWQ_Account.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_PRODUCT.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_PRODUCT.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_PUCNEWSERVICE_INFO.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_PUCNEWSERVICE_INFO.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_SUBJECT.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_SUBJECT.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_USER_MED.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_USER_MED.datasource">
+    </Content>
+    <Content Include="Web References\FQuery_Service\T_ZWDic_Info.datasource">
       <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\FQuery_Service\T_ZWDic_Info.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
+    </Content>
     <None Include="Web References\IVRService\IVRService.wsdl" />
     <None Include="Web References\IVRService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -3435,8 +3437,8 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\SPOA_Service\SPOA_Service.disco" />
-    <None Include="Web References\FQuery_Service\Query_Service.disco" />
     <None Include="Web References\ZWCheck_Service\Check_Service.disco" />
+    <None Include="Web References\FQuery_Service\Query_Service.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3466,51 +3468,67 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\AgencyBusinessQuery.aspx.resx">
       <DependentUpon>AgencyBusinessQuery.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\BankCardUnbind.aspx.resx">
       <DependentUpon>BankCardUnbind.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\BankrollHistoryLog.aspx.resx">
       <DependentUpon>BankrollHistoryLog.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\bankrolllog.aspx.resx">
       <DependentUpon>bankrolllog.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\batPay.aspx.resx">
       <DependentUpon>batPay.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\batpayDetail.aspx.resx">
       <DependentUpon>batpayDetail.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\ButtonInfo.aspx.resx">
       <DependentUpon>ButtonInfo.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\CFDQuery.aspx.resx">
       <DependentUpon>CFDQuery.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\CFTAppealQuery.aspx.resx">
       <DependentUpon>CFTAppealQuery.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\CFTUserAppeal.aspx.resx">
       <DependentUpon>CFTUserAppeal.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\CFTUserCheck.aspx.resx">
       <DependentUpon>CFTUserCheck.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\CFTUserPick.aspx.resx">
       <DependentUpon>CFTUserPick.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\CFTUserPickTJ.aspx.resx">
       <DependentUpon>CFTUserPickTJ.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\ChangeQQOld.aspx.resx">
       <DependentUpon>ChangeQQOld.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\ChangeUserInfo.aspx.resx">
       <DependentUpon>ChangeUserInfo.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\changeUserName_2.aspx.resx">
       <DependentUpon>changeUserName_2.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\ChildrenHistoryOrderQuery.aspx.resx">
       <DependentUpon>ChildrenHistoryOrderQuery.aspx.cs</DependentUpon>
@@ -3520,72 +3538,94 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\ChildrenOrderFromQueryNew.aspx.resx">
       <DependentUpon>ChildrenOrderFromQueryNew.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\ChildrenQuery.aspx.resx">
       <DependentUpon>ChildrenQuery.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\AImageFromCGI.aspx.resx">
       <DependentUpon>AImageFromCGI.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\CardInfoQuery.aspx.resx">
       <DependentUpon>CardInfoQuery.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\ModifyContactInfo.aspx.resx">
       <DependentUpon>ModifyContactInfo.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\MerchantInfoModifyQuery.aspx.resx">
       <DependentUpon>MerchantInfoModifyQuery.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\DepositAccountQuery.aspx.resx">
       <DependentUpon>DepositAccountQuery.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\detailCheck.aspx.resx">
       <DependentUpon>detailCheck.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\DomainApprove.aspx.resx">
       <DependentUpon>DomainApprove.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\fetchName.aspx.resx">
       <DependentUpon>fetchName.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\freezeBankAcc.aspx.resx">
       <DependentUpon>freezeBankAcc.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\FreezeDetail.aspx.resx">
       <DependentUpon>FreezeDetail.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\FreezeFinQuery.aspx.resx">
       <DependentUpon>FreezeFinQuery.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\FreezeList.aspx.resx">
       <DependentUpon>FreezeList.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\gatheringlog.aspx.resx">
       <DependentUpon>gatheringlog.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\GwqByQQ.aspx.resx">
       <DependentUpon>GwqByQQ.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\historyModify.aspx.resx">
       <DependentUpon>historyModify.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\InfoCenter.aspx.resx">
       <DependentUpon>InfoCenter.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\KFTotalQuery.aspx.resx">
       <DependentUpon>KFTotalQuery.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\logOnUser.aspx.resx">
       <DependentUpon>logOnUser.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\ManJianUserQuery.aspx.resx">
       <DependentUpon>ManJianUserQuery.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\ManJianUsingQuery.aspx.resx">
       <DependentUpon>ManJianUsingQuery.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\ModifyBusinessInfo.aspx.resx">
       <DependentUpon>ModifyBusinessInfo.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\OverseasPayQuery.aspx.resx">
       <DependentUpon>OverseasPayQuery.aspx.cs</DependentUpon>
@@ -3595,87 +3635,111 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\PayBusinessQuery.aspx.resx">
       <DependentUpon>PayBusinessQuery.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\paymentlog.aspx.resx">
       <DependentUpon>paymentlog.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\PNRQuery.aspx.resx">
       <DependentUpon>PNRQuery.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\QQReclaim.aspx.resx">
       <DependentUpon>QQReclaim.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\ClearCreid.aspx.resx">
       <DependentUpon>ClearCreid.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\QueryQQ.aspx.resx">
       <DependentUpon>QueryQQ.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\RareNameQuery.aspx.resx">
       <DependentUpon>RareNameQuery.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\RecoverQQ.aspx.resx">
       <DependentUpon>RecoverQQ.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\refund.aspx.resx">
       <DependentUpon>refund.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\SelfQuery.aspx.resx">
       <DependentUpon>SelfQuery.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\SelfQueryApprove.aspx.resx">
       <DependentUpon>SelfQueryApprove.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\SelfQueryDetail.aspx.resx">
       <DependentUpon>SelfQueryDetail.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\SeparateOperation.aspx.resx">
       <DependentUpon>SeparateOperation.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\StartCheck.aspx.resx">
       <DependentUpon>StartCheck.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\test.aspx.resx">
       <DependentUpon>test.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\TradeLog.aspx.resx">
       <DependentUpon>TradeLog.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\UpdateMerchantCre.aspx.resx">
       <DependentUpon>UpdateMerchantCre.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\UserAccountQuery.aspx.resx">
       <DependentUpon>UserAccountQuery.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\UserAppeal.aspx.resx">
       <DependentUpon>UserAppeal.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\UserAppealCheck.aspx.resx">
       <DependentUpon>UserAppealCheck.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\UserBankAccountQuery.aspx.resx">
       <DependentUpon>UserBankAccountQuery.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\UserClass.aspx.resx">
       <DependentUpon>UserClass.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\UserClassCheck.aspx.resx">
       <DependentUpon>UserClassCheck.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\UserClassQuery.aspx.resx">
       <DependentUpon>UserClassQuery.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\UserClassTJ.aspx.resx">
       <DependentUpon>UserClassTJ.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\userReport.aspx.resx">
       <DependentUpon>userReport.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Bottom.aspx.resx">
       <DependentUpon>Bottom.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CFTHeader\CFTHeader.ascx.resx">
       <DependentUpon>CFTHeader.ascx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Control\AccountLedgerManageControl.ascx.resx">
       <DependentUpon>AccountLedgerManageControl.ascx.cs</DependentUpon>
@@ -3685,15 +3749,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Control\AccountOperaManageControl.ascx.resx">
       <DependentUpon>AccountOperaManageControl.ascx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Control\ActivityCooperation.ascx.resx">
       <DependentUpon>ActivityCooperation.ascx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Control\BankBillManageControl.ascx.resx">
       <DependentUpon>BankBillManageControl.ascx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Control\BaseAccountControl.ascx.resx">
       <DependentUpon>BaseAccountControl.ascx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Control\CalendarForm2.aspx.resx">
       <DependentUpon>CalendarForm2.aspx.cs</DependentUpon>
@@ -3703,9 +3771,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Control\commonData.ascx.resx">
       <DependentUpon>commonData.ascx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Control\commonDataSet.ascx.resx">
       <DependentUpon>commonDataSet.ascx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Control\PNRQueryControl.ascx.resx">
       <DependentUpon>PNRQueryControl.ascx.cs</DependentUpon>
@@ -3727,6 +3797,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Control\CreditPayControl.ascx.resx">
       <DependentUpon>CreditPayControl.ascx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Control\SysManage.ascx.resx">
       <DependentUpon>SysManage.ascx.cs</DependentUpon>
@@ -3736,15 +3807,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Control\FastPayControl.ascx.resx">
       <DependentUpon>FastPayControl.ascx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Control\FooterControl.ascx.resx">
       <DependentUpon>FooterControl.ascx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Control\FreezeManageControl.ascx.resx">
       <DependentUpon>FreezeManageControl.ascx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Control\FunctionControl.ascx.resx">
       <DependentUpon>FunctionControl.ascx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Control\FundAccountManageControl.ascx.resx">
       <DependentUpon>FundAccountManageControl.ascx.cs</DependentUpon>
@@ -3763,6 +3837,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Control\MenuControl.ascx.resx">
       <DependentUpon>MenuControl.ascx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Control\MicroPayControl.ascx.resx">
       <DependentUpon>MicroPayControl.ascx.cs</DependentUpon>
@@ -3787,6 +3862,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Control\UserClassCheckControl.ascx.resx">
       <DependentUpon>UserClassCheckControl.ascx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Control\VIPAccountManageControl.ascx.resx">
       <DependentUpon>VIPAccountManageControl.ascx.cs</DependentUpon>
@@ -4112,6 +4188,9 @@
     <EmbeddedResource Include="TradeManage\CGIInfoQuery.aspx.resx">
       <DependentUpon>CGIInfoQuery.aspx.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TradeManage\PayLimitManage.aspx.resx">
+      <DependentUpon>PayLimitManage.aspx.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\TradeMigration.aspx.resx">
       <DependentUpon>TradeMigration.aspx.cs</DependentUpon>
     </EmbeddedResource>
@@ -4377,17 +4456,6 @@
     </None>
     <None Include="文档\历史更新记录.txt" />
     <WebReferences Include="Web References\" />
-    <WebReferenceUrl Include="http://admin.cf.com/FINANCE_SERVICE/Query_Service.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\FQuery_Service\</RelPath>
-      <UpdateFromURL>http://admin.cf.com/FINANCE_SERVICE/Query_Service.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>finance_web_FQuery_Service_Query_Service</CachedSettingsPropName>
-    </WebReferenceUrl>
     <WebReferenceUrl Include="http://10.12.189.114/spoaweb/SPOA_Service.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\SPOA_Service\</RelPath>
@@ -4398,6 +4466,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>finance_web_SPOA_Service_SPOA_Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://admin.cf.com/FINANCE_SERVICE/Query_Service.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\FQuery_Service\</RelPath>
+      <UpdateFromURL>http://admin.cf.com/FINANCE_SERVICE/Query_Service.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>finance_web_FQuery_Service_Query_Service</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://admin.cf.zw/FINANCE_SERVICE/Check_Service.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -4505,6 +4584,9 @@
       <Project>{b6f47364-df03-492a-a94d-b4a347cd4991}</Project>
       <Name>KF_SERVICE</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
