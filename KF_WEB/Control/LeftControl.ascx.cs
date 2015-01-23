@@ -272,7 +272,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 RiskConManage1.AddSubMenu("二次登录密码撤销", "Trademanage/SuspendSecondPasseword.aspx");
                 RiskConManage1.AddSubMenu("资金流水查询", "BaseAccount/BankrollHistoryLog.aspx");
                 RiskConManage1.AddSubMenu("风控解冻审核", "FreezeManage/FreezeQuery.aspx");
-                RiskConManage1.AddSubMenu("风控解冻审核(新)", "FreezeManage/FreezeNewQuery.aspx");
+                RiskConManage1.AddSubMenu("特殊申诉处理", "FreezeManage/FreezeNewQuery.aspx");
                 RiskConManage1.AddSubMenu("报表统计输出", "FreezeManage/FreezeCount.aspx");
 
                 SelfHelpAppealManage1.AddSubMenu("客服统计查询", "BaseAccount/KFTotalQuery.aspx");
