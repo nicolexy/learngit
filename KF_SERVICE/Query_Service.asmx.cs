@@ -15020,14 +15020,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
         [WebMethod(Description = "自助和BD商户列表记录数函数")]
-        public DataSet GetSelfQueryListCount(string filter)
+        public int GetSelfQueryListCount(string SPID, int? DraftFlag, string CompanyName, int? Flag, string WWWAdress, string Appid, DateTime? ApplyTimeStart, DateTime? ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType)
         {
             try
             {
 				//PublicRes PR = new PublicRes();
 				//string sql = "SELECT count(1) FROM ApplyCpInfoX WHERE " + filter;
 				//return PR.GetSqlServerData(sql);
-                return new SPOAService().GetSelfQueryListCount(filter);
+                return new SPOAService().GetSelfQueryListCount(SPID, DraftFlag, CompanyName, Flag, WWWAdress, Appid, ApplyTimeStart, ApplyTimeEnd, BankUserName, KFCheckUser, SuggestUser, MerType);
             }
             catch
             {
@@ -15036,7 +15036,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
         [WebMethod(Description = "自助和BD商户列表函数")]
-        public DataSet GetSelfQueryList(string filter, int TopCount, int NotInCount)
+        public DataSet GetSelfQueryList(string SPID, int? DraftFlag, string CompanyName, int? Flag, string WWWAdress, string Appid,
+            DateTime? ApplyTimeStart, DateTime? ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType, int topCount, int notInCount)
         {
             try
             {
@@ -15048,7 +15049,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
 				return PR.GetSqlServerData(sql);
                 */
-                return new SPOAService().GetSelfQueryList(filter, TopCount, NotInCount);
+                return new SPOAService().GetSelfQueryList(SPID, DraftFlag, CompanyName, Flag, WWWAdress, Appid, ApplyTimeStart, ApplyTimeEnd, BankUserName, KFCheckUser, SuggestUser, MerType, topCount, notInCount);
             }
             catch (Exception e)
             {
@@ -15191,7 +15192,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
         [WebMethod(Description = "商户系统域名申请列表函数")]
-        public DataSet GetSpidDomainQueryList(string filter, string SubmitType, int TopCount, int NotInCount)
+        public DataSet GetSpidDomainQueryList(string Spid, string CompanyName, DateTime? ApplyTimeStart, DateTime? ApplyTimeEnd, int? AmendState, string submitType, int topCount, int notInCount)
         {
             try
             {
@@ -15225,7 +15226,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
                 return PR.GetSqlServerData(sql);
                 */
-                return new SPOAService().GetSpidDomainQueryList(filter, SubmitType, TopCount, NotInCount);
+                return new SPOAService().GetSpidDomainQueryList(Spid, CompanyName, ApplyTimeStart, ApplyTimeEnd, AmendState, submitType, topCount, notInCount);
             }
             catch (Exception e)
             {
@@ -15398,14 +15399,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         #region 商户营改增
         [WebMethod(Description = "商户系统新申请列表记录数函数")]
-        public DataSet GetApplyValueAddedTax(string filter, int TopCount, int NotInCount)
+        public DataSet GetApplyValueAddedTax(string Spid, string Flags, int topCount, int notInCount)
         {
             try
             {
                 //PublicRes PR = new PublicRes();
                 //string sql = "SELECT top " + TopCount + " a.*,b.companyname FROM ApplyValueAddedTax a,t_msp_amend_task b WHERE " + filter + " and a.taskid not in (select top " + NotInCount + " a.taskid from ApplyValueAddedTax a,t_msp_amend_task b where " + filter + ")";
                 //return PR.GetSqlServerData(sql);
-                return new SPOAService().GetApplyValueAddedTax(filter, TopCount, NotInCount);
+                return new SPOAService().GetApplyValueAddedTax(Spid, Flags, topCount, notInCount);
             }
             catch (Exception ex)
             {
@@ -15487,14 +15488,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
         [WebMethod(Description = "查询商户营改增记录函数")]
-        public DataSet GetAllValueAddedTax(string filter, int TopCount, int NotInCount)
+        public DataSet GetAllValueAddedTax(string Spid, string CompanyName, int topCount, int notInCount)
         {
             try
             {
                 //PublicRes PR = new PublicRes();
                 //string sql = "SELECT top " + TopCount + " * FROM ApplyCpInfoX WHERE " + filter + " and Spid not in (select top " + NotInCount + " Spid from ApplyCpInfoX where " + filter + ")";
                 //return PR.GetSqlServerData(sql);
-                return new SPOAService().GetAllValueAddedTax(filter, TopCount, NotInCount);
+                return new SPOAService().GetAllValueAddedTax(Spid, CompanyName, topCount, notInCount);
             }
             catch (Exception ex)
             {

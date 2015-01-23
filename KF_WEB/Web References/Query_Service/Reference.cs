@@ -10587,36 +10587,69 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetSelfQueryListCount", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetSelfQueryListCount(string filter) {
+        public int GetSelfQueryListCount(string SPID, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<int> DraftFlag, string CompanyName, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<int> Flag, string WWWAdress, string Appid, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> ApplyTimeStart, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType) {
             object[] results = this.Invoke("GetSelfQueryListCount", new object[] {
-                        filter});
-            return ((System.Data.DataSet)(results[0]));
+                        SPID,
+                        DraftFlag,
+                        CompanyName,
+                        Flag,
+                        WWWAdress,
+                        Appid,
+                        ApplyTimeStart,
+                        ApplyTimeEnd,
+                        BankUserName,
+                        KFCheckUser,
+                        SuggestUser,
+                        MerType});
+            return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetSelfQueryListCount(string filter, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetSelfQueryListCount(string SPID, System.Nullable<int> DraftFlag, string CompanyName, System.Nullable<int> Flag, string WWWAdress, string Appid, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetSelfQueryListCount", new object[] {
-                        filter}, callback, asyncState);
+                        SPID,
+                        DraftFlag,
+                        CompanyName,
+                        Flag,
+                        WWWAdress,
+                        Appid,
+                        ApplyTimeStart,
+                        ApplyTimeEnd,
+                        BankUserName,
+                        KFCheckUser,
+                        SuggestUser,
+                        MerType}, callback, asyncState);
         }
         
         /// <remarks/>
-        public System.Data.DataSet EndGetSelfQueryListCount(System.IAsyncResult asyncResult) {
+        public int EndGetSelfQueryListCount(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
-            return ((System.Data.DataSet)(results[0]));
+            return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void GetSelfQueryListCountAsync(string filter) {
-            this.GetSelfQueryListCountAsync(filter, null);
+        public void GetSelfQueryListCountAsync(string SPID, System.Nullable<int> DraftFlag, string CompanyName, System.Nullable<int> Flag, string WWWAdress, string Appid, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType) {
+            this.GetSelfQueryListCountAsync(SPID, DraftFlag, CompanyName, Flag, WWWAdress, Appid, ApplyTimeStart, ApplyTimeEnd, BankUserName, KFCheckUser, SuggestUser, MerType, null);
         }
         
         /// <remarks/>
-        public void GetSelfQueryListCountAsync(string filter, object userState) {
+        public void GetSelfQueryListCountAsync(string SPID, System.Nullable<int> DraftFlag, string CompanyName, System.Nullable<int> Flag, string WWWAdress, string Appid, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType, object userState) {
             if ((this.GetSelfQueryListCountOperationCompleted == null)) {
                 this.GetSelfQueryListCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetSelfQueryListCountOperationCompleted);
             }
             this.InvokeAsync("GetSelfQueryListCount", new object[] {
-                        filter}, this.GetSelfQueryListCountOperationCompleted, userState);
+                        SPID,
+                        DraftFlag,
+                        CompanyName,
+                        Flag,
+                        WWWAdress,
+                        Appid,
+                        ApplyTimeStart,
+                        ApplyTimeEnd,
+                        BankUserName,
+                        KFCheckUser,
+                        SuggestUser,
+                        MerType}, this.GetSelfQueryListCountOperationCompleted, userState);
         }
         
         private void OnGetSelfQueryListCountOperationCompleted(object arg) {
@@ -10628,20 +10661,58 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetSelfQueryList", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetSelfQueryList(string filter, int TopCount, int NotInCount) {
+        public System.Data.DataSet GetSelfQueryList(string SPID, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<int> DraftFlag, string CompanyName, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<int> Flag, string WWWAdress, string Appid, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> ApplyTimeStart, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType, int topCount, int notInCount) {
             object[] results = this.Invoke("GetSelfQueryList", new object[] {
-                        filter,
-                        TopCount,
-                        NotInCount});
+                        SPID,
+                        DraftFlag,
+                        CompanyName,
+                        Flag,
+                        WWWAdress,
+                        Appid,
+                        ApplyTimeStart,
+                        ApplyTimeEnd,
+                        BankUserName,
+                        KFCheckUser,
+                        SuggestUser,
+                        MerType,
+                        topCount,
+                        notInCount});
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetSelfQueryList(string filter, int TopCount, int NotInCount, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetSelfQueryList(
+                    string SPID, 
+                    System.Nullable<int> DraftFlag, 
+                    string CompanyName, 
+                    System.Nullable<int> Flag, 
+                    string WWWAdress, 
+                    string Appid, 
+                    System.Nullable<System.DateTime> ApplyTimeStart, 
+                    System.Nullable<System.DateTime> ApplyTimeEnd, 
+                    string BankUserName, 
+                    string KFCheckUser, 
+                    string SuggestUser, 
+                    string MerType, 
+                    int topCount, 
+                    int notInCount, 
+                    System.AsyncCallback callback, 
+                    object asyncState) {
             return this.BeginInvoke("GetSelfQueryList", new object[] {
-                        filter,
-                        TopCount,
-                        NotInCount}, callback, asyncState);
+                        SPID,
+                        DraftFlag,
+                        CompanyName,
+                        Flag,
+                        WWWAdress,
+                        Appid,
+                        ApplyTimeStart,
+                        ApplyTimeEnd,
+                        BankUserName,
+                        KFCheckUser,
+                        SuggestUser,
+                        MerType,
+                        topCount,
+                        notInCount}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -10651,19 +10722,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         }
         
         /// <remarks/>
-        public void GetSelfQueryListAsync(string filter, int TopCount, int NotInCount) {
-            this.GetSelfQueryListAsync(filter, TopCount, NotInCount, null);
+        public void GetSelfQueryListAsync(string SPID, System.Nullable<int> DraftFlag, string CompanyName, System.Nullable<int> Flag, string WWWAdress, string Appid, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType, int topCount, int notInCount) {
+            this.GetSelfQueryListAsync(SPID, DraftFlag, CompanyName, Flag, WWWAdress, Appid, ApplyTimeStart, ApplyTimeEnd, BankUserName, KFCheckUser, SuggestUser, MerType, topCount, notInCount, null);
         }
         
         /// <remarks/>
-        public void GetSelfQueryListAsync(string filter, int TopCount, int NotInCount, object userState) {
+        public void GetSelfQueryListAsync(string SPID, System.Nullable<int> DraftFlag, string CompanyName, System.Nullable<int> Flag, string WWWAdress, string Appid, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType, int topCount, int notInCount, object userState) {
             if ((this.GetSelfQueryListOperationCompleted == null)) {
                 this.GetSelfQueryListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetSelfQueryListOperationCompleted);
             }
             this.InvokeAsync("GetSelfQueryList", new object[] {
-                        filter,
-                        TopCount,
-                        NotInCount}, this.GetSelfQueryListOperationCompleted, userState);
+                        SPID,
+                        DraftFlag,
+                        CompanyName,
+                        Flag,
+                        WWWAdress,
+                        Appid,
+                        ApplyTimeStart,
+                        ApplyTimeEnd,
+                        BankUserName,
+                        KFCheckUser,
+                        SuggestUser,
+                        MerType,
+                        topCount,
+                        notInCount}, this.GetSelfQueryListOperationCompleted, userState);
         }
         
         private void OnGetSelfQueryListOperationCompleted(object arg) {
@@ -10847,22 +10929,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetSpidDomainQueryList", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetSpidDomainQueryList(string filter, string SubmitType, int TopCount, int NotInCount) {
+        public System.Data.DataSet GetSpidDomainQueryList(string Spid, string CompanyName, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> ApplyTimeStart, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> ApplyTimeEnd, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<int> AmendState, string submitType, int topCount, int notInCount) {
             object[] results = this.Invoke("GetSpidDomainQueryList", new object[] {
-                        filter,
-                        SubmitType,
-                        TopCount,
-                        NotInCount});
+                        Spid,
+                        CompanyName,
+                        ApplyTimeStart,
+                        ApplyTimeEnd,
+                        AmendState,
+                        submitType,
+                        topCount,
+                        notInCount});
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetSpidDomainQueryList(string filter, string SubmitType, int TopCount, int NotInCount, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetSpidDomainQueryList(string Spid, string CompanyName, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, System.Nullable<int> AmendState, string submitType, int topCount, int notInCount, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetSpidDomainQueryList", new object[] {
-                        filter,
-                        SubmitType,
-                        TopCount,
-                        NotInCount}, callback, asyncState);
+                        Spid,
+                        CompanyName,
+                        ApplyTimeStart,
+                        ApplyTimeEnd,
+                        AmendState,
+                        submitType,
+                        topCount,
+                        notInCount}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -10872,20 +10962,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         }
         
         /// <remarks/>
-        public void GetSpidDomainQueryListAsync(string filter, string SubmitType, int TopCount, int NotInCount) {
-            this.GetSpidDomainQueryListAsync(filter, SubmitType, TopCount, NotInCount, null);
+        public void GetSpidDomainQueryListAsync(string Spid, string CompanyName, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, System.Nullable<int> AmendState, string submitType, int topCount, int notInCount) {
+            this.GetSpidDomainQueryListAsync(Spid, CompanyName, ApplyTimeStart, ApplyTimeEnd, AmendState, submitType, topCount, notInCount, null);
         }
         
         /// <remarks/>
-        public void GetSpidDomainQueryListAsync(string filter, string SubmitType, int TopCount, int NotInCount, object userState) {
+        public void GetSpidDomainQueryListAsync(string Spid, string CompanyName, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, System.Nullable<int> AmendState, string submitType, int topCount, int notInCount, object userState) {
             if ((this.GetSpidDomainQueryListOperationCompleted == null)) {
                 this.GetSpidDomainQueryListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetSpidDomainQueryListOperationCompleted);
             }
             this.InvokeAsync("GetSpidDomainQueryList", new object[] {
-                        filter,
-                        SubmitType,
-                        TopCount,
-                        NotInCount}, this.GetSpidDomainQueryListOperationCompleted, userState);
+                        Spid,
+                        CompanyName,
+                        ApplyTimeStart,
+                        ApplyTimeEnd,
+                        AmendState,
+                        submitType,
+                        topCount,
+                        notInCount}, this.GetSpidDomainQueryListOperationCompleted, userState);
         }
         
         private void OnGetSpidDomainQueryListOperationCompleted(object arg) {
@@ -11041,20 +11135,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetApplyValueAddedTax", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetApplyValueAddedTax(string filter, int TopCount, int NotInCount) {
+        public System.Data.DataSet GetApplyValueAddedTax(string Spid, string Flags, int topCount, int notInCount) {
             object[] results = this.Invoke("GetApplyValueAddedTax", new object[] {
-                        filter,
-                        TopCount,
-                        NotInCount});
+                        Spid,
+                        Flags,
+                        topCount,
+                        notInCount});
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetApplyValueAddedTax(string filter, int TopCount, int NotInCount, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetApplyValueAddedTax(string Spid, string Flags, int topCount, int notInCount, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetApplyValueAddedTax", new object[] {
-                        filter,
-                        TopCount,
-                        NotInCount}, callback, asyncState);
+                        Spid,
+                        Flags,
+                        topCount,
+                        notInCount}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -11064,19 +11160,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         }
         
         /// <remarks/>
-        public void GetApplyValueAddedTaxAsync(string filter, int TopCount, int NotInCount) {
-            this.GetApplyValueAddedTaxAsync(filter, TopCount, NotInCount, null);
+        public void GetApplyValueAddedTaxAsync(string Spid, string Flags, int topCount, int notInCount) {
+            this.GetApplyValueAddedTaxAsync(Spid, Flags, topCount, notInCount, null);
         }
         
         /// <remarks/>
-        public void GetApplyValueAddedTaxAsync(string filter, int TopCount, int NotInCount, object userState) {
+        public void GetApplyValueAddedTaxAsync(string Spid, string Flags, int topCount, int notInCount, object userState) {
             if ((this.GetApplyValueAddedTaxOperationCompleted == null)) {
                 this.GetApplyValueAddedTaxOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetApplyValueAddedTaxOperationCompleted);
             }
             this.InvokeAsync("GetApplyValueAddedTax", new object[] {
-                        filter,
-                        TopCount,
-                        NotInCount}, this.GetApplyValueAddedTaxOperationCompleted, userState);
+                        Spid,
+                        Flags,
+                        topCount,
+                        notInCount}, this.GetApplyValueAddedTaxOperationCompleted, userState);
         }
         
         private void OnGetApplyValueAddedTaxOperationCompleted(object arg) {
@@ -11231,20 +11328,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetAllValueAddedTax", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetAllValueAddedTax(string filter, int TopCount, int NotInCount) {
+        public System.Data.DataSet GetAllValueAddedTax(string Spid, string CompanyName, int topCount, int notInCount) {
             object[] results = this.Invoke("GetAllValueAddedTax", new object[] {
-                        filter,
-                        TopCount,
-                        NotInCount});
+                        Spid,
+                        CompanyName,
+                        topCount,
+                        notInCount});
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetAllValueAddedTax(string filter, int TopCount, int NotInCount, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetAllValueAddedTax(string Spid, string CompanyName, int topCount, int notInCount, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetAllValueAddedTax", new object[] {
-                        filter,
-                        TopCount,
-                        NotInCount}, callback, asyncState);
+                        Spid,
+                        CompanyName,
+                        topCount,
+                        notInCount}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -11254,19 +11353,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         }
         
         /// <remarks/>
-        public void GetAllValueAddedTaxAsync(string filter, int TopCount, int NotInCount) {
-            this.GetAllValueAddedTaxAsync(filter, TopCount, NotInCount, null);
+        public void GetAllValueAddedTaxAsync(string Spid, string CompanyName, int topCount, int notInCount) {
+            this.GetAllValueAddedTaxAsync(Spid, CompanyName, topCount, notInCount, null);
         }
         
         /// <remarks/>
-        public void GetAllValueAddedTaxAsync(string filter, int TopCount, int NotInCount, object userState) {
+        public void GetAllValueAddedTaxAsync(string Spid, string CompanyName, int topCount, int notInCount, object userState) {
             if ((this.GetAllValueAddedTaxOperationCompleted == null)) {
                 this.GetAllValueAddedTaxOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllValueAddedTaxOperationCompleted);
             }
             this.InvokeAsync("GetAllValueAddedTax", new object[] {
-                        filter,
-                        TopCount,
-                        NotInCount}, this.GetAllValueAddedTaxOperationCompleted, userState);
+                        Spid,
+                        CompanyName,
+                        topCount,
+                        notInCount}, this.GetAllValueAddedTaxOperationCompleted, userState);
         }
         
         private void OnGetAllValueAddedTaxOperationCompleted(object arg) {
@@ -33175,10 +33275,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         }
         
         /// <remarks/>
-        public System.Data.DataSet Result {
+        public int Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((System.Data.DataSet)(this.results[0]));
+                return ((int)(this.results[0]));
             }
         }
     }

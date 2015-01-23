@@ -794,6 +794,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                 if (tbCloseFundRollList != null)
                 {
+                    tbCloseFundRollList.Columns.Add("FDate", typeof(string));
+
                     tbCloseFundRollList.Columns.Add("URL", typeof(string));
                     if (tbCloseFundRollList.Rows.Count > 0)
                         foreach (DataRow dr in tbCloseFundRollList.Rows)
@@ -803,7 +805,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                                 + "&fund_code=" + ViewState["fundCode"].ToString()
                                 + "&total_fee=" + dr["Fstart_total_fee"].ToString()//总金额（本金）单位分
                                 + "&end_date=" + dr["Fend_date"].ToString();
+
+                            string strEndDate = dr["Fend_date"].ToString();
+                            dr["FDate"] = strEndDate.Substring(strEndDate.Length - 4);
                         }
+
+                    
                     dgCloseFundRoll.DataSource = tbCloseFundRollList.DefaultView;
                     dgCloseFundRoll.DataBind();
                 }

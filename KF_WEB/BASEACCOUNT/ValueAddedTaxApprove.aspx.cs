@@ -134,8 +134,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			int TopCount = pager.PageSize;
 			int NotInCount = TopCount * (index-1);
 
+            string strFlag = null;
+            if (this.ddlFlag.SelectedValue != "")
+            {
+                if (this.ddlFlag.SelectedValue == "2|3")
+                {
+                    strFlag = "2,3";
+                }
+                else
+                {
+                    strFlag = this.ddlFlag.SelectedValue;
+                }
+            }
+
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-			DataSet ds = qs.GetApplyValueAddedTax(filter,TopCount,NotInCount);
+            DataSet ds = qs.GetApplyValueAddedTax(txtSpid.Text.Trim(),strFlag,TopCount,NotInCount);
 
 			if(ds != null && ds.Tables.Count >0)
 			{

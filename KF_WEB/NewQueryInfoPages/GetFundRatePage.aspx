@@ -447,6 +447,9 @@
                         <asp:BoundColumn DataField="Ftrade_id" HeaderText="交易单号">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
+                        <asp:BoundColumn DataField="FDate" HeaderText="期号">
+                            <HeaderStyle Width="100px"></HeaderStyle>
+                        </asp:BoundColumn>
                         <asp:BoundColumn DataField="Fstart_total_fee_str" HeaderText="总金额（本金）">
                             <HeaderStyle Width="150px"></HeaderStyle>
                         </asp:BoundColumn>

@@ -11,6 +11,10 @@
 		<style type="text/css">@import url( ../STYLES/ossstyle.css ); UNKNOWN { COLOR: #000000 }
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
+		    .auto-style1
+            {
+                width: 253px;
+            }
 		</style>
 		<script language="javascript">
 					function openModeBegin()
@@ -26,10 +30,10 @@
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
-			<TABLE  cellSpacing="1" cellPadding="1" width="1100"
+			<TABLE  cellSpacing="1" cellPadding="1" width="1400px"
 				border="1">
 				<TR>
-					<TD style="WIDTH: 100%" bgColor="#e4e5f7" colspan="4"><FONT face="宋体"><FONT color="red"><IMG height="16" src="../IMAGES/Page/post.gif" width="20">&nbsp;&nbsp;微信活动查询</FONT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<TD bgColor="#e4e5f7" colspan="4"><FONT face="宋体"><FONT color="red"><IMG height="16" src="../IMAGES/Page/post.gif" width="20">&nbsp;&nbsp;微信活动查询</FONT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						</FONT>操作员代码: </FONT><SPAN class="style3"><asp:label id="Label1" runat="server" ForeColor="Red" Width="73px"></asp:label></SPAN></TD>
 				</TR>
 				<TR>
@@ -38,16 +42,17 @@
                     <TD><asp:textbox id="TextBoxBeginDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton>
                     </TD>
                     <TD align="right" id="txtTime1" runat="server"><asp:label id="Label4" runat="server">资格记录时间_结束：</asp:label></TD>
-                    <TD id="txtTime2" runat="server"><asp:textbox id="TextBoxEndDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton>
+                    <TD id="txtTime2" runat="server" class="auto-style1"><asp:textbox id="TextBoxEndDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton>
                     </TD>
 				</TR>
                 <TR>
-                    <TD align="right"><asp:label id="Label3" runat="server">财付通订单号：</asp:label></TD>
+                    <TD align="right"><asp:label id="Label3" runat="server">财付通订单号/账号：</asp:label></TD>
                     <TD><asp:textbox id="txtCftNo" style="WIDTH: 220px;" runat="server"></asp:textbox></TD>
                     <TD align="right"><asp:label id="Label2" runat="server">活动名称：</asp:label></TD>
-                    <TD><asp:DropDownList id="ddlActId" AutoPostBack="True" runat="server">
+                    <TD class="auto-style1"><asp:DropDownList id="ddlActId" AutoPostBack="True" runat="server" Height="20px" Width="150px">
                         <asp:ListItem Value="wxzfact" Selected="True">微信支付活动</asp:ListItem>
                         <asp:ListItem Value="xyk">送心意</asp:ListItem>
+                        <asp:ListItem Value="handq">手Q支付活动</asp:ListItem>
                     </asp:DropDownList></TD>
 					
 				</TR>
@@ -59,26 +64,26 @@
 				cellSpacing="1" cellPadding="1" width="1100" border="1" runat="server">
 				<TR>
 					<TD vAlign="top"><asp:datagrid id="DataGrid1" runat="server" BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px"
-							BackColor="White" CellPadding="3" GridLines="Horizontal" AutoGenerateColumns="False" Width="100%">
+							BackColor="White" CellPadding="3" GridLines="Horizontal" AutoGenerateColumns="False" Width="1400px">
 							<FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
 							<SelectedItemStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#738A9C"></SelectedItemStyle>
 							<AlternatingItemStyle BackColor="#F7F7F7"></AlternatingItemStyle>
 							<ItemStyle ForeColor="#4A3C8C" BackColor="#E7E7FF"></ItemStyle>
 							<HeaderStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#4A3C8C"></HeaderStyle>
 							<Columns>
-								<asp:BoundColumn DataField="FUin" HeaderText="用户账号"></asp:BoundColumn>
+								<asp:BoundColumn DataField="FUin" HeaderText="用户账号"><HeaderStyle Width="100px"></HeaderStyle></asp:BoundColumn>
                                 <asp:BoundColumn DataField="FActId" HeaderText="活动ID"></asp:BoundColumn>
-								<asp:BoundColumn DataField="FActName" HeaderText="活动名称"></asp:BoundColumn>
-                                <asp:BoundColumn DataField="FTransId" HeaderText="订单号"></asp:BoundColumn>
+								<asp:BoundColumn DataField="FActName" HeaderText="活动名称"><HeaderStyle Width="150px"></HeaderStyle></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FTransId" HeaderText="订单号"><HeaderStyle Width="150px"></HeaderStyle></asp:BoundColumn>
                                 <asp:BoundColumn DataField="FAccepter" HeaderText="接收奖品QQ"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="FState_str" HeaderText="资格状态"></asp:BoundColumn>
-                                <asp:BoundColumn DataField="FPrizeDesc_str" HeaderText="奖品描述"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FPrizeDesc_str" HeaderText="奖品描述"><HeaderStyle Width="100px"></HeaderStyle></asp:BoundColumn>
                                 <asp:BoundColumn DataField="FTicketOrder" HeaderText="奖品信息"></asp:BoundColumn>
-                                <asp:BoundColumn DataField="FPayFee_str" HeaderText="支付金额"></asp:BoundColumn>
-                                <asp:BoundColumn DataField="FPayTime" HeaderText="支付时间"></asp:BoundColumn>
-                                <asp:BoundColumn DataField="FCreateTime" HeaderText="参与时间"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FPayFee_str" HeaderText="支付金额"><HeaderStyle Width="60px"></HeaderStyle></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FPayTime" HeaderText="支付时间"><HeaderStyle Width="100px"></HeaderStyle></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FCreateTime" HeaderText="参与时间"><HeaderStyle Width="100px"></HeaderStyle></asp:BoundColumn>
                                 <asp:BoundColumn DataField="FErrInfo" HeaderText="错误信息"></asp:BoundColumn>
-                                <asp:BoundColumn DataField="Fstandby2_str" HeaderText="奖级类型"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="Fstandby2_str" HeaderText="奖级类型"><HeaderStyle Width="100px"></HeaderStyle></asp:BoundColumn>
                                 <asp:BoundColumn DataField="Fstandby2_str2" HeaderText="奖品类型"></asp:BoundColumn>
 							</Columns>
                             <PagerStyle HorizontalAlign="Right" ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>
@@ -90,6 +95,7 @@
 							SubmitButtonText="转到" NumericButtonTextFormatString="[{0}]"></webdiyer:aspnetpager></TD>
 				</TR>
 			</TABLE>
+
             <asp:Panel ID="PanelDetail" Runat="server" HorizontalAlign="left" Visible="False">
                 <TABLE border="1" cellSpacing="1" cellPadding="1" width="1100">
                     <tr bgcolor="#e4e5f7" >

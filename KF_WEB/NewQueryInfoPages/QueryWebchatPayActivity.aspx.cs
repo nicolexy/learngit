@@ -7,6 +7,7 @@ using System.Collections;
 using CFT.CSOMS.BLL.ActivityModule;
 using CFT.CSOMS.COMMLIB;
 
+
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 {
 	/// <summary>
@@ -14,6 +15,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// </summary>
     public partial class QueryWebchatPayActivity : System.Web.UI.Page
 	{
+
+        private string[] m_nUserState = 
+        {
+            "活动不涉及",
+            "新用户",
+            "老用户",
+            "中防刷策略",
+            "未知",
+        };
+
         protected void Page_Load(object sender, System.EventArgs e)
 		{
             ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
@@ -52,7 +63,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                         this.txtTime1.Visible = true;
                         this.txtTime2.Visible = true;
-                        this.Label3.Text = "财付通订单号：";
+                        this.Label3.Text = "财付通订单号/账号：";
                         break;
                     }
                 case 1:
@@ -63,6 +74,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                         this.txtTime1.Visible = false;
                         this.txtTime2.Visible = false;
                         this.Label3.Text = "微信号：";
+                        break;
+                    }
+                case 2:
+                    {
+                        this.PanelDetail.Visible = false;
+                        this.Table2.Visible = true;
+
+                        this.txtTime1.Visible = true;
+                        this.txtTime2.Visible = true;
+                        this.Label3.Text = "财付通订单号/账号：";
                         break;
                     }
             }
@@ -202,6 +223,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 ds = new ActivityService().QueryActivity(start, max, act_id, cft_no, s_begindate, s_enddate);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
+                    DataGrid1.Columns[2].HeaderText = "活动名称";
                     DataGrid1.DataSource = ds.Tables[0].DefaultView;
                     DataGrid1.DataBind();
                 }
@@ -247,6 +269,109 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                 SendDetailDG.DataSource = null;
                 SendDetailDG.DataBind();
+            }
+            else if (act_id == "handq")
+            {
+                DataGrid1.DataSource = null;
+                DataGrid1.DataBind();
+                DataGrid1.Columns[2].HeaderText = "财付通帐号";
+                ds = new ActivityService().QueryHandQActivity(cft_no, s_begindate, s_enddate, start, max);//(start, max, act_id, cft_no, xykTime, s_enddate, "rec");
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    #region
+                    /*
+                                <asp:BoundColumn DataField="FUin" HeaderText="用户账号"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FActId" HeaderText="活动ID"></asp:BoundColumn>
+								<asp:BoundColumn DataField="FActName" HeaderText="活动名称"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FTransId" HeaderText="订单号"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FAccepter" HeaderText="接收奖品QQ"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FState_str" HeaderText="资格状态"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FPrizeDesc_str" HeaderText="奖品描述"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FTicketOrder" HeaderText="奖品信息"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FPayFee_str" HeaderText="支付金额"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FPayTime" HeaderText="支付时间"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FCreateTime" HeaderText="参与时间"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FErrInfo" HeaderText="错误信息"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="Fstandby2_str" HeaderText="奖级类型"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="Fstandby2_str2" HeaderText="奖品类型"></asp:BoundColumn>
+                     * 
+                     * 
+                                <asp:BoundColumn DataField="sendnickname" HeaderText="赠送方微信昵称"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="name" HeaderText="物品名称"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="suborderid" HeaderText="订单号"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="createtime" HeaderText="接收时间"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="expiretime" HeaderText="物品过期时间"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="usestateStr" HeaderText="使用状态"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="giftId" HeaderText="物品ID"></asp:BoundColumn>
+                     */
+                    #endregion
+                    ds.Tables[0].Columns.Add("FActName", typeof(String));
+                    ds.Tables[0].Columns.Add("FAccepter", typeof(String));
+                    ds.Tables[0].Columns.Add("FState_str", typeof(String));
+                    ds.Tables[0].Columns.Add("FPrizeDesc_str", typeof(String));
+                    ds.Tables[0].Columns.Add("FTicketOrder", typeof(String));
+                    ds.Tables[0].Columns.Add("FPayFee_str", typeof(String));
+                    ds.Tables[0].Columns.Add("Fstandby2_str", typeof(String));
+                    ds.Tables[0].Columns.Add("Fstandby2_str2", typeof(String));
+                    // 我没有看出下列字段有什么意义，可UI有绑定它。只能申明下
+                    ds.Tables[0].Columns.Add("sendnickname", typeof(String));
+                    ds.Tables[0].Columns.Add("name", typeof(String));
+                    ds.Tables[0].Columns.Add("suborderid", typeof(String));
+                    ds.Tables[0].Columns.Add("createtime", typeof(String));
+                    ds.Tables[0].Columns.Add("expiretime", typeof(String));
+                    ds.Tables[0].Columns.Add("giftId", typeof(String));
+                    ds.Tables[0].Columns.Add("usestateStr", typeof(String));
+
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        dr["FActName"] = dr["FStandby2"].ToString();
+                        dr["FAccepter"] = dr["Fuin"].ToString();
+
+                        if (dr["FState"].ToString() == "0")
+                        {
+                            dr["FState_str"] = "待支付";
+                        }
+                        else if (dr["FState"].ToString() == "1")
+                        {
+                            dr["FState_str"] = "已支付";
+                        }
+                        else if (dr["FState"].ToString() == "7")
+                        {
+                            dr["FState_str"] = "卡号/身份证已参与";
+                        }
+                        else
+                        {
+                            dr["FState_str"] = dr["FState"].ToString();
+                        }
+
+                        dr["FPrizeDesc_str"] = dr["FPrizeDesc"].ToString();
+                        dr["FTicketOrder"] = dr["FPrizeInfo"].ToString();
+                        dr["FPayFee_str"] = setConfig.FenToYuan(dr["FPayFee"].ToString()).ToString();
+                        dr["Fstandby2_str2"] = dr["FPrizeType"].ToString();
+
+                        if (dr["FPrizeLv"].ToString() == "-1")
+                        {
+                            dr["Fstandby2_str"] = string.Format("{0}default", m_nUserState[int.Parse(dr["FUsrState"].ToString())]);
+                        }
+                        else if (dr["FPrizeLv"].ToString() == "0")
+                        {
+                            dr["Fstandby2_str"] = string.Format("{0}末等奖", m_nUserState[int.Parse(dr["FUsrState"].ToString())]);
+                        }
+                        else if (dr["FPrizeLv"].ToString() == "99")
+                        {
+                            dr["Fstandby2_str"] = string.Format("{0}防刷奖级", m_nUserState[int.Parse(dr["FUsrState"].ToString())]);
+                        }
+                        else
+                        {
+                            dr["Fstandby2_str"] = string.Format("{0}{1}", m_nUserState[int.Parse(dr["FUsrState"].ToString())], dr["FPrizeLv"].ToString());
+                        }
+                        
+
+                    }
+
+                    DataGrid1.DataSource = ds.Tables[0].DefaultView;
+                    DataGrid1.DataBind();
+                }
             }
             
 			
