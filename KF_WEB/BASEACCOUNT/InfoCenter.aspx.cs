@@ -23,6 +23,7 @@ using System.Configuration;
 using CFT.CSOMS.BLL.BalanceModule;
 using CFT.CSOMS.BLL.CFTAccountModule;
 using CFT.CSOMS.COMMLIB;
+using CFT.Apollo.Logging;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -167,8 +168,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             //    ds = myService.GetUserAccountFromWechat(Session["QQID"].ToString(), istr, imax); 
             //}
             //else { 
+            try
+            {
+                ds = myService.GetUserAccount(Session["QQID"].ToString(), 1, istr, imax); 
+         
               //使用账号查询
-              ds = myService.GetUserAccount(Session["QQID"].ToString(), 1, istr, imax); 
+            
            // }
                       
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
@@ -517,6 +522,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             //}
             //catch
             //{ }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogInfo("出现异常：" + ex.Message);
+                LogHelper.LogInfo("异常堆栈信息：" + new System.Diagnostics.StackTrace().GetFrames().ToString());
+                LogHelper.LogInfo("异常方法信息：" + ex.TargetSite.ToString());
+                LogHelper.LogInfo("异常对象信息：" + ex.Source.ToString());
+            }
 
             try
             {
@@ -532,8 +545,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                      this.vip_exp_date.Text = dt.Rows[0]["exp_date"].ToString();
                  }
             }
-            catch
+            catch (Exception ex)
             {
+                LogHelper.LogInfo("出现异常：" + ex.Message);
+                LogHelper.LogInfo("异常堆栈信息：" + new System.Diagnostics.StackTrace().GetFrames().ToString());
+                LogHelper.LogInfo("异常方法信息：" + ex.TargetSite.ToString());
+                LogHelper.LogInfo("异常对象信息：" + ex.Source.ToString());
             }
 
             try
@@ -549,8 +566,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 else
                     this.dgList.Visible = false;
             }
-            catch
-            { }
+            catch (Exception ex)
+            {
+                LogHelper.LogInfo("出现异常：" + ex.Message);
+                LogHelper.LogInfo("异常堆栈信息：" + new System.Diagnostics.StackTrace().GetFrames().ToString());
+                LogHelper.LogInfo("异常方法信息：" + ex.TargetSite.ToString());
+                LogHelper.LogInfo("异常对象信息：" + ex.Source.ToString());
+            }
 
             try
             {
@@ -559,8 +581,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 labUserClassInfo.Text = msg;
             }
-            catch
-            { }
+            catch(Exception ex)
+            {
+                LogHelper.LogInfo("出现异常：" + ex.Message);
+                LogHelper.LogInfo("异常堆栈信息：" + new System.Diagnostics.StackTrace().GetFrames().ToString());
+                LogHelper.LogInfo("异常方法信息：" + ex.TargetSite.ToString());
+                LogHelper.LogInfo("异常对象信息：" + ex.Source.ToString());
+            }
 
         }
 
@@ -582,7 +609,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 //    this.Label12_Fstate.Text = "";
                 //}
                 //else
-                    throw new Exception("数据库无此记录");
+                throw new Exception("数据库无此记录");
             }
             else
             {
@@ -634,7 +661,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 try
                 {
                     string ip = myService.Finance_HeaderValue.UserIP;
-                    bool isOpen = balaceService.BalancePaidOrNotQuery(Session["QQID"].ToString(),ip);//查询余额支付功能关闭与否
+                    bool isOpen = balaceService.BalancePaidOrNotQuery(Session["QQID"].ToString(), ip);//查询余额支付功能关闭与否
                     if (isOpen)
                         this.Label19_OpenOrNot.Text = "打开";
                     else
@@ -642,7 +669,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
                 catch
                 { }
-                
+
                 this.Label16_Fapay.Text = ds.Tables[0].Rows[0]["Fapay"].ToString();
                 this.Label17_Flogin_ip.Text = ds.Tables[0].Rows[0]["Flogin_ip"].ToString();
 
@@ -739,7 +766,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             SetButtonVisible(); //furion 20050902
 
-            if (Session["QQID"]==null&&Session["QQID"]=="")
+            if (Session["QQID"] == null && Session["QQID"] == "")
             {
                 return;
             }
@@ -1149,24 +1176,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 //if (this.WeChatQQ.Checked || this.WeChatMobile.Checked || this.WeChatEmail.Checked || this.WeChatCft.Checked || this.WeChatUid.Checked)
                 //{
-                 //   //使用微信查询
-                 //   ViewState["iswechat"] = "true";
+                //   //使用微信查询
+                //   ViewState["iswechat"] = "true";
                 //}
                 //else
                 //{
-                    //使用账号查询
-                    ViewState["iswechat"] = "false";
+                //使用账号查询
+                ViewState["iswechat"] = "false";
                 //}
-                
-                if ((this.InternalID.Checked) && (Session["QQID"]==null))//echo,如果查询条件为内部id，且对应QQ为空（此时有可能是注销的账户）
+
+                if ((this.InternalID.Checked) && (Session["QQID"] == null))//echo,如果查询条件为内部id，且对应QQ为空（此时有可能是注销的账户）
                 {
                     BindDataCancel(1, 1);   //查询注销账户信息
                 }
-                else 
+                else
                 {
                     if (!(Session["QQID"] == null))
                     {
-                    BindData(1, 1);           //绑定数据
+                        BindData(1, 1);           //绑定数据
                     }
                 }
                 setIframePath();        //设置路径	
@@ -1223,14 +1250,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             activeButton.ForeColor = Color.Red;
         }
 
-        public void SyncUserNameClick(object sender, System.EventArgs e) 
+        public void SyncUserNameClick(object sender, System.EventArgs e)
         {
             //同步姓名
             try
             {
                 //支持AA同步姓名
                 string account = labEmail.Text;
-                if (string.IsNullOrEmpty(account)) 
+                if (string.IsNullOrEmpty(account))
                 {
                     throw new Exception("账号为空！");
                 }
@@ -1241,13 +1268,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 //1先通过openid查微信财付通账号
                 string input_qq = TextBox1_InputQQ.Text.Trim(); //通过输入的值来查微信支付账号
-                if (input_qq.IndexOf("@aa.tenpay.com") == -1) 
+                if (input_qq.IndexOf("@aa.tenpay.com") == -1)
                 {
                     throw new Exception("只支持AA账号同步姓名！");
                 }
                 string openid = input_qq.Substring(0, input_qq.IndexOf("@aa.tenpay.com"));//得到xxxx@wx.tenpay.com
                 string uin = WeChatHelper.GetAcctIdFromAAOpenId(openid);
-                if (string.IsNullOrEmpty(uin)) 
+                if (string.IsNullOrEmpty(uin))
                 {
                     throw new Exception("转换成微信财付通账号失败：" + openid);
                 }
@@ -1257,14 +1284,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 string true_name = "";
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
                 qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-                DataSet ds = qs.GetUserAccount(uin, 1,1,1);
+                DataSet ds = qs.GetUserAccount(uin, 1, 1, 1);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     true_name = ds.Tables[0].Rows[0]["Ftruename"].ToString();
                 }
-                else 
+                else
                 {
-                    throw new Exception("没有记录！"+uin);
+                    throw new Exception("没有记录！" + uin);
                 }
 
                 //3调接口同步姓名aac_syncusername_service
@@ -1273,14 +1300,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 {
                     WebUtils.ShowMessage(this.Page, "同步成功");
                 }
-                else 
+                else
                 {
                     throw new Exception(ret);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                WebUtils.ShowMessage(this.Page, "同步姓名错误："+ex.Message);
+                WebUtils.ShowMessage(this.Page, "同步姓名错误：" + ex.Message);
             }
         }
 
