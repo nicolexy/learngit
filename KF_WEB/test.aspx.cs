@@ -95,16 +95,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
            
 
-            string bankCard = BankLib.BankIOX.DecryptNoPadding("8Qz189FjLX5CU24z_L2yWw==");
-            int biz_type = 10100;
-            string bankDate = "20140929";
-            int limit = 10;
-            int offset = 0;
-            FastPayService fast = new FastPayService();
-            DataSet ds = fast.QueryBankCardList(bankCard, bankDate, biz_type, offset, limit);
+           // string bankCard = BankLib.BankIOX.DecryptNoPadding("8Qz189FjLX5CU24z_L2yWw==");
+           // int biz_type = 10100;
+           // string bankDate = "20140929";
+           // int limit = 10;
+           // int offset = 0;
+           // FastPayService fast = new FastPayService();
+           // DataSet ds = fast.QueryBankCardList(bankCard, bankDate, biz_type, offset, limit);
 
-            //¶©µ¥½âñî²âÊÔ
-           OrderDecoupled();
+           // //¶©µ¥½âñî²âÊÔ
+           //OrderDecoupled();
 
 
             TestRelayInvoke1("10.12.23.14", "22000", "request_type=100569&ver=1&head_u=&sp_id=&draw_id=104201308040012310737");
