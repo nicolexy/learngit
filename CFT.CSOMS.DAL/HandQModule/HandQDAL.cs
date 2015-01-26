@@ -22,12 +22,13 @@ namespace CFT.CSOMS.DAL.HandQModule
                 }
             }
 
-            //RelayAccessFactory.GetDSFromRelay(
+            
+            string relayDefaultSPId = "20000000";
             string ip = System.Configuration.ConfigurationManager.AppSettings["HandQHBIP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["HandQHBPort"].ToString());
             string requestString = "uin=" + strUID + "&trans_id=" + strPayListID + "&busi_type=3" + "&start_date=" + strBeginTime + "&end_date="+strEndTime+"&order_type="+strType+"&offset="+offset+"&limit="+limit;
             strOutMsg += requestString;
-            return RelayAccessFactory.GetHQDataFromRelay(requestString, "100631", ip, port);
+            return RelayAccessFactory.GetHQDataFromRelay(requestString, "100631", ip, port, false, false, relayDefaultSPId);
  
         }
 
@@ -39,11 +40,12 @@ namespace CFT.CSOMS.DAL.HandQModule
                 strOutMsg += "红包总单号不能为空";
                 return null;
             }
+            string relayDefaultSPId = "20000000";
             string ip = System.Configuration.ConfigurationManager.AppSettings["HandQHBIP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["HandQHBPort"].ToString());
             string requestString = "send_listid=" + strSendList;
             strOutMsg += requestString;
-            return RelayAccessFactory.GetHBDetailFromRelay(requestString, "100602", ip, port, true);
+            return RelayAccessFactory.GetHBDetailFromRelay(requestString, "100602", ip, port, true, false, relayDefaultSPId);
         }
     }
 }
