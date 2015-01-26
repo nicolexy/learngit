@@ -17,14 +17,14 @@ namespace CFT.CSOMS.DAL.Infrastructure
     {
        /// <summary>
         /// 调relay接口，返回全部字符串 自己拼接全部源串
-       /// </summary>
-       /// <param name="relayRequestString">全部请求串</param>
-       /// <param name="relayIP"></param>
-       /// <param name="relayPort"></param>
-       /// <param name="coding">解码编码方式</param>
-       /// <param name="invisible">日志是否可视，默认false为可视</param>
-       /// <param name="relayDefaultSPId"></param>
-       /// <returns></returns>
+        /// </summary>
+        /// <param name="relayRequestString">全部请求串</param>
+        /// <param name="relayIP"></param>
+        /// <param name="relayPort"></param>
+        /// <param name="coding">解码编码方式</param>
+        /// <param name="invisible">日志是否可视，默认false为可视</param>
+        /// <param name="relayDefaultSPId"></param>
+        /// <returns></returns>
         public static string RelayInvoke(string relayRequestString, string relayIP = "", int relayPort = 0, string coding = "", bool invisible = false, string relayDefaultSPId = "")
         {
             LogHelper.LogInfo(relayRequestString);
@@ -176,11 +176,11 @@ namespace CFT.CSOMS.DAL.Infrastructure
         /// <param name="port"></param>
         /// <param name="Msg"></param>
         /// <returns></returns>
-        public static DataSet GetDSFromRelayFromXML(string inmsg, string ip, int port, string coding="")
+        public static DataSet GetDSFromRelayFromXML(string inmsg, string ip, int port, string coding = "")
         {
             string Msg = "";
             string answer = RelayInvoke(inmsg, ip, port, coding);// Replace("?/", "</");//解决解析报错问题
-         //   string answer = RelayInvoke(inmsg, ip, port);
+            //   string answer = RelayInvoke(inmsg, ip, port);
             DataSet ds = null;
             if (answer == "")
             {

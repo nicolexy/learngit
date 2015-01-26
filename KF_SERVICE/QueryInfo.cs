@@ -8208,7 +8208,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 da.OpenConn();
-                string strSql = "select FParameter from t_tenpay_appeal_trans where Fid=" + fid;
+                string strSql = "select FParameter from db_appeal.t_tenpay_appeal_trans where Fid=" + fid;
                 return da.GetOneResult(strSql);
             }
             catch (Exception err)
@@ -9612,28 +9612,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 da.OpenConn();
-                string sql = "select count(1) from t_tenpay_appeal_kf_total where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType='" + OperationType + "'";
+                string sql = "select count(1) from db_appeal.t_tenpay_appeal_kf_total where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType='" + OperationType + "'";
                 if (da.GetOneResult(sql) == "1")
                 {
                     if (Type == "Success")
-                        sql = "update t_tenpay_appeal_kf_total set SuccessNum = SuccessNum + 1 where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType='" + OperationType + "'";
+                        sql = "update db_appeal.t_tenpay_appeal_kf_total set SuccessNum = SuccessNum + 1 where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType='" + OperationType + "'";
                     else if (Type == "Fail")
-                        sql = "update t_tenpay_appeal_kf_total set FailNum = FailNum + 1 where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType='" + OperationType + "'";
+                        sql = "update db_appeal.t_tenpay_appeal_kf_total set FailNum = FailNum + 1 where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType='" + OperationType + "'";
                     else if (Type == "Delete")
-                        sql = "update t_tenpay_appeal_kf_total set DeleteNum = DeleteNum + 1 where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType='" + OperationType + "'";
+                        sql = "update db_appeal.t_tenpay_appeal_kf_total set DeleteNum = DeleteNum + 1 where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType='" + OperationType + "'";
                     else
-                        sql = "update t_tenpay_appeal_kf_total set OtherNum = OtherNum + 1 where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType='" + OperationType + "'";
+                        sql = "update db_appeal.t_tenpay_appeal_kf_total set OtherNum = OtherNum + 1 where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType='" + OperationType + "'";
                 }
                 else
                 {
                     if (Type == "Success")
-                        sql = "insert into t_tenpay_appeal_kf_total(User,OperationDay,SuccessNum,OperationType) values('" + User + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "',1,'" + OperationType + "')";
+                        sql = "insert into db_appeal.t_tenpay_appeal_kf_total(User,OperationDay,SuccessNum,OperationType) values('" + User + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "',1,'" + OperationType + "')";
                     else if (Type == "Fail")
-                        sql = "insert into t_tenpay_appeal_kf_total(User,OperationDay,FailNum,OperationType) values('" + User + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "',1,'" + OperationType + "')";
+                        sql = "insert into db_appeal.t_tenpay_appeal_kf_total(User,OperationDay,FailNum,OperationType) values('" + User + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "',1,'" + OperationType + "')";
                     else if (Type == "Delete")
-                        sql = "insert into t_tenpay_appeal_kf_total(User,OperationDay,DeleteNum,OperationType) values('" + User + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "',1,'" + OperationType + "')";
+                        sql = "insert into db_appeal.t_tenpay_appeal_kf_total(User,OperationDay,DeleteNum,OperationType) values('" + User + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "',1,'" + OperationType + "')";
                     else
-                        sql = "insert into t_tenpay_appeal_kf_total(User,OperationDay,OtherNum,OperationType) values('" + User + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "',1,'" + OperationType + "')";
+                        sql = "insert into db_appeal.t_tenpay_appeal_kf_total(User,OperationDay,OtherNum,OperationType) values('" + User + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "',1,'" + OperationType + "')";
                 }
 
                 da.ExecSqlNum(sql);
@@ -9716,9 +9716,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
 
             //lxl 20131116加两列tableName、DBName
-            fstrSql = "select '' as DBName, '' as tableName,Fid,FType,Fuin,FSubmitTime,FState,FCheckTime,FReCheckTime,Fpicktime,FReCheckUser,FCheckInfo,FCheckUser,FComment,Femail from t_tenpay_appeal_trans "
+            fstrSql = "select '' as DBName, '' as tableName,Fid,FType,Fuin,FSubmitTime,FState,FCheckTime,FReCheckTime,Fpicktime,FReCheckUser,FCheckInfo,FCheckUser,FComment,Femail from db_appeal.t_tenpay_appeal_trans "
                 + strWhere;
-            fstrSql_count = "select count(1) from t_tenpay_appeal_trans " + strWhere;
+            fstrSql_count = "select count(1) from db_appeal.t_tenpay_appeal_trans " + strWhere;
         }
 
         public CFTUserAppealClass(string fuin, string u_BeginTime, string u_EndTime, int fstate, int ftype, string QQType, string dotype, int SortType, bool mark)
@@ -9956,10 +9956,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 orderStr = "order by date_format(FSubmitTime,'%Y%m%d') desc";
             }
 
-            fstrSql = "select Fid,FType,Fuin,FSubmitTime,FState,FCheckTime,Fpicktime,FCheckInfo,FCheckUser,FComment,Femail,FPickUser from t_tenpay_appeal_trans "
+            fstrSql = "select Fid,FType,Fuin,FSubmitTime,FState,FCheckTime,Fpicktime,FCheckInfo,FCheckUser,FComment,Femail,FPickUser from db_appeal.t_tenpay_appeal_trans "
                 + strWhere + orderStr;
 
-            fstrSql_count = "select count(1) from t_tenpay_appeal_trans " + strWhere;
+            fstrSql_count = "select count(1) from db_appeal.t_tenpay_appeal_trans " + strWhere;
         }
 
         //yinhuang 2014/02/13 分库分表
@@ -10058,14 +10058,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             string strWhere = " where FSubmitTime between '" + u_BeginTime + "' and '" + u_EndTime + "' and FState='0' and FType in(" + ftypes + ")";
 
-            fstrSql = "select Fid,FType,Fuin,FSubmitTime,FState,FCheckTime,Fpicktime,FCheckInfo,FCheckUser,FComment,Femail from t_tenpay_appeal_trans " + strWhere;
-            fstrSql_count = "select count(1) from t_tenpay_appeal_trans " + strWhere;
+            fstrSql = "select Fid,FType,Fuin,FSubmitTime,FState,FCheckTime,Fpicktime,FCheckInfo,FCheckUser,FComment,Femail from db_appeal.t_tenpay_appeal_trans " + strWhere;
+            fstrSql_count = "select count(1) from db_appeal.t_tenpay_appeal_trans " + strWhere;
         }
         public CFTUserAppealClass(int fid)
         {
             //fstrSql = "select Fid,FType,Fuin,FSubmitTime,FState,Fpicktime,FCheckTime,FCheckInfo,FCheckUser,FComment,Femail from t_tenpay_appeal_trans where FID=" + fid ;
-            fstrSql = "select * from t_tenpay_appeal_trans where FID=" + fid;
-            fstrSql_count = "select count(1) from t_tenpay_appeal_trans where FID=" + fid;
+            fstrSql = "select * from db_appeal.t_tenpay_appeal_trans where FID=" + fid;
+            fstrSql_count = "select count(1) from db_appeal.t_tenpay_appeal_trans where FID=" + fid;
         }
 
         //yinhuang 2014/02/12 解冻申诉单分库分表
@@ -10093,7 +10093,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 da.OpenConn();
 
-                string strSql = "select * from t_tenpay_appeal_trans where FsubmitTime >= '" + BeginDate.ToString("yyyy-MM-dd 00:00:00") + "' and FsubmitTime <= '" + EndDate.ToString("yyyy-MM-dd 23:59:59") + "'";
+                string strSql = "select * from db_appeal.t_tenpay_appeal_trans where FsubmitTime >= '" + BeginDate.ToString("yyyy-MM-dd 00:00:00") + "' and FsubmitTime <= '" + EndDate.ToString("yyyy-MM-dd 23:59:59") + "'";
 
                 if (username == null || username == "")
                 {
@@ -10169,7 +10169,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                     WhereStr = WhereStr.Substring(0, WhereStr.Length - 1);
 
-                    strSql = " update t_tenpay_appeal_trans set FPickUser='" + username + "',FPickTime=now(),Fstate=8 where Fid in(" + WhereStr + ")";
+                    strSql = " update db_appeal.t_tenpay_appeal_trans set FPickUser='" + username + "',FPickTime=now(),Fstate=8 where Fid in(" + WhereStr + ")";
 
                     da.ExecSql(strSql);
                 }
@@ -10190,7 +10190,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         //批量领单三种特殊类型旧表构造器
         public CFTUserAppealClass(DateTime BeginDate, DateTime EndDate, string fstate, string ftype, string QQType, string username, int Count, int SortType)
         {
-            fstrSql = "select '' as DBName, '' as tableName, Fid,FType,Fuin,FSubmitTime,FState,FCheckTime,FReCheckTime,Fpicktime,FReCheckUser,FCheckInfo,FCheckUser,FComment,Femail from t_tenpay_appeal_trans where FsubmitTime >= '" + BeginDate.ToString("yyyy-MM-dd 00:00:00") + "' and FsubmitTime <= '" + EndDate.ToString("yyyy-MM-dd 23:59:59") + "'";
+            fstrSql = "select '' as DBName, '' as tableName, Fid,FType,Fuin,FSubmitTime,FState,FCheckTime,FReCheckTime,Fpicktime,FReCheckUser,FCheckInfo,FCheckUser,FComment,Femail from db_appeal.t_tenpay_appeal_trans where FsubmitTime >= '" + BeginDate.ToString("yyyy-MM-dd 00:00:00") + "' and FsubmitTime <= '" + EndDate.ToString("yyyy-MM-dd 23:59:59") + "'";
 
             if (username == null || username == "")
             {
@@ -10435,7 +10435,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 da.OpenConn();
 
-                string strSql = "select * from t_tenpay_appeal_trans where FsubmitTime >= '" + BeginDate.ToString("yyyy-MM-dd 00:00:00") + "' and FsubmitTime <= '" + EndDate.ToString("yyyy-MM-dd 23:59:59") + "'";
+                string strSql = "select * from db_appeal.t_tenpay_appeal_trans where FsubmitTime >= '" + BeginDate.ToString("yyyy-MM-dd 00:00:00") + "' and FsubmitTime <= '" + EndDate.ToString("yyyy-MM-dd 23:59:59") + "'";
 
                 if (username == null || username == "")
                 {
@@ -10511,7 +10511,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                     WhereStr = WhereStr.Substring(0, WhereStr.Length - 1);
 
-                    strSql = " update t_tenpay_appeal_trans set FPickUser='" + username + "',FPickTime=now(),Fstate=8 where Fid in(" + WhereStr + ")";
+                    strSql = " update db_appeal.t_tenpay_appeal_trans set FPickUser='" + username + "',FPickTime=now(),Fstate=8 where Fid in(" + WhereStr + ")";
 
                     da.ExecSql(strSql);
 
@@ -10554,7 +10554,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 //先取出一些需要的信息 当前状态,修改类别, QQ号,email
                 //修改姓名需要新姓名. 取回支付密码需要clear_pps, 注销不需要多余东西
-                string strSql = "select * from t_tenpay_appeal_trans where Fid=" + fid;
+                string strSql = "select * from db_appeal.t_tenpay_appeal_trans where Fid=" + fid;
                 DataSet ds = da.dsGetTotalData(strSql);
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count == 1)
@@ -11034,7 +11034,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                         if (fstate == 0)
                         {
-                            strSql = "update t_tenpay_appeal_trans set FState=1,"
+                            strSql = "update db_appeal.t_tenpay_appeal_trans set FState=1,"
                                 + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11042,7 +11042,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         }
                         else if (fstate == 2)
                         {
-                            strSql = "update t_tenpay_appeal_trans set FState=1,"
+                            strSql = "update db_appeal.t_tenpay_appeal_trans set FState=1,"
                                 + " Fcomment='二次审核,拒绝转审核通过." + Fcomment + "', FCheckUser='" + user + "',FCheckTime=Now(),"
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11050,7 +11050,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         }
                         else if (fstate == 3)
                         {
-                            strSql = "update t_tenpay_appeal_trans set FState=1,"
+                            strSql = "update db_appeal.t_tenpay_appeal_trans set FState=1,"
                                 + " Fcomment='" + Fcomment + "', FCheckUser='" + user + "',FCheckTime=Now(),"
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11058,7 +11058,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         }
                         else if (fstate == 4)
                         {
-                            strSql = " update t_tenpay_appeal_trans set FState=1,"
+                            strSql = " update db_appeal.t_tenpay_appeal_trans set FState=1,"
                                 + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11066,7 +11066,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         }
                         else if (fstate == 5)
                         {
-                            strSql = "update t_tenpay_appeal_trans set FState=1,"
+                            strSql = "update db_appeal.t_tenpay_appeal_trans set FState=1,"
                                 + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11074,7 +11074,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         }
                         else if (fstate == 6)
                         {
-                            strSql = " update t_tenpay_appeal_trans set FState=1,"
+                            strSql = " update db_appeal.t_tenpay_appeal_trans set FState=1,"
                                 + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11082,7 +11082,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         }
                         else if (fstate == 8)
                         {
-                            strSql = " update t_tenpay_appeal_trans set FState=1,"
+                            strSql = " update db_appeal.t_tenpay_appeal_trans set FState=1,"
                                 + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11091,7 +11091,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         // 2012/4/25 添加允许通过短信撤销状态的申诉！，并添加相应的风控通知！
                         else if (fstate == 9)
                         {
-                            strSql = " update t_tenpay_appeal_trans set FState=1,"
+                            strSql = " update db_appeal.t_tenpay_appeal_trans set FState=1,"
                                 + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11548,7 +11548,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
 
                 //修改姓名需要新姓名. 取回支付密码需要clear_pps, 注销不需要多余东西
-                string strSql = "select * from t_tenpay_appeal_trans where Fid=" + fid;
+                string strSql = "select * from db_appeal.t_tenpay_appeal_trans where Fid=" + fid;
                 DataSet ds = da.dsGetTotalData(strSql);
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count == 1)
@@ -11616,7 +11616,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         if (fstate == 0)
                         {
-                            strSql = "update t_tenpay_appeal_trans set FState=2,"
+                            strSql = "update db_appeal.t_tenpay_appeal_trans set FState=2,"
                                 + " FCheckInfo='" + reason + OtherReason + "',Fcomment = '" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11624,7 +11624,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         }
                         else if (fstate == 3)
                         {
-                            strSql = "update t_tenpay_appeal_trans set FState=2,"
+                            strSql = "update db_appeal.t_tenpay_appeal_trans set FState=2,"
                                 + " FCheckInfo='" + reason + OtherReason + "',Fcomment = '" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11632,7 +11632,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         }
                         else if (fstate == 4)
                         {
-                            strSql = " update t_tenpay_appeal_trans set FState=2,"
+                            strSql = " update db_appeal.t_tenpay_appeal_trans set FState=2,"
                                 + " FCheckInfo='" + reason + OtherReason + "',Fcomment = '" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11640,7 +11640,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         }
                         else if (fstate == 5)
                         {
-                            strSql = "update t_tenpay_appeal_trans set FState=2,"
+                            strSql = "update db_appeal.t_tenpay_appeal_trans set FState=2,"
                                 + " FCheckInfo='" + reason + OtherReason + "',Fcomment = '" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11648,7 +11648,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         }
                         else if (fstate == 6)
                         {
-                            strSql = " update t_tenpay_appeal_trans set FState=2,"
+                            strSql = " update db_appeal.t_tenpay_appeal_trans set FState=2,"
                                 + " FCheckInfo='" + reason + OtherReason + "',Fcomment = '" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11656,7 +11656,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         }
                         else if (fstate == 8)
                         {
-                            strSql = " update t_tenpay_appeal_trans set FState=2,"
+                            strSql = " update db_appeal.t_tenpay_appeal_trans set FState=2,"
                                 + " FCheckInfo='" + reason + OtherReason + "',Fcomment = '" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11955,7 +11955,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 da.OpenConn();
 
-                string strSql = " select * from t_tenpay_appeal_trans where Fid=" + fid;
+                string strSql = " select * from db_appeal.t_tenpay_appeal_trans where Fid=" + fid;
                 DataSet ds = da.dsGetTotalData(strSql);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count == 1)
                 {
@@ -11967,7 +11967,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                     if (fstate == 0)
                     {
-                        strSql = "update t_tenpay_appeal_trans set FState=7,"
+                        strSql = "update db_appeal.t_tenpay_appeal_trans set FState=7,"
                             + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                             + " FPickTime=now(),FPickUser='" + user + "',"
                             + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11975,7 +11975,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                     else if (fstate == 3)
                     {
-                        strSql = " update t_tenpay_appeal_trans set FState=7,"
+                        strSql = " update db_appeal.t_tenpay_appeal_trans set FState=7,"
                             + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                             + " FPickTime=now(),FPickUser='" + user + "',"
                             + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11983,7 +11983,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                     else if (fstate == 4)
                     {
-                        strSql = " update t_tenpay_appeal_trans set FState=7,"
+                        strSql = " update db_appeal.t_tenpay_appeal_trans set FState=7,"
                             + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                             + " FPickTime=now(),FPickUser='" + user + "',"
                             + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11991,7 +11991,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                     else if (fstate == 5)
                     {
-                        strSql = "update t_tenpay_appeal_trans set FState=7,"
+                        strSql = "update db_appeal.t_tenpay_appeal_trans set FState=7,"
                             + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                             + " FPickTime=now(),FPickUser='" + user + "',"
                             + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -11999,7 +11999,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                     else if (fstate == 6)
                     {
-                        strSql = " update t_tenpay_appeal_trans set FState=7,"
+                        strSql = " update db_appeal.t_tenpay_appeal_trans set FState=7,"
                             + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                             + " FPickTime=now(),FPickUser='" + user + "',"
                             + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -12007,7 +12007,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                     else if (fstate == 8)
                     {
-                        strSql = " update t_tenpay_appeal_trans set FState=7,"
+                        strSql = " update db_appeal.t_tenpay_appeal_trans set FState=7,"
                             + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
                             + " FPickTime=now(),FPickUser='" + user + "',"
                             + " FReCheckTime=now(),FRecheckUser='" + user + "'"
@@ -12738,15 +12738,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 da.OpenConn();
-                string sql = "select count(1) from t_tenpay_appeal_kf_total where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType = '" + OperationType + "'";
+                string sql = "select count(1) from db_appeal.t_tenpay_appeal_kf_total where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType = '" + OperationType + "'";
                 if (da.GetOneResult(sql) == "1")
                 {
                     if (Type == "Success")
-                        sql = "update t_tenpay_appeal_kf_total set UserClassSuccessNum = UserClassSuccessNum + 1 where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType = '" + OperationType + "'";
+                        sql = "update db_appeal.t_tenpay_appeal_kf_total set UserClassSuccessNum = UserClassSuccessNum + 1 where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType = '" + OperationType + "'";
                     else if (Type == "Fail")
-                        sql = "update t_tenpay_appeal_kf_total set UserClassFailNum = UserClassFailNum + 1 where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType = '" + OperationType + "'";
+                        sql = "update db_appeal.t_tenpay_appeal_kf_total set UserClassFailNum = UserClassFailNum + 1 where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType = '" + OperationType + "'";
                     else if (Type == "Other")
-                        sql = "update t_tenpay_appeal_kf_total set UserClassOtherNum = UserClassOtherNum + 1 where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType = '" + OperationType + "'";
+                        sql = "update db_appeal.t_tenpay_appeal_kf_total set UserClassOtherNum = UserClassOtherNum + 1 where User='" + User + "' and OperationDay='" + DateTime.Today.ToString("yyyy-MM-dd") + "' and OperationType = '" + OperationType + "'";
                     else
                     {
                         throw new Exception("没有这种类型!");
@@ -12755,11 +12755,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 else
                 {
                     if (Type == "Success")
-                        sql = "insert into t_tenpay_appeal_kf_total(User,OperationDay,UserClassSuccessNum,OperationType) values('" + User + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "',1,'" + OperationType + "')";
+                        sql = "insert into db_appeal.t_tenpay_appeal_kf_total(User,OperationDay,UserClassSuccessNum,OperationType) values('" + User + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "',1,'" + OperationType + "')";
                     else if (Type == "Fail")
-                        sql = "insert into t_tenpay_appeal_kf_total(User,OperationDay,UserClassFailNum,OperationType) values('" + User + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "',1,'" + OperationType + "')";
+                        sql = "insert into db_appeal.t_tenpay_appeal_kf_total(User,OperationDay,UserClassFailNum,OperationType) values('" + User + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "',1,'" + OperationType + "')";
                     else if (Type == "Other")
-                        sql = "insert into t_tenpay_appeal_kf_total(User,OperationDay,UserClassOtherNum,OperationType) values('" + User + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "',1,'" + OperationType + "')";
+                        sql = "insert into db_appeal.t_tenpay_appeal_kf_total(User,OperationDay,UserClassOtherNum,OperationType) values('" + User + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "',1,'" + OperationType + "')";
                     else
                     {
                         throw new Exception("没有这种类型!");
