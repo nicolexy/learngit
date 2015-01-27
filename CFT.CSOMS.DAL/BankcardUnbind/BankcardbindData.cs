@@ -81,13 +81,14 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
 
                 sql_findUID += sql_findUID_filter;
 
-                da = MySQLAccessFactory.GetMySQLAccess("HT");
+                da = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
                 da.OpenConn();
                 return da.dsGetTotalData(sql_findUID);
             }
             catch (Exception err)
             {
-                return null;
+                throw new Exception("service处理错误：" + err.Message);
+                //return null;
             }
             finally
             {
@@ -153,7 +154,8 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
             }
             catch (Exception err)
             {
-                return null;
+                throw new Exception("service处理错误：" + err.Message);
+                //return null;
             }
             finally
             {
@@ -177,7 +179,7 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
         /// <returns></returns>
         public DataSet GetBankCardBindDetail(string fuid, string findex, string fBDIndex)
         {
-            MySqlAccess da = MySQLAccessFactory.GetMySQLAccess("BD");
+            MySqlAccess da = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
             try
             {
                 // 2012/5/29 新增加查询字段Fcre_id
@@ -200,7 +202,8 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
             }
             catch (Exception err)
             {
-                return null;
+                throw new Exception("service处理错误：" + err.Message);
+                //return null;
             }
             finally
             {
@@ -307,7 +310,7 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
 
                     sql_findUID += sql_findUID_filter;
 
-                    MySqlAccess da_findUID = MySQLAccessFactory.GetMySQLAccess("HT");
+                    MySqlAccess da_findUID = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
                     da_findUID.OpenConn();
                     ds_findUID = da_findUID.dsGetTotalData(sql_findUID);
                     //DataSet ds_findUID = da_findUID.dsGetTableByRange(sql_findUID,0,1);
@@ -421,7 +424,8 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
             }
             catch (Exception err)
             {
-                return null;
+                throw new Exception("service处理错误：" + err.Message);
+                //return null;
             }
             finally
             {
