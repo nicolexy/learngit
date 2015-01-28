@@ -2519,22 +2519,38 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                             if (fieldsplit.Length != 2)
                                 continue;
-                            dt.Columns.Add(fieldsplit[0], typeof(string));
-                            row[fieldsplit[0]] = fieldsplit[1];
+                            if (!dt.Columns.Contains(fieldsplit[0]))
+                            {
+                                dt.Columns.Add(fieldsplit[0], typeof(string));
+                                row[fieldsplit[0]] = fieldsplit[1];
+                            }
+
                         }
                         if (ht.Contains("send_uin"))
                         {
-                            dt.Columns.Add("send_uin", typeof(string));
+                            if (!dt.Columns.Contains("send_uin"))
+                            {
+                                dt.Columns.Add("send_uin", typeof(string));
+                            }
+                            
                             row["send_uin"] = ht["send_uin"].ToString();
                         }
                         if (ht.Contains("send_name"))
                         {
-                            dt.Columns.Add("send_name", typeof(string));
+                            if (!dt.Columns.Contains("send_name"))
+                            {
+                                dt.Columns.Add("send_name", typeof(string));
+                            }
+                            
                             row["send_name"] = ht["send_name"].ToString();
                         }
                         if (ht.Contains("wishing"))
                         {
-                            dt.Columns.Add("wishing", typeof(string));
+                            if (!dt.Columns.Contains("wishing"))
+                            {
+                                dt.Columns.Add("wishing", typeof(string));
+                            }
+                            
                             row["wishing"] = ht["wishing"].ToString();
                         }
                         dt.Rows.Add(row);
