@@ -2558,10 +2558,23 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                         dt.Columns.Add("wishing", typeof(string));
                         row["wishing"] = ht["wishing"].ToString();
                     }
-                    dt.Columns.Add("amount", typeof(string));
-                    dt.Columns.Add("recv_uin", typeof(string));
-                    dt.Columns.Add("recv_name", typeof(string));
-                    dt.Columns.Add("create_time", typeof(string));
+                    if (!dt.Columns.Contains("amount"))
+                    {
+                        dt.Columns.Add("amount", typeof(string));
+                    }
+                    if (!dt.Columns.Contains("recv_uin"))
+                    {
+                        dt.Columns.Add("recv_uin", typeof(string));
+                    }
+                    if (!dt.Columns.Contains("recv_name"))
+                    {
+                        dt.Columns.Add("recv_name", typeof(string));
+                    }
+                    if (!dt.Columns.Contains("create_time"))
+                    {
+                        dt.Columns.Add("create_time", typeof(string));
+                    }
+                    
                     dt.Rows.Add(row);
                 }
              }
