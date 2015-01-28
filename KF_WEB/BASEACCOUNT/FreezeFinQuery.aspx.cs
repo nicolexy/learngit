@@ -12,6 +12,8 @@ using System.Web.UI.HtmlControls;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
+using System.Web.Services.Protocols;
+using Tencent.DotNet.Common.UI;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -72,74 +74,111 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 		/// 此方法的内容。
 		/// </summary>
 		private void InitializeComponent()
-		{    
-
+		{
+            this.pager.PageChanged += new Wuqi.Webdiyer.PageChangedEventHandler(this.ChangePage);
 		}
 		#endregion
 
 		protected void btnQuery_Click(object sender, System.EventArgs e)
 		{
-			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            try
+            {
+                ValidateDate();
+            }
+            catch (Exception err)
+            {
+                WebUtils.ShowMessage(this.Page, err.Message);
+                return;
+            }
 
-			qs.Credentials = System.Net.CredentialCache.DefaultCredentials;
-
-			DateTime beginDate;
-			DateTime endDate;
-			string strBeginDate;
-			string strEndDate;
-
-			try
-			{
-				beginDate = DateTime.Parse(this.tbx_beginDate.Text);
-				endDate = DateTime.Parse(this.tbx_endDate.Text);
-
-				if(beginDate.CompareTo(endDate) > 0)
-				{
-					this.ShowMsg("开始日期不能大于结束日期，请重新输入。");
-					return;
-				}
-
-				strBeginDate = beginDate.ToString("yyyy-MM-dd");
-				strEndDate = endDate.ToString("yyyy-MM-dd");
-			}
-			catch
-			{
-				this.ShowMsg("输入的日期格式有误！请重新输入。");
-				return;
-			}
-
-			double fin = 0;
-			try
-			{
-				fin = double.Parse(this.tbx_fin.Text);
-			}
-			catch
-			{
-				fin = 0;
-			}
-
-			//qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
-			qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-			DataSet ds = qs.QueryUserFreezeRecord(strBeginDate,strEndDate,this.tbx_payAccount.Text,fin,"",(this.pager.CurrentPageIndex - 1) * ElemCount,ElemCount);
-
-			if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-			{
-				this.ShowMsg("查询结果为空");
-				this.DataGrid_QueryResult.DataSource = null;
-				this.DataGrid_QueryResult.DataBind();
-				return;
-			}
-
-			this.DataGrid_QueryResult.DataSource = ds;
-
-			this.DataGrid_QueryResult.DataBind();
+            try
+            {
+                pager.RecordCount = 1000;
+                BindData(1);
+            }
+            catch (SoapException eSoap) //捕获soap类异常
+            {
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
+            }
 		}
+
+        private void ValidateDate()
+        {
+            DateTime beginDate;
+            DateTime endDate;
+            string strBeginDate;
+            string strEndDate;
+
+            try
+            {
+                beginDate = DateTime.Parse(this.tbx_beginDate.Text);
+                endDate = DateTime.Parse(this.tbx_endDate.Text);
+
+                if (beginDate.CompareTo(endDate) > 0)
+                {
+                    this.ShowMsg("开始日期不能大于结束日期，请重新输入。");
+                    return;
+                }
+
+                strBeginDate = beginDate.ToString("yyyy-MM-dd");
+                strEndDate = endDate.ToString("yyyy-MM-dd");
+            }
+            catch
+            {
+                this.ShowMsg("输入的日期格式有误！请重新输入。");
+                return;
+            }
+
+            ViewState["strBeginDate"] = strBeginDate;
+            ViewState["strEndDate"] = strEndDate;
+        }
+
+        private void BindData(int index)
+        {
+            pager.CurrentPageIndex = index;
+            int max = pager.PageSize;
+            int start = max * (index - 1);
+            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+
+            qs.Credentials = System.Net.CredentialCache.DefaultCredentials;
+
+            double fin = 0;
+            try
+            {
+                fin = double.Parse(this.tbx_fin.Text);
+            }
+            catch
+            {
+                fin = 0;
+            }
+
+            //qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
+            qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
+            DataSet ds = qs.QueryUserFreezeRecord(ViewState["strBeginDate"].ToString(), ViewState["strEndDate"].ToString(), this.tbx_payAccount.Text, fin, "", start, max);
+
+            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+            {
+                this.ShowMsg("查询结果为空");
+                this.DataGrid_QueryResult.DataSource = null;
+                this.DataGrid_QueryResult.DataBind();
+                return;
+            }
+
+            this.DataGrid_QueryResult.DataSource = ds;
+
+            this.DataGrid_QueryResult.DataBind();
+        }
 
 		private void DataGrid_QueryResult_ItemCommand(object source, DataGridCommandEventArgs e)
 		{
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
-			string strFlistID = e.Item.Cells[5].Text.Trim();
+			string strFlistID = e.Item.Cells[6].Text.Trim();
 
 			//qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
 			qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
@@ -165,6 +204,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			this.tb_detail.Visible = true;
 		}
 
+        public void ChangePage(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
+        {
+            pager.CurrentPageIndex = e.NewPageIndex;
+            BindData(e.NewPageIndex);
+        }
 
 		private void ShowMsg(string msg)
 		{

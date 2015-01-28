@@ -131,7 +131,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             else
             {
-                WebUtils.ShowMessage(this.Page, "清理失败：" + s_creid + "不存在！");
+              //  WebUtils.ShowMessage(this.Page, "清理失败：" + s_creid + "不存在！");
+                WebUtils.ShowMessage(this.Page, "注册未超限，不需要处理！");
             }
         }
 

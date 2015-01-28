@@ -73,6 +73,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 sysid = Request.QueryString["sysid"].Trim();
                 ViewState["sysid"] = sysid;
 
+                Hashtable instanceHt = new Hashtable();
+                instanceHt.Add("1", "提现银行接口");
+                instanceHt.Add("2", "向银行卡付款接口");
+                instanceHt.Add("3", "还房贷银行接口");
+                instanceHt.Add("4", "信用卡还款银行接口");
+                instanceHt.Add("5", "代扣银行接口");
+                instanceHt.Add("6", "银行收款接口");
+                instanceHt.Add("8", "退款接口");
+               
                 if (Request.QueryString["sysid"] != null && Request.QueryString["sysid"].Trim() != "")
                 {
                     #region
@@ -138,6 +147,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                     Response.Redirect("../login.aspx?wh=1");
                 }
 
+                string instanceText = instanceHt[sysid].ToString();//接口名称
+
                 if (Request.QueryString["bulletinId"] != null && Request.QueryString["bulletinId"].Trim() != "")//编辑查看
                 {
                     bulletinId = Request.QueryString["bulletinId"].Trim();
@@ -152,17 +163,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 if (bulletinId == "")
                 {
 
-                    labTitle.Text = "银行接口新增";
+                    labTitle.Text =instanceText+ "新增";
 
 
                     if (ViewState["objid"] != null)
                     {
-                        labTitle.Text = "查看银行接口";
+                       // labTitle.Text = "查看银行接口";
+                        labTitle.Text = "查看" + instanceText;
                     }
                 }
                 else
                 {
-                    labTitle.Text = "银行接口修改";
+                    labTitle.Text =instanceText+ "修改";
                     BindBankInterface(bulletinId, "");
                 }
             }
@@ -334,7 +346,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 string bankName = "";
                 try
                 {
-                    bankName = bankbulletin.maintext.Substring(0, bankbulletin.maintext.IndexOf("银行"));//取银行名称
+                    bankName = bankbulletin.maintext.Substring(0, bankbulletin.maintext.IndexOf("系统"));//取银行名称 改为取系统
                 }
                 catch
                 {
@@ -414,11 +426,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 
                         if (i != 0)
                         {
-                            bankbulletin.maintext = bankName + "银行系统维护中，预计" + DateTime.Parse(bankbulletin.endtime).ToString("MM月dd日HH:mm") + "恢复。";
+                            bankbulletin.maintext = bankName + "系统维护中，预计" + DateTime.Parse(bankbulletin.endtime).ToString("MM月dd日HH:mm") + "恢复。";
                             if (bankbulletin.closetype == "2")
                             {
                                 bankbulletin.popuptext = DateTime.Parse(bankbulletin.startime).ToString("MM月dd日HH:mm") + "至" + DateTime.Parse(bankbulletin.endtime).ToString("MM月dd日HH:mm") +
-                                    "因" + bankName + "银行系统维护，此期间操作的付款将延迟到" + DateTime.Parse(bankbulletin.endtime).AddDays(1).ToString("MM月dd日") + "到账";
+                                    "因" + bankName + "系统维护，此期间操作的付款将延迟到" + DateTime.Parse(bankbulletin.endtime).AddDays(1).ToString("MM月dd日") + "到账";
                             }
                             else
                             {
@@ -523,7 +535,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 string bankName = "";
                 try
                 {
-                    bankName = bankbulletin.maintext.Substring(0, bankbulletin.maintext.IndexOf("银行"));
+                    bankName = bankbulletin.maintext.Substring(0, bankbulletin.maintext.IndexOf("系统"));
                 }
                 catch
                 {
@@ -607,11 +619,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                         {
                             bankbulletin.IsNew = true;
                             bankbulletin.bulletin_id = System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.NewStaticNoManage();
-                            bankbulletin.maintext = bankName + "银行系统维护中，预计" + DateTime.Parse(bankbulletin.endtime).ToString("MM月dd日HH:mm") + "恢复。";
+                            bankbulletin.maintext = bankName + "系统维护中，预计" + DateTime.Parse(bankbulletin.endtime).ToString("MM月dd日HH:mm") + "恢复。";
                             if (bankbulletin.closetype == "2")
                             {
                                 bankbulletin.popuptext = DateTime.Parse(bankbulletin.startime).ToString("MM月dd日HH:mm") + "至" + DateTime.Parse(bankbulletin.endtime).ToString("MM月dd日HH:mm") +
-                                    "因" + bankName + "银行系统维护，此期间操作的付款将延迟到" + DateTime.Parse(bankbulletin.endtime).AddDays(1).ToString("MM月dd日") + "到账";
+                                    "因" + bankName + "系统维护，此期间操作的付款将延迟到" + DateTime.Parse(bankbulletin.endtime).AddDays(1).ToString("MM月dd日") + "到账";
                             }
                             else
                             {
