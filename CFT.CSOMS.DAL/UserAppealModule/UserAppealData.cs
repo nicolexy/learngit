@@ -808,7 +808,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                     }
                     string EmailReason = reason;
 
-                    if (ftype == 1)   //新流程中，对于绑定手机的用户就发给他原来绑定的邮箱，对于绑定邮箱的用户就发给录入的邮箱
+                    if (ftype == 1 || ftype == 11)  //新流程中，对于绑定手机的用户就发给他原来绑定的邮箱，对于绑定邮箱的用户就发给录入的邮箱
                     {
                         //找回密码
                         string cont_type = dr["cont_type"].ToString();
@@ -894,6 +894,22 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
                                 + " where Fid='" + fid + "' and Fstate=8";
+                        }
+                        else if (fstate == 11)//特殊申诉 待补充资料状态
+                        {
+                            strSql = " update " + db + "." + tb + " set FState=2,"
+                                + " FCheckInfo='" + reason + OtherReason + "',Fcomment = '" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),FModifyTime=Now(),"
+                                + " FPickTime=now(),FPickUser='" + user + "',"
+                                + " FReCheckTime=now(),FRecheckUser='" + user + "'"
+                                + " where Fid='" + fid + "' and Fstate=11";
+                        }
+                        else if (fstate == 12)//特殊申诉 已补充资料状态
+                        {
+                            strSql = " update " + db + "." + tb + " set FState=2,"
+                                + " FCheckInfo='" + reason + OtherReason + "',Fcomment = '" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),FModifyTime=Now(),"
+                                + " FPickTime=now(),FPickUser='" + user + "',"
+                                + " FReCheckTime=now(),FRecheckUser='" + user + "'"
+                                + " where Fid='" + fid + "' and Fstate=12";
                         }
                         else
                         {
@@ -1353,7 +1369,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                             return false;
                         }
                     }
-                    else if (ftype == 1)
+                    else if (ftype == 1 || ftype == 11)
                     {
                         //找回密码
                         clear_pps = Int32.Parse(dr["clear_pps"].ToString());
@@ -1790,6 +1806,14 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
                                 + " where Fid='" + fid + "' and Fstate=9";
+                        }
+                        else if (fstate == 12)//已补充资料
+                        {
+                            strSql = " update " + db + "." + tb + " set FState=1,"
+                                + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),FModifyTime=Now(),"
+                                + " FPickTime=now(),FPickUser='" + user + "',"
+                                + " FReCheckTime=now(),FRecheckUser='" + user + "'"
+                                + " where Fid='" + fid + "' and Fstate=12";
                         }
                         else
                         {
@@ -4067,7 +4091,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             else
             {
                 // 8号申诉是风控冻结，有另外的处理入口，申诉处理暂不包含改类型的申诉
-                strWhere += " and FType!=8 and FType!=19 ";
+                strWhere += " and FType!=8 and FType!=19  and FType!=11";
             }
 
             if (QQType == "0")    //"" 所有类型; "0" 非会员; "1" 普通会员; "2" VIP会员
@@ -4140,7 +4164,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             else
             {
                 // 8号申诉是风控冻结，有另外的处理入口，申诉处理暂不包含改类型的申诉
-                strWhere += " and FType!=8  and FType!=19 ";
+                strWhere += " and FType!=8  and FType!=19  and FType!=11";
             }
 
             if (QQType == "0")    //"" 所有类型; 0 非会员; 1 普通会员; 2 VIP会员
