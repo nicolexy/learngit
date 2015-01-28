@@ -31,15 +31,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness {
         protected global::System.Web.UI.WebControls.TextBox txtUin;
         
         /// <summary>
-        /// txtPayListId control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPayListId;
-        
-        /// <summary>
         /// textBoxBeginDate control.
         /// </summary>
         /// <remarks>

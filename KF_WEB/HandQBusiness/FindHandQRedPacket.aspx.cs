@@ -17,6 +17,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
         {
             if (!IsPostBack)
             {
+                textBoxBeginDate.Text = DateTime.Now.AddDays(-7).ToString("yyyy年MM月dd日");
+                textBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
             }
         }
 
@@ -49,14 +51,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                 showMsg("财付通帐号不能为空");
                 return;
             }
-            if (string.IsNullOrEmpty(txtPayListId.Text))
-            {
-                if (string.IsNullOrEmpty(textBoxBeginDate.Text) || string.IsNullOrEmpty(textBoxEndDate.Text))
-                {
-                    showMsg("订单号为空时，必需输入时间段.");
-                    return;
-                }
-            }
+
             string strBeginDate = null;
             string strEndDate = null;
             if (!string.IsNullOrEmpty(textBoxBeginDate.Text))
@@ -77,7 +72,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
             string strOutMsg = "收红信息反馈";
             try
             {
-                DataSet ds = new HandQService().QueryHandQInfor(txtUin.Text, txtPayListId.Text, strBeginDate, strEndDate, "2", start, max, out strOutMsg);
+                DataSet ds = new HandQService().QueryHandQInfor(txtUin.Text, "", strBeginDate, strEndDate, "2", start, max, out strOutMsg);
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     if (ds.Tables[0].Rows.Count > 0)
@@ -112,14 +107,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                 showMsg("财付通帐号不能为空");
                 return;
             }
-            if (string.IsNullOrEmpty(txtPayListId.Text))
-            {
-                if (string.IsNullOrEmpty(textBoxBeginDate.Text) || string.IsNullOrEmpty(textBoxEndDate.Text))
-                {
-                    showMsg("订单号为空时，必需输入时间段.");
-                    return;
-                }
-            }
+
             string strBeginDate = null;
             string strEndDate = null;
             if (!string.IsNullOrEmpty(textBoxBeginDate.Text))
@@ -140,7 +128,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
             string strOutMsg = "发红包信息反馈";
             try 
             {
-                DataSet ds = new HandQService().QueryHandQInfor(txtUin.Text, txtPayListId.Text, strBeginDate, strEndDate, "1", start, max, out strOutMsg);
+                DataSet ds = new HandQService().QueryHandQInfor(txtUin.Text, "", strBeginDate, strEndDate, "1", start, max, out strOutMsg);
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     if (ds.Tables[0].Rows.Count > 0)
@@ -151,6 +139,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                         ds.Tables[0].Columns.Add("Title", typeof(string));
                         ds.Tables[0].Columns.Add("summary", typeof(string));
                         ds.Tables[0].Columns.Add("refund", typeof(string));
+                        ds.Tables[0].Columns.Add("send_listidex", typeof(string));
 
                         foreach (DataRow item in ds.Tables[0].Rows)
                         {
@@ -162,8 +151,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                             item["amount_text"] = classLibrary.setConfig.FenToYuan(item["total_amount"].ToString());
                             item["Title"] = string.Format("发给{0}红包", item["send_name"].ToString());
                             item["refund"] = classLibrary.setConfig.FenToYuan((int.Parse(item["total_amount"].ToString()) - int.Parse(item["recv_amount"].ToString())).ToString());
-
-
+                            //去掉前二位，听说是路由产生的
+                            string strSendList = item["send_listid"].ToString();
+                            item["send_listidex"] = strSendList.Substring(2);
                             switch (item["state"].ToString())
                             {
 

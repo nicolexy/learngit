@@ -30,7 +30,7 @@
             <tr>
                 <td>
                     财付通帐号:<asp:TextBox ID="txtUin" runat="server" Width="150px"></asp:TextBox>                  
-                   支付交易单号:<asp:TextBox ID="txtPayListId" runat="server" Width="200px"></asp:TextBox>
+                   
                 </td>
                 <td>
                     &nbsp;&nbsp;&nbsp;
@@ -170,7 +170,7 @@
                             <asp:BoundField DataField="Title" HeaderText="红包主题" >
                             <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="send_listid" HeaderText="订单号">
+                            <asp:BoundField DataField="send_listidex" HeaderText="订单号">
                             <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="amount_text" HeaderText="金额">

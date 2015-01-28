@@ -99,6 +99,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         }
 
+        public void ListetailPage(Object sender, CommandEventArgs e)
+        {
+ 
+            try
+            {
+                
+                string transaction_id = e.CommandName.ToString().Trim();
+                string draw_id = e.CommandArgument.ToString().Trim();
+                BindDataDetail(transaction_id, draw_id);
+            }
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message);
+            }
+
+ 
+        }
+
+
         protected void Detail_Click(object sender, System.EventArgs e)
         {
             try
@@ -261,15 +280,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             //if (e.Item.ItemType == ListItemType.Item)
             //{
-                object obj = e.Item.Cells[11].FindControl("queryButton");
+                
                 string order_exist = e.Item.Cells[10].Text.Trim();//核心订单是否存在
-                if (obj != null)
-                {
-                    Button lb = (Button)obj;
-                    if (order_exist == "1")
+                                 
+                    if (order_exist == "退款成功")
                     {
-                        lb.Visible = true;
-                    }
+                        object obj = e.Item.Cells[12].FindControl("DetailID");
+                        if (obj != null)
+                        {
+                            Button lb = (Button)obj;
+                            lb.Visible = true;
+                        }
                 }
           //  }
         }

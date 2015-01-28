@@ -13,15 +13,6 @@ namespace CFT.CSOMS.DAL.HandQModule
        public DataSet QueryHandQInfor(string strUID, string strPayListID, string strBeginTime, string strEndTime, string strType, int offset, int limit, out string strOutMsg)
         {
             strOutMsg = "QueryHandQInfor";
-            if (string.IsNullOrEmpty(strPayListID))
-            {
-                if (string.IsNullOrEmpty(strBeginTime) || string.IsNullOrEmpty(strEndTime))
-                {
-                    strOutMsg += "订单为空时，必需输入时间";
-                    return null;
-                }
-            }
-
             
             string relayDefaultSPId = "20000000";
             string ip = System.Configuration.ConfigurationManager.AppSettings["HandQHBIP"].ToString();

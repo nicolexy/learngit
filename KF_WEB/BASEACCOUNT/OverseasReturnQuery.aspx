@@ -22,6 +22,10 @@
         {
             _height:expression(this.offsetParent.offsetHeight+"px");
         }
+        .auto-style1
+        {
+            width: 870px;
+        }
     </style>
 </head>
 <body>
@@ -68,9 +72,9 @@
     <table id="table3" cellspacing="1" cellpadding="0" width="105%" align="center" border="0" frame="box" runat="server">
          <tr>
            <td  width="100%">
-                <table width="100%" cellspacing="0" cellpadding="0" align="left" border="1" frame="box" rules="all">
+                <table width="95%" cellspacing="0" cellpadding="0" align="left" border="1" frame="box" rules="all">
                     <tr bgcolor="#e4e5f7" background="../IMAGES/Page/bg_bl.gif">
-                        <td background="../IMAGES/Page/bg_bl.gif" height="20" class="style4">
+                        <td background="../IMAGES/Page/bg_bl.gif" height="20" class="auto-style1">
                             <strong><font color="#ff0000">&nbsp;<img height="16" src="../IMAGES/Page/post.gif"
                                 width="20" />
                             </font></strong><font color="#ff0000">境外商户退款详情表</font>
@@ -80,9 +84,9 @@
                         </td>
                     </tr>
                      <tr width="100%">
-						<TD vAlign="top" align="center" class="style4"><asp:datagrid id="Datagrid1" runat="server" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center"
+						<TD vAlign="top" align="center" class="auto-style1"><asp:datagrid id="Datagrid1" runat="server" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center"
 								HorizontalAlign="Center" PageSize="5" AutoGenerateColumns="False" GridLines="Horizontal" CellPadding="1" BackColor="White"  OnItemDataBound="DataGrid1_ItemDataBound"
-								BorderWidth="1px" BorderStyle="None" BorderColor="#E7E7FF" AllowPaging="false" width="115%" ShowFooter="false" >
+								BorderWidth="1px" BorderStyle="None" BorderColor="#E7E7FF" AllowPaging="false" width="95%" ShowFooter="false" >
 								<FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
 								<SelectedItemStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#738A9C"></SelectedItemStyle>
 								<AlternatingItemStyle BackColor="#F7F7F7"></AlternatingItemStyle>
@@ -133,21 +137,22 @@
                                      </asp:BoundColumn>
 								    <asp:TemplateColumn>
 									    <ItemTemplate>
-										    <asp:Button id="queryButton" Visible="false" runat="server" CommandName="query" Text="核心交易退款详情"></asp:Button>
+										    <!--<asp:Button id="queryButton" Visible="false" runat="server" CommandName="query" Text="核心交易退款详情"></asp:Button>-->
+                                            <asp:button id="DetailID" runat="server"  Visible="false" Width="120px" Text="核心交易退款详情"  CommandName = "query"></asp:button>
 									    </ItemTemplate>
 								   </asp:TemplateColumn>
 								</Columns>
 								<PagerStyle ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>
-							</asp:datagrid></TD>
+							</asp:datagrid>&nbsp;<asp:button id="Detail" runat="server" Width="120px" Text="核心交易退款详情" onclick="Detail_Click"></asp:button>
+                         &nbsp;</TD>
 				    	</tr>
                     <tr>
-                        <td class="style4" Width="100%" height="30">
-                         <asp:button id="Detail" runat="server" Width="120px" Text="核心交易退款详情" onclick="Detail_Click"></asp:button>
-                        </td>
+                        <td class="auto-style1" height="30">
+                            &nbsp;</td>
                      </tr>
                    
                      <tr width="100%">
-                     <td class="style4" >
+                     <td class="auto-style1" >
                       <table cellSpacing="0" cellPadding="0" width="100%" border="0">
 					    <tr>
 						<TD vAlign="top" align="center"><asp:datagrid id="dgList" runat="server" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center"
