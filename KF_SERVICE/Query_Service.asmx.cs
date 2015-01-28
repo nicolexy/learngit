@@ -11511,7 +11511,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 string Sql = " select sum(SuccessNum) as SuccessNumSum,sum(FailNum) as FailNumSum,sum(DeleteNum) as DeleteNumSum,sum(OtherNum) as OtherNumSum," +
                              "sum(UserClassSuccessNum) as UserClassSuccessNumSum,sum(UserClassFailNum) as UserClassFailNumSum,sum(UserClassOtherNum) as UserClassOtherNumSum " +
-                             "from t_tenpay_appeal_kf_total " +
+                             "from db_appeal.t_tenpay_appeal_kf_total " +
                              "where user='" + User + "' and OperationType = '" + OperationType + "' and operationday between '" + u_BeginTime.ToString("yyyy-MM-dd") + "' and '" + u_EndTime.ToString("yyyy-MM-dd") + "'";
 
                 return da.dsGetTotalData(Sql);

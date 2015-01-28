@@ -119,7 +119,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			int NotInCount = TopCount * (index-1);
 
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            DataSet ds = qs.GetAllValueAddedTax(txtCompanyName.Text.Trim(),txtSpid.Text.Trim(), TopCount, NotInCount);
+            DataSet ds = qs.GetAllValueAddedTax(txtSpid.Text.Trim(), txtCompanyName.Text.Trim(), TopCount, NotInCount);
 
 			if(ds != null && ds.Tables.Count >0)
 			{
