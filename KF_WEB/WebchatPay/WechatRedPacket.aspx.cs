@@ -71,17 +71,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 this.receivePager.RecordCount = 1000;
                 this.sendListPager.RecordCount = 1000;
                 this.redPacketDetailPager.RecordCount = 1000;
-                //FetchInput();
+                FetchInput();
 
-                //try
-                //{
-                //    BindBasicInfo(hbUin);
-                //}
-                //catch { }//防止不能查询
+                try
+                {
+                    BindBasicInfo(hbUin);
+                }
+                catch { }//防止不能查询
 
                 //测试接口
               //  hbUin = "onqOjjqoNArgAnXUC-g2QyPfL9fQ";
-                hbUin = "onqOjjhRRpnwjceoYnAY2CrJd2JU";
+             //  hbUin = "onqOjjhRRpnwjceoYnAY2CrJd2JU";
 
                 hbUin = hbUin.Replace("@hb.tenpay.com", "");
                 ViewState["hbUin"] = hbUin;
