@@ -169,19 +169,18 @@ namespace CFT.CSOMS.BLL.SPOA
         /// <param name="filter">where查询条件</param>
         /// </summary>
         /// <returns></returns>
-        public DataSet GetSelfQueryListCount(string filter)
+        public int GetSelfQueryListCount(string SPID, int? DraftFlag, string CompanyName, int? Flag, string WWWAdress, string Appid, DateTime? ApplyTimeStart, DateTime? ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType)
         {
-            DataSet ds = null;
-
+            
             try
             {
-                ds = new SPOAData().GetSelfQueryListCount(filter);
+                return new SPOAData().GetSelfQueryListCount(SPID, DraftFlag, CompanyName, Flag, WWWAdress, Appid, ApplyTimeStart, ApplyTimeEnd, BankUserName, KFCheckUser, SuggestUser, MerType);
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
-            return ds;
+            
         }
         /// <summary>
         /// 自助和BD商户列表记录数--自助商户领单
@@ -190,13 +189,14 @@ namespace CFT.CSOMS.BLL.SPOA
         /// <param name="NotInCount"></param>
         /// </summary>
         /// <returns></returns>
-        public DataSet GetSelfQueryList(string filter, int TopCount, int NotInCount)
+        public DataSet GetSelfQueryList(string SPID, int? DraftFlag, string CompanyName, int? Flag, string WWWAdress, string Appid,
+            DateTime? ApplyTimeStart, DateTime? ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType, int topCount, int notInCount)
         {
             DataSet ds = null;
 
             try
             {
-                ds = new SPOAData().GetSelfQueryList(filter, TopCount, NotInCount);
+                ds = new SPOAData().GetSelfQueryList(SPID, DraftFlag, CompanyName, Flag, WWWAdress, Appid, ApplyTimeStart, ApplyTimeEnd, BankUserName, KFCheckUser, SuggestUser, MerType, topCount, notInCount);
             }
             catch (Exception e)
             {
@@ -397,9 +397,9 @@ namespace CFT.CSOMS.BLL.SPOA
             new SPOAData().UpdateMspAmendInfoByTaskid(TaskId, Reason);
         }
 
-        public DataSet GetAllValueAddedTax(string filter, int TopCount, int NotInCount)
+        public DataSet GetAllValueAddedTax(string Spid, string CompanyName, int topCount, int notInCount)
         {
-            return new SPOAData().GetAllValueAddedTax(filter, TopCount, NotInCount);
+            return new SPOAData().GetAllValueAddedTax(Spid, CompanyName, topCount, notInCount);
         }
         public DataSet GetOneValueAddedTax(string Spid)
         {
@@ -410,9 +410,9 @@ namespace CFT.CSOMS.BLL.SPOA
             new SPOAData().ValueAddedTaxModify(Spid, Flag);
         }
 
-        public DataSet GetApplyValueAddedTax(string filter, int TopCount, int NotInCount)
+        public DataSet GetApplyValueAddedTax(string Spid, string Flags, int topCount, int notInCount)
         {
-            return new SPOAData().GetApplyValueAddedTax(filter, TopCount, NotInCount);
+            return new SPOAData().GetApplyValueAddedTax(Spid, Flags, topCount, notInCount);
         }
         public DataSet GetValueAddedTaxDetail(string taskid)
         {
@@ -431,9 +431,9 @@ namespace CFT.CSOMS.BLL.SPOA
         {
             return new SPOAData().GetSpidDomainQueryListCount(filter);
         }
-        public DataSet GetSpidDomainQueryList(string filter, string SubmitType, int TopCount, int NotInCount)
+        public DataSet GetSpidDomainQueryList(string Spid, string CompanyName, DateTime? ApplyTimeStart, DateTime? ApplyTimeEnd, int? AmendState, string submitType, int topCount, int notInCount)
         {
-            return new SPOAData().GetSpidDomainQueryList(filter, SubmitType, TopCount, NotInCount);
+            return new SPOAData().GetSpidDomainQueryList(Spid, CompanyName, ApplyTimeStart, ApplyTimeEnd, AmendState, submitType, topCount, notInCount);
         }
 
 

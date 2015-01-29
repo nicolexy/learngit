@@ -300,7 +300,7 @@
 									</TR>
                                 <TR>
 										<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee" height="18">
-                                            <FONT face="宋体">&nbsp;退款方式：</FONT>
+                                            <FONT face="宋体">&nbsp;退款类型：</FONT>
 										</TD>
 										<TD style="WIDTH: 136px; HEIGHT: 18px" bgColor="#ffffff" height="18">
 											<FONT face="宋体">&nbsp;<asp:label id="Frefund_typeName" runat="server"></asp:label></FONT>

@@ -417,9 +417,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				throw new Exception("数据读取失败!");
 			}
 		}
-
+        private void ShowMsg(string msg)
+        {
+            Response.Write("<script language=javascript>alert('" + msg + "')</script>");
+        }
 		protected void btnEdit_Click(object sender, System.EventArgs e)
 		{
+            if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("PayBusinessCMD", this))
+            {
+               // Response.Redirect("../login.aspx?wh=1");
+                ShowMsg("您没有权限进行此操作。如有需要，请申请权限！");
+                return;
+            }
+                
 			ControlBtn(false);
 			this.txtConnetionName.Enabled = true;
 			this.txtPhone.Enabled = true;

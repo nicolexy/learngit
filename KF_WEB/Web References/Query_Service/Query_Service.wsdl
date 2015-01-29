@@ -3557,30 +3557,45 @@
       <s:element name="GetSelfQueryListCount">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="filter" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SPID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="DraftFlag" nillable="true" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Flag" nillable="true" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="WWWAdress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Appid" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ApplyTimeStart" nillable="true" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="ApplyTimeEnd" nillable="true" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="KFCheckUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SuggestUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MerType" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
       <s:element name="GetSelfQueryListCountResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetSelfQueryListCountResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
+            <s:element minOccurs="1" maxOccurs="1" name="GetSelfQueryListCountResult" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
       <s:element name="GetSelfQueryList">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="filter" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="TopCount" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="NotInCount" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="SPID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="DraftFlag" nillable="true" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Flag" nillable="true" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="WWWAdress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Appid" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ApplyTimeStart" nillable="true" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="ApplyTimeEnd" nillable="true" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="KFCheckUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SuggestUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MerType" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="topCount" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="notInCount" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -3667,10 +3682,14 @@
       <s:element name="GetSpidDomainQueryList">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="filter" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="SubmitType" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="TopCount" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="NotInCount" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Spid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ApplyTimeStart" nillable="true" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="ApplyTimeEnd" nillable="true" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="AmendState" nillable="true" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="submitType" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="topCount" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="notInCount" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -3730,9 +3749,10 @@
       <s:element name="GetApplyValueAddedTax">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="filter" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="TopCount" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="NotInCount" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Spid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Flags" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="topCount" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="notInCount" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -3802,9 +3822,10 @@
       <s:element name="GetAllValueAddedTax">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="filter" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="TopCount" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="NotInCount" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Spid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="topCount" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="notInCount" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -14934,20 +14955,6 @@
   <wsdl:message name="GetSelfKFListHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
-  <wsdl:message name="GetSelfQueryListCountHttpGetIn">
-    <wsdl:part name="filter" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="GetSelfQueryListCountHttpGetOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
-  <wsdl:message name="GetSelfQueryListHttpGetIn">
-    <wsdl:part name="filter" type="s:string" />
-    <wsdl:part name="TopCount" type="s:string" />
-    <wsdl:part name="NotInCount" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="GetSelfQueryListHttpGetOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
   <wsdl:message name="GetSelfQueryInfoHttpGetIn">
     <wsdl:part name="ApplyCpInfoID" type="s:string" />
   </wsdl:message>
@@ -14972,15 +14979,6 @@
   <wsdl:message name="GetSpidDomainQueryListCountHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
-  <wsdl:message name="GetSpidDomainQueryListHttpGetIn">
-    <wsdl:part name="filter" type="s:string" />
-    <wsdl:part name="SubmitType" type="s:string" />
-    <wsdl:part name="TopCount" type="s:string" />
-    <wsdl:part name="NotInCount" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="GetSpidDomainQueryListHttpGetOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
   <wsdl:message name="ApproveSpidDomainHttpGetIn">
     <wsdl:part name="Taskid" type="s:string" />
     <wsdl:part name="UserID" type="s:string" />
@@ -15003,9 +15001,10 @@
   </wsdl:message>
   <wsdl:message name="ApproveSpidCompanyNameHttpGetOut" />
   <wsdl:message name="GetApplyValueAddedTaxHttpGetIn">
-    <wsdl:part name="filter" type="s:string" />
-    <wsdl:part name="TopCount" type="s:string" />
-    <wsdl:part name="NotInCount" type="s:string" />
+    <wsdl:part name="Spid" type="s:string" />
+    <wsdl:part name="Flags" type="s:string" />
+    <wsdl:part name="topCount" type="s:string" />
+    <wsdl:part name="notInCount" type="s:string" />
   </wsdl:message>
   <wsdl:message name="GetApplyValueAddedTaxHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
@@ -15033,9 +15032,10 @@
   </wsdl:message>
   <wsdl:message name="ValueAddedTaxCancelHttpGetOut" />
   <wsdl:message name="GetAllValueAddedTaxHttpGetIn">
-    <wsdl:part name="filter" type="s:string" />
-    <wsdl:part name="TopCount" type="s:string" />
-    <wsdl:part name="NotInCount" type="s:string" />
+    <wsdl:part name="Spid" type="s:string" />
+    <wsdl:part name="CompanyName" type="s:string" />
+    <wsdl:part name="topCount" type="s:string" />
+    <wsdl:part name="notInCount" type="s:string" />
   </wsdl:message>
   <wsdl:message name="GetAllValueAddedTaxHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
@@ -18327,20 +18327,6 @@
   <wsdl:message name="GetSelfKFListHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
-  <wsdl:message name="GetSelfQueryListCountHttpPostIn">
-    <wsdl:part name="filter" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="GetSelfQueryListCountHttpPostOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
-  <wsdl:message name="GetSelfQueryListHttpPostIn">
-    <wsdl:part name="filter" type="s:string" />
-    <wsdl:part name="TopCount" type="s:string" />
-    <wsdl:part name="NotInCount" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="GetSelfQueryListHttpPostOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
   <wsdl:message name="GetSelfQueryInfoHttpPostIn">
     <wsdl:part name="ApplyCpInfoID" type="s:string" />
   </wsdl:message>
@@ -18365,15 +18351,6 @@
   <wsdl:message name="GetSpidDomainQueryListCountHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
-  <wsdl:message name="GetSpidDomainQueryListHttpPostIn">
-    <wsdl:part name="filter" type="s:string" />
-    <wsdl:part name="SubmitType" type="s:string" />
-    <wsdl:part name="TopCount" type="s:string" />
-    <wsdl:part name="NotInCount" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="GetSpidDomainQueryListHttpPostOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
   <wsdl:message name="ApproveSpidDomainHttpPostIn">
     <wsdl:part name="Taskid" type="s:string" />
     <wsdl:part name="UserID" type="s:string" />
@@ -18396,9 +18373,10 @@
   </wsdl:message>
   <wsdl:message name="ApproveSpidCompanyNameHttpPostOut" />
   <wsdl:message name="GetApplyValueAddedTaxHttpPostIn">
-    <wsdl:part name="filter" type="s:string" />
-    <wsdl:part name="TopCount" type="s:string" />
-    <wsdl:part name="NotInCount" type="s:string" />
+    <wsdl:part name="Spid" type="s:string" />
+    <wsdl:part name="Flags" type="s:string" />
+    <wsdl:part name="topCount" type="s:string" />
+    <wsdl:part name="notInCount" type="s:string" />
   </wsdl:message>
   <wsdl:message name="GetApplyValueAddedTaxHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
@@ -18426,9 +18404,10 @@
   </wsdl:message>
   <wsdl:message name="ValueAddedTaxCancelHttpPostOut" />
   <wsdl:message name="GetAllValueAddedTaxHttpPostIn">
-    <wsdl:part name="filter" type="s:string" />
-    <wsdl:part name="TopCount" type="s:string" />
-    <wsdl:part name="NotInCount" type="s:string" />
+    <wsdl:part name="Spid" type="s:string" />
+    <wsdl:part name="CompanyName" type="s:string" />
+    <wsdl:part name="topCount" type="s:string" />
+    <wsdl:part name="notInCount" type="s:string" />
   </wsdl:message>
   <wsdl:message name="GetAllValueAddedTaxHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
@@ -23637,16 +23616,6 @@
       <wsdl:input message="tns:GetSelfKFListHttpGetIn" />
       <wsdl:output message="tns:GetSelfKFListHttpGetOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetSelfQueryListCount">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自助和BD商户列表记录数函数</wsdl:documentation>
-      <wsdl:input message="tns:GetSelfQueryListCountHttpGetIn" />
-      <wsdl:output message="tns:GetSelfQueryListCountHttpGetOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetSelfQueryList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自助和BD商户列表函数</wsdl:documentation>
-      <wsdl:input message="tns:GetSelfQueryListHttpGetIn" />
-      <wsdl:output message="tns:GetSelfQueryListHttpGetOut" />
-    </wsdl:operation>
     <wsdl:operation name="GetSelfQueryInfo">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自助和BD商户按主键查询函数</wsdl:documentation>
       <wsdl:input message="tns:GetSelfQueryInfoHttpGetIn" />
@@ -23666,11 +23635,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">商户系统域名申请列表记录数函数</wsdl:documentation>
       <wsdl:input message="tns:GetSpidDomainQueryListCountHttpGetIn" />
       <wsdl:output message="tns:GetSpidDomainQueryListCountHttpGetOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetSpidDomainQueryList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">商户系统域名申请列表函数</wsdl:documentation>
-      <wsdl:input message="tns:GetSpidDomainQueryListHttpGetIn" />
-      <wsdl:output message="tns:GetSpidDomainQueryListHttpGetOut" />
     </wsdl:operation>
     <wsdl:operation name="ApproveSpidDomain">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">商户系统域名申请审核函数</wsdl:documentation>
@@ -25611,16 +25575,6 @@
       <wsdl:input message="tns:GetSelfKFListHttpPostIn" />
       <wsdl:output message="tns:GetSelfKFListHttpPostOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetSelfQueryListCount">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自助和BD商户列表记录数函数</wsdl:documentation>
-      <wsdl:input message="tns:GetSelfQueryListCountHttpPostIn" />
-      <wsdl:output message="tns:GetSelfQueryListCountHttpPostOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetSelfQueryList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自助和BD商户列表函数</wsdl:documentation>
-      <wsdl:input message="tns:GetSelfQueryListHttpPostIn" />
-      <wsdl:output message="tns:GetSelfQueryListHttpPostOut" />
-    </wsdl:operation>
     <wsdl:operation name="GetSelfQueryInfo">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自助和BD商户按主键查询函数</wsdl:documentation>
       <wsdl:input message="tns:GetSelfQueryInfoHttpPostIn" />
@@ -25640,11 +25594,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">商户系统域名申请列表记录数函数</wsdl:documentation>
       <wsdl:input message="tns:GetSpidDomainQueryListCountHttpPostIn" />
       <wsdl:output message="tns:GetSpidDomainQueryListCountHttpPostOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetSpidDomainQueryList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">商户系统域名申请列表函数</wsdl:documentation>
-      <wsdl:input message="tns:GetSpidDomainQueryListHttpPostIn" />
-      <wsdl:output message="tns:GetSpidDomainQueryListHttpPostOut" />
     </wsdl:operation>
     <wsdl:operation name="ApproveSpidDomain">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">商户系统域名申请审核函数</wsdl:documentation>
@@ -37170,24 +37119,6 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetSelfQueryListCount">
-      <http:operation location="/GetSelfQueryListCount" />
-      <wsdl:input>
-        <http:urlEncoded />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetSelfQueryList">
-      <http:operation location="/GetSelfQueryList" />
-      <wsdl:input>
-        <http:urlEncoded />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetSelfQueryInfo">
       <http:operation location="/GetSelfQueryInfo" />
       <wsdl:input>
@@ -37213,15 +37144,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetSpidDomainQueryListCount">
       <http:operation location="/GetSpidDomainQueryListCount" />
-      <wsdl:input>
-        <http:urlEncoded />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetSpidDomainQueryList">
-      <http:operation location="/GetSpidDomainQueryList" />
       <wsdl:input>
         <http:urlEncoded />
       </wsdl:input>
@@ -40703,24 +40625,6 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetSelfQueryListCount">
-      <http:operation location="/GetSelfQueryListCount" />
-      <wsdl:input>
-        <mime:content type="application/x-www-form-urlencoded" />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetSelfQueryList">
-      <http:operation location="/GetSelfQueryList" />
-      <wsdl:input>
-        <mime:content type="application/x-www-form-urlencoded" />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetSelfQueryInfo">
       <http:operation location="/GetSelfQueryInfo" />
       <wsdl:input>
@@ -40746,15 +40650,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetSpidDomainQueryListCount">
       <http:operation location="/GetSpidDomainQueryListCount" />
-      <wsdl:input>
-        <mime:content type="application/x-www-form-urlencoded" />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetSpidDomainQueryList">
-      <http:operation location="/GetSpidDomainQueryList" />
       <wsdl:input>
         <mime:content type="application/x-www-form-urlencoded" />
       </wsdl:input>

@@ -116,19 +116,43 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 			return 100;
 
-//			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-//			return Convert.ToInt32(qs.GetSpidDomainQueryListCount(filter).Tables[0].Rows[0][0]);
 		}
 
 		private void BindData(int index)
 		{
 			string filter = ViewState["filter"].ToString();
 
-			int TopCount = pager.PageSize;
-			int NotInCount = TopCount * (index-1);
+			int topCount = pager.PageSize;
+            int notInCount = topCount * (index - 1);
 
+            DateTime? ApplyTimeStart = null;
+            if (!string.IsNullOrEmpty(TextBoxBeginDate.Text))
+            {
+                string strBeginTime = Convert.ToDateTime(TextBoxBeginDate.Text.Trim()).ToString("yyyy-MM-dd 00:00:00");
+                ApplyTimeStart = Convert.ToDateTime(strBeginTime);
+            }
+
+            DateTime? ApplyTimeEnd = null;
+            if (!string.IsNullOrEmpty(TextBoxEndDate.Text))
+            {
+                string strEndTime = Convert.ToDateTime(TextBoxEndDate.Text.Trim()).ToString("yyyy-MM-dd 23:59:59");
+                ApplyTimeEnd = Convert.ToDateTime(strEndTime);
+            }
+           
+
+            string Spid = txtSpid.Text.Trim();
+            string CompanyName = txtCompanyName.Text.Trim();
+            int? AmendState = null;
+            if (ddlState.SelectedValue != "")
+            {
+                AmendState = int.Parse(ddlState.SelectedValue); 
+            }
+
+            string submitType = ddlSubmitType.SelectedValue;
+            dgList.DataSource = null;
+            dgList.DataBind();
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-			DataSet ds = qs.GetSpidDomainQueryList(filter,this.ddlSubmitType.SelectedValue,TopCount,NotInCount);
+            DataSet ds = qs.GetSpidDomainQueryList(Spid, CompanyName, ApplyTimeStart, ApplyTimeEnd, AmendState, submitType, topCount, notInCount);
 
 			if(ds != null && ds.Tables.Count >0)
 			{

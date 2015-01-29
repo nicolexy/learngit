@@ -30,7 +30,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
     
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-           lblUId.Text = Session["uid"].ToString();
+            if (Session["uid"] != null)
+            {
+                lblUId.Text = Session["uid"].ToString();
+            }
+            
 		}
 
 		#region Web 窗体设计器生成的代码
@@ -80,17 +84,43 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
         }
 
+        //设置soap头信息
+        private  ZWCheck_Service.Finance_Header SetWebServiceHeader(TemplateControl page)
+        {
+
+            ZWCheck_Service.Finance_Header header = new ZWCheck_Service.Finance_Header();
+            //header.SrcUrl = page.Page.Request.Url.ToString();
+            header.UserIP = page.Page.Request.UserHostAddress;
+            header.UserName = (page.Page.Session["uid"] == null) ? "" : page.Page.Session["uid"].ToString();
+            //header.SessionID = page.Page.Session.SessionID;
+            header.SzKey = (page.Page.Session["SzKey"] == null) ? "" : page.Page.Session["SzKey"].ToString();
+            header.OperID = (page.Page.Session["OperID"] == null) ? 0 : Int32.Parse(page.Page.Session["OperID"].ToString());
+            header.RightString = (page.Page.Session["SzKey"] == null) ? "" : page.Page.Session["SzKey"].ToString();
+            return header;
+        }
+
         private bool MigrationCheck(string orderId,out string msg)
         {
             msg="";
             try
             {
-                Check_WebService.Param[] parameters = new Check_WebService.Param[1];
+             /*   Check_WebService.Param[] parameters = new Check_WebService.Param[1];
                 parameters[0] = new Check_WebService.Param();
                 parameters[0].ParamName = "MsgId";
                 parameters[0].ParamValue = commLib.GenID.GenOrderMigrationMSGId(orderId);
 
                 PublicRes.CreateCheckService(this).StartCheck(orderId, "OrderMigration", "订单迁移申请", "0", parameters);
+                 * */
+                ZWCheck_Service.Check_Service checkService = new ZWCheck_Service.Check_Service();
+                ZWCheck_Service.Param[] parameters = new ZWCheck_Service.Param[1];
+                parameters[0] = new ZWCheck_Service.Param();
+                parameters[0].ParamName = "MsgId";
+                parameters[0].ParamValue = commLib.GenID.GenOrderMigrationMSGId(orderId);
+                checkService.Finance_HeaderValue = SetWebServiceHeader(this);
+                //checkService.Finance_HeaderValue 
+                checkService.StartCheck(orderId, "OrderMigration", "订单迁移申请", "0", parameters);
+
+               
 
                 return true;
             }
