@@ -28,6 +28,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     public partial class OverseasReturnQuery : System.Web.UI.Page
     {
         protected PublicService publicService = new PublicService();
+
         protected void Page_Load(object sender, System.EventArgs e)
         {
             try
@@ -98,6 +99,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         }
 
+        public void ListetailPage(Object sender, CommandEventArgs e)
+        {
+ 
+            try
+            {
+                
+                string transaction_id = e.CommandName.ToString().Trim();
+                string draw_id = e.CommandArgument.ToString().Trim();
+                BindDataDetail(transaction_id, draw_id);
+            }
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message);
+            }
+
+ 
+        }
+
+
         protected void Detail_Click(object sender, System.EventArgs e)
         {
             try
@@ -139,6 +159,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                    // ds.Tables[0].Columns.Add("order_exist", typeof(String));//是否存在核心交易单
                     ds.Tables[0].Columns.Add("Frefund_req_fee_str", typeof(String));//退款金额(外币)
                     ds.Tables[0].Columns.Add("Ffee_type_str", typeof(String));//外币类型
+                    ds.Tables[0].Columns.Add("Frefund_status_str", typeof(String));//外向退款单状态
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         string temp = dr["Fcur_type"].ToString();
@@ -163,6 +184,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                                 dr["Ffee_type_str"] = cur_type;
                             }
                             dr["Frefund_req_fee_str"] = publicService.FenToYuan(dr["Frefund_req_fee"].ToString(), dr["Ffee_type"].ToString());
+                        }
+                        int nStatus = int.Parse(dr["Frefund_status"].ToString());
+                        if (nStatus == 1 || nStatus == 2)
+                        {
+                            dr["Frefund_status_str"] = "未确定，需要商户原退款单号重新发起";
+                        }
+                        else if (nStatus == 3 || nStatus == 5 || nStatus == 6 )
+                        {
+                            dr["Frefund_status_str"] = "退款失败";
+                        }
+                        else if (nStatus == 4 || nStatus == 10)
+                        {
+                            dr["Frefund_status_str"] = "退款成功";
+                        }
+                        else if (nStatus == 8 || nStatus == 9 || nStatus == 11 || nStatus == 100)
+                        {
+                            dr["Frefund_status_str"] = "退款处理中";
+                        }
+                        else 
+                        {
+                            dr["Frefund_status_str"] = "未知";
                         }
                     }
                     classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Frefund_req_fee_rmb", "Frefund_req_fee_rmb_str");
@@ -238,15 +280,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             //if (e.Item.ItemType == ListItemType.Item)
             //{
-                object obj = e.Item.Cells[11].FindControl("queryButton");
+                
                 string order_exist = e.Item.Cells[10].Text.Trim();//核心订单是否存在
-                if (obj != null)
-                {
-                    Button lb = (Button)obj;
-                    if (order_exist == "1")
+                                 
+                    if (order_exist == "退款成功")
                     {
-                        lb.Visible = true;
-                    }
+                        object obj = e.Item.Cells[12].FindControl("DetailID");
+                        if (obj != null)
+                        {
+                            Button lb = (Button)obj;
+                            lb.Visible = true;
+                        }
                 }
           //  }
         }

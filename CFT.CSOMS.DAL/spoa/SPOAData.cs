@@ -59,22 +59,18 @@ namespace CFT.CSOMS.DAL.SPOA
 
             return cli.GetSelfKFList();
         }
-        public DataSet GetSelfQueryListCount(string filter)
+        public int GetSelfQueryListCount(string SPID, int? DraftFlag, string CompanyName, int? Flag, string WWWAdress, string Appid, DateTime? ApplyTimeStart, DateTime? ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType)
         {
             SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
-
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Count");
-            DataRow dr = dt.NewRow();
-            dr["Count"] = cli.GetSelfQueryListCount(filter);
-            dt.Rows.Add(dr);
-            return new DataSet() { Tables = { dt } };
+            return cli.GetSelfQueryListCount(SPID,DraftFlag,CompanyName,Flag,WWWAdress,Appid,ApplyTimeStart,ApplyTimeEnd,BankUserName,KFCheckUser,SuggestUser,MerType);
+            
         }
-        public DataSet GetSelfQueryList(string filter, int TopCount, int NotInCount)
+        public DataSet GetSelfQueryList(string SPID, int? DraftFlag, string CompanyName, int? Flag,string WWWAdress, string Appid,
+            DateTime? ApplyTimeStart, DateTime? ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType, int topCount, int notInCount)
         {
             SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
 
-            return cli.GetSelfQueryList(filter, TopCount, NotInCount);
+            return cli.GetSelfQueryList(SPID, DraftFlag, CompanyName,Flag,WWWAdress,  Appid, ApplyTimeStart,  ApplyTimeEnd,  BankUserName,  KFCheckUser,  SuggestUser,  MerType,  topCount,  notInCount);
         }
         public DataSet GetSelfQueryInfo(string ApplyCpInfoID)
         {
@@ -164,10 +160,10 @@ namespace CFT.CSOMS.DAL.SPOA
             cli.UpdateMspAmendInfoByTaskid(TaskId, Reason);
         }
 
-        public DataSet GetAllValueAddedTax(string filter, int TopCount, int NotInCount) 
+        public DataSet GetAllValueAddedTax(string Spid, string CompanyName, int topCount, int notInCount)
         {
             SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
-            return cli.GetAllValueAddedTax(filter, TopCount, NotInCount);
+            return cli.GetAllValueAddedTax(Spid, CompanyName, topCount, notInCount);
         }
         public DataSet GetOneValueAddedTax(string Spid) 
         {
@@ -180,10 +176,10 @@ namespace CFT.CSOMS.DAL.SPOA
             cli.ValueAddedTaxModify(Spid, Flag);
         }
 
-        public DataSet GetApplyValueAddedTax(string filter, int TopCount, int NotInCount) 
+        public DataSet GetApplyValueAddedTax(string Spid, string Flags, int topCount, int notInCount)
         {
             SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
-            return cli.GetApplyValueAddedTax(filter, TopCount, NotInCount);
+            return cli.GetApplyValueAddedTax(Spid,Flags,topCount,notInCount);
         }
         public DataSet GetValueAddedTaxDetail(string taskid) 
         {
@@ -196,21 +192,23 @@ namespace CFT.CSOMS.DAL.SPOA
             cli.ValueAddedTaxApprove(taskid, Memo, imgTaxCert, imgBizLicenseCert, imgAuthorizationCert, UserName);
         }
 
+        
         public DataSet GetSpidDomainQueryListCount(string filter)
         {
             SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
             DataTable dt = new DataTable();
             dt.Columns.Add("Count");
             DataRow dr = dt.NewRow();
-            dr["Count"] = cli.GetSpidDomainQueryListCount(filter);
+            //GetSpidDomainQueryListCount接口已经废弃
+            dr["Count"] = 0;//cli.GetSpidDomainQueryListCount(filter);
             dt.Rows.Add(dr);
             return new DataSet() { Tables = { dt } };
         }
 
-        public DataSet GetSpidDomainQueryList(string filter, string SubmitType, int TopCount, int NotInCount) 
+        public DataSet GetSpidDomainQueryList(string Spid, string CompanyName, DateTime? ApplyTimeStart, DateTime? ApplyTimeEnd, int? AmendState, string submitType, int topCount, int notInCount)
         {
             SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
-            return cli.GetSpidDomainQueryList(filter, SubmitType, TopCount, NotInCount);
+            return cli.GetSpidDomainQueryList(Spid,CompanyName,ApplyTimeStart,ApplyTimeEnd,AmendState,submitType,topCount, notInCount);
         }
 
         public DataSet QueryAmendMspInfo(string spid, string type, string caccounts)

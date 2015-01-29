@@ -147,6 +147,7 @@
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Services">
       <Name>System.Web.Services</Name>
     </Reference>
@@ -816,6 +817,13 @@
     <Compile Include="Control\commonDataSet.ascx.designer.cs">
       <DependentUpon>commonDataSet.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Control\HandQBusiness.ascx.cs">
+      <DependentUpon>HandQBusiness.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Control\HandQBusiness.ascx.designer.cs">
+      <DependentUpon>HandQBusiness.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Control\PNRQueryControl.ascx.cs">
       <DependentUpon>PNRQueryControl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1225,6 +1233,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HandQBusiness\FindHandQRedPacket.aspx.cs">
+      <DependentUpon>FindHandQRedPacket.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HandQBusiness\FindHandQRedPacket.aspx.designer.cs">
+      <DependentUpon>FindHandQRedPacket.aspx</DependentUpon>
     </Compile>
     <Compile Include="InternetBank\BillHistoryQuery.aspx.cs">
       <DependentUpon>BillHistoryQuery.aspx</DependentUpon>
@@ -2781,6 +2796,7 @@
     <Content Include="Control\commonDataSet.ascx">
       <SubType>UserControl</SubType>
     </Content>
+    <Content Include="Control\HandQBusiness.ascx" />
     <Content Include="Control\PNRQueryControl.ascx">
       <SubType>UserControl</SubType>
     </Content>
@@ -2898,6 +2914,7 @@
     <Content Include="Global.asax">
       <SubType>Component</SubType>
     </Content>
+    <Content Include="HandQBusiness\FindHandQRedPacket.aspx" />
     <Content Include="Images\Page\4.gif" />
     <Content Include="Images\Page\back.gif" />
     <Content Include="Images\Page\bg01.gif" />

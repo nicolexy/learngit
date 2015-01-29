@@ -18,12 +18,10 @@ namespace CFT.CSOMS.DAL.Infrastructure
         /// <summary>
         /// 调relay接口，返回全部字符串 自己拼接全部源串
         /// </summary>
-        /// <param name="relayRequestString">全部请求串</param>
-        /// <param name="relayIP"></param>
-        /// <param name="relayPort"></param>
-        /// <param name="coding">解码编码方式</param>
-        /// <param name="invisible">日志是否可视，默认false为可视</param>
-        /// <param name="relayDefaultSPId"></param>
+        /// <param name="inmsg"></param>
+        /// <param name="ip"></param>
+        /// <param name="port"></param>
+        /// <param name="Msg"></param>
         /// <returns></returns>
         public static string RelayInvoke(string relayRequestString, string relayIP = "", int relayPort = 0, string coding = "", bool invisible = false, string relayDefaultSPId = "")
         {
@@ -65,8 +63,9 @@ namespace CFT.CSOMS.DAL.Infrastructure
         {
             try
             {
+                
                 var relayResponse = RelayHelper.CommunicateWithRelay( requestString,  serviceCode,  encrypt,  invisible ,  relayIP ,  relayPort,  relayDefaultSPId);
-                return  Encoding.Default.GetString(relayResponse.ResponseBuffer);
+                return Encoding.Default.GetString(relayResponse.ResponseBuffer);
             } 
             catch (Exception err)
             {
@@ -76,6 +75,32 @@ namespace CFT.CSOMS.DAL.Infrastructure
             }
         }
 
+        /// <summary>
+        /// 调relay接口字节转UTF8
+        /// </summary>
+        /// <param name="requestString">请求串，包含接口特性的参数，不包含ver、head等</param>
+        /// <param name="serviceCode">request-type</param>
+        /// <param name="encrypt">请求串是否加密</param>
+        /// <param name="invisible"></param>
+        /// <param name="relayIP">ip 不填默认</param>
+        /// <param name="relayPort">端口 不填默认</param>
+        /// <param name="relayDefaultSPId">sp_id</param>
+        /// <returns></returns>
+        public static string RelayInvokeUTF(string requestString, string serviceCode, bool encrypt = false, bool invisible = false, string relayIP = "", int relayPort = 0, string relayDefaultSPId = "")
+        {
+            try
+            {
+
+                var relayResponse = RelayHelper.CommunicateWithRelay(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
+                return Encoding.UTF8.GetString(relayResponse.ResponseBuffer);
+            }
+            catch (Exception err)
+            {
+                string error = "调用relay服务前失败" + err.Message;
+                LogHelper.LogInfo(error);
+                throw new Exception(error);
+            }
+        }
         /// <summary>
         /// 
         /// 解析字符串到DataSet  接口返回字符串格式
@@ -104,6 +129,96 @@ namespace CFT.CSOMS.DAL.Infrastructure
             return ds;
         }
 
+        /// <summary>
+        /// 
+        /// 解析字符串到DataSet  接口返回字符串格式
+        /// </summary>
+        /// <param name="inmsg"></param>
+        /// <param name="ip"></param>
+        /// <param name="port"></param>
+        /// <param name="Msg"></param>
+        /// <returns></returns>
+        public static DataSet GetHBDetailFromRelay(string requestString, string serviceCode, string relayIP = "", int relayPort = 0, bool encrypt = false, bool invisible = false, string relayDefaultSPId = "")
+        {
+            string answer = "";          
+            try
+            {
+                var relayResponse = RelayHelper.CommunicateWithRelay(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
+                answer = Encoding.UTF8.GetString(relayResponse.ResponseBuffer);
+                //记录下日志
+                string strLog = string.Format("请求串:{0},通过UTF8转义结果:{1}", requestString, answer);
+                LogHelper.LogInfo(strLog, "GetHBDetailFromRelay");
+            }
+            catch (Exception err)
+            {
+                string error = "调用relay服务前失败" + err.Message;
+                LogHelper.LogInfo(error);
+                throw new Exception(error);
+            }
+            if (answer == "")
+            {
+                return null;
+            }
+            string strMsg = null;
+            return CommQuery.ParseHBDetailStr(answer, out strMsg);
+        }
+
+
+        /// <summary>
+        /// 
+        /// 解析字符串到DataSet  接口返回字符串格式
+        /// </summary>
+        /// <param name="inmsg"></param>
+        /// <param name="ip"></param>
+        /// <param name="port"></param>
+        /// <param name="Msg"></param>
+        /// <returns></returns>
+        public static DataSet GetHQDataFromRelay(string requestString, string serviceCode, string relayIP = "", int relayPort = 0, bool encrypt = false, bool invisible = false, string relayDefaultSPId = "")
+        {
+
+            string answer = "";
+            try
+            {
+
+                var relayResponse = RelayHelper.CommunicateWithRelay(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
+                answer = Encoding.UTF8.GetString(relayResponse.ResponseBuffer);
+                //记录下日志
+                string strLog = string.Format("请求串:{0},通过UTF8转义结果:{1}",requestString,answer);
+                LogHelper.LogInfo(strLog, "GetHQDataFromRelay");
+            }
+            catch (Exception err)
+            {
+                string error = "调用relay服务前失败" + err.Message;
+                LogHelper.LogInfo(error);
+                throw new Exception(error);
+            }
+            DataSet ds = null;
+            if (answer == "")
+            {
+                return null;
+            }
+            string Msg = "";
+            //解析
+            ds = CommQuery.ParseRelayStr(answer, out Msg);
+            if (Msg != "")
+            {
+                throw new Exception(Msg);
+            }
+            DataSet hbds = new DataSet();
+            string strMsg = null;
+            DataTable dt = CommQuery.ParseHQHBDataSet(ds, out strMsg);
+
+            if (dt != null)
+            {
+                hbds.Tables.Add(dt);
+            }
+            else
+            {
+                LogHelper.LogInfo(strMsg, "GetHQDataFromRelay-dt= null");
+            }
+            return hbds;
+                
+        }
         /// <summary>
         /// 
         /// 调用relay接口，接口返回xml格式，requestString只需传接口特性参数，不传ver=1&head_u=&sp_id=等

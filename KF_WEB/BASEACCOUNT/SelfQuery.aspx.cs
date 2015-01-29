@@ -146,23 +146,58 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 		private int GetCount()
 		{
+          
 			string filter = GetfilterString();
 			ViewState["filter"] = filter;
 
-			//Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+		  /*	//Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
             int count = 0;
-            DataSet ds = new SPOAService().GetSelfQueryListCount(filter);
+            DataSet ds = new SPOAService().GetSelfQueryListCount();
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0) 
             {
                 count = Convert.ToInt32(ds.Tables[0].Rows[0][0]);
+            }*/
+            //(string SPID, int? DraftFlag, string CompanyName, int? Flag,string WWWAdress, string Appid, DateTime? ApplyTimeStart, DateTime? ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType)
+
+
+
+            string SPID = (BoxCpNumber.Text.Trim() == "") ? "" : BoxCpNumber.Text.Trim();
+            int? DraftFlag = null;
+            string CompanyName = (BoxCpName.Text.Trim() == "") ? "" : BoxCpName.Text.Trim();
+            int? Flag = null;
+            if (BoxCpStatus.SelectedValue != "")
+            {
+                Flag = int.Parse(BoxCpStatus.SelectedValue);
             }
-            return count;
+            string WWWAdress = (boxWWWAddress.Text.Trim() == "") ? "" : boxWWWAddress.Text.Trim();
+            string Appid = (txtAppid.Text.Trim() == "") ? "" : txtAppid.Text.Trim();
+            DateTime? ApplyTimeStart = null;
+            if (!string.IsNullOrEmpty(TextBoxBeginDate.Text))
+            {
+                string strBeginTime = Convert.ToDateTime(TextBoxBeginDate.Text.Trim()).ToString("yyyy-MM-dd 00:00:00");
+                ApplyTimeStart = Convert.ToDateTime(strBeginTime);
+            }
+
+            DateTime? ApplyTimeEnd = null;
+            if (!string.IsNullOrEmpty(TextBoxEndDate.Text))
+            {
+                string strEndTime = Convert.ToDateTime(TextBoxEndDate.Text.Trim()).ToString("yyyy-MM-dd 23:59:59");
+                ApplyTimeEnd = Convert.ToDateTime(strEndTime);
+            }
+
+
+            string BankUserName = (tbBankName.Text.Trim() == "") ? "" : tbBankName.Text.Trim();
+            string KFCheckUser = (ddlKFList.SelectedValue == "") ? "" : ddlKFList.SelectedValue;
+            string SuggestUser = (tbSuggestUser.Text.Trim() == "") ? "" : tbSuggestUser.Text.Trim();
+            string MerType = (ddlMerType.SelectedValue == "") ? "" : ddlMerType.SelectedValue;
+            //(BoxCpNumber.Text.Trim(), 0, BoxCpName.Text.Trim(), BoxCpStatus.SelectedValue, boxWWWAddress.Text.Trim(), txtAppid.Text.Trim(), beginTime, endTime, tbBankName.Text.Trim(), ddlKFList.SelectedValue, tbSuggestUser.Text.Trim()," ddlMerType.SelectedValue");
+            return new SPOAService().GetSelfQueryListCount(SPID, DraftFlag, CompanyName, Flag, WWWAdress, Appid, ApplyTimeStart, ApplyTimeEnd, BankUserName, KFCheckUser, SuggestUser, MerType);
 		}
 
 		private void BindData(int index)
 		{
 			string filter = ViewState["filter"].ToString();
-            //string[] filter = GetfilterArrString();  //修改为数组方式查询 yinhuang 2014/05/12
+            string[] filter1 = GetfilterArrString();  //修改为数组方式查询 yinhuang 2014/05/12
 
 			int TopCount = pager.PageSize;
 			int NotInCount = TopCount * (index-1);
@@ -186,7 +221,36 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			qs.Finance_HeaderValue = fh;
 
 			//DataSet ds = qs.GetSelfQueryList(filter,TopCount,NotInCount);
-            DataSet ds = new SPOAService().GetSelfQueryList(filter, TopCount, NotInCount);
+            string SPID = (BoxCpNumber.Text.Trim() == "") ? "" : BoxCpNumber.Text.Trim();
+            int? DraftFlag = null;
+            string CompanyName = (BoxCpName.Text.Trim() == "") ? "" : BoxCpName.Text.Trim();
+            int? Flag = null;
+            if (BoxCpStatus.SelectedValue != "")
+            {
+                Flag = int.Parse(BoxCpStatus.SelectedValue);
+            }
+            string WWWAdress = (boxWWWAddress.Text.Trim() == "") ? "" : boxWWWAddress.Text.Trim();
+            string Appid = (txtAppid.Text.Trim() == "") ? "": txtAppid.Text.Trim();
+            DateTime? ApplyTimeStart = null;
+            if (!string.IsNullOrEmpty(TextBoxBeginDate.Text))
+            {
+                string strBeginTime = Convert.ToDateTime(TextBoxBeginDate.Text.Trim()).ToString("yyyy-MM-dd 00:00:00");
+                ApplyTimeStart = Convert.ToDateTime(strBeginTime);
+            }
+
+            DateTime? ApplyTimeEnd = null;
+            if (!string.IsNullOrEmpty(TextBoxEndDate.Text))
+            {
+                string strEndTime = Convert.ToDateTime(TextBoxEndDate.Text.Trim()).ToString("yyyy-MM-dd 23:59:59");
+                ApplyTimeEnd = Convert.ToDateTime(strEndTime);
+            }
+            
+            
+            string BankUserName = (tbBankName.Text.Trim() == "") ? "" : tbBankName.Text.Trim();
+            string KFCheckUser = (ddlKFList.SelectedValue == "") ? "" : ddlKFList.SelectedValue;
+            string SuggestUser = (tbSuggestUser.Text.Trim() == "") ? "" : tbSuggestUser.Text.Trim();
+            string MerType = (ddlMerType.SelectedValue == "") ? "" : ddlMerType.SelectedValue;
+            DataSet ds = new SPOAService().GetSelfQueryList(SPID, DraftFlag, CompanyName, Flag, WWWAdress, Appid, ApplyTimeStart, ApplyTimeEnd, BankUserName, KFCheckUser, SuggestUser, MerType, TopCount, NotInCount);
 
 			if(ds != null && ds.Tables.Count >0)
 			{

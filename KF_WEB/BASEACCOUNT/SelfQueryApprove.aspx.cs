@@ -122,8 +122,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			string filter = GetfilterString();
 			ViewState["filter"] = filter;
 
+
+            string strBeginTime = Convert.ToDateTime(TextBoxBeginDate.Text.Trim()).ToString("yyyy-MM-dd 00:00:00");
+            string strEndTime = Convert.ToDateTime(TextBoxEndDate.Text.Trim()).ToString("yyyy-MM-dd 23:59:59");
+
+            string xx = BoxCpName.Text.Trim();
+           // int index = int.Parse(BoxCpStatus.SelectedValue);
+            string SPID = BoxCpNumber.Text.Trim();
+            int? DraftFlag = 0;
+            string CompanyName = BoxCpName.Text.Trim();
+            int? Flag = -1;
+            string WWWAdress = boxWWWAddress.Text.Trim();
+            string Appid = null;//txtAppid.Text.Trim();
+            DateTime? ApplyTimeStart = Convert.ToDateTime(strBeginTime);
+            DateTime? ApplyTimeEnd = Convert.ToDateTime(strEndTime);
+            string BankUserName = tbBankName.Text.Trim();
+            string KFCheckUser = Session["uid"].ToString();
+            string SuggestUser = tbSuggestUser.Text.Trim();
+            string MerType = null;//ddlMerType.SelectedValue;
+
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-			return Convert.ToInt32(qs.GetSelfQueryListCount(filter).Tables[0].Rows[0][0]);
+			return qs.GetSelfQueryListCount(SPID, DraftFlag, CompanyName, Flag, WWWAdress, Appid, ApplyTimeStart, ApplyTimeEnd, BankUserName, KFCheckUser, SuggestUser, MerType);
 		}
 
 		private void BindData(int index)
@@ -158,8 +177,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			{
 					
 			}
+            string strBeginTime = Convert.ToDateTime(TextBoxBeginDate.Text.Trim()).ToString("yyyy-MM-dd 00:00:00");
+            string strEndTime = Convert.ToDateTime(TextBoxEndDate.Text.Trim()).ToString("yyyy-MM-dd 23:59:59");
 
-			DataSet ds = qs.GetSelfQueryList(filter,TopCount,NotInCount);
+            string xx = BoxCpName.Text.Trim();
+            // int index = int.Parse(BoxCpStatus.SelectedValue);
+            string SPID = BoxCpNumber.Text.Trim();
+            int? DraftFlag = 0;
+            string CompanyName = BoxCpName.Text.Trim();
+            int? Flag = -1;
+            string WWWAdress = boxWWWAddress.Text.Trim();
+            string Appid = null;//txtAppid.Text.Trim();
+            DateTime? ApplyTimeStart = Convert.ToDateTime(strBeginTime);
+            DateTime? ApplyTimeEnd = Convert.ToDateTime(strEndTime);
+            string BankUserName = tbBankName.Text.Trim();
+            string KFCheckUser = Session["uid"].ToString();
+            string SuggestUser = tbSuggestUser.Text.Trim();
+            string MerType = null;//ddlMerType.SelectedValue;
+            DataSet ds = qs.GetSelfQueryList(SPID, DraftFlag, CompanyName, Flag, WWWAdress, Appid, ApplyTimeStart, ApplyTimeEnd, BankUserName, KFCheckUser, SuggestUser, MerType, TopCount, NotInCount);
 
 			if(ds != null && ds.Tables.Count >0)
 			{

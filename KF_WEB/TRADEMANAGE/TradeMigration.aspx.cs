@@ -77,19 +77,33 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             }
         }
+        //设置soap头信息
+        private ZWCheck_Service.Finance_Header SetWebServiceHeader(TemplateControl page)
+        {
 
+            ZWCheck_Service.Finance_Header header = new ZWCheck_Service.Finance_Header();
+            //header.SrcUrl = page.Page.Request.Url.ToString();
+            header.UserIP = page.Page.Request.UserHostAddress;
+            header.UserName = (page.Page.Session["uid"] == null) ? "" : page.Page.Session["uid"].ToString();
+            //header.SessionID = page.Page.Session.SessionID;
+            header.SzKey = (page.Page.Session["SzKey"] == null) ? "" : page.Page.Session["SzKey"].ToString();
+            header.OperID = (page.Page.Session["OperID"] == null) ? 0 : Int32.Parse(page.Page.Session["OperID"].ToString());
+            header.RightString = (page.Page.Session["SzKey"] == null) ? "" : page.Page.Session["SzKey"].ToString();
+            return header;
+        }
         private bool MigrationCheck(string tradeId, out string msg)
         {
             msg = "";
             try
             {
-                Check_WebService.Param[] parameters = new Check_WebService.Param[1];
-                parameters[0] = new Check_WebService.Param();
+                ZWCheck_Service.Check_Service checkService = new ZWCheck_Service.Check_Service();
+                ZWCheck_Service.Param[] parameters = new ZWCheck_Service.Param[1];
+                parameters[0] = new ZWCheck_Service.Param();
                 parameters[0].ParamName = "MsgId";
                 parameters[0].ParamValue = tradeId;
-
-                PublicRes.CreateCheckService(this).StartCheck(tradeId, "TradeMigration", "交易单迁移申请", "0", parameters);
-
+                checkService.Finance_HeaderValue = SetWebServiceHeader(this);
+                checkService.StartCheck(tradeId, "TradeMigration", "交易单迁移申请", "0", parameters);
+                //PublicRes.CreateCheckService(this).StartCheck(tradeId, "TradeMigration", "交易单迁移申请", "0", parameters);
                 return true;
 
             }

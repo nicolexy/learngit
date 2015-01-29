@@ -22,6 +22,10 @@
         {
             _height:expression(this.offsetParent.offsetHeight+"px");
         }
+        .auto-style1
+        {
+            width: 870px;
+        }
     </style>
 </head>
 <body>
@@ -36,9 +40,9 @@
                                 src="../IMAGES/Page/post.gif" width="20">
                                 境外收单退款</font>
                         </td>
-                        <td width="20%" style="background-image: ../IMAGES/Page/bg_bl.gif">
+                        <td width="20%" style="background-image: ../IMAGES/Page/bg_bl.gif" nowrap>
                             操作员代码: <span class="style3">
-                                <asp:Label ID="Label_uid" runat="server" Width="73px"></asp:Label></span>
+                                <asp:Label ID="Label_uid" runat="server" Width="200px"></asp:Label></span>
                         </td>
                     </tr>
                 </table>
@@ -48,13 +52,13 @@
             <td colspan="2">
                 <table  cellspacing="0" cellpadding="1" width="100%" border="0">
                     <tr>
-                        <td style="padding-left: 100px">
+                        <td style="padding-left: 10px">
                             交易单号：&nbsp;
-                            <asp:TextBox ID="TextTransactionId" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="TextTransactionId" runat="server" Width="250px"></asp:TextBox>
                         </td>
-                        <td style="padding-left: 100px">
+                        <td style="padding-left: 10px">
                             退款单号：&nbsp;
-                            <asp:TextBox ID="TextDrawId" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="TextDrawId" runat="server" Width="250px"></asp:TextBox>
                         </td>
                         <td style="padding-left: 100px">
                         <asp:button id="Button" runat="server" Width="80px" Text="查 询" onclick="Button_Click"></asp:button>
@@ -65,12 +69,12 @@
         </tr>
     </table>
       <br />
-    <table id="table3" cellspacing="1" cellpadding="0" width="95%" align="center" border="0" frame="box" runat="server">
+    <table id="table3" cellspacing="1" cellpadding="0" width="105%" align="center" border="0" frame="box" runat="server">
          <tr>
            <td  width="100%">
-                <table width="100%" cellspacing="0" cellpadding="0" align="left" border="1" frame="box" rules="all">
+                <table width="95%" cellspacing="0" cellpadding="0" align="left" border="1" frame="box" rules="all">
                     <tr bgcolor="#e4e5f7" background="../IMAGES/Page/bg_bl.gif">
-                        <td background="../IMAGES/Page/bg_bl.gif" height="20" class="style4">
+                        <td background="../IMAGES/Page/bg_bl.gif" height="20" class="auto-style1">
                             <strong><font color="#ff0000">&nbsp;<img height="16" src="../IMAGES/Page/post.gif"
                                 width="20" />
                             </font></strong><font color="#ff0000">境外商户退款详情表</font>
@@ -80,9 +84,9 @@
                         </td>
                     </tr>
                      <tr width="100%">
-						<TD vAlign="top" align="center" class="style4"><asp:datagrid id="Datagrid1" runat="server" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center"
+						<TD vAlign="top" align="center" class="auto-style1"><asp:datagrid id="Datagrid1" runat="server" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center"
 								HorizontalAlign="Center" PageSize="5" AutoGenerateColumns="False" GridLines="Horizontal" CellPadding="1" BackColor="White"  OnItemDataBound="DataGrid1_ItemDataBound"
-								BorderWidth="1px" BorderStyle="None" BorderColor="#E7E7FF" AllowPaging="false" width="100%" ShowFooter="false" >
+								BorderWidth="1px" BorderStyle="None" BorderColor="#E7E7FF" AllowPaging="false" width="95%" ShowFooter="false" >
 								<FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
 								<SelectedItemStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#738A9C"></SelectedItemStyle>
 								<AlternatingItemStyle BackColor="#F7F7F7"></AlternatingItemStyle>
@@ -92,7 +96,7 @@
 									<asp:BoundColumn DataField="Ftransaction_id" HeaderText="交易单号">
 										<HeaderStyle Width="200px"></HeaderStyle>
                                     </asp:BoundColumn>
-                                    <asp:BoundColumn DataField="Fdraw_id" HeaderText="退款单号">
+                                    <asp:BoundColumn DataField="Fdraw_id" HeaderText="财付通退款单号">
 									    <HeaderStyle Width="200px"></HeaderStyle>
 									</asp:BoundColumn>
 									<asp:BoundColumn DataField="Fspid" HeaderText="商户号">
@@ -105,19 +109,25 @@
 										<HeaderStyle Width="100px"></HeaderStyle>
 									</asp:BoundColumn>
 									<asp:BoundColumn DataField="Frefund_req_fee_str" HeaderText="退款金额(外币)">
-										<HeaderStyle Width="100px"></HeaderStyle>
+										<HeaderStyle Width="150px"></HeaderStyle>
 									</asp:BoundColumn>
                                     <asp:BoundColumn DataField="Frefund_req_fee_rmb_str" HeaderText="退款金额(人民币)">
-										<HeaderStyle Width="100px"></HeaderStyle>
+										<HeaderStyle Width="170px"></HeaderStyle>
 									</asp:BoundColumn>
-                                    <asp:BoundColumn DataField="Fmemo" HeaderText="备注">
+                                   <%-- %> <asp:BoundColumn DataField="Fmemo" HeaderText="备注">
 										<HeaderStyle Width="200px"></HeaderStyle>
-									</asp:BoundColumn>
+									</asp:BoundColumn> --%>
                                      <asp:BoundColumn DataField="Fmodify_time" HeaderText="修改时间(本地)">
-										<HeaderStyle Width="100px"></HeaderStyle>
+										<HeaderStyle Width="150px"></HeaderStyle>
 									</asp:BoundColumn>
                                      <asp:BoundColumn DataField="Fcreate_time" HeaderText="创建时间(本地)">
-										<HeaderStyle Width="100px"></HeaderStyle>
+										<HeaderStyle Width="150px"></HeaderStyle>
+                                     </asp:BoundColumn>
+                                    <asp:BoundColumn DataField="Frefund_coding" HeaderText="商户退款单号">
+										<HeaderStyle Width="150px"></HeaderStyle>
+                                     </asp:BoundColumn>
+                                      <asp:BoundColumn DataField="Frefund_status_str" HeaderText="外币退款单状态">
+										<HeaderStyle Width="150px"></HeaderStyle>
                                      </asp:BoundColumn>
                                     <%-- <asp:BoundColumn DataField="order_exist" HeaderText="核心订单">
 										<HeaderStyle Width="100px"></HeaderStyle>
@@ -127,21 +137,22 @@
                                      </asp:BoundColumn>
 								    <asp:TemplateColumn>
 									    <ItemTemplate>
-										    <asp:Button id="queryButton" Visible="false" runat="server" CommandName="query" Text="核心交易退款详情"></asp:Button>
+										    <!--<asp:Button id="queryButton" Visible="false" runat="server" CommandName="query" Text="核心交易退款详情"></asp:Button>-->
+                                            <asp:button id="DetailID" runat="server"  Visible="false" Width="120px" Text="核心交易退款详情"  CommandName = "query"></asp:button>
 									    </ItemTemplate>
 								   </asp:TemplateColumn>
 								</Columns>
 								<PagerStyle ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>
-							</asp:datagrid></TD>
+							</asp:datagrid>&nbsp;<asp:button id="Detail" runat="server" Width="120px" Text="核心交易退款详情" onclick="Detail_Click"></asp:button>
+                         &nbsp;</TD>
 				    	</tr>
                     <tr>
-                        <td class="style4" Width="100%" height="30">
-                         <asp:button id="Detail" runat="server" Width="120px" Text="核心交易退款详情" onclick="Detail_Click"></asp:button>
-                        </td>
+                        <td class="auto-style1" height="30">
+                            &nbsp;</td>
                      </tr>
                    
                      <tr width="100%">
-                     <td class="style4" >
+                     <td class="auto-style1" >
                       <table cellSpacing="0" cellPadding="0" width="100%" border="0">
 					    <tr>
 						<TD vAlign="top" align="center"><asp:datagrid id="dgList" runat="server" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center"

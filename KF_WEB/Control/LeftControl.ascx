@@ -30,6 +30,7 @@
 <%@ Register TagPrefix="uc1" TagName="ForeignCurrencyAccount" Src="ForeignCurrencyAccount.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="ForeignCardPay" Src="ForeignCardPay.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="PNRQuery" Src="PNRQueryControl.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="HandQBusiness" Src="HandQBusiness.ascx" %>
 
 <script language="javascript" type="text/javascript" src="scripts/local.js"></script>
 <script language="javascript" type="text/javascript">
@@ -88,6 +89,7 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
 			            <uc1:LifeFeeDetailManage id="LifeFeeDetailManage1" runat="Server"></uc1:LifeFeeDetailManage><!--生活缴费-->
                         <uc1:MediumTradeManage id="MediumTradeManage1" runat="server"></uc1:MediumTradeManage><!--中介交易-->
                         <uc1:InternetBank ID="InternetBank" runat="server" /><!--网银查询-->
+                        <uc1:HandQBusiness ID="HandQBusiness" runat="server" /><!--手Q业务-->
                   </td>
                 </tr>
                 <tr style="cursor:hand" onclick="javascript:showHidenMenu('bussInfo')">

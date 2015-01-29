@@ -387,6 +387,43 @@ namespace CFT.CSOMS.DAL.ActivityModule
 
             }
         }
+        private string GetParamFields()
+        {
+            return "select Fuin,FActId,FTransId,Fuin,FState,FPrizeDesc,FPrizeInfo,FPayFee,FPayTime,FCreateTime,FErrInfo,FUsrState,FPrizeLv,FPrizeType,FStandby2 from  ";
+        }
+
+        //手Q活动
+        public DataSet QueryHandQActivity(string strUin, string strBegingTime, string strEndTime, int nStart, int nCount)
+        {
+            if (string.IsNullOrEmpty(strUin))
+            {
+                throw new ArgumentNullException("请输入财付通帐号。");
+            }
+
+            int len = strUin.Length;
+            string tableName = "db_action_mobileqq.t_pay_action_" + strUin.Substring(len - 2);
+
+            StringBuilder Sql = new StringBuilder(GetParamFields() + tableName);
+            Sql.Append(" where Fuin=" + strUin);
+            if (!string.IsNullOrEmpty(strBegingTime))
+            {
+                Sql.Append(" AND FCreateTime >='" + strBegingTime + "'");
+            }
+            if (!string.IsNullOrEmpty(strEndTime))
+            {
+                Sql.Append(" AND FCreateTime <='" + strEndTime + "'");
+            }
+            Sql.Append(" limit " + nStart + "," + nCount);
+
+            using (var da = MySQLAccessFactory.GetMySQLAccess("HandQInfo"))
+            {
+                da.OpenConn();
+
+                DataSet ds = da.dsGetTotalData(Sql.ToString());
+
+                return ds;
+            }
+        }
 
     }
 }

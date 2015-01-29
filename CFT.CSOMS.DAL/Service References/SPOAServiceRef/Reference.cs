@@ -15,14 +15,8 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SPOAServiceRef.IGeneralSPOAService")]
     public interface IGeneralSPOAService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/OpenAgency", ReplyAction="http://tempuri.org/IGeneralSPOAService/OpenAgencyResponse")]
-        string OpenAgency(string fspid, string opuser, string freson);
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/RestoreOfSpid", ReplyAction="http://tempuri.org/IGeneralSPOAService/RestoreOfSpidResponse")]
         string RestoreOfSpid(string fspid, string opuser, string freson);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetCheckInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetCheckInfoResponse")]
-        System.Data.DataSet GetCheckInfo(string ApplyCpInfoID, int checktype);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ReSendEmail_ToSP", ReplyAction="http://tempuri.org/IGeneralSPOAService/ReSendEmail_ToSPResponse")]
         bool ReSendEmail_ToSP(out string resultstr, string SPID, string ApplyUser);
@@ -105,6 +99,9 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/CloseAgency", ReplyAction="http://tempuri.org/IGeneralSPOAService/CloseAgencyResponse")]
         string CloseAgency(string fspid, string opuser, string freson);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/OpenAgency", ReplyAction="http://tempuri.org/IGeneralSPOAService/OpenAgencyResponse")]
+        string OpenAgency(string fspid, string opuser, string freson);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessList", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessListResponse")]
         System.Data.DataSet GetAgencyBusinessList(string qqid, string domain, int notInCount, int topCount);
         
@@ -133,10 +130,10 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         System.Data.DataSet GetSelfKFList();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetSelfQueryListCount", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetSelfQueryListCountResponse")]
-        int GetSelfQueryListCount(string filter);
+        int GetSelfQueryListCount(string SPID, System.Nullable<int> DraftFlag, string CompanyName, System.Nullable<int> Flag, string WWWAdress, string Appid, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetSelfQueryList", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetSelfQueryListResponse")]
-        System.Data.DataSet GetSelfQueryList(string filter, int topCount, int notInCount);
+        System.Data.DataSet GetSelfQueryList(string SPID, System.Nullable<int> DraftFlag, string CompanyName, System.Nullable<int> Flag, string WWWAdress, string Appid, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType, int topCount, int notInCount);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetSelfQuerySPType", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetSelfQuerySPTypeResponse")]
         System.Data.DataSet GetSelfQuerySPType();
@@ -145,16 +142,13 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         System.Data.DataSet GetSelfQueryInfo(string applyCpInfoID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetSpidDomainQueryList", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetSpidDomainQueryListResponse")]
-        System.Data.DataSet GetSpidDomainQueryList(string filter, string submitType, int topCount, int notInCount);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetSpidDomainQueryListCount", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetSpidDomainQueryListCountResponse")]
-        int GetSpidDomainQueryListCount(string filter);
+        System.Data.DataSet GetSpidDomainQueryList(string Spid, string CompanyName, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, System.Nullable<int> AmendState, string submitType, int topCount, int notInCount);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetOneValueAddedTax", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetOneValueAddedTaxResponse")]
         System.Data.DataSet GetOneValueAddedTax(string spid);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetAllValueAddedTax", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetAllValueAddedTaxResponse")]
-        System.Data.DataSet GetAllValueAddedTax(string filter, int topCount, int notInCount);
+        System.Data.DataSet GetAllValueAddedTax(string Spid, string CompanyName, int topCount, int notInCount);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetValueAddedTaxDetail", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetValueAddedTaxDetailResponse")]
         System.Data.DataSet GetValueAddedTaxDetail(string taskid);
@@ -169,7 +163,7 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         string GetBDName(string spid);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetApplyValueAddedTax", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetApplyValueAddedTaxResponse")]
-        System.Data.DataSet GetApplyValueAddedTax(string filter, int topCount, int notInCount);
+        System.Data.DataSet GetApplyValueAddedTax(string Spid, string Flags, int topCount, int notInCount);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/QueryBussFreezeList", ReplyAction="http://tempuri.org/IGeneralSPOAService/QueryBussFreezeListResponse")]
         System.Data.DataSet QueryBussFreezeList(string spid, string type, string state);
@@ -188,6 +182,9 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/QueryAmendMspInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/QueryAmendMspInfoResponse")]
         System.Data.DataSet QueryAmendMspInfo(string spid, string type, string caccounts);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetCheckInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetCheckInfoResponse")]
+        System.Data.DataSet GetCheckInfo(string ApplyCpInfoID, int checktype);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -217,16 +214,8 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
                 base(binding, remoteAddress) {
         }
         
-        public string OpenAgency(string fspid, string opuser, string freson) {
-            return base.Channel.OpenAgency(fspid, opuser, freson);
-        }
-        
         public string RestoreOfSpid(string fspid, string opuser, string freson) {
             return base.Channel.RestoreOfSpid(fspid, opuser, freson);
-        }
-        
-        public System.Data.DataSet GetCheckInfo(string ApplyCpInfoID, int checktype) {
-            return base.Channel.GetCheckInfo(ApplyCpInfoID, checktype);
         }
         
         public bool ReSendEmail_ToSP(out string resultstr, string SPID, string ApplyUser) {
@@ -337,6 +326,10 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
             return base.Channel.CloseAgency(fspid, opuser, freson);
         }
         
+        public string OpenAgency(string fspid, string opuser, string freson) {
+            return base.Channel.OpenAgency(fspid, opuser, freson);
+        }
+        
         public System.Data.DataSet GetAgencyBusinessList(string qqid, string domain, int notInCount, int topCount) {
             return base.Channel.GetAgencyBusinessList(qqid, domain, notInCount, topCount);
         }
@@ -373,12 +366,12 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
             return base.Channel.GetSelfKFList();
         }
         
-        public int GetSelfQueryListCount(string filter) {
-            return base.Channel.GetSelfQueryListCount(filter);
+        public int GetSelfQueryListCount(string SPID, System.Nullable<int> DraftFlag, string CompanyName, System.Nullable<int> Flag, string WWWAdress, string Appid, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType) {
+            return base.Channel.GetSelfQueryListCount(SPID, DraftFlag, CompanyName, Flag, WWWAdress, Appid, ApplyTimeStart, ApplyTimeEnd, BankUserName, KFCheckUser, SuggestUser, MerType);
         }
         
-        public System.Data.DataSet GetSelfQueryList(string filter, int topCount, int notInCount) {
-            return base.Channel.GetSelfQueryList(filter, topCount, notInCount);
+        public System.Data.DataSet GetSelfQueryList(string SPID, System.Nullable<int> DraftFlag, string CompanyName, System.Nullable<int> Flag, string WWWAdress, string Appid, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType, int topCount, int notInCount) {
+            return base.Channel.GetSelfQueryList(SPID, DraftFlag, CompanyName, Flag, WWWAdress, Appid, ApplyTimeStart, ApplyTimeEnd, BankUserName, KFCheckUser, SuggestUser, MerType, topCount, notInCount);
         }
         
         public System.Data.DataSet GetSelfQuerySPType() {
@@ -389,20 +382,16 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
             return base.Channel.GetSelfQueryInfo(applyCpInfoID);
         }
         
-        public System.Data.DataSet GetSpidDomainQueryList(string filter, string submitType, int topCount, int notInCount) {
-            return base.Channel.GetSpidDomainQueryList(filter, submitType, topCount, notInCount);
-        }
-        
-        public int GetSpidDomainQueryListCount(string filter) {
-            return base.Channel.GetSpidDomainQueryListCount(filter);
+        public System.Data.DataSet GetSpidDomainQueryList(string Spid, string CompanyName, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, System.Nullable<int> AmendState, string submitType, int topCount, int notInCount) {
+            return base.Channel.GetSpidDomainQueryList(Spid, CompanyName, ApplyTimeStart, ApplyTimeEnd, AmendState, submitType, topCount, notInCount);
         }
         
         public System.Data.DataSet GetOneValueAddedTax(string spid) {
             return base.Channel.GetOneValueAddedTax(spid);
         }
         
-        public System.Data.DataSet GetAllValueAddedTax(string filter, int topCount, int notInCount) {
-            return base.Channel.GetAllValueAddedTax(filter, topCount, notInCount);
+        public System.Data.DataSet GetAllValueAddedTax(string Spid, string CompanyName, int topCount, int notInCount) {
+            return base.Channel.GetAllValueAddedTax(Spid, CompanyName, topCount, notInCount);
         }
         
         public System.Data.DataSet GetValueAddedTaxDetail(string taskid) {
@@ -421,8 +410,8 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
             return base.Channel.GetBDName(spid);
         }
         
-        public System.Data.DataSet GetApplyValueAddedTax(string filter, int topCount, int notInCount) {
-            return base.Channel.GetApplyValueAddedTax(filter, topCount, notInCount);
+        public System.Data.DataSet GetApplyValueAddedTax(string Spid, string Flags, int topCount, int notInCount) {
+            return base.Channel.GetApplyValueAddedTax(Spid, Flags, topCount, notInCount);
         }
         
         public System.Data.DataSet QueryBussFreezeList(string spid, string type, string state) {
@@ -447,6 +436,10 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         
         public System.Data.DataSet QueryAmendMspInfo(string spid, string type, string caccounts) {
             return base.Channel.QueryAmendMspInfo(spid, type, caccounts);
+        }
+        
+        public System.Data.DataSet GetCheckInfo(string ApplyCpInfoID, int checktype) {
+            return base.Channel.GetCheckInfo(ApplyCpInfoID, checktype);
         }
     }
 }

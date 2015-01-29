@@ -45,7 +45,7 @@
 						</table>
 					</td>
 					<td width="25%">
-						<div align="center"><asp:button id="btMigration" runat="server" BorderStyle="Groove" Width="66px" Text="Ç¨ÒÆ" Height="23px"></asp:button>&nbsp;
+						<div align="center"><asp:button id="btMigration" runat="server" BorderStyle="Groove" Width="66px" Text="Ç¨ÒÆ" Height="23px" ></asp:button>&nbsp;
 						</div>
 					</td>
 				</tr>

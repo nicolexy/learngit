@@ -466,5 +466,10 @@ namespace CFT.CSOMS.BLL.ActivityModule
         {
             return new ActivityData().GetChannelIDByFUId(FUid);
         }
+
+        public DataSet QueryHandQActivity(string strListID, string strBegingTime, string strEndTime, int nStart, int nCount)
+        {
+            return new ActivityData().QueryHandQActivity(strListID, strBegingTime, strEndTime, nStart,nCount);
+        }
     }
 }
