@@ -63,7 +63,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			{
 				ViewState["showEndDate"] = "0";
 
-				if(System.Configuration.ConfigurationManager.AppSettings["isTestingMode"].ToString().ToLower() == "false")
+                if (System.Configuration.ConfigurationManager.AppSettings["isTestingMode"].ToString().ToLower() == "false")//²âÊÔÊ±false¸ÄÎªtrue
 				{
 					sign   = Request.QueryString["id"].ToString();
 					uid = Request.QueryString["uid"].ToString();

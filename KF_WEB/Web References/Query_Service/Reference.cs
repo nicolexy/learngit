@@ -185,6 +185,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         private System.Threading.SendOrPostCallback AtuoRenewUnbindOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ModifyUserInfoOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback modifyUserTypeOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback modifyAttTypeOperationCompleted;
+        
         private System.Threading.SendOrPostCallback WS_AppealSQueryOperationCompleted;
         
         private System.Threading.SendOrPostCallback WS_AppealSQueryCountOperationCompleted;
@@ -1260,6 +1266,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         /// <remarks/>
         public event AtuoRenewUnbindCompletedEventHandler AtuoRenewUnbindCompleted;
+        
+        /// <remarks/>
+        public event ModifyUserInfoCompletedEventHandler ModifyUserInfoCompleted;
+        
+        /// <remarks/>
+        public event modifyUserTypeCompletedEventHandler modifyUserTypeCompleted;
+        
+        /// <remarks/>
+        public event modifyAttTypeCompletedEventHandler modifyAttTypeCompleted;
         
         /// <remarks/>
         public event WS_AppealSQueryCompletedEventHandler WS_AppealSQueryCompleted;
@@ -6082,6 +6097,148 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
             if ((this.AtuoRenewUnbindCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.AtuoRenewUnbindCompleted(this, new AtuoRenewUnbindCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("Finance_HeaderValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/ModifyUserInfo", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool ModifyUserInfo(T_FIELD_VALUE[] Params) {
+            object[] results = this.Invoke("ModifyUserInfo", new object[] {
+                        Params});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginModifyUserInfo(T_FIELD_VALUE[] Params, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("ModifyUserInfo", new object[] {
+                        Params}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public bool EndModifyUserInfo(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ModifyUserInfoAsync(T_FIELD_VALUE[] Params) {
+            this.ModifyUserInfoAsync(Params, null);
+        }
+        
+        /// <remarks/>
+        public void ModifyUserInfoAsync(T_FIELD_VALUE[] Params, object userState) {
+            if ((this.ModifyUserInfoOperationCompleted == null)) {
+                this.ModifyUserInfoOperationCompleted = new System.Threading.SendOrPostCallback(this.OnModifyUserInfoOperationCompleted);
+            }
+            this.InvokeAsync("ModifyUserInfo", new object[] {
+                        Params}, this.ModifyUserInfoOperationCompleted, userState);
+        }
+        
+        private void OnModifyUserInfoOperationCompleted(object arg) {
+            if ((this.ModifyUserInfoCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ModifyUserInfoCompleted(this, new ModifyUserInfoCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("Finance_HeaderValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/modifyUserType", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool modifyUserType(string qqid, string userType, string oldusertype, out string Msg) {
+            object[] results = this.Invoke("modifyUserType", new object[] {
+                        qqid,
+                        userType,
+                        oldusertype});
+            Msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginmodifyUserType(string qqid, string userType, string oldusertype, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("modifyUserType", new object[] {
+                        qqid,
+                        userType,
+                        oldusertype}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public bool EndmodifyUserType(System.IAsyncResult asyncResult, out string Msg) {
+            object[] results = this.EndInvoke(asyncResult);
+            Msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void modifyUserTypeAsync(string qqid, string userType, string oldusertype) {
+            this.modifyUserTypeAsync(qqid, userType, oldusertype, null);
+        }
+        
+        /// <remarks/>
+        public void modifyUserTypeAsync(string qqid, string userType, string oldusertype, object userState) {
+            if ((this.modifyUserTypeOperationCompleted == null)) {
+                this.modifyUserTypeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnmodifyUserTypeOperationCompleted);
+            }
+            this.InvokeAsync("modifyUserType", new object[] {
+                        qqid,
+                        userType,
+                        oldusertype}, this.modifyUserTypeOperationCompleted, userState);
+        }
+        
+        private void OnmodifyUserTypeOperationCompleted(object arg) {
+            if ((this.modifyUserTypeCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.modifyUserTypeCompleted(this, new modifyUserTypeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("Finance_HeaderValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/modifyAttType", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool modifyAttType(string qqid, string atttype, string oldattid, out string Msg) {
+            object[] results = this.Invoke("modifyAttType", new object[] {
+                        qqid,
+                        atttype,
+                        oldattid});
+            Msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginmodifyAttType(string qqid, string atttype, string oldattid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("modifyAttType", new object[] {
+                        qqid,
+                        atttype,
+                        oldattid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public bool EndmodifyAttType(System.IAsyncResult asyncResult, out string Msg) {
+            object[] results = this.EndInvoke(asyncResult);
+            Msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void modifyAttTypeAsync(string qqid, string atttype, string oldattid) {
+            this.modifyAttTypeAsync(qqid, atttype, oldattid, null);
+        }
+        
+        /// <remarks/>
+        public void modifyAttTypeAsync(string qqid, string atttype, string oldattid, object userState) {
+            if ((this.modifyAttTypeOperationCompleted == null)) {
+                this.modifyAttTypeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnmodifyAttTypeOperationCompleted);
+            }
+            this.InvokeAsync("modifyAttType", new object[] {
+                        qqid,
+                        atttype,
+                        oldattid}, this.modifyAttTypeOperationCompleted, userState);
+        }
+        
+        private void OnmodifyAttTypeOperationCompleted(object arg) {
+            if ((this.modifyAttTypeCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.modifyAttTypeCompleted(this, new modifyAttTypeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -20870,11 +21027,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("Finance_HeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetFreezeList_New", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetFreezeList_New(string qqid, string szBeginDate, string szEndDate, int iStatue, string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType, out int AllRecordCount) {
+        public System.Data.DataSet GetFreezeList_New(string qqid, string szBeginDate, string szEndDate, int ftype, int iStatue, string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType, out int AllRecordCount) {
             object[] results = this.Invoke("GetFreezeList_New", new object[] {
                         qqid,
                         szBeginDate,
                         szEndDate,
+                        ftype,
                         iStatue,
                         szListID,
                         szFreezeUser,
@@ -20887,11 +21045,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetFreezeList_New(string qqid, string szBeginDate, string szEndDate, int iStatue, string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetFreezeList_New(string qqid, string szBeginDate, string szEndDate, int ftype, int iStatue, string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetFreezeList_New", new object[] {
                         qqid,
                         szBeginDate,
                         szEndDate,
+                        ftype,
                         iStatue,
                         szListID,
                         szFreezeUser,
@@ -20909,12 +21068,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         }
         
         /// <remarks/>
-        public void GetFreezeList_NewAsync(string qqid, string szBeginDate, string szEndDate, int iStatue, string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType) {
-            this.GetFreezeList_NewAsync(qqid, szBeginDate, szEndDate, iStatue, szListID, szFreezeUser, szFreezeReason, iPageStart, iPageMax, orderType, null);
+        public void GetFreezeList_NewAsync(string qqid, string szBeginDate, string szEndDate, int ftype, int iStatue, string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType) {
+            this.GetFreezeList_NewAsync(qqid, szBeginDate, szEndDate, ftype, iStatue, szListID, szFreezeUser, szFreezeReason, iPageStart, iPageMax, orderType, null);
         }
         
         /// <remarks/>
-        public void GetFreezeList_NewAsync(string qqid, string szBeginDate, string szEndDate, int iStatue, string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType, object userState) {
+        public void GetFreezeList_NewAsync(string qqid, string szBeginDate, string szEndDate, int ftype, int iStatue, string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType, object userState) {
             if ((this.GetFreezeList_NewOperationCompleted == null)) {
                 this.GetFreezeList_NewOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetFreezeList_NewOperationCompleted);
             }
@@ -20922,6 +21081,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
                         qqid,
                         szBeginDate,
                         szEndDate,
+                        ftype,
                         iStatue,
                         szListID,
                         szFreezeUser,
@@ -27253,6 +27413,63 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
     }
     
     /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34234")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService")]
+    public partial class T_FIELD_VALUE {
+        
+        private string fieldNameField;
+        
+        private string fieldValueField;
+        
+        private string fOldValueField;
+        
+        private string fTrueNameField;
+        
+        /// <remarks/>
+        public string FieldName {
+            get {
+                return this.fieldNameField;
+            }
+            set {
+                this.fieldNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string FieldValue {
+            get {
+                return this.fieldValueField;
+            }
+            set {
+                this.fieldValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string FOldValue {
+            get {
+                return this.fOldValueField;
+            }
+            set {
+                this.fOldValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string FTrueName {
+            get {
+                return this.fTrueNameField;
+            }
+            set {
+                this.fTrueNameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(T_USER_MED))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(T_BANKBULLETIN_INFO))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(T_PUCNEWSERVICE_INFO))]
@@ -30883,6 +31100,100 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    public delegate void ModifyUserInfoCompletedEventHandler(object sender, ModifyUserInfoCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ModifyUserInfoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ModifyUserInfoCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    public delegate void modifyUserTypeCompletedEventHandler(object sender, modifyUserTypeCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class modifyUserTypeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal modifyUserTypeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string Msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    public delegate void modifyAttTypeCompletedEventHandler(object sender, modifyAttTypeCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class modifyAttTypeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal modifyAttTypeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string Msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
             }
         }
     }

@@ -118,7 +118,7 @@
 								</tr>
 								<TR>
 									<TD style="HEIGHT: 16px" align="center">
-										<P align="right"><asp:label id="Label3" runat="server">提现单ＩＤ：</asp:label><FONT face="宋体">:</FONT></P>
+										<P align="right"><asp:label id="Label3" runat="server">退款单ＩＤ：</asp:label><FONT face="宋体">:</FONT></P>
 									</TD>
 									<TD style="HEIGHT: 16px" align="center">
 										<P align="left"><asp:label id="labFdraw_id" runat="server" ForeColor="Blue"></asp:label></P>

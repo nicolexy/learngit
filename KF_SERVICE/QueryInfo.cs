@@ -6426,7 +6426,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 this.ICESql += "uid=" + strUID;
                 //测试用的UID
                 //this.ICESql += "uid=295191000";
-                this.ICESql += "&start_time=" + strBeginDate + "&end_time=" + strEndDate + "&type=3";
+               // this.ICESql += "&start_time=" + strBeginDate + "&end_time=" + strEndDate + "&type=3";
+
+                //echo 20150113 加上解冻记录查询
+                this.ICESql += "&start_time=" + strBeginDate + "&end_time=" + strEndDate + "&type_list=3,4";
 
                 if (freezeFin != 0)
                 {
@@ -8189,7 +8192,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        private static string getCgiString(string instr)
+        public static string getCgiString(string instr)
         {
             if (instr == null || instr.Trim() == "")
                 return "";
@@ -9676,7 +9679,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             else
             {
                 // 8号申诉是风控冻结，有另外的处理入口，申诉处理暂不包含改类型的申诉
-                strWhere += " and FType!=8 and FType!=19 ";
+                strWhere += " and FType!=8 and FType!=19 and FType!=11";
             }
 
             if (QQType == "0")    //"" 所有类型; "0" 非会员; "1" 普通会员; "2" VIP会员
@@ -9844,7 +9847,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             else
             {
                 // 8号申诉是风控冻结，有另外的处理入口，申诉处理暂不包含改类型的申诉
-                strWhere += " and FType!=8  and FType!=19 ";
+                strWhere += " and FType!=8  and FType!=19  and FType!=11";
             }
 
             if (QQType == "0")    //"" 所有类型; 0 非会员; 1 普通会员; 2 VIP会员
@@ -9997,19 +10000,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             if (ftype != 99)
             {
-                if (ftype == 8)
-                {
-                    strWhere += " and (FType=8 or FType=19) ";
-                }
-                else 
-                {
+                //if (ftype == 8)
+                //{
+                //    strWhere += " and (FType=8 or FType=19) ";
+                //}
+                //else 
+                //{
                     strWhere += " and FType=" + ftype + " ";
-                } 
-            }
-            else
-            {
-                // 8号申诉是风控冻结，有另外的处理入口，申诉处理暂不包含改类型的申诉
-                strWhere += " and FType!=8 and FType !=19 ";
+                //} 
             }
 
             if (QQType == "0")    //"" 所有类型; "0" 非会员; "1" 普通会员; "2" VIP会员

@@ -248,6 +248,46 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 			}
 		}
 
+        [WebMethod(Description = "返回用户的帐户类型")]
+        public bool getUserType(string qqid, out string userType, out string Msg)
+        {
+            userType = null;
+            Msg = null;
+
+            if (qqid == null)
+            {
+                Msg = "传入的参数不完整！";
+                return false;
+            }
+
+            try
+            {
+                string strID = PublicRes.ConvertToFuid(qqid);  //先转换成fuid
+
+                /*
+                //string str = "select Fuser_type from " + PublicRes.GetTName("t_user",strID) + " where fuid = '" + strID + "'";
+                string str = "select Fuser_type from " + PublicRes.GetTName("t_user_info",strID) + " where fuid = '" + strID + "'";
+                //userType = PublicRes.ExecuteOne(str,"YW_30");
+                userType = PublicRes.ExecuteOne(str,"ZL");
+
+                Msg = "获取用户帐户类型成功！";
+                return true;
+                */
+
+                string strSql = "uid=" + strID;
+                userType = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_USERINFO, "Fuser_type", out Msg);
+
+                if (userType != null && userType.Trim() != "")
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception e)
+            {
+                Msg = "获取帐户类型失败！[" + e.Message.ToString().Replace("'", "’") + "]";
+                return false;
+            }
+        }
 
 
 		/// <summary>
@@ -1036,6 +1076,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 				ice.OpenConn();
 				string strwhere = "where=" + ICEAccess.URLEncode("fcurtype=1&");
 				strwhere += ICEAccess.URLEncode("fuid=" + fuid + "&");
+                strwhere += ICEAccess.URLEncode("fstate=" + type + "&");
 
 				string strUpdate = "data=" + ICEAccess.URLEncode("fstate=" + newtype);
 				strUpdate += ICEAccess.URLEncode("&fmodify_time=" + PublicRes.strNowTimeStander);

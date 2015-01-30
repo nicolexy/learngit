@@ -81,6 +81,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
                 //测试接口
               //  hbUin = "onqOjjqoNArgAnXUC-g2QyPfL9fQ";
+             //  hbUin = "onqOjjhRRpnwjceoYnAY2CrJd2JU";
 
                 hbUin = hbUin.Replace("@hb.tenpay.com", "");
                 ViewState["hbUin"] = hbUin;

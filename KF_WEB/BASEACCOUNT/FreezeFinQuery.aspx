@@ -64,13 +64,16 @@
 								<asp:BoundColumn DataField="strFreason" HeaderText="冻结原因">
 									<HeaderStyle Width="150px"></HeaderStyle>
 								</asp:BoundColumn>
+                                <asp:BoundColumn DataField="strType" HeaderText="状态">
+									<HeaderStyle Width="110px"></HeaderStyle>
+								</asp:BoundColumn>
 								<asp:BoundColumn DataField="strSignName" HeaderText="处理状态">
 									<HeaderStyle Width="110px"></HeaderStyle>
 								</asp:BoundColumn>
 								<asp:BoundColumn DataField="Fconnum" HeaderText="冻结金额（元）">
 									<HeaderStyle Width="120px"></HeaderStyle>
 								</asp:BoundColumn>
-								<asp:BoundColumn DataField="Fmodify_time" HeaderText="冻结时间">
+								<asp:BoundColumn DataField="Fmodify_time" HeaderText="时间">
 									<HeaderStyle Width="160px" HorizontalAlign="Center"></HeaderStyle>
 								</asp:BoundColumn>
 								<asp:BoundColumn DataField="Flistid" HeaderText="订单号/交易单号">
@@ -82,7 +85,7 @@
 							</Columns>
 							<PagerStyle ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>
 						</asp:datagrid><webdiyer:aspnetpager id="pager" runat="server" HorizontalAlign="right" AlwaysShow="True" NumericButtonTextFormatString="[{0}]"
-							SubmitButtonText="转到" CssClass="mypager" ShowInputBox="always" PagingButtonSpacing="0" NumericButtonCount="5"></webdiyer:aspnetpager></TD>
+							SubmitButtonText="转到" CssClass="mypager" ShowInputBox="always" PageSize="10" PagingButtonSpacing="0" NumericButtonCount="5"></webdiyer:aspnetpager></TD>
 				</TR>
 			</table>
 			<table id="tb_detail" border="0" cellSpacing="1" cellPadding="0" width="1100" bgColor="black"

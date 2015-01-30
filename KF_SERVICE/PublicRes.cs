@@ -359,6 +359,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         private static string f_strUserID_wxxesk;
         private static string f_strPassword_wxxesk;
         private static string f_strDatabase_wxxesk;
+        
+
+        //’Àªß Ù–‘
+        private static string f_strDataSource_account;
+        private static string f_strUserID_account;
+        private static string f_strPassword_account;
+        private static string f_strDatabase_account;
 
         public static string f_strServerIP;
         public static int f_iServerPort;
@@ -875,6 +882,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             f_strUserID_wxxesk = ConfigurationManager.AppSettings["UserID_wxxesk"];
             f_strPassword_wxxesk = ConfigurationManager.AppSettings["Password_wxxesk"];
             f_strDatabase_wxxesk = "mysql";
+
+            f_strDataSource_account = ConfigurationManager.AppSettings["DataSource_account"];
+            f_strUserID_account = ConfigurationManager.AppSettings["UserID_account"];
+            f_strPassword_account = ConfigurationManager.AppSettings["Password_account"];
+            f_strDatabase_account = "mysql";
+
         }
 
         public static bool ReleaseCache(string strqqid, string type)

@@ -58,31 +58,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         protected global::System.Web.UI.WebControls.TextBox tbx_cerNO;
         
         /// <summary>
-        /// tbx_userSubBindMobile control.
+        /// tbx_subUserName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_userSubBindMobile;
+        protected global::System.Web.UI.WebControls.TextBox tbx_subUserName;
         
         /// <summary>
-        /// tbx_lastAddr control.
+        /// tbx_restFin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_lastAddr;
-        
-        /// <summary>
-        /// tbx_userName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_userName;
+        protected global::System.Web.UI.WebControls.TextBox tbx_restFin;
         
         /// <summary>
         /// tbx_regCreNO control.
@@ -94,31 +85,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         protected global::System.Web.UI.WebControls.TextBox tbx_regCreNO;
         
         /// <summary>
-        /// tbx_bindMobile control.
+        /// tbx_userName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_bindMobile;
-        
-        /// <summary>
-        /// tbx_DC control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_DC;
-        
-        /// <summary>
-        /// tbx_restFin control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_restFin;
+        protected global::System.Web.UI.WebControls.TextBox tbx_userName;
         
         /// <summary>
         /// tbx_email control.
@@ -146,6 +119,60 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbx_freezeReason;
+        
+        /// <summary>
+        /// lblstandard_score control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox lblstandard_score;
+        
+        /// <summary>
+        /// lblrisk_result control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox lblrisk_result;
+        
+        /// <summary>
+        /// clear_pps control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox clear_pps;
+        
+        /// <summary>
+        /// lblscore control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox lblscore;
+        
+        /// <summary>
+        /// lbauthenState control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox lbauthenState;
+        
+        /// <summary>
+        /// lbldetail_score control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox lbldetail_score;
         
         /// <summary>
         /// table_images control.
@@ -427,6 +454,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         protected global::System.Web.UI.WebControls.Button btn_manageFastReply;
         
         /// <summary>
+        /// FreezeOperateTR control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow FreezeOperateTR;
+        
+        /// <summary>
         /// btn_hangUp control.
         /// </summary>
         /// <remarks>
@@ -470,6 +506,51 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSynCredit;
+        
+        /// <summary>
+        /// SpecialOperateTR control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow SpecialOperateTR;
+        
+        /// <summary>
+        /// btn_OK control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_OK;
+        
+        /// <summary>
+        /// btn_Cancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_Cancel;
+        
+        /// <summary>
+        /// btn_Delete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_Delete;
+        
+        /// <summary>
+        /// btn_Complement control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_Complement;
         
         /// <summary>
         /// cbBt_bcqtzjzp control.

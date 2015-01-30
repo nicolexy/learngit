@@ -356,6 +356,9 @@
                         <asp:BoundColumn DataField="FmemoText" HeaderText="备注">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
+                        <asp:BoundColumn DataField="Fspid" HeaderText="商户号">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
                         <asp:TemplateColumn HeaderText="操作">
 							<ItemTemplate>
 								<asp:LinkButton id="UnCloseFundApplyButton" href = '<%# DataBinder.Eval(Container, "DataItem.URL")%>' target=_blank Visible="false" runat="server" Text="客服强赎"></asp:LinkButton>
@@ -395,7 +398,10 @@
                         <asp:BoundColumn DataField="Flistid" HeaderText="交易单号">
                             <HeaderStyle Width="150px" HorizontalAlign="Center"></HeaderStyle>
                         </asp:BoundColumn>
-                        <asp:BoundColumn DataField="Fsub_trans_id_str" HeaderText="订单号">
+                        <%--<asp:BoundColumn DataField="Fsub_trans_id_str" HeaderText="订单号">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>--%>
+                         <asp:BoundColumn DataField="Ffetchid" HeaderText="提现单号">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
                         <asp:BoundColumn DataField="FtypeText" HeaderText="存取">

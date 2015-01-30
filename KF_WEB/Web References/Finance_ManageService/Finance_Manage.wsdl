@@ -48,6 +48,22 @@
         </s:sequence>
         <s:anyAttribute />
       </s:complexType>
+      <s:element name="getUserType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="qqid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getUserTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="getUserTypeResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="userType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="changePwdInfo">
         <s:complexType>
           <s:sequence>
@@ -335,6 +351,23 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="QueryDicAccName">
+        <s:complexType />
+      </s:element>
+      <s:element name="QueryDicAccNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="QueryDicAccNameResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="boolean" type="s:boolean" />
       <s:element name="ArrayOfString" nillable="true" type="tns:ArrayOfString" />
       <s:element name="string" nillable="true" type="s:string" />
@@ -374,6 +407,12 @@
   </wsdl:message>
   <wsdl:message name="modifyNameFinance_Header">
     <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
+  <wsdl:message name="getUserTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:getUserType" />
+  </wsdl:message>
+  <wsdl:message name="getUserTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:getUserTypeResponse" />
   </wsdl:message>
   <wsdl:message name="changePwdInfoSoapIn">
     <wsdl:part name="parameters" element="tns:changePwdInfo" />
@@ -501,6 +540,15 @@
   <wsdl:message name="logOnUserFinance_Header">
     <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
   </wsdl:message>
+  <wsdl:message name="QueryDicAccNameSoapIn">
+    <wsdl:part name="parameters" element="tns:QueryDicAccName" />
+  </wsdl:message>
+  <wsdl:message name="QueryDicAccNameSoapOut">
+    <wsdl:part name="parameters" element="tns:QueryDicAccNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="QueryDicAccNameFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
+  </wsdl:message>
   <wsdl:message name="modifyNameHttpGetIn">
     <wsdl:part name="QQID" type="s:string" />
     <wsdl:part name="changedName" type="s:string" />
@@ -568,6 +616,10 @@
     <wsdl:part name="time" type="s:string" />
   </wsdl:message>
   <wsdl:message name="dsReBatCheckHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="QueryDicAccNameHttpGetIn" />
+  <wsdl:message name="QueryDicAccNameHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="modifyNameHttpPostIn">
@@ -639,6 +691,10 @@
   <wsdl:message name="dsReBatCheckHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
+  <wsdl:message name="QueryDicAccNameHttpPostIn" />
+  <wsdl:message name="QueryDicAccNameHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
   <wsdl:portType name="Finance_ManageSoap">
     <wsdl:operation name="CheckOldName">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">验证用户的QQ和姓名是否相符</wsdl:documentation>
@@ -649,6 +705,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">修改姓名和公司名</wsdl:documentation>
       <wsdl:input message="tns:modifyNameSoapIn" />
       <wsdl:output message="tns:modifyNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getUserType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">返回用户的帐户类型</wsdl:documentation>
+      <wsdl:input message="tns:getUserTypeSoapIn" />
+      <wsdl:output message="tns:getUserTypeSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="changePwdInfo">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">密码取回</wsdl:documentation>
@@ -730,6 +791,11 @@
       <wsdl:input message="tns:logOnUserSoapIn" />
       <wsdl:output message="tns:logOnUserSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="QueryDicAccName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">杂类参数登记表</wsdl:documentation>
+      <wsdl:input message="tns:QueryDicAccNameSoapIn" />
+      <wsdl:output message="tns:QueryDicAccNameSoapOut" />
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:portType name="Finance_ManageHttpGet">
     <wsdl:operation name="modifyName">
@@ -781,6 +847,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据交易单号获取到审批明细单</wsdl:documentation>
       <wsdl:input message="tns:dsReBatCheckHttpGetIn" />
       <wsdl:output message="tns:dsReBatCheckHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="QueryDicAccName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">杂类参数登记表</wsdl:documentation>
+      <wsdl:input message="tns:QueryDicAccNameHttpGetIn" />
+      <wsdl:output message="tns:QueryDicAccNameHttpGetOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:portType name="Finance_ManageHttpPost">
@@ -834,6 +905,11 @@
       <wsdl:input message="tns:dsReBatCheckHttpPostIn" />
       <wsdl:output message="tns:dsReBatCheckHttpPostOut" />
     </wsdl:operation>
+    <wsdl:operation name="QueryDicAccName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">杂类参数登记表</wsdl:documentation>
+      <wsdl:input message="tns:QueryDicAccNameHttpPostIn" />
+      <wsdl:output message="tns:QueryDicAccNameHttpPostOut" />
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="Finance_ManageSoap" type="tns:Finance_ManageSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -851,6 +927,15 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:modifyNameFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserType">
+      <soap:operation soapAction="http://tempuri.org/getUserType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -1010,6 +1095,16 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="QueryDicAccName">
+      <soap:operation soapAction="http://tempuri.org/QueryDicAccName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:QueryDicAccNameFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="Finance_ManageSoap12" type="tns:Finance_ManageSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -1027,6 +1122,15 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:modifyNameFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserType">
+      <soap12:operation soapAction="http://tempuri.org/getUserType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -1186,6 +1290,16 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="QueryDicAccName">
+      <soap12:operation soapAction="http://tempuri.org/QueryDicAccName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:QueryDicAccNameFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="Finance_ManageHttpGet" type="tns:Finance_ManageHttpGet">
     <http:binding verb="GET" />
@@ -1279,6 +1393,15 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="QueryDicAccName">
+      <http:operation location="/QueryDicAccName" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="Finance_ManageHttpPost" type="tns:Finance_ManageHttpPost">
     <http:binding verb="POST" />
@@ -1365,6 +1488,15 @@
     </wsdl:operation>
     <wsdl:operation name="dsReBatCheck">
       <http:operation location="/dsReBatCheck" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryDicAccName">
+      <http:operation location="/QueryDicAccName" />
       <wsdl:input>
         <mime:content type="application/x-www-form-urlencoded" />
       </wsdl:input>

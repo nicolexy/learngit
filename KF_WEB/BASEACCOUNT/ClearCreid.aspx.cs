@@ -113,12 +113,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             int type = rbpt.Checked ? 0 : 1;
 
             //判断清理次数，大于2则提示
-            var result = (new AccountService()).GetClearCreidCount(s_creid, type);
-            if (result >= 2)
-            {
-                WebUtils.ShowMessage(this.Page, "操作失败：清理次数已超过2次！");
-                return;
-            }
+            //20150116 放开限制，可以无限次清理。
+            //var result = (new AccountService()).GetClearCreidCount(s_creid, type);
+            //if (result >= 2)
+            //{
+            //    WebUtils.ShowMessage(this.Page, "操作失败：清理次数已超过2次！");
+            //    return;
+            //}
 
             Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
             int ret = qs.ClearCreid(type, s_creid);
@@ -130,7 +131,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             else
             {
-                WebUtils.ShowMessage(this.Page, "清理失败：" + s_creid + "不存在！");
+              //  WebUtils.ShowMessage(this.Page, "清理失败：" + s_creid + "不存在！");
+                WebUtils.ShowMessage(this.Page, "注册未超限，不需要处理！");
             }
         }
 

@@ -586,7 +586,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         //不封闭基金客服强赎按钮
         public void dgBankRollList_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
         {
-            object obj = e.Item.Cells[7].FindControl("UnCloseFundApplyButton");
+            object obj = e.Item.Cells[8].FindControl("UnCloseFundApplyButton");
             int index = this.bankRollListPager.CurrentPageIndex;
             string type = e.Item.Cells[2].Text.Trim();//存取
             if (obj != null)

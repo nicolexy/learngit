@@ -1032,6 +1032,54 @@ namespace CFT.CSOMS.DAL.CFTAccount
             }
             return tableName;
         }
+
+        /// <summary>
+        /// 添加账户信息修改日志
+        /// </summary>
+        /// <param name="nameAbnormal"></param>
+        public bool AddChangeUserInfoLog(string qqid, string cre_type, string cre_type_old, string user_type, string user_type_old, string attid, string attid_old,string commet,string commet_old,string submit_user)
+        {
+            try
+            {
+                using (var da = MySQLAccessFactory.GetMySQLAccess("ChangeUserInfoLog"))
+                {
+                    da.OpenConn();
+                    string Sql = string.Format("insert into c2c_fmdb.t_change_userInfo_log " +
+                        "(Fqqid,Fcre_type,Fcre_type_old,Fuser_type,Fuser_type_old,Fattid,Fattid_old,Fcommet,Fcommet_old,Fsubmit_user,Fsubmit_time )" +
+                        "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}')",
+                      qqid, cre_type, cre_type_old, user_type, user_type_old, attid, attid_old, commet, commet_old, submit_user, System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    if (!da.ExecSql(Sql))
+                    {
+                        LogHelper.LogInfo("日志添加出错");
+                        throw new Exception("日志添加出错");
+                    }
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                string err = "添加账户信息修改日志出错：" + ex.Message;
+                LogHelper.LogInfo(err);
+                throw new Exception(err);
+            }
+        }
+
+        /// <summary>
+        /// 查询账户信息修改日志
+        /// </summary>
+        /// <param name="qqid"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public DataTable QueryChangeUserInfoLog(string qqid, int offset, int limit)
+        {
+            string sql = string.Format(@"SELECT * FROM c2c_fmdb.t_change_userInfo_log  where Fqqid='{0}' order by Fsubmit_time desc limit {1},{2} ", qqid, offset, limit);
+            using (var da = MySQLAccessFactory.GetMySQLAccess("ChangeUserInfoLog"))
+            {
+                da.OpenConn();
+                return da.GetTable(sql);
+            }
+        }
     }
 
     #region 异常姓名类

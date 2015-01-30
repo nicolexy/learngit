@@ -15,7 +15,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
 {
     public class RelayAccessFactory
     {
-        /// <summary>
+       /// <summary>
         /// 调relay接口，返回全部字符串 自己拼接全部源串
         /// </summary>
         /// <param name="inmsg"></param>
@@ -41,13 +41,6 @@ namespace CFT.CSOMS.DAL.Infrastructure
             }
         }
 
-        //public static IList<T> RelayInvoke<T>(string inmsg, string requsetType, bool encrypt, Func<RelayResponse,IList<T>> Map)
-        //{
-        //    var relayResponse = RelayHelper.CommunicateWithRelay(inmsg, requsetType, encrypt);
-
-        //    return Map(relayResponse);
-        //}
-
         /// <summary>
         /// 调relay接口
         /// </summary>
@@ -59,13 +52,21 @@ namespace CFT.CSOMS.DAL.Infrastructure
         /// <param name="relayPort">端口 不填默认</param>
         /// <param name="relayDefaultSPId">sp_id</param>
         /// <returns></returns>
-        public static string RelayInvoke(string requestString, string serviceCode, bool encrypt = false, bool invisible = false, string relayIP = "", int relayPort = 0, string relayDefaultSPId = "")
+        public static string RelayInvoke(string requestString, string serviceCode, bool encrypt = false, bool invisible = false, string relayIP = "", int relayPort = 0, string coding = "", string relayDefaultSPId = "")
         {
             try
             {
                 
                 var relayResponse = RelayHelper.CommunicateWithRelay( requestString,  serviceCode,  encrypt,  invisible ,  relayIP ,  relayPort,  relayDefaultSPId);
-                return Encoding.Default.GetString(relayResponse.ResponseBuffer);
+                if (!string.IsNullOrEmpty(coding))
+                {
+                    Encoding encoding = Encoding.GetEncoding(coding);
+                    return encoding.GetString(relayResponse.ResponseBuffer);
+                }
+                else
+                {
+                    return Encoding.Default.GetString(relayResponse.ResponseBuffer);
+                }
             } 
             catch (Exception err)
             {
@@ -250,32 +251,6 @@ namespace CFT.CSOMS.DAL.Infrastructure
             return ds;
         }
 
-        /// <summary>
-        /// 解析字符串到DataSet
-        /// </summary>
-        /// <param name="inmsg"></param>
-        /// <param name="ip"></param>
-        /// <param name="port"></param>
-        /// <param name="Msg"></param>
-        /// <returns></returns>
-        //public static DataSet GetDSFromRelay(string inmsg, string ip, int port)
-        //{
-        //    string Msg = "";
-        //    string answer = RelayInvoke(inmsg, ip, port);
-        //    DataSet ds = null;
-        //    if (answer == "")
-        //    {
-        //        return null;
-        //    }
-
-        //    //解析
-        //    ds = CommQuery.ParseRelayStr(answer, out Msg);
-        //    if (Msg != "")
-        //    {
-        //        throw new Exception(Msg);
-        //    }
-        //    return ds;
-        //}
 
         /// <summary>
         /// 调relay接口，解析字符串到DataSet,多行记录，result=0&row1=&row2=...格式字符串解析
@@ -308,6 +283,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
         }
 
         /// <summary>
+        /// 特殊
         /// 调relay接口，inmsg为请求源串，包含所有请求参数，解析xml格式到DataSet
         /// </summary>
         /// <param name="inmsg"></param>

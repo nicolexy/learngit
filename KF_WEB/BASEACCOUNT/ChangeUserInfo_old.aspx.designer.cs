@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
+namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
     
     
-    public partial class FreezeNewQuery {
+    public partial class ChangeUserName {
         
         /// <summary>
         /// Form1 control.
@@ -22,219 +22,255 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         protected global::System.Web.UI.HtmlControls.HtmlForm Form1;
         
         /// <summary>
-        /// lb_pageTitle control.
+        /// Label_uid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lb_pageTitle;
+        protected global::System.Web.UI.WebControls.Label Label_uid;
         
         /// <summary>
-        /// lb_operatorID control.
+        /// TX_QQID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lb_operatorID;
+        protected global::System.Web.UI.WebControls.TextBox TX_QQID;
         
         /// <summary>
-        /// tbx_payAccount control.
+        /// RequiredFieldValidator1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_payAccount;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
         
         /// <summary>
-        /// WeChatId control.
+        /// Button1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton WeChatId;
+        protected global::System.Web.UI.WebControls.Button Button1;
         
         /// <summary>
-        /// WeChatQQ control.
+        /// ImageButton3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton WeChatQQ;
+        protected global::System.Web.UI.WebControls.ImageButton ImageButton3;
         
         /// <summary>
-        /// WeChatMobile control.
+        /// Label1_Fqqid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton WeChatMobile;
+        protected global::System.Web.UI.WebControls.Label Label1_Fqqid;
         
         /// <summary>
-        /// WeChatEmail control.
+        /// TX_Fmodify_time control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton WeChatEmail;
+        protected global::System.Web.UI.WebControls.TextBox TX_Fmodify_time;
         
         /// <summary>
-        /// WeChatUid control.
+        /// TextBox2_Ftruename control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton WeChatUid;
+        protected global::System.Web.UI.WebControls.TextBox TextBox2_Ftruename;
         
         /// <summary>
-        /// WeChatCft control.
+        /// Textbox4_Company control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton WeChatCft;
+        protected global::System.Web.UI.WebControls.TextBox Textbox4_Company;
         
         /// <summary>
-        /// tbx_beginDate control.
+        /// DropDownList1_Sex control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_beginDate;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownList1_Sex;
         
         /// <summary>
-        /// btnBeginDate control.
+        /// RegularExpressionValidator5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton btnBeginDate;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator5;
         
         /// <summary>
-        /// tbx_endDate control.
+        /// Textbox5_Fage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_endDate;
+        protected global::System.Web.UI.WebControls.TextBox Textbox5_Fage;
         
         /// <summary>
-        /// btnEndDate control.
+        /// RegularExpressionValidator6 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton btnEndDate;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator6;
         
         /// <summary>
-        /// ddlType control.
+        /// Textbox6_Fphone control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlType;
+        protected global::System.Web.UI.WebControls.TextBox Textbox6_Fphone;
         
         /// <summary>
-        /// ddl_orderState control.
+        /// Textbox7_Fmobile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddl_orderState;
+        protected global::System.Web.UI.WebControls.TextBox Textbox7_Fmobile;
         
         /// <summary>
-        /// ddl_orderStateSpecial control.
+        /// DropDownList2_certify control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddl_orderStateSpecial;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownList2_certify;
         
         /// <summary>
-        /// tbx_listNo control.
+        /// Textbox13_Fcreid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_listNo;
+        protected global::System.Web.UI.WebControls.TextBox Textbox13_Fcreid;
         
         /// <summary>
-        /// tbx_people control.
+        /// RegularExpressionValidator4 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_people;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator4;
         
         /// <summary>
-        /// tbx_reason control.
+        /// Textbox11_Fpcode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_reason;
+        protected global::System.Web.UI.WebControls.TextBox Textbox11_Fpcode;
         
         /// <summary>
-        /// lb_count control.
+        /// RegularExpressionValidator1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lb_count;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator1;
         
         /// <summary>
-        /// ddl_queryOrderType control.
+        /// Textbox7_Femail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddl_queryOrderType;
+        protected global::System.Web.UI.WebControls.TextBox Textbox7_Femail;
         
         /// <summary>
-        /// btn_query control.
+        /// area control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_query;
+        protected global::System.Web.UI.HtmlControls.HtmlSelect area;
         
         /// <summary>
-        /// DataGrid_QueryResult control.
+        /// city control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataGrid DataGrid_QueryResult;
+        protected global::System.Web.UI.HtmlControls.HtmlSelect city;
         
         /// <summary>
-        /// pager control.
+        /// Textbox10_Faddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Wuqi.Webdiyer.AspNetPager pager;
+        protected global::System.Web.UI.WebControls.TextBox Textbox10_Faddress;
+        
+        /// <summary>
+        /// TX_Memo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TX_Memo;
+        
+        /// <summary>
+        /// tbCrt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbCrt;
+        
+        /// <summary>
+        /// Hcity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden Hcity;
+        
+        /// <summary>
+        /// Harea control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden Harea;
     }
 }

@@ -50,6 +50,8 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
             public string Flistid { get; set; }
             [XmlElement("sub_trans_id_str")]
             public string Fsub_trans_id_str { get; set; }
+            [XmlElement("fetchid")]//客服系统增加提现单展示，客服部未添加
+            public string Ffetchid { get; set; }
             [XmlElement("type_str")]
             public string FtypeText { get; set; }
             [XmlElement("total_fee_str")]

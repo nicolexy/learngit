@@ -237,25 +237,33 @@
 			<table border="1" cellSpacing="1" cellPadding="1" width="1100">
 				<TR>
 					<TD style="WIDTH: 443px; HEIGHT: 20px" bgColor="#e4e5f7" colSpan="2"><FONT color="red" face="宋体"><IMG src="../IMAGES/Page/post.gif" width="20" height="16"><asp:label id="lb_pageTitle" Runat="server">风控解冻审核(新)</asp:label></FONT></TD>
-					<td style="HEIGHT: 20px"></FONT>操作员代码: </FONT><SPAN class="style3"><asp:label id="lb_operatorID" runat="server" ForeColor="Red" Width="73px"></asp:label></SPAN></td>
+					<td style="HEIGHT: 20px" colSpan="2"></FONT>操作员代码: </FONT><SPAN class="style3"><asp:label id="lb_operatorID" runat="server" ForeColor="Red" Width="73px"></asp:label></SPAN></td>
 				</TR>
 				<tr>
 					<td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">财付通帐号：</label><asp:textbox id="tbx_payAccount" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
 					<td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">用户提交证件号码：</label><asp:textbox id="tbx_cerNO" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
-					<td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">用户提交绑定手机：</label><asp:textbox id="tbx_userSubBindMobile" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
-					<td><label style="WIDTH: 130px; HEIGHT: 20px; VERTICAL-ALIGN: middle">最后一次使用的地址：</label><asp:textbox id="tbx_lastAddr" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
-				</tr>
-				<tr>
-					<td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">注册姓名：</label><asp:textbox id="tbx_userName" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
-					<td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">注册证件号码：</label><asp:textbox id="tbx_regCreNO" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
-					<td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">绑定手机：</label><asp:textbox id="tbx_bindMobile" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
-					<td><label style="WIDTH: 130px; HEIGHT: 20px; VERTICAL-ALIGN: middle">近期安装数字证书：</label><asp:textbox id="tbx_DC" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
+					<td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">用户提交姓名：</label><asp:textbox id="tbx_subUserName" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
 				</tr>
 				<tr>
 					<td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">账户余额：</label><asp:textbox id="tbx_restFin" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
+				    <td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">注册证件号码：</label><asp:textbox id="tbx_regCreNO" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
+                    <td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">注册姓名：</label><asp:textbox id="tbx_userName" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
+                     </tr>
+				<tr>
+					
 					<td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">联系邮箱：</label><asp:textbox id="tbx_email" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
 					<td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">联系电话：</label><asp:textbox id="tbx_phoneNo" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
                     <td style="color:red"><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle;">冻结原因：</label><asp:textbox id="tbx_freezeReason" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
+				</tr>
+                <tr>
+					<td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">免审核标准分：</label><asp:textbox id="lblstandard_score" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
+					<td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">风控标记：</label><asp:textbox id="lblrisk_result" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
+					<td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">是否清空密保资料：</label><asp:textbox id="clear_pps" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
+				</tr>
+                  <tr>
+					<td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">实际得分：</label><asp:textbox id="lblscore" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
+					<td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">实名认证：</label><asp:textbox id="lbauthenState" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
+					<td><label style="WIDTH: 110px; HEIGHT: 20px; VERTICAL-ALIGN: middle">得分明细：</label><asp:textbox id="lbldetail_score" Runat="server" Width="140px" Enabled="False"></asp:textbox></td>
 				</tr>
 			</table>
 			<br>
@@ -328,7 +336,7 @@
 					</td>
 				</tr>
 			</table>
-			<table border="1" cellSpacing="1" cellPadding="1" width="1200">
+			<table border="1" cellSpacing="1" cellPadding="1" width="1200" runat="server">
 				<tr>
 					<td bgColor="#eeeeee" height="20" width="50%"><asp:checkbox id="cbBt_yhms1" Text="用户描述" Runat="server"></asp:checkbox></td>
 					<td bgColor="#eeeeee" height="20" width="50%">客服处理结果</td>
@@ -344,8 +352,16 @@
 				<tr>
 					<td bgColor="#ffffff" height="10" colSpan="2"></td>
 				</tr>
-				<tr>
+				<tr id="FreezeOperateTR" runat="server">
 					<td bgColor="#ffffff" colSpan="5" align="center"><span style="MARGIN: 0px 30px 0px 0px"><asp:button id="btn_hangUp" runat="server" Width="100" Text="挂 起" onclick="btn_hangUp_Click"></asp:button></span><span style="MARGIN: 0px 30px 0px 0px"><asp:button id="btn_Finish1" runat="server" Width="100" Text="结单（已解冻）" onclick="btn_Finish1_Click"></asp:button></span><span style="MARGIN: 0px 30px 0px 0px"><asp:button id="btn_Finish2" runat="server" Width="100" Text="补充资料" onclick="btn_Finish2_Click"></asp:button></span><span style="MARGIN: 0px 30px 0px 0px"><asp:button id="btn_Del" runat="server" Width="100" Text="作 废" onclick="btn_Del_Click"></asp:button></span><span style="MARGIN: 0px 30px 0px 0px"><asp:button id="btnSynCredit" runat="server" Width="100" Text="同步身份证号" onclick="btn_synCreid_Click"></asp:button></span></td>
+				</tr>
+                <tr id="SpecialOperateTR" runat="server">
+					<td bgColor="#ffffff" colSpan="5" align="center"><span style="MARGIN: 0px 30px 0px 0px">
+                        <asp:button id="btn_OK" runat="server" Width="100" Text="通过" onclick="btn_OK_Click"></asp:button></span><span style="MARGIN: 0px 30px 0px 0px">
+                        <asp:button id="btn_Cancel" runat="server" Width="100" Text="拒绝" onclick="btn_Cancel_Click"></asp:button></span><span style="MARGIN: 0px 30px 0px 0px">
+                        <asp:button id="btn_Delete" runat="server" Width="100" Text="删除" onclick="btn_Delete_Click"></asp:button></span><span style="MARGIN: 0px 30px 0px 0px">
+                       <asp:button id="btn_Complement" runat="server" Width="100" Text="补充资料" onclick="btn_Complement_Click"></asp:button></span>
+					</td>
 				</tr>
 			</table>
             <table border="1" cellSpacing="1" cellPadding="1" width="1200">

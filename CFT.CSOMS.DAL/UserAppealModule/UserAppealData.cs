@@ -20,6 +20,37 @@ namespace CFT.CSOMS.DAL.UserAppealModule
     public class UserAppealData
     {
         /// <summary>
+        /// 更新特殊申诉（包括解冻、特殊找回支付密码）操作日志
+        /// </summary>
+        /// <returns></returns>
+        public bool UpdateSepcialApealLog(string ffreezeListID, int handleType, string handleUser, string handleResult, string userDesc)
+        {
+            try
+            {
+                string tableName = "c2c_fmdb.t_Freeze_Detail";
+
+                using (var da = MySQLAccessFactory.GetMySQLAccess("ht_DB"))
+                {
+                    da.OpenConn();
+                    string sqlCmd = "insert into " + tableName + " (FFreezeListID,FCreateDate,FHandleType,FHandleUser,FHandleResult,FMemo) values ("
+                                     + ffreezeListID + ",'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'," + handleType + ",'"
+                                     + handleUser + "','" + handleResult + "','" + userDesc + "')";
+                    if (da.ExecSql(sqlCmd))
+                        return true;
+                    else
+                    {
+                        LogHelper.LogInfo("UpdateSepcialApealLog  false :FFreezeListID=" + ffreezeListID);
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("添加日志失败：" + ex.Message);
+            }
+        }
+
+        /// <summary>
         /// 使用财付通帐号或者银行卡号获取用户实名认证信息
         /// </summary>
         /// <param name="uin">财付通帐号uin</param>
@@ -610,6 +641,22 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                             + " FReCheckTime=now(),FRecheckUser='" + user + "'"
                             + " where Fid='" + fid + "' and Fstate=8";
                     }
+                    else if (fstate == 11)
+                    {
+                        strSql = " update " + db + "." + tb + " set FState=7,"
+                            + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
+                            + " FPickTime=now(),FPickUser='" + user + "',"
+                            + " FReCheckTime=now(),FRecheckUser='" + user + "'"
+                            + " where Fid='" + fid + "' and Fstate=11";
+                    }
+                    else if (fstate ==12)
+                    {
+                        strSql = " update " + db + "." + tb + " set FState=7,"
+                            + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
+                            + " FPickTime=now(),FPickUser='" + user + "',"
+                            + " FReCheckTime=now(),FRecheckUser='" + user + "'"
+                            + " where Fid='" + fid + "' and Fstate=12";
+                    }
                     else
                     {
                         msg = "更新原有记录出错,此记录原始状态不正确";
@@ -761,7 +808,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                     }
                     string EmailReason = reason;
 
-                    if (ftype == 1)   //新流程中，对于绑定手机的用户就发给他原来绑定的邮箱，对于绑定邮箱的用户就发给录入的邮箱
+                    if (ftype == 1 || ftype == 11)  //新流程中，对于绑定手机的用户就发给他原来绑定的邮箱，对于绑定邮箱的用户就发给录入的邮箱
                     {
                         //找回密码
                         string cont_type = dr["cont_type"].ToString();
@@ -847,6 +894,22 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                                 + " FPickTime=now(),FPickUser='" + user + "',"
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
                                 + " where Fid='" + fid + "' and Fstate=8";
+                        }
+                        else if (fstate == 11)//特殊申诉 待补充资料状态
+                        {
+                            strSql = " update " + db + "." + tb + " set FState=2,"
+                                + " FCheckInfo='" + reason + OtherReason + "',Fcomment = '" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),FModifyTime=Now(),"
+                                + " FPickTime=now(),FPickUser='" + user + "',"
+                                + " FReCheckTime=now(),FRecheckUser='" + user + "'"
+                                + " where Fid='" + fid + "' and Fstate=11";
+                        }
+                        else if (fstate == 12)//特殊申诉 已补充资料状态
+                        {
+                            strSql = " update " + db + "." + tb + " set FState=2,"
+                                + " FCheckInfo='" + reason + OtherReason + "',Fcomment = '" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),FModifyTime=Now(),"
+                                + " FPickTime=now(),FPickUser='" + user + "',"
+                                + " FReCheckTime=now(),FRecheckUser='" + user + "'"
+                                + " where Fid='" + fid + "' and Fstate=12";
                         }
                         else
                         {
@@ -989,7 +1052,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                     string EmailReason = reason;
                     string mesReason = "";
                     mesReason = reason + "&" + OtherReason;
-                    if (ftype == 1)
+                    if (ftype == 1 || ftype == 11)
                     {
                         EmailReason = reason + "<br/> 温馨提示：<br/> 如果您的账号已经绑定了手机号码，并可有效接收验证码，您可以直接进入<a href='https://www.tenpay.com/v2.0/main/getPwdByMobile_index.shtml'>手机绑定找回支付密码地址</a>通过绑定手机快速找回您的支付密码。&";
                     }
@@ -1057,6 +1120,22 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
                                 + " where Fid='" + fid + "' and Fstate=8";
                         }
+                        else if (fstate == 11)//特殊申诉 待补充资料状态
+                        {
+                            strSql = " update " + db + "." + tb + " set FState=2,"
+                                + " FCheckInfo='" + reason + OtherReason + "',Fcomment = '" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),FModifyTime=Now(),"
+                                + " FPickTime=now(),FPickUser='" + user + "',"
+                                + " FReCheckTime=now(),FRecheckUser='" + user + "'"
+                                + " where Fid='" + fid + "' and Fstate=11";
+                        }
+                        else if (fstate == 12)//特殊申诉 已补充资料状态
+                        {
+                            strSql = " update " + db + "." + tb + " set FState=2,"
+                                + " FCheckInfo='" + reason + OtherReason + "',Fcomment = '" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),FModifyTime=Now(),"
+                                + " FPickTime=now(),FPickUser='" + user + "',"
+                                + " FReCheckTime=now(),FRecheckUser='" + user + "'"
+                                + " where Fid='" + fid + "' and Fstate=12";
+                        }
                         else
                         {
                             msg = "更新原有记录出错,此记录原始状态不正确";
@@ -1071,7 +1150,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                             {
                                 try
                                 {
-                                    if (ftype == 1 || ftype == 5)//发送数据给风控目前只要密码（1）和更换关联手机（5）
+                                    if (ftype == 1 || ftype == 5 || ftype == 11)//发送数据给风控目前只要密码（1）和更换关联手机（5）
                                     {
                                         fuin = System.Web.HttpUtility.UrlEncode(fuin, System.Text.Encoding.GetEncoding("GB2312"));
                                         string ftypestr = System.Web.HttpUtility.UrlEncode(ftype.ToString(), System.Text.Encoding.GetEncoding("GB2312"));
@@ -1290,7 +1369,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                             return false;
                         }
                     }
-                    else if (ftype == 1)
+                    else if (ftype == 1 || ftype == 11)
                     {
                         //找回密码
                         clear_pps = Int32.Parse(dr["clear_pps"].ToString());
@@ -1728,6 +1807,14 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
                                 + " where Fid='" + fid + "' and Fstate=9";
                         }
+                        else if (fstate == 12)//已补充资料
+                        {
+                            strSql = " update " + db + "." + tb + " set FState=1,"
+                                + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),FModifyTime=Now(),"
+                                + " FPickTime=now(),FPickUser='" + user + "',"
+                                + " FReCheckTime=now(),FRecheckUser='" + user + "'"
+                                + " where Fid='" + fid + "' and Fstate=12";
+                        }
                         else
                         {
                             msg = "更新原有记录出错,此记录原始状态不正确";
@@ -1812,6 +1899,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             }
             finally
             {
+                LogHelper.LogInfo("申诉通过报错:" + msg);
                 da.Dispose();
             }
         }
@@ -1888,7 +1976,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                     //						return false;
                     //					}
                     //进行处理.	 //发送邮件
-                    if (ftype == 1)
+                    if (ftype == 1 || ftype == 11)
                     {
                         //找回密码
                         clear_pps = Int32.Parse(dr["clear_pps"].ToString());
@@ -2069,6 +2157,14 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                             + " FReCheckTime=now(),FRecheckUser='" + user + "'"
                             + " where Fid='" + fid + "' and Fstate=9";
                     }
+                    else if (fstate == 12)//已补充资料
+                    {
+                        strSql = " update " + db + "." + tb + " set FState=1,"
+                            + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),FModifyTime=Now(),"
+                            + " FPickTime=now(),FPickUser='" + user + "',"
+                            + " FReCheckTime=now(),FRecheckUser='" + user + "'"
+                            + " where Fid='" + fid + "' and Fstate=12";
+                    }
                     else
                     {
                         msg = "更新原有记录出错,此记录原始状态不正确";
@@ -2150,6 +2246,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             }
             finally
             {
+                LogHelper.LogInfo("申诉通过报错:" + msg);
                 da.Dispose();
             }
         }
@@ -3062,6 +3159,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                         break;
                     }
                 case 1:
+                case 11:
                     {
                         title = "财付通取回支付密码通知！";
                         if (issucc)
@@ -3266,6 +3364,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             {
 
                 case 1:
+                case 11:
                     {
                         if (issucc)
                         {
@@ -3840,6 +3939,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             {
 
                 case 1:
+                case 11:
                     {
                         title = "财付通取回支付密码通知！";
                         if (issucc)
@@ -3895,6 +3995,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             {
 
                 case 1:
+                case 11:
                     {
                         if (issucc)
                         {
@@ -3990,7 +4091,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             else
             {
                 // 8号申诉是风控冻结，有另外的处理入口，申诉处理暂不包含改类型的申诉
-                strWhere += " and FType!=8 and FType!=19 ";
+                strWhere += " and FType!=8 and FType!=19  and FType!=11";
             }
 
             if (QQType == "0")    //"" 所有类型; "0" 非会员; "1" 普通会员; "2" VIP会员
@@ -4063,7 +4164,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             else
             {
                 // 8号申诉是风控冻结，有另外的处理入口，申诉处理暂不包含改类型的申诉
-                strWhere += " and FType!=8  and FType!=19 ";
+                strWhere += " and FType!=8  and FType!=19  and FType!=11";
             }
 
             if (QQType == "0")    //"" 所有类型; 0 非会员; 1 普通会员; 2 VIP会员

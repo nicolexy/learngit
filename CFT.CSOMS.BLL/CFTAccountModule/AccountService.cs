@@ -304,6 +304,25 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
               else
                   return false;
           }
+
+          public bool AddChangeUserInfoLog(string qqid, string cre_type, string cre_type_old, string user_type, string user_type_old, string attid, string attid_old, string commet, string commet_old, string submit_user)
+          {
+              if (string.IsNullOrEmpty(qqid))
+              {
+                  throw new ArgumentNullException("qqid");
+              }
+
+              return new AccountData().AddChangeUserInfoLog( qqid,  cre_type,  cre_type_old,  user_type,  user_type_old,  attid,  attid_old, commet,commet_old, submit_user);
+          }
+
+          public DataTable QueryChangeUserInfoLog(string qqid, int offset, int limit)
+          {
+              if (string.IsNullOrEmpty(qqid))
+              {
+                  throw new ArgumentNullException("qqid");
+              }
+              return new AccountData().QueryChangeUserInfoLog(qqid, offset, limit);
+          }
     }
 
     #region 异常姓名类
