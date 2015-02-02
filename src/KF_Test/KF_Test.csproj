@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E73F5EDD-E10B-4171-9195-4D1881AEE3D4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KF_Test</RootNamespace>
+    <AssemblyName>KF_Test</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AspNetPager">
+      <HintPath>..\Assemblies\AspNetPager.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.Apollo.Common">
+      <HintPath>..\packages\CFT.Apollo.Common.3.1.5477.31814\lib\CFT.Apollo.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.Apollo.CommunicationFramework, Version=1.1.5436.29525, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5491.39151\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.Apollo.Logging">
+      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5444.18012\lib\net40\CFT.Apollo.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.CommunicationFramework, Version=1.1.5229.39158, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Assemblies\CFT.CommunicationFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="icecs, Version=3.0.1.0, Culture=neutral, PublicKeyToken=1f998c50fec78381" />
+    <Reference Include="icecs_gb2312">
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5491.39151\lib\net40\icecs_gb2312.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.CFTGWCLib, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\Assemblies\Interop.CFTGWCLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\CFT.Apollo.log4net.1.0.0.15\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="SunLibrary, Version=1.1.5280.31037, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SunLibrary.1.1.5280.31038\lib\net40\SunLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="PublicTest\CommonTest.cs" />
+    <Compile Include="WechatPay\FastPayServiceTest.cs" />
+    <Compile Include="LifeFeePayment\LifeFeePaymentTest.cs" />
+    <Compile Include="Merchant\MerchantServiceTest.cs" />
+    <Compile Include="PaymentServiceTest.cs" />
+    <Compile Include="BaseInfoServiceTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublicTest\MiddleAccessFactoryTest.cs" />
+    <Compile Include="PublicTest\RelayAccessFactoryTest.cs" />
+    <Compile Include="UserAccount\AccountServiceTest.cs" />
+    <Compile Include="UserApeal\UserAppealTest.cs" />
+    <Compile Include="Util\UtilTool.cs" />
+    <Compile Include="Util\TestUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BankLib\BankLib.csproj">
+      <Project>{BF8AA36E-9573-49A0-9B3B-2935CCFC8731}</Project>
+      <Name>BankLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CFT.CSOMS.BLL\CFT.CSOMS.BLL.csproj">
+      <Project>{74c3108c-141b-4abe-8b10-663daee8ac5e}</Project>
+      <Name>CFT.CSOMS.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CFT.CSOMS.DAL\CFT.CSOMS.DAL.csproj">
+      <Project>{6c10b34d-4b02-4f2c-a964-8955677a5213}</Project>
+      <Name>CFT.CSOMS.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\COMMLIB\commLib.csproj">
+      <Project>{C747901F-7EE1-4AED-AB7B-547C6AEC99A0}</Project>
+      <Name>commLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DATAACCESS\DataAccess.csproj">
+      <Project>{3F80E194-4A0B-4E45-BB3E-5E482BF3139F}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ICEAccess\ICEAccess.csproj">
+      <Project>{1434C13F-494A-4196-8733-A3EDD0E5D6A5}</Project>
+      <Name>ICEAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KF_SERVICE\KF_SERVICE.csproj">
+      <Project>{b6f47364-df03-492a-a94d-b4a347cd4991}</Project>
+      <Name>KF_SERVICE</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\DB.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Config\IMCTranfer.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Config\Log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Configs\Log4net.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
