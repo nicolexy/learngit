@@ -37,6 +37,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +47,7 @@
   <ItemGroup>
     <Compile Include="ActivityModule\ActivityService.cs" />
     <Compile Include="BalanceModule\BalaceService.cs" />
+    <Compile Include="BankCardBindModule\BankCardBindService.cs" />
     <Compile Include="CFTAccountModule\AccountService.cs" />
     <Compile Include="CheckModoule\CheckService.cs" />
     <Compile Include="FundModule\LCTBalanceService.cs" />
@@ -89,6 +91,10 @@
     <ProjectReference Include="..\COMMLIB\commLib.csproj">
       <Project>{c747901f-7ee1-4aed-ab7b-547c6aec99a0}</Project>
       <Name>commLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DATAACCESS\DataAccess.csproj">
+      <Project>{3f80e194-4a0b-4e45-bb3e-5e482bf3139f}</Project>
+      <Name>DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

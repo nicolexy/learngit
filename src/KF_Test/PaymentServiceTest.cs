@@ -98,5 +98,68 @@ namespace KF_Test
         }
 
         #endregion
+
+        #region 一点通业务
+
+        [TestMethod]
+        public void GetBankDicTest()
+        {
+            string queryString = "appid=10001&token=be8f3a8675c60476b3d961b072a47e1a";
+            XmlDocument answer = TestUtil.testPaymentService("GetBankDic", queryString);
+            Assert.IsTrue(answer.SelectSingleNode("/root/return_code").FirstChild.InnerText == "20000");
+        }
+
+        [TestMethod]
+        public void SyncBankCardBindTest()
+        {
+            string queryString = "appid=10001&bank_type=2101&card_tail=1234&bank_id=581234&token=cb49c68289043633e0dd4ab45f793ffa";
+            XmlDocument answer = TestUtil.testPaymentService("SyncBankCardBind", queryString);
+            Assert.IsTrue(answer.SelectSingleNode("/root/return_code").FirstChild.InnerText == "20000");
+        }
+
+
+        [TestMethod]
+        public void UnbindBankCardBindTest()
+        {
+            string queryString = "appid=10001&bank_type=2005&uin=17934958&protocol_no=20110607130744431600000000023808&userip=10.10.10.18&token=675658f8772a47a1d014f0c3f5c4194d";
+            XmlDocument answer = TestUtil.testPaymentService("UnbindBankCardBind", queryString);
+            Assert.IsTrue(answer.SelectSingleNode("/root/return_code").FirstChild.InnerText == "20000");
+        }
+
+
+        [TestMethod]
+        public void UnbingBankCardBindSpecialTest()
+        {
+            string queryString = "appid=10001&bank_type=2101&uin=17934958&bind_serialno=10607441730295214000&card_tail=1234&protocol_no=20110607130744426300000000018395&token=cc9d466a64ab8e78cb129cf9990142f0";
+            XmlDocument answer = TestUtil.testPaymentService("UnbingBankCardBindSpecial", queryString);
+            Assert.IsTrue(answer.SelectSingleNode("/root/return_code").FirstChild.InnerText == "20000");
+        }
+
+
+        [TestMethod]
+        public void GetBankCardBindListTest()
+        {
+            string queryString = "appid=10001&bank_type=4184&uin=2322405969&bank_id=&uid=&cre_type=&cre_id=500234197805037308&protocol_no=BB2F7432F3CA4ADA860582DCD3C4A1EE&phoneno=15013500723&begin_date=&end_date=&bind_state=99&query_type=0&offset=0&limit=1&token=b12d4049401ae67586d22a936b01dc05";
+            XmlDocument answer = TestUtil.testPaymentService("GetBankCardBindList", queryString);
+            Assert.IsTrue(answer.SelectSingleNode("/root/return_code").FirstChild.InnerText == "20000");
+        }
+
+        [TestMethod]
+        public void GetBankCardBindDetailTest()
+        {
+            string queryString = "appid=10001&uid=298849000&index=20&bdindex=1&token=b4f395605b4e6c5a7b1a61fdd82dac49";
+            XmlDocument answer = TestUtil.testPaymentService("GetBankCardBindDetail", queryString);
+            Assert.IsTrue(answer.SelectSingleNode("/root/return_code").FirstChild.InnerText == "20000");
+        }
+
+        [TestMethod]
+        public void GetBankCardBindRelationListTest()
+        {
+            string queryString = "appid=10001&bank_type=&bank_id=&cre_type=&cre_id=500234197805037308&protocol_no=&phoneno=&bind_state=99&offset=0&limit=100&token=1721638a064a91a8cec51be4625b6bb7";
+            XmlDocument answer = TestUtil.testPaymentService("GetBankCardBindRelationList", queryString);
+            Assert.IsTrue(answer.SelectSingleNode("/root/return_code").FirstChild.InnerText == "20000");
+        }
+
+        #endregion
     }
 }

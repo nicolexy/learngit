@@ -587,6 +587,156 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             //res.End();
         }
 
+
+
+        public static void Print4DataTable(
+            DataTable table, List<String> excludedColNames, Dictionary<String, String> colNameMaps)
+        {
+            Dictionary<string, string> nvc = GetQueryStrings();
+            string[] map = nvc.Keys.Cast<string>().ToArray();
+            if (map != null && map.Contains("f") 
+                &&  !string.IsNullOrEmpty(nvc["f"].ToString()) 
+                && nvc["f"].ToString().ToLower() == "json")
+            {
+                PrintJson4DataTable(table, excludedColNames, colNameMaps);
+            }
+            else
+            {
+                PrintXML4DataTable(table, excludedColNames, colNameMaps);
+            }
+        }
+
+
+        /// <summary>
+        /// 将DataTable转换成为XML格式
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="excludedColNames">不需要显示的列</param>
+        /// <param name="colNameMaps"> 列名需要重命名的列</param>
+        /// <returns></returns>
+        public static void PrintXML4DataTable(
+            DataTable table, List<String> excludedColNames, Dictionary<String, String> colNameMaps)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<root>");
+            sb.Append(String.Format("<return_code>{0}</return_code>", APIUtil.SUCC));
+            sb.Append(String.Format("<msg>{0}</msg>", APIUtil.MSG_OK));
+            sb.Append(String.Format("<count>{0}</count>", table.Rows.Count));
+            sb.Append("<records>");
+            foreach (DataRow dr in table.Rows)
+            {
+                sb.Append("<record>");
+                foreach (DataColumn col in table.Columns)
+                {                    
+                    //不需要显示的列处理
+                    if (excludedColNames != null && excludedColNames.Count > 0 && 
+                        excludedColNames.Contains(col.ColumnName, StringComparer.InvariantCultureIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    //列明需要重命名的列
+                    String colName = col.ColumnName;
+                    if (colNameMaps != null && colNameMaps.Count > 0)
+                    {
+                        if (colNameMaps.ContainsKey(colName))
+                        {
+                            if (!String.IsNullOrEmpty(colNameMaps[colName]))
+                            {
+                                colName = colNameMaps[colName];
+                            }
+
+                        }
+                        else if (colNameMaps.ContainsKey(colName.ToLower()))
+                        {
+                            if (!String.IsNullOrEmpty(colNameMaps[colName.ToLower()]))
+                            {
+                                colName = colNameMaps[colName.ToLower()];
+                            }
+                        }
+                    }
+                    sb.Append(String.Format("<{0}>{1}</{0}>", colName.ToLower(), dr[col.ColumnName].ToString()));                    
+                }
+                sb.Append("</record>");
+            }
+            sb.Append("</records></root>");
+
+            HttpResponse res = HttpContext.Current.Response;
+            res.ContentType = "text/xml";
+            res.Charset = "utf-8";
+            res.ContentEncoding = Encoding.UTF8;
+            res.Write(sb.ToString());
+        }
+
+
+
+        /// <summary>
+        /// 将DataTable转换成为Json格式
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="excludedColNames">不需要显示的列</param>
+        /// <param name="colNameMaps"> 列名需要重命名的列</param>
+        /// <returns></returns>
+        public static void PrintJson4DataTable(
+            DataTable table, List<String> excludedColNames, Dictionary<String, String> colNameMaps)
+        {
+            System.Web.Script.Serialization.JavaScriptSerializer
+                serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            result.Add("return_code", APIUtil.SUCC);
+            result.Add("msg", APIUtil.MSG_OK);
+            result.Add("count", table.Rows.Count);
+
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+            foreach (DataRow dr in table.Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in table.Columns)
+                {
+                    //不需要显示的列处理
+                    if (excludedColNames != null && excludedColNames.Count > 0 &&
+                        excludedColNames.Contains(col.ColumnName, StringComparer.InvariantCultureIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    //列明需要重命名的列
+                    String colName = col.ColumnName;
+                    if (colNameMaps != null && colNameMaps.Count > 0)
+                    {
+                        if (colNameMaps.ContainsKey(colName))
+                        {
+                            if (!String.IsNullOrEmpty(colNameMaps[colName]))
+                            {
+                                colName = colNameMaps[colName];
+                            }
+
+                        }
+                        else if (colNameMaps.ContainsKey(colName.ToLower()))
+                        {
+                            if (!String.IsNullOrEmpty(colNameMaps[colName.ToLower()]))
+                            {
+                                colName = colNameMaps[colName.ToLower()];
+                            }
+                        }
+                    }
+                    row.Add(colName.ToLower(), dr[col.ColumnName]);
+                }
+                rows.Add(row);
+            }
+            result.Add("records", rows);
+            //return serializer.Serialize(result);
+
+            HttpResponse res = HttpContext.Current.Response;
+            res.ContentType = "text/plain";
+            res.Charset = "utf-8";
+            res.ContentEncoding = Encoding.UTF8;
+            res.Write(serializer.Serialize(result));
+        }
+
+       
+
         /*
         public static Hashtable getReqParamMap()
         {

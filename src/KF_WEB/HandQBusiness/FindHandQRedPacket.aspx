@@ -40,6 +40,7 @@
                     结束日期：
                         <asp:TextBox ID="textBoxEndDate" runat="server" Width="130px" onClick="WdatePicker()"  CssClass="Wdate"></asp:TextBox>                
                 </td>
+
                 <td align="center" class="auto-style1" >
                     <asp:Button ID="btnQuery" runat="server" Width="80px" Text="查 询" OnClick="btnQuery_Click">
                     </asp:Button>
@@ -120,13 +121,13 @@
                             <asp:BoundField DataField="Title" HeaderText="红包主题">
                             <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="send_uin" HeaderText="发送方财会通帐号">
+                            <asp:BoundField DataField="send_uin" HeaderText="发送方财付通帐号">
                             <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="send_name" HeaderText="发送方昵称">
                             <HeaderStyle Width="80px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="recv_uin" HeaderText="接收方财会通帐号">
+                            <asp:BoundField DataField="recv_uin" HeaderText="接收方财付通帐号">
                             <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="recv_name" HeaderText="接收方昵称">
@@ -135,7 +136,7 @@
                              <asp:BoundField DataField="amount_text" HeaderText="领取金额">
                             <HeaderStyle Width="80px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="wishing" HeaderText="祝福语"> <ItemStyle  HorizontalAlign="Center"/>
+                            <asp:BoundField DataField="answer" HeaderText="祝福语"> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
 
                         </Columns>
@@ -144,6 +145,10 @@
                             BackColor="#4A3C8C">
                         </HeaderStyle>
                     </asp:GridView>
+                    <webdiyer:aspnetpager id="redPacketHBDetailPager" runat="server" horizontalalign="right"
+                        numericbuttoncount="5" pagingbuttonspacing="0" showinputbox="always" cssclass="mypager"
+                        submitbuttontext="转到" numericbuttontextformatstring="[{0}]" alwaysshow="true"
+                        onpagechanged="redPacketHBDetailPager_PageChanged"></webdiyer:aspnetpager>
   
                 </td>
             </tr>

@@ -7517,7 +7517,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                     else if (reqType == 11)//特殊找回密码 发tips和短信 模板位申请，需更改下面代码
                     {
-                        string str_params = "www.tenpay.com/v2/cs/v2/";
+                        string str_params = "www.tenpay.com/v2/cs/";
                         str_params = "url=" + System.Web.HttpUtility.UrlEncode(str_params, System.Text.Encoding.GetEncoding("gb2312"));
                         //uin = "466678748";
                         //userPhone = "18718489269";
@@ -17922,7 +17922,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 "Fbank_status,Fcard_tail,Fbank_id,Ftruename,Funchain_time_local,Fmodify_time," +
                                 "Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fcreate_time,Fbind_time_local,Fbind_time_bank,Funchain_time_bank,Fcre_type,Fonce_quota,Fday_quota,Fi_character2 & 0x01 as sms_flag from c2c_db.t_user_bind_tmp where Findex=" + Findex + " and fuid=" + fuid;
                 }
-                return da.dsGetTotalData(Sql);
+                DataSet set = da.dsGetTotalData(Sql);
+                return set;
             }
             catch (Exception err)
             {
