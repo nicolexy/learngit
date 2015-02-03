@@ -140,13 +140,13 @@ namespace CFT.CSOMS.DAL.Infrastructure
         /// <returns></returns>
         public static DataSet GetHBDetailFromRelay(string requestString, string serviceCode, string relayIP = "", int relayPort = 0, bool encrypt = false, bool invisible = false, string relayDefaultSPId = "")
         {
-            string answer = "";          
-            try
+           string answer = "";
+           try
             {
                 var relayResponse = RelayHelper.CommunicateWithRelay(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
                 answer = Encoding.UTF8.GetString(relayResponse.ResponseBuffer);
                 //记录下日志
-                string strLog = string.Format("请求串:{0},通过UTF8转义结果:{1}", requestString, answer);
+                string strLog = string.Format("红包详情请求串:{0},通过UTF8转义结果:{1}", requestString, answer);
                 LogHelper.LogInfo(strLog, "GetHBDetailFromRelay");
             }
             catch (Exception err)
@@ -183,7 +183,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
                 var relayResponse = RelayHelper.CommunicateWithRelay(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
                 answer = Encoding.UTF8.GetString(relayResponse.ResponseBuffer);
                 //记录下日志
-                string strLog = string.Format("请求串:{0},通过UTF8转义结果:{1}",requestString,answer);
+                string strLog = string.Format("红包数据请求串:{0},通过UTF8转义结果:{1}",requestString,answer);
                 LogHelper.LogInfo(strLog, "GetHQDataFromRelay");
             }
             catch (Exception err)
@@ -199,7 +199,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
             }
             string Msg = "";
             //解析
-            ds = CommQuery.ParseRelayStr(answer, out Msg);
+             ds = CommQuery.ParseRelayStr(answer, out Msg);
             if (Msg != "")
             {
                 throw new Exception(Msg);

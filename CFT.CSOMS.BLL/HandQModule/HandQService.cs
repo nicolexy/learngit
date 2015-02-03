@@ -15,9 +15,9 @@ namespace CFT.CSOMS.BLL.HandQModule
             return new HandQDAL().QueryHandQInfor(strUID, strPayListID, strBeginTime, strEndTime, strType, offset, limit, out strOutMsg);
         }
 
-        public DataSet RequestHandQDetail(string strSendList, out string strOutMsg)
+        public DataSet RequestHandQDetail(string strSendList,int type, int offset, int limit, out string strOutMsg)
         {
-            return new HandQDAL().RequestHandQDetail(strSendList, out strOutMsg);
+            return new HandQDAL().RequestHandQDetail(strSendList, type,offset, limit, out strOutMsg);
         }
     }
 }
