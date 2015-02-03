@@ -7517,7 +7517,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                     else if (reqType == 11)//特殊找回密码 发tips和短信 模板位申请，需更改下面代码
                     {
-                        string str_params = "www.tenpay.com/v2/cs/v2/";
+                        string str_params = "www.tenpay.com/v2/cs/";
                         str_params = "url=" + System.Web.HttpUtility.UrlEncode(str_params, System.Text.Encoding.GetEncoding("gb2312"));
                         //uin = "466678748";
                         //userPhone = "18718489269";
