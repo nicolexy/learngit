@@ -4,6 +4,4 @@ TestResults
 *.suo
 *.user
 *.xsd
-*.wsdl
-*.datasource
 *.log
