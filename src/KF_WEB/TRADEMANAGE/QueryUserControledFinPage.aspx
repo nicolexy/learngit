@@ -111,6 +111,49 @@
 			<hr>
 			<br>
 			<br>
+                <table border="0" cellSpacing="0" cellPadding="0" width="900">
+                <tr>
+					<td width="50%"><IMG src="../IMAGES/Page/post.gif" width="20" height="16"><label class="style3">解除资金受控日志查询</label></td>
+					 
+				</tr>
+				<TR>
+					<TD vAlign="top"><asp:datagrid id="DataGrid_Remove" runat="server" Width="900px" BorderColor="#E7E7FF" BorderStyle="None"
+							BorderWidth="1px" BackColor="White" CellPadding="1" GridLines="Horizontal" AutoGenerateColumns="False"
+							PageSize="5" HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+							<FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
+							<SelectedItemStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#738A9C"></SelectedItemStyle>
+							<AlternatingItemStyle BackColor="#F7F7F7"></AlternatingItemStyle>
+							<ItemStyle HorizontalAlign="Center" ForeColor="#4A3C8C" BackColor="#E7E7FF"></ItemStyle>
+							<HeaderStyle Font-Bold="True" HorizontalAlign="Center" ForeColor="#F7F7F7" BackColor="#4A3C8C"></HeaderStyle>
+							<Columns>
+								<asp:BoundColumn DataField="Fuin" HeaderText="财付通帐号" FooterStyle-HorizontalAlign="Center">
+									<HeaderStyle Width="200px"></HeaderStyle>
+								</asp:BoundColumn>
+								<asp:BoundColumn DataField="FbalanceStr" HeaderText="解控资金">
+									<HeaderStyle Width="100px" HorizontalAlign="Center"></HeaderStyle>
+								</asp:BoundColumn>
+						
+                                <asp:BoundColumn DataField="FtypeText" HeaderText="类型">
+									<HeaderStyle Width="100px"></HeaderStyle>
+								</asp:BoundColumn>
+                                 <asp:BoundColumn DataField="FcurType" HeaderText="类型编码">
+									<HeaderStyle Width="100px"></HeaderStyle>
+								</asp:BoundColumn>
+								<asp:BoundColumn DataField="FmodifyTime" HeaderText="操作时间">
+									<HeaderStyle Width="100px"></HeaderStyle>
+								</asp:BoundColumn>
+                                <asp:BoundColumn DataField="FupdateUser" HeaderText="操作人员">
+									<HeaderStyle Width="100px"></HeaderStyle>
+								</asp:BoundColumn>
+							</Columns>
+							<PagerStyle ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>
+						</asp:datagrid>
+                       <%-- <webdiyer:aspnetpager id="pager" runat="server" HorizontalAlign="right" AlwaysShow="True" NumericButtonTextFormatString="[{0}]"
+							SubmitButtonText="转到" CssClass="mypager" ShowInputBox="always" PagingButtonSpacing="0" NumericButtonCount="5"></webdiyer:aspnetpager>--%>
+
+					</TD>
+				</TR>
+			</table>
 			<div runat="server" id="div_detail" style="DISPLAY:none">
 				<span><label style="FONT-SIZE:15px">帐号：</label><asp:Label Runat="server" ID="lb_queryAcc" Font-Size="15px">帐号</asp:Label></span>
 				<table id="table2" border="2" cellSpacing="1" cellPadding="1" width="1100" runat="server">

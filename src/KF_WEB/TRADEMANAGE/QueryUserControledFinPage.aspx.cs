@@ -15,6 +15,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using Tencent.DotNet.Common.UI;
 using CFT.CSOMS.BLL.CFTAccountModule;
 using System.Web.Services.Protocols;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -143,7 +144,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 WebUtils.ShowMessage(this.Page, "查询异常！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
         }
+        private void RemoveLogQuery(string qqid)
+        {
+            //new TradeService().RemoveInsert(this.tbx_acc.Text.Trim(), "1000.00", "光大信用卡一点通", "13100", DateTime.Now, Session["uid"].ToString());
 
+            DataSet dsRemove = new TradeService().RemoveLogQuery(qqid);
+            this.DataGrid_Remove.DataSource = dsRemove.Tables[0];
+            this.DataGrid_Remove.DataBind();
+        }
 		protected void btn_query_Click(object sender, System.EventArgs e)
 		{
             //string strBeginDate = "",strEndDate = "";
@@ -163,6 +171,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             //}
 
 			StartQuery(this.tbx_acc.Text);
+            RemoveLogQuery(this.tbx_acc.Text);
 		}
         protected void btn_removeAll_Click(object sender, System.EventArgs e)
         {
@@ -174,7 +183,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 }
 
                 if (new AccountService().RemoveUserControlFin(this.tbx_acc.Text.Trim(), "", "", Session["uid"].ToString(), 4))
+                {
                     WebUtils.ShowMessage(this.Page, "解除成功！");
+                    DataTable dt = DataGrid_QueryResult.DataSource as DataTable;
+                    new TradeService().RemoveLogInsertAll(this.tbx_acc.Text.Trim(), Session["uid"].ToString(), dt);
+                    RemoveLogQuery(this.tbx_acc.Text.Trim());
+                }
 
             }
             catch (Exception eSys)
@@ -237,6 +251,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
          //   string uid = e.Item.Cells[8].Text.Trim();
             string cur_type = e.Item.Cells[5].Text.Trim();//类型
             string balance = e.Item.Cells[9].Text.Trim();//金额
+
+            string FbalanceStr=e.Item.Cells[1].Text.Trim();//受控金额
+            string FtypeText=e.Item.Cells[4].Text.Trim();//类型
             try
             {
 
@@ -248,7 +265,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     }
 
                     if (new AccountService().RemoveUserControlFin(this.tbx_acc.Text.Trim(), cur_type, balance, Session["uid"].ToString(), 3))
+                    {
                         WebUtils.ShowMessage(this.Page, "解除成功！");
+                        new TradeService().RemoveLogInsert(this.tbx_acc.Text.Trim(), FbalanceStr, FtypeText, cur_type, DateTime.Now, Session["uid"].ToString());
+                        RemoveLogQuery(this.tbx_acc.Text.Trim());
+                    }
                 }
             
             }

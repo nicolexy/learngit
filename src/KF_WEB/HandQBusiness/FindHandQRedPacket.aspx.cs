@@ -17,7 +17,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
         {
             if (!IsPostBack)
             {
-                textBoxBeginDate.Text = DateTime.Now.AddDays(-7).ToString("yyyy年MM月dd日");
+                textBoxBeginDate.Text = DateTime.Now.AddDays(-30).ToString("yyyy年MM月dd日");
                 textBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
             }
         }
