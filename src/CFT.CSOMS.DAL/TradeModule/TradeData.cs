@@ -7,6 +7,7 @@ using TENCENT.OSS.C2C.Finance.DataAccess;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using CFT.CSOMS.DAL.Infrastructure;
 using CFT.CSOMS.DAL.CFTAccount;
+using CommLib;
 
 namespace CFT.CSOMS.DAL.TradeModule
 {
@@ -55,6 +56,29 @@ namespace CFT.CSOMS.DAL.TradeModule
                 da.OpenConn();
                 string tableStr = PublicRes.GetTableNameUid("t_bankroll_list", uid);
                 string Sql = "Select * from  " + tableStr + " where Fuid='"+uid+"' Order by Fmodify_time DESC limit 1";
+                DataSet ds = da.dsGetTotalData(Sql);
+                return ds;
+            }
+        }
+
+        public int RemoveLogInsert(string qqid, string FbalanceStr, string FtypeText, string cur_type, DateTime ApplyTime, string ApplyUser)
+        {
+            using (var da = CommLib.DbConnectionString.Instance.GetConnection("DataSource_ht"))
+            {
+                da.OpenConn();
+
+                string Sql = "insert into  c2c_fmdb.t_log_ConFinRemove (Fuin ,FbalanceStr,FtypeText,FcurType ,FmodifyTime ,FupdateUser) " +
+                        "values('" + qqid + "','" + FbalanceStr + "','" + FtypeText + "','" + cur_type + "','" + ApplyTime.ToString() + "','" + ApplyUser + "')";
+               return da.ExecSqlNum(Sql);
+            }
+        }
+        public DataSet RemoveLogQuery(string qqid)
+        {
+            using (var da = CommLib.DbConnectionString.Instance.GetConnection("DataSource_ht"))
+            {
+                da.OpenConn();
+
+                string Sql = "Select * from  c2c_fmdb.t_log_ConFinRemove where Fuin='" + qqid + "' Order by FmodifyTime DESC";
                 DataSet ds = da.dsGetTotalData(Sql);
                 return ds;
             }
