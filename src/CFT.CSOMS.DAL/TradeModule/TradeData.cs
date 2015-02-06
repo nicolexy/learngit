@@ -61,7 +61,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
         }
 
-        public int RemoveLogInsert(string qqid, string FbalanceStr, string FtypeText, string cur_type, DateTime ApplyTime, string ApplyUser)
+        public int RemoveControledFinLogInsert(string qqid, string FbalanceStr, string FtypeText, string cur_type, DateTime ApplyTime, string ApplyUser)
         {
             using (var da = CommLib.DbConnectionString.Instance.GetConnection("DataSource_ht"))
             {
@@ -72,7 +72,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                return da.ExecSqlNum(Sql);
             }
         }
-        public DataSet RemoveLogQuery(string qqid)
+        public DataSet RemoveControledFinLogQuery(string qqid)
         {
             using (var da = CommLib.DbConnectionString.Instance.GetConnection("DataSource_ht"))
             {

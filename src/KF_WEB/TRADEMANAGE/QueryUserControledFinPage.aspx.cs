@@ -130,6 +130,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 }
 
                 classLibrary.setConfig.FenToYuan_Table(dt, "balance", "FbalanceStr");
+                ViewState["dtControledFin"] = dt;
 
                 this.DataGrid_QueryResult.DataSource = dt;
                 this.DataGrid_QueryResult.DataBind();
@@ -147,10 +148,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         private void RemoveLogQuery(string qqid)
         {
             //new TradeService().RemoveInsert(this.tbx_acc.Text.Trim(), "1000.00", "光大信用卡一点通", "13100", DateTime.Now, Session["uid"].ToString());
-
-            DataSet dsRemove = new TradeService().RemoveLogQuery(qqid);
-            this.DataGrid_Remove.DataSource = dsRemove.Tables[0];
-            this.DataGrid_Remove.DataBind();
+            try
+            {
+                DataSet dsRemove = new TradeService().RemoveControledFinLogQuery(qqid);
+                this.DataGrid_Remove.DataSource = dsRemove.Tables[0];
+                this.DataGrid_Remove.DataBind();
+            }
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, "查询解绑日志异常！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
+            }
         }
 		protected void btn_query_Click(object sender, System.EventArgs e)
 		{
@@ -181,12 +188,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 {
                     throw new Exception("无权限！");
                 }
-
-                if (new AccountService().RemoveUserControlFin(this.tbx_acc.Text.Trim(), "", "", Session["uid"].ToString(), 4))
+                DataTable dt = ViewState["dtControledFin"] as DataTable;
+                if (new AccountService().RemoveUserControlFin(this.tbx_acc.Text.Trim(), "", "", Session["uid"].ToString(), 4, dt,null))
                 {
                     WebUtils.ShowMessage(this.Page, "解除成功！");
-                    DataTable dt = DataGrid_QueryResult.DataSource as DataTable;
-                    new TradeService().RemoveLogInsertAll(this.tbx_acc.Text.Trim(), Session["uid"].ToString(), dt);
                     RemoveLogQuery(this.tbx_acc.Text.Trim());
                 }
 
@@ -252,8 +257,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             string cur_type = e.Item.Cells[5].Text.Trim();//类型
             string balance = e.Item.Cells[9].Text.Trim();//金额
 
-            string FbalanceStr=e.Item.Cells[1].Text.Trim();//受控金额
-            string FtypeText=e.Item.Cells[4].Text.Trim();//类型
+            DataTable dt = ViewState["dtControledFin"] as DataTable;
+            DataRow dr = dt.Rows[e.Item.ItemIndex];
             try
             {
 
@@ -263,11 +268,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     {
                         throw new Exception("无权限！");
                     }
-
-                    if (new AccountService().RemoveUserControlFin(this.tbx_acc.Text.Trim(), cur_type, balance, Session["uid"].ToString(), 3))
+                    if (new AccountService().RemoveUserControlFin(this.tbx_acc.Text.Trim(), cur_type, balance, Session["uid"].ToString(), 3,null, dr))
                     {
                         WebUtils.ShowMessage(this.Page, "解除成功！");
-                        new TradeService().RemoveLogInsert(this.tbx_acc.Text.Trim(), FbalanceStr, FtypeText, cur_type, DateTime.Now, Session["uid"].ToString());
                         RemoveLogQuery(this.tbx_acc.Text.Trim());
                     }
                 }
