@@ -63,6 +63,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     this.labApplyType.Text = "初次申请";
                 else if (dr["ApplyType"].ToString() == "1")
                     this.labApplyType.Text = "全单修改申请";
+                else if (dr["ApplyType"].ToString() == "49")
+                    this.labApplyType.Text = "spoa申请";
                 else
                     this.labApplyType.Text = dr["ApplyType"].ToString();
 
@@ -88,6 +90,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     this.labFlag.Text = "收件人信息修改失败";
                 else if (dr["Flag"].ToString() == "10")
                     this.labFlag.Text = "收件人信息修改失败";
+                else if (dr["Flag"].ToString() == "11")
+                    dr["FlagStr"] = "spoa审核";
                 else
                     this.labFlag.Text = dr["Flag"].ToString();
 
