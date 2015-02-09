@@ -46,7 +46,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         /// <param name="opera">操作人</param>
         /// <param name="dt">解绑资金信息</param>
         /// <returns></returns>
-        public bool RemoveUserControlFin(string qqid, string cur_type, string balance, string opera, int type, DataTable dt, DataRow dr)
+        public bool RemoveUserControlFin(string qqid, string cur_type, string balance, string opera, int type, DataTable dt)
         {
             string fuid = AccountData.ConvertToFuid(qqid);
             //  string fuid = "540444925";
@@ -61,16 +61,9 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             }
             if (new AccountData().RemoveUserControlFin(fuid, cur_type, balance, opera, type))
             {
-                if (dt != null)
+                foreach (DataRow item in dt.Rows)
                 {
-                    foreach (DataRow item in dt.Rows)
-                    {
-                        new CFT.CSOMS.DAL.TradeModule.TradeData().RemoveControledFinLogInsert(qqid, item["FbalanceStr"].ToString(), item["FtypeText"].ToString(), item["cur_type"].ToString(), DateTime.Now, opera);
-                    }
-                }
-                if (dr != null)
-                {
-                    new CFT.CSOMS.DAL.TradeModule.TradeData().RemoveControledFinLogInsert(qqid, dr["FbalanceStr"].ToString(), dr["FtypeText"].ToString(), dr["cur_type"].ToString(), DateTime.Now, opera);
+                    new CFT.CSOMS.DAL.TradeModule.TradeData().RemoveControledFinLogInsert(qqid, item["FbalanceStr"].ToString(), item["FtypeText"].ToString(), item["cur_type"].ToString(), DateTime.Now, opera);
                 }
                 return true;
             }
