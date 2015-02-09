@@ -123,7 +123,10 @@
                             <asp:BoundField DataField="Freceive_name" HeaderText="好友昵称">
                             <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="Freceive_openid_text" HeaderText="微信红包账号">
+                             <asp:BoundField DataField="Fsend_openid_text" HeaderText="发送方零钱账号">
+                            <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="Freceive_openid_text" HeaderText="接收方零钱账号">
                             <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="Famount_text" HeaderText="领取金额">
