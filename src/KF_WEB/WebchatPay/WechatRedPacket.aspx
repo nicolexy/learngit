@@ -117,6 +117,9 @@
                         GridLines="Horizontal" CellPadding="1" BackColor="White" BorderWidth="1px" BorderStyle="None"
                         BorderColor="#E7E7FF">
                         <Columns>
+                             <asp:BoundField DataField="Fsend_list_id" HeaderText="发送单">
+                            <HeaderStyle Width="100px" /> <ItemStyle  HorizontalAlign="Center"/>
+                            </asp:BoundField>
                             <asp:BoundField DataField="Fcreate_time" HeaderText="日期">
                             <HeaderStyle HorizontalAlign="Center" Width="150px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
