@@ -21,13 +21,14 @@ using System.Threading;
 using System.Xml;
 using System.Text.RegularExpressions;
 using CFT.CSOMS.DAL.Infrastructure;
+using CFT.Apollo.Logging;
 
 namespace CFT.CSOMS.DAL.InternetBank
 {
     public  class InternetBankData
     {
 
-        public void AddRefundInfo( string FOrderId ,int FRefund_type,string FSam_no ,string FRecycle_user,string FSubmit_user , string FRefund_amount)
+        public bool AddRefundInfo( string FOrderId ,int FRefund_type,string FSam_no ,string FRecycle_user,string FSubmit_user , string FRefund_amount)
         {
             string msg;
             var da = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
@@ -93,6 +94,7 @@ namespace CFT.CSOMS.DAL.InternetBank
                     strSql = String.Format(strSql, FOrderId, FCoding, FAmount, FTrade_state, FBuy_acc, FTrade_desc, FRefund_type, FRefund_state, FMemo, FSubmit_user, FRecycle_user, FSam_no, FSubmit_refund, FRefund_amount);
 
                     da.ExecSqlNum(strSql);
+                    return true;
                 }
                 else
                 {
@@ -101,7 +103,8 @@ namespace CFT.CSOMS.DAL.InternetBank
             }
             catch (LogicException err)
             {
-                throw new LogicException(err.Message);
+                LogHelper.LogInfo("AddRefundInfo:" + err.Message);
+                return false;
             }
             finally
             {

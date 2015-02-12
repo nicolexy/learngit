@@ -7,9 +7,9 @@ namespace CFT.CSOMS.BLL.InternetBank
 {
     public  class InternetBankService
     {
-        public void AddRefundInfo(string FOrderId, int FRefund_type, string FSam_no, string FRecycle_user, string FSubmit_user, string FRefund_amount)
+        public bool AddRefundInfo(string FOrderId, int FRefund_type, string FSam_no, string FRecycle_user, string FSubmit_user, string FRefund_amount)
         {
-            new CFT.CSOMS.DAL.InternetBank.InternetBankData().AddRefundInfo(FOrderId, FRefund_type, FSam_no, FRecycle_user, FSubmit_user, FRefund_amount);
+            return  new CFT.CSOMS.DAL.InternetBank.InternetBankData().AddRefundInfo(FOrderId, FRefund_type, FSam_no, FRecycle_user, FSubmit_user, FRefund_amount);
         }
     }
 }

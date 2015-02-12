@@ -45,10 +45,10 @@ namespace CSAPI
                 APIUtil.ValidateParamsNew(paramsHt, "appid", "FOrderId", "token");
                 //token验证
                 APIUtil.ValidateToken(paramsHt);
-              
-                if (paramsHt.Keys.Contains("FOrderId")) 
+
+                if (paramsHt.Keys.Contains("FOrderId"))
                 {
-                    FOrderId = paramsHt["FOrderId"].ToString(); 
+                    FOrderId = paramsHt["FOrderId"].ToString();
                 }
                 if (paramsHt.Keys.Contains("FRefund_type"))
                 {
@@ -66,17 +66,10 @@ namespace CSAPI
                 {
                     FRefund_amount = paramsHt["FRefund_amount"].ToString();
                 }
-                string infos = "";
-                try
-                {
-                    new CFT.CSOMS.BLL.InternetBank.InternetBankService().AddRefundInfo(FOrderId, FRefund_type, FSam_no, FRecycle_user, FSubmit_user, FRefund_amount);
-                }
-                catch (Exception e)
-                {
-                    infos = e.Message;
-                }
+
+                bool infos = new CFT.CSOMS.BLL.InternetBank.InternetBankService().AddRefundInfo(FOrderId, FRefund_type, FSam_no, FRecycle_user, FSubmit_user, FRefund_amount);
                 Record record = new Record();
-                record.RetValue = infos.ToLower();
+                record.RetValue = infos.ToString().ToLower();
                 List<Record> list = new List<Record>();
                 list.Add(record);
 
