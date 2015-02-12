@@ -98,6 +98,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 else
                     this.labFlag.Text = dr["Flag"].ToString();
 
+
+               
                 if (dr["OldTaxerType"].ToString().Trim() != "")
                 {
                     this.labOldTaxerType.Text = GetTaxerType(dr["OldTaxerType"].ToString());
