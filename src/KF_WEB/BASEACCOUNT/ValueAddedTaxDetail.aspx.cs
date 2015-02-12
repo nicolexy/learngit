@@ -94,7 +94,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 else if (dr["Flag"].ToString() == "10")
                     this.labFlag.Text = "收件人信息修改失败";
                 else if (dr["Flag"].ToString() == "11")
-                    dr["FlagStr"] = "spoa审核";
+                    this.labFlag.Text = "spoa审核";
                 else
                     this.labFlag.Text = dr["Flag"].ToString();
 
