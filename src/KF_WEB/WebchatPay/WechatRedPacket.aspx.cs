@@ -223,15 +223,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             var dsDetailList = new WechatPayService().QueryWebchatHB(sendListId, 3, ip, start, max);
 
 
-            if (dsDetailList != null && dsDetailList.Tables.Count > 0)
+            if (dsDetailList != null && dsDetailList.Tables.Count > 0&& dsDetailList.Tables[0].Rows.Count>0)
             {
                 dsDetailList.Tables[0].Columns.Add("Famount_text", typeof(string));
                 dsDetailList.Tables[0].Columns.Add("Freceive_openid_text", typeof(string));
+                dsDetailList.Tables[0].Columns.Add("Fsend_openid_text", typeof(string));
 
+                //红包详情中Fsend_openid都一样
+                string send_openid_tmp = string.Format("{0}@wx.tenpay.com", WeChatHelper.GetAcctIdFromOpenId(dsDetailList.Tables[0].Rows[0]["Fsend_openid"].ToString())); 
                 foreach (DataRow item in dsDetailList.Tables[0].Rows)
                 {
                     item["Famount_text"] = classLibrary.setConfig.FenToYuan(item["Famount"].ToString());
-                    item["Freceive_openid_text"] = item["Freceive_openid"].ToString() + "@hb.tenpay.com";
+                  //  item["Freceive_openid_text"] = item["Freceive_openid"].ToString() + "@hb.tenpay.com";
+                    //本来展示红包账号，改为展示微信账号
+                    item["Freceive_openid_text"] = string.Format("{0}@wx.tenpay.com", WeChatHelper.GetAcctIdFromOpenId(item["Freceive_openid"].ToString()));
+                    item["Fsend_openid_text"] = send_openid_tmp;
                 }
 
                 gvRedPacketDetail.DataSource = dsDetailList.Tables[0].DefaultView;

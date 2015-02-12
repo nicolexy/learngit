@@ -84,11 +84,32 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                     {
                         ds.Tables[0].Columns.Add("amount_text", typeof(string));
                         ds.Tables[0].Columns.Add("Title", typeof(string));
+                        ds.Tables[0].Columns.Add("channel_text", typeof(string));
 
                         foreach (DataRow item in ds.Tables[0].Rows)
                         {
                             item["amount_text"] = classLibrary.setConfig.FenToYuan(item["amount"].ToString());
                             item["Title"] = string.Format("{0}发出的红包", item["send_name"].ToString());
+
+                            switch (item["channel"].ToString())
+                            {
+                                case "1":
+                                    {
+                                        item["channel_text"] = "个人红包";
+                                        break;
+                                    }
+                                case "4":
+                                    {
+                                        item["channel_text"] = "明星或企业红包";
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        item["channel_text"] = "未知红包";
+                                        break;
+                                    }
+                            }
+
                         }
                         gvReceiveHQList.DataSource = ds.Tables[0].DefaultView;
                         gvReceiveHQList.DataBind();
@@ -149,6 +170,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                         ds.Tables[0].Columns.Add("summary", typeof(string));
                         ds.Tables[0].Columns.Add("refund", typeof(string));
                         ds.Tables[0].Columns.Add("send_listidex", typeof(string));
+                        ds.Tables[0].Columns.Add("channel_text", typeof(string));
 
                         foreach (DataRow item in ds.Tables[0].Rows)
                         {
@@ -181,6 +203,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                                 default:
                                     item["state_text"] = "未知" + item["state"].ToString();
                                     break;
+                            }
+
+                            switch (item["channel"].ToString())
+                            {
+                                case "1":
+                                    {
+                                        item["channel_text"] = "个人红包";
+                                        break;
+                                    }
+                                case "4":
+                                    {
+                                        item["channel_text"] = "明星或企业红包";
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        item["channel_text"] = "未知红包";
+                                        break;
+                                    }
                             }
                         }
 
@@ -228,12 +269,35 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                     {
                         ds.Tables[0].Columns.Add("amount_text", typeof(string));
                         ds.Tables[0].Columns.Add("Title", typeof(string));
+                        ds.Tables[0].Columns.Add("channel_text", typeof(string));
 
                         foreach (DataRow item in ds.Tables[0].Rows)
                         {
     
                             item["amount_text"] = string.IsNullOrEmpty(item["amount"].ToString())? "": classLibrary.setConfig.FenToYuan(item["amount"].ToString());
                             item["Title"] = string.IsNullOrEmpty(item["send_name"].ToString())?"":string.Format("发给{0}红包", item["send_name"].ToString());
+                            if(!string.IsNullOrEmpty(item["channel"].ToString()))
+                            {
+                                switch (item["channel"].ToString())
+                                {
+                                    case "1":
+                                        {
+                                            item["channel_text"] = "个人红包";
+                                            break;
+                                        }
+                                    case "4":
+                                        {
+                                            item["channel_text"] = "明星或企业红包";
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            item["channel_text"] = "未知红包";
+                                            break;
+                                        }
+                                }
+                            }
+ 
                         }
 
                         gvHQRedPacketDetail.DataSource = ds.Tables[0].DefaultView;

@@ -34,7 +34,7 @@ namespace CFT.CSOMS.DAL.HandQModule
             string relayDefaultSPId = "20000000";
             string ip = System.Configuration.ConfigurationManager.AppSettings["HandQHBIP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["HandQHBPort"].ToString());
-            string requestString = "send_listid=" + strSendList +"&type ="+type + "&offset=" + offset + "&limit=" + limit; ;
+            string requestString = "send_listid=" + strSendList +"&type ="+type + "&offset=" + offset + "&limit=" + limit; 
             strOutMsg += requestString;
             return RelayAccessFactory.GetHBDetailFromRelay(requestString, "100602", ip, port, true, false, relayDefaultSPId);
         }

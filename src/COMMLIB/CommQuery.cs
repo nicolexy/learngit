@@ -2546,6 +2546,15 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                             
                             row["send_name"] = ht["send_name"].ToString();
                         }
+                        if (ht.Contains("channel"))
+                        {
+                            if (!dt.Columns.Contains("channel"))
+                            {
+                                dt.Columns.Add("channel", typeof(string));
+                            }
+
+                            row["channel"] = ht["channel"].ToString();
+                        }
                       /*  if (ht.Contains("wishing"))
                         {
                             if (!dt.Columns.Contains("wishing"))
@@ -2589,6 +2598,11 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                     {
                         dt.Columns.Add("create_time", typeof(string));
                     }
+                    if (!dt.Columns.Contains("channel"))
+                    {
+                        dt.Columns.Add("channel", typeof(string));
+                    }
+                    
                     
                     dt.Rows.Add(row);
                 }
@@ -2618,6 +2632,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             {
                 return null;
             }
+            
             //添加列
             //string rowName = string.Format("row{0}",1);
             string strRow = CommQuery.IceDecode(ds.Tables[0].Rows[0]["row1"].ToString());
@@ -2640,6 +2655,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                 dt.Columns.Add(fieldsplit[0]);
             }
+           
+            
             //添加数据          
             for (int i = 1; i <= int.Parse(ds.Tables[0].Rows[0]["row_num"].ToString()); ++i)
             {
@@ -2673,6 +2690,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                     drfield[fieldsplit[0]] = CommQuery.IceDecode(fieldsplit[1].Trim());
 
                 }
+
+
                 drfield.EndEdit();
                 dt.Rows.Add(drfield);
             }

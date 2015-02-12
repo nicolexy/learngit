@@ -44,9 +44,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     BindInfo(TaskId,false);
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                Response.Redirect("../login.aspx?wh=1");
+                log4net.ILog log = log4net.LogManager.GetLogger("营改增详细信息");
+                log.ErrorFormat("营改增详细信息出错：{0} ", ex.Message);
+                throw new Exception("营改增详细信息出错：" + ex.Message.ToString());
+                //Response.Redirect("../login.aspx?wh=1");
             }
         }
 
@@ -63,6 +66,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     this.labApplyType.Text = "初次申请";
                 else if (dr["ApplyType"].ToString() == "1")
                     this.labApplyType.Text = "全单修改申请";
+                else if (dr["ApplyType"].ToString() == "49")
+                    this.labApplyType.Text = "spoa申请";
                 else
                     this.labApplyType.Text = dr["ApplyType"].ToString();
 
@@ -88,9 +93,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     this.labFlag.Text = "收件人信息修改失败";
                 else if (dr["Flag"].ToString() == "10")
                     this.labFlag.Text = "收件人信息修改失败";
+                else if (dr["Flag"].ToString() == "11")
+                    this.labFlag.Text = "spoa审核";
                 else
                     this.labFlag.Text = dr["Flag"].ToString();
 
+
+               
                 if (dr["OldTaxerType"].ToString().Trim() != "")
                 {
                     this.labOldTaxerType.Text = GetTaxerType(dr["OldTaxerType"].ToString());
@@ -145,7 +154,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 this.lblApplyTime.Text = dr["ApplyTime"].ToString();
                 this.txtMemo.Text = dr["Memo"].ToString();
-                string url = ConfigurationManager.AppSettings["ValueAddedTaxUrlPath"].Trim();
+                string url = null;
+                try
+                {
+                    url = ConfigurationManager.AppSettings["ValueAddedTaxUrlPath"].Trim();
+                }
+                catch (Exception ex)
+                {
+                    log4net.ILog log = log4net.LogManager.GetLogger("营改增详细信息==ValueAddedTaxUrlPath");
+                    log.ErrorFormat("取节点ValueAddedTaxUrlPath出错：{0} ", ex.Message);
+                    url = "http://kf2.cf.com/uploadfile";
+                }
+                
 
                 if (!url.EndsWith("/"))
                     url += "/";
