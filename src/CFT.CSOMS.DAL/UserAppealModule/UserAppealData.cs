@@ -1904,6 +1904,40 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             }
         }
 
+        private bool IsBindMobilePhone(string QQ)
+        {
+            bool bState = false;
+            string Fuid = AccountData.ConvertToFuid(QQ);
+            if (Fuid == null)
+            {
+                string strMeg = string.Format("QQ={0}转换成失败", QQ);
+                throw new Exception(strMeg);
+            }
+            using (var da = MySQLAccessFactory.GetMySQLAccess("MN"))
+            {
+                
+                da.OpenConn();
+                string strTable = "msgnotify_" + Fuid.Substring(Fuid.Length - 3, 2) + ".t_msgnotify_user_"
+                    + Fuid.Substring(Fuid.Length - 1, 1);
+                string sql = " select Fstatus from " + strTable + " where Fuid = '" + Fuid + "'";
+                DataSet ds = da.dsGetTotalData(sql);
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    int nState = int.Parse(ds.Tables[0].Rows[0]["Fstatus"].ToString());
+                    string strMeg = string.Format("IsBindMobilePhone:nState={0}", nState);
+                    LogHelper.LogInfo(strMeg);
+                    int nBit = 64;
+                    if ((nState & nBit) == nBit)
+                    {
+                        bState = true;
+                    }
+
+                }
+            }
+            return bState;
+
+        }
+
         public bool ConfirmAppealDBTB(string fid, string db, string tb, string Fcomment, string user, string userIP)
         {
             string msg = "";
@@ -1986,7 +2020,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                         {
                             IsNew = true;
 
-                            if (cont_type == "1")//前端会传回1或者3,3的时候不需要客服绑定
+                            if (cont_type == "1" && !IsBindMobilePhone(fuin))//前端会传回1或者3,3的时候不需要客服绑定
                             {
                                 string Fuid = AccountData.ConvertToFuid(fuin);
                                 string client_id = System.Configuration.ConfigurationManager.AppSettings["client_id"].ToString();
@@ -5262,5 +5296,6 @@ namespace CFT.CSOMS.DAL.UserAppealModule
 
     }
     #endregion
+
 }
 
