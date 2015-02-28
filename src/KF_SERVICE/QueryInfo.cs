@@ -10001,7 +10001,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 if (fstate == 10)   //直接申诉成功，即审核成功，且FCheckUser为system
                 {
-                    if (ftype == 8)
+                    if (ftype == 8 || ftype == 19)
                     {
                         strWhere += " and FState='" + fstate + "'  ";
                     }
