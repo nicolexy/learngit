@@ -82,6 +82,9 @@
                            <asp:BoundField DataField="recv_listid" HeaderText="订单号">
                                 <HeaderStyle Width="110px"></HeaderStyle> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
+                            <asp:BoundField DataField="channel_text" HeaderText="红包类型">
+                                <HeaderStyle Width="80px"></HeaderStyle> <ItemStyle  HorizontalAlign="Center"/>
+                            </asp:BoundField>
                             <asp:TemplateField ShowHeader="False">
                                 <HeaderStyle Width="200px"></HeaderStyle>
                                 <ItemTemplate>
@@ -136,6 +139,9 @@
                              <asp:BoundField DataField="amount_text" HeaderText="领取金额">
                             <HeaderStyle Width="80px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
+                            <asp:BoundField DataField="channel_text" HeaderText="红包类型">
+                                <HeaderStyle Width="80px"></HeaderStyle> <ItemStyle  HorizontalAlign="Center"/>
+                            </asp:BoundField>
                             <asp:BoundField DataField="answer" HeaderText="祝福语"> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
 
@@ -189,6 +195,9 @@
                             </asp:BoundField>
                             <asp:BoundField DataField="refund" HeaderText="退款金额" >
                             <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="channel_text" HeaderText="红包类型">
+                                <HeaderStyle Width="80px"></HeaderStyle> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="wishing" HeaderText="祝福语" >
                             <HeaderStyle Width="250px" /><ItemStyle  HorizontalAlign="Center"/>

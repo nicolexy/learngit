@@ -117,7 +117,7 @@ namespace CFT.CSOMS.DAL.RefundModule
             return null;
         }
 
-        public bool UpdateRefundData(string strUinId,string strBankListId,string strIdentity, string strBankAccNoOld, string strUserEmail, string strNewBankAccNo,
+        public bool UpdateRefundData(string strOldId, string strIdentity, string strBankAccNoOld, string strUserEmail, string strNewBankAccNo,
             string strBankUserName, string strReason, string strImgCommitment, string strImgIdentity, string strImgBankWater, string strImgCancellation, string strBankName,
             int nOldBankType, int nNewBankType, int nUserFalg, int nCardType, int nState, out string outMsg)
         {
@@ -183,7 +183,7 @@ namespace CFT.CSOMS.DAL.RefundModule
                 }
                 strSql += "FuserFlag=" + nUserFalg + "," +"FcurType = 1"+","+"FCardType="+nCardType+",";
                 strSql += "FmodifyTime='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'";
-                strSql += " where FpayListid='" + strUinId + "'and FbankListid='" + strBankListId + "'";
+                strSql += " where FoldId='" + strOldId +"'";
 
                 using (var da = MySQLAccessFactory.GetMySQLAccess("RefundDB"))
                 {

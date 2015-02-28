@@ -117,13 +117,19 @@
                         GridLines="Horizontal" CellPadding="1" BackColor="White" BorderWidth="1px" BorderStyle="None"
                         BorderColor="#E7E7FF">
                         <Columns>
+                             <asp:BoundField DataField="Fsend_list_id" HeaderText="发送单">
+                            <HeaderStyle Width="100px" /> <ItemStyle  HorizontalAlign="Center"/>
+                            </asp:BoundField>
                             <asp:BoundField DataField="Fcreate_time" HeaderText="日期">
                             <HeaderStyle HorizontalAlign="Center" Width="150px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="Freceive_name" HeaderText="好友昵称">
                             <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="Freceive_openid_text" HeaderText="微信红包账号">
+                             <asp:BoundField DataField="Fsend_openid_text" HeaderText="发送方零钱账号">
+                            <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="Freceive_openid_text" HeaderText="接收方零钱账号">
                             <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="Famount_text" HeaderText="领取金额">

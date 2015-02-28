@@ -319,6 +319,8 @@
                     <asp:button id="btnCW" runat="server" Width="90px" Height="30px" Text="转向财务处理" BorderStyle="Groove" onclick="btnTransferCW_Click"></asp:button>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <asp:button id="btnInvalid" runat="server" Width="90px" Height="30px" Text="作废" BorderStyle="Groove" onclick="btnTransferInvalid_Click"></asp:button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <asp:button id="btnInitID" runat="server" Width="90px" Height="30px" Text="还原状态" BorderStyle="Groove"  Visible="false" onclick="btnInitState_Click"></asp:button>
                 <br />
                 <br />
            </FONT></div>

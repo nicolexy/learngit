@@ -158,11 +158,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				foreach(DataRow dr in ds.Tables[0].Rows)
 				{
 					if(dr["ApplyType"].ToString() == "0")
-						dr["ApplyTypeStr"] = "初次申请";
+                    {
+                        dr["ApplyTypeStr"] = "初次申请";
+                    }
 					else if(dr["ApplyType"].ToString() == "1")
-						dr["ApplyTypeStr"] = "全单修改申请";
-					else
-						dr["ApplyTypeStr"] = dr["ApplyType"].ToString();
+                    {
+                        dr["ApplyTypeStr"] = "全单修改申请";
+                    }
+                    else if (dr["ApplyType"].ToString() == "49")
+                    {
+                        dr["ApplyTypeStr"] = "spoa申请";
+                    }
+                    else
+                    {
+                        dr["ApplyTypeStr"] = dr["ApplyType"].ToString();
+                    }
+						
 
 					if(dr["Flag"].ToString() == "1")
 						dr["FlagStr"] = "初次申请授权书待上传";
@@ -184,6 +195,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 						dr["FlagStr"] = "待商户提交全单修改申请";
 					else if(dr["Flag"].ToString() == "10")
 						dr["FlagStr"] = "全单修改授权书待上传";
+                    else if (dr["Flag"].ToString() == "11")
+                        dr["FlagStr"] = "spoa审核";
 					else 
 						dr["FlagStr"] = dr["Flag"].ToString();
 				}

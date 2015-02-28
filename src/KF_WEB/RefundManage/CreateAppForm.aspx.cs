@@ -110,7 +110,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 string strImgIdentity = Request.QueryString["identityCard"].ToString();
                 string strImgBankWater = Request.QueryString["bankWater"].ToString();
                 string strImgCancellation = Request.QueryString["cancellation"].ToString();
-                if (new RefundService().UpdateRefundData(lbUinID.Text, lbBankListID.Text, lbIdentity.Text, lbInitBankAccNo.Text, lbMail.Text, lbNewBankAccNo.Text,
+                if (new RefundService().UpdateRefundData(ViewState["refundId"].ToString(), lbIdentity.Text, lbInitBankAccNo.Text, lbMail.Text, lbNewBankAccNo.Text,
                     lbBankUserName.Text, lbReason.Text, strImgCommitment, strImgIdentity, strImgBankWater, strImgCancellation,lbBankName.Text, int.Parse(ViewState["initBankID"].ToString()),
                     int.Parse(ViewState["newBankID"].ToString()), int.Parse(ViewState["userFlagID"].ToString()), int.Parse(ViewState["cardTypeID"].ToString()), 2, out strMsg) == false)
                 {
