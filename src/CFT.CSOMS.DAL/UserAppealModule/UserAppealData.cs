@@ -1904,15 +1904,9 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             }
         }
 
-        private bool IsBindMobilePhone(string QQ)
+        private bool IsBindMobilePhone(string Fuid)
         {
             bool bState = false;
-            string Fuid = AccountData.ConvertToFuid(QQ);
-            if (Fuid == null)
-            {
-                string strMeg = string.Format("QQ={0}转换成失败", QQ);
-                throw new Exception(strMeg);
-            }
             using (var da = MySQLAccessFactory.GetMySQLAccess("MN"))
             {
                 
@@ -2020,7 +2014,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                         {
                             IsNew = true;
 
-                            if (cont_type == "1" && !IsBindMobilePhone(fuin))//前端会传回1或者3,3的时候不需要客服绑定
+                            if (cont_type == "1" )//前端会传回1或者3,3的时候不需要客服绑定
                             {
                                 string Fuid = AccountData.ConvertToFuid(fuin);
                                 string client_id = System.Configuration.ConfigurationManager.AppSettings["client_id"].ToString();
@@ -2316,6 +2310,28 @@ namespace CFT.CSOMS.DAL.UserAppealModule
         /// </summary>
         public bool BindOrChangeMobile(string Fuid, string fuin, string old_mobile, string mobile_no, string client_ip, string certno, string singed, out string msg)
         {
+            msg = "BindOrChangeMobile...";
+            if (old_mobile == "")
+            {
+                //已绑定,就不需要再去绑定了
+                if (IsBindMobilePhone(Fuid))
+                {
+                    string strMsg = string.Format("QQ号={0}手机号已经绑定了", Fuid);
+                    LogHelper.LogInfo(strMsg);
+                    return true;
+                }
+            }
+            else
+            {
+                //更改手机相同时
+                if (old_mobile.Trim() == mobile_no.Trim())
+                {
+                    string strMsg = string.Format("QQ号={0}，更改手机号码相同", Fuid);
+                    LogHelper.LogInfo(strMsg);
+                    return true;
+                }
+
+            }
             // 以下三步走
             //发验证
 
