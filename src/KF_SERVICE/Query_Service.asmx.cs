@@ -22291,7 +22291,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //已绑定,就不需要再去绑定了
                 if(IsBindMobilePhone(Fuid))
                 {
-                    string strMsg = string.Format("QQ号={0}手机号已经绑定了", Fuid);
+                    string strMsg = string.Format("QQ号={0}手机号已经绑定了", fuin);
                     SunLibrary.LoggerFactory.Get("KF_Service").Info(strMsg);
                     return true;
                 }
@@ -22301,7 +22301,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //更改手机相同时
                 if (old_mobile.Trim() == mobile_no.Trim())
                 {
-                    string strMsg = string.Format("QQ号={0}，更改手机号码相同", Fuid);
+                    string strMsg = string.Format("QQ号={0}，更改手机号码相同", fuin);
                     SunLibrary.LoggerFactory.Get("KF_Service").Info(strMsg);
                     return true;
                 }

@@ -2316,7 +2316,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                 //已绑定,就不需要再去绑定了
                 if (IsBindMobilePhone(Fuid))
                 {
-                    string strMsg = string.Format("QQ号={0}手机号已经绑定了", Fuid);
+                    string strMsg = string.Format("QQ号={0}手机号已经绑定了", fuin);
                     LogHelper.LogInfo(strMsg);
                     return true;
                 }
@@ -2326,7 +2326,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                 //更改手机相同时
                 if (old_mobile.Trim() == mobile_no.Trim())
                 {
-                    string strMsg = string.Format("QQ号={0}，更改手机号码相同", Fuid);
+                    string strMsg = string.Format("QQ号={0}，更改手机号码相同", fuin);
                     LogHelper.LogInfo(strMsg);
                     return true;
                 }
