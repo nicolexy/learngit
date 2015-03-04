@@ -308,10 +308,11 @@ namespace TENCENT.OSS.CFT.KF.Common
         {
             flag = false;
 
+            UdpClient udpClient = new UdpClient();
             try
-            {
-                UdpClient udpClient = new UdpClient();
-
+            {         
+                udpClient.Client.SendTimeout = 60000;//设置阻塞时间量60s
+                udpClient.Client.ReceiveTimeout = 5000;//5s
                 IPAddress ipAddress = IPAddress.Parse(fServerIP);
                 IPEndPoint ipLocalEndPoint = new IPEndPoint(ipAddress, fServerPort);
 
@@ -324,8 +325,14 @@ namespace TENCENT.OSS.CFT.KF.Common
 
                 flag = true;
             }
-            catch
+            catch(Exception ex)
             {
+                log4net.ILog log = log4net.LogManager.GetLogger("UDP error");
+                if (log.IsInfoEnabled)
+                    log.Info("UDP.RunThread error:" + ex);
+
+                udpClient.Close();
+
                 flag = false;
             }            
         }

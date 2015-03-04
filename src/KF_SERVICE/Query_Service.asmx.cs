@@ -22254,11 +22254,59 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
+        private bool IsBindMobilePhone(string Fuid)
+        {
+            bool bState = false;
+            using (var da = new MySqlAccess(PublicRes.GetConnString("MN")))//MySQLAccessFactory.GetMySQLAccess("MN"))
+            {
+
+                da.OpenConn();
+                string strTable = "msgnotify_" + Fuid.Substring(Fuid.Length - 3, 2) + ".t_msgnotify_user_"
+                    + Fuid.Substring(Fuid.Length - 1, 1);
+                string sql = " select Fstatus from " + strTable + " where Fuid = '" + Fuid + "'";
+                DataSet ds = da.dsGetTotalData(sql);
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    int nState = int.Parse(ds.Tables[0].Rows[0]["Fstatus"].ToString());
+                    int nBit = 64;
+                    if ((nState & nBit) == nBit)
+                    {
+                        bState = true;
+                    }
+
+                }
+            }
+            return bState;
+
+        }
+
         /// <summary>
         ///  发风控验证、绑定或更换手机、发风控通知
         /// </summary>
         public bool BindOrChangeMobile(string Fuid, string fuin, string old_mobile, string mobile_no, string client_ip, string certno, string singed,out string msg)
         {
+            msg = "BindOrChangeMobile...";
+            if (old_mobile == "" )
+            {
+                //已绑定,就不需要再去绑定了
+                if(IsBindMobilePhone(Fuid))
+                {
+                    string strMsg = string.Format("QQ号={0}手机号已经绑定了", fuin);
+                    SunLibrary.LoggerFactory.Get("KF_Service").Info(strMsg);
+                    return true;
+                }
+            }          
+            else
+            {
+                //更改手机相同时
+                if (old_mobile.Trim() == mobile_no.Trim())
+                {
+                    string strMsg = string.Format("QQ号={0}，更改手机号码相同", fuin);
+                    SunLibrary.LoggerFactory.Get("KF_Service").Info(strMsg);
+                    return true;
+                }
+
+            }
             // 以下三步走
             //发验证
             Query_Service qs = new Query_Service();
