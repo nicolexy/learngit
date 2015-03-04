@@ -1537,7 +1537,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch(Exception ex)
             {
-                SunLibrary.LoggerFactory.Get("KF_Service PublicRes").Info("ConvertToFuid error:" + ex.Message);
+                SunLibrary.LoggerFactory.Get("KF_Service PublicRes").Info("ConvertToFuid error:" + ex);
                 return null;
             }
         }
