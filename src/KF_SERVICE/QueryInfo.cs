@@ -10156,16 +10156,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     HandleParameter(ds, true);
 
                     string WhereStr = "";
-                    foreach (DataRow dr in ds.Tables[0].Rows)
-                    {
-                        if (dr["IsPass"].ToString() == "Y")
-                        {
-                            dr.Delete();
-                        }
-                        else
-                            WhereStr += "'" + dr["Fid"].ToString().Trim() + "',";
-                    }
-                    ds.AcceptChanges();
+
+                    //注释这几行，可解决批量领导领不出的问题
+                    //foreach (DataRow dr in ds.Tables[0].Rows)
+                    //{
+                    //    if (dr["IsPass"].ToString() == "Y")
+                    //    {
+                    //        dr.Delete();
+                    //    }
+                    //    else
+                    //        WhereStr += "'" + dr["Fid"].ToString().Trim() + "',";
+                    //}
+                    //ds.AcceptChanges();
+
 
                     WhereStr = WhereStr.Substring(0, WhereStr.Length - 1);
 
