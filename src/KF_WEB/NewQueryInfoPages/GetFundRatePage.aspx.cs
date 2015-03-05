@@ -731,7 +731,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (ViewState["close_flag"].ToString() == "2")//·â±Õ¼´¶¨ÆÚ
                 {
                     this.tableCloseFundRoll.Visible = true;
+                    this.tableBankRollList.Visible = true;
                     BindCloseFundRoll(ViewState["tradeId"].ToString(), ViewState["fundCode"].ToString(), beginDate, endDate, 1);
+                    BindBankRollList(ViewState["uin"].ToString(), ViewState["fundSPId"].ToString(), ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType, memo);
                 }
                 else
                 {

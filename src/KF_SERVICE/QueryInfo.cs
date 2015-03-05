@@ -8574,6 +8574,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         {
                             dr["FTypeName"] = "财付盾解绑";
                         }
+                        else if (tmp == "8")
+                        {
+                            dr["FTypeName"] = "普通解冻";
+                        }
+                        else if (tmp == "11")
+                        {
+                            dr["FTypeName"] = "特殊找回密码";
+                        }
+                        else if (tmp == "19")
+                        {
+                            dr["FTypeName"] = "微信解冻";
+                        }
 
                         tmp = dr["FState"].ToString();
                         if (tmp == "0")
@@ -9674,11 +9686,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             if (ftype != 99)
             {
-                strWhere += " and FType=" + ftype + " ";
+                if (ftype == 100)//真正查询所有申诉类型申诉记录
+                    ;
+                else
+                    strWhere += " and FType=" + ftype + " ";
             }
             else
             {
                 // 8号申诉是风控冻结，有另外的处理入口，申诉处理暂不包含改类型的申诉
+                //不包含普通解冻、微信解冻、特殊找密
                 strWhere += " and FType!=8 and FType!=19 and FType!=11";
             }
 
@@ -9842,6 +9858,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             if (ftype != 99)
             {
+                if (ftype == 100)//真正查询所有申诉类型申诉记录
+                    ;
                 strWhere += " and FType=" + ftype + " ";
             }
             else
