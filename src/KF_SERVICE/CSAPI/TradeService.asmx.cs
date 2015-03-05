@@ -30,8 +30,6 @@ namespace CSAPI
         {
             try
             {
-                string msg;
-
                 string FOrderId = ""; //财付通订单号
                 int FRefund_type = 1; //退款类型
                 string FSam_no = "";//SAM工单号
@@ -66,8 +64,10 @@ namespace CSAPI
                 {
                     FRefund_amount = paramsHt["FRefund_amount"].ToString();
                 }
-
+                //调用bll层方法
                 bool infos = new CFT.CSOMS.BLL.InternetBank.InternetBankService().AddRefundInfo(FOrderId, FRefund_type, FSam_no, FRecycle_user, FSubmit_user, FRefund_amount);
+                
+                //返回值
                 Record record = new Record();
                 record.RetValue = infos.ToString().ToLower();
                 List<Record> list = new List<Record>();
