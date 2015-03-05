@@ -620,7 +620,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     WebUtils.ShowMessage(this.Page, "ViewState[foldId]为空。");
                     return;
                 }
-                if (string.IsNullOrEmpty(new RefundService().QueryAbnormalRefundCheckID(ViewState["foldId"].ToString())))
+                string strHisCheckID = "";
+                if (string.IsNullOrEmpty(new RefundService().QueryAbnormalRefundCheckID(ViewState["foldId"].ToString(),ref strHisCheckID)))
                 {
                     new RefundService().SetRefundCheckState(0, ViewState["foldId"].ToString());
                     WebUtils.ShowMessage(this.Page, "初始化成功。");

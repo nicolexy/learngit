@@ -319,17 +319,18 @@ namespace CFT.CSOMS.DAL.RefundModule
         }
 
         //查询审批编号
-        public string  QueryAbnormalRefundCheckID(string strOldId)
+        public string  QueryAbnormalRefundCheckID(string strOldId ,ref string strHisCheckID)
         {
             try
             {
-                string strSql = "select FcheckID  from c2c_zwdb.t_refund_KF where FoldId='" + strOldId + "'";
+                string strSql = "select FcheckID,FHisCheckID from c2c_zwdb.t_refund_KF where FoldId='" + strOldId + "'";
                 using (var da = MySQLAccessFactory.GetMySQLAccess("RefundDB"))
                 {
                     da.OpenConn();
                     DataSet ds =  da.dsGetTotalData(strSql);
                     if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                     {
+                        strHisCheckID = ds.Tables[0].Rows[0]["FHisCheckID"].ToString();
                         return ds.Tables[0].Rows[0]["FcheckID"].ToString();
                     }
                 }

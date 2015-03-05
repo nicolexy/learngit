@@ -3313,6 +3313,7 @@
     <Content Include="VIPAccount\QueryBankCard.aspx">
       <SubType>Form</SubType>
     </Content>
+    <None Include="Properties\PublishProfiles\CSOMS.pubxml" />
     <None Include="Properties\PublishProfiles\kfweb.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -4630,7 +4631,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>56340</DevelopmentServerPort>
+          <DevelopmentServerPort>12062</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:6903/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

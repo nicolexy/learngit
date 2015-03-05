@@ -165,11 +165,11 @@ namespace CFT.CSOMS.BLL.RefundModule
         }
 
        //查询审批编号
-        public string QueryAbnormalRefundCheckID(string strOldId)
+        public string QueryAbnormalRefundCheckID(string strOldId, ref string strHisCheckID)
         {
             try
             {
-                return  new AbnormalRefundData().QueryAbnormalRefundCheckID(strOldId);
+                return new AbnormalRefundData().QueryAbnormalRefundCheckID(strOldId, ref strHisCheckID);
             }
             catch (Exception ex)
             {
