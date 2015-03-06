@@ -124,8 +124,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 string strImgIdentity = Request.QueryString["identityCard"].ToString();
                 string strImgBankWater = Request.QueryString["bankWater"].ToString();
                 string strImgCancellation = Request.QueryString["cancellation"].ToString();
+                string strOperator = Session["uid"].ToString()+ "|"+DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 if (new RefundService().UpdateRefundData(ViewState["refundId"].ToString(), lbIdentity.Text, lbInitBankAccNo.Text, lbMail.Text, lbNewBankAccNo.Text,
-                    lbBankUserName.Text, lbReason.Text, strImgCommitment, strImgIdentity, strImgBankWater, strImgCancellation,lbBankName.Text, int.Parse(ViewState["initBankID"].ToString()),
+                    lbBankUserName.Text, lbReason.Text, strImgCommitment, strImgIdentity, strImgBankWater, strImgCancellation, lbBankName.Text, strOperator, int.Parse(ViewState["initBankID"].ToString()),
                     int.Parse(ViewState["newBankID"].ToString()), int.Parse(ViewState["userFlagID"].ToString()), int.Parse(ViewState["cardTypeID"].ToString()), 2, out strMsg) == false)
                 {
                 

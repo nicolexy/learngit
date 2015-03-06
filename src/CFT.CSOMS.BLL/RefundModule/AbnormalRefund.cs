@@ -93,13 +93,13 @@ namespace CFT.CSOMS.BLL.RefundModule
         }
 
         public bool UpdateRefundData(string strOldId, string strIdentity, string strBankAccNoOld, string strUserEmail, string strNewBankAccNo, string strBankUserName,
-            string strReason,string strImgCommitment,string strImgIdentity,string strImgBankWater,string strImgCancellation,string strBankName, int nInitBankID,int nNewBankID,
+            string strReason, string strImgCommitment, string strImgIdentity, string strImgBankWater, string strImgCancellation, string strBankName, string strOperater, int nInitBankID, int nNewBankID,
             int nUserFalg, int nCardType, int nState, out string outMsg)
         {
             try
             {
                 return new AbnormalRefundData().UpdateRefundData(strOldId, strIdentity, strBankAccNoOld, strUserEmail, strNewBankAccNo, strBankUserName, strReason, strImgCommitment, strImgIdentity,
-                    strImgBankWater, strImgCancellation, strBankName, nInitBankID, nNewBankID, nUserFalg, nCardType, nState, out outMsg);
+                    strImgBankWater, strImgCancellation, strBankName,strOperater, nInitBankID, nNewBankID, nUserFalg, nCardType, nState, out outMsg);
             }
             catch (Exception ex)
             {
