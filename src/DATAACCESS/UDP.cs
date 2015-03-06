@@ -7,6 +7,8 @@ using System.Threading;
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.Configuration;
+using Apollo = CFT.Apollo;//设置别名，不然命名空间与该文件命名空间冲突，会找不到
+
 
 namespace TENCENT.OSS.CFT.KF.Common
 {
@@ -312,8 +314,8 @@ namespace TENCENT.OSS.CFT.KF.Common
             UdpClient udpClient = new UdpClient();
             try
             {
-                udpClient.Client.SendTimeout = int.Parse(ConfigurationManager.AppSettings["UDPSendTime"]);
-                udpClient.Client.ReceiveTimeout = int.Parse(ConfigurationManager.AppSettings["UDPReceiveTime"]);
+                udpClient.Client.SendTimeout = Apollo.Common.Configuration.AppSettings.Get<int>("UDPSendTime", 5000);
+                udpClient.Client.ReceiveTimeout = Apollo.Common.Configuration.AppSettings.Get<int>("UDPReceiveTime", 5000);
                 IPAddress ipAddress = IPAddress.Parse(fServerIP);
                 IPEndPoint ipLocalEndPoint = new IPEndPoint(ipAddress, fServerPort);
 
@@ -328,9 +330,7 @@ namespace TENCENT.OSS.CFT.KF.Common
             }
             catch(Exception ex)
             {
-                log4net.ILog log = log4net.LogManager.GetLogger("UDP error");
-                if (log.IsInfoEnabled)
-                    log.Info("UDP.RunThread error:" + ex);
+                Apollo.Logging.LogHelper.LogInfo("UDP.RunThread error:" + ex);
 
                 udpClient.Close();
 
