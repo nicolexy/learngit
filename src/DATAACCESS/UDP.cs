@@ -8,7 +8,7 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using System.Configuration;
 using Apollo = CFT.Apollo;//设置别名，不然命名空间与该文件命名空间冲突，会找不到
-using CFT.Apollo.Logging;
+
 
 namespace TENCENT.OSS.CFT.KF.Common
 {
@@ -330,7 +330,7 @@ namespace TENCENT.OSS.CFT.KF.Common
             }
             catch(Exception ex)
             {
-                LogHelper.LogInfo("UDP.RunThread error:" + ex);
+                Apollo.Logging.LogHelper.LogInfo("UDP.RunThread error:" + ex);
 
                 udpClient.Close();
 
