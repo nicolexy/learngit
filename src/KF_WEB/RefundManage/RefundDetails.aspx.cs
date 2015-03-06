@@ -140,7 +140,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 lbUser.Text = dr["FtrueName"].ToString();
                 lbReason.Text = dr["Fkfremark"].ToString();
                 lbCreateTime.Text = dr["FcreateTime"].ToString();
-                kfOperator.Text = "нч";
+                kfOperator.Text = "";
                 string strOperater = dr["FStandby1"].ToString();
                 if(!string.IsNullOrEmpty(strOperater))
                 {
