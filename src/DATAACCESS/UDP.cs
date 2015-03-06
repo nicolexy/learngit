@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System.Configuration;
 
 namespace TENCENT.OSS.CFT.KF.Common
 {
@@ -310,9 +311,9 @@ namespace TENCENT.OSS.CFT.KF.Common
 
             UdpClient udpClient = new UdpClient();
             try
-            {         
-                udpClient.Client.SendTimeout = 60000;//设置阻塞时间量60s
-                udpClient.Client.ReceiveTimeout = 5000;//5s
+            {
+                udpClient.Client.SendTimeout = int.Parse(ConfigurationManager.AppSettings["UDPSendTime"]);
+                udpClient.Client.ReceiveTimeout = int.Parse(ConfigurationManager.AppSettings["UDPReceiveTime"]);
                 IPAddress ipAddress = IPAddress.Parse(fServerIP);
                 IPEndPoint ipLocalEndPoint = new IPEndPoint(ipAddress, fServerPort);
 
