@@ -5594,6 +5594,8 @@
               <s:element minOccurs="0" maxOccurs="1" name="FStandby4" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="FEnable" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="FIgnorBank" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="FBusiness_list" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="FIngoreBusiness_list" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="returnUrl" type="s:string" />
             </s:sequence>
           </s:extension>
@@ -5679,6 +5681,8 @@
               <s:element minOccurs="0" maxOccurs="1" name="FStandby3" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="FStandby4" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="FEnable" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="FBusiness_list" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="FIngoreBusiness_list" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="returnUrl" type="s:string" />
             </s:sequence>
           </s:extension>
@@ -8457,6 +8461,35 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="QueryPayChannelNum">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="info" type="tns:PayChannelThresholdQuery" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PayChannelThresholdQuery">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="S_Date" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="S_BankType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="S_ChannelType" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="QueryPayChannelNumResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="QueryPayChannelNumResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="GetUserAccountSoapIn">
@@ -11063,6 +11096,12 @@
   <wsdl:message name="QueryDirectErrCodeByObjidSoapOut">
     <wsdl:part name="parameters" element="tns:QueryDirectErrCodeByObjidResponse" />
   </wsdl:message>
+  <wsdl:message name="QueryPayChannelNumSoapIn">
+    <wsdl:part name="parameters" element="tns:QueryPayChannelNum" />
+  </wsdl:message>
+  <wsdl:message name="QueryPayChannelNumSoapOut">
+    <wsdl:part name="parameters" element="tns:QueryPayChannelNumResponse" />
+  </wsdl:message>
   <wsdl:portType name="Query_ServiceSoap">
     <wsdl:operation name="GetUserAccount">
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">查询用户帐户表</documentation>
@@ -12938,6 +12977,11 @@
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">查询直付错误码表(提起的申请信息)</documentation>
       <wsdl:input message="tns:QueryDirectErrCodeByObjidSoapIn" />
       <wsdl:output message="tns:QueryDirectErrCodeByObjidSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="QueryPayChannelNum">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">查询付款渠道付款笔数统计</documentation>
+      <wsdl:input message="tns:QueryPayChannelNumSoapIn" />
+      <wsdl:output message="tns:QueryPayChannelNumSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="Query_ServiceSoap" type="tns:Query_ServiceSoap">
@@ -16456,6 +16500,15 @@
     </wsdl:operation>
     <wsdl:operation name="QueryDirectErrCodeByObjid">
       <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryDirectErrCodeByObjid" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryPayChannelNum">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryPayChannelNum" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

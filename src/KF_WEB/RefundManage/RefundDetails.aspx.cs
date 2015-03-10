@@ -140,6 +140,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 lbUser.Text = dr["FtrueName"].ToString();
                 lbReason.Text = dr["Fkfremark"].ToString();
                 lbCreateTime.Text = dr["FcreateTime"].ToString();
+                kfOperator.Text = "";
+                string strOperater = dr["FStandby1"].ToString();
+                if(!string.IsNullOrEmpty(strOperater))
+                {
+                    string[] strAryOperator = strOperater.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (strAryOperator.Length == 2)
+                    {
+                        kfOperator.Text = string.Format("资料提交者：{0} 提交时间:{1}", strAryOperator[0], strAryOperator[1]);
+                    }
+                    else
+                    {
+                        kfOperator.Text = strOperater;
+                    }
+                    
+                }
                 
                 int nUserFlag = int.Parse(dr["FuserFlag"].ToString());
                 if(nUserFlag <m_arrUserFlag.Length  && nUserFlag > 0)
@@ -620,7 +635,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     WebUtils.ShowMessage(this.Page, "ViewState[foldId]为空。");
                     return;
                 }
-                if (string.IsNullOrEmpty(new RefundService().QueryAbnormalRefundCheckID(ViewState["foldId"].ToString())))
+                string strHisCheckID = "";
+                if (string.IsNullOrEmpty(new RefundService().QueryAbnormalRefundCheckID(ViewState["foldId"].ToString(),ref strHisCheckID)))
                 {
                     new RefundService().SetRefundCheckState(0, ViewState["foldId"].ToString());
                     WebUtils.ShowMessage(this.Page, "初始化成功。");
