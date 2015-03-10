@@ -138,6 +138,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				labFQQ.Text = PublicRes.GetString(dr["Frec_uin"]);
 				labFaddress.Text = PublicRes.GetString(dr["Faddress"]);
 
+                this.labFstandby6.Text = PublicRes.GetString(dr["Fstandby6"]);//Ã·œ÷µ•id
+
                 labHandleMemo.Text = dr["FHandleMemoEx"].ToString();
 			}
 			else

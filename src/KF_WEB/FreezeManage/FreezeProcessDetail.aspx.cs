@@ -62,7 +62,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 				ViewState["FFreezeID"] = Request.QueryString["ffreeze_id"].ToString().Trim();
 
-                ViewState["FSubmitDate"] = Request.QueryString["fsubmit_date"].ToString().Trim();
+                //ViewState["FSubmitDate"] = Request.QueryString["fsubmit_date"].ToString().Trim();
+
+                //FID前六位为年月
+                string date = Request.QueryString["fid"].ToString().Trim().Substring(0, 6);
+                DateTime dateTime = DateTime.ParseExact(date, "yyyyMM", System.Globalization.CultureInfo.CurrentCulture);
+                ViewState["FSubmitDate"] = dateTime.ToString("yyyy-MM-dd") + " 00:00:00";
 
               //  SetAllBtnVisible_Freeze(false); 代码重复
 

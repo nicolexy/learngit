@@ -11170,15 +11170,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     //        dr.Delete();
                     //    }
                     //}
-                    for (int i = ds.Tables[0].Rows.Count - 1; i >= 0; i--)
-                    {
-                        DataRow dr = ds.Tables[0].Rows[i];
-                        if (dr["IsPass"].ToString() == "Y")
-                        {
-                            ds.Tables[0].Rows.Remove(dr);
-                        }
-                    }
-                    ds.AcceptChanges();
+
+                    //注释这几行，可解决批量领导领不出的问题
+                    //for (int i = ds.Tables[0].Rows.Count - 1; i >= 0; i--)
+                    //{
+                    //    DataRow dr = ds.Tables[0].Rows[i];
+                    //    if (dr["IsPass"].ToString() == "Y")
+                    //    {
+                    //        ds.Tables[0].Rows.Remove(dr);
+                    //    }
+                    //}
+                    //ds.AcceptChanges();
+
+
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         db = dr["DBName"].ToString();

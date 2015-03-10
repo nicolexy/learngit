@@ -179,7 +179,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     //20140108 lxl  返回需要的数据信息，比较数据太大系统反应不过来，优化项
                     ds = qs.GetUserAppealLockListDBTBInnrFun(ds);
                     //领单
-                   ds = qs.GetUserAppealLockListDBTB2(ds,uid);
+                    ds = qs.GetUserAppealLockListDBTB2(ds, uid);
                 }
                 else
                 {

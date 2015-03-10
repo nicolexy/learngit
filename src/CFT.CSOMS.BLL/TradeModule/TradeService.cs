@@ -25,6 +25,20 @@ namespace CFT.CSOMS.BLL.TradeModule
             return new TradeData().BeforeCancelTradeQuery(uid);
 
         }
-
+        public int ControledFinRemoveLogInsert(string qqid, string FbalanceStr, string FtypeText, string curtype, DateTime FmodifyTime, string FupdateUser)
+        {
+            return new TradeData().RemoveControledFinLogInsert(qqid, FbalanceStr, FtypeText, curtype, FmodifyTime, FupdateUser);
+        }
+        public void RemoveControledFinLogInsertAll(string qqid, string uid, DataTable dt) 
+        {
+            foreach (DataRow item in dt.Rows)
+            {
+                new TradeData().RemoveControledFinLogInsert(qqid, item["FbalanceStr"].ToString(), item["FtypeText"].ToString(), item["cur_type"].ToString(), DateTime.Now, uid);
+            }
+        }
+        public DataSet RemoveControledFinLogQuery(string qqid) 
+        {
+            return new TradeData().RemoveControledFinLogQuery(qqid);
+        }
     }
 }
