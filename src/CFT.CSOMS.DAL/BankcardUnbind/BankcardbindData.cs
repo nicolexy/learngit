@@ -11,6 +11,7 @@ using System.Collections;
 using CFT.CSOMS.DAL.Infrastructure;
 using TENCENT.OSS.CFT.KF.DataAccess;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
+using CommLib;
 
 namespace CFT.CSOMS.DAL.BankcardUnbind
 {
@@ -179,7 +180,8 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
         /// <returns></returns>
         public DataSet GetBankCardBindDetail(string fuid, string findex, string fBDIndex)
         {
-            MySqlAccess da = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
+            //MySqlAccess da = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
+            MySqlAccess da=new MySqlAccess(DbConnectionString.Instance.GetConnectionString("BD"));
             try
             {
                 // 2012/5/29 新增加查询字段Fcre_id

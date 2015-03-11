@@ -14,6 +14,8 @@ using Tencent.DotNet.OSS.Web.UI;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
+using BankCardBindService = CFT.CSOMS.BLL.BankCardBindModule.BankCardBindService;   //避免CFT命名空间相同
+using System.Collections.Generic;   
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -30,9 +32,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			{
 				Label1.Text = Session["uid"].ToString();
 				string szkey = Session["SzKey"].ToString();
-				//int operid = Int32.Parse(Session["OperID"].ToString());
 
-				//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
 				if(!ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
 
 				this.rbtn_bkt_JJK.CheckedChanged += new EventHandler(rbtns_CheckedChanged);
@@ -99,78 +99,34 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 		}
 		#endregion
 
-		private void ShowEdit()
-		{
-			this.PanelList.Visible = false;
-			this.PanelMod.Visible = true;
+        private void ShowEdit()
+        {
+            this.PanelList.Visible = false;
+            this.PanelMod.Visible = true;
 
-			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            // 20130809 数据库标记：FBDIndex=1绑定表 FBDIndex=2 临时绑定表
-            DataSet ds = qs.GetBankCardBind(Request.QueryString["Fuid"].ToString(), Request.QueryString["Findex"].ToString(), Request.QueryString["FBDIndex"].ToString());
+            DataSet ds = new BankCardBindService().GetBankCardBindDetail(Request.QueryString["Fuid"].ToString(), Request.QueryString["Findex"].ToString(), Request.QueryString["FBDIndex"].ToString());
 
-			if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count != 1)
-			{
-				//throw new Exception("没有查找到相应的记录！");
+            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count != 1)
+            {
                 WebUtils.ShowMessage(this, "没有查找到相应的记录");
                 return;
-			}
-			else
-			{
-				DataRow dr = ds.Tables[0].Rows[0];
-
-                //支付限额lxl
+            }
+            else
+            {
+                //支付限额lxl   
                 ds.Tables[0].Columns.Add("Fonce_quota_str", typeof(String));
                 ds.Tables[0].Columns.Add("Fday_quota_str", typeof(String));
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fonce_quota", "Fonce_quota_str");
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fday_quota", "Fday_quota_str");
-                this.lblonce_quota.Text = ds.Tables[0].Rows[0]["Fonce_quota_str"].ToString();
-                this.lblday_quota.Text = ds.Tables[0].Rows[0]["Fday_quota_str"].ToString();
-                //小额免短通知lxl
-                if (ds.Tables[0].Rows[0]["sms_flag"].ToString()=="1")
-                {
-                    this.lbli_character2.Text = "已开启";
-                }
-                else if (ds.Tables[0].Rows[0]["sms_flag"].ToString() == "0")
-                {
-                    this.lbli_character2.Text = "已关闭";
-                }
-              
-				this.lblFuin.Text = ds.Tables[0].Rows[0]["Fuin"].ToString();
-				string Fbank_type = ds.Tables[0].Rows[0]["Fbank_type"].ToString();
+                string Fbind_flag = ds.Tables[0].Rows[0]["Fbind_flag"].ToString();
+                string Fbind_status = ds.Tables[0].Rows[0]["Fbind_status"].ToString();
+                string Fbank_status = ds.Tables[0].Rows[0]["Fbank_status"].ToString();
 
-				this.lblFbank_type.Text = classLibrary.getData.GetBankNameFromBankCode(Fbank_type);
-                lblFbankType.Text = Fbank_type; //增加bank_type yinhuang 2013.7.18
-				/*
-				if(Fbank_type == "0")
-					this.lblFbank_type.Text = "未知";
-				else if(Fbank_type == "2001")
-					this.lblFbank_type.Text = "招行一点通";
-				else if(Fbank_type == "2002")
-					this.lblFbank_type.Text = "工行一点通";
-				else if(Fbank_type == "2003")
-					this.lblFbank_type.Text = "建行一点通";
-				else if(Fbank_type == "3001")
-					this.lblFbank_type.Text = "兴业信用卡";
-				else if(Fbank_type == "3002")
-					this.lblFbank_type.Text = "中行信用卡";
-				else
-					this.lblFbank_type.Text = Fbank_type;
-				*/
-
-				this.lblFbind_serialno.Text = ds.Tables[0].Rows[0]["Fbind_serialno"].ToString();
-				this.lblFprotocol_no.Text = ds.Tables[0].Rows[0]["Fprotocol_no"].ToString();
-				string Fbank_status = ds.Tables[0].Rows[0]["Fbank_status"].ToString();
-
-				if(Fbank_status == "0")
-					this.lblFbank_status.Text = "未定义";
-				else if(Fbank_status == "1")
-					this.lblFbank_status.Text = "预绑定状态(未激活)";
-				else if(Fbank_status == "2")
-					this.lblFbank_status.Text = "绑定确认(正常)";
-				else if(Fbank_status == "3")
-					this.lblFbank_status.Text = "解除绑定";
-				else
-					this.lblFbank_status.Text = "Unknown";
+                this.lblFuin.Text = ds.Tables[0].Rows[0]["Fuin"].ToString();
+                this.lblFbank_type.Text = GetBankType(ds.Tables[0].Rows[0]["Fbank_type"].ToString());
+                this.lblFbind_serialno.Text = ds.Tables[0].Rows[0]["Fbind_serialno"].ToString();
+                this.lblFprotocol_no.Text = ds.Tables[0].Rows[0]["Fprotocol_no"].ToString();
+                this.lblFbank_status.Text = ds.Tables[0].Rows[0]["bank_status_str"].ToString();
 
                 string cardTail = ds.Tables[0].Rows[0]["Fcard_tail"].ToString();
                 if (cardTail != "" && cardTail.Length > 4)
@@ -179,112 +135,42 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
                 this.lblFcard_tail_db.Text = cardTail;
 
-				this.lblFtruename.Text = ds.Tables[0].Rows[0]["Ftruename"].ToString();
-				string Fbind_type = ds.Tables[0].Rows[0]["Fbind_type"].ToString();
+                this.lblFtruename.Text = ds.Tables[0].Rows[0]["Ftruename"].ToString();
+                this.lblFbind_type.Text = ds.Tables[0].Rows[0]["bind_type_str"].ToString();
+                this.lblFbind_flag.Text = ds.Tables[0].Rows[0]["bind_flag_str"].ToString();
+                this.lblFbank_id.Text = ds.Tables[0].Rows[0]["Fbank_id"].ToString();
+                this.lblFbind_status.Text = ds.Tables[0].Rows[0]["bind_status_str"].ToString();
 
-				if(Fbind_type == "0")
-					this.lblFbind_type.Text = "未知类型";
-				else if(Fbind_type == "1")
-					this.lblFbind_type.Text = "普通借记卡关联";
-				else if(Fbind_type == "2")
-					this.lblFbind_type.Text = "银行联名卡关联";
-				else if(Fbind_type == "3")
-					this.lblFbind_type.Text = "信用卡关联";
-				else if(Fbind_type == "4")
-					this.lblFbind_type.Text = "内部绑定";
-				else if(Fbind_type == "20")
-					this.lblFbank_type.Text = "普通信用卡关联";
-				else
-					this.lblFbind_type.Text = "Unknown";
+                this.lblFindex.Text = ds.Tables[0].Rows[0]["Findex"].ToString();
+                this.lblFuid.Text = ds.Tables[0].Rows[0]["Fuid"].ToString();
+                this.lblFbankType.Text = ds.Tables[0].Rows[0]["Fbank_type"].ToString();
+                this.lblcreType.Text = ds.Tables[0].Rows[0]["cre_type_str"].ToString();
+                this.lblCreID.Text = classLibrary.setConfig.ConvertCreID(ds.Tables[0].Rows[0]["Fcre_id"].ToString());
 
-				string Fbind_status = ds.Tables[0].Rows[0]["Fbind_status"].ToString();
+                if (ds.Tables[0].Rows[0]["Ftelephone"].ToString() != "")
+                { this.lblPhone.Text = ds.Tables[0].Rows[0]["Ftelephone"].ToString(); }
+                else
+                { this.lblPhone.Text = ds.Tables[0].Rows[0]["Fmobilephone"].ToString(); }
 
-				if(Fbind_status == "0")
-					this.lblFbind_status.Text = "未定义";
-				else if(Fbind_status == "1")
-					this.lblFbind_status.Text = "初始状态";
-				else if(Fbind_status == "2")
-					this.lblFbind_status.Text = "开启";
-				else if(Fbind_status == "3")
-					this.lblFbind_status.Text = "关闭";
-				else if(Fbind_status == "4")
-					this.lblFbind_status.Text = "解除";
-				else if(Fbind_status == "5")
-					this.lblFbind_status.Text = "银行已激活，用户未激活";
-				else
-					this.lblFbind_status.Text = "Unknown";
+                this.lblUid.Text = ds.Tables[0].Rows[0]["Fuid"].ToString();
+                this.lblCreateTime.Text = ds.Tables[0].Rows[0]["Fcreate_time"].ToString();
+                this.lblbindTimeLocal.Text = ds.Tables[0].Rows[0]["Fbind_time_local"].ToString();
+                this.lblbindTimeBank.Text = ds.Tables[0].Rows[0]["Fbind_time_bank"].ToString();
+                this.lblUnbindTimeLocal.Text = ds.Tables[0].Rows[0]["Funchain_time_local"].ToString();
 
-				string Fbind_flag = ds.Tables[0].Rows[0]["Fbind_flag"].ToString();
+                this.lblUnbindTimeBank.Text = ds.Tables[0].Rows[0]["Funchain_time_bank"].ToString();
+                this.lblonce_quota.Text = ds.Tables[0].Rows[0]["Fonce_quota_str"].ToString();
+                this.lblday_quota.Text = ds.Tables[0].Rows[0]["Fday_quota_str"].ToString();
+                this.lbli_character2.Text = ds.Tables[0].Rows[0]["sms_flag_str"].ToString();
+                this.txtFmemo.Text = ds.Tables[0].Rows[0]["Fmemo"].ToString();
 
-				if(Fbind_flag == "0")
-					this.lblFbind_flag.Text = "未知";
-				else if(Fbind_flag == "1")
-					this.lblFbind_flag.Text = "有效";
-				else if(Fbind_flag == "2")
-					this.lblFbind_flag.Text = "无效";
-				else
-					this.lblFbind_flag.Text = "Unknown";
 
-				this.lblFbank_id.Text = ds.Tables[0].Rows[0]["Fbank_id"].ToString();
-				this.lblFindex.Text = ds.Tables[0].Rows[0]["Findex"].ToString();
-				this.lblFuid.Text = ds.Tables[0].Rows[0]["Fuid"].ToString();
-				this.txtFmemo.Text = ds.Tables[0].Rows[0]["Fmemo"].ToString();
-
-				try
-				{
-                    this.lblCreID.Text = classLibrary.setConfig.ConvertCreID(ds.Tables[0].Rows[0]["Fcre_id"].ToString());
-					if(ds.Tables[0].Rows[0]["Fmobilephone"].ToString() != "")
-						this.lblPhone.Text = ds.Tables[0].Rows[0]["Fmobilephone"].ToString();
-					else
-						this.lblPhone.Text = ds.Tables[0].Rows[0]["Ftelephone"].ToString();
-
-					this.lblUid.Text = ds.Tables[0].Rows[0]["Fuid"].ToString();
-
-					switch(ds.Tables[0].Rows[0]["Fcre_type"].ToString())
-					{
-						case "1":
-						{
-							this.lblcreType.Text = "身份证";break;
-						}
-						case "2":
-						{
-							this.lblcreType.Text = "护照";break;
-						}
-						case "3":
-						{
-							this.lblcreType.Text = "军官证";break;
-						}
-						default:
-						{
-							this.lblcreType.Text = "未知";break;
-						}
-					}
-
-					this.lblCreateTime.Text = dr["Fcreate_time"].ToString();
-					this.lblbindTimeLocal.Text = dr["Fbind_time_local"].ToString();
-					this.lblbindTimeBank.Text = dr["Fbind_time_bank"].ToString();
-					this.lblUnbindTimeLocal.Text = dr["Funchain_time_local"].ToString();
-					this.lblUnbindTimeBank.Text = dr["Funchain_time_bank"].ToString();
-
-                    //协议编号为0时显示复选框
-                    //if (this.lblFprotocol_no.Text=="0")
-                    //{
-                    //    this.PanelCheckBox.Visible = true;
-                    //}
-                    
-				}
-				catch(Exception ex)
-				{
-					WebUtils.ShowMessage(this,ex.Message);
-
-				}
-
-				if(Fbind_flag == "2" && Fbind_status == "4" && Fbank_status == "3")
-					this.btnUnbind.Enabled = false;
-				else
-					this.btnUnbind.Enabled = true;
-			}
-		}
+                if (Fbind_flag == "2" && Fbind_status == "4" && Fbank_status == "3")
+                    this.btnUnbind.Enabled = false;
+                else
+                    this.btnUnbind.Enabled = true;
+            }
+        }
 
 		protected void btnUnbind_Click(object sender, System.EventArgs e)
 		{
@@ -292,9 +178,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			{
 				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
                 qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-
-               
-
+           
                 //20130809 如果为邮储一点通、建行一点通、工行一点通，它们的协议号存在了bankID字段，不能走统一的解绑方式
                 //解绑时调用绑定服务解绑,使用uid 卡尾号
                 //使用卡尾号，参数有限长，若超过4位，则使用uid  Fbind_serialno解绑
@@ -304,26 +188,32 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 //因此要将“调用特殊服务解绑”适用于所有银行，不能解绑的情况下就用该种解绑。
                 //本次将UnbindBankCardSpecial接口做调整，适用需求
                 if (CheckBoxUnbind.Checked == true)
-                {
-                    DataSet ds = qs.UnbindBankCardSpecial(this.lblFbankType.Text, this.lblFuin.Text, this.lblFcard_tail_db.Text, this.lblFbind_serialno.Text, this.lblFprotocol_no.Text);
-                    if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {                   
+                    DataTable dt = new BankCardBindService().UnBindBankCardBindSpecial(this.lblFbankType.Text, this.lblFuin.Text, this.lblFcard_tail_db.Text,
+                        this.lblFbind_serialno.Text, this.lblFprotocol_no.Text);
+                    if (dt != null && dt.Rows.Count > 0)
                     {
-                        DataTable dt = ds.Tables[0];
-                        string res_info = dt.Rows[0]["res_info"].ToString();
-                        if (res_info != null && res_info == "ok")
+                        string res = dt.Rows[0]["ret_value"].ToString().ToLower();
+                        if (res != null && res == "true")
                         {
                             WebUtils.ShowMessage(this.Page, "调用特殊服务解绑成功");
                         }
-                    }
+                    }              
                 }
                 else
                 {
                     //2013/7/18 yinhuang 原来是修改表来解绑，现在使用接口来解绑
-                    qs.UnbindBankCard(this.lblFbankType.Text, this.lblFuin.Text, this.lblFprotocol_no.Text);
-                    WebUtils.ShowMessage(this.Page, "解绑成功");
+                    DataTable dt = new BankCardBindService().UnbindBankCardBind(this.lblFbankType.Text, this.lblFuin.Text, this.lblFprotocol_no.Text, "");
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        string res = dt.Rows[0]["ret_value"].ToString().ToLower();
+                        if (res != null && res == "true")
+                        {
+                            WebUtils.ShowMessage(this.Page, "解绑成功");
+                        }
+                    }                   
                 }
-				//qs.ModifyBankCardBind(this.lblFuid.Text,this.lblFindex.Text,this.txtFmemo.Text.Trim());
-
+				
 				this.btnUnbind.Enabled = false;
 			}
             catch (SoapException eSoap) //捕获soap类异常
@@ -346,9 +236,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         protected void btnSynchron_Click(object sender, System.EventArgs e) 
         {
             try 
-            {
-                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                qs.SynchronBankCardBind(this.lblFbankType.Text,this.lblFcard_tail_db.Text,this.lblFbank_id.Text);
+            {       
+                DataTable dt = new BankCardBindService().SyncBankCardBind(this.lblFbankType.Text, this.lblFcard_tail_db.Text, this.lblFbank_id.Text);
+               // DataTable dt = new BankCardBindService().SyncBankCardBind("2101", "1234", "581234");//测试
                 WebUtils.ShowMessage(this.Page, "同步成功");
             }
             catch (SoapException eSoap) //捕获soap类异常
@@ -367,64 +257,43 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			this.pager1.CurrentPageIndex = index;
 			try
 			{
-				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-             
-				DataSet ds1 = qs.GetBankCardBindList_UIN(this.ddl_BankType.SelectedValue,this.tbx_bankID.Text.Trim(),
-					this.ddl_creType.SelectedValue,this.tbx_creID.Text.Trim(),this.tbx_serNum.Text.Trim(),this.tbx_phone.Text.Trim(),
-					int.Parse(this.ddl_bindStatue.SelectedValue),this.pager1.PageSize * (index-1),this.pager1.PageSize);
-                //继续查实时绑定库表，为了查当天记录lxl
-                DataSet ds2 = qs.GetBankCardBindList_UIN_2(this.ddl_BankType.SelectedValue, this.tbx_bankID.Text.Trim(),
+
+                DataSet ds = new BankCardBindService().GetBankCardBindRelationList(this.ddl_BankType.SelectedValue, this.tbx_bankID.Text.Trim(),
                     this.ddl_creType.SelectedValue, this.tbx_creID.Text.Trim(), this.tbx_serNum.Text.Trim(), this.tbx_phone.Text.Trim(),
                     int.Parse(this.ddl_bindStatue.SelectedValue), this.pager1.PageSize * (index - 1), this.pager1.PageSize);
 
-                DataSet ds = new DataSet();
-                DataTable dt = new DataTable();
-                ds.Tables.Add(dt);
-                ds.Tables[0].Columns.Add("fuin", typeof(string));
-                ds.Tables[0].Columns.Add("Fbank_typeStr", typeof(string));
-                ds.Tables[0].Columns.Add("fcre_id", typeof(string));
-                ds.Tables[0].Columns.Add("fbank_id", typeof(string));
-                ds.Tables[0].Columns.Add("fcard_tail", typeof(string));//20131017 lxl 卡号后四位
-                if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
-                {
-                    foreach (DataRow dr in ds1.Tables[0].Rows)
-                    {
-                        DataRow drResult = dt.NewRow();
-                        drResult["fuin"] = dr["fuin"].ToString();
-                        drResult["Fbank_typeStr"] = classLibrary.getData.GetBankNameFromBankCode(dr["Fbank_type"].ToString());
-                        drResult["fcre_id"] = setConfig.ConvertCreID(dr["fcre_id"].ToString());
-                        drResult["fbank_id"] = setConfig.ConvertCreID(dr["fbank_id"].ToString());
-                        drResult["fcard_tail"] = dr["fcard_tail"].ToString();
-                        dt.Rows.Add(drResult);
-                    }
-                }
-                if (ds2 != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0)
-                {
-                    foreach (DataRow dr in ds2.Tables[0].Rows)
-                    {
-                        DataRow drResult = dt.NewRow();
-                        drResult["fuin"] = dr["fuin"].ToString();
-                        drResult["Fbank_typeStr"] = classLibrary.getData.GetBankNameFromBankCode(dr["Fbank_type"].ToString());
-                        drResult["fcre_id"] = "";
-                        drResult["fbank_id"] = dr["fcard_id"].ToString();
-                        drResult["fcard_tail"] = dr["fcard_tail"].ToString();
-                        dt.Rows.Add(drResult);
-                    }
-                }
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                {
-                    this.Datagrid1.DataSource = ds;
-                    this.Datagrid1.DataBind();
-
-                    BindData(ds.Tables[0].Rows[0]["fuin"].ToString(), 1);
-                }
-                else
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                 {
                     WebUtils.ShowMessage(this, "查询一点通账户列表为空");
                     this.dgList.DataSource = null;
                     this.dgList.DataBind();
                     return;
-                } 
+                }
+                else
+                {
+                    DataTable dt = ds.Tables[0];
+                    dt.Columns.Add("fuin", typeof(string));
+                    dt.Columns.Add("Fbank_typeStr", typeof(string));
+                    dt.Columns.Add("fcre_id", typeof(string));
+                    dt.Columns.Add("fbank_id", typeof(string));
+                    dt.Columns.Add("fcard_tail", typeof(string));
+
+                    //重命名，绑定
+                    foreach (DataRow dr in dt.Rows)
+                    { 
+                        dr["fuin"]=dr["uin"];
+                        dr["Fbank_typeStr"]= dr["bank_type"];
+                        dr["fcre_id"]=dr["cre_id"];
+                        dr["fbank_id"]=dr["bank_id"];
+                        dr["fcard_tail"]=dr["card_tail"];
+                    }
+
+                    this.Datagrid1.DataSource = ds;
+                    this.Datagrid1.DataBind();
+
+                    BindData(ds.Tables[0].Rows[0]["fuin"].ToString(), 1);
+                }
+
 			}
 			catch (System.Exception ex)
 			{
@@ -432,14 +301,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			}
 		}
 
-
 		private void BindData(string qqid,int index)
 		{
 			this.pager.CurrentPageIndex = index;
 			try
 			{
-				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
 				int queryType = 0;
 				if(this.rbtn_ydt.Checked)
 				{
@@ -467,16 +333,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					return;
 				}
 
-				DataSet ds = qs.GetBankCardBindList_2(qqid.Trim(),this.ddl_BankType.SelectedValue,this.tbx_bankID.Text.Trim(),
+				DataSet ds =  new BankCardBindService().GetBankCardBindList(qqid.Trim(),this.ddl_BankType.SelectedValue,this.tbx_bankID.Text.Trim(),"",
 					this.ddl_creType.SelectedValue,this.tbx_creID.Text.Trim(),this.tbx_serNum.Text.Trim(),
-					this.tbx_phone.Text.Trim(),beginDateStr,endDateStr,queryType,
-					int.Parse(this.ddl_bindStatue.SelectedValue),(index - 1) * this.pager.PageSize,this.pager.PageSize);
+					this.tbx_phone.Text.Trim(),beginDateStr,endDateStr,queryType,true,
+					int.Parse(this.ddl_bindStatue.SelectedValue),"",(index - 1) * this.pager.PageSize,this.pager.PageSize);
 
 				if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
 				{
 					this.dgList.DataSource = null;
 					this.dgList.DataBind();
-					//throw new Exception("没有查找到相应的记录！");	
 					WebUtils.ShowMessage(this,"查询一点通信息为空");
 					return;
 				}
@@ -489,34 +354,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 					foreach(DataRow dr in dt.Rows)
 					{
-                        if (!(dr["Fi_character4"] is DBNull))
-                        {
-                            if (dr["Fi_character4"].ToString() == "33")
-                            {
-                                dr["Fxyzf_typeStr"] = "是";
-                            }
-                            else
-                            {
-                                dr["Fxyzf_typeStr"] = "否";
-                            }
-                        }
-                        else 
-                        {
-                            dr["Fxyzf_typeStr"] = "否";
-                        }
-
-						dr["Fbank_typeStr"] = classLibrary.getData.GetBankNameFromBankCode(dr["Fbank_type"].ToString());
-
-						if(dr["Fbank_status"].ToString() == "0")
-							dr["Fbank_statusStr"] = "未定义";
-						else if(dr["Fbank_status"].ToString() == "1")
-							dr["Fbank_statusStr"] = "预绑定状态(未激活)";
-						else if(dr["Fbank_status"].ToString() == "2")
-							dr["Fbank_statusStr"] = "绑定确认(正常)";
-						else if(dr["Fbank_status"].ToString() == "3")
-							dr["Fbank_statusStr"] = "解除绑定";
-						else
-							dr["Fbank_statusStr"] = "Unknown";
+                        dr["Fbank_typeStr"] = GetBankType(dr["Fbank_type"].ToString());
+                        dr["Fbank_statusStr"] = dr["bank_status_str"];
+                        dr["Fxyzf_typeStr"] = dr["xyzf_type_str"];		
 					}
 					this.dgList.DataSource = dt.DefaultView;
 					dgList.DataBind();
@@ -539,17 +379,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 		{
 			this.pager.CurrentPageIndex = index;
 			try
-			{
-				/*
-				if(this.txtQQ.Text.Trim() == "" && this.tbx_uid.Text.Trim() == "")
-					throw new Exception("请输入财付通账号或内部ID！");
-					*/
-	
-				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-				//DataSet ds = qs.GetBankCardBindList(this.txtQQ.Text.Trim(),this.ddl_BankType.SelectedValue);
-
-				DataSet ds = null;
-
+			{	
 				int queryType = 0;
 				
 				if(this.rbtn_ydt.Checked)
@@ -578,10 +408,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					return;
 				}
 
-				ds = qs.GetBankCardBindList_New(this.txtQQ.Text.Trim(),this.ddl_BankType.SelectedValue,this.tbx_bankID.Text.Trim(),
-					this.tbx_uid.Text.Trim(),this.ddl_creType.SelectedValue,this.tbx_creID.Text.Trim(),this.tbx_serNum.Text.Trim(),
-					this.tbx_phone.Text.Trim(),beginDateStr,endDateStr,queryType,this.cbx_showAbout.Checked,
-					int.Parse(this.ddl_bindStatue.SelectedValue),"",(index - 1) * this.pager.PageSize,this.pager.PageSize);
+                DataSet ds = new BankCardBindService().GetBankCardBindList(this.txtQQ.Text.Trim(), this.ddl_BankType.SelectedValue, this.tbx_bankID.Text.Trim(),
+                    this.tbx_uid.Text.Trim(), this.ddl_creType.SelectedValue, this.tbx_creID.Text.Trim(), this.tbx_serNum.Text.Trim(),
+                    this.tbx_phone.Text.Trim(), beginDateStr, endDateStr, queryType, this.cbx_showAbout.Checked,
+                    int.Parse(this.ddl_bindStatue.SelectedValue), "", (index - 1) * this.pager.PageSize, this.pager.PageSize);
 
 				if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
 				{
@@ -590,41 +420,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				else
 				{
 					DataTable dt = ds.Tables[0];
-					dt.Columns.Add("Fbank_typeStr",typeof(string));
+                    //重命名绑定
+                    dt.Columns.Add("Fbank_typeStr", typeof(string));
 					dt.Columns.Add("Fbank_statusStr",typeof(string));
                     dt.Columns.Add("Fxyzf_typeStr", typeof(string)); //信用支付类型
 
 					foreach(DataRow dr in dt.Rows)
-					{
-                        if (!(dr["Fi_character4"] is DBNull))
-                        {
-                            if (dr["Fi_character4"].ToString() == "33")
-                            {
-                                dr["Fxyzf_typeStr"] = "是";
-                            }
-                            else
-                            {
-                                dr["Fxyzf_typeStr"] = "否";
-                            }
-                        }
-                        else 
-                        {
-                            dr["Fxyzf_typeStr"] = "否";
-                        }
-
-						dr["Fbank_typeStr"] = classLibrary.getData.GetBankNameFromBankCode(dr["Fbank_type"].ToString());
-
-						if(dr["Fbank_status"].ToString() == "0")
-							dr["Fbank_statusStr"] = "未定义";
-						else if(dr["Fbank_status"].ToString() == "1")
-							dr["Fbank_statusStr"] = "预绑定状态(未激活)";
-						else if(dr["Fbank_status"].ToString() == "2")
-							dr["Fbank_statusStr"] = "绑定确认(正常)";
-						else if(dr["Fbank_status"].ToString() == "3")
-							dr["Fbank_statusStr"] = "解除绑定";
-						else
-							dr["Fbank_statusStr"] = "Unknown";
+					{                  
+                        dr["Fbank_typeStr"] = GetBankType(dr["Fbank_type"].ToString());
+                        dr["Fbank_statusStr"] = dr["bank_status_str"];
+                        dr["Fxyzf_typeStr"] = dr["xyzf_type_str"];			
 					}
+
 					this.dgList.DataSource = dt.DefaultView;
 					dgList.DataBind();
                     Session["qqid"] = this.dgList.Items[0].Cells[3].Text.Trim();
@@ -643,8 +450,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 		protected void btnSearch_Click(object sender, System.EventArgs e)
 		{
-			//BindData(1);
-
 			if(this.tbx_uid.Text.Trim() != "" || this.txtQQ.Text.Trim() != "")
 			{
 				BindData(1);
@@ -655,6 +460,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			}
 		}
 
+        private string GetBankType(string typeId)
+        {
+            DataSet infos = new BankCardBindService().GetBankDic();
+            if (infos != null || infos.Tables.Count > 0 || infos.Tables[0].Rows.Count > 0)
+            {
+                DataTable dt = infos.Tables[0];
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (dr["Fvalue"].ToString() == typeId)
+                    {
+                        return dr["Fmemo"].ToString();
+                    }
+                }
+            }
+            return "未知" + typeId;
+        }
 
 		private void rbtns_CheckedChanged(object sender, EventArgs e)
 		{
@@ -766,8 +587,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			}
 		}
 
-
-
 		private void AddAllBankType()
 		{
 			getData.BankClass[] bkInfoList = null;
@@ -799,14 +618,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 		private void pager_PageChanged(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
 		{
-			//this.pager.CurrentPageIndex = e.NewPageIndex;
-
-			//this.BindData(e.NewPageIndex);
-         
-           //原来的qqid参数
-		   //string qqid = this.dgList.Items[0].Cells[3].Text.Trim();
-           
-            //20130828 lxl 往回翻页有问题修复
             string qqid = Session["qqid"].ToString();
 
 			this.BindData(qqid,e.NewPageIndex);
