@@ -10102,7 +10102,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             fstrSql_count = "select count(1) from " + db + "." + tb + " where FID='" + fid + "'";
         }
 
-        public static DataSet GetLockList(DateTime BeginDate, DateTime EndDate, string fstate, string ftype, string QQType, string username, int Count,int SortType)
+        public static DataSet GetLockList(DateTime BeginDate, DateTime EndDate, string fstate, string ftype, string QQType, string username, int Count, int SortType, string dotype)
         {
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("CFT"));
             DataSet ds = new DataSet();
@@ -10157,6 +10157,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     strSql += " and FParameter like '%vip_flag=2%' ";
                 }
 
+                //增加高分单低分单查询
+                if (dotype == "1")
+                {
+                    //高分
+                    strSql += " and FParameter like '%&AUTO_APPEAL=1%' ";
+                }
+                else if (dotype == "0")
+                {
+                    //低分
+                    strSql += " and FParameter not like '%&AUTO_APPEAL=1%' ";
+                }
+
                 if (SortType != 99)
                 {
                     if (SortType == 0)   //排序：时间小到大
@@ -10209,7 +10221,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
         //批量领单三种特殊类型旧表构造器
-        public CFTUserAppealClass(DateTime BeginDate, DateTime EndDate, string fstate, string ftype, string QQType, string username, int Count, int SortType)
+        public CFTUserAppealClass(DateTime BeginDate, DateTime EndDate, string fstate, string ftype, string QQType, string username, int Count, int SortType, string dotype)
         {
             fstrSql = "select '' as DBName, '' as tableName, Fid,FType,Fuin,FSubmitTime,FState,FCheckTime,FReCheckTime,Fpicktime,FReCheckUser,FCheckInfo,FCheckUser,FComment,Femail from db_appeal.t_tenpay_appeal_trans where FsubmitTime >= '" + BeginDate.ToString("yyyy-MM-dd 00:00:00") + "' and FsubmitTime <= '" + EndDate.ToString("yyyy-MM-dd 23:59:59") + "'";
 
@@ -10257,6 +10269,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 fstrSql += " and FParameter like '%vip_flag=2%' ";
             }
 
+            //增加高分单低分单查询
+            if (dotype == "1")
+            {
+                //高分
+                fstrSql += " and FParameter like '%&AUTO_APPEAL=1%' ";
+            }
+            else if (dotype == "0")
+            {
+                //低分
+                fstrSql += " and FParameter not like '%&AUTO_APPEAL=1%' ";
+            }
+
+
             if (SortType != 99)
             {
                 if (SortType == 0)   //排序：时间小到大
@@ -10264,6 +10289,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 if (SortType == 1)   //排序：时间大到小
                     fstrSql += " order by FSubmitTime desc ";
             }
+
+          
 
             //    strSql += " limit " + Count;
 
@@ -10390,7 +10417,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
         //批量领单三种特殊类型分库表构造器
-        public CFTUserAppealClass(DateTime BeginDate, DateTime EndDate, string fstate, string ftype, string QQType, string username, int Count, int SortType, bool mark,string db,string tb)
+        public CFTUserAppealClass(DateTime BeginDate, DateTime EndDate, string fstate, string ftype, string QQType, string username, int Count, int SortType,string dotype, bool mark,string db,string tb)
         {
             string strWhere = " where FsubmitTime >= '" + BeginDate.ToString("yyyy-MM-dd 00:00:00") + "' and FsubmitTime <= '" + EndDate.ToString("yyyy-MM-dd 23:59:59") + "'";
             if (username == null || username == "")
@@ -10435,6 +10462,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             else if (QQType == "2")
             {
                 strWhere += " and FVipFlag=2 ";
+            }
+
+            //增加高分单低分单查询
+            if (dotype == "1")
+            {
+                //高分
+                strWhere += " and FAutoAppeal=1 ";
+            }
+            else if (dotype == "0")
+            {
+                //低分
+                strWhere += " and FAutoAppeal<>1 ";
             }
 
             fstrSql = "";
