@@ -454,6 +454,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         protected global::System.Web.UI.WebControls.Label labFaddress;
         
         /// <summary>
+        /// Label11 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label11;
+        
+        /// <summary>
+        /// labFstandby6 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labFstandby6;
+        
+        /// <summary>
         /// Label8 control.
         /// </summary>
         /// <remarks>

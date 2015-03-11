@@ -242,6 +242,7 @@
     </Content>
     <Content Include="IMCInvoke.asmx" />
     <Content Include="ImcTest.html" />
+    <Content Include="ImcTestUtil.html" />
     <Content Include="IVRService.asmx">
       <SubType>Form</SubType>
     </Content>

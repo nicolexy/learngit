@@ -319,20 +319,22 @@
                     <asp:button id="btnCW" runat="server" Width="90px" Height="30px" Text="转向财务处理" BorderStyle="Groove" onclick="btnTransferCW_Click"></asp:button>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <asp:button id="btnInvalid" runat="server" Width="90px" Height="30px" Text="作废" BorderStyle="Groove" onclick="btnTransferInvalid_Click"></asp:button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <asp:button id="btnInitID" runat="server" Width="90px" Height="30px" Text="还原状态" BorderStyle="Groove"  Visible="false" onclick="btnInitState_Click"></asp:button>
                 <br />
                 <br />
            </FONT></div>
            <div clsaa="sybiv">
            <table border = "0" class ="sycurbg" >
            <tr>
-            <td colspan = "3"><div ><strong><FONT size="3">当前审核记录：</FONT></strong></div></td>
+            <td nowrap><div ><strong><FONT size="3">当前审核记录：</FONT></strong></div></td>
+            <td colspan = "3"><div ><strong><asp:label ID ="kfOperator" runat ="server"  Width="600px"></asp:label></strong></div></td>
            </tr>
            
            <tr height = "25px">
            <td nowrap><strong>客服审核：</strong></td>
            <td class="style40" ><strong><asp:label ID ="lbKfCheckTime" runat ="server"  Width="150px"></asp:label></strong></td>
-           <td class="style41" ><strong><asp:label ID ="lbKfCheckName" runat ="server" 
-                   Width="148px"></asp:label></strong></td>
+           <td class="style41" ><strong><asp:label ID ="lbKfCheckName" runat ="server"  Width="148px"></asp:label></strong></td>
            <td ><strong><asp:label ID ="lbKfCheckReason" runat ="server" Width="403px" ></asp:label></strong></td>
            </tr>
            <tr height = "25px">

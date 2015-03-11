@@ -2495,16 +2495,18 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 recv_num=1&row1=amount%3D2900%26answer%3D有钱就是任性%26b2c_listid%3D2417524760201501069990006953%26client_ip%3D59.37.125.35%26create_time%3D2015-01-06 10:34:22%26
                 recv_listid%3D112417524760201501059990006954%26recv_name%3D도구中国では%26recv_uin%3D1427658086%26state%3D2
                 再一次解析字段*/
-
-                if (!ht.Contains("recv_num") || ht["recv_num"].ToString().Trim() != "0")
+                //row_num:返回的条数
+                //recv_num:已抢红包数
+                if (!ht.Contains("row_num") || ht["row_num"].ToString().Trim() != "0")
                 {
-                    for (int i = 1; i <= int.Parse(ht["recv_num"].ToString()); ++i)
+                    for (int i = 1; i <= int.Parse(ht["row_num"].ToString()); ++i)
                     {
                         string strRowName = string.Format("row{0}", i);
                         if (!ht.Contains(strRowName))
                         {
-                            errMsg += "调用失败,解析接收红包有误。有接收红包数值，却没有解析到对应的数据" + str;
-                            return null;
+                            continue;
+                           // errMsg += "调用失败,解析接收红包有误。有接收红包数值，却没有解析到对应的数据" + str;
+                           // return null;
                         }
                         DataRow row = dt.NewRow();
                         string rowData = IceDecode(ht[strRowName].ToString());
@@ -2521,9 +2523,9 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                                 continue;
                             if (!dt.Columns.Contains(fieldsplit[0]))
                             {
-                                dt.Columns.Add(fieldsplit[0], typeof(string));
-                                row[fieldsplit[0]] = fieldsplit[1];
+                                dt.Columns.Add(fieldsplit[0], typeof(string));                              
                             }
+                            row[fieldsplit[0]] = fieldsplit[1];
 
                         }
                         if (ht.Contains("send_uin"))
@@ -2544,7 +2546,16 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                             
                             row["send_name"] = ht["send_name"].ToString();
                         }
-                        if (ht.Contains("wishing"))
+                        if (ht.Contains("channel"))
+                        {
+                            if (!dt.Columns.Contains("channel"))
+                            {
+                                dt.Columns.Add("channel", typeof(string));
+                            }
+
+                            row["channel"] = ht["channel"].ToString();
+                        }
+                      /*  if (ht.Contains("wishing"))
                         {
                             if (!dt.Columns.Contains("wishing"))
                             {
@@ -2552,7 +2563,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                             }
                             
                             row["wishing"] = ht["wishing"].ToString();
-                        }
+                        }*/
                         dt.Rows.Add(row);
                     }
                 }
@@ -2562,17 +2573,14 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                     if (ht.Contains("send_uin"))
                     {
                         dt.Columns.Add("send_uin", typeof(string));
-                        row["send_uin"] = ht["send_uin"].ToString();
                     }
                     if (ht.Contains("send_name"))
                     {
                         dt.Columns.Add("send_name", typeof(string));
-                        row["send_name"] = ht["send_name"].ToString();
                     }
                     if (ht.Contains("wishing"))
                     {
-                        dt.Columns.Add("wishing", typeof(string));
-                        row["wishing"] = ht["wishing"].ToString();
+                        dt.Columns.Add("answer", typeof(string));
                     }
                     if (!dt.Columns.Contains("amount"))
                     {
@@ -2590,6 +2598,11 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                     {
                         dt.Columns.Add("create_time", typeof(string));
                     }
+                    if (!dt.Columns.Contains("channel"))
+                    {
+                        dt.Columns.Add("channel", typeof(string));
+                    }
+                    
                     
                     dt.Rows.Add(row);
                 }
@@ -2619,6 +2632,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             {
                 return null;
             }
+            
             //添加列
             //string rowName = string.Format("row{0}",1);
             string strRow = CommQuery.IceDecode(ds.Tables[0].Rows[0]["row1"].ToString());
@@ -2641,6 +2655,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                 dt.Columns.Add(fieldsplit[0]);
             }
+           
+            
             //添加数据          
             for (int i = 1; i <= int.Parse(ds.Tables[0].Rows[0]["row_num"].ToString()); ++i)
             {
@@ -2674,6 +2690,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                     drfield[fieldsplit[0]] = CommQuery.IceDecode(fieldsplit[1].Trim());
 
                 }
+
+
                 drfield.EndEdit();
                 dt.Rows.Add(drfield);
             }

@@ -23,7 +23,7 @@ namespace CFT.CSOMS.DAL.HandQModule
  
         }
 
-        public DataSet RequestHandQDetail(string strSendList,out string strOutMsg)
+       public DataSet RequestHandQDetail(string strSendList,int type, int offset, int limit, out string strOutMsg)
         {
             strOutMsg = "RequestHandQDetail";
             if (string.IsNullOrEmpty(strSendList))
@@ -34,7 +34,7 @@ namespace CFT.CSOMS.DAL.HandQModule
             string relayDefaultSPId = "20000000";
             string ip = System.Configuration.ConfigurationManager.AppSettings["HandQHBIP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["HandQHBPort"].ToString());
-            string requestString = "send_listid=" + strSendList;
+            string requestString = "send_listid=" + strSendList +"&type ="+type + "&offset=" + offset + "&limit=" + limit; 
             strOutMsg += requestString;
             return RelayAccessFactory.GetHBDetailFromRelay(requestString, "100602", ip, port, true, false, relayDefaultSPId);
         }

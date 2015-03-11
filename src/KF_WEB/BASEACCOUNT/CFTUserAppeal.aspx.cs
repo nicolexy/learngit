@@ -171,7 +171,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			qs.Finance_HeaderValue = fh;
 			//			qs.Finance_HeaderValue = setConfig.setFH(this);
             DataSet ds = new DataSet();
-            DataSet ds1 = qs.GetCFTUserAppealListNew(fuin, "", "", 99, 99, "", "9", start, max, 99);
+            DataSet ds1 = qs.GetCFTUserAppealListNew(fuin, "", "", 99, 100, "", "9", start, max, 99);//ftype=100查询所有申诉类型
 
             //处理分页问题
             if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)

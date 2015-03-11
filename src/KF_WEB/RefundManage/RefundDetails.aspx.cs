@@ -19,6 +19,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	/// </summary>
     public partial class RefundDetails : System.Web.UI.Page
 	{
+        private string m_nInitOperator = "yonghualiu";
         private string m_nRefundReason = "退款失败，财务转向客服处理.";
         private string[] m_arrCheckRecord = 
        {
@@ -109,6 +110,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 log.ErrorFormat("BindData： Request.QueryString[foldId] = null ");                                 
             }
             ViewState["foldId"] = Request.QueryString["foldId"].ToString();
+            log.InfoFormat("ViewState[foldId]={0}", ViewState["foldId"].ToString());
+            
+            if (Session["uid"].ToString().Trim() == m_nInitOperator.Trim())
+            {
+                btnInitID.Visible = true;
+            }
+            else
+            {
+                btnInitID.Visible = false;
+            }
             DataSet ds = new RefundService().RequestDetailsData(ViewState["foldId"].ToString(), out strMsg);
             if (ds == null)
             {
@@ -129,6 +140,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 lbUser.Text = dr["FtrueName"].ToString();
                 lbReason.Text = dr["Fkfremark"].ToString();
                 lbCreateTime.Text = dr["FcreateTime"].ToString();
+                kfOperator.Text = "";
+                string strOperater = dr["FStandby1"].ToString();
+                if(!string.IsNullOrEmpty(strOperater))
+                {
+                    string[] strAryOperator = strOperater.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (strAryOperator.Length == 2)
+                    {
+                        kfOperator.Text = string.Format("资料提交者：{0} 提交时间:{1}", strAryOperator[0], strAryOperator[1]);
+                    }
+                    else
+                    {
+                        kfOperator.Text = strOperater;
+                    }
+                    
+                }
                 
                 int nUserFlag = int.Parse(dr["FuserFlag"].ToString());
                 if(nUserFlag <m_arrUserFlag.Length  && nUserFlag > 0)
@@ -153,23 +179,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 igIdentity.ImageUrl     = File.Exists(strLocIdentity.Trim())    ? "../" + dr["FIdentityCardFile"].ToString(): requestUrl + "/" + dr["FIdentityCardFile"].ToString();
                 igBankWater.ImageUrl    = File.Exists(strLocBankWater.Trim())   ? "../" + dr["FBankWaterFile"].ToString()   : requestUrl + "/" + dr["FBankWaterFile"].ToString();
                 igAccount.ImageUrl      = File.Exists(strLocAccount.Trim())     ? "../" + dr["FCancellationFile"].ToString(): requestUrl + "/" + dr["FCancellationFile"].ToString();
-                                
-                log.InfoFormat("显示存储路径图片：igCommitment = ：{0} igIdentity = ：{1} igBankWater = ：{2} igAccount = ：{3}", igCommitment.ImageUrl, igIdentity.ImageUrl, igBankWater.ImageUrl, igAccount.ImageUrl);                                                
-                
+
+
                 string strCheckId = dr["FcheckID"].ToString();
-                if (!string.IsNullOrEmpty(strCheckId))
+                log.InfoFormat("显示存储路径图片：igCommitment = ：{0} igIdentity = ：{1} igBankWater = ：{2} igAccount = ：{3} strCheckId={4}", igCommitment.ImageUrl, igIdentity.ImageUrl, igBankWater.ImageUrl, igAccount.ImageUrl, strCheckId);                                                
+                
+                
+                if (!string.IsNullOrEmpty(strCheckId.Trim()))
                 {
-                    ViewState["checkId"] = strCheckId;
+                    log.InfoFormat("非空:strCheckId={0}", strCheckId);
+                    ViewState["checkId"] = strCheckId.Trim();
                     ViewState["state"] = dr["Fstate"].ToString();
                     //当前审批记录
                     ShowCurCheckRecord();
                 }
                 else
-                {
+                {                  
                     SetBtnEnabledState(false, 0);
                     lbKfCheckTime.Text = lbKfCheckName.Text = lbKfCheckReason.Text = null;
                     lbBgCheckTime.Text = lbBgCheckName.Text = lbBgCheckReason.Text = null;
-                    lbFengCheckTime.Text = lbFengCheckName.Text = lbFengCheckReason.Text = null;                             
+                    lbFengCheckTime.Text = lbFengCheckName.Text = lbFengCheckReason.Text = null;
+                    log.InfoFormat("为空:strCheckId={0}", strCheckId);
                 }
                 
                 //历史审批记录
@@ -214,7 +244,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
         //当前审批记录
         private void ShowCurCheckRecord()
         {
-
+            log.InfoFormat("ShowCurCheckRecord进来了");
             if (ViewState["checkId"] == null || Session["uid"] == null || ViewState["foldId"] == null)
             {
                 log.InfoFormat("当前审批ShowCurCheckRecord：ViewState[checkId] == null ||  Session[uid] == null|| ViewState[foldId] == null");
@@ -585,6 +615,43 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             {
                 log.ErrorFormat("退款作废：操作者：{0} 退款号：{1} 程序出错原因:{2}", Session["uid"].ToString(), ViewState["foldId"].ToString(), ex.Message);
                 
+            }
+
+        }
+
+        //还原
+        protected void btnInitState_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Session["uid"].ToString().Trim() != m_nInitOperator.Trim())
+                {
+                    WebUtils.ShowMessage(this.Page, "没有权限操作此项功能");
+                    return;
+                }
+
+                if (ViewState["foldId"] == null)
+                {
+                    WebUtils.ShowMessage(this.Page, "ViewState[foldId]为空。");
+                    return;
+                }
+                string strHisCheckID = "";
+                if (string.IsNullOrEmpty(new RefundService().QueryAbnormalRefundCheckID(ViewState["foldId"].ToString(),ref strHisCheckID)))
+                {
+                    new RefundService().SetRefundCheckState(0, ViewState["foldId"].ToString());
+                    WebUtils.ShowMessage(this.Page, "初始化成功。");
+                }
+                else
+                {
+                    WebUtils.ShowMessage(this.Page, "checkID不为空,不允许初始化操作。");
+                    return;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                log.ErrorFormat("特殊退款初始化还原操作:操作者{0} 退款号：{1} 程序出错原因:{2}", Session["uid"].ToString(), ViewState["foldId"].ToString(), ex.Message);
+
             }
 
         }

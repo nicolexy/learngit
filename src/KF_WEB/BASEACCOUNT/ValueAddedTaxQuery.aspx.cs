@@ -160,6 +160,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				return "待商户提交全单修改申请";
 			else if(Flag == "10")
 				return "全单修改授权书待上传";
+            else if (Flag == "11")
+                return "spoa审核";
 			else 
 				return Flag;
 		}

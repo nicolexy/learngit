@@ -93,12 +93,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
            // string strBankUserName, string strReason, int nState, out string outMsg
             try
             {
-                if (string.IsNullOrEmpty(new RefundService().QueryAbnormalRefundCheckID(ViewState["refundId"].ToString())))
+                string strHisCheckID = "";
+                if (string.IsNullOrEmpty(new RefundService().QueryAbnormalRefundCheckID(ViewState["refundId"].ToString(),ref strHisCheckID)))
                 {
                     //生成审批编号
                     ZWCheck_Service.Check_Service chkService = new ZWCheck_Service.Check_Service();
                     chkService.Finance_HeaderValue = RefundPublicFun.SetWebServiceHeader(this);
-                    string strCheckId = chkService.StartCheckNew(ViewState["refundId"].ToString(), KFCHECKTYPE, KFCHECKMEMO);
+
+                    /*objectID组合规则 =  ViewState["refundId"] + strHisCheckID 
+                    目的：确保每次申请唯一*/
+                    string strObjectID = ViewState["refundId"].ToString();
+                    if (!string.IsNullOrEmpty(strHisCheckID))
+                    {
+                        string[] arrHisCheckId = strHisCheckID.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                        for(int i=0;i<arrHisCheckId.Length;++i)
+                        {
+                            strObjectID += arrHisCheckId[i];
+                        }
+                    }
+
+                    string strCheckId = chkService.StartCheckNew(strObjectID, KFCHECKTYPE, KFCHECKMEMO);
                     if (!string.IsNullOrEmpty(strCheckId))
                     {
                         new RefundService().SetAbnormalRefundListID(strCheckId, ViewState["refundId"].ToString());
@@ -110,8 +124,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 string strImgIdentity = Request.QueryString["identityCard"].ToString();
                 string strImgBankWater = Request.QueryString["bankWater"].ToString();
                 string strImgCancellation = Request.QueryString["cancellation"].ToString();
-                if (new RefundService().UpdateRefundData(lbUinID.Text, lbBankListID.Text, lbIdentity.Text, lbInitBankAccNo.Text, lbMail.Text, lbNewBankAccNo.Text,
-                    lbBankUserName.Text, lbReason.Text, strImgCommitment, strImgIdentity, strImgBankWater, strImgCancellation,lbBankName.Text, int.Parse(ViewState["initBankID"].ToString()),
+                string strOperator = Session["uid"].ToString()+ "|"+DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                if (new RefundService().UpdateRefundData(ViewState["refundId"].ToString(), lbIdentity.Text, lbInitBankAccNo.Text, lbMail.Text, lbNewBankAccNo.Text,
+                    lbBankUserName.Text, lbReason.Text, strImgCommitment, strImgIdentity, strImgBankWater, strImgCancellation, lbBankName.Text, strOperator, int.Parse(ViewState["initBankID"].ToString()),
                     int.Parse(ViewState["newBankID"].ToString()), int.Parse(ViewState["userFlagID"].ToString()), int.Parse(ViewState["cardTypeID"].ToString()), 2, out strMsg) == false)
                 {
                 

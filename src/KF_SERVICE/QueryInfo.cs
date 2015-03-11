@@ -8574,6 +8574,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         {
                             dr["FTypeName"] = "财付盾解绑";
                         }
+                        else if (tmp == "8")
+                        {
+                            dr["FTypeName"] = "普通解冻";
+                        }
+                        else if (tmp == "11")
+                        {
+                            dr["FTypeName"] = "特殊找回密码";
+                        }
+                        else if (tmp == "19")
+                        {
+                            dr["FTypeName"] = "微信解冻";
+                        }
 
                         tmp = dr["FState"].ToString();
                         if (tmp == "0")
@@ -9674,11 +9686,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             if (ftype != 99)
             {
-                strWhere += " and FType=" + ftype + " ";
+                if (ftype == 100)//真正查询所有申诉类型申诉记录
+                    ;
+                else
+                    strWhere += " and FType=" + ftype + " ";
             }
             else
             {
                 // 8号申诉是风控冻结，有另外的处理入口，申诉处理暂不包含改类型的申诉
+                //不包含普通解冻、微信解冻、特殊找密
                 strWhere += " and FType!=8 and FType!=19 and FType!=11";
             }
 
@@ -9842,6 +9858,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             if (ftype != 99)
             {
+                if (ftype == 100)//真正查询所有申诉类型申诉记录
+                    ;
                 strWhere += " and FType=" + ftype + " ";
             }
             else
@@ -9983,7 +10001,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 if (fstate == 10)   //直接申诉成功，即审核成功，且FCheckUser为system
                 {
-                    if (ftype == 8)
+                    if (ftype == 8 || ftype == 19)
                     {
                         strWhere += " and FState='" + fstate + "'  ";
                     }
@@ -10156,16 +10174,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     HandleParameter(ds, true);
 
                     string WhereStr = "";
+
+                    //注释这几行，可解决批量领导领不出的问题
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        if (dr["IsPass"].ToString() == "Y")
-                        {
-                            dr.Delete();
-                        }
-                        else
+                        //if (dr["IsPass"].ToString() == "Y")
+                        //{
+                        //    dr.Delete();
+                        //}
+                        //else
                             WhereStr += "'" + dr["Fid"].ToString().Trim() + "',";
                     }
-                    ds.AcceptChanges();
+                   // ds.AcceptChanges();
+
 
                     WhereStr = WhereStr.Substring(0, WhereStr.Length - 1);
 
@@ -11182,6 +11203,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
+       
         public static bool ConfirmAppealDBTB(string fid, string db,string tb,string Fcomment, string user, string userIP, out string msg)
         {
             msg = "";

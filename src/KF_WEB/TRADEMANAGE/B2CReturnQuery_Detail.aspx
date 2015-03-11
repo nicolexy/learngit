@@ -214,6 +214,13 @@
 										<P align="left"><asp:label id="labFaddress" runat="server" ForeColor="Blue"></asp:label></P>
 									</TD>
 								</TR>
+                                <TR>
+									<TD style="HEIGHT: 16px" align="center">
+										<P align="right"><asp:label id="Label11" runat="server">提现单ＩＤ：</asp:label><FONT face="宋体">:</FONT></P>
+									</TD>
+									<TD style="HEIGHT: 16px" align="left" colspan="3"><P align="left"><asp:label id="labFstandby6" runat="server" ForeColor="Blue"></asp:label></P>
+									</TD>
+								</TR>
 <TR>
 									<TD style="HEIGHT: 16px" align="center">
 										<P align="right"><asp:label id="Label8" runat="server">处理说明：</asp:label><FONT face="宋体">:</FONT></P>

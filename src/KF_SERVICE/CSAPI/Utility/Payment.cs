@@ -157,6 +157,26 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
             [XmlElement("biz_type_str")]
             public string Fbiz_type_str { get; set; }
         }
+
+        public class BankCode
+        {
+            [XmlElement("Fno")]
+            public string Fno { get; set; }
+            [XmlElement("FType")]
+            public string FType { get; set; }
+            [XmlElement("Fvalue")]
+            public string Fvalue { get; set; }
+            [XmlElement("Fmemo")]
+            public string Fmemo { get; set; }
+            [XmlElement("Fsymbol")]
+            public string Fsymbol { get; set; }
+        }
+
+        public class OpResult
+        {
+            [XmlElement("result")]
+            public string result { get; set; }
+        }
         #endregion
 
     }

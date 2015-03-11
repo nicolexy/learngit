@@ -7517,7 +7517,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                     else if (reqType == 11)//特殊找回密码 发tips和短信 模板位申请，需更改下面代码
                     {
-                        string str_params = "www.tenpay.com/v2/cs/v2/";
+                        string str_params = "www.tenpay.com/v2/cs/";
                         str_params = "url=" + System.Web.HttpUtility.UrlEncode(str_params, System.Text.Encoding.GetEncoding("gb2312"));
                         //uin = "466678748";
                         //userPhone = "18718489269";
@@ -11170,15 +11170,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     //        dr.Delete();
                     //    }
                     //}
-                    for (int i = ds.Tables[0].Rows.Count - 1; i >= 0; i--)
-                    {
-                        DataRow dr = ds.Tables[0].Rows[i];
-                        if (dr["IsPass"].ToString() == "Y")
-                        {
-                            ds.Tables[0].Rows.Remove(dr);
-                        }
-                    }
-                    ds.AcceptChanges();
+
+                    //注释这几行，可解决批量领导领不出的问题
+                    //for (int i = ds.Tables[0].Rows.Count - 1; i >= 0; i--)
+                    //{
+                    //    DataRow dr = ds.Tables[0].Rows[i];
+                    //    if (dr["IsPass"].ToString() == "Y")
+                    //    {
+                    //        ds.Tables[0].Rows.Remove(dr);
+                    //    }
+                    //}
+                    //ds.AcceptChanges();
+
+
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         db = dr["DBName"].ToString();
@@ -17922,7 +17926,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 "Fbank_status,Fcard_tail,Fbank_id,Ftruename,Funchain_time_local,Fmodify_time," +
                                 "Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fcreate_time,Fbind_time_local,Fbind_time_bank,Funchain_time_bank,Fcre_type,Fonce_quota,Fday_quota,Fi_character2 & 0x01 as sms_flag from c2c_db.t_user_bind_tmp where Findex=" + Findex + " and fuid=" + fuid;
                 }
-                return da.dsGetTotalData(Sql);
+                DataSet set = da.dsGetTotalData(Sql);
+                return set;
             }
             catch (Exception err)
             {
@@ -22253,11 +22258,59 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
+        private bool IsBindMobilePhone(string Fuid)
+        {
+            bool bState = false;
+            using (var da = new MySqlAccess(PublicRes.GetConnString("MN")))//MySQLAccessFactory.GetMySQLAccess("MN"))
+            {
+
+                da.OpenConn();
+                string strTable = "msgnotify_" + Fuid.Substring(Fuid.Length - 3, 2) + ".t_msgnotify_user_"
+                    + Fuid.Substring(Fuid.Length - 1, 1);
+                string sql = " select Fstatus from " + strTable + " where Fuid = '" + Fuid + "'";
+                DataSet ds = da.dsGetTotalData(sql);
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    int nState = int.Parse(ds.Tables[0].Rows[0]["Fstatus"].ToString());
+                    int nBit = 64;
+                    if ((nState & nBit) == nBit)
+                    {
+                        bState = true;
+                    }
+
+                }
+            }
+            return bState;
+
+        }
+
         /// <summary>
         ///  发风控验证、绑定或更换手机、发风控通知
         /// </summary>
         public bool BindOrChangeMobile(string Fuid, string fuin, string old_mobile, string mobile_no, string client_ip, string certno, string singed,out string msg)
         {
+            msg = "BindOrChangeMobile...";
+            if (old_mobile == "" )
+            {
+                //已绑定,就不需要再去绑定了
+                if(IsBindMobilePhone(Fuid))
+                {
+                    string strMsg = string.Format("QQ号={0}手机号已经绑定了", fuin);
+                    SunLibrary.LoggerFactory.Get("KF_Service").Info(strMsg);
+                    return true;
+                }
+            }          
+            else
+            {
+                //更改手机相同时
+                if (old_mobile.Trim() == mobile_no.Trim())
+                {
+                    string strMsg = string.Format("QQ号={0}，更改手机号码相同", fuin);
+                    SunLibrary.LoggerFactory.Get("KF_Service").Info(strMsg);
+                    return true;
+                }
+
+            }
             // 以下三步走
             //发验证
             Query_Service qs = new Query_Service();

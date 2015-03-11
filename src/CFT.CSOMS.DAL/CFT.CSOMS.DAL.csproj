@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="ActivityModule\ActivityData.cs" />
     <Compile Include="BalanceModule\BalanceData.cs" />
+    <Compile Include="BankcardUnbind\BankcardbindData.cs" />
     <Compile Include="CFTAccount\AccountData.cs" />
     <Compile Include="CheckModoule\CheckData.cs" />
     <Compile Include="FundModule\LCTBalance.cs" />
@@ -112,7 +113,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Configs\Log4net.config" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\System.Data.DataSet.datasource" />

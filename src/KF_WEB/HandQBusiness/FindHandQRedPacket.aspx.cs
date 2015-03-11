@@ -12,12 +12,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
 {
     public partial class FindHandQRedPacket : System.Web.UI.Page
     {
-
+        private const int m_nPageSize = 10;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                textBoxBeginDate.Text = DateTime.Now.AddDays(-7).ToString("yyyy年MM月dd日");
+                textBoxBeginDate.Text = DateTime.Now.AddDays(-30).ToString("yyyy年MM月dd日");
                 textBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
             }
         }
@@ -30,10 +30,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
             {
                 this.receivePager.RecordCount = 1000;
                 this.sendListPager.RecordCount = 1000;
-                
+                this.redPacketHBDetailPager.RecordCount = 1000;
 
-                BindHandQRecvInfor(1, 10);
-                BindHandQSendInfor(1, 10);
+                
+                BindHandQRecvInfor(1, m_nPageSize);
+                BindHandQSendInfor(1, m_nPageSize);
             }
             catch (Exception eSys)
             {
@@ -66,6 +67,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
             }
             int max = pageSize;
             int start = max * (pageIndex - 1);
+            if (start < 0)
+            {
+                start = 1;
+            }
             receivePager.CurrentPageIndex = pageIndex;
             gvReceiveHQList.DataSource = null;
             gvReceiveHQList.DataBind();
@@ -79,11 +84,32 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                     {
                         ds.Tables[0].Columns.Add("amount_text", typeof(string));
                         ds.Tables[0].Columns.Add("Title", typeof(string));
+                        ds.Tables[0].Columns.Add("channel_text", typeof(string));
 
                         foreach (DataRow item in ds.Tables[0].Rows)
                         {
                             item["amount_text"] = classLibrary.setConfig.FenToYuan(item["amount"].ToString());
-                            item["Title"] = string.Format("发给{0}红包", item["send_name"].ToString());
+                            item["Title"] = string.Format("{0}发出的红包", item["send_name"].ToString());
+
+                            switch (item["channel"].ToString())
+                            {
+                                case "1":
+                                    {
+                                        item["channel_text"] = "个人红包";
+                                        break;
+                                    }
+                                case "4":
+                                    {
+                                        item["channel_text"] = "明星或企业红包";
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        item["channel_text"] = "未知红包";
+                                        break;
+                                    }
+                            }
+
                         }
                         gvReceiveHQList.DataSource = ds.Tables[0].DefaultView;
                         gvReceiveHQList.DataBind();
@@ -122,6 +148,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
             }
             int max = pageSize;
             int start = max * (pageIndex - 1);
+            if (start < 0)
+            {
+                start = 1;
+            }
             sendListPager.CurrentPageIndex = pageIndex;
             gvSendHQList.DataSource = null;
             gvSendHQList.DataBind();
@@ -140,6 +170,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                         ds.Tables[0].Columns.Add("summary", typeof(string));
                         ds.Tables[0].Columns.Add("refund", typeof(string));
                         ds.Tables[0].Columns.Add("send_listidex", typeof(string));
+                        ds.Tables[0].Columns.Add("channel_text", typeof(string));
 
                         foreach (DataRow item in ds.Tables[0].Rows)
                         {
@@ -149,7 +180,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                                                item["total_num"].ToString(),
                                                classLibrary.setConfig.FenToYuan(item["recv_amount"].ToString()));
                             item["amount_text"] = classLibrary.setConfig.FenToYuan(item["total_amount"].ToString());
-                            item["Title"] = string.Format("发给{0}红包", item["send_name"].ToString());
+                            item["Title"] = string.Format("{0}发出的红包", item["send_name"].ToString());
                             item["refund"] = classLibrary.setConfig.FenToYuan((int.Parse(item["total_amount"].ToString()) - int.Parse(item["recv_amount"].ToString())).ToString());
                             //去掉前二位，听说是路由产生的
                             string strSendList = item["send_listid"].ToString();
@@ -173,6 +204,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                                     item["state_text"] = "未知" + item["state"].ToString();
                                     break;
                             }
+
+                            switch (item["channel"].ToString())
+                            {
+                                case "1":
+                                    {
+                                        item["channel_text"] = "个人红包";
+                                        break;
+                                    }
+                                case "4":
+                                    {
+                                        item["channel_text"] = "明星或企业红包";
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        item["channel_text"] = "未知红包";
+                                        break;
+                                    }
+                            }
                         }
 
                         gvSendHQList.DataSource = ds.Tables[0].DefaultView;
@@ -190,7 +240,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
 
         }
         //strSendList:红包总单号
-        public void BindHandQDetail(string strSendList)
+        public void BindHandQDetail(string strSendList,int pageIndex, int pageSize)
+        
         {
             string strOutMsg = null;
             try
@@ -202,20 +253,51 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                 }
                 gvHQRedPacketDetail.DataSource = null;
                 gvHQRedPacketDetail.DataBind();
-
-                
-                DataSet ds = new HandQService().RequestHandQDetail(strSendList, out strOutMsg);
+                this.redPacketHBDetailPager.CurrentPageIndex = pageIndex;
+                int max = pageSize;
+                int start = max * (pageIndex - 1);
+                if (start < 0)
+                {
+                    start = 1;
+                }
+                int nType = 1;
+               
+                DataSet ds = new HandQService().RequestHandQDetail(strSendList,nType,start,max, out strOutMsg);
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     if (ds.Tables[0].Rows.Count > 0)
                     {
                         ds.Tables[0].Columns.Add("amount_text", typeof(string));
                         ds.Tables[0].Columns.Add("Title", typeof(string));
+                        ds.Tables[0].Columns.Add("channel_text", typeof(string));
 
                         foreach (DataRow item in ds.Tables[0].Rows)
                         {
-                            item["amount_text"] = classLibrary.setConfig.FenToYuan(item["amount"].ToString());
-                            item["Title"] = string.Format("发给{0}红包", item["send_name"].ToString());
+    
+                            item["amount_text"] = string.IsNullOrEmpty(item["amount"].ToString())? "": classLibrary.setConfig.FenToYuan(item["amount"].ToString());
+                            item["Title"] = string.IsNullOrEmpty(item["send_name"].ToString())?"":string.Format("发给{0}红包", item["send_name"].ToString());
+                            if(!string.IsNullOrEmpty(item["channel"].ToString()))
+                            {
+                                switch (item["channel"].ToString())
+                                {
+                                    case "1":
+                                        {
+                                            item["channel_text"] = "个人红包";
+                                            break;
+                                        }
+                                    case "4":
+                                        {
+                                            item["channel_text"] = "明星或企业红包";
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            item["channel_text"] = "未知红包";
+                                            break;
+                                        }
+                                }
+                            }
+ 
                         }
 
                         gvHQRedPacketDetail.DataSource = ds.Tables[0].DefaultView;
@@ -236,7 +318,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
             try
             {
                 int currentPage = e.NewPageIndex;
-                BindHandQSendInfor(currentPage, 10);
+                BindHandQSendInfor(currentPage, m_nPageSize);
             }
             catch (Exception eSys)
             {
@@ -249,8 +331,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
             try
             {
                // FetchInput();
-                int currentPage = e.NewPageIndex;                
-                BindHandQRecvInfor(currentPage, 10);
+                int currentPage = e.NewPageIndex;
+                BindHandQRecvInfor(currentPage, m_nPageSize);
             }
             catch (Exception eSys)
             {
@@ -276,7 +358,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                     hfCreateTime.Value = commandArgs[1];
 
                     //112417524760201501059002423553 红包有人接 的测试数据
-                    BindHandQDetail(commandArgs[0]);
+                    BindHandQDetail(commandArgs[0], 1, m_nPageSize);
                     //测试数据。红包没有人接数据
                     //BindHandQDetail("102417524760201501079002423813");
                 }
@@ -306,7 +388,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                     hfSendListId.Value = commandArgs[0];
                     hfCreateTime.Value = commandArgs[1];
 
-                    BindHandQDetail(commandArgs[0]);
+                    BindHandQDetail(commandArgs[0], 1, m_nPageSize);
                   //  DateTime.TryParse(commandArgs[1], out createTime);
 
                    // BindRedPacketDetailList(commandArgs[0],  1, 10);
@@ -318,7 +400,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
             }
         }
 
-        protected void redPacketHQDetailPager_PageChanged(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
+        protected void redPacketHBDetailPager_PageChanged(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
         {
             try
             {
@@ -326,6 +408,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                 var sendListId = hfSendListId.Value;
                 //DateTime createTime = DateTime.Now;
                 //DateTime.TryParse(hfCreateTime.Value, out createTime);
+                int currentPage = e.NewPageIndex;
+                BindHandQDetail(sendListId, currentPage, m_nPageSize);
 
                
             }

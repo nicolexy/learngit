@@ -1904,6 +1904,34 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             }
         }
 
+        private bool IsBindMobilePhone(string Fuid)
+        {
+            bool bState = false;
+            using (var da = MySQLAccessFactory.GetMySQLAccess("MN"))
+            {
+                
+                da.OpenConn();
+                string strTable = "msgnotify_" + Fuid.Substring(Fuid.Length - 3, 2) + ".t_msgnotify_user_"
+                    + Fuid.Substring(Fuid.Length - 1, 1);
+                string sql = " select Fstatus from " + strTable + " where Fuid = '" + Fuid + "'";
+                DataSet ds = da.dsGetTotalData(sql);
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    int nState = int.Parse(ds.Tables[0].Rows[0]["Fstatus"].ToString());
+                    string strMeg = string.Format("IsBindMobilePhone:nState={0}", nState);
+                    LogHelper.LogInfo(strMeg);
+                    int nBit = 64;
+                    if ((nState & nBit) == nBit)
+                    {
+                        bState = true;
+                    }
+
+                }
+            }
+            return bState;
+
+        }
+
         public bool ConfirmAppealDBTB(string fid, string db, string tb, string Fcomment, string user, string userIP)
         {
             string msg = "";
@@ -1986,7 +2014,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                         {
                             IsNew = true;
 
-                            if (cont_type == "1")//前端会传回1或者3,3的时候不需要客服绑定
+                            if (cont_type == "1" )//前端会传回1或者3,3的时候不需要客服绑定
                             {
                                 string Fuid = AccountData.ConvertToFuid(fuin);
                                 string client_id = System.Configuration.ConfigurationManager.AppSettings["client_id"].ToString();
@@ -2282,6 +2310,28 @@ namespace CFT.CSOMS.DAL.UserAppealModule
         /// </summary>
         public bool BindOrChangeMobile(string Fuid, string fuin, string old_mobile, string mobile_no, string client_ip, string certno, string singed, out string msg)
         {
+            msg = "BindOrChangeMobile...";
+            if (old_mobile == "")
+            {
+                //已绑定,就不需要再去绑定了
+                if (IsBindMobilePhone(Fuid))
+                {
+                    string strMsg = string.Format("QQ号={0}手机号已经绑定了", fuin);
+                    LogHelper.LogInfo(strMsg);
+                    return true;
+                }
+            }
+            else
+            {
+                //更改手机相同时
+                if (old_mobile.Trim() == mobile_no.Trim())
+                {
+                    string strMsg = string.Format("QQ号={0}，更改手机号码相同", fuin);
+                    LogHelper.LogInfo(strMsg);
+                    return true;
+                }
+
+            }
             // 以下三步走
             //发验证
 
@@ -5262,5 +5312,6 @@ namespace CFT.CSOMS.DAL.UserAppealModule
 
     }
     #endregion
+
 }
 
