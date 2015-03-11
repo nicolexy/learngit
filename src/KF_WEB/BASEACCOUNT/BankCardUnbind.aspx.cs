@@ -128,22 +128,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 this.lblFprotocol_no.Text = ds.Tables[0].Rows[0]["Fprotocol_no"].ToString();
                 this.lblFbank_status.Text = ds.Tables[0].Rows[0]["bank_status_str"].ToString();
 
-                string cardTail = ds.Tables[0].Rows[0]["Fcard_tail"].ToString();
-                if (cardTail != "" && cardTail.Length > 4)
-                {
-                    this.lblFcard_tail.Text = cardTail.Substring(cardTail.Length - 4, 4);
-                }
-                this.lblFcard_tail_db.Text = cardTail;
-
+                this.lblFcard_tail.Text = ds.Tables[0].Rows[0]["Fcard_tail"].ToString();
+                this.lblFcard_tail_db.Text = ds.Tables[0].Rows[0]["Fcard_tail"].ToString();
                 this.lblFtruename.Text = ds.Tables[0].Rows[0]["Ftruename"].ToString();
                 this.lblFbind_type.Text = ds.Tables[0].Rows[0]["bind_type_str"].ToString();
                 this.lblFbind_flag.Text = ds.Tables[0].Rows[0]["bind_flag_str"].ToString();
+                
                 this.lblFbank_id.Text = ds.Tables[0].Rows[0]["Fbank_id"].ToString();
                 this.lblFbind_status.Text = ds.Tables[0].Rows[0]["bind_status_str"].ToString();
-
                 this.lblFindex.Text = ds.Tables[0].Rows[0]["Findex"].ToString();
                 this.lblFuid.Text = ds.Tables[0].Rows[0]["Fuid"].ToString();
                 this.lblFbankType.Text = ds.Tables[0].Rows[0]["Fbank_type"].ToString();
+                
                 this.lblcreType.Text = ds.Tables[0].Rows[0]["cre_type_str"].ToString();
                 this.lblCreID.Text = classLibrary.setConfig.ConvertCreID(ds.Tables[0].Rows[0]["Fcre_id"].ToString());
 
@@ -163,7 +159,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 this.lblday_quota.Text = ds.Tables[0].Rows[0]["Fday_quota_str"].ToString();
                 this.lbli_character2.Text = ds.Tables[0].Rows[0]["sms_flag_str"].ToString();
                 this.txtFmemo.Text = ds.Tables[0].Rows[0]["Fmemo"].ToString();
-
 
                 if (Fbind_flag == "2" && Fbind_status == "4" && Fbank_status == "3")
                     this.btnUnbind.Enabled = false;
@@ -238,8 +233,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             try 
             {       
                 DataTable dt = new BankCardBindService().SyncBankCardBind(this.lblFbankType.Text, this.lblFcard_tail_db.Text, this.lblFbank_id.Text);
-               // DataTable dt = new BankCardBindService().SyncBankCardBind("2101", "1234", "581234");//测试
-                WebUtils.ShowMessage(this.Page, "同步成功");
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    string res = dt.Rows[0]["ret_vaule"].ToString().ToLower();
+                    if (res != null && res == "true")
+                    {
+                        WebUtils.ShowMessage(this.Page, "同步成功");
+                    }
+                }
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
