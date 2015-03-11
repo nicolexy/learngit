@@ -117,8 +117,8 @@ namespace CFT.CSOMS.DAL.RefundModule
             return null;
         }
 
-        public bool UpdateRefundData(string strOldId, string strIdentity, string strBankAccNoOld, string strUserEmail, string strNewBankAccNo,
-            string strBankUserName, string strReason, string strImgCommitment, string strImgIdentity, string strImgBankWater, string strImgCancellation, string strBankName,
+        public bool UpdateRefundData(string strOldId, string strIdentity, string strBankAccNoOld, string strUserEmail, string strNewBankAccNo,string strBankUserName,
+            string strReason, string strImgCommitment, string strImgIdentity, string strImgBankWater, string strImgCancellation, string strBankName,string strOperater,
             int nOldBankType, int nNewBankType, int nUserFalg, int nCardType, int nState, out string outMsg)
         {
             outMsg = "";
@@ -169,6 +169,11 @@ namespace CFT.CSOMS.DAL.RefundModule
                 {
                     strSql += "FbankName='" + strBankName + "',";
                 }
+                if (!string.IsNullOrEmpty(strOperater))
+                {
+                    strSql += "FStandby1='" + strOperater + "',";
+                }
+
                 if (nOldBankType != -1)
                 {                  
                     strSql += "FbankTypeOld='" + nOldBankType + "',";
@@ -207,7 +212,7 @@ namespace CFT.CSOMS.DAL.RefundModule
         private string GetDetailFields()
         {
             string strOut = "select FpayListid,FbankListid, Fidentity,FbankAccNoOld,FbankNameOld,FbankTypeOld,FUserEmail,FbankAccNo,FbankName,FbankType,";
-            strOut += " Fstate,FcreateTime,FtrueName,Fkfremark,FIdentityCardFile,FCommitmentFile,FBankWaterFile,FCancellationFile,FcheckID,FuserFlag,FCardType,FbankName ";
+            strOut += " Fstate,FcreateTime,FtrueName,Fkfremark,FIdentityCardFile,FCommitmentFile,FBankWaterFile,FCancellationFile,FcheckID,FuserFlag,FCardType,FbankName,FStandby1 ";
             return strOut;
         }
 
@@ -319,17 +324,18 @@ namespace CFT.CSOMS.DAL.RefundModule
         }
 
         //查询审批编号
-        public string  QueryAbnormalRefundCheckID(string strOldId)
+        public string  QueryAbnormalRefundCheckID(string strOldId ,ref string strHisCheckID)
         {
             try
             {
-                string strSql = "select FcheckID  from c2c_zwdb.t_refund_KF where FoldId='" + strOldId + "'";
+                string strSql = "select FcheckID,FHisCheckID from c2c_zwdb.t_refund_KF where FoldId='" + strOldId + "'";
                 using (var da = MySQLAccessFactory.GetMySQLAccess("RefundDB"))
                 {
                     da.OpenConn();
                     DataSet ds =  da.dsGetTotalData(strSql);
                     if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                     {
+                        strHisCheckID = ds.Tables[0].Rows[0]["FHisCheckID"].ToString();
                         return ds.Tables[0].Rows[0]["FcheckID"].ToString();
                     }
                 }

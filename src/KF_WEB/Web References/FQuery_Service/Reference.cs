@@ -792,6 +792,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FQuery_Service {
         
         private System.Threading.SendOrPostCallback QueryDirectErrCodeByObjidOperationCompleted;
         
+        private System.Threading.SendOrPostCallback QueryPayChannelNumOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -1975,6 +1977,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FQuery_Service {
         
         /// <remarks/>
         public event QueryDirectErrCodeByObjidCompletedEventHandler QueryDirectErrCodeByObjidCompleted;
+        
+        /// <remarks/>
+        public event QueryPayChannelNumCompletedEventHandler QueryPayChannelNumCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("Finance_HeaderValue")]
@@ -21213,6 +21218,49 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FQuery_Service {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryPayChannelNum", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet QueryPayChannelNum(PayChannelThresholdQuery info, out string msg) {
+            object[] results = this.Invoke("QueryPayChannelNum", new object[] {
+                        info});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginQueryPayChannelNum(PayChannelThresholdQuery info, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("QueryPayChannelNum", new object[] {
+                        info}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet EndQueryPayChannelNum(System.IAsyncResult asyncResult, out string msg) {
+            object[] results = this.EndInvoke(asyncResult);
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void QueryPayChannelNumAsync(PayChannelThresholdQuery info) {
+            this.QueryPayChannelNumAsync(info, null);
+        }
+        
+        /// <remarks/>
+        public void QueryPayChannelNumAsync(PayChannelThresholdQuery info, object userState) {
+            if ((this.QueryPayChannelNumOperationCompleted == null)) {
+                this.QueryPayChannelNumOperationCompleted = new System.Threading.SendOrPostCallback(this.OnQueryPayChannelNumOperationCompleted);
+            }
+            this.InvokeAsync("QueryPayChannelNum", new object[] {
+                        info}, this.QueryPayChannelNumOperationCompleted, userState);
+        }
+        
+        private void OnQueryPayChannelNumOperationCompleted(object arg) {
+            if ((this.QueryPayChannelNumCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.QueryPayChannelNumCompleted(this, new QueryPayChannelNumCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -21309,6 +21357,51 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FQuery_Service {
             }
             set {
                 this.rightStringField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34234")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService")]
+    public partial class PayChannelThresholdQuery {
+        
+        private string s_DateField;
+        
+        private string s_BankTypeField;
+        
+        private string s_ChannelTypeField;
+        
+        /// <remarks/>
+        public string S_Date {
+            get {
+                return this.s_DateField;
+            }
+            set {
+                this.s_DateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string S_BankType {
+            get {
+                return this.s_BankTypeField;
+            }
+            set {
+                this.s_BankTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string S_ChannelType {
+            get {
+                return this.s_ChannelTypeField;
+            }
+            set {
+                this.s_ChannelTypeField = value;
             }
         }
     }
@@ -24620,6 +24713,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FQuery_Service {
         
         private string fEnableField;
         
+        private string fBusiness_listField;
+        
+        private string fIngoreBusiness_listField;
+        
         private string returnUrlField;
         
         /// <remarks/>
@@ -24793,6 +24890,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FQuery_Service {
         }
         
         /// <remarks/>
+        public string FBusiness_list {
+            get {
+                return this.fBusiness_listField;
+            }
+            set {
+                this.fBusiness_listField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string FIngoreBusiness_list {
+            get {
+                return this.fIngoreBusiness_listField;
+            }
+            set {
+                this.fIngoreBusiness_listField = value;
+            }
+        }
+        
+        /// <remarks/>
         public string returnUrl {
             get {
                 return this.returnUrlField;
@@ -24840,6 +24957,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FQuery_Service {
         private string fEnableField;
         
         private string fIgnorBankField;
+        
+        private string fBusiness_listField;
+        
+        private string fIngoreBusiness_listField;
         
         private string returnUrlField;
         
@@ -24990,6 +25111,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FQuery_Service {
             }
             set {
                 this.fIgnorBankField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string FBusiness_list {
+            get {
+                return this.fBusiness_listField;
+            }
+            set {
+                this.fBusiness_listField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string FIngoreBusiness_list {
+            get {
+                return this.fIngoreBusiness_listField;
+            }
+            set {
+                this.fIngoreBusiness_listField = value;
             }
         }
         
@@ -37900,6 +38041,40 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FQuery_Service {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((T_DIRECTPAY_ERRCODEINFO)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    public delegate void QueryPayChannelNumCompletedEventHandler(object sender, QueryPayChannelNumCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class QueryPayChannelNumCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal QueryPayChannelNumCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
             }
         }
         
