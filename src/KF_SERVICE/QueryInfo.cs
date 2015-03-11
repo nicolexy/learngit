@@ -9860,6 +9860,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 if (ftype == 100)//真正查询所有申诉类型申诉记录
                     ;
+                else
                 strWhere += " and FType=" + ftype + " ";
             }
             else
