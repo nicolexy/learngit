@@ -68,6 +68,7 @@
     <Compile Include="CheckModoule\CheckData.cs" />
     <Compile Include="FundModule\LCTBalance.cs" />
     <Compile Include="HandQModule\HandQDAL.cs" />
+    <Compile Include="Infrastructure\QueryInfoClass.cs" />
     <Compile Include="Infrastructure\RelayAccessFactory.cs" />
     <Compile Include="LifeFeePaymentModule\LifeFeePaymentData.cs" />
     <Compile Include="PNRModule\PNRData.cs" />
