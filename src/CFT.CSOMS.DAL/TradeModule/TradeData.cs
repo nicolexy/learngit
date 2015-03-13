@@ -142,7 +142,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                     return ds;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 return null;
             }

@@ -49,15 +49,14 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             if (typeid.ToString() == "1") //根据银行返回定单号查询
             {
-                tradeid =new CFT.CSOMS.DAL.TradeModule.TradeData().ConvertToListID(tradeid, time);
-            }        
+                tradeid = new CFT.CSOMS.DAL.TradeModule.TradeData().ConvertToListID(tradeid, time);
+            }
             int istr = 1;
             int imax = 2;
-            DateTime beginTime=DateTime.Parse( ConfigurationManager.AppSettings["sBeginTime"].ToString());
-            DateTime endTime=DateTime.Parse(ConfigurationManager.AppSettings["sEndTime"].ToString());
+            DateTime beginTime = DateTime.Parse(ConfigurationManager.AppSettings["sBeginTime"].ToString());
+            DateTime endTime = DateTime.Parse(ConfigurationManager.AppSettings["sEndTime"].ToString());
             //todo:有个makelog的方法不是主需求，等会补上
             DataSet ds = new CFT.CSOMS.DAL.TradeModule.TradeData().GetTradeList(tradeid, typeid, beginTime, endTime, istr, imax);
-   
 
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
@@ -67,10 +66,14 @@ namespace CFT.CSOMS.BLL.TradeModule
                 ds.Tables[0].Columns.Add("Fappeal_sign_str"); //申诉标志
                 ds.Tables[0].Columns.Add("Fmedi_sign_str"); //中介标志
                 ds.Tables[0].Columns.Add("Fchannel_id_str"); //渠道编号
-                ds.Tables[0].Columns.Add("Frefund_typeName");//退款类型
-                ds.Tables[0].Columns.Add("Fexplain");//备注
-                ds.Tables[0].Columns.Add("FsaleidCFT");//卖家财付通账号
-                ds.Tables[0].Columns.Add("Ftrade_stateName");//交易状态
+                if (!ds.Tables[0].Columns.Contains("Frefund_typeName"))
+                { ds.Tables[0].Columns.Add("Frefund_typeName"); }//退款类型
+                if (!ds.Tables[0].Columns.Contains("Fexplain"))
+                { ds.Tables[0].Columns.Add("Fexplain"); }//备注
+                if (!ds.Tables[0].Columns.Contains("FsaleidCFT"))
+                { ds.Tables[0].Columns.Add("FsaleidCFT"); }//卖家财付通账号
+                if (!ds.Tables[0].Columns.Contains("Ftrade_stateName"))
+                { ds.Tables[0].Columns.Add("Ftrade_stateName"); }//交易状态
 
                 PublicService.PublicService.GetColumnValueFromDic(ds.Tables[0], "Fpay_type", "Fpay_type_str", "PAY_TYPE");//支付类型
 
@@ -243,7 +246,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                     }
                 }
 
-                ds.Tables[0].Rows[0]["Fbuy_bank_type"]=PublicService.PublicService.convertbankType(ds.Tables[0].Rows[0]["Fbuy_bank_type"].ToString());
+                ds.Tables[0].Rows[0]["Fbuy_bank_type"] = PublicService.PublicService.convertbankType(ds.Tables[0].Rows[0]["Fbuy_bank_type"].ToString());
                 ds.Tables[0].Rows[0]["Fcurtype"] = PublicService.PublicService.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());
                 ds.Tables[0].Rows[0]["Flstate"] = PublicService.PublicService.convertTradeState(ds.Tables[0].Rows[0]["Flstate"].ToString());
                 ds.Tables[0].Rows[0]["Fsale_bank_type"] = PublicService.PublicService.convertbankType(ds.Tables[0].Rows[0]["Fsale_bank_type"].ToString());
@@ -259,7 +262,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                         DateTime begindate = DateTime.Parse(bargain_time.Trim());
                         string strBeginTime = begindate.AddDays(-7).ToString("yyyy-MM-dd 00:00:00");
                         string strEndTime = begindate.AddDays(8).ToString("yyyy-MM-dd 23:59:59");
- 
+
                         DataSet tmpDS = GetB2cReturnList("", strBeginTime, strEndTime, 99, 99, tradeid, "", "0000", 99, "", 1, 1, 10);
 
                         if (tmpDS != null && tmpDS.Tables.Count > 0)
@@ -273,7 +276,10 @@ namespace CFT.CSOMS.BLL.TradeModule
                     }
                 }
                 catch (Exception ex)
-                {}
+                {
+                    log4net.ILog tmpLog = log4net.LogManager.GetLogger("查询退款类型");
+                    tmpLog.ErrorFormat("查询退款类型：出错：{0} ", ex.Message);
+                }
 
 
                 DataTable wx_dt = null;
@@ -281,15 +287,18 @@ namespace CFT.CSOMS.BLL.TradeModule
                 {
                     wx_dt = new WechatPayService().QueryWxTrans(ds.Tables[0].Rows[0]["Flistid"].ToString()); //查询微信转账业务
                 }
-                catch
-                {}
+                catch (Exception ex)
+                {
+                    log4net.ILog tmpLog = log4net.LogManager.GetLogger("查询微信转账业务");
+                    tmpLog.ErrorFormat("查询微信转账业务：出错：{0} ", ex.Message);
+                }
                 if (wx_dt != null && wx_dt.Rows.Count > 0)
                 {
                     ds.Tables[0].Rows[0]["Fcoding"] = PublicRes.objectToString(wx_dt, "wx_trade_id");//子账户关联订单号
                     string scene = PublicRes.objectToString(wx_dt, "scene");//区分微信转账，面对面付款
                     if (scene == "0")
                     {
-                        ds.Tables[0].Rows[0]["Fexplain"]= "微信转账";
+                        ds.Tables[0].Rows[0]["Fexplain"] = "微信转账";
                     }
                     else
                     {
@@ -318,7 +327,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                 //交易状态
                 if (ds.Tables[0].Rows[0]["Flistid"].ToString() != "")
                 {
-                    var listID = ds.Tables[0].Rows[0]["Flistid"].ToString();                  
+                    var listID = ds.Tables[0].Rows[0]["Flistid"].ToString();
                     DataSet dsState = new CFT.CSOMS.DAL.TradeModule.TradeData().GetQueryListDetail(listID);
 
                     if (dsState != null && dsState.Tables.Count > 0 && dsState.Tables[0].Rows.Count > 0)
@@ -349,7 +358,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                                         }
                                     }
                                 }
-          
+
                             }
 
                             if (isRefund)
@@ -365,10 +374,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                 }
 
                 return ds;
-
             }
-
-
 
             else
             {
