@@ -14330,11 +14330,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             DataSet ds = null;
             try
             {
-                PublicRes PR = new PublicRes();
-                string sql = "SELECT *,isnull(replace(space(len(IdentityCardNum)-5),' ','*'),'')+right(IdentityCardNum,5) AS IDNo " +
-                             "FROM vCompanyInfo(NOLOCK) " +
-                             "WHERE ISNULL(CompanyName,'') LIKE '%" + CompanyName + "%' AND ISNULL(CompanyID,'') LIKE '%" + CompanyID + "%' AND ISNULL(WWWAdress,'') LIKE '%" + URL + "%'AND ISNULL(WebName,'') LIKE '%" + WebName + "%'";
-                ds = PR.GetSqlServerData(sql);
+                ds = new SPOAService().GetOneValueAddedTax(CompanyID);
+
+                //PublicRes PR = new PublicRes();
+
+                //string sql = "SELECT *,isnull(replace(space(len(IdentityCardNum)-5),' ','*'),'')+right(IdentityCardNum,5) AS IDNo " +
+                //             "FROM vCompanyInfo(NOLOCK) " +
+                //             "WHERE ISNULL(CompanyName,'') LIKE '%" + CompanyName + "%' AND ISNULL(CompanyID,'') LIKE '%" + CompanyID + "%' AND ISNULL(WWWAdress,'') LIKE '%" + URL + "%'AND ISNULL(WebName,'') LIKE '%" + WebName + "%'";
+                //ds = PR.GetSqlServerData(sql);
+
+
+
                 /*
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0) 
                 {
@@ -14559,9 +14565,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                PublicRes PR = new PublicRes();
-                string sql = "SELECT * FROM vCompanyInfo(NOLOCK) WHERE CompanyID ='" + Fspid + "'";
-                return PR.GetSqlServerData(sql);
+                //PublicRes PR = new PublicRes();
+                //string sql = "SELECT * FROM vCompanyInfo(NOLOCK) WHERE CompanyID ='" + Fspid + "'";
+                //return PR.GetSqlServerData(sql);
+                return new SPOAService().GetOneValueAddedTax(Fspid);
             }
             catch (Exception ex)
             {
