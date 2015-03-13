@@ -2949,7 +2949,6 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                             {
                                 dt.Columns.Add(fieldsplit[0]);
                             }
-
                             //drfield[fieldsplit[0]] = URLDecode(fieldsplit[1].Trim());
                             drfield[fieldsplit[0]] = IceDecode(fieldsplit[1].Trim());
                         }

@@ -78,6 +78,151 @@ namespace CFT.CSOMS.BLL.WechatPay
         //    return ds;
         //}
 
+        public Hashtable RequestBankInfo()
+        {
+            Hashtable ht = new Hashtable();
+            string relayDefaultSPId = "20000000";
+            string ip = System.Configuration.ConfigurationManager.AppSettings["BankInfoIP"].ToString();
+            int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["BankInfoPort"].ToString());
+            //快捷
+            string requestString = "biz_type=FASTPAY&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit=200&offset=0";
+            DataSet ds = RelayAccessFactory.GetBankInfoFromRelay(requestString, "6508", ip, port, false, false, relayDefaultSPId);
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    if (ht.ContainsKey(dr["bank_name"].ToString().Trim()))
+                    {
+                        string strBankID = ht[dr["bank_name"].ToString().Trim()].ToString();
+                        ht[dr["bank_name"].ToString().Trim()] = string.Format("{0}|{1}", strBankID, dr["bank_type"].ToString());
+                    }
+                    else
+                    {
+                        ht[dr["bank_name"].ToString().Trim()] = dr["bank_type"].ToString();
+                    }
+                }
+            }
+            //一点通
+            requestString = "biz_type=ONECLICK&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit=200&offset=0";
+            DataSet dsex = RelayAccessFactory.GetBankInfoFromRelay(requestString, "6508", ip, port, false, false, relayDefaultSPId);
+            if (dsex != null && dsex.Tables.Count > 0 && dsex.Tables[0].Rows.Count > 0)
+            {
+
+                foreach (DataRow dr in dsex.Tables[0].Rows)
+                {
+                    if (ht.ContainsKey(dr["bank_name"].ToString().Trim()))
+                    {
+                        string strBankID = ht[dr["bank_name"].ToString().Trim()].ToString();
+                        ht[dr["bank_name"].ToString().Trim()] = string.Format("{0}|{1}", strBankID, dr["bank_type"].ToString());
+                    }
+                    else
+                    {
+                        ht[dr["bank_name"].ToString().Trim()] = dr["bank_type"].ToString();
+                    }
+                }
+            }
+            return ht;
+        }
+
+        public DataSet QueryBankCardNewList(string bankCard, string bankDate,string bankType, int biz_type, int offset, int limit)
+        {
+            if (string.IsNullOrEmpty(bankCard.Trim()))
+            {
+                throw new ArgumentNullException("银行卡号为空！");
+            }
+            if (string.IsNullOrEmpty(bankDate.Trim()))
+            {
+                throw new ArgumentNullException("日期为空！");
+            }
+            
+            string[] aryBankType = bankType.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+            DataSet allPos = null;
+            DataSet[] dsPos = new DataSet[aryBankType.Length];
+            for (int i = 0; i < aryBankType.Length; ++i)
+            {
+                /* 通过接口查询到所有pos表的数据  */
+                int offsetQ = 0;
+                int limitQ = 8;
+                int totalNum = 0;
+                //查pos月表
+                dsPos[i] = new FastPayData().GetBankPosDataList(bankCard, bankDate, aryBankType[i], biz_type, offsetQ, limitQ, out totalNum);
+                //需多次查询合并结果
+                int index = 1;
+                while (limitQ * index < totalNum)
+                {
+                    offsetQ = limitQ * index;
+                    DataSet ds2 = new FastPayData().GetBankPosDataList(bankCard, bankDate, aryBankType[i], biz_type, offsetQ, limitQ, out totalNum);
+                    index++;
+                    dsPos[i] = PublicRes.ToOneDataset(dsPos[i], ds2);//将两个库的数据合并到一个库
+                }
+                //合并
+                allPos = PublicRes.ToOneDataset(allPos, dsPos[i]);
+            }
+
+
+            DataSet dsPosResult = new DataSet();
+            DataTable dtPos = new DataTable();
+            dsPosResult.Tables.Add(dtPos);
+            dtPos.Columns.Add("fpay_acc", typeof(string));
+            dtPos.Columns.Add("fbank_order", typeof(string));
+            dtPos.Columns.Add("Famt", typeof(string));
+            dtPos.Columns.Add("Fbiz_type", typeof(string));
+            if (allPos != null && allPos.Tables.Count > 0 && allPos.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow row in allPos.Tables[0].Rows)
+                {
+                    DataRow drfield = dtPos.NewRow();
+                    drfield.BeginEdit();
+
+                    drfield["fbank_order"] = row["fbill_no"].ToString();
+                    drfield["fpay_acc"] = bankCard;
+                    drfield["Famt"] = row["famount"].ToString();
+                    drfield["Fbiz_type"] = biz_type;
+
+                    drfield.EndEdit();
+                    dtPos.Rows.Add(drfield);
+                }
+            }
+          
+            DataSet ds = new DataSet();
+            if (offset == -1 && limit == -1)
+                ds = dsPosResult;
+            else
+            {
+                if (dsPosResult != null && dsPosResult.Tables.Count > 0 && dsPosResult.Tables[0].Rows.Count > 0)
+                {
+                    DataTable dt = dsPosResult.Tables[0];
+                    dt = PublicRes.GetPagedTable(dt, offset, limit);//分页处理
+                    ds.Tables.Add(dt.Copy());
+                }
+            }
+
+            //处理数据
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                ds.Tables[0].Columns.Add("FamtStr", typeof(string));
+                ds.Tables[0].Columns.Add("Fbiz_type_str", typeof(String));//业务状态
+
+                Hashtable ht1 = new Hashtable();
+                ht1.Add("10100", "支付");
+                ht1.Add("10200", "提现");
+                ht1.Add("10300", "退款");
+                ht1.Add("10400", "ATM充值");
+                ht1.Add("10500", "session索引KEY");
+
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    dr["fpay_acc"] = bankCard;
+                }
+
+                CommUtil.FenToYuan_Table(ds.Tables[0], "Famt", "FamtStr");
+
+                CommUtil.DbtypeToPageContent(ds.Tables[0], "Fbiz_type", "Fbiz_type_str", ht1);
+            }
+
+            return ds;
+        }
+
         public DataSet QueryBankCardList(string bankCard, string bankDate, int biz_type, int offset, int limit)
         {
             if (string.IsNullOrEmpty(bankCard.Trim()))

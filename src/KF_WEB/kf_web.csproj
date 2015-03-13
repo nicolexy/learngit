@@ -1903,6 +1903,13 @@
     <Compile Include="TradeManage\BankCardQuery.aspx.designer.cs">
       <DependentUpon>BankCardQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TradeManage\BankCardQueryNew.aspx.cs">
+      <DependentUpon>BankCardQueryNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\BankCardQueryNew.aspx.designer.cs">
+      <DependentUpon>BankCardQueryNew.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TradeManage\BankRollLog.aspx.cs">
       <DependentUpon>BankRollLog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3150,6 +3157,7 @@
     <Content Include="TradeManage\BankCardQuery.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="TradeManage\BankCardQueryNew.aspx" />
     <Content Include="TradeManage\BankRollLog.aspx">
       <SubType>Form</SubType>
     </Content>

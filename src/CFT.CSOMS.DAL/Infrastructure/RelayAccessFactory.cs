@@ -139,6 +139,41 @@ namespace CFT.CSOMS.DAL.Infrastructure
         /// <param name="port"></param>
         /// <param name="Msg"></param>
         /// <returns></returns>
+        public static DataSet GetBankInfoFromRelay(string requestString, string serviceCode, string relayIP = "", int relayPort = 0, bool encrypt = false, bool invisible = false, string relayDefaultSPId = "")
+        {
+            string answer = "";
+            try
+            {
+                var relayResponse = RelayHelper.CommunicateWithRelay(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
+                answer = Encoding.GetEncoding("gb2312").GetString(relayResponse.ResponseBuffer);//Encoding.UTF8.GetString(relayResponse.ResponseBuffer);
+                //记录下日志
+                string strLog = string.Format("银行类型请求串:{0},通过gb2312转义结果:{1}", requestString, answer);
+                LogHelper.LogInfo(strLog, "GetHBDetailFromRelay");
+            }
+            catch (Exception err)
+            {
+                string error = "调用relay服务前失败" + err.Message;
+                LogHelper.LogInfo(error);
+                throw new Exception(error);
+            }
+            if (answer == "")
+            {
+                return null;
+            }
+            string strMsg = null;
+            int nAll = 0;
+            return CommQuery.ParseRelayPageRowNum(answer, out strMsg,out nAll);
+        }
+
+        /// <summary>
+        /// 
+        /// 解析字符串到DataSet  接口返回字符串格式
+        /// </summary>
+        /// <param name="inmsg"></param>
+        /// <param name="ip"></param>
+        /// <param name="port"></param>
+        /// <param name="Msg"></param>
+        /// <returns></returns>
         public static DataSet GetHBDetailFromRelay(string requestString, string serviceCode, string relayIP = "", int relayPort = 0, bool encrypt = false, bool invisible = false, string relayDefaultSPId = "")
         {
            string answer = "";
@@ -251,6 +286,37 @@ namespace CFT.CSOMS.DAL.Infrastructure
             return ds;
         }
 
+
+
+        /// <summary>
+        /// 调relay接口，解析字符串到DataSet,多行记录，result=0&row1=&row2=...格式字符串解析
+        /// </summary>
+        /// <param name="inmsg"></param>
+        /// <param name="ip"></param>
+        /// <param name="port"></param>
+        /// <param name="Msg"></param>
+        /// <returns></returns>
+        /// 
+        public static DataSet GetDSFromRelayRowNumNew(out int totalNum, string requestString, string serviceCode, string relayIP = "", int relayPort = 0, bool encrypt = false, bool invisible = false, string relayDefaultSPId = "")
+        {
+            string Msg = "";
+            string answer = RelayInvoke(requestString, serviceCode, encrypt, invisible, relayIP, relayPort,"",relayDefaultSPId);
+            DataSet ds = null;
+            if (answer == "")
+            {
+                totalNum = 0;
+                return null;
+            }
+
+            totalNum = 0;
+            //解析
+            ds = CommQuery.ParseRelayPageRowNum(answer, out Msg, out totalNum);
+            if (Msg != "")
+            {
+                throw new Exception(Msg);
+            }
+            return ds;
+        }
 
         /// <summary>
         /// 调relay接口，解析字符串到DataSet,多行记录，result=0&row1=&row2=...格式字符串解析

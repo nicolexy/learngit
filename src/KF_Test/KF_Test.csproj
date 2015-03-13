@@ -98,6 +98,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BankCardQuery\BankCardQueryTest.cs" />
     <Compile Include="PublicTest\CommonTest.cs" />
     <Compile Include="WechatPay\FastPayServiceTest.cs" />
     <Compile Include="LifeFeePayment\LifeFeePaymentTest.cs" />
