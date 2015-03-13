@@ -36,7 +36,7 @@ namespace CSAPI
                 string FRecycle_user = "";//回收人
                 string FSubmit_user = ""; //登记人
                 string FRefund_amount = "0"; //退款金额
-
+                string memo = "";//备注
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
 
                 //必填参数验证
@@ -64,8 +64,12 @@ namespace CSAPI
                 {
                     FRefund_amount = paramsHt["FRefund_amount"].ToString();
                 }
+                if (paramsHt.Keys.Contains("memo"))
+                {
+                    memo = paramsHt["memo"].ToString();
+                }
                 //调用bll层方法
-                bool infos = new CFT.CSOMS.BLL.InternetBank.InternetBankService().AddRefundInfo(FOrderId, FRefund_type, FSam_no, FRecycle_user, FSubmit_user, FRefund_amount);
+                bool infos = new CFT.CSOMS.BLL.InternetBank.InternetBankService().AddRefundInfo(FOrderId, FRefund_type, FSam_no, FRecycle_user, FSubmit_user, FRefund_amount, memo);
                 
                 //返回值
                 Record record = new Record();
