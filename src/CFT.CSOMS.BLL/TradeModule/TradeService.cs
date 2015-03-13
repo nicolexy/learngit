@@ -51,14 +51,14 @@ namespace CFT.CSOMS.BLL.TradeModule
             {
                 if (typeid.ToString() == "1") //根据银行返回定单号查询
                 {
-                    tradeid = new CFT.CSOMS.DAL.TradeModule.TradeData().ConvertToListID(tradeid, time);
+                    tradeid = new TradeData().ConvertToListID(tradeid, time);
                 }
                 int istr = 1;
                 int imax = 2;
                 DateTime beginTime = DateTime.Parse(ConfigurationManager.AppSettings["sBeginTime"].ToString());
                 DateTime endTime = DateTime.Parse(ConfigurationManager.AppSettings["sEndTime"].ToString());
                 //TODO:有个makelog的方法不是主需求
-                DataSet ds = new CFT.CSOMS.DAL.TradeModule.TradeData().GetTradeList(tradeid, typeid, beginTime, endTime, istr, imax);
+                DataSet ds = new TradeData().GetTradeList(tradeid, typeid, beginTime, endTime, istr, imax);
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
@@ -330,7 +330,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                     if (ds.Tables[0].Rows[0]["Flistid"].ToString() != "")
                     {
                         var listID = ds.Tables[0].Rows[0]["Flistid"].ToString();
-                        DataSet dsState = new CFT.CSOMS.DAL.TradeModule.TradeData().GetQueryListDetail(listID);
+                        DataSet dsState = new TradeData().GetQueryListDetail(listID);
 
                         if (dsState != null && dsState.Tables.Count > 0 && dsState.Tables[0].Rows.Count > 0)
                         {
@@ -339,7 +339,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                             ds.Tables[0].Rows[0]["Ftrade_stateName"] = dsState.Tables[0].Rows[0]["Ftrade_stateName"].ToString();
                             if (isC2C)
                             {
-                                var dsList = new CFT.CSOMS.DAL.TradeModule.TradeData().GetBankRollList_withID(DateTime.Now.AddDays(-300), DateTime.Now.AddDays(1), listID, 1, 50);
+                                var dsList = new TradeData().GetBankRollList_withID(DateTime.Now.AddDays(-300), DateTime.Now.AddDays(1), listID, 1, 50);
                                 bool isRefund = false;
                                 bool isCompelete = false;
                                 if (dsList != null && dsList.Tables.Count > 0 && dsList.Tables[0].Rows.Count > 0)
