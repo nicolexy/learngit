@@ -5019,7 +5019,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     //string TableName = "c2c_db_tcpay.t_tcpay_list_" + tmpDate.ToString("yyyyMM");
                     string TableName = "c2c_db.t_tcpay_list_" + tmpDate.ToString("yyyyMM");
 
-                    strGroup = strGroup + " select " + GetTcPayListNewFields() + " from " + TableName + strWhere + " union all";
+                    strGroup = "(" + strGroup + " select " + GetTcPayListNewFields() + " from " + TableName + strWhere + ") union all ";
 
                     tmpDate = tmpDate.AddMonths(1);
 
@@ -5030,7 +5030,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             //**furion提现单改造20120216
             string TableName1 = "c2c_db.t_tcpay_list";
-            strGroup = strGroup + " select " + GetTcPayListOldFields() + " from " + TableName1 + strWhere + " ";
+            strGroup = strGroup + "( select " + GetTcPayListOldFields() + " from " + TableName1 + strWhere + " )";
 
             string strorder = "";
             if (sorttype != null && sorttype.Trim() != "")
