@@ -206,7 +206,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     string emailTo = "";
                     if (buss_ds != null && buss_ds.Tables[0].Rows.Count == 1) 
                     {
-                        string keyId = buss_ds.Tables[0].Rows[0]["KeyID"].ToString();
+                        string keyId = buss_ds.Tables[0].Rows[0]["ApplyCpInfoID"].ToString();
                         DataSet ds1 = qs.GetPayBusinessInfo(keyId);
                         if (ds1 != null && ds1.Tables[0].Rows.Count == 1) {
                             emailTo = ds1.Tables[0].Rows[0]["ContactEmail"].ToString();
