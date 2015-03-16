@@ -11001,18 +11001,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
         [WebMethod(Description = "自助申诉批量领单函数")]
-        public DataSet GetUserAppealLockList(DateTime BeginDate, DateTime EndDate, string fstate, string ftype, string QQType, string username, int Count, int SortType)
+        public DataSet GetUserAppealLockList(DateTime BeginDate, DateTime EndDate, string fstate, string ftype, string QQType, string username, int Count, int SortType, string dotype)
         {
-            return CFTUserAppealClass.GetLockList(BeginDate, EndDate, fstate, ftype, QQType, username, Count, SortType);
+            return CFTUserAppealClass.GetLockList(BeginDate, EndDate, fstate, ftype, QQType, username, Count, SortType, dotype);
         }
 
         [WebMethod(Description = "自助申诉批量领单函数:分库表类型")]
-        public DataSet GetUserAppealLockListDBTB(DateTime BeginDate, DateTime EndDate, string fstate, string ftype, string QQType, string username, int Count, int SortType)
+        public DataSet GetUserAppealLockListDBTB(DateTime BeginDate, DateTime EndDate, string fstate, string ftype, string QQType, string username, int Count, int SortType, string dotype)
         {
             try
             {
                 DataSet ds = new DataSet();
-                CFTUserAppealClass cuser = new CFTUserAppealClass(BeginDate, EndDate, fstate, ftype, QQType, username, Count, SortType);
+                CFTUserAppealClass cuser = new CFTUserAppealClass(BeginDate, EndDate, fstate, ftype, QQType, username, Count, SortType, dotype);
                 ds = cuser.GetResultX("CFT");//查旧表
 
 
@@ -11045,7 +11045,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         string db = listdb[i];
                         string tb = listtb[i];
-                        CFTUserAppealClass cuser2 = new CFTUserAppealClass(BeginDate, EndDate, fstate, ftype, QQType, username, Count, SortType, true, db, tb);//分库分表的查询
+                        CFTUserAppealClass cuser2 = new CFTUserAppealClass(BeginDate, EndDate, fstate, ftype, QQType, username, Count, SortType, dotype,true, db, tb);//分库分表的查询
                         DataSet dsfen = cuser2.GetResultX("CFTNEW");
 
                         if (dsfen != null && dsfen.Tables.Count > 0 && dsfen.Tables[0].Rows.Count > 0)
