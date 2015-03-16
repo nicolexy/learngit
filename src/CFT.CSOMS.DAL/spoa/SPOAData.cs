@@ -192,7 +192,11 @@ namespace CFT.CSOMS.DAL.SPOA
             cli.ValueAddedTaxApprove(taskid, Memo, imgTaxCert, imgBizLicenseCert, imgAuthorizationCert, UserName);
         }
 
-        
+        public void ValueAddedTaxCancel(string taskid, string spid, string Memo, string UserName)
+        {
+            SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
+            cli.ValueAddedTaxCancel(taskid, spid, Memo, UserName);
+        }
         public DataSet GetSpidDomainQueryListCount(string filter)
         {
             SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();

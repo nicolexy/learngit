@@ -427,6 +427,11 @@ namespace CFT.CSOMS.BLL.SPOA
             new SPOAData().ValueAddedTaxApprove(taskid, Memo, imgTaxCert, imgBizLicenseCert, imgAuthorizationCert, UserName);
         }
 
+        public void ValueAddedTaxCancel(string taskid, string spid, string Memo, string UserName)
+        {
+            new SPOAData().ValueAddedTaxCancel(taskid, spid, Memo, UserName);
+        }
+
         public DataSet GetSpidDomainQueryListCount(string filter)
         {
             return new SPOAData().GetSpidDomainQueryListCount(filter);
