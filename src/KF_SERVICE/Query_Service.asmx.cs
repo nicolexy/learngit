@@ -15607,11 +15607,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                PublicRes PR = new PublicRes();
-                string sql = "update t_msp_amend_task set AmendState=4,CheckUser='" + UserName + "' where taskid = " + taskid + ";" +
-                    "update ApplyValueAddedTax set Flag=5,Memo='" + Memo + "' where taskid = " + taskid + ";" +
-                    "update ApplyCpInfoX set TaxInvoiceFlag=5 where spid = '" + spid + "'";
-                PR.ModifySqlServerData(sql);
+                //PublicRes PR = new PublicRes();
+                //string sql = "update t_msp_amend_task set AmendState=4,CheckUser='" + UserName + "' where taskid = " + taskid + ";" +
+                //    "update ApplyValueAddedTax set Flag=5,Memo='" + Memo + "' where taskid = " + taskid + ";" +
+                //    "update ApplyCpInfoX set TaxInvoiceFlag=5 where spid = '" + spid + "'";
+                //PR.ModifySqlServerData(sql);
+                new SPOAService().ValueAddedTaxCancel(taskid, spid, Memo, UserName);
             }
             catch (Exception ex)
             {
