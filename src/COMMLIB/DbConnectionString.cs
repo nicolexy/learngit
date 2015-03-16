@@ -69,8 +69,7 @@ namespace CommLib
             }
             catch (Exception ex)
             {
-                LogHelper.LogInfo("获取连接字符串异常:" + ex.Message);
-                LogHelper.LogInfo("异常堆栈:" + new StackTrace().GetFrames().ToString());
+                LogHelper.LogInfo("获取连接字符串异常:" + ex.ToString());
             }
 
             if (string.IsNullOrEmpty(connectionString))

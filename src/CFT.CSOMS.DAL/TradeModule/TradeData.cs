@@ -41,23 +41,87 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             if (mark == "uidEnd")
             {
-                if (uidEnd < 25)
-                    conString = "BankRollList1";
-                else if (uidEnd >= 25 && uidEnd < 50)
-                    conString = "BankRollList2";
-                else if (uidEnd >= 50 && uidEnd < 75)
-                    conString = "BankRollList3";
-                else if (uidEnd >= 75 && uidEnd <= 99)
-                    conString = "BankRollList4";
+                if (uidEnd >= 0 && uidEnd <= 3)
+                    conString = "zw1";
+                else if (uidEnd >= 4 && uidEnd <= 8)
+                    conString = "zw2";
+                else if (uidEnd >= 9 && uidEnd <= 12)
+                    conString = "zw3";
+                else if (uidEnd >= 13 && uidEnd <= 16)
+                    conString = "zw4";
+                else if (uidEnd >= 17 && uidEnd <= 20)
+                    conString = "zw5";
+                else if (uidEnd >= 21 && uidEnd <= 24)
+                    conString = "zw6";
+                else if (uidEnd >= 25 && uidEnd <= 28)
+                    conString = "zw7";
+                else if (uidEnd >= 29 && uidEnd <= 32)
+                    conString = "zw8";
+                else if (uidEnd >= 33 && uidEnd <= 36)
+                    conString = "zw9";
+                else if (uidEnd >= 37 && uidEnd <= 40)
+                    conString = "zw10";
+                else if (uidEnd >= 41 && uidEnd <= 44)
+                    conString = "zw11";
+                else if (uidEnd >= 45 && uidEnd <= 48)
+                    conString = "zw12";
+                else if (uidEnd >= 49 && uidEnd <= 52)
+                    conString = "zw13";
+                else if (uidEnd >= 53 && uidEnd <= 56)
+                    conString = "zw14";
+                else if (uidEnd >= 57 && uidEnd <= 60)
+                    conString = "zw15";
+                else if (uidEnd >= 61 && uidEnd <= 64)
+                    conString = "zw16";
+                else if (uidEnd >= 65 && uidEnd <= 68)
+                    conString = "zw17";
+                else if (uidEnd >= 69 && uidEnd <= 72)
+                    conString = "zw18";
+                else if (uidEnd >= 73 && uidEnd <= 76)
+                    conString = "zw19";
+                else if (uidEnd >= 77 && uidEnd <= 80)
+                    conString = "zw20";
+                else if (uidEnd >= 81 && uidEnd <= 84)
+                    conString = "zw21";
+                else if (uidEnd >= 85 && uidEnd <= 88)
+                    conString = "zw22";
+                else if (uidEnd >= 89 && uidEnd <= 92)
+                    conString = "zw23";
+                else if (uidEnd >= 93 && uidEnd <= 96)
+                    conString = "zw24";
+                else if (uidEnd >= 97 && uidEnd <= 99)
+                    conString = "zw25";
             }
             using (var da = MySQLAccessFactory.GetMySQLAccess(conString))
             {
                 da.OpenConn();
                 string tableStr = PublicRes.GetTableNameUid("t_bankroll_list", uid);
-                string Sql = "Select * from  " + tableStr + " where Fuid='"+uid+"' Order by Fmodify_time DESC limit 1";
+                string Sql = "Select * from  " + tableStr + " where Fuid='" + uid + "' Order by Fmodify_time DESC limit 1";
                 DataSet ds = da.dsGetTotalData(Sql);
                 return ds;
             }
         }
+
+        /// <summary>
+        /// 微信买家纬度用户订单查询
+        /// </summary>
+        /// <returns></returns>
+        public DataSet QueryWxBuyOrderByUid(int uid, DateTime startTime, DateTime endTime)
+        {
+            //ver=1&head_u=&sp_id=2000000501&request_type=100878&uid=123456&s_time=2015-01-01&e_time=2015-03-01&offset=0&limit=10&icard_flag=0
+            string reqString = "uid=" + uid.ToString();
+            reqString += "&s_time=" + startTime.ToString("yyyy_MM-dd 00:00:00");
+            reqString += "&e_time=" + endTime.ToString("yyyy_MM-dd 23:59:59");
+            reqString += "&offset=0";
+            reqString += "&limit=10";
+            reqString += "&icard_flag=0";
+            reqString += "&MSG_NO=100878" + DateTime.Now.Ticks.ToString();
+
+            var serverIp = System.Configuration.ConfigurationManager.AppSettings["WX_Order_RelayIP"].ToString();
+            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["WX_Order_RelayPort"].ToString());
+
+            return RelayAccessFactory.GetDSFromRelayRowNumStartWithZero(reqString, "100878", serverIp, serverPort);
+        }
     }
 }
+;

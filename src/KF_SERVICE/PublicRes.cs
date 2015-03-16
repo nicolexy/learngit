@@ -3127,7 +3127,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             catch (Exception ex)
             {
                 log4net.ILog log = log4net.LogManager.GetLogger("根据uid来确定买卖订单库所属DB");
-                if (log.IsErrorEnabled) log.Error(ex.Message);
+                if (log.IsErrorEnabled) log.Error(ex.ToString());
                 return "";
             }
         }

@@ -283,6 +283,36 @@ namespace CFT.CSOMS.DAL.Infrastructure
         }
 
         /// <summary>
+        /// 调用Relay接口 "row0=&row1=" 格式字符串解析
+        /// </summary>
+        /// <param name="requestString"></param>
+        /// <param name="serviceCode"></param>
+        /// <param name="relayIP"></param>
+        /// <param name="relayPort"></param>
+        /// <param name="encrypt"></param>
+        /// <param name="invisible"></param>
+        /// <param name="relayDefaultSPId"></param>
+        /// <returns></returns>
+        public static DataSet GetDSFromRelayRowNumStartWithZero( string requestString, string serviceCode, string relayIP = "", int relayPort = 0, bool encrypt = false, bool invisible = false, string relayDefaultSPId = "")
+        {
+            string Msg = "";
+            string answer = RelayInvoke(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
+            DataSet ds = null;
+            if (answer == "")
+            {
+                return null;
+            }
+
+            //解析
+            ds = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
+            if (Msg != "")
+            {
+                throw new Exception(Msg);
+            }
+            return ds;
+        }
+
+        /// <summary>
         /// 特殊
         /// 调relay接口，inmsg为请求源串，包含所有请求参数，解析xml格式到DataSet
         /// </summary>
