@@ -77,9 +77,9 @@
 								<asp:boundfield datafield="Fsale_name" headertext="商户名称">
 									<headerstyle width="150px"></headerstyle>
 								</asp:boundfield>
-                                <asp:boundfield datafield="Fmemo" headertext="商品备注">
+                                <%--<asp:boundfield datafield="Fmemo" headertext="商品备注">
 									<headerstyle width="200px"></headerstyle>
-								</asp:boundfield>
+								</asp:boundfield>--%>
                                 <asp:boundfield datafield="Fbank_id_str" headertext="银行卡号">
 									<headerstyle width="50px"></headerstyle>
 								</asp:boundfield>

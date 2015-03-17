@@ -14,6 +14,8 @@ using TENCENT.OSS.CFT.KF.DataAccess;
 using CFT.CSOMS.DAL.CFTAccount;
 using CFT.CSOMS.DAL.Infrastructure;
 using CFT.Apollo.Logging;
+using CommLib;
+using ReCommQuery = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery;//解决命名冲突
 
 namespace CFT.CSOMS.DAL.Infrastructure
 {
@@ -69,6 +71,25 @@ namespace CFT.CSOMS.DAL.Infrastructure
             {
                 da.OpenConn();
                 return da.GetOneResult(sqlStr);
+            }
+        }
+
+        public static string GetString(object aValue)
+        {
+            try
+            {
+                if (aValue != null)
+                {
+                    return aValue.ToString().Replace("\\", "\\\\").Replace("'", "\\'");
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            catch
+            {
+                return "";
             }
         }
 
@@ -248,6 +269,68 @@ namespace CFT.CSOMS.DAL.Infrastructure
                 else return dbname + "." + strTable;
             }
 
+        }
+
+        public static string GetTName(string strTable, string strID)
+        {
+            return GetTName("c2c_db", strTable, strID);
+        }
+
+        /// <summary>
+        /// 返回根据ID分机器的连接字符串
+        /// </summary>
+        /// <param name="FlagName">分机器使用的标志</param>
+        /// <param name="sepvalue">分机器的判断value，如内部ID后两位</param>
+        /// <returns></returns>
+        public static string GetConnString(string FlagName, string sepvalue)
+        {
+            MySqlAccess daht = new MySqlAccess(DbConnectionString.Instance.GetConnectionString("HT"));
+            try
+            {
+                string strSql = " select FconfigName from c2c_fmdb.t_sepdb where FMinValue<=" + sepvalue + " and FMaxValue>=" + sepvalue
+                    + " and FFlagName='" + FlagName.ToLower() + "'";
+
+                daht.OpenConn();
+                string configname = daht.GetOneResult(strSql);
+
+                return DbConnectionString.Instance.GetConnectionString(configname);
+
+            }
+            catch
+            {
+                return "";
+            }
+            finally
+            {
+                daht.Dispose();
+            }
+        }
+
+        public static string ConvertToFuid(string QQID)
+        {
+            try
+            {
+                //furion 20061115 email登录相关
+                if (QQID == null || QQID.Trim().Length < 3)
+                    return null;
+
+                //start
+                string qqid = QQID.Trim();
+ 
+                string errMsg = "";
+                string strSql = "uin=" + qqid;
+                string struid = ReCommQuery.GetOneResultFromICE(strSql, ReCommQuery.QUERY_RELATION, "fuid", out errMsg);
+
+                if (struid == null)
+                    return null;
+                else
+                    return struid;
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -550,6 +633,112 @@ namespace CFT.CSOMS.DAL.Infrastructure
              }
          }
 
+         public static string[] returnlistInfo(string listID, out TENCENT.OSS.C2C.Finance.Common.CommLib.tradeList tl, MySqlAccess da, string noUpdate)  //帐务调整的共用函数：获取交易单的相关信息
+         {
+             
+             string[] ar = new string[37];
+             ar[0] = "Fbank_listid";    //银行订单号
+             ar[1] = "flistid";         //交易单ID
+             ar[2] = "fspid";           //spid
+             ar[3] = "fbuy_uid";        //fbuy_uid
+             ar[4] = "fbuyid";          //fbuyid
+             ar[5] = "fcurtype";        //fcurtype
+             ar[6] = "fpaynum";         //fpaynum
+             ar[7] = "fip";             //fip
+             ar[8] = "Fbuy_bank_type";  //fbuy_bank_type
+             ar[9] = "fcreate_time";    //fcreate_time
+             ar[10] = "fbuy_name";       //fbuy_name 
+             ar[11] = "fsaleid";        //fsaleid
+             ar[12] = "fsale_uid";       //fsale_uid
+             ar[13] = "fsale_name";      //fsale_name
+             ar[14] = "fsale_bankid";    //fsale_bankid
+             ar[15] = "Fpay_type";       // 
+             ar[16] = "Fbuy_bankid";
+             ar[17] = "Fsale_bank_type";
+             ar[18] = "Fprice";
+             ar[19] = "Fcarriage";
+             ar[20] = "Fprocedure";
+             ar[21] = "Fmemo";
+             ar[22] = "Fcash";
+             ar[23] = "Ftoken";
+             ar[24] = "Ffee3";       //其它费用
+             //ar[25]= "Fstate";      //交易单的状态  Fstate，Fpay_time，Freceive_time，Fmodify_time
+             ar[25] = "Ftrade_state";
+             ar[26] = "Fpay_time";   //买家付款时间（本地）
+             ar[27] = "Freceive_time"; //打款给卖家时间
+             ar[28] = "Fmodify_time";  //最后修改时间
+             ar[29] = "Ftrade_type";  //交易类型 1 c2c 2 b2c 3 fastpay 4 转帐
+             ar[30] = "Flstate";      //交易单的状态
+             ar[31] = "Fcoding";
+             ar[32] = "Fbank_backid";
+             ar[33] = "Ffact";         //总支付费用
+             ar[34] = "Fmedi_sign";
+             ar[35] = "Fgwq_listid";
+             ar[36] = "Fchannel_id";
+
+
+             string errMsg = "";
+             string cmdStr = "listid=" + listID;
+             ar = ReCommQuery.GetdrDataFromICE(cmdStr, ReCommQuery.QUERY_ORDER, ar, out errMsg);
+
+             if (ar[9] != null && ar[9] != "" && !ar[9].StartsWith("0000-00"))
+                 ar[9] = DateTime.Parse(ar[9]).ToString("yyyy-MM-dd HH:mm:ss");   //格式化时间
+             if (ar[26] != null && ar[26] != "" && !ar[26].StartsWith("0000-00"))
+                 ar[26] = DateTime.Parse(ar[26]).ToString("yyyy-MM-dd HH:mm:ss");  //格式化时间
+             if (ar[27] != null && ar[27] != "" && !ar[27].StartsWith("0000-00"))
+                 ar[27] = DateTime.Parse(ar[27]).ToString("yyyy-MM-dd HH:mm:ss");  //格式化时间
+             if (ar[28] != null && ar[28] != "" && !ar[28].StartsWith("0000-00"))
+                 ar[28] = DateTime.Parse(ar[28]).ToString("yyyy-MM-dd HH:mm:ss");   //格式化时间
+
+             //替换一些敏感字符
+             ar[10] = commRes.replaceSqlStr(ar[10]);
+             ar[13] = commRes.replaceSqlStr(ar[13]);
+             ar[21] = commRes.replaceSqlStr(ar[21]);
+
+             tl = new TENCENT.OSS.C2C.Finance.Common.CommLib.tradeList();
+
+             tl.Fbank_listid = ar[0];
+             tl.flistid = ar[1];
+             tl.fspid = ar[2];
+             tl.fbuy_uid = ar[3];
+             tl.fbuyid = ar[4];
+             tl.fcurtype = ar[5];
+             tl.fpaynum = ar[6];
+             tl.fip = ar[7];
+             tl.Fbuy_bank_type = ar[8];
+             tl.fcreate_time = ar[9];
+             tl.fbuy_name = ar[10];
+             tl.fsaleid = ar[11];
+             tl.fsale_uid = ar[12];
+             tl.fsale_name = ar[13];
+             tl.fsale_bankid = ar[14];
+             tl.Fpay_type = ar[15];
+             tl.Fbuy_bankid = ar[16];
+             tl.Fsale_bank_type = ar[17];
+             tl.Fprice = ar[18];
+             tl.Fcarriage = ar[19];
+             tl.Fprocedure = ar[20];
+             tl.Fmemo = ar[21];
+             tl.Fcash = ar[22];
+             tl.Ftoken = ar[23];
+             tl.Ffee3 = ar[24];
+             tl.Fstate = ar[25];
+             tl.Fpay_time = ar[26];
+             tl.Freceive_time = ar[27];
+             tl.Fmodify_time = ar[28];
+             tl.Ftrade_type = ar[29];
+             tl.Flstate = ar[30];
+             tl.Fcoding = ar[31];
+             tl.Fbank_backid = ar[32];
+             tl.Ffact = ar[33];
+
+             tl.Fmedi_sign = QueryInfo.GetInt(ar[34]);
+             tl.Fgwq_listid = QueryInfo.GetString(ar[35]);
+
+             tl.Fchannel_id = ar[36];
+             return ar;
+         }
+
     }
     }
 
@@ -642,6 +831,22 @@ namespace CFT.CSOMS.DAL.Infrastructure
             }
         }
 
-       
+        public static string FenToYuan(string strfen)
+        {
+            if (strfen == "")
+            {
+                strfen = "0";
+            }
+
+            double yuan = (double)(Int64.Parse(strfen)) / 100;
+            yuan = Math.Round(yuan, 2);
+
+            string tmp = yuan.ToString();
+            int iindex = tmp.IndexOf(".");
+            if (iindex == -1) tmp += ".00";
+            if (iindex == tmp.Length - 2) tmp += "0";
+
+            return tmp;
+        }
 
 }

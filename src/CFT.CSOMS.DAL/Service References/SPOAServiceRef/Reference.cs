@@ -15,6 +15,9 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SPOAServiceRef.IGeneralSPOAService")]
     public interface IGeneralSPOAService {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/OpenAgency", ReplyAction="http://tempuri.org/IGeneralSPOAService/OpenAgencyResponse")]
+        string OpenAgency(string fspid, string opuser, string freson);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/RestoreOfSpid", ReplyAction="http://tempuri.org/IGeneralSPOAService/RestoreOfSpidResponse")]
         string RestoreOfSpid(string fspid, string opuser, string freson);
         
@@ -78,6 +81,9 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxApprove", ReplyAction="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxApproveResponse")]
         void ValueAddedTaxApprove(string taskid, string Memo, string imgTaxCert, string imgBizLicenseCert, string imgAuthorizationCert, string UserName);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxCancel", ReplyAction="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxCancelResponse")]
+        void ValueAddedTaxCancel(string taskid, string spid, string Memo, string UserName);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/LostOfSpid", ReplyAction="http://tempuri.org/IGeneralSPOAService/LostOfSpidResponse")]
         string LostOfSpid(string fspid, string opuser, string freson);
         
@@ -98,9 +104,6 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/CloseAgency", ReplyAction="http://tempuri.org/IGeneralSPOAService/CloseAgencyResponse")]
         string CloseAgency(string fspid, string opuser, string freson);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/OpenAgency", ReplyAction="http://tempuri.org/IGeneralSPOAService/OpenAgencyResponse")]
-        string OpenAgency(string fspid, string opuser, string freson);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessList", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessListResponse")]
         System.Data.DataSet GetAgencyBusinessList(string qqid, string domain, int notInCount, int topCount);
@@ -214,6 +217,10 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
                 base(binding, remoteAddress) {
         }
         
+        public string OpenAgency(string fspid, string opuser, string freson) {
+            return base.Channel.OpenAgency(fspid, opuser, freson);
+        }
+        
         public string RestoreOfSpid(string fspid, string opuser, string freson) {
             return base.Channel.RestoreOfSpid(fspid, opuser, freson);
         }
@@ -298,6 +305,10 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
             base.Channel.ValueAddedTaxApprove(taskid, Memo, imgTaxCert, imgBizLicenseCert, imgAuthorizationCert, UserName);
         }
         
+        public void ValueAddedTaxCancel(string taskid, string spid, string Memo, string UserName) {
+            base.Channel.ValueAddedTaxCancel(taskid, spid, Memo, UserName);
+        }
+        
         public string LostOfSpid(string fspid, string opuser, string freson) {
             return base.Channel.LostOfSpid(fspid, opuser, freson);
         }
@@ -324,10 +335,6 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         
         public string CloseAgency(string fspid, string opuser, string freson) {
             return base.Channel.CloseAgency(fspid, opuser, freson);
-        }
-        
-        public string OpenAgency(string fspid, string opuser, string freson) {
-            return base.Channel.OpenAgency(fspid, opuser, freson);
         }
         
         public System.Data.DataSet GetAgencyBusinessList(string qqid, string domain, int notInCount, int topCount) {

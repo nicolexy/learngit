@@ -420,7 +420,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 						throw new Exception("该申诉状态不允许领单");
 					}
 					Response.Write("<script>window.open('UserAppealCheck.aspx?BeginDate=" + begindate.ToString("yyyy-MM-dd") + "&EndDate=" + enddate.ToString("yyyy-MM-dd") + "&fstate=" +
-                        ddlState.SelectedValue + "&ftype=" + ddlType.SelectedValue + "&qqtype=" + ddlQQType.SelectedValue + "&Count=" + TicketsCount.ToString() + "&SortType=" + SortType + "','_blank','');</script>");
+                        ddlState.SelectedValue + "&ftype=" + ddlType.SelectedValue + "&qqtype=" + ddlQQType.SelectedValue + "&Count=" + TicketsCount.ToString() + "&SortType=" + SortType + "&dotype=" + DDL_DoType.SelectedValue + "','_blank','');</script>");
 				}
 			}
 			catch(Exception err)

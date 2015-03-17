@@ -162,6 +162,10 @@
       <DependentUpon>PaymentService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CSAPI\TradeService.asmx.cs">
+      <DependentUpon>TradeService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CSAPI\Utility\BaseInfo.cs" />
     <Compile Include="CSAPI\Utility\ServiceException.cs" />
     <Compile Include="CSAPI\Utility\APIUtil.cs" />
@@ -231,6 +235,7 @@
     </Content>
     <Content Include="CSAPI\BaseInfoService.asmx" />
     <Content Include="CSAPI\PaymentService.asmx" />
+    <Content Include="CSAPI\TradeService.asmx" />
     <Content Include="Finance_Manage.asmx" />
     <Content Include="Global.asax">
       <SubType>Component</SubType>

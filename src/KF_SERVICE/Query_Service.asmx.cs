@@ -11001,18 +11001,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
         [WebMethod(Description = "自助申诉批量领单函数")]
-        public DataSet GetUserAppealLockList(DateTime BeginDate, DateTime EndDate, string fstate, string ftype, string QQType, string username, int Count, int SortType)
+        public DataSet GetUserAppealLockList(DateTime BeginDate, DateTime EndDate, string fstate, string ftype, string QQType, string username, int Count, int SortType, string dotype)
         {
-            return CFTUserAppealClass.GetLockList(BeginDate, EndDate, fstate, ftype, QQType, username, Count, SortType);
+            return CFTUserAppealClass.GetLockList(BeginDate, EndDate, fstate, ftype, QQType, username, Count, SortType, dotype);
         }
 
         [WebMethod(Description = "自助申诉批量领单函数:分库表类型")]
-        public DataSet GetUserAppealLockListDBTB(DateTime BeginDate, DateTime EndDate, string fstate, string ftype, string QQType, string username, int Count, int SortType)
+        public DataSet GetUserAppealLockListDBTB(DateTime BeginDate, DateTime EndDate, string fstate, string ftype, string QQType, string username, int Count, int SortType, string dotype)
         {
             try
             {
                 DataSet ds = new DataSet();
-                CFTUserAppealClass cuser = new CFTUserAppealClass(BeginDate, EndDate, fstate, ftype, QQType, username, Count, SortType);
+                CFTUserAppealClass cuser = new CFTUserAppealClass(BeginDate, EndDate, fstate, ftype, QQType, username, Count, SortType, dotype);
                 ds = cuser.GetResultX("CFT");//查旧表
 
 
@@ -11045,7 +11045,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         string db = listdb[i];
                         string tb = listtb[i];
-                        CFTUserAppealClass cuser2 = new CFTUserAppealClass(BeginDate, EndDate, fstate, ftype, QQType, username, Count, SortType, true, db, tb);//分库分表的查询
+                        CFTUserAppealClass cuser2 = new CFTUserAppealClass(BeginDate, EndDate, fstate, ftype, QQType, username, Count, SortType, dotype,true, db, tb);//分库分表的查询
                         DataSet dsfen = cuser2.GetResultX("CFTNEW");
 
                         if (dsfen != null && dsfen.Tables.Count > 0 && dsfen.Tables[0].Rows.Count > 0)
@@ -14330,11 +14330,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             DataSet ds = null;
             try
             {
-                PublicRes PR = new PublicRes();
-                string sql = "SELECT *,isnull(replace(space(len(IdentityCardNum)-5),' ','*'),'')+right(IdentityCardNum,5) AS IDNo " +
-                             "FROM vCompanyInfo(NOLOCK) " +
-                             "WHERE ISNULL(CompanyName,'') LIKE '%" + CompanyName + "%' AND ISNULL(CompanyID,'') LIKE '%" + CompanyID + "%' AND ISNULL(WWWAdress,'') LIKE '%" + URL + "%'AND ISNULL(WebName,'') LIKE '%" + WebName + "%'";
-                ds = PR.GetSqlServerData(sql);
+                ds = new SPOAService().GetOneValueAddedTax(CompanyID);
+
+                //PublicRes PR = new PublicRes();
+
+                //string sql = "SELECT *,isnull(replace(space(len(IdentityCardNum)-5),' ','*'),'')+right(IdentityCardNum,5) AS IDNo " +
+                //             "FROM vCompanyInfo(NOLOCK) " +
+                //             "WHERE ISNULL(CompanyName,'') LIKE '%" + CompanyName + "%' AND ISNULL(CompanyID,'') LIKE '%" + CompanyID + "%' AND ISNULL(WWWAdress,'') LIKE '%" + URL + "%'AND ISNULL(WebName,'') LIKE '%" + WebName + "%'";
+                //ds = PR.GetSqlServerData(sql);
+
+
+
                 /*
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0) 
                 {
@@ -14559,9 +14565,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                PublicRes PR = new PublicRes();
-                string sql = "SELECT * FROM vCompanyInfo(NOLOCK) WHERE CompanyID ='" + Fspid + "'";
-                return PR.GetSqlServerData(sql);
+                //PublicRes PR = new PublicRes();
+                //string sql = "SELECT * FROM vCompanyInfo(NOLOCK) WHERE CompanyID ='" + Fspid + "'";
+                //return PR.GetSqlServerData(sql);
+                return new SPOAService().GetOneValueAddedTax(Fspid);
             }
             catch (Exception ex)
             {
@@ -15600,11 +15607,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                PublicRes PR = new PublicRes();
-                string sql = "update t_msp_amend_task set AmendState=4,CheckUser='" + UserName + "' where taskid = " + taskid + ";" +
-                    "update ApplyValueAddedTax set Flag=5,Memo='" + Memo + "' where taskid = " + taskid + ";" +
-                    "update ApplyCpInfoX set TaxInvoiceFlag=5 where spid = '" + spid + "'";
-                PR.ModifySqlServerData(sql);
+                //PublicRes PR = new PublicRes();
+                //string sql = "update t_msp_amend_task set AmendState=4,CheckUser='" + UserName + "' where taskid = " + taskid + ";" +
+                //    "update ApplyValueAddedTax set Flag=5,Memo='" + Memo + "' where taskid = " + taskid + ";" +
+                //    "update ApplyCpInfoX set TaxInvoiceFlag=5 where spid = '" + spid + "'";
+                //PR.ModifySqlServerData(sql);
+                new SPOAService().ValueAddedTaxCancel(taskid, spid, Memo, UserName);
             }
             catch (Exception ex)
             {
