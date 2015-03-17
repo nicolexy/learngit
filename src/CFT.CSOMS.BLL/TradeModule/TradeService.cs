@@ -43,6 +43,10 @@ namespace CFT.CSOMS.BLL.TradeModule
             return new TradeData().RemoveControledFinLogQuery(qqid);
         }
 
+        public DataSet QueryWxBuyOrderByUid(int uid, DateTime startTime, DateTime endTime)
+        {
+            return (new TradeData()).QueryWxBuyOrderByUid(uid, startTime, endTime);
+        }
         #region 交易记录查询
 
         public DataSet GetTradeList(string tradeid, int typeid, DateTime time)
