@@ -124,4 +124,3 @@ namespace CFT.CSOMS.DAL.TradeModule
         }
     }
 }
-;
