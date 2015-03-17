@@ -135,7 +135,6 @@ namespace CFT.CSOMS.DAL.TradeModule
 
             return RelayAccessFactory.GetDSFromRelayRowNumStartWithZero(reqString, "100878", serverIp, serverPort);
         }
-    }
 
         public DataSet RemoveControledFinLogQuery(string qqid)
         {
