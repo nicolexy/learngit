@@ -43,7 +43,7 @@
 							<Columns>
 								<asp:HyperLinkColumn DataNavigateUrlField="FlistidUrl" DataNavigateUrlFormatString="OrderDetail.aspx?{0}"
 									DataTextField="FListID" HeaderText="订单号"></asp:HyperLinkColumn>
-								<asp:BoundColumn DataField="FBank_listID" HeaderText="给银行订单号"></asp:BoundColumn>
+								<asp:BoundColumn DataField="FBank_listid" HeaderText="给银行订单号"></asp:BoundColumn>
 								<asp:BoundColumn DataField="FBuyID" HeaderText="买家帐号"></asp:BoundColumn>
 								<asp:BoundColumn DataField="FSaleid" HeaderText="卖家帐号"></asp:BoundColumn>
 								<asp:BoundColumn DataField="FTradeStateName" HeaderText="交易状态"></asp:BoundColumn>

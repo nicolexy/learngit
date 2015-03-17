@@ -74,7 +74,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 log4net.ILog log = log4net.LogManager.GetLogger("commRes.GetTCPReply");
                 if (log.IsErrorEnabled)
                     log.Error("serviceName=" + serviceName + ";", e);
-                Msg = "调用TCP失败:" + e.Message;
+                Msg = "调用TCP失败:" + e.ToString();
             }
         }
 
@@ -305,7 +305,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                 log4net.ILog log = log4net.LogManager.GetLogger("GetHexStr");
                 if (log.IsErrorEnabled)
-                    log.Error("转账字符的16进制失败:" + ex.Message);
+                    log.Error("转账字符的16进制失败:" + ex.ToString());
                 return "";
             }
         }
@@ -556,7 +556,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 TENCENT.OSS.CFT.KF.DataAccess.MySqlAccess.WriteSqlLog(ICEServerIP.ToString(), serviceName, err.Message, "KF");
 
                 iResult = 9999;
-                Msg = "调用ICE服务前失败" + err.Message;
+                Msg = "调用ICE服务前失败" + err.ToString();
                 return false;
             }
         }
@@ -686,7 +686,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 TENCENT.OSS.CFT.KF.DataAccess.MySqlAccess.WriteSqlLog(ICEServerIP_ia.ToString(), serviceName, err.Message, "KF");
 
                 iResult = 9999;
-                Msg = "调用ICE服务前失败" + err.Message;
+                Msg = "调用ICE服务前失败" + err.ToString();
                 return false;
             }
         }
@@ -764,7 +764,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 if (log.IsErrorEnabled)
                     log.Error("serviceName=" + serviceName + ";", err);  //requestMsg=" + requestMsg + ";"
                 iResult = 9999;
-                Msg = "调用ICE服务前失败" + err.Message;
+                Msg = "调用ICE服务前失败" + err.ToString();
                 return false;
             }
         }
@@ -891,7 +891,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 Msg = "调用ICE服务前失败" + err.Message;
                 */
 
-                TENCENT.OSS.CFT.KF.DataAccess.MySqlAccess.WriteSqlLog(ICEServerIP.ToString(), serviceName, "调用ICE服务前失败" + err.Message, "KF");
+                TENCENT.OSS.CFT.KF.DataAccess.MySqlAccess.WriteSqlLog(ICEServerIP.ToString(), serviceName, "调用ICE服务前失败" + err.ToString(), "KF");
                 return false;
             }
         }
@@ -971,7 +971,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 if (log.IsErrorEnabled)
                     log.Error("serviceName=" + serviceName + ";", err);  //requestMsg=" + requestMsg + ";"
                 iResult = 9999;
-                Msg = "调用ICE服务前失败" + err.Message;
+                Msg = "调用ICE服务前失败" + err.ToString();
                 return false;
             }
         }
@@ -1002,7 +1002,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             catch (Exception err)
             {
                 iResult = 9999;
-                Msg = "调用ICE服务前失败" + err.Message;
+                Msg = "调用ICE服务前失败" + err.ToString();
                 return false;
             }
             finally
@@ -1178,7 +1178,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             }
             catch (Exception e)
             {
-                Msg = "调用前置机失败：" + e.Message;
+                Msg = "调用前置机失败：" + e.ToString();
                 throw new Exception(Msg);
             }
             finally
@@ -1241,7 +1241,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             }
             catch (Exception e)
             {
-                Msg = "调用前置机失败：" + e.Message;
+                Msg = "调用前置机失败：" + e.ToString();
                 throw new Exception(Msg);
             }
             finally
@@ -1275,7 +1275,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             }
             catch (Exception ex)
             {
-                msg = ex.Message;
+                msg = ex.ToString();
                 return "";
             }
             return answer;
@@ -1319,7 +1319,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             }
             catch (Exception ex)
             {
-                msg = ex.Message;
+                msg = ex.ToString();
                 return "";
             }
             return answer;
@@ -1520,7 +1520,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             }
             catch (Exception err)
             {
-                Msg = err.Message;
+                Msg = err.ToString();
                 flag = 9;
             }
         }
