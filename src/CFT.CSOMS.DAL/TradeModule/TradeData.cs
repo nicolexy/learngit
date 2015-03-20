@@ -45,53 +45,53 @@ namespace CFT.CSOMS.DAL.TradeModule
             {
                 if (uidEnd >= 0 && uidEnd <= 3)
                     conString = "zw1";
-                else if (uidEnd >= 4 && uidEnd <= 8)
+                else if (uidEnd >= 4 && uidEnd <= 7)
                     conString = "zw2";
-                else if (uidEnd >= 9 && uidEnd <= 12)
+                else if (uidEnd >= 8 && uidEnd <= 11)
                     conString = "zw3";
-                else if (uidEnd >= 13 && uidEnd <= 16)
+                else if (uidEnd >= 12 && uidEnd <= 15)
                     conString = "zw4";
-                else if (uidEnd >= 17 && uidEnd <= 20)
+                else if (uidEnd >= 16 && uidEnd <= 19)
                     conString = "zw5";
-                else if (uidEnd >= 21 && uidEnd <= 24)
+                else if (uidEnd >= 20 && uidEnd <= 23)
                     conString = "zw6";
-                else if (uidEnd >= 25 && uidEnd <= 28)
+                else if (uidEnd >= 24 && uidEnd <= 27)
                     conString = "zw7";
-                else if (uidEnd >= 29 && uidEnd <= 32)
+                else if (uidEnd >= 28 && uidEnd <= 31)
                     conString = "zw8";
-                else if (uidEnd >= 33 && uidEnd <= 36)
+                else if (uidEnd >= 32 && uidEnd <= 35)
                     conString = "zw9";
-                else if (uidEnd >= 37 && uidEnd <= 40)
+                else if (uidEnd >= 36 && uidEnd <= 39)
                     conString = "zw10";
-                else if (uidEnd >= 41 && uidEnd <= 44)
+                else if (uidEnd >= 40 && uidEnd <= 43)
                     conString = "zw11";
-                else if (uidEnd >= 45 && uidEnd <= 48)
+                else if (uidEnd >= 44 && uidEnd <= 47)
                     conString = "zw12";
-                else if (uidEnd >= 49 && uidEnd <= 52)
+                else if (uidEnd >= 48 && uidEnd <= 51)
                     conString = "zw13";
-                else if (uidEnd >= 53 && uidEnd <= 56)
+                else if (uidEnd >= 52 && uidEnd <= 55)
                     conString = "zw14";
-                else if (uidEnd >= 57 && uidEnd <= 60)
+                else if (uidEnd >= 56 && uidEnd <= 59)
                     conString = "zw15";
-                else if (uidEnd >= 61 && uidEnd <= 64)
+                else if (uidEnd >= 60 && uidEnd <= 63)
                     conString = "zw16";
-                else if (uidEnd >= 65 && uidEnd <= 68)
+                else if (uidEnd >= 64 && uidEnd <= 67)
                     conString = "zw17";
-                else if (uidEnd >= 69 && uidEnd <= 72)
+                else if (uidEnd >= 68 && uidEnd <= 71)
                     conString = "zw18";
-                else if (uidEnd >= 73 && uidEnd <= 76)
+                else if (uidEnd >= 72 && uidEnd <= 75)
                     conString = "zw19";
-                else if (uidEnd >= 77 && uidEnd <= 80)
+                else if (uidEnd >= 76 && uidEnd <= 79)
                     conString = "zw20";
-                else if (uidEnd >= 81 && uidEnd <= 84)
+                else if (uidEnd >= 80 && uidEnd <= 83)
                     conString = "zw21";
-                else if (uidEnd >= 85 && uidEnd <= 88)
+                else if (uidEnd >= 84 && uidEnd <= 87)
                     conString = "zw22";
-                else if (uidEnd >= 89 && uidEnd <= 92)
+                else if (uidEnd >= 88 && uidEnd <= 91)
                     conString = "zw23";
-                else if (uidEnd >= 93 && uidEnd <= 96)
+                else if (uidEnd >= 92 && uidEnd <= 95)
                     conString = "zw24";
-                else if (uidEnd >= 97 && uidEnd <= 99)
+                else if (uidEnd >= 96 && uidEnd <= 99)
                     conString = "zw25";
             }
             using (var da = MySQLAccessFactory.GetMySQLAccess(conString))
@@ -123,8 +123,8 @@ namespace CFT.CSOMS.DAL.TradeModule
         {
             //ver=1&head_u=&sp_id=2000000501&request_type=100878&uid=123456&s_time=2015-01-01&e_time=2015-03-01&offset=0&limit=10&icard_flag=0
             string reqString = "uid=" + uid.ToString();
-            reqString += "&s_time=" + startTime.ToString("yyyy_MM-dd 00:00:00");
-            reqString += "&e_time=" + endTime.ToString("yyyy_MM-dd 23:59:59");
+            reqString += "&s_time=" + startTime.ToString("yyyy-MM-dd 00:00:00");
+            reqString += "&e_time=" + endTime.ToString("yyyy-MM-dd 23:59:59");
             reqString += "&offset=0";
             reqString += "&limit=10";
             reqString += "&icard_flag=0";

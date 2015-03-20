@@ -11048,7 +11048,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         string db = listdb[i];
                         string tb = listtb[i];
-                        CFTUserAppealClass cuser2 = new CFTUserAppealClass(BeginDate, EndDate, fstate, ftype, QQType, username, Count, SortType, dotype,true, db, tb);//分库分表的查询
+                        CFTUserAppealClass cuser2 = new CFTUserAppealClass(BeginDate, EndDate, fstate, ftype, QQType, username, Count, SortType, dotype, true, db, tb);//分库分表的查询
                         DataSet dsfen = cuser2.GetResultX("CFTNEW");
 
                         if (dsfen != null && dsfen.Tables.Count > 0 && dsfen.Tables[0].Rows.Count > 0)
@@ -12240,20 +12240,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     newRow["Fbuyid"] = dr["Fbuyid"];
                     newRow["Fbuy_uid"] = dr["Fbuy_uid"];
                     newRow["Fpay_type"] = dr["Fpay_type"];
-                    newRow["Fsource_type"] = dr["Fsource_type"];
-                    newRow["Fbank_backid"] = null;
-                    newRow["Fbank_listid"] = null;
+                    // newRow["Fsource_type"] = dr["Fsource_type"];
                     newRow["Fspid"] = dr["Fspid"];
                     newRow["Fcoding"] = dr["Fcoding"];
                     newRow["Flistid"] = dr["Flistid"];
                     newRow["Fuser_type"] = dr["Fuser_type"];
                     newRow["Fuid"] = dr["Fuid"];
-                    newRow["Freceive_time_c2c"] = DBNull.Value;
-                    newRow["Fpay_time_acc"] = DBNull.Value;
                     newRow["Fpay_time"] = dr["Fpay_time"];
-                    newRow["Fbargain_time"] = DBNull.Value;
                     newRow["Fcreate_time"] = dr["Fcreate_time"];
-                    newRow["Fcreate_time_c2c"] = DBNull.Value;
                     newRow["Ffee3"] = dr["Ffee3"];
                     newRow["Ftoken"] = dr["Ftoken"];
                     newRow["Fcash"] = dr["Fcash"];
@@ -12268,28 +12262,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     newRow["Ftrade_state"] = dr["Ftrade_state"];
                     newRow["Fcurtype"] = dr["Fcurtype"];
                     newRow["Fsale_bankid"] = dr["Fsale_bankid"];
-                    newRow["Fsystem_time"] = DBNull.Value;
-                    newRow["Fstandby15"] = null;
-                    newRow["Fstandby14"] = null;
-                    newRow["Fstandby13"] = null;
-                    newRow["Fstandby12"] = null;
-                    newRow["Fstandby11"] = null;
-                    newRow["Fstandby10"] = null;
-                    newRow["Fstandby9"] = DBNull.Value;
-                    newRow["Fstandby8"] = DBNull.Value;
-                    newRow["Fstandby7"] = DBNull.Value;
-                    newRow["Fstandby6"] = DBNull.Value;
-                    newRow["Fstandby5"] = DBNull.Value;
-                    newRow["Fstandby4"] = DBNull.Value;
-                    newRow["Fstandby3"] = DBNull.Value;
+                    //newRow["Fsystem_time"] = DBNull.Value;
                     newRow["Fstandby2"] = dr["Fstandby2"];
                     newRow["Fstandby1"] = dr["Fstandby1"];
                     newRow["Fgwq_listid"] = dr["Fgwq_listid"];
                     newRow["Fmedi_sign"] = dr["Fmedi_sign"];
                     newRow["Fappeal_sign"] = dr["Fappeal_sign"];
-                    newRow["Fok_time_acc"] = DBNull.Value;
-                    newRow["Fok_time"] = DBNull.Value;
-                    newRow["Freq_refund_time"] = DBNull.Value;
                     newRow["Fpaysale"] = dr["Fpaysale"];
                     newRow["Fpaybuy"] = dr["Fpaybuy"];
                     newRow["Frefund_type"] = dr["Frefund_type"];
@@ -12298,9 +12276,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     newRow["Fmodify_time"] = dr["Fmodify_time"];
                     newRow["Fexplain"] = dr["Fexplain"];
                     newRow["Fmemo"] = dr["Fmemo"];
-                    newRow["Fip"] = null;
-                    newRow["Freceive_time_acc"] = DBNull.Value;
-                    newRow["Freceive_time"] = DBNull.Value;
 
                     ds.Tables[0].Rows.Add(newRow);
                 }
@@ -12338,7 +12313,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         return 0;
                     }
-                    return cuser.GetCount(dbConn);//支持多台DB的查询 20121112
+
+                    DataSet dsForWX = new DataSet ();
+                    if (!string.IsNullOrEmpty(buyqqInnerID.Trim()))
+                    {
+                        dsForWX = (new TradeService()).QueryWxBuyOrderByUid(int.Parse(buyqqInnerID.Trim()), u_BeginTime, u_EndTime);//微信买家纬度订单
+                    }
+
+                    int WxCount = 0;
+                    if (dsForWX  !=null && dsForWX.Tables[0].Rows.Count > 0)
+                    {
+                        WxCount = dsForWX.Tables[0].Rows.Count;
+                    }
+
+                    return (cuser.GetCount(dbConn) + WxCount);//支持多台DB的查询 20121112
                     //return cuser.GetCount("BSB");
                 }
                 else
@@ -22409,16 +22397,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public bool BindOrChangeMobile(string Fuid, string fuin, string old_mobile, string mobile_no, string client_ip, string certno, string singed, out string msg)
         {
             msg = "BindOrChangeMobile...";
-            if (old_mobile == "" )
+            if (old_mobile == "")
             {
                 //已绑定,就不需要再去绑定了
-                if(IsBindMobilePhone(Fuid))
+                if (IsBindMobilePhone(Fuid))
                 {
                     string strMsg = string.Format("QQ号={0}手机号已经绑定了", fuin);
                     SunLibrary.LoggerFactory.Get("KF_Service").Info(strMsg);
                     return true;
                 }
-            }          
+            }
             else
             {
                 //更改手机相同时
