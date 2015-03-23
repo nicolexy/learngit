@@ -794,6 +794,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FQuery_Service {
         
         private System.Threading.SendOrPostCallback QueryPayChannelNumOperationCompleted;
         
+        private System.Threading.SendOrPostCallback QueryPayChannel_TotalNumOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -1980,6 +1982,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FQuery_Service {
         
         /// <remarks/>
         public event QueryPayChannelNumCompletedEventHandler QueryPayChannelNumCompleted;
+        
+        /// <remarks/>
+        public event QueryPayChannel_TotalNumCompletedEventHandler QueryPayChannel_TotalNumCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("Finance_HeaderValue")]
@@ -21261,6 +21266,49 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FQuery_Service {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryPayChannel_TotalNum", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet QueryPayChannel_TotalNum(PayChannelThresholdQuery info, out string msg) {
+            object[] results = this.Invoke("QueryPayChannel_TotalNum", new object[] {
+                        info});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginQueryPayChannel_TotalNum(PayChannelThresholdQuery info, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("QueryPayChannel_TotalNum", new object[] {
+                        info}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet EndQueryPayChannel_TotalNum(System.IAsyncResult asyncResult, out string msg) {
+            object[] results = this.EndInvoke(asyncResult);
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void QueryPayChannel_TotalNumAsync(PayChannelThresholdQuery info) {
+            this.QueryPayChannel_TotalNumAsync(info, null);
+        }
+        
+        /// <remarks/>
+        public void QueryPayChannel_TotalNumAsync(PayChannelThresholdQuery info, object userState) {
+            if ((this.QueryPayChannel_TotalNumOperationCompleted == null)) {
+                this.QueryPayChannel_TotalNumOperationCompleted = new System.Threading.SendOrPostCallback(this.OnQueryPayChannel_TotalNumOperationCompleted);
+            }
+            this.InvokeAsync("QueryPayChannel_TotalNum", new object[] {
+                        info}, this.QueryPayChannel_TotalNumOperationCompleted, userState);
+        }
+        
+        private void OnQueryPayChannel_TotalNumOperationCompleted(object arg) {
+            if ((this.QueryPayChannel_TotalNumCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.QueryPayChannel_TotalNumCompleted(this, new QueryPayChannel_TotalNumCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -38066,6 +38114,40 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FQuery_Service {
         private object[] results;
         
         internal QueryPayChannelNumCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    public delegate void QueryPayChannel_TotalNumCompletedEventHandler(object sender, QueryPayChannel_TotalNumCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class QueryPayChannel_TotalNumCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal QueryPayChannel_TotalNumCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

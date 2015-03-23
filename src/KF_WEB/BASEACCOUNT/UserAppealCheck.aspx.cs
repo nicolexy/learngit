@@ -101,6 +101,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				this.txtCount.Text = Request["Count"].ToString();
 				ViewState["uid"] = Session["uid"].ToString();
                 ViewState["SortType"] = Request["SortType"].ToString();
+                ViewState["dotype"] = Request["dotype"].ToString();
 				BindData();
 			}
 		}
@@ -157,10 +158,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				string qqtype = ViewState["qqtype"].ToString();
 				string uid = ViewState["uid"].ToString();
                 int SortType = Int32.Parse(ViewState["SortType"].ToString());//排序
+                string dotype=ViewState["dotype"].ToString();
                 DataSet ds = new DataSet();
                 if (ftype == "1" || ftype == "5" || ftype == "6" || ftype == "99")//三种类型在原来基础上进行分库分表
                 {
-                    DataSet dsNew = qs.GetUserAppealLockListDBTB(beginDate, endDate, fstate, ftype, qqtype, uid, TicketsCount, SortType);//返回所有符合条件的单
+                    DataSet dsNew = qs.GetUserAppealLockListDBTB(beginDate, endDate, fstate, ftype, qqtype, uid, TicketsCount, SortType, dotype);//返回所有符合条件的单
 
                     if (dsNew != null && dsNew.Tables.Count > 0 && dsNew.Tables[0].Rows.Count > 0)
                     {
@@ -183,7 +185,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
                 else
                 {
-                     ds = qs.GetUserAppealLockList(beginDate, endDate, fstate, ftype, qqtype, uid, TicketsCount, SortType);
+                    ds = qs.GetUserAppealLockList(beginDate, endDate, fstate, ftype, qqtype, uid, TicketsCount, SortType, dotype);
                 }
 
 				if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count ==0)
