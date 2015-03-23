@@ -99,6 +99,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="PublicTest\CommonTest.cs" />
+    <Compile Include="SpoaService\SpoaServiceTest.cs" />
     <Compile Include="WechatPay\FastPayServiceTest.cs" />
     <Compile Include="LifeFeePayment\LifeFeePaymentTest.cs" />
     <Compile Include="Merchant\MerchantServiceTest.cs" />
