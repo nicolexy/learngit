@@ -15,12 +15,6 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SPOAServiceRef.IGeneralSPOAService")]
     public interface IGeneralSPOAService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/OpenAgency", ReplyAction="http://tempuri.org/IGeneralSPOAService/OpenAgencyResponse")]
-        string OpenAgency(string fspid, string opuser, string freson);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/RestoreOfSpid", ReplyAction="http://tempuri.org/IGeneralSPOAService/RestoreOfSpidResponse")]
-        string RestoreOfSpid(string fspid, string opuser, string freson);
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ReSendEmail_ToSP", ReplyAction="http://tempuri.org/IGeneralSPOAService/ReSendEmail_ToSPResponse")]
         bool ReSendEmail_ToSP(out string resultstr, string SPID, string ApplyUser);
         
@@ -48,32 +42,14 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxModify", ReplyAction="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxModifyResponse")]
         void ValueAddedTaxModify(string Spid, int Flag);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ApplyRefund", ReplyAction="http://tempuri.org/IGeneralSPOAService/ApplyRefundResponse")]
-        void ApplyRefund(string Fspid, string UserName, string Reason);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ApproveSpidCompanyName", ReplyAction="http://tempuri.org/IGeneralSPOAService/ApproveSpidCompanyNameResponse")]
-        void ApproveSpidCompanyName(string Taskid, string UserID, bool Result, string Reason);
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ApproveTicket", ReplyAction="http://tempuri.org/IGeneralSPOAService/ApproveTicketResponse")]
         void ApproveTicket(string ApplyCpInfoID, string UserID, int Type, string Reason);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/BusinessFreeze", ReplyAction="http://tempuri.org/IGeneralSPOAService/BusinessFreezeResponse")]
-        void BusinessFreeze(string Fspid, string UserName, bool IsFreeze, bool IsFreezePay, bool IsAccLoss, bool IsCloseAgent, string Reason);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/BusinessFreezeSPOA", ReplyAction="http://tempuri.org/IGeneralSPOAService/BusinessFreezeSPOAResponse")]
-        void BusinessFreezeSPOA(string Fspid, bool IsFreeze, bool IsFreezePay, bool IsAccLoss, bool IsCloseAgent, string UserName, string Reason);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/BusinessResume", ReplyAction="http://tempuri.org/IGeneralSPOAService/BusinessResumeResponse")]
-        void BusinessResume(string Fspid, string UserName, string Reason);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/CheckTicket", ReplyAction="http://tempuri.org/IGeneralSPOAService/CheckTicketResponse")]
         void CheckTicket(string ApplyCpInfoID, string UserID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ModifyPayBusinessInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/ModifyPayBusinessInfoResponse")]
         void ModifyPayBusinessInfo(string TableFlag, string KeyID, string ContactUser, string ContactPhone, string ContactMobile, string ContactQQ, string ContactEmail, string CompanyAddress, string Postalcode);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ShutRefund", ReplyAction="http://tempuri.org/IGeneralSPOAService/ShutRefundResponse")]
-        void ShutRefund(string Fspid, string UserName, string Reason);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/SubmitBusinessInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/SubmitBusinessInfoResponse")]
         void SubmitBusinessInfo(string UserName, string Fspid, string OldFspName, string NewFspName, string OldEmail, string NewEmail, string OldAddress, string NewAddress, string ApplyResult, string[] FileInfos);
@@ -104,6 +80,15 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/CloseAgency", ReplyAction="http://tempuri.org/IGeneralSPOAService/CloseAgencyResponse")]
         string CloseAgency(string fspid, string opuser, string freson);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/OpenAgency", ReplyAction="http://tempuri.org/IGeneralSPOAService/OpenAgencyResponse")]
+        string OpenAgency(string fspid, string opuser, string freson);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/RestoreOfSpid", ReplyAction="http://tempuri.org/IGeneralSPOAService/RestoreOfSpidResponse")]
+        string RestoreOfSpid(string fspid, string opuser, string freson);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/BusinessLogoutApply", ReplyAction="http://tempuri.org/IGeneralSPOAService/BusinessLogoutApplyResponse")]
+        string BusinessLogoutApply(string fspid, string opuser, string freson);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessList", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessListResponse")]
         System.Data.DataSet GetAgencyBusinessList(string qqid, string domain, int notInCount, int topCount);
@@ -217,14 +202,6 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
                 base(binding, remoteAddress) {
         }
         
-        public string OpenAgency(string fspid, string opuser, string freson) {
-            return base.Channel.OpenAgency(fspid, opuser, freson);
-        }
-        
-        public string RestoreOfSpid(string fspid, string opuser, string freson) {
-            return base.Channel.RestoreOfSpid(fspid, opuser, freson);
-        }
-        
         public bool ReSendEmail_ToSP(out string resultstr, string SPID, string ApplyUser) {
             return base.Channel.ReSendEmail_ToSP(out resultstr, SPID, ApplyUser);
         }
@@ -261,28 +238,8 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
             base.Channel.ValueAddedTaxModify(Spid, Flag);
         }
         
-        public void ApplyRefund(string Fspid, string UserName, string Reason) {
-            base.Channel.ApplyRefund(Fspid, UserName, Reason);
-        }
-        
-        public void ApproveSpidCompanyName(string Taskid, string UserID, bool Result, string Reason) {
-            base.Channel.ApproveSpidCompanyName(Taskid, UserID, Result, Reason);
-        }
-        
         public void ApproveTicket(string ApplyCpInfoID, string UserID, int Type, string Reason) {
             base.Channel.ApproveTicket(ApplyCpInfoID, UserID, Type, Reason);
-        }
-        
-        public void BusinessFreeze(string Fspid, string UserName, bool IsFreeze, bool IsFreezePay, bool IsAccLoss, bool IsCloseAgent, string Reason) {
-            base.Channel.BusinessFreeze(Fspid, UserName, IsFreeze, IsFreezePay, IsAccLoss, IsCloseAgent, Reason);
-        }
-        
-        public void BusinessFreezeSPOA(string Fspid, bool IsFreeze, bool IsFreezePay, bool IsAccLoss, bool IsCloseAgent, string UserName, string Reason) {
-            base.Channel.BusinessFreezeSPOA(Fspid, IsFreeze, IsFreezePay, IsAccLoss, IsCloseAgent, UserName, Reason);
-        }
-        
-        public void BusinessResume(string Fspid, string UserName, string Reason) {
-            base.Channel.BusinessResume(Fspid, UserName, Reason);
         }
         
         public void CheckTicket(string ApplyCpInfoID, string UserID) {
@@ -291,10 +248,6 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         
         public void ModifyPayBusinessInfo(string TableFlag, string KeyID, string ContactUser, string ContactPhone, string ContactMobile, string ContactQQ, string ContactEmail, string CompanyAddress, string Postalcode) {
             base.Channel.ModifyPayBusinessInfo(TableFlag, KeyID, ContactUser, ContactPhone, ContactMobile, ContactQQ, ContactEmail, CompanyAddress, Postalcode);
-        }
-        
-        public void ShutRefund(string Fspid, string UserName, string Reason) {
-            base.Channel.ShutRefund(Fspid, UserName, Reason);
         }
         
         public void SubmitBusinessInfo(string UserName, string Fspid, string OldFspName, string NewFspName, string OldEmail, string NewEmail, string OldAddress, string NewAddress, string ApplyResult, string[] FileInfos) {
@@ -335,6 +288,18 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         
         public string CloseAgency(string fspid, string opuser, string freson) {
             return base.Channel.CloseAgency(fspid, opuser, freson);
+        }
+        
+        public string OpenAgency(string fspid, string opuser, string freson) {
+            return base.Channel.OpenAgency(fspid, opuser, freson);
+        }
+        
+        public string RestoreOfSpid(string fspid, string opuser, string freson) {
+            return base.Channel.RestoreOfSpid(fspid, opuser, freson);
+        }
+        
+        public string BusinessLogoutApply(string fspid, string opuser, string freson) {
+            return base.Channel.BusinessLogoutApply(fspid, opuser, freson);
         }
         
         public System.Data.DataSet GetAgencyBusinessList(string qqid, string domain, int notInCount, int topCount) {

@@ -39,6 +39,19 @@ namespace CFT.CSOMS.DAL.SPOA
 
             return cli.GetAgencyBusinessInfoList(Fspid);
         }
+
+        public DataSet  QueryAgencyBySpid(string Fspid)
+        {
+            SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
+
+            return cli.QueryAgencyBySpid(Fspid);
+        }
+        public DataSet QueryAgencyInfoById(string Fid)
+        {
+            SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
+
+            return cli.QueryAgencyInfoById(Fid);
+        }
         public DataSet GetHisBusinessList(string Fspid)
         {
             SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
@@ -270,6 +283,53 @@ namespace CFT.CSOMS.DAL.SPOA
         {
             SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
             return cli.GetSelfQuerySPType();
+        }
+
+        public string ClosePay(string fspid, string opuser, string freson) 
+        {
+            SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
+            return cli.ClosePay(fspid, opuser, freson);
+        }
+
+        public string FreezeSpid(string fspid, string opuser, string freson)
+        {
+            SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
+            return cli.FreezeSpid(fspid, opuser, freson);
+        }
+
+        public string LostOfSpid(string fspid, string opuser, string freson)
+        {
+            SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
+            return cli.LostOfSpid(fspid, opuser, freson);
+        }
+
+        public string CloseAgency(string fspid, string opuser, string freson)
+        {
+            SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
+            return cli.CloseAgency(fspid, opuser, freson);
+        }
+
+        public string CloseRefund(string fspid, string opuser, string freson)
+        {
+            SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
+            return cli.CloseRefund(fspid, opuser, freson);
+        }
+
+        public string OpenRefund(string fspid, string opuser, string freson)
+        {
+            SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
+            return cli.OpenRefund(fspid, opuser, freson);
+        }
+
+        public string RestoreOfSpid(string fspid, string opuser, string freson)
+        {
+            SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
+            return cli.RestoreOfSpid(fspid, opuser, freson);
+        }
+        public string BusinessLogout(string fspid, string opuser, string freson)
+        {
+            SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
+            return cli.BusinessLogoutApply(fspid, opuser, freson);
         }
     }
 }

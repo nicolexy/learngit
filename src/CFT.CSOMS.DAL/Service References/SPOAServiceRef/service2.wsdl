@@ -1,0 +1,1042 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="GeneralSPOAService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="WSHttpBinding_IGeneralSPOAService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IGeneralSPOAService_ReSendEmail_ToSP_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReSendEmail_ToSP" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_ReSendEmail_ToSP_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReSendEmail_ToSPResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_ReSendCertificate_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReSendCertificate" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_ReSendCertificate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReSendCertificateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_QueryExpiredCertificate_InputMessage">
+    <wsdl:part name="parameters" element="tns:QueryExpiredCertificate" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_QueryExpiredCertificate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:QueryExpiredCertificateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetBDSpidList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBDSpidList" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetBDSpidList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBDSpidListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_UpdateMspAmendTaskByTaskid_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateMspAmendTaskByTaskid" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_UpdateMspAmendTaskByTaskid_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateMspAmendTaskByTaskidResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_UpdateMspAmendInfoByTaskid_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateMspAmendInfoByTaskid" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_UpdateMspAmendInfoByTaskid_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateMspAmendInfoByTaskidResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_UpdateSpidDomainApplyByTaskid_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateSpidDomainApplyByTaskid" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_UpdateSpidDomainApplyByTaskid_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateSpidDomainApplyByTaskidResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_BusinessIdentityCardNum_InputMessage">
+    <wsdl:part name="parameters" element="tns:BusinessIdentityCardNum" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_BusinessIdentityCardNum_OutputMessage">
+    <wsdl:part name="parameters" element="tns:BusinessIdentityCardNumResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_ValueAddedTaxModify_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValueAddedTaxModify" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_ValueAddedTaxModify_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValueAddedTaxModifyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_ApproveTicket_InputMessage">
+    <wsdl:part name="parameters" element="tns:ApproveTicket" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_ApproveTicket_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ApproveTicketResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_CheckTicket_InputMessage">
+    <wsdl:part name="parameters" element="tns:CheckTicket" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_CheckTicket_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CheckTicketResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_ModifyPayBusinessInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:ModifyPayBusinessInfo" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_ModifyPayBusinessInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ModifyPayBusinessInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_SubmitBusinessInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:SubmitBusinessInfo" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_SubmitBusinessInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubmitBusinessInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_ValueAddedTaxApprove_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValueAddedTaxApprove" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_ValueAddedTaxApprove_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValueAddedTaxApproveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_ValueAddedTaxCancel_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValueAddedTaxCancel" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_ValueAddedTaxCancel_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValueAddedTaxCancelResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_LostOfSpid_InputMessage">
+    <wsdl:part name="parameters" element="tns:LostOfSpid" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_LostOfSpid_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LostOfSpidResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_FreezeSpid_InputMessage">
+    <wsdl:part name="parameters" element="tns:FreezeSpid" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_FreezeSpid_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FreezeSpidResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_ClosePay_InputMessage">
+    <wsdl:part name="parameters" element="tns:ClosePay" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_ClosePay_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ClosePayResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_OpenPay_InputMessage">
+    <wsdl:part name="parameters" element="tns:OpenPay" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_OpenPay_OutputMessage">
+    <wsdl:part name="parameters" element="tns:OpenPayResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_CloseRefund_InputMessage">
+    <wsdl:part name="parameters" element="tns:CloseRefund" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_CloseRefund_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CloseRefundResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_OpenRefund_InputMessage">
+    <wsdl:part name="parameters" element="tns:OpenRefund" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_OpenRefund_OutputMessage">
+    <wsdl:part name="parameters" element="tns:OpenRefundResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_CloseAgency_InputMessage">
+    <wsdl:part name="parameters" element="tns:CloseAgency" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_CloseAgency_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CloseAgencyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_OpenAgency_InputMessage">
+    <wsdl:part name="parameters" element="tns:OpenAgency" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_OpenAgency_OutputMessage">
+    <wsdl:part name="parameters" element="tns:OpenAgencyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_RestoreOfSpid_InputMessage">
+    <wsdl:part name="parameters" element="tns:RestoreOfSpid" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_RestoreOfSpid_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RestoreOfSpidResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_BusinessLogoutApply_InputMessage">
+    <wsdl:part name="parameters" element="tns:BusinessLogoutApply" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_BusinessLogoutApply_OutputMessage">
+    <wsdl:part name="parameters" element="tns:BusinessLogoutApplyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetAgencyBusinessList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgencyBusinessList" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetAgencyBusinessList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgencyBusinessListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetAgencyBusinessInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgencyBusinessInfo" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetAgencyBusinessInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgencyBusinessInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_QueryAgencyBySpid_InputMessage">
+    <wsdl:part name="parameters" element="tns:QueryAgencyBySpid" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_QueryAgencyBySpid_OutputMessage">
+    <wsdl:part name="parameters" element="tns:QueryAgencyBySpidResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_QueryAgencyInfoById_InputMessage">
+    <wsdl:part name="parameters" element="tns:QueryAgencyInfoById" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_QueryAgencyInfoById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:QueryAgencyInfoByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetShouFuYiList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetShouFuYiList" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetShouFuYiList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetShouFuYiListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetAgencyBusinessInfoList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgencyBusinessInfoList" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetAgencyBusinessInfoList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgencyBusinessInfoListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetHisBusinessList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetHisBusinessList" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetHisBusinessList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetHisBusinessListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetSelfTypeList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSelfTypeList" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetSelfTypeList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSelfTypeListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetSelfKFList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSelfKFList" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetSelfKFList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSelfKFListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetSelfQueryListCount_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSelfQueryListCount" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetSelfQueryListCount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSelfQueryListCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetSelfQueryList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSelfQueryList" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetSelfQueryList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSelfQueryListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetSelfQuerySPType_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSelfQuerySPType" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetSelfQuerySPType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSelfQuerySPTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetSelfQueryInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSelfQueryInfo" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetSelfQueryInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSelfQueryInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetSpidDomainQueryList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSpidDomainQueryList" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetSpidDomainQueryList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSpidDomainQueryListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetOneValueAddedTax_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOneValueAddedTax" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetOneValueAddedTax_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOneValueAddedTaxResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetAllValueAddedTax_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllValueAddedTax" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetAllValueAddedTax_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllValueAddedTaxResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetValueAddedTaxDetail_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetValueAddedTaxDetail" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetValueAddedTaxDetail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetValueAddedTaxDetailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetTradeType_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTradeType" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetTradeType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTradeTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetWWWAddress_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetWWWAddress" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetWWWAddress_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetWWWAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetBDName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBDName" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetBDName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBDNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetApplyValueAddedTax_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplyValueAddedTax" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetApplyValueAddedTax_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplyValueAddedTaxResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_QueryBussFreezeList_InputMessage">
+    <wsdl:part name="parameters" element="tns:QueryBussFreezeList" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_QueryBussFreezeList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:QueryBussFreezeListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetAllValueAddedTax1_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllValueAddedTax1" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetAllValueAddedTax1_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllValueAddedTax1Response" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetApplyCpInfoXByID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplyCpInfoXByID" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetApplyCpInfoXByID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplyCpInfoXByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetMspAmendTaskByID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMspAmendTaskByID" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetMspAmendTaskByID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMspAmendTaskByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetSpInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSpInfo" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetSpInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSpInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_QueryAmendMspInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:QueryAmendMspInfo" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_QueryAmendMspInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:QueryAmendMspInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetCheckInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCheckInfo" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetCheckInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCheckInfoResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IGeneralSPOAService">
+    <wsdl:operation name="ReSendEmail_ToSP">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/ReSendEmail_ToSP" message="tns:IGeneralSPOAService_ReSendEmail_ToSP_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/ReSendEmail_ToSPResponse" message="tns:IGeneralSPOAService_ReSendEmail_ToSP_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReSendCertificate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/ReSendCertificate" message="tns:IGeneralSPOAService_ReSendCertificate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/ReSendCertificateResponse" message="tns:IGeneralSPOAService_ReSendCertificate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="QueryExpiredCertificate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryExpiredCertificate" message="tns:IGeneralSPOAService_QueryExpiredCertificate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryExpiredCertificateResponse" message="tns:IGeneralSPOAService_QueryExpiredCertificate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBDSpidList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetBDSpidList" message="tns:IGeneralSPOAService_GetBDSpidList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetBDSpidListResponse" message="tns:IGeneralSPOAService_GetBDSpidList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateMspAmendTaskByTaskid">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/UpdateMspAmendTaskByTaskid" message="tns:IGeneralSPOAService_UpdateMspAmendTaskByTaskid_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/UpdateMspAmendTaskByTaskidResponse" message="tns:IGeneralSPOAService_UpdateMspAmendTaskByTaskid_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateMspAmendInfoByTaskid">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/UpdateMspAmendInfoByTaskid" message="tns:IGeneralSPOAService_UpdateMspAmendInfoByTaskid_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/UpdateMspAmendInfoByTaskidResponse" message="tns:IGeneralSPOAService_UpdateMspAmendInfoByTaskid_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSpidDomainApplyByTaskid">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/UpdateSpidDomainApplyByTaskid" message="tns:IGeneralSPOAService_UpdateSpidDomainApplyByTaskid_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/UpdateSpidDomainApplyByTaskidResponse" message="tns:IGeneralSPOAService_UpdateSpidDomainApplyByTaskid_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="BusinessIdentityCardNum">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/BusinessIdentityCardNum" message="tns:IGeneralSPOAService_BusinessIdentityCardNum_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/BusinessIdentityCardNumResponse" message="tns:IGeneralSPOAService_BusinessIdentityCardNum_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ValueAddedTaxModify">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxModify" message="tns:IGeneralSPOAService_ValueAddedTaxModify_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxModifyResponse" message="tns:IGeneralSPOAService_ValueAddedTaxModify_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ApproveTicket">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/ApproveTicket" message="tns:IGeneralSPOAService_ApproveTicket_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/ApproveTicketResponse" message="tns:IGeneralSPOAService_ApproveTicket_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckTicket">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/CheckTicket" message="tns:IGeneralSPOAService_CheckTicket_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/CheckTicketResponse" message="tns:IGeneralSPOAService_CheckTicket_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ModifyPayBusinessInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/ModifyPayBusinessInfo" message="tns:IGeneralSPOAService_ModifyPayBusinessInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/ModifyPayBusinessInfoResponse" message="tns:IGeneralSPOAService_ModifyPayBusinessInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SubmitBusinessInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/SubmitBusinessInfo" message="tns:IGeneralSPOAService_SubmitBusinessInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/SubmitBusinessInfoResponse" message="tns:IGeneralSPOAService_SubmitBusinessInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ValueAddedTaxApprove">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxApprove" message="tns:IGeneralSPOAService_ValueAddedTaxApprove_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxApproveResponse" message="tns:IGeneralSPOAService_ValueAddedTaxApprove_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ValueAddedTaxCancel">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxCancel" message="tns:IGeneralSPOAService_ValueAddedTaxCancel_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxCancelResponse" message="tns:IGeneralSPOAService_ValueAddedTaxCancel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LostOfSpid">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/LostOfSpid" message="tns:IGeneralSPOAService_LostOfSpid_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/LostOfSpidResponse" message="tns:IGeneralSPOAService_LostOfSpid_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FreezeSpid">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/FreezeSpid" message="tns:IGeneralSPOAService_FreezeSpid_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/FreezeSpidResponse" message="tns:IGeneralSPOAService_FreezeSpid_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ClosePay">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/ClosePay" message="tns:IGeneralSPOAService_ClosePay_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/ClosePayResponse" message="tns:IGeneralSPOAService_ClosePay_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenPay">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/OpenPay" message="tns:IGeneralSPOAService_OpenPay_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/OpenPayResponse" message="tns:IGeneralSPOAService_OpenPay_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CloseRefund">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/CloseRefund" message="tns:IGeneralSPOAService_CloseRefund_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/CloseRefundResponse" message="tns:IGeneralSPOAService_CloseRefund_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenRefund">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/OpenRefund" message="tns:IGeneralSPOAService_OpenRefund_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/OpenRefundResponse" message="tns:IGeneralSPOAService_OpenRefund_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CloseAgency">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/CloseAgency" message="tns:IGeneralSPOAService_CloseAgency_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/CloseAgencyResponse" message="tns:IGeneralSPOAService_CloseAgency_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenAgency">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/OpenAgency" message="tns:IGeneralSPOAService_OpenAgency_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/OpenAgencyResponse" message="tns:IGeneralSPOAService_OpenAgency_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RestoreOfSpid">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/RestoreOfSpid" message="tns:IGeneralSPOAService_RestoreOfSpid_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/RestoreOfSpidResponse" message="tns:IGeneralSPOAService_RestoreOfSpid_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="BusinessLogoutApply">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/BusinessLogoutApply" message="tns:IGeneralSPOAService_BusinessLogoutApply_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/BusinessLogoutApplyResponse" message="tns:IGeneralSPOAService_BusinessLogoutApply_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAgencyBusinessList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessList" message="tns:IGeneralSPOAService_GetAgencyBusinessList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessListResponse" message="tns:IGeneralSPOAService_GetAgencyBusinessList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAgencyBusinessInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessInfo" message="tns:IGeneralSPOAService_GetAgencyBusinessInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessInfoResponse" message="tns:IGeneralSPOAService_GetAgencyBusinessInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="QueryAgencyBySpid">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryAgencyBySpid" message="tns:IGeneralSPOAService_QueryAgencyBySpid_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryAgencyBySpidResponse" message="tns:IGeneralSPOAService_QueryAgencyBySpid_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="QueryAgencyInfoById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryAgencyInfoById" message="tns:IGeneralSPOAService_QueryAgencyInfoById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryAgencyInfoByIdResponse" message="tns:IGeneralSPOAService_QueryAgencyInfoById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetShouFuYiList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetShouFuYiList" message="tns:IGeneralSPOAService_GetShouFuYiList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetShouFuYiListResponse" message="tns:IGeneralSPOAService_GetShouFuYiList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAgencyBusinessInfoList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessInfoList" message="tns:IGeneralSPOAService_GetAgencyBusinessInfoList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessInfoListResponse" message="tns:IGeneralSPOAService_GetAgencyBusinessInfoList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetHisBusinessList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetHisBusinessList" message="tns:IGeneralSPOAService_GetHisBusinessList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetHisBusinessListResponse" message="tns:IGeneralSPOAService_GetHisBusinessList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSelfTypeList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetSelfTypeList" message="tns:IGeneralSPOAService_GetSelfTypeList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetSelfTypeListResponse" message="tns:IGeneralSPOAService_GetSelfTypeList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSelfKFList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetSelfKFList" message="tns:IGeneralSPOAService_GetSelfKFList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetSelfKFListResponse" message="tns:IGeneralSPOAService_GetSelfKFList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSelfQueryListCount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetSelfQueryListCount" message="tns:IGeneralSPOAService_GetSelfQueryListCount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetSelfQueryListCountResponse" message="tns:IGeneralSPOAService_GetSelfQueryListCount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSelfQueryList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetSelfQueryList" message="tns:IGeneralSPOAService_GetSelfQueryList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetSelfQueryListResponse" message="tns:IGeneralSPOAService_GetSelfQueryList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSelfQuerySPType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetSelfQuerySPType" message="tns:IGeneralSPOAService_GetSelfQuerySPType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetSelfQuerySPTypeResponse" message="tns:IGeneralSPOAService_GetSelfQuerySPType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSelfQueryInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetSelfQueryInfo" message="tns:IGeneralSPOAService_GetSelfQueryInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetSelfQueryInfoResponse" message="tns:IGeneralSPOAService_GetSelfQueryInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSpidDomainQueryList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetSpidDomainQueryList" message="tns:IGeneralSPOAService_GetSpidDomainQueryList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetSpidDomainQueryListResponse" message="tns:IGeneralSPOAService_GetSpidDomainQueryList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOneValueAddedTax">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetOneValueAddedTax" message="tns:IGeneralSPOAService_GetOneValueAddedTax_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetOneValueAddedTaxResponse" message="tns:IGeneralSPOAService_GetOneValueAddedTax_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllValueAddedTax">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetAllValueAddedTax" message="tns:IGeneralSPOAService_GetAllValueAddedTax_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetAllValueAddedTaxResponse" message="tns:IGeneralSPOAService_GetAllValueAddedTax_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetValueAddedTaxDetail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetValueAddedTaxDetail" message="tns:IGeneralSPOAService_GetValueAddedTaxDetail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetValueAddedTaxDetailResponse" message="tns:IGeneralSPOAService_GetValueAddedTaxDetail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTradeType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetTradeType" message="tns:IGeneralSPOAService_GetTradeType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetTradeTypeResponse" message="tns:IGeneralSPOAService_GetTradeType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetWWWAddress">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetWWWAddress" message="tns:IGeneralSPOAService_GetWWWAddress_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetWWWAddressResponse" message="tns:IGeneralSPOAService_GetWWWAddress_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBDName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetBDName" message="tns:IGeneralSPOAService_GetBDName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetBDNameResponse" message="tns:IGeneralSPOAService_GetBDName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetApplyValueAddedTax">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetApplyValueAddedTax" message="tns:IGeneralSPOAService_GetApplyValueAddedTax_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetApplyValueAddedTaxResponse" message="tns:IGeneralSPOAService_GetApplyValueAddedTax_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="QueryBussFreezeList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryBussFreezeList" message="tns:IGeneralSPOAService_QueryBussFreezeList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryBussFreezeListResponse" message="tns:IGeneralSPOAService_QueryBussFreezeList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllValueAddedTax1">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetAllValueAddedTax1" message="tns:IGeneralSPOAService_GetAllValueAddedTax1_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetAllValueAddedTax1Response" message="tns:IGeneralSPOAService_GetAllValueAddedTax1_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetApplyCpInfoXByID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetApplyCpInfoXByID" message="tns:IGeneralSPOAService_GetApplyCpInfoXByID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetApplyCpInfoXByIDResponse" message="tns:IGeneralSPOAService_GetApplyCpInfoXByID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMspAmendTaskByID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetMspAmendTaskByID" message="tns:IGeneralSPOAService_GetMspAmendTaskByID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetMspAmendTaskByIDResponse" message="tns:IGeneralSPOAService_GetMspAmendTaskByID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSpInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetSpInfo" message="tns:IGeneralSPOAService_GetSpInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetSpInfoResponse" message="tns:IGeneralSPOAService_GetSpInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="QueryAmendMspInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryAmendMspInfo" message="tns:IGeneralSPOAService_QueryAmendMspInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryAmendMspInfoResponse" message="tns:IGeneralSPOAService_QueryAmendMspInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetCheckInfo" message="tns:IGeneralSPOAService_GetCheckInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetCheckInfoResponse" message="tns:IGeneralSPOAService_GetCheckInfo_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSHttpBinding_IGeneralSPOAService" type="tns:IGeneralSPOAService">
+    <wsp:PolicyReference URI="#WSHttpBinding_IGeneralSPOAService_policy" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ReSendEmail_ToSP">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/ReSendEmail_ToSP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReSendCertificate">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/ReSendCertificate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryExpiredCertificate">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/QueryExpiredCertificate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBDSpidList">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetBDSpidList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateMspAmendTaskByTaskid">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/UpdateMspAmendTaskByTaskid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateMspAmendInfoByTaskid">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/UpdateMspAmendInfoByTaskid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSpidDomainApplyByTaskid">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/UpdateSpidDomainApplyByTaskid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BusinessIdentityCardNum">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/BusinessIdentityCardNum" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValueAddedTaxModify">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxModify" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApproveTicket">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/ApproveTicket" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckTicket">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/CheckTicket" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModifyPayBusinessInfo">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/ModifyPayBusinessInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitBusinessInfo">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/SubmitBusinessInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValueAddedTaxApprove">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxApprove" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValueAddedTaxCancel">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxCancel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LostOfSpid">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/LostOfSpid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FreezeSpid">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/FreezeSpid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ClosePay">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/ClosePay" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenPay">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/OpenPay" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseRefund">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/CloseRefund" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenRefund">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/OpenRefund" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseAgency">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/CloseAgency" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenAgency">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/OpenAgency" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RestoreOfSpid">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/RestoreOfSpid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BusinessLogoutApply">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/BusinessLogoutApply" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAgencyBusinessList">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAgencyBusinessInfo">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryAgencyBySpid">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/QueryAgencyBySpid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryAgencyInfoById">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/QueryAgencyInfoById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetShouFuYiList">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetShouFuYiList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAgencyBusinessInfoList">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessInfoList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHisBusinessList">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetHisBusinessList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSelfTypeList">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetSelfTypeList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSelfKFList">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetSelfKFList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSelfQueryListCount">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetSelfQueryListCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSelfQueryList">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetSelfQueryList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSelfQuerySPType">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetSelfQuerySPType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSelfQueryInfo">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetSelfQueryInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSpidDomainQueryList">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetSpidDomainQueryList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOneValueAddedTax">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetOneValueAddedTax" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllValueAddedTax">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetAllValueAddedTax" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetValueAddedTaxDetail">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetValueAddedTaxDetail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTradeType">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetTradeType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetWWWAddress">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetWWWAddress" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBDName">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetBDName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetApplyValueAddedTax">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetApplyValueAddedTax" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryBussFreezeList">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/QueryBussFreezeList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllValueAddedTax1">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetAllValueAddedTax1" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetApplyCpInfoXByID">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetApplyCpInfoXByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMspAmendTaskByID">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetMspAmendTaskByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSpInfo">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetSpInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryAmendMspInfo">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/QueryAmendMspInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckInfo">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetCheckInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GeneralSPOAService">
+    <wsdl:port name="WSHttpBinding_IGeneralSPOAService" binding="tns:WSHttpBinding_IGeneralSPOAService">
+      <soap12:address location="http://10.12.189.114/spoawcf/GeneralSPOAService.svc" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://10.12.189.114/spoawcf/GeneralSPOAService.svc</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Dns>localhost</Dns>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
