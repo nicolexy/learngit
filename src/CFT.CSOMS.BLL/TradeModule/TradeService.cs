@@ -212,33 +212,33 @@ namespace CFT.CSOMS.BLL.TradeModule
                         ds.Tables[0].Columns.Add("Fbuy_bankid");
                         ds.Tables[0].Rows[0]["Fbuy_bankid"] = "";
                     }
-                    if (!ds.Tables[0].Columns.Contains("Fstandy8"))
+                    if (!ds.Tables[0].Columns.Contains("Fstandby8"))
                     {
-                        ds.Tables[0].Columns.Add("Fstandy8");
-                        ds.Tables[0].Rows[0]["Fstandy8"] = "";
+                        ds.Tables[0].Columns.Add("Fstandby8");
+                        ds.Tables[0].Rows[0]["Fstandby8"] = "";
                     }
-                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Fstandy8"].ToString()))
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Fstandby8"].ToString()))
                     {
-                        string s_close_reason = ds.Tables[0].Rows[0]["Fstandy8"].ToString();
+                        string s_close_reason = ds.Tables[0].Rows[0]["Fstandby8"].ToString();
                         if (s_close_reason == "1")
                         {
-                            ds.Tables[0].Rows[0]["Fstandy8"] = "风控关闭订单";
+                            ds.Tables[0].Rows[0]["Fstandby8"] = "风控关闭订单";
                         }
                         else if (s_close_reason == "2")
                         {
-                            ds.Tables[0].Rows[0]["Fstandy8"] = "微信线下支付商户关闭订单";
+                            ds.Tables[0].Rows[0]["Fstandby8"] = "微信线下支付商户关闭订单";
                         }
                         else if (s_close_reason == "3")
                         {
-                            ds.Tables[0].Rows[0]["Fstandy8"] = "购物券回收关闭订单";
+                            ds.Tables[0].Rows[0]["Fstandby8"] = "购物券回收关闭订单";
                         }
                         else if (s_close_reason == "4")
                         {
-                            ds.Tables[0].Rows[0]["Fstandy8"] = "拍拍关闭订单";
+                            ds.Tables[0].Rows[0]["Fstandby8"] = "拍拍关闭订单";
                         }
                         else if (s_close_reason == "5")
                         {
-                            ds.Tables[0].Rows[0]["Fstandy8"] = "赔付调帐订单";
+                            ds.Tables[0].Rows[0]["Fstandby8"] = "赔付调帐订单";
                         }
                     }
 

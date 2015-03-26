@@ -11048,7 +11048,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         string db = listdb[i];
                         string tb = listtb[i];
-                        CFTUserAppealClass cuser2 = new CFTUserAppealClass(BeginDate, EndDate, fstate, ftype, QQType, username, Count, SortType, dotype,true, db, tb);//分库分表的查询
+                        CFTUserAppealClass cuser2 = new CFTUserAppealClass(BeginDate, EndDate, fstate, ftype, QQType, username, Count, SortType, dotype, true, db, tb);//分库分表的查询
                         DataSet dsfen = cuser2.GetResultX("CFTNEW");
 
                         if (dsfen != null && dsfen.Tables.Count > 0 && dsfen.Tables[0].Rows.Count > 0)
@@ -12240,20 +12240,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     newRow["Fbuyid"] = dr["Fbuyid"];
                     newRow["Fbuy_uid"] = dr["Fbuy_uid"];
                     newRow["Fpay_type"] = dr["Fpay_type"];
-                    newRow["Fsource_type"] = dr["Fsource_type"];
-                    newRow["Fbank_backid"] = null;
-                    newRow["Fbank_listid"] = null;
+                    // newRow["Fsource_type"] = dr["Fsource_type"];
                     newRow["Fspid"] = dr["Fspid"];
                     newRow["Fcoding"] = dr["Fcoding"];
                     newRow["Flistid"] = dr["Flistid"];
                     newRow["Fuser_type"] = dr["Fuser_type"];
                     newRow["Fuid"] = dr["Fuid"];
-                    newRow["Freceive_time_c2c"] = DBNull.Value;
-                    newRow["Fpay_time_acc"] = DBNull.Value;
                     newRow["Fpay_time"] = dr["Fpay_time"];
-                    newRow["Fbargain_time"] = DBNull.Value;
                     newRow["Fcreate_time"] = dr["Fcreate_time"];
-                    newRow["Fcreate_time_c2c"] = DBNull.Value;
                     newRow["Ffee3"] = dr["Ffee3"];
                     newRow["Ftoken"] = dr["Ftoken"];
                     newRow["Fcash"] = dr["Fcash"];
@@ -12268,28 +12262,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     newRow["Ftrade_state"] = dr["Ftrade_state"];
                     newRow["Fcurtype"] = dr["Fcurtype"];
                     newRow["Fsale_bankid"] = dr["Fsale_bankid"];
-                    newRow["Fsystem_time"] = DBNull.Value;
-                    newRow["Fstandby15"] = null;
-                    newRow["Fstandby14"] = null;
-                    newRow["Fstandby13"] = null;
-                    newRow["Fstandby12"] = null;
-                    newRow["Fstandby11"] = null;
-                    newRow["Fstandby10"] = null;
-                    newRow["Fstandby9"] = DBNull.Value;
-                    newRow["Fstandby8"] = DBNull.Value;
-                    newRow["Fstandby7"] = DBNull.Value;
-                    newRow["Fstandby6"] = DBNull.Value;
-                    newRow["Fstandby5"] = DBNull.Value;
-                    newRow["Fstandby4"] = DBNull.Value;
-                    newRow["Fstandby3"] = DBNull.Value;
+                    //newRow["Fsystem_time"] = DBNull.Value;
                     newRow["Fstandby2"] = dr["Fstandby2"];
                     newRow["Fstandby1"] = dr["Fstandby1"];
                     newRow["Fgwq_listid"] = dr["Fgwq_listid"];
                     newRow["Fmedi_sign"] = dr["Fmedi_sign"];
                     newRow["Fappeal_sign"] = dr["Fappeal_sign"];
-                    newRow["Fok_time_acc"] = DBNull.Value;
-                    newRow["Fok_time"] = DBNull.Value;
-                    newRow["Freq_refund_time"] = DBNull.Value;
                     newRow["Fpaysale"] = dr["Fpaysale"];
                     newRow["Fpaybuy"] = dr["Fpaybuy"];
                     newRow["Frefund_type"] = dr["Frefund_type"];
@@ -12298,9 +12276,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     newRow["Fmodify_time"] = dr["Fmodify_time"];
                     newRow["Fexplain"] = dr["Fexplain"];
                     newRow["Fmemo"] = dr["Fmemo"];
-                    newRow["Fip"] = null;
-                    newRow["Freceive_time_acc"] = DBNull.Value;
-                    newRow["Freceive_time"] = DBNull.Value;
 
                     ds.Tables[0].Rows.Add(newRow);
                 }
@@ -12338,7 +12313,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         return 0;
                     }
-                    return cuser.GetCount(dbConn);//支持多台DB的查询 20121112
+
+                    DataSet dsForWX = new DataSet ();
+                    if (!string.IsNullOrEmpty(buyqqInnerID.Trim()))
+                    {
+                        dsForWX = (new TradeService()).QueryWxBuyOrderByUid(int.Parse(buyqqInnerID.Trim()), u_BeginTime, u_EndTime);//微信买家纬度订单
+                    }
+
+                    int WxCount = 0;
+                    if (dsForWX  !=null && dsForWX.Tables[0].Rows.Count > 0)
+                    {
+                        WxCount = dsForWX.Tables[0].Rows.Count;
+                    }
+
+                    return (cuser.GetCount(dbConn) + WxCount);//支持多台DB的查询 20121112
                     //return cuser.GetCount("BSB");
                 }
                 else
@@ -14661,9 +14649,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                PublicRes PR = new PublicRes();
-                string sql = "SELECT *,isnull(replace(space(len(IdentityCardNum)-5),' ','*'),'')+right(IdentityCardNum,5) AS IDNo FROM vCompanyInfo(NOLOCK) WHERE KeyID =" + KeyID;
-                return PR.GetSqlServerData(sql);
+                //PublicRes PR = new PublicRes();
+                //string sql = "SELECT *,isnull(replace(space(len(IdentityCardNum)-5),' ','*'),'')+right(IdentityCardNum,5) AS IDNo FROM vCompanyInfo(NOLOCK) WHERE KeyID =" + KeyID;
+                //return PR.GetSqlServerData(sql);
+                return new SPOAService().GetSpInfo(null, KeyID, null, null, null, null, 1, 0);
             }
             catch (Exception ex)
             {
@@ -14846,13 +14835,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     throw new Exception("商户号不能为空");
                 }
 
-                PublicRes PR = new PublicRes();
-                string sql = "SELECT a.ApplyCpInfoID,a.CompanyName,a.WebName,a.CompanyAddress,a.Postalcode,a.WWWAdress,a.ContactUser,a.ContactEmail,a.ContactPhone,a.ContactQQ,a.QQID,a.SPID,a.UserID" +
-                             ",a.UserName,a.ApplyTime,a.CheckUserID,a.CheckUserName,a.CheckTime,a.ErrorMemo,a.ContactMobile,a.OtherMemo,a.TradeType,a.SuggestUser,b.DictName,c.TradeName " +
-                             "FROM ApplyCpInfoX a(NOLOCK) LEFT JOIN DictInfo b(NOLOCK) ON b.DictType='FLAGTYPE' AND a.Flag=b.DictID " +
-                             "LEFT JOIN TradeType c(NOLOCK) ON a.TradeType=c.TradeID " +
-                             "WHERE a.datafrom=6 and a.Fagentid is null and a.SPID='" + spid + "'";
-                ds = PR.GetSqlServerData(sql);
+                //PublicRes PR = new PublicRes();
+                //string sql = "SELECT a.ApplyCpInfoID,a.CompanyName,a.WebName,a.CompanyAddress,a.Postalcode,a.WWWAdress,a.ContactUser,a.ContactEmail,a.ContactPhone,a.ContactQQ,a.QQID,a.SPID,a.UserID" +
+                //             ",a.UserName,a.ApplyTime,a.CheckUserID,a.CheckUserName,a.CheckTime,a.ErrorMemo,a.ContactMobile,a.OtherMemo,a.TradeType,a.SuggestUser,b.DictName,c.TradeName " +
+                //             "FROM ApplyCpInfoX a(NOLOCK) LEFT JOIN DictInfo b(NOLOCK) ON b.DictType='FLAGTYPE' AND a.Flag=b.DictID " +
+                //             "LEFT JOIN TradeType c(NOLOCK) ON a.TradeType=c.TradeID " +
+                //             "WHERE a.datafrom=6 and a.Fagentid is null and a.SPID='" + spid + "'";
+                //ds = PR.GetSqlServerData(sql);
+
+                ds= new SPOAService().QueryAgencyBySpid(spid);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     ds.Tables[0].Columns.Add("Sflag", typeof(String));//选择,用做详情是查哪个方法
@@ -14896,13 +14887,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             DataSet ds = null;
             try
             {
-                PublicRes PR = new PublicRes();
-                string sql = "SELECT a.ApplyCpInfoID,a.CompanyName,a.WebName,a.CompanyAddress,a.Postalcode,a.WWWAdress,a.ContactUser,a.ContactEmail,a.ContactPhone,a.ContactQQ,a.QQID,a.SPID,a.UserID" +
-                             ",a.UserName,a.ApplyTime,a.CheckUserID,a.CheckUserName,a.CheckTime,a.ErrorMemo,a.ContactMobile,a.OtherMemo,a.TradeType,a.SuggestUser,b.DictName,c.TradeName " +
-                             "FROM ApplyCpInfoX a(NOLOCK) LEFT JOIN DictInfo b(NOLOCK) ON b.DictType='FLAGTYPE' AND a.Flag=b.DictID " +
-                             "LEFT JOIN TradeType c(NOLOCK) ON a.TradeType=c.TradeID " +
-                             "WHERE a.ApplyCpInfoID='" + fid + "'";
-                ds = PR.GetSqlServerData(sql);
+                //PublicRes PR = new PublicRes();
+                //string sql = "SELECT a.ApplyCpInfoID,a.CompanyName,a.WebName,a.CompanyAddress,a.Postalcode,a.WWWAdress,a.ContactUser,a.ContactEmail,a.ContactPhone,a.ContactQQ,a.QQID,a.SPID,a.UserID" +
+                //             ",a.UserName,a.ApplyTime,a.CheckUserID,a.CheckUserName,a.CheckTime,a.ErrorMemo,a.ContactMobile,a.OtherMemo,a.TradeType,a.SuggestUser,b.DictName,c.TradeName " +
+                //             "FROM ApplyCpInfoX a(NOLOCK) LEFT JOIN DictInfo b(NOLOCK) ON b.DictType='FLAGTYPE' AND a.Flag=b.DictID " +
+                //             "LEFT JOIN TradeType c(NOLOCK) ON a.TradeType=c.TradeID " +
+                //             "WHERE a.ApplyCpInfoID='" + fid + "'";
+                //ds = PR.GetSqlServerData(sql);
+                ds = new SPOAService().QueryAgencyInfoById(fid);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     ds.Tables[0].Columns.Add("Fid", typeof(String));//fid 唯一
@@ -14965,18 +14957,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                PublicRes PR = new PublicRes();
-                string sql = "SELECT a.* ,b.* FROM ApplyGatheringPay a(NOLOCK) INNER JOIN t_user_task b(NOLOCK) ON a.TaskID=b.ApplyID WHERE 1=1";
-                if (!qq.Equals(""))
-                {
-                    sql += "and qq= '" + qq + "'";
-                }
+                return new SPOAService().GetShouFuYiList(qq);
+                //PublicRes PR = new PublicRes();
+                //string sql = "SELECT a.* ,b.* FROM ApplyGatheringPay a(NOLOCK) INNER JOIN t_user_task b(NOLOCK) ON a.TaskID=b.ApplyID WHERE 1=1";
+                //if (!qq.Equals(""))
+                //{
+                //    sql += "and qq= '" + qq + "'";
+                //}
+              
+
                 //string sql = "SELECT a.* ,b.* " +
                 //             "FROM ApplyGatheringPay a(NOLOCK) " +
                 //              "INNER JOIN t_user_task b(NOLOCK) ON a.TaskID=b.ApplyID " +
                 //             "WHERE 1=1 and ISNULL(qq,'') = '" + qq + "'";
 
-                return PR.GetSqlServerData(sql);
+                //return PR.GetSqlServerData(sql);
             }
             catch (Exception ex)
             {
@@ -16001,52 +15996,57 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                PublicRes PR = new PublicRes();
-                string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
-                             "select @Type = Flag,@CompanyName=CompanyName from ApplyCpInfoX(nolock) where SPId = '" + Fspid + "' " +
-                             "IF @Type is null " +
-                             "BEGIN " +
-                             "select @Type = StateID,@CompanyName=CompanyName from ResultInfo(nolock) where BusinessNo = '" + Fspid + "' " +
-                             "if @Type is null " +
-                             "raiserror 99999 '该商户号不存在!' " +
-                             "else if @Type = 99 " +
-                             "raiserror 99999 '该商户已处于注销状态!' " +
-                             "else " +
-                             "begin " +
-                             "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                             "and a.amendtype=8 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                             "raiserror 99999 '该商户已存在待审核记录!' " +
-                             "else " +
-                             "begin " +
-                             "begin tran " +
-                             "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(0,'" + UserName + "',8,@CompanyName) " +
-                             "if @@error<>0 rollback tran " +
-                             "set @taskid = SCOPE_IDENTITY() " +
-                             "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,8,'" + Fspid + "','" + Reason + "') " +
-                             "if @@error=0 commit tran " +
-                             "else rollback tran " +
-                             "end " +
-                             "end " +
-                             "END " +
-                             "ELSE IF @Type = 8 " +
-                             "raiserror 99999 '该商户已处于注销状态!' " +
-                             "ELSE " +
-                             "BEGIN " +
-                             "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                             "and a.amendtype=8 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                             "raiserror 99999 '该商户已存在待审核记录!' " +
-                             "else " +
-                             "begin " +
-                             "begin tran " +
-                             "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(0,'" + UserName + "',8,@CompanyName) " +
-                             "if @@error<>0 rollback tran " +
-                             "set @taskid = SCOPE_IDENTITY() " +
-                             "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,8,'" + Fspid + "','" + Reason + "') " +
-                             "if @@error=0 commit tran " +
-                             "else rollback tran " +
-                             "end " +
-                             "END ";
-                PR.ModifySqlServerData(sql);
+                //PublicRes PR = new PublicRes();
+                //string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
+                //             "select @Type = Flag,@CompanyName=CompanyName from ApplyCpInfoX(nolock) where SPId = '" + Fspid + "' " +
+                //             "IF @Type is null " +
+                //             "BEGIN " +
+                //             "select @Type = StateID,@CompanyName=CompanyName from ResultInfo(nolock) where BusinessNo = '" + Fspid + "' " +
+                //             "if @Type is null " +
+                //             "raiserror 99999 '该商户号不存在!' " +
+                //             "else if @Type = 99 " +
+                //             "raiserror 99999 '该商户已处于注销状态!' " +
+                //             "else " +
+                //             "begin " +
+                //             "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
+                //             "and a.amendtype=8 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
+                //             "raiserror 99999 '该商户已存在待审核记录!' " +
+                //             "else " +
+                //             "begin " +
+                //             "begin tran " +
+                //             "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(0,'" + UserName + "',8,@CompanyName) " +
+                //             "if @@error<>0 rollback tran " +
+                //             "set @taskid = SCOPE_IDENTITY() " +
+                //             "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,8,'" + Fspid + "','" + Reason + "') " +
+                //             "if @@error=0 commit tran " +
+                //             "else rollback tran " +
+                //             "end " +
+                //             "end " +
+                //             "END " +
+                //             "ELSE IF @Type = 8 " +
+                //             "raiserror 99999 '该商户已处于注销状态!' " +
+                //             "ELSE " +
+                //             "BEGIN " +
+                //             "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
+                //             "and a.amendtype=8 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
+                //             "raiserror 99999 '该商户已存在待审核记录!' " +
+                //             "else " +
+                //             "begin " +
+                //             "begin tran " +
+                //             "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(0,'" + UserName + "',8,@CompanyName) " +
+                //             "if @@error<>0 rollback tran " +
+                //             "set @taskid = SCOPE_IDENTITY() " +
+                //             "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,8,'" + Fspid + "','" + Reason + "') " +
+                //             "if @@error=0 commit tran " +
+                //             "else rollback tran " +
+                //             "end " +
+                //             "END ";
+                //PR.ModifySqlServerData(sql);
+
+                if (new SPOAService().BusinessLogout(Fspid, UserName, Reason) != "0") 
+                {
+                    throw new Exception("商户注销申请失败");
+                }
             }
             catch (Exception ex)
             {
@@ -16063,14 +16063,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                PublicRes PR = new PublicRes();
-                string sql = " Declare @Type int " +
-                    "select @Type = Flag from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' " +
-                    "IF @Type is null " +
-                    "BEGIN " +
-                    "raiserror 99999 '该商户号不存在!' " +
-                    "END ";
-                PR.ModifySqlServerData(sql);
+                //PublicRes PR = new PublicRes();
+                //string sql = " Declare @Type int " +
+                //    "select @Type = Flag from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' " +
+                //    "IF @Type is null " +
+                //    "BEGIN " +
+                //    "raiserror 99999 '该商户号不存在!' " +
+                //    "END ";
+                //PR.ModifySqlServerData(sql);
+                DataSet ds = new SPOAService().GetOneValueAddedTax(Fspid);
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                {
+                    throw new Exception("该商户号不存在!");
+                }
+
                 BusinessFreezeSPOA(Fspid, IsFreeze, IsFreezePay, IsAccLoss, IsCloseAgent, UserName, Reason);
             }
             catch (Exception ex)
@@ -16242,41 +16248,45 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {//关闭支付
                 try
                 {
-                    string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
-                        "select @Type = Flag,@CompanyName=CompanyName from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' " +
-                        "IF @Type is null " +
-                        "BEGIN " +
-                        "raiserror 99999 '该商户号不存在!' " +
-                        "END " +
-                        "ELSE BEGIN " +
-                        "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                        "and a.amendtype=41 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                        "raiserror 99999 '该商户已存在待审核记录!' " +
-                        "else " +
-                        "begin " +
-                        "begin tran " +
-                        "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',41,@CompanyName) " +
-                        "if @@error<>0 rollback tran " +
-                        "set @taskid = SCOPE_IDENTITY() " +
-                        "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,41,'" + Fspid + "','" + Reason + "') " +
-                        "if @@error=0 commit tran " +
-                        "else rollback tran " +
-                        "select @taskid " +
-                        "end " +
-                        "END ";
-                    DataSet ds = PR.GetSqlServerData(sql);
-                    if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count == 1)
-                    {
-                        if (ds.Tables[0].Rows[0][0].ToString() != "")
-                        {
-                            //增加风控邮件功能
-                            SetEmailToFKCheck(int.Parse(ds.Tables[0].Rows[0][0].ToString()), UserName, "申请关闭商户支付权限");
-                        }
-                        else
-                        {
-                            throw new Exception("关闭支付申请失败!");
-                        }
+                    //string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
+                    //    "select @Type = Flag,@CompanyName=CompanyName from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' " +
+                    //    "IF @Type is null " +
+                    //    "BEGIN " +
+                    //    "raiserror 99999 '该商户号不存在!' " +
+                    //    "END " +
+                    //    "ELSE BEGIN " +
+                    //    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
+                    //    "and a.amendtype=41 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
+                    //    "raiserror 99999 '该商户已存在待审核记录!' " +
+                    //    "else " +
+                    //    "begin " +
+                    //    "begin tran " +
+                    //    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',41,@CompanyName) " +
+                    //    "if @@error<>0 rollback tran " +
+                    //    "set @taskid = SCOPE_IDENTITY() " +
+                    //    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,41,'" + Fspid + "','" + Reason + "') " +
+                    //    "if @@error=0 commit tran " +
+                    //    "else rollback tran " +
+                    //    "select @taskid " +
+                    //    "end " +
+                    //    "END ";
+                    //DataSet ds = PR.GetSqlServerData(sql);
+                    //if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count == 1)
+                    //{
+                    //    if (ds.Tables[0].Rows[0][0].ToString() != "")
+                    //    {
+                    //        //增加风控邮件功能
+                    //        SetEmailToFKCheck(int.Parse(ds.Tables[0].Rows[0][0].ToString()), UserName, "申请关闭商户支付权限");
+                    //    }
+                    //    else
+                    //    {
+                    //        throw new Exception("关闭支付申请失败!");
+                    //    }
 
+                    //}
+                    if (new SPOAService().ClosePay(Fspid, UserName, Reason) != "0") 
+                    {
+                        throw new Exception("关闭支付申请失败!");
                     }
                 }
                 catch (Exception ex)
@@ -16287,141 +16297,156 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             if (IsFreeze)
             {//暂停结算
-                string sqlpr = "select Flag from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' ";
-                DataSet dspr = PR.GetSqlServerData(sqlpr);
-                if (dspr.Tables[0].Rows[0]["Flag"].ToString() == "12")
+                //string sqlpr = "select Flag from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' ";
+                //DataSet dspr = PR.GetSqlServerData(sqlpr);
+                //if (dspr.Tables[0].Rows[0]["Flag"].ToString() == "12")
+                //{
+                //    return;
+                //}
+                //else
+                //{
+                //    MySqlAccess daCS = new MySqlAccess(PublicRes.GetConnString("CS"));
+                //    MySqlAccess daJS = new MySqlAccess(PublicRes.GetConnString("JS"));
+
+                //    try
+                //    {
+                //        daCS.OpenConn();
+                //        daJS.OpenConn();
+
+                //        string sql = "SELECT FStandardStatus FROM t_feecontract WHERE Fspid = '" + Fspid + "' AND FStandardStatus <> " + (int)FeeContractStatus.取消 + " AND '" + DateTime.Today.ToString("yyyy-MM-dd 00:00:00") + "' BETWEEN FStartDate AND FEndDate ";
+
+                //        DataSet ds = daCS.dsGetTotalData(sql);
+                //        if (ds == null || ds.Tables.Count == 0 || ds.Tables[0] == null || ds.Tables[0].Rows.Count == 0)
+                //        {
+                //            throw new Exception("当前日期不存在合同！");
+                //        }
+                //        else
+                //        {
+                //            sql = "update t_feecontract set FStandardStatus = " + (int)FeeContractStatus.冻结 + " where Fspid = '" + Fspid + "' AND FStandardStatus <> " + (int)FeeContractStatus.取消 + " AND '" + DateTime.Today.ToString("yyyy-MM-dd 00:00:00") + "' BETWEEN FStartDate AND FEndDate ";
+
+                //            daCS.ExecSql(sql);
+
+                //            sql = "update t_settlement set FRecordStatus = " + (int)FeeRecordStatus.无效 + " where Fspid = '" + Fspid + "' AND '" + DateTime.Today.ToString("yyyy-MM-dd 00:00:00") + "' BETWEEN FStartDate AND FEndDate ";
+
+                //            daJS.ExecSql(sql);
+                //        }
+
+                //        //冻结商户要求去掉商户退款_转账（8）和商户退款_银行提现（10）这2个权限
+                //        //前28属于signorder = 1后63到68属于signorder=3
+                //        int iFSign = GetRole(Fspid, Fspid, 1);
+                //        string str = Convert.ToString((long)iFSign, 2);
+                //        str = str.PadLeft(32, '0');
+                //        //从右往左数，把第8和10位置为0
+                //        if (str.Substring(22, 1) == "1" || str.Substring(24, 1) == "1")
+                //        {
+                //            str = str.Substring(0, 22) + "0" + str.Substring(23, 1) + "0" + str.Substring(25, 7);
+                //            iFSign = Convert.ToInt32(str, 2);
+                //            SetRole(Fspid, Fspid, iFSign, 1);
+                //        }
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        throw new Exception("冻结失败：操作合同失败，" + ex.Message);
+                //    }
+                //    finally
+                //    {
+                //        daCS.Dispose();
+                //        daJS.Dispose();
+                //    }
+                //    try
+                //    {
+                //        string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
+                //            "select @Type = Flag,@CompanyName=CompanyName from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' " +
+                //            "IF @Type is null " +
+                //            "BEGIN " +
+                //            "raiserror 99999 '该商户号不存在!' " +
+                //            "END " +
+                //            "ELSE BEGIN " +
+                //            "begin tran " +
+                //            "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(3,'" + UserName + "',12,@CompanyName) " +
+                //            "if @@error<>0 rollback tran " +
+                //            "set @taskid = SCOPE_IDENTITY() " +
+                //            "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,12,'" + Fspid + "','" + Reason + "') " +
+                //            "if @@error=0 commit tran " +
+                //            "else rollback tran " +
+                //            "END " +
+                //            "update ApplyCpInfoX set Flag=12 where spid='" + Fspid + "'";
+                //        PR.ModifySqlServerData(sql);
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        throw new Exception("冻结商户成功：记录日志失败，" + ex.Message);
+                //    }
+                //}
+                try
                 {
-                    return;
+                    if (new SPOAService().FreezeSpid(Fspid, UserName, Reason) != "0")
+                    {
+                        throw new Exception("冻结商户结算失败!");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MySqlAccess daCS = new MySqlAccess(PublicRes.GetConnString("CS"));
-                    MySqlAccess daJS = new MySqlAccess(PublicRes.GetConnString("JS"));
-
-                    try
-                    {
-                        daCS.OpenConn();
-                        daJS.OpenConn();
-
-                        string sql = "SELECT FStandardStatus FROM t_feecontract WHERE Fspid = '" + Fspid + "' AND FStandardStatus <> " + (int)FeeContractStatus.取消 + " AND '" + DateTime.Today.ToString("yyyy-MM-dd 00:00:00") + "' BETWEEN FStartDate AND FEndDate ";
-
-                        DataSet ds = daCS.dsGetTotalData(sql);
-                        if (ds == null || ds.Tables.Count == 0 || ds.Tables[0] == null || ds.Tables[0].Rows.Count == 0)
-                        {
-                            throw new Exception("当前日期不存在合同！");
-                        }
-                        else
-                        {
-                            sql = "update t_feecontract set FStandardStatus = " + (int)FeeContractStatus.冻结 + " where Fspid = '" + Fspid + "' AND FStandardStatus <> " + (int)FeeContractStatus.取消 + " AND '" + DateTime.Today.ToString("yyyy-MM-dd 00:00:00") + "' BETWEEN FStartDate AND FEndDate ";
-
-                            daCS.ExecSql(sql);
-
-                            sql = "update t_settlement set FRecordStatus = " + (int)FeeRecordStatus.无效 + " where Fspid = '" + Fspid + "' AND '" + DateTime.Today.ToString("yyyy-MM-dd 00:00:00") + "' BETWEEN FStartDate AND FEndDate ";
-
-                            daJS.ExecSql(sql);
-                        }
-
-                        //冻结商户要求去掉商户退款_转账（8）和商户退款_银行提现（10）这2个权限
-                        //前28属于signorder = 1后63到68属于signorder=3
-                        int iFSign = GetRole(Fspid, Fspid, 1);
-                        string str = Convert.ToString((long)iFSign, 2);
-                        str = str.PadLeft(32, '0');
-                        //从右往左数，把第8和10位置为0
-                        if (str.Substring(22, 1) == "1" || str.Substring(24, 1) == "1")
-                        {
-                            str = str.Substring(0, 22) + "0" + str.Substring(23, 1) + "0" + str.Substring(25, 7);
-                            iFSign = Convert.ToInt32(str, 2);
-                            SetRole(Fspid, Fspid, iFSign, 1);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("冻结失败：操作合同失败，" + ex.Message);
-                    }
-                    finally
-                    {
-                        daCS.Dispose();
-                        daJS.Dispose();
-                    }
-                    try
-                    {
-                        string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
-                            "select @Type = Flag,@CompanyName=CompanyName from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' " +
-                            "IF @Type is null " +
-                            "BEGIN " +
-                            "raiserror 99999 '该商户号不存在!' " +
-                            "END " +
-                            "ELSE BEGIN " +
-                            "begin tran " +
-                            "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(3,'" + UserName + "',12,@CompanyName) " +
-                            "if @@error<>0 rollback tran " +
-                            "set @taskid = SCOPE_IDENTITY() " +
-                            "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,12,'" + Fspid + "','" + Reason + "') " +
-                            "if @@error=0 commit tran " +
-                            "else rollback tran " +
-                            "END " +
-                            "update ApplyCpInfoX set Flag=12 where spid='" + Fspid + "'";
-                        PR.ModifySqlServerData(sql);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("冻结商户成功：记录日志失败，" + ex.Message);
-                    }
+                    throw new Exception("冻结商户成功：记录日志失败，" + ex.Message);
                 }
             }
             if (IsAccLoss)
             {//账号挂失51
                 try
                 {
-                    string sqlpr = "select Flag from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' ";
-                    DataSet dspr = PR.GetSqlServerData(sqlpr);
-                    if (dspr.Tables[0].Rows[0]["Flag"].ToString() == "51")
+                    //string sqlpr = "select Flag from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' ";
+                    //DataSet dspr = PR.GetSqlServerData(sqlpr);
+                    //if (dspr.Tables[0].Rows[0]["Flag"].ToString() == "51")
+                    //{
+                    //    throw new Exception("该商户已账号挂失，请勿重复操作！");
+                    //}
+                    //else
+                    //{//设置权限位
+                    //    int iFSign = GetRole(Fspid, Fspid, 1);
+                    //    string str = Convert.ToString((long)iFSign, 2);
+                    //    str = str.PadLeft(32, '0');
+                    //    //从右往左数6 7 8 9 10 13 17 19 20 25 27 39 位置为0
+                    //    str = str.Substring(0, 22) + "00000" + str.Substring(27);
+                    //    str = str.Substring(0, 19) + "0" + str.Substring(20);//13
+                    //    str = str.Substring(0, 15) + "0" + str.Substring(16);//17
+                    //    str = str.Substring(0, 12) + "00" + str.Substring(14);//19 20
+                    //    str = str.Substring(0, 7) + "0" + str.Substring(8);//25
+                    //    str = str.Substring(0, 5) + "0" + str.Substring(6);//27
+                    //    iFSign = Convert.ToInt32(str, 2);
+                    //    SetRole(Fspid, Fspid, iFSign, 1);
+
+                    //    //设置39权限位,从32开始
+                    //    int iFSign2 = GetRole(Fspid, Fspid, 2);
+                    //    string str2 = Convert.ToString((long)iFSign2, 2);
+                    //    str2 = str2.PadLeft(32, '0');
+                    //    str2 = str2.Substring(0, 24) + "0" + str2.Substring(25);//39
+                    //    iFSign2 = Convert.ToInt32(str2, 2);
+                    //    SetRole(Fspid, Fspid, iFSign2, 2);
+
+                    //    //记录操作日志
+                    //    string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
+                    //        "select @Type = Flag,@CompanyName=CompanyName from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' " +
+                    //        "IF @Type is null " +
+                    //        "BEGIN " +
+                    //        "raiserror 99999 '该商户号不存在!' " +
+                    //        "END " +
+                    //        "ELSE BEGIN " +
+                    //        "begin tran " +
+                    //        "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(3,'" + UserName + "',51,@CompanyName) " +
+                    //        "if @@error<>0 rollback tran " +
+                    //        "set @taskid = SCOPE_IDENTITY() " +
+                    //        "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,51,'" + Fspid + "','" + Reason + "') " +
+                    //        "if @@error=0 commit tran " +
+                    //        "else rollback tran " +
+                    //        "END " +
+                    //        "update ApplyCpInfoX set Flag=51 where spid='" + Fspid + "'";
+                    //    PR.ModifySqlServerData(sql);
+                    //}
+
+                    if (new SPOAService().LostOfSpid(Fspid, UserName, Reason) != "0")
                     {
-                        throw new Exception("该商户已账号挂失，请勿重复操作！");
+                        throw new Exception("账号挂失失败!");
                     }
-                    else
-                    {//设置权限位
-                        int iFSign = GetRole(Fspid, Fspid, 1);
-                        string str = Convert.ToString((long)iFSign, 2);
-                        str = str.PadLeft(32, '0');
-                        //从右往左数6 7 8 9 10 13 17 19 20 25 27 39 位置为0
-                        str = str.Substring(0, 22) + "00000" + str.Substring(27);
-                        str = str.Substring(0, 19) + "0" + str.Substring(20);//13
-                        str = str.Substring(0, 15) + "0" + str.Substring(16);//17
-                        str = str.Substring(0, 12) + "00" + str.Substring(14);//19 20
-                        str = str.Substring(0, 7) + "0" + str.Substring(8);//25
-                        str = str.Substring(0, 5) + "0" + str.Substring(6);//27
-                        iFSign = Convert.ToInt32(str, 2);
-                        SetRole(Fspid, Fspid, iFSign, 1);
-
-                        //设置39权限位,从32开始
-                        int iFSign2 = GetRole(Fspid, Fspid, 2);
-                        string str2 = Convert.ToString((long)iFSign2, 2);
-                        str2 = str2.PadLeft(32, '0');
-                        str2 = str2.Substring(0, 24) + "0" + str2.Substring(25);//39
-                        iFSign2 = Convert.ToInt32(str2, 2);
-                        SetRole(Fspid, Fspid, iFSign2, 2);
-
-                        //记录操作日志
-                        string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
-                            "select @Type = Flag,@CompanyName=CompanyName from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' " +
-                            "IF @Type is null " +
-                            "BEGIN " +
-                            "raiserror 99999 '该商户号不存在!' " +
-                            "END " +
-                            "ELSE BEGIN " +
-                            "begin tran " +
-                            "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(3,'" + UserName + "',51,@CompanyName) " +
-                            "if @@error<>0 rollback tran " +
-                            "set @taskid = SCOPE_IDENTITY() " +
-                            "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,51,'" + Fspid + "','" + Reason + "') " +
-                            "if @@error=0 commit tran " +
-                            "else rollback tran " +
-                            "END " +
-                            "update ApplyCpInfoX set Flag=51 where spid='" + Fspid + "'";
-                        PR.ModifySqlServerData(sql);
-                    }
-
                 }
                 catch (Exception e)
                 {
@@ -16432,47 +16457,50 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {//关闭中介52
                 try
                 {
-                    string sqlpr = "select Flag from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' ";
-                    DataSet dspr = PR.GetSqlServerData(sqlpr);
-                    if (dspr.Tables[0].Rows[0]["Flag"].ToString() == "52")
+                    //string sqlpr = "select Flag from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' ";
+                    //DataSet dspr = PR.GetSqlServerData(sqlpr);
+                    //if (dspr.Tables[0].Rows[0]["Flag"].ToString() == "52")
+                    //{
+                    //    throw new Exception("该商户已关闭中介，请勿重复操作！");
+                    //}
+                    //else
+                    //{//设置权限位
+                    //    int iFSign = GetRole(Fspid, Fspid, 2);
+                    //    string str = Convert.ToString((long)iFSign, 2);
+                    //    str = str.PadLeft(32, '0');
+                    //    //从32开始从右往左数33 34 35 46 位置为0
+                    //    str = str.Substring(0, 28) + "000" + str.Substring(31, 1);
+                    //    str = str.Substring(0, 17) + "0" + str.Substring(18);//46
+                    //    iFSign = Convert.ToInt32(str, 2);
+                    //    SetRole(Fspid, Fspid, iFSign, 2);
+
+                    //    //记录操作日志
+                    //    string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
+                    //        "select @Type = Flag,@CompanyName=CompanyName from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' " +
+                    //        "IF @Type is null " +
+                    //        "BEGIN " +
+                    //        "raiserror 99999 '该商户号不存在!' " +
+                    //        "END " +
+                    //        "ELSE BEGIN " +
+                    //        "begin tran " +
+                    //        "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(3,'" + UserName + "',52,@CompanyName) " +
+                    //        "if @@error<>0 rollback tran " +
+                    //        "set @taskid = SCOPE_IDENTITY() " +
+                    //        "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,52,'" + Fspid + "','" + Reason + "') " +
+                    //        "if @@error=0 commit tran " +
+                    //        "else rollback tran " +
+                    //        "END " +
+                    //        "update ApplyCpInfoX set Flag=52 where spid='" + Fspid + "'";
+                    //    PR.ModifySqlServerData(sql);
+                    //}
+                    if (new SPOAService().CloseAgency(Fspid, UserName, Reason) != "0")
                     {
-                        throw new Exception("该商户已关闭中介，请勿重复操作！");
+                        throw new Exception("关闭中介失败!");
                     }
-                    else
-                    {//设置权限位
-                        int iFSign = GetRole(Fspid, Fspid, 2);
-                        string str = Convert.ToString((long)iFSign, 2);
-                        str = str.PadLeft(32, '0');
-                        //从32开始从右往左数33 34 35 46 位置为0
-                        str = str.Substring(0, 28) + "000" + str.Substring(31, 1);
-                        str = str.Substring(0, 17) + "0" + str.Substring(18);//46
-                        iFSign = Convert.ToInt32(str, 2);
-                        SetRole(Fspid, Fspid, iFSign, 2);
-
-                        //记录操作日志
-                        string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
-                            "select @Type = Flag,@CompanyName=CompanyName from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' " +
-                            "IF @Type is null " +
-                            "BEGIN " +
-                            "raiserror 99999 '该商户号不存在!' " +
-                            "END " +
-                            "ELSE BEGIN " +
-                            "begin tran " +
-                            "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(3,'" + UserName + "',52,@CompanyName) " +
-                            "if @@error<>0 rollback tran " +
-                            "set @taskid = SCOPE_IDENTITY() " +
-                            "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,52,'" + Fspid + "','" + Reason + "') " +
-                            "if @@error=0 commit tran " +
-                            "else rollback tran " +
-                            "END " +
-                            "update ApplyCpInfoX set Flag=52 where spid='" + Fspid + "'";
-                        PR.ModifySqlServerData(sql);
-                    }
-
                 }
                 catch (Exception e)
                 {
-                    throw new Exception("账号挂失失败：" + e.Message);
+                    throw new Exception("关闭中介失败：" + e.Message);
                 }
             }
         }
@@ -16564,64 +16592,69 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                PublicRes PR = new PublicRes();
-                string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
-                    "select @Type = Flag,@CompanyName=CompanyName from ApplyCpInfoX(nolock) where SPId = '" + Fspid + "' " +
-                    "IF @Type is null " +
-                    "BEGIN " +
-                    "select @Type = StateID,@CompanyName=CompanyName from ResultInfo(nolock) where BusinessNo = '" + Fspid + "' " +
-                    "if @Type is null " +
-                    "raiserror 99999 '该商户号不存在!' " +
-                    "else if @Type = 99 " +
-                    "raiserror 99999 '该商户已处于注销状态!' " +
-                    "else " +
-                    "begin " +
-                    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                    "and a.amendtype=42 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                    "raiserror 99999 '该商户已存在待审核记录!' " +
-                    "else " +
-                    "begin " +
-                    "begin tran " +
-                    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',42,@CompanyName) " +
-                    "if @@error<>0 rollback tran " +
-                    "set @taskid = SCOPE_IDENTITY() " +
-                    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,42,'" + Fspid + "','" + Reason + "') " +
-                    "if @@error=0 commit tran " +
-                    "else rollback tran " +
-                    "end " +
-                    "end " +
-                    "END " +
-                    "ELSE IF @Type = 8 " +
-                    "raiserror 99999 '该商户已处于注销状态!' " +
-                    "ELSE " +
-                    "BEGIN " +
-                    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                    "and a.amendtype=42 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                    "raiserror 99999 '该商户已存在待审核记录!' " +
-                    "else " +
-                    "begin " +
-                    "begin tran " +
-                    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',42,@CompanyName) " +
-                    "if @@error<>0 rollback tran " +
-                    "set @taskid = SCOPE_IDENTITY() " +
-                    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,42,'" + Fspid + "','" + Reason + "') " +
-                    "if @@error=0 commit tran " +
-                    "else rollback tran " +
-                    "select @taskid " +
-                    "end " +
-                    "END ";
-                DataSet ds = PR.GetSqlServerData(sql);
-                if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count == 1)
+                //PublicRes PR = new PublicRes();
+                //string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
+                //    "select @Type = Flag,@CompanyName=CompanyName from ApplyCpInfoX(nolock) where SPId = '" + Fspid + "' " +
+                //    "IF @Type is null " +
+                //    "BEGIN " +
+                //    "select @Type = StateID,@CompanyName=CompanyName from ResultInfo(nolock) where BusinessNo = '" + Fspid + "' " +
+                //    "if @Type is null " +
+                //    "raiserror 99999 '该商户号不存在!' " +
+                //    "else if @Type = 99 " +
+                //    "raiserror 99999 '该商户已处于注销状态!' " +
+                //    "else " +
+                //    "begin " +
+                //    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
+                //    "and a.amendtype=42 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
+                //    "raiserror 99999 '该商户已存在待审核记录!' " +
+                //    "else " +
+                //    "begin " +
+                //    "begin tran " +
+                //    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',42,@CompanyName) " +
+                //    "if @@error<>0 rollback tran " +
+                //    "set @taskid = SCOPE_IDENTITY() " +
+                //    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,42,'" + Fspid + "','" + Reason + "') " +
+                //    "if @@error=0 commit tran " +
+                //    "else rollback tran " +
+                //    "end " +
+                //    "end " +
+                //    "END " +
+                //    "ELSE IF @Type = 8 " +
+                //    "raiserror 99999 '该商户已处于注销状态!' " +
+                //    "ELSE " +
+                //    "BEGIN " +
+                //    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
+                //    "and a.amendtype=42 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
+                //    "raiserror 99999 '该商户已存在待审核记录!' " +
+                //    "else " +
+                //    "begin " +
+                //    "begin tran " +
+                //    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',42,@CompanyName) " +
+                //    "if @@error<>0 rollback tran " +
+                //    "set @taskid = SCOPE_IDENTITY() " +
+                //    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,42,'" + Fspid + "','" + Reason + "') " +
+                //    "if @@error=0 commit tran " +
+                //    "else rollback tran " +
+                //    "select @taskid " +
+                //    "end " +
+                //    "END ";
+                //DataSet ds = PR.GetSqlServerData(sql);
+                //if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count == 1)
+                //{
+                //    if (ds.Tables[0].Rows[0][0].ToString() != "")
+                //    {
+                //        //增加风控邮件功能
+                //        SetEmailToFKCheck(int.Parse(ds.Tables[0].Rows[0][0].ToString()), UserName, "申请关闭商户退款权限");
+                //    }
+                //    else
+                //    {
+                //        throw new Exception("关闭商户退款申请失败!");
+                //    }
+                //}
+
+                if (new SPOAService().CloseRefund(Fspid, UserName, Reason) != "0") 
                 {
-                    if (ds.Tables[0].Rows[0][0].ToString() != "")
-                    {
-                        //增加风控邮件功能
-                        SetEmailToFKCheck(int.Parse(ds.Tables[0].Rows[0][0].ToString()), UserName, "申请关闭商户退款权限");
-                    }
-                    else
-                    {
-                        throw new Exception("关闭商户退款申请失败!");
-                    }
+                    throw new Exception("关闭商户退款申请失败!");
                 }
             }
             catch (Exception ex)
@@ -16636,76 +16669,80 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                PublicRes PR = new PublicRes();
-                string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
-                    "select @Type = Flag,@CompanyName=CompanyName from ApplyCpInfoX(nolock) where SPId = '" + Fspid + "' " +
-                    "IF @Type is null " +
-                    "BEGIN " +
-                    "select @Type = StateID,@CompanyName=CompanyName from ResultInfo(nolock) where BusinessNo = '" + Fspid + "' " +
-                    "if @Type is null " +
-                    "raiserror 99999 '该商户号不存在!' " +
-                    "else if @Type = 99 " +
-                    "raiserror 99999 '该商户已处于注销状态!' " +
-                    "else " +
-                    "begin " +
-                    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                    "and a.amendtype=43 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                    "raiserror 99999 '该商户已存在待审核记录!' " +
-                    "else " +
-                    "begin " +
-                    "if not exists (select top 1 a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                    "and a.amendtype=42 and a.TaskId = b.TaskId and b.AmendState=3 order by a.taskid desc) " +
-                    "raiserror 99999 '该商户未申请过关闭退款!' " +
-                    "else " +
-                    "begin " +
-                    "begin tran " +
-                    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',43,@CompanyName) " +
-                    "if @@error<>0 rollback tran " +
-                    "set @taskid = SCOPE_IDENTITY() " +
-                    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,43,'" + Fspid + "','" + Reason + "') " +
-                    "if @@error=0 commit tran " +
-                    "else rollback tran " +
-                    "end " +
-                    "end " +
-                    "end " +
-                    "END " +
-                    "ELSE IF @Type = 8 " +
-                    "raiserror 99999 '该商户已处于注销状态!' " +
-                    "ELSE " +
-                    "BEGIN " +
-                    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                    "and a.amendtype=43 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                    "raiserror 99999 '该商户已存在待审核记录!' " +
-                    "else " +
-                    "begin " +
-                    "if not exists (select top 1 a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                    "and a.amendtype=42 and a.TaskId = b.TaskId and b.AmendState=3 order by a.taskid desc) " +
-                    "raiserror 99999 '该商户未申请过关闭退款!' " +
-                    "else " +
-                    "begin " +
-                    "begin tran " +
-                    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',43,@CompanyName) " +
-                    "if @@error<>0 rollback tran " +
-                    "set @taskid = SCOPE_IDENTITY() " +
-                    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,43,'" + Fspid + "','" + Reason + "') " +
-                    "if @@error=0 commit tran " +
-                    "else rollback tran " +
-                    "select @taskid " +
-                    "end " +
-                    "end " +
-                    "END ";
-                DataSet ds = PR.GetSqlServerData(sql);
-                if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count == 1)
+                //PublicRes PR = new PublicRes();
+                //string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
+                //    "select @Type = Flag,@CompanyName=CompanyName from ApplyCpInfoX(nolock) where SPId = '" + Fspid + "' " +
+                //    "IF @Type is null " +
+                //    "BEGIN " +
+                //    "select @Type = StateID,@CompanyName=CompanyName from ResultInfo(nolock) where BusinessNo = '" + Fspid + "' " +
+                //    "if @Type is null " +
+                //    "raiserror 99999 '该商户号不存在!' " +
+                //    "else if @Type = 99 " +
+                //    "raiserror 99999 '该商户已处于注销状态!' " +
+                //    "else " +
+                //    "begin " +
+                //    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
+                //    "and a.amendtype=43 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
+                //    "raiserror 99999 '该商户已存在待审核记录!' " +
+                //    "else " +
+                //    "begin " +
+                //    "if not exists (select top 1 a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
+                //    "and a.amendtype=42 and a.TaskId = b.TaskId and b.AmendState=3 order by a.taskid desc) " +
+                //    "raiserror 99999 '该商户未申请过关闭退款!' " +
+                //    "else " +
+                //    "begin " +
+                //    "begin tran " +
+                //    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',43,@CompanyName) " +
+                //    "if @@error<>0 rollback tran " +
+                //    "set @taskid = SCOPE_IDENTITY() " +
+                //    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,43,'" + Fspid + "','" + Reason + "') " +
+                //    "if @@error=0 commit tran " +
+                //    "else rollback tran " +
+                //    "end " +
+                //    "end " +
+                //    "end " +
+                //    "END " +
+                //    "ELSE IF @Type = 8 " +
+                //    "raiserror 99999 '该商户已处于注销状态!' " +
+                //    "ELSE " +
+                //    "BEGIN " +
+                //    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
+                //    "and a.amendtype=43 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
+                //    "raiserror 99999 '该商户已存在待审核记录!' " +
+                //    "else " +
+                //    "begin " +
+                //    "if not exists (select top 1 a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
+                //    "and a.amendtype=42 and a.TaskId = b.TaskId and b.AmendState=3 order by a.taskid desc) " +
+                //    "raiserror 99999 '该商户未申请过关闭退款!' " +
+                //    "else " +
+                //    "begin " +
+                //    "begin tran " +
+                //    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',43,@CompanyName) " +
+                //    "if @@error<>0 rollback tran " +
+                //    "set @taskid = SCOPE_IDENTITY() " +
+                //    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,43,'" + Fspid + "','" + Reason + "') " +
+                //    "if @@error=0 commit tran " +
+                //    "else rollback tran " +
+                //    "select @taskid " +
+                //    "end " +
+                //    "end " +
+                //    "END ";
+                //DataSet ds = PR.GetSqlServerData(sql);
+                //if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count == 1)
+                //{
+                //    if (ds.Tables[0].Rows[0][0].ToString() != "")
+                //    {
+                //        //增加风控邮件功能
+                //        SetEmailToFKCheck(int.Parse(ds.Tables[0].Rows[0][0].ToString()), UserName, "申请开通商户退款权限");
+                //    }
+                //    else
+                //    {
+                //        throw new Exception("关闭商户退款申请失败!");
+                //    }
+                //}
+                if (new SPOAService().OpenRefund(Fspid, UserName, Reason) != "0") 
                 {
-                    if (ds.Tables[0].Rows[0][0].ToString() != "")
-                    {
-                        //增加风控邮件功能
-                        SetEmailToFKCheck(int.Parse(ds.Tables[0].Rows[0][0].ToString()), UserName, "申请开通商户退款权限");
-                    }
-                    else
-                    {
-                        throw new Exception("关闭商户退款申请失败!");
-                    }
+                    throw new Exception("开通退款申请失败!");
                 }
             }
             catch (Exception ex)
@@ -16721,52 +16758,56 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                PublicRes PR = new PublicRes();
-                string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
-                    "select @Type = Flag,@CompanyName=CompanyName from ApplyCpInfoX(nolock) where SPId = '" + Fspid + "' " +
-                    "IF @Type is null " +
-                    "BEGIN " +
-                    "select @Type = StateID,@CompanyName=CompanyName from ResultInfo(nolock) where BusinessNo = '" + Fspid + "' " +
-                    "if @Type is null " +
-                    "raiserror 99999 '该商户号不存在!' " +
-                    "else if @Type = 11 " +
-                    "raiserror 99999 '该商户已处于恢复状态!' " +
-                    "else " +
-                    "begin " +
-                    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                    "and a.amendtype=13 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                    "raiserror 99999 '该商户已存在待审核记录!' " +
-                    "else " +
-                    "begin " +
-                    "begin tran " +
-                    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',13,@CompanyName) " +
-                    "if @@error<>0 rollback tran " +
-                    "set @taskid = SCOPE_IDENTITY() " +
-                    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,13,'" + Fspid + "','" + Reason + "') " +
-                    "if @@error=0 commit tran " +
-                    "else rollback tran " +
-                    "end " +
-                    "end " +
-                    "END " +
-                    "ELSE IF @Type = 4 " +
-                    "raiserror 99999 '该商户已处于恢复状态!' " +
-                    "ELSE " +
-                    "BEGIN " +
-                    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                    "and a.amendtype=13 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                    "raiserror 99999 '该商户已存在待审核记录!' " +
-                    "else " +
-                    "begin " +
-                    "begin tran " +
-                    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',13,@CompanyName) " +
-                    "if @@error<>0 rollback tran " +
-                    "set @taskid = SCOPE_IDENTITY() " +
-                    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,13,'" + Fspid + "','" + Reason + "') " +
-                    "if @@error=0 commit tran " +
-                    "else rollback tran " +
-                    "end " +
-                    "END ";
-                PR.ModifySqlServerData(sql);
+                //PublicRes PR = new PublicRes();
+                //string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
+                //    "select @Type = Flag,@CompanyName=CompanyName from ApplyCpInfoX(nolock) where SPId = '" + Fspid + "' " +
+                //    "IF @Type is null " +
+                //    "BEGIN " +
+                //    "select @Type = StateID,@CompanyName=CompanyName from ResultInfo(nolock) where BusinessNo = '" + Fspid + "' " +
+                //    "if @Type is null " +
+                //    "raiserror 99999 '该商户号不存在!' " +
+                //    "else if @Type = 11 " +
+                //    "raiserror 99999 '该商户已处于恢复状态!' " +
+                //    "else " +
+                //    "begin " +
+                //    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
+                //    "and a.amendtype=13 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
+                //    "raiserror 99999 '该商户已存在待审核记录!' " +
+                //    "else " +
+                //    "begin " +
+                //    "begin tran " +
+                //    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',13,@CompanyName) " +
+                //    "if @@error<>0 rollback tran " +
+                //    "set @taskid = SCOPE_IDENTITY() " +
+                //    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,13,'" + Fspid + "','" + Reason + "') " +
+                //    "if @@error=0 commit tran " +
+                //    "else rollback tran " +
+                //    "end " +
+                //    "end " +
+                //    "END " +
+                //    "ELSE IF @Type = 4 " +
+                //    "raiserror 99999 '该商户已处于恢复状态!' " +
+                //    "ELSE " +
+                //    "BEGIN " +
+                //    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
+                //    "and a.amendtype=13 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
+                //    "raiserror 99999 '该商户已存在待审核记录!' " +
+                //    "else " +
+                //    "begin " +
+                //    "begin tran " +
+                //    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',13,@CompanyName) " +
+                //    "if @@error<>0 rollback tran " +
+                //    "set @taskid = SCOPE_IDENTITY() " +
+                //    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,13,'" + Fspid + "','" + Reason + "') " +
+                //    "if @@error=0 commit tran " +
+                //    "else rollback tran " +
+                //    "end " +
+                //    "END ";
+                //PR.ModifySqlServerData(sql);
+                if (new SPOAService().RestoreOfSpid(Fspid, UserName, Reason) != "0")
+                {
+                    throw new Exception("商户恢复申请失败！");
+                }
             }
             catch (Exception ex)
             {
@@ -22409,16 +22450,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public bool BindOrChangeMobile(string Fuid, string fuin, string old_mobile, string mobile_no, string client_ip, string certno, string singed, out string msg)
         {
             msg = "BindOrChangeMobile...";
-            if (old_mobile == "" )
+            if (old_mobile == "")
             {
                 //已绑定,就不需要再去绑定了
-                if(IsBindMobilePhone(Fuid))
+                if (IsBindMobilePhone(Fuid))
                 {
                     string strMsg = string.Format("QQ号={0}手机号已经绑定了", fuin);
                     SunLibrary.LoggerFactory.Get("KF_Service").Info(strMsg);
                     return true;
                 }
-            }          
+            }
             else
             {
                 //更改手机相同时

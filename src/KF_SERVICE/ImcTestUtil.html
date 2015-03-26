@@ -136,6 +136,19 @@
                     "req": "appid=10001&bank_type=2101&uin=17934958&bind_serialno=10607441730295214000&card_tail=1234&protocol_no=20110607130744426300000000018395&token=cc9d466a64ab8e78cb129cf9990142f0",
                     "url": baseUrl + "/CSAPI/PaymentService.asmx"
                 }
+    		],
+
+    		"交易管理接口": [
+                {
+                    "id": "AddRefundInfo",
+                    "req": "appid=10001&FOrderId=13&FRefund_type=123&FSam_no=123&FRecycle_user=v_yqyqguo&FRefund_amount=123&token=6ea1652d1fa023dedd26e1eaf70fa466",
+                    "url": baseUrl + "/CSAPI/TradeService.asmx"
+                },
+                 {
+                     "id": "AddRefundInfo",
+                     "req": "appid=10001&FOrderId=13&FRefund_type=123&FSam_no=123&FRecycle_user=v_yqyqguo&FRefund_amount=123&token=6ea1652d1fa023dedd26e1eaf70fa466",
+                     "url": baseUrl + "/CSAPI/TradeService.asmx"
+                 }
     		]
     	};
 
