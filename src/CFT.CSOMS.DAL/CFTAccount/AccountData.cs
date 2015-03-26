@@ -13,6 +13,7 @@ using System.Xml;
 using System.IO;
 using System.Text.RegularExpressions;
 using CFT.Apollo.Logging;
+using TENCENT.OSS.CFT.KF.DataAccess;
 
 namespace CFT.CSOMS.DAL.CFTAccount
 {
@@ -964,7 +965,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
         /// <param name="Uid"></param>
         public void WriteClearCreidLog(string creid, int userType, string Uid)
         {
-            var tableName = GetLogTableName(creid);
+            var tableName = GetTableName("t_creid_Log", creid);
             string sql = string.Format(@"INSERT INTO {0}(FUid,FCreid,FUser_type) VALUES('{1}','{2}',{3})", tableName, Uid, creid, userType);
             using (var da = MySQLAccessFactory.GetMySQLAccess("ClrearCreidLog"))
             {
@@ -974,13 +975,52 @@ namespace CFT.CSOMS.DAL.CFTAccount
         }
 
         /// <summary>
+        /// 清理证件号码
+        /// </summary>
+        /// <param name="creid"></param>
+        /// <param name="type">用户类型</param>
+        /// <returns></returns>
+        public bool ClearCreidInfo(string creid, int type)
+        {
+            int retNum = 0;
+            string tableName = GetTableName("creid_statistics", creid);
+            MySqlAccess da = null;
+            try
+            {
+                if (type == 0)
+                {
+                    //普通用户
+                    da = MySQLAccessFactory.GetMySQLAccess("statistics");    //统计数据库   
+                }
+                else
+                {
+                    //微信用户
+                    da = MySQLAccessFactory.GetMySQLAccess("comprehensive");    //综合业务数据库 
+                }
+                da.OpenConn();
+                string sql = "update " + tableName + " set count=0 where Fcreid='" + creid + "'";
+                retNum = da.ExecSqlNum(sql);
+            }
+            catch
+            {
+                throw new Exception("清理失败");
+            }
+            finally
+            {
+                if (da != null)
+                    da.Dispose();
+            }
+            return retNum == 1 ? true : false;
+        }
+
+        /// <summary>
         /// 查询日志
         /// </summary>
         /// <param name="creid"></param>
         /// <returns></returns>
         public DataTable GetClearCreidLog(string creid)
         {
-            var tableName = GetLogTableName(creid);
+            var tableName = GetTableName("t_creid_Log", creid);
             string sql = string.Format(@"SELECT FCreid,FCreate_time,CASE FUser_type WHEN 0 THEN '普通用户' WHEN 1 THEN '微信用户' END AS FUser_type ,FUid FROM {0}  WHERE FCreid='{1}'", tableName, creid);
             using (var da = MySQLAccessFactory.GetMySQLAccess("ClrearCreidLog"))
             {
@@ -996,7 +1036,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
         /// <returns></returns>
         public int GetClearCreidCount(string creid, int userType)
         {
-            var tableName = GetLogTableName(creid);
+            var tableName = GetTableName("t_creid_Log", creid);
             string sql = string.Format(@"SELECT COUNT(FID) FROM {0} WHERE FCreid='{1}' AND FUser_type ={2}", tableName, creid, userType);
             using (var da = MySQLAccessFactory.GetMySQLAccess("ClrearCreidLog"))
             {
@@ -1007,13 +1047,13 @@ namespace CFT.CSOMS.DAL.CFTAccount
         }
 
         /// <summary>
-        /// 获取日志表名
+        /// 获取表名
         /// </summary>
+        /// <param name="tableName"></param>
         /// <param name="creid"></param>
         /// <returns></returns>
-        private string GetLogTableName(string creid)
+        private string GetTableName(string tableName, string creid)
         {
-            var tableName = "t_creid_Log";
             if (creid.Length > 2)
             {
                 string s_db = "";

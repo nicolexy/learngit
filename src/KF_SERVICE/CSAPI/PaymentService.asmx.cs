@@ -529,6 +529,39 @@ namespace CFT.CSOMS.Service.CSAPI
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
+
+        [WebMethod(Description="获取理财通余额")]
+        public void GetLCTBalance()     //string appid,string uin,string token
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //必填参数验证
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().QuerySubAccountInfo(uin, 89);//查询理财通余额，币种89
+                if (infos == null || infos.Rows.Count == 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Payment.LCTBalance> list = APIUtil.ConvertTo<Payment.LCTBalance>(infos);
+                APIUtil.Print<Payment.LCTBalance>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetLCTBalance").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetLCTBalance").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
          #endregion
 
         #region 快捷支付

@@ -43,4 +43,28 @@ namespace CFT.CSOMS.DAL.Infrastructure
 
         public string u_Pay_Time;
     }
+
+    #region	 受控资金信息查询
+
+    public class QeuryUserControledFinInfoClass : Query_BaseForNET
+    {
+        public QeuryUserControledFinInfoClass(string fuid, string beginDateStr, string endDateStr, string cur_type, int iNumStart, int iNumMax)
+        {
+            this.ICEcommand = "FINANCE_QUERY_USER_CONTROLED";
+            this.ICESql = "uid=" + fuid;
+
+            if (beginDateStr != null && beginDateStr.Trim() != "" && endDateStr != null && endDateStr.Trim() != "")
+            {
+                this.ICESql += "&createTime_begin=" + beginDateStr + "&createTime_end=" + endDateStr;
+            }
+
+            if (cur_type != null && cur_type.Trim() != "")
+            {
+                this.ICESql += "&cur_type=" + cur_type;
+            }
+
+            this.ICESql += "&strlimit=limit " + iNumStart + "," + iNumMax;
+        }
+    }
+    #endregion
 }
