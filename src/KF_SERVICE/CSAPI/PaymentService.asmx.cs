@@ -546,10 +546,18 @@ namespace CFT.CSOMS.Service.CSAPI
                 var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().QuerySubAccountInfo(uin, 89);//查询理财通余额，币种89
                 if (infos == null || infos.Rows.Count == 0)
                 {
-                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                    //throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                    Payment.LCTBalance balance = new Payment.LCTBalance();
+                    balance.Fbalance = "0";
+                    List<Payment.LCTBalance> list = new List<Payment.LCTBalance>();
+                    list.Add(balance);
+                    APIUtil.Print<Payment.LCTBalance>(list);
                 }
-                List<Payment.LCTBalance> list = APIUtil.ConvertTo<Payment.LCTBalance>(infos);
-                APIUtil.Print<Payment.LCTBalance>(list);
+                else
+                {
+                    List<Payment.LCTBalance> list = APIUtil.ConvertTo<Payment.LCTBalance>(infos);
+                    APIUtil.Print<Payment.LCTBalance>(list);
+                }
             }
             catch (ServiceException se)
             {

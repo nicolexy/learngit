@@ -41,6 +41,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
                 strwhere += ICEAccess.URLEncode("fcurtype=" + currencyType + "&");
                 string strResp = "";
+                LogHelper.LogInfo("QuerySubAccountInfo send strwhere : " + strwhere);
 
                 DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
 
