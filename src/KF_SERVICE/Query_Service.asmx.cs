@@ -12178,7 +12178,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                         //添加将微信订单数据
 
-                        if (ds != null && ds.Tables[0].Rows.Count > 0)
+                        if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                         {
                             GetResultFormWXOrder(dsForWX, ds);
                         }
@@ -12225,7 +12225,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         /// <param name="ds"></param>
         private void GetResultFormWXOrder(DataSet dsForWX, DataSet ds)
         {
-            if (dsForWX != null && dsForWX.Tables[0].Rows.Count > 0)
+            if (dsForWX != null && dsForWX.Tables.Count > 0 && dsForWX.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow dr in dsForWX.Tables[0].Rows)
                 {
@@ -12314,14 +12314,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         return 0;
                     }
 
-                    DataSet dsForWX = new DataSet ();
+                    DataSet dsForWX = new DataSet();
                     if (!string.IsNullOrEmpty(buyqqInnerID.Trim()))
                     {
                         dsForWX = (new TradeService()).QueryWxBuyOrderByUid(int.Parse(buyqqInnerID.Trim()), u_BeginTime, u_EndTime);//微信买家纬度订单
                     }
 
                     int WxCount = 0;
-                    if (dsForWX  !=null && dsForWX.Tables[0].Rows.Count > 0)
+                    if (dsForWX != null && dsForWX.Tables[0].Rows.Count > 0)
                     {
                         WxCount = dsForWX.Tables[0].Rows.Count;
                     }
@@ -14843,7 +14843,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //             "WHERE a.datafrom=6 and a.Fagentid is null and a.SPID='" + spid + "'";
                 //ds = PR.GetSqlServerData(sql);
 
-                ds= new SPOAService().QueryAgencyBySpid(spid);
+                ds = new SPOAService().QueryAgencyBySpid(spid);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     ds.Tables[0].Columns.Add("Sflag", typeof(String));//选择,用做详情是查哪个方法
@@ -14964,7 +14964,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //{
                 //    sql += "and qq= '" + qq + "'";
                 //}
-              
+
 
                 //string sql = "SELECT a.* ,b.* " +
                 //             "FROM ApplyGatheringPay a(NOLOCK) " +
@@ -16043,7 +16043,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //             "END ";
                 //PR.ModifySqlServerData(sql);
 
-                if (new SPOAService().BusinessLogout(Fspid, UserName, Reason) != "0") 
+                if (new SPOAService().BusinessLogout(Fspid, UserName, Reason) != "0")
                 {
                     throw new Exception("商户注销申请失败");
                 }
@@ -16284,7 +16284,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     //    }
 
                     //}
-                    if (new SPOAService().ClosePay(Fspid, UserName, Reason) != "0") 
+                    if (new SPOAService().ClosePay(Fspid, UserName, Reason) != "0")
                     {
                         throw new Exception("关闭支付申请失败!");
                     }
@@ -16652,7 +16652,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //    }
                 //}
 
-                if (new SPOAService().CloseRefund(Fspid, UserName, Reason) != "0") 
+                if (new SPOAService().CloseRefund(Fspid, UserName, Reason) != "0")
                 {
                     throw new Exception("关闭商户退款申请失败!");
                 }
@@ -16740,7 +16740,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //        throw new Exception("关闭商户退款申请失败!");
                 //    }
                 //}
-                if (new SPOAService().OpenRefund(Fspid, UserName, Reason) != "0") 
+                if (new SPOAService().OpenRefund(Fspid, UserName, Reason) != "0")
                 {
                     throw new Exception("开通退款申请失败!");
                 }
