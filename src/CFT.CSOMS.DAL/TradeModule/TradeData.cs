@@ -248,6 +248,41 @@ namespace CFT.CSOMS.DAL.TradeModule
                 return null;
             }
         }
+
+        /// <summary>
+        /// 查询用户转账单记录
+        /// </summary>
+        /// <param name="listid">单号</param>
+        /// <param name="state">付款单状态列表，以逗号分隔（当为空时，则不过滤状态）具体状态含义如下:1下单,2支付成功,
+        /// 3 付款成功,4 退款申请中,5 已退款,12 充值成功:注：针对用户注销来说，传入1,2,12,4</param>
+        /// <param name="qry_type">查询类型:1 支付单号,2 B2C转账单号（注意：重构前传入为核心转账单号，
+        /// 重构后传入为转账商户订单号）,3 按uin+state查询（查询最近一单符合要求的付款单，最多查三个月内的）</param>
+        /// <param name="uin"></param>
+        /// <returns></returns>
+        public DataSet QueryPaymentParty(string listid, string state, string qry_type, string uin)
+        {
+            //qpayment_party_query_service
+            string reqString = "uid=" + uin;
+            reqString += "&listid=" + listid;
+            reqString += "&state=" + state;
+            reqString += "&qry_type=" + qry_type;
+
+            var serverIp = System.Configuration.ConfigurationManager.AppSettings["HandQ_Payment_RelayIP"].ToString();
+            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["HandQ_Payment_RelayPort"].ToString());
+
+            string answer = RelayAccessFactory.RelayInvoke(reqString, "100910", false, false, serverIp, serverPort, "");
+            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
+            string Msg;
+
+            DataSet ds = CommQuery.ParseRelayStr(answer, out Msg, true);
+            if (Msg != "")
+            {
+                throw new Exception(Msg);
+            }
+            return ds;
+
+            //  return RelayAccessFactory.GetDSFromRelay(reqString, "100910", serverIp, serverPort);
+        }
         #endregion
 
         //查询用户帐户流水表_WithListID

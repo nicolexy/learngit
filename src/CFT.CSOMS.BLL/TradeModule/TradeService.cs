@@ -554,7 +554,20 @@ namespace CFT.CSOMS.BLL.TradeModule
             
             }
         }
-
+        /// <summary>
+        /// 查询用户转账单记录
+        /// </summary>
+        /// <param name="listid">单号</param>
+        /// <param name="state">付款单状态列表，以逗号分隔（当为空时，则不过滤状态）具体状态含义如下:1下单,2支付成功,
+        ///                     3 付款成功,4 退款申请中,5 已退款,12 充值成功:注：针对用户注销来说，传入1,2,12,4</param>
+        /// <param name="qry_type">查询类型:1 支付单号,2 B2C转账单号（注意：重构前传入为核心转账单号，
+        ///                        重构后传入为转账商户订单号）,3 按uin+state查询（查询最近一单符合要求的付款单，最多查三个月内的）</param>
+        /// <param name="uin"></param>
+        /// <returns></returns>
+        public DataSet QueryPaymentParty(string listid, string state, string qry_type, string uin)
+        {
+            return (new TradeData()).QueryPaymentParty(listid, state, qry_type, uin);
+        }
         #endregion
     }
 }

@@ -2377,8 +2377,9 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         /// </summary>
         /// <param name="str"></param>
         /// <param name="errMsg"></param>
+        ///  <param name="isAllowedFaild">是否允许result=0</param>
         /// <returns></returns>
-        public static DataSet ParseRelayStr(string str, out string errMsg)
+        public static DataSet ParseRelayStr(string str, out string errMsg,bool isAllowedFaild = false)
         {
             DataSet dsresult = null;
             Hashtable ht = null;
@@ -2407,12 +2408,14 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                     ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
                 }
-
-                if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
+                if (!isAllowedFaild)
                 {
-                    dsresult = null;
-                    errMsg = "调用失败,返回结果有误" + str;
-                    return null;
+                    if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
+                    {
+                        dsresult = null;
+                        errMsg = "调用失败,返回结果有误" + str;
+                        return null;
+                    }
                 }
 
                 dsresult = new DataSet();
