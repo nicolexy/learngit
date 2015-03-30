@@ -153,18 +153,31 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
         static commRes()
         {
-            ICEServerIP = ConfigurationManager.AppSettings["ICEServerIP"].Trim();
-            ICEPort = Int32.Parse(ConfigurationManager.AppSettings["ICEPort"].Trim());
-            ICEServerIP_ia = ConfigurationManager.AppSettings["ICEServerIP_ia"].Trim();
-            ICEPort_ia = Int32.Parse(ConfigurationManager.AppSettings["ICEPort_ia"].Trim());
-            iceUsr = ConfigurationManager.AppSettings["iceUsr"].ToString();
-            icePwd = ConfigurationManager.AppSettings["icePwd"].ToString();
-            // furion 20141023在这里初始化ICE客户端 最小代价的话，就是各系统加一个配置项就可以使用，
-            // 数据库连接配置化修改版本时，就变成在各项目代码里对ICE客户端进行初始化。
+            try
+            {
+                ICEServerIP = ConfigurationManager.AppSettings["ICEServerIP"].Trim();
+                ICEPort = Int32.Parse(ConfigurationManager.AppSettings["ICEPort"].Trim());
+                ICEServerIP_ia = ConfigurationManager.AppSettings["ICEServerIP_ia"].Trim();
+                ICEPort_ia = Int32.Parse(ConfigurationManager.AppSettings["ICEPort_ia"].Trim());
+                iceUsr = ConfigurationManager.AppSettings["iceUsr"].ToString();
+                icePwd = ConfigurationManager.AppSettings["icePwd"].ToString();
+                // furion 20141023在这里初始化ICE客户端 最小代价的话，就是各系统加一个配置项就可以使用，
+                // 数据库连接配置化修改版本时，就变成在各项目代码里对ICE客户端进行初始化。
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogInfo("读取配置文件出现错误：" + ex.ToString());
+            }
 
-            string dicconnstr = DbConnectionString.Instance.GetConnectionString("RelayConnString");
-            InitRelayInfo(dicconnstr);
-
+            try
+            {
+                string dicconnstr = DbConnectionString.Instance.GetConnectionString("RelayConnString");
+                InitRelayInfo(dicconnstr);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogInfo("读取Relay连接字符串发生错误：" + ex.ToString());
+            }
         }
 
         public static void InitRelayInfo(string connstring)
