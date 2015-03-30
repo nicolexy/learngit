@@ -19,7 +19,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
         private void InitControl()
         {
-            menuControl.Title = "手Q业务";
+            menuControl.Title = "手Q支付";
         }
 
         public void AddSubMenu(string menuName, string url)

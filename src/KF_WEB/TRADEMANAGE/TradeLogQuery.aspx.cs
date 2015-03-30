@@ -27,6 +27,7 @@ using Tencent.DotNet.OSS.Web.UI;
 using TENCENT.OSS.CFT.KF.Common;
 using CFT.CSOMS.BLL.WechatPay;
 using log4net;
+using CFT.CSOMS.BLL.TradeModule;
 
 
 
@@ -352,6 +353,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
                 BindTradeInfo(iType);
 
+                BindPaymentInfo();
+
                 iFrameHeight = "85";   //iFame显示区域的高度
 
                 setIframePath();        //设置路径				
@@ -475,6 +478,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             ht.Add("110", "手机支付-客户端");
             ht.Add("111", "手q支付");
             ht.Add("112", "数平SDK");
+            //2015-2-27郭跃强添加
+            ht.Add("113", "微信离线支付");
+            ht.Add("114", "微信b2c转账");
+            ht.Add("115", "微信平台余额支付");
+            ht.Add("116", "微信c2c转账");
+            ht.Add("117", "手Q b2c");
             classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Fchannel_id", "Fchannel_id_str", ht);
             /*
             if (strtmp == "1")
@@ -817,7 +826,65 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             SetButtonVisible(); //furion 20050802;
         }
 
-
+        private void BindPaymentInfo()
+        {
+            try
+            {
+                //转账单号1301278501201412090000015078
+                //支付单号1301278501201412090010900888
+                string ListID = LB_Flistid.Text;
+                string qry_type = "";
+                if (lbTradeType.Text.Contains("B2C"))
+                {
+                    qry_type = "1";
+                }
+                else if (lbTradeType.Text.Contains("商户结算"))
+                {
+                    //wenfengke(柯文锋) 03-25 17:35:07你暂时针对qry_type=2的，listid先传图中的交易单号，但要做个开关，等我们重构后，你们有能力自动切到，传订单编码
+                    qry_type = "2";
+                    string IsReconfig = System.Configuration.ConfigurationManager.AppSettings["HandQ_Payment_IsReconfig"].ToString();
+                    if (IsReconfig == "1")
+                    {
+                        ListID = LB_Fcoding.Text;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+                DataSet ds = new TradeService().QueryPaymentParty(ListID, "", qry_type, "");
+                //DataSet ds = new TradeService().QueryPaymentParty("1301278501201412090010900888", "", "2", "");
+                //qry_type = "2";
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    if (ds.Tables[0].Rows[0]["result"].ToString() == "0")
+                    {
+                        if (qry_type == "1")
+                        {
+                            LB_FsaleidCFT.Text = ds.Tables[0].Rows[0]["seller_uin"].ToString();
+                        }
+                        else if (qry_type == "2")
+                        {
+                            LB_FbuyidCFT.Text = ds.Tables[0].Rows[0]["payer_uin"].ToString();
+                            LB_Fbuy_name.Text = ds.Tables[0].Rows[0]["payer_name"].ToString();
+                            LB_Fcoding.Text = ds.Tables[0].Rows[0]["transaction_id"].ToString();
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception(ds.Tables[0].Rows[0]["res_info"].ToString());
+                    }
+                }
+                else
+                {
+                    throw new Exception("调用接口：查询用户转账单记录失败！");
+                }
+            }
+            catch (Exception e)
+            {
+                WebUtils.ShowMessage(this.Page, "查询用户转账单记录失败:" + e.Message.ToString());
+            }
+        }
 
 
 
