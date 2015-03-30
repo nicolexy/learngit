@@ -59,7 +59,12 @@
     				"id":"GetUINFromWechat", 
     				"req":"appid=10001&query_type=WeChatMobile&query_string=13724372081&token=8c31a698355b25d0218c0de00609d98f", 
     				"url": baseUrl + "/CSAPI/PaymentService.asmx"
-    			}
+    			},
+                {
+                    "id": "GetLCTBalance",
+                    "req": "appid=10001&uin=1563686969&token=b11c9da91afa8fa9debf3d2d3bafaddf",
+                    "url": baseUrl + "/CSAPI/PaymentService.asmx"
+                }
     		],
 
     		"自助申诉接口":[
@@ -149,6 +154,19 @@
                      "req": "appid=10001&FOrderId=13&FRefund_type=123&FSam_no=123&FRecycle_user=v_yqyqguo&FRefund_amount=123&token=6ea1652d1fa023dedd26e1eaf70fa466",
                      "url": baseUrl + "/CSAPI/TradeService.asmx"
                  }
+    		],
+
+    		"证件号码清理接口": [
+                {
+                    "id": "QueryCreidList",
+                    "req": "appid=10001&creid=42062419910815681X&token=6cd51b26eae23cc00781d2c3dc91a4ea",
+                    "url": baseUrl + "/CSAPI/BaseInfoService.asmx"
+                },
+                {
+                    "id": "ClearCreid",
+                    "req": "appid=10001&creid=42062419910815681X&type=1&opera=darrenran&token=eaa8340154f18088e1a13fda2356950a",
+                    "url": baseUrl + "/CSAPI/BaseInfoService.asmx"
+                }
     		]
     	};
 

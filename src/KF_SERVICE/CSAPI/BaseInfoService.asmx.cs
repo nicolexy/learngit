@@ -405,5 +405,185 @@ namespace CFT.CSOMS.Service.CSAPI
 
 
         #endregion
+
+        #region 证件号码清理
+
+        [WebMethod(Description = "证件信息查询")]
+        public void QueryCreidList()    //string appid,string creid,string token
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "creid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                String creid = paramsHt.ContainsKey("creid") ? paramsHt["creid"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetClearCreidLog(creid);
+                if (infos == null || infos.Rows.Count == 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<BaseInfoC.CreidInfoBasic> list = APIUtil.ConvertTo<BaseInfoC.CreidInfoBasic>(infos);
+                APIUtil.Print<BaseInfoC.CreidInfoBasic>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("QueryCreidList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("QueryCreidList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        [WebMethod(Description = "证件号码清理")]
+        public void ClearCreid()    //string appid,string creid,int type,string opera,string token ; type=0普通用户，type=1微信用户
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "creid", "type", "opera", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                String creid = paramsHt.ContainsKey("creid") ? paramsHt["creid"].ToString() : "";
+                String opera = paramsHt.ContainsKey("opera") ? paramsHt["opera"].ToString() : "";
+                int u_type = APIUtil.StringToInt(paramsHt["type"]);
+
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().ClearCreidInfo(creid, u_type, opera);
+
+                Record record = new Record();
+                record.RetValue = infos.ToString().ToLower();
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("ClearCreid").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("ClearCreid").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+        #endregion
+
+        #region 受控资金查询
+
+        //下个版本再上这三个接口，darrenran-2015-03-27
+        //[WebMethod(Description="查询用户受控资金")]
+        //public void QueryUserCtrlFund()     //string appid,string qqid,string uid,string token
+        //{
+        //    try
+        //    {
+        //        Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+        //        //验证必填参数
+        //        APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "uid","token");
+        //        //验证token
+        //        APIUtil.ValidateToken(paramsHt);
+
+        //        string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+        //        string uid = paramsHt.ContainsKey("uid") ? paramsHt["uid"].ToString() : "";
+
+        //        var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().QueryUserCtrlFund(qqid, uid);
+
+        //        if (infos == null || infos.Rows.Count == 0)
+        //        {
+        //            throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+        //        }
+        //        List<BaseInfoC.UserControledFund> list = APIUtil.ConvertTo<BaseInfoC.UserControledFund>(infos);
+        //        APIUtil.Print<BaseInfoC.UserControledFund>(list);
+        //    }
+        //    catch (ServiceException se)
+        //    {
+        //        SunLibrary.LoggerFactory.Get("QueryUserCtrlFund").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+        //        APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        SunLibrary.LoggerFactory.Get("QueryUserCtrlFund").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+        //        APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+        //    }
+        //}
+
+        //[WebMethod(Description="解绑用户单条受控资金")]
+        //public void UnbindSingleCtrlFund()      //string appid,string qqid,string uid,string balance,string cur_type,string token
+        //{
+        //    try
+        //    {
+        //        Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+        //        //验证必填参数
+        //        APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid","uid", "balance", "cur_type", "token");
+        //        //验证token
+        //        APIUtil.ValidateToken(paramsHt);
+
+        //        string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+        //        string uid = paramsHt.ContainsKey("uid") ? paramsHt["uid"].ToString() : "";
+        //        string balance = paramsHt.ContainsKey("balance") ? paramsHt["balance"].ToString() : "";
+        //        string cur_type = paramsHt.ContainsKey("cur_type") ? paramsHt["cur_type"].ToString() : "";
+
+        //        var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().UnbindSingleCtrlFund(qqid, uid, cur_type, balance);
+
+        //        Record record = new Record();
+        //        record.RetValue = infos.ToString().ToLower();
+        //        List<Record> list = new List<Record>();
+        //        list.Add(record);
+        //        APIUtil.Print<Record>(list);
+        //    }
+        //    catch (ServiceException se)
+        //    {
+        //        SunLibrary.LoggerFactory.Get("UnbindSingleCtrlFund").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+        //        APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        SunLibrary.LoggerFactory.Get("UnbindSingleCtrlFund").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+        //        APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+        //    }
+        //}
+
+        //[WebMethod(Description="解绑当前用户全部受控资金")]
+        //public void UnbindAllCtrlFund()     //string appid,string qqid,string uid,string token
+        //{
+        //    try
+        //    {
+        //        Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+        //        //验证必填参数
+        //        APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "uid", "token");
+        //        //验证token
+        //        APIUtil.ValidateToken(paramsHt);
+
+        //        string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+        //        string uid = paramsHt.ContainsKey("uid") ? paramsHt["uid"].ToString() : "";
+
+        //        var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().UnbindAllCtrlFund(qqid, uid);
+
+        //        Record record = new Record();
+        //        record.RetValue = infos.ToString().ToLower();
+        //        List<Record> list = new List<Record>();
+        //        list.Add(record);
+        //        APIUtil.Print<Record>(list);
+        //    }
+        //    catch (ServiceException se)
+        //    {
+        //        SunLibrary.LoggerFactory.Get("UnbindAllCtrlFund").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+        //        APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        SunLibrary.LoggerFactory.Get("UnbindAllCtrlFund").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+        //        APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+        //    }
+        //}
+        #endregion
     }
 }

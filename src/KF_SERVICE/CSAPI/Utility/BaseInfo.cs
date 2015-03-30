@@ -119,6 +119,39 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
         }
        
         #endregion
+
+        #region 证件号码清理
+
+        public class CreidInfoBasic
+        {
+            [XmlElement("creid")]
+            public string FCreid { get; set; }
+            [XmlElement("create_time")]
+            public string FCreate_time { get; set; }
+            [XmlElement("user_type")]
+            public string FUser_type { get; set; }
+            [XmlElement("oper")]
+            public string FUid { get; set; }
+        }
+        #endregion
+
+        public class UserControledFund
+        {
+            [XmlElement("cur_typeName")]
+            public string Fcur_typeName { get; set; }
+            [XmlElement("balance")]
+            public string balance { get; set; }
+            [XmlElement("stateName")]
+            public string FstateName { get; set; }
+            [XmlElement("create_time")]
+            public string Fcreate_time { get; set; }
+            [XmlElement("typeText")]
+            public string FtypeText { get; set; }
+            [XmlElement("cur_type")]
+            public string cur_type { get; set; }
+            [XmlElement("modify_time")]
+            public string Fmodify_time { get; set; }
+        }
     }
 
     public class TradeInfo
