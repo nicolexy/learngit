@@ -82,9 +82,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
 			string md5value = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(md5str,"md5").ToLower();
 
-			menuControl.AddSubMenu("用户处罚",spkfurl + "cgi-bin/userpunishmain.cgi" 
+			/*menuControl.AddSubMenu("用户处罚",spkfurl + "cgi-bin/userpunishmain.cgi" 
 				+ "?szkey=" + szkey + "&" + strsessionid + "&loginname=" + loginname
-				+ "&ip=" + ip + "&md5=" + md5value);
+				+ "&ip=" + ip + "&md5=" + md5value);*/
 //
 //			menuControl.AddSubMenu("订单仲裁",spkfurl + "cgi-bin/lawsuitarbitrage.cgi" 
 //				+ "?szkey=" + szkey + "&operid=" + operid + "&loginname=" + loginname
