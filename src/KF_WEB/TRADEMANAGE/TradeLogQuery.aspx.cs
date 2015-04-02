@@ -353,6 +353,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
                 BindTradeInfo(iType);
 
+                BindPaymentInfo();
+
                 iFrameHeight = "85";   //iFame显示区域的高度
 
                 setIframePath();        //设置路径				
