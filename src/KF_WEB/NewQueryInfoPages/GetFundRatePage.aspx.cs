@@ -522,56 +522,66 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 foreach (DataRow dr in bankRollList.Rows)
                 {
                   //  ViewState["HasSafeCard"] = false;//测试无安全卡
-
-                    try//无安全卡 取绑定卡信息
+                    if (ViewState["close_flag"].ToString() == "2")//封闭基金
                     {
-                        //非定期基金强赎：
-                        //有安全卡往安全卡赎回，
-                        //无安全卡往绑定快捷卡赎回，
-                        //无绑定卡往解除绑定卡赎回
-                        if (!(bool)(ViewState["HasSafeCard"]) && !markQuerySfCar)//无安全卡  
+                        dr["URL"] = "";
+                    }
+                    else if (ViewState["close_flag"].ToString() == "1")//不封闭基金
+                    {
+                        try//无安全卡 取绑定卡信息
                         {
-                            markQuerySfCar = true;
+                            //非定期基金强赎：
+                            //有安全卡往安全卡赎回，
+                            //无安全卡往绑定快捷卡赎回，
+                            //无绑定卡往解除绑定卡赎回
+                            if (!(bool)(ViewState["HasSafeCard"]) && !markQuerySfCar)//无安全卡  
+                            {
+                                markQuerySfCar = true;
 
-                            //先取快捷、已绑定状态的卡
-                            DataSet ds = queryService.GetBankCardBindList_2(ViewState["uin"].ToString(), "", "", "", "", "", "", "", "", 2, 2, 0, 1);
-                            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0] == null || ds.Tables[0].Rows.Count == 0)
-                            {
-                                //取快捷、解绑状态的卡
-                                ds = queryService.GetBankCardBindList_2(ViewState["uin"].ToString(), "", "", "", "", "", "", "", "", 2, 3, 0, 1);
+                                //先取快捷、已绑定状态的卡
+                                DataSet ds = queryService.GetBankCardBindList_2(ViewState["uin"].ToString(), "", "", "", "", "", "", "", "", 2, 2, 0, 1);
+                                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0] == null || ds.Tables[0].Rows.Count == 0)
+                                {
+                                    //取快捷、解绑状态的卡
+                                    ds = queryService.GetBankCardBindList_2(ViewState["uin"].ToString(), "", "", "", "", "", "", "", "", 2, 3, 0, 1);
+                                }
+
+                                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                                {
+                                    ViewState["card_tail"] = ds.Tables[0].Rows[0]["Fcard_tail"].ToString();
+                                    ViewState["bank_type"] = ds.Tables[0].Rows[0]["Fbank_type"].ToString();
+                                    ViewState["mobile"] = ds.Tables[0].Rows[0]["Fmobilephone"].ToString();
+                                    ViewState["bind_serialno"] = ds.Tables[0].Rows[0]["Fbind_serialno"].ToString();
+                                }
+                                else
+                                {
+                                    ViewState["card_tail"] = "";
+                                    ViewState["bank_type"] = "";
+                                    ViewState["mobile"] = "";
+                                    ViewState["bind_serialno"] = "";
+                                    LogHelper.LogInfo("Not  bind bank card!");
+                                }
                             }
 
-                            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                            {
-                                ViewState["card_tail"] = ds.Tables[0].Rows[0]["Fcard_tail"].ToString();
-                                ViewState["bank_type"] = ds.Tables[0].Rows[0]["Fbank_type"].ToString();
-                                ViewState["mobile"] = ds.Tables[0].Rows[0]["Fmobilephone"].ToString();
-                                ViewState["bind_serialno"] = ds.Tables[0].Rows[0]["Fbind_serialno"].ToString();
-                            }
-                            else
-                            {
-                                ViewState["card_tail"] = "";
-                                ViewState["bank_type"] = "";
-                                ViewState["mobile"] = "";
-                                ViewState["bind_serialno"] = "";
-                                LogHelper.LogInfo("Not  bind bank card!");
-                            }
+                        }
+                        catch
+                        {
+                            LogHelper.LogInfo("Get Bind bank card error!");
                         }
 
+                        dr["URL"] = "GetFundRatePageDetail.aspx?opertype=1&close_flag=1&uin=" + ViewState["uin"].ToString()
+                     + "&spid=" + ViewState["fundSPId"].ToString()
+                     + "&fund_code=" + ViewState["fundCode"].ToString()
+                     + "&total_fee=" + dr["Fbalance"].ToString()
+                     + "&bind_serialno=" + ViewState["bind_serialno"].ToString()
+                     + "&card_tail=" + ViewState["card_tail"].ToString()
+                     + "&mobile=" + ViewState["mobile"].ToString()
+                     + "&bank_type=" + ViewState["bank_type"].ToString();
                     }
-                    catch
+                    else
                     {
-                        LogHelper.LogInfo("Get Bind bank card error!");
+                        dr["URL"] = "";
                     }
-
-                    dr["URL"] = "GetFundRatePageDetail.aspx?opertype=1&close_flag=1&uin=" + ViewState["uin"].ToString()
-                 + "&spid=" + ViewState["fundSPId"].ToString()
-                 + "&fund_code=" + ViewState["fundCode"].ToString()
-                 + "&total_fee=" + dr["Fbalance"].ToString()
-                 + "&bind_serialno=" + ViewState["bind_serialno"].ToString()
-                 + "&card_tail=" + ViewState["card_tail"].ToString()
-                 + "&mobile=" + ViewState["mobile"].ToString()
-                 + "&bank_type=" + ViewState["bank_type"].ToString();
 
                     if (!ClassLib.ValidateRight("BalanceControl", this))
                     {
@@ -589,12 +599,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             object obj = e.Item.Cells[8].FindControl("UnCloseFundApplyButton");
             int index = this.bankRollListPager.CurrentPageIndex;
             string type = e.Item.Cells[2].Text.Trim();//存取
+            
             if (obj != null)
             {
                 LinkButton lb = (LinkButton)obj;
-                if (index == 1 && e.Item.ItemIndex == 0 && type!="冻结")//第一页，第一行流水记录才能赎回，且存取状态不能为冻结
+                if (index == 1 && e.Item.ItemIndex == 0 && type!="冻结"&&
+                    ViewState["close_flag"].ToString() == "1")//第一页，第一行流水记录才能赎回，且存取状态不能为冻结 且为非定期基金
                 {
-                    if (DateTime.Now.Hour >= 9 && DateTime.Now.Hour <= 18)//强赎发起时间工作日9：00－15：00，其它时间无法发起强赎，按钮灰色
+                    if (DateTime.Now.Hour >= 9 && DateTime.Now.Hour <= 15)//强赎发起时间工作日9：00－15：00，其它时间无法发起强赎，按钮灰色
                     lb.Visible = true;
                 }
             }

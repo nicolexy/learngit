@@ -3103,7 +3103,6 @@
     <Content Include="config\DB.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="config\Log4net.config" />
     <Content Include="Configs\Log4net.config" />
     <None Include="DataAccess.dll.log4net" />
     <Content Include="packages.config" />
