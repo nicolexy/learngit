@@ -489,14 +489,14 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "uid","token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "opera","token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
                 string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
-                string uid = paramsHt.ContainsKey("uid") ? paramsHt["uid"].ToString() : "";
+                string opera = paramsHt.ContainsKey("opera") ? paramsHt["opera"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().QueryUserCtrlFund(qqid, uid);
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().QueryUserCtrlFund(qqid, opera);
 
                 if (infos == null || infos.Rows.Count == 0)
                 {
@@ -527,16 +527,16 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid","uid", "balance", "cur_type", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "opera", "balance", "cur_type", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
                 string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
-                string uid = paramsHt.ContainsKey("uid") ? paramsHt["uid"].ToString() : "";
+                string opera = paramsHt.ContainsKey("opera") ? paramsHt["opera"].ToString() : "";
                 string balance = paramsHt.ContainsKey("balance") ? paramsHt["balance"].ToString() : "";
                 string cur_type = paramsHt.ContainsKey("cur_type") ? paramsHt["cur_type"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().UnbindSingleCtrlFund(qqid, uid, cur_type, balance);
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().UnbindSingleCtrlFund(qqid, opera, cur_type, balance);
 
                 Record record = new Record();
                 record.RetValue = infos.ToString().ToLower();
@@ -566,14 +566,14 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "uid", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "opera", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
                 string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
-                string uid = paramsHt.ContainsKey("uid") ? paramsHt["uid"].ToString() : "";
+                string opera = paramsHt.ContainsKey("opera") ? paramsHt["opera"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().UnbindAllCtrlFund(qqid, uid);
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().UnbindAllCtrlFund(qqid, opera);
 
                 Record record = new Record();
                 record.RetValue = infos.ToString().ToLower();
