@@ -12321,7 +12321,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
 
                     int WxCount = 0;
-                    if (dsForWX != null && dsForWX.Tables[0].Rows.Count > 0)
+                    if (dsForWX != null && dsForWX.Tables.Count > 0 && dsForWX.Tables[0].Rows.Count > 0)
                     {
                         WxCount = dsForWX.Tables[0].Rows.Count;
                     }

@@ -308,7 +308,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
 				VIPAccountManage.AddSubMenu("财付值流水","VIPAccount/PropertyTurnover.aspx");
                 VIPAccountManage.AddSubMenu("银行卡查询", "VIPAccount/QueryBankCard.aspx");
-                VIPAccountManage.AddSubMenu("财付值流水", "VIPAccount/PropertyTurnover.aspx");
+              //  VIPAccountManage.AddSubMenu("财付值流水", "VIPAccount/PropertyTurnover.aspx");
                 VIPAccountManage.AddSubMenu("图标管理", "VIPAccount/IconManagement.aspx");
 
                 OverseasPay1.AddSubMenu("外卡交易查询", "NewQueryInfoPages/QueryForeignCard.aspx");

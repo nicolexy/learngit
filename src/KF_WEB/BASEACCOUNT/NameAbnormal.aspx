@@ -27,7 +27,7 @@
 				cellPadding="1" width="800">
 				<TBODY>
 					<tr style="BACKGROUND-COLOR: #e4e5f7">
-						<td colSpan="3"><FONT color="red"><IMG src="../IMAGES/Page/post.gif" width="20" height="16">&nbsp;&nbsp;用户手机充值记录查询</FONT>
+						<td colSpan="3"><FONT color="red"><IMG src="../IMAGES/Page/post.gif" width="20" height="16">&nbsp;&nbsp;姓名异常查询</FONT>
 						</td>
 					</tr>
 					<tr>
