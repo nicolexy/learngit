@@ -125,6 +125,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                 dt.Columns.Add("FtypeText", typeof(string));
                 dt.Columns.Add("Fmodify_time", typeof(string));
                 dt.Columns.Add("FbalanceStr", typeof(string));
+                dt.Columns.Add("uid", typeof(string));
                 dt.Rows[0]["FbalanceStr"] = MoneyTransfer.FenToYuan(dt.Rows[0]["balance"].ToString().Trim());
 
                 foreach (DataRow dr in dt.Rows)
@@ -138,6 +139,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                         dr["Fcreate_time"] = "";
                         dr["Ftype_Text"] = "";
                         dr["Fmodify_time"] = "";
+                        dr["uid"] = "";
                     }
                     else
                     {
@@ -147,6 +149,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                         dr["Fcreate_time"] = row["Fcreate_time"].ToString();
                         dr["FtypeText"] = row["FtypeText"].ToString();
                         dr["Fmodify_time"] = row["Fmodify_time"].ToString();
+                        dr["uid"] = row["uid"].ToString();
                     }
                 }
                 return dt;
@@ -317,7 +320,6 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             }
 
             string fuid = AccountData.ConvertToFuid(qqid);
-          //  string fuid = "540444925";
 
             if (fuid == null || fuid == "")
             {
