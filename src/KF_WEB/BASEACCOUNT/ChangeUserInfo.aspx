@@ -329,8 +329,10 @@ function init(prov,city)
 																	<asp:ListItem Value="2">女</asp:ListItem>
 																</asp:dropdownlist></FONT></TD>
 														<TD style="WIDTH: 229px; HEIGHT: 11px" bgColor="#eeeeee" height="11"><FONT face="宋体">&nbsp;年龄:
-																<asp:regularexpressionvalidator id="RegularExpressionValidator5" runat="server" ControlToValidate="Textbox5_Fage"
-																	ErrorMessage="RegularExpressionValidator" ValidationExpression="^[0-9]{2}">请输入正确年龄</asp:regularexpressionvalidator></FONT></TD>
+																<%--<asp:regularexpressionvalidator id="RegularExpressionValidator5" runat="server" ControlToValidate="Textbox5_Fage"
+																	ErrorMessage="RegularExpressionValidator" ValidationExpression="^[0-9]{2}">请输入正确年龄</asp:regularexpressionvalidator>--%>
+
+														                                                                     </FONT></TD>
 														<TD style="HEIGHT: 11px" bgColor="#ffffff" height="11"><font face="宋体">&nbsp;
 																<asp:textbox id="Textbox5_Fage" runat="server" BorderWidth="0px" Width="170px" BorderColor="Gray"
 																	ReadOnly="True" BorderStyle="Dashed">22</asp:textbox></font></TD>
