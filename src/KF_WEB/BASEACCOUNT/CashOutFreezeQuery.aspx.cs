@@ -40,8 +40,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         private void BindData()
         {
-            var id = this.txtFuid.Text.Trim();
-            lblCashOutBillNo.Text = (new FreezeService()).GetCashOutFreezeListId(id);
+            try
+            {
+                var id = this.txtFuid.Text.Trim();
+                lblCashOutBillNo.Text = (new FreezeService()).GetCashOutFreezeListId(id);
+            }
+            catch (Exception ex)
+            {
+                string errStr = PublicRes.GetErrorMsg(ex.Message);
+                WebUtils.ShowMessage(this.Page, "查询异常：" + errStr);
+            }
         }
     }
 }
