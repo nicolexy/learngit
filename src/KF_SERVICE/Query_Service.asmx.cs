@@ -3610,7 +3610,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
+        //该函数未被调用
         [WebMethod(Description = "买/卖家查询交易单表")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetPayListByType(string u_BuyID, DateTime u_BeginTime, DateTime u_EndTime, int U_Type, int istr, int imax)
@@ -6441,6 +6441,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
+        //该函数未被调用
         [WebMethod(Description = "商户流水查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetMediList(string u_ID, string Fcode, DateTime u_BeginTime, DateTime u_EndTime, int iPageStart, int iPageMax)
@@ -6498,6 +6499,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
+        //该函数未被调用
         [WebMethod(Description = "商户流水个数函数")]
         public int GetMediListCount(string u_ID, string Fcode, DateTime u_BeginTime, DateTime u_EndTime)
         {
@@ -14121,7 +14123,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
+        //该函数未被调用
         [WebMethod(Description = "分帐业务查询函数详情")]
         public DataSet GetSeparateOperationDetail(DateTime Starttime, DateTime Endtime, string Flistid, string Fuid)
         {

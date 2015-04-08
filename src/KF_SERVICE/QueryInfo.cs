@@ -5019,7 +5019,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     //string TableName = "c2c_db_tcpay.t_tcpay_list_" + tmpDate.ToString("yyyyMM");
                     string TableName = "c2c_db.t_tcpay_list_" + tmpDate.ToString("yyyyMM");
 
-                    strGroup = "(" + strGroup + " select " + GetTcPayListNewFields() + " from " + TableName + strWhere + ") union all ";
+                    strGroup = strGroup + "( select " + GetTcPayListNewFields() + " from " + TableName + strWhere + ") union all ";
 
                     tmpDate = tmpDate.AddMonths(1);
 
