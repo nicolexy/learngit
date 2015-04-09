@@ -1832,6 +1832,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         //按交易单查询资金流水专用，返回需要查询的库表名称。
         public ArrayList alTables;
 
+        //该函数未被调用
         public Q_BANKROLL_LIST(string strID, DateTime dtBegin, DateTime dtEnd, int istr, int imax)
         {
             f_strID = strID;
@@ -2105,7 +2106,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             */
         }
 
-
+        //该函数未被调用
         /// <summary>
         /// 提供查询所有的正常流水，返回当前的正常的acrionType
         /// </summary>
