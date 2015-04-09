@@ -221,39 +221,42 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
         //原帐号理财通账户余额和基金份额不为0时不允许修改转换
         bool isHasBalance(string qq)
         {
+            string uin = qq; //"1563686969"
             try
             {
-                string uin = qq;
-                //string uin = "1563686969";
-                long totalBalance = 0;
-                double LCTBalance = 0;
+                double totalBalance = 0;
                 DataTable summaryTable = new FundService().GetUserFundSummary(uin);
-                DataTable subAccountInfoTable = new AccountService().QuerySubAccountInfo(uin, 89);//理财通余额，币种89
-                //统计收益总和，和余额总和
-
                 foreach (DataRow item in summaryTable.Rows)
                 {
-                    totalBalance += long.Parse(item["balance"].ToString());
+                    totalBalance += Convert.ToDouble(item["balance"].ToString());
                 }
-
-                if (subAccountInfoTable != null && subAccountInfoTable.Rows.Count != 0)
-                {
-                    LCTBalance = Convert.ToDouble(subAccountInfoTable.Rows[0]["Fbalance"].ToString());
-                }
-                if (LCTBalance == 0 && totalBalance == 0)
-                {
-                    return false;
-                }
-                else
+                if (totalBalance > 0)
                 {
                     return true;
                 }
             }
-            catch (Exception e)
+            catch
             {
-                WebUtils.ShowMessage(this.Page, e.Message);
-                return true;
             }
+
+            try
+            {
+                double LCTBalance = 0;
+                //理财通余额，币种89,统计收益总和，和余额总和
+                DataTable subAccountInfoTable = new AccountService().QuerySubAccountInfo(uin, 89);
+                if (subAccountInfoTable != null && subAccountInfoTable.Rows.Count > 0)
+                {
+                    LCTBalance = Convert.ToDouble(subAccountInfoTable.Rows[0]["Fbalance"].ToString());
+                }
+                if (LCTBalance > 0)
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+            }
+            return false;
         }
 		
 		

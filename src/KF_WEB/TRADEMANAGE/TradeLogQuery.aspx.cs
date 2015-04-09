@@ -882,7 +882,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch (Exception e)
             {
-                WebUtils.ShowMessage(this.Page, "查询用户转账单记录失败:" + e.Message.ToString());
+                //WebUtils.ShowMessage(this.Page, "查询用户转账单记录失败:" + e.Message.ToString());
             }
         }
 
