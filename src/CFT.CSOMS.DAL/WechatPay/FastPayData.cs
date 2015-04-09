@@ -53,6 +53,51 @@ namespace CFT.CSOMS.DAL.WechatPay
 
 
         /// <summary>
+        /// 通过接口查询bank pos日表和月表的数据
+        /// </summary>
+        /// <param name="bankCard">卡号</param>
+        /// <param name="bankDate">日期</param>
+        /// <param name="biz_type">业务类型</param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public DataSet GetBankPosDataList(string bankCard, string bankDate,string bankType ,int biz_type, int offset, int limit, out int totalNum)
+        {
+            DateTime d1 = DateTime.ParseExact(bankDate, "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture);
+
+            string begintime = d1.ToString("yyyy-MM-dd") + " 00:00:00";
+            string endtime = d1.ToString("yyyy-MM-dd") + " 23:59:59";
+            string serBankaccno = BankLib.BankIOX.Encrypt(bankCard);//银行卡加密
+      
+            //测试
+            //   serBankaccno = "WeWfyNvtk7-M7WwTIPZvesYv2WHITL3E";
+
+            string relayDefaultSPId = "20000000";
+            string inmsg = "req_id=1006&card_no=" + serBankaccno;
+            inmsg += "&biz_type=" + biz_type;
+            inmsg += "&bank_type=" + bankType;
+            inmsg += "&start_time=" + begintime;
+            inmsg += "&end_time=" + endtime;
+            inmsg += "&limit=" + limit;
+            inmsg += "&offset=" + offset;
+            inmsg += "&table_suffix=" + bankDate;
+            inmsg += "&MSG_NO=26171006" + DateTime.Now.Ticks.ToString();
+
+            string ip = System.Configuration.ConfigurationManager.AppSettings["QueryBankPosIP"].ToString();
+            int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["QueryBankPosPORT"].ToString());
+
+
+            log4net.ILog log = log4net.LogManager.GetLogger("GetBankPosDataList");
+            if (log.IsInfoEnabled)
+            {
+                log.InfoFormat("卡号={0} 卡号加密后={1}, IP={2} ,port={3},request_type={4}", bankCard, serBankaccno, ip, port, inmsg);
+            }
+            //request_type=2617&ver=1&head_u=&sp_id=2000000501&req_id=1006&card_no=F9L4wI4C0ON0_bGFziy1_g%3D%3D&biz_type=10100&start_time=2015-03-11 01:35:33&end_time=2015-03-11 23:35:33&limit=10&offset=0&table_suffix=20150311&bank_type=3115
+            totalNum = 0;
+            return RelayAccessFactory.GetDSFromRelayRowNumNew(out totalNum, inmsg, "2617", ip, port, false, false, relayDefaultSPId);
+        }
+
+        /// <summary>
         /// 通过接口查询bank pos中的fbill_no
         /// </summary>
         /// <param name="real_bill_no">给银行实际订单号</param>

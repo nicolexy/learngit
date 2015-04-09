@@ -7,6 +7,7 @@ using CFT.CSOMS.DAL.LifeFeePaymentModule;
 using CFT.CSOMS.DAL.SPOA;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+
 namespace KF_Test
 {
     [TestClass]

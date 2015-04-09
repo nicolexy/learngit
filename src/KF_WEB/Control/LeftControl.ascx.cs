@@ -257,6 +257,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
              
                 FastPay1.AddSubMenu("一点通业务", "BaseAccount/BankCardUnbind.aspx");
                 FastPay1.AddSubMenu("银行卡查询", "TradeManage/BankCardQuery.aspx");
+                FastPay1.AddSubMenu("银行卡查询(新)", "TradeManage/BankCardQueryNew.aspx");
                 FastPay1.AddSubMenu("姓名生僻字", "BaseAccount/RareNameQuery.aspx");
                 FastPay1.AddSubMenu("卡信息查询", "BaseAccount/CardInfoQuery.aspx");
 
@@ -307,7 +308,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
 				VIPAccountManage.AddSubMenu("财付值流水","VIPAccount/PropertyTurnover.aspx");
                 VIPAccountManage.AddSubMenu("银行卡查询", "VIPAccount/QueryBankCard.aspx");
-                VIPAccountManage.AddSubMenu("财付值流水", "VIPAccount/PropertyTurnover.aspx");
+              //  VIPAccountManage.AddSubMenu("财付值流水", "VIPAccount/PropertyTurnover.aspx");
                 VIPAccountManage.AddSubMenu("图标管理", "VIPAccount/IconManagement.aspx");
 
                 OverseasPay1.AddSubMenu("外卡交易查询", "NewQueryInfoPages/QueryForeignCard.aspx");
@@ -325,7 +326,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 InternetBank.AddSubMenu("会员优惠额度", "InternetBank/MermberDiscount.aspx");
                 InternetBank.AddSubMenu("退款登记", "InternetBank/RefundQuery.aspx");
                 InternetBank.AddSubMenu("自动续费查询", "InternetBank/AtuoRenewQuery.aspx");
-                //手Q业务
+                //手Q支付
                 HandQBusiness.AddSubMenu("手Q红包查询", "HandQBusiness/FindHandQRedPacket.aspx");
 
                 //活动合作

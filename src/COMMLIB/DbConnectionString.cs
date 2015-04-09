@@ -57,28 +57,20 @@ namespace CommLib
         /// <returns></returns>
         public string GetConnectionString(string dataSourceName)
         {
-            if (string.IsNullOrEmpty(dataSourceName))
-            {
-                throw new ArgumentNullException("dataSourceName");
-            }
-
             var connectionString = string.Empty;
-            try
+            if (!string.IsNullOrEmpty(dataSourceName))
             {
-                connectionString = ConnectionStringHelper.Get(dataSourceName);
+                try
+                {
+                    connectionString = ConnectionStringHelper.Get(dataSourceName);
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.LogInfo("获取连接字符串异常:" + ex.ToString());
+                }
             }
-            catch (Exception ex)
-            {
-                LogHelper.LogInfo("获取连接字符串异常:" + ex.Message);
-                LogHelper.LogInfo("异常堆栈:" + new StackTrace().GetFrames().ToString());
-            }
-
-            if (string.IsNullOrEmpty(connectionString))
-            {
-                throw new Exception(string.Format("找不到名为\"{0}\"的连接字符串", dataSourceName));
-            }
-
             return connectionString;
+
         }
     }
 }

@@ -80,6 +80,7 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
                         <uc1:MicroPay id="MicroPay1" runat="server"></uc1:MicroPay><!--微支付--> 
                         <uc1:ForeignCurrencyPay ID="ForeignCurrencyPay1" runat="server" /><!--外币支付-->
                         <uc1:ForeignCardPay ID="ForeignCardPay1" runat="server" /><!--外卡支付-->
+                        <uc1:HandQBusiness ID="HandQBusiness" runat="server" /><!--手Q业务-->
                   </td>
                 </tr>
                 <tr style="cursor:hand" onclick="javascript:showHidenMenu('tradeManagement')">
@@ -91,7 +92,6 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
 			            <uc1:LifeFeeDetailManage id="LifeFeeDetailManage1" runat="Server"></uc1:LifeFeeDetailManage><!--生活缴费-->
                         <uc1:MediumTradeManage id="MediumTradeManage1" runat="server"></uc1:MediumTradeManage><!--中介交易-->
                         <uc1:InternetBank ID="InternetBank" runat="server" /><!--网银查询-->
-                        <uc1:HandQBusiness ID="HandQBusiness" runat="server" /><!--手Q业务-->
                   </td>
                 </tr>
                 <tr style="cursor:hand" onclick="javascript:showHidenMenu('bussInfo')">

@@ -23,6 +23,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService;
 using System.IO;
 using CFT.CSOMS.BLL.BalanceModule;
 using System.Configuration;
+using CFT.CSOMS.BLL.TradeModule;
 
 
 namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
@@ -169,6 +170,13 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 if (255 < reason.Length)
                 {
                     WebUtils.ShowMessage(this.Page, "备注字数不得超过255个字符");
+                    return;
+                }
+                //手Q用户转账中、退款中、未完成的订单禁止注销和批量注销
+                DataSet dsHandQ = new TradeService().QueryPaymentParty("", "1,2,12,4", "3", qqid);
+                if (dsHandQ != null && dsHandQ.Tables.Count > 0 && dsHandQ.Tables[0].Rows.Count > 0 && dsHandQ.Tables[0].Rows[0]["result"].ToString() != "97420006")
+                {
+                    WebUtils.ShowMessage(this.Page, "手Q用户转账中、退款中、未完成的订单禁止注销和批量注销");
                     return;
                 }
 

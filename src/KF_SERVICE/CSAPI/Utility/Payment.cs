@@ -177,6 +177,12 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
             [XmlElement("result")]
             public string result { get; set; }
         }
+
+        public class LCTBalance
+        {
+            [XmlElement("balance")]
+            public string Fbalance { get; set; }
+        }
         #endregion
 
     }

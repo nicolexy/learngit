@@ -10,172 +10,183 @@ using System.Reflection;
 
 namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 {
-	/// <summary>
-	/// ICE批量查询
-	/// </summary>
-	public class CommQuery
-	{
-		public static string ICEEncode(string instr)
-		{
-			if(instr == null || instr.Trim() == "")
-				return instr;
-			else
-			{
-				return instr.Replace("%","%25").Replace("=","%3d").Replace("&","%26");
-			}
-		}
+    /// <summary>
+    /// ICE批量查询
+    /// </summary>
+    public class CommQuery
+    {
+        public static string ICEEncode(string instr)
+        {
+            if (instr == null || instr.Trim() == "")
+                return instr;
+            else
+            {
+                return instr.Replace("%", "%25").Replace("=", "%3d").Replace("&", "%26");
+            }
+        }
 
-		public static string URLEncode(string strField)
-		{
-			if(strField == null || strField == "")
-				return "";
-			else
-				return 	System.Web.HttpUtility.UrlEncode(strField,System.Text.Encoding.GetEncoding("gb2312"));
-		}
+        public static string URLEncode(string strField)
+        {
+            if (strField == null || strField == "")
+                return "";
+            else
+                return System.Web.HttpUtility.UrlEncode(strField, System.Text.Encoding.GetEncoding("gb2312"));
+        }
 
-		public static string URLDecode(string strField)
-		{
-			if(strField == null || strField == "")
-				return "";
-			else
-			{				
-				string stmp = System.Web.HttpUtility.UrlDecode(strField,System.Text.Encoding.GetEncoding("gb2312"));
-				return stmp.Replace("?26","&");
-				/*
-				//sreply里如果有半个汉字时会有问题. 20091120
-				//把字符搞成字节流,遇到 %26的三个字节后,替换为 & 的一个字节.
-				byte[] buffer = System.Text.Encoding.GetEncoding("gb2312").GetBytes(stmp);
-				int ilen = buffer.Length;
+        public static string URLDecode(string strField, string encode)
+        {
+            if (strField == null || strField == "")
+                return "";
+            else
+            {
+                string stmp = System.Web.HttpUtility.UrlDecode(strField, System.Text.Encoding.GetEncoding(encode));
+                return stmp.Replace("?26", "&");
+            }
+        }
+
+        public static string URLDecode(string strField)
+        {
+            if (strField == null || strField == "")
+                return "";
+            else
+            {
+                string stmp = System.Web.HttpUtility.UrlDecode(strField, System.Text.Encoding.GetEncoding("gb2312"));
+                return stmp.Replace("?26", "&");
+                /*
+                //sreply里如果有半个汉字时会有问题. 20091120
+                //把字符搞成字节流,遇到 %26的三个字节后,替换为 & 的一个字节.
+                byte[] buffer = System.Text.Encoding.GetEncoding("gb2312").GetBytes(stmp);
+                int ilen = buffer.Length;
 				
-				//int deslen = ilen;
-				byte[] desbuffer = new byte[ilen];
-				int desindex = 0;
+                //int deslen = ilen;
+                byte[] desbuffer = new byte[ilen];
+                int desindex = 0;
 				
-				for(int i=0; i< ilen ; i++)
-				{
-					if(buffer[i] == 25 && i< ilen - 2)
-					{
-						//if(buffer[i+1] == 
-					}
-					else 
-					{
-						desbuffer[desindex] = buffer[i];
-						desindex++;
-						continue;
-					}
-				}
-				return stmp;
-				*/
-			}
-		}
+                for(int i=0; i< ilen ; i++)
+                {
+                    if(buffer[i] == 25 && i< ilen - 2)
+                    {
+                        //if(buffer[i+1] == 
+                    }
+                    else 
+                    {
+                        desbuffer[desindex] = buffer[i];
+                        desindex++;
+                        continue;
+                    }
+                }
+                return stmp;
+                */
+            }
+        }
 
-		public CommQuery()
-		{
-		}
+        public CommQuery()
+        {
+        }
 
-		public static string 中介帐户结算 = "QUERY_FINANCE_SUM";
-		public static string 交易总汇 = "QUERY_TRADE_SUM";
-		public static string QUERY_TRADE_INFO_BYID = "QUERY_CHARGE_INFO_BY_LOGID";
-		//public static string QUERY_TRADE_INFO_BYDETAIL = "QUERY_CHARGE_INFO_BY_DETAIL";
-		public static string QUERY_TRADE_INFO_BYDETAIL = "QUERY_CHARGE_INFO";
+        public static string 中介帐户结算 = "QUERY_FINANCE_SUM";
+        public static string 交易总汇 = "QUERY_TRADE_SUM";
+        public static string QUERY_TRADE_INFO_BYID = "QUERY_CHARGE_INFO_BY_LOGID";
+        //public static string QUERY_TRADE_INFO_BYDETAIL = "QUERY_CHARGE_INFO_BY_DETAIL";
+        public static string QUERY_TRADE_INFO_BYDETAIL = "QUERY_CHARGE_INFO";
 
-		//public static string QUERY_FUNDINFO_LISTID = "QUERY_FUNDINFO_LISTID";
-		//public static string QUERY_FUNDINFO_UID = "QUERY_FUNDINFO_UID";
+        //public static string QUERY_FUNDINFO_LISTID = "QUERY_FUNDINFO_LISTID";
+        //public static string QUERY_FUNDINFO_UID = "QUERY_FUNDINFO_UID";
 
-		public static string QUERY_CHARGEINFO_BYID ="QUERY_CHARGEINFO_BYID";
-		public static string QUERY_CHARGEINFO_BYDETAIL = "QUERY_CHARGEINFO_BYDETAIL";
+        public static string QUERY_CHARGEINFO_BYID = "QUERY_CHARGEINFO_BYID";
+        public static string QUERY_CHARGEINFO_BYDETAIL = "QUERY_CHARGEINFO_BYDETAIL";
 
-		public static string QUERY_UNDOINFO_BYID = "QUERY_UNDOINFO_BYID";
-		public static string QUERY_UNFOINFO_BYUID = "QUERY_UNDOINFO_BYUID";
+        public static string QUERY_UNDOINFO_BYID = "QUERY_UNDOINFO_BYID";
+        public static string QUERY_UNFOINFO_BYUID = "QUERY_UNDOINFO_BYUID";
 
-		public static string QUERY_GETCASHINFO_BYID = "QUERY_GETCASHINFO_BYID";
-		public static string QUERY_GETCASHINFO_BYDETAIL = "QUERY_GETCASHINFO_BYDETAIL";
-		
-		public static string 商户转帐查询 = "QUERY_SP_PAYLOG_1";
-		public static string 商户转帐笔数 = "QUERY_SP_PAYLOG_2";
+        public static string QUERY_GETCASHINFO_BYID = "QUERY_GETCASHINFO_BYID";
+        public static string QUERY_GETCASHINFO_BYDETAIL = "QUERY_GETCASHINFO_BYDETAIL";
 
-		public static string C帐户资金流水 = "QUERY_USER_BANKROLL";
+        public static string 商户转帐查询 = "QUERY_SP_PAYLOG_1";
+        public static string 商户转帐笔数 = "QUERY_SP_PAYLOG_2";
 
-		public static string 个人资金流水 = "QUERY_USER_BANKROLL_FULL";
+        public static string C帐户资金流水 = "QUERY_USER_BANKROLL";
 
-		public static string 交易单资金流水_个人 = "QUERY_BANKROLL_LISTID_2";
-		public static string 交易单资金流水_商户 = "QUERY_BANKROLL_LISTID_1";
-		public static string 交易单资金流水_银行 = "QUERY_BANKROLL_LISTID_3";
+        public static string 个人资金流水 = "QUERY_USER_BANKROLL_FULL";
 
-		public static string QUERY_USERINFO = "FINANCE_UI_QUERY_USERINFO";
-		public static string UPDATE_USERINFO = "FINANCE_UI_UPDATE_USERINFO";
-		public static string INSERT_USERINFO = "FINANCE_UI_INSERT_USERINFO";
+        public static string 交易单资金流水_个人 = "QUERY_BANKROLL_LISTID_2";
+        public static string 交易单资金流水_商户 = "QUERY_BANKROLL_LISTID_1";
+        public static string 交易单资金流水_银行 = "QUERY_BANKROLL_LISTID_3";
 
-        public static string QUERY_UNFINISHTRADE_BUY= "UNREG_QUERY_PAIPAI_TRANS_1";//查询买家是否有未完成交易
-        public static string QUERY_UNFINISHTRADE_SALE= "UNREG_QUERY_PAIPAI_TRANS_2";//查询卖家是否有未完成交易
+        public static string QUERY_USERINFO = "FINANCE_UI_QUERY_USERINFO";
+        public static string UPDATE_USERINFO = "FINANCE_UI_UPDATE_USERINFO";
+        public static string INSERT_USERINFO = "FINANCE_UI_INSERT_USERINFO";
 
-		public static string QUERY_BANKUSER = "FINANCE_UI_QUERY_BANKUSER";
-		public static string UPDATE_BANKUSER = "FINANCE_UI_UPDATE_BANKUSER";
-		public static string BATCH_BANKUSER ="FINANCE_UI_QUERY_MULTI_BANK";  //多卡提现，一次查出所有卡
+        public static string QUERY_UNFINISHTRADE_BUY = "UNREG_QUERY_PAIPAI_TRANS_1";//查询买家是否有未完成交易
+        public static string QUERY_UNFINISHTRADE_SALE = "UNREG_QUERY_PAIPAI_TRANS_2";//查询卖家是否有未完成交易
+
+        public static string QUERY_BANKUSER = "FINANCE_UI_QUERY_BANKUSER";
+        public static string UPDATE_BANKUSER = "FINANCE_UI_UPDATE_BANKUSER";
+        public static string BATCH_BANKUSER = "FINANCE_UI_QUERY_MULTI_BANK";  //多卡提现，一次查出所有卡
         public static string UPDATE_NON_PRIMIRY_BANK = "FINANCE_UI_MOD_FETCH_BANK_STATUS";  //解冻非主卡
 
-		public static string QUERY_DIC = "FINANCE_UI_QUERY_DIC";
-		public static string QUERY_DIC_COUNT = "FINANCE_UI_QUERY_DIC_C";
-		public static string UPDATE_DICINFO = "FINANCE_UI_UPDATE_DIC";
-		public static string INSERT_DICINFO = "FINANCE_UI_INSERT_DIC";
+        public static string QUERY_DIC = "FINANCE_UI_QUERY_DIC";
+        public static string QUERY_DIC_COUNT = "FINANCE_UI_QUERY_DIC_C";
+        public static string UPDATE_DICINFO = "FINANCE_UI_UPDATE_DIC";
+        public static string INSERT_DICINFO = "FINANCE_UI_INSERT_DIC";
 
-		public static string QUERY_USERATT = "FINANCE_UI_QUERY_USERATT";
-		public static string INSERT_USERATT = "FINANCE_UI_INSERT_USERATT";
-		public static string UPDATE_USERATT = "FINANCE_UI_UPDATE_USERATT";
+        public static string QUERY_USERATT = "FINANCE_UI_QUERY_USERATT";
+        public static string INSERT_USERATT = "FINANCE_UI_INSERT_USERATT";
+        public static string UPDATE_USERATT = "FINANCE_UI_UPDATE_USERATT";
 
-		public static string QUERY_MUSER = "FINANCE_UI_QUERY_MUSER";
-		public static string UPDATE_MUSER = "FINANCE_UI_UPDATE_MUSER";
-		public static string INSERT_MUSER = "FINANCE_UI_INSERT_MUSER";
+        public static string QUERY_MUSER = "FINANCE_UI_QUERY_MUSER";
+        public static string UPDATE_MUSER = "FINANCE_UI_UPDATE_MUSER";
+        public static string INSERT_MUSER = "FINANCE_UI_INSERT_MUSER";
 
-		public static string QUERY_RELATION = "FINANCE_UI_QUERY_RELATION";
-		public static string UPDATE_RELATION = "FINANCE_UI_UPDATE_RELATION";
-		public static string INSERT_RELATION = "FINANCE_UI_INSERT_RELATION";
-		public static string DELETE_RELATION = "FINANCE_UI_DELETE_RELATION";
+        public static string QUERY_RELATION = "FINANCE_UI_QUERY_RELATION";
+        public static string UPDATE_RELATION = "FINANCE_UI_UPDATE_RELATION";
+        public static string INSERT_RELATION = "FINANCE_UI_INSERT_RELATION";
+        public static string DELETE_RELATION = "FINANCE_UI_DELETE_RELATION";
 
-		public static string QUERY_MERCHANTINFO = "FINANCE_UI_QUERY_MERCHANTINFO";
+        public static string QUERY_MERCHANTINFO = "FINANCE_UI_QUERY_MERCHANTINFO";
 
-		//select * from c2c_db.t_merchant_info where Fspecial='$special$';
-		public static string QUERY_MERCHANTINFO_C = "FINANCE_UI_QUERY_MERCHANTINFO_C"; 
-		public static string UPDATE_MERCHANTINFO = "FINANCE_UI_UPDATE_MERCHANTINFO";
-		public static string INSERT_MERCHANTINFO = "FINANCE_UI_INSERT_MERCHANTINFO";
+        //select * from c2c_db.t_merchant_info where Fspecial='$special$';
+        public static string QUERY_MERCHANTINFO_C = "FINANCE_UI_QUERY_MERCHANTINFO_C";
+        public static string UPDATE_MERCHANTINFO = "FINANCE_UI_UPDATE_MERCHANTINFO";
+        public static string INSERT_MERCHANTINFO = "FINANCE_UI_INSERT_MERCHANTINFO";
 
 
-		public static string QUERY_WANT = "FINANCE_OD_QUERY_WANT";
-		public static string UPDATE_WANT = "FINANCE_OD_UPDATE_WANT";
+        public static string QUERY_WANT = "FINANCE_OD_QUERY_WANT";
+        public static string UPDATE_WANT = "FINANCE_OD_UPDATE_WANT";
 
-		public static string QUERY_APPEAL = "FINANCE_OD_QUERY_APPEAL";
+        public static string QUERY_APPEAL = "FINANCE_OD_QUERY_APPEAL";
 
-		public static string QUERY_USERPAY_L = "FINANCE_OD_QUERY_USERPAY_L";
-		public static string QUERY_USERPAY_U = "FINANCE_OD_QUERY_USERPAY_U";
+        public static string QUERY_USERPAY_L = "FINANCE_OD_QUERY_USERPAY_L";
+        public static string QUERY_USERPAY_U = "FINANCE_OD_QUERY_USERPAY_U";
 
-		public static string QUERY_SPMREFUND = "FINANCE_OD_QUERY_SPMREFUND";
-		public static string QUERY_SPMREFUND_COUNT = "FINANCE_OD_QUERY_SPMREFUND_C";
-		public static string UPDATE_SPMREFUND = "FINANCE_OD_UPDATE_SPMREFUND";
-		public static string INSERT_SPMREFUND = "FINANCE_OD_INSERT_SPMREFUND";
+        public static string QUERY_SPMREFUND = "FINANCE_OD_QUERY_SPMREFUND";
+        public static string QUERY_SPMREFUND_COUNT = "FINANCE_OD_QUERY_SPMREFUND_C";
+        public static string UPDATE_SPMREFUND = "FINANCE_OD_UPDATE_SPMREFUND";
+        public static string INSERT_SPMREFUND = "FINANCE_OD_INSERT_SPMREFUND";
 
-		//public static string QUERY_ORDER = "FINANCE_OD_QUERY_ORDER";
+        //public static string QUERY_ORDER = "FINANCE_OD_QUERY_ORDER";
         public static string QUERY_ORDER = "query_order_service";//通过接口查询订单yinhuang 14/8/9
-		public static string UPDATE_ORDER = "FINANCE_OD_UPDATE_ORDER";
+        public static string UPDATE_ORDER = "FINANCE_OD_UPDATE_ORDER";
 
-		public static string QUERY_TCBANKROLL = "FINANCE_OD_TCBANKROLL";  //正常查询
-		public static string QUERY_TCBANKROLL_COUNT = "FINANCE_OD_TCBANKROLL_C";  //只查询count
-		public static string QUERY_TCBANKROLL_HISTORY = "FINANCE_OD_TCBANKROLL_H";  //查询历史
-		//public static string QUERY_TCBANKROLL_HCOUNT = "FINANCE_OD_TCBANKROLL_HC";  //查询历史count 不再通过这个配置来查询。andrew 20110324
-		public static string QUERY_TCBANKROLL_PAYSUM = "FINANCE_OD_TCBANKROLL_PAYSUM"; //查询统计
+        public static string QUERY_TCBANKROLL = "FINANCE_OD_TCBANKROLL";  //正常查询
+        public static string QUERY_TCBANKROLL_COUNT = "FINANCE_OD_TCBANKROLL_C";  //只查询count
+        public static string QUERY_TCBANKROLL_HISTORY = "FINANCE_OD_TCBANKROLL_H";  //查询历史
+        //public static string QUERY_TCBANKROLL_HCOUNT = "FINANCE_OD_TCBANKROLL_HC";  //查询历史count 不再通过这个配置来查询。andrew 20110324
+        public static string QUERY_TCBANKROLL_PAYSUM = "FINANCE_OD_TCBANKROLL_PAYSUM"; //查询统计
 
-		public static string QUERY_USEROPLOG = "FINANCE_UI_QUERY_USEROPLOG"; //查询操作流水表
+        public static string QUERY_USEROPLOG = "FINANCE_UI_QUERY_USEROPLOG"; //查询操作流水表
 
-		public static string QUERY_SYNREC_ID = "FINANCE_QUERY_SYNREC_ID"; //用单号查询同步记录
-		public static string QUERY_SYNREC_SP = "FINANCE_QUERY_SYNREC_SP"; //用单号查询同步记录
-		public static string QUERY_TCBANKROLL_S = "QUERY_MUL_CHARGE_LIST"; //查询c2c_order_db_xx.t_tcbankroll_list_x(按照Fbank_list分库分表)走queryserver rowenawu 20120301
-		public static string QUERY_TCBANKROLL_DAY="FINANCE_OD_TCBANKROLL_DAY"; //查询 c2c_order_db.t_tcbankroll_list_yyyyMMdd (按天分) 走通用查询 rowenawu 20120306
-		public static string QUERY_MCH_REFUND = "FINANCE_OD_QUERY_MCH_REFUND";//查询c2c_db_xx.t_merch_refund_x（transaction_id分库分表） andrew 20120222
-		public static string QUERY_TRANSPORT ="FINANCE_QUERY_TRANSPORT"; //查询物流单 改为commquery
-		public static string QUERY_REFUND_RELATION = "FINANCE_OD_QUERY_REFUND_RELATION";//查询c2c_db_xx.t_refund_relation_x(按照Fdraw_id分库分表) andrew 20120222
-		public static string QUERY_USER_REFUND = "FINANCE_OD_QUERY_USER_REFUND";//查询c2c_db_xx.t_user_refund_x(按照Fsp_uid分库分表) andrew 20120222
-		public static string QUERY_APPEAL_NEW = "FINANCE_UI_QUERY_APPEAL";//查询c2c_db_appeal.t_appeal
-		public static string QUERY_MESSAGE = "FINANCE_UI_QUERY_MESSAGE";//查询c2c_db_$XX$.t_message_$Y$
-		public static string QUERY_PAIPAI_REFUND = "FINANCE_OD_QUERY_SPM_REFUND";//查询拍拍退款申请单 andrew 20121015
+        public static string QUERY_SYNREC_ID = "FINANCE_QUERY_SYNREC_ID"; //用单号查询同步记录
+        public static string QUERY_SYNREC_SP = "FINANCE_QUERY_SYNREC_SP"; //用单号查询同步记录
+        public static string QUERY_TCBANKROLL_S = "QUERY_MUL_CHARGE_LIST"; //查询c2c_order_db_xx.t_tcbankroll_list_x(按照Fbank_list分库分表)走queryserver rowenawu 20120301
+        public static string QUERY_TCBANKROLL_DAY = "FINANCE_OD_TCBANKROLL_DAY"; //查询 c2c_order_db.t_tcbankroll_list_yyyyMMdd (按天分) 走通用查询 rowenawu 20120306
+        public static string QUERY_MCH_REFUND = "FINANCE_OD_QUERY_MCH_REFUND";//查询c2c_db_xx.t_merch_refund_x（transaction_id分库分表） andrew 20120222
+        public static string QUERY_TRANSPORT = "FINANCE_QUERY_TRANSPORT"; //查询物流单 改为commquery
+        public static string QUERY_REFUND_RELATION = "FINANCE_OD_QUERY_REFUND_RELATION";//查询c2c_db_xx.t_refund_relation_x(按照Fdraw_id分库分表) andrew 20120222
+        public static string QUERY_USER_REFUND = "FINANCE_OD_QUERY_USER_REFUND";//查询c2c_db_xx.t_user_refund_x(按照Fsp_uid分库分表) andrew 20120222
+        public static string QUERY_APPEAL_NEW = "FINANCE_UI_QUERY_APPEAL";//查询c2c_db_appeal.t_appeal
+        public static string QUERY_MESSAGE = "FINANCE_UI_QUERY_MESSAGE";//查询c2c_db_$XX$.t_message_$Y$
+        public static string QUERY_PAIPAI_REFUND = "FINANCE_OD_QUERY_SPM_REFUND";//查询拍拍退款申请单 andrew 20121015
 
         public static string QUERY_YT_INFO = "FINANCE_OD_QUERY_YT_INFO";//查询运通账号信息
         public static string QUERY_YT_CERT_NUM = "FINANCE_OD_QUERY_YT_CERT_NUM";//查询身份证开通运通账号个数
@@ -185,617 +196,617 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         public static string QUERY_FREE_FLOW = "FINANCE_OD_QUERY_FREE_FLOW";//查询免费流量
         public static string QUERY_USER_TYPE = "FINANCE_OD_QUERY_USER_TYPE";//查询用户类型
 
-		public static int UpdateOrderFromICE(string strCmd,out string errMsg)
-		{
-			errMsg = "";
-
-			string	sReply = "";
-			short	iResult;
-			string sMsg = "";
-
-			string servicename =  "order_update_service";
-
-			if(commRes.middleInvoke(servicename, strCmd, false, out sReply, out iResult, out sMsg))
-			{
-				if(iResult == 0)
-				{
-					errMsg = "更新订单成功";
-					return 0;
-				}
-				else
-				{
-					errMsg = "reply=" + sReply + "||msg=" + sMsg;
-					return -2;
-				}
-			}
-			else
-			{
-				errMsg = "调用ICE失败";
-				errMsg += "reply=" + sReply + "||msg=" + sMsg;
-				return -1;
-			}
-		}
-
-		public static int LockTcbankrollFromICE(string strCmd,out string errMsg)
-		{
-			errMsg = "";
-
-			string	sReply = "";
-			short	iResult;
-			string sMsg = "";
-
-			string servicename =  "order_prerefund_service";
-
-			if(commRes.middleInvoke(servicename, strCmd, false, out sReply, out iResult, out sMsg))
-			{
-				if(iResult == 0)
-				{
-					errMsg = "对帐退款预处理成功";
-					return 0;
-				}
-				else
-				{
-					errMsg = "reply=" + sReply + "||msg=" + sMsg;
-					return -2;
-				}
-			}
-			else
-			{
-				errMsg = "调用ICE失败";
-				errMsg += "reply=" + sReply + "||msg=" + sMsg;
-				return -1;
-			}
-		}
-
-		/// <summary>
-		/// 资料库的更新可以走这里，更新订单的要走另外一个接口order_update_service。
-		/// </summary>
-		/// <param name="strWhere"></param>
-		/// <param name="strCmd"></param>
-		/// <param name="errMsg"></param>
-		/// <returns></returns>
-		public static int ExecSqlFromICE(string strWhere,string strCmd,out string errMsg)
-		{
-			errMsg = "";
-
-			string	sReply = "";
-			short	iResult;
-			string sMsg = "";
-
-			string sInmsg = "CMD=" + strCmd + "&" + strWhere;
-
-			//string servicename =  "ex_common_query_service";
-			string servicename =  "ui_common_update_service";
-			bool needsecret = true;
-			//更新spmrefund时，使用小牛的接口
-			if(strCmd == "FINANCE_OD_UPDATE_SPMREFUND")
-			{
-				servicename = "order_zwupdate_service";
-				sInmsg += "&MSG_NO=998" + DateTime.Now.Ticks.ToString();
-				needsecret = false;
-			}
-
-			if(commRes.middleInvoke(servicename, sInmsg, needsecret, out sReply, out iResult, out sMsg))
-			{
-				if(iResult == 0)
-				{
-					errMsg = "执行成功";
-					//这里要获取影响条数。 sReply里的AFFECTED_ROW参数。
-					string[] strlist1 = sReply.Split('&');
-
-					if(strlist1.Length == 0)
-					{
-						errMsg = "调用UI_UPDATE失败,返回结果有误" + sReply ;
-						return -3;
-					}
-
-					Hashtable ht = new Hashtable(strlist1.Length);
-
-					foreach(string strtmp in strlist1)
-					{
-						if(strtmp.Trim() == "")
-							continue;
-						string[] strlist2 = strtmp.Split('=');
-						if(strlist2.Length != 2)
-						{
-							errMsg = "调用UI_UPDATE失败,返回结果有误" + sReply ;
-							return -4;
-						}
-                            
-						ht.Add(strlist2[0].Trim(),strlist2[1].Trim());
-					}
-
-					if(!ht.Contains("result") || ht["result"].ToString().Trim() != "0" || !ht.Contains("AFFECTED_ROW") )
-					{
-						errMsg = "调用UI_UPDATE失败,返回结果有误" + sReply ;
-						return -5;
-					}
-
-					int irowcount = Int32.Parse(ht["AFFECTED_ROW"].ToString().Trim());
-
-					return irowcount;
-				}
-				else
-				{
-					errMsg = "reply=" + sReply + "||msg=" + sMsg;
-					return -2;
-				}
-			}
-			else
-			{
-				errMsg = "调用ICE失败";
-				errMsg += "reply=" + sReply + "||msg=" + sMsg;
-				return -1;
-			}
-		}
-
-
-		public static string IceDecode(string str)
-		{
-			if(str == null)
-				return "";
-
-			return str.Replace("%26","&").Replace("%3d","=").Replace("%3D","=").Replace("%25","%");
-		}
-
-
-		public static DataSet GetDataSetFromReply(string sReply, out string errMsg)
-		{
-			errMsg = "";
-			DataSet dsresult = new DataSet();
-			Hashtable ht = new Hashtable();
-
-			string[] strlist1 = sReply.Split('&');
-
-			if(strlist1.Length == 0)
-			{
-				dsresult = null;
-				errMsg = "调用通用查询失败,返回结果有误" + sReply ;
-				return null;
-			}
-
-			ht = new Hashtable(strlist1.Length);
-
-			foreach(string strtmp in strlist1)
-			{
-				string[] strlist2 = strtmp.Split('=');
-				if(strlist2.Length != 2)
-				{
-					dsresult = null;
-					errMsg = "调用通用查询失败,返回结果有误" + sReply ;
-					return null;
-				}
-                            
-				ht.Add(strlist2[0].Trim(),strlist2[1].Trim());
-			}
-
-			if(!ht.Contains("result") || ht["result"].ToString().Trim() != "0" || !ht.Contains("row_num") )
-			{
-				dsresult = null;
-				errMsg = "调用通用查询失败,返回结果有误" + sReply ;
-				return null;
-			}
-
-			int irowcount = Int32.Parse(ht["row_num"].ToString().Trim());
-
-			if(irowcount == 0)
-			{
-				dsresult = null;
-				errMsg = "查询结果为空";
-				return null;
-			}
-
-			dsresult = new DataSet();
-			DataTable dt = new DataTable();
-			dsresult.Tables.Add(dt);
-
-			string firstrow = ht["row1"].ToString().Trim();
-
-			firstrow = URLDecode(firstrow);
-
-			string[] strsplit3 = firstrow.Split('&');
-
-			if(strsplit3.Length == 0)
-			{
-				dsresult = null;
-				errMsg = "查询结果中无法解析出字段";
-				return null;
-			}
-						
-
-			foreach(string stmp in strsplit3)
-			{
-				if(stmp == null || stmp.Trim() == "")
-					continue;
-
-				string[] fieldsplit = stmp.Split('=');
-						
-				if(fieldsplit.Length != 2)
-					continue;
-
-				dt.Columns.Add(fieldsplit[0]);
-			}
-
-			for(int i=1; i<=irowcount ;i++ )
-			{
-				string onerow = ht["row" + i].ToString().Trim();
-				onerow = URLDecode(onerow);
-				string[] strsplit_detail = onerow.Split('&');
-
-				DataRow drfield = dt.NewRow();
-				drfield.BeginEdit();							
-
-				foreach(string stmp in strsplit_detail)
-				{
-					if(stmp == null || stmp.Trim() == "")
-						continue;
-
-					string[] fieldsplit = stmp.Split('=');
-						
-					if(fieldsplit.Length != 2)
-						continue;
-
-					//drfield[fieldsplit[0]] = URLDecode(fieldsplit[1].Trim());
-					drfield[fieldsplit[0]] = IceDecode(fieldsplit[1].Trim());
-
-					/*
-								string strtmp = fieldsplit[1].Trim();
-								byte[] srcbuff = Encoding.UTF8.GetBytes(strtmp);
-								byte[] desbuff = Encoding.Convert(Encoding.UTF8,Encoding.GetEncoding("gb2312"),srcbuff);
-								strtmp = Encoding.GetEncoding("gb2312").GetString(desbuff);
-
-								drfield[fieldsplit[0]] = strtmp;
-								*/
-				}
-
-				drfield.EndEdit();
-				dt.Rows.Add(drfield);
-
-			}
-
-			return dsresult;
-		}
-
-		// 2012/4/9
-		public static DataSet GetDataSetFromICE(string strWhere, string strCmd, bool isrealtime,string servicename, out string errMsg,bool isscrect)
-		{
-			DataSet dsresult = null;
-			Hashtable ht = null;
-
-			errMsg = "";
-
-			string	sReply;
-			short	iResult;
-			string sMsg;
-
-			string sInmsg = "CMD=" + strCmd + "&" + strWhere;
-
-			//			string servicename =  "ex_common_query_service";
-			//
-			//			if(isrealtime)
-			//			{
-			//				servicename =  "ex_common_query_service";
-			//			}
-
-			/*
-			if(strCmd=="query_order_service")//走query_order_service去的单独去查询查询andrewguo 20120525
-			{
-				return GetDataSetFromICE_OrderServer(strWhere,strCmd,isrealtime,out errMsg);
-			}
-			*/
-
-			if(commRes.middleInvoke(servicename, sInmsg, isscrect, out sReply, out iResult, out sMsg))
-			{
-				if(iResult == 0)
-				{
-					//对sreply进行解析
-					if(sReply == null || sReply.Trim() == "")
-					{
-						dsresult = null;
-						errMsg = "调用通用查询失败,无返回结果" + servicename + sInmsg ;
-						return null;
-					}
-					else
-					{
-						string[] strlist1 = sReply.Split('&');
-
-						if(strlist1.Length == 0)
-						{
-							dsresult = null;
-							errMsg = "调用通用查询失败,返回结果有误" + sReply ;
-							return null;
-						}
-
-						ht = new Hashtable(strlist1.Length);
-
-						foreach(string strtmp in strlist1)
-						{
-							string[] strlist2 = strtmp.Split('=');
-							if(strlist2.Length != 2)
-							{
-								dsresult = null;
-								errMsg = "调用通用查询失败,返回结果有误" + sReply ;
-								return null;
-							}
-                            
-							ht.Add(strlist2[0].Trim(),strlist2[1].Trim());
-						}
-
-						if(!ht.Contains("result") || ht["result"].ToString().Trim() != "0" || !ht.Contains("row_num") )
-						{
-							dsresult = null;
-							errMsg = "调用通用查询失败,返回结果有误" + sReply ;
-							return null;
-						}
-
-						int irowcount = Int32.Parse(ht["row_num"].ToString().Trim());
-
-						if(irowcount == 0)
-						{
-							dsresult = null;
-							errMsg = "查询结果为空";
-							return null;
-						}
-
-						dsresult = new DataSet();
-						DataTable dt = new DataTable();
-						dsresult.Tables.Add(dt);
-
-						string firstrow = ht["row1"].ToString().Trim();
-
-						firstrow = URLDecode(firstrow);
-
-						string[] strsplit3 = firstrow.Split('&');
-
-						if(strsplit3.Length == 0)
-						{
-							dsresult = null;
-							errMsg = "查询结果中无法解析出字段";
-							return null;
-						}
-						
-
-						foreach(string stmp in strsplit3)
-						{
-							if(stmp == null || stmp.Trim() == "")
-								continue;
-
-							string[] fieldsplit = stmp.Split('=');
-						
-							if(fieldsplit.Length != 2)
-								continue;
-
-							dt.Columns.Add(fieldsplit[0]);
-						}
-
-						for(int i=1; i<=irowcount ;i++ )
-						{
-							string onerow = ht["row" + i].ToString().Trim();
-							onerow = URLDecode(onerow);
-							string[] strsplit_detail = onerow.Split('&');
-
-							DataRow drfield = dt.NewRow();
-							drfield.BeginEdit();							
-
-							foreach(string stmp in strsplit_detail)
-							{
-								if(stmp == null || stmp.Trim() == "")
-									continue;
-
-								string[] fieldsplit = stmp.Split('=');
-						
-								if(fieldsplit.Length != 2)
-									continue;
-
-								//drfield[fieldsplit[0]] = URLDecode(fieldsplit[1].Trim());
-								drfield[fieldsplit[0]] = IceDecode(fieldsplit[1].Trim());
-
-								/*
-								string strtmp = fieldsplit[1].Trim();
-								byte[] srcbuff = Encoding.UTF8.GetBytes(strtmp);
-								byte[] desbuff = Encoding.Convert(Encoding.UTF8,Encoding.GetEncoding("gb2312"),srcbuff);
-								strtmp = Encoding.GetEncoding("gb2312").GetString(desbuff);
-
-								drfield[fieldsplit[0]] = strtmp;
-								*/
-							}
-
-							drfield.EndEdit();
-							dt.Rows.Add(drfield);
-
-						}
-
-					}
-					return dsresult;
-				}
-				else
-				{
-					dsresult = null;
-					errMsg = "调用通用查询失败iresult=" + iResult + "|err="  + sMsg;
-					return null;
-				}
-			}
-			else
-			{
-				dsresult = null;
-				errMsg = "调用通用查询失败了:" + sMsg;
-				return null;
-			}
-
-		}
-
-
-		public static DataSet GetDataSetFromICE(string strWhere, string strCmd, out string errMsg)
-		{
-			return GetDataSetFromICE(strWhere,strCmd,false,"ex_common_query_service",out errMsg);
-		}
-
-
-		public static DataSet GetDataSetFromICE(string strWhere, string strCmd, bool isrealtime,string servicename, out string errMsg)
-		{
-			DataSet dsresult = null;
-			Hashtable ht = null;
-
-			errMsg = "";
-
-			string	sReply;
-			short	iResult;
-			string sMsg;
-
-			string sInmsg = "CMD=" + strCmd + "&" + strWhere;
-
-			//			string servicename =  "ex_common_query_service";
-			//
-			//			if(isrealtime)
-			//			{
-			//				servicename =  "ex_common_query_service";
-			//			}
-
-			if(strCmd=="query_order_service")//走query_order_service去的单独去查询查询andrewguo 20120525
-			{
-				return GetDataSetFromICE_OrderServer(strWhere,strCmd,isrealtime,out errMsg);
-			}
-
-			if(commRes.middleInvoke(servicename, sInmsg, false, out sReply, out iResult, out sMsg))
-			{
-				if(iResult == 0)
-				{
-					//对sreply进行解析
-					if(sReply == null || sReply.Trim() == "")
-					{
-						dsresult = null;
-						errMsg = "调用通用查询失败,无返回结果" + servicename + sInmsg ;
-						return null;
-					}
-					else
-					{
-						string[] strlist1 = sReply.Split('&');
-
-						if(strlist1.Length == 0)
-						{
-							dsresult = null;
-							errMsg = "调用通用查询失败,返回结果有误" + sReply ;
-							return null;
-						}
-
-						ht = new Hashtable(strlist1.Length);
-
-						foreach(string strtmp in strlist1)
-						{
-							string[] strlist2 = strtmp.Split('=');
-							if(strlist2.Length != 2)
-							{
-								dsresult = null;
-								errMsg = "调用通用查询失败,返回结果有误" + sReply ;
-								return null;
-							}
-                            
-							ht.Add(strlist2[0].Trim(),strlist2[1].Trim());
-						}
-
-						if(!ht.Contains("result") || ht["result"].ToString().Trim() != "0" || !ht.Contains("row_num") )
-						{
-							dsresult = null;
-							errMsg = "调用通用查询失败,返回结果有误" + sReply ;
-							return null;
-						}
-
-						int irowcount = Int32.Parse(ht["row_num"].ToString().Trim());
-
-						if(irowcount == 0)
-						{
-							dsresult = null;
-							errMsg = "查询结果为空";
-							return null;
-						}
-
-						dsresult = new DataSet();
-						DataTable dt = new DataTable();
-						dsresult.Tables.Add(dt);
-
-						string firstrow = ht["row1"].ToString().Trim();
-
-						firstrow = URLDecode(firstrow);
-
-						string[] strsplit3 = firstrow.Split('&');
-
-						if(strsplit3.Length == 0)
-						{
-							dsresult = null;
-							errMsg = "查询结果中无法解析出字段";
-							return null;
-						}
-						
-
-						foreach(string stmp in strsplit3)
-						{
-							if(stmp == null || stmp.Trim() == "")
-								continue;
-
-							string[] fieldsplit = stmp.Split('=');
-						
-							if(fieldsplit.Length != 2)
-								continue;
-
-							dt.Columns.Add(fieldsplit[0]);
-						}
-
-						for(int i=1; i<=irowcount ;i++ )
-						{
-							string onerow = ht["row" + i].ToString().Trim();
-							onerow = URLDecode(onerow);
-							string[] strsplit_detail = onerow.Split('&');
-
-							DataRow drfield = dt.NewRow();
-							drfield.BeginEdit();							
-
-							foreach(string stmp in strsplit_detail)
-							{
-								if(stmp == null || stmp.Trim() == "")
-									continue;
-
-								string[] fieldsplit = stmp.Split('=');
-						
-								if(fieldsplit.Length != 2)
-									continue;
-
-								//drfield[fieldsplit[0]] = URLDecode(fieldsplit[1].Trim());
-								drfield[fieldsplit[0]] = IceDecode(fieldsplit[1].Trim());
-
-								/*
-								string strtmp = fieldsplit[1].Trim();
-								byte[] srcbuff = Encoding.UTF8.GetBytes(strtmp);
-								byte[] desbuff = Encoding.Convert(Encoding.UTF8,Encoding.GetEncoding("gb2312"),srcbuff);
-								strtmp = Encoding.GetEncoding("gb2312").GetString(desbuff);
-
-								drfield[fieldsplit[0]] = strtmp;
-								*/
-							}
-
-							drfield.EndEdit();
-							dt.Rows.Add(drfield);
-
-						}
-
-					}
-					return dsresult;
-				}
-				else
-				{
-					dsresult = null;
-					errMsg = "调用通用查询失败iresult=" + iResult + "|err="  + sMsg;
-					return null;
-				}
-			}
-			else
-			{
-				dsresult = null;
-				errMsg = "调用通用查询失败了:" + sMsg;
-				return null;
-			}
-
-		}
-      
+        public static int UpdateOrderFromICE(string strCmd, out string errMsg)
+        {
+            errMsg = "";
+
+            string sReply = "";
+            short iResult;
+            string sMsg = "";
+
+            string servicename = "order_update_service";
+
+            if (commRes.middleInvoke(servicename, strCmd, false, out sReply, out iResult, out sMsg))
+            {
+                if (iResult == 0)
+                {
+                    errMsg = "更新订单成功";
+                    return 0;
+                }
+                else
+                {
+                    errMsg = "reply=" + sReply + "||msg=" + sMsg;
+                    return -2;
+                }
+            }
+            else
+            {
+                errMsg = "调用ICE失败";
+                errMsg += "reply=" + sReply + "||msg=" + sMsg;
+                return -1;
+            }
+        }
+
+        public static int LockTcbankrollFromICE(string strCmd, out string errMsg)
+        {
+            errMsg = "";
+
+            string sReply = "";
+            short iResult;
+            string sMsg = "";
+
+            string servicename = "order_prerefund_service";
+
+            if (commRes.middleInvoke(servicename, strCmd, false, out sReply, out iResult, out sMsg))
+            {
+                if (iResult == 0)
+                {
+                    errMsg = "对帐退款预处理成功";
+                    return 0;
+                }
+                else
+                {
+                    errMsg = "reply=" + sReply + "||msg=" + sMsg;
+                    return -2;
+                }
+            }
+            else
+            {
+                errMsg = "调用ICE失败";
+                errMsg += "reply=" + sReply + "||msg=" + sMsg;
+                return -1;
+            }
+        }
+
+        /// <summary>
+        /// 资料库的更新可以走这里，更新订单的要走另外一个接口order_update_service。
+        /// </summary>
+        /// <param name="strWhere"></param>
+        /// <param name="strCmd"></param>
+        /// <param name="errMsg"></param>
+        /// <returns></returns>
+        public static int ExecSqlFromICE(string strWhere, string strCmd, out string errMsg)
+        {
+            errMsg = "";
+
+            string sReply = "";
+            short iResult;
+            string sMsg = "";
+
+            string sInmsg = "CMD=" + strCmd + "&" + strWhere;
+
+            //string servicename =  "ex_common_query_service";
+            string servicename = "ui_common_update_service";
+            bool needsecret = true;
+            //更新spmrefund时，使用小牛的接口
+            if (strCmd == "FINANCE_OD_UPDATE_SPMREFUND")
+            {
+                servicename = "order_zwupdate_service";
+                sInmsg += "&MSG_NO=998" + DateTime.Now.Ticks.ToString();
+                needsecret = false;
+            }
+
+            if (commRes.middleInvoke(servicename, sInmsg, needsecret, out sReply, out iResult, out sMsg))
+            {
+                if (iResult == 0)
+                {
+                    errMsg = "执行成功";
+                    //这里要获取影响条数。 sReply里的AFFECTED_ROW参数。
+                    string[] strlist1 = sReply.Split('&');
+
+                    if (strlist1.Length == 0)
+                    {
+                        errMsg = "调用UI_UPDATE失败,返回结果有误" + sReply;
+                        return -3;
+                    }
+
+                    Hashtable ht = new Hashtable(strlist1.Length);
+
+                    foreach (string strtmp in strlist1)
+                    {
+                        if (strtmp.Trim() == "")
+                            continue;
+                        string[] strlist2 = strtmp.Split('=');
+                        if (strlist2.Length != 2)
+                        {
+                            errMsg = "调用UI_UPDATE失败,返回结果有误" + sReply;
+                            return -4;
+                        }
+
+                        ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
+                    }
+
+                    if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0" || !ht.Contains("AFFECTED_ROW"))
+                    {
+                        errMsg = "调用UI_UPDATE失败,返回结果有误" + sReply;
+                        return -5;
+                    }
+
+                    int irowcount = Int32.Parse(ht["AFFECTED_ROW"].ToString().Trim());
+
+                    return irowcount;
+                }
+                else
+                {
+                    errMsg = "reply=" + sReply + "||msg=" + sMsg;
+                    return -2;
+                }
+            }
+            else
+            {
+                errMsg = "调用ICE失败";
+                errMsg += "reply=" + sReply + "||msg=" + sMsg;
+                return -1;
+            }
+        }
+
+
+        public static string IceDecode(string str)
+        {
+            if (str == null)
+                return "";
+
+            return str.Replace("%26", "&").Replace("%3d", "=").Replace("%3D", "=").Replace("%25", "%");
+        }
+
+
+        public static DataSet GetDataSetFromReply(string sReply, out string errMsg)
+        {
+            errMsg = "";
+            DataSet dsresult = new DataSet();
+            Hashtable ht = new Hashtable();
+
+            string[] strlist1 = sReply.Split('&');
+
+            if (strlist1.Length == 0)
+            {
+                dsresult = null;
+                errMsg = "调用通用查询失败,返回结果有误" + sReply;
+                return null;
+            }
+
+            ht = new Hashtable(strlist1.Length);
+
+            foreach (string strtmp in strlist1)
+            {
+                string[] strlist2 = strtmp.Split('=');
+                if (strlist2.Length != 2)
+                {
+                    dsresult = null;
+                    errMsg = "调用通用查询失败,返回结果有误" + sReply;
+                    return null;
+                }
+
+                ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
+            }
+
+            if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0" || !ht.Contains("row_num"))
+            {
+                dsresult = null;
+                errMsg = "调用通用查询失败,返回结果有误" + sReply;
+                return null;
+            }
+
+            int irowcount = Int32.Parse(ht["row_num"].ToString().Trim());
+
+            if (irowcount == 0)
+            {
+                dsresult = null;
+                errMsg = "查询结果为空";
+                return null;
+            }
+
+            dsresult = new DataSet();
+            DataTable dt = new DataTable();
+            dsresult.Tables.Add(dt);
+
+            string firstrow = ht["row1"].ToString().Trim();
+
+            firstrow = URLDecode(firstrow);
+
+            string[] strsplit3 = firstrow.Split('&');
+
+            if (strsplit3.Length == 0)
+            {
+                dsresult = null;
+                errMsg = "查询结果中无法解析出字段";
+                return null;
+            }
+
+
+            foreach (string stmp in strsplit3)
+            {
+                if (stmp == null || stmp.Trim() == "")
+                    continue;
+
+                string[] fieldsplit = stmp.Split('=');
+
+                if (fieldsplit.Length != 2)
+                    continue;
+
+                dt.Columns.Add(fieldsplit[0]);
+            }
+
+            for (int i = 1; i <= irowcount; i++)
+            {
+                string onerow = ht["row" + i].ToString().Trim();
+                onerow = URLDecode(onerow);
+                string[] strsplit_detail = onerow.Split('&');
+
+                DataRow drfield = dt.NewRow();
+                drfield.BeginEdit();
+
+                foreach (string stmp in strsplit_detail)
+                {
+                    if (stmp == null || stmp.Trim() == "")
+                        continue;
+
+                    string[] fieldsplit = stmp.Split('=');
+
+                    if (fieldsplit.Length != 2)
+                        continue;
+
+                    //drfield[fieldsplit[0]] = URLDecode(fieldsplit[1].Trim());
+                    drfield[fieldsplit[0]] = IceDecode(fieldsplit[1].Trim());
+
+                    /*
+                                string strtmp = fieldsplit[1].Trim();
+                                byte[] srcbuff = Encoding.UTF8.GetBytes(strtmp);
+                                byte[] desbuff = Encoding.Convert(Encoding.UTF8,Encoding.GetEncoding("gb2312"),srcbuff);
+                                strtmp = Encoding.GetEncoding("gb2312").GetString(desbuff);
+
+                                drfield[fieldsplit[0]] = strtmp;
+                                */
+                }
+
+                drfield.EndEdit();
+                dt.Rows.Add(drfield);
+
+            }
+
+            return dsresult;
+        }
+
+        // 2012/4/9
+        public static DataSet GetDataSetFromICE(string strWhere, string strCmd, bool isrealtime, string servicename, out string errMsg, bool isscrect)
+        {
+            DataSet dsresult = null;
+            Hashtable ht = null;
+
+            errMsg = "";
+
+            string sReply;
+            short iResult;
+            string sMsg;
+
+            string sInmsg = "CMD=" + strCmd + "&" + strWhere;
+
+            //			string servicename =  "ex_common_query_service";
+            //
+            //			if(isrealtime)
+            //			{
+            //				servicename =  "ex_common_query_service";
+            //			}
+
+            /*
+            if(strCmd=="query_order_service")//走query_order_service去的单独去查询查询andrewguo 20120525
+            {
+                return GetDataSetFromICE_OrderServer(strWhere,strCmd,isrealtime,out errMsg);
+            }
+            */
+
+            if (commRes.middleInvoke(servicename, sInmsg, isscrect, out sReply, out iResult, out sMsg))
+            {
+                if (iResult == 0)
+                {
+                    //对sreply进行解析
+                    if (sReply == null || sReply.Trim() == "")
+                    {
+                        dsresult = null;
+                        errMsg = "调用通用查询失败,无返回结果" + servicename + sInmsg;
+                        return null;
+                    }
+                    else
+                    {
+                        string[] strlist1 = sReply.Split('&');
+
+                        if (strlist1.Length == 0)
+                        {
+                            dsresult = null;
+                            errMsg = "调用通用查询失败,返回结果有误" + sReply;
+                            return null;
+                        }
+
+                        ht = new Hashtable(strlist1.Length);
+
+                        foreach (string strtmp in strlist1)
+                        {
+                            string[] strlist2 = strtmp.Split('=');
+                            if (strlist2.Length != 2)
+                            {
+                                dsresult = null;
+                                errMsg = "调用通用查询失败,返回结果有误" + sReply;
+                                return null;
+                            }
+
+                            ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
+                        }
+
+                        if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0" || !ht.Contains("row_num"))
+                        {
+                            dsresult = null;
+                            errMsg = "调用通用查询失败,返回结果有误" + sReply;
+                            return null;
+                        }
+
+                        int irowcount = Int32.Parse(ht["row_num"].ToString().Trim());
+
+                        if (irowcount == 0)
+                        {
+                            dsresult = null;
+                            errMsg = "查询结果为空";
+                            return null;
+                        }
+
+                        dsresult = new DataSet();
+                        DataTable dt = new DataTable();
+                        dsresult.Tables.Add(dt);
+
+                        string firstrow = ht["row1"].ToString().Trim();
+
+                        firstrow = URLDecode(firstrow);
+
+                        string[] strsplit3 = firstrow.Split('&');
+
+                        if (strsplit3.Length == 0)
+                        {
+                            dsresult = null;
+                            errMsg = "查询结果中无法解析出字段";
+                            return null;
+                        }
+
+
+                        foreach (string stmp in strsplit3)
+                        {
+                            if (stmp == null || stmp.Trim() == "")
+                                continue;
+
+                            string[] fieldsplit = stmp.Split('=');
+
+                            if (fieldsplit.Length != 2)
+                                continue;
+
+                            dt.Columns.Add(fieldsplit[0]);
+                        }
+
+                        for (int i = 1; i <= irowcount; i++)
+                        {
+                            string onerow = ht["row" + i].ToString().Trim();
+                            onerow = URLDecode(onerow);
+                            string[] strsplit_detail = onerow.Split('&');
+
+                            DataRow drfield = dt.NewRow();
+                            drfield.BeginEdit();
+
+                            foreach (string stmp in strsplit_detail)
+                            {
+                                if (stmp == null || stmp.Trim() == "")
+                                    continue;
+
+                                string[] fieldsplit = stmp.Split('=');
+
+                                if (fieldsplit.Length != 2)
+                                    continue;
+
+                                //drfield[fieldsplit[0]] = URLDecode(fieldsplit[1].Trim());
+                                drfield[fieldsplit[0]] = IceDecode(fieldsplit[1].Trim());
+
+                                /*
+                                string strtmp = fieldsplit[1].Trim();
+                                byte[] srcbuff = Encoding.UTF8.GetBytes(strtmp);
+                                byte[] desbuff = Encoding.Convert(Encoding.UTF8,Encoding.GetEncoding("gb2312"),srcbuff);
+                                strtmp = Encoding.GetEncoding("gb2312").GetString(desbuff);
+
+                                drfield[fieldsplit[0]] = strtmp;
+                                */
+                            }
+
+                            drfield.EndEdit();
+                            dt.Rows.Add(drfield);
+
+                        }
+
+                    }
+                    return dsresult;
+                }
+                else
+                {
+                    dsresult = null;
+                    errMsg = "调用通用查询失败iresult=" + iResult + "|err=" + sMsg;
+                    return null;
+                }
+            }
+            else
+            {
+                dsresult = null;
+                errMsg = "调用通用查询失败了:" + sMsg;
+                return null;
+            }
+
+        }
+
+
+        public static DataSet GetDataSetFromICE(string strWhere, string strCmd, out string errMsg)
+        {
+            return GetDataSetFromICE(strWhere, strCmd, false, "ex_common_query_service", out errMsg);
+        }
+
+
+        public static DataSet GetDataSetFromICE(string strWhere, string strCmd, bool isrealtime, string servicename, out string errMsg)
+        {
+            DataSet dsresult = null;
+            Hashtable ht = null;
+
+            errMsg = "";
+
+            string sReply;
+            short iResult;
+            string sMsg;
+
+            string sInmsg = "CMD=" + strCmd + "&" + strWhere;
+
+            //			string servicename =  "ex_common_query_service";
+            //
+            //			if(isrealtime)
+            //			{
+            //				servicename =  "ex_common_query_service";
+            //			}
+
+            if (strCmd == "query_order_service")//走query_order_service去的单独去查询查询andrewguo 20120525
+            {
+                return GetDataSetFromICE_OrderServer(strWhere, strCmd, isrealtime, out errMsg);
+            }
+
+            if (commRes.middleInvoke(servicename, sInmsg, false, out sReply, out iResult, out sMsg))
+            {
+                if (iResult == 0)
+                {
+                    //对sreply进行解析
+                    if (sReply == null || sReply.Trim() == "")
+                    {
+                        dsresult = null;
+                        errMsg = "调用通用查询失败,无返回结果" + servicename + sInmsg;
+                        return null;
+                    }
+                    else
+                    {
+                        string[] strlist1 = sReply.Split('&');
+
+                        if (strlist1.Length == 0)
+                        {
+                            dsresult = null;
+                            errMsg = "调用通用查询失败,返回结果有误" + sReply;
+                            return null;
+                        }
+
+                        ht = new Hashtable(strlist1.Length);
+
+                        foreach (string strtmp in strlist1)
+                        {
+                            string[] strlist2 = strtmp.Split('=');
+                            if (strlist2.Length != 2)
+                            {
+                                dsresult = null;
+                                errMsg = "调用通用查询失败,返回结果有误" + sReply;
+                                return null;
+                            }
+
+                            ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
+                        }
+
+                        if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0" || !ht.Contains("row_num"))
+                        {
+                            dsresult = null;
+                            errMsg = "调用通用查询失败,返回结果有误" + sReply;
+                            return null;
+                        }
+
+                        int irowcount = Int32.Parse(ht["row_num"].ToString().Trim());
+
+                        if (irowcount == 0)
+                        {
+                            dsresult = null;
+                            errMsg = "查询结果为空";
+                            return null;
+                        }
+
+                        dsresult = new DataSet();
+                        DataTable dt = new DataTable();
+                        dsresult.Tables.Add(dt);
+
+                        string firstrow = ht["row1"].ToString().Trim();
+
+                        firstrow = URLDecode(firstrow);
+
+                        string[] strsplit3 = firstrow.Split('&');
+
+                        if (strsplit3.Length == 0)
+                        {
+                            dsresult = null;
+                            errMsg = "查询结果中无法解析出字段";
+                            return null;
+                        }
+
+
+                        foreach (string stmp in strsplit3)
+                        {
+                            if (stmp == null || stmp.Trim() == "")
+                                continue;
+
+                            string[] fieldsplit = stmp.Split('=');
+
+                            if (fieldsplit.Length != 2)
+                                continue;
+
+                            dt.Columns.Add(fieldsplit[0]);
+                        }
+
+                        for (int i = 1; i <= irowcount; i++)
+                        {
+                            string onerow = ht["row" + i].ToString().Trim();
+                            onerow = URLDecode(onerow);
+                            string[] strsplit_detail = onerow.Split('&');
+
+                            DataRow drfield = dt.NewRow();
+                            drfield.BeginEdit();
+
+                            foreach (string stmp in strsplit_detail)
+                            {
+                                if (stmp == null || stmp.Trim() == "")
+                                    continue;
+
+                                string[] fieldsplit = stmp.Split('=');
+
+                                if (fieldsplit.Length != 2)
+                                    continue;
+
+                                //drfield[fieldsplit[0]] = URLDecode(fieldsplit[1].Trim());
+                                drfield[fieldsplit[0]] = IceDecode(fieldsplit[1].Trim());
+
+                                /*
+                                string strtmp = fieldsplit[1].Trim();
+                                byte[] srcbuff = Encoding.UTF8.GetBytes(strtmp);
+                                byte[] desbuff = Encoding.Convert(Encoding.UTF8,Encoding.GetEncoding("gb2312"),srcbuff);
+                                strtmp = Encoding.GetEncoding("gb2312").GetString(desbuff);
+
+                                drfield[fieldsplit[0]] = strtmp;
+                                */
+                            }
+
+                            drfield.EndEdit();
+                            dt.Rows.Add(drfield);
+
+                        }
+
+                    }
+                    return dsresult;
+                }
+                else
+                {
+                    dsresult = null;
+                    errMsg = "调用通用查询失败iresult=" + iResult + "|err=" + sMsg;
+                    return null;
+                }
+            }
+            else
+            {
+                dsresult = null;
+                errMsg = "调用通用查询失败了:" + sMsg;
+                return null;
+            }
+
+        }
+
         //外币 多笔 通用查询
         public static DataSet GetDataSetFromICEIA(string strWhere, string strCmd, out string errMsg)
         {
@@ -966,7 +977,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
         }
 
-        public static DataSet GetOneTableFromICE(string strWhere, string strCmd, string servicename,bool isCret, out string errMsg) 
+        public static DataSet GetOneTableFromICE(string strWhere, string strCmd, string servicename, bool isCret, out string errMsg)
         {
             DataSet dsresult = null;
             Hashtable ht = null;
@@ -1042,7 +1053,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 return null;
             }
         }
-        
+
         //外币商户信息查询调用过 middleInvoke  去掉CMD参数
         public static DataSet FCGetOneTableFromICE(string strWhere, string strCmd, string servicename, bool isCret, out string errMsg)
         {
@@ -1171,7 +1182,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                             }
                             dt.Columns.Add(strlist2[0]);
 
-                           // drfield[strlist2[0]] = IceDecode(strlist2[1].Trim());
+                            // drfield[strlist2[0]] = IceDecode(strlist2[1].Trim());
                             drfield[strlist2[0]] = strlist2[1].Trim();
 
                             ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
@@ -1333,7 +1344,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                             {
                                 continue;
                             }
-                            
+
                             ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
                         }
 
@@ -1345,7 +1356,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                         //解析xml
                         string rec_xml = ht["rec_info"].ToString();
-                        if (rec_xml != null && rec_xml != "") {
+                        if (rec_xml != null && rec_xml != "")
+                        {
                             dsresult = new DataSet();
                             DataTable dt = new DataTable();
                             dsresult.Tables.Add(dt);
@@ -1356,26 +1368,28 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                             XmlElement root = doc.DocumentElement;
                             XmlNodeList record_el = root.SelectNodes("record");
                             //foreach(XmlElement el in record_el)
-                            for(int i=0;i<record_el.Count;i++)
+                            for (int i = 0; i < record_el.Count; i++)
                             {
                                 DataRow drfield = dt.NewRow();
-							    drfield.BeginEdit();
+                                drfield.BeginEdit();
 
                                 XmlNodeList ch_list = record_el[i].ChildNodes;
-                                foreach (XmlElement ele in ch_list) {
+                                foreach (XmlElement ele in ch_list)
+                                {
                                     string name = ele.Name.Trim();
-                                    if (i == 0) {
+                                    if (i == 0)
+                                    {
                                         dt.Columns.Add(name, typeof(String));
                                     }
                                     drfield[name] = ele.InnerText;
                                 }
-                                
+
                                 //drfield[name] = el.SelectSingleNode(name).InnerText.ToString();
 
                                 drfield.EndEdit();
-							    dt.Rows.Add(drfield);
+                                dt.Rows.Add(drfield);
                             }
-                        
+
                         }
                     }
                     return dsresult;
@@ -1395,7 +1409,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         }
 
         //不加密
-        public static DataSet GetXmlToDataSetFromICE(string strWhere, string strCmd, string servicename, out string errMsg,bool iskey)
+        public static DataSet GetXmlToDataSetFromICE(string strWhere, string strCmd, string servicename, out string errMsg, bool iskey)
         {
             DataSet dsresult = null;
             Hashtable ht = null;
@@ -1521,7 +1535,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 if (iResult == 0)
                 {
                     //将返回结果编码格式转成uft8
-                    sReply = Encoding.UTF8.GetString(Encoding.Default.GetBytes(sReply)).Replace("?/","</");
+                    sReply = Encoding.UTF8.GetString(Encoding.Default.GetBytes(sReply)).Replace("?/", "</");
                     //对sreply进行解析
                     if (sReply == null || sReply.Trim() == "")
                     {
@@ -1980,8 +1994,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                             dt.Rows.Add(drfield);
                         }
                     }
-                    
-                }  
+
+                }
             }
 
             return dsresult;
@@ -1996,7 +2010,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             dsresult = new DataSet();
             DataTable dt = new DataTable();
             dsresult.Tables.Add(dt);
-     
+
             if (xml == null || xml == "")
             {
                 errMsg = "解析xml失败,返回结果有误" + xml;
@@ -2007,7 +2021,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             doc.LoadXml(xml);
             XmlElement root = doc.DocumentElement;
             XmlNode retcode = root.SelectSingleNode("retcode");
-          
+
             if (retcode == null || retcode.InnerText != "00")//操作成功
             {
                 errMsg = "解析xml失败,返回结果有误" + xml;
@@ -2053,7 +2067,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                             for (int k = 0; k < listAttr.Count; k++)
                                 dt.Columns.Add(listAttr.Item(k).Name, typeof(String));
                         }
-                        for (int j = 0; j< listAttr.Count; j++)
+                        for (int j = 0; j < listAttr.Count; j++)
                         {
                             drfield[listAttr.Item(j).Name] = listAttr.Item(j).Value;
                         }
@@ -2074,7 +2088,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             //string b2 = dsresult.Tables[0].Rows[1]["from"].ToString();
             //string b3 = dsresult.Tables[0].Rows[1]["flight_no"].ToString();
             return dsresult;
-          
+
         }
 
         //酒店订单查询cgi返回结果json解析
@@ -2084,7 +2098,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             errMsg = "";
             dsresult = new DataSet();
             DataTable dt = new DataTable();
-           
+
             if (json == null || json == "")
             {
                 errMsg = "解析json失败,返回结果有误" + json;
@@ -2116,7 +2130,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             public string result { get; set; }
             public string res_info { get; set; }
             public queryorder_info queryorder_info;
-        }  public struct queryorder_info
+        }
+        public struct queryorder_info
         {
             public string order_num { get; set; }
             public List<orderdetail> orderdetail;
@@ -2163,7 +2178,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                 string result = list.error.code;
                 string retmsg = list.error.message;
-                
+
                 if (result == "0")
                 {
                     sendCount = list.result.recordonuser.sendcount;
@@ -2174,7 +2189,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                         List<SendDetail> sendDetail = list.result.recordonuser.sendrecord;
                         dt = ToDataTableTow(sendDetail);
                     }
-                    else 
+                    else
                     {
                         //接收
                         List<ReceiveDetail> receiveDetail = list.result.recordonuser.receiverecord;
@@ -2183,7 +2198,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                     dsresult.Tables.Add(dt);
                     return dsresult;
                 }
-                else 
+                else
                 {
                     errMsg = retmsg;
                     return null;
@@ -2252,7 +2267,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
         public struct XYKRecordClass
         {
-            
+
             public SendRecordClass recordonuser;
         };
 
@@ -2302,15 +2317,15 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             public XYKRetcodeMsg error;
             public XYKSendDetailClass result;
         };
-        public struct XYKSendDetailClass 
+        public struct XYKSendDetailClass
         {
             public SendDetailClass recordonsendid;
         }
-        public struct SendDetailClass 
+        public struct SendDetailClass
         {
             public List<SendRecordDetail> record;
         }
-        public struct SendRecordDetail 
+        public struct SendRecordDetail
         {
             public string suborderid { get; set; }
             public string receivenickname { get; set; }
@@ -2362,14 +2377,15 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         /// </summary>
         /// <param name="str"></param>
         /// <param name="errMsg"></param>
+        ///  <param name="isAllowedFaild">是否允许result=0</param>
         /// <returns></returns>
-        public static DataSet ParseRelayStr(string str, out string errMsg) 
+        public static DataSet ParseRelayStr(string str, out string errMsg,bool isAllowedFaild = false)
         {
             DataSet dsresult = null;
             Hashtable ht = null;
             errMsg = "";
 
-            if (str != null && str != "") 
+            if (str != null && str != "")
             {
                 string[] strlist1 = str.Split('&'); //result=0&xx1=1&xx2=2
 
@@ -2392,12 +2408,14 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                     ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
                 }
-
-                if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
+                if (!isAllowedFaild)
                 {
-                    dsresult = null;
-                    errMsg = "调用失败,返回结果有误" + str;
-                    return null;
+                    if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
+                    {
+                        dsresult = null;
+                        errMsg = "调用失败,返回结果有误" + str;
+                        return null;
+                    }
                 }
 
                 dsresult = new DataSet();
@@ -2419,7 +2437,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 }
 
                 DataRow drfield = dt.NewRow();
-                drfield.BeginEdit();	
+                drfield.BeginEdit();
 
                 //解析xx1=1&xx2=2
                 foreach (string stmp in strlist1)
@@ -2433,7 +2451,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                         continue;
 
                     drfield[fieldsplit[0]] = IceDecode(fieldsplit[1].Trim());
-                    
+
                 }
                 drfield.EndEdit();
                 dt.Rows.Add(drfield);
@@ -2505,8 +2523,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                         if (!ht.Contains(strRowName))
                         {
                             continue;
-                           // errMsg += "调用失败,解析接收红包有误。有接收红包数值，却没有解析到对应的数据" + str;
-                           // return null;
+                            // errMsg += "调用失败,解析接收红包有误。有接收红包数值，却没有解析到对应的数据" + str;
+                            // return null;
                         }
                         DataRow row = dt.NewRow();
                         string rowData = IceDecode(ht[strRowName].ToString());
@@ -2523,7 +2541,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                                 continue;
                             if (!dt.Columns.Contains(fieldsplit[0]))
                             {
-                                dt.Columns.Add(fieldsplit[0], typeof(string));                              
+                                dt.Columns.Add(fieldsplit[0], typeof(string));
                             }
                             row[fieldsplit[0]] = fieldsplit[1];
 
@@ -2534,7 +2552,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                             {
                                 dt.Columns.Add("send_uin", typeof(string));
                             }
-                            
+
                             row["send_uin"] = ht["send_uin"].ToString();
                         }
                         if (ht.Contains("send_name"))
@@ -2543,7 +2561,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                             {
                                 dt.Columns.Add("send_name", typeof(string));
                             }
-                            
+
                             row["send_name"] = ht["send_name"].ToString();
                         }
                         if (ht.Contains("channel"))
@@ -2555,15 +2573,15 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                             row["channel"] = ht["channel"].ToString();
                         }
-                      /*  if (ht.Contains("wishing"))
-                        {
-                            if (!dt.Columns.Contains("wishing"))
-                            {
-                                dt.Columns.Add("wishing", typeof(string));
-                            }
+                        /*  if (ht.Contains("wishing"))
+                          {
+                              if (!dt.Columns.Contains("wishing"))
+                              {
+                                  dt.Columns.Add("wishing", typeof(string));
+                              }
                             
-                            row["wishing"] = ht["wishing"].ToString();
-                        }*/
+                              row["wishing"] = ht["wishing"].ToString();
+                          }*/
                         dt.Rows.Add(row);
                     }
                 }
@@ -2602,11 +2620,11 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                     {
                         dt.Columns.Add("channel", typeof(string));
                     }
-                    
-                    
+
+
                     dt.Rows.Add(row);
                 }
-             }
+            }
 
 
             return dsresult;
@@ -2620,27 +2638,27 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         /// /// <param name="strFlag">解析标识</param>
         /// <param name="errMsg">返回的错误码</param>
         /// <returns></returns>
-        public static DataTable ParseHQHBDataSet(DataSet ds,out string errMsg)
+        public static DataTable ParseHQHBDataSet(DataSet ds, out string errMsg)
         {
             errMsg = "ParseHQHBDataSet";
-           // DataSet hqDs = new DataSet();
+            // DataSet hqDs = new DataSet();
             //解析收红包数据
             DataTable dt = new DataTable();
 
-            
+
             if (ds.Tables[0].Rows.Count <= 0 || int.Parse(ds.Tables[0].Rows[0]["row_num"].ToString()) < 1)
             {
                 return null;
             }
-            
+
             //添加列
             //string rowName = string.Format("row{0}",1);
             string strRow = CommQuery.IceDecode(ds.Tables[0].Rows[0]["row1"].ToString());
             string[] strlist1 = strRow.Split('&'); //result=0&xx1=1&xx2=2
 
             if (strlist1.Length == 0)
-            {              
-                 errMsg += "调用失败,返回结果有误" + strRow;
+            {
+                errMsg += "调用失败,返回结果有误" + strRow;
                 return null;
             }
             foreach (string stmp in strlist1)
@@ -2655,8 +2673,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                 dt.Columns.Add(fieldsplit[0]);
             }
-           
-            
+
+
             //添加数据          
             for (int i = 1; i <= int.Parse(ds.Tables[0].Rows[0]["row_num"].ToString()); ++i)
             {
@@ -2670,7 +2688,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                     errMsg += "调用失败,返回结果有误" + rowData;
                     return null;
                 }
-       
+
 
                 DataRow drfield = dt.NewRow();
                 drfield.BeginEdit();
@@ -2686,7 +2704,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                     if (fieldsplit.Length != 2)
                         continue;
                     //IceDecode
-                   // drfield[fieldsplit[0]] = CommQuery.URLDecode(fieldsplit[1].Trim());
+                    // drfield[fieldsplit[0]] = CommQuery.URLDecode(fieldsplit[1].Trim());
                     drfield[fieldsplit[0]] = CommQuery.IceDecode(fieldsplit[1].Trim());
 
                 }
@@ -2696,7 +2714,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 dt.Rows.Add(drfield);
             }
             return dt;
-           
+
         }
 
         /// <summary>
@@ -2876,7 +2894,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         /// <param name="errMsg"></param>
         /// <param name="totalNum">总记录数</param>
         /// <returns></returns>
-        public static DataSet ParseRelayPageRowNum(string str, out string errMsg,out int totalNum)
+        public static DataSet ParseRelayPageRowNum(string str, out string errMsg, out int totalNum)
         {
             DataSet dsresult = null;
             Hashtable ht = null;
@@ -2949,7 +2967,6 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                             {
                                 dt.Columns.Add(fieldsplit[0]);
                             }
-
                             //drfield[fieldsplit[0]] = URLDecode(fieldsplit[1].Trim());
                             drfield[fieldsplit[0]] = IceDecode(fieldsplit[1].Trim());
                         }
@@ -2962,7 +2979,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             }
 
             return dsresult;
-					
+
         }
 
         /// <summary>
@@ -3021,7 +3038,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                     for (int i = 0; i < irowcount; i++)
                     {
                         string onerow = ht["row" + i].ToString().Trim();
-                        onerow = URLDecode(onerow);
+                        onerow = URLDecode(onerow, "utf-8");
                         string[] strsplit_detail = onerow.Split('&');
 
 
@@ -3101,277 +3118,277 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         }
 
 
-		//新增几个通过query_mul_tcrecv_service来查询 andrew20120224
-		public static DataSet GetDataSetFromICE_QueryServer(string strWhere, string strCmd, out string errMsg)
-		{
+        //新增几个通过query_mul_tcrecv_service来查询 andrew20120224
+        public static DataSet GetDataSetFromICE_QueryServer(string strWhere, string strCmd, out string errMsg)
+        {
             return GetDataSetFromICE(strWhere, strCmd, false, "cq_query_tcbanklist_service", out errMsg);
-		}
-		public static string GetOneResultFromICE(string strWhere, string strCmd,string fieldstr, out string errMsg)
-		{
-			DataTable dtResult = GetTableFromICE(strWhere,strCmd,out errMsg);		
+        }
+        public static string GetOneResultFromICE(string strWhere, string strCmd, string fieldstr, out string errMsg)
+        {
+            DataTable dtResult = GetTableFromICE(strWhere, strCmd, out errMsg);
 
-			if(dtResult == null)
-				return null;
-			else
-			{
-				if(dtResult.Rows.Count == 0)
-					return null;
+            if (dtResult == null)
+                return null;
+            else
+            {
+                if (dtResult.Rows.Count == 0)
+                    return null;
 
-				if( dtResult.Rows[0][fieldstr] == null)
-					return null;
-				else
-					return dtResult.Rows[0][fieldstr].ToString();
-			}
-		}
+                if (dtResult.Rows[0][fieldstr] == null)
+                    return null;
+                else
+                    return dtResult.Rows[0][fieldstr].ToString();
+            }
+        }
 
-		public static string[] GetdrDataFromICE(string strWhere, string strCmd,string[] fieldstrs, out string errMsg)
-		{
-			string[] results = new string[fieldstrs.Length];
+        public static string[] GetdrDataFromICE(string strWhere, string strCmd, string[] fieldstrs, out string errMsg)
+        {
+            string[] results = new string[fieldstrs.Length];
 
-			DataTable dtResult = GetTableFromICE(strWhere,strCmd,out errMsg);		
+            DataTable dtResult = GetTableFromICE(strWhere, strCmd, out errMsg);
 
-			if(dtResult == null)
-				return null;
-			else
-			{
-				if(dtResult.Rows.Count == 0)
-					return null;
+            if (dtResult == null)
+                return null;
+            else
+            {
+                if (dtResult.Rows.Count == 0)
+                    return null;
 
-				for(int i=0;i < fieldstrs.Length;i++)
-				{
-					string str = fieldstrs[i];
-					if( dtResult.Rows[0][str] == null)
-					{
-						results[i] = "";
-					}
-					else
-					{
-						results[i] = dtResult.Rows[0][str].ToString();						
-					}
-					//fieldstrs[i] = results[i];
-				}
-			}
+                for (int i = 0; i < fieldstrs.Length; i++)
+                {
+                    string str = fieldstrs[i];
+                    if (dtResult.Rows[0][str] == null)
+                    {
+                        results[i] = "";
+                    }
+                    else
+                    {
+                        results[i] = dtResult.Rows[0][str].ToString();
+                    }
+                    //fieldstrs[i] = results[i];
+                }
+            }
 
-			return results;
-		}
+            return results;
+        }
 
-		public static DataTable GetTableFromICE(string strWhere, string strCmd, out string errMsg)
-		{
-			DataSet dsresult = GetDataSetFromICE(strWhere,strCmd,out errMsg);		
+        public static DataTable GetTableFromICE(string strWhere, string strCmd, out string errMsg)
+        {
+            DataSet dsresult = GetDataSetFromICE(strWhere, strCmd, out errMsg);
 
-			if(dsresult == null)
-				return null;
-			else
-			{
-				if(dsresult.Tables.Count == 0)
-					return null;
+            if (dsresult == null)
+                return null;
+            else
+            {
+                if (dsresult.Tables.Count == 0)
+                    return null;
 
-				return dsresult.Tables[0];
-			}
-		}
+                return dsresult.Tables[0];
+            }
+        }
 
-		public static bool GetDataFromICE(string strWhere, string strCmd, out string errMsg, out DataSet dsresult)
-		{
-			dsresult = GetDataSetFromICE(strWhere,strCmd,out errMsg);		
+        public static bool GetDataFromICE(string strWhere, string strCmd, out string errMsg, out DataSet dsresult)
+        {
+            dsresult = GetDataSetFromICE(strWhere, strCmd, out errMsg);
 
-			return true;
-		}
-
-
+            return true;
+        }
 
 
-		// 新增几个通过query_order_service来查询 andrew20120524
-		// 该方法目前用于查sp_order_query_service  alex 20120618
-		public static DataSet GetDataSetFromICE_OrderServer(string strWhere, string strCmd, bool issecret, out string errMsg)
-		{
-			DataSet dsresult = null;
-			Hashtable ht = null;
-
-			errMsg = "";
-
-			string	sReply;
-			short	iResult;
-			string sMsg;
-
-			//			if(strWhere.IndexOf("&")<0)
-			//			{
-			//				strWhere="&"+strWhere;
-			//			}
-
-			//string sInmsg = "CMD=" + strCmd + "&" + strWhere;
 
 
-			if(commRes.middleInvoke(strCmd,strWhere,issecret,out sReply,out iResult,out sMsg))
-			{
-				if(iResult == 0)
-				{
-					//对sreply进行解析
-					if(sReply == null || sReply.Trim() == "")
-					{
-						dsresult = null;
-						errMsg = "调用"+strCmd+"失败,无返回结果" + strCmd + strWhere ;
-						return null;
-					}
-					else
-					{
-						string[] strlist1 = sReply.Split('&');
+        // 新增几个通过query_order_service来查询 andrew20120524
+        // 该方法目前用于查sp_order_query_service  alex 20120618
+        public static DataSet GetDataSetFromICE_OrderServer(string strWhere, string strCmd, bool issecret, out string errMsg)
+        {
+            DataSet dsresult = null;
+            Hashtable ht = null;
 
-						if(strlist1.Length == 0)
-						{
-							dsresult = null;
-							errMsg = "调用"+strCmd+"失败,返回结果有误" + sReply ;
-							return null;
-						}
+            errMsg = "";
 
-						ht = new Hashtable(strlist1.Length);
-						string[] strList_Keys = new string[strlist1.Length];
-						string[] strList_Values = new string[strlist1.Length];
-						int index = 0;
+            string sReply;
+            short iResult;
+            string sMsg;
 
-						foreach(string strtmp in strlist1)
-						{
-							string[] strlist2 = strtmp.Split('=');
-							if(strlist2.Length != 2)
-							{
-								dsresult = null;
-								errMsg = "调用"+strCmd+"失败,返回结果有误" + sReply ;
-								return null;
-							}
-                            
-							ht.Add(strlist2[0].Trim(),strlist2[1].Trim());
-							strList_Keys[index] = strlist2[0].Trim(); 
-							strList_Values[index++] = strlist2[1].Trim();
-						}
+            //			if(strWhere.IndexOf("&")<0)
+            //			{
+            //				strWhere="&"+strWhere;
+            //			}
 
-						if(!ht.Contains("result") || ht["result"].ToString().Trim() != "0") //|| !ht.Contains("row_num") )
-						{
-							dsresult = null;
-							errMsg = "调用"+strCmd+"失败,返回结果有误" + sReply ;
-							return null;
-						}
+            //string sInmsg = "CMD=" + strCmd + "&" + strWhere;
 
-						// 没有row_num，则显示一行
-						if(!ht.Contains("row_num"))
-						{
-							dsresult = new DataSet();
-							DataTable dt_oneRow = new DataTable();
-							dsresult.Tables.Add(dt_oneRow);
 
-							for(int i=0;i<index;i++)
-							{
-								dt_oneRow.Columns.Add(strList_Keys[i]);
-							}
+            if (commRes.middleInvoke(strCmd, strWhere, issecret, out sReply, out iResult, out sMsg))
+            {
+                if (iResult == 0)
+                {
+                    //对sreply进行解析
+                    if (sReply == null || sReply.Trim() == "")
+                    {
+                        dsresult = null;
+                        errMsg = "调用" + strCmd + "失败,无返回结果" + strCmd + strWhere;
+                        return null;
+                    }
+                    else
+                    {
+                        string[] strlist1 = sReply.Split('&');
 
-							DataRow dr = dt_oneRow.NewRow();
+                        if (strlist1.Length == 0)
+                        {
+                            dsresult = null;
+                            errMsg = "调用" + strCmd + "失败,返回结果有误" + sReply;
+                            return null;
+                        }
 
-							dr.BeginEdit();
-							for(int i=0;i<index;i++)
-							{
-								dr[i] = strList_Values[i];
-							}
-							dr.EndEdit();
+                        ht = new Hashtable(strlist1.Length);
+                        string[] strList_Keys = new string[strlist1.Length];
+                        string[] strList_Values = new string[strlist1.Length];
+                        int index = 0;
 
-							dt_oneRow.Rows.Add(dr);
+                        foreach (string strtmp in strlist1)
+                        {
+                            string[] strlist2 = strtmp.Split('=');
+                            if (strlist2.Length != 2)
+                            {
+                                dsresult = null;
+                                errMsg = "调用" + strCmd + "失败,返回结果有误" + sReply;
+                                return null;
+                            }
 
-							return dsresult;
-						}
+                            ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
+                            strList_Keys[index] = strlist2[0].Trim();
+                            strList_Values[index++] = strlist2[1].Trim();
+                        }
 
-						int irowcount = Int32.Parse(ht["row_num"].ToString().Trim());
+                        if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0") //|| !ht.Contains("row_num") )
+                        {
+                            dsresult = null;
+                            errMsg = "调用" + strCmd + "失败,返回结果有误" + sReply;
+                            return null;
+                        }
 
-						if(irowcount == 0)
-						{
-							dsresult = null;
-							errMsg = "查询结果为空";
-							return null;
-						}
+                        // 没有row_num，则显示一行
+                        if (!ht.Contains("row_num"))
+                        {
+                            dsresult = new DataSet();
+                            DataTable dt_oneRow = new DataTable();
+                            dsresult.Tables.Add(dt_oneRow);
 
-						dsresult = new DataSet();
-						DataTable dt = new DataTable();
-						dsresult.Tables.Add(dt);
+                            for (int i = 0; i < index; i++)
+                            {
+                                dt_oneRow.Columns.Add(strList_Keys[i]);
+                            }
 
-						string firstrow = ht["row1"].ToString().Trim();
+                            DataRow dr = dt_oneRow.NewRow();
 
-						firstrow = URLDecode(firstrow);
+                            dr.BeginEdit();
+                            for (int i = 0; i < index; i++)
+                            {
+                                dr[i] = strList_Values[i];
+                            }
+                            dr.EndEdit();
 
-						string[] strsplit3 = firstrow.Split('&');
+                            dt_oneRow.Rows.Add(dr);
 
-						if(strsplit3.Length == 0)
-						{
-							dsresult = null;
-							errMsg = "查询结果中无法解析出字段";
-							return null;
-						}
-						
+                            return dsresult;
+                        }
 
-						foreach(string stmp in strsplit3)
-						{
-							if(stmp == null || stmp.Trim() == "")
-								continue;
+                        int irowcount = Int32.Parse(ht["row_num"].ToString().Trim());
 
-							string[] fieldsplit = stmp.Split('=');
-						
-							if(fieldsplit.Length != 2)
-								continue;
+                        if (irowcount == 0)
+                        {
+                            dsresult = null;
+                            errMsg = "查询结果为空";
+                            return null;
+                        }
 
-							dt.Columns.Add(fieldsplit[0]);
-						}
+                        dsresult = new DataSet();
+                        DataTable dt = new DataTable();
+                        dsresult.Tables.Add(dt);
 
-						for(int i=1; i<=irowcount ;i++ )
-						{
-							string onerow = ht["row" + i].ToString().Trim();
-							onerow = URLDecode(onerow);
-							string[] strsplit_detail = onerow.Split('&');
+                        string firstrow = ht["row1"].ToString().Trim();
 
-							DataRow drfield = dt.NewRow();
-							drfield.BeginEdit();							
+                        firstrow = URLDecode(firstrow);
 
-							foreach(string stmp in strsplit_detail)
-							{
-								if(stmp == null || stmp.Trim() == "")
-									continue;
+                        string[] strsplit3 = firstrow.Split('&');
 
-								string[] fieldsplit = stmp.Split('=');
-						
-								if(fieldsplit.Length != 2)
-									continue;
+                        if (strsplit3.Length == 0)
+                        {
+                            dsresult = null;
+                            errMsg = "查询结果中无法解析出字段";
+                            return null;
+                        }
 
-								//drfield[fieldsplit[0]] = URLDecode(fieldsplit[1].Trim());
-								drfield[fieldsplit[0]] = IceDecode(fieldsplit[1].Trim());
 
-								/*
-									 string strtmp = fieldsplit[1].Trim();
-									 byte[] srcbuff = Encoding.UTF8.GetBytes(strtmp);
-									 byte[] desbuff = Encoding.Convert(Encoding.UTF8,Encoding.GetEncoding("gb2312"),srcbuff);
-									 strtmp = Encoding.GetEncoding("gb2312").GetString(desbuff);
+                        foreach (string stmp in strsplit3)
+                        {
+                            if (stmp == null || stmp.Trim() == "")
+                                continue;
 
-									 drfield[fieldsplit[0]] = strtmp;
-									 */
-							}
+                            string[] fieldsplit = stmp.Split('=');
 
-							drfield.EndEdit();
-							dt.Rows.Add(drfield);
+                            if (fieldsplit.Length != 2)
+                                continue;
 
-						}
+                            dt.Columns.Add(fieldsplit[0]);
+                        }
 
-					}
-					return dsresult;
-				}
-				else
-				{
-					dsresult = null;
-					errMsg = "调用"+strCmd+"失败iresult=" + iResult + "|err="  + sMsg;
-					return null;
-				}
-			}
-			else
-			{
-				dsresult = null;
-				errMsg = "调用"+strCmd+"失败了:" + sMsg;
-				return null;
-			}
+                        for (int i = 1; i <= irowcount; i++)
+                        {
+                            string onerow = ht["row" + i].ToString().Trim();
+                            onerow = URLDecode(onerow);
+                            string[] strsplit_detail = onerow.Split('&');
 
-		}
+                            DataRow drfield = dt.NewRow();
+                            drfield.BeginEdit();
 
-	}
-	
+                            foreach (string stmp in strsplit_detail)
+                            {
+                                if (stmp == null || stmp.Trim() == "")
+                                    continue;
+
+                                string[] fieldsplit = stmp.Split('=');
+
+                                if (fieldsplit.Length != 2)
+                                    continue;
+
+                                //drfield[fieldsplit[0]] = URLDecode(fieldsplit[1].Trim());
+                                drfield[fieldsplit[0]] = IceDecode(fieldsplit[1].Trim());
+
+                                /*
+                                     string strtmp = fieldsplit[1].Trim();
+                                     byte[] srcbuff = Encoding.UTF8.GetBytes(strtmp);
+                                     byte[] desbuff = Encoding.Convert(Encoding.UTF8,Encoding.GetEncoding("gb2312"),srcbuff);
+                                     strtmp = Encoding.GetEncoding("gb2312").GetString(desbuff);
+
+                                     drfield[fieldsplit[0]] = strtmp;
+                                     */
+                            }
+
+                            drfield.EndEdit();
+                            dt.Rows.Add(drfield);
+
+                        }
+
+                    }
+                    return dsresult;
+                }
+                else
+                {
+                    dsresult = null;
+                    errMsg = "调用" + strCmd + "失败iresult=" + iResult + "|err=" + sMsg;
+                    return null;
+                }
+            }
+            else
+            {
+                dsresult = null;
+                errMsg = "调用" + strCmd + "失败了:" + sMsg;
+                return null;
+            }
+
+        }
+
+    }
+
 }

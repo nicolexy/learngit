@@ -1903,6 +1903,13 @@
     <Compile Include="TradeManage\BankCardQuery.aspx.designer.cs">
       <DependentUpon>BankCardQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TradeManage\BankCardQueryNew.aspx.cs">
+      <DependentUpon>BankCardQueryNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\BankCardQueryNew.aspx.designer.cs">
+      <DependentUpon>BankCardQueryNew.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TradeManage\BankRollLog.aspx.cs">
       <DependentUpon>BankRollLog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3096,7 +3103,6 @@
     <Content Include="config\DB.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="config\Log4net.config" />
     <Content Include="Configs\Log4net.config" />
     <None Include="DataAccess.dll.log4net" />
     <Content Include="packages.config" />
@@ -3150,6 +3156,7 @@
     <Content Include="TradeManage\BankCardQuery.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="TradeManage\BankCardQueryNew.aspx" />
     <Content Include="TradeManage\BankRollLog.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -4631,7 +4638,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>12062</DevelopmentServerPort>
+          <DevelopmentServerPort>52037</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:6903/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

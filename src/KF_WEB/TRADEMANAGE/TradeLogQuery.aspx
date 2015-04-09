@@ -143,9 +143,9 @@
 										<asp:label id="LB_Fsaleid" runat="server"></asp:label></TD>
 								</TR>
                                 <TR>
-									<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee">&nbsp;</TD>
+									<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee">&nbsp;买家财付通账号:</TD>
 									<TD style="WIDTH: 136px; HEIGHT: 18px" bgColor="#ffffff">&nbsp;
-										<asp:label id="Label1" runat="server"></asp:label></TD>
+										<asp:label id="LB_FbuyidCFT" runat="server"></asp:label></TD>
 									<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee">&nbsp;卖家财付通账号:</TD>
 									<TD style="WIDTH: 156px; HEIGHT: 18px" bgColor="#ffffff" colSpan="2">&nbsp;
 										<asp:label id="LB_FsaleidCFT" runat="server"></asp:label></TD>

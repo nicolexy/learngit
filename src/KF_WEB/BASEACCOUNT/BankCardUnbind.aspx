@@ -13,17 +13,15 @@
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
 		<script language="javascript">
-			function openModeBegin()
-			{
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.tbx_beginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-				if(returnValue != null) Form1.tbx_beginDate.value=returnValue;
-			}
-			
-			function openModeEnd()
-			{
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.tbx_endDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-				if(returnValue != null) Form1.tbx_endDate.value=returnValue;
-			}
+		    function openModeBegin() {
+		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbx_beginDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
+		        if (returnValue != null) Form1.tbx_beginDate.value = returnValue;
+		    }
+
+		    function openModeEnd() {
+		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbx_endDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
+		        if (returnValue != null) Form1.tbx_endDate.value = returnValue;
+		    }
 		</script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
@@ -110,7 +108,7 @@
 							<asp:imagebutton id="ButtonEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton></TD>
 					</TR>
 					<TR>
-						<TD width="150" align="right"><LABEL runat="server">绑定状态</LABEL></TD>
+						<TD width="150" align="right"><LABEL id="LABEL4" runat="server">绑定状态</LABEL></TD>
 						<TD width="250">
 							<asp:DropDownList id="ddl_bindStatue" runat="server">
 								<asp:ListItem Value="99" Selected="True">所有</asp:ListItem>
@@ -214,17 +212,17 @@
 					</TR>
 					<TR>
 						<TD width="150" align="right">
-							<asp:label id="Label4" runat="server">绑定序列号</asp:label></TD>
+							<asp:label id="Label5" runat="server">绑定序列号</asp:label></TD>
 						<TD width="250">
 							<asp:label id="lblFbind_serialno" runat="server"></asp:label></TD>
 						<TD width="150" align="right">
-							<asp:label id="Label5" runat="server">协议编号</asp:label></TD>
+							<asp:label id="Label7" runat="server">协议编号</asp:label></TD>
 						<TD width="250">
 							<asp:label id="lblFprotocol_no" runat="server"></asp:label></TD>
 					</TR>
 					<TR>
 						<TD width="150" align="right">
-							<asp:label id="Label7" runat="server">银行绑定状态</asp:label></TD>
+							<asp:label id="Label9" runat="server">银行绑定状态</asp:label></TD>
 						<TD width="250">
 							<asp:label id="lblFbank_status" runat="server"></asp:label></TD>
 						<TD width="150" align="right">
@@ -234,7 +232,7 @@
 					</TR>
 					<TR>
 						<TD width="150" align="right">
-							<asp:label id="Label9" runat="server">银行卡账户名</asp:label></TD>
+							<asp:label id="Label11" runat="server">银行卡账户名</asp:label></TD>
 						<TD width="250">
 							<asp:label id="lblFtruename" runat="server"></asp:label></TD>
 						<TD width="150" align="right">
@@ -254,7 +252,7 @@
 					</TR>
 					<TR>
 						<TD width="150" align="right">
-							<asp:label id="Label11" runat="server">关联状态</asp:label></TD>
+							<asp:label id="Label13" runat="server">关联状态</asp:label></TD>
 						<TD width="250">
 							<asp:label id="lblFbind_status" runat="server"></asp:label></TD>
 						<TD>
@@ -344,7 +342,7 @@
                     </asp:panel>
 					<TR>
 						<TD width="150" align="right">
-							<asp:label id="Label13" runat="server">备注</asp:label></TD>
+							<asp:label id="Label35" runat="server">备注</asp:label></TD>
 						<TD colSpan="3">
 							<asp:TextBox id="txtFmemo" Width="100%" Runat="server" TextMode="MultiLine"></asp:TextBox></TD>
 					</TR>

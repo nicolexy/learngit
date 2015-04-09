@@ -102,6 +102,49 @@ namespace CFT.CSOMS.BLL.SPOA
             }
             return ds;
         }
+        public DataSet QueryAgencyBySpid(string spid)
+        {
+            DataSet ds = null;
+
+            try
+            {
+                if (string.IsNullOrEmpty(spid))
+                {
+                    throw new ArgumentNullException("参数不能为空！");
+                }
+
+                ds = new SPOAData().QueryAgencyBySpid(spid);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return ds;
+        }
+        /// <summary>
+        /// 通过ID查中介商户详情函数
+        /// </summary>
+        /// <param name="Fid"></param>
+        /// <returns></returns>
+        public DataSet QueryAgencyInfoById(string Fid) 
+        {
+            DataSet ds = null;
+
+            try
+            {
+                if (string.IsNullOrEmpty(Fid))
+                {
+                    throw new ArgumentNullException("参数不能为空！");
+                }
+
+                ds = new SPOAData().QueryAgencyInfoById(Fid);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return ds;
+        }
         /// <summary>
         /// 查询商户历史修改记录--商户资料修改
         /// </summary>
@@ -427,6 +470,11 @@ namespace CFT.CSOMS.BLL.SPOA
             new SPOAData().ValueAddedTaxApprove(taskid, Memo, imgTaxCert, imgBizLicenseCert, imgAuthorizationCert, UserName);
         }
 
+        public void ValueAddedTaxCancel(string taskid, string spid, string Memo, string UserName)
+        {
+            new SPOAData().ValueAddedTaxCancel(taskid, spid, Memo, UserName);
+        }
+
         public DataSet GetSpidDomainQueryListCount(string filter)
         {
             return new SPOAData().GetSpidDomainQueryListCount(filter);
@@ -591,6 +639,156 @@ namespace CFT.CSOMS.BLL.SPOA
                 
             }
             return ds;
+        }
+        /// <summary>
+        /// 关闭支付
+        /// </summary>
+        /// <param name="fspid">商户号</param>
+        /// <param name="opuser">操作人</param>
+        /// <param name="freson">关闭原因</param>
+        /// <returns>返回结果[0为成功执行]</returns>
+        public string ClosePay(string fspid, string opuser, string freson)
+        {
+            try
+            {
+                return new SPOAData().ClosePay(fspid, opuser, freson);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// 冻结商户结算合同
+        /// </summary>
+        /// <param name="fspid"></param>
+        /// <param name="opuser"></param>
+        /// <param name="freson"></param>
+        /// <returns></returns>
+        public string FreezeSpid(string fspid, string opuser, string freson)
+        {
+            try
+            {
+                return new SPOAData().FreezeSpid(fspid, opuser, freson);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// 商户挂失
+        /// </summary>
+        /// <param name="fspid">商户号</param>
+        /// <param name="opuser">操作人</param>
+        /// <param name="freson">挂失原因</param>
+        /// <returns>返回结果[0为成功执行]</returns>
+        public string LostOfSpid(string fspid, string opuser, string freson)
+        {
+            try
+            {
+                return new SPOAData().LostOfSpid(fspid, opuser, freson);
+            }
+            catch (Exception e) 
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// 关闭中介
+        /// </summary>
+        /// <param name="fspid">商户号</param>
+        /// <param name="opuser">操作人</param>
+        /// <param name="freson">关闭原因</param>
+        /// <returns>返回结果[0为成功执行]</returns>
+        public string CloseAgency(string fspid, string opuser, string freson)
+        {
+            try
+            {
+                return new SPOAData().CloseAgency(fspid, opuser, freson);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// 关闭退款
+        /// </summary>
+        /// <param name="fspid">商户号</param>
+        /// <param name="opuser">操作人</param>
+        /// <param name="freson">关闭原因</param>
+        /// <returns>返回结果[0为成功执行]</returns
+        public string CloseRefund(string fspid, string opuser, string freson)
+        {
+            try
+            {
+                return new SPOAData().CloseRefund(fspid, opuser, freson);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// 开通退款
+        /// </summary>
+        /// <param name="fspid">商户号</param>
+        /// <param name="opuser">操作人</param>
+        /// <param name="freson">开通原因</param>
+        /// <returns>返回结果[0为成功执行]</returns>
+        public string OpenRefund(string fspid, string opuser, string freson)
+        {
+            try
+            {
+                return new SPOAData().OpenRefund(fspid, opuser, freson);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// 恢复[冻结|挂失]
+        /// </summary>
+        /// <param name="fspid">商户号</param>
+        /// <param name="opuser">操作人</param>
+        /// <param name="freson">恢复原因</param>
+        /// <returns>返回结果[0为成功执行]</returns>
+        public string RestoreOfSpid(string fspid, string opuser, string freson)
+        {
+            try
+            {
+                return new SPOAData().RestoreOfSpid(fspid, opuser, freson);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        /// <summary>
+        /// 商户注销申请
+        /// </summary>
+        /// <param name="fspid">商户号</param>
+        /// <param name="opuser">操作人</param>
+        /// <param name="freson">恢复原因</param>
+        /// <returns>返回结果[0为成功执行]</returns>
+        public string BusinessLogout(string fspid, string opuser, string freson)
+        {
+            try
+            {
+                return new SPOAData().BusinessLogout(fspid, opuser, freson);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 
