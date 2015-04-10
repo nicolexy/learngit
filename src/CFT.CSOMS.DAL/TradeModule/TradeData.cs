@@ -262,7 +262,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         public DataSet QueryPaymentParty(string listid, string state, string qry_type, string uin)
         {
             //qpayment_party_query_service
-            string reqString = "uid=" + uin;
+            string reqString = "uin=" + uin;
             reqString += "&listid=" + listid;
             reqString += "&state=" + state;
             reqString += "&qry_type=" + qry_type;
