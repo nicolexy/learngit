@@ -2179,7 +2179,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             return strTableName;
 
         }
-
+        //该函数未被调用
         public static string returnFactionType(string QQID, string listID)
         {
             //没有用到的函数

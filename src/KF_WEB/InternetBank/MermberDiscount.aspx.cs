@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Xml;
+using Apollo = CFT.Apollo;//设置别名，不然命名空间与该文件命名空间冲突，会找不到
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 {
@@ -33,16 +34,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
         void BindDate(string qq)
         {
             var md5 = FormsAuthentication.HashPasswordForStoringInConfigFile(string.Format("QQUin={0}|Key=@kd#%&^d13mury", qq), "md5").ToLower();
-            var bufferIn = Encoding.Default.GetBytes(string.Format("CmdCode=CLUB&Data=QQUin={0}&CheckSum={1}\r\n", qq, md5));
+            var bufferIn = Encoding.Default.GetBytes(string.Format("CmdCode=CLUBNEW&Data=QQUin={0}&CheckSum={1}\r\n", qq, md5));
             var resultXml = new XmlDocument();
             //应答串示例
             //"<?xml version='1.0' encoding='gb2312'?><client code='CLUB'><retcode>0</retcode><uin>393054141</uin><yearmonth>201304</yearmonth><amt>0</amt><vip>4</vip><selfamt>0</selfamt></client>"
-            var returnResult = RemoveTroublesomeCharacters(GetTCPReply(bufferIn, "172.23.60.182", 20001));
+            string ip = Apollo.Common.Configuration.AppSettings.Get<string>("MermDiscountIP", "172.23.60.182");
+            int port = Apollo.Common.Configuration.AppSettings.Get<int>("MermDiscountPort", 20001);
+            
+            var returnResult = RemoveTroublesomeCharacters(GetTCPReply(bufferIn,ip, port));
             if (string.IsNullOrEmpty(returnResult))
             {
                 ShowMsg("查询记录为空");
             }
             resultXml.LoadXml(returnResult);
+
+            //返回结果示例：
+            //<?xml version="1.0" encoding="utf-8"?>
+            //<client code="CLUBNEW">
+            //    <retcode>0</retcode>
+            //    <uin>654044031</uin>
+            //    <yearmonth>201504</yearmonth>
+            //    <amt>0</amt>
+            //    <selfamt>0</selfamt>
+            //    <vip>6</vip>
+            //    <cjlevel>6</cjlevel>
+            //</client>
             var clientNode = resultXml.SelectSingleNode("client");
             var isSuccess = clientNode.SelectSingleNode("retcode").InnerText == "0";
             if (!isSuccess)

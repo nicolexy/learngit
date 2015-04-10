@@ -839,7 +839,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         public void dgCloseFundRoll_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
         {
             object obj = e.Item.Cells[12].FindControl("CloseFundApplyButton");
-            string state = e.Item.Cells[8].Text.Trim();//°ó¶¨×´Ì¬
+            string state = e.Item.Cells[9].Text.Trim();//°ó¶¨×´Ì¬
             if (obj != null)
             {
                 LinkButton lb = (LinkButton)obj;
