@@ -19012,7 +19012,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             string strBeginDate = DateTime.Parse(WeekIndex).ToString("yyyyMMdd");
             string strSql = "select FBatchID,'0' FUrl,substring(FBatchID,1,8) FDate,FBankType,FPayCount,(FPaySum / 100) FPaySum1 ,FStatus,'0' FStatusName,'0' FMsg, '0' FBankID "
-                + " from c2c_zwdb.t_batchpay_rec where FBatchID like '" + strBeginDate + "____'  order by FDate desc";
+                + " from c2c_zwdb.t_batchpay_rec where FBatchID like '" + strBeginDate + "______'  order by FDate desc";
 
             DataSet ds = new DataSet();
 
