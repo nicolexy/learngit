@@ -436,6 +436,7 @@ namespace CFT.CSOMS.BLL.FundModule
                     bankRollList.Columns.Add("Ftotal_fee_str", typeof(string));
                     bankRollList.Columns.Add("Floading_type_str", typeof(string));
                     bankRollList.Columns.Add("Fstate_str", typeof(string));
+                    bankRollList.Columns.Add("Fbank_type_str", typeof(string));
 
                     if (bankRollList.Rows.Count > 0)
                     {
@@ -544,6 +545,8 @@ namespace CFT.CSOMS.BLL.FundModule
                             {//除了出其他都没有赎回方式
                                 dr["Floading_type_str"] = "";
                             }
+
+                            dr["Fbank_type_str"] = BankIO.QueryBankName(dr["Fbank_type"].ToString());
                         }
 
                         Hashtable ht = new Hashtable();
