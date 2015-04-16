@@ -7,6 +7,7 @@ using CFT.CSOMS.DAL.Infrastructure;
 using CFT.CSOMS.DAL.LifeFeePaymentModule;
 using CFT.CSOMS.DAL.SPOA;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using CFT.Apollo.Logging;
 
 namespace KF_Test
 {
@@ -26,6 +27,7 @@ namespace KF_Test
         {
             string card_noEn = "N-URCH0idyuLXT7CzV-6Qw==";
             string card_n = BankLib.BankIOX.DecryptNoPadding(card_noEn);
+           
         }
 
     }
