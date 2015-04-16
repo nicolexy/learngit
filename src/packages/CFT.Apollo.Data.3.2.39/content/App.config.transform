@@ -7,8 +7,8 @@
   
   <CFT.Apollo.Data>
     <ConnectionStringAdapter 
-      systemNameInMapping ="Apollo.Data.Test"
-      mappingDBGlobalKey="KeyMappingDB"
+      systemNameInMapping ="lotteryoms"
+      systemNameInCore="CFT_ZW_ALL" 
       relayIP="10.12.23.14"
       relayPort="35600"
       />
