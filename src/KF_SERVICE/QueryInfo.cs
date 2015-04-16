@@ -3482,7 +3482,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
     public class RefundQueryClass : Query_BaseForNET
     {
-        public RefundQueryClass(string batchid, int ifromtype, int irefundtype, int irefundstate, int ireturnstate, string listid)
+        public RefundQueryClass(string batchid, int ifromtype, int irefundtype, int irefundstate, int ireturnstate, string listid, string Fbank_listid)
         {
             string strWhere = " where Fbatchid='" + batchid + "' ";
             if (ifromtype != 9)
@@ -3508,6 +3508,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             if (listid != null && listid.Trim() != "")
             {
                 strWhere += " and FPaylistid='" + listid.Trim() + "' ";
+            }
+
+            if (Fbank_listid != null && Fbank_listid.Trim() != "")
+            {
+                strWhere += " and Fbank_listid='" + Fbank_listid.Trim() + "' ";
             }
 
             fstrSql = "select * from c2c_zwdb.t_refund_total " + strWhere;

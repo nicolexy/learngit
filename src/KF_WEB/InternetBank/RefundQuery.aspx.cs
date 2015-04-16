@@ -44,6 +44,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
                     setConfig.GetAllTypeList(ddlTradeState, "PAY_STATE");
                     ddlTradeState.Items.Insert(0, new ListItem("全部", "0"));
+                    //退款登记模版 v_yqyqguo
+                    DownloadTemplate.NavigateUrl = System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString() + DownloadTemplate.NavigateUrl;
                 }
                 Table3.Visible = false;
                 Table2.Visible = true;
@@ -558,6 +560,67 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             }
         }
 
+        private bool isValidAmount(string ListID, string  Amount, out string msg)
+        {
+            //绑定交易资料信息
+            msg = "";
+            try
+            {
+                double FRefundAmount = Convert.ToDouble(Amount);
+                Query_Service.Query_Service myService = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                DateTime beginTime = DateTime.Parse(ConfigurationManager.AppSettings["sBeginTime"].ToString());
+                DateTime endTime = DateTime.Parse(ConfigurationManager.AppSettings["sEndTime"].ToString());
+                DataSet ds = new DataSet();
+                ds = myService.GetPayList(ListID, 4, beginTime, endTime, 1, 2);
+                double _FRefundAmount = Convert.ToDouble(classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Ffact"].ToString()));
+
+                if (FRefundAmount > 0 && FRefundAmount <= _FRefundAmount)
+                {
+                    return true;
+                }
+                else
+                {
+                    msg = "退款金额超出范围，退款金额：" + FRefundAmount + ",订单金额:" + _FRefundAmount;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                msg ="查询订单金额失败："+ e.Message;
+                return false;
+            }
+        }
+        private bool isValidState(string listID, out string msg) 
+        {
+            msg = "";
+            try
+            {
+                Query_Service.Query_Service qs = new Query_Service.Query_Service();
+                DataSet dsState = qs.GetQueryListDetail(listID);
+                string state = "";
+                if (dsState != null && dsState.Tables.Count > 0 && dsState.Tables[0].Rows.Count > 0)
+                {
+                    dsState.Tables[0].Columns.Add("Ftrade_stateName");
+                    classLibrary.setConfig.GetColumnValueFromDic(dsState.Tables[0], "Ftrade_state", "Ftrade_stateName", "PAY_STATE");
+                    state = dsState.Tables[0].Rows[0]["Ftrade_stateName"].ToString();
+                }
+                if (state.Contains("支付成功"))
+                {
+                    return true;
+                }
+                else 
+                {
+                    msg = "该订单状态不允许录入，订单状态：" + state;  
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                msg = "判断订单状态失败：" + e.Message;
+                return false;
+            }
+        }
+
         public void btnUpload_Click(object sender, System.EventArgs e)
         {
             if (!File1.HasFile)
@@ -602,7 +665,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                         errMsg += "第" + (i + 1) + "行:退款金额输入错误！";
                         continue;
                     }
-
+                  
+                    string msg;
+                    //订单状态为“支付成功/等待卖家发货”的订单才允许录入，非此状态的订单限制录入.
+                    if (!isValidState(r1, out  msg))
+                    {
+                        fail++;
+                        errMsg += "第" + (i + 1) + "行:" + msg + ".";
+                        continue;
+                    }
+                    //批量导入模版中金额需限制为:0<退款金额≦订单金额。
+                    if (!isValidAmount(r1, r6, out msg))
+                    {
+                        fail++;
+                        errMsg += "第" + (i + 1) + "行:" + msg + ".";
+                        continue;
+                    }
                     //组装
                     Query_Service.RefundInfoClass cb = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.RefundInfoClass();
                     cb.FOrderId = r1.Trim();

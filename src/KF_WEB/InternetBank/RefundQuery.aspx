@@ -107,11 +107,13 @@
                 </td>
                 <td align="left" colspan="3">
                     <asp:FileUpload ID="File1" runat="server" Width="355px" />
+                    &nbsp;&nbsp;
+                    <asp:HyperLink ID="DownloadTemplate" runat="server" NavigateUrl="/uploadfile/20150416/CSOMS/Template/RefundTemplate.xls">下载模版</asp:HyperLink>
                 </td>
             </tr>
             <tr>
                 <td align="left" colspan="4">
-                    <asp:Label ID="Label8" runat="server">统计数据：</asp:Label>&nbsp;
+                    <asp:Label ID="Label8" runat="server">统计数据：</asp:Label>&nbsp;&nbsp;&nbsp;
                        <asp:Label ID="Label9" runat="server">0</asp:Label>
                 </td>
             </tr>
