@@ -1253,6 +1253,22 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="BatchSynPayState">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="transIds" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="counts" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BatchSynPayStateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="BatchSynPayStateResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetB2cReturnDetail">
         <s:complexType>
           <s:sequence>
@@ -1329,6 +1345,7 @@
             <s:element minOccurs="1" maxOccurs="1" name="irefundstate" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="ireturnstate" type="s:int" />
             <s:element minOccurs="0" maxOccurs="1" name="listid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Fbank_listid" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="iPageStart" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="iPageMax" type="s:int" />
           </s:sequence>
@@ -1357,6 +1374,7 @@
             <s:element minOccurs="1" maxOccurs="1" name="irefundstate" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="ireturnstate" type="s:int" />
             <s:element minOccurs="0" maxOccurs="1" name="listid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Fbank_listid" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -2448,6 +2466,29 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="QueryTurnoverResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TranLogIncomeSumQuery">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="dateFrom" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="dateTo" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="filter" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TranLogIncomeSumQueryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TranLogIncomeSumQueryResult">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -3774,19 +3815,24 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="BatchSynPayState">
+      <s:element name="QueryAgencyBySpid">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="transIds" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="counts" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="spid" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="BatchSynPayStateResponse">
+      <s:element name="QueryAgencyBySpidResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="BatchSynPayStateResult" type="s:boolean" />
-            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="QueryAgencyBySpidResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -4818,29 +4864,6 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="QueryContractWechatResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="TranLogIncomeSumQuery">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="dateFrom" type="s:dateTime" />
-            <s:element minOccurs="1" maxOccurs="1" name="dateTo" type="s:dateTime" />
-            <s:element minOccurs="0" maxOccurs="1" name="filter" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="TranLogIncomeSumQueryResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="TranLogIncomeSumQueryResult">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -6142,27 +6165,6 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetAgencyBusinessInfoResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="QueryAgencyBySpid">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="spid" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="QueryAgencyBySpidResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="QueryAgencyBySpidResult">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -10823,6 +10825,12 @@
   <wsdl:message name="modifyAttTypeFinance_Header">
     <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
   </wsdl:message>
+  <wsdl:message name="BatchSynPayStateSoapIn">
+    <wsdl:part name="parameters" element="tns:BatchSynPayState" />
+  </wsdl:message>
+  <wsdl:message name="BatchSynPayStateSoapOut">
+    <wsdl:part name="parameters" element="tns:BatchSynPayStateResponse" />
+  </wsdl:message>
   <wsdl:message name="GetB2cReturnDetailSoapIn">
     <wsdl:part name="parameters" element="tns:GetB2cReturnDetail" />
   </wsdl:message>
@@ -11249,6 +11257,12 @@
   <wsdl:message name="QueryTurnoverSoapOut">
     <wsdl:part name="parameters" element="tns:QueryTurnoverResponse" />
   </wsdl:message>
+  <wsdl:message name="TranLogIncomeSumQuerySoapIn">
+    <wsdl:part name="parameters" element="tns:TranLogIncomeSumQuery" />
+  </wsdl:message>
+  <wsdl:message name="TranLogIncomeSumQuerySoapOut">
+    <wsdl:part name="parameters" element="tns:TranLogIncomeSumQueryResponse" />
+  </wsdl:message>
   <wsdl:message name="GetQuerySettlementListSoapIn">
     <wsdl:part name="parameters" element="tns:GetQuerySettlementList" />
   </wsdl:message>
@@ -11657,11 +11671,11 @@
   <wsdl:message name="GetSynRecordQueryDetailSoapOut">
     <wsdl:part name="parameters" element="tns:GetSynRecordQueryDetailResponse" />
   </wsdl:message>
-  <wsdl:message name="BatchSynPayStateSoapIn">
-    <wsdl:part name="parameters" element="tns:BatchSynPayState" />
+  <wsdl:message name="QueryAgencyBySpidSoapIn">
+    <wsdl:part name="parameters" element="tns:QueryAgencyBySpid" />
   </wsdl:message>
-  <wsdl:message name="BatchSynPayStateSoapOut">
-    <wsdl:part name="parameters" element="tns:BatchSynPayStateResponse" />
+  <wsdl:message name="QueryAgencyBySpidSoapOut">
+    <wsdl:part name="parameters" element="tns:QueryAgencyBySpidResponse" />
   </wsdl:message>
   <wsdl:message name="QueryAgencyInfoByIdSoapIn">
     <wsdl:part name="parameters" element="tns:QueryAgencyInfoById" />
@@ -12007,12 +12021,6 @@
   </wsdl:message>
   <wsdl:message name="QueryContractWechatSoapOut">
     <wsdl:part name="parameters" element="tns:QueryContractWechatResponse" />
-  </wsdl:message>
-  <wsdl:message name="TranLogIncomeSumQuerySoapIn">
-    <wsdl:part name="parameters" element="tns:TranLogIncomeSumQuery" />
-  </wsdl:message>
-  <wsdl:message name="TranLogIncomeSumQuerySoapOut">
-    <wsdl:part name="parameters" element="tns:TranLogIncomeSumQueryResponse" />
   </wsdl:message>
   <wsdl:message name="CFTDelAppealDBTBSoapIn">
     <wsdl:part name="parameters" element="tns:CFTDelAppealDBTB" />
@@ -12406,12 +12414,6 @@
   </wsdl:message>
   <wsdl:message name="GetAgencyBusinessInfoSoapOut">
     <wsdl:part name="parameters" element="tns:GetAgencyBusinessInfoResponse" />
-  </wsdl:message>
-  <wsdl:message name="QueryAgencyBySpidSoapIn">
-    <wsdl:part name="parameters" element="tns:QueryAgencyBySpid" />
-  </wsdl:message>
-  <wsdl:message name="QueryAgencyBySpidSoapOut">
-    <wsdl:part name="parameters" element="tns:QueryAgencyBySpidResponse" />
   </wsdl:message>
   <wsdl:message name="QueryCreditUserInfoSoapIn">
     <wsdl:part name="parameters" element="tns:QueryCreditUserInfo" />
@@ -14202,6 +14204,7 @@
     <wsdl:part name="irefundstate" type="s:string" />
     <wsdl:part name="ireturnstate" type="s:string" />
     <wsdl:part name="listid" type="s:string" />
+    <wsdl:part name="Fbank_listid" type="s:string" />
     <wsdl:part name="iPageStart" type="s:string" />
     <wsdl:part name="iPageMax" type="s:string" />
   </wsdl:message>
@@ -14215,6 +14218,7 @@
     <wsdl:part name="irefundstate" type="s:string" />
     <wsdl:part name="ireturnstate" type="s:string" />
     <wsdl:part name="listid" type="s:string" />
+    <wsdl:part name="Fbank_listid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="GetRefundListCountHttpGetOut">
     <wsdl:part name="Body" element="tns:int" />
@@ -14535,6 +14539,14 @@
     <wsdl:part name="end" type="s:string" />
   </wsdl:message>
   <wsdl:message name="QueryTurnoverHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="TranLogIncomeSumQueryHttpGetIn">
+    <wsdl:part name="dateFrom" type="s:string" />
+    <wsdl:part name="dateTo" type="s:string" />
+    <wsdl:part name="filter" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="TranLogIncomeSumQueryHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="GetQuerySettlementListHttpGetIn">
@@ -15073,6 +15085,12 @@
   <wsdl:message name="GetSynRecordQueryDetailHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
+  <wsdl:message name="QueryAgencyBySpidHttpGetIn">
+    <wsdl:part name="spid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="QueryAgencyBySpidHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
   <wsdl:message name="QueryAgencyInfoByIdHttpGetIn">
     <wsdl:part name="fid" type="s:string" />
   </wsdl:message>
@@ -15429,14 +15447,6 @@
     <wsdl:part name="filter" type="s:string" />
   </wsdl:message>
   <wsdl:message name="QueryContractWechatHttpGetOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
-  <wsdl:message name="TranLogIncomeSumQueryHttpGetIn">
-    <wsdl:part name="dateFrom" type="s:string" />
-    <wsdl:part name="dateTo" type="s:string" />
-    <wsdl:part name="filter" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="TranLogIncomeSumQueryHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="GetKFTotalQueryListHttpGetIn">
@@ -15877,12 +15887,6 @@
     <wsdl:part name="Fid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="GetAgencyBusinessInfoHttpGetOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
-  <wsdl:message name="QueryAgencyBySpidHttpGetIn">
-    <wsdl:part name="spid" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="QueryAgencyBySpidHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="QueryCreditUserInfoHttpGetIn">
@@ -17576,6 +17580,7 @@
     <wsdl:part name="irefundstate" type="s:string" />
     <wsdl:part name="ireturnstate" type="s:string" />
     <wsdl:part name="listid" type="s:string" />
+    <wsdl:part name="Fbank_listid" type="s:string" />
     <wsdl:part name="iPageStart" type="s:string" />
     <wsdl:part name="iPageMax" type="s:string" />
   </wsdl:message>
@@ -17589,6 +17594,7 @@
     <wsdl:part name="irefundstate" type="s:string" />
     <wsdl:part name="ireturnstate" type="s:string" />
     <wsdl:part name="listid" type="s:string" />
+    <wsdl:part name="Fbank_listid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="GetRefundListCountHttpPostOut">
     <wsdl:part name="Body" element="tns:int" />
@@ -17909,6 +17915,14 @@
     <wsdl:part name="end" type="s:string" />
   </wsdl:message>
   <wsdl:message name="QueryTurnoverHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="TranLogIncomeSumQueryHttpPostIn">
+    <wsdl:part name="dateFrom" type="s:string" />
+    <wsdl:part name="dateTo" type="s:string" />
+    <wsdl:part name="filter" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="TranLogIncomeSumQueryHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="GetQuerySettlementListHttpPostIn">
@@ -18447,6 +18461,12 @@
   <wsdl:message name="GetSynRecordQueryDetailHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
+  <wsdl:message name="QueryAgencyBySpidHttpPostIn">
+    <wsdl:part name="spid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="QueryAgencyBySpidHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
   <wsdl:message name="QueryAgencyInfoByIdHttpPostIn">
     <wsdl:part name="fid" type="s:string" />
   </wsdl:message>
@@ -18803,14 +18823,6 @@
     <wsdl:part name="filter" type="s:string" />
   </wsdl:message>
   <wsdl:message name="QueryContractWechatHttpPostOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
-  <wsdl:message name="TranLogIncomeSumQueryHttpPostIn">
-    <wsdl:part name="dateFrom" type="s:string" />
-    <wsdl:part name="dateTo" type="s:string" />
-    <wsdl:part name="filter" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="TranLogIncomeSumQueryHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="GetKFTotalQueryListHttpPostIn">
@@ -19251,12 +19263,6 @@
     <wsdl:part name="Fid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="GetAgencyBusinessInfoHttpPostOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
-  <wsdl:message name="QueryAgencyBySpidHttpPostIn">
-    <wsdl:part name="spid" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="QueryAgencyBySpidHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="QueryCreditUserInfoHttpPostIn">
@@ -20812,6 +20818,11 @@
       <wsdl:input message="tns:modifyAttTypeSoapIn" />
       <wsdl:output message="tns:modifyAttTypeSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="BatchSynPayState">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">执行批量同步</wsdl:documentation>
+      <wsdl:input message="tns:BatchSynPayStateSoapIn" />
+      <wsdl:output message="tns:BatchSynPayStateSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetB2cReturnDetail">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">B2C退款查询详细函数</wsdl:documentation>
       <wsdl:input message="tns:GetB2cReturnDetailSoapIn" />
@@ -21094,6 +21105,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">财付值流水查询</wsdl:documentation>
       <wsdl:input message="tns:QueryTurnoverSoapIn" />
       <wsdl:output message="tns:QueryTurnoverSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TranLogIncomeSumQuery">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">结算统计查询</wsdl:documentation>
+      <wsdl:input message="tns:TranLogIncomeSumQuerySoapIn" />
+      <wsdl:output message="tns:TranLogIncomeSumQuerySoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetQuerySettlementList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">商户未结算记录</wsdl:documentation>
@@ -21392,10 +21408,10 @@
       <wsdl:input message="tns:GetSynRecordQueryDetailSoapIn" />
       <wsdl:output message="tns:GetSynRecordQueryDetailSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="BatchSynPayState">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">执行批量同步</wsdl:documentation>
-      <wsdl:input message="tns:BatchSynPayStateSoapIn" />
-      <wsdl:output message="tns:BatchSynPayStateSoapOut" />
+    <wsdl:operation name="QueryAgencyBySpid">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过商户号查询中介商户函数</wsdl:documentation>
+      <wsdl:input message="tns:QueryAgencyBySpidSoapIn" />
+      <wsdl:output message="tns:QueryAgencyBySpidSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="QueryAgencyInfoById">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过ID查中介商户详情函数</wsdl:documentation>
@@ -21672,11 +21688,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">微信商户查合同表</wsdl:documentation>
       <wsdl:input message="tns:QueryContractWechatSoapIn" />
       <wsdl:output message="tns:QueryContractWechatSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="TranLogIncomeSumQuery">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">结算统计查询</wsdl:documentation>
-      <wsdl:input message="tns:TranLogIncomeSumQuerySoapIn" />
-      <wsdl:output message="tns:TranLogIncomeSumQuerySoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CFTDelAppealDBTB">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自助申诉删除函数</wsdl:documentation>
@@ -21977,11 +21988,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">中介商户查询函数查询单笔</wsdl:documentation>
       <wsdl:input message="tns:GetAgencyBusinessInfoSoapIn" />
       <wsdl:output message="tns:GetAgencyBusinessInfoSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="QueryAgencyBySpid">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过商户号查询中介商户函数</wsdl:documentation>
-      <wsdl:input message="tns:QueryAgencyBySpidSoapIn" />
-      <wsdl:output message="tns:QueryAgencyBySpidSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="QueryCreditUserInfo">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">基本信息查询函数</wsdl:documentation>
@@ -23368,6 +23374,11 @@
       <wsdl:input message="tns:QueryTurnoverHttpGetIn" />
       <wsdl:output message="tns:QueryTurnoverHttpGetOut" />
     </wsdl:operation>
+    <wsdl:operation name="TranLogIncomeSumQuery">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">结算统计查询</wsdl:documentation>
+      <wsdl:input message="tns:TranLogIncomeSumQueryHttpGetIn" />
+      <wsdl:output message="tns:TranLogIncomeSumQueryHttpGetOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetQuerySettlementList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">商户未结算记录</wsdl:documentation>
       <wsdl:input message="tns:GetQuerySettlementListHttpGetIn" />
@@ -23665,6 +23676,11 @@
       <wsdl:input message="tns:GetSynRecordQueryDetailHttpGetIn" />
       <wsdl:output message="tns:GetSynRecordQueryDetailHttpGetOut" />
     </wsdl:operation>
+    <wsdl:operation name="QueryAgencyBySpid">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过商户号查询中介商户函数</wsdl:documentation>
+      <wsdl:input message="tns:QueryAgencyBySpidHttpGetIn" />
+      <wsdl:output message="tns:QueryAgencyBySpidHttpGetOut" />
+    </wsdl:operation>
     <wsdl:operation name="QueryAgencyInfoById">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过ID查中介商户详情函数</wsdl:documentation>
       <wsdl:input message="tns:QueryAgencyInfoByIdHttpGetIn" />
@@ -23921,11 +23937,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">微信商户查合同表</wsdl:documentation>
       <wsdl:input message="tns:QueryContractWechatHttpGetIn" />
       <wsdl:output message="tns:QueryContractWechatHttpGetOut" />
-    </wsdl:operation>
-    <wsdl:operation name="TranLogIncomeSumQuery">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">结算统计查询</wsdl:documentation>
-      <wsdl:input message="tns:TranLogIncomeSumQueryHttpGetIn" />
-      <wsdl:output message="tns:TranLogIncomeSumQueryHttpGetOut" />
     </wsdl:operation>
     <wsdl:operation name="GetKFTotalQueryList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">客服统计查询函数</wsdl:documentation>
@@ -24191,11 +24202,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">中介商户查询函数查询单笔</wsdl:documentation>
       <wsdl:input message="tns:GetAgencyBusinessInfoHttpGetIn" />
       <wsdl:output message="tns:GetAgencyBusinessInfoHttpGetOut" />
-    </wsdl:operation>
-    <wsdl:operation name="QueryAgencyBySpid">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过商户号查询中介商户函数</wsdl:documentation>
-      <wsdl:input message="tns:QueryAgencyBySpidHttpGetIn" />
-      <wsdl:output message="tns:QueryAgencyBySpidHttpGetOut" />
     </wsdl:operation>
     <wsdl:operation name="QueryCreditUserInfo">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">基本信息查询函数</wsdl:documentation>
@@ -25327,6 +25333,11 @@
       <wsdl:input message="tns:QueryTurnoverHttpPostIn" />
       <wsdl:output message="tns:QueryTurnoverHttpPostOut" />
     </wsdl:operation>
+    <wsdl:operation name="TranLogIncomeSumQuery">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">结算统计查询</wsdl:documentation>
+      <wsdl:input message="tns:TranLogIncomeSumQueryHttpPostIn" />
+      <wsdl:output message="tns:TranLogIncomeSumQueryHttpPostOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetQuerySettlementList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">商户未结算记录</wsdl:documentation>
       <wsdl:input message="tns:GetQuerySettlementListHttpPostIn" />
@@ -25624,6 +25635,11 @@
       <wsdl:input message="tns:GetSynRecordQueryDetailHttpPostIn" />
       <wsdl:output message="tns:GetSynRecordQueryDetailHttpPostOut" />
     </wsdl:operation>
+    <wsdl:operation name="QueryAgencyBySpid">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过商户号查询中介商户函数</wsdl:documentation>
+      <wsdl:input message="tns:QueryAgencyBySpidHttpPostIn" />
+      <wsdl:output message="tns:QueryAgencyBySpidHttpPostOut" />
+    </wsdl:operation>
     <wsdl:operation name="QueryAgencyInfoById">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过ID查中介商户详情函数</wsdl:documentation>
       <wsdl:input message="tns:QueryAgencyInfoByIdHttpPostIn" />
@@ -25880,11 +25896,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">微信商户查合同表</wsdl:documentation>
       <wsdl:input message="tns:QueryContractWechatHttpPostIn" />
       <wsdl:output message="tns:QueryContractWechatHttpPostOut" />
-    </wsdl:operation>
-    <wsdl:operation name="TranLogIncomeSumQuery">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">结算统计查询</wsdl:documentation>
-      <wsdl:input message="tns:TranLogIncomeSumQueryHttpPostIn" />
-      <wsdl:output message="tns:TranLogIncomeSumQueryHttpPostOut" />
     </wsdl:operation>
     <wsdl:operation name="GetKFTotalQueryList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">客服统计查询函数</wsdl:documentation>
@@ -26150,11 +26161,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">中介商户查询函数查询单笔</wsdl:documentation>
       <wsdl:input message="tns:GetAgencyBusinessInfoHttpPostIn" />
       <wsdl:output message="tns:GetAgencyBusinessInfoHttpPostOut" />
-    </wsdl:operation>
-    <wsdl:operation name="QueryAgencyBySpid">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过商户号查询中介商户函数</wsdl:documentation>
-      <wsdl:input message="tns:QueryAgencyBySpidHttpPostIn" />
-      <wsdl:output message="tns:QueryAgencyBySpidHttpPostOut" />
     </wsdl:operation>
     <wsdl:operation name="QueryCreditUserInfo">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">基本信息查询函数</wsdl:documentation>
@@ -27367,6 +27373,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="BatchSynPayState">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/BatchSynPayState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetB2cReturnDetail">
       <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetB2cReturnDetail" style="document" />
       <wsdl:input>
@@ -27908,6 +27923,15 @@
     </wsdl:operation>
     <wsdl:operation name="QueryTurnover">
       <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryTurnover" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TranLogIncomeSumQuery">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/TranLogIncomeSumQuery" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -28485,8 +28509,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="BatchSynPayState">
-      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/BatchSynPayState" style="document" />
+    <wsdl:operation name="QueryAgencyBySpid">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryAgencyBySpid" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -29001,15 +29025,6 @@
     </wsdl:operation>
     <wsdl:operation name="QueryContractWechat">
       <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryContractWechat" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="TranLogIncomeSumQuery">
-      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/TranLogIncomeSumQuery" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -29561,15 +29576,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetAgencyBusinessInfo">
       <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetAgencyBusinessInfo" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="QueryAgencyBySpid">
-      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryAgencyBySpid" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -31861,6 +31867,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="BatchSynPayState">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/BatchSynPayState" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetB2cReturnDetail">
       <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetB2cReturnDetail" style="document" />
       <wsdl:input>
@@ -32402,6 +32417,15 @@
     </wsdl:operation>
     <wsdl:operation name="QueryTurnover">
       <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryTurnover" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TranLogIncomeSumQuery">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/TranLogIncomeSumQuery" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -32979,8 +33003,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="BatchSynPayState">
-      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/BatchSynPayState" style="document" />
+    <wsdl:operation name="QueryAgencyBySpid">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryAgencyBySpid" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -33495,15 +33519,6 @@
     </wsdl:operation>
     <wsdl:operation name="QueryContractWechat">
       <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryContractWechat" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="TranLogIncomeSumQuery">
-      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/TranLogIncomeSumQuery" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -34055,15 +34070,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetAgencyBusinessInfo">
       <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetAgencyBusinessInfo" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="QueryAgencyBySpid">
-      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryAgencyBySpid" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -36654,6 +36660,15 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="TranLogIncomeSumQuery">
+      <http:operation location="/TranLogIncomeSumQuery" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetQuerySettlementList">
       <http:operation location="/GetQuerySettlementList" />
       <wsdl:input>
@@ -37206,6 +37221,15 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="QueryAgencyBySpid">
+      <http:operation location="/QueryAgencyBySpid" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="QueryAgencyInfoById">
       <http:operation location="/QueryAgencyInfoById" />
       <wsdl:input>
@@ -37642,15 +37666,6 @@
     </wsdl:operation>
     <wsdl:operation name="QueryContractWechat">
       <http:operation location="/QueryContractWechat" />
-      <wsdl:input>
-        <http:urlEncoded />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="TranLogIncomeSumQuery">
-      <http:operation location="/TranLogIncomeSumQuery" />
       <wsdl:input>
         <http:urlEncoded />
       </wsdl:input>
@@ -38124,15 +38139,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetAgencyBusinessInfo">
       <http:operation location="/GetAgencyBusinessInfo" />
-      <wsdl:input>
-        <http:urlEncoded />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="QueryAgencyBySpid">
-      <http:operation location="/QueryAgencyBySpid" />
       <wsdl:input>
         <http:urlEncoded />
       </wsdl:input>
@@ -40160,6 +40166,15 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="TranLogIncomeSumQuery">
+      <http:operation location="/TranLogIncomeSumQuery" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetQuerySettlementList">
       <http:operation location="/GetQuerySettlementList" />
       <wsdl:input>
@@ -40712,6 +40727,15 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="QueryAgencyBySpid">
+      <http:operation location="/QueryAgencyBySpid" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="QueryAgencyInfoById">
       <http:operation location="/QueryAgencyInfoById" />
       <wsdl:input>
@@ -41148,15 +41172,6 @@
     </wsdl:operation>
     <wsdl:operation name="QueryContractWechat">
       <http:operation location="/QueryContractWechat" />
-      <wsdl:input>
-        <mime:content type="application/x-www-form-urlencoded" />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="TranLogIncomeSumQuery">
-      <http:operation location="/TranLogIncomeSumQuery" />
       <wsdl:input>
         <mime:content type="application/x-www-form-urlencoded" />
       </wsdl:input>
@@ -41630,15 +41645,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetAgencyBusinessInfo">
       <http:operation location="/GetAgencyBusinessInfo" />
-      <wsdl:input>
-        <mime:content type="application/x-www-form-urlencoded" />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="QueryAgencyBySpid">
-      <http:operation location="/QueryAgencyBySpid" />
       <wsdl:input>
         <mime:content type="application/x-www-form-urlencoded" />
       </wsdl:input>

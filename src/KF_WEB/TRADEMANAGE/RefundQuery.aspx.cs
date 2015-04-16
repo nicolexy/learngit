@@ -142,9 +142,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			int irefundstate = Int32.Parse(ddlRefundState.SelectedValue);
 			int ireturnstate = Int32.Parse(ddlReturnState.SelectedValue);
 			string listid = tbListID.Text.Trim();
+            string Fbank_listid = tbFbank_listid.Text.Trim();
 
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-			return qs.GetRefundListCount(batchid,ifromtype,irefundtype,irefundstate,ireturnstate,listid);
+            return qs.GetRefundListCount(batchid, ifromtype, irefundtype, irefundstate, ireturnstate, listid, Fbank_listid);
 		}
 
 		private void BindData(int index)
@@ -155,6 +156,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			int irefundstate = Int32.Parse(ddlRefundState.SelectedValue);
 			int ireturnstate = Int32.Parse(ddlReturnState.SelectedValue);
 			string listid = tbListID.Text.Trim();
+            string Fbank_listid = tbFbank_listid.Text.Trim();
 
 			int max = pager.PageSize;
 			int start = max * (index-1) + 1;
@@ -170,7 +172,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			Query_Service.Finance_Header fh = classLibrary.setConfig.setFH(this);
 			qs.Finance_HeaderValue = fh;
 
-			DataSet ds = qs.GetRefundList(batchid,ifromtype,irefundtype,irefundstate,ireturnstate,listid, start,max);
+            DataSet ds = qs.GetRefundList(batchid, ifromtype, irefundtype, irefundstate, ireturnstate, listid, Fbank_listid, start, max);
 
 			if(ds != null && ds.Tables.Count >0)
 			{
@@ -247,20 +249,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 		}
 
 
-		protected void btnQuery_Click(object sender, System.EventArgs e)
-		{
-			labErrMsg.Text = "";
+        protected void btnQuery_Click(object sender, System.EventArgs e)
+        {
+            labErrMsg.Text = "";
 
-			string date = DateTime.Parse(TextBoxBeginDate.Text).ToString("yyyyMMdd");
-			string bank = ddlBankType.SelectedValue;
+            string date = DateTime.Parse(TextBoxBeginDate.Text).ToString("yyyyMMdd");
+            string bank = ddlBankType.SelectedValue;
+            
+            //场次：1 2 3 4 5，对应字母：R T U W Y
+            //默认选择第一场
+            string batchid = date + bank + "R";
+            if (ddlFbatchid.SelectedValue != "0")
+            {
+                batchid = date + bank + ddlFbatchid.SelectedValue;
+            }
+            ViewState["batchid"] = batchid;
 
-			ViewState["batchid"] = date + bank + "R";
+            pager.RecordCount = 1000;//GetCount(); 
 
-			pager.RecordCount= 1000;//GetCount(); 
+            BindData(1);
 
-			BindData(1);
-
-		}
+        }
 
 	}
 }

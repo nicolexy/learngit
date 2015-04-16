@@ -21868,7 +21868,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         [WebMethod(Description = "退单查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        public DataSet GetRefundList(string batchid, int ifromtype, int irefundtype, int irefundstate, int ireturnstate, string listid, int iPageStart, int iPageMax)
+        public DataSet GetRefundList(string batchid, int ifromtype, int irefundtype, int irefundstate, int ireturnstate, string listid, string Fbank_listid, int iPageStart, int iPageMax)
         {
             RightAndLog rl = new RightAndLog();
             try
@@ -21889,7 +21889,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
 
-                RefundQueryClass cuser = new RefundQueryClass(batchid, ifromtype, irefundtype, irefundstate, ireturnstate, listid);
+                RefundQueryClass cuser = new RefundQueryClass(batchid, ifromtype, irefundtype, irefundstate, ireturnstate, listid, Fbank_listid);
 
                 DataSet ds = cuser.GetResultX(iPageStart, iPageMax, "ZWTK");
 
@@ -21915,11 +21915,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
         [WebMethod(Description = "退单查询个数函数")]
-        public int GetRefundListCount(string batchid, int ifromtype, int irefundtype, int irefundstate, int ireturnstate, string listid)
+        public int GetRefundListCount(string batchid, int ifromtype, int irefundtype, int irefundstate, int ireturnstate, string listid, string Fbank_listid)
         {
             try
             {
-                RefundQueryClass cuser = new RefundQueryClass(batchid, ifromtype, irefundtype, irefundstate, ireturnstate, listid);
+                RefundQueryClass cuser = new RefundQueryClass(batchid, ifromtype, irefundtype, irefundstate, ireturnstate, listid, Fbank_listid);
                 return cuser.GetCount("ZWTK");
             }
             catch (Exception e)

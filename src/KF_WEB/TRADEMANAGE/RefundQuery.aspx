@@ -75,6 +75,19 @@
 											<asp:ListItem Value="2">回导后</asp:ListItem>
 										</asp:dropdownlist></TD>
 								</TR>
+                                <TR>
+									<TD><asp:label id="Label8" runat="server">选择场次</asp:label></TD>
+									<TD><asp:dropdownlist id="ddlFbatchid" runat="server">
+											<asp:ListItem Value="0" Selected="True">选择场次</asp:ListItem>
+											<asp:ListItem Value="R">1</asp:ListItem>
+											<asp:ListItem Value="T">2</asp:ListItem>
+											<asp:ListItem Value="U">3</asp:ListItem>
+											<asp:ListItem Value="W">4</asp:ListItem>
+											<asp:ListItem Value="Y">5</asp:ListItem>
+										</asp:dropdownlist></TD>
+									<TD><asp:label id="Label9" runat="server">给银行订单号</asp:label></TD>
+                                    <TD><asp:TextBox id="tbFbank_listid" runat="server"></asp:TextBox></TD>
+								</TR>
 								<TR>
 									<TD><asp:label id="Label7" runat="server">退款单ID</asp:label></TD>
 									<TD><asp:textbox id="tbListID" runat="server"></asp:textbox></TD>
