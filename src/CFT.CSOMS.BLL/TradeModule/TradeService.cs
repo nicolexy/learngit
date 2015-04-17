@@ -72,10 +72,13 @@ namespace CFT.CSOMS.BLL.TradeModule
                     ds.Tables[0].Columns.Add("Fappeal_sign_str"); //申诉标志
                     ds.Tables[0].Columns.Add("Fmedi_sign_str"); //中介标志
                     ds.Tables[0].Columns.Add("Fchannel_id_str"); //渠道编号
+                    ds.Tables[0].Columns.Add("Fexplain", typeof(string));//备注
+                    ds.Tables[0].Rows[0]["Fexplain"] = "";
+                    ds.Tables[0].Columns.Add("CloseReason", typeof(string));
+                    ds.Tables[0].Rows[0]["CloseReason"] = "";
+
                     if (!ds.Tables[0].Columns.Contains("Frefund_typeName"))
                     { ds.Tables[0].Columns.Add("Frefund_typeName"); }//退款类型
-                    if (!ds.Tables[0].Columns.Contains("Fexplain"))
-                    { ds.Tables[0].Columns.Add("Fexplain"); }//备注
                     if (!ds.Tables[0].Columns.Contains("FsaleidCFT"))
                     { ds.Tables[0].Columns.Add("FsaleidCFT"); }//卖家财付通账号
                     if (!ds.Tables[0].Columns.Contains("Ftrade_stateName"))
@@ -212,33 +215,29 @@ namespace CFT.CSOMS.BLL.TradeModule
                         ds.Tables[0].Columns.Add("Fbuy_bankid");
                         ds.Tables[0].Rows[0]["Fbuy_bankid"] = "";
                     }
-                    if (!ds.Tables[0].Columns.Contains("Fstandby8"))
-                    {
-                        ds.Tables[0].Columns.Add("Fstandby8");
-                        ds.Tables[0].Rows[0]["Fstandby8"] = "";
-                    }
+
                     if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Fstandby8"].ToString()))
                     {
                         string s_close_reason = ds.Tables[0].Rows[0]["Fstandby8"].ToString();
                         if (s_close_reason == "1")
                         {
-                            ds.Tables[0].Rows[0]["Fstandby8"] = "风控关闭订单";
+                            ds.Tables[0].Rows[0]["CloseReason"] = "风控关闭订单";
                         }
                         else if (s_close_reason == "2")
                         {
-                            ds.Tables[0].Rows[0]["Fstandby8"] = "微信线下支付商户关闭订单";
+                            ds.Tables[0].Rows[0]["CloseReason"] = "微信线下支付商户关闭订单";
                         }
                         else if (s_close_reason == "3")
                         {
-                            ds.Tables[0].Rows[0]["Fstandby8"] = "购物券回收关闭订单";
+                            ds.Tables[0].Rows[0]["CloseReason"] = "购物券回收关闭订单";
                         }
                         else if (s_close_reason == "4")
                         {
-                            ds.Tables[0].Rows[0]["Fstandby8"] = "拍拍关闭订单";
+                            ds.Tables[0].Rows[0]["CloseReason"] = "拍拍关闭订单";
                         }
                         else if (s_close_reason == "5")
                         {
-                            ds.Tables[0].Rows[0]["Fstandby8"] = "赔付调帐订单";
+                            ds.Tables[0].Rows[0]["CloseReason"] = "赔付调帐订单";
                         }
                     }
 

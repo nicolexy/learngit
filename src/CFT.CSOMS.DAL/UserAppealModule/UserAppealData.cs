@@ -14,6 +14,7 @@ using TENCENT.OSS.CFT.KF.DataAccess;
 using CFT.CSOMS.COMMLIB;
 using System.Web;
 using CFT.Apollo.Logging;
+using CFT.CSOMS.DAL.FreezeModule;
 
 namespace CFT.CSOMS.DAL.UserAppealModule
 {
@@ -257,8 +258,572 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             }
         }
 
+        /// <summary>
+        /// 查询风控冻结处理日志
+        /// </summary>
+        public DataSet GetFreezeDiary(string fid, string ffreezeID, string handleType, string handleUser,
+            string handleResult, string memo, string strBeginDate, string strEndDate, int startIndex, int maxPage)
+        {
+            MySqlAccess da = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
+            string tableName = "c2c_fmdb.t_Freeze_Detail";
+
+            string cmd = "select * from " + tableName + " where (1=1) ";
+            if (fid.Trim() != "")
+                cmd += " and FID=" + fid;
+            if (ffreezeID.Trim() != "")
+                cmd += " and FFreezeListID=" + ffreezeID;
+            if (handleType.Trim() != "")
+                cmd += " and FHandleType in(" + handleType + ")";
+            if (handleUser.Trim() != "")
+                cmd += " and FHandleUser like '%" + handleUser + "%'";
+            if (handleResult.Trim() != "")
+                cmd += " and FHandleResult like '%" + handleResult + "%'";
+            if (strBeginDate.Trim() != "")
+                cmd += " and FCreateDate >='" + strBeginDate.Trim() + "'";
+            if (strEndDate.Trim() != "")
+                cmd += " and FCreateDate<='" + strEndDate.Trim() + "'";
+            if (memo.Trim() != "")
+            { }
+
+            cmd += " order by FCreateDate DESC ";
+            DataSet ds = new DataSet();
+            if (startIndex != -1)
+            {
+                ds = da.dsGetTableByRange(cmd, startIndex, maxPage);
+            }
+            else
+            {
+                ds = da.dsGetTotalData(cmd);
+            }
+            return ds;
+        }
+
+        /// <summary>
+        /// 创建风控冻结处理日志NEW
+        /// </summary>
+        public bool CreateFreezeDiary(string ffreezeListID, int handleType, string handleUser, string handleResult
+        , string memo, string uin, string userPhone, string submitDate, int bt, string userDesc, string zdyBt1, string zdyBt2, string zdyBt3
+        , string zdyBt4, string zdyCont1, string zdyCont2, string zdyCont3, string zdyCont4)
+        {
+
+            string tableName = "c2c_fmdb.t_Freeze_Detail";
+
+            DateTime date = DateTime.Parse(submitDate);
+            int i_m = date.Month;
+            string s_m = "";
+            if (i_m < 10)
+            {
+                s_m = "0" + i_m;
+            }
+            else
+            {
+                s_m = i_m.ToString();
+            }
+            string table = "db_appeal_" + date.Year.ToString() + ".t_tenpay_appeal_trans_" + s_m;
+            CFTUserAppealClass cuser = new CFTUserAppealClass(ffreezeListID, table);
+            DataSet ds = cuser.GetResultX(0, 1, "fkdj");
+
+            // 记录结单状态和结单人员
+            int srcHandleType = 0;
+            string srcHandleUser = "";
+            int reqType = 8; //处理8,19类型的记录
+
+            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+            {
+                //记录不存在，再查询一下上个月记录 yinhuang
+                DateTime d2 = date.AddMonths(-1);
+                i_m = d2.Month;
+                if (i_m < 10)
+                {
+                    s_m = "0" + i_m;
+                }
+                else
+                {
+                    s_m = i_m.ToString();
+                }
+                table = "db_appeal_" + d2.Year.ToString() + ".t_tenpay_appeal_trans_" + s_m;
+                CFTUserAppealClass cuser2 = new CFTUserAppealClass(ffreezeListID, table);
+                ds = cuser2.GetResultX(0, 1, "fkdj");
+            }
+
+            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+            {
+                throw new Exception("记录不存在" + ffreezeListID);
+            }
+            else
+            {
+                srcHandleType = int.Parse(ds.Tables[0].Rows[0]["FState"].ToString());
+                srcHandleUser = ds.Tables[0].Rows[0]["FCheckUser"].ToString();
+                reqType = int.Parse(ds.Tables[0].Rows[0]["FType"].ToString());
+
+                if (reqType == 8 || reqType == 19)
+                {
+                    // 结单的日志只允许补充处理结果
+                    if (srcHandleType == 1 || srcHandleType == 2)
+                    {
+                        if (handleType != 100)
+                        {
+                            return false;
+                        }
+                    }
+
+                    // 作废的日志就不许再操作了
+                    if (srcHandleType == 7)
+                        return false;
+                }
+                else if (reqType == 11)//特殊找回密码
+                {
+                    if (!(srcHandleType == 0 || srcHandleType == 12))//除了未处理、已补充资料状态外，不能补充资料操作
+                        return false;
+                }
+            }
+
+            if (handleResult.Trim() != "")
+            {
+                handleResult = PublicRes.replaceMStr(handleResult);
+            }
+
+            if (handleType != 100)
+            {
+                MySqlAccess da_2 = MySQLAccessFactory.GetMySQLAccess("FKDJ");
+                da_2.OpenConn();
+
+                if (reqType == 8 || reqType == 19)
+                    memo = "风控冻结." + memo;
+                else if (reqType == 11)
+                    memo = "特殊找回密码." + memo;
+
+                string sqlCmd_updateAppeal = "update " + table + " set FState=" + handleType
+                    + ",Fcomment='" + memo + "', FCheckUser='" + handleUser + "',FCheckTime=Now(),"
+                    + " FPickTime=now(),FPickUser='" + handleUser + "',FStandBy1=" + bt
+                    + " ,FReCheckTime=now(),FRecheckUser='" + handleUser + "',FCheckInfo='" + handleResult + "',Fsup_desc1='" + zdyBt1
+                    + "',Fsup_desc2='" + zdyBt2 + "',Fsup_desc3='" + zdyBt3 + "',Fsup_desc4='" + zdyBt4 + "',Fsup_tips1='" + zdyCont1
+                    + "',Fsup_tips2='" + zdyCont2 + "',Fsup_tips3='" + zdyCont3 + "',Fsup_tips4='" + zdyCont4 + "' "
+                    + " where Fid='" + ffreezeListID + "'";
+
+                try
+                {
+                    if (!da_2.ExecSql(sqlCmd_updateAppeal))
+                    {
+                        return false;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    // 记录失败日志
+                    throw new Exception("更新表错误" + ex.Message);
+                }
+            }
+
+            MySqlAccess da = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
+            string sqlCmd = "insert into " + tableName + " (FFreezeListID,FCreateDate,FHandleType,FHandleUser,FHandleResult,FMemo) values ("
+                + ffreezeListID + ",'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'," + handleType + ",'"
+                + handleUser + "','" + handleResult + "','" + userDesc + "')";
+
+            try
+            {
+                da.OpenConn();
+                if (da.ExecSql(sqlCmd))
+                {
+                    // 成功更新数据库，则检查是否结单操作并发送邮件
+                    if (reqType == 8 || reqType == 19)
+                    {
+                        if (handleType == 1)
+                        {
+                            //结单解冻
+                            if (reqType == 19)
+                            {
+                                //发微信解冻消息
+                                if (uin.IndexOf("@wx.tenpay.com") > 0)
+                                {
+                                    string reqsource = "bus_kf_unfreeze";
+                                    string accid = uin.Substring(0, uin.IndexOf("@wx.tenpay.com"));
+                                    string templateid = "DeNkYEfSBW7mVQET6QHwnilGWvG8cLssLSyRH0CSDk0";
+                                    string cont1 = "你的微信支付账户已排除了安全风险并由保护模式切换至正常模式。";
+                                    string cont2 = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                                    string cont3 = "请点击详情查看微信支付安全保障介绍";
+                                    string msgtype = "unfreeze";
+
+                                    new FreezeData().SendWechatMsg(reqsource, accid, templateid, cont1, cont2, cont3, msgtype);
+                                }
+                            }
+                            else
+                            {
+                                string str_params = "http://action.tenpay.com/cuifei/2014/fengkong/unfreeze_suc.shtml?clientuin=$UIN$&clientkey=$KEY$";
+                                str_params = "url=" + System.Web.HttpUtility.UrlEncode(str_params, System.Text.Encoding.GetEncoding("gb2312"));
+                                TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsgQQTips(uin, "2236", str_params);
+                                TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMessage(userPhone, "2236", "userid=" + uin);
+                            }
+                        }
+                        else if (handleType == 2)
+                        {
+                            //补充资料
+                            if (reqType == 19)
+                            {
+                                //发微信补填资料消息
+                                if (uin.IndexOf("@wx.tenpay.com") > 0)
+                                {
+                                    string reqsource = "bus_kf_supple";
+                                    string accid = uin.Substring(0, uin.IndexOf("@wx.tenpay.com"));
+                                    string templateid = "p7DifLpETQvbtDPtRPDSI6x4ufUtnjZXcb6LpVIbZ70";
+                                    string cont1 = "你的微信支付账户仍处于保护模式，请点击详情补充恢复微信支付账户所需资料。";
+                                    string cont2 = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                                    string cont3 = "";
+                                    string msgtype = "supple";
+
+                                    new FreezeData().SendWechatMsg(reqsource, accid, templateid, cont1, cont2, cont3, msgtype);
+                                }
+                            }
+                            else
+                            {
+                                string str_params = "http://action.tenpay.com/cuifei/2014/fengkong/unfreeze_fail.shtml?clientuin=$UIN$&clientkey=$KEY$";
+                                str_params = "url=" + System.Web.HttpUtility.UrlEncode(str_params, System.Text.Encoding.GetEncoding("gb2312"));
+                                TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsgQQTips(uin, "2237", str_params);
+                                TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMessage(userPhone, "2237", "user=" + uin);
+                            }
+                        }
+                    }
+                    else if (reqType == 11)//特殊找回密码 发tips和短信 模板位申请，需更改下面代码
+                    {
+                        string str_params = "www.tenpay.com/v2/cs/";
+                        str_params = "url=" + System.Web.HttpUtility.UrlEncode(str_params, System.Text.Encoding.GetEncoding("gb2312"));
+                        //uin = "466678748";userPhone = "18718489269";
+                        TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsgQQTips(uin, "2429", str_params);
+                        TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMessage(userPhone, "2429", str_params);
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("添加日志失败：" + ex.Message);
+            }
+            finally
+            {
+                if (da != null)
+                {
+                    da.Dispose();
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 获取特殊申诉列表
+        /// </summary>
+        /// <param name="uin"></param>
+        /// <param name="beginDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="ftype"></param>
+        /// <param name="iStatue"></param>
+        /// <param name="szListID"></param>
+        /// <param name="szFreezeUser"></param>
+        /// <param name="szFreezeReason"></param>
+        /// <param name="iPageStart"></param>
+        /// <param name="iPageMax"></param>
+        /// <param name="orderType"></param>
+        /// <returns></returns>
+        public DataSet GetSpecialAppealList(string uin, string beginDate, string endDate, int ftype, int iStatue,
+            string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType)
+        {
+            try
+            {
+                #region 查询
+
+                DataSet ds = null;
+                int recordCount = 0;
+                DateTime sDate = DateTime.Parse(beginDate);
+                DateTime eDate = DateTime.Parse(endDate);
+                int iMonth = 0;
+                string sMonth = "";
+                if (sDate.Month != eDate.Month)
+                {
+                    //月份不一样，则需要查询两块表的数据
+                    DateTime qDate = DateTime.Now.AddDays(1);   //结束日期暂为当前日期后一天，因为查询使用的是 between
+                    iMonth = sDate.Month;
+                    sMonth = "";
+
+                    if (iMonth < 10)
+                        sMonth = "0" + iMonth;
+                    else
+                        sMonth = iMonth.ToString();
+
+                    string table = "db_appeal_" + sDate.Year.ToString() + ".t_tenpay_appeal_trans_" + sMonth;
+                    CFTUserAppealClass cuser = new CFTUserAppealClass(uin, beginDate, qDate.ToString("yyyy-MM-dd"), iStatue, ftype, "", szFreezeUser, szListID, szFreezeReason,
+                        orderType, table);
+                    ds = cuser.GetResultX(iPageStart, iPageMax, "fkdj");
+                    int count1 = cuser.GetCount("fkdj");
 
 
+                    DateTime qsDate = eDate.AddDays(1 - eDate.Day); //当月第一天
+                    iMonth = eDate.Month;
+                    sMonth = "";
+
+                    if (iMonth < 10)
+                        sMonth = "0" + iMonth;
+                    else
+                        sMonth = iMonth.ToString();
+
+                    table = "db_appeal_" + sDate.Year.ToString() + ".t_tenpay_appeal_trans_" + sMonth;
+                    CFTUserAppealClass cuser2 = new CFTUserAppealClass(uin, qsDate.ToString("yyyy-MM-dd"), endDate, iStatue, ftype, "", szFreezeUser, szListID, szFreezeReason,
+                        orderType, table);
+                    DataSet ds2 = cuser2.GetResultX(iPageStart, iPageMax, "fkdj");
+                    int count2 = cuser2.GetCount("fkdj");
+                    recordCount = count1 + count2;
+
+                    if (ds2 != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0)
+                    {
+                        //将两张表的数据合并到一张表
+                        if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in ds2.Tables[0].Rows)
+                            {
+                                ds.Tables[0].ImportRow(dr);
+                            }
+                        }
+                        else
+                        {
+                            ds = new DataSet();
+                            ds.Tables.Add(ds2.Tables[0].Copy());
+                        }
+                    }
+                }
+                else
+                {
+                    //同一个月份
+                    iMonth = sDate.Month;
+                    sMonth = "";
+                    if (iMonth < 10)
+                        sMonth = "0" + iMonth;
+                    else
+                        sMonth = iMonth.ToString();
+
+                    string table = "db_appeal_" + sDate.Year.ToString() + ".t_tenpay_appeal_trans_" + sMonth;
+                    CFTUserAppealClass cuser = new CFTUserAppealClass(uin, beginDate, endDate, iStatue, ftype, "", szFreezeUser, szListID, szFreezeReason,
+                        orderType, table);
+                    ds = cuser.GetResultX(iPageStart, iPageMax, "fkdj");
+                    recordCount = cuser.GetCount("fkdj");
+                }
+                #endregion
+
+                if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
+                {
+                    return null;
+                }
+
+                ds.Tables[0].Columns.Add("FreezeReason", typeof(string));
+                ds.Tables[0].Columns.Add("FreezeUser", typeof(string));
+                ds.Tables[0].Columns.Add("isFreezeListHas", typeof(string));
+                ds.Tables[0].Columns.Add("Fuincolor", typeof(string));
+
+                long Appeal_FreezeMoney = long.Parse(System.Configuration.ConfigurationManager.AppSettings["Appeal_FreezeMoney"]);
+
+                string ServerIP = System.Configuration.ConfigurationManager.AppSettings["ICEServerIP"];
+                int Port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["ICEPort"]);
+                ICEAccess ice = new ICEAccess(ServerIP, Port);
+                try
+                {
+                    ice.OpenConn();
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        try
+                        {
+                            #region 查询冻结日志信息
+                            if (ftype == 8 || ftype == 19)
+                            {
+                                FreezeQueryClass cuser2 = new FreezeQueryClass(dr["Fuin"].ToString(), 1);
+
+                                DataSet ds2 = cuser2.GetResultX(0, 1, "HT");
+
+                                if (ds2 != null && ds2.Tables.Count != 0 && ds2.Tables[0].Rows.Count != 0)
+                                {
+                                    dr["FreezeReason"] = ds2.Tables[0].Rows[0]["FFreezeReason"].ToString();
+                                    dr["FreezeUser"] = ds2.Tables[0].Rows[0]["FHandleUserID"].ToString();
+                                    dr["isFreezeListHas"] = "1";
+                                }
+                                else
+                                {
+                                    dr["isFreezeListHas"] = "0";
+                                }
+                            }
+                            #endregion
+
+                            #region 添加大额标记
+                            dr["Fuincolor"] = "";
+                            string fuid = PublicRes.ConvertToFuid(dr["Fuin"].ToString());
+
+                            string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                            strwhere += ICEAccess.URLEncode("fcurtype=1&");
+
+                            string strResp = "";
+
+                            DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
+
+                            if (dtuser == null || dtuser.Rows.Count == 0)
+                            {
+                                continue;
+                            }
+
+                            long lbalance = long.Parse(dtuser.Rows[0]["fbalance"].ToString());
+
+                            if (lbalance >= Appeal_FreezeMoney)
+                            {
+                                dr["Fuincolor"] = "BIGMONEY";
+                            }
+                            #endregion
+                        }
+                        catch
+                        {
+                            continue;
+                        }
+                    }
+                    ice.CloseConn();
+                }
+                finally
+                {
+                    ice.Dispose();
+                }
+                return ds;
+
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public DataSet GetSpecialAppealDetail(string fid)
+        {
+            try
+            {
+                string year = fid.Substring(0, 4);
+                string month = fid.Substring(4, 2);
+                string sMonth = "";
+
+                string table = "db_appeal_" + year + ".t_tenpay_appeal_trans_" + month;
+                CFTUserAppealClass cuser = new CFTUserAppealClass(fid, table);
+                DataSet ds = cuser.GetResultX(0, 1, "fkdj");
+
+                if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
+                {
+                    //查询另外一张表
+                    int month2 = int.Parse(month) - 1;
+                    if (month2 < 10)
+                        sMonth = "0" + month2;
+                    else
+                        sMonth = month2.ToString();
+
+                    string table2 = "db_appeal_" + year + ".t_tenpay_appeal_trans_" + sMonth;
+                    CFTUserAppealClass cuser2 = new CFTUserAppealClass(fid, table2);
+                    ds = cuser2.GetResultX(0, 1, "fkdj");
+                }
+
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    int ftype = int.Parse(ds.Tables[0].Rows[0]["Ftype"].ToString());
+                    #region 字段处理
+
+                    ds.Tables[0].Columns.Add("isFreezeListHas", typeof(string));
+                    ds.Tables[0].Columns.Add("FreezeReason", typeof(string));//冻结原因
+                    ds.Tables[0].Columns.Add("detail_score", typeof(string)); //得分明细
+                    ds.Tables[0].Columns.Add("risk_result", typeof(string)); //风控标记
+
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    string risk_result = CFTUserAppealClass.getCgiString(dr["FRiskState"].ToString());
+                    if (risk_result == "0")
+                        dr["risk_result"] = "";
+                    else if (risk_result == "1")
+                        dr["risk_result"] = "风控异常单无需人工回访用户";
+                    else if (risk_result == "2")
+                        dr["risk_result"] = "风控异常单需人工回访用户";
+                    else
+                        dr["risk_result"] = risk_result;
+
+                    dr["detail_score"] = CFTUserAppealClass.getCgiString(dr["FDetailScore"].ToString());
+
+                    if (dr["detail_score"].ToString() != "")
+                    {
+                        try
+                        {
+                            string detail_score = System.Web.HttpUtility.UrlDecode(dr["detail_score"].ToString(), System.Text.Encoding.GetEncoding("GB2312"));
+
+                            if (detail_score.IndexOf("PwdProtection") > -1)
+                            {
+                                detail_score = detail_score.Replace("PwdProtection", "密保校验得分");
+                            }
+                            if (detail_score.IndexOf("CertifiedId") > -1)
+                            {
+                                detail_score = detail_score.Replace("CertifiedId", "证件号校验得分");
+                            }
+                            if (detail_score.IndexOf("bind_email") > -1)
+                            {
+                                detail_score = detail_score.Replace("bind_email", "绑定邮箱校验得分");
+                            }
+                            if (detail_score.IndexOf("bind_mobile") > -1)
+                            {
+                                detail_score = detail_score.Replace("bind_mobile", "绑定手机校验得分");
+                            }
+                            if (detail_score.IndexOf("QQReceipt") > -1)
+                            {
+                                detail_score = detail_score.Replace("QQReceipt", "QQ申诉回执号得分");
+                            }
+                            if (detail_score.IndexOf("CertifiedBankCard") > -1)
+                            {
+                                detail_score = detail_score.Replace("CertifiedBankCard", "实名认证银行卡号校验得分");
+                            }
+                            if (detail_score.IndexOf("CreditCardPayHist") > -1)
+                            {
+                                detail_score = detail_score.Replace("CreditCardPayHist", "信用卡还款信息校验得分");
+                            }
+                            if (detail_score.IndexOf("WithdrawHist") > -1) //andrew 20110419
+                            {
+                                detail_score = detail_score.Replace("WithdrawHist", "提现记录得分");
+                            }
+
+                            dr["detail_score"] = detail_score;
+
+                        }
+                        catch
+                        { }
+                    }
+                    #endregion
+                    if (ftype == 8 || ftype == 19)
+                    {
+                        FreezeQueryClass cuser2 = new FreezeQueryClass(ds.Tables[0].Rows[0]["Fuin"].ToString(), 1);
+                        DataSet ds2 = cuser2.GetResultX(0, 1, "HT");
+
+                        if (ds2 != null && ds2.Tables.Count != 0 && ds2.Tables[0].Rows.Count != 0)
+                        {
+                            ds.Tables[0].Rows[0]["isFreezeListHas"] = "1";
+                            ds.Tables[0].Rows[0]["FreezeReason"] = ds2.Tables[0].Rows[0]["FFreezeReason"].ToString();
+                        }
+                        else
+                        {
+                            ds.Tables[0].Rows[0]["isFreezeListHas"] = "0";
+                        }
+                    }
+                    else if (ftype == 11)//特殊找回支付密码
+                    {
+                        ds.Tables[0].Rows[0]["isFreezeListHas"] = "";
+                        ds.Tables[0].Rows[0]["FreezeReason"] = "";
+                    }
+                    //else
+                    //{
+                    //    throw new Exception("只处理解冻申诉、特殊找回支付密码，记录类型错误：" + ftype);
+                    //}
+                }
+
+                return ds;
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
         /// <summary>
         /// 自助申诉查询函数
@@ -4183,6 +4748,86 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             fstrSql_count = "select count(1) from " + cftDB + ".t_tenpay_appeal_trans " + strWhere;
         }
 
+
+
+        public CFTUserAppealClass(string fuin, string u_BeginTime, string u_EndTime, int fstate, int ftype, string QQType,
+          string pickUser, string fid, string szReason, string orderType, string table)
+        {
+            string strWhere = " where 1=1 ";
+
+            if (fuin != null && fuin.Trim() != "")
+            {
+                strWhere += " and Fuin='" + fuin.Trim() + "' ";
+            }
+
+            if (u_BeginTime != null && u_BeginTime != "")
+            {
+                strWhere += " and FSubmitTime between '" + u_BeginTime + "' and '" + u_EndTime + "' ";
+            }
+
+            if (fstate != 99)
+            {
+                if (fstate == 10)   //直接申诉成功，即审核成功，且FCheckUser为system
+                {
+                    if (ftype == 8 || ftype == 19)
+                    {
+                        strWhere += " and FState='" + fstate + "'  ";
+                    }
+                    else
+                    {
+                        strWhere += " and FState='1' and FCheckUser='system' ";
+                    }
+                }
+                else
+                {
+                    strWhere += " and FState='" + fstate + "'  ";
+                }
+            }
+
+            if (ftype != 99)
+            {
+                strWhere += " and FType=" + ftype + " ";
+            }
+            if (QQType == "0")    //"" 所有类型; "0" 非会员; "1" 普通会员; "2" VIP会员
+            {
+                strWhere += " and (FParameter not like '%vip_flag=1%') and (FParameter not like '%vip_flag=2%') ";
+            }
+            else if (QQType == "1")
+            {
+                strWhere += " and FParameter like '%vip_flag=1%' ";
+            }
+            else if (QQType == "2")
+            {
+                strWhere += " and FParameter like '%vip_flag=2%' ";
+            }
+            if (pickUser != "")
+            {
+                strWhere += " and fpickuser like '%" + pickUser + "%' ";
+            }
+            if (fid != "")
+            {
+                strWhere += " and Fid='" + fid + "'";
+            }
+            if (szReason != "")
+            {
+                strWhere += " and FComment like '%" + szReason + "%' ";
+            }
+
+            // 默认按照提交时间最早来排
+            //string orderStr = " order by date_format(FSubmitTime,'%Y%m%d'),FUin asc";
+            string orderStr = " order by date_format(FSubmitTime,'%Y%m%d') asc";
+
+            if (orderType == "2")
+            {
+                orderStr = "order by date_format(FSubmitTime,'%Y%m%d') desc";
+            }
+
+            fstrSql = "select Fid,FType,Fuin,FSubmitTime,FState,FCheckTime,Fpicktime,FCheckInfo,FCheckUser,FComment,Femail,FPickUser from " + table + " "
+                + strWhere + orderStr;
+
+            fstrSql_count = "select count(1) from " + table + " " + strWhere;
+        }
+
         public CFTUserAppealClass(string fuin, string u_BeginTime, string u_EndTime, int fstate, int ftype, string QQType, string dotype, int SortType, bool mark, string db, string tb)
         {
             string strWhere = " where 1=1 ";
@@ -4888,6 +5533,22 @@ namespace CFT.CSOMS.DAL.UserAppealModule
         //    return System.Web.HttpContext.Current.Server.UrlDecode(instr).Replace("\r\n", "").Trim()
         //        .Replace("%3d", "=").Replace("%20", " ").Replace("%26", "&").Replace("%7c", "|");
         //}
+
+        public CFTUserAppealClass(string fid, string table)
+        {
+            //fstrSql = "select Fid,FType,Fuin,FSubmitTime,FState,Fpicktime,FCheckTime,FCheckInfo,FCheckUser,FComment,Femail from t_tenpay_appeal_trans where FID=" + fid ;
+            fstrSql = "select * from " + table + " where FID='" + fid + "'";
+            fstrSql_count = "select count(1) from " + table + " where FID='" + fid + "'";
+        }
+
+        public static string getCgiString(string instr)
+        {
+            if (instr == null || instr.Trim() == "")
+                return "";
+
+            return System.Web.HttpContext.Current.Server.UrlDecode(instr).Replace("\r\n", "").Trim()
+                .Replace("%3d", "=").Replace("%20", " ").Replace("%26", "&").Replace("%7c", "|");
+        }
 
         private static string GetOneParameter(string fid)
         {

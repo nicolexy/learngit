@@ -120,6 +120,95 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
        
         #endregion
 
+        #region 特殊申诉
+
+        public class AppealLog
+        {
+            [XmlElement("diary_id")]
+            public string FID { get; set; }
+            [XmlElement("handle_result")]
+            public string handleResult { get; set; }
+        }
+
+        public class SpecialAppealList
+        {
+            [XmlElement("fid")]
+            public string Fid { get; set; }
+            [XmlElement("uin")]
+            public string Fuin { get; set; }
+            [XmlElement("submit_time")]
+            public string FSubmitTime { get; set; }
+            [XmlElement("order_state")]
+            public string FState { get; set; }
+            [XmlElement("order_state_str")]
+            public string handleStateName { get; set; }
+            [XmlElement("handler")]
+            public string FCheckUser { get; set; }
+        }
+
+        public class SpecialAppealDetail
+        {
+            [XmlElement("uin")]
+            public string FUin { get; set; }
+            [XmlElement("email")]
+            public string FEmail { get; set; }
+            [XmlElement("sub_creid")]
+            public string FCreId { get; set; }
+            [XmlElement("phone_no")]
+            public string FReservedMobile { get; set; }
+            [XmlElement("freeze_reason")]
+            public string FreezeReason { get; set; }
+            [XmlElement("sub_username")]
+            public string FOldName { get; set; }
+            [XmlElement("standard_score")]
+            public string FStandardScore { get; set; }
+            [XmlElement("risk_result")]
+            public string risk_result { get; set; }
+            [XmlElement("clear_pps")]
+            public string ClearPPS { get; set; }
+            [XmlElement("appeal_score")]
+            public string FAppealScore { get; set; }
+            [XmlElement("detail_score")]
+            public string detail_score { get; set; }
+            [XmlElement("appeal_reason")]
+            public string FAppealReason { get; set; }
+
+            [XmlElement("cre_image1")]//身份证正面
+            public string FCreImg1Str { get; set; }
+            [XmlElement("cre_image2")]//身份证反面
+            public string FCreImg2Str { get; set; }
+            [XmlElement("bank_image")]//银行卡照片
+            public string FOtherImage1Str { get; set; }
+            [XmlElement("balance_image")]//资金来源截图
+            public string FProveBanlanceImageStr { get; set; }
+            [XmlElement("other_image1")]//补充其他证件照片
+            public string FOtherImage2Str { get; set; }
+            [XmlElement("other_image2")]//补充的手持身份证半身照
+            public string FOtherImage3Str { get; set; }
+            [XmlElement("other_image3")]//补充户籍证明照片
+            public string FOtherImage4Str { get; set; }
+            [XmlElement("other_image4")]//补充资料截图
+            public string FOtherImage5Str { get; set; }
+
+            [XmlElement("zdy_title1")]//自定义标题1
+            public string Fsup_desc1Str { get; set; }
+            [XmlElement("zdy_title2")]
+            public string Fsup_desc2Str { get; set; }
+            [XmlElement("zdy_title3")]
+            public string Fsup_desc3Str { get; set; }
+            [XmlElement("zdy_title4")]
+            public string Fsup_desc4Str { get; set; }
+            [XmlElement("zdy_info1")]//自定义内容1
+            public string Fsup_tips1Str { get; set; }
+            [XmlElement("zdy_info2")]
+            public string Fsup_tips2Str { get; set; }
+            [XmlElement("zdy_info3")]
+            public string Fsup_tips3Str { get; set; }
+            [XmlElement("zdy_info4")]
+            public string Fsup_tips4Str { get; set; }
+        }
+        #endregion
+
         #region 证件号码清理
 
         public class CreidInfoBasic
@@ -179,7 +268,7 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             [XmlElement("buy_bankid")]
             public string fbuy_bankid { get; set; }
             [XmlElement("closereason")]
-            public string Fstandby8 { get; set; }
+            public string CloseReason { get; set; }
             [XmlElement("bank_backid")]
             public string fbank_backid { get; set; }
             [XmlElement("bank_listid")]
@@ -269,7 +358,7 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             [XmlElement("saleidCFT")]
             public string FsaleidCFT { get; set; }
             [XmlElement("trade_stateName")]
-            public string Ftrade_stateName { get; set; }         
+            public string Ftrade_stateName { get; set; }
         }
     }
 }
