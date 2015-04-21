@@ -76,20 +76,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         private void InitGrid()
         {
-            DataTable dt = new DataTable ();
+            DataSet ds = new DataSet();
             try
             {
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                dt = qs.BatPay_InitGrid(WeekIndex).Tables[0];
+                ds = qs.BatPay_InitGrid(WeekIndex);
             }
             catch (Exception ex)
             {
                 WebUtils.ShowMessage(this.Page, "读取数据时出错:" + ex.Message);
+                return;
             }
-
-            if (dt != null && dt.Rows.Count > 0)
+            try
             {
-                ShowBatPay(dt);
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    ShowBatPay(ds.Tables[0]);
+                }
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this.Page, "展示数据时出错:" + ex.Message);
+                return;
             }
         }
 

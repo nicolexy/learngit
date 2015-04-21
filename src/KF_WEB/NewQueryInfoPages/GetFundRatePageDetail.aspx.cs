@@ -122,6 +122,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                                 {
                                     Response.Redirect("../login.aspx?wh=1");
                                 }
+                                this.tableUNCloseApply.Visible = true;
                                 this.tableCloseInput.Visible = false;
                                 this.tableCloseApply.Visible = false;
                                 CreateApplyUNClose();
@@ -131,8 +132,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                         else//账务系统查看
                         {
                             tableCloseInput.Visible = false;
-                           // tableUNCloseInput.Visible = false;
-                            this.tableCloseApply.Visible = false;
                             if (Request.QueryString["objid"] != null && Request.QueryString["objid"].Trim() != "")
                             {
                                 string objid = Request.QueryString["objid"].Trim();
@@ -198,7 +197,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (ip == "::1")
                     ip = "127.0.0.1";
                 tb_Cclient_ip.Text = ip;
-                this.ImageC.ImageUrl = System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString() + ViewState["alPath"].ToString();
+                this.ImageC.ImageUrl = ViewState["kfPath"].ToString();//为了提交申请时在客服系统能看图片，此时浏览图片取的是客服系统保存的图片。
+                ViewState["ImageCUrl"] = System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString() + ViewState["alPath"].ToString();
 
 
                 this.tableCloseApply.Visible = true;
@@ -234,7 +234,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                                 { "end_date", tb_Cend_date.Text.Trim() },
                                 { "end_date_hand", tb_Cend_dateHand.Text.Trim() },//客服手工输入截止日期
                                 { "client_ip",tb_Cclient_ip.Text.Trim() },
-                                { "ImageUrl",ImageC.ImageUrl.Trim() },
+                                //{ "ImageUrl",ImageC.ImageUrl.Trim() },
+                                { "ImageUrl",ViewState["ImageCUrl"].ToString().Trim() },
                                 { "operator",Session["uid"].ToString() },
                                 { "ReturnUrl",ReturnUrl},
                               };
@@ -280,7 +281,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                    tb_Cclient_ip.Text = dt.Rows[0]["client_ip"].ToString();
                    this.ImageC.ImageUrl = dt.Rows[0]["ImageUrl"].ToString();
                   this.tableCloseApply.Visible = true;
-                //  this.tableUNCloseApply.Visible = false;
+                  this.tableUNCloseApply.Visible = false;
                   this.ButtonSubmitClose.Visible = false;
                }
                else
@@ -397,7 +398,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (ip == "::1")
                     ip = "127.0.0.1";
                 this.tb_UNCclient_ip.Text = ip;
-                this.tableUNCloseApply.Visible = true;
             }
             catch (Exception eSys)
             {
@@ -528,9 +528,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                     string path = Server.MapPath(Request.ApplicationPath) + "\\" + upStr + "\\" + fileName;
                     inputFile.PostedFile.SaveAs(path);
-
+                    ViewState["kfPath"] = path;
                     //alPath.Add(upStr+ "/" +fileName);	
-                    alPath = upStr + "/" + fileName;
+                    alPath =  "/" + upStr + "/" + fileName;
                     ViewState["alPath"] = alPath;
                 }
                 else

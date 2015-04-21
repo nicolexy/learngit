@@ -416,6 +416,12 @@
                          <asp:BoundColumn DataField="Fstate_str" HeaderText="状态">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
+                          <asp:BoundColumn DataField="Fcard_no" HeaderText="银行卡尾号">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
+                          <asp:BoundColumn DataField="Fbank_type_str" HeaderText="银行类型">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
                     </Columns>
                     <PagerStyle ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>
                 </asp:DataGrid><webdiyer:AspNetPager ID="bankRollListNotChildrenPager" runat="server" HorizontalAlign="right"

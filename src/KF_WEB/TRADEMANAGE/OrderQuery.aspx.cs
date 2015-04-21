@@ -160,7 +160,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 ValidateDate();
 
                 Table2.Visible = true;
-                pager.RecordCount = GetCount();
+                //   pager.RecordCount = GetCount();提升查询性能，不查询记录数
+                pager.RecordCount = 1000;
 
                 BindData(1);
 

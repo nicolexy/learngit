@@ -3610,7 +3610,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
+        //该函数未被调用
         [WebMethod(Description = "买/卖家查询交易单表")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetPayListByType(string u_BuyID, DateTime u_BeginTime, DateTime u_EndTime, int U_Type, int istr, int imax)
@@ -6441,6 +6441,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
+        //该函数未被调用
         [WebMethod(Description = "商户流水查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetMediList(string u_ID, string Fcode, DateTime u_BeginTime, DateTime u_EndTime, int iPageStart, int iPageMax)
@@ -6498,6 +6499,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
+        //该函数未被调用
         [WebMethod(Description = "商户流水个数函数")]
         public int GetMediListCount(string u_ID, string Fcode, DateTime u_BeginTime, DateTime u_EndTime)
         {
@@ -14121,7 +14123,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
+        //该函数未被调用
         [WebMethod(Description = "分帐业务查询函数详情")]
         public DataSet GetSeparateOperationDetail(DateTime Starttime, DateTime Endtime, string Flistid, string Fuid)
         {
@@ -19010,7 +19012,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             string strBeginDate = DateTime.Parse(WeekIndex).ToString("yyyyMMdd");
             string strSql = "select FBatchID,'0' FUrl,substring(FBatchID,1,8) FDate,FBankType,FPayCount,(FPaySum / 100) FPaySum1 ,FStatus,'0' FStatusName,'0' FMsg, '0' FBankID "
-                + " from c2c_zwdb.t_batchpay_rec where FBatchID like '" + strBeginDate + "____'  order by FDate desc";
+                + " from c2c_zwdb.t_batchpay_rec where FBatchID like '" + strBeginDate + "______'  order by FDate desc";
 
             DataSet ds = new DataSet();
 
@@ -21866,7 +21868,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         [WebMethod(Description = "退单查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        public DataSet GetRefundList(string batchid, int ifromtype, int irefundtype, int irefundstate, int ireturnstate, string listid, int iPageStart, int iPageMax)
+        public DataSet GetRefundList(string batchid, int ifromtype, int irefundtype, int irefundstate, int ireturnstate, string listid, string Fbank_listid, int iPageStart, int iPageMax)
         {
             RightAndLog rl = new RightAndLog();
             try
@@ -21887,7 +21889,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
 
-                RefundQueryClass cuser = new RefundQueryClass(batchid, ifromtype, irefundtype, irefundstate, ireturnstate, listid);
+                RefundQueryClass cuser = new RefundQueryClass(batchid, ifromtype, irefundtype, irefundstate, ireturnstate, listid, Fbank_listid);
 
                 DataSet ds = cuser.GetResultX(iPageStart, iPageMax, "ZWTK");
 
@@ -21913,11 +21915,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
         [WebMethod(Description = "退单查询个数函数")]
-        public int GetRefundListCount(string batchid, int ifromtype, int irefundtype, int irefundstate, int ireturnstate, string listid)
+        public int GetRefundListCount(string batchid, int ifromtype, int irefundtype, int irefundstate, int ireturnstate, string listid, string Fbank_listid)
         {
             try
             {
-                RefundQueryClass cuser = new RefundQueryClass(batchid, ifromtype, irefundtype, irefundstate, ireturnstate, listid);
+                RefundQueryClass cuser = new RefundQueryClass(batchid, ifromtype, irefundtype, irefundstate, ireturnstate, listid, Fbank_listid);
                 return cuser.GetCount("ZWTK");
             }
             catch (Exception e)

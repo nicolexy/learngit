@@ -650,7 +650,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 //				}
 			
 				string imagestr = dr["Fpath"].ToString().Trim();
-				string url = System.Configuration.ConfigurationManager.AppSettings["UserClassUrlPath"].Trim();
+                //实名认证图片由原来的配置UserClassUrlPath改为GetAppealImageCgi，跟申诉1，5，6类型一致，gregyao提供改的方法
+                string url = System.Configuration.ConfigurationManager.AppSettings["GetAppealImageCgi"].Trim();
 
 				if(imagestr.IndexOf("|")>0)
 				{

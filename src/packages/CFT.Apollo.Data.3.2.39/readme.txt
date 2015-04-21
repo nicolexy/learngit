@@ -1,5 +1,4 @@
 ﻿CFT.Apollo.Data
-通用数据库操作类库
 =======================================
 【可选功能】组件自身增加了集中获取字符串连接字符串的配置；若不需要此功能，可删除此配置项
   <configSections>
@@ -10,14 +9,14 @@
   
   <CFT.Apollo.Data>
     <ConnectionStringAdapter 
-      [option]enable="true"
-      [option]environmentNameInMapping = "Environment"
+      enable="true"
       systemNameInMapping ="lotteryoms"
-      [option]systemNameInCore="CFT_ZW_ALL" 
-      mappingDBGlobalKey="KeyMappingDB"
+      systemNameInCore="CFT_ZW_ALL" 
+      mappingDBconnstr="Server=10.12.196.159;Uid=root;Pwd=root1234;DataBase=CFT_LM;Convert Zero DateTime=true;CharSet=latin1"
+      template="Driver={MySQL ODBC 5.3 ANSI Driver};Database=mysql;Server=$SERVERIP$;UID=$UID$;PWD=$PWD$;charset=$CHARSET$;Option=3"
       relayIP="10.12.23.14"
       relayPort="35600"
-      [option]relayDefaultSPId="2000000000"
+      relayDefaultSPId="2000000000"
       />
   </CFT.Apollo.Data>
   
