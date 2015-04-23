@@ -881,6 +881,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             return pa;
         }
 
+        public static TENCENT.OSS.C2C.Finance.BankLib.Param[] ToParamArrayStruct(string[,] param)
+        {
+            TENCENT.OSS.C2C.Finance.BankLib.Param[] pa = new TENCENT.OSS.C2C.Finance.BankLib.Param[param.GetLength(0)];
+            for (int i = 0; i < pa.Length; i++)
+            {
+                pa[i].ParamName = param[i, 0];
+                pa[i].ParamValue = Convert.ToString(param[i, 1]);
+            }
+            return pa;
+        }
+
         public static void CreateDirectory(string targetPath)
         {
             try

@@ -10,6 +10,10 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
     using System.Data;
     using CFT.CSOMS.DAL.Infrastructure;
     using TENCENT.OSS.C2C.Finance.BankLib;
+    using System.Collections;
+    using System.Reflection;
+    using CFT.CSOMS.COMMLIB;
+    using TENCENT.OSS.C2C.Finance.Common.CommLib;
 
     public class AccountService
     {
@@ -584,6 +588,80 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
               }
               return new AccountData().QueryChangeUserInfoLog(qqid, offset, limit);
           }
+
+          public DataSet QueryUserAuthenByCredid(string cre_type, string cre_id,string opera)
+          {
+              DataSet ds=new AccountData().QueryUserAuthenByCredid(cre_type, cre_id, opera);
+              if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+              {
+                  string key = System.Configuration.ConfigurationManager.AppSettings["RealNameKey"].ToString();
+                  key += opera;
+                  ds.Tables[0].Rows[0]["cname"] = CommUtil.TripleDESDecryptRealName(ds.Tables[0].Rows[0]["cname"].ToString(), key);
+                  ds.Tables[0].Rows[0]["cuin"] = CommUtil.TripleDESDecryptRealName(ds.Tables[0].Rows[0]["cuin"].ToString(), key);
+                  ds.Tables[0].Rows[0]["cuid"] = CommUtil.TripleDESDecryptRealName(ds.Tables[0].Rows[0]["cuid"].ToString(), key);
+              }
+              return ds;
+          }
+
+        /// <summary>
+        /// 实名认证置失效 并记录客服系统日志
+        /// </summary>
+        /// <param name="cre_type">证件类型</param>
+        /// <param name="cre_id">证件号</param>
+        /// <param name="opera">操作者</param>
+        /// <param name="memo">说明</param>
+        /// <param name="FObjID">objid 唯一</param>
+        /// <param name="log_type">日志业务类型</param>
+        /// <param name="key_name">关键字段</param>
+        /// <param name="myParams">参数列表</param>
+        /// <returns></returns>
+          public Boolean DisableUserAuthenInfo(string cre_type, string cre_id, string opera, string memo,
+              string FObjID, string log_type, string key_name, Param[] myParams)
+          {
+              if (string.IsNullOrEmpty(cre_type))
+              {
+                  throw new ArgumentNullException("cre_type");
+              }
+              if (string.IsNullOrEmpty(cre_id))
+              {
+                  throw new ArgumentNullException("cre_id");
+              }
+              if (string.IsNullOrEmpty(opera))
+              {
+                  throw new ArgumentNullException("opera");
+              }
+
+              try
+              {
+                  if (new AccountData().DisableUserAuthenInfo(cre_type, cre_id, opera, memo))//实名认证置失效
+                      PublicRes.WirteKFLog(FObjID, log_type, key_name, cre_id, opera, myParams);//写日志
+              }
+              catch (Exception ex)
+              {
+                  throw new Exception(ex.Message);
+              }
+              return true;
+          }
+
+          public DataSet QueryUserAuthenDisableLog(string cre_id)
+          {
+              if (string.IsNullOrEmpty(cre_id))
+              {
+                  throw new ArgumentNullException("cre_id");
+              }
+              ArrayList keyNameList = new ArrayList();
+              keyNameList.Add("Fuid");
+              keyNameList.Add("Fname_old");
+              keyNameList.Add("Fcre_id");
+              keyNameList.Add("Fcre_type");
+              keyNameList.Add("Fimage_cre1");
+              keyNameList.Add("Fimage_cre2");
+              keyNameList.Add("Fimage_evidence");
+              keyNameList.Add("Fsubmit_time");
+              keyNameList.Add("Fsubmit_user");
+              return PublicRes.QueryKFLog("UserAuthenDisableLog", "cre_id", cre_id, keyNameList);
+          }
+
     }
 
     #region 异常姓名类
@@ -609,7 +687,21 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         public string Fcheck_state;
         public string Frefuse_reason="";
         public string Fcomment="";
+    }
+    #endregion
 
+    #region 实名认证置失效类
+    public class AuthenStateDeleteClass
+    {
+        public string Fuid;
+        public string Fname_old;
+        public string Fcre_id;
+        public string Fcre_type;
+        public string Fimage_cre1;
+        public string Fimage_cre2;
+        public string Fimage_evidence;
+        public string Fsubmit_time;
+        public string Fsubmit_user;
     }
     #endregion
 }
