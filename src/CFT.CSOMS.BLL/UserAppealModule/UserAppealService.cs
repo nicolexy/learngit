@@ -279,7 +279,7 @@ namespace CFT.CSOMS.BLL.UserAppealModule
 
         public bool CannelAppealSpecial(string fid, string Fcomment, string userDesc, string user, string userIP, string appeal_db, string appeal_tb)
         {
-            if (string.IsNullOrEmpty(appeal_db) && string.IsNullOrEmpty(appeal_tb))
+            if (string.IsNullOrEmpty(appeal_db) || string.IsNullOrEmpty(appeal_tb))
             {
                 GetTableName(fid, out appeal_db, out appeal_tb);
             }
@@ -300,7 +300,7 @@ namespace CFT.CSOMS.BLL.UserAppealModule
 
         public bool DelAppealSpecial(string fid, string Fcomment, string userDesc, string user, string userIP, string appeal_db, string appeal_tb)
         {
-            if (string.IsNullOrEmpty(appeal_db) && string.IsNullOrEmpty(appeal_tb))
+            if (string.IsNullOrEmpty(appeal_db) || string.IsNullOrEmpty(appeal_tb))
             {
                 GetTableName(fid, out appeal_db, out appeal_tb);
             }
@@ -321,7 +321,7 @@ namespace CFT.CSOMS.BLL.UserAppealModule
 
         public bool ConfirmAppealSpecial(string fid, string Fcomment, string userDesc, string user, string userIP, string appeal_db, string appeal_tb)
         {
-            if (string.IsNullOrEmpty(appeal_db) && string.IsNullOrEmpty(appeal_tb))
+            if (string.IsNullOrEmpty(appeal_db) || string.IsNullOrEmpty(appeal_tb))
             {
                 GetTableName(fid, out appeal_db, out appeal_tb);
             }
@@ -342,10 +342,18 @@ namespace CFT.CSOMS.BLL.UserAppealModule
 
         private void GetTableName(string fid, out string appeal_db, out string appeal_tb)
         {
-            string year = fid.Substring(0, 4);
-            string month = fid.Substring(4, 2);
-            appeal_db = "db_appeal_" + year;
-            appeal_tb = "t_tenpay_appeal_trans_" + month;
+            string yearStr = fid.Substring(0, 4);
+            string monthStr = fid.Substring(4, 2);
+            int year, month;
+            if (int.TryParse(yearStr, out year) && int.TryParse(monthStr, out month))
+            {
+                appeal_db = "db_appeal_" + yearStr;
+                appeal_tb = "t_tenpay_appeal_trans_" + monthStr;
+            }
+            else
+            {
+                throw new Exception("fid输入格式不正确");
+            }
         }
 
         /// <summary>
@@ -547,6 +555,8 @@ namespace CFT.CSOMS.BLL.UserAppealModule
 
         public DataSet GetSpecialAppealDetail(string fid)
         {
+            string db, tb;
+            GetTableName(fid, out db, out tb);  //验证输入的fid合法性
             DataSet ds = new UserAppealData().GetSpecialAppealDetail(fid);
             if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
             {
@@ -554,200 +564,208 @@ namespace CFT.CSOMS.BLL.UserAppealModule
             }
             else
             {
-                string img_cgi = ConfigurationManager.AppSettings["GetAppealImageCgi"].ToString();
-
-                ds.Tables[0].Columns.Add("ClearPPS", typeof(string));
-                ds.Tables[0].Columns.Add("FCreImg1Str", typeof(string));//身份证正面
-                ds.Tables[0].Columns.Add("FCreImg2Str", typeof(string));//身份证反面
-                ds.Tables[0].Columns.Add("FOtherImage1Str", typeof(string));//银行卡照片
-                ds.Tables[0].Columns.Add("FProveBanlanceImageStr", typeof(string));//资金来源截图
-                ds.Tables[0].Columns.Add("FOtherImage2Str", typeof(string));//补充其他证件照片
-                ds.Tables[0].Columns.Add("FOtherImage3Str", typeof(string));//补充的手持身份证半身照
-                ds.Tables[0].Columns.Add("FOtherImage4Str", typeof(string));//补充户籍证明照片
-                ds.Tables[0].Columns.Add("FOtherImage5Str", typeof(string));//补充资料截图
-
-                ds.Tables[0].Columns.Add("Fsup_desc1Str", typeof(string));//自定义标题1
-                ds.Tables[0].Columns.Add("Fsup_desc2Str", typeof(string));//自定义标题2
-                ds.Tables[0].Columns.Add("Fsup_desc3Str", typeof(string));//自定义标题3
-                ds.Tables[0].Columns.Add("Fsup_desc4Str", typeof(string));//自定义标题4
-                ds.Tables[0].Columns.Add("Fsup_tips1Str", typeof(string));//自定义内容1
-                ds.Tables[0].Columns.Add("Fsup_tips2Str", typeof(string));//自定义内容2
-                ds.Tables[0].Columns.Add("Fsup_tips3Str", typeof(string));//自定义内容3
-                ds.Tables[0].Columns.Add("Fsup_tips4Str", typeof(string));//自定义内容4
-
-                DataRow dr = ds.Tables[0].Rows[0];
-                int ftype = int.Parse(dr["Ftype"].ToString());
-
-                if (dr["FClearPps"].ToString() == "1" && dr["FType"].ToString() == "11")//是否清空密保资料
+                try
                 {
-                    dr["ClearPPS"] = "清除";
-                }
-                else if (dr["FType"].ToString() == "11" && dr["FClearPps"].ToString() != "1")
-                {
-                    dr["ClearPPS"] = "不清除";
-                }
-                else
-                {
-                    dr["ClearPPS"] = "";
-                }
+                    string img_cgi = ConfigurationManager.AppSettings["GetAppealImageCgi"].ToString();
 
-                #region 图片
+                    ds.Tables[0].Columns.Add("ClearPPS", typeof(string));
+                    ds.Tables[0].Columns.Add("FCreImg1Str", typeof(string));//身份证正面
+                    ds.Tables[0].Columns.Add("FCreImg2Str", typeof(string));//身份证反面
+                    ds.Tables[0].Columns.Add("FOtherImage1Str", typeof(string));//银行卡照片
+                    ds.Tables[0].Columns.Add("FProveBanlanceImageStr", typeof(string));//资金来源截图
+                    ds.Tables[0].Columns.Add("FOtherImage2Str", typeof(string));//补充其他证件照片
+                    ds.Tables[0].Columns.Add("FOtherImage3Str", typeof(string));//补充的手持身份证半身照
+                    ds.Tables[0].Columns.Add("FOtherImage4Str", typeof(string));//补充户籍证明照片
+                    ds.Tables[0].Columns.Add("FOtherImage5Str", typeof(string));//补充资料截图
 
-                if (!(dr["FCreImg1"] is DBNull))
-                {
-                    if (dr["FCreImg1"].ToString() != "")
+                    ds.Tables[0].Columns.Add("Fsup_desc1Str", typeof(string));//自定义标题1
+                    ds.Tables[0].Columns.Add("Fsup_desc2Str", typeof(string));//自定义标题2
+                    ds.Tables[0].Columns.Add("Fsup_desc3Str", typeof(string));//自定义标题3
+                    ds.Tables[0].Columns.Add("Fsup_desc4Str", typeof(string));//自定义标题4
+                    ds.Tables[0].Columns.Add("Fsup_tips1Str", typeof(string));//自定义内容1
+                    ds.Tables[0].Columns.Add("Fsup_tips2Str", typeof(string));//自定义内容2
+                    ds.Tables[0].Columns.Add("Fsup_tips3Str", typeof(string));//自定义内容3
+                    ds.Tables[0].Columns.Add("Fsup_tips4Str", typeof(string));//自定义内容4
+
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    int ftype = int.Parse(dr["Ftype"].ToString());
+
+                    if (dr["FClearPps"].ToString() == "1" && dr["FType"].ToString() == "11")//是否清空密保资料
                     {
-                        if (ftype == 19)
+                        dr["ClearPPS"] = "清除";
+                    }
+                    else if (dr["FType"].ToString() == "11" && dr["FClearPps"].ToString() != "1")
+                    {
+                        dr["ClearPPS"] = "不清除";
+                    }
+                    else
+                    {
+                        dr["ClearPPS"] = "";
+                    }
+
+                    #region 图片
+
+                    if (!(dr["FCreImg1"] is DBNull))
+                    {
+                        if (dr["FCreImg1"].ToString() != "")
                         {
-                            dr["FCreImg1Str"] = dr["FCreImg1"].ToString();  //身份证正面
-                        }
-                        else
-                        {
-                            dr["FCreImg1Str"] = img_cgi + dr["FCreImg1"].ToString();
+                            if (ftype == 19)
+                            {
+                                dr["FCreImg1Str"] = dr["FCreImg1"].ToString();  //身份证正面
+                            }
+                            else
+                            {
+                                dr["FCreImg1Str"] = img_cgi + dr["FCreImg1"].ToString();
+                            }
                         }
                     }
-                }
-                if (!(dr["FCreImg2"] is DBNull))
-                {
-                    if (dr["FCreImg2"].ToString() != "")
+                    if (!(dr["FCreImg2"] is DBNull))
                     {
-                        if (ftype == 19)
+                        if (dr["FCreImg2"].ToString() != "")
                         {
-                            dr["FCreImg2Str"] = dr["FCreImg2"].ToString();  //身份证反面
-                        }
-                        else
-                        {
-                            dr["FCreImg2Str"] = img_cgi + dr["FCreImg2"].ToString();
+                            if (ftype == 19)
+                            {
+                                dr["FCreImg2Str"] = dr["FCreImg2"].ToString();  //身份证反面
+                            }
+                            else
+                            {
+                                dr["FCreImg2Str"] = img_cgi + dr["FCreImg2"].ToString();
+                            }
                         }
                     }
-                }
-                if (!(dr["FOtherImage1"] is DBNull))
-                {
-                    if (dr["FOtherImage1"].ToString() != "")
+                    if (!(dr["FOtherImage1"] is DBNull))
                     {
-                        if (ftype == 19)
+                        if (dr["FOtherImage1"].ToString() != "")
                         {
-                            dr["FOtherImage1Str"] = dr["FOtherImage1"].ToString();  //银行卡照片
-                        }
-                        else
-                        {
-                            dr["FOtherImage1Str"] = img_cgi + dr["FOtherImage1"].ToString();
+                            if (ftype == 19)
+                            {
+                                dr["FOtherImage1Str"] = dr["FOtherImage1"].ToString();  //银行卡照片
+                            }
+                            else
+                            {
+                                dr["FOtherImage1Str"] = img_cgi + dr["FOtherImage1"].ToString();
+                            }
                         }
                     }
-                }
-                if (!(dr["FProveBanlanceImage"] is DBNull))
-                {
-                    if (dr["FProveBanlanceImage"].ToString() != "")
+                    if (!(dr["FProveBanlanceImage"] is DBNull))
                     {
-                        if (ftype == 19)
+                        if (dr["FProveBanlanceImage"].ToString() != "")
                         {
-                            dr["FProveBanlanceImageStr"] = dr["FProveBanlanceImage"].ToString();  //资金来源截图
-                        }
-                        else
-                        {
-                            dr["FProveBanlanceImageStr"] = img_cgi + dr["FProveBanlanceImage"].ToString();
+                            if (ftype == 19)
+                            {
+                                dr["FProveBanlanceImageStr"] = dr["FProveBanlanceImage"].ToString();  //资金来源截图
+                            }
+                            else
+                            {
+                                dr["FProveBanlanceImageStr"] = img_cgi + dr["FProveBanlanceImage"].ToString();
+                            }
                         }
                     }
-                }
 
-                if (!(dr["FOtherImage2"] is DBNull))
-                {
-                    if (dr["FOtherImage2"].ToString() != "")
+                    if (!(dr["FOtherImage2"] is DBNull))
                     {
-                        if (ftype == 19)
+                        if (dr["FOtherImage2"].ToString() != "")
                         {
-                            dr["FOtherImage2Str"] = dr["FOtherImage2"].ToString();  //补充其他证件照片
-                        }
-                        else
-                        {
-                            dr["FOtherImage2Str"] = img_cgi + dr["FOtherImage2"].ToString();
+                            if (ftype == 19)
+                            {
+                                dr["FOtherImage2Str"] = dr["FOtherImage2"].ToString();  //补充其他证件照片
+                            }
+                            else
+                            {
+                                dr["FOtherImage2Str"] = img_cgi + dr["FOtherImage2"].ToString();
+                            }
                         }
                     }
-                }
-                if (!(dr["FOtherImage3"] is DBNull))
-                {
-                    if (dr["FOtherImage3"].ToString() != "")
+                    if (!(dr["FOtherImage3"] is DBNull))
                     {
-                        if (ftype == 19)
+                        if (dr["FOtherImage3"].ToString() != "")
                         {
-                            dr["FOtherImage3Str"] = dr["FOtherImage3"].ToString();  //补充的手持身份证半身照
-                        }
-                        else
-                        {
-                            dr["FOtherImage3Str"] = img_cgi + dr["FOtherImage3"].ToString();
+                            if (ftype == 19)
+                            {
+                                dr["FOtherImage3Str"] = dr["FOtherImage3"].ToString();  //补充的手持身份证半身照
+                            }
+                            else
+                            {
+                                dr["FOtherImage3Str"] = img_cgi + dr["FOtherImage3"].ToString();
+                            }
                         }
                     }
-                }
-                if (!(dr["FOtherImage4"] is DBNull))
-                {
-                    if (dr["FOtherImage4"].ToString() != "")
+                    if (!(dr["FOtherImage4"] is DBNull))
                     {
-                        if (ftype == 19)
+                        if (dr["FOtherImage4"].ToString() != "")
                         {
-                            dr["FOtherImage4Str"] = dr["FOtherImage4"].ToString();  //补充户籍证明照片
-                        }
-                        else
-                        {
-                            dr["FOtherImage4Str"] = img_cgi + dr["FOtherImage4"].ToString();
+                            if (ftype == 19)
+                            {
+                                dr["FOtherImage4Str"] = dr["FOtherImage4"].ToString();  //补充户籍证明照片
+                            }
+                            else
+                            {
+                                dr["FOtherImage4Str"] = img_cgi + dr["FOtherImage4"].ToString();
+                            }
                         }
                     }
-                }
-                if (!(dr["FOtherImage5"] is DBNull))
-                {
-                    if (dr["FOtherImage5"].ToString() != "")
+                    if (!(dr["FOtherImage5"] is DBNull))
                     {
-                        if (ftype == 19)
+                        if (dr["FOtherImage5"].ToString() != "")
                         {
-                            dr["FOtherImage5Str"] = dr["FOtherImage5"].ToString();  //补充资料截图
-                        }
-                        else
-                        {
-                            dr["FOtherImage5Str"] = img_cgi + dr["FOtherImage5"].ToString();
+                            if (ftype == 19)
+                            {
+                                dr["FOtherImage5Str"] = dr["FOtherImage5"].ToString();  //补充资料截图
+                            }
+                            else
+                            {
+                                dr["FOtherImage5Str"] = img_cgi + dr["FOtherImage5"].ToString();
+                            }
                         }
                     }
-                }
 
-                #endregion
+                    #endregion
 
-                #region  自定义标题、内容
+                    #region  自定义标题、内容
 
-                if (!(dr["Fsup_desc1"] is DBNull))
-                {
-                    dr["Fsup_desc1Str"] = dr["Fsup_desc1"].ToString();//自定义标题1
-                }
-                if (!(dr["Fsup_desc2"] is DBNull))
-                {
-                    dr["Fsup_desc2Str"] = dr["Fsup_desc2"].ToString();
-                }
-                if (!(dr["Fsup_desc3"] is DBNull))
-                {
-                    dr["Fsup_desc3Str"] = dr["Fsup_desc3"].ToString();
-                }
-                if (!(dr["Fsup_desc4"] is DBNull))
-                {
-                    dr["Fsup_desc4Str"] = dr["Fsup_desc4"].ToString();
-                }
+                    if (!(dr["Fsup_desc1"] is DBNull))
+                    {
+                        dr["Fsup_desc1Str"] = dr["Fsup_desc1"].ToString();//自定义标题1
+                    }
+                    if (!(dr["Fsup_desc2"] is DBNull))
+                    {
+                        dr["Fsup_desc2Str"] = dr["Fsup_desc2"].ToString();
+                    }
+                    if (!(dr["Fsup_desc3"] is DBNull))
+                    {
+                        dr["Fsup_desc3Str"] = dr["Fsup_desc3"].ToString();
+                    }
+                    if (!(dr["Fsup_desc4"] is DBNull))
+                    {
+                        dr["Fsup_desc4Str"] = dr["Fsup_desc4"].ToString();
+                    }
 
-                if (!(dr["Fsup_tips1"] is DBNull))
-                {
-                    dr["Fsup_tips1Str"] = dr["Fsup_tips1"].ToString();//自定义内容1
-                }
-                if (!(dr["Fsup_tips2"] is DBNull))
-                {
-                    dr["Fsup_tips2Str"] = dr["Fsup_tips2"].ToString();
-                }
-                if (!(dr["Fsup_tips3"] is DBNull))
-                {
-                    dr["Fsup_tips3Str"] = dr["Fsup_tips3"].ToString();
-                }
-                if (!(dr["Fsup_tips4"] is DBNull))
-                {
-                    dr["Fsup_tips4Str"] = dr["Fsup_tips4"].ToString();
-                }
+                    if (!(dr["Fsup_tips1"] is DBNull))
+                    {
+                        dr["Fsup_tips1Str"] = dr["Fsup_tips1"].ToString();//自定义内容1
+                    }
+                    if (!(dr["Fsup_tips2"] is DBNull))
+                    {
+                        dr["Fsup_tips2Str"] = dr["Fsup_tips2"].ToString();
+                    }
+                    if (!(dr["Fsup_tips3"] is DBNull))
+                    {
+                        dr["Fsup_tips3Str"] = dr["Fsup_tips3"].ToString();
+                    }
+                    if (!(dr["Fsup_tips4"] is DBNull))
+                    {
+                        dr["Fsup_tips4Str"] = dr["Fsup_tips4"].ToString();
+                    }
 
-                #endregion
+                    #endregion
 
-                return ds;
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    log4net.LogManager.GetLogger("GetSpecialAppealDetail: 特殊申诉详情查询失败： " + ex.Message);
+                    return null;
+                }
             }
         }
 

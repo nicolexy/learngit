@@ -349,7 +349,7 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             [XmlElement("memo")]
             public string fmemo { get; set; }
             [XmlElement("explain")]
-            public string Fexplain { get; set; }
+            public string fexplain { get; set; }
 
             [XmlElement("buyid")]
             public string fbuyid { get; set; }
@@ -359,6 +359,8 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             public string FsaleidCFT { get; set; }
             [XmlElement("trade_stateName")]
             public string Ftrade_stateName { get; set; }
+            [XmlElement("buyidCFT")]
+            public string FbuyidCFT { get; set; }
         }
     }
 }

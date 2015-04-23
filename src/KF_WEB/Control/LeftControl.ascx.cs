@@ -254,6 +254,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 baseAccount1.AddSubMenu("用户受控资金查询", "TradeManage/QueryUserControledFinPage.aspx");
                 baseAccount1.AddSubMenu("手机绑定查询", "TradeManage/MobileBindQuery.aspx");
                 accountOperate1.AddSubMenu("证件号码清理", "BaseAccount/ClearCreid.aspx");
+                accountOperate1.AddSubMenu("证件号码清理-新", "BaseAccount/ClearCreidNew.aspx");
              
                 FastPay1.AddSubMenu("一点通业务", "BaseAccount/BankCardUnbind.aspx");
                 FastPay1.AddSubMenu("银行卡查询", "TradeManage/BankCardQuery.aspx");

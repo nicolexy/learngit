@@ -264,7 +264,6 @@ namespace CFT.CSOMS.DAL.UserAppealModule
         public DataSet GetFreezeDiary(string fid, string ffreezeID, string handleType, string handleUser,
             string handleResult, string memo, string strBeginDate, string strEndDate, int startIndex, int maxPage)
         {
-            MySqlAccess da = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
             string tableName = "c2c_fmdb.t_Freeze_Detail";
 
             string cmd = "select * from " + tableName + " where (1=1) ";
@@ -282,20 +281,30 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                 cmd += " and FCreateDate >='" + strBeginDate.Trim() + "'";
             if (strEndDate.Trim() != "")
                 cmd += " and FCreateDate<='" + strEndDate.Trim() + "'";
-            if (memo.Trim() != "")
-            { }
-
+            
             cmd += " order by FCreateDate DESC ";
             DataSet ds = new DataSet();
-            if (startIndex != -1)
+            MySqlAccess da = null;
+            try
             {
-                ds = da.dsGetTableByRange(cmd, startIndex, maxPage);
+                da = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
+                da.OpenConn();
+                if (startIndex != -1)
+                    ds = da.dsGetTableByRange(cmd, startIndex, maxPage);
+                else
+                    ds = da.dsGetTotalData(cmd);
+
+                return ds;
             }
-            else
+            catch (Exception ex)
             {
-                ds = da.dsGetTotalData(cmd);
+                LogHelper.LogInfo("GetFreezeDiary: 日志查询失败: " + ex.Message);
+                return null;
             }
-            return ds;
+            finally
+            {
+                da.Dispose();
+            }
         }
 
         /// <summary>
@@ -385,43 +394,49 @@ namespace CFT.CSOMS.DAL.UserAppealModule
 
             if (handleType != 100)
             {
-                MySqlAccess da_2 = MySQLAccessFactory.GetMySQLAccess("FKDJ");
-                da_2.OpenConn();
-
-                if (reqType == 8 || reqType == 19)
-                    memo = "风控冻结." + memo;
-                else if (reqType == 11)
-                    memo = "特殊找回密码." + memo;
-
-                string sqlCmd_updateAppeal = "update " + table + " set FState=" + handleType
-                    + ",Fcomment='" + memo + "', FCheckUser='" + handleUser + "',FCheckTime=Now(),"
-                    + " FPickTime=now(),FPickUser='" + handleUser + "',FStandBy1=" + bt
-                    + " ,FReCheckTime=now(),FRecheckUser='" + handleUser + "',FCheckInfo='" + handleResult + "',Fsup_desc1='" + zdyBt1
-                    + "',Fsup_desc2='" + zdyBt2 + "',Fsup_desc3='" + zdyBt3 + "',Fsup_desc4='" + zdyBt4 + "',Fsup_tips1='" + zdyCont1
-                    + "',Fsup_tips2='" + zdyCont2 + "',Fsup_tips3='" + zdyCont3 + "',Fsup_tips4='" + zdyCont4 + "' "
-                    + " where Fid='" + ffreezeListID + "'";
-
+                MySqlAccess da_2 = null;
                 try
                 {
+                    da_2 = MySQLAccessFactory.GetMySQLAccess("FKDJ");
+                    da_2.OpenConn();
+
+                    if (reqType == 8 || reqType == 19)
+                        memo = "风控冻结." + memo;
+                    else if (reqType == 11)
+                        memo = "特殊找回密码." + memo;
+
+                    string sqlCmd_updateAppeal = "update " + table + " set FState=" + handleType
+                        + ",Fcomment='" + memo + "', FCheckUser='" + handleUser + "',FCheckTime=Now(),"
+                        + " FPickTime=now(),FPickUser='" + handleUser + "',FStandBy1=" + bt
+                        + " ,FReCheckTime=now(),FRecheckUser='" + handleUser + "',FCheckInfo='" + handleResult + "',Fsup_desc1='" + zdyBt1
+                        + "',Fsup_desc2='" + zdyBt2 + "',Fsup_desc3='" + zdyBt3 + "',Fsup_desc4='" + zdyBt4 + "',Fsup_tips1='" + zdyCont1
+                        + "',Fsup_tips2='" + zdyCont2 + "',Fsup_tips3='" + zdyCont3 + "',Fsup_tips4='" + zdyCont4 + "' "
+                        + " where Fid='" + ffreezeListID + "'";
+
                     if (!da_2.ExecSql(sqlCmd_updateAppeal))
                     {
                         return false;
                     }
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
-                    // 记录失败日志
-                    throw new Exception("更新表错误" + ex.Message);
+                    LogHelper.LogInfo("CreateFreezeDiary: 更新失败" + ex.Message);
+                    return false;
+                }
+                finally
+                {
+                    da_2.Dispose();
                 }
             }
 
-            MySqlAccess da = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
+            MySqlAccess da = null;
             string sqlCmd = "insert into " + tableName + " (FFreezeListID,FCreateDate,FHandleType,FHandleUser,FHandleResult,FMemo) values ("
                 + ffreezeListID + ",'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'," + handleType + ",'"
                 + handleUser + "','" + handleResult + "','" + userDesc + "')";
 
             try
             {
+                da = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
                 da.OpenConn();
                 if (da.ExecSql(sqlCmd))
                 {
@@ -499,6 +514,8 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             }
             catch (Exception ex)
             {
+                string msg = "添加日志失败" + ex.Message;
+                LogHelper.LogInfo("CreateFreezeDiary", msg);
                 throw new Exception("添加日志失败：" + ex.Message);
             }
             finally
@@ -690,8 +707,9 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                 return ds;
 
             }
-            catch
+            catch (Exception ex)
             {
+                LogHelper.LogInfo("GetSpecialAppealList: 特殊申诉列表查询失败: ", ex.Message);
                 return null;
             }
         }
@@ -787,8 +805,11 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                             dr["detail_score"] = detail_score;
 
                         }
-                        catch
-                        { }
+                        catch (Exception ex)
+                        {
+                            string msg = "获取得分明细失败" + ex.Message;
+                            LogHelper.LogInfo("DAL-GetSpecialAppealDetail", msg);
+                        }
                     }
                     #endregion
                     if (ftype == 8 || ftype == 19)
@@ -819,8 +840,9 @@ namespace CFT.CSOMS.DAL.UserAppealModule
 
                 return ds;
             }
-            catch
+            catch (Exception ex)
             {
+                LogHelper.LogInfo("GetSpecialAppealDetail： 查询记录为空： ", ex.Message);
                 return null;
             }
         }

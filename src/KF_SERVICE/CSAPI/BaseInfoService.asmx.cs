@@ -409,6 +409,7 @@ namespace CFT.CSOMS.Service.CSAPI
         #region 特殊申诉处理
 
         // 特殊申诉处理-通过
+        [WebMethod]
         public void ComfirmAppealSpecial()
         {
             try
@@ -448,6 +449,7 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         //特殊申诉处理-拒绝
+        [WebMethod]
         public void CannelAppealSpecial()
         {
             try
@@ -487,6 +489,7 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         //特殊申诉处理-删除
+        [WebMethod]
         public void DelAppealSpecial()
         {
             try
@@ -526,6 +529,7 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         //特殊申诉处理-获取日志
+        [WebMethod]
         public void GetFreezeDiary()
         {
             try
@@ -561,6 +565,7 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         //特殊申诉列表查询
+        [WebMethod]
         public void GetSpecialAppealList()
         {
             try
@@ -607,6 +612,7 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         //特殊申诉详情查询
+        [WebMethod]
         public void GetSpecialAppealDetail()
         {
             try
@@ -641,6 +647,7 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         //补充资料
+        [WebMethod]
         public void AddAppealMaterial()
         {
             try
@@ -705,6 +712,7 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         //挂起
+        [WebMethod]
         public void HangAppeal()
         {
             try
@@ -746,6 +754,7 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         //作废
+        [WebMethod]
         public void DeleteAppeal()
         {
             try
@@ -787,6 +796,7 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         //结单（已解决）
+        [WebMethod]
         public void CompleteAppeal()
         {
             try
@@ -828,6 +838,7 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         //同步身份证号
+        [WebMethod]
         public void SyncCreid()
         {
             try
@@ -869,8 +880,9 @@ namespace CFT.CSOMS.Service.CSAPI
 
         #region 证件号码清理
 
-        [WebMethod(Description = "证件信息查询")]
-        public void QueryCreidList()    //string appid,string creid,string token
+        //证件信息查询
+        [WebMethod]
+        public void QueryCreidList()   
         {
             try
             {
@@ -902,8 +914,9 @@ namespace CFT.CSOMS.Service.CSAPI
             }
         }
 
-        [WebMethod(Description = "证件号码清理")]
-        public void ClearCreid()    //string appid,string creid,int type,string opera,string token ; type=0普通用户，type=1微信用户
+        //证件号码清理
+        [WebMethod]
+        public void ClearCreid()    
         {
             try
             {
@@ -915,7 +928,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 String creid = paramsHt.ContainsKey("creid") ? paramsHt["creid"].ToString() : "";
                 String opera = paramsHt.ContainsKey("opera") ? paramsHt["opera"].ToString() : "";
-                int u_type = APIUtil.StringToInt(paramsHt["type"]);
+                int u_type = APIUtil.StringToInt(paramsHt["type"]); //type=0普通用户，type=1微信用户
 
                 var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().ClearCreidInfo(creid, u_type, opera);
 
