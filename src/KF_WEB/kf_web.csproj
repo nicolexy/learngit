@@ -357,6 +357,13 @@
       <DependentUpon>CardInfoQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\BaseDictionary.cs" />
+    <Compile Include="BaseAccount\ClearCreidNew.aspx.cs">
+      <DependentUpon>ClearCreidNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\ClearCreidNew.aspx.designer.cs">
+      <DependentUpon>ClearCreidNew.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\ModifyContactInfo.aspx.cs">
       <DependentUpon>ModifyContactInfo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2674,6 +2681,7 @@
       <SubType>Form</SubType>
     </Content>
     <Content Include="BaseAccount\CardInfoQuery.aspx" />
+    <Content Include="BaseAccount\ClearCreidNew.aspx" />
     <Content Include="BaseAccount\ModifyContactInfo.aspx">
       <SubType>Form</SubType>
     </Content>

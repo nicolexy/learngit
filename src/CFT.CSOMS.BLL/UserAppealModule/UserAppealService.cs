@@ -279,6 +279,10 @@ namespace CFT.CSOMS.BLL.UserAppealModule
 
         public bool CannelAppealSpecial(string fid, string Fcomment, string userDesc, string user, string userIP, string appeal_db, string appeal_tb)
         {
+            if (string.IsNullOrEmpty(appeal_db) || string.IsNullOrEmpty(appeal_tb))
+            {
+                GetTableName(fid, out appeal_db, out appeal_tb);
+            }
             UserAppealService userAppealService = new UserAppealService();
             bool succes = userAppealService.CannelAppeal(fid, Fcomment, "", "", user, userIP, appeal_db, appeal_tb);
             if (succes)
@@ -296,6 +300,10 @@ namespace CFT.CSOMS.BLL.UserAppealModule
 
         public bool DelAppealSpecial(string fid, string Fcomment, string userDesc, string user, string userIP, string appeal_db, string appeal_tb)
         {
+            if (string.IsNullOrEmpty(appeal_db) || string.IsNullOrEmpty(appeal_tb))
+            {
+                GetTableName(fid, out appeal_db, out appeal_tb);
+            }
             UserAppealService userAppealService = new UserAppealService();
             bool succes = userAppealService.DelAppeal(fid, Fcomment, user, userIP, appeal_db, appeal_tb);
             if (succes)
@@ -313,6 +321,10 @@ namespace CFT.CSOMS.BLL.UserAppealModule
 
         public bool ConfirmAppealSpecial(string fid, string Fcomment, string userDesc, string user, string userIP, string appeal_db, string appeal_tb)
         {
+            if (string.IsNullOrEmpty(appeal_db) || string.IsNullOrEmpty(appeal_tb))
+            {
+                GetTableName(fid, out appeal_db, out appeal_tb);
+            }
             UserAppealService userAppealService = new UserAppealService();
             bool succes = userAppealService.ConfirmAppeal(fid, Fcomment, user, userIP, appeal_db, appeal_tb);
             if (succes)
@@ -326,6 +338,471 @@ namespace CFT.CSOMS.BLL.UserAppealModule
             }
             else
                 return false;
+        }
+
+        private void GetTableName(string fid, out string appeal_db, out string appeal_tb)
+        {
+            string yearStr = fid.Substring(0, 4);
+            string monthStr = fid.Substring(4, 2);
+            int year, month;
+            if (int.TryParse(yearStr, out year) && int.TryParse(monthStr, out month))
+            {
+                appeal_db = "db_appeal_" + yearStr;
+                appeal_tb = "t_tenpay_appeal_trans_" + monthStr;
+            }
+            else
+            {
+                throw new Exception("fid输入格式不正确");
+            }
+        }
+
+        /// <summary>
+        /// 创建风控冻结处理日志NEW
+        /// </summary>
+        public bool CreateFreezeDiary(string ffreezeListID, int handleType, string handleUser, string handleResult
+        , string memo, string uin, string userPhone, string submitDate, int bt, string userDesc, string zdyBt1, string zdyBt2, string zdyBt3
+        , string zdyBt4, string zdyCont1, string zdyCont2, string zdyCont3, string zdyCont4)
+        {
+            return new UserAppealData().CreateFreezeDiary(ffreezeListID, handleType, handleUser, handleResult, memo, uin, userPhone, submitDate, bt, userDesc,
+                zdyBt1, zdyBt2, zdyBt3, zdyBt4, zdyCont1, zdyCont2, zdyCont3, zdyCont4);
+        }
+
+        //选择补充资料的掩码计算
+        public int GetIntBT(string creid, string creid2, string bank, string fund1, string fund2, string fund3, string fund4, string fund5, string fund6,
+            string fund7, string user_desc)
+        {
+            Int32 bt = 0;
+            try
+            {
+                if (creid == " 1")
+                {
+                    //身份证正面
+                    bt = bt | 0x00000001;
+                    bt = bt | 0x00000002;
+                }
+                if (creid2 == "1")
+                {
+                    //身份证反面
+                    bt = bt | 0x00000004;
+                    bt = bt | 0x00000008;
+                }
+                if (bank == " 1")
+                {
+                    //银行卡
+                    bt = bt | 0x00000800;
+                    bt = bt | 0x00001000;
+                }
+
+                //资金来源
+                if (fund1 == " 1" || fund2 == " 1" || fund3 == " 1" || fund4 == " 1" || fund5 == " 1" || fund6 == " 1" || fund7 == " 1")
+                {
+                    bt = bt | 0x00010000;
+                    if (fund1 == " 1")
+                    { bt = bt | 0x00020000; }
+
+                    if (fund2 == " 1")
+                    { bt = bt | 0x00040000; }
+
+                    if (fund3 == " 1")
+                    { bt = bt | 0x00080000; }
+
+                    if (fund4 == " 1")
+                    { bt = bt | 0x00100000; }
+
+                    if (fund5 == " 1")
+                    { bt = bt | 0x00200000; }
+
+                    if (fund6 == " 1")
+                    { bt = bt | 0x00400000; }
+
+                    if (fund7 == " 1")
+                    { bt = bt | 0x00800000; }
+                }
+
+                //用户描述不为空
+                if (string.IsNullOrEmpty(user_desc))
+                {
+                    bt = bt | 0x08000000;
+                }
+            }
+            catch
+            {
+                throw new Exception("转码失败！");
+            }
+
+            return bt;
+        }
+
+        public DataSet GetFreezeDiary(string fid, int type)
+        {
+            DataSet ds = new UserAppealData().GetFreezeDiary("", fid, "", "", "", "", "", "", 1, 20);
+            if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
+            {
+                return null;
+            }
+
+            ds.Tables[0].Columns.Add("handleResult", typeof(string));
+
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                if (type == 11)
+                {
+                    //特殊找回支付密码
+                    dr["handleResult"] = dr["FCreateDate"].ToString() + "  " + dr["FHandleUser"].ToString()
+                      + " 执行了 " + ConvertToAppealSpecialString(dr["FHandleType"].ToString()) + " 操作，用户描述为：" + dr["FMemo"].ToString() + "；客服处理结果为：" + dr["FHandleResult"].ToString();
+                }
+                else
+                {
+                    //普通解冻或微信解冻
+                    dr["handleResult"] = dr["FCreateDate"].ToString() + "  " + dr["FHandleUser"].ToString()
+                  + " 执行了 " + ConvertToAppealString(dr["FHandleType"].ToString()) + " 操作，用户描述为：" + dr["FMemo"].ToString() + "；客服处理结果为：" + dr["FHandleResult"].ToString();
+                }
+            }
+
+            return ds;
+        }
+
+        public DataSet GetSpecialAppealList(string uin, string BeginDate, string EndDate, int ftype, int iStatue,
+           string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType)
+        {
+            DataSet ds = new UserAppealData().GetSpecialAppealList(uin, BeginDate, EndDate, ftype, iStatue, szListID, szFreezeUser, szFreezeReason, iPageStart, iPageMax,
+                orderType);
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                ds.Tables[0].Columns.Add("handleStateName", typeof(string));
+
+                DataRow dr = ds.Tables[0].Rows[0];
+
+                if (ftype == 8 || ftype == 19)//冻结类型状态处理
+                {
+                    string stateName = "{0}";
+                    if (dr["isFreezeListHas"].ToString() == "0")
+                    {
+                        stateName = "该账户不处于冻结状态 ({0})";
+                    }
+
+                    switch (dr["Fstate"].ToString())
+                    {
+                        case "0":
+                            {
+                                stateName = string.Format(stateName, "未处理"); ; break;
+                            }
+                        case "1":
+                            {
+                                stateName = string.Format(stateName, "结单(已解冻)"); break;
+                            }
+                        case "2":
+                            {
+                                stateName = string.Format(stateName, "待补充资料"); break;
+                            }
+                        case "7":
+                            {
+                                stateName = string.Format(stateName, "已作废"); break;
+                            }
+                        case "8":
+                            {
+                                stateName = string.Format(stateName, "挂起"); break;
+                            }
+                        case "10":
+                            {
+                                stateName = string.Format(stateName, "已补充资料"); break;
+                            }
+                        default:
+                            {
+                                stateName = string.Format(stateName, "未知" + dr["Fstate"].ToString()); break;
+                            }
+                    }
+                    dr["handleStateName"] = stateName;
+                }
+                else if (ftype == 11)//特殊找回支付密码状态
+                {
+                    switch (dr["Fstate"].ToString())
+                    {
+                        case "0":
+                            {
+                                dr["handleStateName"] = "未处理"; break;
+                            }
+                        case "1":
+                            {
+                                dr["handleStateName"] = "申诉成功"; break;
+                            }
+                        case "2":
+                            {
+                                dr["handleStateName"] = "申诉失败"; break;
+                            }
+                        case "7":
+                            {
+                                dr["handleStateName"] = "已删除"; break;
+                            }
+                        case "11":
+                            {
+                                dr["handleStateName"] = "待补充资料"; break;
+                            }
+                        case "12":
+                            {
+                                dr["handleStateName"] = "已补充资料"; break;
+                            }
+                        default:
+                            {
+                                dr["handleStateName"] = "未知" + dr["Fstate"].ToString(); break;
+                            }
+                    }
+                }
+            }
+            return ds;
+
+        }
+
+        public DataSet GetSpecialAppealDetail(string fid)
+        {
+            string db, tb;
+            GetTableName(fid, out db, out tb);  //验证输入的fid合法性
+            DataSet ds = new UserAppealData().GetSpecialAppealDetail(fid);
+            if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
+            {
+                return null;
+            }
+            else
+            {
+                try
+                {
+                    string img_cgi = ConfigurationManager.AppSettings["GetAppealImageCgi"].ToString();
+
+                    ds.Tables[0].Columns.Add("ClearPPS", typeof(string));
+                    ds.Tables[0].Columns.Add("FCreImg1Str", typeof(string));//身份证正面
+                    ds.Tables[0].Columns.Add("FCreImg2Str", typeof(string));//身份证反面
+                    ds.Tables[0].Columns.Add("FOtherImage1Str", typeof(string));//银行卡照片
+                    ds.Tables[0].Columns.Add("FProveBanlanceImageStr", typeof(string));//资金来源截图
+                    ds.Tables[0].Columns.Add("FOtherImage2Str", typeof(string));//补充其他证件照片
+                    ds.Tables[0].Columns.Add("FOtherImage3Str", typeof(string));//补充的手持身份证半身照
+                    ds.Tables[0].Columns.Add("FOtherImage4Str", typeof(string));//补充户籍证明照片
+                    ds.Tables[0].Columns.Add("FOtherImage5Str", typeof(string));//补充资料截图
+
+                    ds.Tables[0].Columns.Add("Fsup_desc1Str", typeof(string));//自定义标题1
+                    ds.Tables[0].Columns.Add("Fsup_desc2Str", typeof(string));//自定义标题2
+                    ds.Tables[0].Columns.Add("Fsup_desc3Str", typeof(string));//自定义标题3
+                    ds.Tables[0].Columns.Add("Fsup_desc4Str", typeof(string));//自定义标题4
+                    ds.Tables[0].Columns.Add("Fsup_tips1Str", typeof(string));//自定义内容1
+                    ds.Tables[0].Columns.Add("Fsup_tips2Str", typeof(string));//自定义内容2
+                    ds.Tables[0].Columns.Add("Fsup_tips3Str", typeof(string));//自定义内容3
+                    ds.Tables[0].Columns.Add("Fsup_tips4Str", typeof(string));//自定义内容4
+
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    int ftype = int.Parse(dr["Ftype"].ToString());
+
+                    if (dr["FClearPps"].ToString() == "1" && dr["FType"].ToString() == "11")//是否清空密保资料
+                    {
+                        dr["ClearPPS"] = "清除";
+                    }
+                    else if (dr["FType"].ToString() == "11" && dr["FClearPps"].ToString() != "1")
+                    {
+                        dr["ClearPPS"] = "不清除";
+                    }
+                    else
+                    {
+                        dr["ClearPPS"] = "";
+                    }
+
+                    #region 图片
+
+                    if (!(dr["FCreImg1"] is DBNull))
+                    {
+                        if (dr["FCreImg1"].ToString() != "")
+                        {
+                            if (ftype == 19)
+                            {
+                                dr["FCreImg1Str"] = dr["FCreImg1"].ToString();  //身份证正面
+                            }
+                            else
+                            {
+                                dr["FCreImg1Str"] = img_cgi + dr["FCreImg1"].ToString();
+                            }
+                        }
+                    }
+                    if (!(dr["FCreImg2"] is DBNull))
+                    {
+                        if (dr["FCreImg2"].ToString() != "")
+                        {
+                            if (ftype == 19)
+                            {
+                                dr["FCreImg2Str"] = dr["FCreImg2"].ToString();  //身份证反面
+                            }
+                            else
+                            {
+                                dr["FCreImg2Str"] = img_cgi + dr["FCreImg2"].ToString();
+                            }
+                        }
+                    }
+                    if (!(dr["FOtherImage1"] is DBNull))
+                    {
+                        if (dr["FOtherImage1"].ToString() != "")
+                        {
+                            if (ftype == 19)
+                            {
+                                dr["FOtherImage1Str"] = dr["FOtherImage1"].ToString();  //银行卡照片
+                            }
+                            else
+                            {
+                                dr["FOtherImage1Str"] = img_cgi + dr["FOtherImage1"].ToString();
+                            }
+                        }
+                    }
+                    if (!(dr["FProveBanlanceImage"] is DBNull))
+                    {
+                        if (dr["FProveBanlanceImage"].ToString() != "")
+                        {
+                            if (ftype == 19)
+                            {
+                                dr["FProveBanlanceImageStr"] = dr["FProveBanlanceImage"].ToString();  //资金来源截图
+                            }
+                            else
+                            {
+                                dr["FProveBanlanceImageStr"] = img_cgi + dr["FProveBanlanceImage"].ToString();
+                            }
+                        }
+                    }
+
+                    if (!(dr["FOtherImage2"] is DBNull))
+                    {
+                        if (dr["FOtherImage2"].ToString() != "")
+                        {
+                            if (ftype == 19)
+                            {
+                                dr["FOtherImage2Str"] = dr["FOtherImage2"].ToString();  //补充其他证件照片
+                            }
+                            else
+                            {
+                                dr["FOtherImage2Str"] = img_cgi + dr["FOtherImage2"].ToString();
+                            }
+                        }
+                    }
+                    if (!(dr["FOtherImage3"] is DBNull))
+                    {
+                        if (dr["FOtherImage3"].ToString() != "")
+                        {
+                            if (ftype == 19)
+                            {
+                                dr["FOtherImage3Str"] = dr["FOtherImage3"].ToString();  //补充的手持身份证半身照
+                            }
+                            else
+                            {
+                                dr["FOtherImage3Str"] = img_cgi + dr["FOtherImage3"].ToString();
+                            }
+                        }
+                    }
+                    if (!(dr["FOtherImage4"] is DBNull))
+                    {
+                        if (dr["FOtherImage4"].ToString() != "")
+                        {
+                            if (ftype == 19)
+                            {
+                                dr["FOtherImage4Str"] = dr["FOtherImage4"].ToString();  //补充户籍证明照片
+                            }
+                            else
+                            {
+                                dr["FOtherImage4Str"] = img_cgi + dr["FOtherImage4"].ToString();
+                            }
+                        }
+                    }
+                    if (!(dr["FOtherImage5"] is DBNull))
+                    {
+                        if (dr["FOtherImage5"].ToString() != "")
+                        {
+                            if (ftype == 19)
+                            {
+                                dr["FOtherImage5Str"] = dr["FOtherImage5"].ToString();  //补充资料截图
+                            }
+                            else
+                            {
+                                dr["FOtherImage5Str"] = img_cgi + dr["FOtherImage5"].ToString();
+                            }
+                        }
+                    }
+
+                    #endregion
+
+                    #region  自定义标题、内容
+
+                    if (!(dr["Fsup_desc1"] is DBNull))
+                    {
+                        dr["Fsup_desc1Str"] = dr["Fsup_desc1"].ToString();//自定义标题1
+                    }
+                    if (!(dr["Fsup_desc2"] is DBNull))
+                    {
+                        dr["Fsup_desc2Str"] = dr["Fsup_desc2"].ToString();
+                    }
+                    if (!(dr["Fsup_desc3"] is DBNull))
+                    {
+                        dr["Fsup_desc3Str"] = dr["Fsup_desc3"].ToString();
+                    }
+                    if (!(dr["Fsup_desc4"] is DBNull))
+                    {
+                        dr["Fsup_desc4Str"] = dr["Fsup_desc4"].ToString();
+                    }
+
+                    if (!(dr["Fsup_tips1"] is DBNull))
+                    {
+                        dr["Fsup_tips1Str"] = dr["Fsup_tips1"].ToString();//自定义内容1
+                    }
+                    if (!(dr["Fsup_tips2"] is DBNull))
+                    {
+                        dr["Fsup_tips2Str"] = dr["Fsup_tips2"].ToString();
+                    }
+                    if (!(dr["Fsup_tips3"] is DBNull))
+                    {
+                        dr["Fsup_tips3Str"] = dr["Fsup_tips3"].ToString();
+                    }
+                    if (!(dr["Fsup_tips4"] is DBNull))
+                    {
+                        dr["Fsup_tips4Str"] = dr["Fsup_tips4"].ToString();
+                    }
+
+                    #endregion
+
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    log4net.LogManager.GetLogger("GetSpecialAppealDetail: 特殊申诉详情查询失败： " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        private string ConvertToAppealSpecialString(string type)
+        {
+            switch (type)
+            {
+                case "1":
+                    return "通过";
+                case "2":
+                    return "拒绝";
+                case "7":
+                    return "删除";
+                case "11":
+                    return "补充资料";
+                default:
+                    return "未知操作" + type;
+            }
+        }
+
+        private string ConvertToAppealString(string type)
+        {
+            switch (type)
+            {
+                case "1":
+                    return "结单（已解冻）";
+                case "2":
+                    return "补充资料";
+                case "7":
+                    return "作废";
+                case "8":
+                    return "挂起";
+                case "100":
+                    return "补充处理结果";
+                default:
+                    return "未知操作" + type;
+            }
         }
     
     }
