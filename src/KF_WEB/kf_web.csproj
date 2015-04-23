@@ -116,6 +116,9 @@
     <Reference Include="Microsoft.Web.UI.WebControls">
       <HintPath>..\Assemblies\Microsoft.Web.UI.WebControls.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data.Apollo">
+      <HintPath>..\packages\MySql.Data.Apllo.6.95.5494.24500\lib\MySql.Data.Apollo.dll</HintPath>
+    </Reference>
     <Reference Include="OFFICE, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -187,6 +190,13 @@
     </Compile>
     <Compile Include="Auto\CFTAppeal.aspx.designer.cs">
       <DependentUpon>CFTAppeal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Auto\BatchFreezeAppeal.aspx.cs">
+      <DependentUpon>BatchFreezeAppeal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Auto\BatchFreezeAppeal.aspx.designer.cs">
+      <DependentUpon>BatchFreezeAppeal.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\AgencyBusinessQuery.aspx.cs">
       <DependentUpon>AgencyBusinessQuery.aspx</DependentUpon>
@@ -2625,6 +2635,9 @@
     <Content Include="Auto\CFTAppeal.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="Auto\BatchFreezeAppeal.aspx">
+      <SubType>Form</SubType>
+    </Content>
     <Content Include="BaseAccount\AgencyBusinessQuery.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -3500,6 +3513,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Auto\CFTAppeal.aspx.resx">
       <DependentUpon>CFTAppeal.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auto\BatchFreezeAppeal.aspx.resx">
+      <DependentUpon>BatchFreezeAppeal.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\AgencyBusinessQuery.aspx.resx">
       <DependentUpon>AgencyBusinessQuery.aspx.cs</DependentUpon>

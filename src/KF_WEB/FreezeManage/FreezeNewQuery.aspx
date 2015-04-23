@@ -95,6 +95,7 @@
                     <asp:ListItem Value="7">已作废</asp:ListItem>
                     <asp:ListItem Value="8">挂起</asp:ListItem>
                     <asp:ListItem Value="10">已补充资料</asp:ListItem>
+                    <asp:ListItem Value="21">结单（无冻结日志）</asp:ListItem>
                     <asp:ListItem Value="99">所有</asp:ListItem>
                 </asp:DropDownList>
                  <asp:DropDownList ID="ddl_orderStateSpecial" runat="server" Visible="false">
@@ -112,6 +113,7 @@
 							<asp:ListItem Value="10">直接申诉成功</asp:ListItem>--%>
                             <asp:ListItem Value="11">待补充资料</asp:ListItem>
 						    <asp:ListItem Value="12">已补充资料</asp:ListItem>
+                            <asp:ListItem Value="20">结单（未补填资料）</asp:ListItem>
                 </asp:DropDownList>
             </td>
         </tr>

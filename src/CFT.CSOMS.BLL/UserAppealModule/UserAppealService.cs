@@ -2,12 +2,131 @@
 
 using System.Data;
 using System.Configuration;
+using CFT.Apollo.Logging;
+
 namespace CFT.CSOMS.BLL.UserAppealModule
 {
     using CFT.CSOMS.DAL.UserAppealModule;
     using CFT.CSOMS.DAL.Infrastructure;
     public class UserAppealService
     {
+        public DataSet QueryApealListNewDB(string startTime, string endTime, int state, int type)
+        {
+            return new UserAppealData().QueryApealListNewDB(startTime, endTime, state, type);
+        }
+
+        /// <summary>
+        /// 申诉未完成状态结单批量处理
+        /// </summary>
+        /// <param name="startTime">开始时间</param>
+        /// <param name="endTime">结束时间</param>
+        /// <param name="proType">处理类型：1：解冻（包含普通解冻、微信解冻），2：特殊找密</param>
+        public void BatchFinishAppeal(string startTime, string endTime,string proType)
+        {
+            try
+            {
+                DataSet ds;
+                #region 查询符合结单的申诉记录
+                try
+                {
+                    if (proType == "2")
+                    {
+                        ds = QueryApealListNewDB(startTime, endTime, 11, 11);//特殊找密
+                    }
+                    else if (proType == "1")
+                    {
+                        ds = QueryApealListNewDB(startTime, endTime, 0, 8);//普通解冻
+                        DataSet wxFreDS = QueryApealListNewDB(startTime, endTime, 0, 19);//微信解冻
+                        ds = PublicRes.ToOneDataset(ds, wxFreDS);//两个申诉类型结果合并到一个库中
+
+                        //筛选出无冻结日志申诉记录
+                        ScreenNoFreezeLogApeal(ds);
+                    }
+                    else
+                        throw new Exception("类型不正确");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("查询冻结申诉记录异常" + ex);
+                }
+                #endregion
+
+                #region 结单，修改申诉状态
+                int Total = 0;
+                int Success = 0;
+                int Fail = 0;
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    Total = ds.Tables[0].Rows.Count;
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        try
+                        {
+                            UserAppealData userAppealData = new UserAppealData();
+                            if (userAppealData.FinishAppealNewDB(dr["fid"].ToString(), "系统批量结单", "system"))
+                                Success++;
+                            else
+                                Fail++;
+
+                        }
+                        catch
+                        {
+                            continue;
+                        }
+                    }
+                }
+                #endregion
+
+                LogHelper.LogInfo("特殊申诉未完成状态批量结单处理,总笔数：" + Total + " ,成功笔数：" + Success + " ,失败笔数：" + Fail);
+
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogInfo("批量申诉未完成状态结单处理异常：" + ex);
+            }
+            finally
+            {
+                GC.Collect();
+            }
+        }
+
+        /// <summary>
+        /// 筛选出无冻结日志申诉记录
+        /// </summary>
+        /// <param name="ds">解冻申诉记录</param>
+        public void ScreenNoFreezeLogApeal(DataSet ds)
+        {
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    try
+                    {
+                        int type = int.Parse(dr["FType"].ToString());
+                        if (type == 8 || type == 19)
+                        {
+                            //查询冻结日志信息
+                            DataSet ds2 = new UserAppealData().QueryFreezeListLog(dr["Fuin"].ToString(), 1);
+                            if (ds2 != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0)
+                            {
+                                dr.Delete();
+                            }
+                        }
+                        else
+                            dr.Delete();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        dr.Delete();
+                        throw new Exception("Fuin=" + dr.ToString() + " 查询冻结日志信息异常：" + ex);
+                    }
+
+                }
+
+                ds.AcceptChanges();
+            }
+        }
        
         //自助申诉详细页面判断是否实名认证 API接口
         public bool GetUserAuthenState(string uin, string userBankID, int bankType)

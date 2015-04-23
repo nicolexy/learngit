@@ -20,6 +20,164 @@ namespace CFT.CSOMS.DAL.UserAppealModule
 {
     public class UserAppealData
     {
+      /// <summary>
+      /// 申诉新库表，单个表记录列表查询
+      /// </summary>
+      /// <param name="startTime"></param>
+      /// <param name="endTime"></param>
+      /// <param name="state">状态</param>
+      /// <param name="type">申诉类型</param>
+      /// <returns></returns>
+        public DataSet QueryApealListNewDB(string startTime, string endTime, int state, int type)
+        {
+            if (string.IsNullOrEmpty(startTime) || string.IsNullOrEmpty(endTime))
+                throw new ArgumentNullException("startTime或者endTime");
+            
+            DateTime sdate = DateTime.Parse(startTime);
+            //DateTime edate = DateTime.Parse(startTime);
+            //if (sdate.Month != edate.Month)
+            //{
+            //    string err = "申诉新库表查询单表，开始及结束时间不是同一个月份";
+            //    throw new Exception(err);
+            //    LogHelper.LogInfo(err);
+            //}
+
+            int month = sdate.Month;
+            string monthDB = "";
+            if (month < 10)
+            {
+                monthDB = "0" + month;
+            }
+            else
+            {
+                monthDB = month.ToString();
+            }
+            string table = "db_appeal_" + sdate.Year.ToString() + ".t_tenpay_appeal_trans_" + monthDB;
+            using (var da = MySQLAccessFactory.GetMySQLAccess("fkdj"))
+            {
+                da.OpenConn();
+                string strWhere = " where 1=1 ";
+
+                if (startTime != null && endTime != "")
+                {
+                    strWhere += " and FSubmitTime between '" + startTime + "' and '" + endTime + "' ";
+                }
+
+                if (type != 99)
+                {
+                    strWhere += " and FType=" + type + " ";
+                }
+
+                if (state != 99)
+                {
+                    if (state == 10)   //直接申诉成功，即审核成功，且FCheckUser为system
+                    {
+                        if (type == 8 || type == 19)
+                        {
+                            strWhere += " and FState='" + state + "'  ";
+                        }
+                        else
+                        {
+                            strWhere += " and FState='1' and FCheckUser='system' ";
+                        }
+                    }
+                    else
+                    {
+                        strWhere += " and FState='" + state + "'  ";
+                    }
+                }
+
+               string sql = "select Fid,FType,Fuin,FSubmitTime,FState from " + table + " "
+                + strWhere ;
+               DataSet ds = da.dsGetTotalData(sql);
+
+                return ds;
+            }
+        }
+
+
+        /// <summary>
+        /// 申诉未完成状态结单处理,更新申诉新库表记录
+        /// </summary>
+        /// <param name="fid"></param>
+        /// <param name="Fcomment"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public bool FinishAppealNewDB(string fid, string comment,string user)
+        {
+            string msg = "";
+            try
+            {
+                using (var da = MySQLAccessFactory.GetMySQLAccess("fkdj"))
+                {
+                    da.OpenConn();
+                    string year = fid.Trim().Substring(0, 4);
+                    string month = fid.Trim().Substring(4, 2);
+                    string table = "db_appeal_" + year + ".t_tenpay_appeal_trans_" + month;
+                    string strSql = " select * from " + table + " where Fid='" + fid + "'";
+                    DataSet ds = da.dsGetTotalData(strSql);
+                    if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count == 1)
+                    {
+                        DataRow dr = ds.Tables[0].Rows[0];
+                        int fstate = Int32.Parse(dr["FState"].ToString());
+                        int ftype = Int32.Parse(dr["Ftype"].ToString());
+
+                        if (fstate == 0 && (ftype==8||ftype==19))//解冻
+                        {
+                            strSql = "update " + table + " set FState=21,"
+                                + " Fcomment='" + comment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
+                                + " FPickTime=now(),FPickUser='" + user + "',"
+                                + "FModifyTime=Now(),FReCheckTime=now(),FRecheckUser='" + user + "'"
+                                + " where Fid='" + fid + "' and Fstate=0";
+                        }
+                        else if (fstate == 11 && ftype ==11)//特殊找密
+                        {
+                            strSql = "update " + table + " set FState=20,"
+                                + " Fcomment='" + comment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
+                                + " FPickTime=now(),FPickUser='" + user + "',"
+                                + "FModifyTime=Now(),FReCheckTime=now(),FRecheckUser='" + user + "'"
+                                + " where Fid='" + fid + "' and Fstate=11";
+                        }
+                        else
+                        {
+                            msg = "更新原有记录出错,此记录原始状态不正确";
+                            LogHelper.LogInfo("UpdateAppealNewDB:" + msg+" fid="+fid);
+                            return false;
+                        }
+
+                        if (da.ExecSqlNum(strSql) == 1)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            msg = "更新原有记录出错,此记录不存在或原始状态不正确";
+                            LogHelper.LogInfo("UpdateAppealNewDB:" + msg + " fid=" + fid);
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        msg = "查找记录失败.";
+                        LogHelper.LogInfo("UpdateAppealNewDB:" + msg + " fid=" + fid);
+                        return false;
+                    }
+                }
+
+            }
+            catch (Exception err)
+            {
+                LogHelper.LogInfo("UpdateAppealNewDB:" + err.Message);
+                return false;
+            }
+        }
+
+
+        public DataSet QueryFreezeListLog(string uin, int handleFinish)
+        {
+            FreezeQueryClass cuser2 = new FreezeQueryClass(uin, handleFinish);
+            return cuser2.GetResultX(0, 1, "DataSource_ht");
+        }
         /// <summary>
         /// 更新特殊申诉（包括解冻、特殊找回支付密码）操作日志
         /// </summary>
@@ -967,7 +1125,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
 
                         FreezeQueryClass cuser2 = new FreezeQueryClass(ds.Tables[0].Rows[0]["Fuin"].ToString(), 1);
 
-                        DataSet ds2 = cuser2.GetResultX(0, 1, "HT");
+                        DataSet ds2 = cuser2.GetResultX(0, 1, "DataSource_ht");//根据kf_service来修改的
 
                         ds.Tables[0].Columns.Add("isFreezeListHas", typeof(string));
 
