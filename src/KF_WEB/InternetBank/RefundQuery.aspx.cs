@@ -568,11 +568,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             {
                 double FRefundAmount = Convert.ToDouble(Amount);
                 Query_Service.Query_Service myService = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
                 DateTime beginTime = DateTime.Parse(ConfigurationManager.AppSettings["sBeginTime"].ToString());
                 DateTime endTime = DateTime.Parse(ConfigurationManager.AppSettings["sEndTime"].ToString());
                 DataSet ds = new DataSet();
                 ds = myService.GetPayList(ListID, 4, beginTime, endTime, 1, 2);
-                double _FRefundAmount = Convert.ToDouble(classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Ffact"].ToString()));
+                if (ds == null)
+                {
+                    msg = "查询订单金额失败";
+                    return false;
+                }
+                string FenToYuan = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Ffact"].ToString());
+                double _FRefundAmount = Convert.ToDouble(FenToYuan.Replace("元", ""));
 
                 if (FRefundAmount > 0 && FRefundAmount <= _FRefundAmount)
                 {
