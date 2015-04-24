@@ -106,6 +106,7 @@
                         &nbsp;<asp:Button ID="btnCheckID" runat="server" Width ="50px"  Text="查询" onclick="OnBtnCheck_Click"  ViewStateMode="Disabled" />&nbsp;&nbsp;         
                         <asp:Button ID="btnInputID" runat="server" Text="客服补填资料" onclick="OnBtnInputInfor_Click" />&nbsp;&nbsp;
                         <asp:Button ID="btnReceiveID" runat="server" Text="银行收件人名单管理"  onclick="OnBtnReceiveManager_Click" />
+                        <asp:Button ID="btnExecl" runat="server" Text="导出execl" onclick="OnBtnExecl_Click" />&nbsp;&nbsp;
                     </td>
               </tr>
                
@@ -115,7 +116,7 @@
              <tr>
                 <td vAlign="top">
                 <br><asp:GridView ID="gridInfor" runat="server" AutoGenerateColumns = "False" 
-                        headerstyle-horizontalalign="center" horizontalalign="Center" PageSize="5"
+                        headerstyle-horizontalalign="center" horizontalalign="Center" PageSize="10"
                         AllowPaging ="True" AllowSorting = "True" onpageindexchanging="gridInfor_PageIndexChanging" 
                         GridLines="Horizontal" CellPadding="3" BorderStyle="None" DataKeyNames = "FpayListid,FCardType,FbankListid,FbankName,FbankType,FcreateTime,FtrueName,FmodifyTime,FReturnAmt,FAmt,FbankAccNo,FbankTypeOld,FoldId,FrefundType"
                         BorderWidth="1px">
