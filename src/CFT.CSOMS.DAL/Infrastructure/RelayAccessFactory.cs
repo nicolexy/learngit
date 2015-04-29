@@ -125,7 +125,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
             ds = CommQuery.ParseRelayStr(answer, out Msg);
             if (Msg != "")
             {
-                throw new Exception("请求串：" + requestString +" "+ Msg);
+                throw new Exception("relayIP:"+relayIP+" 请求串：" + requestString + " " + Msg);
             }
             return ds;
         }

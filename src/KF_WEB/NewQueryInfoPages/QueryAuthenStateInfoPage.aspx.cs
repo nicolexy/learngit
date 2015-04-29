@@ -53,26 +53,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 		
 		public void BindData()
 		{
-            DataSet ds = new DataSet();
-            ViewState["imgeWriteNow"] = "0";
             try
             {
-                //查询操作日志
-                ds = acc.QueryUserAuthenDisableLog(ViewState["uin"].ToString());
-                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                {
-                    this.DataGrid_QueryResult.Visible = false;
-                }
-                this.DataGrid_QueryResult.Visible = true;
-                this.DataGrid_QueryResult.DataSource = ds;
-                this.DataGrid_QueryResult.DataBind();
+                DataSet ds = new DataSet();
+                ds=QueryUserAuthenLog();
+                QueryUserAuthen(ds);
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "查询日志异常！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
+                WebUtils.ShowMessage(this.Page, eSys.Message);
                 return;
             }
+		}
 
+        private void QueryUserAuthen(DataSet ds)
+        {
             try
             {
                 //查询实名认证信息
@@ -89,10 +84,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "查询实名认证信息异常！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
-                return;
+                throw new Exception("查询实名认证信息异常！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
-		}
+        }
+
+        private DataSet QueryUserAuthenLog()
+        {
+            try
+            {
+                //查询操作日志
+                DataSet ds = acc.QueryUserAuthenDisableLog(ViewState["uin"].ToString());
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                {
+                    this.DataGrid_QueryResult.Visible = false;
+                }
+                this.DataGrid_QueryResult.Visible = true;
+                this.DataGrid_QueryResult.DataSource = ds;
+                this.DataGrid_QueryResult.DataBind();
+                return ds;
+            }
+            catch (Exception eSys)
+            {
+                throw new Exception("查询日志异常！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
+            }
+        }
 
 		private void ShowMsg(string msg)
 		{
@@ -103,8 +118,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         {
             try
             {
-                ViewState["imgeWriteNow"] = "1";
-
                 string alPathF="", alPathR="", alPathO="";
                 HtmlInputFile inputFile = this.imageF;
                 if (inputFile.Value == "")
@@ -164,7 +177,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (acc.DisableUserAuthenInfo("1", ViewState["uin"].ToString(), Session["uid"].ToString(), "kf", objid, "UserAuthenDisableLog", "cre_id", pa))
                     WebUtils.ShowMessage(this.Page, "实名认证置失效成功！");
                 tableDetail.Visible = false;
-                BindData();
+                QueryUserAuthenLog();
             }
             catch (Exception eSys)
             {
@@ -179,7 +192,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             this.lb_cre_id.Text = authenInfo.Fcre_id;
             this.lb_uin.Text = authenInfo.Fuid;
             this.lb_name_old.Text = authenInfo.Fname_old;
-            string path="";
 
             string requestUrl = System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString();
             string strLocFile = System.Configuration.ConfigurationManager.AppSettings["KFWebSrc"].ToString();

@@ -116,6 +116,9 @@
     <Reference Include="Microsoft.Web.UI.WebControls">
       <HintPath>..\Assemblies\Microsoft.Web.UI.WebControls.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data.Apollo">
+      <HintPath>..\packages\MySql.Data.Apllo.6.95.5494.24500\lib\MySql.Data.Apollo.dll</HintPath>
+    </Reference>
     <Reference Include="OFFICE, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -187,6 +190,13 @@
     </Compile>
     <Compile Include="Auto\CFTAppeal.aspx.designer.cs">
       <DependentUpon>CFTAppeal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Auto\BatchFreezeAppeal.aspx.cs">
+      <DependentUpon>BatchFreezeAppeal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Auto\BatchFreezeAppeal.aspx.designer.cs">
+      <DependentUpon>BatchFreezeAppeal.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\AgencyBusinessQuery.aspx.cs">
       <DependentUpon>AgencyBusinessQuery.aspx</DependentUpon>
@@ -357,6 +367,13 @@
       <DependentUpon>CardInfoQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\BaseDictionary.cs" />
+    <Compile Include="BaseAccount\ClearCreidNew.aspx.cs">
+      <DependentUpon>ClearCreidNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\ClearCreidNew.aspx.designer.cs">
+      <DependentUpon>ClearCreidNew.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\ModifyContactInfo.aspx.cs">
       <DependentUpon>ModifyContactInfo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1341,13 +1358,6 @@
     <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx.designer.cs">
       <DependentUpon>QueryAuthenStateInfoPage.aspx</DependentUpon>
     </Compile>
-    <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPageDetail.aspx.cs">
-      <DependentUpon>QueryAuthenStateInfoPageDetail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPageDetail.aspx.designer.cs">
-      <DependentUpon>QueryAuthenStateInfoPageDetail.aspx</DependentUpon>
-    </Compile>
     <Compile Include="NewQueryInfoPages\QueryZHTrade.aspx.cs">
       <DependentUpon>QueryZHTrade.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1508,13 +1518,6 @@
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryAuthenInfoPage.aspx.designer.cs">
       <DependentUpon>QueryAuthenInfoPage.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPageOld.aspx.cs">
-      <DependentUpon>QueryAuthenStateInfoPageOld.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPageOld.aspx.designer.cs">
-      <DependentUpon>QueryAuthenStateInfoPageOld.aspx</DependentUpon>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryBankListInfoPage.aspx.cs">
       <DependentUpon>QueryBankListInfoPage.aspx</DependentUpon>
@@ -2632,6 +2635,9 @@
     <Content Include="Auto\CFTAppeal.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="Auto\BatchFreezeAppeal.aspx">
+      <SubType>Form</SubType>
+    </Content>
     <Content Include="BaseAccount\AgencyBusinessQuery.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -2688,6 +2694,7 @@
       <SubType>Form</SubType>
     </Content>
     <Content Include="BaseAccount\CardInfoQuery.aspx" />
+    <Content Include="BaseAccount\ClearCreidNew.aspx" />
     <Content Include="BaseAccount\ModifyContactInfo.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -3024,7 +3031,6 @@
     <Content Include="NewQueryInfoPages\GetFundRatePageDetail.aspx" />
     <Content Include="NewQueryInfoPages\CFTTransferQuery.aspx" />
     <Content Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx" />
-    <Content Include="NewQueryInfoPages\QueryAuthenStateInfoPageDetail.aspx" />
     <Content Include="NewQueryInfoPages\QueryZHTrade.aspx" />
     <Content Include="NewQueryInfoPages\QueryZHFreeze.aspx" />
     <Content Include="NewQueryInfoPages\QueryZHInfo.aspx" />
@@ -3054,9 +3060,6 @@
       <SubType>Form</SubType>
     </Content>
     <Content Include="NewQueryInfoPages\QueryAuthenInfoPage.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="NewQueryInfoPages\QueryAuthenStateInfoPageOld.aspx">
       <SubType>Form</SubType>
     </Content>
     <Content Include="NewQueryInfoPages\QueryBankListInfoPage.aspx">
@@ -3508,6 +3511,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Auto\CFTAppeal.aspx.resx">
       <DependentUpon>CFTAppeal.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auto\BatchFreezeAppeal.aspx.resx">
+      <DependentUpon>BatchFreezeAppeal.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\AgencyBusinessQuery.aspx.resx">
       <DependentUpon>AgencyBusinessQuery.aspx.cs</DependentUpon>
@@ -4077,9 +4083,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NewQueryInfoPages\QueryAuthenInfoPage.aspx.resx">
       <DependentUpon>QueryAuthenInfoPage.aspx.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NewQueryInfoPages\QueryAuthenStateInfoPageOld.aspx.resx">
-      <DependentUpon>QueryAuthenStateInfoPageOld.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewQueryInfoPages\QueryBankListInfoPage.aspx.resx">
       <DependentUpon>QueryBankListInfoPage.aspx.cs</DependentUpon>

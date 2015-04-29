@@ -7,117 +7,153 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages {
+namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
     
     
-    public partial class QueryAuthenStateInfoPageOld {
+    public partial class ClearCreidNew {
         
         /// <summary>
-        /// Form1 control.
+        /// form1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm Form1;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// table1 control.
+        /// lblTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable table1;
+        protected global::System.Web.UI.WebControls.Label lblTitle;
         
         /// <summary>
-        /// lb_operatorID control.
+        /// lblOperator1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lb_operatorID;
+        protected global::System.Web.UI.WebControls.Label lblOperator1;
         
         /// <summary>
-        /// ddl_creType control.
+        /// lblCode1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddl_creType;
+        protected global::System.Web.UI.WebControls.Label lblCode1;
         
         /// <summary>
-        /// tbx_creid control.
+        /// lblCreid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_creid;
+        protected global::System.Web.UI.WebControls.Label lblCreid;
         
         /// <summary>
-        /// btn_submit_acc control.
+        /// txtCreid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_submit_acc;
+        protected global::System.Web.UI.WebControls.TextBox txtCreid;
         
         /// <summary>
-        /// div_detail control.
+        /// btnQuery control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div_detail;
+        protected global::System.Web.UI.WebControls.Button btnQuery;
         
         /// <summary>
-        /// lb_queryAcc control.
+        /// DataGrid1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lb_queryAcc;
+        protected global::System.Web.UI.WebControls.DataGrid DataGrid1;
         
         /// <summary>
-        /// table2 control.
+        /// lblTitle2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable table2;
+        protected global::System.Web.UI.WebControls.Label lblTitle2;
         
         /// <summary>
-        /// lb_c1 control.
+        /// lblOperator2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lb_c1;
+        protected global::System.Web.UI.WebControls.Label lblOperator2;
         
         /// <summary>
-        /// lb_c2 control.
+        /// lblCode2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lb_c2;
+        protected global::System.Web.UI.WebControls.Label lblCode2;
         
         /// <summary>
-        /// lb_c3 control.
+        /// lblCreid2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lb_c3;
+        protected global::System.Web.UI.WebControls.Label lblCreid2;
+        
+        /// <summary>
+        /// txtCreid2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCreid2;
+        
+        /// <summary>
+        /// rbtPT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton rbtPT;
+        
+        /// <summary>
+        /// rbtWX control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton rbtWX;
+        
+        /// <summary>
+        /// btnClear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnClear;
     }
 }

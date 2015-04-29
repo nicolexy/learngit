@@ -35,10 +35,37 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CFT.Apollo.Common">
+      <HintPath>..\packages\CFT.Apollo.Common.3.1.5494.24496\lib\CFT.Apollo.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.Apollo.CommunicationFramework, Version=3.2.39.4489, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.3.2.39\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.Apollo.Data, Version=3.2.39.4489, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.Data.3.2.39\lib\CFT.Apollo.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.Apollo.Logging">
+      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5494.24500\lib\net40\CFT.Apollo.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="icecs_gb2312, Version=3.1.1.0, Culture=neutral, PublicKeyToken=1f998c50fec78381">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.3.2.39\lib\net40\icecs_gb2312.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.log4net.1.0.0.15\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Apollo">
+      <HintPath>..\packages\MySql.Data.Apllo.6.95.5494.24500\lib\MySql.Data.Apollo.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -54,6 +81,27 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserAppealModuleTest\UserAppealServiceInitData.cs" />
+    <Compile Include="UserAppealModuleTest\UserAppealServiceTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CFT.CSOMS.BLL\CFT.CSOMS.BLL.csproj">
+      <Project>{74c3108c-141b-4abe-8b10-663daee8ac5e}</Project>
+      <Name>CFT.CSOMS.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CFT.CSOMS.DAL.Tests\CFT.CSOMS.DAL.Tests.csproj">
+      <Project>{3a3cef94-9593-4af6-807a-3405b0e7603e}</Project>
+      <Name>CFT.CSOMS.DAL.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CFT.CSOMS.DAL\CFT.CSOMS.DAL.csproj">
+      <Project>{6c10b34d-4b02-4f2c-a964-8955677a5213}</Project>
+      <Name>CFT.CSOMS.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Configs\Log4net.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

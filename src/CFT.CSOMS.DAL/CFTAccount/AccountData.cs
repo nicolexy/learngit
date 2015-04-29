@@ -33,7 +33,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
             string inmsg = "cre_type=1&cre_id=" + cre_id + "&operator=" + opera;
             string ip = System.Configuration.ConfigurationManager.AppSettings["DisableUserAuthenIP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["DisableUserAuthenPort"].ToString());
-            return RelayAccessFactory.GetDSFromRelay(inmsg, "100996", ip, port);
+            return RelayAccessFactory.GetDSFromRelay(inmsg, "100996", ip, port,true);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
             string ip = System.Configuration.ConfigurationManager.AppSettings["DisableUserAuthenIP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["DisableUserAuthenPort"].ToString());
             string Msg = "";
-            string answer = RelayAccessFactory.RelayInvoke(inmsg, "100997", false, false, ip, port);
+            string answer = RelayAccessFactory.RelayInvoke(inmsg, "100997", true, false, ip, port);
             if (answer.IndexOf("result=0") > -1)
                 return true;
             else

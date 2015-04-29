@@ -210,59 +210,41 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                             case "0":
                                 {
                                     stateName = string.Format(stateName, "未处理");
-                                    //dr["handleStateName"] = stateName;
-                                    //dr["handleUserName"] = dr["FCheckUser"].ToString();
                                     break;
                                 }
                             case "1":
                                 {
                                     stateName = string.Format(stateName, "结单(已解冻)");
-                                    //dr["handleStateName"] = stateName;
-                                    //dr["handleUserName"] =  dr["FCheckUser"].ToString();
                                     break;
                                 }
                             case "2":
                                 {
                                     stateName = string.Format(stateName, "待补充资料");
-                                    //dr["handleStateName"] = "结单（未解冻）";
-                                    //dr["handleUserName"] =  dr["FCheckUser"].ToString();
                                     break;
                                 }
                             case "7":
                                 {
                                     stateName = string.Format(stateName, "已作废");
-                                    //dr["handleStateName"] = "已作废";
-                                    //dr["handleUserName"] = dr["FCheckUser"].ToString();
                                     break;
                                 }
                             case "8":
                                 {
                                     stateName = string.Format(stateName, "挂起");
-                                    //dr["handleStateName"] = "挂起";
-                                    //dr["handleUserName"] = dr["FCheckUser"].ToString();
                                     break;
                                 }
                             case "10":
                                 {
                                     stateName = string.Format(stateName, "已补充资料");
-                                    //dr["handleStateName"] = "挂起";
-                                    //dr["handleUserName"] = dr["FCheckUser"].ToString();
                                     break;
                                 }
-                            /*
-                            case "5":
-                            {
-                                dr["handleStateName"] = "补充处理结果";
-                                dr["handleUserName"] = dr["FCheckUser"].ToString();
-                                break;
-                            }
-                            */
+                            case "21":
+                                {
+                                    stateName = string.Format(stateName, "结单（无冻结日志）");
+                                    break;
+                                }
                             default:
                                 {
                                     stateName = string.Format(stateName, "未知" + dr["Fstate"].ToString());
-                                    //stateName += "(未知" + dr["Fstate"].ToString() + ")";
-                                    //dr["handleStateName"] = "未知" + dr["Fstate"].ToString();
-                                    //dr["handleUserName"] = "未知";
                                     break;
                                 }
                         }
@@ -296,6 +278,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                             case "12":
                                 {
                                     stateName = string.Format(stateName, "已补充资料"); break;
+                                }
+                            case "20":
+                                {
+                                    stateName = string.Format(stateName, "结单（未补填资料）"); break;
                                 }
                             default:
                                 {

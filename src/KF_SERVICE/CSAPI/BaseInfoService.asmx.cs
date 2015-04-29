@@ -406,10 +406,483 @@ namespace CFT.CSOMS.Service.CSAPI
 
         #endregion
 
+        #region 特殊申诉处理
+
+        // 特殊申诉处理-通过
+        [WebMethod]
+        public void ComfirmAppealSpecial()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "fid", "user", "handle_result", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string fid = paramsHt.ContainsKey("fid") ? paramsHt["fid"].ToString() : "";
+                string user = paramsHt.ContainsKey("user") ? paramsHt["user"].ToString() : "";
+                string user_desc = paramsHt.ContainsKey("user_desc") ? paramsHt["user_desc"].ToString() : "";
+                string user_ip = paramsHt.ContainsKey("user_ip") ? paramsHt["user_ip"].ToString() : "";
+                string handle_result = paramsHt.ContainsKey("handle_result") ? paramsHt["handle_result"].ToString() : "";
+                string appeal_db = paramsHt.ContainsKey("db") ? paramsHt["db"].ToString() : "";
+                string appeal_tb = paramsHt.ContainsKey("tb") ? paramsHt["tb"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().ConfirmAppealSpecial(fid, handle_result, user_desc, user, user_ip, appeal_db, appeal_tb);
+
+                Record record = new Record();
+                record.RetValue = infos.ToString().ToLower();
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("ComfirmAppealSpecial").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("ComfirmAppealSpecial").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        //特殊申诉处理-拒绝
+        [WebMethod]
+        public void CannelAppealSpecial()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "fid", "user", "handle_result", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string fid = paramsHt.ContainsKey("fid") ? paramsHt["fid"].ToString() : "";
+                string user = paramsHt.ContainsKey("user") ? paramsHt["user"].ToString() : "";
+                string user_desc = paramsHt.ContainsKey("user_desc") ? paramsHt["user_desc"].ToString() : "";
+                string user_ip = paramsHt.ContainsKey("user_ip") ? paramsHt["user_ip"].ToString() : "";
+                string handle_result = paramsHt.ContainsKey("handle_result") ? paramsHt["handle_result"].ToString() : "";
+                string appeal_db = paramsHt.ContainsKey("db") ? paramsHt["db"].ToString() : "";
+                string appeal_tb = paramsHt.ContainsKey("tb") ? paramsHt["tb"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().CannelAppealSpecial(fid, handle_result, user_desc, user, user_ip, appeal_db, appeal_tb);
+
+                Record record = new Record();
+                record.RetValue = infos.ToString().ToLower();
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("CannelAppealSpecial").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("CannelAppealSpecial").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        //特殊申诉处理-删除
+        [WebMethod]
+        public void DelAppealSpecial()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "fid", "user", "handle_result", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string fid = paramsHt.ContainsKey("fid") ? paramsHt["fid"].ToString() : "";
+                string user = paramsHt.ContainsKey("user") ? paramsHt["user"].ToString() : "";
+                string user_desc = paramsHt.ContainsKey("user_desc") ? paramsHt["user_desc"].ToString() : "";
+                string user_ip = paramsHt.ContainsKey("user_ip") ? paramsHt["user_ip"].ToString() : "";
+                string handle_result = paramsHt.ContainsKey("handle_result") ? paramsHt["handle_result"].ToString() : "";
+                string appeal_db = paramsHt.ContainsKey("db") ? paramsHt["db"].ToString() : "";
+                string appeal_tb = paramsHt.ContainsKey("tb") ? paramsHt["tb"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().DelAppealSpecial(fid, handle_result, user_desc, user, user_ip, appeal_db, appeal_tb);
+
+                Record record = new Record();
+                record.RetValue = infos.ToString().ToLower();
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("DelAppealSpecial").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("DelAppealSpecial").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        //特殊申诉处理-获取日志
+        [WebMethod]
+        public void GetFreezeDiary()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "fid", "type", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string fid = paramsHt.ContainsKey("fid") ? paramsHt["fid"].ToString() : "";
+                int type = APIUtil.StringToInt(paramsHt["type"].ToString());    //申诉类型
+
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().GetFreezeDiary(fid, type);
+
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<BaseInfoC.AppealLog> list = APIUtil.ConvertTo<BaseInfoC.AppealLog>(infos.Tables[0]);
+                APIUtil.Print<BaseInfoC.AppealLog>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetFreezeDiary").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetFreezeDiary").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        //特殊申诉列表查询
+        [WebMethod]
+        public void GetSpecialAppealList()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "begin_date", "end_date", "appeal_type", "order_state", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                string begin_date = paramsHt.ContainsKey("begin_date") ? paramsHt["begin_date"].ToString() : "";
+                string end_date = paramsHt.ContainsKey("end_date") ? paramsHt["end_date"].ToString() : "";
+                int appeal_type = APIUtil.StringToInt(paramsHt["appeal_type"].ToString());  //申诉类型
+                int order_state = APIUtil.StringToInt(paramsHt["order_state"].ToString());  //订单状态
+                int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
+                int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
+
+                string order_type = paramsHt.ContainsKey("order_type") ? paramsHt["order_type"].ToString() : "";   //排序方式
+                string fid = paramsHt.ContainsKey("fid") ? paramsHt["fid"].ToString() : "";
+                string handler = paramsHt.ContainsKey("handler") ? paramsHt["handler"].ToString() : "";
+                string freeze_reason = paramsHt.ContainsKey("freeze_reason") ? paramsHt["freeze_reason"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().GetSpecialAppealList(uin, begin_date, end_date, appeal_type, order_state,
+                    fid, handler, freeze_reason, offset, limit, order_type);
+
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count < 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<BaseInfoC.SpecialAppealList> list = APIUtil.ConvertTo<BaseInfoC.SpecialAppealList>(infos.Tables[0]);
+                APIUtil.Print<BaseInfoC.SpecialAppealList>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetSpecialAppealList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetSpecialAppealList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        //特殊申诉详情查询
+        [WebMethod]
+        public void GetSpecialAppealDetail()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "fid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string fid = paramsHt.ContainsKey("fid") ? paramsHt["fid"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().GetSpecialAppealDetail(fid);
+
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<BaseInfoC.SpecialAppealDetail> list = APIUtil.ConvertTo<BaseInfoC.SpecialAppealDetail>(infos.Tables[0]);
+                APIUtil.Print<BaseInfoC.SpecialAppealDetail>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetSpecialAppealDetail").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetSpecialAppealDetail").ErrorFormat("return_code:{0},mag:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        //补充资料
+        [WebMethod]
+        public void AddAppealMaterial()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "fid", "user", "handle_result", "uin", "submit_time", "type", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string fid = paramsHt.ContainsKey("fid") ? paramsHt["fid"].ToString() : "";
+                string user = paramsHt.ContainsKey("user") ? paramsHt["user"].ToString() : "";
+                string handle_result = paramsHt.ContainsKey("handle_result") ? paramsHt["handle_result"].ToString() : "";
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                string submit_time = paramsHt.ContainsKey("submit_time") ? paramsHt["submit_time"].ToString() : "";
+                int type = APIUtil.StringToInt(paramsHt["type"].ToString());
+
+                string creid_img = paramsHt.ContainsKey("creid_img") ? paramsHt["creid_img"].ToString() : "";
+                string creid2_img = paramsHt.ContainsKey("creid2_img") ? paramsHt["creid2_img"].ToString() : "";
+                string bank_img = paramsHt.ContainsKey("bank_img") ? paramsHt["bank_img"].ToString() : "";
+                string fund_img1 = paramsHt.ContainsKey("fund_img1") ? paramsHt["fund_img1"].ToString() : "";
+                string fund_img2 = paramsHt.ContainsKey("fund_img2") ? paramsHt["fund_img2"].ToString() : "";
+                string fund_img3 = paramsHt.ContainsKey("fund_img3") ? paramsHt["fund_img3"].ToString() : "";
+                string fund_img4 = paramsHt.ContainsKey("fund_img4") ? paramsHt["fund_img4"].ToString() : "";
+                string fund_img5 = paramsHt.ContainsKey("fund_img5") ? paramsHt["fund_img5"].ToString() : "";
+                string fund_img6 = paramsHt.ContainsKey("fund_img6") ? paramsHt["fund_img6"].ToString() : "";
+                string fund_img7 = paramsHt.ContainsKey("fund_img7") ? paramsHt["fund_img7"].ToString() : "";
+
+                string phone_no = paramsHt.ContainsKey("phone_no") ? paramsHt["phone_no"].ToString() : "";
+                string user_desc = paramsHt.ContainsKey("user_desc") ? paramsHt["user_desc"].ToString() : "";
+                string zdy_title1 = paramsHt.ContainsKey("zdy_title1") ? paramsHt["zdy_title1"].ToString() : "";
+                string zdy_title2 = paramsHt.ContainsKey("zdy_title2") ? paramsHt["zdy_title2"].ToString() : "";
+                string zdy_title3 = paramsHt.ContainsKey("zdy_title3") ? paramsHt["zdy_title3"].ToString() : "";
+                string zdy_title4 = paramsHt.ContainsKey("zdy_title4") ? paramsHt["zdy_title4"].ToString() : "";
+                string zdy_info1 = paramsHt.ContainsKey("zdy_info1") ? paramsHt["zdy_info1"].ToString() : "";
+                string zdy_info2 = paramsHt.ContainsKey("zdy_info2") ? paramsHt["zdy_info2"].ToString() : "";
+                string zdy_info3 = paramsHt.ContainsKey("zdy_info3") ? paramsHt["zdy_info3"].ToString() : "";
+                string zdy_info4 = paramsHt.ContainsKey("zdy_info4") ? paramsHt["zdy_info4"].ToString() : "";
+
+                int bt = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().GetIntBT(creid_img, creid2_img, bank_img, fund_img1, fund_img2, fund_img3, fund_img4,
+                    fund_img5, fund_img6, fund_img7, user_desc);
+
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().CreateFreezeDiary(fid, type, user, handle_result, "", uin, phone_no, submit_time, bt, user_desc,
+                    zdy_title1, zdy_title2, zdy_title3, zdy_title4, zdy_info1, zdy_info2, zdy_info3, zdy_info4); //普通/微信解冻handleType=2；特殊找回支付密码handleType=11
+
+                Record record = new Record();
+                record.RetValue = infos.ToString().ToLower();
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("AddAppealMaterial").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("AddAppealMaterial").ErrorFormat("return_code:{0},mag:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        //挂起
+        [WebMethod]
+        public void HangAppeal()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "fid", "user", "handle_result", "uin", "submit_time", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string fid = paramsHt.ContainsKey("fid") ? paramsHt["fid"].ToString() : "";
+                string user = paramsHt.ContainsKey("user") ? paramsHt["user"].ToString() : "";
+                string handle_result = paramsHt.ContainsKey("handle_result") ? paramsHt["handle_result"].ToString() : "";
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                string submit_time = paramsHt.ContainsKey("submit_time") ? paramsHt["submit_time"].ToString() : "";
+
+                string phone_no = paramsHt.ContainsKey("phone_no") ? paramsHt["phone_no"].ToString() : "";
+                string user_desc = paramsHt.ContainsKey("user_desc") ? paramsHt["user_desc"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().CreateFreezeDiary(fid, 8, user, handle_result, "", uin, phone_no,
+                    submit_time, 0, user_desc, "", "", "", "", "", "", "", ""); //挂起handleType=8
+
+                Record record = new Record();
+                record.RetValue = infos.ToString().ToLower();
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("HangAppeal").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("HangAppeal").ErrorFormat("return_code:{0},mag:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        //作废
+        [WebMethod]
+        public void DeleteAppeal()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "fid", "user", "handle_result", "uin", "submit_time", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string fid = paramsHt.ContainsKey("fid") ? paramsHt["fid"].ToString() : "";
+                string user = paramsHt.ContainsKey("user") ? paramsHt["user"].ToString() : "";
+                string handle_result = paramsHt.ContainsKey("handle_result") ? paramsHt["handle_result"].ToString() : "";
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                string submit_time = paramsHt.ContainsKey("submit_time") ? paramsHt["submit_time"].ToString() : "";
+
+                string phone_no = paramsHt.ContainsKey("phone_no") ? paramsHt["phone_no"].ToString() : "";
+                string user_desc = paramsHt.ContainsKey("user_desc") ? paramsHt["user_desc"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().CreateFreezeDiary(fid, 7, user, handle_result, "", uin, phone_no,
+                    submit_time, 0, user_desc, "", "", "", "", "", "", "", ""); //作废handleType=7
+
+                Record record = new Record();
+                record.RetValue = infos.ToString().ToLower();
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("DeleteAppeal").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("DeleteAppeal").ErrorFormat("return_code:{0},mag:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        //结单（已解决）
+        [WebMethod]
+        public void CompleteAppeal()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "fid", "user", "handle_result", "uin", "submit_time", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string fid = paramsHt.ContainsKey("fid") ? paramsHt["fid"].ToString() : "";
+                string user = paramsHt.ContainsKey("user") ? paramsHt["user"].ToString() : "";
+                string handle_result = paramsHt.ContainsKey("handle_result") ? paramsHt["handle_result"].ToString() : "";
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                string submit_time = paramsHt.ContainsKey("submit_time") ? paramsHt["submit_time"].ToString() : "";
+
+                string phone_no = paramsHt.ContainsKey("phone_no") ? paramsHt["phone_no"].ToString() : "";
+                string user_desc = paramsHt.ContainsKey("user_desc") ? paramsHt["user_desc"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().CreateFreezeDiary(fid, 1, user, handle_result, "", uin, phone_no,
+                    submit_time, 0, user_desc, "", "", "", "", "", "", "", ""); //结单handleType=1
+
+                Record record = new Record();
+                record.RetValue = infos.ToString().ToLower();
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("CompleteAppeal").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("CompleteAppeal").ErrorFormat("return_code:{0},mag:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        //同步身份证号
+        [WebMethod]
+        public void SyncCreid()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "oldcreid", "newcreid", "cretype", "user", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                string oldcreid = paramsHt.ContainsKey("oldcreid") ? paramsHt["oldcreid"].ToString() : "";//注册证件号码
+                string newcreid = paramsHt.ContainsKey("newcreid") ? paramsHt["newcreid"].ToString() : "";//用户提交证件号码
+                int cretype = APIUtil.StringToInt(paramsHt["cretype"].ToString());
+                string user = paramsHt.ContainsKey("user") ? paramsHt["user"].ToString() : "";
+                string ip = paramsHt.ContainsKey("ip") ? paramsHt["ip"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.FreezeModule.FreezeService().SyncCreid(uin, oldcreid, newcreid, cretype, user, ip);
+
+                Record record = new Record();
+                record.RetValue = infos.ToString().ToLower();
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("SyncCreid").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("SyncCreid").ErrorFormat("return_code:{0},mag:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        #endregion
+
         #region 证件号码清理
 
-        [WebMethod(Description = "证件信息查询")]
-        public void QueryCreidList()    //string appid,string creid,string token
+        //证件信息查询
+        [WebMethod]
+        public void QueryCreidList()   
         {
             try
             {
@@ -441,8 +914,9 @@ namespace CFT.CSOMS.Service.CSAPI
             }
         }
 
-        [WebMethod(Description = "证件号码清理")]
-        public void ClearCreid()    //string appid,string creid,int type,string opera,string token ; type=0普通用户，type=1微信用户
+        //证件号码清理
+        [WebMethod]
+        public void ClearCreid()    
         {
             try
             {
@@ -454,7 +928,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 String creid = paramsHt.ContainsKey("creid") ? paramsHt["creid"].ToString() : "";
                 String opera = paramsHt.ContainsKey("opera") ? paramsHt["opera"].ToString() : "";
-                int u_type = APIUtil.StringToInt(paramsHt["type"]);
+                int u_type = APIUtil.StringToInt(paramsHt["type"]); //type=0普通用户，type=1微信用户
 
                 var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().ClearCreidInfo(creid, u_type, opera);
 
