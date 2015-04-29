@@ -387,7 +387,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                                 // 已结单
                                 this.btn_Del.Visible = true;
                             }
-                            else if (ViewState["Fstate"].ToString() == "7")
+                            else if (ViewState["Fstate"].ToString() == "7" || ViewState["Fstate"].ToString() == "20")
                             {
                                 // 已作废
                             }
@@ -415,7 +415,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                         {
                             this.btn_OK.Visible = true;
                         }
-                        else if (state == "1" || state == "7")//申诉成功、已删除
+                        else if (state == "1" || state == "7" || state == "20")//申诉成功、已删除
                         {
                             this.btn_Cancel.Visible = true;
                         }

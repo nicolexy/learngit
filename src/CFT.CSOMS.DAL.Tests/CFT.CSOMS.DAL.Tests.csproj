@@ -35,6 +35,31 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CFT.Apollo.Common">
+      <HintPath>..\packages\CFT.Apollo.Common.3.1.5494.24496\lib\CFT.Apollo.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.Apollo.CommunicationFramework, Version=3.2.39.4489, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.3.2.39\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.Apollo.Data, Version=3.2.39.4489, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.Data.3.2.39\lib\CFT.Apollo.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.Apollo.Logging">
+      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5494.24500\lib\net40\CFT.Apollo.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="icecs_gb2312, Version=3.1.1.0, Culture=neutral, PublicKeyToken=1f998c50fec78381">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.3.2.39\lib\net40\icecs_gb2312.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.log4net.1.0.0.15\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Apollo">
+      <HintPath>..\packages\MySql.Data.Apllo.6.95.5494.24500\lib\MySql.Data.Apollo.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -55,17 +80,30 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Util\Tool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TradeDataTest.cs" />
+    <Compile Include="UserAppealModuleTest\UserAppealDataTest.cs" />
+    <Compile Include="UserAppealModuleTest\UserAppealDataInitData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CFT.CSOMS.DAL\CFT.CSOMS.DAL.csproj">
       <Project>{6c10b34d-4b02-4f2c-a964-8955677a5213}</Project>
       <Name>CFT.CSOMS.DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\COMMLIB\commLib.csproj">
+      <Project>{c747901f-7ee1-4aed-ab7b-547c6aec99a0}</Project>
+      <Name>commLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DATAACCESS\DataAccess.csproj">
+      <Project>{3f80e194-4a0b-4e45-bb3e-5e482bf3139f}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Configs\Log4net.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

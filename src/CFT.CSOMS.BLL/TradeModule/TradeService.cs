@@ -72,10 +72,13 @@ namespace CFT.CSOMS.BLL.TradeModule
                     ds.Tables[0].Columns.Add("Fappeal_sign_str"); //申诉标志
                     ds.Tables[0].Columns.Add("Fmedi_sign_str"); //中介标志
                     ds.Tables[0].Columns.Add("Fchannel_id_str"); //渠道编号
-                    if (!ds.Tables[0].Columns.Contains("Frefund_typeName"))
-                    { ds.Tables[0].Columns.Add("Frefund_typeName"); }//退款类型
+                    ds.Tables[0].Columns.Add("CloseReason", typeof(string));
+                    ds.Tables[0].Columns.Add("FbuyidCFT", typeof(string));//买家财付通账号
+
                     if (!ds.Tables[0].Columns.Contains("Fexplain"))
                     { ds.Tables[0].Columns.Add("Fexplain"); }//备注
+                    if (!ds.Tables[0].Columns.Contains("Frefund_typeName"))
+                    { ds.Tables[0].Columns.Add("Frefund_typeName"); }//退款类型
                     if (!ds.Tables[0].Columns.Contains("FsaleidCFT"))
                     { ds.Tables[0].Columns.Add("FsaleidCFT"); }//卖家财付通账号
                     if (!ds.Tables[0].Columns.Contains("Ftrade_stateName"))
@@ -212,33 +215,29 @@ namespace CFT.CSOMS.BLL.TradeModule
                         ds.Tables[0].Columns.Add("Fbuy_bankid");
                         ds.Tables[0].Rows[0]["Fbuy_bankid"] = "";
                     }
-                    if (!ds.Tables[0].Columns.Contains("Fstandby8"))
-                    {
-                        ds.Tables[0].Columns.Add("Fstandby8");
-                        ds.Tables[0].Rows[0]["Fstandby8"] = "";
-                    }
+
                     if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Fstandby8"].ToString()))
                     {
                         string s_close_reason = ds.Tables[0].Rows[0]["Fstandby8"].ToString();
                         if (s_close_reason == "1")
                         {
-                            ds.Tables[0].Rows[0]["Fstandby8"] = "风控关闭订单";
+                            ds.Tables[0].Rows[0]["CloseReason"] = "风控关闭订单";
                         }
                         else if (s_close_reason == "2")
                         {
-                            ds.Tables[0].Rows[0]["Fstandby8"] = "微信线下支付商户关闭订单";
+                            ds.Tables[0].Rows[0]["CloseReason"] = "微信线下支付商户关闭订单";
                         }
                         else if (s_close_reason == "3")
                         {
-                            ds.Tables[0].Rows[0]["Fstandby8"] = "购物券回收关闭订单";
+                            ds.Tables[0].Rows[0]["CloseReason"] = "购物券回收关闭订单";
                         }
                         else if (s_close_reason == "4")
                         {
-                            ds.Tables[0].Rows[0]["Fstandby8"] = "拍拍关闭订单";
+                            ds.Tables[0].Rows[0]["CloseReason"] = "拍拍关闭订单";
                         }
                         else if (s_close_reason == "5")
                         {
-                            ds.Tables[0].Rows[0]["Fstandby8"] = "赔付调帐订单";
+                            ds.Tables[0].Rows[0]["CloseReason"] = "赔付调帐订单";
                         }
                     }
 
@@ -256,8 +255,9 @@ namespace CFT.CSOMS.BLL.TradeModule
                     ds.Tables[0].Rows[0]["Fcurtype"] = PublicService.PublicService.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());
                     ds.Tables[0].Rows[0]["Flstate"] = PublicService.PublicService.convertTradeState(ds.Tables[0].Rows[0]["Flstate"].ToString());
                     ds.Tables[0].Rows[0]["Fsale_bank_type"] = PublicService.PublicService.convertbankType(ds.Tables[0].Rows[0]["Fsale_bank_type"].ToString());
-                    ds.Tables[0].Rows[0]["Fadjust_flag"] = PublicService.PublicService.convertAdjustSign(ds.Tables[0].Rows[0]["Fsale_bank_type"].ToString());
-                    ds.Tables[0].Rows[0]["Ftrade_type"] = PublicService.PublicService.convertPayType(ds.Tables[0].Rows[0]["Fsale_bank_type"].ToString());
+                    ds.Tables[0].Rows[0]["Fadjust_flag"] = PublicService.PublicService.convertAdjustSign(ds.Tables[0].Rows[0]["Fadjust_flag"].ToString());
+                    string tradeType = PublicService.PublicService.convertPayType(ds.Tables[0].Rows[0]["Ftrade_type"].ToString());
+                    ds.Tables[0].Rows[0]["Ftrade_type"] = PublicService.PublicService.convertPayType(ds.Tables[0].Rows[0]["Ftrade_type"].ToString());
 
                     try
                     {
@@ -377,6 +377,55 @@ namespace CFT.CSOMS.BLL.TradeModule
                                 }
                             }
                         }
+                    }
+
+
+                    try
+                    {
+                        string listid = tradeid;
+                        string qry_type = "";
+                        bool isOK = false;
+                        if (tradeType.Contains("B2C"))
+                        {
+                            qry_type = "1";
+                            isOK = true;
+                        }
+                        else if (tradeType.Contains("商户结算"))
+                        {
+                            qry_type = "2";
+                            string IsReconfig = System.Configuration.ConfigurationManager.AppSettings["HandQ_Payment_IsReconfig"].ToString();
+                            if (IsReconfig == "1")
+                            {
+                                listid = ds.Tables[0].Rows[0]["Fcoding"].ToString();
+                            }
+                            isOK = true;
+                        }
+
+                        if (isOK)
+                        {
+                            DataSet ds2 = new TradeService().QueryPaymentParty(listid, "", qry_type, "");
+                            //DataSet ds = new TradeService().QueryPaymentParty("1301278501201412090010900888", "", "2", "");
+                            //qry_type = "2";
+                            if (ds2 != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0)
+                            {
+                                if (ds2.Tables[0].Rows[0]["result"].ToString() == "0")
+                                {
+                                    if (qry_type == "1")
+                                    {                                       
+                                        ds.Tables[0].Rows[0]["FsaleidCFT"] = ds2.Tables[0].Rows[0]["seller_uin"].ToString();
+                                    }
+                                    else if (qry_type == "2")
+                                    {
+                                        ds.Tables[0].Rows[0]["FbuyidCFT"] = ds2.Tables[0].Rows[0]["payer_uin"].ToString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log4net.ILog tmpLog = log4net.LogManager.GetLogger("调用接口：查询用户转账单记录失败！");
+                        tmpLog.ErrorFormat("查询用户转账单记录失败：出错：{0} ", ex.Message);
                     }
 
                     return ds;

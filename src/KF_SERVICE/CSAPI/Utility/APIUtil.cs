@@ -765,15 +765,24 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
         public static Dictionary<string, string> GetQueryStrings()
         {
             string paramstr = APIUtil.getReqParamStr();
-          //  Hashtable paramHt=new Hashtable();
+            //  Hashtable paramHt=new Hashtable();
             Dictionary<string, string> paramDic = new Dictionary<string, string>();
             string[] paramArr = paramstr.Split('&');
             foreach (string str in paramArr)
             {
-                string[] pa = str.Split('=');
-                if(pa.Length!=2)
+                int pos = str.IndexOf('=');
+                string name = str.Substring(0, pos);
+                string value = HttpContext.Current.Request.QueryString[name];
+                if (string.IsNullOrEmpty(value))
+                {
                     throw new ServiceException(ERR_PARAM, ErroMessage.MESSAGE_NULLPARAM);
-                paramDic.Add(pa[0].ToString(), pa[1].ToString());
+                }
+                paramDic.Add(name, value);
+
+                //string[] pa = str.Split('=');
+                //if(pa.Length!=2)
+                //    throw new ServiceException(ERR_PARAM, ErroMessage.MESSAGE_NULLPARAM);
+                //paramDic.Add(pa[0].ToString(), pa[1].ToString());
             }
 
             return paramDic;
