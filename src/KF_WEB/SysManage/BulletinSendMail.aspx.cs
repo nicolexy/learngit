@@ -37,29 +37,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
         Hashtable htGroup = new Hashtable();
         protected SysManageService sysService = new SysManageService();
         protected void Page_Load(object sender, System.EventArgs e)
-		{
+        {
 
-			try
-			{
+            try
+            {
                 if (!IsPostBack)
                 {
                     if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
                     this.pager.RecordCount = 1000;
                     this.pagerContacts.RecordCount = 1000;
                 }
-			}
-			catch
-			{
-				Response.Redirect("../login.aspx?wh=1");
-			}
+            }
+            catch
+            {
+                Response.Redirect("../login.aspx?wh=1");
+            }
             TableGroup.Visible = false;
             TableContacts.Visible = false;
-            if (!string.IsNullOrEmpty(Request.QueryString["title"]))
-            {
-                title = Request.QueryString["title"].Trim();
-                ViewState["title"] = title;
-            }
-		}
+            ViewState["title"] = Session["title"].ToString();
+        }
 
 		#region Web 窗体设计器生成的代码
 		override protected void OnInit(EventArgs e)
