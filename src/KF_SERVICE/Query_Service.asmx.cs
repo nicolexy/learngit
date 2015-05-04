@@ -4707,7 +4707,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod(Description = "查询外汇汇率列表函数")]
         public DataSet GetExchangeRateList(string foreType, string issueBank, string beginTime, string endTime, int iPageStart, int iPageMax)
         {
-            string msg = "";
             try
             {
                 DataSet ds = null;
@@ -4720,7 +4719,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
-                throw new LogicException("Service处理失败！" + msg);
+                LogHelper.LogInfo("查询外汇汇率列表异常：" + err);
+                throw new LogicException("Service处理失败！" +err.Message);
             }
         }
 

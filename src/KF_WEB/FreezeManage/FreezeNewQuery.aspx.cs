@@ -41,9 +41,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 			{
                 DateTime dt = DateTime.Now;
                 if (DateTime.Now.Month == 3)
-                    dt = DateTime.Now.AddDays(-28);//防止出现3月1号，会跨度3个月的时间段，查不到2月的数据
+                    dt = DateTime.Now.AddDays(-27);//防止出现3月1号，会跨度3个月的时间段，查不到2月的数据
                 else
-                    dt = DateTime.Now.AddDays(-30);
+                    dt = DateTime.Now.AddDays(-29);
                 DateTime grayDate = DateTime.Parse("2014-06-05");
                 if (dt.CompareTo(grayDate) < 0)
                 {
