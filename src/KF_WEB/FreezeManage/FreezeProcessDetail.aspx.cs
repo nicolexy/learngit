@@ -421,6 +421,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                         }
                         else if (state == "11")//´ý²¹³ä×ÊÁÏ
                         {
+                            this.btn_OK.Visible = true;//20150402
                             this.btn_Delete.Visible = true;
                             this.btn_Cancel.Visible = true;
 

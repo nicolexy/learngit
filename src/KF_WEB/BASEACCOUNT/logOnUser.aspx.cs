@@ -25,6 +25,7 @@ using CFT.CSOMS.BLL.BalanceModule;
 using System.Configuration;
 using CFT.CSOMS.BLL.TradeModule;
 using System.Text.RegularExpressions;
+using CFT.Apollo.Logging;
 
 
 namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
@@ -182,8 +183,41 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                         WebUtils.ShowMessage(this.Page, "手Q用户转账中、退款中、未完成的订单禁止注销和批量注销");
                         return;
                     }
+                    try
+                    {
+                        DataSet dsMobileQHB = new TradeService().GetUnfinishedMobileQHB(qqid);
+                        if (dsMobileQHB != null && dsMobileQHB.Tables.Count >0 && dsMobileQHB.Tables[0].Rows.Count >0 && int.Parse(dsMobileQHB.Tables[0].Rows[0]["row_num"].ToString()) >0)
+                        {
+                            WebUtils.ShowMessage(this.Page, "该账户存在未完成的手Q红包交易，禁止注销和批量注销");
+                            return;
+                        }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        LogHelper.LogError("查询手Q红包未完成交易失败" + ex.Message, "LogOnUser");
+                        WebUtils.ShowMessage(this.Page, "查询手Q红包未完成交易失败"+ex.Message);
+                        return;
+                    }
                 }
 
+                //有微信支付、转账、红包未完成的禁止注销和批量注销
+                if (qqid.Contains("@wx.tenpay.com"))
+                {
+                    try
+                    {
+                        int WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(qqid);
+                        if (WXUnfinishedTrade > 0)
+                        {
+                            WebUtils.ShowMessage(this.Page, "此账号有未完成微信支付转账或红包交易，禁止注销和批量注销!");
+                            return;
+                        }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        LogHelper.LogError("销户操作查询微信支付在途条目出错" + ex.Message);
+                        WebUtils.ShowMessage(this.Page, "销户操作查询微信支付在途条目出错" + ex.Message);
+                    }
+                }
                 //是否有未完成的交易单
                 if (qs.LogOnUsercheckOrder(fqqid, "1"))
                 {
