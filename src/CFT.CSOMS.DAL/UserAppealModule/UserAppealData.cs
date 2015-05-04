@@ -2552,6 +2552,14 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                                 + " FReCheckTime=now(),FRecheckUser='" + user + "'"
                                 + " where Fid='" + fid + "' and Fstate=9";
                         }
+                        else if (fstate == 11)//待补充资料,20150429，增加通过
+                        {
+                            strSql = " update " + db + "." + tb + " set FState=1,"
+                                + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),FModifyTime=Now(),"
+                                + " FPickTime=now(),FPickUser='" + user + "',"
+                                + " FReCheckTime=now(),FRecheckUser='" + user + "'"
+                                + " where Fid='" + fid + "' and Fstate=11";
+                        }
                         else if (fstate == 12)//已补充资料
                         {
                             strSql = " update " + db + "." + tb + " set FState=1,"
@@ -2929,6 +2937,14 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                             + " FPickTime=now(),FPickUser='" + user + "',"
                             + " FReCheckTime=now(),FRecheckUser='" + user + "'"
                             + " where Fid='" + fid + "' and Fstate=9";
+                    }
+                    else if (fstate == 11)//待补充资料,20150429，增加通过
+                    {
+                        strSql = " update " + db + "." + tb + " set FState=1,"
+                            + " Fcomment='" + Fcomment + "',FCheckUser='" + user + "',FCheckTime=Now(),FModifyTime=Now(),"
+                            + " FPickTime=now(),FPickUser='" + user + "',"
+                            + " FReCheckTime=now(),FRecheckUser='" + user + "'"
+                            + " where Fid='" + fid + "' and Fstate=11";
                     }
                     else if (fstate == 12)//已补充资料
                     {

@@ -434,5 +434,62 @@ namespace CFT.CSOMS.DAL.TradeModule
                 
             }
         }
+        /// <summary>
+        /// 查询微信支付转账和微信支付红包支付未完成交易数据
+        /// </summary>
+        /// <param name="pay_openid"></param>
+        /// <returns></returns>
+        public int QueryWXUnfinishedTrade(string pay_openid)
+        {
+            string relayIP = Apollo.Common.Configuration.AppSettings.Get<string>("Relay_IP", "172.27.31.177");
+            int relayPort = Apollo.Common.Configuration.AppSettings.Get<int>("Relay_PORT", 22000);
+            string RequestType = "100222";//转账的
+            string open_id = pay_openid.Trim();
+            string RequestText = "pay_openid="+open_id;
+            string answer = RelayAccessFactory.RelayInvoke(RequestText, RequestType,true, false, relayIP, relayPort, "");
+            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
+
+            string Msg;
+            DataSet ds = CommQuery.ParseRelayStr(answer, out Msg, true);
+            if (Msg != "")
+            {
+                throw new Exception(Msg);
+            }
+            try
+            {
+                int num = int.Parse(ds.Tables[0].Rows[0]["num"].ToString());
+
+                //红包的
+                answer = RelayAccessFactory.RelayInvoke(RequestText, "100038", true, false, relayIP, relayPort, "");
+                answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
+                ds = CommQuery.ParseRelayStr(answer, out Msg, true);
+                if (Msg != "")
+                {
+                    throw new Exception(Msg);
+                }
+                num += int.Parse(ds.Tables[0].Rows[0]["num"].ToString());
+
+                return num;
+            }
+            catch (System.Exception ex)
+            {
+                throw new Exception("微信支付在途条目查询失败:"+ex.Message);
+            }
+            
+        }
+
+        public DataSet GetUnfinishedMobileQHB(string uin)
+        {
+            string RequestText = "uin=" + uin;
+            RequestText += "&snd_sate=1,3&offset=0&limit=1";
+
+            var relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("HandQ_Payment_RelayIP", "10.12.196.195");
+            var relayPORT = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("HandQ_Payment_RelayPort", 22000);
+            string answer = RelayAccessFactory.RelayInvoke(RequestText, "100578", true, false, relayIP, relayPORT, "");
+            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
+            string Msg = "";
+            DataSet ds = CommQuery.ParseRelayStr(answer, out Msg, true);
+            return ds;
+        }
     }
 }
