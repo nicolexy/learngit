@@ -54,7 +54,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             }
             TableGroup.Visible = false;
             TableContacts.Visible = false;
-            ViewState["title"] = Session["title"].ToString();
+
+            if(Request.QueryString["title"] != null && Request.QueryString["title"].Trim() != "")
+				{
+                    ViewState["title"] = System.Web.HttpUtility.UrlDecode(Request.QueryString["title"].Trim());
+				}
+            else
+                Response.Redirect("../login.aspx?wh=1");
         }
 
 		#region Web 窗体设计器生成的代码
