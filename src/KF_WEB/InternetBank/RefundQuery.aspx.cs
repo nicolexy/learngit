@@ -15,6 +15,7 @@ using Microsoft.Office.Core;
 using System.Reflection;
 using System.Threading;
 using CFT.CSOMS.BLL.RefundModule;
+using SunLibrary;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 {
@@ -560,92 +561,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             }
         }
 
-        private bool isValidAmount(string ListID, string  Amount, out string msg)
+        private void Upload()
         {
-            //绑定交易资料信息
-            msg = "";
+            string uid = Session["uid"].ToString();
             try
-            {
-                double FRefundAmount = Convert.ToDouble(Amount);
-                Query_Service.Query_Service myService = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-                DateTime beginTime = DateTime.Parse(ConfigurationManager.AppSettings["sBeginTime"].ToString());
-                DateTime endTime = DateTime.Parse(ConfigurationManager.AppSettings["sEndTime"].ToString());
-                DataSet ds = new DataSet();
-                ds = myService.GetPayList(ListID, 4, beginTime, endTime, 1, 2);
-                if (ds == null)
-                {
-                    msg = "查询订单金额失败";
-                    return false;
-                }
-                string FenToYuan = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Ffact"].ToString());
-                double _FRefundAmount = Convert.ToDouble(FenToYuan.Replace("元", ""));
-
-                if (FRefundAmount > 0 && FRefundAmount <= _FRefundAmount)
-                {
-                    return true;
-                }
-                else
-                {
-                    msg = "退款金额超出范围，退款金额：" + FRefundAmount + ",订单金额:" + _FRefundAmount;
-                    return false;
-                }
-            }
-            catch (Exception e)
-            {
-                msg ="查询订单金额失败："+ e.Message;
-                return false;
-            }
-        }
-        private bool isValidState(string listID, out string msg) 
-        {
-            msg = "";
-            try
-            {
-                Query_Service.Query_Service qs = new Query_Service.Query_Service();
-                DataSet dsState = qs.GetQueryListDetail(listID);
-                string state = "";
-                if (dsState != null && dsState.Tables.Count > 0 && dsState.Tables[0].Rows.Count > 0)
-                {
-                    dsState.Tables[0].Columns.Add("Ftrade_stateName");
-                    classLibrary.setConfig.GetColumnValueFromDic(dsState.Tables[0], "Ftrade_state", "Ftrade_stateName", "PAY_STATE");
-                    state = dsState.Tables[0].Rows[0]["Ftrade_stateName"].ToString();
-                }
-                if (state.Contains("支付成功"))
-                {
-                    return true;
-                }
-                else 
-                {
-                    msg = "该订单状态不允许录入，订单状态：" + state;  
-                    return false;
-                }
-            }
-            catch (Exception e)
-            {
-                msg = "判断订单状态失败：" + e.Message;
-                return false;
-            }
-        }
-
-        public void btnUpload_Click(object sender, System.EventArgs e)
-        {
-            if (!File1.HasFile)
-            {
-                WebUtils.ShowMessage(this.Page, "请选择上传文件！");
-                return;
-            }
-            if (Path.GetExtension(File1.FileName).ToLower() == ".xls")
             {
                 int succ = 0, fail = 0;
+                int FRefundtype = 0;//退款类型
                 int refundAmount = 0; //退款金额
                 string errMsg = "";
 
                 string path = Server.MapPath("~/") + "PLFile" + "\\refund.xls";
                 File1.PostedFile.SaveAs(path);
-
-                DataSet res_ds = PublicRes.readXls(path);
+                DataSet res_ds = PublicRes.readXls(path, "F1,F2,F3,F4,F5,F6");
                 System.Data.DataTable res_dt = res_ds.Tables[0];
+                //记录失败订单
+                System.Data.DataTable failed_dt = new System.Data.DataTable();
+                failed_dt.Columns.Add("订单号", typeof(System.String));
+                failed_dt.Columns.Add("退款类型", typeof(System.String));
+                failed_dt.Columns.Add("SAM工单号", typeof(System.String));
+                failed_dt.Columns.Add("登记人", typeof(System.String));
+                failed_dt.Columns.Add("物品回收人", typeof(System.String));
+                failed_dt.Columns.Add("退款金额（元）", typeof(System.String));
+                failed_dt.Columns.Add("Message", typeof(System.String));
+
                 int iColums = res_dt.Columns.Count;
                 int iRows = res_dt.Rows.Count;
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
@@ -657,6 +596,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                     string r4 = res_dt.Rows[i][3].ToString(); //登记人
                     string r5 = res_dt.Rows[i][4].ToString(); //物品回收人
                     string r6 = res_dt.Rows[i][5].ToString(); //退款金额
+
+                    //记录错误订单
+                    DataRow failed_dr = failed_dt.NewRow();
+                    failed_dr[0] = r1;
+                    failed_dr[1] = r2;
+                    failed_dr[2] = r3;
+                    failed_dr[3] = r4;
+                    failed_dr[4] = r5;
+                    failed_dr[5] = r6;
+
+                    try
+                    {
+                        FRefundtype = Convert.ToInt32(r2);
+                    }
+                    catch
+                    {
+                        fail++;
+                        errMsg += "第" + (i + 1) + "行:订单类型错误！";
+                        failed_dr[6] = "订单类型错误";
+                        failed_dt.Rows.Add(failed_dr);
+                        continue;
+                    }
 
                     try
                     {
@@ -670,28 +631,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                     {
                         fail++;
                         errMsg += "第" + (i + 1) + "行:退款金额输入错误！";
-                        continue;
-                    }
-                  
-                    string msg;
-                    //订单状态为“支付成功/等待卖家发货”的订单才允许录入，非此状态的订单限制录入.
-                    if (!isValidState(r1, out  msg))
-                    {
-                        fail++;
-                        errMsg += "第" + (i + 1) + "行:" + msg + ".";
-                        continue;
-                    }
-                    //批量导入模版中金额需限制为:0<退款金额≦订单金额。
-                    if (!isValidAmount(r1, r6, out msg))
-                    {
-                        fail++;
-                        errMsg += "第" + (i + 1) + "行:" + msg + ".";
+                        failed_dr[6] = "退款金额输入错误";
+                        failed_dt.Rows.Add(failed_dr);
                         continue;
                     }
                     //组装
                     Query_Service.RefundInfoClass cb = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.RefundInfoClass();
                     cb.FOrderId = r1.Trim();
-                    cb.FRefund_type = int.Parse(r2);
+                    cb.FRefund_type = FRefundtype;
                     cb.FSam_no = r3.Trim();
                     cb.FSubmit_user = r4.Trim();
                     cb.FRecycle_user = r5.Trim();
@@ -707,9 +654,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                     {
                         fail++;
                         errMsg += "第" + (i + 1) + "行:" + ser.Message;
+                        failed_dr[6] = ser.Message;
+                        failed_dt.Rows.Add(failed_dr);
                     }
                 }
 
+                try
+                {
+                    path = Server.MapPath("~/") + "PLFile" + "\\" + uid + ".xls"; //附件
+                    PublicRes.Export(failed_dt, path);
+                    string[] fileAtta = { path };
+                    //mail
+                    CommMailSend.SendInternalMail(uid, "", "退款登记导出;总数：" + iRows + ";成功数：" + succ + ";失败数：" + fail, "", false, fileAtta);
+
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
                 //展示成功多少，失败多少，错误信息
                 Table3.Visible = true;
                 Table2.Visible = false;
@@ -719,10 +681,38 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 lbFail.Text = fail.ToString();
                 lbError.Text = errMsg;
             }
-            else
+            catch (Exception e)
             {
-                WebUtils.ShowMessage(this.Page, "文件格式不正确，请选择xls格式文件上传。");
-                return;
+                LogHelper.LogInfo("批量导入退款登记失败!" + e.Message);
+                CommMailSend.SendInternalMail(uid, "", "批量导入退款登记失败", e.ToString(), false);
+            }
+
+        }
+        public void btnUpload_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                if (!File1.HasFile)
+                {
+                    WebUtils.ShowMessage(this.Page, "请选择上传文件！");
+                    return;
+                }
+                if (Path.GetExtension(File1.FileName).ToLower() == ".xls")
+                {
+                    //  Upload();
+                    Thread thread = new Thread(Upload);
+                    thread.Start();
+                    WebUtils.ShowMessage(this.Page, "后台处理中，稍后请查收邮件。");
+                }
+                else
+                {
+                    WebUtils.ShowMessage(this.Page, "文件格式不正确，请选择xls格式文件上传。");
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this.Page, ex.Message);
             }
         }
 

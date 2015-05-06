@@ -5750,7 +5750,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public void addRefundInfo(out string msg) 
         {
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ht"));
-
+            int Ffact = 0;//总支付费用
             try
             {
                 da.OpenConn();
@@ -5781,20 +5781,37 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     if (obj != null) FBuy_acc = obj.ToString().Trim();
                     obj = dt_ice.Rows[0]["Fmemo"];
                     if (obj != null) FTrade_desc = obj.ToString().Trim();
+
+                    obj = dt_ice.Rows[0]["Ffact"];
+                    if (obj != null)
+                    {
+                        try
+                        {
+                            Ffact = Convert.ToInt32(obj.ToString().Trim());
+                        }
+                        catch
+                        {
+                            Ffact = 0;
+                        }
+                    }
                 }
                 else
                 {
                     //msg = "通用查询订单号不存在：" + FOrderId;
                     throw new LogicException("订单号不存在：" + FOrderId + msg);
                 }
+                //判断订单状态为"支付成功"
+                if (FTrade_state != 2) 
+                {
+                    throw new LogicException("该订单状态不允许录入，订单状态:" + FTrade_state);
+                }
                 //判断退款金额<=订单金额
-                int oAmount = Convert.ToInt32(FAmount);
                 int rAmount = 0;
                 if (!string.IsNullOrEmpty(FRefund_amount)) 
                 {
                     rAmount = Convert.ToInt32(FRefund_amount);
                 }
-                if (rAmount <= oAmount)
+                if (rAmount <= Ffact && rAmount > 0)
                 {
                     //退款金额<=订单金额
                     strSql = "insert into c2c_fmdb.t_refund_info(Forder_id,Fcoding,Famount,Ftrade_state,Fbuy_acc,Ftrade_desc,Frefund_type,Frefund_state,Fmemo,Fsubmit_user,Frecycle_user,Fsam_no,Fsubmit_refund,Frefund_amount,Fcreate_time,Fmodify_time) values('{0}','{1}','{2}',{3},'{4}','{5}',{6},{7},'{8}','{9}','{10}','{11}',{12},{13},now(),now())";
@@ -5802,9 +5819,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                     da.ExecSqlNum(strSql);
                 }
-                else 
+                else if (rAmount==0)
                 {
-                    throw new LogicException("退款金额" + rAmount + "大于订单金额" + oAmount);
+                    throw new LogicException("退款金额为0");
+                }
+                else
+                {
+                    throw new LogicException("退款金额" + rAmount + "大于订单金额" + Ffact);
                 }
             }
             catch (LogicException err) 

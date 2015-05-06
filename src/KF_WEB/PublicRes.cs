@@ -488,6 +488,32 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             return ds;
         }
 
+        public static DataSet readXls(string path, string cols)
+        {
+            DataTable ExcelTable;
+            DataSet ds = new DataSet();
+            string strConn = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path
+                    + ";Extended Properties='Excel 8.0;HDR=NO;IMEX=1';";
+            OleDbConnection objConn = new OleDbConnection(strConn);
+            objConn.Open();
+            DataTable schemaTable = objConn.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, null);
+            string tableName = schemaTable.Rows[0][2].ToString().Trim();
+            string strSql = "";
+            strSql = "select " + cols + " from [" + tableName + "]";
+            OleDbCommand objCmd = new OleDbCommand(strSql, objConn);
+            OleDbDataAdapter myData = new OleDbDataAdapter(strSql, objConn);
+            myData.Fill(ds, tableName);
+            objConn.Close();
+            if (ds.Tables[tableName].Rows.Count > 0)
+            {
+                ds.Tables[tableName].Rows.Remove(ds.Tables[tableName].Rows[0]);
+            }
+
+            ExcelTable = ds.Tables[tableName];
+
+            return ds;
+        }
+
         public static void writeXls(string path, string cont)
         {
             string strConn = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path
@@ -504,6 +530,78 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             objCmd.ExecuteNonQuery();
 
             objConn.Close();
+
+        }
+
+        public static string Export(System.Data.DataTable dt, string path, int ColumnWidth = 25, int fontsize = 10)
+        {
+            try
+            {
+                #region 生成excel文件
+                Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.ApplicationClass();
+                Microsoft.Office.Interop.Excel.Workbooks workbooks = xlApp.Workbooks;
+                Microsoft.Office.Interop.Excel.Workbook workbook = workbooks.Add(Microsoft.Office.Interop.Excel.XlWBATemplate.xlWBATWorksheet);
+                Microsoft.Office.Interop.Excel.Worksheet worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Worksheets[1];//取得sheet1
+                Microsoft.Office.Interop.Excel.Range range;
+
+                int colindex = 0;
+                foreach (DataColumn col in dt.Columns)
+                {
+                    colindex++;
+                    range = (Microsoft.Office.Interop.Excel.Range)worksheet.Cells[1, colindex];
+                    range.ColumnWidth = ColumnWidth;
+                    range.NumberFormatLocal = "@";
+                    range.Font.Size = fontsize;
+                    range.Value2 = col.ColumnName;
+                }
+
+                int rowindex = 0;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    rowindex++;
+
+                    colindex = 0;
+                    foreach (DataColumn col in dt.Columns)
+                    {
+                        colindex++;
+                        range = (Microsoft.Office.Interop.Excel.Range)worksheet.Cells[rowindex + 1, colindex];
+                        range.ColumnWidth = ColumnWidth;
+                        range.NumberFormatLocal = "@";
+                        range.Font.Size = fontsize;
+                        range.Value2 = dr[colindex - 1];
+                    }
+
+                }
+
+                workbook.Saved = true;
+                //workbook.SaveCopyAs(path);  //2007版本
+                xlApp.DisplayAlerts = false;
+                workbook.SaveAs(path, 56, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value);
+                xlApp.DisplayAlerts = true;
+                range = null;
+
+                workbooks = null;
+                workbook = null;
+
+                if (xlApp != null)
+                {
+                    xlApp.Workbooks.Close();
+                    xlApp.Quit();
+                    xlApp = null;
+                }
+
+                return "";
+
+                #endregion
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+            finally
+            {
+                GC.Collect();
+            }
 
         }
 
