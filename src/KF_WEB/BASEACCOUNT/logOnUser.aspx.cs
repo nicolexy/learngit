@@ -186,9 +186,17 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     try
                     {
                         DataSet dsMobileQHB = new TradeService().GetUnfinishedMobileQHB(qqid);
-                        if (dsMobileQHB != null && dsMobileQHB.Tables.Count >0 && dsMobileQHB.Tables[0].Rows.Count >0 && int.Parse(dsMobileQHB.Tables[0].Rows[0]["row_num"].ToString()) >0)
+                        if (dsMobileQHB.Tables[0].Columns.Contains("row_num"))
                         {
-                            WebUtils.ShowMessage(this.Page, "该账户存在未完成的手Q红包交易，禁止注销和批量注销");
+                            if (dsMobileQHB != null && dsMobileQHB.Tables.Count > 0 && dsMobileQHB.Tables[0].Rows.Count > 0 && int.Parse(dsMobileQHB.Tables[0].Rows[0]["row_num"].ToString()) > 0)
+                            {
+                                WebUtils.ShowMessage(this.Page, "该账户存在未完成的手Q红包交易，禁止注销和批量注销");
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            WebUtils.ShowMessage(this.Page, "查询是否有未完成手Q红包交易失败!");
                             return;
                         }
                     }
@@ -208,6 +216,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                         int WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(qqid);
                         if (WXUnfinishedTrade > 0)
                         {
+                            LogHelper.LogInfo("此账号有未完成微信支付转账或红包交易，禁止注销和批量注销!");
                             WebUtils.ShowMessage(this.Page, "此账号有未完成微信支付转账或红包交易，禁止注销和批量注销!");
                             return;
                         }
