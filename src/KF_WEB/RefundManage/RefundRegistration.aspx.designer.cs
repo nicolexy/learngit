@@ -202,6 +202,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage {
         protected global::System.Web.UI.WebControls.Button btnReceiveID;
         
         /// <summary>
+        /// btnExecl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnExecl;
+        
+        /// <summary>
         /// gridInfor control.
         /// </summary>
         /// <remarks>

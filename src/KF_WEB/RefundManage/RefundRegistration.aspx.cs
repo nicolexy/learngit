@@ -7,6 +7,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using CFT.CSOMS.BLL.RefundModule;
 using Tencent.DotNet.Common.UI;
+using System.IO;
+
 namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 {
     public partial class RefundRegistration : System.Web.UI.Page
@@ -69,7 +71,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
         }
 
 
-        private void BindData()
+        private void BindData(bool bState = false)
         {
             string strBeginDate = null;
             string strEndDate   = null;
@@ -125,16 +127,49 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     dr["FAmtEx"] = RefundPublicFun.FenToYuan(dr["FAmt"].ToString());
                     dr["FReturnAmtEx"] = RefundPublicFun.FenToYuan(dr["FReturnAmt"].ToString());
                 }
-                gridInfor.DataSource = ds.Tables[0].DefaultView;
-                gridInfor.DataBind();
+
+                if (bState)
+                {
+                    StringWriter sw = new StringWriter();
+                    string excelHeader = gridInfor.Columns[0].HeaderText;
+                    for (int i = 1; i < gridInfor.Columns.Count - 1; i++)
+                    {
+                        excelHeader += "\t" + gridInfor.Columns[i].HeaderText;
+                    }
+                    sw.WriteLine(excelHeader);
+
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        sw.WriteLine("=\"" + dr["FpayListid"].ToString() + "\"\t=\"" + dr["FReturnstate"].ToString() + "\"\t=\"" + dr["FAmtEx"]
+                            + "\"\t" + dr["FReturnAmtEx"] + "\t=\"" + dr["FcreateTime"] + "\"\t=\""
+                            + dr["FUserEmail"] + "\"\t=\"" + dr["FbankListid"] + "\"\t=\"" +
+                            dr["FstateEx"] + "\"\t=\"" + dr["FbankTypeName"] + "\"");
+
+                    }
+                    sw.Close();
+                    string strFile = string.Format("异常退款{0}", DateTime.Now.ToString("yyyyMMddHHmmss"));
+                    Response.AddHeader("Content-Disposition", "attachment; filename=" + strFile+".xls");
+                    Response.ContentType = "application/ms-excel";
+                    Response.ContentEncoding = System.Text.Encoding.GetEncoding("GB2312");
+                    Response.Write(sw);
+                    Response.End();
+                }
+                else
+                {
+                    gridInfor.DataSource = ds.Tables[0].DefaultView;
+                    gridInfor.DataBind();
+                }
+
             }
             else
             {
-                WebUtils.ShowMessage(this, "没有查到匹配的数据。");
-                gridInfor.DataSource = null;
-                gridInfor.DataBind();
-            }
-            
+
+                    WebUtils.ShowMessage(this, "没有查到匹配的数据。");
+                    gridInfor.DataSource = null;
+                    gridInfor.DataBind();
+
+
+            }     
         }
         //查询
         protected void OnBtnCheck_Click(object sender, EventArgs e)
@@ -188,7 +223,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             //Response.Redirect("BankEmailManage.aspx");
             Response.Write("<script>window.open('BankEmailManage.aspx" + "','_blank')</script>");
         }
-
+        //导出execl
+        protected void OnBtnExecl_Click(object sender, EventArgs e)
+        {
+            BindData(true);
+        }
         protected void OnCheckBox_CheckedSelect(object sender, System.EventArgs e)
         {
             

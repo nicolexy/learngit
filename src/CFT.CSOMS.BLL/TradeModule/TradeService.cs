@@ -617,6 +617,15 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             return (new TradeData()).QueryPaymentParty(listid, state, qry_type, uin);
         }
+        public int QueryWXUnfinishedTrade(string open_id)
+        {
+            return (new TradeData()).QueryWXUnfinishedTrade(open_id);
+        }
+
+        public DataSet GetUnfinishedMobileQHB(string uin)
+        {
+            return (new TradeData()).GetUnfinishedMobileQHB(uin);
+        }
         #endregion
     }
 }
