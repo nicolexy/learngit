@@ -3020,6 +3020,7 @@
     <Content Include="InternetBank\RefundQuery.aspx" />
     <Content Include="InternetBank\MermberDiscount.aspx" />
     <Content Include="InternetBank\TurnoverQuery.aspx" />
+    <Content Include="js\airportCity.js" />
     <Content Include="js\common.js" />
     <Content Include="Left.aspx">
       <SubType>Form</SubType>

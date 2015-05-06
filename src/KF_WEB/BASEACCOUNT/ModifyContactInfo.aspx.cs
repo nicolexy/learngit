@@ -106,7 +106,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 this.standbya1.Text = dr["standbya1"].ToString();
                 this.tele1.Text = dr["tele1"].ToString();
                 ViewState["email1"] = dr["email1"].ToString();
-                this.mobile1.Text = dr["mobile1"].ToString();
+            //    this.mobile1.Text = dr["mobile1"].ToString();
 
                 this.name2.Text = dr["name2"].ToString();
                 this.tele2.Text = dr["tele2"].ToString();
@@ -158,7 +158,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 spContact.name1 = this.name1.Text.Trim();
                 spContact.standbya1 = this.standbya1.Text.Trim();
                 spContact.tele1 = this.tele1.Text.Trim();
-                spContact.mobile1 = this.mobile1.Text.Trim();
+               // spContact.mobile1 = this.mobile1.Text.Trim();
                 spContact.email1 = ViewState["email1"].ToString();
 
                 spContact.name2 = this.name2.Text.Trim();
@@ -210,7 +210,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             this.name1.Text = "";
             this.standbya1.Text = "";
             this.tele1.Text = "";
-            this.mobile1.Text = "";
+            //this.mobile1.Text = "";
 
             this.name2.Text = "";
             this.tele2.Text = "";

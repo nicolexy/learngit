@@ -121,24 +121,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
         protected global::System.Web.UI.WebControls.TextBox tele1;
         
         /// <summary>
-        /// Label4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label4;
-        
-        /// <summary>
-        /// mobile1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox mobile1;
-        
-        /// <summary>
         /// Label9 control.
         /// </summary>
         /// <remarks>
