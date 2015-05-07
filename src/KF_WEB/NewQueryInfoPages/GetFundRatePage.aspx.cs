@@ -183,6 +183,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 WebUtils.ShowMessage(this.Page, "查询理财通余额失败！" + eSys.Message.ToString());
             }
         }
+        /// <summary>
+        /// 理财通余额强赎
+        /// </summary>
+        private void LCTFundApply() 
+        {
+            try
+            {
+                int Balance = classLibrary.setConfig.YuanToFen(Convert.ToDouble(lbLCTBalance.Text.Replace("元", "")));
+                if (Balance > 0)
+                {
+                    string param = "opertype=1&LCTFund=true&uin=" + ViewState["uin"].ToString() + //财付通账号
+                                    "&total_fee=" + classLibrary.setConfig.YuanToFen(Convert.ToDouble(lbLCTBalance.Text.Replace("元", ""))) +//提现金额(分)
+                                    //"&fund_code=" + ViewState["fundcode"] +        //基金编码
+                                    "&bind_serialno=" + ViewState["bind_serialno"] +    //安全卡绑定序列号
+                                    "&bank_type=" + ViewState["bank_type"] +        //安全卡银行类型
+                                    "&card_tail=" + ViewState["card_tail"];        //卡尾号
+                    btnLCTFundApply.OnClientClick = "window.open('GetFundRatePageDetail.aspx?" + param + "'); return false;";
+                    btnLCTFundApply.Visible = true;
+                }
+            }
+            catch (Exception e)
+            {
+                WebUtils.ShowMessage(this, "理财通余额强赎：" + e.Message);
+            }
+        }
 
         protected void btnQuery_Click(object sender, EventArgs e)
         {
@@ -190,6 +215,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             {
                 FetchInput();
                 BindAllData();
+                LCTFundApply();
                 this.tableLCTBalanceRoll.Visible = false;
                 this.tableQueryResult.Visible = false;
                 this.tableBankRollList.Visible = false;
