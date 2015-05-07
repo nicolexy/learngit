@@ -2494,7 +2494,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                     {
                         continue;
                     }
-
+                    if (!ht.Contains(strlist2[0].Trim()))
                     ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
                 }
 
