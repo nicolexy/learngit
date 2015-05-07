@@ -10,6 +10,8 @@ using CFT.CSOMS.DAL.CFTAccount;
 using CommLib;
 using System.Configuration;
 
+using CFT.Apollo.Logging;
+
 namespace CFT.CSOMS.DAL.TradeModule
 {
     public class TradeData
@@ -441,39 +443,66 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// <returns></returns>
         public int QueryWXUnfinishedTrade(string pay_openid)
         {
+            int num = 0;
             string relayIP = Apollo.Common.Configuration.AppSettings.Get<string>("Relay_IP", "172.27.31.177");
             int relayPort = Apollo.Common.Configuration.AppSettings.Get<int>("Relay_PORT", 22000);
             string RequestType = "100222";//转账的
             string open_id = pay_openid.Trim();
             string RequestText = "pay_openid="+open_id;
-            string answer = RelayAccessFactory.RelayInvoke(RequestText, RequestType,true, false, relayIP, relayPort, "");
-            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
-
-            string Msg;
-            DataSet ds = CommQuery.ParseRelayStr(answer, out Msg, true);
-            if (Msg != "")
+            try
             {
-                throw new Exception(Msg);
+                string answer = RelayAccessFactory.RelayInvoke(RequestText, RequestType, true, false, relayIP, relayPort, "");
+                answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
+                string Msg;
+                DataSet ds = CommQuery.ParseRelayStr(answer, out Msg, true);
+                if (Msg != "")
+                {
+                    LogHelper.LogError(Msg);
+                    throw new Exception(Msg);
+                }
+                if (ds.Tables[0].Columns.Contains("num"))
+                {
+                    num = int.Parse(ds.Tables[0].Rows[0]["num"].ToString());
+                }
+                else
+                {
+                    LogHelper.LogError("查询微信转账条目返回结果不正确!");
+                    throw new Exception("查询微信转账条目返回结果不正确!");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                LogHelper.LogError("查询微信转账条目异常:" + ex.Message);
+                throw new Exception("查询微信转账条目异常:" + ex.Message);
             }
             try
             {
-                int num = int.Parse(ds.Tables[0].Rows[0]["num"].ToString());
-
+                RequestText = "uin=" + open_id;
+                string Msg2 = "";
                 //红包的
-                answer = RelayAccessFactory.RelayInvoke(RequestText, "100038", true, false, relayIP, relayPort, "");
-                answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
-                ds = CommQuery.ParseRelayStr(answer, out Msg, true);
-                if (Msg != "")
+                string stranswer = RelayAccessFactory.RelayInvoke(RequestText, "100038", true, false, relayIP, relayPort, "");
+                stranswer= System.Web.HttpUtility.UrlDecode(stranswer, System.Text.Encoding.GetEncoding("GB2312"));
+                DataSet ds2 = CommQuery.ParseRelayStr(stranswer, out Msg2, true);
+                if (Msg2 != "")
                 {
-                    throw new Exception(Msg);
+                    LogHelper.LogError(Msg2);
+                    throw new Exception(Msg2);
                 }
-                num += int.Parse(ds.Tables[0].Rows[0]["num"].ToString());
-
+                if (ds2.Tables[0].Columns.Contains("num"))
+                {
+                    num += int.Parse(ds2.Tables[0].Rows[0]["num"].ToString());
+                }
+                else
+                {
+                    LogHelper.LogError("微信红包未完成交易查询返回结果有误!");
+                    throw new Exception("微信红包未完成交易查询返回结果有误!");
+                }
                 return num;
             }
             catch (System.Exception ex)
             {
-                throw new Exception("微信支付在途条目查询失败:"+ex.Message);
+                LogHelper.LogError("微信红包在途条目查询失败:" + ex.Message);
+                throw new Exception("微信红包在途条目查询失败:"+ex.Message);
             }
             
         }
@@ -483,8 +512,8 @@ namespace CFT.CSOMS.DAL.TradeModule
             string RequestText = "uin=" + uin;
             RequestText += "&snd_sate=1,3&offset=0&limit=1";
 
-            var relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("HandQ_Payment_RelayIP", "10.12.196.195");
-            var relayPORT = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("HandQ_Payment_RelayPort", 22000);
+            var relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("HandQHBIP", "10.238.13.244");
+            var relayPORT = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("HandQHBPort", 22000);
             string answer = RelayAccessFactory.RelayInvoke(RequestText, "100578", true, false, relayIP, relayPORT, "");
             answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
             string Msg = "";
