@@ -52,18 +52,20 @@
 							<table height="100%" cellSpacing="0" cellPadding="1" width="100%" border="0">
 								<tr>
 									<td width="19%">&nbsp;</td>
-									<td width="78%"><FONT face="宋体">输入销户帐号:&nbsp;<asp:textbox id="TextBox1_QQID" runat="server" BorderStyle="Solid" BorderWidth="1px"></asp:textbox>&nbsp;&nbsp;&nbsp;&nbsp;
-											<asp:requiredfieldvalidator id="RequiredFieldValidator1" runat="server" Display="Dynamic" ErrorMessage="RequiredFieldValidator"
-												Width="117px" ControlToValidate="TextBox1_QQID">请输入帐号</asp:requiredfieldvalidator></FONT></td>
+									<td width="78%"><FONT face="宋体">输入销户帐号(财付通、手Q):<asp:textbox id="TextBox1_QQID" runat="server" BorderStyle="Solid" BorderWidth="1px"></asp:textbox>&nbsp;&nbsp;&nbsp;&nbsp;
+											<asp:Label ID="ValidateID" runat="Server"></asp:Label></FONT></td>
 									<TD width="3%">&nbsp;</TD>
 								</tr>
+                                    <td width="19%">&nbsp;</td>
+									<td width="78%"><FONT face="宋体">输入销户帐号(微信账号):<asp:textbox id="TextBox2_WX" runat="server" BorderStyle="Solid" BorderWidth="1px"></asp:textbox>&nbsp;&nbsp;&nbsp;&nbsp;
+											</FONT></td>
+									<TD width="3%">&nbsp;</TD>
 								<TR>
 									<TD width="19%"></TD>
 									<TD width="78%"><FONT face="宋体">再次确认帐号:
 											<asp:textbox id="txbConfirmQ" runat="server" BorderStyle="Solid" BorderWidth="1px"></asp:textbox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 											<asp:requiredfieldvalidator id="Requiredfieldvalidator2" runat="server" Display="Dynamic" ErrorMessage="RequiredFieldValidator"
-												Width="77px" ControlToValidate="txbConfirmQ">请输入帐号</asp:requiredfieldvalidator><asp:comparevalidator id="CompareValidator1" runat="server" ErrorMessage="CompareValidator" ControlToValidate="txbConfirmQ"
-												ControlToCompare="TextBox1_QQID">两次输入号码不一致</asp:comparevalidator></FONT></TD>
+												Width="77px" ControlToValidate="txbConfirmQ">请输入帐号</asp:requiredfieldvalidator><asp:Label ID="labelConfirm" runat="Server"></asp:Label></FONT></TD>
 									<TD width="3%"></TD>
 								</TR>
 								<TR>

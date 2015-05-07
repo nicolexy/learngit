@@ -26,6 +26,7 @@ using System.Configuration;
 using CFT.CSOMS.BLL.TradeModule;
 using System.Text.RegularExpressions;
 using CFT.Apollo.Logging;
+using CFT.CSOMS.COMMLIB;
 
 
 namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
@@ -115,10 +116,45 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 		{
             // qs1.ClosedBalancePaid(this.TextBox1_QQID.Text.Trim());//测试用关闭余额支付功能，为了查询及打开
 			string qqid   = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceSqlStr(this.TextBox1_QQID.Text);
+            string wxid = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceSqlStr(this.TextBox2_WX.Text);
 			string reason = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceSqlStr(this.txtReason.Text);
             bool emailCheck = EmailCheckBox.Checked;
             string emailAddr = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceSqlStr(this.txtEmail.Text);
 
+            int wxFlag = 0;//是否是微信账号
+            if (string.IsNullOrEmpty(TextBox1_QQID.Text) && string.IsNullOrEmpty(TextBox2_WX.Text))
+            {
+                ValidateID.ForeColor = Color.Red;
+                ValidateID.Text = "请输入手Q账号或下方微信号";
+                return;
+            }
+            if (!string.IsNullOrEmpty(TextBox1_QQID.Text) && !string.IsNullOrEmpty(TextBox2_WX.Text))
+            {
+                ValidateID.ForeColor = Color.Red;
+                ValidateID.Text = "不能同时输入手Q账号和微信账号!!!";
+                return;
+            }
+            string wxUIN = "";
+            string wxHBUIN = "";
+            if (string.IsNullOrEmpty(TextBox1_QQID.Text))
+            {
+                if (TextBox2_WX.Text != txbConfirmQ.Text)
+                {
+                    ValidateID.ForeColor = Color.Red;
+                    ValidateID.Text = "两次输入的账号不相同，请重新输入!!!";
+                    return;
+                }
+                wxFlag = 1;
+                wxUIN = WeChatHelper.GetUINFromWeChatName(TextBox2_WX.Text);
+                wxHBUIN = WeChatHelper.GetHBUINFromWeChatName(TextBox2_WX.Text);
+                qqid = wxUIN;
+            }
+            else if (TextBox1_QQID.Text != txbConfirmQ.Text)
+            {
+                ValidateID.ForeColor = Color.Red;
+                ValidateID.Text = "两次输入的账号不相同，请重新输入!!!";
+                return;
+            }
             if (emailCheck && TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.CheckEmail(emailAddr))
             {
                 WebUtils.ShowMessage(this.Page, "请输入正确格式的用户邮箱地址");
@@ -146,6 +182,10 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 				Param[] myParams = new Param[4];
 
 				string fqqid = this.txbConfirmQ.Text.Trim();
+                if (wxFlag == 1)
+                {
+                    fqqid = wxUIN;
+                }
 				myParams[0] = new Param();
 				myParams[0].ParamName = "fqqid";
 				myParams[0].ParamValue = fqqid;
@@ -209,11 +249,11 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 }
 
                 //有微信支付、转账、红包未完成的禁止注销和批量注销
-                if (qqid.Contains("@wx.tenpay.com"))
+                if (wxFlag == 1)
                 {
                     try
                     {
-                        int WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(qqid);
+                        int WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(TextBox2_WX.Text);
                         if (WXUnfinishedTrade > 0)
                         {
                             LogHelper.LogInfo("此账号有未完成微信支付转账或红包交易，禁止注销和批量注销!");
@@ -225,6 +265,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     {
                         LogHelper.LogError("销户操作查询微信支付在途条目出错" + ex.Message);
                         WebUtils.ShowMessage(this.Page, "销户操作查询微信支付在途条目出错" + ex.Message);
+                        return;
                     }
                 }
                 //是否有未完成的交易单
