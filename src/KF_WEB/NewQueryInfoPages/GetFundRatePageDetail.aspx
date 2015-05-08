@@ -14,8 +14,9 @@
 		</style>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
-		<form id="Form1" method="post" runat="server">
-			<TABLE id="tableCloseInput" runat="server" style="LEFT: 5%; POSITION:relative;top:50px;" cellSpacing="1" cellPadding="1" width="800"
+		<form id="Form1" method="post" runat="server" >
+            <div style="width:800px; margin:0 auto; " >
+			<TABLE id="tableCloseInput" runat="server" style=" " cellSpacing="1" cellPadding="1" width="800" visible="false"
 				border="0">
                 <TR>
                     <TD align="right"><asp:label id="lb" runat="server">截止日志：</asp:label></TD>
@@ -29,7 +30,7 @@
                      <TD align="center"><asp:button id="BtnCreateApplyClose" runat="server" Width="80px" Text="生成申请单" onclick="btnCreateApplyClose_Click"></asp:button></TD>
 				</TR>
 			</TABLE>
-			<TABLE id="tableCloseApply" runat="server" style="LEFT: 5%; POSITION:relative;top:80px;" cellSpacing="1" cellPadding="1" width="800"
+			<TABLE id="tableCloseApply" runat="server" style=" " cellSpacing="1" cellPadding="1" width="800" visible="false"
 				border="1">
                 <tr><th colspan="4">基金强赎申请表</th></tr>
                  <TR>
@@ -130,7 +131,7 @@
                      <TD align="center" colspan="2"><asp:button id="btnCreateApplyUNClose" runat="server" Width="80px" Text="生成申请单" onclick="btnCreateApplyUNClose_Click"></asp:button></TD>
 			 </TR>
 			</TABLE>--%>
-            	<TABLE id="tableUNCloseApply" runat="server" style="LEFT: 5%; POSITION:relative;top:80px;" cellSpacing="1" cellPadding="1" width="800"
+            <TABLE id="tableUNCloseApply" runat="server" style=" " cellSpacing="1" cellPadding="1" width="800" visible="false"
 				border="1">
                 <tr><th colspan="4">基金强赎申请表</th></tr>
                  <TR>
@@ -167,6 +168,65 @@
                    <TD align="center" colspan="4"><asp:button id="btnSubmitUNClose" runat="server" Width="200px" Text="确认无误后，提交申请" onclick="btnSubmitUNCloseApply_Click"></asp:button></TD>
 			</TR>
 			</TABLE>
+
+            <TABLE id="tbLCTinput" runat="server" style=" " cellSpacing="1" cellPadding="1" width="800" visible="false"
+				border="0">
+                <TR>
+                     <TD align="right"><asp:label id="Label25" runat="server">描述：</asp:label></TD>
+                    <td style="HEIGHT: 23px"  >&nbsp;<FONT face="宋体"> </FONT>
+                        <asp:textbox id="txtLCTDescription" runat="server"></asp:textbox>&nbsp;<SPAN class="style5"><Font color="red"></Font></SPAN>
+					</td>
+
+                    <TD align="right"><asp:label id="Label18" runat="server">基金公司凭证：</asp:label></TD>
+                    <td style="HEIGHT: 23px"  >&nbsp;<FONT face="宋体"> </FONT><INPUT id="FileLCT" style="WIDTH: 241px; HEIGHT: 21px" type="file" size="21" name="FileLCT"
+							runat="server">&nbsp;<SPAN class="style5"><Font color="red"></Font></SPAN>
+					</td>
+                </TR>
+                 <TR>
+                     <TD align="center" colspan="2"><asp:button id="btnCreateLCTFund" runat="server" Width="80px" Text="生成申请单" onclick="btnCreateLCTFund_Click"></asp:button></TD>
+				</TR>
+			</TABLE>
+            <TABLE id="tbLCT" runat="server" style=" " cellSpacing="1" cellPadding="1" width="800" visible="false"
+				border="1">
+                <tr><th colspan="4">理财通余额强赎</th></tr>
+                 <TR>
+                    <TD align="right"><asp:label id="Label4" runat="server">理财通账号：</asp:label></TD>
+                     <TD><asp:label id="lblLCT_uin" runat="server"></asp:label></TD>
+                     <TD align="right"><asp:label id="Label8" runat="server">账户类型：</asp:label></TD>
+                     <TD><asp:label id="Label10" runat="server">微信用户</asp:label></TD>
+				</TR>
+                 <TR>
+                    <TD align="right"><asp:label id="Label22" runat="server">提现金额(分)：</asp:label></TD>
+                     <TD><asp:label id="lblLCT_total_fee" runat="server"></asp:label></TD>
+                     <TD align="right"> <asp:label id="Label44" runat="server">Client IP：</asp:label></TD>
+                     <TD><asp:label id="lblLCTclient_ip" runat="server"></asp:label></TD>
+				</TR>
+                  <TR>
+                    <TD align="right"><asp:label id="Label6" runat="server">安全卡绑定序列号：</asp:label></TD>
+                     <TD><asp:label id="lblLCT_bind_serialno" runat="server"></asp:label></TD>
+                     <TD align="right"><asp:label id="Label14" runat="server">安全卡银行类型：</asp:label></TD>
+                     <TD><asp:label id="lblLCT_bank_type" runat="server"></asp:label></TD>
+				</TR>
+
+                  <TR>
+                    <TD align="right"><asp:label id="Label12" runat="server">卡尾号：</asp:label></TD>
+                     <TD><asp:label id="lblLCT_card_tail" runat="server"></asp:label></TD>
+                     <TD align="right"><asp:label id="Label16" runat="server">描述：</asp:label></TD>
+                     <TD><asp:label id="lblLCTDescription" runat="server"></asp:label></TD>
+				</TR> 
+                 <TR>
+                    <TD align="left" colspan="4"><asp:label id="Label43" runat="server"><font color="red">基金公司凭证：</font></asp:label></TD>
+				</TR>
+               <tr>
+					<td colspan="4" style="PADDING-BOTTOM: 3px; PADDING-LEFT: 3px; PADDING-RIGHT: 3px; PADDING-TOP: 3px"
+									height="20" align="center"> <asp:Image id="imgLCT"   runat="server" />
+                    </td>
+			</tr>
+             <TR>
+                   <TD align="center" colspan="4"><asp:button id="btnLCTFund" runat="server" Width="200px" Text="确认无误后，提交申请" onclick="btnLCTFundApply_Click"></asp:button></TD>
+			</TR>
+			</TABLE>
+         </div>   	
 		</form>
 	</body>
 </HTML>

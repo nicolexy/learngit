@@ -107,6 +107,8 @@
                         <td align="left">
                             理财通余额：
                             <asp:Label ID="lbLCTBalance" runat="server"></asp:Label>
+                             &nbsp;&nbsp;
+                            <asp:Button ID="btnLCTFundApply" runat="server" Width="80px" Visible="false" Text="强 赎" />
                         </td>
                         <td align="left" colspan="3">
                             <asp:Button ID="btnBalanceQuery" runat="server" Width="250px" Text="资金流水查询" OnClick="btnBalanceQuery_Click">

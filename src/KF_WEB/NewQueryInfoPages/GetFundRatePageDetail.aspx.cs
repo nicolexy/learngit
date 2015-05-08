@@ -22,6 +22,7 @@ using CFT.CSOMS.BLL.SysManageModule;
 using System.IO;
 using CFT.CSOMS.DAL.CheckModoule;
 using CFT.CSOMS.COMMLIB;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 {
@@ -48,7 +49,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                         if (opertype == "1")//客服系统提交审批
                         {
-                            #region
+                            #region 理财通余额强赎
+                            if (Request.QueryString["LCTFund"] == "true"
+                                && Request.QueryString["uin"].Trim() != ""
+                                && Request.QueryString["total_fee"].Trim() != "")
+                            {
+                                ViewState["uin"] = Request.QueryString["uin"].Trim();              //财付通账号
+                                ViewState["total_fee"] = Request.QueryString["total_fee"].Trim();  //提现金额(分)
+                                ViewState["bind_serialno"] = Request.QueryString["bind_serialno"].Trim();  //安全卡绑定序列号
+                                ViewState["bank_type"] = Request.QueryString["bank_type"].Trim();          //安全卡银行类型
+                                ViewState["card_tail"] = Request.QueryString["card_tail"].Trim();          //卡尾号
+
+                                tbLCT.Visible = false;
+                                tbLCTinput.Visible = true;
+                                return;
+                            }
+
+                            #endregion
+
+                            #region 封闭基金和非封闭基金
                             if (!string.IsNullOrEmpty(Request.QueryString["close_flag"]) &&
                                 !string.IsNullOrEmpty(Request.QueryString["uin"]) &&
                                 !string.IsNullOrEmpty(Request.QueryString["spid"]) &&
@@ -140,6 +159,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                                     bindCloseApply(objid);
                                 if (Request.QueryString["close_flag"].ToString() == "1")//不封闭
                                     bindUNCloseApply(objid);
+                                if (Request.QueryString["LCTFund"].ToString() == "true") //理财通余额强赎 
+                                {
+                                    bindLCTFundApply(objid);
+                                }
                             }
                         }
                     }
@@ -458,6 +481,157 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             catch (Exception eSys)
             {
                 WebUtils.ShowMessage(this.Page, "提交申请单失败：" + eSys.Message.ToString());
+                return;
+            }
+        }
+        /// <summary>
+        /// 理财通余额强赎提交
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnLCTFundApply_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string objid = System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.StaticNoManage();
+                string ReturnUrl = "http://kf.cf.com/NewQueryInfoPages/GetFundRatePageDetail.aspx?opertype=0&LCTFund=true&close_flag=&objid=" + objid;
+                //#if Debug
+                //ReturnUrl = "http://localhost:52584/NewQueryInfoPages/GetFundRatePageDetail.aspx?opertype=0&LCTFund=true&close_flag=&objid=" + objid;
+                //#endif
+
+                Hashtable ht = new Hashtable();
+
+                string[,] param = new string[,] {   
+                                { "uin", ViewState["uin"].ToString() }, 
+                                { "total_fee", ViewState["total_fee"].ToString() }, 
+                                //{ "fund_code", ViewState["fund_code"].ToString() }, 
+                                { "bind_serialno", ViewState["bind_serialno"].ToString() }, 
+                                { "bank_type", ViewState["bank_type"].ToString() }, 
+                                { "card_tail", ViewState["card_tail"].ToString() }, 
+                                { "Description",lblLCTDescription.Text.Trim() },
+                                { "client_ip", lblLCTclient_ip.Text },
+
+                                { "ImageUrl",ViewState["imgUrlLCT"].ToString().Trim() },
+                                { "operator",Session["uid"].ToString() },
+                                { "ReturnUrl",ReturnUrl},
+                              };
+
+                Check_WebService.Param[] pa = PublicRes.ToParamArray(param);
+                string memo = "LCTFund:true"
+                             + "|uin:" + ViewState["uin"].ToString()
+                             + "|total_fee:" + ViewState["total_fee"].ToString()
+                             //+ "|fund_code:" + ViewState["fund_code"].ToString()
+                             + "|bind_serialno:" + ViewState["bind_serialno"].ToString()
+                             + "|bank_type:" + ViewState["bank_type"].ToString()
+                             + "|card_tail:" + ViewState["card_tail"].ToString()
+                             + "|Description:" + lblLCTDescription.Text.Trim();
+                SunLibrary.LoggerFactory.Get("GetFundRatePageDetail").Info(memo);
+                string levelVelue = classLibrary.setConfig.FenToYuan(Convert.ToDouble(ViewState["total_fee"].ToString()));
+                levelVelue = levelVelue.Replace("元", "");
+                try
+                {
+                    PublicRes.CreateCheckService(this).StartCheck(objid, "LCTBalanceRedeem", memo, levelVelue, pa);
+                }
+                catch (Exception err) 
+                {
+                    if (err.Message.Contains("该财付通账号已经有待审批的理财通余额强赎"))
+                    {
+                        this.ShowMsg("该财付通账号已经有待审批的理财通余额强赎！");
+                    }
+                    else 
+                    {
+                        throw err;
+                    }
+                }
+                this.ShowMsg("已提交，请等待审批！");
+
+            }
+            catch (SoapException eSoap) //捕获soap类异常
+            {
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, "提交申请单失败：" + eSys.Message.ToString());
+                return;
+            }
+        }
+        /// <summary>
+        /// 理财通余额枪赎产生申请单
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnCreateLCTFund_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string imgUrlLCT = "";
+                try
+                {
+                    imgUrlLCT = PublicRes.upImage(FileLCT, "RedemptionFund");
+                }
+                catch 
+                {
+                    imgUrlLCT = "";
+                }
+
+                lblLCT_uin.Text = ViewState["uin"].ToString();
+                lblLCT_total_fee.Text = ViewState["total_fee"].ToString();
+                //lblLCT_fund_code.Text = ViewState["fund_code"].ToString();
+                lblLCT_bind_serialno.Text = ViewState["bind_serialno"].ToString();
+                lblLCT_bank_type.Text = ViewState["bank_type"].ToString();
+                lblLCT_card_tail.Text = ViewState["card_tail"].ToString();
+                lblLCTDescription.Text = txtLCTDescription.Text;
+                string ip = Request.UserHostAddress.ToString();
+                if (ip == "::1")
+                    ip = "127.0.0.1";
+                lblLCTclient_ip.Text = ip;
+                this.imgLCT.ImageUrl = "/" + imgUrlLCT;//为了提交申请时在客服系统能看图片，此时浏览图片取的是客服系统保存的图片。
+                ViewState["imgUrlLCT"] = System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString() + "/" + imgUrlLCT;
+                //#if Debug
+                //ViewState["imgUrlLCT"] = "/" + imgUrlLCT;
+                //#endif
+                this.tbLCT.Visible = true;
+            }
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, "生成申请单失败！" + eSys.Message.ToString());
+                return;
+            }
+        }
+        /// <summary>
+        /// 理财通余额强赎账务系统查看
+        /// </summary>
+        /// <param name="objid"></param>
+        private void bindLCTFundApply(string objid) 
+        {
+            try
+            {
+                DataTable dt = checkService.GetCheckInfo(objid, "LCTBalanceRedeem");
+                if (dt != null && dt.Rows.Count != 0)
+                {
+                    lblLCT_uin.Text = dt.Rows[0]["uin"].ToString();
+                    lblLCT_total_fee.Text = dt.Rows[0]["total_fee"].ToString();
+                    //lblLCT_fund_code.Text = dt.Rows[0]["fund_code"].ToString();
+                    lblLCT_bind_serialno.Text = dt.Rows[0]["bind_serialno"].ToString();
+                    lblLCT_bank_type.Text = dt.Rows[0]["bank_type"].ToString();
+                    lblLCT_card_tail.Text = dt.Rows[0]["card_tail"].ToString();
+                    lblLCTclient_ip.Text = dt.Rows[0]["client_ip"].ToString();
+                    lblLCTDescription.Text = dt.Rows[0]["Description"].ToString();
+                    this.imgLCT.ImageUrl = dt.Rows[0]["ImageUrl"].ToString();
+                    tbLCT.Visible = true;
+                    tbLCTinput.Visible = false;
+                }
+                else
+                {
+                    WebUtils.ShowMessage(this.Page, "查询出错！");
+                    return;
+                }
+            }
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, "申请单查询失败！" + eSys.Message.ToString());
                 return;
             }
         }
