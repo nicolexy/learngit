@@ -180,8 +180,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
            try
             {
                 var relayResponse = RelayHelper.CommunicateWithRelay(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
-               // answer = Encoding.UTF8.GetString(relayResponse.ResponseBuffer);
-                answer = Encoding.GetEncoding("gb2312").GetString(relayResponse.ResponseBuffer);
+                answer = Encoding.UTF8.GetString(relayResponse.ResponseBuffer);
                 //记录下日志
                 string strLog = string.Format("红包详情请求串:{0},通过UTF8转义结果:{1}", requestString, answer);
                 LogHelper.LogInfo(strLog, "GetHBDetailFromRelay");
