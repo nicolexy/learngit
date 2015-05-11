@@ -484,6 +484,8 @@ namespace CFT.CSOMS.DAL.TradeModule
                 RequestText = "uin=" + wxHBUIN;
                 string Msg2 = "";
                 //红包的
+                relayIP = Apollo.Common.Configuration.AppSettings.Get<string>("RelayWXHB_IP", "10.198.17.219");
+                relayPort = Apollo.Common.Configuration.AppSettings.Get<int>("RelayWXHB_Port", 22001);
                 string stranswer = RelayAccessFactory.RelayInvoke(RequestText, "100038", false, false, relayIP, relayPort, "");
                 stranswer= System.Web.HttpUtility.UrlDecode(stranswer, System.Text.Encoding.GetEncoding("GB2312"));
                 DataSet ds2 = CommQuery.ParseRelayStr(stranswer, out Msg2, true);
@@ -514,7 +516,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         public DataSet GetUnfinishedMobileQHB(string uin)
         {
             string RequestText = "uin=" + uin;
-            RequestText += "&snd_sate=1,3&offset=0&limit=1";
+            RequestText += "&snd_sate=1,3&offset=0&limit=1&type=1";
 
             var relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("HandQHBIP", "10.238.13.244");
             var relayPORT = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("HandQHBPort", 22000);
