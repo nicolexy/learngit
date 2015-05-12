@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using Tencent.DotNet.Common.UI;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -60,15 +61,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 		{
 			this.pager.CurrentPageIndex = index;
 
-			Query_Service.Query_Service qs = new Query_Service.Query_Service();
+            //Query_Service.Query_Service qs = new Query_Service.Query_Service();
 
-			//qs.Finance_HeaderValue = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.setFH(Session["uid"].ToString(),Request.UserHostAddress);
+            ////qs.Finance_HeaderValue = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.setFH(Session["uid"].ToString(),Request.UserHostAddress);
 
-			qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
+            //qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 
-			DataSet ds = qs.GetMediListX(this.tbx_spid.Text.Trim(),this.tbx_spcoding.Text.Trim(),"","","","",
-				this.pager.PageSize * (index - 1),this.pager.PageSize);
-
+            //DataSet ds = qs.GetMediListX(this.tbx_spid.Text.Trim(),this.tbx_spcoding.Text.Trim(),"","","","",
+            //    this.pager.PageSize * (index - 1),this.pager.PageSize);
+            System.Data.DataSet ds = new TradeService().MediListQueryClass(this.tbx_spid.Text.Trim(), this.tbx_spcoding.Text.Trim(), "", "", "", "",
+                this.pager.PageSize * (index - 1), this.pager.PageSize);
 			if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
 			{
 				WebUtils.ShowMessage(this,"查询结果为空");
