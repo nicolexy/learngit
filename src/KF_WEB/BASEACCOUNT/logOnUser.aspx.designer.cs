@@ -40,13 +40,22 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount {
         protected global::System.Web.UI.WebControls.TextBox TextBox1_QQID;
         
         /// <summary>
-        /// RequiredFieldValidator1 control.
+        /// ValidateID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+        protected global::System.Web.UI.WebControls.Label ValidateID;
+        
+        /// <summary>
+        /// TextBox2_WX control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBox2_WX;
         
         /// <summary>
         /// txbConfirmQ control.
@@ -67,13 +76,13 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator2;
         
         /// <summary>
-        /// CompareValidator1 control.
+        /// labelConfirm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CompareValidator CompareValidator1;
+        protected global::System.Web.UI.WebControls.Label labelConfirm;
         
         /// <summary>
         /// txtReason control.

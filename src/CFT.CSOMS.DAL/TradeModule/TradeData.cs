@@ -11,6 +11,7 @@ using CommLib;
 using System.Configuration;
 
 using CFT.Apollo.Logging;
+using CFT.CSOMS.COMMLIB;
 
 namespace CFT.CSOMS.DAL.TradeModule
 {
@@ -441,13 +442,16 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// </summary>
         /// <param name="pay_openid"></param>
         /// <returns></returns>
-        public int QueryWXUnfinishedTrade(string pay_openid)
+        public int QueryWXUnfinishedTrade(string WeChatName)
         {
+            string wxUIN = WeChatHelper.GetUINFromWeChatName(WeChatName);
+            string wxHBUIN = WeChatHelper.GetHBUINFromWeChatName(WeChatName);
+
             int num = 0;
             string relayIP = Apollo.Common.Configuration.AppSettings.Get<string>("Relay_IP", "172.27.31.177");
             int relayPort = Apollo.Common.Configuration.AppSettings.Get<int>("Relay_PORT", 22000);
             string RequestType = "100222";//转账的
-            string open_id = pay_openid.Trim();
+            string open_id = wxUIN.Trim();
             string RequestText = "pay_openid="+open_id;
             try
             {
@@ -477,10 +481,12 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             try
             {
-                RequestText = "uin=" + open_id;
+                RequestText = "uin=" + wxHBUIN;
                 string Msg2 = "";
                 //红包的
-                string stranswer = RelayAccessFactory.RelayInvoke(RequestText, "100038", true, false, relayIP, relayPort, "");
+                relayIP = Apollo.Common.Configuration.AppSettings.Get<string>("RelayWXHB_IP", "10.198.17.219");
+                relayPort = Apollo.Common.Configuration.AppSettings.Get<int>("RelayWXHB_Port", 22001);
+                string stranswer = RelayAccessFactory.RelayInvoke(RequestText, "100038", false, false, relayIP, relayPort, "");
                 stranswer= System.Web.HttpUtility.UrlDecode(stranswer, System.Text.Encoding.GetEncoding("GB2312"));
                 DataSet ds2 = CommQuery.ParseRelayStr(stranswer, out Msg2, true);
                 if (Msg2 != "")
@@ -510,11 +516,11 @@ namespace CFT.CSOMS.DAL.TradeModule
         public DataSet GetUnfinishedMobileQHB(string uin)
         {
             string RequestText = "uin=" + uin;
-            RequestText += "&snd_sate=1,3&offset=0&limit=1";
+            RequestText += "&snd_sate=1,3&offset=0&limit=1&type=1";
 
             var relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("HandQHBIP", "10.238.13.244");
             var relayPORT = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("HandQHBPort", 22000);
-            string answer = RelayAccessFactory.RelayInvoke(RequestText, "100578", true, false, relayIP, relayPORT, "");
+            string answer = RelayAccessFactory.RelayInvoke(RequestText, "100578", false, false, relayIP, relayPORT, "");
             answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
             string Msg = "";
             DataSet ds = CommQuery.ParseRelayStr(answer, out Msg, true);

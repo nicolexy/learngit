@@ -55,6 +55,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 					//return false;
 					throw new LogicException("你已发起一个相同审批类型的审批！");
 				}
+                //理财通余额强赎，同一个财付通账号不能多次发起强赎 v_yqyqguo
+                if (strCheckType == "LCTBalanceRedeem")
+                {
+                    string uin = myParams[0].ParamValue.ToString().Trim();
+                    strSql = "select FObjID from c2c_fmdb.t_check_main where FCheckType='" + strCheckType + "' and FCheckMemo like 'LCTFund:true|uin:" + uin + "|total_fee:%'  and FNewState<3 ";
+                    string FCheckMemo = da.GetOneResult(strSql);
+                    if (!string.IsNullOrEmpty(FCheckMemo))
+                    {
+                        throw new LogicException("该财付通账号已经有待审批的理财通余额强赎！");
+                    }
+                }
 
 				strSql = "Insert c2c_fmdb.t_check_main(FObjID) values('" + strMainID + "')";
                 

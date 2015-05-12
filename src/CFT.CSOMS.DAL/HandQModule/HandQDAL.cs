@@ -36,7 +36,7 @@ namespace CFT.CSOMS.DAL.HandQModule
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["HandQHBPort"].ToString());
             string requestString = "send_listid=" + strSendList +"&type ="+type + "&offset=" + offset + "&limit=" + limit; 
             strOutMsg += requestString;
-            return RelayAccessFactory.GetHBDetailFromRelay(requestString, "100602", ip, port, true, false, relayDefaultSPId);
+            return RelayAccessFactory.GetHBDetailFromRelay(requestString, "101003", ip, port, true, false, relayDefaultSPId);
         }
     }
 }

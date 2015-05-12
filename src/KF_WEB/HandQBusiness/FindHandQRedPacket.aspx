@@ -20,7 +20,7 @@
 <body>
     <form id="formMain" runat="server">
     <div>
-        <table border="1" cellspacing="1" cellpadding="1" width="1400">
+        <table border="1" cellspacing="1" cellpadding="1" width="1100">
             <tr>
                 <td bgcolor="#e4e5f7" colspan="5">
                     <font color="red">
@@ -42,10 +42,6 @@
                      <asp:Button ID="btnQuery" runat="server" Width="80px" Text="查 询" OnClick="btnQuery_Click">
                     </asp:Button>             
                 </td>
-
-                <td align="center" class="auto-style1" >
-                   
-                </td>
             </tr>
 
         </table>
@@ -59,7 +55,7 @@
             </tr>
             <tr>
                 <td valign="top">
-                    <asp:GridView ID="gvReceiveHQList" runat="server" Width="1400px" ItemStyle-HorizontalAlign="Center"
+                    <asp:GridView ID="gvReceiveHQList" runat="server" Width="1100px" ItemStyle-HorizontalAlign="Center"
                         HeaderStyle-HorizontalAlign="Center" HorizontalAlign="Center" PageSize="5" AutoGenerateColumns="False"
                         GridLines="Horizontal" CellPadding="1" BackColor="White" BorderWidth="1px" BorderStyle="None"
                         BorderColor="#E7E7FF" OnRowCommand="gvReceiveHQList_RowCommand">
@@ -103,7 +99,7 @@
             </tr>
         </table>
         <br />
-        <table border="1" cellspacing="0" cellpadding="0" width="1400">
+        <table border="1" cellspacing="0" cellpadding="0" width="1100">
             <tr>
                 <td style="width: 100%" bgcolor="#e4e5f7" colspan="5">
                     <font color="red">
@@ -114,25 +110,28 @@
             </tr>
             <tr>
                 <td valign="top">
-                    <asp:GridView ID="gvHQRedPacketDetail" runat="server" Width="1400px" itemstyle-horizontalalign="center"
+                    <asp:GridView ID="gvHQRedPacketDetail" runat="server" Width="1100px" itemstyle-horizontalalign="center"
                         HeaderStyle-HorizontalAlign="center" HorizontalAlign="Center" PageSize="5" AutoGenerateColumns="False"
                         GridLines="Horizontal" CellPadding="1" BackColor="White" BorderWidth="1px" BorderStyle="None"
                         BorderColor="#E7E7FF">
                         <Columns>
+                            <asp:BoundField DataField="recv_listid" HeaderText="转账单号">
+                            <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
+                            </asp:BoundField>
                             <asp:BoundField DataField="create_time" HeaderText="日期">
-                            <HeaderStyle HorizontalAlign="Center" Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
+                            <HeaderStyle HorizontalAlign="Center" Width="100px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="Title" HeaderText="红包主题">
-                            <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
+                            <HeaderStyle Width="100px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="send_uin" HeaderText="发送方财付通帐号">
-                            <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
+                            <HeaderStyle Width="100px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="send_name" HeaderText="发送方昵称">
                             <HeaderStyle Width="80px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="recv_uin" HeaderText="接收方财付通帐号">
-                            <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
+                            <HeaderStyle Width="100px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="recv_name" HeaderText="接收方昵称">
                             <HeaderStyle Width="80px" /> <ItemStyle  HorizontalAlign="Center"/>
@@ -170,7 +169,7 @@
             </tr>
             <tr>
                 <td valign="top">
-                    <asp:GridView ID="gvSendHQList" runat="server" Width="1400px" itemstyle-horizontalalign="center"
+                    <asp:GridView ID="gvSendHQList" runat="server" Width="1100px" itemstyle-horizontalalign="center"
                         HeaderStyle-HorizontalAlign="center" HorizontalAlign="Center" PageSize="5" AutoGenerateColumns="False"
                         GridLines="Horizontal" CellPadding="1" BackColor="White" BorderWidth="1px" BorderStyle="None"
                         BorderColor="#E7E7FF" onrowcommand="gvSendHQList_RowCommand">
