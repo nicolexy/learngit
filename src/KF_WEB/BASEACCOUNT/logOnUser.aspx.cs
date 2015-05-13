@@ -256,8 +256,8 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                         int WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(TextBox2_WX.Text);
                         if (WXUnfinishedTrade > 0)
                         {
-                            LogHelper.LogInfo("此账号有未完成微信支付转账或红包交易，禁止注销和批量注销!");
-                            WebUtils.ShowMessage(this.Page, "此账号有未完成微信支付转账或红包交易，禁止注销和批量注销!");
+                            LogHelper.LogInfo("此账号有未完成微信支付转账，禁止注销和批量注销!");
+                            WebUtils.ShowMessage(this.Page, "此账号有未完成微信支付转账，禁止注销和批量注销!");
                             return;
                         }
                     }
