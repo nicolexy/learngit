@@ -467,6 +467,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                 if (ds.Tables[0].Columns.Contains("num"))
                 {
                     num = int.Parse(ds.Tables[0].Rows[0]["num"].ToString());
+                    return num;
                 }
                 else
                 {
@@ -479,37 +480,37 @@ namespace CFT.CSOMS.DAL.TradeModule
                 LogHelper.LogError("查询微信转账条目异常:" + ex.Message);
                 throw new Exception("查询微信转账条目异常:" + ex.Message);
             }
-            try
-            {
-                RequestText = "uin=" + wxHBUIN;
-                string Msg2 = "";
-                //红包的
-                relayIP = Apollo.Common.Configuration.AppSettings.Get<string>("RelayWXHB_IP", "10.198.17.219");
-                relayPort = Apollo.Common.Configuration.AppSettings.Get<int>("RelayWXHB_Port", 22001);
-                string stranswer = RelayAccessFactory.RelayInvoke(RequestText, "100038", false, false, relayIP, relayPort, "");
-                stranswer= System.Web.HttpUtility.UrlDecode(stranswer, System.Text.Encoding.GetEncoding("GB2312"));
-                DataSet ds2 = CommQuery.ParseRelayStr(stranswer, out Msg2, true);
-                if (Msg2 != "")
-                {
-                    LogHelper.LogError(Msg2);
-                    throw new Exception(Msg2);
-                }
-                if (ds2.Tables[0].Columns.Contains("num"))
-                {
-                    num += int.Parse(ds2.Tables[0].Rows[0]["num"].ToString());
-                }
-                else
-                {
-                    LogHelper.LogError("微信红包未完成交易查询返回结果有误!");
-                    throw new Exception("微信红包未完成交易查询返回结果有误!");
-                }
-                return num;
-            }
-            catch (System.Exception ex)
-            {
-                LogHelper.LogError("微信红包在途条目查询失败:" + ex.Message);
-                throw new Exception("微信红包在途条目查询失败:"+ex.Message);
-            }
+            //try
+            //{
+            //    RequestText = "uin=" + wxHBUIN;
+            //    string Msg2 = "";
+            //    //红包的
+            //    relayIP = Apollo.Common.Configuration.AppSettings.Get<string>("RelayWXHB_IP", "10.198.17.219");
+            //    relayPort = Apollo.Common.Configuration.AppSettings.Get<int>("RelayWXHB_Port", 22001);
+            //    string stranswer = RelayAccessFactory.RelayInvoke(RequestText, "100038", false, false, relayIP, relayPort, "");
+            //    stranswer= System.Web.HttpUtility.UrlDecode(stranswer, System.Text.Encoding.GetEncoding("GB2312"));
+            //    DataSet ds2 = CommQuery.ParseRelayStr(stranswer, out Msg2, true);
+            //    if (Msg2 != "")
+            //    {
+            //        LogHelper.LogError(Msg2);
+            //        throw new Exception(Msg2);
+            //    }
+            //    if (ds2.Tables[0].Columns.Contains("num"))
+            //    {
+            //        num += int.Parse(ds2.Tables[0].Rows[0]["num"].ToString());
+            //    }
+            //    else
+            //    {
+            //        LogHelper.LogError("微信红包未完成交易查询返回结果有误!");
+            //        throw new Exception("微信红包未完成交易查询返回结果有误!");
+            //    }
+            //    return num;
+            //}
+            //catch (System.Exception ex)
+            //{
+            //    LogHelper.LogError("微信红包在途条目查询失败:" + ex.Message);
+            //    throw new Exception("微信红包在途条目查询失败:"+ex.Message);
+            //}
             
         }
 
