@@ -2620,6 +2620,10 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                     {
                         dt.Columns.Add("channel", typeof(string));
                     }
+                    if (!dt.Columns.Contains("recv_listid"))
+                    {
+                        dt.Columns.Add("recv_listid", typeof(string));
+                    }
 
 
                     dt.Rows.Add(row);
