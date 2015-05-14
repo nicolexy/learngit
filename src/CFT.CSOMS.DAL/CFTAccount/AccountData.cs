@@ -31,8 +31,8 @@ namespace CFT.CSOMS.DAL.CFTAccount
         public DataSet QueryUserAuthenByCredid(string cre_type, string cre_id, string opera)
         {
             string inmsg = "cre_type=1&cre_id=" + cre_id + "&operator=" + opera;
-            string ip = System.Configuration.ConfigurationManager.AppSettings["DisableUserAuthenIP"].ToString();
-            int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["DisableUserAuthenPort"].ToString());
+            string ip = System.Configuration.ConfigurationManager.AppSettings["Relay_IP"].ToString();
+            int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["Relay_PORT"].ToString());
             return RelayAccessFactory.GetDSFromRelay(inmsg, "100996", ip, port,true);
         }
 
@@ -47,8 +47,8 @@ namespace CFT.CSOMS.DAL.CFTAccount
         public Boolean DisableUserAuthenInfo(string cre_type, string cre_id, string opera, string memo)
         {
             string inmsg = "cre_type=" + cre_type + "&cre_id=" + cre_id + "&operator=" + opera + "&memo="+memo;
-            string ip = System.Configuration.ConfigurationManager.AppSettings["DisableUserAuthenIP"].ToString();
-            int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["DisableUserAuthenPort"].ToString());
+            string ip = System.Configuration.ConfigurationManager.AppSettings["Relay_IP"].ToString();
+            int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["Relay_PORT"].ToString());
             string Msg = "";
             string answer = RelayAccessFactory.RelayInvoke(inmsg, "100997", true, false, ip, port);
             if (answer.IndexOf("result=0") > -1)
