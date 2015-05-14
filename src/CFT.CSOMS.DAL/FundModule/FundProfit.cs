@@ -10,6 +10,25 @@ namespace CFT.CSOMS.DAL.FundModule
 
     public class FundProfit
     {
+        //查询指数型基金（目前只有易方达沪深300基金）的每日单位净值和日涨跌字段
+        public DataTable QueryFundProfitRate(string spid, string fund_code, string date)
+        {
+            if (string.IsNullOrEmpty(spid))
+                throw new ArgumentNullException("spid");
+            if (string.IsNullOrEmpty(fund_code))
+                throw new ArgumentNullException("fund_code");
+            if (string.IsNullOrEmpty(date))
+                throw new ArgumentNullException("date");
+            using (var da = MySQLAccessFactory.GetMySQLAccess("Fund"))
+            {
+                da.OpenConn();
+                string Sql = " select F1day_profit_rate,F7day_profit_rate from fund_db.t_fund_profit_rate where Fspid='" + spid + "' and Ffund_code='" + fund_code + "' and Fdate='" + date + "'";
+                DataSet ds = da.dsGetTotalData(Sql);
+
+                return ds.Tables[0];
+            }
+        }
+
         public DataTable QueryProfitRecord(string tradeId, string beginDateStr, string endDateStr, int currencyType = -1, string spId = "", int limStart = 0, int limCount = 10)
         {
             if (string.IsNullOrEmpty(tradeId))

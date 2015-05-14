@@ -104,13 +104,17 @@
                         </td>
                      </tr>
                     <tr>
+                         <td align="left">
+                            市值：
+                            <asp:Label ID="lbMarkValue" runat="server"></asp:Label>
+                        </td>
                         <td align="left">
                             理财通余额：
                             <asp:Label ID="lbLCTBalance" runat="server"></asp:Label>
                              &nbsp;&nbsp;
                             <asp:Button ID="btnLCTFundApply" runat="server" Width="80px" Visible="false" Text="强 赎" />
                         </td>
-                        <td align="left" colspan="3">
+                        <td align="left" colspan="2">
                             <asp:Button ID="btnBalanceQuery" runat="server" Width="250px" Text="资金流水查询" OnClick="btnBalanceQuery_Click">
                             </asp:Button>
                         </td>
@@ -223,7 +227,10 @@
                         <asp:BoundColumn DataField="profitText" HeaderText="累计收益">
                             <HeaderStyle Width="150px"></HeaderStyle>
                         </asp:BoundColumn>
-                        <asp:BoundColumn DataField="balanceText" HeaderText="余额">
+                        <asp:BoundColumn DataField="balanceText" HeaderText="份额">
+                            <HeaderStyle Width="80px"></HeaderStyle>
+                        </asp:BoundColumn>
+                         <asp:BoundColumn DataField="markValue" HeaderText="市值">
                             <HeaderStyle Width="80px"></HeaderStyle>
                         </asp:BoundColumn>
                           <asp:BoundColumn DataField="conText" HeaderText="冻结金额">
@@ -304,6 +311,18 @@
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
                         <asp:BoundColumn DataField="Fprofit_str" HeaderText="收益金额">
+                            <HeaderStyle Width="80px"></HeaderStyle>
+                        </asp:BoundColumn>
+                         <asp:BoundColumn DataField="fund_value" HeaderText="单位净值">
+                            <HeaderStyle Width="80px"></HeaderStyle>
+                        </asp:BoundColumn>
+                          <asp:BoundColumn DataField="Sday_profit_rate_str" HeaderText="日涨跌">
+                            <HeaderStyle Width="80px"></HeaderStyle>
+                        </asp:BoundColumn>
+                          <asp:BoundColumn DataField="fund_balance" HeaderText="基金份额">
+                            <HeaderStyle Width="80px"></HeaderStyle>
+                        </asp:BoundColumn>
+                          <asp:BoundColumn DataField="mark_value" HeaderText="市值">
                             <HeaderStyle Width="80px"></HeaderStyle>
                         </asp:BoundColumn>
                     </Columns>
@@ -406,10 +425,16 @@
                          <asp:BoundColumn DataField="Ffetchid" HeaderText="提现单号">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
+                        <asp:BoundColumn DataField="charge_fee_str" HeaderText="手续费">
+                            <HeaderStyle Width="150px"></HeaderStyle>
+                        </asp:BoundColumn>
                         <asp:BoundColumn DataField="FtypeText" HeaderText="存取">
                             <HeaderStyle Width="150px"></HeaderStyle>
                         </asp:BoundColumn>
                         <asp:BoundColumn DataField="Ftotal_fee_str" HeaderText="金额">
+                            <HeaderStyle Width="80px"></HeaderStyle>
+                        </asp:BoundColumn>
+                          <asp:BoundColumn DataField="fund_balance" HeaderText="份额">
                             <HeaderStyle Width="80px"></HeaderStyle>
                         </asp:BoundColumn>
                         <asp:BoundColumn DataField="Floading_type_str" HeaderText="赎回方式">
