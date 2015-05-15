@@ -178,30 +178,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
                 var ds = bll.AirTicketsOrderQuery(queryType, wd, trade_type, uin, start_time, end_time, "kf", pager.PageSize, index);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {     
-                    #region RMB分转RMB元
-                    ds.Tables[0].Columns.Add("total_money_str", typeof(String));
-                    ds.Tables[0].Columns.Add("adult_airport_tax_str", typeof(String));
-                    ds.Tables[0].Columns.Add("adult_fuel_tax_str", typeof(String));
-                    ds.Tables[0].Columns.Add("child_airport_tax_str", typeof(String));
-                    ds.Tables[0].Columns.Add("child_fuel_tax_str", typeof(String));
-                    ds.Tables[0].Columns.Add("adult_price_str", typeof(String));
-                    ds.Tables[0].Columns.Add("child_price_str", typeof(String));
-                    ds.Tables[0].Columns.Add("airport_tax_money_str", typeof(String));
-                    ds.Tables[0].Columns.Add("fuel_tax_money_str", typeof(String));
-                    ds.Tables[0].Columns.Add("ticket_money_str", typeof(String));
-                    ds.Tables[0].Columns.Add("insurance_money_str", typeof(String));
-                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "total_money", "total_money_str");
-                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "adult_airport_tax", "adult_airport_tax_str");
-                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "adult_fuel_tax", "adult_fuel_tax_str");
-                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "child_airport_tax", "child_airport_tax_str");
-                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "child_fuel_tax", "child_fuel_tax_str");
-                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "adult_price", "adult_price_str");
-                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "child_price", "child_price_str");
-                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "airport_tax_money", "airport_tax_money_str");
-                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "fuel_tax_money", "fuel_tax_money_str");
-                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "ticket_money", "ticket_money_str");
-                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "insurance_money", "insurance_money_str");
-                    #endregion
                     dgList.DataSource = ds.Tables[0].DefaultView;
                     dgList.DataBind();
                     ViewState["Cache"] = ds;
@@ -219,6 +195,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
             }
             catch (Exception eSys)
             {
+                WebUtils.ShowMessage(this.Page,eSys.ToString());
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
 
