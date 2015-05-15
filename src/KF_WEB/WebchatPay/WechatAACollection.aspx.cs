@@ -30,9 +30,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 var aaUin = WeChatHelper.GetAAUINFromWeChatName(wechatName);
                 var acctUin = WeChatHelper.GetUINFromWeChatName(wechatName);
 
-                #if DEBUG
-                aaUin = "oE15ntxv6MEUrZOZTk3a8ksPaAwU@aa.tenpay.com";               
-                #endif
+                //#if DEBUG
+                //aaUin = "oE15ntxv6MEUrZOZTk3a8ksPaAwU@aa.tenpay.com";               
+                //#endif
 
                 if (string.IsNullOrEmpty(aaUin))
                     throw new Exception("查询微信号对应的AA财付通账户失败");

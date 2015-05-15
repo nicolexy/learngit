@@ -20,6 +20,9 @@ namespace CFT.CSOMS.DAL.TradeModule
         //注销前交易查询
         public DataSet BeforeCancelTradeQuery(string uid)
         {
+            string fields = "uid:" + uid;
+            return QueryUserOrder("413", fields, "1001", 0, 1);
+
             long uidL = long.Parse(uid);
             int uidEnd = int.Parse(uid.Substring(uid.Length - 2));
             string conString = "";
@@ -526,6 +529,242 @@ namespace CFT.CSOMS.DAL.TradeModule
             string Msg = "";
             DataSet ds = CommQuery.ParseRelayStr(answer, out Msg, true);
             return ds;
+        }
+        /// <summary>
+        /// 未完成交易单查询
+        /// </summary>
+        public DataSet GetListidFromUserOrder(string qqid, string uid, int start, int max)
+        {
+            //ver=1&head_u=&sp_id=2000000501&request_type=4613&reqid=2213&flag=2&fields=buy_uid:298686752&offset=0&limit=1&msgno=10002
+            string fuid = "";
+            if (!string.IsNullOrEmpty(qqid.Trim()))
+                fuid = PublicRes.ConvertToFuid(qqid);
+            if (!string.IsNullOrEmpty(uid.Trim()))
+                fuid = uid;
+            if (fuid == null || fuid.Length < 3)
+            {
+                throw new Exception(fuid + "账号不存在");
+            }
+            //查询买家
+            DataSet dsbuy = QueryUserOrder("2213", "buy_uid:" + fuid, "1004", start, max);
+            //查询卖家
+            DataSet dssale = QueryUserOrder("2214", "sale_uid:" + fuid, "1005", start, max);
+            dsbuy = PublicRes.ToOneDataset(dsbuy, dssale);
+            return dsbuy;
+        }
+        /// <summary>
+        /// 中介订单查询
+        /// </summary>
+        public DataSet GetQueryList(DateTime u_BeginTime, DateTime u_EndTime, string buyqq, string saleqq, string buyqqInnerID, string saleqqInnerID,
+            string u_QueryType, string queryvalue, int fstate, int fcurtype, int start, int max)
+        {
+            //ver=1&head_u=&sp_id=2000000501&request_type=4613&reqid=2211&flag=2&fields=sp_uid:298731022&offset=0&limit=1&msgno=10002
+            //ver=1&head_u=&sp_id=2000000501&request_type=4613&reqid=2212&flag=2&fields=buy_uid:298686752&offset=0&limit=1&msgno=10002
+            try
+            {
+                if (u_QueryType != "FlistID" || queryvalue.Trim() == "")
+                {
+
+                    string fuid = "";
+                    DataSet ds = new DataSet();
+
+                    if (!string.IsNullOrEmpty(buyqqInnerID))
+                    {
+                        string fields = "buy_uid:" + buyqqInnerID +
+                            "|stime:" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss") +
+                            "|etime:" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
+                        ds = QueryUserOrder("2212", fields, "1003", start, max);
+                    }
+
+                    if (!string.IsNullOrEmpty(saleqqInnerID))
+                    {
+                        string fields = "sp_uid:" + saleqqInnerID + "|stime:" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss") + "|etime:" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
+                        ds = QueryUserOrder("2211", fields, "1002", start, max);
+                    }
+
+
+                    if (!string.IsNullOrEmpty(buyqq))
+                    {
+                        fuid = PublicRes.ConvertToFuid(buyqq);
+                        string fields = "buy_uid:" + fuid + "|stime:" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss") + "|etime:" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
+                        ds = QueryUserOrder("2212", fields, "1003", start, max);
+                    }
+                    if (!string.IsNullOrEmpty(saleqq))
+                    {
+                        fuid = PublicRes.ConvertToFuid(saleqq);
+                        string fields = "sp_uid:" + fuid + "|stime:" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss") + "|etime:" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
+                        ds = QueryUserOrder("2211", fields, "1002", start, max);
+                    }
+
+                    DataSet dsForWX = new DataSet();
+                    if (!string.IsNullOrEmpty(buyqqInnerID.Trim()))
+                    {
+                        try
+                        {
+                            dsForWX = QueryWxBuyOrderByUid(int.Parse(buyqqInnerID.Trim()), u_BeginTime, u_EndTime);//微信买家纬度订单
+                            //添加将微信订单数据
+                            ds = PublicRes.ToOneDataset(dsForWX, ds);
+                            //if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                            //{
+                            //    GetResultFormWXOrder(dsForWX, ds);
+                            //}
+                            //else
+                            //{
+                            //    DataTable dt = ds.Tables[0].Clone();
+                            //    DataSet temp = new DataSet();
+                            //    temp.Tables.Add(dt);
+                            //    GetResultFormWXOrder(dsForWX, temp);
+                            //    return temp;
+                            //}
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("添加将微信订单数据失败：" + ex.Message);
+                        }
+                    }
+
+                    return ds;
+
+                }
+                else
+                {
+                    string errMsg = "";
+                    DataSet ds = CommQuery.GetDataSetFromICE("listid=" + queryvalue, CommQuery.QUERY_ORDER, out errMsg);
+                    if (errMsg != "")
+                    {
+                        throw new Exception(errMsg);
+                    }
+                    return ds;
+                }
+
+            }
+            catch (Exception err)
+            {
+                throw new Exception("查询出错！" + err.Message);
+            }
+        }
+        /// <summary>
+        /// 满减使用查询
+        /// </summary>
+        public DataSet GetManJianUsingList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, string banktype, int istr, int imax)
+        {
+            string fuid = PublicRes.ConvertToFuid(u_ID);
+
+            string fields = "buy_uid:" + fuid;
+            //#if DEBUG
+            //            fields = "buy_uid:298686752"  ;
+            //#endif
+            fields += "|stime:" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss");
+            fields += "|etime:" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
+            if (!string.IsNullOrEmpty(banktype))
+            {
+                fields += "|bank_type:" + banktype;
+            }
+
+            DataSet ds = QueryUserOrder("2215", fields, "1006", istr, imax);
+            return ds;
+        }
+        /// <summary>
+        /// iIDType=0,9,10,13
+        /// </summary>
+        public DataSet Q_PAY_LIST(string strID, int iIDType, DateTime dtBegin, DateTime dtEnd, int istr, int imax)
+        {
+            DataSet ds = new DataSet();
+            string fuid = PublicRes.ConvertToFuid(strID);
+            //#if DEBUG
+            //            fuid = strID;
+            //#endif
+            if (iIDType == 0)  //根据QQ号码查买家交易单
+            {
+                string fields = "buy_uid:" + fuid +
+                         "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
+                        "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
+                ds = QueryUserOrder("2216", fields, "1007", istr, imax);
+
+            }
+            else if (iIDType == 9)  //根据QQ号码查卖家交易单
+            {
+                string fields = "sale_uid:" + fuid +
+                         "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
+                        "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
+                ds = QueryUserOrder("2217", fields, "1008", istr, imax);
+            }
+            else if (iIDType == 10) // 2012/5/29 新添加根据QQ号查询中介交易
+            {
+                string fields = "sale_uid:" + fuid +
+                         "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
+                        "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
+                ds = QueryUserOrder("2218", fields, "1009", istr, imax);
+            }
+            else if (iIDType == 13)  //yinhuang 小额刷卡交易查询
+            {
+                string fields = "buy_uid:" + fuid +
+                         "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
+                        "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
+                ds = QueryUserOrder("2219", fields, "10010", istr, imax);
+            }
+            else
+            {
+                throw new Exception("iIDType类型错误!");
+            }
+            return ds;
+        }
+        /// <summary>
+        /// 商户管理-商户交易清单查询/商户订单查询财付通订单
+        /// </summary>
+        public DataSet MediListQueryClass(string u_ID, string Fcode, string strBeginTime, string strEndTime, string u_UserFilter
+            , string u_OrderBy, int limStart, int limCount)
+        {
+            if (u_ID != null && u_ID.Trim() != "")
+            {
+                string strSql = "spid=" + u_ID;
+                string errMsg = "";
+                string fuid = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_MERCHANTINFO, "FuidMiddle", out errMsg);
+
+                if (fuid == null || fuid.Trim() == "")
+                {
+                    throw new Exception("查找不到指定的商户！" + errMsg);
+                }
+
+                string fields = "sale_uid:" + fuid;
+                //#if DEBUG
+                //                fields = "sale_uid:298686752";//测试
+                //#endif
+                if (!string.IsNullOrEmpty(Fcode))
+                {
+                    fields += "|coding:" + Fcode;
+                }
+                if (!string.IsNullOrEmpty(u_UserFilter))
+                {
+                    fields += "|trade_state:" + u_UserFilter;
+                }
+                if (!string.IsNullOrEmpty(strBeginTime))
+                {
+                    fields += "|stime:" + strBeginTime;
+                }
+                if (!string.IsNullOrEmpty(strEndTime))
+                {
+                    fields += "|etime:" + strEndTime;
+                }
+                return QueryUserOrder("2220", fields, "10011", limStart, limCount);
+            }
+            else
+            {
+                throw new Exception("商户帐号不能为空");
+            }
+        }
+
+        private DataSet QueryUserOrder(string reqid, string fields, string msgno, int offset, int limit)
+        {
+            string reqString = "";
+            var serverIp = System.Configuration.ConfigurationManager.AppSettings["UserOrderIP"].ToString();
+            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["UserOrderPort"].ToString());
+
+            //查询卖家
+            reqString = "reqid=" + reqid + "&flag=2" +
+                  "&fields=" + fields +
+                  "&offset=" + offset + "&limit=" + limit + "&msgno=" + msgno;
+            return RelayAccessFactory.GetDSFromRelayFromXML(reqString, "4613", serverIp, serverPort);
         }
     }
 }
