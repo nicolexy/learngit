@@ -80,6 +80,7 @@
     <Compile Include="SysManageModule\SysManageService.cs" />
     <Compile Include="TradeModule\TradeService.cs" />
     <Compile Include="TransferMeaning\TransferMeaning.cs" />
+    <Compile Include="TravelModule\AirTickets.cs" />
     <Compile Include="WechatPay\AuthenService.cs" />
     <Compile Include="UserAppealModule\UserAppealService.cs" />
     <Compile Include="WechatPay\FastPayService.cs" />
@@ -111,6 +112,7 @@
       <Name>DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -28568,6 +28568,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                             {
                                 dr["strSp_code"] = "川航直销专区"; break;
                             }
+                        case "XX":
+                            {
+                                dr["strSp_code"] = "黄金假日"; break;
+                            }
+                        case "XXX":
+                            {
+                                dr["strSp_code"] = "财付通专区"; break;
+                            }
                         default:
                             {
                                 dr["strSp_code"] = "未知"; break;

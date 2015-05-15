@@ -1,23 +1,25 @@
+using CFT.CSOMS.BLL.TravelModule;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Web;
+using System.Web.Services.Protocols;
 using System.Web.SessionState;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-using TENCENT.OSS.CFT.KF.DataAccess;
-using System.Web.Services.Protocols;
-using System.Xml.Schema;
+using System.Web.UI.WebControls;
 using System.Xml;
+using System.Xml.Schema;
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
+using TENCENT.OSS.CFT.KF.Common;
+using TENCENT.OSS.CFT.KF.DataAccess;
+using TENCENT.OSS.CFT.KF.KF_Web;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
-using TENCENT.OSS.CFT.KF.Common;
-using TENCENT.OSS.CFT.KF.KF_Web;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
 {
@@ -26,7 +28,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
     /// </summary>
     public partial class AirTicketsOrderQuery : System.Web.UI.Page
     {
-
+        public bool HideDivDisplay = false;
         protected void Page_Load(object sender, System.EventArgs e)
         {
             ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
@@ -56,6 +58,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
             //
             // CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
             //
+            this.dgList.ItemCommand += dgList_ItemCommand;
             InitializeComponent();
             base.OnInit(e);
         }
@@ -70,10 +73,52 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
         }
         #endregion
 
+        void dgList_ItemCommand(object source, DataGridCommandEventArgs e)
+        {
+            if (e.CommandName == "Select")
+            {
+                var ds = ViewState["Cache"] as DataSet;
+                HideDivDisplay = true;
+                var orow = ds.Tables[0].Rows[e.Item.ItemIndex];
+
+                #region 数据绑定
+                var dataView = ds.Tables[0].AsEnumerable().Where(u => u["listid"] == orow["listid"]).AsDataView();
+                Flights_Repeater.DataSource = dataView;
+                Flights_Repeater.DataBind();
+                OrderInfo_Repeater.DataSource = dataView;
+                OrderInfo_Repeater.DataBind();
+                Passengers_Repeater.DataSource = ds.Tables["passengers"].AsEnumerable().Where(u => u["listid"].ToString().Trim() == orow["listid"].ToString().Trim()).AsDataView();
+                Passengers_Repeater.DataBind();
+                #endregion
+
+                #region 联系人信息
+                var row = ds.Tables["contact"].Select("listid='" + orow["listid"] + "'")[0];
+                contact_email.InnerText = row["email"].ToString();
+                contact_mobile.InnerText = row["mobile"].ToString();
+                contact_name.InnerText = row["name"].ToString();
+                contact_telephone.InnerText = row["telephone"].ToString();
+                #endregion
+
+                var mailtype = row["mailtype"].ToString();
+                Journey.InnerText = mailtype == "" ? "不要行程单" : mailtype == "1" ? "邮寄获取" : mailtype == "2" ? "自助获取行程单" : "其他";
+
+                #region 备注
+                var peopleNum = Convert.ToInt16(orow["adult_num"]) + Convert.ToInt16(orow["child_num"]);
+                var totalMoney = orow["total_money_str"];
+                var airporttax_money = orow["airport_tax_money_str"];
+                var fuel_tax_money = orow["fuel_tax_money_str"];
+                var ticket_money = orow["ticket_money_str"];
+                var insurance_money = orow["insurance_money_str"];
+                remark.InnerText = string.Format("共{0}人乘机，本次订单合计金额：{1}元（其中机票{2}元，机建{3}元，燃油费{4}元，保险费{5}元）", peopleNum, totalMoney, ticket_money, airporttax_money, fuel_tax_money, insurance_money);
+                #endregion
+            }
+        }
+
         public void ChangePage(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
         {
             pager.CurrentPageIndex = e.NewPageIndex;
             BindData(e.NewPageIndex);
+
         }
 
         protected void btnSearch_Click(object sender, System.EventArgs e)
@@ -116,33 +161,50 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
 
         private void BindData(int index)
         {
+            int queryType;
+            AirTickets bll = new AirTickets();
             try
             {
-                pager.CurrentPageIndex = index;
-                int limit = pager.PageSize;
-                int page_id = index;
-                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                string sppreno = this.TextSppreno.Text.Trim();//票源订单号
-                string ticketno = this.TextTicketno.Text.Trim();//票号
-                string transaction_id = this.TextTransaction_id.Text.Trim();//财付通交易单号
-                string passenger_name = this.TextPassenger_name.Text.Trim();//乘机人 姓名
-                string cert_id = this.TextCert_id.Text.Trim();//乘机人 证件号码
-                string name = this.TextName.Text.Trim();//联系人 姓名 
-                string mobile = this.TextMobile.Text.Trim();//联系人 手机号码 
-                string uin = this.TextUin.Text.Trim();//财付通账号
-                string insur_no = this.TextInsur_no.Text.Trim();//保单号
-                string start_time = DateTime.Parse(TextBoxBeginDate.Text).ToString("yyyy-MM-dd");//订购开始时间
-                string end_time = DateTime.Parse(TextBoxEndDate.Text).ToString("yyyy-MM-dd");//订购结束时间
-                string trade_type = this.ddlState.SelectedValue;//订单状态
-
-                DataSet ds = qs.AirTicketsOrderQuery(sppreno, ticketno, transaction_id, passenger_name,
-                 cert_id, name, mobile, uin, insur_no, start_time, end_time, trade_type, limit, page_id);
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                var start_time = DateTime.Parse(TextBoxBeginDate.Text); //订购开始时间
+                var end_time = DateTime.Parse(TextBoxEndDate.Text);     //订购结束时间
+                var trade_type = this.ddlState.SelectedValue;           //订单状态     
+                var uin = this.TextUin.Text.Trim();
+                var wd = bll.GetKeyWordAndType(out queryType, TextSppreno, TextTicketno, TextTransaction_id, TextPassenger_name, TextCert_id, TextMobile, TextInsur_no, TextName);
+                if (string.IsNullOrEmpty(wd))
                 {
+                    WebUtils.ShowMessage(this.Page, "最少输入一个关键信息,进行查询");
+                    return;
+                }
+                var ds = bll.AirTicketsOrderQuery(queryType, wd, trade_type, uin, start_time, end_time, "kf", pager.PageSize, index);
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {     
+                    #region RMB分转RMB元
                     ds.Tables[0].Columns.Add("total_money_str", typeof(String));
+                    ds.Tables[0].Columns.Add("adult_airport_tax_str", typeof(String));
+                    ds.Tables[0].Columns.Add("adult_fuel_tax_str", typeof(String));
+                    ds.Tables[0].Columns.Add("child_airport_tax_str", typeof(String));
+                    ds.Tables[0].Columns.Add("child_fuel_tax_str", typeof(String));
+                    ds.Tables[0].Columns.Add("adult_price_str", typeof(String));
+                    ds.Tables[0].Columns.Add("child_price_str", typeof(String));
+                    ds.Tables[0].Columns.Add("airport_tax_money_str", typeof(String));
+                    ds.Tables[0].Columns.Add("fuel_tax_money_str", typeof(String));
+                    ds.Tables[0].Columns.Add("ticket_money_str", typeof(String));
+                    ds.Tables[0].Columns.Add("insurance_money_str", typeof(String));
                     classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "total_money", "total_money_str");
+                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "adult_airport_tax", "adult_airport_tax_str");
+                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "adult_fuel_tax", "adult_fuel_tax_str");
+                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "child_airport_tax", "child_airport_tax_str");
+                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "child_fuel_tax", "child_fuel_tax_str");
+                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "adult_price", "adult_price_str");
+                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "child_price", "child_price_str");
+                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "airport_tax_money", "airport_tax_money_str");
+                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "fuel_tax_money", "fuel_tax_money_str");
+                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "ticket_money", "ticket_money_str");
+                    classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "insurance_money", "insurance_money_str");
+                    #endregion
                     dgList.DataSource = ds.Tables[0].DefaultView;
                     dgList.DataBind();
+                    ViewState["Cache"] = ds;
                 }
                 else
                 {
@@ -161,5 +223,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
             }
 
         }
+
     }
 }
