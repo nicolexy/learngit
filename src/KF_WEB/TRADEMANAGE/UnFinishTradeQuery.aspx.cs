@@ -18,6 +18,7 @@ using Tencent.DotNet.OSS.Web.UI;
 using System.Xml;
 using CFT.CSOMS.BLL.ForeignCardModule;
 using TENCENT.OSS.CFT.KF.KF_Web.InternetBank;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -122,8 +123,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
                 int max = pager.PageSize;
                 int start = max * (index - 1);
-                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                DataSet ds = qs.GetListidFromUserOrder(qqid,uid,start,max);
+                //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                //DataSet ds = qs.GetListidFromUserOrder(qqid,uid,start,max);
+                DataSet ds = new TradeService().GetListidFromUserOrder(qqid, uid, 0, 1);
                 if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
                 {
                     DataGrid1.DataSource = null;
