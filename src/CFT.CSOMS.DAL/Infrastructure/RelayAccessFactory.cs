@@ -125,7 +125,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
             ds = CommQuery.ParseRelayStr(answer, out Msg);
             if (Msg != "")
             {
-                throw new Exception(Msg);
+                throw new Exception("relayIP:"+relayIP+" 请求串：" + requestString + " " + Msg);
             }
             return ds;
         }
@@ -281,7 +281,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
             ds = CommQuery.PaseRelayXml(answer, out Msg);
             if (Msg != "")
             {
-                throw new Exception(Msg);
+                throw new Exception("请求串：" + requestString + " " + Msg);
             }
             return ds;
         }
@@ -313,7 +313,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
             ds = CommQuery.ParseRelayPageRowNum(answer, out Msg, out totalNum);
             if (Msg != "")
             {
-                throw new Exception(Msg);
+                throw new Exception("请求串：" + requestString + " " + Msg);
             }
             return ds;
         }
@@ -343,7 +343,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
             ds = CommQuery.ParseRelayPageRowNum(answer, out Msg,out totalNum);
             if (Msg != "")
             {
-                throw new Exception(Msg);
+                throw new Exception("请求串：" + requestString + " " + Msg);
             }
             return ds;
         }
@@ -373,7 +373,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
             ds = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
             if (Msg != "")
             {
-                throw new Exception(Msg);
+                throw new Exception("请求串：" + requestString + " " + Msg);
             }
             return ds;
         }
@@ -402,7 +402,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
             ds = CommQuery.PaseRelayXml(answer, out Msg);
             if (Msg != "")
             {
-                throw new Exception(Msg);
+                throw new Exception("请求串：" + inmsg + " " + Msg);
             }
             return ds;
         }

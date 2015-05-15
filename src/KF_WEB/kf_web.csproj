@@ -1351,6 +1351,13 @@
     <Compile Include="NewQueryInfoPages\CFTTransferQuery.aspx.designer.cs">
       <DependentUpon>CFTTransferQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx.cs">
+      <DependentUpon>QueryAuthenStateInfoPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx.designer.cs">
+      <DependentUpon>QueryAuthenStateInfoPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="NewQueryInfoPages\QueryZHTrade.aspx.cs">
       <DependentUpon>QueryZHTrade.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1511,13 +1518,6 @@
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryAuthenInfoPage.aspx.designer.cs">
       <DependentUpon>QueryAuthenInfoPage.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx.cs">
-      <DependentUpon>QueryAuthenStateInfoPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx.designer.cs">
-      <DependentUpon>QueryAuthenStateInfoPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryBankListInfoPage.aspx.cs">
       <DependentUpon>QueryBankListInfoPage.aspx</DependentUpon>
@@ -3031,6 +3031,7 @@
     <Content Include="Middle.htm" />
     <Content Include="NewQueryInfoPages\GetFundRatePageDetail.aspx" />
     <Content Include="NewQueryInfoPages\CFTTransferQuery.aspx" />
+    <Content Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx" />
     <Content Include="NewQueryInfoPages\QueryZHTrade.aspx" />
     <Content Include="NewQueryInfoPages\QueryZHFreeze.aspx" />
     <Content Include="NewQueryInfoPages\QueryZHInfo.aspx" />
@@ -3060,9 +3061,6 @@
       <SubType>Form</SubType>
     </Content>
     <Content Include="NewQueryInfoPages\QueryAuthenInfoPage.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx">
       <SubType>Form</SubType>
     </Content>
     <Content Include="NewQueryInfoPages\QueryBankListInfoPage.aspx">
@@ -4086,9 +4084,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NewQueryInfoPages\QueryAuthenInfoPage.aspx.resx">
       <DependentUpon>QueryAuthenInfoPage.aspx.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx.resx">
-      <DependentUpon>QueryAuthenStateInfoPage.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewQueryInfoPages\QueryBankListInfoPage.aspx.resx">
       <DependentUpon>QueryBankListInfoPage.aspx.cs</DependentUpon>

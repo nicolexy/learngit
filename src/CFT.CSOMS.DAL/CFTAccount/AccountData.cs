@@ -14,11 +14,49 @@ using System.IO;
 using System.Text.RegularExpressions;
 using CFT.Apollo.Logging;
 using TENCENT.OSS.CFT.KF.DataAccess;
+using TENCENT.OSS.C2C.Finance.BankLib;
+using System.Collections;
 
 namespace CFT.CSOMS.DAL.CFTAccount
 {
     public class AccountData
     {
+        /// <summary>
+        /// 通过身份证查询实名认证信息
+        /// </summary>
+        /// <param name="cretecre_type">证件类型：1 身份证</param>
+        /// <param name="cre_id">证件号</param>
+        /// <param name="opera">操作者</param>
+        /// <returns></returns>
+        public DataSet QueryUserAuthenByCredid(string cre_type, string cre_id, string opera)
+        {
+            string inmsg = "cre_type=1&cre_id=" + cre_id + "&operator=" + opera;
+            string ip = System.Configuration.ConfigurationManager.AppSettings["Relay_IP"].ToString();
+            int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["Relay_PORT"].ToString());
+            return RelayAccessFactory.GetDSFromRelay(inmsg, "100996", ip, port,true);
+        }
+
+        /// <summary>
+        /// 实名认证置失效
+        /// </summary>
+        /// <param name="cretecre_type">证件类型：1 身份证</param>
+        /// <param name="cre_id">证件号</param>
+        /// <param name="opera">操作者</param>
+        /// <param name="memo">说明</param>
+        /// <returns></returns>
+        public Boolean DisableUserAuthenInfo(string cre_type, string cre_id, string opera, string memo)
+        {
+            string inmsg = "cre_type=" + cre_type + "&cre_id=" + cre_id + "&operator=" + opera + "&memo="+memo;
+            string ip = System.Configuration.ConfigurationManager.AppSettings["Relay_IP"].ToString();
+            int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["Relay_PORT"].ToString());
+            string Msg = "";
+            string answer = RelayAccessFactory.RelayInvoke(inmsg, "100997", true, false, ip, port);
+            if (answer.IndexOf("result=0") > -1)
+                return true;
+            else
+                throw new Exception(string.Format("实名认证置失效异常:ip:{0} 入参：{1} 返回：{2}", ip, inmsg, answer));
+        }
+
         public DataTable QuerySubAccountInfo(string uin, int currencyType)
         {
             string fuid = ConvertToFuid(uin);
@@ -1146,7 +1184,22 @@ namespace CFT.CSOMS.DAL.CFTAccount
         public string Fcheck_state;
         public string Frefuse_reason;
         public string Fcomment;
-
     }
     #endregion
+
+    #region 实名认证置失效类
+    public class AuthenStateDeleteClass
+    {
+        public string Fuin;
+        public string Fname_old;
+        public string Fcre_id;
+        public string Fcre_type;
+        public string Fimage_cre1;
+        public string Fimage_cre2;
+        public string Fimage_evidence;
+        public string Fsubmit_time;
+        public string Fsubmit_user;
+    }
+    #endregion
+
 }

@@ -93,6 +93,10 @@
       <Project>{3a3cef94-9593-4af6-807a-3405b0e7603e}</Project>
       <Name>CFT.CSOMS.DAL.Tests</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CFT.CSOMS.DAL\CFT.CSOMS.DAL.csproj">
+      <Project>{6c10b34d-4b02-4f2c-a964-8955677a5213}</Project>
+      <Name>CFT.CSOMS.DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

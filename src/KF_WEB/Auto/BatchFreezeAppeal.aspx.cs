@@ -28,7 +28,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Auto
         protected void Page_Load(object sender, System.EventArgs e)
         {
             string startTime = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd 00:00:00");
-            string endTime = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
+            string endTime = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
 
             if (Request.QueryString["proType"] == null)
             {
