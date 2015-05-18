@@ -176,6 +176,9 @@
                         <asp:BoundColumn DataField="FsubmitTime" HeaderText="提交时间">
                             <HeaderStyle HorizontalAlign="Center" Width="120px"></HeaderStyle>
                         </asp:BoundColumn>
+                        <asp:BoundColumn DataField="Fsuptime" HeaderText="补充资料时间">
+                            <HeaderStyle HorizontalAlign="Center" Width="120px"></HeaderStyle>
+                        </asp:BoundColumn>
                         <asp:BoundColumn DataField="handleStateName" HeaderText="订单状态">
                             <HeaderStyle HorizontalAlign="Center" Width="140px"></HeaderStyle>
                         </asp:BoundColumn>

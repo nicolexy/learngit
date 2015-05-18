@@ -621,7 +621,10 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             return (new TradeData()).QueryWXUnfinishedTrade(open_id);
         }
-
+        public int QueryWXUnfinishedHB(string WeChatName)
+        {
+            return (new TradeData()).QueryWXUnfinishedHB(WeChatName);
+        }
         public DataSet GetUnfinishedMobileQHB(string uin)
         {
             return (new TradeData()).GetUnfinishedMobileQHB(uin);
@@ -651,6 +654,9 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             return (new TradeData()).MediListQueryClass(u_ID, Fcode, strBeginTime, strEndTime, u_UserFilter, u_OrderBy, limStart, limCount);
         }
-
+        public DataSet QueryBusCardPrepaid(string beginDate, string endDate, int PageSize, string uin, string listid, string cardid, out string errMsg)
+        {
+            return (new TradeData()).QueryBusCardPrepaid(beginDate, endDate, PageSize, uin, listid, cardid, out errMsg);
+        }
     }
 }

@@ -1955,6 +1955,13 @@
     <Compile Include="TradeManage\BeforeCancelTradeQuery.aspx.designer.cs">
       <DependentUpon>BeforeCancelTradeQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TradeManage\BusCardPrepaidQuery.aspx.cs">
+      <DependentUpon>BusCardPrepaidQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\BusCardPrepaidQuery.aspx.designer.cs">
+      <DependentUpon>BusCardPrepaidQuery.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TradeManage\ContractQuery.aspx.cs">
       <DependentUpon>ContractQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3183,6 +3190,7 @@
     <Content Include="TradeManage\BatPayQuery.aspx" />
     <Content Include="TradeManage\BatPayShowDetail.aspx" />
     <Content Include="TradeManage\BeforeCancelTradeQuery.aspx" />
+    <Content Include="TradeManage\BusCardPrepaidQuery.aspx" />
     <Content Include="TradeManage\ContractQuery.aspx" />
     <Content Include="TradeManage\CGIInfoQuery.aspx" />
     <Content Include="TradeManage\PayLimitManage.aspx" />

@@ -483,44 +483,48 @@ namespace CFT.CSOMS.DAL.TradeModule
                 LogHelper.LogError("查询微信转账条目异常:" + ex.Message);
                 throw new Exception("查询微信转账条目异常:" + ex.Message);
             }
-            //try
-            //{
-            //    RequestText = "uin=" + wxHBUIN;
-            //    string Msg2 = "";
-            //    //红包的
-            //    relayIP = Apollo.Common.Configuration.AppSettings.Get<string>("RelayWXHB_IP", "10.198.17.219");
-            //    relayPort = Apollo.Common.Configuration.AppSettings.Get<int>("RelayWXHB_Port", 22001);
-            //    string stranswer = RelayAccessFactory.RelayInvoke(RequestText, "100038", false, false, relayIP, relayPort, "");
-            //    stranswer= System.Web.HttpUtility.UrlDecode(stranswer, System.Text.Encoding.GetEncoding("GB2312"));
-            //    DataSet ds2 = CommQuery.ParseRelayStr(stranswer, out Msg2, true);
-            //    if (Msg2 != "")
-            //    {
-            //        LogHelper.LogError(Msg2);
-            //        throw new Exception(Msg2);
-            //    }
-            //    if (ds2.Tables[0].Columns.Contains("num"))
-            //    {
-            //        num += int.Parse(ds2.Tables[0].Rows[0]["num"].ToString());
-            //    }
-            //    else
-            //    {
-            //        LogHelper.LogError("微信红包未完成交易查询返回结果有误!");
-            //        throw new Exception("微信红包未完成交易查询返回结果有误!");
-            //    }
-            //    return num;
-            //}
-            //catch (System.Exception ex)
-            //{
-            //    LogHelper.LogError("微信红包在途条目查询失败:" + ex.Message);
-            //    throw new Exception("微信红包在途条目查询失败:"+ex.Message);
-            //}
+        }
+        public int QueryWXUnfinishedHB(string WeChatName)
+        {
+            string wxHBOpenID = WeChatHelper.GetHBOpenIdFromWeChatName(WeChatName);
+            int num = 0;
+            string relayIP = Apollo.Common.Configuration.AppSettings.Get<string>("RelayWXHB_IP", "10.198.17.219");
+            int relayPort = Apollo.Common.Configuration.AppSettings.Get<int>("RelayWXHB_Port", 22001);
+            string RequestText = "uin=" + wxHBOpenID;
+            string Msg = "";
+            try
+            {
+                string stranswer = RelayAccessFactory.RelayInvoke(RequestText, "100038", false, false, relayIP, relayPort, "");
+                stranswer= System.Web.HttpUtility.UrlDecode(stranswer, System.Text.Encoding.GetEncoding("GB2312"));
+                DataSet ds= CommQuery.ParseRelayStr(stranswer, out Msg, true);
+                if (Msg != "")
+                {
+                    LogHelper.LogError(Msg);
+                    throw new Exception(Msg);
+                }
+                if (ds.Tables[0].Columns.Contains("num"))
+                {
+                    num = int.Parse(ds.Tables[0].Rows[0]["num"].ToString());
+                }
+                else
+                {
+                    LogHelper.LogError("微信红包未完成交易查询返回结果有误!");
+                    throw new Exception("微信红包未完成交易查询返回结果有误!");
+                }
+                return num;
+            }
+            catch (System.Exception ex)
+            {
+                LogHelper.LogError("微信红包在途条目查询失败:" + ex.Message);
+                throw new Exception("微信红包在途条目查询失败:"+ex.Message);
+            }
             
         }
 
         public DataSet GetUnfinishedMobileQHB(string uin)
         {
             string RequestText = "uin=" + uin;
-            RequestText += "&snd_sate=1,3&offset=0&limit=1&type=1";
+            RequestText += "&snd_state=1,3&offset=0&limit=1&type=1";
 
             var relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("HandQHBIP", "10.238.13.244");
             var relayPORT = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("HandQHBPort", 22000);
@@ -765,6 +769,18 @@ namespace CFT.CSOMS.DAL.TradeModule
                   "&fields=" + fields +
                   "&offset=" + offset + "&limit=" + limit + "&msgno=" + msgno;
             return RelayAccessFactory.GetDSFromRelayFromXML(reqString, "4613", serverIp, serverPort);
+        }
+        public DataSet QueryBusCardPrepaid(string beginDate, string endDate, int pageSize, string uin, string listid, string cardid, out string errMsg)
+        {
+            DataSet ds = null;
+            string relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("RelayBusCard_IP", "172.27.31.177");
+            int relayPort = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("RelayBusCard_Port", 22000);
+            string requestText = "yyyymmdd_from=" + beginDate + "&yyyymmdd_to=" + endDate + "&page_size=" + pageSize + "&uin=" + uin + "&tenpay_bill=" + listid + "&card_mark_number=" + cardid;
+
+            string answer = RelayAccessFactory.RelayInvoke(requestText, "101012", true, false, relayIP, relayPort, "");
+            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
+            ds = CommQuery.ParseRelayBusCardPrepaid(answer, out errMsg);
+            return ds;
         }
     }
 }
