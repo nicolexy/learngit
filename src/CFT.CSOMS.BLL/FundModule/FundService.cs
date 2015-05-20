@@ -470,8 +470,9 @@ namespace CFT.CSOMS.BLL.FundModule
                                         string tmp = row["F7day_profit_rate"].ToString();
                                         if (!string.IsNullOrEmpty(tmp))
                                         {
+                                            
                                             decimal d = (decimal)(Int64.Parse(tmp)) / 10000;
-                                            dr["Sday_profit_rate_str"] = d.ToString("P4");
+                                            dr["Sday_profit_rate_str"] = d.ToString("P2");
                                         }
                                     }
                                 }

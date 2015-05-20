@@ -14,6 +14,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
     using System.Reflection;
     using CFT.CSOMS.COMMLIB;
     using TENCENT.OSS.C2C.Finance.Common.CommLib;
+    using CFT.Apollo.Logging;
 
     public class AccountService
     {
@@ -662,6 +663,76 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
               return PublicRes.QueryKFLog("UserAuthenDisableLog", "cre_id", cre_id, keyNameList);
           }
 
+          public Boolean LCTAccStateOperator(string uin, string cre_id, string cre_type, string name, string op_type, string caller_name, string client_ip)
+          {
+              if (string.IsNullOrEmpty(uin))
+              {
+                  throw new ArgumentNullException("uin");
+              }
+              if (string.IsNullOrEmpty(cre_id))
+              {
+                  throw new ArgumentNullException("cre_id");
+              }
+              if (string.IsNullOrEmpty(op_type))
+              {
+                  throw new ArgumentNullException("op_type");
+              }
+             
+              if (!(op_type == "1" || op_type == "2"||op_type=="3"))
+              {
+                  throw new Exception("理财通账户状态操作类型不正确");
+              }
+
+              //查询状态
+              Boolean state=new AccountData().LCTAccStateOperator(uin, cre_id, cre_type, name, "3",caller_name, client_ip);
+
+              if (op_type == "3")//查询
+                  return state;
+              else if (op_type == "1")//冻结
+              {
+                  if (state)
+                  {
+                      LogHelper.LogInfo("This account："+uin+" is already be freezed");
+                      return true;
+                  }else
+                      return new AccountData().LCTAccStateOperator(uin, cre_id, cre_type, name, "1", caller_name, client_ip);
+              }
+              else  //(op_type == "2")解冻
+              {
+                  if (!state)
+                  {
+                      LogHelper.LogInfo("This account：" + uin + " is already be Unfreezed");
+                      return true;
+                  }
+                  else
+                      return new AccountData().LCTAccStateOperator(uin, cre_id, cre_type, name, "2", caller_name, client_ip);
+              }
+          }
+
+          public Boolean LCTAccStateOperator(string uin, string op_type, string caller_name, string client_ip)
+          {
+              string fuid = AccountData.ConvertToFuid(uin);
+              //  string fuid = "540444925";
+
+              if (fuid == null || fuid == "")
+              {
+                  throw new Exception("根据C帐号获取Fuid失败	uin:" + uin);
+              }
+              if (fuid == null || fuid.Length < 3)
+              {
+                  throw new Exception("内部ID不正确！");
+              }
+
+              string errMsg = "";
+              string sql = "uid=" + fuid;
+              string cre_id = CommQuery.GetOneResultFromICE(sql, CommQuery.QUERY_USERINFO, "Fcreid", out errMsg);
+              if (errMsg != "")
+                  throw new Exception(errMsg);
+              string cre_type = CommQuery.GetOneResultFromICE(sql, CommQuery.QUERY_USERINFO, "Fcre_type", out errMsg);
+              if (errMsg != "")
+                  throw new Exception(errMsg);
+              return LCTAccStateOperator(uin, cre_id, cre_type, "", op_type, caller_name, client_ip);
+          }
     }
 
     #region 异常姓名类

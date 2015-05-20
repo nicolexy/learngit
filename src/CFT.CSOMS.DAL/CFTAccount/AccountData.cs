@@ -16,6 +16,7 @@ using CFT.Apollo.Logging;
 using TENCENT.OSS.CFT.KF.DataAccess;
 using TENCENT.OSS.C2C.Finance.BankLib;
 using System.Collections;
+using CFT.Apollo.Common;
 
 namespace CFT.CSOMS.DAL.CFTAccount
 {
@@ -55,6 +56,83 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 return true;
             else
                 throw new Exception(string.Format("实名认证置失效异常:ip:{0} 入参：{1} 返回：{2}", ip, inmsg, answer));
+        }
+
+        /// <summary>
+        /// 查询理财通账户状态、冻结理财通账户、解冻理财通账户
+        /// </summary>
+        /// <param name="uin">用户uin</param>
+        /// <param name="cre_id">证件号</param>
+        /// <param name="cre_type">证件类型，可选 目前只支持身份证 1</param>
+        /// <param name="name">用户姓名 （可选）</param>
+        /// <param name="op_type">操作类型（1:冻结 2：解冻 3：查询）</param>
+        /// <param name="frozen_channel">(1：客服 2：风控)</param>
+        /// 结果：返回true或者false。情况如下：
+        /// 查询：true 冻结；false 未冻结
+        /// 冻结：true 冻结成功
+        /// 解冻：true 解冻成功
+        public Boolean LCTAccStateOperator(string uin, string cre_id, string cre_type, string name, string op_type, string caller_name, string client_ip)
+        {
+            string frozen_channel = "1";
+            string inmsg = "uin=" + uin;
+            inmsg += "&cre_id=" + cre_id;
+            inmsg += "&cre_type=" + cre_type;
+            inmsg += "&name=" + name;
+            inmsg += "&op_type=" + op_type;
+            inmsg += "&frozen_channel=" + frozen_channel;
+            inmsg += "&caller_name=" + caller_name;
+            inmsg += "&client_ip=" + client_ip;
+
+            string key = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("LCTAccStateOperKey", "2fc74807d66a88a1be9cee7b4e114eec");
+            //token生成格式
+            string keyvalue = uin + "|" + cre_type + "|" + cre_id + "|" + op_type + "|" + frozen_channel + "|" + key;
+            string md5Key = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(keyvalue, "md5");
+            inmsg += "&token=" + md5Key;
+
+            string ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("LCTAccStateIP", "172.27.31.181");
+            int port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("LCTAccStatePort", 22000);
+
+            string answer = RelayAccessFactory.RelayInvoke(inmsg, "101027", true, false, ip, port);
+
+            try
+            {
+                if (answer.IndexOf("result=0") > -1)
+                {
+                    if (op_type == "3")//查询，正常结果：result=0&res_info=ok&isfrozen=0
+                    {
+                        if (answer.IndexOf("isfrozen=0") > -1)//未冻结状态
+                            return false;
+                        else if (answer.IndexOf("isfrozen=1") > -1)//冻结状态
+                            return true;
+                        else
+                            throw new Exception("查询理财通账户状态异常");
+
+                    }
+                    else if (op_type == "1")//冻结，正常结果：result=0&res_info=ok
+                    {
+                        if (answer.IndexOf("res_info=ok") > -1)//冻结成功
+                            return true;
+                        else
+                            throw new Exception("冻结理财通账户异常");
+                    }
+                    else if (op_type == "2")//解冻，正常结果：result=0&res_info=ok
+                    {
+                        if (answer.IndexOf("res_info=ok") > -1)//解冻成功
+                            return true;
+                        else
+                            throw new Exception("解冻理财通账户异常");
+                    }
+                    else
+                        throw new Exception("操作理财通账户状态异常");
+                }
+                else
+                    throw new Exception("理财通账户状态操作异常");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + string.Format(" ip:{0} 入参：{1} 返回：{2}", ip, inmsg, answer));
+            }
+
         }
 
         public DataTable QuerySubAccountInfo(string uin, int currencyType)
