@@ -621,11 +621,42 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             return (new TradeData()).QueryWXUnfinishedTrade(open_id);
         }
-
+        public int QueryWXUnfinishedHB(string WeChatName)
+        {
+            return (new TradeData()).QueryWXUnfinishedHB(WeChatName);
+        }
         public DataSet GetUnfinishedMobileQHB(string uin)
         {
             return (new TradeData()).GetUnfinishedMobileQHB(uin);
         }
         #endregion
+
+        public DataSet GetListidFromUserOrder(string qqid, string uid, int start, int max)
+        {
+            return (new TradeData()).GetListidFromUserOrder(qqid, uid, start, max);
+        }
+        public DataSet GetQueryList(DateTime u_BeginTime, DateTime u_EndTime, string buyqq, string saleqq, string buyqqInnerID, string saleqqInnerID,
+          string u_QueryType, string queryvalue, int fstate, int fcurtype, int start, int max) 
+        {
+            return (new TradeData()).GetQueryList(u_BeginTime, u_EndTime, buyqq, saleqq, buyqqInnerID, saleqqInnerID,
+            u_QueryType, queryvalue, fstate, fcurtype, start, max);
+        }
+        public DataSet GetManJianUsingList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, string banktype, int istr, int imax)
+        {
+            return (new TradeData()).GetManJianUsingList(u_ID, u_IDType, u_BeginTime, u_EndTime, banktype, istr, imax);
+        }
+        public DataSet Q_PAY_LIST(string strID, int iIDType, DateTime dtBegin, DateTime dtEnd, int istr, int imax)
+        {
+            return (new TradeData()).Q_PAY_LIST(strID, iIDType, dtBegin, dtEnd, istr, imax);
+        }
+        public DataSet MediListQueryClass(string u_ID, string Fcode, string strBeginTime, string strEndTime, string u_UserFilter
+          , string u_OrderBy, int limStart, int limCount)
+        {
+            return (new TradeData()).MediListQueryClass(u_ID, Fcode, strBeginTime, strEndTime, u_UserFilter, u_OrderBy, limStart, limCount);
+        }
+        public DataSet QueryBusCardPrepaid(string beginDate, string endDate, int PageSize, string uin, string listid, string cardid, out string errMsg)
+        {
+            return (new TradeData()).QueryBusCardPrepaid(beginDate, endDate, PageSize, uin, listid, cardid, out errMsg);
+        }
     }
 }

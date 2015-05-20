@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using TENCENT.OSS.CFT.KF.Common;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -132,11 +133,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			//string filter = ListState.SelectedIndex==0 ? "":"Fstate='"+DropDownList2_tradeState.SelectedValue+"'";
 			string filter = ListState.SelectedIndex==0 ? "":"Ftrade_state='"+DropDownList2_tradeState.SelectedValue+"'";
 			string order = "Flistid,FBuyid";//RadioButtonListOrder.SelectedIndex==0 ? "Flistid,FBuyid" : "FBuyid,Flistid";
-            Query_Service.Query_Service myService = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-			System.Data.DataSet ds = myService.GetMediListX(spid,this.txtFcode.Text.Trim(),strBeginDate,strEndDate,filter,order,
-				this.pager.PageSize * (index - 1),this.pager.PageSize);
 
+            //Query_Service.Query_Service myService = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            //myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
+            //System.Data.DataSet ds = myService.GetMediListX(spid,this.txtFcode.Text.Trim(),strBeginDate,strEndDate,filter,order,
+            //    this.pager.PageSize * (index - 1),this.pager.PageSize);
+
+            System.Data.DataSet ds = new TradeService().MediListQueryClass(spid, this.txtFcode.Text.Trim(), strBeginDate, strEndDate, filter, order,
+                 this.pager.PageSize * (index - 1), this.pager.PageSize);
 			if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
 			{
 				WebUtils.ShowMessage(this,"查询结果为空");

@@ -166,7 +166,7 @@ namespace CFT.CSOMS.DAL.SPOA
             try
             {
                 //修改客服联系邮箱
-                if (!UpdateServerEmail(aci, uid, ip)) return false;
+              //  if (!UpdateServerEmail(aci, uid, ip)) return false;
 
                 string inmsg = "spid=" + aci.spid;
                 inmsg += "&CMD=" + CommQuery.ICEEncode("MOD_SP_CONTACT_INFO");

@@ -1351,6 +1351,13 @@
     <Compile Include="NewQueryInfoPages\CFTTransferQuery.aspx.designer.cs">
       <DependentUpon>CFTTransferQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx.cs">
+      <DependentUpon>QueryAuthenStateInfoPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx.designer.cs">
+      <DependentUpon>QueryAuthenStateInfoPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="NewQueryInfoPages\QueryZHTrade.aspx.cs">
       <DependentUpon>QueryZHTrade.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1511,13 +1518,6 @@
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryAuthenInfoPage.aspx.designer.cs">
       <DependentUpon>QueryAuthenInfoPage.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx.cs">
-      <DependentUpon>QueryAuthenStateInfoPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx.designer.cs">
-      <DependentUpon>QueryAuthenStateInfoPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryBankListInfoPage.aspx.cs">
       <DependentUpon>QueryBankListInfoPage.aspx</DependentUpon>
@@ -1954,6 +1954,13 @@
     </Compile>
     <Compile Include="TradeManage\BeforeCancelTradeQuery.aspx.designer.cs">
       <DependentUpon>BeforeCancelTradeQuery.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TradeManage\BusCardPrepaidQuery.aspx.cs">
+      <DependentUpon>BusCardPrepaidQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\BusCardPrepaidQuery.aspx.designer.cs">
+      <DependentUpon>BusCardPrepaidQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\ContractQuery.aspx.cs">
       <DependentUpon>ContractQuery.aspx</DependentUpon>
@@ -3020,6 +3027,7 @@
     <Content Include="InternetBank\RefundQuery.aspx" />
     <Content Include="InternetBank\MermberDiscount.aspx" />
     <Content Include="InternetBank\TurnoverQuery.aspx" />
+    <Content Include="js\airportCity.js" />
     <Content Include="js\common.js" />
     <Content Include="Left.aspx">
       <SubType>Form</SubType>
@@ -3030,6 +3038,7 @@
     <Content Include="Middle.htm" />
     <Content Include="NewQueryInfoPages\GetFundRatePageDetail.aspx" />
     <Content Include="NewQueryInfoPages\CFTTransferQuery.aspx" />
+    <Content Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx" />
     <Content Include="NewQueryInfoPages\QueryZHTrade.aspx" />
     <Content Include="NewQueryInfoPages\QueryZHFreeze.aspx" />
     <Content Include="NewQueryInfoPages\QueryZHInfo.aspx" />
@@ -3059,9 +3068,6 @@
       <SubType>Form</SubType>
     </Content>
     <Content Include="NewQueryInfoPages\QueryAuthenInfoPage.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx">
       <SubType>Form</SubType>
     </Content>
     <Content Include="NewQueryInfoPages\QueryBankListInfoPage.aspx">
@@ -3184,6 +3190,7 @@
     <Content Include="TradeManage\BatPayQuery.aspx" />
     <Content Include="TradeManage\BatPayShowDetail.aspx" />
     <Content Include="TradeManage\BeforeCancelTradeQuery.aspx" />
+    <Content Include="TradeManage\BusCardPrepaidQuery.aspx" />
     <Content Include="TradeManage\ContractQuery.aspx" />
     <Content Include="TradeManage\CGIInfoQuery.aspx" />
     <Content Include="TradeManage\PayLimitManage.aspx" />
@@ -4085,9 +4092,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NewQueryInfoPages\QueryAuthenInfoPage.aspx.resx">
       <DependentUpon>QueryAuthenInfoPage.aspx.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx.resx">
-      <DependentUpon>QueryAuthenStateInfoPage.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewQueryInfoPages\QueryBankListInfoPage.aspx.resx">
       <DependentUpon>QueryBankListInfoPage.aspx.cs</DependentUpon>

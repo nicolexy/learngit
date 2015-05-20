@@ -10093,7 +10093,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 orderStr = "order by date_format(FSubmitTime,'%Y%m%d') desc";
             }
 
-            fstrSql = "select Fid,FType,Fuin,FSubmitTime,FState,FCheckTime,Fpicktime,FCheckInfo,FCheckUser,FComment,Femail,FPickUser from " + table+" "
+            fstrSql = "select Fid,FType,Fuin,FSubmitTime,FState,FCheckTime,Fpicktime,FCheckInfo,FCheckUser,FComment,Femail,FPickUser,Fsuptime from " + table + " "
                 + strWhere + orderStr;
 
             fstrSql_count = "select count(1) from "+ table+" " + strWhere;

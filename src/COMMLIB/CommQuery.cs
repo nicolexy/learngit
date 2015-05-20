@@ -2620,6 +2620,10 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                     {
                         dt.Columns.Add("channel", typeof(string));
                     }
+                    if (!dt.Columns.Contains("recv_listid"))
+                    {
+                        dt.Columns.Add("recv_listid", typeof(string));
+                    }
 
 
                     dt.Rows.Add(row);
@@ -2886,6 +2890,93 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             return dsresult;
         }
 
+        public static DataSet ParseRelayBusCardPrepaid(string str,out string errMsg)
+        {
+            DataSet dsResult = null;
+            errMsg = "";
+            if (!string.IsNullOrEmpty(str))
+            {
+                string[] strlist1 = str.Split('&');
+                if (strlist1.Length<1 || !strlist1[0].Contains("result=") || !strlist1[2].Contains("row_num"))
+                {
+                    dsResult = null;
+                    errMsg = "调用服务出错:"+strlist1[0]+strlist1[1]+strlist1[2];
+                    return dsResult;
+                }
+                if (strlist1[0].Contains("result=0"))
+                {
+                    int row_number = int.Parse(strlist1[2].Replace("row_number=", ""));//行数
+                    if (row_number != strlist1.Length-3)
+                    {
+                        dsResult = null;
+                        errMsg = "查询返回行数与记录数不相等";
+                        return dsResult;
+                    }
+                    if (row_number > 0)
+                    {
+                        for (int i = 0; i < row_number;i++ )
+                        {
+                            string str2 = strlist1[i + 3];
+                            str2 = str2.Substring(str2.IndexOf("Fcard_face_no"));
+                            str2 = System.Web.HttpUtility.UrlDecode(str2, System.Text.Encoding.GetEncoding("utf-8"));
+                            str2 = System.Web.HttpUtility.UrlDecode(str2, System.Text.Encoding.GetEncoding("utf-8"));
+                            str2 = "result=0&" + str2;
+                            DataSet tmpDT = ParseRelayStr(str2,out errMsg);
+                            if (errMsg == "")
+                            {
+                                if (tmpDT != null && tmpDT.Tables != null && tmpDT.Tables[0] != null && tmpDT.Tables[0].Rows.Count > 0)
+                                {
+                                    tmpDT.Tables[0].Columns.RemoveAt(0);
+                                    if (i == 0)
+                                    {
+                                        dsResult = new DataSet();
+                                        dsResult.Tables.Add(tmpDT.Tables[0].Copy());
+                                    }
+                                    else
+                                    {
+                                        DataRow dr = dsResult.Tables[0].NewRow();
+                                        dr.ItemArray = tmpDT.Tables[0].Rows[0].ItemArray;
+                                        dsResult.Tables[0].Rows.Add(dr);
+                                    }
+                                }
+                                else
+                                {
+                                    errMsg = "返回结果转化失败" + errMsg;
+                                    dsResult = null;
+                                    return dsResult;
+                                }
+                            }
+                            else
+                            {
+                                dsResult = null;
+                                return dsResult;
+                            }
+                        }
+                        errMsg = "";
+                        return dsResult;
+                    }
+                    else
+                    {
+                        dsResult = null;
+                        errMsg = "查询结果为0";
+                        return dsResult;
+                    }
+                }
+                else
+                {
+                    dsResult = null;
+                    errMsg = "调用服务出错";
+                    return dsResult;
+                }
+            }
+            else
+            {
+                errMsg = "调用服务出错，返回空串";
+                dsResult = null;
+                return dsResult;
+            }
+
+        }
 
         /// <summary>
         /// 格式字符串解析 result=0&row1=&row2=&row_num=...格式字符串解析

@@ -431,10 +431,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
             //统计收益总和，和余额总和
             long totalBalance = 0, totalProfit = 0;
+            decimal totalMarkValue = 0;
             foreach (DataRow item in summaryTable.Rows)
             {
                 totalBalance += long.Parse(item["balance"].ToString());
                 totalProfit += long.Parse(item["Ftotal_profit"].ToString());
+                totalMarkValue += decimal.Parse(item["markValue"].ToString());
             }
             if (!ClassLib.ValidateRight("BalanceControl", this))
             {
@@ -442,10 +444,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             else 
             {
-                lblBalance.Text = classLibrary.setConfig.FenToYuan(totalBalance); //账户总金额
+                lblBalance.Text = classLibrary.setConfig.FenToYuan(totalBalance).Replace("元",""); //账户总金额
             }
             
             lblTotalProfit.Text = classLibrary.setConfig.FenToYuan(totalProfit);
+            lbMarkValue.Text = totalMarkValue.ToString();//市值
         }
 
         private void BindProfitList(string tradeId, string spId, DateTime beginDate, DateTime endDate, int pageIndex = 1)
@@ -454,54 +457,39 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             try 
 	        {
                 this.pager.CurrentPageIndex = pageIndex;
-		        var profits = fundBLLService.GetFundProfitRecord(tradeId: tradeId,
+                var profits = fundBLLService.BindProfitList(tradeId: tradeId,
                                                             beginDateStr:beginDate.ToString("yyyyMMdd"), 
                                                             endDateStr: endDate.ToString("yyyyMMdd"),
                                                             spId: spId,
                                                             currentPageIndex: pageIndex -1,
-                                                            pageSize: pager.PageSize);
+                                                            pageSize: pager.PageSize,
+                                                            fund_code:ViewState["fundCode"].ToString());
 
-                if (profits.Rows.Count > 0)
+                if (profits!=null&&profits.Rows.Count > 0)
                 {
-                    profits.Columns.Add("Fvalid_money_str", typeof(String));//收益本金额
-                    profits.Columns.Add("Fpur_typeName", typeof(String));//科目
-                    profits.Columns.Add("F7day_profit_rate_str", typeof(String));//七日年化收益
-                    profits.Columns.Add("Fprofit_str", typeof(String));//收益金额
-                    profits.Columns.Add("Fspname", typeof(String));//基金公司名
-                    profits.Columns.Add("Fprofit_per_ten_thousand", typeof(string));//万份收益
+                    string fund_code = ViewState["fundCode"].ToString();
+                    DataGrid_QueryResult.Columns[3].Visible = true;
+                    DataGrid_QueryResult.Columns[4].Visible = true;
+                    DataGrid_QueryResult.Columns[5].Visible = true;
+                    DataGrid_QueryResult.Columns[7].Visible = true;
+                    DataGrid_QueryResult.Columns[8].Visible = true;
+                    DataGrid_QueryResult.Columns[9].Visible = true;
+                    DataGrid_QueryResult.Columns[10].Visible = true;
 
-                    foreach (DataRow dr in profits.Rows)
+                    //根据基金来控制展示字段
+                    if (fund_code == "110020" && spId == "1238657101") //易方达沪深300基金
                     {
-                        dr["Fpur_typeName"] = "分红";
-                        if (!(dr["F7day_profit_rate"] is DBNull))
-                        {
-                            string tmp = dr["F7day_profit_rate"].ToString();
-                            if (!string.IsNullOrEmpty(tmp))
-                            {
-                                decimal d = (decimal)(Int64.Parse(tmp)) / 100000000;
-                                dr["F7day_profit_rate_str"] = d.ToString("P4");
-                            }
-                        }
-                        //万份收益计算
-                        if (dr["F1day_profit_rate"] != null && dr["F1day_profit_rate"] != DBNull.Value && dr["F1day_profit_rate"].ToString() != string.Empty)
-                        {
-                            decimal oneDayProfitRrate = 0;
-                            decimal.TryParse(dr["F1day_profit_rate"].ToString(), out oneDayProfitRrate);
-                            decimal profitPerTenThousand = oneDayProfitRrate / 10000;
-
-                            dr["Fprofit_per_ten_thousand"] = profitPerTenThousand.ToString("N3");
-                        }
-
-                        //基金公司名
-                        dr["Fspname"] = FundService.GetAllFundInfo().Where(i => i.SPId == dr["Fspid"].ToString()).First().SPName;                    
+                        DataGrid_QueryResult.Columns[3].Visible = false;
+                        DataGrid_QueryResult.Columns[4].Visible = false;
+                        DataGrid_QueryResult.Columns[5].Visible = false;
                     }
-                    if (ClassLib.ValidateRight("BalanceControl", this))
+                    else
                     {
-                        classLibrary.setConfig.FenToYuan_Table(profits, "Fvalid_money", "Fvalid_money_str");
+                        DataGrid_QueryResult.Columns[7].Visible = false;
+                        DataGrid_QueryResult.Columns[8].Visible = false;
+                        DataGrid_QueryResult.Columns[9].Visible = false;
+                        DataGrid_QueryResult.Columns[10].Visible = false;
                     }
-                    
-                    classLibrary.setConfig.FenToYuan_Table(profits, "Fprofit", "Fprofit_str");
-
 
                     this.DataGrid_QueryResult.DataSource = profits.DefaultView;
                     this.DataGrid_QueryResult.DataBind();
@@ -509,7 +497,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	        }
 	        catch (Exception ex)
 	        {	
-		        throw new Exception(string.Format("查询基金收益记录异常：{0}", ex.Message));
+		        throw new Exception(string.Format("查询基金收益记录异常：{0}", PublicRes.GetErrorMsg(ex.Message.ToString())));
 	        }
             
         }
@@ -530,13 +518,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                 //获取强赎申请URL,未提供强赎功能接口到客服部
                 GeForceRedeemUrl(bankRollList);
-
+                string fund_code = ViewState["fundCode"].ToString();
+                if (fund_code == "110020" && spId == "1238657101") //易方达沪深300基金
+                {
+                    this.dgBankRollList.Columns[3].HeaderText = "基金份额";
+                    this.dgBankRollList.Columns[4].HeaderText = "份额余额";
+                }
+                else
+                {
+                    this.dgBankRollList.Columns[3].HeaderText = "金额";
+                    this.dgBankRollList.Columns[4].HeaderText = "账户余额";
+                }
                 dgBankRollList.DataSource = bankRollList.DefaultView;
                 dgBankRollList.DataBind();
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("获取账户流水异常:{0}", ex.Message));
+                throw new Exception(string.Format("获取账户流水异常:{0}", PublicRes.GetErrorMsg(ex.Message)));
             }
         }
 
@@ -625,15 +623,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             object obj = e.Item.Cells[8].FindControl("UnCloseFundApplyButton");
             int index = this.bankRollListPager.CurrentPageIndex;
             string type = e.Item.Cells[2].Text.Trim();//存取
-            
+             string fund_code = ViewState["fundCode"].ToString();
+             string spid = ViewState["fundSPId"].ToString();
             if (obj != null)
             {
                 LinkButton lb = (LinkButton)obj;
                 if (index == 1 && e.Item.ItemIndex == 0 && type!="冻结"&&
                     ViewState["close_flag"].ToString() == "1")//第一页，第一行流水记录才能赎回，且存取状态不能为冻结 且为非定期基金
                 {
+                    if (!(fund_code == "110020" && spid == "1238657101"))//易方达沪深300强赎先隐藏，无接口
+                    {
                     if (DateTime.Now.Hour >= 9 && DateTime.Now.Hour <= 15)//强赎发起时间工作日9：00－15：00，其它时间无法发起强赎，按钮灰色
                     lb.Visible = true;
+                    }
                 }
             }
         }
@@ -663,18 +665,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 int start = max * (pageIndex - 1);
 
                 //if (string.IsNullOrEmpty(spId))
-                 //   throw new Exception(string.Format("无法同时查询所有基金的流水信息，请选择指定的基金"));
+                //   throw new Exception(string.Format("无法同时查询所有基金的流水信息，请选择指定的基金"));
 
                 //var fundInfo = FundService.GetAllFundInfo().Where(i => i.SPId == spId);
 
                 //if (fundInfo.Count() < 1)
                 //    throw new Exception(string.Format("找不到{0}对应的基金信息", spId));
 
-              //  DataTable bankRollList = fundBLLService.GetFundRollList(qqId, beginDate, endDate, curtype, start, max, redirectionType);
+                //  DataTable bankRollList = fundBLLService.GetFundRollList(qqId, beginDate, endDate, curtype, start, max, redirectionType);
                 //更换成与API接口一致
-                DataTable bankRollList = fundBLLService.BindBankRollListNotChildren(qqId, curtype, beginDate, endDate, start, max, redirectionType);
+                string fund_code = ViewState["fundCode"].ToString();
+                DataTable bankRollList = fundBLLService.BindBankRollListNotChildren(qqId, curtype, beginDate, endDate, start, max, redirectionType, spId, fund_code);
                 if (bankRollList != null)
                 {
+
+                    if (fund_code == "110020" && spId == "1238657101") //易方达沪深300基金
+                    {
+                        this.dgBankRollListNotChildren.Columns[2].Visible = true;
+                        this.dgBankRollListNotChildren.Columns[5].Visible = true;
+                    }
+                    else
+                    {
+                        this.dgBankRollListNotChildren.Columns[2].Visible = false;
+                        this.dgBankRollListNotChildren.Columns[5].Visible = false;
+                    }
+
                     dgBankRollListNotChildren.DataSource = bankRollList.DefaultView;
                     dgBankRollListNotChildren.DataBind();
                 }
@@ -686,7 +701,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("获取用户交易流水异常:{0}", ex.Message));
+                throw new Exception(string.Format("获取用户交易流水异常:{0}", PublicRes.GetErrorMsg(ex.Message)));
             }
         }
 
@@ -700,7 +715,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                WebUtils.ShowMessage(this, string.Format("翻页异常:{0}", ex.Message));
+                WebUtils.ShowMessage(this, string.Format("翻页异常:{0}", PublicRes.GetErrorMsg(ex.Message)));
             }
         }
 
@@ -714,7 +729,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                WebUtils.ShowMessage(this, string.Format("翻页异常:{0}", ex.Message));
+                WebUtils.ShowMessage(this, string.Format("翻页异常:{0}", PublicRes.GetErrorMsg(ex.Message)));
             }
         }
 
@@ -728,7 +743,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                WebUtils.ShowMessage(this, string.Format("翻页异常:{0}", ex.Message));
+                WebUtils.ShowMessage(this, string.Format("翻页异常:{0}", PublicRes.GetErrorMsg(ex.Message)));
             }
         }
 
@@ -857,7 +872,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("查询交易明细:{0}", ex.Message));
+                throw new Exception(string.Format("查询交易明细:{0}", PublicRes.GetErrorMsg(ex.Message)));
             }
         }
 
@@ -886,7 +901,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                WebUtils.ShowMessage(this, string.Format("翻页异常:{0}", ex.Message));
+                WebUtils.ShowMessage(this, string.Format("翻页异常:{0}", PublicRes.GetErrorMsg(ex.Message)));
             }
         }
 
@@ -928,7 +943,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("查询理财通余额流水异常：{0}", ex.Message));
+                throw new Exception(string.Format("查询理财通余额流水异常：{0}", PublicRes.GetErrorMsg(ex.Message)));
             }
 
         }
@@ -941,7 +956,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                WebUtils.ShowMessage(this, string.Format("翻页异常:{0}", ex.Message));
+                WebUtils.ShowMessage(this, string.Format("翻页异常:{0}", PublicRes.GetErrorMsg(ex.Message)));
             }
         }
     }

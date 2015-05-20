@@ -38,7 +38,7 @@ namespace CFT.CSOMS.DAL.FundModule
                 return ds.Tables[0];
             }
         }
-
+       
         //判断是否重新申购基金
         public bool QueryIfAnewBoughtFund(string listid, DateTime time)
         {
@@ -68,7 +68,7 @@ namespace CFT.CSOMS.DAL.FundModule
             {
                 da.OpenConn();
                 var table_name = string.Format("fund_db_{0}.t_trade_fund_{1}", listid.Substring(listid.Length - 2), listid.Substring(listid.Length - 3, 1));
-                string Sql = string.Format(" select Fspid,Ffund_name,Ffund_code,Fpur_type from {0} where Fspid='{1}' and Flistid='{2}'", table_name, spid, listid);
+                string Sql = string.Format(" select Fspid,Ffund_name,Ffund_code,Fpur_type,Fcharge_fee from {0} where Fspid='{1}' and Flistid='{2}'", table_name, spid, listid);
                 DataSet ds = da.dsGetTotalData(Sql);
 
                 return ds.Tables[0];

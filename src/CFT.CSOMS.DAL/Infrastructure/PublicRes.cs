@@ -15,7 +15,9 @@ using CFT.CSOMS.DAL.CFTAccount;
 using CFT.CSOMS.DAL.Infrastructure;
 using CFT.Apollo.Logging;
 using CommLib;
-using ReCommQuery = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery;//解决命名冲突
+using ReCommQuery = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery;
+using TENCENT.OSS.C2C.Finance.BankLib;
+using System.Collections;//解决命名冲突
 
 namespace CFT.CSOMS.DAL.Infrastructure
 {
@@ -739,8 +741,179 @@ namespace CFT.CSOMS.DAL.Infrastructure
              return ar;
          }
 
+         /// <summary>
+         /// 查询客服系统日志
+         /// </summary>
+         /// <param name="log_type">日志类型</param>
+         /// <param name="key_name">关键字段名</param>
+         /// <param name="key_value">关键字段值</param>
+         /// <param name="keyNameList">参数列表</param>
+         /// <returns></returns>
+         public static DataSet QueryKFLog(string log_type, string key_name, string key_value, ArrayList keyNameList)
+         {
+             if (string.IsNullOrEmpty(log_type))
+             {
+                 throw new ArgumentNullException("log_type");
+             }
+             if (string.IsNullOrEmpty(key_name))
+             {
+                 throw new ArgumentNullException("key_name");
+             }
+             if (string.IsNullOrEmpty(key_value))
+             {
+                 throw new ArgumentNullException("key_value");
+             }
+             if (keyNameList==null|| keyNameList.Count == 0)
+             {
+                 throw new ArgumentNullException("keyNameList");
+             }
+             try
+             {
+                 //根据参数列表组装成以列表中参数为列名的ds
+                 DataSet dsParam = GetKFLogKeyNameDS(keyNameList);
+
+                 using (var da = MySQLAccessFactory.GetMySQLAccess("DataSource_ht"))
+                 {
+                     da.OpenConn();
+
+                     string Sql = string.Format("select Fid from c2c_fmdb.t_log_kf_all where Flog_type='{0}' and Fkey_name='{1}' and Fkey_value='{2}'",
+                        log_type, key_name, key_value);
+                     DataSet ds = da.dsGetTotalData(Sql);
+                     if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                     {
+                         return null;
+                     }
+
+                     try
+                     {
+                         string id = "";
+                         DataSet dsParamOne = new DataSet();
+                         foreach (DataRow row in ds.Tables[0].Rows)
+                         {
+                             id = row["Fid"].ToString();
+                             Sql = "select * from c2c_fmdb.t_log_kf_param where Flog_id='" + id + "';";
+                             dsParamOne = da.dsGetTotalData(Sql);
+
+                             if (dsParamOne == null || dsParamOne.Tables.Count == 0 || dsParamOne.Tables[0].Rows.Count == 0)
+                                 LogHelper.LogInfo(" c2c_fmdb.t_log_kf_all 表中 Fid=" + id + "未查询到对应的参数");
+                            
+                             DataRow dsnew = dsParam.Tables[0].NewRow();
+                             foreach (DataRow drP in dsParamOne.Tables[0].Rows)
+                             {
+                                 string name = drP["Fkey"].ToString();
+                                 string value = drP["Fvalue"].ToString();
+                                 dsnew[name] = value;
+                             }
+                             dsParam.Tables[0].Rows.Add(dsnew);
+                         }
+                     }
+                     catch (Exception ex)
+                     {
+                         throw new Exception("查询日志参数异常：" + ex);
+                     }
+                 }
+
+                 return dsParam;
+             }
+             catch (Exception ex)
+             {
+                 string err = "查询日志异常：" + ex;
+                 LogHelper.LogInfo(err);
+                 throw new Exception(err);
+             }
+         }
+
+         /// <summary>
+         /// 根据参数列表组装成以列表中参数为列名的ds
+         /// 提供给日志查询
+         /// </summary>
+         /// <param name="keyNameList">参数列表</param>
+         /// <returns></returns>
+         public static DataSet GetKFLogKeyNameDS(ArrayList keyNameList)
+         {
+             DataSet dsParam = new DataSet();
+
+             foreach (string para in keyNameList)
+             {
+                 DataTable dt = new DataTable();
+                 dsParam.Tables.Add(dt);
+                 dsParam.Tables[0].Columns.Add(para.Trim());//获取参数名
+             }
+
+             return dsParam;
+         }
+
+         /// <summary>
+         /// 客服系统写日志
+         /// </summary>
+         /// <param name="FObjID">不重复id</param>
+         /// <param name="log_type">业务类型</param>
+         /// <param name="key_name">关键字段 可用于查询</param>
+         /// <param name="key_value">关键字段值</param>
+         /// <param name="update_user">更新user</param>
+         /// <param name="myParams">参数列表</param>
+         /// <returns></returns>
+         public static void WirteKFLog(string FObjID, string log_type, string key_name, string key_value, string update_user, Param[] myParams)
+         {
+             var da = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
+             try
+             {
+                     da.OpenConn();//Fstate 0 有效 1 删除
+                     string Sql = string.Format("Insert c2c_fmdb.t_log_kf_all(FObjID,Flog_type,Fkey_name,Fkey_value,Fupdate_user,Fmodify_time) values('{0}','{1}','{2}','{3}','{4}','{5}')",
+                        FObjID, log_type, key_name, key_value, update_user, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                     if (!da.ExecSql(Sql))
+                     {
+                         throw new Exception("t_check_main 添加记录失败");
+                     }
+
+                     Sql = "select Max(FID) from c2c_fmdb.t_log_kf_all where FObjID='" + FObjID + "'";
+                     string id = da.GetOneResult(Sql);
+
+                     AddWirteKFLogParam(id, myParams, da);
+                     da.Commit();
+             }
+             catch (Exception ex)
+             {
+                 da.RollBack();
+                 string err = "添加日志记录出错：log_type:" + log_type + " key_name:" + key_name + " key_value:" + key_value+"  "+ex;
+                 LogHelper.LogInfo(err);
+                 throw new Exception(err);
+             }
+             finally
+             {
+                 da.Dispose();
+             }
+         }
+
+         /// <summary>
+         /// 加入参数。
+         /// </summary>
+         /// <param name="objid">日志id</param>
+         /// <param name="myParams">参数列表</param>
+         /// <param name="da"></param>
+         private static void AddWirteKFLogParam(string id, Param[] myParams, MySqlAccess da)
+         {
+             if (myParams == null || myParams.Length == 0)
+                 throw new Exception("日志参数列表为null");
+             try
+             {
+                 foreach (Param aparam in myParams)
+                 {
+                     string strSql = "insert c2c_fmdb.t_log_kf_param(Flog_id,Fkey,Fvalue) values(" + id
+                         + ",'" + aparam.ParamName + "','" + aparam.ParamValue + "')";
+                     da.ExecSql(strSql);
+                 }
+             }
+             catch (Exception ex)
+             {
+                 throw new Exception("t_log_kf_param 添加记录出错：" + ex.Message);
+             }
+         }
+
     }
-    }
+   
+}
 
     /// <summary>
     /// 金额转换类。

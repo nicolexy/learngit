@@ -54,8 +54,8 @@
               <TR height="35px">
 					<TD align="right" width="150"><asp:label id="Label3" runat="server">联系人电话</asp:label></TD>
 					<TD width="300"><asp:textbox id="tele1" runat="server" Width="200px"></asp:textbox></TD>
-					<TD align="right" width="150"><asp:label id="Label4" runat="server">联系人手机</asp:label></TD>
-					<TD width="300"><asp:textbox id="mobile1" runat="server" Width="200px"></asp:textbox></TD>
+				   <%-- <TD align="right" width="150"><asp:label id="Label4" runat="server">联系人手机</asp:label></TD>
+					<TD width="300"><asp:textbox id="mobile1" runat="server" Width="200px"></asp:textbox></TD>--%>
 				</TR>
                <TR height="35px">
 					<TD align="right" width="150"><asp:label id="Label9" runat="server">业务联系人姓名</asp:label></TD>

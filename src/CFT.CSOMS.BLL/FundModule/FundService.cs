@@ -161,6 +161,7 @@ namespace CFT.CSOMS.BLL.FundModule
             userFundsTable.Columns.Add("close_flag", typeof(string));
             userFundsTable.Columns.Add("transfer_flag", typeof(string));
             userFundsTable.Columns.Add("buy_valid", typeof(string));
+            userFundsTable.Columns.Add("markValue", typeof(string));//市值
 
             var cftAccountBLLService = new CFTAccountModule.AccountService();
             DataTable subAccountInfoTable;
@@ -205,9 +206,53 @@ namespace CFT.CSOMS.BLL.FundModule
                     item["Ftotal_profit"] = "0";
                 }
                
+                string fund_code = item["fund_code"].ToString();
+                string spid = item["Fspid"].ToString();
+                string balance = item["balance"].ToString();
+                try
+                {
+                    item["markValue"] = GetMarkValueForFund(fund_code, spid, balance);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("查询市值异常："+ex.Message);
+                }
             }
 
             return userFundsTable;
+        }
+
+        private static string GetMarkValueForFund(string fund_code, string spid, string balance)
+        {
+            string balanceStr = MoneyTransfer.FenToYuan(balance);//页面上也转了一次，因为API接口是分，所以函数不能随便改必须兼容
+            if (fund_code == "110020" && spid == "1238657101") //易方达沪深300基金的市值=基金份额*每日单位净值 其他基金市值=份额
+            {
+                DateTime dateTime = System.DateTime.Now.AddDays(-1);
+                //查昨天的单位净值，并且是交易日
+                string weekDay = Convert.ToInt16(dateTime.DayOfWeek).ToString();
+                while (weekDay == "7" || weekDay == "6")
+                {
+                    dateTime = dateTime.AddDays(-1);
+                    weekDay = Convert.ToInt16(dateTime.DayOfWeek).ToString();
+                }
+                string date = dateTime.ToString("yyyMMdd");
+                var fundProfit = new FundProfit().QueryFundProfitRate(spid, fund_code, date);
+                decimal F1day_profit_rate = 0.0M;
+
+                if (fundProfit != null && fundProfit.Rows.Count > 0)
+                {
+                    if (fundProfit.Rows[0]["F1day_profit_rate"] != null && fundProfit.Rows[0]["F1day_profit_rate"] != DBNull.Value && fundProfit.Rows[0]["F1day_profit_rate"].ToString() != string.Empty)
+                    {
+                        decimal.TryParse(fundProfit.Rows[0]["F1day_profit_rate"].ToString(), out F1day_profit_rate);
+                    }
+                }
+                decimal profitPerTenThousand = F1day_profit_rate / 10000;
+                decimal balanceDec = 0.0M;
+                decimal.TryParse(balanceStr, out balanceDec);
+                return (balanceDec * profitPerTenThousand).ToString("f2");
+            }
+            else
+                return balanceStr;
         }
 
         /// 获取用户的总余额
@@ -353,7 +398,7 @@ namespace CFT.CSOMS.BLL.FundModule
             return new FundInfoData().QueryAllFundInfo();
         }
         //查询用户余额收益情况明细  -- 将页面的逻辑封装在接口中
-        public DataTable BindProfitList(string tradeId, string beginDateStr, string endDateStr, int currencyType = -1, string spId = "", int currentPageIndex = 0, int pageSize = 5)
+        public DataTable BindProfitList(string tradeId, string beginDateStr, string endDateStr, int currencyType = -1, string spId = "", int currentPageIndex = 0, int pageSize = 5, string fund_code = "")
         {
             try
             {
@@ -366,6 +411,15 @@ namespace CFT.CSOMS.BLL.FundModule
                     profits.Columns.Add("Fprofit_str", typeof(String));//收益金额
                     profits.Columns.Add("Fspname", typeof(String));//基金公司名
                     profits.Columns.Add("Fprofit_per_ten_thousand", typeof(string));//万份收益
+
+                    //以下字段只有易方达沪深300才会展示的字段
+                    profits.Columns.Add("fund_value", typeof(string));//单位净值
+                    profits.Columns.Add("Sday_profit_rate_str", typeof(string));//日涨跌
+                    profits.Columns.Add("fund_balance", typeof(string));//基金份额
+                    profits.Columns.Add("mark_value", typeof(string));//市值
+
+                    COMMLIB.CommUtil.FenToYuan_Table(profits, "Fvalid_money", "Fvalid_money_str");
+                    COMMLIB.CommUtil.FenToYuan_Table(profits, "Fprofit", "Fprofit_str");
 
                     foreach (DataRow dr in profits.Rows)
                     {
@@ -386,7 +440,7 @@ namespace CFT.CSOMS.BLL.FundModule
                             decimal.TryParse(dr["F1day_profit_rate"].ToString(), out oneDayProfitRrate);
                             decimal profitPerTenThousand = oneDayProfitRrate / 10000;
 
-                            dr["Fprofit_per_ten_thousand"] = profitPerTenThousand.ToString("N3");
+                            dr["Fprofit_per_ten_thousand"] = profitPerTenThousand.ToString("N4");
                         }
 
                         try
@@ -398,10 +452,51 @@ namespace CFT.CSOMS.BLL.FundModule
                         {
                             throw new Exception("查询spid:"+dr["Fspid"].ToString()+"的基金公司名异常！");
                         }
+
+                        if (fund_code == "110020" && spId == "1238657101") //易方达沪深300基金
+                        {
+                            dr["fund_value"] = dr["Fprofit_per_ten_thousand"].ToString();
+                            dr["fund_balance"] = dr["Fvalid_money_str"].ToString();
+                            try
+                            {
+                                var fundProfit = new FundProfit().QueryFundProfitRate(spId, fund_code, dr["Fday"].ToString());
+
+                                if (fundProfit != null && fundProfit.Rows.Count > 0)
+                                {
+                                    DataRow row = fundProfit.Rows[0];
+                                    //日涨跌
+                                    if (!(row["F7day_profit_rate"] is DBNull))
+                                    {
+                                        string tmp = row["F7day_profit_rate"].ToString();
+                                        if (!string.IsNullOrEmpty(tmp))
+                                        {
+                                            decimal d = (decimal)(Int64.Parse(tmp)) / 100000000;
+                                            dr["Sday_profit_rate_str"] = d.ToString("P4");
+                                        }
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new Exception("查询spid:" + dr["Fspid"].ToString() + "  fund_code："+fund_code+" 的日涨跌异常！"+ex.Message);
+                            }
+
+                            decimal fund_value = 0.0M;
+                            decimal.TryParse(dr["fund_value"].ToString(), out fund_value);
+                            decimal fund_balance = 0.0M;
+                            decimal.TryParse(dr["fund_balance"].ToString(), out fund_balance);
+                            dr["mark_value"] = (fund_balance * fund_value).ToString("f2");//份额*单位净值
+                        }
+                        else
+                        {
+                            dr["fund_value"] = "";
+                            dr["Sday_profit_rate_str"] = "";
+                            dr["fund_balance"] = "";
+                            dr["mark_value"] = "";
+                        }
                     }
 
-                    COMMLIB.CommUtil.FenToYuan_Table(profits, "Fvalid_money", "Fvalid_money_str");
-                    COMMLIB.CommUtil.FenToYuan_Table(profits, "Fprofit", "Fprofit_str");
+                  
                     return profits;
                 }
             }
@@ -413,7 +508,7 @@ namespace CFT.CSOMS.BLL.FundModule
         }
         
         //查询用户交易流水情况(整合解析功能) 
-        public DataTable BindBankRollListNotChildren(string qqId, string curtype, DateTime beginDate, DateTime endDate, int pageIndex = 0, int pageMax = 5, int redirectionType = 0)
+        public DataTable BindBankRollListNotChildren(string qqId, string curtype, DateTime beginDate, DateTime endDate, int pageIndex = 0, int pageMax = 5, int redirectionType = 0,string spid="",string fund_code="")
         {
             try
             {
@@ -438,8 +533,15 @@ namespace CFT.CSOMS.BLL.FundModule
                     bankRollList.Columns.Add("Fstate_str", typeof(string));
                     bankRollList.Columns.Add("Fbank_type_str", typeof(string));
 
+                    //这两个字段只有在易方达沪深300基金才有值
+                    bankRollList.Columns.Add("charge_fee", typeof(string));//手续费分
+                    bankRollList.Columns.Add("charge_fee_str", typeof(string));//手续费
+                    bankRollList.Columns.Add("fund_balance", typeof(string));//份额
+
                     if (bankRollList.Rows.Count > 0)
                     {
+                        COMMLIB.CommUtil.FenToYuan_Table(bankRollList, "Ftotal_fee", "Ftotal_fee_str");
+
                         foreach (DataRow dr in bankRollList.Rows)
                         {
                             dr["Fsub_trans_id_str"] = "104" + dr["Fsub_trans_id"].ToString();
@@ -547,6 +649,38 @@ namespace CFT.CSOMS.BLL.FundModule
                             }
 
                             dr["Fbank_type_str"] = BankIO.QueryBankName(dr["Fbank_type"].ToString());
+
+                            if (fund_code == "110020" && spid == "1238657101") //易方达沪深300基金
+                            {
+                                //原存取状态“入”就是金额
+                                //原存取状态“出”就是份额
+                                string type=dr["FtypeText"].ToString();
+                                if (type == "入")
+                                {
+                                    dr["fund_balance"] = "";
+                                }
+                                else if (type == "出")
+                                {
+                                    dr["fund_balance"] = dr["Ftotal_fee_str"].ToString();
+                                    dr["Ftotal_fee_str"] = "";
+                                }
+
+                                try
+                                {
+                                    var tradeFund = QueryTradeFundInfo(spid, dr["Flistid"].ToString());
+                                    if (tradeFund != null && tradeFund.Rows.Count > 0)
+                                    {
+                                        dr["charge_fee"] = tradeFund.Rows[0]["Fcharge_fee"].ToString();
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    throw new Exception("查询手续费异常："+ex.Message);
+                                }
+                            }
+                        
+                        
+                        
                         }
 
                         Hashtable ht = new Hashtable();
@@ -562,10 +696,12 @@ namespace CFT.CSOMS.BLL.FundModule
                         ht.Add("9", "申购单转入退款");
                         ht.Add("10", "赎回单受理完成");
                         ht.Add("11", "子账户提现请求成功");
+                        ht.Add("12", "支付完成，到基金公司发起申购成功，但申购结果待确认");
+                        ht.Add("13", "到基金公司发起赎回成功，但赎回结果待确认");
                         ht.Add("20", "作废");
 
                         COMMLIB.CommUtil.DbtypeToPageContent(bankRollList, "Fstate", "Fstate_str", ht);
-                        COMMLIB.CommUtil.FenToYuan_Table(bankRollList, "Ftotal_fee", "Ftotal_fee_str");
+                        COMMLIB.CommUtil.FenToYuan_Table(bankRollList, "charge_fee", "charge_fee_str");
                     }
                     return bankRollList;
                 }
@@ -746,7 +882,7 @@ namespace CFT.CSOMS.BLL.FundModule
                             dr["FmemoText"] += duoFund;
                         }
 
-                        dr["FpaynumText"] = CFT.CSOMS.COMMLIB.CommUtil.FenToYuan(dr["Fpaynum"].ToString());
+                        dr["FpaynumText"] = CFT.CSOMS.COMMLIB.CommUtil.FenToYuan(dr["Fpaynum"].ToString()).Replace("元","");
                         dr["FbalanceText"] = CFT.CSOMS.COMMLIB.CommUtil.FenToYuan(dr["Fbalance"].ToString());
                         dr["FconStr"] = CFT.CSOMS.COMMLIB.CommUtil.FenToYuan(dr["Fcon"].ToString());
                     }
