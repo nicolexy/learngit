@@ -763,12 +763,12 @@ namespace CFT.CSOMS.DAL.TradeModule
             string reqString = "";
             var serverIp = System.Configuration.ConfigurationManager.AppSettings["UserOrderIP"].ToString();
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["UserOrderPort"].ToString());
-
+            string request_type = System.Configuration.ConfigurationManager.AppSettings["UserOrder_requesttype"].ToString();
             //查询卖家
             reqString = "reqid=" + reqid + "&flag=2" +
                   "&fields=" + fields +
                   "&offset=" + offset + "&limit=" + limit + "&msgno=" + msgno;
-            return RelayAccessFactory.GetDSFromRelayFromXML(reqString, "4613", serverIp, serverPort);
+            return RelayAccessFactory.GetDSFromRelayFromXML(reqString, request_type, serverIp, serverPort);
         }
         public DataSet QueryBusCardPrepaid(string beginDate, string endDate, int pageSize, string uin, string listid, string cardid, out string errMsg)
         {
