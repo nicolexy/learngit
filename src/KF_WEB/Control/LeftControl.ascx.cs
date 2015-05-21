@@ -322,6 +322,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 OverseasPay1.AddSubMenu("中行账号冻结查询", "NewQueryInfoPages/QueryZHFreeze.aspx");
                 OverseasPay1.AddSubMenu("中行账号交易查询", "NewQueryInfoPages/QueryZHTrade.aspx");
                 OverseasPay1.AddSubMenu("外汇汇率查询", "NewQueryInfoPages/QueryForeignExchangeRate.aspx");
+                OverseasPay1.AddSubMenu("境外微信小额支付查询", "NewQueryInfoPages/QueryWeiXinMircoPay.aspx");
 
                 InternetBank.AddSubMenu("流水查询", "InternetBank/TurnoverQuery.aspx");
                 InternetBank.AddSubMenu("账单查询", "InternetBank/BillQuery.aspx");

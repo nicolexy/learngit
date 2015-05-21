@@ -169,6 +169,7 @@
     <Compile Include="CommUtil.cs" />
     <Compile Include="DbConnectionString.cs" />
     <Compile Include="DbNameAnalysis.cs" />
+    <Compile Include="Entity\QueryWeiXinMircoPay.cs" />
     <Compile Include="GenID.cs">
       <SubType>Code</SubType>
     </Compile>
