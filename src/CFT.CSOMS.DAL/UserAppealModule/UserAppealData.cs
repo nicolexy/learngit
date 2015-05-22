@@ -315,7 +315,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                 using (var da = MySQLAccessFactory.GetMySQLAccess("ZW_DB"))
                 {
                     da.OpenConn();
-                    string strSql = "select '" + Fqqid + "' as Fqqid,'" + Ftruename + "' as Ftruename,'" + Fcompany_name + "' as Fcompany_name,'"
+                    string strSql = @"select '" + Fqqid + "' as Fqqid,'" + Ftruename + "' as Ftruename,'" + Fcompany_name + "' as Fcompany_name,'"
                         + Fbalance + "' as Fbalance,'" + Fcon + "' as Fcon,'" + Fuser_type + "' as Fuser_type,'" + Femail
                         + "' as Femail,'" + Fcre_type + "' as Fcre_type,'" + Fcreid + "' as Fcreid,'" + Fbankid + "' as Fbankid";
                     return da.dsGetTotalData(strSql);

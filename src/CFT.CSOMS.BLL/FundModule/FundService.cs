@@ -296,6 +296,7 @@ namespace CFT.CSOMS.BLL.FundModule
                  tbCloseFundRollList.Columns.Add("Fpay_type_str", typeof(string));//支付类型
                  tbCloseFundRollList.Columns.Add("Fchannel_id_str", typeof(string));//渠道信息
                  tbCloseFundRollList.Columns.Add("Fuser_end_type_str", typeof(string));//到期策略
+                 tbCloseFundRollList.Columns.Add("Fend_sell_type_str", typeof(string));//到期操作
 
                  if (tbCloseFundRollList.Rows.Count > 0)
                      foreach (DataRow dr in tbCloseFundRollList.Rows)
@@ -377,6 +378,21 @@ namespace CFT.CSOMS.BLL.FundModule
                                  break;
                          }
 
+                         switch (dr["Fend_sell_type"].ToString())
+                         {
+                             case "1":
+                                 dr["Fend_sell_type_str"] = "赎回用户提现到银行卡";
+                                 break;
+                             case "2":
+                                 dr["Fend_sell_type_str"] = "赎回用于转换另一只基金";
+                                 break;
+                             case "3":
+                                 dr["Fend_sell_type_str"] = "赎回用户转余额账户";
+                                 break;
+                             default:
+                                 dr["Fend_sell_type_str"] = dr["Fend_sell_type"].ToString();
+                                 break;
+                         }
                      }
 
                  COMMLIB.CommUtil.FenToYuan_Table(tbCloseFundRollList, "Fstart_total_fee", "Fstart_total_fee_str");
@@ -832,6 +848,7 @@ namespace CFT.CSOMS.BLL.FundModule
                     bankRollList.Tables[0].Columns.Add("FmemoText", typeof(string));
                     bankRollList.Tables[0].Columns.Add("FconStr", typeof(string));
                     bankRollList.Tables[0].Columns.Add("URL", typeof(string));
+                    bankRollList.Tables[0].Columns.Add("fetchid", typeof(string));//提现单号
 
                     foreach (DataRow dr in bankRollList.Tables[0].Rows)
                     {
@@ -864,7 +881,6 @@ namespace CFT.CSOMS.BLL.FundModule
                                 break;
                         }
 
-                        string duoFund = "";
                         string listid = dr["Flistid"].ToString();
                         if (dr["FmemoText"].ToString().Equals("基金申购"))
                         {
@@ -873,19 +889,28 @@ namespace CFT.CSOMS.BLL.FundModule
                                 dr["FmemoText"] = "重新申购";
                             }
 
-                            duoFund = QueryTradeFundInfoPro(spId, listid);//查询多基金转换
-                            dr["FmemoText"] += duoFund;
+                            DataTable tradeFund= QueryTradeFundInfoPro(spId, listid);//查询多基金转换
+                            if (tradeFund != null && tradeFund.Rows.Count > 0)
+                            {
+                                dr["FmemoText"] += tradeFund.Rows[0]["duoFund"].ToString();
+                                dr["fetchid"] += tradeFund.Rows[0]["Ffetchid"].ToString();
+                            }
                         }
 
                         if (dr["FmemoText"].ToString().Equals("提现"))
                         {
-                            duoFund = QueryTradeFundInfoPro(spId, listid.Substring(listid.Length - 18));//查询多基金转换
-                            dr["FmemoText"] += duoFund;
+                            DataTable tradeFund = QueryTradeFundInfoPro(spId, listid.Substring(listid.Length - 18));//查询多基金转换
+                            if (tradeFund != null && tradeFund.Rows.Count > 0)
+                            {
+                                dr["FmemoText"] += tradeFund.Rows[0]["duoFund"].ToString();
+                                dr["fetchid"] += tradeFund.Rows[0]["Ffetchid"].ToString();
+                            }
                         }
 
                         dr["FpaynumText"] = CFT.CSOMS.COMMLIB.CommUtil.FenToYuan(dr["Fpaynum"].ToString()).Replace("元","");
                         dr["FbalanceText"] = CFT.CSOMS.COMMLIB.CommUtil.FenToYuan(dr["Fbalance"].ToString());
                         dr["FconStr"] = CFT.CSOMS.COMMLIB.CommUtil.FenToYuan(dr["Fcon"].ToString());
+
                     }
 
                     return bankRollList.Tables[0];
@@ -898,20 +923,20 @@ namespace CFT.CSOMS.BLL.FundModule
             return null;
         }
 
-        private string QueryTradeFundInfoPro(string spId, string listid)
+        private DataTable QueryTradeFundInfoPro(string spId, string listid)
         {
-            string duoFund = "";
             var tradeFund = QueryTradeFundInfo(spId, listid);
             if (tradeFund != null && tradeFund.Rows.Count > 0)
             {
+                tradeFund.Columns.Add("duoFund", typeof(string));
                 string fundName = tradeFund.Rows[0]["Ffund_name"].ToString();
                 string tmp = tradeFund.Rows[0]["Fpur_type"].ToString();
                 if (tmp == "11")
-                    duoFund = "(" + fundName + "转入)";
+                    tradeFund.Rows[0]["duoFund"] = "(" + fundName + "转入)";
                 if (tmp == "12")
-                    duoFund = "(转出至" + fundName + ")";
+                    tradeFund.Rows[0]["duoFund"] = "(转出至" + fundName + ")";
             }
-            return duoFund;
+            return tradeFund;
         }
     }
 }
