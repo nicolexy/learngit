@@ -733,6 +733,17 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                   throw new Exception(errMsg);
               return LCTAccStateOperator(uin, cre_id, cre_type, "", op_type, caller_name, client_ip);
           }
+
+          /// <summary>
+          /// 腾讯信用查询
+          /// </summary>
+          /// <param name="uin">QQ号</param>
+          /// <param name="username">操作员</param>
+          /// <returns></returns>
+          public DataSet TencentCreditQuery(string uin, string username)
+          {   
+              return  new AccountData().TencentCreditQuery(uin,username);
+          }
     }
 
     #region 异常姓名类

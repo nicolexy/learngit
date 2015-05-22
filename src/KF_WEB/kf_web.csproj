@@ -633,6 +633,13 @@
     <Compile Include="BaseAccount\StartCheck.aspx.designer.cs">
       <DependentUpon>StartCheck.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\TencentCreditQuery.aspx.cs">
+      <DependentUpon>TencentCreditQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\TencentCreditQuery.aspx.designer.cs">
+      <DependentUpon>TencentCreditQuery.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\test.aspx.cs">
       <DependentUpon>test.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2792,6 +2799,7 @@
     </Content>
     <Content Include="BaseAccount\SeparateOperation.aspx" />
     <Content Include="BaseAccount\StartCheck.aspx" />
+    <Content Include="BaseAccount\TencentCreditQuery.aspx" />
     <Content Include="BaseAccount\test.aspx">
       <SubType>Form</SubType>
     </Content>
