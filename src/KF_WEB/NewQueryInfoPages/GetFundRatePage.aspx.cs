@@ -322,6 +322,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         private void BindBasicAccountInfo(string qqId)
         {
+            //理财通账户冻结或解冻操作
+            try
+            {
+                lbLCTAccState.Text = "";
+                AccountService acc = new AccountService();
+                string ip = Request.UserHostAddress.ToString();
+                if (ip == "::1")
+                    ip = "127.0.0.1";
+                Boolean state = acc.LCTAccStateOperator(qqId, "3", Session["uid"].ToString(), ip);
+                if (state)
+                    lbLCTAccState.Text = "冻结";
+                else
+                    lbLCTAccState.Text = "正常";
+            }
+            catch (Exception err)
+            {
+                string errStr = PublicRes.GetErrorMsg(err.Message.ToString());
+                LogHelper.LogInfo("查询理财通账户状态失败！" + errStr);
+            }
+
             //基金账户信息
             var basicFundAccountInfo = queryService.GetUserFundAccountInfo(qqId);
             if (basicFundAccountInfo != null && basicFundAccountInfo.Tables.Count > 0 && basicFundAccountInfo.Tables[0].Rows.Count > 0)

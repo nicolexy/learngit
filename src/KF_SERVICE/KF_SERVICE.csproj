@@ -83,6 +83,13 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CFT.Apollo.Common">
+      <HintPath>..\packages\CFT.Apollo.Common.3.1.5494.24496\lib\CFT.Apollo.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="CFT.Apollo.Logging, Version=1.0.5494.24493, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5494.24500\lib\net40\CFT.Apollo.Logging.dll</HintPath>
+    </Reference>
     <Reference Include="icecs, Version=3.0.1.0, Culture=neutral, PublicKeyToken=1f998c50fec78381">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Assemblies\icecs.dll</HintPath>
@@ -94,7 +101,7 @@
     </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.log4net.1.0.0.15\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="SunLibrary, Version=1.1.5280.31037, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

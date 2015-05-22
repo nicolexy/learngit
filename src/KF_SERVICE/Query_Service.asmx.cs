@@ -2273,11 +2273,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     if (u_IDType == 0 || u_IDType == 9 || u_IDType == 10 || u_IDType == 13)
                     {
-                        //string fuid = PublicRes.ConvertToFuid(u_ID);
-                        //string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
-                        //return cuser.GetResultX_Conn(connstr);
+                        string fuid = PublicRes.ConvertToFuid(u_ID);
+                        string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
+                        return cuser.GetResultX_Conn(connstr);
                         //改成调用relay接口 v_yqyqguo 2015-5-9
-                        return new TradeService().Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
+                        //return new TradeService().Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
                     }
                     else
                         return cuser.GetResultX("BSB");
@@ -2621,11 +2621,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     if (u_IDType == 0 || u_IDType == 9 || u_IDType == 10)
                     {
-                        //string fuid = PublicRes.ConvertToFuid(u_ID);
-                        //string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
-                        //return cuser.GetResultX_Conn(connstr);
+                        string fuid = PublicRes.ConvertToFuid(u_ID);
+                        string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
+                        return cuser.GetResultX_Conn(connstr);
                         //改成调用relay接口 v_yqyqguo 2015-5-9
-                        return new TradeService().Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
+                        //return new TradeService().Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
                     }
                     else
                         return cuser.GetResultX("BSB");
@@ -3320,12 +3320,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     if (u_IDType == 0 || u_IDType == 9 || u_IDType == 10)
                     {
-                        //string fuid = PublicRes.ConvertToFuid(u_ID);
-                        //string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
-                        //return cuser.GetResultX_Conn(istr, imax, connstr);
+                        string fuid = PublicRes.ConvertToFuid(u_ID);
+                        string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
+                        return cuser.GetResultX_Conn(istr, imax, connstr);
 
                         //改成调用relay接口 v_yqyqguo 2015-5-9
-                        return new TradeService().Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
+                        //return new TradeService().Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
                     }
                     else
                         return cuser.GetResultX(istr, imax, "BSB");
@@ -6417,14 +6417,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     return null;
                 }
 
-                return new TradeService().MediListQueryClass(u_ID, Fcode, strBeginTime, strEndTime, u_UserFilter, u_OrderBy, limStart, limCount);
+                //return new TradeService().MediListQueryClass(u_ID, Fcode, strBeginTime, strEndTime, u_UserFilter, u_OrderBy, limStart, limCount);
 
                 //2015-5-11 sql转relay
-                /*
+                
                 MediListQueryClass cuser = new MediListQueryClass(u_ID, Fcode, strBeginTime, strEndTime, u_UserFilter, u_OrderBy, limStart, limCount);
                 //return cuser.GetResultX("BSB");
                 return cuser.GetResultX_Conn(connstr);
-                */
+               
 
                 // 2012/5/29 新添加查询B帐号下挂的C帐号作为中介的交易情况
                 /*

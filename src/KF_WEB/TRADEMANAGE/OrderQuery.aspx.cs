@@ -228,8 +228,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             {
                 fcurtype = int.Parse(Request.QueryString["fcurtype"].Trim()); ;
             }
-            //sqlת relay
-            /*
+           
             Query_Service.Query_Service qs = new Query_Service.Query_Service();
 
             Finance_Header fh = new Finance_Header();
@@ -243,8 +242,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             qs.Finance_HeaderValue = fh;
 
            DataSet ds = qs.GetQueryList(dtBegin, dtEnd, buyqq, saleqq, buyqqIn, saleqqIn, querytype, queryvalue, fstate, fcurtype, start, max);
-            */ 
-            DataSet ds = new TradeService().GetQueryList(dtBegin, dtEnd, buyqq, saleqq, buyqqIn, saleqqIn, querytype, queryvalue, fstate, fcurtype, start, max);
+           
+           // DataSet ds = new TradeService().GetQueryList(dtBegin, dtEnd, buyqq, saleqq, buyqqIn, saleqqIn, querytype, queryvalue, fstate, fcurtype, start, max);
 
             if (ds != null && ds.Tables.Count > 0)
             {

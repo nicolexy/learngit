@@ -56,7 +56,8 @@ namespace CFT.CSOMS.DAL.Infrastructure
         {
             try
             {
-                
+                if(encrypt)
+                    LogHelper.LogInfo("加密前特性参数串："+requestString);
                 var relayResponse = RelayHelper.CommunicateWithRelay( requestString,  serviceCode,  encrypt,  invisible ,  relayIP ,  relayPort,  relayDefaultSPId);
                 if (!string.IsNullOrEmpty(coding))
                 {

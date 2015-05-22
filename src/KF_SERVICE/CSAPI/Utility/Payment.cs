@@ -84,6 +84,8 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
             public string balance { get; set; }
             [XmlElement("con")]
             public string con { get; set; }
+            [XmlElement("mark_value")]
+            public string markValue { get; set; }
         }
 
         public class CloseFundRoll

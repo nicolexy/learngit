@@ -17,6 +17,8 @@ using TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
 using CFT.CSOMS.BLL.FreezeModule;
+using CFT.Apollo.Logging;
+using CFT.CSOMS.BLL.CFTAccountModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -235,9 +237,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				fm.Finance_HeaderValue = fh;
 				//			qs.Finance_HeaderValue = setConfig.setFH(this);
 
+                string op_type = "";//理财通账户状态操作类型
+
 				//调用冻结或者解冻帐户的service
 				if (sign.ToLower() == "true")  //如果是正常帐户，进行冻结操作
 				{
+                    op_type = "1";
 					bool exeSign = false;
 					if (Request.QueryString["type"] == null)
 					{
@@ -340,7 +345,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					catch
 					{
 						WebUtils.ShowMessage(this.Page,"创建冻结工单时失败！");
-						return;
+					//	return;
 					}
 					//furion end
 
@@ -362,12 +367,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                                 //为不影响线上，暂不处理异常
                                 new FreezeService().SendWechatMsg(reqsource, accid, templateid, cont1, cont2, cont3, msgtype);
                             }
-                            catch { }
+                            catch {
+                                WebUtils.ShowMessage(this.Page, accid + "发微信冻结消息异常");
+                            }
                         }
                     }
 				}
 				else if (sign.ToLower() == "false")
-				{		
+				{
+                    op_type = "2";
                     //解冻需要根据冻结渠道判断是否有权限 yinhuang 2013/12/9
                     string isChannel = "";
                     if (ViewState["freezeChannel"] != null && ViewState["freezeChannel"].ToString() != "") 
@@ -539,10 +547,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 						catch
 						{
 							WebUtils.ShowMessage(this.Page,"处理冻结工单时失败！");
-							return;
+						//	return;
 						}
 					}
 				}
+
+                //理财通账户冻结或解冻操作
+                try
+                {
+                    AccountService acc = new AccountService();
+                    string ip = Request.UserHostAddress.ToString();
+                    if (ip == "::1")
+                        ip = "127.0.0.1";
+                    Boolean state = acc.LCTAccStateOperator(uid, op_type, Session["uid"].ToString(), ip);
+                }
+                catch(Exception err)
+                {
+                    string errStr = PublicRes.GetErrorMsg(err.Message.ToString());
+                    WebUtils.ShowMessage(this.Page, "操作理财通账户状态失败！" + errStr);
+                    return;
+                }
 
 				this.Button1_back.Visible = true;
 				this.BT_F_Or_Not.Visible = false;
