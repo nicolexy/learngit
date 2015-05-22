@@ -29,6 +29,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 return;
             }
             string uin = textBoxAccountID.Text.Trim();
+            if (string.IsNullOrEmpty(uin))
+            {
+                WebUtils.ShowMessage(this.Page, "必须输入财付通账号");
+                return;
+            }
             string listid = textBoxOrderID.Text.Trim();
             string cardid = textBoxCardNum.Text.Trim();
             string beginDate = DateTime.Parse(textBoxBeginDate.Text).ToString("yyyyMMdd");
