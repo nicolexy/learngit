@@ -52,6 +52,8 @@
 							<HeaderStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#4A3C8C"></HeaderStyle>
 							<Columns>
 								<asp:BoundColumn DataField="acct_id" HeaderText="微信支付账号"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="valueStr" HeaderText="金额"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="thresholdStr" HeaderText="申购门槛"></asp:BoundColumn>
 								<asp:BoundColumn DataField="batch_id" HeaderText="批次号"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="expire_date" HeaderText="券有效期"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="stateStr" HeaderText="使用状态"></asp:BoundColumn>

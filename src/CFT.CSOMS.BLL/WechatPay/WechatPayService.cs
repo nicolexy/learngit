@@ -114,12 +114,17 @@ namespace CFT.CSOMS.BLL.WechatPay
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0) 
                 {
                     ds.Tables[0].Columns.Add("stateStr", typeof(String));//使用状态
+                    ds.Tables[0].Columns.Add("thresholdStr", typeof(String));//用券门槛，最低申购金额(分)
+                    ds.Tables[0].Columns.Add("valueStr", typeof(String));//增值券面额大小,单位分，只有非固定面额批次才有效
+
                     Hashtable ht1 = new Hashtable();
                     ht1.Add("1", "未使用");
                     ht1.Add("3", "已使用");
                     ht1.Add("4", "已过期");
 
                     COMMLIB.CommUtil.DbtypeToPageContent(ds.Tables[0], "state", "stateStr", ht1);
+                    COMMLIB.CommUtil.FenToYuan_Table(ds.Tables[0], "threshold", "thresholdStr");
+                    COMMLIB.CommUtil.FenToYuan_Table(ds.Tables[0], "value", "valueStr");
                 }
             }
             catch (Exception ex)
