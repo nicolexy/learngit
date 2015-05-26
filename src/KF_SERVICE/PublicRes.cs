@@ -1097,6 +1097,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             else if (strDBType.ToUpper() == "FKDJ")
             {
+                //return "Driver={mysql ODBC 5.2a Driver};Database=mysql;server=10.6.206.73;uid=zft_zwdb_all;pwd=zft_zwdb_all;charset=latin1;option=3;";
                 //sConnStr = String.Format(connModule, f_strDataSource_fkdj, f_strUserID_fkdj, f_strPassword_fkdj, f_strDatabase_fkdj);
                 return DbConnectionString.Instance.GetConnectionString("FKDJ");
             }

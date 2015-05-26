@@ -29,17 +29,17 @@
             <tr>
                 <td>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    开始日期：&nbsp;&nbsp;
+                    开始日期：&nbsp;<b style="color:red">*</b>
                     <asp:TextBox ID="textBoxBeginDate" runat="server" Width="135px" onClick="WdatePicker()"  CssClass="Wdate"></asp:TextBox>
                     &nbsp;&nbsp;&nbsp;
-                    结束日期：
+                    结束日期：<b style="color:red">*</b>
                         <asp:TextBox ID="textBoxEndDate" runat="server" Width="131px" onClick="WdatePicker()"  CssClass="Wdate"></asp:TextBox>
                 </td>
             </tr>
             <tr>
                 <td>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    财付通账号&nbsp;&nbsp;
+                    财付通账号&nbsp;<b style="color:red">*</b>
                     <asp:TextBox ID="textBoxAccountID" runat="Server" Width="133px"></asp:TextBox>
                     &nbsp;&nbsp;&nbsp;
                     卡面号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
