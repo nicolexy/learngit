@@ -21,7 +21,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         public DataSet BeforeCancelTradeQuery(string uid)
         {
             string fields = "uid:" + uid;
-            return QueryUserOrder("413", fields, "1001", 0, 1);
+            return QueryUserOrder("413", fields, 0, 1);
 
             long uidL = long.Parse(uid);
             int uidEnd = int.Parse(uid.Substring(uid.Length - 2));
@@ -550,9 +550,9 @@ namespace CFT.CSOMS.DAL.TradeModule
                 throw new Exception(fuid + "账号不存在");
             }
             //查询买家
-            DataSet dsbuy = QueryUserOrder("2213", "buy_uid:" + fuid, "1004", start, max);
+            DataSet dsbuy = QueryUserOrder("2213", "buy_uid:" + fuid, start, max);
             //查询卖家
-            DataSet dssale = QueryUserOrder("2214", "sale_uid:" + fuid, "1005", start, max);
+            DataSet dssale = QueryUserOrder("2214", "sale_uid:" + fuid, start, max);
             dsbuy = PublicRes.ToOneDataset(dsbuy, dssale);
             return dsbuy;
         }
@@ -568,36 +568,39 @@ namespace CFT.CSOMS.DAL.TradeModule
             {
                 if (u_QueryType != "FlistID" || queryvalue.Trim() == "")
                 {
-
                     string fuid = "";
+                    string fields = "|stime:" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss") +
+                           "|etime:" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss") +
+                           ((fstate != 99) ? "|trade_state:" + fstate.ToString() : "") +
+                           ((queryvalue.Trim() != "" && u_QueryType != "") ? "|" + u_QueryType.Trim() + ":" + queryvalue.Trim() : "");
+
                     DataSet ds = new DataSet();
+                    if (u_QueryType == "FSpid") u_QueryType = "spid";
+                    if (u_QueryType == "FBank_listID") u_QueryType = "bank_listid";
+                    if (u_QueryType == "FCoding") u_QueryType = "coding";
+
 
                     if (!string.IsNullOrEmpty(buyqqInnerID))
                     {
-                        string fields = "buy_uid:" + buyqqInnerID +
-                            "|stime:" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss") +
-                            "|etime:" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
-                        ds = QueryUserOrder("2212", fields, "1003", start, max);
+                        fields = "buy_uid:" + buyqqInnerID + fields;
+                        ds = QueryUserOrder("2212", fields, start, max);
                     }
-
-                    if (!string.IsNullOrEmpty(saleqqInnerID))
+                    else if (!string.IsNullOrEmpty(saleqqInnerID))
                     {
-                        string fields = "sp_uid:" + saleqqInnerID + "|stime:" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss") + "|etime:" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
-                        ds = QueryUserOrder("2211", fields, "1002", start, max);
+                        fields = "sp_uid:" + saleqqInnerID + fields;
+                        ds = QueryUserOrder("2211", fields, start, max);
                     }
-
-
-                    if (!string.IsNullOrEmpty(buyqq))
+                    else if (!string.IsNullOrEmpty(buyqq))
                     {
                         fuid = PublicRes.ConvertToFuid(buyqq);
-                        string fields = "buy_uid:" + fuid + "|stime:" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss") + "|etime:" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
-                        ds = QueryUserOrder("2212", fields, "1003", start, max);
+                        fields = "buy_uid:" + fuid + fields;
+                        ds = QueryUserOrder("2212", fields, start, max);
                     }
-                    if (!string.IsNullOrEmpty(saleqq))
+                    else if (!string.IsNullOrEmpty(saleqq))
                     {
                         fuid = PublicRes.ConvertToFuid(saleqq);
-                        string fields = "sp_uid:" + fuid + "|stime:" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss") + "|etime:" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
-                        ds = QueryUserOrder("2211", fields, "1002", start, max);
+                        fields = "sp_uid:" + fuid + fields;
+                        ds = QueryUserOrder("2211", fields, start, max);
                     }
 
                     DataSet dsForWX = new DataSet();
@@ -608,27 +611,13 @@ namespace CFT.CSOMS.DAL.TradeModule
                             dsForWX = QueryWxBuyOrderByUid(int.Parse(buyqqInnerID.Trim()), u_BeginTime, u_EndTime);//微信买家纬度订单
                             //添加将微信订单数据
                             ds = PublicRes.ToOneDataset(dsForWX, ds);
-                            //if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                            //{
-                            //    GetResultFormWXOrder(dsForWX, ds);
-                            //}
-                            //else
-                            //{
-                            //    DataTable dt = ds.Tables[0].Clone();
-                            //    DataSet temp = new DataSet();
-                            //    temp.Tables.Add(dt);
-                            //    GetResultFormWXOrder(dsForWX, temp);
-                            //    return temp;
-                            //}
                         }
                         catch (Exception ex)
                         {
                             throw new Exception("添加将微信订单数据失败：" + ex.Message);
                         }
                     }
-
                     return ds;
-
                 }
                 else
                 {
@@ -665,7 +654,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                 fields += "|bank_type:" + banktype;
             }
 
-            DataSet ds = QueryUserOrder("2215", fields, "1006", istr, imax);
+            DataSet ds = QueryUserOrder("2215", fields, istr, imax);
             return ds;
         }
         /// <summary>
@@ -676,14 +665,14 @@ namespace CFT.CSOMS.DAL.TradeModule
             DataSet ds = new DataSet();
             string fuid = PublicRes.ConvertToFuid(strID);
             //#if DEBUG
-            //            fuid = strID;
+            //           fuid = strID;
             //#endif
             if (iIDType == 0)  //根据QQ号码查买家交易单
             {
                 string fields = "buy_uid:" + fuid +
                          "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
                         "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
-                ds = QueryUserOrder("2216", fields, "1007", istr, imax);
+                ds = QueryUserOrder("2216", fields, istr - 1, imax);
 
             }
             else if (iIDType == 9)  //根据QQ号码查卖家交易单
@@ -691,21 +680,19 @@ namespace CFT.CSOMS.DAL.TradeModule
                 string fields = "sale_uid:" + fuid +
                          "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
                         "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
-                ds = QueryUserOrder("2217", fields, "1008", istr, imax);
+                ds = QueryUserOrder("2217", fields, (istr - 1), imax);
             }
             else if (iIDType == 10) // 2012/5/29 新添加根据QQ号查询中介交易
             {
                 string fields = "sale_uid:" + fuid +
                          "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
                         "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
-                ds = QueryUserOrder("2218", fields, "1009", istr, imax);
+                ds = QueryUserOrder("2218", fields, (istr - 1), imax);
             }
             else if (iIDType == 13)  //yinhuang 小额刷卡交易查询
             {
-                string fields = "buy_uid:" + fuid +
-                         "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
-                        "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
-                ds = QueryUserOrder("2219", fields, "10010", istr, imax);
+                string fields = "buy_uid:" + fuid;
+                ds = QueryUserOrder("2219", fields, istr, imax);
             }
             else
             {
@@ -732,7 +719,8 @@ namespace CFT.CSOMS.DAL.TradeModule
 
                 string fields = "sale_uid:" + fuid;
                 //#if DEBUG
-                //                fields = "sale_uid:298686752";//测试
+                // fields = "sale_uid:298686752";//测试
+                // string tablename = PublicRes.GetTName("t_user_order", "298686752"); //c2c_db_52.t_user_order_7
                 //#endif
                 if (!string.IsNullOrEmpty(Fcode))
                 {
@@ -750,7 +738,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                 {
                     fields += "|etime:" + strEndTime;
                 }
-                return QueryUserOrder("2220", fields, "10011", limStart, limCount);
+                return QueryUserOrder("2220", fields, limStart, limCount);
             }
             else
             {
@@ -758,9 +746,10 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
         }
 
-        private DataSet QueryUserOrder(string reqid, string fields, string msgno, int offset, int limit)
+        private DataSet QueryUserOrder(string reqid, string fields,  int offset, int limit)
         {
             string reqString = "";
+            string msgno = System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.NewStaticNoManage();
             var serverIp = System.Configuration.ConfigurationManager.AppSettings["UserOrderIP"].ToString();
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["UserOrderPort"].ToString());
             string request_type = System.Configuration.ConfigurationManager.AppSettings["UserOrder_requesttype"].ToString();
