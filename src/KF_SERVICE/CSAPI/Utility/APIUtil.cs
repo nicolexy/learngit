@@ -773,11 +773,17 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
                 int pos = str.IndexOf('=');
                 string name = str.Substring(0, pos);
                 string value = HttpContext.Current.Request.QueryString[name];
-                if (string.IsNullOrEmpty(value))
+
+                if (!string.IsNullOrEmpty(value))
                 {
-                    throw new ServiceException(ERR_PARAM, ErroMessage.MESSAGE_NULLPARAM);
+                    paramDic.Add(name, value);
                 }
-                paramDic.Add(name, value);
+
+                //if (string.IsNullOrEmpty(value))
+                //{
+                //    throw new ServiceException(ERR_PARAM, ErroMessage.MESSAGE_NULLPARAM);
+                //}
+                //paramDic.Add(name, value);
 
                 //string[] pa = str.Split('=');
                 //if(pa.Length!=2)

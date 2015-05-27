@@ -32,6 +32,14 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
             [XmlElement("profit_str")]
             public string Fprofit_str { get; set; }
 
+            [XmlElement("fund_value")]
+            public string fund_value { get; set; }
+            [XmlElement("sday_profit_rate_str")]
+            public string Sday_profit_rate_str { get; set; }
+            [XmlElement("fund_balance")]
+            public string fund_balance { get; set; }
+            [XmlElement("mark_value")]
+            public string mark_value { get; set; }
         }
 
         public class PayCardInfo
@@ -60,6 +68,11 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
             public string Floading_type_str { get; set; }
             [XmlElement("state_str")]
             public string Fstate_str { get; set; }
+
+            [XmlElement("charge_fee_str")]
+            public string charge_fee_str { get; set; }
+            [XmlElement("fund_balance")]
+            public string fund_balance { get; set; }
         }
 
         public class UserFundSummary

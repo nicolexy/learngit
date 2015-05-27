@@ -46,11 +46,11 @@ namespace CFT.CSOMS.Service.CSAPI
                 }
                 if (paramsHt.Keys.Contains("bank_type"))
                 {
-                    bank_type =APIUtil.StringToInt( paramsHt["bank_type"].ToString());
+                    bank_type = APIUtil.StringToInt(paramsHt["bank_type"].ToString());
                 }
 
                 var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().GetUserAuthenState(paramsHt["uin"].ToString(), user_bank_id, bank_type);
-             
+
                 Record record = new Record();
                 record.RetValue = infos.ToString().ToLower();
                 List<Record> list = new List<Record>();
@@ -91,7 +91,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 List<BaseInfoC.UserInfoBasic> list = APIUtil.ConvertTo<BaseInfoC.UserInfoBasic>(infos);
 
-               // var ret = new ResultParse<BaseInfoC.UserInfoBasic>().ReturnToObject(list);
+                // var ret = new ResultParse<BaseInfoC.UserInfoBasic>().ReturnToObject(list);
                 APIUtil.Print<BaseInfoC.UserInfoBasic>(list);
             }
             catch (ServiceException se)
@@ -172,7 +172,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 //token验证
                 APIUtil.ValidateToken(paramsHt);
 
-                string db = "",tb="";
+                string db = "", tb = "";
 
                 if (paramsHt.Keys.Contains("db"))
                 {
@@ -214,13 +214,13 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 //获取请求参数
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
-               
+
                 //必填参数验证
-                APIUtil.ValidateParamsNew(paramsHt,"appid", "fid", "user", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "fid", "user", "token");
                 //token验证
                 APIUtil.ValidateToken(paramsHt);
 
-              
+
                 string comment = "", user_ip = "", db = "", tb = "";
                 if (paramsHt.Keys.Contains("comment"))
                 {
@@ -265,13 +265,13 @@ namespace CFT.CSOMS.Service.CSAPI
             try
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
-             
+
                 //必填参数验证
-                APIUtil.ValidateParamsNew(paramsHt,"appid", "fid", "user", "reason", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "fid", "user", "reason", "token");
                 //token验证
                 APIUtil.ValidateToken(paramsHt);
 
-                string comment = "", other_reason="", user_ip = "", db = "", tb = "";
+                string comment = "", other_reason = "", user_ip = "", db = "", tb = "";
                 if (paramsHt.Keys.Contains("comment"))
                 {
                     comment = paramsHt["comment"].ToString();
@@ -319,15 +319,15 @@ namespace CFT.CSOMS.Service.CSAPI
             try
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
-              
+
                 //必填参数验证
-                APIUtil.ValidateParamsNew(paramsHt,"appid", "fid", "user", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "fid", "user", "token");
                 //token验证
                 APIUtil.ValidateToken(paramsHt);
-                
-             
-                string comment="", user_ip="", db="", tb="";
-                if (paramsHt.Keys.Contains("comment")) 
+
+
+                string comment = "", user_ip = "", db = "", tb = "";
+                if (paramsHt.Keys.Contains("comment"))
                 {
                     comment = paramsHt["comment"].ToString();
                 }
@@ -363,46 +363,6 @@ namespace CFT.CSOMS.Service.CSAPI
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
-
-        //[WebMethod]
-        //public void Hello() 
-        //{
-        //    try
-        //    {
-        //        Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
-        //        //必填参数验证
-        //        APIUtil.ValidateParamsNew(paramsHt,"appid", "uin", "token" );
-        //        //token验证
-        //        APIUtil.ValidateToken(paramsHt);
-        //        //Hashtable map = APIUtil.getReqParamMap();
-              
-        //        //业务处理
-        //        var infos = new CFT.CSOMS.BLL.FundModule.FundService().GetTradeIdByUIN(paramsHt["uin"].ToString());
-
-        //        //封装或转换成list
-        //        Record record = new Record();
-        //        record.RetValue = infos;
-        //        List<Record> list = new List<Record>();
-        //        list.Add(record);
-
-        //        //输出
-        //        APIUtil.Print<Record>(list);
-                
-        //    }
-        //    catch (ServiceException se)
-        //    {
-        //        SunLibrary.LoggerFactory.Get("ConfirmAppeal").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
-        //        APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
-                
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        SunLibrary.LoggerFactory.Get("ConfirmAppeal").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
-        //        APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
-                
-        //    }
-        //}
-
 
         #endregion
 
@@ -583,6 +543,15 @@ namespace CFT.CSOMS.Service.CSAPI
                 int order_state = APIUtil.StringToInt(paramsHt["order_state"].ToString());  //订单状态
                 int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
                 int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
+
+                if (offset < 0)
+                {
+                    offset = 0;
+                }
+                if (limit <= 0)
+                {
+                    limit = 20;
+                }
 
                 string order_type = paramsHt.ContainsKey("order_type") ? paramsHt["order_type"].ToString() : "";   //排序方式
                 string fid = paramsHt.ContainsKey("fid") ? paramsHt["fid"].ToString() : "";
@@ -882,7 +851,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
         //证件信息查询
         [WebMethod]
-        public void QueryCreidList()   
+        public void QueryCreidList()
         {
             try
             {
@@ -916,7 +885,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
         //证件号码清理
         [WebMethod]
-        public void ClearCreid()    
+        public void ClearCreid()
         {
             try
             {
@@ -952,18 +921,18 @@ namespace CFT.CSOMS.Service.CSAPI
         #endregion
 
         #region 受控资金查询
-       
+
         /// <summary>
         /// 查询用户受控资金
         /// </summary>
         [WebMethod]
-        public void QueryUserCtrlFund()     
+        public void QueryUserCtrlFund()
         {
             try
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "opera","token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "opera", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
@@ -995,7 +964,7 @@ namespace CFT.CSOMS.Service.CSAPI
         /// 解绑用户单条受控资金
         /// </summary>
         [WebMethod]
-        public void UnbindSingleCtrlFund()  
+        public void UnbindSingleCtrlFund()
         {
             try
             {
@@ -1034,7 +1003,7 @@ namespace CFT.CSOMS.Service.CSAPI
         /// 解绑当前用户全部受控资金
         /// </summary>
         [WebMethod]
-        public void UnbindAllCtrlFund()    
+        public void UnbindAllCtrlFund()
         {
             try
             {
