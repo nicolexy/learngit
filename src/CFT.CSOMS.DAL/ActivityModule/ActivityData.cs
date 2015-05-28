@@ -248,13 +248,13 @@ namespace CFT.CSOMS.DAL.ActivityModule
             cgi += "&limit=" + count;
             cgi += "&flag=" + flag;
 
-            LogHelper.LogInfo("XYK send req:" + cgi);
+            //LogHelper.LogInfo("XYK send req:" + cgi);
             string res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(cgi, "UTF-8", out msg);
             if (msg != "")
             {
                 throw new Exception(msg);
             }
-            LogHelper.LogInfo("XYK return:" + res);
+            //LogHelper.LogInfo("XYK return:" + res);
 
             DataSet ds = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.ParseCgiJsonForXYKQuery(res, flag, out sendCount, out receiveCount, out msg);
             LogHelper.LogInfo("XYK parse:" + msg);
@@ -273,13 +273,13 @@ namespace CFT.CSOMS.DAL.ActivityModule
             string msg = "";
             cgi = System.Configuration.ConfigurationManager.AppSettings["QueryXYKSendDetailCgi"].ToString();
             cgi += "?AppName=wx_mmpay_kf&f=json&sendid=" + sendId;
-            LogHelper.LogInfo("XYK send req:" + cgi);
+            //LogHelper.LogInfo("XYK send req:" + cgi);
             string res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(cgi, "UTF-8", out msg);
             if (msg != "")
             {
                 throw new Exception(msg);
             }
-            LogHelper.LogInfo("XYK return:" + res);
+            //LogHelper.LogInfo("XYK return:" + res);
 
             DataSet ds = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.ParseCgiJsonForXYKSendDetailQuery(res, out msg);
             LogHelper.LogInfo("XYK parse:" + msg);

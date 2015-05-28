@@ -17,6 +17,7 @@ using TENCENT.OSS.CFT.KF.DataAccess;
 using TENCENT.OSS.C2C.Finance.BankLib;
 using System.Collections;
 using CFT.Apollo.Common;
+using SunLibraryEX;
 
 namespace CFT.CSOMS.DAL.CFTAccount
 {
@@ -337,13 +338,13 @@ namespace CFT.CSOMS.DAL.CFTAccount
             }
 
             // 测试 cgi = "http://check.cf.com/cgi-bin/v1.0/BauClrBan.cgi?uid=400061433&type=1009&sum=2850&opera=1100000000";
-            LogHelper.LogInfo("RemoveUserControlFin send req:" + cgi);
+           // LogHelper.LogInfo("RemoveUserControlFin send req:" + cgi);
             string res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(cgi, "", out msg);
             if (msg != "")
             {
                 throw new Exception(msg);
             }
-            LogHelper.LogInfo("RemoveUserControlFin return:" + res);
+            //LogHelper.LogInfo("RemoveUserControlFin return:" + res);
 
             if (res.IndexOf("执行成功") == -1)
                 throw new Exception("解除失败：" + res);
@@ -362,13 +363,13 @@ namespace CFT.CSOMS.DAL.CFTAccount
             cgi += "&opera=" + opera;
 
             // 测试 cgi = "http://check.cf.com/cgi-bin/v1.0/BauClrBan_new.cgi?type=1&uid=441845935&opera=yukini";
-            LogHelper.LogInfo("QueryUserControledRecordCgi send req:" + cgi);
+            //LogHelper.LogInfo("QueryUserControledRecordCgi send req:" + cgi);
             string res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(cgi, "", out msg);
             if (msg != "")
             {
                 throw new Exception(msg);
             }
-            LogHelper.LogInfo("QueryUserControledRecordCgi return:" + res);
+            //LogHelper.LogInfo("QueryUserControledRecordCgi return:" + res);
 
             DataTable dt = new DataTable();
             dt.Columns.Add("cur_type", typeof(String));
@@ -1261,6 +1262,86 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 ;
             return RelayAccessFactory.GetDSFromRelay(req, "101025", ip, port);
         }
+
+        /// <summary>
+        /// 查询手机绑定次数
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, string> QueryMobileBoundNumber(string mobile)
+        {
+            var url = System.Configuration.ConfigurationManager.AppSettings["ClearMobileNumber"] ?? "http://op.cf.com/perltools/cgi-bin/msgnotify_ckv_tool";
+            var req = url +
+                "?jsonstr={" +
+                "\"operation\":\"2\"," +
+                "\"telphone\":\"" + mobile + "\"" +
+                "}";
+            string msg = "";
+            var answer = commRes.GetFromCGI(req, null, out msg);
+            if (msg != "")
+            {
+                throw new Exception("调用CGI出错:" + msg);
+            }
+            if (string.IsNullOrEmpty(answer))
+            {
+                throw new Exception("CGI返回值为空");
+            }
+            System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+            var model = jss.Deserialize<QueryMobileBoundNumberJsonModel>(answer);
+            if (model.result != "0" || model.ret_data == "")
+            {
+                throw new Exception("查询出错:[" + model.process_msg + model.result_msg + "]");
+            }
+            if (model.ret_data.IndexOf(mobile) == -1)
+            {
+                if (model.ret_data.IndexOf("nofound") != -1)
+                {
+                    throw new Exception("没有找到记录");
+                }
+                throw new Exception("查询失败:[" + model.ret_data + "]");
+            }
+            var dic = model.ret_data.Replace(" ", "").ToDictionary(',', ':');
+            if (dic["mobile"] != mobile)
+            {
+                throw new ArgumentException("CGI返回值错误Model值和预期的不一致");
+            }
+            return dic;
+        }
+
+        /// <summary>
+        /// 手机绑定清零
+        /// </summary>
+        /// <param name="mobile">手机号码</param>
+        /// <returns></returns>
+        public bool ClearMobileBoundNumber(string mobile)
+        {
+            var url = System.Configuration.ConfigurationManager.AppSettings["ClearMobileNumber"] ?? "http://op.cf.com/perltools/cgi-bin/msgnotify_ckv_tool";
+            var req = url +
+                "?jsonstr={" +
+                "\"operation\":\"0\"," +
+                "\"telphone\":\"" + mobile + "\"" +
+                "}";
+            string msg = "";
+            var answer = commRes.GetFromCGI(req, null, out msg);
+            if (msg != "")
+            {
+                throw new Exception("调用CGI出错:" + msg);
+            }
+            if (string.IsNullOrEmpty(answer))
+            {
+                throw new Exception("CGI返回值为空");
+            }
+            System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+            var model = jss.Deserialize<QueryMobileBoundNumberJsonModel>(answer);
+            if (model.result != "0" || model.ret_data == "")
+            {
+                throw new Exception("清零出错:[" + model.process_msg + model.result_msg + "]");
+            }
+            if (model.ret_data.IndexOf(mobile) == -1)
+            {
+                throw new Exception("清零失败:[" + model.ret_data + "]");
+            }
+            return true;
+        }
     }
 
     #region 异常姓名类
@@ -1304,4 +1385,13 @@ namespace CFT.CSOMS.DAL.CFTAccount
     }
     #endregion
 
+    #region 查询手机绑定次数 实体类
+    class QueryMobileBoundNumberJsonModel
+    {
+        public string ret_data;
+        public string process_msg;
+        public string result;
+        public string result_msg;
+    }
+    #endregion
 }

@@ -374,6 +374,13 @@
     <Compile Include="BaseAccount\ClearCreidNew.aspx.designer.cs">
       <DependentUpon>ClearCreidNew.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\ClearMobileNumber.aspx.cs">
+      <DependentUpon>ClearMobileNumber.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\ClearMobileNumber.aspx.designer.cs">
+      <DependentUpon>ClearMobileNumber.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\ModifyContactInfo.aspx.cs">
       <DependentUpon>ModifyContactInfo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2723,6 +2730,7 @@
     </Content>
     <Content Include="BaseAccount\CardInfoQuery.aspx" />
     <Content Include="BaseAccount\ClearCreidNew.aspx" />
+    <Content Include="BaseAccount\ClearMobileNumber.aspx" />
     <Content Include="BaseAccount\ModifyContactInfo.aspx">
       <SubType>Form</SubType>
     </Content>

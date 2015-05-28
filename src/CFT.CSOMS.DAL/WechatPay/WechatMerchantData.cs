@@ -30,9 +30,9 @@ namespace CFT.CSOMS.DAL.WechatPay
                     
                 }
                 cgi += "?mchId=" + mchId;
-                CFT.Apollo.Logging.LogHelper.LogInfo("WechatMchIdToSpId:" + cgi);
+               // CFT.Apollo.Logging.LogHelper.LogInfo("WechatMchIdToSpId:" + cgi);
                 string res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(cgi, "UTF-8", out msg);
-                LogHelper.LogInfo("WechatMchIdToSpId return:" + res);
+               // LogHelper.LogInfo("WechatMchIdToSpId return:" + res);
 
                 if (msg != "")
                 {
@@ -71,9 +71,9 @@ namespace CFT.CSOMS.DAL.WechatPay
 
                 }
                 cgi += "?spId=" + spId;
-                LogHelper.LogInfo("WechatSpIdToMchId:" + cgi);
+               // LogHelper.LogInfo("WechatSpIdToMchId:" + cgi);
                 string res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(cgi, "UTF-8", out msg);
-                LogHelper.LogInfo("WechatSpIdToMchId return:" + res);
+               // LogHelper.LogInfo("WechatSpIdToMchId return:" + res);
 
                 if (msg != "")
                 {
@@ -98,10 +98,10 @@ namespace CFT.CSOMS.DAL.WechatPay
             {
                 string msg = "";
                 string cgi = "http://mmbiz.oa.com/mmpayop/querybizlist?f=xml";
-                LogHelper.LogInfo("QueryWechatSpList:" + cgi);
+              //  LogHelper.LogInfo("QueryWechatSpList:" + cgi);
                 string req = "<root><mchid>10010464</mchid></root>";
                 string res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGIPost(cgi, "UTF-8", req, out msg);
-                LogHelper.LogInfo("QueryWechatSpList return:" + res);
+              //  LogHelper.LogInfo("QueryWechatSpList return:" + res);
 
                 if (msg != "")
                 {
@@ -127,10 +127,10 @@ namespace CFT.CSOMS.DAL.WechatPay
             {
                 string msg = "";
                 string cgi = "http://mmbiz.oa.com/mmpayop/querybiz?f=xml";
-                LogHelper.LogInfo("QueryWechatSpDetail:" + cgi);
+              //  LogHelper.LogInfo("QueryWechatSpDetail:" + cgi);
                 string req = "<root><bizindex>10059400</bizindex></root>";
                 string res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGIPost(cgi, "UTF-8", req, out msg);
-                LogHelper.LogInfo("QueryWechatSpDetail return:" + res);
+               // LogHelper.LogInfo("QueryWechatSpDetail return:" + res);
 
                 if (msg != "")
                 {
@@ -156,10 +156,10 @@ namespace CFT.CSOMS.DAL.WechatPay
             {
                 string msg = "";
                 string cgi = "http://mmbiz.oa.com/mmpayop/querychecklist?f=xml";
-                CFT.Apollo.Logging.LogHelper.LogInfo("QueryWechatSpCheck:" + cgi);
+               // CFT.Apollo.Logging.LogHelper.LogInfo("QueryWechatSpCheck:" + cgi);
                 string req = "<root><bizindex>10059400</bizindex></root>";
                 string res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGIPost(cgi, "UTF-8", req, out msg);
-                CFT.Apollo.Logging.LogHelper.LogInfo("QueryWechatSpCheck return:" + res);
+               // CFT.Apollo.Logging.LogHelper.LogInfo("QueryWechatSpCheck return:" + res);
 
                 if (msg != "")
                 {

@@ -282,7 +282,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 RiskConManage1.AddSubMenu("风控解冻审核", "FreezeManage/FreezeQuery.aspx");
                 RiskConManage1.AddSubMenu("特殊申诉处理", "FreezeManage/FreezeNewQuery.aspx");
                 RiskConManage1.AddSubMenu("报表统计输出", "FreezeManage/FreezeCount.aspx");
-
+                RiskConManage1.AddSubMenu("手机绑定数清理", "BaseAccount/ClearMobileNumber.aspx");
                 SelfHelpAppealManage1.AddSubMenu("客服统计查询", "BaseAccount/KFTotalQuery.aspx");
 
                 tradeManage1.AddSubMenu("提现记录查询", "TradeManage/PickQuery.aspx");
