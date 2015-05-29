@@ -384,6 +384,9 @@
                         <asp:BoundColumn DataField="Fspid" HeaderText="商户号">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
+                        <asp:BoundColumn DataField="fetchid" HeaderText="提现单号">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
                         <asp:TemplateColumn HeaderText="操作">
 							<ItemTemplate>
 								<asp:LinkButton id="UnCloseFundApplyButton" href = '<%# DataBinder.Eval(Container, "DataItem.URL")%>' target=_blank Visible="false" runat="server" Text="客服强赎"></asp:LinkButton>
@@ -521,6 +524,9 @@
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
                          <asp:BoundColumn DataField="Fchannel_id_str" HeaderText="渠道信息">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
+                        <asp:BoundColumn DataField="Fend_sell_type_str" HeaderText="到期操作">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
                        <%-- <asp:TemplateColumn HeaderText="操作">

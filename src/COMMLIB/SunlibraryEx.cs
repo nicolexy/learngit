@@ -70,6 +70,38 @@ namespace SunLibraryEX
                 return false;
             }
         }
+
+        /// <summary>
+        /// 把字符串解析成字典 解析格式 key1=0,key2=0,key3=0,key4=0,key5=0 类型的字符串
+        /// </summary>
+        /// <param name="str">要解析的字符串</param>
+        /// <param name="separator">分割字符串的依据</param>
+        /// <param name="keySeparator">分割键值对的依据</param>
+        /// <returns></returns>
+        public static Dictionary<string, string> ToDictionary(this String str, char separator = '&', char keySeparator = '=')
+        {
+            if (str == null)
+            {
+                throw new ArgumentNullException("str");
+            }
+            var arr = str.Split(separator);
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            foreach (var item in arr)
+            {
+                var value = item.Split(keySeparator);
+                switch (value.Length)
+                {
+                    case 0: break;
+                    case 1: dic.Add(value[0], ""); break;
+                    case 2: dic.Add(value[0], value[1]); break;
+                    default:
+                        {
+                            dic.Add(value[0], item.Substring(value[0].Length + 1)); //有多个 "keySeparator" 就把第一个 "keySeparator" 后面的当成是值
+                        } break;
+                }
+            }
+            return dic;
+        }
     }
 
     public class DateTimeEx

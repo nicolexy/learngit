@@ -85,6 +85,9 @@
                 <TR>
 					<TD align="center" colspan="4"><FONT face="宋体"><asp:button id="Button1" runat="server" Width="80px" Text="查 询" onclick="Button2_Click"></asp:button></FONT></TD>
 				</TR>
+                  <TR>
+					<TD align="center" colspan="4"><FONT face="宋体" color="red">通过银行卡查提现记录，只支持查2015年5月01日之后的数据，2015年5月1日之前的数据请用账号或提现单号查询。</FONT></TD>
+				</TR>
 			</TABLE>
 			<TABLE id="Table2" style="Z-INDEX: 102; LEFT: 5.02%; WIDTH: 85%; POSITION: absolute; TOP: 210px; HEIGHT: 70%"
 				cellSpacing="1" cellPadding="1" width="808" border="1" runat="server">

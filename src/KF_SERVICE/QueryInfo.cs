@@ -10086,11 +10086,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             // 默认按照提交时间最早来排
             //string orderStr = " order by date_format(FSubmitTime,'%Y%m%d'),FUin asc";
-            string orderStr = " order by date_format(FSubmitTime,'%Y%m%d') asc";
+            string orderStr = " order by FSubmitTime asc";
 
             if (orderType == "2")
             {
-                orderStr = "order by date_format(FSubmitTime,'%Y%m%d') desc";
+                orderStr = "order by FSubmitTime desc";
             }
 
             fstrSql = "select Fid,FType,Fuin,FSubmitTime,FState,FCheckTime,Fpicktime,FCheckInfo,FCheckUser,FComment,Femail,FPickUser,Fsuptime from " + table + " "

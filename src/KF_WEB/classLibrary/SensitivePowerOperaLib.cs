@@ -571,6 +571,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
                 rights[155] = new OneRight("CFTUserPickQuer", 155, "财付通自助申诉处理查询");//二级权限 查询记录及1000元金额以下审批
 
                 rights[161] = new OneRight("NameAbnormalCheck", 161, "姓名异常审批");
+                rights[165] = new OneRight("ClearMobileNumber", 165, "手机号码清理");
 
 				//2006-10-17 Edwinyang新增功能
 				rights[122] = new OneRight("CancelAccount",11,"帐户销户记录");

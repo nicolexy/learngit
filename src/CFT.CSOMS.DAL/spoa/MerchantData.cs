@@ -377,9 +377,9 @@ namespace CFT.CSOMS.DAL.SPOA
                 string server = System.Configuration.ConfigurationManager.AppSettings["ContractPlatformServer"].Trim();
                 string url = server + "/CSP/Rest/CSPService/Get/GetContractState/"+appid+"/?contractid=" + contractid;
 
-                LogHelper.LogInfo("GetContractState send req:" + url);
+                //LogHelper.LogInfo("GetContractState send req:" + url);
                 string ret = commRes.GetFromCGI(url, "utf-8", out msg);
-                LogHelper.LogInfo("GetContractState return:" + ret);
+                //LogHelper.LogInfo("GetContractState return:" + ret);
                 
                 if (msg != "")
                     throw new Exception(msg);

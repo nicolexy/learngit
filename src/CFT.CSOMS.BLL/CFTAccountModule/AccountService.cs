@@ -15,6 +15,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
     using CFT.CSOMS.COMMLIB;
     using TENCENT.OSS.C2C.Finance.Common.CommLib;
     using CFT.Apollo.Logging;
+    using System.Collections.Generic;
 
     public class AccountService
     {
@@ -517,9 +518,9 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             return new AccountData().UpdateNameAbnormalInfo(uin, refuse_reason, comment, check_user, check_state);
         }
 
-          public DataSet QueryRealNameInfo(string uin, string submit_user)
+        public DataSet QueryRealNameInfo(string uin, string submit_user)
         {
-        
+
             return new AccountData().QueryRealNameInfo(uin, submit_user);
         }
 
@@ -530,79 +531,79 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         /// <param name="uin"></param>
         /// <param name="check_user"></param>
         /// <returns></returns>
-          public bool UpdateRealNameInfo(NameAbnormalClass nameAbnormal)
-          {
-              DataSet ds = QueryNameAbnormalInfo(nameAbnormal.Fuin, 0, nameAbnormal.Fcre_id_old, 0, 1);//check_state=0 未处理状态
+        public bool UpdateRealNameInfo(NameAbnormalClass nameAbnormal)
+        {
+            DataSet ds = QueryNameAbnormalInfo(nameAbnormal.Fuin, 0, nameAbnormal.Fcre_id_old, 0, 1);//check_state=0 未处理状态
 
 
-              if (!(ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0))
-              {
-                  throw new Exception("申请单状态不正确！");
-              }
+            if (!(ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0))
+            {
+                throw new Exception("申请单状态不正确！");
+            }
 
-              CFT.CSOMS.DAL.CFTAccount.NameAbnormalClass nameA = new DAL.CFTAccount.NameAbnormalClass();
-              nameA.Fuin = nameAbnormal.Fuin;
-              nameA.Fname_old = nameAbnormal.Fname_old;
-              nameA.Fcre_id_old = nameAbnormal.Fcre_id_old;
-              nameA.Ftruename = nameAbnormal.Ftruename;
-              nameA.Fcre_id = nameAbnormal.Fcre_id;
-              nameA.Fcre_type = nameAbnormal.Fcre_type;
-              nameA.Fcre_version = nameAbnormal.Fcre_version;
-              nameA.Fcre_valid_day = nameAbnormal.Fcre_valid_day;
-              nameA.Faddress = nameAbnormal.Faddress;
-              nameA.Fimage_cre1 = nameAbnormal.Fimage_cre1;
-              nameA.Fimage_cre2 = nameAbnormal.Fimage_cre2;
-              nameA.Fimage_evidence = nameAbnormal.Fimage_evidence;
-              nameA.Fimage_other = nameAbnormal.Fimage_other;
-              nameA.Fsubmit_time = nameAbnormal.Fsubmit_time;
-              nameA.Fsubmit_user = nameAbnormal.Fsubmit_user;
-              nameA.Fcheck_time = nameAbnormal.Fcheck_time;
-              nameA.Fcheck_user = nameAbnormal.Fcheck_user;
-              nameA.Fcheck_state = nameAbnormal.Fcheck_state;
-              nameA.Frefuse_reason = nameAbnormal.Frefuse_reason;
-              nameA.Fcomment = nameAbnormal.Fcomment;
+            CFT.CSOMS.DAL.CFTAccount.NameAbnormalClass nameA = new DAL.CFTAccount.NameAbnormalClass();
+            nameA.Fuin = nameAbnormal.Fuin;
+            nameA.Fname_old = nameAbnormal.Fname_old;
+            nameA.Fcre_id_old = nameAbnormal.Fcre_id_old;
+            nameA.Ftruename = nameAbnormal.Ftruename;
+            nameA.Fcre_id = nameAbnormal.Fcre_id;
+            nameA.Fcre_type = nameAbnormal.Fcre_type;
+            nameA.Fcre_version = nameAbnormal.Fcre_version;
+            nameA.Fcre_valid_day = nameAbnormal.Fcre_valid_day;
+            nameA.Faddress = nameAbnormal.Faddress;
+            nameA.Fimage_cre1 = nameAbnormal.Fimage_cre1;
+            nameA.Fimage_cre2 = nameAbnormal.Fimage_cre2;
+            nameA.Fimage_evidence = nameAbnormal.Fimage_evidence;
+            nameA.Fimage_other = nameAbnormal.Fimage_other;
+            nameA.Fsubmit_time = nameAbnormal.Fsubmit_time;
+            nameA.Fsubmit_user = nameAbnormal.Fsubmit_user;
+            nameA.Fcheck_time = nameAbnormal.Fcheck_time;
+            nameA.Fcheck_user = nameAbnormal.Fcheck_user;
+            nameA.Fcheck_state = nameAbnormal.Fcheck_state;
+            nameA.Frefuse_reason = nameAbnormal.Frefuse_reason;
+            nameA.Fcomment = nameAbnormal.Fcomment;
 
-              new AccountData().UpdateRealNameInfo(nameA);
+            new AccountData().UpdateRealNameInfo(nameA);
 
-              //修改库表审批信息
-              if (new AccountData().UpdateNameAbnormalInfo(nameA.Fuin, nameA.Frefuse_reason, nameA.Fcomment, nameA.Fcheck_user, nameA.Fcheck_state))
-                  return true;
-              else
-                  return false;
-          }
+            //修改库表审批信息
+            if (new AccountData().UpdateNameAbnormalInfo(nameA.Fuin, nameA.Frefuse_reason, nameA.Fcomment, nameA.Fcheck_user, nameA.Fcheck_state))
+                return true;
+            else
+                return false;
+        }
 
-          public bool AddChangeUserInfoLog(string qqid, string cre_type, string cre_type_old, string user_type, string user_type_old, string attid, string attid_old, string commet, string commet_old, string submit_user)
-          {
-              if (string.IsNullOrEmpty(qqid))
-              {
-                  throw new ArgumentNullException("qqid");
-              }
+        public bool AddChangeUserInfoLog(string qqid, string cre_type, string cre_type_old, string user_type, string user_type_old, string attid, string attid_old, string commet, string commet_old, string submit_user)
+        {
+            if (string.IsNullOrEmpty(qqid))
+            {
+                throw new ArgumentNullException("qqid");
+            }
 
-              return new AccountData().AddChangeUserInfoLog( qqid,  cre_type,  cre_type_old,  user_type,  user_type_old,  attid,  attid_old, commet,commet_old, submit_user);
-          }
+            return new AccountData().AddChangeUserInfoLog(qqid, cre_type, cre_type_old, user_type, user_type_old, attid, attid_old, commet, commet_old, submit_user);
+        }
 
-          public DataTable QueryChangeUserInfoLog(string qqid, int offset, int limit)
-          {
-              if (string.IsNullOrEmpty(qqid))
-              {
-                  throw new ArgumentNullException("qqid");
-              }
-              return new AccountData().QueryChangeUserInfoLog(qqid, offset, limit);
-          }
+        public DataTable QueryChangeUserInfoLog(string qqid, int offset, int limit)
+        {
+            if (string.IsNullOrEmpty(qqid))
+            {
+                throw new ArgumentNullException("qqid");
+            }
+            return new AccountData().QueryChangeUserInfoLog(qqid, offset, limit);
+        }
 
-          public DataSet QueryUserAuthenByCredid(string cre_type, string cre_id,string opera)
-          {
-              DataSet ds=new AccountData().QueryUserAuthenByCredid(cre_type, cre_id, opera);
-              if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-              {
-                  string key = System.Configuration.ConfigurationManager.AppSettings["RealNameKey"].ToString();
-                  key += opera;
-                  ds.Tables[0].Rows[0]["cname"] = CommUtil.TripleDESDecryptRealName(ds.Tables[0].Rows[0]["cname"].ToString(), key);
-                  ds.Tables[0].Rows[0]["cuin"] = CommUtil.TripleDESDecryptRealName(ds.Tables[0].Rows[0]["cuin"].ToString(), key);
-                  ds.Tables[0].Rows[0]["cuid"] = CommUtil.TripleDESDecryptRealName(ds.Tables[0].Rows[0]["cuid"].ToString(), key);
-              }
-              return ds;
-          }
+        public DataSet QueryUserAuthenByCredid(string cre_type, string cre_id, string opera)
+        {
+            DataSet ds = new AccountData().QueryUserAuthenByCredid(cre_type, cre_id, opera);
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                string key = System.Configuration.ConfigurationManager.AppSettings["RealNameKey"].ToString();
+                key += opera;
+                ds.Tables[0].Rows[0]["cname"] = CommUtil.TripleDESDecryptRealName(ds.Tables[0].Rows[0]["cname"].ToString(), key);
+                ds.Tables[0].Rows[0]["cuin"] = CommUtil.TripleDESDecryptRealName(ds.Tables[0].Rows[0]["cuin"].ToString(), key);
+                ds.Tables[0].Rows[0]["cuid"] = CommUtil.TripleDESDecryptRealName(ds.Tables[0].Rows[0]["cuid"].ToString(), key);
+            }
+            return ds;
+        }
 
         /// <summary>
         /// 实名认证置失效 并记录客服系统日志
@@ -616,122 +617,177 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         /// <param name="key_name">关键字段</param>
         /// <param name="myParams">参数列表</param>
         /// <returns></returns>
-          public Boolean DisableUserAuthenInfo(string cre_type, string cre_id, string opera, string memo,
-              string FObjID, string log_type, string key_name, Param[] myParams)
-          {
-              if (string.IsNullOrEmpty(cre_type))
-              {
-                  throw new ArgumentNullException("cre_type");
-              }
-              if (string.IsNullOrEmpty(cre_id))
-              {
-                  throw new ArgumentNullException("cre_id");
-              }
-              if (string.IsNullOrEmpty(opera))
-              {
-                  throw new ArgumentNullException("opera");
-              }
+        public Boolean DisableUserAuthenInfo(string cre_type, string cre_id, string opera, string memo,
+            string FObjID, string log_type, string key_name, Param[] myParams)
+        {
+            if (string.IsNullOrEmpty(cre_type))
+            {
+                throw new ArgumentNullException("cre_type");
+            }
+            if (string.IsNullOrEmpty(cre_id))
+            {
+                throw new ArgumentNullException("cre_id");
+            }
+            if (string.IsNullOrEmpty(opera))
+            {
+                throw new ArgumentNullException("opera");
+            }
 
-              try
-              {
-                  if (new AccountData().DisableUserAuthenInfo(cre_type, cre_id, opera, memo))//实名认证置失效
-                      PublicRes.WirteKFLog(FObjID, log_type, key_name, cre_id, opera, myParams);//写日志
-              }
-              catch (Exception ex)
-              {
-                  throw new Exception(ex.Message);
-              }
-              return true;
-          }
+            try
+            {
+                if (new AccountData().DisableUserAuthenInfo(cre_type, cre_id, opera, memo))//实名认证置失效
+                    PublicRes.WirteKFLog(FObjID, log_type, key_name, cre_id, opera, myParams);//写日志
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return true;
+        }
 
-          public DataSet QueryUserAuthenDisableLog(string cre_id)
-          {
-              if (string.IsNullOrEmpty(cre_id))
-              {
-                  throw new ArgumentNullException("cre_id");
-              }
-              ArrayList keyNameList = new ArrayList();
-              keyNameList.Add("Fuid");
-              keyNameList.Add("Fname_old");
-              keyNameList.Add("Fcre_id");
-              keyNameList.Add("Fcre_type");
-              keyNameList.Add("Fimage_cre1");
-              keyNameList.Add("Fimage_cre2");
-              keyNameList.Add("Fimage_evidence");
-              keyNameList.Add("Fsubmit_time");
-              keyNameList.Add("Fsubmit_user");
-              return PublicRes.QueryKFLog("UserAuthenDisableLog", "cre_id", cre_id, keyNameList);
-          }
+        public DataSet QueryUserAuthenDisableLog(string cre_id)
+        {
+            if (string.IsNullOrEmpty(cre_id))
+            {
+                throw new ArgumentNullException("cre_id");
+            }
+            ArrayList keyNameList = new ArrayList();
+            keyNameList.Add("Fuid");
+            keyNameList.Add("Fname_old");
+            keyNameList.Add("Fcre_id");
+            keyNameList.Add("Fcre_type");
+            keyNameList.Add("Fimage_cre1");
+            keyNameList.Add("Fimage_cre2");
+            keyNameList.Add("Fimage_evidence");
+            keyNameList.Add("Fsubmit_time");
+            keyNameList.Add("Fsubmit_user");
+            return PublicRes.QueryKFLog("UserAuthenDisableLog", "cre_id", cre_id, keyNameList);
+        }
 
-          public Boolean LCTAccStateOperator(string uin, string cre_id, string cre_type, string name, string op_type, string caller_name, string client_ip)
-          {
-              if (string.IsNullOrEmpty(uin))
-              {
-                  throw new ArgumentNullException("uin");
-              }
-              if (string.IsNullOrEmpty(cre_id))
-              {
-                  throw new ArgumentNullException("cre_id");
-              }
-              if (string.IsNullOrEmpty(op_type))
-              {
-                  throw new ArgumentNullException("op_type");
-              }
-             
-              if (!(op_type == "1" || op_type == "2"||op_type=="3"))
-              {
-                  throw new Exception("理财通账户状态操作类型不正确");
-              }
+        public Boolean LCTAccStateOperator(string uin, string cre_id, string cre_type, string name, string op_type, string caller_name, string client_ip)
+        {
+            if (string.IsNullOrEmpty(uin))
+            {
+                throw new ArgumentNullException("uin");
+            }
+            if (string.IsNullOrEmpty(cre_id))
+            {
+                throw new ArgumentNullException("cre_id");
+            }
+            if (string.IsNullOrEmpty(op_type))
+            {
+                throw new ArgumentNullException("op_type");
+            }
 
-              //查询状态
-              Boolean state=new AccountData().LCTAccStateOperator(uin, cre_id, cre_type, name, "3",caller_name, client_ip);
+            if (!(op_type == "1" || op_type == "2" || op_type == "3"))
+            {
+                throw new Exception("理财通账户状态操作类型不正确");
+            }
 
-              if (op_type == "3")//查询
-                  return state;
-              else if (op_type == "1")//冻结
-              {
-                  if (state)
-                  {
-                      LogHelper.LogInfo("This account："+uin+" is already be freezed");
-                      return true;
-                  }else
-                      return new AccountData().LCTAccStateOperator(uin, cre_id, cre_type, name, "1", caller_name, client_ip);
-              }
-              else  //(op_type == "2")解冻
-              {
-                  if (!state)
-                  {
-                      LogHelper.LogInfo("This account：" + uin + " is already be Unfreezed");
-                      return true;
-                  }
-                  else
-                      return new AccountData().LCTAccStateOperator(uin, cre_id, cre_type, name, "2", caller_name, client_ip);
-              }
-          }
+            //查询状态
+            Boolean state = new AccountData().LCTAccStateOperator(uin, cre_id, cre_type, name, "3", caller_name, client_ip);
 
-          public Boolean LCTAccStateOperator(string uin, string op_type, string caller_name, string client_ip)
-          {
-              string fuid = AccountData.ConvertToFuid(uin);
-              //  string fuid = "540444925";
+            if (op_type == "3")//查询
+                return state;
+            else if (op_type == "1")//冻结
+            {
+                if (state)
+                {
+                    LogHelper.LogInfo("This account：" + uin + " is already be freezed");
+                    return true;
+                }
+                else
+                    return new AccountData().LCTAccStateOperator(uin, cre_id, cre_type, name, "1", caller_name, client_ip);
+            }
+            else  //(op_type == "2")解冻
+            {
+                if (!state)
+                {
+                    LogHelper.LogInfo("This account：" + uin + " is already be Unfreezed");
+                    return true;
+                }
+                else
+                    return new AccountData().LCTAccStateOperator(uin, cre_id, cre_type, name, "2", caller_name, client_ip);
+            }
+        }
 
-              if (fuid == null || fuid == "")
-              {
-                  throw new Exception("根据C帐号获取Fuid失败	uin:" + uin);
-              }
-              if (fuid == null || fuid.Length < 3)
-              {
-                  throw new Exception("内部ID不正确！");
-              }
+        public Boolean LCTAccStateOperator(string uin, string op_type, string caller_name, string client_ip)
+        {
+            string fuid = AccountData.ConvertToFuid(uin);
+            //  string fuid = "540444925";
 
-              string errMsg = "";
-              string sql = "uid=" + fuid;
-              string cre_id = CommQuery.GetOneResultFromICE(sql, CommQuery.QUERY_USERINFO, "Fcreid", out errMsg);
-              if (errMsg != "")
-                  throw new Exception(errMsg);
-              string cre_type = CommQuery.GetOneResultFromICE(sql, CommQuery.QUERY_USERINFO, "Fcre_type", out errMsg);
-              if (errMsg != "")
-                  throw new Exception(errMsg);
-              return LCTAccStateOperator(uin, cre_id, cre_type, "", op_type, caller_name, client_ip);
+            if (fuid == null || fuid == "")
+            {
+                throw new Exception("根据C帐号获取Fuid失败	uin:" + uin);
+            }
+            if (fuid == null || fuid.Length < 3)
+            {
+                throw new Exception("内部ID不正确！");
+            }
+
+            string errMsg = "";
+            string sql = "uid=" + fuid;
+            string cre_id = CommQuery.GetOneResultFromICE(sql, CommQuery.QUERY_USERINFO, "Fcreid", out errMsg);
+            if (errMsg != "")
+                throw new Exception(errMsg);
+            string cre_type = CommQuery.GetOneResultFromICE(sql, CommQuery.QUERY_USERINFO, "Fcre_type", out errMsg);
+            if (errMsg != "")
+                throw new Exception(errMsg);
+            return LCTAccStateOperator(uin, cre_id, cre_type, "", op_type, caller_name, client_ip);
+        }
+
+
+        /// <summary>
+        /// 查询手机绑定次数
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, string> QueryMobileBoundNumber(string mobile)
+        {
+            return new AccountData().QueryMobileBoundNumber(mobile);
+        }
+
+        /// <summary>
+        /// 查询手机绑定清理日记
+        /// </summary>
+        /// <param name="mobile">手机号码</param>
+        /// <returns></returns>
+        public DataSet QueryClearMobileNumberLog(string mobile)
+        {
+            ArrayList keyNameList = new ArrayList()
+            {
+                  "Fsubmit_user",   //当前操作用户
+                 // "FUser_type",     //用户属性
+                  "FCreate_time",   //操作时间
+                  "FMobile",        //手机号码
+                  "MobileBindCount_Old",    //清理前绑定次数
+              };
+            return PublicRes.QueryKFLog("ClearMobileNumberLog", "Mobile", mobile, keyNameList);
+        }
+
+        /// <summary>
+        /// 手机绑定清零
+        /// </summary>
+        /// <param name="mobile">手机号码</param>
+        /// <returns></returns>
+        public bool ClearMobileBoundNumber(string mobile, string keyName, string keyValue, string operat_user, string obj_id, Param[] param)
+        {
+            var bol = new AccountData().ClearMobileBoundNumber(mobile);
+            if (bol)
+            {
+                PublicRes.WirteKFLog(obj_id, "ClearMobileNumberLog", keyName, keyValue, operat_user, param);//写日志
+            }
+            return bol;
+        }
+
+          /// <summary>
+          /// 腾讯信用查询
+          /// </summary>
+          /// <param name="uin">QQ号</param>
+          /// <param name="username">操作员</param>
+          /// <returns></returns>
+          public DataSet TencentCreditQuery(string uin, string username)
+          {   
+              return  new AccountData().TencentCreditQuery(uin,username);
           }
     }
 
@@ -751,13 +807,13 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         public string Fimage_cre2;
         public string Fimage_evidence;
         public string Fimage_other;
-        public string Fsubmit_time ;
+        public string Fsubmit_time;
         public string Fsubmit_user;
-        public string Fcheck_time ;
+        public string Fcheck_time;
         public string Fcheck_user;
         public string Fcheck_state;
-        public string Frefuse_reason="";
-        public string Fcomment="";
+        public string Frefuse_reason = "";
+        public string Fcomment = "";
     }
     #endregion
 

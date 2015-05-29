@@ -2273,11 +2273,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     if (u_IDType == 0 || u_IDType == 9 || u_IDType == 10 || u_IDType == 13)
                     {
-                        string fuid = PublicRes.ConvertToFuid(u_ID);
-                        string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
-                        return cuser.GetResultX_Conn(connstr);
+                        #region old
+                        //string fuid = PublicRes.ConvertToFuid(u_ID);
+                        //string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
+                        //return cuser.GetResultX_Conn(connstr);
+                        #endregion
                         //改成调用relay接口 v_yqyqguo 2015-5-9
-                        //return new TradeService().Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
+                        return new TradeService().Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
                     }
                     else
                         return cuser.GetResultX("BSB");
@@ -2621,11 +2623,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     if (u_IDType == 0 || u_IDType == 9 || u_IDType == 10)
                     {
-                        string fuid = PublicRes.ConvertToFuid(u_ID);
-                        string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
-                        return cuser.GetResultX_Conn(connstr);
+                        #region old
+                        //string fuid = PublicRes.ConvertToFuid(u_ID);
+                        //string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
+                        //return cuser.GetResultX_Conn(connstr);
+                        #endregion
                         //改成调用relay接口 v_yqyqguo 2015-5-9
-                        //return new TradeService().Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
+                        return new TradeService().Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
                     }
                     else
                         return cuser.GetResultX("BSB");
@@ -3320,12 +3324,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     if (u_IDType == 0 || u_IDType == 9 || u_IDType == 10)
                     {
-                        string fuid = PublicRes.ConvertToFuid(u_ID);
-                        string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
-                        return cuser.GetResultX_Conn(istr, imax, connstr);
-
+                        #region old
+                        //string fuid = PublicRes.ConvertToFuid(u_ID);
+                        //string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
+                        //return cuser.GetResultX_Conn(istr, imax, connstr);
+                        #endregion
                         //改成调用relay接口 v_yqyqguo 2015-5-9
-                        //return new TradeService().Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
+                        return new TradeService().Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
                     }
                     else
                         return cuser.GetResultX(istr, imax, "BSB");
@@ -11753,7 +11758,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 strSql = "uid=" + uid + "&curtype=1";
                 string Fbankid = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_BANKUSER, "Fbankid", out errMsg);
 
-                strSql = "select '" + Fqqid + "' as Fqqid,'" + Ftruename + "' as Ftruename,'" + Fcompany_name + "' as Fcompany_name,'"
+                strSql = @"select '" + Fqqid + "' as Fqqid,'" + Ftruename + "' as Ftruename,'" + Fcompany_name + "' as Fcompany_name,'"
                     + Fbalance + "' as Fbalance,'" + Fcon + "' as Fcon,'" + Fuser_type + "' as Fuser_type,'" + Femail
                     + "' as Femail,'" + Fcre_type + "' as Fcre_type,'" + Fcreid + "' as Fcreid,'" + Fbankid + "' as Fbankid";
 

@@ -374,6 +374,13 @@
     <Compile Include="BaseAccount\ClearCreidNew.aspx.designer.cs">
       <DependentUpon>ClearCreidNew.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\ClearMobileNumber.aspx.cs">
+      <DependentUpon>ClearMobileNumber.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\ClearMobileNumber.aspx.designer.cs">
+      <DependentUpon>ClearMobileNumber.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\ModifyContactInfo.aspx.cs">
       <DependentUpon>ModifyContactInfo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -632,6 +639,13 @@
     </Compile>
     <Compile Include="BaseAccount\StartCheck.aspx.designer.cs">
       <DependentUpon>StartCheck.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BaseAccount\TencentCreditQuery.aspx.cs">
+      <DependentUpon>TencentCreditQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\TencentCreditQuery.aspx.designer.cs">
+      <DependentUpon>TencentCreditQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\test.aspx.cs">
       <DependentUpon>test.aspx</DependentUpon>
@@ -1273,6 +1287,13 @@
     <Compile Include="HandQBusiness\FindHandQRedPacket.aspx.designer.cs">
       <DependentUpon>FindHandQRedPacket.aspx</DependentUpon>
     </Compile>
+    <Compile Include="HandQBusiness\RefundHandQQuery.aspx.cs">
+      <DependentUpon>RefundHandQQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HandQBusiness\RefundHandQQuery.aspx.designer.cs">
+      <DependentUpon>RefundHandQQuery.aspx</DependentUpon>
+    </Compile>
     <Compile Include="InternetBank\BillHistoryQuery.aspx.cs">
       <DependentUpon>BillHistoryQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1357,6 +1378,13 @@
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx.designer.cs">
       <DependentUpon>QueryAuthenStateInfoPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NewQueryInfoPages\QueryWeiXinMircoPay.aspx.cs">
+      <DependentUpon>QueryWeiXinMircoPay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NewQueryInfoPages\QueryWeiXinMircoPay.aspx.designer.cs">
+      <DependentUpon>QueryWeiXinMircoPay.aspx</DependentUpon>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryZHTrade.aspx.cs">
       <DependentUpon>QueryZHTrade.aspx</DependentUpon>
@@ -2702,6 +2730,7 @@
     </Content>
     <Content Include="BaseAccount\CardInfoQuery.aspx" />
     <Content Include="BaseAccount\ClearCreidNew.aspx" />
+    <Content Include="BaseAccount\ClearMobileNumber.aspx" />
     <Content Include="BaseAccount\ModifyContactInfo.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -2785,6 +2814,7 @@
     </Content>
     <Content Include="BaseAccount\SeparateOperation.aspx" />
     <Content Include="BaseAccount\StartCheck.aspx" />
+    <Content Include="BaseAccount\TencentCreditQuery.aspx" />
     <Content Include="BaseAccount\test.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -2969,6 +2999,7 @@
       <SubType>Component</SubType>
     </Content>
     <Content Include="HandQBusiness\FindHandQRedPacket.aspx" />
+    <Content Include="HandQBusiness\RefundHandQQuery.aspx" />
     <Content Include="Images\Page\4.gif" />
     <Content Include="Images\Page\back.gif" />
     <Content Include="Images\Page\bg01.gif" />
@@ -3039,6 +3070,7 @@
     <Content Include="NewQueryInfoPages\GetFundRatePageDetail.aspx" />
     <Content Include="NewQueryInfoPages\CFTTransferQuery.aspx" />
     <Content Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx" />
+    <Content Include="NewQueryInfoPages\QueryWeiXinMircoPay.aspx" />
     <Content Include="NewQueryInfoPages\QueryZHTrade.aspx" />
     <Content Include="NewQueryInfoPages\QueryZHFreeze.aspx" />
     <Content Include="NewQueryInfoPages\QueryZHInfo.aspx" />
@@ -3135,6 +3167,18 @@
     <Content Include="packages.config" />
     <None Include="Properties\DataSources\System.Data.DataSet.datasource" />
     <None Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
+    <Content Include="SCRIPTS\My97DatePicker\calendar.js" />
+    <Content Include="SCRIPTS\My97DatePicker\lang\en.js" />
+    <Content Include="SCRIPTS\My97DatePicker\lang\zh-cn.js" />
+    <Content Include="SCRIPTS\My97DatePicker\lang\zh-tw.js" />
+    <Content Include="SCRIPTS\My97DatePicker\skin\datePicker.gif" />
+    <Content Include="SCRIPTS\My97DatePicker\skin\default\datepicker.css" />
+    <Content Include="SCRIPTS\My97DatePicker\skin\default\img.gif" />
+    <Content Include="SCRIPTS\My97DatePicker\skin\WdatePicker.css" />
+    <Content Include="SCRIPTS\My97DatePicker\skin\whyGreen\bg.jpg" />
+    <Content Include="SCRIPTS\My97DatePicker\skin\whyGreen\datepicker.css" />
+    <Content Include="SCRIPTS\My97DatePicker\skin\whyGreen\img.gif" />
+    <Content Include="SCRIPTS\My97DatePicker\WdatePicker.js" />
     <Content Include="SpSettle\AdjustQuery.aspx" />
     <Content Include="SpSettle\OrderAccountQuery.aspx" />
     <Content Include="SpSettle\OrderInfoQuery.aspx" />
@@ -4666,7 +4710,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>1963</DevelopmentServerPort>
+          <DevelopmentServerPort>39483</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:6903/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

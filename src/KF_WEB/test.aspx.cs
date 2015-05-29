@@ -23,6 +23,7 @@ using System.Text.RegularExpressions;
 using CFT.CSOMS.BLL.SPOA;
 using CFT.CSOMS.BLL.CFTAccountModule;
 using CFT.CSOMS.BLL.WechatPay;
+using CFT.CSOMS.BLL.TradeModule;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web
@@ -36,7 +37,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
             //DataSet d1 = new TradeService().GetListidFromUserOrder("", "298686752", 0, 1);
-            //DataSet d2 = new TradeService().GetQueryList(Convert.ToDateTime("2010-1-1"), Convert.ToDateTime("2015-5-10"), "", "", "298686752", "", "", "", 0, 99, 0, 15);
+            //DataSet d2 = new TradeService().GetQueryList(Convert.ToDateTime("2010-1-1"), Convert.ToDateTime("2015-5-10"), "", "", "298686752", "", "coding", "1", 2, 99, 0, 15);
             //DataSet d3 = new TradeService().GetQueryList(Convert.ToDateTime("2010-1-1"), Convert.ToDateTime("2015-5-10"), "", "", "", "298731022", "", "", 0, 99, 0, 15);
 
             //DataSet  d4 = new TradeService().GetManJianUsingList("298686752", 0, Convert.ToDateTime("2010-1-1"), Convert.ToDateTime("2015-5-10"), "", 0, 15);
@@ -44,12 +45,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             //DataSet d6 = new TradeService().Q_PAY_LIST("298686752", 9, Convert.ToDateTime("2010-1-1"), Convert.ToDateTime("2015-5-10"), 0, 15);
             //DataSet d7 = new TradeService().Q_PAY_LIST("298731022", 10, Convert.ToDateTime("2010-1-1"), Convert.ToDateTime("2015-5-10"), 0, 15);
             //DataSet d8 = new TradeService().Q_PAY_LIST("301778752", 13, Convert.ToDateTime("2010-1-1"), Convert.ToDateTime("2015-5-10"), 0, 15); 
-            //DataSet d9 = new TradeService().MediListQueryClass("2000000501", "", "2010-1-1","2015-5-10", "9", "", 0, 15);
-            // DataSet d91 = new TradeService().MediListQueryClass("2000000501", "", "", "", "", "", 0, 15);
-            //  DataSet d92 = new TradeService().MediListQueryClass("2000000501", "N7life", "2010-1-1", "", "9", "", 0, 15);
-            //DataSet d93 = new TradeService().MediListQueryClass("2000000501", "", "2010-1-1", "", "3", "", 0, 15);
+           //DataSet d9 = new TradeService().MediListQueryClass("2000000501", "180801201206211018163765", "", "", "", "", 0, 15);
+           //  DataSet d91 = new TradeService().MediListQueryClass("2000000501", "", "", "", "", "", 0, 15);
+           // DataSet d92 = new TradeService().MediListQueryClass("2000000501", "N7life", "2011-11-9 0:00:00", "2011-11-15 0:00:00", "9", "", 0, 15);
+           //DataSet d93 = new TradeService().MediListQueryClass("2000000501", "", "2010-1-1", "", "3", "", 0, 15);
 
-            var dsDetailList = new WechatPayService().QueryWebchatHB("1000000000201501012000009051", 3, "127.0.0.1", 0, 10);
+            //var dsDetailList = new WechatPayService().QueryWebchatHB("1000000000201501012000009051", 3, "127.0.0.1", 0, 10);
 
             //发邮件  服务地址变了：10.12.23.14 7600
             // SendEmail("10.12.23.14", 7600, "direct=1&&direct_email=1985119654@qq.com&actiontype=102217&p_name=lxlKF&p_parm1=https://www.tenpay.com/v2/cs/v2");

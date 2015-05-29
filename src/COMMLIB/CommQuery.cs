@@ -3074,6 +3074,78 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         }
 
         /// <summary>
+        /// 格式：result=0&res_info=ok&total_num=n&paramOne_0=&paramTwo_0=&paramOne_1=&paramTwo_1=...&paramOne_n=&paramTwo_n=
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="errMsg"></param>
+        /// <returns></returns>
+        public static DataSet ParseRelayPageMethod1(string str, out string errMsg)
+        {
+            DataSet dsresult = null;
+            Hashtable ht = null;
+            errMsg = "";
+
+            if (str != null && str != "")
+            {
+                string[] strlist1 = str.Split('&'); //result=0&xx1=1&xx2=2
+
+                if (strlist1.Length == 0)
+                {
+                    dsresult = null;
+                    errMsg = "调用失败,返回结果有误" + str;
+                    return null;
+                }
+
+                ht = new Hashtable(strlist1.Length);
+
+                foreach (string strtmp in strlist1)
+                {
+                    string[] strlist2 = strtmp.Split('=');
+                    if (strlist2.Length != 2)
+                    {
+                        continue;
+                    }
+
+                    ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
+                }
+
+                if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
+                {
+                    dsresult = null;
+                    errMsg = "调用失败,返回结果有误" + str;
+                    return null;
+                }
+
+                dsresult = new DataSet();
+                DataTable dt = new DataTable();
+                dsresult.Tables.Add(dt);
+
+                int totalNum = Int32.Parse(ht["total_num"].ToString().Trim());
+
+                for (int i = 0; i < totalNum; i++)
+                {
+                    DataRow drfield = dt.NewRow();
+                    drfield.BeginEdit();
+                    foreach (string s in ht.Keys)
+                    {
+                        if (i == 0 && s.IndexOf("_0") > -1)
+                            dt.Columns.Add(s.Substring(0, s.Length - 2));
+                        if (s.IndexOf("_" + i) > -1)
+                        {
+                            int indextN = ("_" + i).Length;
+                            string fiedlName = s.Substring(0, s.Length - indextN);
+                            drfield[fiedlName] = IceDecode(ht[s].ToString().Trim());
+                        }
+                    }
+                    drfield.EndEdit();
+                    dt.Rows.Add(drfield);
+                }
+            }
+
+            return dsresult;
+        }
+
+        /// <summary>
         /// 格式字符串解析 result=0&row0=&row1=&row_num=...格式字符串解析
         /// </summary>
         /// <param name="str"></param>

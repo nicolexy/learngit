@@ -1271,24 +1271,28 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             {
                 code = "GB2312";
             }
-
             string answer = "";
             try
             {
+                LogHelper.LogInfo("CGIQuery : " + cgi);
                 System.Text.Encoding encoding = System.Text.Encoding.GetEncoding(code);
                 System.Net.HttpWebRequest webrequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(cgi);
                 webrequest.ContentType = "text/xml;charset=GBK";
 
                 System.Net.HttpWebResponse webresponse = (System.Net.HttpWebResponse)webrequest.GetResponse();
-                Stream stream = webresponse.GetResponseStream();
-                StreamReader streamReader = new StreamReader(stream, encoding);
-                answer = streamReader.ReadToEnd();
-                webresponse.Close();
-                streamReader.Close();
+                using (Stream stream = webresponse.GetResponseStream())
+                {
+                    using (StreamReader streamReader = new StreamReader(stream, encoding))
+                    {
+                        answer = streamReader.ReadToEnd();
+                    }
+                }
+                LogHelper.LogInfo("CGIQuery return: " + answer);
             }
             catch (Exception ex)
             {
                 msg = ex.ToString();
+                LogHelper.LogInfo("CGIQuery Error: " + ex.Message);
                 return "";
             }
             return answer;
@@ -1314,6 +1318,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             string answer = "";
             try
             {
+                LogHelper.LogInfo(string.Format("CGIPostQuery : {0}   req[{1}]"), cgi, req);
                 System.Text.Encoding encoding = System.Text.Encoding.GetEncoding(resCode);
                 System.Net.HttpWebRequest webrequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(cgi);
                 webrequest.ContentType = "text/xml;charset=GBK";
@@ -1324,15 +1329,19 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 parameter.Write(data, 0, data.Length);
 
                 System.Net.HttpWebResponse webresponse = (System.Net.HttpWebResponse)webrequest.GetResponse();
-                Stream stream = webresponse.GetResponseStream();
-                StreamReader streamReader = new StreamReader(stream, encoding);
-                answer = streamReader.ReadToEnd();
-                webresponse.Close();
-                streamReader.Close();
+                using (Stream stream = webresponse.GetResponseStream())
+                {
+                    using (StreamReader streamReader = new StreamReader(stream, encoding))
+                    {
+                        answer = streamReader.ReadToEnd();
+                    }
+                }
+                LogHelper.LogInfo("CGIPostQuery return: " + answer);
             }
             catch (Exception ex)
             {
                 msg = ex.ToString();
+                LogHelper.LogInfo("CGIPostQuery Error: " + ex.Message);
                 return "";
             }
             return answer;

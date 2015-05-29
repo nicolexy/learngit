@@ -120,10 +120,12 @@ namespace CFT.CSOMS.BLL.ActivityModule
 
                         Hashtable ht4 = new Hashtable();
                         ht4.Add("0", "体验账户活动");
-                        ht4.Add("1", "抽奖并送理财通红包活动");
-                        ht4.Add("2", "只抽奖类活动");
+                        ht4.Add("1", "微信平台抽奖并送理财通红包活动");
+                        ht4.Add("2", "微信平台只抽奖类活动");
                         ht4.Add("3", "微信平台领取QQ礼包活动");
                         ht4.Add("4", "手Q平台领取QQ礼包活动");
+                        ht4.Add("5", "手Q平台抽奖并送红包活动");
+                        ht4.Add("6", "手Q平台只抽奖类活动");
 
                         FundModule.FundService fundService = new FundModule.FundService();
                         DataTable spDt = null;

@@ -17,6 +17,7 @@ using TENCENT.OSS.CFT.KF.DataAccess;
 using TENCENT.OSS.C2C.Finance.BankLib;
 using System.Collections;
 using CFT.Apollo.Common;
+using SunLibraryEX;
 
 namespace CFT.CSOMS.DAL.CFTAccount
 {
@@ -34,7 +35,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
             string inmsg = "cre_type=1&cre_id=" + cre_id + "&operator=" + opera;
             string ip = System.Configuration.ConfigurationManager.AppSettings["Relay_IP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["Relay_PORT"].ToString());
-            return RelayAccessFactory.GetDSFromRelay(inmsg, "100996", ip, port,true);
+            return RelayAccessFactory.GetDSFromRelay(inmsg, "100996", ip, port, true);
         }
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
         /// <returns></returns>
         public Boolean DisableUserAuthenInfo(string cre_type, string cre_id, string opera, string memo)
         {
-            string inmsg = "cre_type=" + cre_type + "&cre_id=" + cre_id + "&operator=" + opera + "&memo="+memo;
+            string inmsg = "cre_type=" + cre_type + "&cre_id=" + cre_id + "&operator=" + opera + "&memo=" + memo;
             string ip = System.Configuration.ConfigurationManager.AppSettings["Relay_IP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["Relay_PORT"].ToString());
             string Msg = "";
@@ -184,7 +185,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
             {
                 if (string.IsNullOrEmpty(uin))
                     throw new ArgumentNullException("uin");
-               
+
                 string errMsg = "";
                 string strSql = "uin=" + uin;
                 var fuid = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_RELATION, "fuid", out errMsg);
@@ -195,13 +196,13 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 return fuid;
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(string.Format("查询Fuid异常:{0}", ex.Message));
             }
         }
 
-        public static string Uid2QQ(string uid) 
+        public static string Uid2QQ(string uid)
         {
             try
             {
@@ -234,7 +235,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
                     }
                 }
 
-                strtmp =ds.Tables[0].Rows[0]["Fmobile"].ToString();
+                strtmp = ds.Tables[0].Rows[0]["Fmobile"].ToString();
                 if (strtmp != "")
                 {
                     string fuid = ConvertToFuid(strtmp);
@@ -252,7 +253,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
             }
         }
 
-        public static string GetUserNameFromUin(string uin) 
+        public static string GetUserNameFromUin(string uin)
         {
             try
             {
@@ -272,34 +273,35 @@ namespace CFT.CSOMS.DAL.CFTAccount
 
                 return CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_USERINFO, fieldstr, out errMsg);
             }
-            catch 
+            catch
             {
                 return "";
             }
         }
 
         //同步姓名
-        public string SynUserName(string aaUin, string oldName, string newName, string wxUin) 
+        public string SynUserName(string aaUin, string oldName, string newName, string wxUin)
         {
             string msg = "";
             string SynUserNameKey = ConfigurationManager.AppSettings["SynUserNameKey"];
             string signMd5 = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(aaUin + "|" + wxUin + "|" + SynUserNameKey, "md5").ToLower();
             StringBuilder strWhere = new StringBuilder();
-            strWhere.Append("uin="+aaUin);
-            strWhere.Append("&old_true_name="+oldName);
+            strWhere.Append("uin=" + aaUin);
+            strWhere.Append("&old_true_name=" + oldName);
             strWhere.Append("&new_true_name=" + newName);
             strWhere.Append("&wxPayUin=" + wxUin);
             strWhere.Append("&sign=" + signMd5);
 
             CommQuery.GetOneTableFromICE(strWhere.ToString(), "", "aac_syncusername_service", out msg);
-            if (msg != "") {
+            if (msg != "")
+            {
                 return msg;
             }
 
             return "0";
         }
 
-        public bool RemoveUserControlFin(string uid, string cur_type, string balance, string opera,int type)
+        public bool RemoveUserControlFin(string uid, string cur_type, string balance, string opera, int type)
         {
             if (string.IsNullOrEmpty(uid.Trim()))
             {
@@ -309,7 +311,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
             {
                 throw new ArgumentNullException("opera为空！");
             }
-           
+
             string cgi = "";
             string msg = "";
             cgi = System.Configuration.ConfigurationManager.AppSettings["UserControlFinCgi"].ToString();
@@ -335,24 +337,24 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 cgi += "&opera=" + opera;
             }
 
-           // 测试 cgi = "http://check.cf.com/cgi-bin/v1.0/BauClrBan.cgi?uid=400061433&type=1009&sum=2850&opera=1100000000";
-            LogHelper.LogInfo("RemoveUserControlFin send req:" + cgi);
+            // 测试 cgi = "http://check.cf.com/cgi-bin/v1.0/BauClrBan.cgi?uid=400061433&type=1009&sum=2850&opera=1100000000";
+           // LogHelper.LogInfo("RemoveUserControlFin send req:" + cgi);
             string res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(cgi, "", out msg);
             if (msg != "")
             {
                 throw new Exception(msg);
             }
-            LogHelper.LogInfo("RemoveUserControlFin return:" + res);
+            //LogHelper.LogInfo("RemoveUserControlFin return:" + res);
 
             if (res.IndexOf("执行成功") == -1)
-                throw new Exception("解除失败："+res);
+                throw new Exception("解除失败：" + res);
             else
                 return true;
         }
 
         public DataTable QueryUserControledRecordCgi(string uid, string opera)
         {
-          
+
             string cgi = "";
             string msg = "";
             cgi = System.Configuration.ConfigurationManager.AppSettings["UserControlFinCgi"].ToString();
@@ -361,13 +363,13 @@ namespace CFT.CSOMS.DAL.CFTAccount
             cgi += "&opera=" + opera;
 
             // 测试 cgi = "http://check.cf.com/cgi-bin/v1.0/BauClrBan_new.cgi?type=1&uid=441845935&opera=yukini";
-            LogHelper.LogInfo("QueryUserControledRecordCgi send req:" + cgi);
+            //LogHelper.LogInfo("QueryUserControledRecordCgi send req:" + cgi);
             string res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(cgi, "", out msg);
             if (msg != "")
             {
                 throw new Exception(msg);
             }
-            LogHelper.LogInfo("QueryUserControledRecordCgi return:" + res);
+            //LogHelper.LogInfo("QueryUserControledRecordCgi return:" + res);
 
             DataTable dt = new DataTable();
             dt.Columns.Add("cur_type", typeof(String));
@@ -375,13 +377,13 @@ namespace CFT.CSOMS.DAL.CFTAccount
 
             if (res.IndexOf("执行成功") == -1)
             {
-                throw new Exception("cgi查询失败，返回："+res);
+                throw new Exception("cgi查询失败，返回：" + res);
             }
-            res = res.Replace("执行成功 ","");
+            res = res.Replace("执行成功 ", "");
             string[] ans = res.Split(' ');
             DataRow drfield = dt.NewRow();
 
-          
+
             foreach (string strtmp in ans)
             {
                 string[] strlist2 = strtmp.Split(',');
@@ -389,7 +391,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 {
                     continue;
                 }
-                string[] para=strlist2[0].Split(':');
+                string[] para = strlist2[0].Split(':');
                 if (para.Length != 2)
                 {
                     continue;
@@ -409,7 +411,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 drfield.EndEdit();
                 dt.Rows.Add(drfield);
             }
-           
+
             return dt;
         }
 
@@ -862,7 +864,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 throw new Exception(Msg);
             }
 
-            answer=PublicRes.getCgiStringUtil(answer);
+            answer = PublicRes.getCgiStringUtil(answer);
             //解析relay str
             DataSet ds = CommQuery.ParseRelayStr(answer, out errMsg);
             if (errMsg != "")
@@ -887,17 +889,17 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 using (var da = MySQLAccessFactory.GetMySQLAccess("NameAbnormal"))
                 {
                     da.OpenConn();
-                    string Sql = string.Format("insert into c2c_fmdb.t_name_abnormal_check "+
-                        "(Fuin,Fname_old,Fcre_id_old,Ftruename,Fcre_id,Fcre_type,Fcre_version,Fcre_valid_day,"+
-                    "Faddress,Fimage_cre1,Fimage_cre2,Fimage_evidence,Fsubmit_time,Fsubmit_user,Fcheck_time,Fcheck_user,"+
+                    string Sql = string.Format("insert into c2c_fmdb.t_name_abnormal_check " +
+                        "(Fuin,Fname_old,Fcre_id_old,Ftruename,Fcre_id,Fcre_type,Fcre_version,Fcre_valid_day," +
+                    "Faddress,Fimage_cre1,Fimage_cre2,Fimage_evidence,Fsubmit_time,Fsubmit_user,Fcheck_time,Fcheck_user," +
                     "Fcheck_state,Frefuse_reason,Fcomment)" +
                         "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}')",
-                       nameAbnormal.Fuin, nameAbnormal.Fname_old, nameAbnormal.Fcre_id_old, 
-                       nameAbnormal.Ftruename, serCre_id, nameAbnormal.Fcre_type, 
+                       nameAbnormal.Fuin, nameAbnormal.Fname_old, nameAbnormal.Fcre_id_old,
+                       nameAbnormal.Ftruename, serCre_id, nameAbnormal.Fcre_type,
                        nameAbnormal.Fcre_version, nameAbnormal.Fcre_valid_day, nameAbnormal.Faddress,
                        nameAbnormal.Fimage_cre1, nameAbnormal.Fimage_cre2, nameAbnormal.Fimage_evidence,
-                       nameAbnormal.Fsubmit_time, nameAbnormal.Fsubmit_user, nameAbnormal.Fcheck_time, 
-                       nameAbnormal.Fcheck_user, nameAbnormal.Fcheck_state, nameAbnormal.Frefuse_reason, 
+                       nameAbnormal.Fsubmit_time, nameAbnormal.Fsubmit_user, nameAbnormal.Fcheck_time,
+                       nameAbnormal.Fcheck_user, nameAbnormal.Fcheck_state, nameAbnormal.Frefuse_reason,
                        nameAbnormal.Fcomment);
                     if (!da.ExecSql(Sql))
                     {
@@ -919,7 +921,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
         /// <param name="limit"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public DataSet QueryNameAbnormalInfo(string uin,int check_state,string cre_id_old,int limit, int offset)
+        public DataSet QueryNameAbnormalInfo(string uin, int check_state, string cre_id_old, int limit, int offset)
         {
             try
             {
@@ -928,13 +930,13 @@ namespace CFT.CSOMS.DAL.CFTAccount
                     da.OpenConn();
                     string Sql = " select Fid, Fuin,Fname_old,Fcre_id_old,Ftruename,Fcre_id,Fcre_type,Fcre_version,Fcre_valid_day,Faddress,Fimage_cre1,Fimage_cre2,Fimage_evidence,Fsubmit_time,Fsubmit_user,Fcheck_time,Fcheck_user,Fcheck_state,Frefuse_reason,Fcomment "
                         + "from c2c_fmdb.t_name_abnormal_check "
-                        + "where Fuin='"+uin+"' ";
+                        + "where Fuin='" + uin + "' ";
 
-                    if (check_state!=99)
+                    if (check_state != 99)
                         Sql += " and Fcheck_state='" + check_state + "' ";
                     if (!string.IsNullOrEmpty(cre_id_old))
                         Sql += " and Fcre_id_old='" + cre_id_old + "' ";
-                    Sql += " order by Fsubmit_time desc limit " + limit + "," + offset ;
+                    Sql += " order by Fsubmit_time desc limit " + limit + "," + offset;
 
                     DataSet ds = da.dsGetTotalData(Sql);
                     if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -942,7 +944,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
                         foreach (DataRow row in ds.Tables[0].Rows)
                         {
                             //证件号解密
-                            row["Fcre_id"] = CommUtil.BankIDEncode_ForBankCardUnbind(row["Fcre_id"].ToString()).Replace("\0","");
+                            row["Fcre_id"] = CommUtil.BankIDEncode_ForBankCardUnbind(row["Fcre_id"].ToString()).Replace("\0", "");
                         }
                     }
 
@@ -966,7 +968,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
         /// <param name="limit"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public bool UpdateNameAbnormalInfo(string uin, string refuse_reason,string comment,string check_user,string check_state)
+        public bool UpdateNameAbnormalInfo(string uin, string refuse_reason, string comment, string check_user, string check_state)
         {
             try
             {
@@ -975,10 +977,10 @@ namespace CFT.CSOMS.DAL.CFTAccount
                     da.OpenConn();
                     string Sql = string.Format(" update c2c_fmdb.t_name_abnormal_check set Fcheck_time='{0}',Fcheck_user='{1}',Fcheck_state='{2}',Frefuse_reason='{3}',Fcomment='{4}' "
                         + "where Fuin='{5}' and Fcheck_state='0'",
-                        System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), check_user, check_state, refuse_reason, comment,uin);
-                   
-                    int num=da.ExecSqlNum(Sql);
-                    if ( num== 1)
+                        System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), check_user, check_state, refuse_reason, comment, uin);
+
+                    int num = da.ExecSqlNum(Sql);
+                    if (num == 1)
                         return true;
                     else
                     {
@@ -1018,12 +1020,12 @@ namespace CFT.CSOMS.DAL.CFTAccount
             //int port = 35600;
 
             string ip = System.Configuration.ConfigurationManager.AppSettings["RealNameQueryIP"].ToString();
-            int port =int.Parse(System.Configuration.ConfigurationManager.AppSettings["RealNameQueryPort"].ToString());
+            int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["RealNameQueryPort"].ToString());
             string requestString = "uin=" + uin + "&uid=&operator=" + submit_user;
             DataSet ds = RelayAccessFactory.GetDSFromRelay(requestString, "100587", ip, port);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-               string key = System.Configuration.ConfigurationManager.AppSettings["RealNameKey"].ToString();
+                string key = System.Configuration.ConfigurationManager.AppSettings["RealNameKey"].ToString();
                 DataRow row = ds.Tables[0].Rows[0];
                 key += fuid + submit_user;
                 row["cname"] = CommUtil.TripleDESDecryptRealName(row["cname"].ToString(), key);
@@ -1064,13 +1066,13 @@ namespace CFT.CSOMS.DAL.CFTAccount
             requestString += "&address=" + nameAbnormal.Faddress;
             requestString += "&MSGNO=" + DateTime.Now.ToString("yyyyMMddHHmmss");
             requestString += "&MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmss");
-            
+
             //string ip = "10.12.23.14";
             //int port = 35600;
 
             string ip = System.Configuration.ConfigurationManager.AppSettings["RealNameQueryIP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["RealNameQueryPort"].ToString());
-            RelayAccessFactory.GetDSFromRelay(requestString, "5547", ip, port,true);
+            RelayAccessFactory.GetDSFromRelay(requestString, "5547", ip, port, true);
             return true;
         }
 
@@ -1194,7 +1196,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
         /// 添加账户信息修改日志
         /// </summary>
         /// <param name="nameAbnormal"></param>
-        public bool AddChangeUserInfoLog(string qqid, string cre_type, string cre_type_old, string user_type, string user_type_old, string attid, string attid_old,string commet,string commet_old,string submit_user)
+        public bool AddChangeUserInfoLog(string qqid, string cre_type, string cre_type_old, string user_type, string user_type_old, string attid, string attid_old, string commet, string commet_old, string submit_user)
         {
             try
             {
@@ -1236,6 +1238,109 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 da.OpenConn();
                 return da.GetTable(sql);
             }
+        }
+
+        /// <summary>
+        /// 腾讯信用查询
+        /// </summary>
+        /// <param name="uin"></param>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public DataSet TencentCreditQuery(string uin, string username)
+        {
+            string config = System.Configuration.ConfigurationManager.AppSettings["TencentCreditQuery"] ?? "172.27.31.177;22000;f58ac057fd7395ff4d372a05b9796d2b";
+            var arr = config.Split(';');
+            var ip = arr[0];
+            var port = int.Parse(arr[1]);
+            var key = arr[2];
+            var kokenValue = "uin=" + uin + "&username=" + username + "&key=" + key;
+            var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(kokenValue, "md5");
+            var req =
+                "&uin=" + uin +
+                "&username=" + username +
+                "&token=" + token
+                ;
+            return RelayAccessFactory.GetDSFromRelay(req, "101025", ip, port);
+        }
+
+        /// <summary>
+        /// 查询手机绑定次数
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, string> QueryMobileBoundNumber(string mobile)
+        {
+            var url = System.Configuration.ConfigurationManager.AppSettings["ClearMobileNumber"] ?? "http://op.cf.com/perltools/cgi-bin/msgnotify_ckv_tool";
+            var req = url +
+                "?jsonstr={" +
+                "\"operation\":\"2\"," +
+                "\"telphone\":\"" + mobile + "\"" +
+                "}";
+            string msg = "";
+            var answer = commRes.GetFromCGI(req, null, out msg);
+            if (msg != "")
+            {
+                throw new Exception("调用CGI出错:" + msg);
+            }
+            if (string.IsNullOrEmpty(answer))
+            {
+                throw new Exception("CGI返回值为空");
+            }
+            System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+            var model = jss.Deserialize<QueryMobileBoundNumberJsonModel>(answer);
+            if (model.result != "0" || model.ret_data == "")
+            {
+                throw new Exception("查询出错:[" + model.process_msg + model.result_msg + "]");
+            }
+            if (model.ret_data.IndexOf(mobile) == -1)
+            {
+                if (model.ret_data.IndexOf("nofound") != -1)
+                {
+                    throw new Exception("没有找到记录");
+                }
+                throw new Exception("查询失败:[" + model.ret_data + "]");
+            }
+            var dic = model.ret_data.Replace(" ", "").ToDictionary(',', ':');
+            if (dic["mobile"] != mobile)
+            {
+                throw new ArgumentException("CGI返回值错误Model值和预期的不一致");
+            }
+            return dic;
+        }
+
+        /// <summary>
+        /// 手机绑定清零
+        /// </summary>
+        /// <param name="mobile">手机号码</param>
+        /// <returns></returns>
+        public bool ClearMobileBoundNumber(string mobile)
+        {
+            var url = System.Configuration.ConfigurationManager.AppSettings["ClearMobileNumber"] ?? "http://op.cf.com/perltools/cgi-bin/msgnotify_ckv_tool";
+            var req = url +
+                "?jsonstr={" +
+                "\"operation\":\"0\"," +
+                "\"telphone\":\"" + mobile + "\"" +
+                "}";
+            string msg = "";
+            var answer = commRes.GetFromCGI(req, null, out msg);
+            if (msg != "")
+            {
+                throw new Exception("调用CGI出错:" + msg);
+            }
+            if (string.IsNullOrEmpty(answer))
+            {
+                throw new Exception("CGI返回值为空");
+            }
+            System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+            var model = jss.Deserialize<QueryMobileBoundNumberJsonModel>(answer);
+            if (model.result != "0" || model.ret_data == "")
+            {
+                throw new Exception("清零出错:[" + model.process_msg + model.result_msg + "]");
+            }
+            if (model.ret_data.IndexOf(mobile) == -1)
+            {
+                throw new Exception("清零失败:[" + model.ret_data + "]");
+            }
+            return true;
         }
     }
 
@@ -1280,4 +1385,13 @@ namespace CFT.CSOMS.DAL.CFTAccount
     }
     #endregion
 
+    #region 查询手机绑定次数 实体类
+    class QueryMobileBoundNumberJsonModel
+    {
+        public string ret_data;
+        public string process_msg;
+        public string result;
+        public string result_msg;
+    }
+    #endregion
 }
