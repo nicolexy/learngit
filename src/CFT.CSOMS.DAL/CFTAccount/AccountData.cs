@@ -338,7 +338,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
             }
 
             // 测试 cgi = "http://check.cf.com/cgi-bin/v1.0/BauClrBan.cgi?uid=400061433&type=1009&sum=2850&opera=1100000000";
-           // LogHelper.LogInfo("RemoveUserControlFin send req:" + cgi);
+            // LogHelper.LogInfo("RemoveUserControlFin send req:" + cgi);
             string res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(cgi, "", out msg);
             if (msg != "")
             {
@@ -1248,11 +1248,9 @@ namespace CFT.CSOMS.DAL.CFTAccount
         /// <returns></returns>
         public DataSet TencentCreditQuery(string uin, string username)
         {
-            string config = System.Configuration.ConfigurationManager.AppSettings["TencentCreditQuery"] ?? "172.27.31.177;22000;f58ac057fd7395ff4d372a05b9796d2b";
-            var arr = config.Split(';');
-            var ip = arr[0];
-            var port = int.Parse(arr[1]);
-            var key = arr[2];
+            var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditQueryIP"] ?? "172.27.31.177";
+            var port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TencentCreditQueryPort"] ?? "22000");
+            var key = System.Configuration.ConfigurationManager.AppSettings["TencentCreditQueryKey"] ?? "f58ac057fd7395ff4d372a05b9796d2b";
             var kokenValue = "uin=" + uin + "&username=" + username + "&key=" + key;
             var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(kokenValue, "md5");
             var req =

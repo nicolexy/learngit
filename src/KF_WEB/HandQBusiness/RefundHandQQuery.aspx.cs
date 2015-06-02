@@ -78,7 +78,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                     throw new Exception("终止日期小于起始日期，请重新输入！");
                 }
 
-                if (begindate.AddMonths(2) > enddate)
+                if (begindate.AddMonths(2) < enddate)
                 {
                     throw new Exception("日期间隔大于3个月份，请重新输入！");
                 }

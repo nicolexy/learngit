@@ -246,7 +246,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                         string title = r["FTitle"].ToString();
                         title= title.Replace("<font color=red>", "");
                         title = title.Replace("</font>", "");
-                        title = System.Web.HttpUtility.UrlEncode(title);
                         r["UrlNotify"] = "BulletinSendMail.aspx?title=" + title;
                     }
 

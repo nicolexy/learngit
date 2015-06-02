@@ -44,14 +44,12 @@ namespace CFT.CSOMS.DAL.InternationalityPayModule
         /// <returns></returns>
         public List<Fmicro_Order_Result> FMicroOrderList(string spid, string out_trade_no, string listid, string cftlistid, string mobile, string name, DateTime fromtime, DateTime totime, int pagenum, int limit, string trade_state)
         {
-            string config = System.Configuration.ConfigurationManager.AppSettings["ExternalWeiXinMircoPay"] ?? "172.27.31.177;22000";
-            var arr = config.Split(';');
-            var ip = arr[0];
-            var port = int.Parse(arr[1]);
+            var ip = System.Configuration.ConfigurationManager.AppSettings["ExternalWeiXinMircoPayIP"] ?? "172.27.31.177";
+            var port = System.Configuration.ConfigurationManager.AppSettings["ExternalWeiXinMircoPayPort"] ?? "22000";
             string msg = "";
             var req = "ver=1&sp_id=2000000000&head_u=" +
                 "&spid=" + spid +
-                "&request_type=100970" +
+                "&request_type=101052" +
                 "&out_trade_no=" + out_trade_no +
                 "&listid=" + listid +
                 "&cftlistid=" + cftlistid +
@@ -63,7 +61,7 @@ namespace CFT.CSOMS.DAL.InternationalityPayModule
                 "&limit=" + limit.ToString() +
                 "&trade_state=" + trade_state
                 ;
-            string answer = commRes.GetFromRelay(req, ip, port.ToString(), out msg);
+            string answer = commRes.GetFromRelay(req, ip, port, out msg);
             //string answer = RelayAccessFactory.RelayInvoke(req, "100970", false, false, ip, port);
             //string answer = RelayAccessFactory.RelayInvoke(req, ip, port);
             #region 如果请求异常-->抛出异常信息
