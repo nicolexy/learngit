@@ -91,18 +91,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         private void Bind(int index)
         {
             try
-            {
+            {      
+                var fTime = DateTime.Parse(txt_fromtime.Text);
+                var tTime = DateTime.Parse(txt_totime.Text);            
+                if (tTime.Month != fTime.Month)  //在同一个月份中 时差15天 开始时间不能小于结束时间
+                {
+                    WebUtils.ShowMessage(this.Page, "日期错误: 不能跨月查找");
+                    return;
+                }
+                var difference = (tTime - fTime).Days;
+                if (difference > 15 || difference < 0)
+                {
+                    WebUtils.ShowMessage(this.Page, "日期错误: 日期区间必须在15天以内");
+                    return;
+                }
                 if (txt_spid.Text == "" && txt_out_trade_no.Text == "" && txt_listid.Text == "" && txt_cftlistid.Text == "" && txt_mobile.Text == "" && txt_name.Text == "")
                 {
                     WebUtils.ShowMessage(this.Page, "最少输入一个查询条件!");
-                    return;
-                }
-                var fTime = DateTime.Parse(txt_fromtime.Text);
-                var tTime = DateTime.Parse(txt_totime.Text);
-                var difference = (tTime - fTime).Days;
-                if (tTime.Month != fTime.Month || difference > 15 || difference < 0)  //在同一个月份中 时差15天 开始时间不能小于结束时间
-                {
-                    WebUtils.ShowMessage(this.Page, "错误的日期! 请输入半个月以内的时间区间");
                     return;
                 }
                 var limit = pager.PageSize;
