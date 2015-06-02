@@ -740,6 +740,197 @@ namespace CFT.CSOMS.DAL.RefundModule
                 return false;
         }
      */
+
+        /// <summary>
+        /// 异常付款退款单明细查询
+        /// </summary>
+        /// <param name="sTime">异常写入时间 开始时间</param>
+        /// <param name="eTime">异常写入时间 结束时间</param>
+        /// <param name="batchID">批次</param>
+        /// <param name="packageID">包ID</param>
+        /// <param name="listid">业务单号</param>
+        /// <param name="type">业务类型</param>
+        /// <param name="product">产品标示  product+business_type 共同确定子业务类型</param>
+        /// <param name="business_type"> 业务类型 </param>
+        /// <param name="notity">是否已通知用户</param>
+        /// <param name="bankType">银行类型</param>
+        /// <param name="errorType">错误类型</param>
+        /// <param name="accType">账户类型</param>
+        /// <param name="start"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public DataSet QueryPaymenAbnormal(string sTime, 
+            string eTime, string batchID, string packageID, string listid, string type,
+            string product, string business_type, string notityStatus, string notityResult, string bankType, string errorType,
+            string accType, int start, int max)
+        {
+            string tbName = "c2c_zwdb.t_abnormal_roll_" + DateTime.Parse(sTime).ToString("yyyyMM");
+            StringBuilder Sql = new StringBuilder("select Ftype,Fabnormal_time,FBatchID,FPackageID,Flistid,Fproduct,Fbusiness_type,Fbank_type,Ferror_type,Faccount_type,Fspid,Fnotify_type,Fnotify_result,Fnotify_status,Fnotify_history from "
+                +tbName);
+
+            StringBuilder whereStr = WhereStrAbnRefund(sTime, eTime, batchID, packageID, listid, type, product, business_type, notityStatus, notityResult, bankType, errorType, accType);
+            whereStr.Append(" limit " + start + "," + max);
+            Sql.Append(whereStr);
+
+            using (var da = MySQLAccessFactory.GetMySQLAccess("PaymenAbnormal"))
+            {
+                da.OpenConn();
+
+                DataSet ds = da.dsGetTotalData(Sql.ToString());
+
+                return ds;
+            }
+        }
+
+      
+        /// <summary>
+        /// 通过交易单号更新异常付款退款单明细
+        /// 发送通知
+        /// </summary>
+        /// <param name="sTime">查询时间</param>
+        /// <param name="dicData">更新字段及数据  包含后面注释的字段</param>
+        /// <param name="appid">公众号appid 发微信要</param>
+        /// <param name="template_id">消息模板ID 发邮件 短信等</param>
+        /// <param name="Fnotify_detail">通知详情</param>
+        /// <param name="Fnotify_type">通知类型</param>
+        /// <param name="Fpre_arrival_time">预计到账时间</param>
+        /// <param name="Fnotify_sender">通知发送者</param>
+        /// <param name="Fclient_ip">消息发送者ip</param>
+        /// <param name="Fnotify_history">历史通知方式</param>
+        /// <param name="listids">交易单号列表</param>
+        /// <returns></returns>
+        public void UpdatePaymenAbnormalByListid(string sTime,Dictionary<string, string> dicData, ArrayList listids)
+        {
+            StringBuilder Sql = updateFiledAbnRefund(sTime, dicData["template_id"],
+                dicData["notify_detail"], dicData["notify_type"],
+                dicData["pre_arrival_time"], dicData["notify_sender"],
+                dicData["client_ip"]);
+
+            string allListid = "";
+            if (listids == null || listids.Count == 0)
+                throw new Exception("没有需要更新的交易单！");
+            foreach (string id in listids)
+            {
+                allListid += "'" + id + "',";
+            }
+           allListid= allListid.Substring(0,allListid.Length-1);
+            Sql.Append(" where Flistid in(" + allListid + ")");
+
+            using (var da = MySQLAccessFactory.GetMySQLAccess("PaymenAbnormal"))
+            {
+                da.OpenConn();
+
+                da.ExecSqlNum(Sql.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 通过查询条件更新所有异常付款退款单明细
+        /// 发送通知
+        /// </summary>
+        /// <param name="dicCondition">查询条件</param>
+        /// <param name="dicData">更新字段及数据 </param>
+        /// <returns></returns>
+        public int UpdatePaymenAbnormalByQuery(Dictionary<string, string> dicCondition, Dictionary<string, string> dicData)
+        {
+            StringBuilder Sql = updateFiledAbnRefund(dicCondition["sTime"], dicData["template_id"],
+                dicData["notify_detail"], dicData["notify_type"],
+                dicData["pre_arrival_time"], dicData["notify_sender"],
+                dicData["client_ip"]);
+
+            StringBuilder whereStr = WhereStrAbnRefund(dicCondition["sTime"],
+                dicCondition["eTime"], dicCondition["batchID"], dicCondition["packageID"],
+                dicCondition["listid"], dicCondition["type"], dicCondition["product"],
+                dicCondition["business_type"], dicCondition["notityStatus"], dicCondition["notityResult"],
+                dicCondition["bankType"], dicCondition["errorType"], dicCondition["accType"]);
+            whereStr.Append(" limit 50");
+
+            Sql.Append(whereStr);
+
+            using (var da = MySQLAccessFactory.GetMySQLAccess("PaymenAbnormal"))
+            {
+                da.OpenConn();
+
+                return da.ExecSqlNum(Sql.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 查询和更新条件
+        /// </summary>
+        /// <returns></returns>
+        private static StringBuilder WhereStrAbnRefund(string sTime, string eTime, string batchID, string packageID, string listid, string type, string product, string business_type, string notityStatus, string notityResult, string bankType, string errorType, string accType)
+        {
+            StringBuilder whereStr = new StringBuilder(" where Fcreate_time between '" + sTime + "' and '" + eTime + "' and  FBatchID='" + batchID + "' ");
+            if (!string.IsNullOrEmpty(packageID))
+            {
+                whereStr.Append(" and FPackageID ='" + packageID + "'");
+            }
+            if (!string.IsNullOrEmpty(listid))
+            {
+                whereStr.Append(" and Flistid ='" + listid + "'");
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+                whereStr.Append(" and Ftype ='" + type + "'");
+            }
+            if (!string.IsNullOrEmpty(product) && !string.IsNullOrEmpty(business_type))//确定子业务类型
+            {
+                whereStr.Append(" and Fproduct ='" + product + "'");
+                whereStr.Append(" and Fbusiness_type ='" + business_type + "'");
+            }
+            if (!string.IsNullOrEmpty(notityStatus))
+            {
+                whereStr.Append(" and Fnotify_status ='" + notityStatus + "'");
+            }
+            if (!string.IsNullOrEmpty(notityResult))
+            {
+                whereStr.Append(" and Fnotify_result ='" + notityResult + "'");
+            }
+            if (!string.IsNullOrEmpty(bankType))
+            {
+                whereStr.Append(" and Fbank_type ='" + bankType + "'");
+            }
+            if (!string.IsNullOrEmpty(errorType))
+            {
+                whereStr.Append(" and Ferror_type ='" + errorType + "'");
+            }
+            if (!string.IsNullOrEmpty(accType))
+            {
+                whereStr.Append(" and Faccount_type ='" + accType + "'");
+            }
+            whereStr.Append(" order by Fabnormal_time desc ");
+           
+            return whereStr;
+        }
+
+        /// <summary>
+        /// 更新字段及数据
+        /// </summary>
+        /// <returns></returns>
+        private static StringBuilder updateFiledAbnRefund(string sTime, string template_id, string notify_detail, string notify_type, string pre_arrival_time, string notify_sender, string client_ip)
+        {
+            string tbName = "c2c_zwdb.t_abnormal_roll_" + DateTime.Parse(sTime).ToString("yyyyMM");
+            StringBuilder Sql = new StringBuilder("update " + tbName + " set Fmodify_time=now()");
+            Sql.Append(", Fnotify_status='1'");
+            Sql.Append(", Fnotify_type='" + notify_type + "'");
+            Sql.Append(", Fpre_arrival_time='" + pre_arrival_time + "'");
+            Sql.Append(", Ftemplate_id ='" + template_id + "'");
+            if (!string.IsNullOrEmpty(notify_detail))
+            {
+                Sql.Append(", Fnotify_detail ='" + notify_detail + "'");
+            }
+            if (!string.IsNullOrEmpty(notify_sender))
+            {
+                Sql.Append(", Fnotify_sender ='" + notify_sender + "'");
+            }
+            if (!string.IsNullOrEmpty(client_ip))
+            {
+                Sql.Append(", Fclient_ip ='" + client_ip + "'");
+            }
+            return Sql;
+        }
+
     }
 }
 

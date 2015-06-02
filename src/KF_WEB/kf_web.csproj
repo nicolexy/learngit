@@ -1681,6 +1681,13 @@
     <Compile Include="RefundManage\BankEmailManage.aspx.designer.cs">
       <DependentUpon>BankEmailManage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="RefundManage\SendPaymentAbnorNotify.aspx.cs">
+      <DependentUpon>SendPaymentAbnorNotify.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RefundManage\SendPaymentAbnorNotify.aspx.designer.cs">
+      <DependentUpon>SendPaymentAbnorNotify.aspx</DependentUpon>
+    </Compile>
     <Compile Include="RefundManage\CreateAppForm.aspx.cs">
       <DependentUpon>CreateAppForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1751,6 +1758,13 @@
     </Compile>
     <Compile Include="RefundManage\SuspendRefundment.aspx.designer.cs">
       <DependentUpon>SuspendRefundment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RefundManage\PaymentAbnormalQueryNotify.aspx.cs">
+      <DependentUpon>PaymentAbnormalQueryNotify.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RefundManage\PaymentAbnormalQueryNotify.aspx.designer.cs">
+      <DependentUpon>PaymentAbnormalQueryNotify.aspx</DependentUpon>
     </Compile>
     <Compile Include="RemitCheck\RemitQuery.aspx.cs">
       <DependentUpon>RemitQuery.aspx</DependentUpon>
@@ -3159,6 +3173,7 @@
     </Content>
     <Content Include="RefundManage\AddInformation.aspx" />
     <Content Include="RefundManage\BankEmailManage.aspx" />
+    <Content Include="RefundManage\SendPaymentAbnorNotify.aspx" />
     <Content Include="RefundManage\CreateAppForm.aspx" />
     <Content Include="RefundManage\NoticeBankByEmail.aspx" />
     <Content Include="RefundManage\NoticeUserByEmail.aspx" />
@@ -3177,6 +3192,9 @@
     </Content>
     <Content Include="RefundManage\RefundRegistration.aspx" />
     <Content Include="RefundManage\SuspendRefundment.aspx">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="RefundManage\PaymentAbnormalQueryNotify.aspx">
       <SubType>Form</SubType>
     </Content>
     <Content Include="RemitCheck\RemitQuery.aspx">
@@ -4200,6 +4218,9 @@
     <EmbeddedResource Include="NewQueryInfoPages\TestPage.aspx.resx">
       <DependentUpon>TestPage.aspx.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RefundManage\SendPaymentAbnorNotify.aspx.resx">
+      <DependentUpon>SendPaymentAbnorNotify.aspx.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RefundManage\RefundErrorHandle.aspx.resx">
       <DependentUpon>RefundErrorHandle.aspx.cs</DependentUpon>
     </EmbeddedResource>
@@ -4214,6 +4235,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RefundManage\SuspendRefundment.aspx.resx">
       <DependentUpon>SuspendRefundment.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RefundManage\PaymentAbnormalQueryNotify.aspx.resx">
+      <DependentUpon>PaymentAbnormalQueryNotify.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RemitCheck\RemitQuery.aspx.resx">
       <DependentUpon>RemitQuery.aspx.cs</DependentUpon>
