@@ -515,6 +515,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             ForeignCurrencyPay1.AddSubMenu("退款查询", "ForeignCurrencyPay/FCRefundQuery.aspx");
             ForeignCurrencyPay1.AddSubMenu("拒付查询", "ForeignCurrencyPay/FCRefusePayQuery.aspx");
             ForeignCurrencyPay1.AddSubMenu("账户流水查询", "ForeignCurrencyPay/FCRollQuery.aspx");
+            ForeignCurrencyPay1.AddSubMenu("外币用户交易查询", "ForeignCurrencyPay/FCUserTradeQuery.aspx");
             ForeignCurrencyAccount1.AddSubMenu("商户信息查询", "ForeignCurrencyPay/FCAInfoQuery.aspx");
             ForeignCurrencyAccount1.AddSubMenu("商户结算查询", "ForeignCurrencyPay/FCASettlementQuery.aspx");
             ForeignCurrencyAccount1.AddSubMenu("商户划款查询", "ForeignCurrencyPay/FCATransferQuery.aspx");
@@ -526,7 +527,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             PNRQuery1.AddSubMenu("PNR订单查询", "TradeManage/PNROrderQuery.aspx");
             PNRQuery1.AddSubMenu("PNR操作查询", "TradeManage/PNROperateQuery.aspx");
 
-            tradeManage1.AddSubMenu("历史订单迁移", "TradeManage/OrderMigration.aspx");
+            //tradeManage1.AddSubMenu("历史订单迁移", "TradeManage/OrderMigration.aspx");
             tradeManage1.AddSubMenu("未完成交易单查询", "TradeManage/UnFinishTradeQuery.aspx");
             tradeManage1.AddSubMenu("注销前交易查询", "TradeManage/BeforeCancelTradeQuery.aspx");
 

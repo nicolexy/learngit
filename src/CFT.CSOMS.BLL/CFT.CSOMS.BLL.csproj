@@ -60,6 +60,7 @@
     <Compile Include="BankCardBindModule\BankCardBindService.cs" />
     <Compile Include="CFTAccountModule\AccountService.cs" />
     <Compile Include="CheckModoule\CheckService.cs" />
+    <Compile Include="ForeignCurrencyModule\FCUserTradeQuery.cs" />
     <Compile Include="FundModule\LCTBalanceService.cs" />
     <Compile Include="HandQModule\HandQService.cs" />
     <Compile Include="InternationalityPayModule\QueryWeiXinMircoPay.cs" />
