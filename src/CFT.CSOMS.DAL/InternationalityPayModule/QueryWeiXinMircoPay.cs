@@ -49,21 +49,21 @@ namespace CFT.CSOMS.DAL.InternationalityPayModule
             string msg = "";
             var req = "ver=1&sp_id=2000000000&head_u=" +
                 "&spid=" + spid +
-                "&request_type=101052" +
+                "&request_type=101052" +    //开发环境:100970,线上环境:101052
                 "&out_trade_no=" + out_trade_no +
                 "&listid=" + listid +
                 "&cftlistid=" + cftlistid +
                 "&mobile=" + mobile +
-                "&name=" + name +
+                "&name=" + CFT.CSOMS.COMMLIB.CommUtil.URLEncode(name) +
                 "&fromtime=" + fromtime.ToString("yyyy-MM-dd") +
                 "&totime=" + totime.ToString("yyyy-MM-dd") +
                 "&pagenum=" + pagenum.ToString() +
                 "&limit=" + limit.ToString() +
                 "&trade_state=" + trade_state
                 ;
-            string answer = commRes.GetFromRelay(req, ip, port, out msg);
+            //string answer = commRes.GetFromRelay(req, ip, port, out msg);
             //string answer = RelayAccessFactory.RelayInvoke(req, "100970", false, false, ip, port);
-            //string answer = RelayAccessFactory.RelayInvoke(req, ip, port);
+            string answer = RelayAccessFactory.RelayInvoke(req, ip, int.Parse(port));
             #region 如果请求异常-->抛出异常信息
             if (msg != "")
             {
@@ -73,7 +73,7 @@ namespace CFT.CSOMS.DAL.InternationalityPayModule
             {
                 throw new Exception("调用Relay接口返回值等于空!");
             }
-            var dic = answer.ToDictionary(); //AnalyzeDictionary(answer);
+            var dic = answer.ToDictionary('&','='); //AnalyzeDictionary(answer);
             if (dic["result"] != "0")
             {
                 throw new Exception("查询失败:" + dic["res_info"]);

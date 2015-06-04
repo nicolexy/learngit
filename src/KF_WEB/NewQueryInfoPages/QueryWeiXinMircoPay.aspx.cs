@@ -68,8 +68,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 WebUtils.ShowMessage(Page, "未知错误! 请刷新后,再次操作");  //ViewState["FMicroOrderList"]  不存在值
             }
             var cur = list[dgList.SelectedIndex];
-            iframe_tradelog.Attributes.Add("src", "/TradeManage/TradeLogQuery.aspx?id=" + cur.listid);
-
+            iframe_tradelog.Attributes.Add("src", "/TradeManage/TradeLogQuery.aspx?id=" + cur.cftlistid);
             #region 给详细页,标记赋值
             currency_type.InnerText = cur.currency_type;
             trans_rate.InnerText = cur.trans_rate;
@@ -91,9 +90,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         private void Bind(int index)
         {
             try
-            {      
+            {
                 var fTime = DateTime.Parse(txt_fromtime.Text);
-                var tTime = DateTime.Parse(txt_totime.Text);            
+                var tTime = DateTime.Parse(txt_totime.Text);
                 if (tTime.Month != fTime.Month)  //在同一个月份中 时差15天 开始时间不能小于结束时间
                 {
                     WebUtils.ShowMessage(this.Page, "日期错误: 不能跨月查找");

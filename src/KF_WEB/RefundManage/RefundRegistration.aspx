@@ -137,7 +137,9 @@
                              <asp:TemplateField HeaderText = "操作" >
                               <ItemTemplate>                                                           
                                         <asp:CheckBox ID="checkbox" runat="server" Text ="" OnCheckedChanged = "OnCheckBox_CheckedSelect"   AutoPostBack = "true" /> &nbsp;                                          
-                                        <asp:Button ID = "btnNotice" runat = "server"  Text = "通知" OnClick = "OnBtnClickNotice_Click"  Width = "50px" ></asp:Button>&nbsp;&nbsp; 
+                                        <asp:Button ID = "btnNotice" runat = "server"  Text = "通知" OnClick = "OnBtnClickNotice_Click"  Width = "50px" 
+                                        CommandArgument='<%# Eval("FuserFlag")+","+Eval("FpayListid")+","+Eval("FoldId") %>'  >     
+                                        </asp:Button>&nbsp;&nbsp; 
                                         <asp:Button ID = "btnBank" runat = "server"  Text = "通知银行"  OnClick = "OnBtnClickBank_Click" Width = "60px" 
                                         CommandArgument='<%# Eval("FbankType")+","+Eval("FbankAccNo")+","+Eval("FtrueName")+","+Eval("FmodifyTime")+","+Eval("FbankTypeOld") +","+Eval("FcreateTime")+","+Eval("FbankListid")+","+Eval("FReturnAmt")+","+Eval("FAmt") %>'  > 
                                         </asp:Button>&nbsp;&nbsp;

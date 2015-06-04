@@ -765,11 +765,17 @@ namespace CFT.CSOMS.DAL.TradeModule
             string relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("RelayBusCard_IP", "172.27.31.177");
             int relayPort = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("RelayBusCard_Port", 22000);
             string requestText = "yyyymmdd_from=" + beginDate + "&yyyymmdd_to=" + endDate + "&page_size=" + pageSize + "&uin=" + uin + "&tenpay_bill=" + listid + "&card_mark_number=" + cardid;
-
-            string answer = RelayAccessFactory.RelayInvoke(requestText, "101012", true, false, relayIP, relayPort, "");
-            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
-            ds = CommQuery.ParseRelayBusCardPrepaid(answer, out errMsg);
-            return ds;
+            try
+            {
+                string answer = RelayAccessFactory.RelayInvoke(requestText, "101012", true, false, relayIP, relayPort, "");
+                ds = CommQuery.ParseRelayBusCardPrepaid(answer, out errMsg);
+                return ds;
+            }
+            catch (System.Exception ex)
+            {
+                errMsg = ex.Message;
+                return null;
+            }
         }
     }
 }

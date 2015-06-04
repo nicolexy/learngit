@@ -61,6 +61,7 @@ namespace CFT.CSOMS.BLL.InternationalityPayModule
                     u.total_fee_rmb = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(u.total_fee_rmb);
                     u.input_fc_rmb = u.input_fc_rmb == "1" ? "外币" : "人民币";
                     u.trade_state = PayState.ContainsKey(u.trade_state ?? "") ? PayState[u.trade_state] : "其他(" + u.trade_state + ")";
+                    u.trans_rate = string.IsNullOrEmpty(u.trans_rate) ? u.trans_rate : (double.Parse(u.trans_rate) / Math.Pow(10, 8)).ToString();
                 });
             }
             return list;

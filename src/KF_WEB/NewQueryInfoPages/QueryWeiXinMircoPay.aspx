@@ -96,7 +96,7 @@
                         <div class="clear"></div>
                         <div>
                             <ul class="search_ul">
-                                <li><span>卖家姓名：</span><asp:TextBox ID="txt_name" runat="server"></asp:TextBox></li>
+                                <li><span>买家姓名：</span><asp:TextBox ID="txt_name" runat="server"></asp:TextBox></li>
                                 <li><span>买家手机号：</span><asp:TextBox ID="txt_mobile" runat="server"></asp:TextBox></li>
                             </ul>
                         </div>
