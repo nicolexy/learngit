@@ -58,7 +58,7 @@ namespace CFT.CSOMS.DAL.RefundModule
         private string GetOutputFields()
         {
             string strOut = "select FpayListid,FCardType,FbankListid,FbankName,FbankType,FcreateTime,FtrueName,FmodifyTime,FReturnAmt,FAmt,FbankAccNo,";
-            strOut += " FbankTypeOld,FoldId,FrefundType,FUserEmail,FReturnstate,Fstate,FBuyBanktype,FcheckID ";
+            strOut += " FbankTypeOld,FoldId,FrefundType,FUserEmail,FReturnstate,Fstate,FBuyBanktype,FcheckID,FuserFlag ";
             return strOut;
         }
         public DataSet RequestRefundData(string strUid, string strBank, string strFSPID, string strBeginDate, string strEndDate, int iCheck, int iTrade) 
@@ -238,7 +238,28 @@ namespace CFT.CSOMS.DAL.RefundModule
             }
             return null;
         }
- 
+
+        public string RequestItemState(string strRefundId)
+        {     
+            try
+            {
+                string strSQL = "select Fstate from c2c_zwdb.t_refund_KF where FoldId='" + strRefundId + "'";
+                using (var da = MySQLAccessFactory.GetMySQLAccess("RefundDB"))
+                {
+                    da.OpenConn();
+                    DataSet ds = da.dsGetTotalData(strSQL.ToString());
+                    if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                    {                      
+                        return ds.Tables[0].Rows[0]["Fstate"].ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return null;
+        }
 
         public string GetBankCardBindInformation(string listid, out string msg)
         {

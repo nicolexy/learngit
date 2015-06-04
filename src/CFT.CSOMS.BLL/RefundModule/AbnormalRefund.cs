@@ -92,6 +92,11 @@ namespace CFT.CSOMS.BLL.RefundModule
             
         }
 
+        public string RequestItemState(string strRefundId)
+        {
+            return new AbnormalRefundData().RequestItemState(strRefundId);
+        }
+
         public bool UpdateRefundData(string strOldId, string strIdentity, string strBankAccNoOld, string strUserEmail, string strNewBankAccNo, string strBankUserName,
             string strReason, string strImgCommitment, string strImgIdentity, string strImgBankWater, string strImgCancellation, string strBankName, string strOperater, int nInitBankID, int nNewBankID,
             int nUserFalg, int nCardType, int nState, out string outMsg)
