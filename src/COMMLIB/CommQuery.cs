@@ -2897,27 +2897,45 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             if (!string.IsNullOrEmpty(str))
             {
                 string[] strlist1 = str.Split('&');
-                if (strlist1.Length<1 || !strlist1[0].Contains("result=") || !strlist1[2].Contains("row_num"))
+                if (strlist1.Length<1 || !str.Contains("result=") || !str.Contains("row_num"))
                 {
                     dsResult = null;
                     errMsg = "调用服务出错:"+strlist1[0]+strlist1[1]+strlist1[2];
                     return dsResult;
                 }
-                if (strlist1[0].Contains("result=0"))
+                if (str.Contains("result=0"))
                 {
-                    int row_number = int.Parse(strlist1[2].Replace("row_number=", ""));//行数
-                    if (row_number != strlist1.Length-3)
+                    int row_number =0 ;
+                    foreach (string strnum in strlist1)
                     {
-                        dsResult = null;
-                        errMsg = "查询返回行数与记录数不相等";
-                        return dsResult;
+                        if (strnum.Contains("row_number="))
+                        {
+                            row_number = int.Parse(strnum.Replace("row_number=", ""));//行数
+                            break;
+                        }
                     }
                     if (row_number > 0)
                     {
+                        string str1 = "";
+                        foreach (string strrows in strlist1)
+                        {
+                            if (strrows.Contains("rows="))
+                            {
+                                str1 = strrows;
+                                str1 = System.Web.HttpUtility.UrlDecode(str1, System.Text.Encoding.GetEncoding("utf-8"));
+                                break;
+                            }
+                        }
+                        string[] strlist2 = str1.Split('&');
+                        if (row_number != strlist2.Length)
+                        {
+                            dsResult = null;
+                            errMsg = "查询返回行数与记录数不相等";
+                            return dsResult;
+                        }
                         for (int i = 0; i < row_number;i++ )
                         {
-                            string str2 = strlist1[i + 3];
-                            str2 = str2.Substring(str2.IndexOf("Fcard_face_no"));
+                            string str2 = strlist2[i].Substring(strlist2[i].IndexOf("Fcard_face_no"));
                             str2 = System.Web.HttpUtility.UrlDecode(str2, System.Text.Encoding.GetEncoding("utf-8"));
                             str2 = System.Web.HttpUtility.UrlDecode(str2, System.Text.Encoding.GetEncoding("utf-8"));
                             str2 = "result=0&" + str2;
