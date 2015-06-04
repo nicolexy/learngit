@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 using CFT.CSOMS.BLL.RefundModule;
 using Tencent.DotNet.Common.UI;
 using System.IO;
-
+using TENCENT.OSS.C2C.Finance.Common.CommLib;
 namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 {
     public partial class RefundRegistration : System.Web.UI.Page
@@ -51,6 +51,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 this.operaterName.Text = Session["OperID"].ToString();
                 if (!IsPostBack)
                 {
+ 
                    // ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
                     //ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
                     //textBoxBeginDate.Text = DateTime.Now.AddMonths(-3).ToString("yyyy年MM月dd日");
@@ -277,8 +278,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
         {
             //string strParam = ((Button)sender).CommandArgument.ToString();  
             //Response.Redirect("NoticeUserByEmail.aspx");
-            
-            Response.Write("<script>window.open('NoticeUserByEmail.aspx" +"','_blank')</script>");
+            //FpayListid
+            string strParam = ((Button)sender).CommandArgument.ToString();
+            string[] arrParam = strParam.Split(',');
+            Response.Write("<script>window.open('NoticeUserByEmail.aspx?truename=" + arrParam[0]+"&paybanklist="+arrParam[1] +"&oldid="+arrParam[2]+ "','_blank')</script>");
 
         }
         //通知银行
