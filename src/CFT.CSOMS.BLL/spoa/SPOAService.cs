@@ -169,6 +169,30 @@ namespace CFT.CSOMS.BLL.SPOA
             }
             return ds;
         }
+        /// <summary>
+        /// 查询商户历史修改记录--联系人手机资料修改
+        /// </summary>
+        /// <param name="Fspid">商户号</param>
+        /// <returns></returns>
+        public DataSet QueryApplyListBySpid(string Fspid)
+        {
+            DataSet ds = null;
+
+            try
+            {
+                if (string.IsNullOrEmpty(Fspid))
+                {
+                    throw new ArgumentNullException("参数不能为空！");
+                }
+
+                ds = new SPOAData().QueryApplyListBySpid(Fspid);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return ds;
+        }
         #region 自助商户领单
 
         /// <summary>
@@ -422,7 +446,10 @@ namespace CFT.CSOMS.BLL.SPOA
         {
             new SPOAData().SubmitBusinessInfo(UserName, Fspid, OldFspName, NewFspName, OldEmail, NewEmail, OldAddress, NewAddress, ApplyResult, FileInfos);
         }
-
+        public string SpidMobileApply(string ApplyUser,string spid, string newMobile, string file_idCard, string file_MobileFile, string memo)
+        {
+            return new SPOAData().SpidMobileApply(ApplyUser, spid, newMobile, file_idCard, file_MobileFile, memo);
+        }
         public DataSet GetMspAmendTaskByID(string TaskId)
         {
             return new SPOAData().GetMspAmendTaskByID(TaskId);

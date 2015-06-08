@@ -15,6 +15,9 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SPOAServiceRef.IGeneralSPOAService")]
     public interface IGeneralSPOAService {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetCheckInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetCheckInfoResponse")]
+        System.Data.DataSet GetCheckInfo(string ApplyCpInfoID, int checktype);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ReSendEmail_ToSP", ReplyAction="http://tempuri.org/IGeneralSPOAService/ReSendEmail_ToSPResponse")]
         bool ReSendEmail_ToSP(out string resultstr, string SPID, string ApplyUser);
         
@@ -60,6 +63,9 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxCancel", ReplyAction="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxCancelResponse")]
         void ValueAddedTaxCancel(string taskid, string spid, string Memo, string UserName);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/SpidMobileApply", ReplyAction="http://tempuri.org/IGeneralSPOAService/SpidMobileApplyResponse")]
+        string SpidMobileApply(string applyUser, string spid, string approve_mobile, string file_name_id_card, string file_name_mobile_file, string memo);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/LostOfSpid", ReplyAction="http://tempuri.org/IGeneralSPOAService/LostOfSpidResponse")]
         string LostOfSpid(string fspid, string opuser, string freson);
         
@@ -98,6 +104,9 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/QueryAgencyBySpid", ReplyAction="http://tempuri.org/IGeneralSPOAService/QueryAgencyBySpidResponse")]
         System.Data.DataSet QueryAgencyBySpid(string spid);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/QueryApplyListBySpid", ReplyAction="http://tempuri.org/IGeneralSPOAService/QueryApplyListBySpidResponse")]
+        System.Data.DataSet QueryApplyListBySpid(string spid);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/QueryAgencyInfoById", ReplyAction="http://tempuri.org/IGeneralSPOAService/QueryAgencyInfoByIdResponse")]
         System.Data.DataSet QueryAgencyInfoById(string fid);
@@ -170,9 +179,6 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/QueryAmendMspInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/QueryAmendMspInfoResponse")]
         System.Data.DataSet QueryAmendMspInfo(string spid, string type, string caccounts);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetCheckInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetCheckInfoResponse")]
-        System.Data.DataSet GetCheckInfo(string ApplyCpInfoID, int checktype);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -200,6 +206,10 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         
         public GeneralSPOAServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
+        }
+        
+        public System.Data.DataSet GetCheckInfo(string ApplyCpInfoID, int checktype) {
+            return base.Channel.GetCheckInfo(ApplyCpInfoID, checktype);
         }
         
         public bool ReSendEmail_ToSP(out string resultstr, string SPID, string ApplyUser) {
@@ -262,6 +272,10 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
             base.Channel.ValueAddedTaxCancel(taskid, spid, Memo, UserName);
         }
         
+        public string SpidMobileApply(string applyUser, string spid, string approve_mobile, string file_name_id_card, string file_name_mobile_file, string memo) {
+            return base.Channel.SpidMobileApply(applyUser, spid, approve_mobile, file_name_id_card, file_name_mobile_file, memo);
+        }
+        
         public string LostOfSpid(string fspid, string opuser, string freson) {
             return base.Channel.LostOfSpid(fspid, opuser, freson);
         }
@@ -312,6 +326,10 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         
         public System.Data.DataSet QueryAgencyBySpid(string spid) {
             return base.Channel.QueryAgencyBySpid(spid);
+        }
+        
+        public System.Data.DataSet QueryApplyListBySpid(string spid) {
+            return base.Channel.QueryApplyListBySpid(spid);
         }
         
         public System.Data.DataSet QueryAgencyInfoById(string fid) {
@@ -408,10 +426,6 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
         
         public System.Data.DataSet QueryAmendMspInfo(string spid, string type, string caccounts) {
             return base.Channel.QueryAmendMspInfo(spid, type, caccounts);
-        }
-        
-        public System.Data.DataSet GetCheckInfo(string ApplyCpInfoID, int checktype) {
-            return base.Channel.GetCheckInfo(ApplyCpInfoID, checktype);
         }
     }
 }

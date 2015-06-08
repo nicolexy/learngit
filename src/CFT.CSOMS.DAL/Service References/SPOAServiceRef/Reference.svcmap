@@ -22,10 +22,10 @@
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="service2.wsdl" MetadataType="Wsdl" ID="44552b17-d94a-4b30-8500-f2fb418a996a" SourceId="1" SourceUrl="http://10.12.189.114/spoawcf/GeneralSPOAService.svc/mex" />
-    <MetadataFile FileName="service5.xsd" MetadataType="Schema" ID="7fe8a27c-46af-4a98-8a9e-d8986f8358a2" SourceId="1" SourceUrl="http://10.12.189.114/spoawcf/GeneralSPOAService.svc/mex" />
-    <MetadataFile FileName="service7.xsd" MetadataType="Schema" ID="041d7e58-dfc5-462d-815f-dfdcdeb2abba" SourceId="1" SourceUrl="http://10.12.189.114/spoawcf/GeneralSPOAService.svc/mex" />
-    <MetadataFile FileName="service6.xsd" MetadataType="Schema" ID="d7b04d9d-a0bd-4bc3-9c33-9cba8039b7f1" SourceId="1" SourceUrl="http://10.12.189.114/spoawcf/GeneralSPOAService.svc/mex" />
-    <MetadataFile FileName="Arrays1.xsd" MetadataType="Schema" ID="7e6d1092-a348-4f2d-a809-dc2b72626163" SourceId="1" SourceUrl="http://10.12.189.114/spoawcf/GeneralSPOAService.svc/mex" />
+    <MetadataFile FileName="service5.xsd" MetadataType="Schema" ID="731fbe08-a858-46ce-8ef1-d5a4d8ffa5e0" SourceId="1" SourceUrl="http://10.12.189.114/spoawcf/GeneralSPOAService.svc/mex" />
+    <MetadataFile FileName="service7.xsd" MetadataType="Schema" ID="8f56140b-d823-446b-8bab-1709c480b1e7" SourceId="1" SourceUrl="http://10.12.189.114/spoawcf/GeneralSPOAService.svc/mex" />
+    <MetadataFile FileName="service6.xsd" MetadataType="Schema" ID="27d02e69-3f5f-4379-8bda-eac076636fba" SourceId="1" SourceUrl="http://10.12.189.114/spoawcf/GeneralSPOAService.svc/mex" />
+    <MetadataFile FileName="Arrays1.xsd" MetadataType="Schema" ID="2e0e8a10-d07d-46c9-993f-249aa23d2246" SourceId="1" SourceUrl="http://10.12.189.114/spoawcf/GeneralSPOAService.svc/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

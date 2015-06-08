@@ -58,6 +58,13 @@ namespace CFT.CSOMS.DAL.SPOA
 
             return cli.GetHisBusinessList(Fspid);
         }
+        public DataSet QueryApplyListBySpid(string Fspid)
+        {
+            SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
+
+            return cli.QueryApplyListBySpid(Fspid);
+        }
+       
 
         #region 自助商户领单
         public DataSet GetSelfTypeList()
@@ -151,7 +158,12 @@ namespace CFT.CSOMS.DAL.SPOA
             SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
             cli.SubmitBusinessInfo(UserName, Fspid, OldFspName, NewFspName, OldEmail, NewEmail, OldAddress, NewAddress, ApplyResult, FileInfos);
         }
-
+        //
+        public string SpidMobileApply(string ApplyUser,string spid, string newMobile, string file_idCard, string file_MobileFile, string memo)
+        {
+            SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
+            return cli.SpidMobileApply(ApplyUser,spid, newMobile, file_idCard, file_MobileFile, memo);
+        }
         public DataSet GetMspAmendTaskByID(string TaskId) 
         {
             SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();

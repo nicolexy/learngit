@@ -1733,7 +1733,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             else
             {
-                throw new Exception("交易单查询传入参数错误！");
+                throw new Exception("交易单查询传入参数错误！iIDType=" + iIDType);
             }
 
         }
