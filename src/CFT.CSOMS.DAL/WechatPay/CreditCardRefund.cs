@@ -390,12 +390,11 @@ namespace CFT.CSOMS.DAL.WechatPay
                 dt.Columns.Add("activity_id");
                 dt.Columns.Add("acct_type");
                 dt.Columns.Add("acct_id");
-                dt.Columns.Add("value");
+                dt.Columns.Add("value");//增值券面额大小,单位分，只有非固定面额批次才有效
                 dt.Columns.Add("state");
                 dt.Columns.Add("expire_date");
                 dt.Columns.Add("sp_ids");
                 dt.Columns.Add("threshold");//用券门槛，最低申购金额(分)
-                dt.Columns.Add("value");//增值券面额大小,单位分，只有非固定面额批次才有效
 
                 for (int i = 0; i < count; i++)
                 {
