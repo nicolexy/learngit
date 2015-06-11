@@ -15,6 +15,12 @@
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="IGeneralSPOAService_GetCheckInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCheckInfo" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_GetCheckInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCheckInfoResponse" />
+  </wsdl:message>
   <wsdl:message name="IGeneralSPOAService_ReSendEmail_ToSP_InputMessage">
     <wsdl:part name="parameters" element="tns:ReSendEmail_ToSP" />
   </wsdl:message>
@@ -105,6 +111,12 @@
   <wsdl:message name="IGeneralSPOAService_ValueAddedTaxCancel_OutputMessage">
     <wsdl:part name="parameters" element="tns:ValueAddedTaxCancelResponse" />
   </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_SpidMobileApply_InputMessage">
+    <wsdl:part name="parameters" element="tns:SpidMobileApply" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_SpidMobileApply_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SpidMobileApplyResponse" />
+  </wsdl:message>
   <wsdl:message name="IGeneralSPOAService_LostOfSpid_InputMessage">
     <wsdl:part name="parameters" element="tns:LostOfSpid" />
   </wsdl:message>
@@ -182,6 +194,12 @@
   </wsdl:message>
   <wsdl:message name="IGeneralSPOAService_QueryAgencyBySpid_OutputMessage">
     <wsdl:part name="parameters" element="tns:QueryAgencyBySpidResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_QueryApplyListBySpid_InputMessage">
+    <wsdl:part name="parameters" element="tns:QueryApplyListBySpid" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_QueryApplyListBySpid_OutputMessage">
+    <wsdl:part name="parameters" element="tns:QueryApplyListBySpidResponse" />
   </wsdl:message>
   <wsdl:message name="IGeneralSPOAService_QueryAgencyInfoById_InputMessage">
     <wsdl:part name="parameters" element="tns:QueryAgencyInfoById" />
@@ -327,13 +345,11 @@
   <wsdl:message name="IGeneralSPOAService_QueryAmendMspInfo_OutputMessage">
     <wsdl:part name="parameters" element="tns:QueryAmendMspInfoResponse" />
   </wsdl:message>
-  <wsdl:message name="IGeneralSPOAService_GetCheckInfo_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetCheckInfo" />
-  </wsdl:message>
-  <wsdl:message name="IGeneralSPOAService_GetCheckInfo_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetCheckInfoResponse" />
-  </wsdl:message>
   <wsdl:portType name="IGeneralSPOAService">
+    <wsdl:operation name="GetCheckInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetCheckInfo" message="tns:IGeneralSPOAService_GetCheckInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetCheckInfoResponse" message="tns:IGeneralSPOAService_GetCheckInfo_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="ReSendEmail_ToSP">
       <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/ReSendEmail_ToSP" message="tns:IGeneralSPOAService_ReSendEmail_ToSP_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/ReSendEmail_ToSPResponse" message="tns:IGeneralSPOAService_ReSendEmail_ToSP_OutputMessage" />
@@ -394,6 +410,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxCancel" message="tns:IGeneralSPOAService_ValueAddedTaxCancel_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxCancelResponse" message="tns:IGeneralSPOAService_ValueAddedTaxCancel_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="SpidMobileApply">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/SpidMobileApply" message="tns:IGeneralSPOAService_SpidMobileApply_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/SpidMobileApplyResponse" message="tns:IGeneralSPOAService_SpidMobileApply_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="LostOfSpid">
       <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/LostOfSpid" message="tns:IGeneralSPOAService_LostOfSpid_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/LostOfSpidResponse" message="tns:IGeneralSPOAService_LostOfSpid_OutputMessage" />
@@ -445,6 +465,10 @@
     <wsdl:operation name="QueryAgencyBySpid">
       <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryAgencyBySpid" message="tns:IGeneralSPOAService_QueryAgencyBySpid_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryAgencyBySpidResponse" message="tns:IGeneralSPOAService_QueryAgencyBySpid_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="QueryApplyListBySpid">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryApplyListBySpid" message="tns:IGeneralSPOAService_QueryApplyListBySpid_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryApplyListBySpidResponse" message="tns:IGeneralSPOAService_QueryApplyListBySpid_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="QueryAgencyInfoById">
       <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryAgencyInfoById" message="tns:IGeneralSPOAService_QueryAgencyInfoById_InputMessage" />
@@ -542,14 +566,19 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryAmendMspInfo" message="tns:IGeneralSPOAService_QueryAmendMspInfo_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/QueryAmendMspInfoResponse" message="tns:IGeneralSPOAService_QueryAmendMspInfo_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetCheckInfo">
-      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetCheckInfo" message="tns:IGeneralSPOAService_GetCheckInfo_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetCheckInfoResponse" message="tns:IGeneralSPOAService_GetCheckInfo_OutputMessage" />
-    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSHttpBinding_IGeneralSPOAService" type="tns:IGeneralSPOAService">
     <wsp:PolicyReference URI="#WSHttpBinding_IGeneralSPOAService_policy" />
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetCheckInfo">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetCheckInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="ReSendEmail_ToSP">
       <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/ReSendEmail_ToSP" style="document" />
       <wsdl:input>
@@ -685,6 +714,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="SpidMobileApply">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/SpidMobileApply" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="LostOfSpid">
       <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/LostOfSpid" style="document" />
       <wsdl:input>
@@ -795,6 +833,15 @@
     </wsdl:operation>
     <wsdl:operation name="QueryAgencyBySpid">
       <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/QueryAgencyBySpid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryApplyListBySpid">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/QueryApplyListBySpid" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1011,15 +1058,6 @@
     </wsdl:operation>
     <wsdl:operation name="QueryAmendMspInfo">
       <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/QueryAmendMspInfo" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetCheckInfo">
-      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetCheckInfo" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -569,17 +569,18 @@ namespace CFT.CSOMS.DAL.TradeModule
                 if (u_QueryType != "FlistID" || queryvalue.Trim() == "")
                 {
                     string fuid = "";
+
+                    if (u_QueryType == "FSpid") u_QueryType = "spid";
+                    if (u_QueryType == "FBank_listID") u_QueryType = "bank_listid";
+                    if (u_QueryType == "FCoding") u_QueryType = "coding";
+
                     string fields = "|stime:" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss") +
                            "|etime:" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss") +
                            ((fstate != 99) ? "|trade_state:" + fstate.ToString() : "") +
                            ((queryvalue.Trim() != "" && u_QueryType != "") ? "|" + u_QueryType.Trim() + ":" + queryvalue.Trim() : "");
 
                     DataSet ds = new DataSet();
-                    if (u_QueryType == "FSpid") u_QueryType = "spid";
-                    if (u_QueryType == "FBank_listID") u_QueryType = "bank_listid";
-                    if (u_QueryType == "FCoding") u_QueryType = "coding";
-
-
+                   
                     if (!string.IsNullOrEmpty(buyqqInnerID))
                     {
                         fields = "buy_uid:" + buyqqInnerID + fields;
@@ -696,7 +697,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             else
             {
-                throw new Exception("iIDType类型错误!");
+                throw new Exception("交易单查询传入参数错误!iIDType=" + iIDType);
             }
             return ds;
         }

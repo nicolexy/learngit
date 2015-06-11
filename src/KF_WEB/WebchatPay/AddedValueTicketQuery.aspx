@@ -18,12 +18,15 @@
 			<TABLE style="LEFT: 5%; POSITION: absolute; TOP: 5%" cellSpacing="1" cellPadding="1" width="820"
 				border="1">
 				<TR>
-					<TD style="WIDTH: 100%" bgColor="#e4e5f7" colspan="3"><FONT face="宋体"><FONT color="red"><IMG height="16" src="../IMAGES/Page/post.gif" width="20">&nbsp;&nbsp;理财通增值券查询</FONT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<TD style="WIDTH: 100%" bgColor="#e4e5f7" colspan="4"><FONT face="宋体"><FONT color="red"><IMG height="16" src="../IMAGES/Page/post.gif" width="20">&nbsp;&nbsp;理财通增值券查询</FONT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						</FONT>操作员代码: </FONT><SPAN class="style3"><asp:label id="Label1" runat="server" ForeColor="Red" Width="73px"></asp:label></SPAN></TD>
 				</TR>
                 <tr>
-                    <TD align="right"><asp:label id="Label4" runat="server">微信支付账号：</asp:label>
+                    <TD align="right"><asp:label id="Label3" runat="server">财付通账号：</asp:label>
                         <asp:textbox id="cftNo" style="WIDTH: 180px;" runat="server"></asp:textbox>
+                    </TD>
+                    <TD align="right"><asp:label id="Label4" runat="server">微信支付账号：</asp:label>
+                        <asp:textbox id="wxNo" style="WIDTH: 180px;" runat="server"></asp:textbox>
                     </TD>
 					<TD>
 						<asp:label id="Label2" runat="server">业务状态：</asp:label>
@@ -51,7 +54,7 @@
 							<ItemStyle ForeColor="#4A3C8C" BackColor="#E7E7FF"></ItemStyle>
 							<HeaderStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#4A3C8C"></HeaderStyle>
 							<Columns>
-								<asp:BoundColumn DataField="acct_id" HeaderText="微信支付账号"></asp:BoundColumn>
+								<asp:BoundColumn DataField="acct_id" HeaderText="账号"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="valueStr" HeaderText="金额"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="thresholdStr" HeaderText="申购门槛"></asp:BoundColumn>
 								<asp:BoundColumn DataField="batch_id" HeaderText="批次号"></asp:BoundColumn>

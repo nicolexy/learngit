@@ -49,6 +49,11 @@
                     </asp:Button>             
                 </td>
             </tr>
+             <tr>
+                <td colspan="5" align="center">
+                    <font color="red">时间跨度只支持按自然月查询，不支持跨月查询</font>
+                </td>
+            </tr>
         </table>
         <br />
         <table border="1" cellspacing="0" cellpadding="0" width="1000">

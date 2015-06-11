@@ -31,7 +31,7 @@
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
-			<TABLE style="LEFT: 5%; POSITION:relative; TOP: 5%" cellSpacing="1" cellPadding="1" width="900"
+			<TABLE style="margin-left:5%;margin-top:20px" cellSpacing="1" cellPadding="1" width="900"
 				border="1">
 				<TR>
 					<TD style="WIDTH: 100%" bgColor="#e4e5f7" colSpan="5"><FONT face="宋体"><FONT color="red"><IMG height="16" src="../IMAGES/Page/post.gif" width="20">&nbsp;&nbsp;商户资料修改</FONT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -52,78 +52,104 @@
 				</TR>
 				
 			</TABLE>
-			<TABLE id="Table1" style="LEFT: 5%; POSITION: relative;top:50px;" cellSpacing="1" cellPadding="1"
-				width="900" border="1" runat="server">
+			<TABLE id="Table1" style="margin-left:5%;margin-top:20px" cellSpacing="1" cellPadding="1"
+				width="900px" border="1" runat="server">
 				<TR>
 					<TD align="right" width="80"><asp:label id="Label12" runat="server">发送邮箱</asp:label></TD>
-					<TD width="180"><asp:textbox id="txtSendEmail" runat="server"></asp:textbox></TD>
-					<TD align="right" width="80" height="30"><asp:label id="Label14" runat="server">商户密钥</asp:label></TD>
-					<TD width="510"><asp:label id="lblMerKey" runat="server" Visible=False></asp:label>&nbsp;&nbsp;&nbsp;&nbsp;如果商户忘记密钥，无法自助重置，请点击“重发密钥”</TD>
-					<td width="70"><asp:button id="btnSendEmail" runat="server" Width="70px" Text="重发密钥" onclick="btnSendEmail_Click"></asp:button></td>
+					<TD width="370px"><asp:textbox id="txtSendEmail" runat="server"></asp:textbox></TD>
+					<TD width="80px" align="right" height="30">&nbsp;</TD>
+					<TD width="370px">&nbsp;</TD>
+				</TR>
+                <TR>
+					<TD align="right"><asp:label id="Label14" runat="server">商户密钥</asp:label></TD>
+					<TD><asp:label id="lblMerKey" runat="server" Visible=False></asp:label>&nbsp;&nbsp;&nbsp;&nbsp;如果商户忘记密钥，无法自助重置，请点击
+                        <asp:linkbutton id="btnSendEmail" runat="server" Font-Bold="True" CausesValidation="False" onclick="btnSendEmail_Click">重发密钥</asp:linkbutton></TD>
+					<TD align="right"><asp:label id="Label10" runat="server">管理密码</asp:label></TD>
+					<TD><FONT face="宋体">如果商户忘记管理员密码，无法登陆企业版，请点击</FONT>
+					<asp:linkbutton id="Linkbutton2" runat="server" Font-Bold="True" CausesValidation="False" onclick="Linkbutton2_Click">重发密码</asp:linkbutton>
+
+					</TD>
+
 				</TR>
 				<TR>
-					<TD align="right" width="80"><asp:label id="Label10" runat="server">管理密码</asp:label></TD>
-					<TD colSpan="4" height="30"><FONT face="宋体">如果商户忘记管理员密码，而无法从商户管理系统登录，您可以点击这里</FONT>
-					<asp:linkbutton id="Linkbutton2" runat="server" Font-Bold="True" CausesValidation="False" onclick="Linkbutton2_Click">重新初始化</asp:linkbutton></TD>
+					<TD align="right"><asp:label id="Label19" runat="server">通知邮件</asp:label></TD>
+					<TD>如果商户没有收到通知邮件，亲点击
+                        <asp:linkbutton id="btnSendEmailAgain" runat="server" Font-Bold="True" CausesValidation="False" onclick="btnSendEmailAgain_Click">重发通知邮件</asp:linkbutton>
+					</TD>
+                    <TD align="right"><asp:label id="Label18" runat="server">商户证书</asp:label></TD>
+                    <TD>如果商户没有收到证书，请点击
+                        <asp:linkbutton id="btnSendCertificateAgain" runat="server" Font-Bold="True" CausesValidation="False" onclick="btnSendCertificateAgain_Click">重发证书</asp:linkbutton>
+                    </TD>
 				</TR>
 				<TR>
-					<TD align="right" width="80"><asp:label id="Label6" runat="server">网站名称</asp:label></TD>
-					<TD width="250"><asp:label id="lblFspName" runat="server"></asp:label></TD>
-					<TD align="right" width="80"><asp:label id="Label8" runat="server">绑定邮箱</asp:label></TD>
-					<TD colSpan="2"><asp:label id="lblEmail" runat="server" Width="200px"></asp:label></TD>
+					<TD align="right"><asp:label id="Label6" runat="server">网站名称</asp:label></TD>
+					<TD><asp:label id="lblFspName" runat="server"></asp:label></TD>
+					<TD align="right"><asp:label id="Label3" runat="server">联系人手机</asp:label></TD>
+					<TD><asp:label id="lblContactMobile" runat="server"></asp:label></TD>
 				</TR>
 				<TR>
-					<TD align="right" width="80"><asp:label id="Label9" runat="server">新网站名称</asp:label></TD>
-					<TD width="250"><asp:textbox id="txtFspName" runat="server" Width="180"></asp:textbox></TD>
-					<TD align="right" width="80"><asp:label id="Label13" runat="server">新绑定邮箱</asp:label></TD>
-					<TD colSpan="2"><asp:textbox id="txtEmail" runat="server" Width="400px"></asp:textbox></TD>
+					<TD align="right"><asp:label id="Label9" runat="server">新网站名称</asp:label></TD>
+					<TD><asp:textbox id="txtFspName" runat="server" Width="300px"></asp:textbox></TD>
+					<TD align="right"><asp:label id="Label15" runat="server">新联系人手机</asp:label></TD>
+					<TD><asp:textbox id="txtContactMobile" runat="server"  Width="300px"></asp:textbox></TD>
 				</TR> 
                 <TR>
-                    <TD align="right" width="80"><asp:label id="Label7" runat="server">网址</asp:label></TD>
-					<TD colspan="4"><asp:label id="lblAddress" runat="server" Width="600px"></asp:label></TD>
+                    <TD align="right"><asp:label id="Label7" runat="server">网址</asp:label></TD>
+					<TD><asp:label id="lblAddress" runat="server"></asp:label></TD>
+                    <TD align="right"><asp:label id="Label16" runat="server">上传手机变更函扫描件</asp:label></TD>
+                    <TD> <INPUT id="fileMobileChange" style=" HEIGHT: 21px; width:300px" type="file" size="21" name="fileMobileChange"
+							runat="server"><SPAN class="style5"><Font color="red">*</Font></TD>
                 </TR>
                
                 <TR>
-				   <TD align="right" width="80"><asp:label id="Label11" runat="server">新网址</asp:label></TD>
-				   <TD colspan="4"><asp:textbox id="txtAddress" runat="server" Width="700px"></asp:textbox></TD>
+				   <TD align="right"><asp:label id="Label11" runat="server">新网址</asp:label></TD>
+				   <TD><asp:textbox id="txtAddress" runat="server" Width="300px"></asp:textbox></TD>
+                   <TD align="right"><asp:label id="Label17" runat="server">个人上传身份证扫描件</asp:label></TD>
+                   <TD><INPUT id="fileMobileCredit" style="HEIGHT: 21px; width:300px" type="file" size="21" name="fileMobileCredit"
+							runat="server"><SPAN class="style5"><Font color="red">*</Font></TD>
                 </TR>
                 <TR>
-                     <TD align="right" width="80"><FONT face="宋体">上传邮箱变更函扫描件：</FONT></TD>
+                    <TD align="right"><asp:label id="Label8" runat="server">绑定邮箱</asp:label></TD>
+                    <TD colspan="3"><asp:label id="lblEmail" runat="server"></asp:label></TD>
+                </TR>
+                 <TR>
+                    <TD align="right"><asp:label id="Label13" runat="server">新绑定邮箱</asp:label></TD>
+                    <TD colspan="3"><asp:textbox id="txtEmail" runat="server" Width="300px"></asp:textbox></TD>
+                </TR>
+                <TR>
+                     <TD align="right"><FONT face="宋体">上传邮箱变更函扫描件</FONT></TD>
                     <TD colspan="4">
-                        <INPUT id="FileEmail" style="WIDTH: 241px; HEIGHT: 21px" type="file" size="21" name="FileEmail"
+                        <INPUT id="FileEmail" style="WIDTH:300px; HEIGHT: 21px" type="file" size="21" name="FileEmail"
 							runat="server"><SPAN class="style5"><Font color="red">*</Font></SPAN>
                     </TD>
 
                 </TR>
                   <TR>
-                     <TD align="right" width="80"><FONT face="宋体">个人账号上传身份证扫描件：</FONT></TD>
-                    <TD colspan="4">
-                        <INPUT id="FileCredit" style="WIDTH: 241px; HEIGHT: 21px" type="file" size="21" name="FileCredit"
+                     <TD align="right" ><FONT face="宋体">个人账号上传身份证扫描件</FONT></TD>
+                    <TD colspan="3">
+                        <INPUT id="FileCredit" style="WIDTH: 300px; HEIGHT: 21px" type="file" size="21" name="FileCredit"
 							runat="server"><SPAN class="style5"><Font color="red">*</Font></SPAN>
                     </TD>
 
                 </TR>
                  <TR>
-                    <TD align="right" width="80"><FONT face="宋体">修改原因</FONT></TD>
-					<TD colspan="4"><asp:textbox id="tbReasonText" runat="server" Width="488px" Height="120px" TextMode="MultiLine"></asp:textbox>
+                    <TD align="right"><FONT face="宋体">修改原因</FONT></TD>
+					<TD colspan="3"><asp:textbox id="tbReasonText" runat="server" Width="488px" Height="120px" TextMode="MultiLine"></asp:textbox>
 					</TD>
 				</TR>
                 <TR>
-					<td colspan="5"> 
-                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-                    <asp:button id="btnHisSearch" runat="server" Width="60px" Text="查看历史" onclick="btnHisSearch_Click"></asp:button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <asp:button id="btnSave" runat="server" Width="60px" Text="提 交" onclick="btnSave_Click"></asp:button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <asp:button id="btnSendEmailAgain" runat="server" Width="120px" Text="重发商户通知邮件" onclick="btnSendEmailAgain_Click"></asp:button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<asp:button id="btnSendCertificateAgain" runat="server" Width="80px" Text="重发证书" onclick="btnSendCertificateAgain_Click"></asp:button>
+					<td colspan="4" align="center"> 
+                        <asp:button id="btnSave" runat="server" Width="60px" Text="提交修改" onclick="btnSave_Click"></asp:button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <asp:button id="btnHisSearch" runat="server" Width="60px" Text="查看历史" onclick="btnHisSearch_Click"></asp:button>
                     </td>
 				</TR>
 			</TABLE>
-			<div style="LEFT: 5%; OVERFLOW: auto; WIDTH: 900px; POSITION:relative;top:60px; HEIGHT: 200px">
-				<table cellSpacing="0" cellPadding="0" width="900" border="0">
+				<table style="margin-left:5%;margin-top:20px" cellSpacing="0" cellPadding="0" width="900px" border="0">
 					<tr>
-						<TD vAlign="top" align="center"><asp:datagrid id="dgList" runat="server" Width="1150px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center"
+						<TD vAlign="top" >
+                            <div style="width:900px;overflow-x: auto">
+                            <asp:datagrid id="dgList" runat="server" Width="1150px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center"
 								HorizontalAlign="Center" PageSize="5" AutoGenerateColumns="False" GridLines="Horizontal" CellPadding="1" BackColor="White"
 								BorderWidth="1px" BorderStyle="None" BorderColor="#E7E7FF" AllowPaging="True">
 								<FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
@@ -161,10 +187,41 @@
 									</asp:BoundColumn>
 								</Columns>
 								<PagerStyle ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>
+							</asp:datagrid>
+                            </div>
+                       </TD>
+					</tr>
+                    <tr>
+						<TD vAlign="top" align="left">
+                            <asp:datagrid id="dgContactMobileHistory" runat="server" Width="900px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center"
+								HorizontalAlign="Center" PageSize="5" AutoGenerateColumns="False" GridLines="Horizontal" CellPadding="1" BackColor="White"
+								BorderWidth="1px" BorderStyle="None" BorderColor="#E7E7FF" AllowPaging="True">
+								<FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
+								<SelectedItemStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#738A9C"></SelectedItemStyle>
+								<AlternatingItemStyle BackColor="#F7F7F7"></AlternatingItemStyle>
+								<ItemStyle HorizontalAlign="Center" ForeColor="#4A3C8C" BackColor="#E7E7FF"></ItemStyle>
+								<HeaderStyle Font-Bold="True" HorizontalAlign="Center" ForeColor="#F7F7F7" BackColor="#4A3C8C"></HeaderStyle>
+								<Columns>
+									<asp:BoundColumn DataField="oldContactMobile" HeaderText="旧手机号">
+										<HeaderStyle></HeaderStyle>
+									</asp:BoundColumn>
+									<asp:BoundColumn DataField="NewContactMobile" HeaderText="新手机号">
+										<HeaderStyle></HeaderStyle>
+									</asp:BoundColumn>
+									<asp:BoundColumn DataField="AmendStateStr" HeaderText="状态">
+										<HeaderStyle></HeaderStyle>
+									</asp:BoundColumn>
+									<asp:BoundColumn DataField="ApplyUser" HeaderText="提交人">
+										<HeaderStyle></HeaderStyle>
+									</asp:BoundColumn>
+									<asp:BoundColumn DataField="ApplyTime" HeaderText="提交时间">
+										<HeaderStyle></HeaderStyle>
+									</asp:BoundColumn>
+								</Columns>
+								<PagerStyle ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>
 							</asp:datagrid></TD>
 					</tr>
 				</table>
-			</div>
 		</form>
 	</body>
 </HTML>

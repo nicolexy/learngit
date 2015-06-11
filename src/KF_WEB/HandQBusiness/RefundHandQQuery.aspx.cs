@@ -17,7 +17,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
         {
             if (!IsPostBack)
             {
-                textBoxBeginDate.Text = DateTime.Now.AddMonths(-2).ToString("yyyy-MM-01 00:00:00");
+                textBoxBeginDate.Text = DateTime.Now.ToString("yyyy-MM-01 00:00:00");
                 textBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
                 this.DatagridList.Visible = false;
                 divInfo.Visible = false;
@@ -78,9 +78,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                     throw new Exception("终止日期小于起始日期，请重新输入！");
                 }
 
-                if (begindate.AddMonths(2) < enddate)
+                if (begindate.Month!= enddate.Month)
                 {
-                    throw new Exception("日期间隔大于3个月份，请重新输入！");
+                    throw new Exception("时间跨度只支持按自然月查询，不支持跨月查询！");
                 }
                 ViewState["begindate"] =begindate.ToString("yyyy-MM-dd 00:00:00");
                 ViewState["enddate"] = enddate.ToString("yyyy-MM-dd 23:59:59");
