@@ -18,8 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	/// </summary>
 	public partial class CreateAppForm : System.Web.UI.Page
 	{
-        private const string KFCHECKTYPE = "KFAbnormalRefund";
-        private const string KFCHECKMEMO = "特殊退款审批流程启动";
+
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			// 在此处放置用户代码以初始化页面
@@ -112,7 +111,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                         }
                     }
 
-                    string strCheckId = chkService.StartCheckNew(strObjectID, KFCHECKTYPE, KFCHECKMEMO);
+                    string strCheckId = chkService.StartCheckNew(strObjectID, RefundPublicFun.KFCHECKTYPE, RefundPublicFun.KFCHECKMEMO);
                     if (!string.IsNullOrEmpty(strCheckId))
                     {
                         new RefundService().SetAbnormalRefundListID(strCheckId, ViewState["refundId"].ToString());

@@ -211,8 +211,8 @@ namespace CFT.CSOMS.DAL.RefundModule
 
         private string GetDetailFields()
         {
-            string strOut = "select FpayListid,FbankListid, Fidentity,FbankAccNoOld,FbankNameOld,FbankTypeOld,FUserEmail,FbankAccNo,FbankName,FbankType,";
-            strOut += " Fstate,FcreateTime,FtrueName,Fkfremark,FIdentityCardFile,FCommitmentFile,FBankWaterFile,FCancellationFile,FcheckID,FuserFlag,FCardType,FbankName,FStandby1 ";
+            string strOut = "select FpayListid,FbankListid, Fidentity,FbankAccNoOld,FbankNameOld,FbankTypeOld,FUserEmail,FbankAccNo,FbankName,FbankType,FHisCheckID";
+            strOut += " Fstate,FcreateTime,FtrueName,Fkfremark,FIdentityCardFile,FCommitmentFile,FBankWaterFile,FCancellationFile,FcheckID,FuserFlag,FCardType,FbankName,FStandby1,FStandby2 ";
             return strOut;
         }
 
