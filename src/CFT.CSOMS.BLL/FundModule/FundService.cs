@@ -12,6 +12,30 @@ namespace CFT.CSOMS.BLL.FundModule
     public class FundService
     {
         private static IList<Fund> FundInfos;
+        private Hashtable htFund;
+        public bool isSpecialFund(string fund_code, string spid)
+        {
+            htFund = new Hashtable();
+            htFund.Add("110020", "1238657101");//易方达沪深300基金
+            htFund.Add("481009", "1241176901");//工银沪深300基金
+            htFund.Add("160706", "1239537001");//嘉实沪深300基金
+
+            if (htFund.Contains(fund_code))
+            {
+                if (htFund[fund_code].ToString() == spid)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public DataTable GetFundTradeLog(string qqid,int istr, int imax)
         {
@@ -222,10 +246,10 @@ namespace CFT.CSOMS.BLL.FundModule
             return userFundsTable;
         }
 
-        private static string GetMarkValueForFund(string fund_code, string spid, string balance)
+        private  string GetMarkValueForFund(string fund_code, string spid, string balance)
         {
             string balanceStr = MoneyTransfer.FenToYuan(balance);//页面上也转了一次，因为API接口是分，所以函数不能随便改必须兼容
-            if (fund_code == "110020" && spid == "1238657101") //易方达沪深300基金的市值=基金份额*每日单位净值 其他基金市值=份额
+            if (isSpecialFund(fund_code, spid)) //易方达沪深300基金的市值=基金份额*每日单位净值 其他基金市值=份额
             {
                 DateTime dateTime = System.DateTime.Now.AddDays(-1);
                 //查昨天的单位净值，并且是交易日
@@ -469,7 +493,7 @@ namespace CFT.CSOMS.BLL.FundModule
                             throw new Exception("查询spid:"+dr["Fspid"].ToString()+"的基金公司名异常！");
                         }
 
-                        if (fund_code == "110020" && spId == "1238657101") //易方达沪深300基金
+                        if (isSpecialFund(fund_code, spId)) //易方达沪深300基金
                         {
                             dr["fund_value"] = dr["Fprofit_per_ten_thousand"].ToString();
                             dr["fund_balance"] = dr["Fvalid_money_str"].ToString();
@@ -563,6 +587,8 @@ namespace CFT.CSOMS.BLL.FundModule
                         {
                             dr["Fsub_trans_id_str"] = "104" + dr["Fsub_trans_id"].ToString();
                             string Fpur_type = dr["Fpur_type"].ToString();
+                            string Floading_type = dr["Floading_type"].ToString();
+                            string Fpurpose = dr["Fpurpose"].ToString();
                             switch (Fpur_type)
                             {
                                 case "1":
@@ -605,7 +631,32 @@ namespace CFT.CSOMS.BLL.FundModule
                                     dr["FtypeText"] = dr["Fpur_type"].ToString();
                                     break;
                             }
-
+                            if (Fpur_type == "4" && Floading_type == "1")
+                            {
+                                dr["Floading_type_str"] = "快速赎回到银行卡";
+                            }
+                            else if (Fpur_type == "4" && Floading_type == "0" && (Fpurpose == "0" || Fpurpose == "1" || Fpurpose == "2"))
+                            {
+                                dr["Floading_type_str"] = "普通赎回到银行卡";
+                            }
+                            else if (Fpurpose == "7" && Fpur_type == "12") 
+                            {
+                                dr["Floading_type_str"] = "赎回到余额";
+                            }
+                            else if (Fpurpose == "9")
+                            {
+                                dr["Floading_type_str"] = "T+1赎回到余额";
+                            }
+                            else if (Fpurpose == "8")
+                            {
+                                dr["Floading_type_str"] = "赎回提现给商户";
+                            }
+                            else
+                            {
+                                //除了出其他都没有赎回方式
+                                dr["Floading_type_str"] = "";
+                            }
+                            /*
                             if (Fpur_type == "4")
                             {
                                 switch (dr["Floading_type"].ToString())
@@ -664,10 +715,10 @@ namespace CFT.CSOMS.BLL.FundModule
                             {//除了出其他都没有赎回方式
                                 dr["Floading_type_str"] = "";
                             }
-
+                            */
                             dr["Fbank_type_str"] = BankIO.QueryBankName(dr["Fbank_type"].ToString());
 
-                            if (fund_code == "110020" && spid == "1238657101") //易方达沪深300基金
+                            if (isSpecialFund(fund_code, spid)) //易方达沪深300基金
                             {
                                 //原存取状态“入”就是金额
                                 //原存取状态“出”就是份额
