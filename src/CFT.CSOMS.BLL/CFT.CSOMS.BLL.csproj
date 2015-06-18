@@ -77,6 +77,7 @@
     <Compile Include="RefundModule\AbnormalRefund.cs" />
     <Compile Include="RefundModule\BankEmailService.cs" />
     <Compile Include="RefundModule\RefundRegisterService.cs" />
+    <Compile Include="RemitModule\RemitService.cs" />
     <Compile Include="SPOA\MerchantService.cs" />
     <Compile Include="SPOA\SPOAService.cs" />
     <Compile Include="SysManageModule\SysManageService.cs" />

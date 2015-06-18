@@ -56,93 +56,101 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             string creType, string creID, string protocolno, string phoneno, string strBeginDate,
             string strEndDate, int queryType, bool isShowAboutDetail, int bindStatue, string bind_serialno, int limStart, int limCount)
         {
-            DataSet ds = new BankcardbindData().GetBankCardBindList(
-                fuin, Fbank_type, bankID, uid, creType, creID, protocolno, phoneno, 
-                strBeginDate, strEndDate, queryType, isShowAboutDetail, bindStatue, bind_serialno, limStart, limCount);
+            try
+            {
+                DataSet ds = new BankcardbindData().GetBankCardBindList(
+                    fuin, Fbank_type, bankID, uid, creType, creID, protocolno, phoneno,
+                    strBeginDate, strEndDate, queryType, isShowAboutDetail, bindStatue, bind_serialno, limStart, limCount);
 
-            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                {
+                    return null;
+                    //throw new Exception("没有查找到相应的记录！");
+                }
+
+                DataTable dt = ds.Tables[0];
+                dt.Columns.Add("bank_status_str", typeof(string));
+                dt.Columns.Add("bind_type_str", typeof(string));
+                dt.Columns.Add("bind_status_str", typeof(string));
+                dt.Columns.Add("bind_flag_str", typeof(string));
+                dt.Columns.Add("xyzf_type_Str", typeof(string));//信用支付类型
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (!(dr["Fi_character4"] is DBNull)
+                         && dr["Fi_character4"].ToString() == "33")
+                    {
+                        dr["xyzf_type_Str"] = "是";
+                    }
+                    else
+                    {
+                        dr["xyzf_type_Str"] = "否";
+                    }
+
+                    string Fbank_status = dr["Fbank_status"].ToString();
+                    if (Fbank_status == "0")
+                        dr["bank_status_str"] = "未定义";
+                    else if (Fbank_status == "1")
+                        dr["bank_status_str"] = "预绑定状态(未激活)";
+                    else if (Fbank_status == "2")
+                        dr["bank_status_str"] = "绑定确认(正常)";
+                    else if (Fbank_status == "3")
+                        dr["bank_status_str"] = "解除绑定";
+                    else
+                        dr["bank_status_str"] = "Unknown";
+
+                    string Fbind_type = dr["Fbind_type"].ToString();
+                    if (Fbind_type == "0")
+                        dr["bind_type_str"] = "未知类型";
+                    else if (Fbind_type == "1")
+                        dr["bind_type_str"] = "普通借记卡关联";
+                    else if (Fbind_type == "2")
+                        dr["bind_type_str"] = "银行联名卡关联";
+                    else if (Fbind_type == "3")
+                        dr["bind_type_str"] = "信用卡关联";
+                    else if (Fbind_type == "4")
+                        dr["bind_type_str"] = "内部绑定";
+                    else if (Fbind_type == "20")
+                        dr["bind_type_str"] = "普通信用卡关联";
+                    else
+                        dr["bind_type_str"] = "Unknown";
+
+
+
+                    string Fbind_status = dr["Fbind_status"].ToString();
+                    if (Fbind_status == "0")
+                        dr["bind_status_str"] = "未定义";
+                    else if (Fbind_status == "1")
+                        dr["bind_status_str"] = "初始状态";
+                    else if (Fbind_status == "2")
+                        dr["bind_status_str"] = "开启";
+                    else if (Fbind_status == "3")
+                        dr["bind_status_str"] = "关闭";
+                    else if (Fbind_status == "4")
+                        dr["bind_status_str"] = "解除";
+                    else if (Fbind_status == "5")
+                        dr["bind_status_str"] = "银行已激活，用户未激活";
+                    else
+                        dr["bind_status_str"] = "Unknown";
+
+
+                    string Fbind_flag = dr["Fbind_flag"].ToString();
+                    if (Fbind_flag == "0")
+                        dr["bind_flag_str"] = "未知";
+                    else if (Fbind_flag == "1")
+                        dr["bind_flag_str"] = "有效";
+                    else if (Fbind_flag == "2")
+                        dr["bind_flag_str"] = "无效";
+                    else
+                        dr["bind_flag_str"] = "Unknown";
+
+                }
+                return ds;
+            }
+            catch
             {
                 throw new Exception("没有查找到相应的记录！");
             }
-
-            DataTable dt = ds.Tables[0];
-            dt.Columns.Add("bank_status_str", typeof(string));
-            dt.Columns.Add("bind_type_str",   typeof(string));
-            dt.Columns.Add("bind_status_str", typeof(string)); 
-            dt.Columns.Add("bind_flag_str",   typeof(string));
-            dt.Columns.Add("xyzf_type_Str",   typeof(string));//信用支付类型
-
-            foreach (DataRow dr in dt.Rows)
-            {
-                if (!(dr["Fi_character4"] is DBNull)
-                     && dr["Fi_character4"].ToString() == "33")
-                {
-                    dr["xyzf_type_Str"] = "是";
-                }
-                else
-                {
-                    dr["xyzf_type_Str"] = "否";
-                }
-
-                string Fbank_status = dr["Fbank_status"].ToString();
-                if (Fbank_status == "0")
-                    dr["bank_status_str"] = "未定义";
-                else if (Fbank_status == "1")
-                    dr["bank_status_str"] = "预绑定状态(未激活)";
-                else if (Fbank_status == "2")
-                    dr["bank_status_str"] = "绑定确认(正常)";
-                else if (Fbank_status == "3")
-                    dr["bank_status_str"] = "解除绑定";
-                else
-                    dr["bank_status_str"] = "Unknown";
-
-                string Fbind_type = dr["Fbind_type"].ToString();
-                if (Fbind_type == "0")
-                    dr["bind_type_str"] = "未知类型";
-                else if (Fbind_type == "1")
-                    dr["bind_type_str"] = "普通借记卡关联";
-                else if (Fbind_type == "2")
-                    dr["bind_type_str"] = "银行联名卡关联";
-                else if (Fbind_type == "3")
-                    dr["bind_type_str"] = "信用卡关联";
-                else if (Fbind_type == "4")
-                    dr["bind_type_str"] = "内部绑定";
-                else if (Fbind_type == "20")
-                    dr["bind_type_str"] = "普通信用卡关联";
-                else
-                    dr["bind_type_str"] = "Unknown";
-
-
-
-                string Fbind_status = dr["Fbind_status"].ToString();
-                if (Fbind_status == "0")
-                    dr["bind_status_str"] = "未定义";
-                else if (Fbind_status == "1")
-                    dr["bind_status_str"] = "初始状态";
-                else if (Fbind_status == "2")
-                    dr["bind_status_str"] = "开启";
-                else if (Fbind_status == "3")
-                    dr["bind_status_str"] = "关闭";
-                else if (Fbind_status == "4")
-                    dr["bind_status_str"] = "解除";
-                else if (Fbind_status == "5")
-                    dr["bind_status_str"] = "银行已激活，用户未激活";
-                else
-                    dr["bind_status_str"] = "Unknown";
-
-
-                string Fbind_flag = dr["Fbind_flag"].ToString();
-                if (Fbind_flag == "0")
-                    dr["bind_flag_str"] = "未知";
-                else if (Fbind_flag == "1")
-                    dr["bind_flag_str"] = "有效";
-                else if (Fbind_flag == "2")
-                    dr["bind_flag_str"] = "无效";
-                else
-                    dr["bind_flag_str"] = "Unknown";
-
-            }
-            return ds;
         }
 
 

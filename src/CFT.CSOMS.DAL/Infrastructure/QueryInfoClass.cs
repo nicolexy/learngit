@@ -67,4 +67,71 @@ namespace CFT.CSOMS.DAL.Infrastructure
         }
     }
     #endregion
+
+
+    #region 邮储汇款查询类
+
+    public class RemitQueryClass : Query_BaseForNET
+    {
+        public RemitQueryClass(string batchid, string tranType, string dataType, string remitType, string tranState, string spid, string remitRec, string listID)
+        {
+            string strWhere = " where 1=1 ";
+
+            if (batchid != null && batchid != "")
+            {
+                strWhere += " and Fbatchid='" + batchid + "'";
+            }
+
+            if (spid != null && spid != "")
+            {
+                strWhere += " and Fspid='" + spid + "'";
+            }
+
+            if (tranType != "99")
+            {
+                strWhere += " and Ftran_type=" + tranType;
+            }
+
+            if (dataType != "99")
+            {
+                strWhere += " and Fdata_type=" + dataType;
+            }
+
+            if (remitType != "99")
+            {
+                strWhere += " and Fremit_type=" + remitType;
+            }
+
+            if (tranState != "99")
+            {
+                strWhere += " and Ftran_state='" + tranState + "'";
+            }
+
+            if (listID != null && listID.Trim() != "")
+            {
+                strWhere += " and Flistid='" + listID.Trim() + "' ";
+            }
+
+            if (remitRec != null && remitRec.Trim() != "")
+            {
+                strWhere += " and Fremit_rec='" + remitRec.Trim() + "' ";
+            }
+
+            fstrSql = "select * from c2c_zwdb.t_remit_order " + strWhere;
+            fstrSql_count = "select count(*) from c2c_zwdb.t_remit_order " + strWhere;
+        }
+    }
+
+    public class QueryRemitStateInfo : Query_BaseForNET
+    {
+        public QueryRemitStateInfo(string Ford_date, string Ford_ssn)
+        {
+            string strWhere = " where Ford_date='" + Ford_date + "' and Ford_ssn='" + Ford_ssn + "'";
+
+            fstrSql = "select * from c2c_db_remit.t_remit_list " + strWhere;
+        }
+    }
+
+    #endregion
+
 }

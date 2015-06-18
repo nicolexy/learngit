@@ -200,5 +200,166 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
         }
         #endregion
 
+        #region 邮政汇款
+        public class RemitList
+        {
+            [XmlElement("list_id")]
+            public string Flistid { get; set; }
+            [XmlElement("order_date")] //汇款平台日期
+            public string Ford_date { get; set; }
+            [XmlElement("order_ssn")] //汇款平台流水
+            public string Ford_ssn { get; set; }
+            [XmlElement("remit_fee")] //汇款金额
+            public string FremitfeeName { get; set; }
+            [XmlElement("remitpay_fee")] //汇费
+            public string FremitpayfeeName { get; set; }
+
+            [XmlElement("procedure_fee")] //汇款手续费
+            public string FprocedureName { get; set; }
+            [XmlElement("other_procedure_fee")] //退/改汇手续费
+            public string FotherprocedureName { get; set; }
+            [XmlElement("remit_rec")] //汇票号
+            public string Fremit_rec { get; set; }
+            [XmlElement("dest_name")] //收款人
+            public string Fdest_name { get; set; }
+            [XmlElement("dest_card")] //银行卡
+            public string Fdest_card { get; set; }
+
+            [XmlElement("trade_type")] 
+            public string FtrantypeName { get; set; }
+            [XmlElement("trade_state")]
+            public string FtranstateName { get; set; }
+            [XmlElement("remit_type")]
+            public string FremittypeName { get; set; }
+            [XmlElement("data_type")]
+            public string FdatatypeName { get; set; }
+            [XmlElement("state")] //兑汇状态
+            public string Fstate { get; set; }
+        }
+
+        public class RemitSpid
+        {
+            [XmlElement("spid")]
+            public string spid { get; set; }
+        }
+
+        #endregion
+
+        #region 交易记录查询
+
+        public class TradePayList
+        {
+            [XmlElement("pay_type_str")]
+            public string Fpay_type_str { get; set; }
+            [XmlElement("paybuy")]
+            public string fpaybuy { get; set; }
+            [XmlElement("paysale")]
+            public string fpaysale { get; set; }
+            [XmlElement("appeal_sign_str")]
+            public string Fappeal_sign_str { get; set; }
+            [XmlElement("medi_sign_str")]
+            public string Fmedi_sign_str { get; set; }
+
+            [XmlElement("channel_id_str")]
+            public string Fchannel_id_str { get; set; }
+            [XmlElement("buy_bankid")]
+            public string fbuy_bankid { get; set; }
+            [XmlElement("closereason")]
+            public string CloseReason { get; set; }
+            [XmlElement("bank_backid")]
+            public string fbank_backid { get; set; }
+            [XmlElement("bank_listid")]
+            public string fbank_listid { get; set; }
+
+            [XmlElement("bargain_time")]
+            public string fbargain_time { get; set; }
+            [XmlElement("buy_bank_type")]
+            public string fbuy_bank_type { get; set; }
+            [XmlElement("buy_name")]
+            public string fbuy_name { get; set; }
+            [XmlElement("buy_uid")]
+            public string fbuy_uid { get; set; }
+            [XmlElement("carriage")]
+            public string fcarriage { get; set; }
+
+            [XmlElement("cash")]
+            public string fcash { get; set; }
+            [XmlElement("coding")]
+            public string fcoding { get; set; }
+            [XmlElement("create_time")]
+            public string fcreate_time { get; set; }
+            [XmlElement("create_time_c2c")]
+            public string fcreate_time_c2c { get; set; }
+            [XmlElement("curtype")]
+            public string fcurtype { get; set; }
+
+            [XmlElement("fact")]
+            public string ffact { get; set; }
+            [XmlElement("ip")]
+            public string fip { get; set; }
+            [XmlElement("listid")]
+            public string flistid { get; set; }
+            [XmlElement("lstate")]
+            public string flstate { get; set; }
+            [XmlElement("modify_time")]
+            public string fmodify_time { get; set; }
+
+            [XmlElement("pay_time")]
+            public string fpay_time { get; set; }
+            [XmlElement("paynum")]
+            public string fpaynum { get; set; }
+            [XmlElement("price")]
+            public string fprice { get; set; }
+            [XmlElement("procedure")]
+            public string fprocedure { get; set; }
+            [XmlElement("receive_time")]
+            public string freceive_time { get; set; }
+
+            [XmlElement("receive_time_c2c")]
+            public string freceive_time_c2c { get; set; }
+            [XmlElement("sale_bank_type")]
+            public string fsale_bank_type { get; set; }
+            [XmlElement("sale_bankid")]
+            public string fsale_bankid { get; set; }
+            [XmlElement("sale_name")]
+            public string fsale_name { get; set; }
+            [XmlElement("sale_uid")]
+            public string fsale_uid { get; set; }
+
+            [XmlElement("saleid")]
+            public string fsaleid { get; set; }
+            [XmlElement("service")]
+            public string fservice { get; set; }
+            [XmlElement("spid")]
+            public string fspid { get; set; }
+            [XmlElement("adjust_flag")]
+            public string fadjust_flag { get; set; }
+            [XmlElement("refund_typeName")]
+            public string Frefund_typeName { get; set; }
+
+            [XmlElement("req_refund_time")]
+            public string freq_refund_time { get; set; }
+            [XmlElement("ok_time")]
+            public string fok_time { get; set; }
+            [XmlElement("ok_time_acc")]
+            public string fok_time_acc { get; set; }
+            [XmlElement("memo")]
+            public string fmemo { get; set; }
+            [XmlElement("explain")]
+            public string fexplain { get; set; }
+
+            [XmlElement("buyid")]
+            public string fbuyid { get; set; }
+            [XmlElement("trade_type")]
+            public string ftrade_type { get; set; }
+            [XmlElement("saleidCFT")]
+            public string FsaleidCFT { get; set; }
+            [XmlElement("trade_stateName")]
+            public string Ftrade_stateName { get; set; }
+            [XmlElement("buyidCFT")]
+            public string FbuyidCFT { get; set; }
+        }
+
+        #endregion
     }
 }
