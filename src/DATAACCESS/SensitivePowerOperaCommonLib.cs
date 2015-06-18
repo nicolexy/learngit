@@ -267,7 +267,7 @@ namespace TENCENT.OSS.CFT.KF.Common
                 rights[97] = new OneRight("ModifyFundPayCardByCS", 97, "理财通安全卡解绑(客服)");
                 rights[99] = new OneRight("InternetBankRefund", 99, "网银提交账务退款");
                 rights[156] = new OneRight("PayBusinessCMD", 162, "网银提交账务退款");
-
+                rights[166] = new OneRight("RefundCheck", 166, "退款登记");
                 //增加代扣调整按钮权限
                 rights[31] = new OneRight("DKAdjust", 31, "代扣调整状态");
 

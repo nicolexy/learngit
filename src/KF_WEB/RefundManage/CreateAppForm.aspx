@@ -70,7 +70,7 @@
 				<tr>
 					<td colSpan="4" height="41" style="HEIGHT: 41px">
 						<div align="center">
-							<p class="style2">特殊退款申请表</p>
+							<p class="style2"><asp:label id="lbHeadID" runat="server">特殊退款申请表</asp:label></p>
 						</div>
 					</td>
 				</tr>
@@ -83,14 +83,26 @@
 								<tr>
 									<td bgColor="#000000">
 										<table  cellSpacing="1" cellPadding="0" width="700" align="center" bgColor="#000000"border="0">
+                                            <tr bgColor="#ffffff" style="HEIGHT: 24px" height="40">
+                                                <td colspan = "6">
+                                                <strong><FONT size="2">&nbsp;财付通订单:</FONT></strong>
+                                                <asp:textbox id="tbUinID" runat="server" Width="900px" height="50" BorderWidth="1px"  TextMode="MultiLine"  Enabled ="false"></asp:textbox>
+                                                </td>                                                                        
+                                            </tr>
+                                           <tr bgColor="#ffffff" style="HEIGHT: 24px" height="40">
+                                                <td colspan = "6">
+                                                <strong><FONT size="2">&nbsp;银行订单号:&nbsp;  </FONT></strong>
+                                                <asp:textbox id="tbBankListID" runat="server" Width="900px" height="50" BorderWidth="1px"  TextMode="MultiLine"  Enabled ="false"></asp:textbox>
+                                                </td>                                                                        
+                                            </tr>
+                                            <tr bgColor="#ffffff" style="HEIGHT: 24px" height="40">
+                                                <td colspan = "6">
+                                                <strong><FONT size="2">&nbsp;申请时间:</FONT></strong>
+                                                <asp:textbox id="tbCreateTime" runat="server" Width="900px" height="50" BorderWidth="1px"  TextMode="MultiLine"  Enabled ="false"></asp:textbox>
+                                                </td>                                                                        
+                                            </tr>
 											<tr bgColor="#ffffff" style="HEIGHT: 24px" height="24">
-												<td nowrap class="style29"> 
-                                                <div align="center" ><strong><FONT size="2">&nbsp;财付通订单</FONT></strong></div>
-													
-												</td>
-												<td class="style28"  align = "center">
-													<strong><asp:label id="lbUinID" runat="server"></asp:label></strong>
-												</td>
+							
 												<td nowrap class="style32">
                                                     <div align="center"><STRONG><FONT size="2">银行户名</FONT></STRONG></div>
 													
@@ -103,6 +115,13 @@
 												</td>
 												<td align = "center">
 													<strong><asp:label id="lbMail" runat="server" Width = "240" style="margin-left: 0px"></asp:label></strong>
+												</td>
+                                                 <td height="29" class="style25">
+													<div align="center"><strong><FONT size="2">原银行类型</FONT></strong></div>
+												</td>
+												<td style="HEIGHT: 24px"><strong>
+														<DIV align="center"><STRONG><asp:label id="lbInitBankType" runat="server"></asp:label></STRONG></DIV>
+													</strong>
 												</td>
 											</tr>
 											<tr bgColor="#ffffff">
@@ -146,29 +165,6 @@
 												</td>
 												<td style="HEIGHT: 24px"><strong>
 														<DIV align="center"><STRONG><asp:label id="lbBankName" runat="server"></asp:label></STRONG></DIV>
-													</strong>
-												</td>
-											</tr>
-											<tr bgColor="#ffffff">
-												<td height="29" class="style30">
-													<div align="center"><strong><FONT size="2">申请时间</FONT></strong></div>
-												</td>
-												<td class="style8"><strong>
-														<DIV align="center"><STRONG><asp:label id="lbCreateTime" runat="server"></asp:label></STRONG></DIV>
-													</strong>
-												</td>
-                                                <td height="29" class="style34" >
-													<div align="center"><strong><FONT size="2">银行订单号</FONT></strong></div>
-												</td>
-												<td align="center"><strong>
-														<DIV align="center"><STRONG><asp:label id="lbBankListID" runat="server" Width = "230px" Height="16px"></asp:label></STRONG></DIV>
-													</strong>
-												</td>
-                                                <td height="29" class="style25">
-													<div align="center"><strong><FONT size="2">原银行类型</FONT></strong></div>
-												</td>
-												<td style="HEIGHT: 24px"><strong>
-														<DIV align="center"><STRONG><asp:label id="lbInitBankType" runat="server"></asp:label></STRONG></DIV>
 													</strong>
 												</td>
 											</tr>

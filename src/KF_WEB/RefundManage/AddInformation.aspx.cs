@@ -38,13 +38,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             this.Label1.Text = Session["OperID"].ToString();
             //获取一个值，该值指示该页是否正为响应客户端回发而加载，或者它是否正被首次加载和访问，
             //如果是为响应客户端回发而加载该页，则为true；否则为 false。
+            //uinID=" + strUinID + "&refundType" + strRefundType + "&bankListId" + strPayListid + "&oldId" + strOldId +"&time" + strCreateTime + 
             if (!IsPostBack)
             {
-                this.txtUinID.Text = Request.QueryString["uinID"].ToString();
-                this.txtRefundType.Text = Request.QueryString["refundType"].ToString();
-                this.txtBankListId.Text = Request.QueryString["bankListId"].ToString();
-                ViewState["refundId"] = Request.QueryString["refundId"].ToString();
-                                 
+                string strUinID = Request.QueryString["uinID"].ToString();
+                string strRefundType = Request.QueryString["refundType"].ToString();
+                string strPayListid = Request.QueryString["bankListId"].ToString();
+                string strOldId = Request.QueryString["oldId"].ToString();
+                string strCreateTime = Request.QueryString["time"].ToString();
+                string[] aryUinID = strUinID.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (aryUinID.Length == 1)
+                {
+                    lbHeadID.Text = "特殊退款单笔信息登记";
+                   // ViewState["refundId"] = aryOldId[0];
+                }
+                else
+                {
+                    lbHeadID.Text = "特殊退款批量信息登记";
+                }
+                this.tbUinID.Text = strUinID;
+                this.tbRefundType.Text = strRefundType;
+                this.tbBankListId.Text = strPayListid;
             }
 		}
 
@@ -69,9 +84,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 		#endregion
 		protected void Button_Update_Click(object sender, System.EventArgs e)
         {
-            string strUinID         = txtUinID.Text;
-            string strRefundType = txtRefundType.Text;
-            string strBankListId    = txtBankListId.Text;
+            string strUinID         = tbUinID.Text;
+            string strRefundType    = tbRefundType.Text;
+            string strBankListId    = tbBankListId.Text;
             string strIdentity      = txtIdentity.Text;
             string strInitBankAccNo = txtInitBankAccNo.Text;
             string strInitBankType = DropOldBankType.SelectedItem.Text;
@@ -82,7 +97,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             string strNewBankType = DropNewBankType.SelectedItem.Text;
             string strNewBankID = DropNewBankType.SelectedItem.Value;
             string strRemark        = txtRemark.Text;
-            string strCreate = Request.QueryString["create"].ToString();
+            string strCreate = Request.QueryString["time"].ToString();
            // string strTrueName = Request.QueryString["trueName"].ToString();
             string strUserFlagText = ddlUserFlag.SelectedItem.Text;
             string strUserFlagID = ddlUserFlag.SelectedItem.Value;
@@ -115,10 +130,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             {
                 strCancellationFile = "";
             }
-            string strURL = "CreateAppForm.aspx?uinId=" + strUinID + "&refundType=" + strRefundType + "&bankListId=" + strBankListId +
+            string strURL = "CreateAppForm.aspx?uinId=" + strUinID +  "&bankListId=" + strBankListId +
             "&Identity=" + strIdentity + "&initBankAccNo=" + strInitBankAccNo + "&initBankType=" + strInitBankType + "&initBankID="+strInitBankID + "&mail=" + strMail 
             + "&newBankAccNo=" + strNewBankAccNo + "&bankUserName=" + strBankUserName + "&newBankType=" + strNewBankType+"&newBankID="+strNewBankID + "&remark=" + strRemark + "&create=" + strCreate
-            + "&commitment=" + strCommitmentFile + "&identityCard=" + strIdentityCardFile + "&bankWater=" + strBankWaterFile + "&cancellation=" + strCancellationFile + "&refundId=" + ViewState["refundId"].ToString()
+            + "&commitment=" + strCommitmentFile + "&identityCard=" + strIdentityCardFile + "&bankWater=" + strBankWaterFile + "&cancellation=" + strCancellationFile + "&refundId=" + Request.QueryString["oldId"].ToString()
             + "&userFlagID=" + strUserFlagID+"&userFlagText="+strUserFlagText+"&cardTypeText="+strCardTypeText + "&cardTypeID=" + strCardTypeID +"&bankName="+strBankName;
             
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Data;
 using CFT.CSOMS.DAL.FundModule;
+using TENCENT.OSS.C2C.Finance.BankLib;
 
 namespace CFT.CSOMS.BLL.FundModule
 {
@@ -21,7 +22,11 @@ namespace CFT.CSOMS.BLL.FundModule
                 LCTBalanceDT.Columns.Add("FstateStr", typeof(string));
                 LCTBalanceDT.Columns.Add("Ftotal_feeStr", typeof(string));
                 LCTBalanceDT.Columns.Add("FInOrOUT", typeof(string));
-                
+                LCTBalanceDT.Columns.Add("Fbank_type_str", typeof(string));
+                foreach (DataRow dr in LCTBalanceDT.Rows)
+                {
+                    dr["Fbank_type_str"] = BankIO.QueryBankName(dr["Fbank_type"].ToString());
+                }
                 //交易类型
                 Hashtable ht1 = new Hashtable();
                 ht1.Add("1", "充值到余额");

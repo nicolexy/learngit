@@ -30,6 +30,10 @@
         div.mycss table tr td A:active {
          BORDER-RIGHT: #0000FF 1px solid; BORDER-TOP: #0000FF 1px solid; BORDER-LEFT: #0000FF 1px solid; COLOR: #000; BORDER-BOTTOM: #0000FF 1px solid
         }
+		    .auto-style1
+            {
+                width: 344px;
+            }
 		</style>		
     <script src="../Scripts/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
 </head>
@@ -40,41 +44,78 @@
 				width="900" align="center" border="1">
 				<tr>
 					<td colspan="2"><IMG height="16" src="../IMAGES/Page/post.gif" width="15">&nbsp;<asp:label id="lbTitle" runat="server" ForeColor="Red">异常退款单查询</asp:label>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-						</FONT>操作员代码: </FONT><SPAN class="style3"><asp:label id="operaterName" runat="server" Width="136px" ForeColor="Red"></asp:label></SPAN>
+                    </td>
+					<td  colspan="2">	
+						</FONT>&nbsp;&nbsp; 操作员代码: </FONT><SPAN class="style3"><asp:label id="operaterName" runat="server" Width="136px" ForeColor="Red"></asp:label></SPAN>
 					</td>
 				</tr>
 				<tr>
-                    <td colspan="2">
-                    &nbsp;&nbsp;
+                    <td nowrap>
                     <asp:label id="Label2" runat="server">财付通订单号：</asp:label>
 					<asp:textbox id="txtUinID" runat="server" Width = "200px"></asp:textbox>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td nowrap>
+                    <td class="auto-style1">
                     <asp:label id="Label6" runat="server">银行订单：</asp:label>
 					<asp:textbox id="txtBankID" runat="server" Width = "200px"></asp:textbox>
-                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <asp:label id="Label7" runat="server">商户号：</asp:label>
-					<asp:textbox id="txtFSPID" runat="server" Width = "200px"></asp:textbox>
-                   </td>
+                     </td>
+                    <td nowrap>
+                    <asp:label id="Label7" runat="server">退款单号：</asp:label>
+					<asp:textbox id="txtOldID" runat="server" Width = "200px"></asp:textbox>
+                    </td>
+                    <td nowrap>
+                    <asp:label id="Label5" runat="server">提交人：</asp:label>
+					<asp:textbox id="txtOperator" runat="server" Width = "200px"></asp:textbox>
+                 </td>
+    
                 </tr>
                 <tr>
-                <td>
-                    &nbsp;&nbsp;&nbsp;
+                    <td colspan="4">
+                        <asp:label id="Label10" runat="server">商户号：(注各商户号间以;作为分隔符)</asp:label>
+                        <asp:TextBox ID="txtSPID" runat="server" Width = "1400px" Height="50px" TextMode="MultiLine">  </asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <asp:TextBox ID="txtContext" runat="server" Width = "1400px" Height="30px" Visible="false" TextMode="MultiLine">  </asp:TextBox>
+                    </td>
+                    <td>
+                        <asp:Button ID="btnText" runat="server" Width ="80px" Visible="false" Text="设置" onclick="OnBtnYonghua_Click" />
+                    </td>
+                </tr>
+                <tr>
+                <td nowrap>
+                    
                     开始日期：                   
                     <asp:TextBox ID="textBoxBeginDate" runat="server" Width="130px" onClick="WdatePicker()"  CssClass="Wdate"></asp:TextBox>
                     
-                    
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                    
                     结束日期：
                         <asp:TextBox ID="textBoxEndDate" runat="server" Width="130px" onClick="WdatePicker()"  CssClass="Wdate"></asp:TextBox>                
                 </td>
-                <td >
+                <td nowrap>
+                    金额范围：
+					<asp:textbox id="txtMin" runat="server" Width = "50px"></asp:textbox>
+                    至
+                    <asp:textbox id="txtMax" runat="server" Width = "80px"></asp:textbox>元
+                 </td>
+                  <td nowrap>
+					    <asp:Label ID="Label3" runat="server" Text="支付场景:"></asp:Label>&nbsp;&nbsp;
+                        <asp:DropDownList ID="ddDoneID" runat="server" Height="20px" Width="97px">
+                        <asp:ListItem Value="0" Selected="True">全部</asp:ListItem>
+						<asp:ListItem Value="1">微信</asp:ListItem>
+						<asp:ListItem Value="2">非微信</asp:ListItem>
+                        </asp:DropDownList>
+                 </td>
+                <td nowrap>
+					    <asp:Label ID="Label9" runat="server" Text="支付渠道:"></asp:Label>&nbsp;&nbsp;
+                        <asp:DropDownList ID="ddPayID" runat="server" Height="20px" Width="97px">
+                        <asp:ListItem Value="0" Selected="True">全部</asp:ListItem>
+						<asp:ListItem Value="1">快捷</asp:ListItem>
+						<asp:ListItem Value="2">非快捷</asp:ListItem>
+                        </asp:DropDownList>
+                 </td>
 
-                    <asp:label id="lIputActor" runat="server" Visible ="false">设置角色名：</asp:label>
-					<asp:textbox id="tbActor" runat="server" Width = "150px" Visible ="false"></asp:textbox>
-                    <asp:Button ID="btnSet" runat="server" Text="设置角色名" OnClick="btnSetActor_Click"  Visible="false"/>
-                </td>
+         
 
 				</tr>
                <tr>
@@ -92,9 +133,10 @@
                         <asp:ListItem Value="6">财务处理完成</asp:ListItem>
                         <asp:ListItem Value="7">无法处理直接拒绝</asp:ListItem>                  
                         </asp:DropDownList>
-                        
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <asp:Label ID="Label8" runat="server" Text="交易状态:"></asp:Label>&nbsp;&nbsp;
+                    </td>
+                   <td>    
+                      
+                        <asp:Label ID="Label8" runat="server" Text="退款状态:"></asp:Label>&nbsp;&nbsp;
                         <asp:DropDownList ID="tradeListID" runat="server" Height="20px" Width="97px">
                         <asp:ListItem Value="0" Selected="True">全部</asp:ListItem>
 						<asp:ListItem Value="1">退款中</asp:ListItem>
@@ -102,13 +144,20 @@
                         </asp:DropDownList>
                     </td>
                     
-                    <td>                      
-                        &nbsp;<asp:Button ID="btnCheckID" runat="server" Width ="50px"  Text="查询" onclick="OnBtnCheck_Click"  ViewStateMode="Disabled" />&nbsp;&nbsp;         
-                        <asp:Button ID="btnInputID" runat="server" Text="客服补填资料" onclick="OnBtnInputInfor_Click" />&nbsp;&nbsp;
-                        <asp:Button ID="btnReceiveID" runat="server" Text="银行收件人名单管理"  onclick="OnBtnReceiveManager_Click" />
-                        <asp:Button ID="btnExecl" runat="server" Text="导出execl" onclick="OnBtnExecl_Click" />&nbsp;&nbsp;
+                    <td align="center">                      
+                        &nbsp;<asp:Button ID="btnCheckID" runat="server" Width ="80px"  Text="查询" onclick="OnBtnCheck_Click"  ViewStateMode="Disabled" />
+                    </td>
+                   
+                   <td align="center">
+                       <asp:Button ID="btnSelID" runat="server" Width ="80px" Text="全选" onclick="OnBtnChangeItem_Click" />
                     </td>
               </tr>
+                <tr>
+                       <td nowrap><asp:Button ID="btnInputID" runat="server" Text="客服补填资料" onclick="OnBtnInputInfor_Click" /></td>
+                        <td nowrap><asp:Button ID="btnReceiveID" runat="server" Text="银行收件人名单管理"  onclick="OnBtnReceiveManager_Click" /></td>
+                        <td nowrap><asp:Button ID="btnExecl" runat="server" Text="导出execl" onclick="OnBtnExecl_Click" /></td>
+                        <td nowrap><asp:Button ID="btnCaiID" runat="server" Text="转财务处理" onclick="OnBtnCaiWu_Click" /></td>
+                </tr>
                
            </table >
          <div class="mycss">
@@ -118,7 +167,7 @@
                 <br><asp:GridView ID="gridInfor" runat="server" AutoGenerateColumns = "False" 
                         headerstyle-horizontalalign="center" horizontalalign="Center" PageSize="10"
                         AllowPaging ="True" AllowSorting = "True" onpageindexchanging="gridInfor_PageIndexChanging" 
-                        GridLines="Horizontal" CellPadding="3" BorderStyle="None" DataKeyNames = "FpayListid,FCardType,FbankListid,FbankName,FbankType,FcreateTime,FtrueName,FmodifyTime,FReturnAmt,FAmt,FbankAccNo,FbankTypeOld,FoldId,FrefundType"
+                        GridLines="Horizontal" CellPadding="3" BorderStyle="None" DataKeyNames = "FpayListid,FCardType,FbankListid,FbankName,FbankType,FcreateTime,FtrueName,FmodifyTime,FReturnAmt,FAmt,FbankAccNo,FbankTypeOld,FoldId,FrefundType,Fstate"
                         BorderWidth="1px">
                         <PagerStyle BorderColor="#66FF66" Font-Names="宋体"  Font-Size="24px" />  
                         <FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>

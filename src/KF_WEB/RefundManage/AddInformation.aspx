@@ -33,7 +33,7 @@
 						<table height="25" cellSpacing="0" cellPadding="1" width="859" border="0">
 							<tr>
 								<td style="HEIGHT: 20px" width="80%" background="../IMAGES/Page/bg_bl.gif"><font color="#ff0000"><STRONG><FONT color="#ff0000">&nbsp;</FONT></STRONG><IMG height="16" src="../IMAGES/Page/post.gif" width="20">
-										特殊退款信息登记</font>
+										<asp:label id="lbHeadID" runat="server">特殊退款信息登记</asp:label></font>
 								</td>
 								<td style="HEIGHT: 20px" width="20%" background="../IMAGES/Page/bg_bl.gif">操作员代码: <span class="style5">
 										<asp:label id="Label1" runat="server">Label</asp:label></span></td>
@@ -41,40 +41,38 @@
 						</table>
 					</td>
 				</tr>
-				<tr bgColor="#ffffff">
-                    <td style="HEIGHT: 20px" bgColor="#eeeeee"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 财付通订单号：</FONT></td>
-					<td>&nbsp;
-						<asp:label id="txtUinID" runat="server" Width="250px" BorderWidth="1px"></asp:label>
+				<tr bgColor="#ffffff" >
+                    <td style="HEIGHT: 20px" bgColor="#eeeeee" nowrap><FONT face="宋体">财付通订单号：</FONT></td>
+					<td colSpan="2">&nbsp;
+						<asp:textbox id="tbUinID" runat="server" Width="700px" height="50px" BorderWidth="1px"  TextMode="MultiLine"  Enabled ="false"></asp:textbox>
 					</td>
-					<td>
-						<P align="center"><FONT face="宋体">&nbsp;&nbsp;</FONT></P>
-					</td>
+		
 				</tr>
 				<TR bgColor="#ffffff">
-					<TD style="HEIGHT: 20px" bgColor="#eeeeee"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 退款类型：</FONT></TD>
+					<TD style="HEIGHT: 20px" bgColor="#eeeeee" nowrap><FONT face="宋体">退款类型：</FONT></TD>
 					<TD style="HEIGHT: 20px" colSpan="2">&nbsp;
-						<asp:label id="txtRefundType" runat="server" Width="250px" BorderWidth="1px"></asp:label>
+						<asp:textbox id="tbRefundType" runat="server" Width="700px" height="50px" BorderWidth="1px"  TextMode="MultiLine" Enabled ="false"></asp:textbox>
                     </TD>
 				</TR>
 				<tr bgColor="#ffffff">
-					<td bgColor="#eeeeee"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 银行订单号：</FONT></td>
+					<td bgColor="#eeeeee"><FONT face="宋体" nowrap>银行订单号：</FONT></td>
 					<td colSpan="2">&nbsp;
-						<asp:label id="txtBankListId" runat="server" Width="250px" BorderWidth="1px"></asp:label>
+					<asp:textbox id="tbBankListId" runat="server" Width="700px" height="50px" BorderWidth="1px"  TextMode="MultiLine" Enabled ="false"></asp:textbox>	
 				</tr>
 				<tr bgColor="#ffffff">
-					<td bgColor="#eeeeee"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 身份证：</FONT></td>
+					<td bgColor="#eeeeee"><FONT face="宋体" nowrap>身份证：</FONT></td>
 					<td colSpan="2">&nbsp;
 						<asp:textbox id="txtIdentity" runat="server" Width="250px" BorderWidth="1px" ></asp:textbox>
 					</td>
 				</tr>
 				<tr bgColor="#ffffff">
-					<td style="HEIGHT: 20px" bgColor="#eeeeee"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 原卡号：</FONT></td>
+					<td style="HEIGHT: 20px" bgColor="#eeeeee" nowrap><FONT face="宋体">原卡号：</FONT></td>
 					<td style="HEIGHT: 20px" colSpan="2">&nbsp;
 						<asp:textbox id="txtInitBankAccNo" runat="server" Width="250px" BorderWidth="1px"></asp:textbox>&nbsp;	
 					</td>
 				</tr>
 				<tr bgColor="#ffffff">
-					<td bgColor="#eeeeee" class="style6"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 原银行类型：</FONT></td>
+					<td bgColor="#eeeeee" class="style6" nowrap><FONT face="宋体">原银行类型：</FONT></td>
 					<td colSpan="2" class="style6">&nbsp;						
                         
                         <asp:DropDownList ID="DropOldBankType" runat="server" Width = "250px"  borderwidth = "2px" BorderStyle = "Ridge" >
@@ -101,14 +99,14 @@
                         </asp:DropDownList>
 		            </td>
 				</tr>
-                <tr bgColor="#ffffff">
-					<td style="HEIGHT: 21px" bgColor="#eeeeee"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 联系邮箱：</FONT></td>
+                <tr bgColor="#ffffff" >
+					<td style="HEIGHT: 21px" bgColor="#eeeeee" nowrap><FONT face="宋体">联系邮箱：</FONT></td>
 					<td style="HEIGHT: 21px" colSpan="2">&nbsp;
 						<asp:textbox id="txtMail" runat="server" Width="250px" BorderWidth="1px"></asp:textbox>                 
 		            </td>
 				</tr>
                 <tr bgColor="#ffffff">
-					<td style="HEIGHT: 21px" bgColor="#eeeeee"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 收款帐号类型：</FONT></td>
+					<td style="HEIGHT: 21px" bgColor="#eeeeee" nowrap><FONT face="宋体">收款帐号类型：</FONT></td>
 					<td style="HEIGHT: 21px" colSpan="2">&nbsp;
 						<asp:DropDownList id="ddlUserFlag"  runat="server" Width = "250px" >
           	                    <asp:ListItem Value="1">个人</asp:ListItem>
@@ -118,19 +116,19 @@
 				</tr>
                 </tr>
 				<tr bgColor="#ffffff">
-					<td bgColor="#eeeeee"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 新银行卡号：</FONT></td>
+					<td bgColor="#eeeeee" nowrap><FONT face="宋体">新银行卡号：</FONT></td>
 					<td colSpan="2">&nbsp;
 						<asp:textbox id="txtNewBankAccNo" runat="server" Width="250px" BorderWidth="1px"></asp:textbox>
 					</td>
 				</tr>
                 <tr bgColor="#ffffff">
-					<td bgColor="#eeeeee"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 银行户名：</FONT></td>
+					<td bgColor="#eeeeee" nowrap><FONT face="宋体">银行户名：</FONT></td>
 					<td colSpan="2">&nbsp;
 						<asp:textbox id="txtBankUserName" runat="server" Width="250px" BorderWidth="1px"></asp:textbox>
 					</td>
 				</tr>
                  <tr bgColor="#ffffff">
-					<td bgColor="#eeeeee"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 新银行类型：</FONT></td>
+					<td bgColor="#eeeeee" nowrap><FONT face="宋体">新银行类型：</FONT></td>
 					<td colSpan="2">&nbsp;						
 					    <asp:DropDownList ID="DropNewBankType" runat="server" Width = "250px" onselectedindexchanged="DdlNewBankTypeSelectChanged" 
                             AutoPostBack ="true" >                     
@@ -158,7 +156,7 @@
                     </td>
 				</tr>
                 <tr bgColor="#ffffff">
-					<td style="HEIGHT: 21px" bgColor="#eeeeee"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 收款人卡类型：</FONT></td>
+					<td style="HEIGHT: 21px" bgColor="#eeeeee" nowrap><FONT face="宋体">收款人卡类型：</FONT></td>
 					<td style="HEIGHT: 21px" colSpan="2">&nbsp;
 						<asp:DropDownList id="ddlCardType"  runat="server" Width = "250px" AutoPostBack ="true" >
           	                    <asp:ListItem Value="1">借记卡</asp:ListItem>
@@ -167,37 +165,37 @@
 		            </td>
 				</tr>
                 <tr bgColor="#ffffff">
-					<td bgColor="#eeeeee"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 开户行支行名称：</FONT></td>
+					<td bgColor="#eeeeee" nowrap><FONT face="宋体">开户行支行名称：</FONT></td>
 					<td colSpan="2">&nbsp;
 						<asp:textbox id="tbBankName" runat="server" Width="250px" BorderWidth="1px"></asp:textbox>
 					</td>
 				</tr>
 				<tr bgColor="#ffffff">
-					<td style="HEIGHT: 23px" bgColor="#eeeeee"  Width="180px BorderWidth="1px>&nbsp;<FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;承诺函：</FONT></td>
+					<td style="HEIGHT: 23px" bgColor="#eeeeee"  Width="180px BorderWidth="1px" nowrap>&nbsp;<FONT face="宋体">承诺函：</FONT></td>
 					<td style="HEIGHT: 23px" colSpan="2">&nbsp;<FONT face="宋体"> </FONT><INPUT id="commitmentFile"  style="WIDTH: 241px; HEIGHT: 21px" type="file" size="21" name="commitmentFile"
 							runat="server">
 					</td>
 				</tr>
                 <tr bgColor="#ffffff">
-					<td style="HEIGHT: 23px" bgColor="#eeeeee"  Width="180px BorderWidth="1px >&nbsp;<FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;身份证：</FONT></td>
+					<td style="HEIGHT: 23px" bgColor="#eeeeee"  Width="180px BorderWidth="1px" nowrap >&nbsp;<FONT face="宋体">身份证：</FONT></td>
 					<td style="HEIGHT: 23px" colSpan="2">&nbsp;<FONT face="宋体"> </FONT><INPUT id="identityCardFile"  style="WIDTH: 241px; HEIGHT: 21px" type="file" size="21" name="identityCardFile"
 							runat="server">
 					</td>
 				</tr>
                  <tr bgColor="#ffffff">
-					<td style="HEIGHT: 23px" bgColor="#eeeeee"  Width="180px BorderWidth="1px>&nbsp;<FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;银行流水：</FONT></td>
+					<td style="HEIGHT: 23px" bgColor="#eeeeee"  Width="180px BorderWidth="1px" nowrap>&nbsp;<FONT face="宋体">银行流水：</FONT></td>
 					<td style="HEIGHT: 23px" colSpan="2">&nbsp;<FONT face="宋体"> </FONT><INPUT id="bankWaterFile" style="WIDTH: 241px; HEIGHT: 21px" type="file" size="21" name="bankWaterFile"
 							runat="server">
 					</td>
 				</tr>
                  <tr bgColor="#ffffff">
-					<td style="HEIGHT: 23px" bgColor="#eeeeee"  Width="180px BorderWidth="1px >&nbsp;<FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;销户证明：</FONT></td>
+					<td style="HEIGHT: 23px" bgColor="#eeeeee"  Width="180px BorderWidth="1px" nowrap >&nbsp;<FONT face="宋体">销户证明：</FONT></td>
 					<td style="HEIGHT: 23px" colSpan="2">&nbsp;<FONT face="宋体"> </FONT><INPUT id="cancellationFile" style="WIDTH: 241px; HEIGHT: 21px" type="file" size="21" name="cancellationFile"
 							runat="server">
 					</td>
 				</tr>
 				<tr bgColor="#ffffff">
-					<td bgColor="#eeeeee"  Width="250px BorderWidth="1px><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备注：</FONT></td>
+					<td bgColor="#eeeeee"  Width="250px BorderWidth="1px" nowrap><FONT face="宋体">备注：</FONT></td>
 					<td colSpan="2"><FONT face="宋体">&nbsp;</FONT>
 						<asp:textbox id="txtRemark" runat="server" Width="338px" BorderWidth="1px" Height="69px" TextMode="MultiLine" ></asp:textbox>&nbsp;</td>
 				</tr>

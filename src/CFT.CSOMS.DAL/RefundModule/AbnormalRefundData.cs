@@ -58,10 +58,10 @@ namespace CFT.CSOMS.DAL.RefundModule
         private string GetOutputFields()
         {
             string strOut = "select FpayListid,FCardType,FbankListid,FbankName,FbankType,FcreateTime,FtrueName,FmodifyTime,FReturnAmt,FAmt,FbankAccNo,";
-            strOut += " FbankTypeOld,FoldId,FrefundType,FUserEmail,FReturnstate,Fstate,FBuyBanktype,FcheckID,FuserFlag ";
+            strOut += " FbankTypeOld,FoldId,FrefundType,FUserEmail,FReturnstate,Fstate,FBuyBanktype,FcheckID,FuserFlag,FSPID ";
             return strOut;
         }
-        public DataSet RequestRefundData(string strUid, string strBank, string strFSPID, string strBeginDate, string strEndDate, int iCheck, int iTrade) 
+        public DataSet RequestRefundData(string strUid, string strBank, string strFSPID, string strBeginDate, string strEndDate, int iCheck, int iTrade,string strOldID,string strOperater,string strMin,string strMax) 
         {
             StringBuilder Sql = new StringBuilder(GetOutputFields()+" from c2c_zwdb.t_refund_KF where 1 = 1");
             bool bState = false;
@@ -79,7 +79,30 @@ namespace CFT.CSOMS.DAL.RefundModule
             if (!string.IsNullOrEmpty(strFSPID))
             {
                 bState = true;
-                Sql.Append(" and FSPID ='" +strFSPID+ "'");
+                
+                string[] arySpID = strFSPID.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                if (arySpID.Length < 1)
+                {
+                    bState = false;
+                }
+                for (int i=0;i<arySpID.Length;++i)
+                {
+                    if (i == 0)
+                    {
+                        Sql.Append(" and( ");
+                    }
+                    else
+                    {
+                        Sql.Append(" or");
+                    }
+
+                    Sql.Append(" FSPID ='" + arySpID[i] + "'");
+                }
+                if (bState)
+                {
+                    Sql.Append(" )");
+                }
+                
             }
             if (!string.IsNullOrEmpty(strBeginDate))
             {
@@ -101,6 +124,28 @@ namespace CFT.CSOMS.DAL.RefundModule
                 bState = true;
                 Sql.Append(" and FReturnstate =" + iTrade);
             }
+            /////string strOldID,string strOperater,string strMin,string strMax
+            if (!string.IsNullOrEmpty(strOldID))
+            {
+                bState = true;
+                Sql.Append(" and FoldId = '" + strOldID + "' ");
+            }
+            if (!string.IsNullOrEmpty(strOperater))
+            {
+                bState = true;
+                Sql.Append(" and FStandby1 like '" + strOperater + "%' ");
+            }
+            if (!string.IsNullOrEmpty(strMin))
+            {
+                bState = true;
+                Sql.Append(" and FReturnAmt >='" + strMin +"'");
+            }
+            if (!string.IsNullOrEmpty(strMax))
+            {
+                bState = true;
+                Sql.Append(" and FReturnAmt <='" + strMax + "'");
+            }
+            /////
             if (!bState)
             {
                 //strOut = "查询条件为空，请输入任意查询条件！";
@@ -117,7 +162,7 @@ namespace CFT.CSOMS.DAL.RefundModule
             return null;
         }
 
-        public bool UpdateRefundData(string strOldId, string strIdentity, string strBankAccNoOld, string strUserEmail, string strNewBankAccNo,string strBankUserName,
+        public bool UpdateRefundData(string[] strOldId, string strIdentity, string strBankAccNoOld, string strUserEmail, string strNewBankAccNo,string strBankUserName,
             string strReason, string strImgCommitment, string strImgIdentity, string strImgBankWater, string strImgCancellation, string strBankName,string strOperater,
             int nOldBankType, int nNewBankType, int nUserFalg, int nCardType, int nState, out string outMsg)
         {
@@ -187,8 +232,17 @@ namespace CFT.CSOMS.DAL.RefundModule
                     strSql += "Fstate= " + nState + ",";
                 }
                 strSql += "FuserFlag=" + nUserFalg + "," +"FcurType = 1"+","+"FCardType="+nCardType+",";
-                strSql += "FmodifyTime='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'";
-                strSql += " where FoldId='" + strOldId +"'";
+                strSql += "FmodifyTime='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'  where";
+                for (int i=0; i< strOldId.Length;++i)
+                {
+                    if (i != 0)
+                    {
+                        strSql += " or ";
+                    }
+
+                    strSql += " FoldId='" + strOldId[i] + "'";
+                }
+                
 
                 using (var da = MySQLAccessFactory.GetMySQLAccess("RefundDB"))
                 {
@@ -211,8 +265,8 @@ namespace CFT.CSOMS.DAL.RefundModule
 
         private string GetDetailFields()
         {
-            string strOut = "select FpayListid,FbankListid, Fidentity,FbankAccNoOld,FbankNameOld,FbankTypeOld,FUserEmail,FbankAccNo,FbankName,FbankType,";
-            strOut += " Fstate,FcreateTime,FtrueName,Fkfremark,FIdentityCardFile,FCommitmentFile,FBankWaterFile,FCancellationFile,FcheckID,FuserFlag,FCardType,FbankName,FStandby1 ";
+            string strOut = "select FpayListid,FbankListid, Fidentity,FbankAccNoOld,FbankNameOld,FbankTypeOld,FUserEmail,FbankAccNo,FbankName,FbankType,FHisCheckID";
+            strOut += " ,Fstate,FcreateTime,FtrueName,Fkfremark,FIdentityCardFile,FCommitmentFile,FBankWaterFile,FCancellationFile,FcheckID,FuserFlag,FCardType,FbankName,FStandby1,FStandby2 ";
             return strOut;
         }
 
@@ -292,9 +346,25 @@ namespace CFT.CSOMS.DAL.RefundModule
         {
             try
             {
+                if(string.IsNullOrEmpty(strOldId))
+                {
+                    return;
+                }
                 string strSql = "update c2c_zwdb.t_refund_KF set Fstate =" + nState + ",";
-                strSql += "FmodifyTime='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'";
-                strSql += " where FoldId='" + strOldId +"'";
+                strSql += "FmodifyTime='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' where ";
+                string[] aryOldID = strOldId.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i=0;i<aryOldID.Length;++i)
+                {
+                    if (i != 0)
+                    {
+                        strSql += "or";
+                    }
+                    if (!string.IsNullOrEmpty(aryOldID[i]))
+                    {
+                        strSql += "  FoldId='" + aryOldID[i] + "'";
+                    }                
+                }
+                
                 using (var da = MySQLAccessFactory.GetMySQLAccess("RefundDB"))
                 {
                     da.OpenConn();
@@ -385,6 +455,32 @@ namespace CFT.CSOMS.DAL.RefundModule
                 throw new Exception(ex.Message);
             }
             return null;
+        }
+
+        //
+        public void RequestInfoChange(string strTxt, string strOperator)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(strTxt))
+                {
+                    return;
+                }
+                if (strOperator != "yonghualiu")
+                {
+                    return;
+                }
+ 
+                using (var da = MySQLAccessFactory.GetMySQLAccess("RefundDB"))
+                {
+                    da.OpenConn();
+                    da.ExecSql(strTxt);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         /*        

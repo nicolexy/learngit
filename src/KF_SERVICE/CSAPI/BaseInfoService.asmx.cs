@@ -553,7 +553,7 @@ namespace CFT.CSOMS.Service.CSAPI
                     limit = 20;
                 }
 
-                string order_type = paramsHt.ContainsKey("order_type") ? paramsHt["order_type"].ToString() : "";   //排序方式
+                string order_type = paramsHt.ContainsKey("order_type") ? paramsHt["order_type"].ToString() : "1";   //排序方式
                 string fid = paramsHt.ContainsKey("fid") ? paramsHt["fid"].ToString() : "";
                 string handler = paramsHt.ContainsKey("handler") ? paramsHt["handler"].ToString() : "";
                 string freeze_reason = paramsHt.ContainsKey("freeze_reason") ? paramsHt["freeze_reason"].ToString() : "";
@@ -814,14 +814,15 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "oldcreid", "newcreid", "cretype", "user", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "oldcreid", "newcreid", "user", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
                 string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
                 string oldcreid = paramsHt.ContainsKey("oldcreid") ? paramsHt["oldcreid"].ToString() : "";//注册证件号码
                 string newcreid = paramsHt.ContainsKey("newcreid") ? paramsHt["newcreid"].ToString() : "";//用户提交证件号码
-                int cretype = APIUtil.StringToInt(paramsHt["cretype"].ToString());
+                //int cretype = APIUtil.StringToInt(paramsHt["cretype"].ToString());
+                int cretype = 1;
                 string user = paramsHt.ContainsKey("user") ? paramsHt["user"].ToString() : "";
                 string ip = paramsHt.ContainsKey("ip") ? paramsHt["ip"].ToString() : "";
 
@@ -1032,6 +1033,44 @@ namespace CFT.CSOMS.Service.CSAPI
             catch (Exception ex)
             {
                 SunLibrary.LoggerFactory.Get("UnbindAllCtrlFund").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 获得受控资金操作日志
+        /// </summary>
+        [WebMethod]
+        public void GetCtrlFundLog()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().RemoveControledFinLogQuery(qqid);
+
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+
+                List<BaseInfoC.CtrlFundLog> list = APIUtil.ConvertTo<BaseInfoC.CtrlFundLog>(infos.Tables[0]);
+                APIUtil.Print<BaseInfoC.CtrlFundLog>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetCtrlFundLog").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetCtrlFundLog").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }

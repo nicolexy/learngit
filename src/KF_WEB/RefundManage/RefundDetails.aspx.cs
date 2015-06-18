@@ -19,8 +19,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	/// </summary>
     public partial class RefundDetails : System.Web.UI.Page
 	{
-        private string m_nInitOperator = "yonghualiu";
+        private string m_nFrom = "1111";
         private string m_nRefundReason = "退款失败，财务转向客服处理.";
+
         private string[] m_arrCheckRecord = 
        {
             "客服审核",       
@@ -111,15 +112,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             }
             ViewState["foldId"] = Request.QueryString["foldId"].ToString();
             log.InfoFormat("ViewState[foldId]={0}", ViewState["foldId"].ToString());
-            
-            if (Session["uid"].ToString().Trim() == m_nInitOperator.Trim())
-            {
-                btnInitID.Visible = true;
-            }
-            else
-            {
-                btnInitID.Visible = false;
-            }
+
+            //主站那边收集的资料，根据状态，生成审批ID         
             DataSet ds = new RefundService().RequestDetailsData(ViewState["foldId"].ToString(), out strMsg);
             if (ds == null)
             {
@@ -140,6 +134,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 lbUser.Text = dr["FtrueName"].ToString();
                 lbReason.Text = dr["Fkfremark"].ToString();
                 lbCreateTime.Text = dr["FcreateTime"].ToString();
+
                 kfOperator.Text = "";
                 string strOperater = dr["FStandby1"].ToString();
                 if(!string.IsNullOrEmpty(strOperater))
@@ -168,20 +163,62 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 }
                 lbBankName.Text = dr["FbankName"].ToString();
 
-                string requestUrl = System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString();
-                string strLocFile = System.Configuration.ConfigurationManager.AppSettings["KFWebSrc"].ToString();
-                string strLocCommitment = strLocFile +dr["FCommitmentFile"].ToString();
-                string strLocIdentity = strLocFile +dr["FIdentityCardFile"].ToString();
-                string strLocBankWater = strLocFile +dr["FBankWaterFile"].ToString();
-                string strLocAccount = strLocFile +dr["FCancellationFile"].ToString();
-   
-                igCommitment.ImageUrl   = File.Exists(strLocCommitment.Trim())  ? "../" + dr["FCommitmentFile"].ToString()  : requestUrl + "/" + dr["FCommitmentFile"].ToString();
-                igIdentity.ImageUrl     = File.Exists(strLocIdentity.Trim())    ? "../" + dr["FIdentityCardFile"].ToString(): requestUrl + "/" + dr["FIdentityCardFile"].ToString();
-                igBankWater.ImageUrl    = File.Exists(strLocBankWater.Trim())   ? "../" + dr["FBankWaterFile"].ToString()   : requestUrl + "/" + dr["FBankWaterFile"].ToString();
-                igAccount.ImageUrl      = File.Exists(strLocAccount.Trim())     ? "../" + dr["FCancellationFile"].ToString(): requestUrl + "/" + dr["FCancellationFile"].ToString();
-
-
+                //处理主站收集过资料并发起审批
+                string strState = dr["Fstate"].ToString();
+                string strFrom = dr["FStandby2"].ToString();
+                string strHisCheckID = dr["FHisCheckID"].ToString();
                 string strCheckId = dr["FcheckID"].ToString();
+                if (strState.Trim() == "2" && strFrom.Trim() == m_nFrom.Trim() && string.IsNullOrEmpty(strCheckId))
+                {
+                    log.InfoFormat("进入主站发起单子：  退款号：{1} ", ViewState["foldId"].ToString());
+                    //生成审批编号
+                    ZWCheck_Service.Check_Service chkService = new ZWCheck_Service.Check_Service();
+                    chkService.Finance_HeaderValue = RefundPublicFun.SetWebServiceHeader(this);
+
+                    /*objectID组合规则 =   
+                    目的：确保每次申请唯一*/
+                    string strObjectID = ViewState["foldId"].ToString();
+                    if (!string.IsNullOrEmpty(strHisCheckID))
+                    {
+                        string[] arrHisCheckId = strHisCheckID.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                        for (int i = 0; i < arrHisCheckId.Length; ++i)
+                        {
+                            strObjectID += arrHisCheckId[i];
+                        }
+                    }
+
+                    strCheckId = chkService.StartCheckNew(strObjectID, RefundPublicFun.KFCHECKTYPE, RefundPublicFun.KFCHECKMEMO);
+                    if (!string.IsNullOrEmpty(strCheckId))
+                    {
+                        new RefundService().SetAbnormalRefundListID(strCheckId, ViewState["foldId"].ToString());
+                    }
+                }
+
+                //如果是从主站那边录入的信息
+                if (strFrom.Trim() == m_nFrom.Trim())
+                {
+                    //拉图片cgi
+                    string urlCGI = System.Configuration.ConfigurationManager.AppSettings["GetAppealImageCgi"].Trim();
+                    igCommitment.ImageUrl = urlCGI + dr["FCommitmentFile"].ToString();
+                    igIdentity.ImageUrl = urlCGI + dr["FIdentityCardFile"].ToString();
+                    igBankWater.ImageUrl = urlCGI + dr["FBankWaterFile"].ToString();
+                    igAccount.ImageUrl = urlCGI + dr["FCancellationFile"].ToString();
+                }
+                else
+                {
+                    string requestUrl = System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString();
+                    string strLocFile = System.Configuration.ConfigurationManager.AppSettings["KFWebSrc"].ToString();
+                    string strLocCommitment = strLocFile + dr["FCommitmentFile"].ToString();
+                    string strLocIdentity = strLocFile + dr["FIdentityCardFile"].ToString();
+                    string strLocBankWater = strLocFile + dr["FBankWaterFile"].ToString();
+                    string strLocAccount = strLocFile + dr["FCancellationFile"].ToString();
+
+                    igCommitment.ImageUrl = File.Exists(strLocCommitment.Trim()) ? "../" + dr["FCommitmentFile"].ToString() : requestUrl + "/" + dr["FCommitmentFile"].ToString();
+                    igIdentity.ImageUrl = File.Exists(strLocIdentity.Trim()) ? "../" + dr["FIdentityCardFile"].ToString() : requestUrl + "/" + dr["FIdentityCardFile"].ToString();
+                    igBankWater.ImageUrl = File.Exists(strLocBankWater.Trim()) ? "../" + dr["FBankWaterFile"].ToString() : requestUrl + "/" + dr["FBankWaterFile"].ToString();
+                    igAccount.ImageUrl = File.Exists(strLocAccount.Trim()) ? "../" + dr["FCancellationFile"].ToString() : requestUrl + "/" + dr["FCancellationFile"].ToString();
+ 
+                }
                 log.InfoFormat("显示存储路径图片：igCommitment = ：{0} igIdentity = ：{1} igBankWater = ：{2} igAccount = ：{3} strCheckId={4}", igCommitment.ImageUrl, igIdentity.ImageUrl, igBankWater.ImageUrl, igAccount.ImageUrl, strCheckId);                                                
                 
                 
@@ -571,6 +608,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             lbWriteReason.Text = dropReasonList.SelectedItem.Text;   
         }
 
+        /*
         //作废
         protected void btnTransferInvalid_Click(object sender, EventArgs e)
         {
@@ -624,7 +662,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
         {
             try
             {
-                if (Session["uid"].ToString().Trim() != m_nInitOperator.Trim())
+                if (Session["uid"].ToString().Trim() != RefundPublicFun.OPERATOR.Trim())
                 {
                     WebUtils.ShowMessage(this.Page, "没有权限操作此项功能");
                     return;
@@ -655,6 +693,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             }
 
         }
+         * */
 
 	}
 }

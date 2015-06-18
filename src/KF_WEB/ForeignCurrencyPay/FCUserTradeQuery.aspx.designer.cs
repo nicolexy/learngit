@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage {
+namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay {
     
     
-    public partial class CreateAppForm {
+    public partial class FCUserTradeQuery {
         
         /// <summary>
         /// Form1 control.
@@ -22,201 +22,174 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage {
         protected global::System.Web.UI.HtmlControls.HtmlForm Form1;
         
         /// <summary>
-        /// lbHeadID control.
+        /// table1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbHeadID;
+        protected global::System.Web.UI.HtmlControls.HtmlTable table1;
         
         /// <summary>
-        /// tbUinID control.
+        /// lb_operatorID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbUinID;
+        protected global::System.Web.UI.WebControls.Label lb_operatorID;
         
         /// <summary>
-        /// tbBankListID control.
+        /// WeChatId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbBankListID;
+        protected global::System.Web.UI.WebControls.TextBox WeChatId;
         
         /// <summary>
-        /// tbCreateTime control.
+        /// Button1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbCreateTime;
+        protected global::System.Web.UI.WebControls.Button Button1;
         
         /// <summary>
-        /// lbBankUserName control.
+        /// wrap_info control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbBankUserName;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl wrap_info;
         
         /// <summary>
-        /// lbMail control.
+        /// tab_btn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbMail;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tab_btn;
         
         /// <summary>
-        /// lbInitBankType control.
+        /// btn_tradeBill control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbInitBankType;
+        protected global::System.Web.UI.WebControls.LinkButton btn_tradeBill;
         
         /// <summary>
-        /// lbNewBankAccNo control.
+        /// btn_refund control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbNewBankAccNo;
+        protected global::System.Web.UI.WebControls.LinkButton btn_refund;
         
         /// <summary>
-        /// lbIdentity control.
+        /// a_fundStream control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbIdentity;
+        protected global::System.Web.UI.WebControls.LinkButton a_fundStream;
         
         /// <summary>
-        /// lbNewBankType control.
+        /// btn_bindCardRecord control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbNewBankType;
+        protected global::System.Web.UI.WebControls.LinkButton btn_bindCardRecord;
         
         /// <summary>
-        /// lbUserFlag control.
+        /// btn_createCVS control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbUserFlag;
+        protected global::System.Web.UI.WebControls.LinkButton btn_createCVS;
         
         /// <summary>
-        /// lbCardType control.
+        /// fundStreamTermInfo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbCardType;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl fundStreamTermInfo;
         
         /// <summary>
-        /// lbBankName control.
+        /// FAccType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbBankName;
+        protected global::System.Web.UI.HtmlControls.HtmlSelect FAccType;
         
         /// <summary>
-        /// lbInitBankAccNo control.
+        /// FCurType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbInitBankAccNo;
+        protected global::System.Web.UI.HtmlControls.HtmlSelect FCurType;
         
         /// <summary>
-        /// lbReason control.
+        /// btn_fundStream control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbReason;
+        protected global::System.Web.UI.WebControls.LinkButton btn_fundStream;
         
         /// <summary>
-        /// igCommitment control.
+        /// dg_tradeBill control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image igCommitment;
+        protected global::System.Web.UI.WebControls.DataGrid dg_tradeBill;
         
         /// <summary>
-        /// igAccount control.
+        /// dg_bindCardRecord control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image igAccount;
+        protected global::System.Web.UI.WebControls.DataGrid dg_bindCardRecord;
         
         /// <summary>
-        /// igIdentity control.
+        /// dg_BankRollFlow control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image igIdentity;
+        protected global::System.Web.UI.WebControls.DataGrid dg_BankRollFlow;
         
         /// <summary>
-        /// igBankWater control.
+        /// pager control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image igBankWater;
-        
-        /// <summary>
-        /// lbOperator control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbOperator;
-        
-        /// <summary>
-        /// lbOperatorDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbOperatorDate;
-        
-        /// <summary>
-        /// btCommit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btCommit;
+        protected global::Wuqi.Webdiyer.AspNetPager pager;
     }
 }

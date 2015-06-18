@@ -32,14 +32,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
             try
             {
-                Label1.Text = Session["uid"].ToString();
+                Label1.Text = Session["uid"].ToString();            
                 if (!classLibrary.ClassLib.ValidateRight("InternetBankRefund", this))
                 {
                     btnSubRefund.Visible = false;
                 }
 
                 if (!IsPostBack)
-                {
+                { 
+                    btnNew.Visible = classLibrary.ClassLib.ValidateRight("RefundCheck", this);
                     TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
                     TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
 

@@ -35,6 +35,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
                     if (listid == "")
                     {
+                        if (!classLibrary.ClassLib.ValidateRight("RefundCheck", this))
+                        {
+                            Response.Redirect("../login.aspx?wh=1");
+                        }
                         labTitle.Text = "新增退款登记";
                         statevisible.Visible = false;
                     }

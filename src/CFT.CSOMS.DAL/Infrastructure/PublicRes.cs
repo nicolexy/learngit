@@ -1039,6 +1039,25 @@ namespace CFT.CSOMS.DAL.Infrastructure
             }
         }
 
+        public static void FenToYuan_Table(DataTable dt, string FieldName, string destField)
+        {
+            try
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string fen = dr[FieldName].ToString();
+                    string yuan = FenToYuan(fen).Replace("元", "");
+                    dr.BeginEdit();
+                    dr[destField] = yuan;
+                    dr.EndEdit();
+                }
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
         public static string FenToYuan(string strfen)
         {
             if (strfen == "")
