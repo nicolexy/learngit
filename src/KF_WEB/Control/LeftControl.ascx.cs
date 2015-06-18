@@ -245,7 +245,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 BankBillManage1.AddSubMenu("订单实时查询", "TradeManage/RealTimeOrderQuery.aspx");
               //  BankBillManage1.AddSubMenu("异常任务单管理", "RefundManage/RefundErrorMain.aspx?WorkType=task");
                 BankBillManage1.AddSubMenu("退单异常数据查询", "RefundManage/RefundErrorHandle.aspx");
-                BankBillManage1.AddSubMenu("异常退款单查询", "RefundManage/RefundRegistration.aspx");
+                BankBillManage1.AddSubMenu("退款失败查询", "RefundManage/RefundRegistration.aspx");
 
 
                 baseAccount1.AddSubMenu("个人账户信息", "BaseAccount/InfoCenter.aspx");

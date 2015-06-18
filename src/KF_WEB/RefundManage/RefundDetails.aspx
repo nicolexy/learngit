@@ -261,7 +261,7 @@
 
 											<tr bgColor="#ffffff">
 												<td bgColor="#cccccc" colSpan="3" height="30"  align="left" ><span class="style5">身份证图片</span></td>
-                                                <td bgColor="#cccccc" colSpan="3" height="30" align="left" ><span class="style5">银行流水</span></td>
+                                                <td bgColor="#cccccc" colSpan="3" height="30" align="left" ><span class="style5">银行核实结果</span></td>
 											</tr>
 
 											<tr bgColor="#ffffff">
@@ -312,15 +312,12 @@
 			<div align="center"><FONT face="宋体">
 
 				<br />
-					<asp:button id="btnCommit" runat="server" Width="90px" Height="30px" Text="通过" BorderStyle="Groove" onclick="btnPass_Click"></asp:button>
+					<asp:button id="btnCommit" runat="server" Width="90px" Height="30px" Text="审批通过" BorderStyle="Groove" onclick="btnPass_Click"></asp:button>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                    <asp:button id="btnRefuse" runat="server" Width="90px" Height="30px" Text="拒绝" BorderStyle="Groove" onclick="btnRefuse_Click"></asp:button>
+                    <asp:button id="btnRefuse" runat="server" Width="90px" Height="30px" Text="审批拒绝" BorderStyle="Groove" onclick="btnRefuse_Click"></asp:button>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <asp:button id="btnCW" runat="server" Width="90px" Height="30px" Text="转向财务处理" BorderStyle="Groove" onclick="btnTransferCW_Click"></asp:button>
-                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <asp:button id="btnInvalid" runat="server" Width="90px" Height="30px" Text="作废" BorderStyle="Groove" onclick="btnTransferInvalid_Click"></asp:button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <asp:button id="btnInitID" runat="server" Width="90px" Height="30px" Text="还原状态" BorderStyle="Groove"  Visible="false" onclick="btnInitState_Click"></asp:button>
+          
                 <br />
                 <br />
            </FONT></div>

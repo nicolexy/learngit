@@ -22,13 +22,40 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage {
         protected global::System.Web.UI.HtmlControls.HtmlForm Form1;
         
         /// <summary>
-        /// lbUinID control.
+        /// lbHeadID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbUinID;
+        protected global::System.Web.UI.WebControls.Label lbHeadID;
+        
+        /// <summary>
+        /// tbUinID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbUinID;
+        
+        /// <summary>
+        /// tbBankListID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbBankListID;
+        
+        /// <summary>
+        /// tbCreateTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbCreateTime;
         
         /// <summary>
         /// lbBankUserName control.
@@ -47,6 +74,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbMail;
+        
+        /// <summary>
+        /// lbInitBankType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbInitBankType;
         
         /// <summary>
         /// lbNewBankAccNo control.
@@ -101,33 +137,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbBankName;
-        
-        /// <summary>
-        /// lbCreateTime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbCreateTime;
-        
-        /// <summary>
-        /// lbBankListID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbBankListID;
-        
-        /// <summary>
-        /// lbInitBankType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbInitBankType;
         
         /// <summary>
         /// lbInitBankAccNo control.

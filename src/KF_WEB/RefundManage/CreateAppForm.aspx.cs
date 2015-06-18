@@ -33,9 +33,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 		private void BindData()
 		{
            ViewState["refundId"] = Request.QueryString["refundId"].ToString();
-           lbUinID.Text     = Request.QueryString["uinId"].ToString();
+           tbUinID.Text     = Request.QueryString["uinId"].ToString();
           // lbNewBankType.Text = Request.QueryString["refundType"].ToString();
-           lbBankListID.Text = Request.QueryString["bankListId"].ToString();
+           tbBankListID.Text = Request.QueryString["bankListId"].ToString();
            lbIdentity.Text = Request.QueryString["Identity"].ToString();
            lbInitBankAccNo.Text = Request.QueryString["initBankAccNo"].ToString();
            lbInitBankType.Text = Request.QueryString["initBankType"].ToString();
@@ -47,7 +47,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
            lbNewBankType.Text = Request.QueryString["newBankType"].ToString();
            ViewState["newBankID"] = Request.QueryString["newBankID"].ToString();
            lbReason.Text = Request.QueryString["remark"].ToString();
-           lbCreateTime.Text = Request.QueryString["create"].ToString();
+           tbCreateTime.Text = Request.QueryString["create"].ToString();
            lbOperatorDate.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
            lbUserFlag.Text = Request.QueryString["userFlagText"].ToString();
@@ -92,29 +92,32 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
            // string strBankUserName, string strReason, int nState, out string outMsg
             try
             {
-                string strHisCheckID = "";
-                if (string.IsNullOrEmpty(new RefundService().QueryAbnormalRefundCheckID(ViewState["refundId"].ToString(),ref strHisCheckID)))
+                //生成审批编号
+                ZWCheck_Service.Check_Service chkService = new ZWCheck_Service.Check_Service();
+                chkService.Finance_HeaderValue = RefundPublicFun.SetWebServiceHeader(this);
+                string[] aryOldID = ViewState["refundId"].ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < aryOldID.Length; ++i)
                 {
-                    //生成审批编号
-                    ZWCheck_Service.Check_Service chkService = new ZWCheck_Service.Check_Service();
-                    chkService.Finance_HeaderValue = RefundPublicFun.SetWebServiceHeader(this);
-
-                    /*objectID组合规则 =  ViewState["refundId"] + strHisCheckID 
-                    目的：确保每次申请唯一*/
-                    string strObjectID = ViewState["refundId"].ToString();
-                    if (!string.IsNullOrEmpty(strHisCheckID))
+                    string strHisCheckID = "";
+                    if (string.IsNullOrEmpty(new RefundService().QueryAbnormalRefundCheckID(aryOldID[i], ref strHisCheckID)))
                     {
-                        string[] arrHisCheckId = strHisCheckID.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-                        for(int i=0;i<arrHisCheckId.Length;++i)
+                        /*objectID组合规则 =  ViewState["refundId"] + strHisCheckID 
+                        目的：确保每次申请唯一*/
+                        string strObjectID = aryOldID[i];
+                        if (!string.IsNullOrEmpty(strHisCheckID))
                         {
-                            strObjectID += arrHisCheckId[i];
+                            string[] arrHisCheckId = strHisCheckID.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                            for (int y = 0; y < arrHisCheckId.Length; ++y)
+                            {
+                                strObjectID += arrHisCheckId[y];
+                            }
                         }
-                    }
 
-                    string strCheckId = chkService.StartCheckNew(strObjectID, RefundPublicFun.KFCHECKTYPE, RefundPublicFun.KFCHECKMEMO);
-                    if (!string.IsNullOrEmpty(strCheckId))
-                    {
-                        new RefundService().SetAbnormalRefundListID(strCheckId, ViewState["refundId"].ToString());
+                        string strCheckId = chkService.StartCheckNew(strObjectID, RefundPublicFun.KFCHECKTYPE, RefundPublicFun.KFCHECKMEMO);
+                        if (!string.IsNullOrEmpty(strCheckId))
+                        {
+                            new RefundService().SetAbnormalRefundListID(strCheckId, aryOldID[i]);
+                        }
                     }
                 }
                 //存入数据
@@ -123,14 +126,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 string strImgIdentity = Request.QueryString["identityCard"].ToString();
                 string strImgBankWater = Request.QueryString["bankWater"].ToString();
                 string strImgCancellation = Request.QueryString["cancellation"].ToString();
-                string strOperator = Session["uid"].ToString()+ "|"+DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                if (new RefundService().UpdateRefundData(ViewState["refundId"].ToString(), lbIdentity.Text, lbInitBankAccNo.Text, lbMail.Text, lbNewBankAccNo.Text,
+                string strOperator = Session["uid"].ToString() + "|" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                if (new RefundService().UpdateRefundData(aryOldID, lbIdentity.Text, lbInitBankAccNo.Text, lbMail.Text, lbNewBankAccNo.Text,
                     lbBankUserName.Text, lbReason.Text, strImgCommitment, strImgIdentity, strImgBankWater, strImgCancellation, lbBankName.Text, strOperator, int.Parse(ViewState["initBankID"].ToString()),
                     int.Parse(ViewState["newBankID"].ToString()), int.Parse(ViewState["userFlagID"].ToString()), int.Parse(ViewState["cardTypeID"].ToString()), 2, out strMsg) == false)
                 {
-                
                     WebUtils.ShowMessage(this.Page, "补填资料失败" + strMsg);
-                    return;
                 }
                 btCommit.Enabled = false;
                 WebUtils.ShowMessage(this.Page, "补填资料提交成功！");

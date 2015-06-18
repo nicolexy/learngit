@@ -19,7 +19,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	/// </summary>
     public partial class RefundDetails : System.Web.UI.Page
 	{
-        private string m_nInitOperator = "yonghualiu";
         private string m_nFrom = "1111";
         private string m_nRefundReason = "退款失败，财务转向客服处理.";
 
@@ -113,17 +112,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             }
             ViewState["foldId"] = Request.QueryString["foldId"].ToString();
             log.InfoFormat("ViewState[foldId]={0}", ViewState["foldId"].ToString());
-            
-            if (Session["uid"].ToString().Trim() == m_nInitOperator.Trim())
-            {
-                btnInitID.Visible = true;
-            }
-            else
-            {
-                btnInitID.Visible = false;
-            }
-            //主站那边收集的资料，根据状态，生成审批ID
-            
+
+            //主站那边收集的资料，根据状态，生成审批ID         
             DataSet ds = new RefundService().RequestDetailsData(ViewState["foldId"].ToString(), out strMsg);
             if (ds == null)
             {
@@ -180,13 +170,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 string strCheckId = dr["FcheckID"].ToString();
                 if (strState.Trim() == "2" && strFrom.Trim() == m_nFrom.Trim() && string.IsNullOrEmpty(strCheckId))
                 {
+                    log.InfoFormat("进入主站发起单子：  退款号：{1} ", ViewState["foldId"].ToString());
                     //生成审批编号
                     ZWCheck_Service.Check_Service chkService = new ZWCheck_Service.Check_Service();
                     chkService.Finance_HeaderValue = RefundPublicFun.SetWebServiceHeader(this);
 
-                    /*objectID组合规则 =  ViewState["refundId"] + strHisCheckID 
+                    /*objectID组合规则 =   
                     目的：确保每次申请唯一*/
-                    string strObjectID = ViewState["refundId"].ToString();
+                    string strObjectID = ViewState["foldId"].ToString();
                     if (!string.IsNullOrEmpty(strHisCheckID))
                     {
                         string[] arrHisCheckId = strHisCheckID.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
@@ -199,7 +190,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     strCheckId = chkService.StartCheckNew(strObjectID, RefundPublicFun.KFCHECKTYPE, RefundPublicFun.KFCHECKMEMO);
                     if (!string.IsNullOrEmpty(strCheckId))
                     {
-                        new RefundService().SetAbnormalRefundListID(strCheckId, ViewState["refundId"].ToString());
+                        new RefundService().SetAbnormalRefundListID(strCheckId, ViewState["foldId"].ToString());
                     }
                 }
 
@@ -617,6 +608,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             lbWriteReason.Text = dropReasonList.SelectedItem.Text;   
         }
 
+        /*
         //作废
         protected void btnTransferInvalid_Click(object sender, EventArgs e)
         {
@@ -670,7 +662,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
         {
             try
             {
-                if (Session["uid"].ToString().Trim() != m_nInitOperator.Trim())
+                if (Session["uid"].ToString().Trim() != RefundPublicFun.OPERATOR.Trim())
                 {
                     WebUtils.ShowMessage(this.Page, "没有权限操作此项功能");
                     return;
@@ -701,6 +693,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             }
 
         }
+         * */
 
 	}
 }

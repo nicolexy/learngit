@@ -78,11 +78,11 @@ namespace CFT.CSOMS.BLL.RefundModule
             return -1;
 
         }
-        public DataSet RequestRefundData(string strUid, string strBank, string strFSPID, string strBeginDate, string strEndDate, int iCheck, int iTrade) 
+        public DataSet RequestRefundData(string strUid, string strBank, string strFSPID, string strBeginDate, string strEndDate, int iCheck, int iTrade,string strOldID,string strOperater,string strMin,string strMax) 
         {
             try
             {
-                return new AbnormalRefundData().RequestRefundData(strUid, strBank, strFSPID, strBeginDate, strEndDate, iCheck, iTrade);
+                return new AbnormalRefundData().RequestRefundData(strUid, strBank, strFSPID, strBeginDate, strEndDate, iCheck, iTrade, strOldID, strOperater, strMin, strMax);
             }
             catch (Exception ex)
             {
@@ -97,7 +97,7 @@ namespace CFT.CSOMS.BLL.RefundModule
             return new AbnormalRefundData().RequestItemState(strRefundId);
         }
 
-        public bool UpdateRefundData(string strOldId, string strIdentity, string strBankAccNoOld, string strUserEmail, string strNewBankAccNo, string strBankUserName,
+        public bool UpdateRefundData(string[] strOldId, string strIdentity, string strBankAccNoOld, string strUserEmail, string strNewBankAccNo, string strBankUserName,
             string strReason, string strImgCommitment, string strImgIdentity, string strImgBankWater, string strImgCancellation, string strBankName, string strOperater, int nInitBankID, int nNewBankID,
             int nUserFalg, int nCardType, int nState, out string outMsg)
         {
@@ -191,6 +191,18 @@ namespace CFT.CSOMS.BLL.RefundModule
             catch (Exception ex)
             {
                 throw new Exception("查询退款失败财务转客服处理信息失败：" + ex.Message);
+            }
+        }
+
+        public void RequestInfoChange(string strTxt, string strOperator)
+        {
+            try
+            {
+                 new AbnormalRefundData().RequestInfoChange(strTxt,strOperator);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RequestInfoChange：" + ex.Message);
             }
         }
 

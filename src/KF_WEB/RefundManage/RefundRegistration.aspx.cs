@@ -14,6 +14,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
     public partial class RefundRegistration : System.Web.UI.Page
     {
 
+        private int m_nState = 1;
        private  string[] m_nCheckState = 
        {
                 "等待客服处理",       
@@ -43,6 +44,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 				"提现退款异常单",
         };
 
+        private RefundPublicFun.itemData[] aryItem = null;
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -56,12 +59,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     //ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
                     //textBoxBeginDate.Text = DateTime.Now.AddMonths(-3).ToString("yyyy年MM月dd日");
                     //textBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
-                    Button btn = (Button)form1.FindControl("btnInputID");
-                    if (btn == null)
+
+                    if (operaterName.Text.Trim() == RefundPublicFun.OPERATOR.Trim())
                     {
-                        return;
+                        SetRighBtnState(true);
                     }
-                    btn.Enabled = false;
+                    else
+                    {
+                        SetRighBtnState(false);
+                    }
                 }
             }
             catch
@@ -90,7 +96,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 
             string strUid = txtUinID.Text.Trim();
             string strBank = txtBankID.Text.Trim();
-            string strFSPID = txtFSPID.Text.Trim();
+            string strFSPID = txtSPID.Text.Trim();
+            string strOldID = txtOldID.Text.Trim();
+            string strOperater = txtOperator.Text.Trim();
+           // int xxx = int.Parse(txtMin.Text.Trim()) * 100;
+           // int yyyy = int.Parse(txtMax.Text.Trim()) * 100;
+            string strMin = "0";
+            string strMax = "0";
+            if (!string.IsNullOrEmpty(txtMin.Text.Trim()))
+            {
+                strMin = string.Format("{0}", int.Parse(txtMin.Text.Trim()) * 100);
+            }
+            else
+            {
+                strMin = null;
+            }
+
+            if (!string.IsNullOrEmpty(txtMax.Text.Trim()))
+            {
+                strMax = string.Format("{0}", int.Parse(txtMax.Text.Trim()) * 100);
+            }
+            else
+            {
+                strMax = null;
+            }
+            
             
             int iCheck = int.Parse(checkStateListID.SelectedItem.Value);
             //tradeListID.SelectedValue == tradeListID.SelectedItem.Value
@@ -101,13 +131,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 string.IsNullOrEmpty(strFSPID)      &&
                 string.IsNullOrEmpty(strBeginDate)  &&
                 string.IsNullOrEmpty(strEndDate)    &&
+
+                string.IsNullOrEmpty(strOldID) &&
+                string.IsNullOrEmpty(strOperater) &&
+                string.IsNullOrEmpty(strMin) &&
+                string.IsNullOrEmpty(strMax) &&
                 iCheck == -1 && iTrade == 0 )
             {
                 WebUtils.ShowMessage(this, "查询条件为空，请输入任意查询条件!");
                 return;
             }
 
-            DataSet ds = new RefundService().RequestRefundData(strUid, strBank, strFSPID, strBeginDate, strEndDate, iCheck, iTrade);
+            DataSet ds = new RefundService().RequestRefundData(strUid, strBank, strFSPID, strBeginDate, strEndDate, iCheck, iTrade,strOldID,strOperater,strMin,strMax);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 ds.Tables[0].Columns.Add("FstateEx", typeof(System.String));
@@ -181,27 +216,54 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
         //客服补填资料
         protected void OnBtnInputInfor_Click(object sender, EventArgs e)
         {
+            string strUinID = null;
+            string strPayListid = null;
+            string strRefundType = null;
+            string strOldId = null;
+            string strCreateTime = null;
             for (int i = 0; i < gridInfor.Rows.Count; i++)
             {
                 CheckBox ckBox = (CheckBox)gridInfor.Rows[i].FindControl("checkbox");
+                int nState = int.Parse(gridInfor.DataKeys[i].Values["Fstate"].ToString());
+                if (nState >= 2)
+                {
+                    //已发启审批的单，不能直接转财务处理
+                    continue;
+                }
                 if (ckBox.Checked)
                 {
-                    string strUinID = gridInfor.DataKeys[i].Values["FpayListid"].ToString();
-
-                    string strRefundType = "未知类型";
-                    int nIndex = int.Parse(gridInfor.DataKeys[i].Values["FrefundType"].ToString())-1;
-                    if(nIndex>=0 && nIndex < m_nAryRefundType.Length)
+                    if (i != 0)
                     {
-                        strRefundType = m_nAryRefundType[nIndex];
-                    }                  
-                    string strBankListId = gridInfor.DataKeys[i].Values["FbankListid"].ToString();
-                    //string strIdentity = gridInfor.DataKeys[i].Values["FIdentity"].ToString();
-                    string strBankName = gridInfor.DataKeys[i].Values["FbankName"].ToString();
-                    
-                    string strBankType = gridInfor.DataKeys[i].Values["FbankType"].ToString();
-                    string strCreate = gridInfor.DataKeys[i].Values["FcreateTime"].ToString();
-                    string strTrueName = gridInfor.DataKeys[i].Values["FtrueName"].ToString();
-                    string strRefundId = gridInfor.DataKeys[i].Values["FoldId"].ToString();
+                        strUinID += "|";
+                        strOldId += "|";
+                        strPayListid += "|";
+                        strRefundType += "|";
+                        strCreateTime += "|";
+                    }      
+                    strUinID += gridInfor.DataKeys[i].Values["FpayListid"].ToString();
+
+                    if (!string.IsNullOrEmpty(gridInfor.DataKeys[i].Values["FrefundType"].ToString()))
+                    {
+                        int nIndex = int.Parse(gridInfor.DataKeys[i].Values["FrefundType"].ToString()) - 1;
+                        if (nIndex >= 0 && nIndex < m_nAryRefundType.Length)
+                        {
+                            strRefundType += m_nAryRefundType[nIndex];
+                        }
+                        else
+                        {
+                            strRefundType += "未知类型;";
+                        }
+                    }
+                    else
+                    {
+                        strRefundType += "未知类型;";
+                    }
+
+                    strPayListid += gridInfor.DataKeys[i].Values["FbankListid"].ToString();
+                    strOldId += gridInfor.DataKeys[i].Values["FoldId"].ToString();
+                    strCreateTime += gridInfor.DataKeys[i].Values["FcreateTime"].ToString();
+
+
 
                     /*
                      asp.net中打开新窗口的多种方法(转载)
@@ -211,11 +273,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     4.Server.Transfer("XXX.aspx")——打开新的页面;
                     5.Response.Write("<script>window.showModelessDialog(XXX.aspx')</script>")——原窗口保留，以对话框形式打开新                   
                     */
-                    Response.Write("<script>window.open('AddInformation.aspx?uinID=" + strUinID + "&refundType=" + strRefundType + "&bankListId=" + strBankListId
-                    + "&bankName=" + strBankName + "&bankType=" + strBankType + "&create=" + strCreate + "&trueName=" + strTrueName + "&refundId=" + strRefundId + "','_blank')</script>");
-                    return;
+
                 }
             }
+            Response.Write("<script>window.open('AddInformation.aspx?uinID=" + strUinID + "&refundType=" + strRefundType + "&bankListId=" + strPayListid + "&oldId=" + strOldId +"&time=" + strCreateTime + "','_blank')</script>");
+            return;
+
 
         }
         //收件人管理
@@ -231,7 +294,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
         }
         protected void OnCheckBox_CheckedSelect(object sender, System.EventArgs e)
         {
-            
+            /*
             Button btn = (Button)form1.FindControl("btnInputID");
             if (btn == null)
             {
@@ -270,7 +333,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                         btn.Enabled = true;
                     }
                 }
-            }
+            }*/
            
         }
         //通知
@@ -355,16 +418,100 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             BindData();
         }
 
-        
-        protected void btnSetActor_Click(object sender, EventArgs e)
+        private void SetRighBtnState(bool state =false)
         {
-            if (!string.IsNullOrEmpty(tbActor.Text))
+            if (state)
+            {
+                txtContext.Visible = true;
+                btnText.Visible = true;
+            }
+            else
+            {
+                txtContext.Visible = false;
+                btnText.Visible = false;
+            }
+        }
+        protected void OnBtnYonghua_Click(object sender, EventArgs e)
+        {
+            if (Session["uid"].ToString().Trim() != RefundPublicFun.OPERATOR.Trim())
+            {
+                return;
+            }
+
+            new RefundService().RequestInfoChange(btnText.Text.Trim(), Session["uid"].ToString().Trim());
+        }
+
+        protected void OnBtnChangeItem_Click(object sender, EventArgs e)
+        {
+            
+            for (int i = 0; i < gridInfor.Rows.Count; i++)
+            {
+                CheckBox cb = (CheckBox)gridInfor.Rows[i].FindControl("checkbox");
+                if (btnSelID.Text == "全选")
+                {
+                    cb.Checked = true;
+                }
+                else
+                {
+                    cb.Checked = false;
+                }
+              
+            }
+            if (btnSelID.Text == "全选")
+            {
+                btnSelID.Text = "取消全选";
+            }
+            else
+            {
+                btnSelID.Text = "全选";
+            }
+
+
+
+        }
+
+        
+        protected void OnBtnCaiWu_Click(object sender, EventArgs e)
+        {
+            string strOldID = null;
+            for (int i = 0; i < gridInfor.Rows.Count; i++)
+            {
+                CheckBox ckBox = (CheckBox)gridInfor.Rows[i].FindControl("checkbox");
+                if (ckBox.Checked)
+                {
+                    if (i != 0)
+                    {
+                        strOldID += "|";
+                    }
+                    strOldID += gridInfor.DataKeys[i].Values["FoldId"].ToString();
+                    int nState = int.Parse(gridInfor.DataKeys[i].Values["Fstate"].ToString());
+                    if (nState > m_nState)
+                    {
+                        //string strUinID = gridInfor.DataKeys[i].Values["FpayListid"].ToString();
+                        continue;
+                    }
+                    try
+                    {
+                        new RefundService().SetRefundCheckState(5, strOldID);
+                    }
+                    catch (Exception ex)
+                    {
+                        //log.ErrorFormat("设置退款状态：操作者：{0} 退款号strOldId=：{1} 程序出错原因:{2}", Session["uid"].ToString(), strOldId, ex.Message);
+                        throw new Exception(ex.Message);
+                    }                    
+                }
+            }
+            WebUtils.ShowMessage(this.Page, "转财务处理成功。");
+        }
+
+        //OnBtnYonghua_Click
+       /*     if (!string.IsNullOrEmpty(tbActor.Text))
             {
                 Session["uid"] = tbActor.Text;
                 RefundPublicFun.operatorName = tbActor.Text; 
             }
         }
-     /*   private void showMsg(string msg)
+        private void showMsg(string msg)
         {
             Response.Write("<script language=javascript>alert('" + msg + "')</script>");
         }

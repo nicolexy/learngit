@@ -10,7 +10,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
     {
         public static string KFCHECKTYPE = "KFAbnormalRefund";
         public static string KFCHECKMEMO = "特殊退款审批流程启动";
+        public static string OPERATOR = "yonghualiu";
         public static string operatorName = null;
+
+        public struct itemData
+        {
+            public string refundType { get ; set; }
+            public string bankListId { get; set; }
+            public string refundId { get; set; }
+            public string time { get; set; }
+            public string oldId { get; set; }
+        }
         //设置soap头信息
         public static ZWCheck_Service.Finance_Header SetWebServiceHeader(TemplateControl page)
         {

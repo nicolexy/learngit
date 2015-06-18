@@ -22,6 +22,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage {
         protected global::System.Web.UI.HtmlControls.HtmlForm Form1;
         
         /// <summary>
+        /// lbHeadID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbHeadID;
+        
+        /// <summary>
         /// Label1 control.
         /// </summary>
         /// <remarks>
@@ -31,31 +40,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage {
         protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
-        /// txtUinID control.
+        /// tbUinID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label txtUinID;
+        protected global::System.Web.UI.WebControls.TextBox tbUinID;
         
         /// <summary>
-        /// txtRefundType control.
+        /// tbRefundType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label txtRefundType;
+        protected global::System.Web.UI.WebControls.TextBox tbRefundType;
         
         /// <summary>
-        /// txtBankListId control.
+        /// tbBankListId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label txtBankListId;
+        protected global::System.Web.UI.WebControls.TextBox tbBankListId;
         
         /// <summary>
         /// txtIdentity control.
