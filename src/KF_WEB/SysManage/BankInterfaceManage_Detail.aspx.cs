@@ -17,6 +17,11 @@ using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using System.Web.Mail;
 using System.IO;
+using CFT.Apollo.Logging;
+using CFT.CSOMS.BLL.SysManageModule;
+using System.Collections.Generic;
+using TENCENT.OSS.C2C.Finance.Common.CommLib;
+using TENCENT.OSS.C2C.Finance.BankLib;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 {
@@ -25,26 +30,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 	/// </summary>
     public partial class BankInterfaceManage_Detail : System.Web.UI.Page
 	{
-		protected System.Web.UI.WebControls.Label lbTitle;
-		protected System.Web.UI.WebControls.DropDownList ddlSysList;
-		protected System.Web.UI.WebControls.DataGrid DataGrid1;
-		protected System.Web.UI.WebControls.Button btnNew;
-		protected System.Web.UI.WebControls.Button btnIssue;
         private string sysid, bulletinId, uctype;
         private static int nTime=0;//添加时间段
-        private int max = 5;//公告最大条数
-        private static bool queryed = false;//是否已查询过数据库有多少条记录
-	
+        SysManageService bll = new SysManageService();
+        Dictionary<string, string> BankInterfaceName = SysManageService.BankInterfaceName;
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			try
 			{
-				//Label1.Text = Session["uid"].ToString();
 				string szkey = Session["SzKey"].ToString();
-				//int operid = Int32.Parse(Session["OperID"].ToString());
-
-				//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
-
 				if(!classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
 			}
 			catch
@@ -53,6 +47,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 			}
             if (!IsPostBack)
             {
+                #region onclick添加
                 iStartTime.Attributes.Add("onclick", "openBankModeBegin()");
                 iEndTime.Attributes.Add("onclick", "openBankModeEnd()");
                 iStartTime1.Attributes.Add("onclick", "openBankModeBegin1()");
@@ -65,77 +60,91 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 iEndTime4.Attributes.Add("onclick", "openBankModeEnd4()");
                 this.btInterfaceAdd.Attributes.Add("onclick", "return confirm(\"你确认要进行新增操作申请吗？\");");
                 this.btInterfaceUpdate.Attributes.Add("onclick", "return confirm(\"你确认要进行修改操作申请吗？\");");
-
-                //初始化static
-                nTime=0;
-                queryed = false;
+                # endregion
 
                 sysid = Request.QueryString["sysid"].Trim();
                 ViewState["sysid"] = sysid;
 
-                Hashtable instanceHt = new Hashtable();
-                instanceHt.Add("1", "提现银行接口");
-                instanceHt.Add("2", "向银行卡付款接口");
-                instanceHt.Add("3", "还房贷银行接口");
-                instanceHt.Add("4", "信用卡还款银行接口");
-                instanceHt.Add("5", "代扣银行接口");
-                instanceHt.Add("6", "银行收款接口");
-                instanceHt.Add("8", "退款接口");
-               
                 if (Request.QueryString["sysid"] != null && Request.QueryString["sysid"].Trim() != "")
                 {
-                    #region
+                    #region 初始化页面和参数
                     tbStartTime.Enabled = true;
                     iStartTime.Visible = true;
                     tbEndTime.Enabled = true;
                     iEndTime.Visible = true;
 
-                 
-                    Table4.Visible = true;
-
-                    //DropDownListShow();//根据radio显示时间
-
-                  //  setConfig.GetAllBankList(ddlQueryBankTypeInterface);
-
                     //银行下拉列表
-                    setConfig.GetAllBankListFromDic(ddlQueryBankTypeInterface);
-                    ddlQueryBankTypeInterface.Items.Insert(0, new ListItem("所有银行", ""));
-
-
+                    //setConfig.GetAllBankListFromDic(ddlQueryBankTypeInterface);
+                    //ddlQueryBankTypeInterface.Items.Insert(0, new ListItem("所有银行", ""));
                     this.tbStartTime.Text = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
                     this.tbEndTime.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
+                    string instanceText = BankInterfaceName[sysid].ToString();//接口名称
+
+                    if (Request.QueryString["bulletinId"] != null && Request.QueryString["bulletinId"].Trim() != "")//编辑查看
+                    {
+                        bulletinId = Request.QueryString["bulletinId"].Trim();
+                        ViewState["bulletinId"] = bulletinId;
+                    }
+                    else//新增
+                    {
+                        bulletinId = "";
+                        ViewState["bulletinId"] = bulletinId;
+                    }
+
                     if (Request.QueryString["opertype"] != null && Request.QueryString["opertype"].Trim() != "")
                     {
                         string opertype = Request.QueryString["opertype"].Trim();
-                        if (opertype == "2")//编辑或查询
+                        if (opertype == "2")//编辑
                         {
+                            btAddTime.Visible = false;
                             this.btInterfaceAdd.Visible = false;
                             this.btInterfaceUpdate.Visible = true;
                             this.btInterfaceBack.Visible = true;
                             hlInterfaceBack.Visible = false;
+                            labTitle.Text = instanceText + "修改";
+                            BindBankInterface(bulletinId, "");
                         }
                         else if (opertype == "1")//新增
                         {
+                            if (Session["BankTypeList"] != null)
+                            {
+                                ArrayList BankTypeList = (ArrayList)Session["BankTypeList"];
+                                if (BankTypeList == null || BankTypeList.Count < 0)
+                                {
+                                    WebUtils.ShowMessage(this.Page, "新增公告请输入银行编码！");
+                                    return;
+                                }
+                                BindBank(BankTypeList);
+                                Session.Remove("BankTypeList");
+                            }
+                            else
+                            {
+                                WebUtils.ShowMessage(this.Page, "新增公告请输入银行编码！");
+                                return;
+                            }
+
                             this.btInterfaceAdd.Visible = true;
                             this.btInterfaceUpdate.Visible = false;
                             this.btInterfaceBack.Visible = true;
                             hlInterfaceBack.Visible = false;
                             this.InterfaceOpen.Visible = false;
-
+                            labTitle.Text = instanceText + "新增";
                         }
-                        else//账务系统过来查看
+                        else
                         {
                             this.btInterfaceAdd.Visible = false;
                             this.btInterfaceUpdate.Visible = false;
                             this.btInterfaceBack.Visible = false;
                             hlInterfaceBack.Visible = true;
+                            labTitle.Text = "查看" + instanceText;
                             if (Request.QueryString["objid"] != null && Request.QueryString["objid"].Trim() != "")
-                            {
+                            {//账务系统过来查看含参数objid
                                 string objid = Request.QueryString["objid"].Trim();
                                 ViewState["objid"] = objid;
                                 BindBankInterface("", objid);
                             }
-
+                            else//客服系统查看无objid参数
+                                BindBankInterface(bulletinId, "");
                         }
                     }
 
@@ -145,37 +154,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 {
                     //出错了，不能不带参数时来
                     Response.Redirect("../login.aspx?wh=1");
-                }
-
-                string instanceText = instanceHt[sysid].ToString();//接口名称
-
-                if (Request.QueryString["bulletinId"] != null && Request.QueryString["bulletinId"].Trim() != "")//编辑查看
-                {
-                    bulletinId = Request.QueryString["bulletinId"].Trim();
-                    ViewState["bulletinId"] = bulletinId;
-                }
-                else//新增
-                {
-                    bulletinId = "";
-                    ViewState["bulletinId"] = bulletinId;
-                }
-
-                if (bulletinId == "")
-                {
-
-                    labTitle.Text =instanceText+ "新增";
-
-
-                    if (ViewState["objid"] != null)
-                    {
-                       // labTitle.Text = "查看银行接口";
-                        labTitle.Text = "查看" + instanceText;
-                    }
-                }
-                else
-                {
-                    labTitle.Text =instanceText+ "修改";
-                    BindBankInterface(bulletinId, "");
                 }
             }
             else
@@ -190,31 +168,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             }
 		}
 
-
         protected void BindBankInterface(string bulletinId, string objid)
         {
             try
             {
-                Query_Service.Query_Service qs = new Query_Service.Query_Service();
-                string msg = "";
-                Query_Service.T_BANKBULLETIN_INFO bankbulletin = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.T_BANKBULLETIN_INFO();
-                DataSet ds = new DataSet();
-                if (bulletinId != null && bulletinId != "")
-                {
-                    ds = qs.QueryBankBulletin(int.Parse(ViewState["sysid"].ToString()), 0, 0, bulletinId,5,0);//通过接口返回记录
-                    bankbulletin = qs.TurnBankBulletinClass(ds);//将记录转换成公告类
-                }
-                if (objid != null && objid != "")
-                {
-                    bankbulletin = qs.QueryBankBulletinByObjid(objid, "BankBulletinForType", out msg);
-                }
+                commData.T_BANKBULLETIN_INFO bankbulletin = new commData.T_BANKBULLETIN_INFO();
+                bankbulletin = GetBulletin(ViewState["sysid"].ToString(),bulletinId, objid);
+
                 if (bankbulletin == null)
                 {
                     WebUtils.ShowMessage(this.Page, "查询出错！");
                     return;
                 }
+                ArrayList bankTypeList = new ArrayList();
+                bankTypeList.Add(bankbulletin.banktype.Trim());
+                BindBank(bankTypeList);
 
-                this.ddlQueryBankTypeInterface.SelectedValue = bankbulletin.banktype.Trim();
                 this.tbInterfaceMainText.Text = bankbulletin.maintext.Trim().Replace("<br/>", "\r\n");
                 this.tbStartTime.Text = bankbulletin.startime.Trim();
                 this.tbEndTime.Text = bankbulletin.endtime.Trim();
@@ -258,243 +227,126 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             }
         }
 
-
-		#region Web 窗体设计器生成的代码
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
-		/// 此方法的内容。
-		/// </summary>
-		private void InitializeComponent()
-		{
-            this.InterfaceOpen.CheckedChanged += new System.EventHandler(this.InterfaceOpen_CheckedChanged);
-          //  this.cbForbid.CheckedChanged += new System.EventHandler(this.cbForbid_CheckedChanged);
-		}
-		#endregion
-
-        protected void btInterfaceAdd_Click(object sender, System.EventArgs e)
+        //查询公告详情
+        public commData.T_BANKBULLETIN_INFO GetBulletin(string sysid, string bulletinId, string objid)
         {
-            try
+            commData.T_BANKBULLETIN_INFO bankbulletin = new commData.T_BANKBULLETIN_INFO();
+            DataSet ds = new DataSet();
+            if (bulletinId != null && bulletinId != "")
             {
-                string sysid = ViewState["sysid"].ToString();
-                if (this.tbInterfaceMainText.Text.Trim().Length > 50)
-                {
-                    WebUtils.ShowMessage(this.Page, "正文超过50字符,请重新输入！");
-                    return;
-                }
-                if (this.TextTCMainText.Text.Trim().Length > 80)
-                {
-                    WebUtils.ShowMessage(this.Page, "弹层正文超过80字符,请重新输入！");
-                    return;
-                }
+                int total_num=0; 
+                ds = bll.QueryBankBulletin(sysid, 0, 0, bulletinId,
+                    "", "", "", "", "", 5, 0,out total_num);//通过接口返回记录
+                bankbulletin = bll.TurnBankBulletinClass(ds);//将记录转换成公告类
+            }
+            else if (objid != null && objid != "")
+            {
+                bankbulletin = bll.QueryBankBulletinByObjid(objid, "BankBulletinForType");
+            }
+            return bankbulletin;
+        }
 
-                Query_Service.T_BANKBULLETIN_INFO bankbulletin = new Query_Service.T_BANKBULLETIN_INFO();
-                bankbulletin.IsNew = true;
-                bankbulletin.IsOPen = false;
-                bankbulletin.banktype = this.ddlQueryBankTypeInterface.SelectedValue.Trim();
-                bankbulletin.businesstype = sysid;
-                if (sysid == "6")//支付有子类型：1.全部关闭  2.签约  3.支付  4.退款
-                {
-                    bankbulletin.op_support_flag = this.closedRadio.SelectedValue;
-                }
-                else
-                    bankbulletin.op_support_flag = "1";
-
-                //是否影响接口
-                //if (this.cbForbid.Checked == true)
-                //    bankbulletin.closetype = "1";
-                //else
-                //    bankbulletin.closetype = "2";
-
-                if (this.ForbidRadio.SelectedValue == "1")
-                    bankbulletin.closetype = "1";
-                else if (this.ForbidRadio.SelectedValue == "2")
-                    bankbulletin.closetype = "2";
-                else if (this.ForbidRadio.SelectedValue == "3")
-                    bankbulletin.closetype = "3";
-
-                bankbulletin.title = tbTitle.Text.Trim() ;
-                bankbulletin.maintext = this.tbInterfaceMainText.Text.Replace("\r\n", "<br/>").Replace("\r", "<br/>").Replace("\n", "<br/>");
-                bankbulletin.popuptext = TextTCMainText.Text.Trim();
-                bankbulletin.createuser = Session["uid"].ToString();
-                bankbulletin.createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                bankbulletin.updateuser = Session["uid"].ToString();
-                bankbulletin.updatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
-                if (bankbulletin.closetype == "2")//软关闭，必须有弹层，标题及弹层必须有一个，所以只确保弹层即可
-                {
-                    if (bankbulletin.popuptext == "" || bankbulletin.popuptext == null)
-                    {
-                        WebUtils.ShowMessage(this.Page, "软关闭必须输入弹层正文！");
-                        return;
-                    }
-                }
-                else
-                {
-                    bankbulletin.popuptext = "";//硬关闭可不输入弹层
-                }
-
-                //构造审批数据
-                string bankName = "";
+        //绑定银行列表
+        private void BindBank(ArrayList bankTypeList)
+        {
+            Hashtable bank = BankIO.GetBankHashTable();
+            List<Bank> listBank = new List<Bank>();
+          
+            foreach (string s in bankTypeList)
+            {
+                Bank bankOne = new Bank();
+                bankOne.banktype = s;
                 try
                 {
-                    bankName = bankbulletin.maintext.Substring(0, bankbulletin.maintext.IndexOf("系统"));//取银行名称 改为取系统
+                    bankOne.banktype_str = bank[bankOne.banktype].ToString();
                 }
                 catch
                 {
-                    WebUtils.ShowMessage(this.Page, "请按模板填写公告！");
-                    return;
+                    bankOne.banktype_str = "未知" + bankOne.banktype;
+                    //WebUtils.ShowMessage(this.Page, bankOne.banktype+"：未查到银行类型!");
+                    //return;
                 }
-
-                string[] startTime = new string[nTime + 1];
-                string[] endTime = new string[nTime + 1];
-
-                //获取时间数组
-                for (int i = 0; i <= nTime; i++)//nTime最大4
-                {
-                    #region
-                    try
-                    {
-                        if (i == 0)
-                        {
-                            startTime[i] = DateTime.Parse(this.tbStartTime.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                            endTime[i] = DateTime.Parse(this.tbEndTime.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                        }
-                        if (i == 1)
-                        {
-                            startTime[i] = DateTime.Parse(this.tbStartTime1.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                            endTime[i] = DateTime.Parse(this.tbEndTime1.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                        }
-                        if (i == 2)
-                        {
-                            startTime[i] = DateTime.Parse(this.tbStartTime2.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                            endTime[i] = DateTime.Parse(this.tbEndTime2.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                        }
-                        if (i == 3)
-                        {
-                            startTime[i] = DateTime.Parse(this.tbStartTime3.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                            endTime[i] = DateTime.Parse(this.tbEndTime3.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                        }
-                        if (i == 4)
-                        {
-                            startTime[i] = DateTime.Parse(this.tbStartTime4.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                            endTime[i] = DateTime.Parse(this.tbEndTime4.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                        }
-                    }
-                    catch
-                    {
-                        WebUtils.ShowMessage(this.Page, "请输入正确的日期");
-                        return;
-                    }
-                    #endregion
-
-                }
-
-                string msg = "";
-                if (IsRepeatedSelf(startTime, endTime, out msg))
-                { //判断新增时间段自身重复
-                    WebUtils.ShowMessage(this.Page, msg);
-                    return;
-                }
-
-                //if (IsRepeated("", startTime, endTime, out msg))//新增的时候数据库不可能有与bulletin_id一样的记录
-                //{ //判断数据库是否存在重复时间段的公告
-                //    WebUtils.ShowMessage(this.Page, msg);
-                //    return;
-                //}
-
-                string objid = "";
-                //审批
-                #region
-                for (int i = 0; i <= nTime; i++)//nTime最大4
-                {
-                    try
-                    {
-                        objid = System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.StaticNoManage(); ;//每个审批单
-                        bankbulletin.returnUrl = "http://kf.cf.com/SysManage/BankInterfaceManage_Detail.aspx?Fbanktype=" + this.ddlQueryBankTypeInterface.SelectedValue.Trim() + "&sysid=" + sysid + "&objid=" + objid + "&opertype=0";
-                        bankbulletin.bulletin_id = System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.NewStaticNoManage();//每个银行公告ID
-                        bankbulletin.startime = startTime[i];
-                        bankbulletin.endtime = endTime[i];
-
-                        if (i != 0)
-                        {
-                            bankbulletin.maintext = bankName + "系统维护中，预计" + DateTime.Parse(bankbulletin.endtime).ToString("MM月dd日HH:mm") + "恢复。";
-                            if (bankbulletin.closetype == "2")
-                            {
-                                bankbulletin.popuptext = DateTime.Parse(bankbulletin.startime).ToString("MM月dd日HH:mm") + "至" + DateTime.Parse(bankbulletin.endtime).ToString("MM月dd日HH:mm") +
-                                    "因" + bankName + "系统维护，此期间操作的付款将延迟到" + DateTime.Parse(bankbulletin.endtime).AddDays(1).ToString("MM月dd日") + "到账";
-                            }
-                            else
-                            {
-                                bankbulletin.popuptext = "";
-                            }
-                        }
-
-
-                        string[,] param = GetBulletin(bankbulletin);//获得单条公告
-
-                        Check_WebService.Param[] pa = ToParamArray(param);
-
-                        string memo = "新增银行接口维护信息,银行类型:" + this.ddlQueryBankTypeInterface.SelectedItem.Text.Trim(); ;
-                        PublicRes.CreateCheckService(this).StartCheck(objid,
-                            "BankBulletinForType", memo, "0", pa);
-                        PublicRes.writeSysLog(Session["uid"].ToString(), Request.UserHostAddress, "BankBulletinForType", "新增银行接口维护申请审批", 1, this.ddlQueryBankTypeInterface.SelectedValue.Trim(), "");
-                    }
-                    catch
-                    {
-                        WebUtils.ShowMessage(this.Page, "该维护时间段" + bankbulletin.startime + "--" + bankbulletin.endtime + "失败，请查询后再继续新增或修改！");
-                        return;
-                    }
-                }
-                #endregion
-
-                nTime = 0;
-                queryed = false;//需要重新查询数据库确定存在几条公告
-
-                TimesHide();
-
-                WebUtils.ShowMessage(this.Page, "全部新增银行接口维护申请已提交，请等待审批！");
+                listBank.Add(bankOne);
             }
-            catch (SoapException eSoap) //捕获soap类异常
+           
+            if (listBank != null && listBank.Count != 0)
             {
-                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+                DatagridBank.DataSource = listBank;
+                ViewState["bankType"] = listBank;
             }
-            catch (Exception eSys)
+            else
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
+                ViewState["bankType"] = null;
+                WebUtils.ShowMessage(this.Page, "银行类型有误!");
+                DatagridBank.DataSource = null;
             }
+            DatagridBank.DataBind();
+        }
+
+        protected void btInterfaceAdd_Click(object sender, System.EventArgs e)
+        {
+            this.InterfaceOpen.Enabled = false;
+            OperateBankInterFace(true);
+            this.btInterfaceAdd.Visible = false;
         }
 
         protected void btInterfaceUpdate_Click(object sender, System.EventArgs e)
         {
+            btAddTime.Enabled = false;
+            OperateBankInterFace(false);
+            this.btInterfaceUpdate.Visible = false;
+        }
+
+        /// 新增或修改公告
+        /// <param name="isAdd">标记是否新增：true新增，false修改</param>
+        protected void OperateBankInterFace(bool isAdd)
+        {
+           //银行类型限制
+            List<Bank> bankList = BankTypeLimit();
+
             try
             {
                 string sysid = ViewState["sysid"].ToString();
-                if (this.tbInterfaceMainText.Text.Trim().Length > 50)
+
+                #region 输入限制
+                int n = DateTime.Now.ToString("MM月dd日HH:mm").Length;
+                if (this.tbInterfaceMainText.Text.Trim().Length >71 )//80-11+7
                 {
                     WebUtils.ShowMessage(this.Page, "正文超过50字符,请重新输入！");
                     return;
                 }
-                if (this.TextTCMainText.Text.Trim().Length > 80)
+                if (this.TextTCMainText.Text.Trim().Length >53 )//80-11*2+8+7
                 {
                     WebUtils.ShowMessage(this.Page, "弹层正文超过80字符,请重新输入！");
                     return;
                 }
 
-                Query_Service.T_BANKBULLETIN_INFO bankbulletin = new Query_Service.T_BANKBULLETIN_INFO();
-                bankbulletin.bulletin_id = this.tbbulletin_id.Text.Trim();
-                bankbulletin.IsNew = false;
+                string popuptext = "";
+                string TCMain=TextTCMainText.Text.Trim().Replace("\r\n", "<br/>").Replace("\r", "<br/>").Replace("\n", "<br/>");
+                //软关闭，必须有弹层，标题及弹层必须有一个，所以只确保弹层即可
+                if (this.ForbidRadio.SelectedValue == "2")
+                {
+                    if (TCMain == "" || TCMain == null)
+                    {
+                        WebUtils.ShowMessage(this.Page, "软关闭必须输入弹层正文！");
+                        return;
+                    }
+                    popuptext = TCMain;
+                }
+                #endregion
+
+                //获取时间数组
+                string[] startTime;
+                string[] endTime;
+                GetTime(out startTime, out endTime);
+
+                #region 公告相同参数部分
+                commData.T_BANKBULLETIN_INFO bankbulletin = new commData.T_BANKBULLETIN_INFO();
                 bankbulletin.IsOPen = this.InterfaceOpen.Checked;
-                bankbulletin.banktype = this.ddlQueryBankTypeInterface.SelectedValue.Trim();
+                bankbulletin.title = tbTitle.Text.Trim();
+                bankbulletin.createuser = Session["uid"].ToString();
+                bankbulletin.updateuser = Session["uid"].ToString();
+                bankbulletin.updatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 bankbulletin.businesstype = sysid;
                 if (sysid == "6")//支付有子类型：1.全部关闭  2.签约  3.支付  4.退款
                 {
@@ -502,240 +354,177 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 }
                 else
                     bankbulletin.op_support_flag = "1";
-                //是否影响接口
-                //if (this.cbForbid.Checked == true)
-                //    bankbulletin.closetype = "1";
-                //else
-                //    bankbulletin.closetype = "2";
+
                 if (this.ForbidRadio.SelectedValue == "1")
                     bankbulletin.closetype = "1";
                 else if (this.ForbidRadio.SelectedValue == "2")
                     bankbulletin.closetype = "2";
                 else if (this.ForbidRadio.SelectedValue == "3")
                     bankbulletin.closetype = "3";
+                #endregion
 
-                bankbulletin.title = tbTitle.Text.Trim();
-                bankbulletin.maintext = this.tbInterfaceMainText.Text.Replace("\r\n", "<br/>").Replace("\r", "<br/>").Replace("\n", "<br/>");
-                bankbulletin.popuptext = TextTCMainText.Text.Trim();
-                bankbulletin.createuser = Session["uid"].ToString();
-                bankbulletin.createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                bankbulletin.updateuser = Session["uid"].ToString();
-                bankbulletin.updatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
-                if (bankbulletin.closetype == "2")//软关闭，必须有弹层，标题及弹层必须有一个，所以只确保弹层即可
-                {
-                    if (bankbulletin.popuptext == "" || bankbulletin.popuptext == null)
-                    {
-                        WebUtils.ShowMessage(this.Page, "软关闭必须输入弹层正文！");
-                        return;
-                    }
-                }
-
-                //审批
-                string bankName = "";
-                try
-                {
-                    bankName = bankbulletin.maintext.Substring(0, bankbulletin.maintext.IndexOf("系统"));
-                }
-                catch
-                {
-                    WebUtils.ShowMessage(this.Page, "请按模板填写公告！");
-                    return;
-                }
-
-                if (this.InterfaceOpen.Checked)//若立即启用则只能修改本条公告
-                {
-                    nTime = 0;
-
-                }
-
-                string[] startTime = new string[nTime + 1];
-                string[] endTime = new string[nTime + 1];
-
-                for (int i = 0; i <= nTime; i++)//nTime最大4
-                {
-                    #region
-                    try
-                    {
-                        if (i == 0)
-                        {
-                            startTime[i] = DateTime.Parse(this.tbStartTime.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                            endTime[i] = DateTime.Parse(this.tbEndTime.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                        }
-                        if (i == 1)
-                        {
-                            startTime[i] = DateTime.Parse(this.tbStartTime1.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                            endTime[i] = DateTime.Parse(this.tbEndTime1.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                        }
-                        if (i == 2)
-                        {
-                            startTime[i] = DateTime.Parse(this.tbStartTime2.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                            endTime[i] = DateTime.Parse(this.tbEndTime2.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                        }
-                        if (i == 3)
-                        {
-                            startTime[i] = DateTime.Parse(this.tbStartTime3.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                            endTime[i] = DateTime.Parse(this.tbEndTime3.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                        }
-                        if (i == 4)
-                        {
-                            startTime[i] = DateTime.Parse(this.tbStartTime4.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                            endTime[i] = DateTime.Parse(this.tbEndTime4.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                        }
-                    }
-                    catch
-                    {
-                        WebUtils.ShowMessage(this.Page, "请输入正确的日期");
-                        return;
-                    }
-                    #endregion
-                }
-
-                string msg = "";
-                if (IsRepeatedSelf(startTime, endTime, out msg))
-                { //判断新增时间段自身重复
-                    WebUtils.ShowMessage(this.Page, msg);
-                    return;
-                }
-
-                //if (IsRepeated(bankbulletin.bulletin_id, startTime, endTime, out msg))//新增的时候数据库不可能有与bulletin_id一样的记录
-                //{ //判断数据库是否存在重复时间段的公告
-                //    WebUtils.ShowMessage(this.Page, msg);
-                //    return;
-                //}
+                #region 提出公告申请
                 string objid = "";
-                //审批
-                #region
+                string maintext = this.tbInterfaceMainText.Text.Replace("\r\n", "<br/>").Replace("\r", "<br/>").Replace("\n", "<br/>");
+                string outStr = "";
                 for (int i = 0; i <= nTime; i++)//nTime最大4
                 {
                     try
                     {
                         bankbulletin.startime = startTime[i];
                         bankbulletin.endtime = endTime[i];
-                        if (this.InterfaceOpen.Checked)//若立即启用则结束时间为当前时间
+
+                        if (this.InterfaceOpen.Checked)//若立即启用则结束时间为当前时间+5min
                             bankbulletin.endtime = DateTime.Now.AddMinutes(5).ToString("yyyy-MM-dd HH:mm:ss");
 
-                        if (i != 0)//i=0为修改，其他为新增
+                        bankbulletin.maintext = maintext.Replace("endtime", DateTime.Parse(bankbulletin.endtime).ToString("MM月dd日HH:mm"));
+                        bankbulletin.popuptext = popuptext.Replace("startime", DateTime.Parse(bankbulletin.startime).ToString("MM月dd日HH:mm"))
+                            .Replace("endtime", DateTime.Parse(bankbulletin.endtime).ToString("MM月dd日HH:mm"));
+
+                        foreach (Bank b in bankList)
                         {
-                            bankbulletin.IsNew = true;
-                            bankbulletin.bulletin_id = System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.NewStaticNoManage();
-                            bankbulletin.maintext = bankName + "系统维护中，预计" + DateTime.Parse(bankbulletin.endtime).ToString("MM月dd日HH:mm") + "恢复。";
-                            if (bankbulletin.closetype == "2")
+                            if (!isAdd)//被修改的那条公告id为旧的，不是新增
                             {
-                                bankbulletin.popuptext = DateTime.Parse(bankbulletin.startime).ToString("MM月dd日HH:mm") + "至" + DateTime.Parse(bankbulletin.endtime).ToString("MM月dd日HH:mm") +
-                                    "因" + bankName + "系统维护，此期间操作的付款将延迟到" + DateTime.Parse(bankbulletin.endtime).AddDays(1).ToString("MM月dd日") + "到账";
+                                bankbulletin.bulletin_id = this.tbbulletin_id.Text.Trim();
+                                bankbulletin.IsNew = false;
+                                bankbulletin.createtime = this.tbcreatetime.Text.Trim();
                             }
                             else
                             {
-                                bankbulletin.popuptext = "";
+                                bankbulletin.bulletin_id = System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.NewStaticNoManage();//每个银行公告ID
+                                bankbulletin.IsNew = true;
+                                bankbulletin.createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                             }
-                            bankbulletin.createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                            objid = System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.StaticNoManage(); //每个审批单
+                            bankbulletin.banktype = b.banktype.Trim();
+                            bankbulletin.returnUrl = "http://kf.cf.com/SysManage/BankInterfaceManage_Detail.aspx?Fbanktype=" + b.banktype.Trim() + "&sysid=" + sysid + "&objid=" + objid + "&opertype=0";
+
+                            CheckBulletin(this,bankbulletin, objid);
                         }
-                        objid = System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.StaticNoManage();//每个审批单
-                        bankbulletin.returnUrl = "http://kf.cf.com/SysManage/BankInterfaceManage_Detail.aspx?Fbanktype=" + this.ddlQueryBankTypeInterface.SelectedValue.Trim() + "&sysid=" + sysid + "&objid=" + objid + "&opertype=0";
-                       
 
-                        string[,] param = GetBulletin(bankbulletin);//获得单条公告
-
-                        Check_WebService.Param[] pa = ToParamArray(param);
-
-                        string memo = "新增银行接口维护信息,银行类型:" + this.ddlQueryBankTypeInterface.SelectedItem.Text.Trim(); ;
-
-                        PublicRes.CreateCheckService(this).StartCheck(objid,
-                            "BankBulletinForType", memo, "0", pa);
-                        PublicRes.writeSysLog(Session["uid"].ToString(), Request.UserHostAddress, "BankBulletinForType", "新增银行接口维护申请审批", 1, this.ddlQueryBankTypeInterface.SelectedValue.Trim(), "");
                     }
-                    catch(Exception err)
+                    catch (Exception err)
                     {
-                        WebUtils.ShowMessage(this.Page, "该维护时间段" + bankbulletin.startime + "--" + bankbulletin.endtime + "失败，请查询后再继续新增或修改！错误：" + err.Message);
-                        return;
+                        string errOne = bankbulletin.banktype + ":" + bankbulletin.startime + "--" + bankbulletin.endtime + "|";
+                        outStr += errOne;
+                        LogHelper.LogInfo(errOne+" 维护异常："+err);
                     }
                 }
                 #endregion
-                nTime = 0;
-                queryed = false;//需要重新查询数据库确定存在几条公告
-                TimesHide();
-                WebUtils.ShowMessage(this.Page, "全部修改或新增银行接口维护申请已提交，请等待审批！");
 
+                if (outStr != "")
+                {
+                    WebUtils.ShowMessage(this.Page, "接口维护异常：" + outStr);
+                }
+                else
+                {
+                    WebUtils.ShowMessage(this.Page, "全部银行接口维护申请已提交，请等待审批！");
+                }
+                nTime = 0;
+                TimesHide();
+                return;
             }
-            catch (SoapException eSoap) //捕获soap类异常
+            catch (Exception err) //捕获soap类异常
             {
-                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
-            }
-            catch (Exception eSys)
-            {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
+                string errStr = PublicRes.GetErrorMsg(err.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "银行接口维护异常：" + errStr);
             }
         }
 
-        //判断数据库是否存在重复时间段的公告
-        protected bool IsRepeated(string bulletin_id,string[] startTime, string[] endTime, out string msg)
+        //待操作银行类型限制
+        private List<Bank> BankTypeLimit()
         {
-            msg = "";
-            bool index = false;
-            try
+            List<Bank> bankList = (List<Bank>)ViewState["bankType"];
+            if (bankList != null)
             {
-                int len = startTime.Length;
-                if (startTime.Length != endTime.Length)
+                foreach (Bank b in bankList)
                 {
-                    msg = "判断数据库是否存在重复时间段的公告出错！";
-                }
-
-                QueryBankBulletinOfBusiness(int.Parse(ViewState["sysid"].ToString()), int.Parse(this.closedRadio.SelectedValue), int.Parse(this.ddlQueryBankTypeInterface.SelectedValue.Trim()));
-
-                DataTable g_dt = (DataTable)ViewState["g_dt"];
-
-                if (g_dt != null)
-                {
-                   
-                    //加判断
-                    for (int i = 0; i <= nTime; i++)//nTime最大4
+                    if (b.banktype_str.Contains("*"))
                     {
-                        DateTime start = DateTime.Parse(startTime[i]);//新增公告开始时间
-                        DateTime end = DateTime.Parse(endTime[i]);//新增公告结束时间
-                       
-                        foreach (DataRow dr in g_dt.Rows)
-                        {
-                            string dbBulletin_id = dr["bulletin_id"].ToString();
-                            if (bulletin_id == dbBulletin_id)//不与被修改的那条记录做比较
-                            {
-                                continue;
-                            }
-                            DateTime dbStart = DateTime.Parse(dr["startime"].ToString());
-                            DateTime dbEnd = DateTime.Parse(dr["endtime"].ToString());
-                            if (end <= dbStart || dbEnd <= start)
-                            {
-                            }
-                            else
-                            {
-                                msg = "与数据库公告时间段" + dr["startime"].ToString() + "--" + dr["endtime"].ToString() + "重复！";
-                                index = true;
-                                return index;
-                            }
-                        }
+                        throw new Exception("带*银行类型不允许操作！");
                     }
                 }
-                return index;
             }
-            catch (Exception e)
+            else
+                throw new Exception("未选定银行类型！");
+            return bankList;
+        }
+
+        //获取公告时间段
+        private void GetTime(out string[] startTime, out string[] endTime)
+        {
+            startTime = new string[nTime + 1];
+            endTime = new string[nTime + 1];
+
+            for (int i = 0; i <= nTime; i++)//nTime最大4
             {
-                msg = "判断数据库是否存在重复时间段的公告出错！";
-                throw new Exception(msg + e.Message);
+                try
+                {
+                    if (i == 0)
+                    {
+                        startTime[i] = DateTime.Parse(this.tbStartTime.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                        endTime[i] = DateTime.Parse(this.tbEndTime.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                    }
+                    if (i == 1)
+                    {
+                        startTime[i] = DateTime.Parse(this.tbStartTime1.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                        endTime[i] = DateTime.Parse(this.tbEndTime1.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                    }
+                    if (i == 2)
+                    {
+                        startTime[i] = DateTime.Parse(this.tbStartTime2.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                        endTime[i] = DateTime.Parse(this.tbEndTime2.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                    }
+                    if (i == 3)
+                    {
+                        startTime[i] = DateTime.Parse(this.tbStartTime3.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                        endTime[i] = DateTime.Parse(this.tbEndTime3.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                    }
+                    if (i == 4)
+                    {
+                        startTime[i] = DateTime.Parse(this.tbStartTime4.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                        endTime[i] = DateTime.Parse(this.tbEndTime4.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                    }
+                }
+                catch
+                {
+                    throw new Exception("请输入正确的日期");
+                }
             }
+
+            string msg = "";
+            //判断新增时间段自身重复
+            IsRepeatedSelf(startTime, endTime);
+        }
+
+        /// <summary>
+        /// 发起公告审批
+        /// </summary>
+        /// <param name="bankbulletin">公告类</param>
+        /// <param name="objid">objid</param>
+        public void CheckBulletin(System.Web.UI.Page page,commData.T_BANKBULLETIN_INFO bankbulletin, string objid)
+        {
+            string[,] param = GetBulletin(bankbulletin);//获得单条公告
+
+            Check_WebService.Param[] pa = ToParamArray(param);
+
+            string memo = "新增银行接口维护信息,银行类型:" + bankbulletin.banktype.Trim();
+
+            PublicRes.CreateCheckService(page).StartCheck(objid,
+                "BankBulletinForType", memo, "0", pa);
         }
 
         //判断新增时间段自身重复
-        protected bool IsRepeatedSelf(string[] startTime, string[] endTime, out string msg)
+        protected bool IsRepeatedSelf(string[] startTime, string[] endTime)
         {
             bool index = false;
-            msg = "";
             try
             {
                 int len = startTime.Length;
                 if (startTime.Length != endTime.Length)
                 {
-                    msg = "判断新增时间段自身重复出错！";
+                    throw new Exception("判断新增时间段自身重复出错！");
                 }
                 for (int i = 0; i < len; i++)
                 {
@@ -753,12 +542,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                             {
                             }
                             else
-                            {
-                                msg = "新增时间段" + start.ToString("yyyy-MM-dd HH:mm:ss") + "--" + end.ToString("yyyy-MM-dd HH:mm:ss") + "与"
-                                    + start2.ToString("yyyy-MM-dd HH:mm:ss") + "--" + end2.ToString("yyyy-MM-dd HH:mm:ss") + "重复！";
-                                index = true;
-                                return index;
-                            }
+                                throw new Exception("新增时间段" + start.ToString("yyyy-MM-dd HH:mm:ss") + "--" + end.ToString("yyyy-MM-dd HH:mm:ss") + "与"
+                                    + start2.ToString("yyyy-MM-dd HH:mm:ss") + "--" + end2.ToString("yyyy-MM-dd HH:mm:ss") + "重复！");
                         }
                     }
                 }
@@ -766,12 +551,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             }
             catch (Exception e)
             {
-                msg = "判断新增时间段自身是否重复出错！";
-                throw new Exception(msg+e.Message);
+                throw new Exception("判断新增时间段自身是否重复出错:" + e.Message);
             }
         }
         
-        //新增完银行公告隐藏增加的时间段
+        //新增完银行公告,隐藏增加的时间段
         private void TimesHide()
         {
             this.StartTime1.Visible = false;
@@ -784,16 +568,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             this.EndTime4.Visible = false;
         }
 
-        protected void btInterfaceBack_Click(object sender, System.EventArgs e)
-        {
-            Response.Redirect("BankInterfaceManage.aspx?sysid=" + sysid);
-        }
-
-        protected void ddlQueryBankTypeInterface_SelectedIndexChanged(object sender, System.EventArgs e)
-        {
-            this.lbbanktypeInterface.Text = this.ddlQueryBankTypeInterface.SelectedValue.Trim();
-        }
-
+        //立即开启按钮控制是否显示时间段
         private void InterfaceOpen_CheckedChanged(object sender, System.EventArgs e)
 		{
             if (InterfaceOpen.Checked)
@@ -823,22 +598,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 			}
 		}
 
-        ////弹层正文控制
-        //private void cbForbid_CheckedChanged(object sender, System.EventArgs e)
-        //{
-        //    if (cbForbid.Checked)
-        //    {
-        //      //  TextTCMainText.Text = "";//避免连续新增时会提交上条公告的信息
-        //        tcTextId.Visible = false;
-        //    }
-        //    else
-        //        tcTextId.Visible = true;
-        //}
-
-        protected void closedRadio_SelectedIndexChanged(object sender, System.EventArgs e)
-        {
-           
-        }
         protected void ForbidRadio_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             if (this.ForbidRadio.SelectedValue == "2")
@@ -847,67 +606,46 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             }
             else
             {
-                //  TextTCMainText.Text = "";//避免连续新增时会提交上条公告的信息
                 tcTextId.Visible = false;
             }
         }
 
         protected void btAddTime_Click(object sender, System.EventArgs e)
         {
-            int dbN = 0;
-            if (!queryed)//若还没查询过数据库记录，则先查询
+            nTime++;//每点一次按钮时间段加一次i
+            if (nTime == 1)
             {
-                QueryBankBulletinOfBusiness(int.Parse(ViewState["sysid"].ToString()), int.Parse(this.closedRadio.SelectedValue), int.Parse(this.ddlQueryBankTypeInterface.SelectedValue.Trim()));
+                StartTime1.Visible = true;
+                EndTime1.Visible = true;
+                this.tbStartTime1.Text = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
+                this.tbEndTime1.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
             }
-           
-            DataTable g_dt = (DataTable)ViewState["g_dt"];
-            if (g_dt == null)//记录数为0
-                dbN = 0;
-            else
-                dbN = g_dt.Rows.Count;
-
-            if (max - dbN - nTime > 0)
+            else if (nTime == 2)
             {
-                nTime++;//每点一次按钮时间段加一次i
-                if (nTime == 1)
-                {
-                    StartTime1.Visible = true;
-                    EndTime1.Visible = true;
-                    this.tbStartTime1.Text = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
-                    this.tbEndTime1.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
-                }
-                if (nTime == 2)
-                {
-                    StartTime2.Visible = true;
-                    EndTime2.Visible = true;
-                    this.tbStartTime2.Text = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
-                    this.tbEndTime2.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
-                }
-                if (nTime == 3)
-                {
-                    StartTime3.Visible = true;
-                    EndTime3.Visible = true;
-                    this.tbStartTime3.Text = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
-                    this.tbEndTime3.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
-                }
-                if (nTime == 4)
-                {
-                    StartTime4.Visible = true;
-                    EndTime4.Visible = true;
-                    this.tbStartTime4.Text = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
-                    this.tbEndTime4.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
-                }
+                StartTime2.Visible = true;
+                EndTime2.Visible = true;
+                this.tbStartTime2.Text = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
+                this.tbEndTime2.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
             }
-            else
+            else if (nTime == 3)
             {
-                WebUtils.ShowMessage(this.Page, "不能再增加啦！");
-                return;
+                StartTime3.Visible = true;
+                EndTime3.Visible = true;
+                this.tbStartTime3.Text = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
+                this.tbEndTime3.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
             }
-
+            else if (nTime == 4)
+            {
+                StartTime4.Visible = true;
+                EndTime4.Visible = true;
+                this.tbStartTime4.Text = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
+                this.tbEndTime4.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
+                btAddTime.Enabled = false;
+            }
         }
 
         //公告
-        protected string[,] GetBulletin(Query_Service.T_BANKBULLETIN_INFO bankbulletin)
+        protected string[,] GetBulletin(commData.T_BANKBULLETIN_INFO bankbulletin)
         {
             string[,] param = new string[,] { { "IsNew", Convert.ToString(bankbulletin.IsNew) }, 
             { "IsOPen", Convert.ToString(bankbulletin.IsOPen) },
@@ -929,41 +667,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             return param;
         }
 
-        //获取某银行的业务子类型，限制公告条数及时间段重复
-        protected void QueryBankBulletinOfBusiness(int businesstype, int op_flag, int banktype)
-        {
-            Query_Service.Query_Service qs = new Query_Service.Query_Service();
-            Query_Service.T_BANKBULLETIN_INFO bankbulletin = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.T_BANKBULLETIN_INFO();
-            DataSet ds = qs.QueryBankBulletin(businesstype, op_flag, banktype, "",8,0);//通过接口返回所有子类型记录，一般不超过5条
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                ViewState["g_dt"] = ds.Tables[0];
-                queryed = true;
-            }
-        }
-
-        //protected void InterfaceLong_SelectedIndexChanged(object sender, System.EventArgs e)
-        //{
-        //    if (!InterfaceOpen.Checked)
-        //        DropDownListShow();
-        //}
-
-        //private void DropDownListShow()
-        //{
-        //    if (this.InterfaceLong.SelectedValue == "1")
-        //    {
-        //        this.alwtime.Visible = true;
-        //        this.StartTime.Visible = false;
-        //        this.EndTime.Visible = false;
-        //    }
-        //    else
-        //    {
-        //        this.alwtime.Visible = false;
-        //        this.StartTime.Visible = true;
-        //        this.EndTime.Visible = true;
-        //    }
-        //}
-
         private static Check_WebService.Param[] ToParamArray(string[,] param)
         {
             Check_WebService.Param[] pa = new Check_WebService.Param[param.GetLength(0)];
@@ -976,5 +679,39 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             }
             return pa;
         }
+
+        protected void btInterfaceBack_Click(object sender, System.EventArgs e)
+        {
+            Response.Redirect("BankInterfaceManage.aspx?sysid=" + sysid);
+        }
+
+        #region Web 窗体设计器生成的代码
+        override protected void OnInit(EventArgs e)
+        {
+            //
+            // CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+            //
+            InitializeComponent();
+            base.OnInit(e);
+        }
+
+        /// <summary>
+        /// 设计器支持所需的方法 - 不要使用代码编辑器修改
+        /// 此方法的内容。
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.InterfaceOpen.CheckedChanged += new System.EventHandler(this.InterfaceOpen_CheckedChanged);
+            //  this.cbForbid.CheckedChanged += new System.EventHandler(this.cbForbid_CheckedChanged);
+        }
+        #endregion
 	}
+
+     [Serializable]
+    class Bank
+    {
+        public string banktype { get; set; }
+        public string banktype_str { get; set; }
+    }
+
 }

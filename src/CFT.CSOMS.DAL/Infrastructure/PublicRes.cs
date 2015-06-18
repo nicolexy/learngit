@@ -24,7 +24,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
 {
     public class PublicRes
     {
-        public static bool IgnoreLimitCheck = System.Configuration.ConfigurationManager.AppSettings["IgnoreLimitCheck"].Trim().ToLower() == "true";
+       public static bool IgnoreLimitCheck = System.Configuration.ConfigurationManager.AppSettings["IgnoreLimitCheck"].Trim().ToLower() == "true";
         public static bool CommQuery(string serviceName, string reqParams, bool isCret, out string sReply, out short iResult, out string sMsg) 
         {
             LogHelper.LogInfo(serviceName + " send req:" + reqParams);
@@ -946,6 +946,46 @@ namespace CFT.CSOMS.DAL.Infrastructure
              return NewStaticNo.ToString();
          }
 
+         public DataTable GetCheckInfo(string objid, string checkType, out string msg)
+         {
+             msg = "";
+             if (objid == null || objid == "")
+             {
+                 msg = "审批单ID不能为空！";
+                 return null;
+             }
+
+             using (var daht = MySQLAccessFactory.GetMySQLAccess("HT"))
+             {
+                 try
+                 {
+                     daht.OpenConn();
+                     string strSql = "select Fid from c2c_fmdb.t_check_main where fobjid='" + objid + "' and fcheckType='" + checkType + "' ";
+                     DataTable dt_main = daht.GetTable(strSql);
+                     if (dt_main == null || dt_main.Rows.Count != 1)
+                     {
+                         msg = "审批单任务单ID" + objid + "对应的记录数不唯一";
+                         return null;
+                     }
+
+                     strSql = "select * from c2c_fmdb.t_check_param where fcheckid=" + dt_main.Rows[0]["Fid"].ToString() + "";
+                     DataTable dt_param = daht.GetTable(strSql);
+                     if (dt_param == null || dt_param.Rows.Count == 0)
+                     {
+                         msg = "审批单ID" + dt_main.Rows[0]["Fid"].ToString() + "对应的参数为空";
+                         return null;
+                     }
+
+                     return dt_param;
+                 }
+                 catch (Exception ex)
+                 {
+                     msg = ex.Message;
+                     return null;
+                 }
+             }
+         }
+
     }
    
 }
@@ -1076,4 +1116,5 @@ namespace CFT.CSOMS.DAL.Infrastructure
             return tmp;
         }
 
+       
 }

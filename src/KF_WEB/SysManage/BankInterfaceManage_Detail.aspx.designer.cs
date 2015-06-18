@@ -40,24 +40,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         protected global::System.Web.UI.WebControls.Label labTitle;
         
         /// <summary>
-        /// ddlQueryBankTypeInterface control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlQueryBankTypeInterface;
-        
-        /// <summary>
-        /// lbbanktypeInterface control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbbanktypeInterface;
-        
-        /// <summary>
         /// tbTitle control.
         /// </summary>
         /// <remarks>
@@ -65,6 +47,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbTitle;
+        
+        /// <summary>
+        /// DatagridBank control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DataGrid DatagridBank;
         
         /// <summary>
         /// tbInterfaceMainText control.
@@ -263,6 +254,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbbulletin_id;
+        
+        /// <summary>
+        /// tbcreatetime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbcreatetime;
         
         /// <summary>
         /// StartTime1 control.

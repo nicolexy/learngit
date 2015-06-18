@@ -10,6 +10,67 @@ namespace SunLibraryEX
     /// </summary>
     public static class StringEx
     {
+        #region 从数据表中转换出来值（同时进行NULL处理）
+        public static string GetInt(object aValue)
+        {
+            try
+            {
+                if (aValue != null)
+                {
+                    long num = long.Parse(aValue.ToString());
+                    return num.ToString();
+                }
+                else
+                {
+                    return "0";
+                }
+            }
+            catch
+            {
+                return "0";
+            }
+        }
+
+        public static string GetString(object aValue)
+        {
+            try
+            {
+                if (aValue != null)
+                {
+                    return aValue.ToString().Replace("\\", "\\\\").Replace("'", "\\'");
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+
+        public static string GetDateTime(object aValue)
+        {
+            try
+            {
+                if (aValue != null)
+                {
+                    return (DateTime.Parse(aValue.ToString())).ToString("yyyy-MM-dd HH:mm:ss");
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            catch
+            {
+                return "";
+            }
+        }
+        #endregion
+
         /// <summary>
         /// 判断传入字符串是否全为数字
         /// </summary>

@@ -1927,9 +1927,21 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
         public static DataSet PaseRelayXml(string xml, out string errMsg)
         {
+            int total_num=0;
+            return GetPaseRelayXmlDS(ref xml, out errMsg, out total_num);
+        }
+
+        public static DataSet PaseRelayXml(string xml, out string errMsg, out int total_num)
+        {
+            return GetPaseRelayXmlDS(ref xml, out errMsg,out total_num);
+        }
+
+        private static DataSet GetPaseRelayXmlDS(ref string xml, out string errMsg, out int total_num)
+        {
             DataSet dsresult = null;
             Hashtable ht = null;
             errMsg = "";
+            total_num = 0;
 
             if (xml != null && xml != "")
             {
@@ -1960,6 +1972,12 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                     errMsg = "解析xml失败,返回结果有误" + xml;
                     return null;
                 }
+
+                if (ht.Contains("total_num"))
+                {
+                   total_num=int.Parse(ht["total_num"].ToString());
+                }
+
 
                 string rec_xml = ht["rec_info"].ToString();
                 if (rec_xml != null && rec_xml != "")
@@ -2000,6 +2018,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
             return dsresult;
         }
+
+
 
         //机票订单查询cgi返回结果xml解析
         public static DataSet PaseCgiXmlForTravelPlatform(string xml, out string errMsg)

@@ -15,6 +15,9 @@ using System.Threading;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using CommLib;
+using System.Collections.Generic;
+using System.Collections;
+using CFT.Apollo.Logging;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web
 {
@@ -1092,6 +1095,96 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 li.Value = dr["Value"].ToString().Trim();
 
                 dl.Items.Add(li);
+            }
+        }
+
+        public static void GetDllDownList(DropDownList dll, Dictionary<string, string> dic)
+        {
+            dll.Items.Add(new ListItem("全部", ""));
+            foreach (var item in dic)
+            {
+                dll.Items.Add(new ListItem(item.Value, item.Key));
+            }
+            dll.DataBind();
+        }
+
+        /// <summary>
+        /// 获取DataGird中checkbox列的勾选
+        /// </summary>
+        /// <param name="datagird"></param>
+        /// <param name="CheckBoxColNum">checkbox所在列下标</param>
+        /// <param name="valueColNum">待获取值所在列下标</param>
+        /// <param name="listValues">待获取值列表</param>
+        /// <param name="itemCounts">勾选个数</param>
+        /// <returns></returns>
+        public static ArrayList GetCheckData(DataGrid datagird, int CheckBoxColNum, int valueColNum,string checkboxName,out int itemCounts)
+        {
+            ArrayList listValues = new ArrayList();
+            itemCounts = 0;
+            try
+            {
+                int count = datagird.Items.Count;
+
+                for (int i = 0; i < count; i++)
+                {
+                    System.Web.UI.Control obj = datagird.Items[i].Cells[CheckBoxColNum].FindControl(checkboxName);
+                    if (obj != null && obj.Visible)
+                    {
+                        CheckBox cb = (CheckBox)obj;
+                        if (cb.Checked)
+                        {
+                            string listValue = datagird.Items[i].Cells[valueColNum].Text.Trim();
+
+                            listValues.Add(listValue);
+                            itemCounts++;
+                        }
+                    }
+                }
+
+                return listValues;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("获取勾选项数据异常："+ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// datagird列头勾选列中所有可选checkbox项
+        /// </summary>
+        /// <param name="sender">列头checkbox</param>
+        /// <param name="datagrid"></param>
+        /// <param name="checkBoxColNum">列头checkbox所在列下标</param>
+        /// <param name="checkboxName">需勾选行checkbox所在列下标</param>
+         public static void CheckAll(object sender,DataGrid datagrid,int checkBoxColNum,string checkboxName)
+        {
+            try
+            {
+                int count = datagrid.Items.Count;
+                CheckBox allCheck = (CheckBox)sender;
+
+                for (int i = 0; i < count; i++)
+                {
+                    System.Web.UI.Control obj = datagrid.Items[i].Cells[checkBoxColNum].FindControl(checkboxName);
+                    if (obj != null && obj.Visible)
+                    {
+                        CheckBox cb = (CheckBox)obj;
+                        if (allCheck.Checked)
+                        {
+                            if (cb.Enabled != false)
+                                cb.Checked = true;
+                        }
+                        else
+                        {
+                            cb.Checked = false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogInfo("勾选全部出现异常：" + ex.Message);
             }
         }
     }
