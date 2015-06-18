@@ -83,7 +83,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 string state = ddl_state.SelectedValue;
 
                 DataSet ds = qs.QueryBatchInfo_DF(strSTime, strETime, this.tbx_spid.Text, this.tbx_spBatchID.Text, state,
-                    (pageIndex - 1) * this.pager.PageSize, this.pager.PageSize);
+                    (pageIndex - 1) * this.pager.PageSize + 1, this.pager.PageSize);
 
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                 {

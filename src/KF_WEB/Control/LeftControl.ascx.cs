@@ -243,7 +243,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
                 BankBillManage1.AddSubMenu("汇总退单数据", "TradeManage/RefundMain.aspx");
                 BankBillManage1.AddSubMenu("订单实时查询", "TradeManage/RealTimeOrderQuery.aspx");
-                BankBillManage1.AddSubMenu("异常任务单管理", "RefundManage/RefundErrorMain.aspx?WorkType=task");
+              //  BankBillManage1.AddSubMenu("异常任务单管理", "RefundManage/RefundErrorMain.aspx?WorkType=task");
                 BankBillManage1.AddSubMenu("退单异常数据查询", "RefundManage/RefundErrorHandle.aspx");
                 BankBillManage1.AddSubMenu("异常退款单查询", "RefundManage/RefundRegistration.aspx");
 
@@ -255,7 +255,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 baseAccount1.AddSubMenu("手机绑定查询", "TradeManage/MobileBindQuery.aspx");
                 accountOperate1.AddSubMenu("证件号码清理", "BaseAccount/ClearCreid.aspx");
                 accountOperate1.AddSubMenu("证件号码清理-新", "BaseAccount/ClearCreidNew.aspx");
-             
+                baseAccount1.AddSubMenu("腾讯信用查询", "BaseAccount/TencentCreditQuery.aspx");
+
                 FastPay1.AddSubMenu("一点通业务", "BaseAccount/BankCardUnbind.aspx");
                 FastPay1.AddSubMenu("银行卡查询", "TradeManage/BankCardQuery.aspx");
                 FastPay1.AddSubMenu("银行卡查询(新)", "TradeManage/BankCardQueryNew.aspx");
@@ -281,7 +282,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 RiskConManage1.AddSubMenu("风控解冻审核", "FreezeManage/FreezeQuery.aspx");
                 RiskConManage1.AddSubMenu("特殊申诉处理", "FreezeManage/FreezeNewQuery.aspx");
                 RiskConManage1.AddSubMenu("报表统计输出", "FreezeManage/FreezeCount.aspx");
-
+                RiskConManage1.AddSubMenu("手机绑定数清理", "BaseAccount/ClearMobileNumber.aspx");
                 SelfHelpAppealManage1.AddSubMenu("客服统计查询", "BaseAccount/KFTotalQuery.aspx");
 
                 tradeManage1.AddSubMenu("提现记录查询", "TradeManage/PickQuery.aspx");
@@ -321,6 +322,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 OverseasPay1.AddSubMenu("中行账号冻结查询", "NewQueryInfoPages/QueryZHFreeze.aspx");
                 OverseasPay1.AddSubMenu("中行账号交易查询", "NewQueryInfoPages/QueryZHTrade.aspx");
                 OverseasPay1.AddSubMenu("外汇汇率查询", "NewQueryInfoPages/QueryForeignExchangeRate.aspx");
+                OverseasPay1.AddSubMenu("境外微信小额支付查询", "NewQueryInfoPages/QueryWeiXinMircoPay.aspx");
 
                 InternetBank.AddSubMenu("流水查询", "InternetBank/TurnoverQuery.aspx");
                 InternetBank.AddSubMenu("账单查询", "InternetBank/BillQuery.aspx");
@@ -330,6 +332,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 InternetBank.AddSubMenu("自动续费查询", "InternetBank/AtuoRenewQuery.aspx");
                 //手Q支付
                 HandQBusiness.AddSubMenu("手Q红包查询", "HandQBusiness/FindHandQRedPacket.aspx");
+                HandQBusiness.AddSubMenu("手Q还款查询", "HandQBusiness/RefundHandQQuery.aspx");
 
                 //活动合作
                 ActivityCooperation1.AddSubMenu("打折密码", "NewQueryInfoPages/QueryDiscountCode.aspx");
@@ -471,7 +474,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             tradeManage1.AddSubMenu("交易记录查询", "TradeManage/TradeLogQuery.aspx");
 
             //FundQuery
-            BankBillManage1.AddSubMenu("订单实时调帐", "TradeManage/RealtimeOrder.aspx");
+          //  BankBillManage1.AddSubMenu("订单实时调帐", "TradeManage/RealtimeOrder.aspx");
             tradeManage1.AddSubMenu("充值记录查询", "TradeManage/FundQuery.aspx");
             tradeManage1.AddSubMenu("银行订单查询", "TradeManage/BankOrderListQuery.aspx");
             tradeManage1.AddSubMenu("历史交易单迁移", "TradeManage/TradeMigration.aspx");

@@ -246,8 +246,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                         string title = r["FTitle"].ToString();
                         title= title.Replace("<font color=red>", "");
                         title = title.Replace("</font>", "");
-                        r["UrlNotify"] = "BulletinSendMail.aspx?";
-                        Session["title"] = title;
+                        r["UrlNotify"] = "BulletinSendMail.aspx?title=" + title;
                     }
 
                     DataGrid1.DataSource = ds.Tables[0].DefaultView;

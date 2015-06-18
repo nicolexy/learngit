@@ -17,7 +17,8 @@ using CFT.Apollo.Logging;
 using CommLib;
 using ReCommQuery = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery;
 using TENCENT.OSS.C2C.Finance.BankLib;
-using System.Collections;//解决命名冲突
+using System.Collections;
+using System.Threading;//解决命名冲突
 
 namespace CFT.CSOMS.DAL.Infrastructure
 {
@@ -909,6 +910,40 @@ namespace CFT.CSOMS.DAL.Infrastructure
              {
                  throw new Exception("t_log_kf_param 添加记录出错：" + ex.Message);
              }
+         }
+         //产生银行公告ID
+         public static int NewStaticNo = 10; //初始值 当达到99后，则循环，从10开始
+         public static bool NewStaticNoManageSign = true;
+
+         /// <summary>
+         /// 保证不重复管理器
+         /// 初始值为10，使用时，每次+1；当达到100时，循环使用。 跟在秒后使用。
+         /// </summary>
+
+         public static string NewStaticNoManage()
+         {
+             //如果标志位为false,则等待
+             try
+             {
+                 while (!NewStaticNoManageSign)
+                 {
+                     Thread.Sleep(50);
+                 }
+
+                 NewStaticNoManageSign = false;
+
+                 NewStaticNo++;
+
+                 if (NewStaticNo > 99)
+                 {
+                     NewStaticNo = 10;  //清空为初始状态
+                 }
+             }
+             finally
+             {
+                 NewStaticNoManageSign = true;
+             }
+             return NewStaticNo.ToString();
          }
 
     }

@@ -192,10 +192,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                             dr["OpUrl"] = @"FreezeProcessDetail.aspx?fid=" + dr["FID"].ToString() + "&ffreeze_id=" + dr["FUin"].ToString() + "&fsubmit_date=" + dr["FsubmitTime"].ToString();
                         }
                     }
-                    if (!(dr["Fsuptime"] is DBNull) && dr["Fsuptime"].ToString() == "1970-1-1 0:00:00")
-                    {
-                        dr["Fsuptime"] = "";
-                    }
 					dr["DiaryUrl"] = @"FreezeDiary.aspx?FFreezeListID="+ dr["FID"].ToString() + "&ffreeze_id=" + dr["FUin"].ToString();
                     dr["handleUserName"] = dr["FCheckUser"].ToString();
 

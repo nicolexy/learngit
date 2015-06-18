@@ -19,7 +19,7 @@ namespace CFT.CSOMS.DAL.FundModule
             {
                 da.OpenConn();
                 var table_name = string.Format("fund_db_{0}.t_fund_balance_order_{1}", tradeId.Substring(tradeId.Length - 2), tradeId.Substring(tradeId.Length - 3, 1));
-                string Sql = string.Format(" select Flistid,Fcreate_time,Facc_time,Ftype,Fstandby1,Fstate,Ftotal_fee,Fmemo from {0} where Ftrade_id='{1}' order by Fcreate_time desc limit {2},{3} ", table_name, tradeId, start, max);
+                string Sql = string.Format(" select Flistid,Fcreate_time,Facc_time,Ftype,Fstandby1,Fstate,Ftotal_fee,Fmemo,Fcard_tail,Fbank_type from {0} where Ftrade_id='{1}' order by Fcreate_time desc limit {2},{3} ", table_name, tradeId, start, max);
                 DataSet ds = da.dsGetTotalData(Sql);
 
                 return ds.Tables[0];

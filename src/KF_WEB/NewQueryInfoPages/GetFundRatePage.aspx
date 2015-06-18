@@ -163,6 +163,12 @@
                          <asp:BoundColumn DataField="FInOrOUT" HeaderText="出\入">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
+                             <asp:BoundColumn DataField="Fcard_tail" HeaderText="卡尾号">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
+                             <asp:BoundColumn DataField="Fbank_type_str" HeaderText="银行类型">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
                           <asp:BoundColumn DataField="Fchannel_idStr" HeaderText="渠道号">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
@@ -384,6 +390,9 @@
                         <asp:BoundColumn DataField="Fspid" HeaderText="商户号">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
+                        <asp:BoundColumn DataField="fetchid" HeaderText="提现单号">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
                         <asp:TemplateColumn HeaderText="操作">
 							<ItemTemplate>
 								<asp:LinkButton id="UnCloseFundApplyButton" href = '<%# DataBinder.Eval(Container, "DataItem.URL")%>' target=_blank Visible="false" runat="server" Text="客服强赎"></asp:LinkButton>
@@ -441,7 +450,7 @@
                           <asp:BoundColumn DataField="fund_balance" HeaderText="份额">
                             <HeaderStyle Width="80px"></HeaderStyle>
                         </asp:BoundColumn>
-                        <asp:BoundColumn DataField="Floading_type_str" HeaderText="赎回方式">
+                        <asp:BoundColumn DataField="Floading_type_str" HeaderText="赎回用途">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
                          <asp:BoundColumn DataField="Fstate_str" HeaderText="状态">
@@ -521,6 +530,9 @@
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
                          <asp:BoundColumn DataField="Fchannel_id_str" HeaderText="渠道信息">
+                            <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>
+                        <asp:BoundColumn DataField="Fend_sell_type_str" HeaderText="到期操作">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
                        <%-- <asp:TemplateColumn HeaderText="操作">

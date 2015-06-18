@@ -390,10 +390,11 @@ namespace CFT.CSOMS.DAL.WechatPay
                 dt.Columns.Add("activity_id");
                 dt.Columns.Add("acct_type");
                 dt.Columns.Add("acct_id");
-                dt.Columns.Add("value");
+                dt.Columns.Add("value");//增值券面额大小,单位分，只有非固定面额批次才有效
                 dt.Columns.Add("state");
                 dt.Columns.Add("expire_date");
                 dt.Columns.Add("sp_ids");
+                dt.Columns.Add("threshold");//用券门槛，最低申购金额(分)
 
                 for (int i = 0; i < count; i++)
                 {
@@ -411,6 +412,8 @@ namespace CFT.CSOMS.DAL.WechatPay
                     drfield["state"] = ht["state_" + i].ToString();
                     drfield["expire_date"] = ht["expire_date_" + i].ToString();
                     drfield["sp_ids"] = ht["sp_ids_" + i].ToString();
+                    drfield["threshold"] = ht["threshold_" + i].ToString();
+                    drfield["value"] = ht["value_" + i].ToString();
 
                     drfield.EndEdit();
                     dt.Rows.Add(drfield);

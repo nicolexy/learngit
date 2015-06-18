@@ -62,6 +62,7 @@
     <Compile Include="CheckModoule\CheckService.cs" />
     <Compile Include="FundModule\LCTBalanceService.cs" />
     <Compile Include="HandQModule\HandQService.cs" />
+    <Compile Include="InternationalityPayModule\QueryWeiXinMircoPay.cs" />
     <Compile Include="InternetBank\InternetBankService.cs" />
     <Compile Include="LifeFeePaymentModule\LifeFeePaymentService.cs" />
     <Compile Include="PNRModule\PNRService.cs" />

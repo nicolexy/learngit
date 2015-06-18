@@ -63,11 +63,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
 		private void ValidateDate()
 		{
-            string ccftno = cftNo.Text.ToString();
-            if (ccftno == "")
+            string ccftno = cftNo.Text.ToString().Trim();
+            string wxno = wxNo.Text.ToString().Trim();
+            if (string.IsNullOrEmpty(ccftno) && string.IsNullOrEmpty(wxno))
             {
-                throw new Exception("请输入微信支付账号！");
+                throw new Exception("请输入财付通账号或者微信支付账号！");
             }
+            if ((!string.IsNullOrEmpty(ccftno)) && (!string.IsNullOrEmpty(wxno)))
+            {
+                throw new Exception("请只输入财付通账号或者微信支付账号其中一个查询！");
+            }
+
+            string acc_id = "";
+            int acc_type = 0;
+            if (!string.IsNullOrEmpty(ccftno))
+            {
+                acc_id = ccftno;
+                acc_type = 1;
+            }
+            if (!string.IsNullOrEmpty(wxno))
+            {
+                acc_id = wxno;
+                acc_type = 2;
+            }
+            ViewState["acc_id"] = acc_id;
+            ViewState["acc_type"] = acc_type;
 		}
 
         public void btnQuery_Click(object sender, System.EventArgs e)
@@ -87,25 +107,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 this.pager.RecordCount = 1000;
                 BindData(1);
 			}
-			catch(SoapException eSoap) //捕获soap类异常
-			{
-				string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-				WebUtils.ShowMessage(this.Page,"调用服务出错：" + errStr);
-			}
 			catch(Exception eSys)
 			{
-				WebUtils.ShowMessage(this.Page,"读取数据失败！" + eSys.Message.ToString());
+				WebUtils.ShowMessage(this.Page,"读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
 			}
 		}
 
         private void BindData(int index)
 		{
-            string cft_no = cftNo.Text.ToString();
+            //string cft_no = cftNo.Text.ToString();
+            //string wxno = wxNo.Text.ToString();
+
 
             int max = pager.PageSize;
             int start = max * (index - 1);
 
-            DataSet ds = new WechatPayService().QueryAddedValueTicket(2,cft_no, ddlState.SelectedValue, "", "", start, max);
+            DataSet ds = new WechatPayService().QueryAddedValueTicket((int)ViewState["acc_type"], ViewState["acc_id"].ToString(), ddlState.SelectedValue, "", "", start, max);
 
 			if(ds != null && ds.Tables.Count >0 && ds.Tables[0].Rows.Count >0)
 			{

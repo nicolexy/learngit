@@ -145,6 +145,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                             this.lblEmail.Text = dsEmail.Tables[0].Rows[0]["Femail"].ToString().Trim();
                             this.lblAddress.Text = dsSPOA.Tables[0].Rows[0]["WWWAdress"].ToString().Trim();
                             this.lblMerKey.Text = ds1.fmer_key;
+                            this.lblContactMobile.Text = dsSPOA.Tables[0].Rows[0]["ContactMobile"].ToString().Trim();
                             ViewState["Fspid"] = this.txtFspid.Text.Trim();
                         }
                     }
@@ -201,6 +202,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				this.txtFspName.Text = this.lblFspName.Text;
 				this.txtAddress.Text = this.lblAddress.Text;
 				this.txtEmail.Text = this.lblEmail.Text;
+                this.txtContactMobile.Text = this.lblContactMobile.Text;
 				this.Table1.Visible = true;
 			}
 			catch(SoapException eSoap) //捕获soap类异常
@@ -311,6 +313,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			DataSet ds = qs.GetHisBusinessList(this.txtFspid.Text.Trim());
 			dgList.DataSource = ds.Tables[0].DefaultView;
 			dgList.DataBind();
+
+            DataSet dsContactMobileHistory = new SPOAService().QueryApplyListBySpid(this.txtFspid.Text.Trim());
+            dgContactMobileHistory.DataSource = dsContactMobileHistory.Tables[0].DefaultView;
+            dgContactMobileHistory.DataBind();
 		}
 
 		protected void btnHisSearch_Click(object sender, System.EventArgs e)
@@ -343,10 +349,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 		protected void btnSave_Click(object sender, System.EventArgs e)
 		{
            string[] fileArr =new  string[2];
+           string strfileMobileChange = "";//修改手机变更函
+           string strfileMobileCredit = "";//修改手机身份证
 			try
 			{
                string file="";
-
                 //上传图片
                 if (this.lblEmail.Text.Trim() != this.txtEmail.Text.Trim())//若修改邮箱，必传邮箱变更扫描件
                 {
@@ -368,6 +375,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     fileArr[1]=file;
                 }
 
+                //上传手机变更函扫描件
+                if (this.lblContactMobile.Text.Trim() != this.txtContactMobile.Text.Trim())
+                {
+                    if (this.fileMobileChange.Value == "")
+                        throw new Exception("请上传图片");
+                    upImage(fileMobileChange);
+                    strfileMobileChange = ViewState["ViewFileName"].ToString();
+                    strfileMobileChange = strfileMobileChange.Replace("uploadfile/", "");
+                }
+                //手机身份证扫描件可传可不传
+                if (fileMobileCredit.Value != "")
+                {
+                    upImage(fileMobileCredit);
+                    strfileMobileCredit = ViewState["ViewFileName"].ToString();
+                    strfileMobileCredit = strfileMobileCredit.Replace("uploadfile/", "");
+                }
+
 				string strszkey = Session["SzKey"].ToString().Trim();
 				int ioperid = Int32.Parse(Session["OperID"].ToString());
 				int iserviceid = TENCENT.OSS.CFT.KF.Common.AllUserRight.GetServiceID("InfoCenter") ;
@@ -385,40 +409,78 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				{
 					
 				}
+                log = SensitivePowerOperaLib.MakeLog("edit", struserdata, "[修改商户联系人手机]", Session["uid"].ToString(),
+                    this.txtFspid.Text.Trim(), this.lblContactMobile.Text.Trim(), this.txtContactMobile.Text.Trim());
+
+                if (!SensitivePowerOperaLib.WriteOperationRecord("InfoCenter", log, this))
+                {
+
+                }
 			}
 			catch(Exception err)
 			{
 				WebUtils.ShowMessage(this.Page,err.Message);
 				return;
 			}
+            if (lblFspName.Text.Trim() != txtFspName.Text.Trim() || lblAddress.Text.Trim() != txtAddress.Text.Trim() || lblEmail.Text.Trim() != txtEmail.Text.Trim())
+            {
+                try
+                {
+                    //if(this.txtAddress.Text.Trim() == "")
+                    //{
+                    //	throw new Exception("请输入新网址!");
+                    //}
+                    if (this.txtEmail.Text.Trim() == "")
+                    {
+                        throw new Exception("请输入新邮箱!");
+                    }
 
-			try
-			{
-				//if(this.txtAddress.Text.Trim() == "")
-				//{
-				//	throw new Exception("请输入新网址!");
-				//}
-				if(this.txtEmail.Text.Trim() == "")
-				{
-					throw new Exception("请输入新邮箱!");
-				}
+                    CheckData();
+                    //	Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                    new SPOAService().SubmitBusinessInfo(Session["uid"].ToString(), this.txtFspid.Text.Trim(), this.lblFspName.Text.Trim(), this.txtFspName.Text.Trim(),
+                        this.lblEmail.Text.Trim(), this.txtEmail.Text.Trim(), this.lblAddress.Text.Trim(), this.txtAddress.Text.Trim(),
+                        this.tbReasonText.Text.Trim(), fileArr);
+                    this.btnSave.Enabled = false;
+                }
+                catch (SoapException eSoap)
+                {
+                    string errStr = PublicRes.GetErrorMsg(eSoap.Message);
+                    WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+                }
+                catch (Exception eSys)
+                {
+                    WebUtils.ShowMessage(this.Page, "调用服务出错：" + eSys.Message);
+                }
+            }
+            if (this.lblContactMobile.Text.Trim() != this.txtContactMobile.Text.Trim())
+            {
+                try
+                {
+                    CheckData();
+                    //修改联系人手机
+                    if (this.txtContactMobile.Text.Trim() == "")
+                    {
+                        throw new Exception("请输入新联系人手机!");
+                    }
+                    string msg = new SPOAService().SpidMobileApply(Session["uid"].ToString(), this.txtFspid.Text.Trim(), this.txtContactMobile.Text.Trim(),
+                                strfileMobileCredit, strfileMobileChange, this.tbReasonText.Text.Trim());
+                    if (msg != "")
+                    {
+                        throw new Exception(msg);
+                    }
 
-				CheckData();
-			//	Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                new SPOAService().SubmitBusinessInfo(Session["uid"].ToString(), this.txtFspid.Text.Trim(), this.lblFspName.Text.Trim(), this.txtFspName.Text.Trim(),
-                    this.lblEmail.Text.Trim(), this.txtEmail.Text.Trim(), this.lblAddress.Text.Trim(), this.txtAddress.Text.Trim(),
-                    this.tbReasonText.Text.Trim(), fileArr);
-				this.btnSave.Enabled = false;
-			}
-			catch(SoapException eSoap)
-			{
-				string errStr = PublicRes.GetErrorMsg(eSoap.Message);
-				WebUtils.ShowMessage(this.Page,"调用服务出错：" + errStr);
-			}
-			catch(Exception eSys)
-			{
-				WebUtils.ShowMessage(this.Page,eSys.Message);
-			}
+                    this.btnSave.Enabled = false;
+                }
+                catch (SoapException eSoap)
+                {
+                    string errStr = PublicRes.GetErrorMsg(eSoap.Message);
+                    WebUtils.ShowMessage(this.Page, "修改联系人手机出错：" + errStr);
+                }
+                catch (Exception eSys)
+                {
+                    WebUtils.ShowMessage(this.Page, "修改联系人手机出错：" + eSys.Message);
+                }
+            }
 		}
 
 		protected void Linkbutton2_Click(object sender, System.EventArgs e)

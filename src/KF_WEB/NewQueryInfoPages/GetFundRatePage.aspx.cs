@@ -497,7 +497,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     DataGrid_QueryResult.Columns[10].Visible = true;
 
                     //根据基金来控制展示字段
-                    if (fund_code == "110020" && spId == "1238657101") //易方达沪深300基金
+                    if ( fundBLLService.isSpecialFund(fund_code, spId)) //易方达沪深300基金
                     {
                         DataGrid_QueryResult.Columns[3].Visible = false;
                         DataGrid_QueryResult.Columns[4].Visible = false;
@@ -539,7 +539,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 //获取强赎申请URL,未提供强赎功能接口到客服部
                 GeForceRedeemUrl(bankRollList);
                 string fund_code = ViewState["fundCode"].ToString();
-                if (fund_code == "110020" && spId == "1238657101") //易方达沪深300基金
+                if (fundBLLService.isSpecialFund(fund_code, spId)) //易方达沪深300基金
                 {
                     this.dgBankRollList.Columns[3].HeaderText = "基金份额";
                     this.dgBankRollList.Columns[4].HeaderText = "份额余额";
@@ -651,7 +651,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (index == 1 && e.Item.ItemIndex == 0 && type!="冻结"&&
                     ViewState["close_flag"].ToString() == "1")//第一页，第一行流水记录才能赎回，且存取状态不能为冻结 且为非定期基金
                 {
-                    if (!(fund_code == "110020" && spid == "1238657101"))//易方达沪深300强赎先隐藏，无接口
+                    if (!fundBLLService.isSpecialFund(fund_code, spid))//易方达沪深300强赎先隐藏，无接口
                     {
                     if (DateTime.Now.Hour >= 9 && DateTime.Now.Hour <= 15)//强赎发起时间工作日9：00－15：00，其它时间无法发起强赎，按钮灰色
                     lb.Visible = true;
@@ -699,7 +699,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (bankRollList != null)
                 {
 
-                    if (fund_code == "110020" && spId == "1238657101") //易方达沪深300基金
+                    if (fundBLLService.isSpecialFund(fund_code, spId)) //易方达沪深300基金
                     {
                         this.dgBankRollListNotChildren.Columns[2].Visible = true;
                         this.dgBankRollListNotChildren.Columns[5].Visible = true;
