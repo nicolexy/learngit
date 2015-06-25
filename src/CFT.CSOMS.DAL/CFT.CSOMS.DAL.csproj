@@ -44,6 +44,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CFT.Apollo.Logging.1.0.5494.24500\lib\net40\CFT.Apollo.Logging.dll</HintPath>
     </Reference>
+    <Reference Include="Google.ProtocolBuffers">
+      <HintPath>..\..\..\..\Test\libs\Google.ProtocolBuffers.dll</HintPath>
+    </Reference>
     <Reference Include="icecs_gb2312, Version=3.1.1.0, Culture=neutral, PublicKeyToken=1f998c50fec78381">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CFT.Apollo.CommunicationFramework.3.2.39\lib\net40\icecs_gb2312.dll</HintPath>
@@ -116,6 +119,7 @@
     <Compile Include="UserAppealModule\UserAppealData.cs" />
     <Compile Include="WechatPay\CreditCardRefund.cs" />
     <Compile Include="WechatPay\FastPayData.cs" />
+    <Compile Include="WechatPay\Entity\MmpayHongBaoModel.cs" />
     <Compile Include="WechatPay\TradePayData.cs" />
     <Compile Include="WechatPay\WechatMerchantData.cs" />
   </ItemGroup>

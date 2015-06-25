@@ -21,7 +21,7 @@ namespace CFT.CSOMS.BLL.WechatPay
         /// <param name="stime">开始日期</param>
         /// <param name="etime">结束日期</param>
         /// <returns></returns>
-        public DataSet QueryCreditCardRefund(string wxNo, string bankNo, string refundNo,string uin, string stime, string etime, int start, int count)
+        public DataSet QueryCreditCardRefund(string wxNo, string bankNo, string refundNo, string uin, string stime, string etime, int start, int count)
         {
             DataSet ds = null;
             try
@@ -30,14 +30,14 @@ namespace CFT.CSOMS.BLL.WechatPay
                 {
                     throw new ArgumentNullException("起始日期不能为空");
                 }
-                
+
                 if (!string.IsNullOrEmpty(wxNo))
                 {
                     //通过微信号查openid
                     string openid = WeChatHelper.GetXYKHKOpenIdFromWeChatName(wxNo);
                     //通过openid查询还款uid
                     string uid = new CreditCardRefund().QueryUidFromCreditCardOpenid(openid);
-                    
+
                     ds = new CreditCardRefund().QueryCreditCardRefundWX(uid, stime, etime, start, count);
                 }
                 else if (!string.IsNullOrEmpty(bankNo))
@@ -60,7 +60,7 @@ namespace CFT.CSOMS.BLL.WechatPay
                     throw new ArgumentNullException("查询条件不能为空");
                 }
             }
-            catch (Exception ee) 
+            catch (Exception ee)
             {
                 throw new Exception(ee.Message);
             }
@@ -77,7 +77,7 @@ namespace CFT.CSOMS.BLL.WechatPay
         public DataTable QueryCreditCardRefundDetail(string uid, string wxFetchNo)
         {
             DataTable dt = null;
-            if (!string.IsNullOrEmpty(uid)) 
+            if (!string.IsNullOrEmpty(uid))
             {
                 dt = new CreditCardRefund().QueryCreditCardRefundDetail(uid, wxFetchNo);
             }
@@ -89,7 +89,7 @@ namespace CFT.CSOMS.BLL.WechatPay
         /// </summary>
         /// <param name="creditId">卡号ID，多个卡号用|分割</param>
         /// <returns>加密后的卡号</returns>
-        public string EncodeCreidtId(string creditId) 
+        public string EncodeCreidtId(string creditId)
         {
             return new CreditCardRefund().CreditEncode(creditId);
         }
@@ -105,13 +105,13 @@ namespace CFT.CSOMS.BLL.WechatPay
         /// <param name="start">分页起始位</param>
         /// <param name="count">记录条数</param>
         /// <returns>增值券列表</returns>
-        public DataSet QueryAddedValueTicket(int accType, string uin, string state, string couponId,string spId, int start, int count) 
+        public DataSet QueryAddedValueTicket(int accType, string uin, string state, string couponId, string spId, int start, int count)
         {
             DataSet ds = null;
             try
             {
                 ds = new CreditCardRefund().QueryAddedValueTicket(accType, uin, couponId, spId, state, start, count);
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0) 
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     ds.Tables[0].Columns.Add("stateStr", typeof(String));//使用状态
                     ds.Tables[0].Columns.Add("thresholdStr", typeof(String));//用券门槛，最低申购金额(分)
@@ -141,10 +141,10 @@ namespace CFT.CSOMS.BLL.WechatPay
         /// <param name="batchId">批次号</param>
         /// <param name="pwd">密码</param>
         /// <returns>增值券详情</returns>
-        public DataTable QueryBatchTicketDetail(string batchId, string pwd) 
+        public DataTable QueryBatchTicketDetail(string batchId, string pwd)
         {
             DataTable dt = null;
-            try 
+            try
             {
                 dt = new CreditCardRefund().QueryBatchTicketDetail(batchId, pwd);
             }
@@ -156,29 +156,83 @@ namespace CFT.CSOMS.BLL.WechatPay
             return dt;
         }
 
-        public DataTable QueryWxTrans(string prime_trans_id) 
+        public DataTable QueryWxTrans(string prime_trans_id)
         {
             return new TradePayData().QueryWxTrans(prime_trans_id);
         }
 
-        public DataSet QueryWebchatHB(string sendData, int flag, string client_ip, int offset, int limit)
+        /// <summary>
+        /// 发送的红包
+        /// </summary>
+        /// <param name="openid"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public DataSet QueryUserSendList(string openid, DateTime start_time, DateTime end_time, int offset, int limit)
         {
-            string paramName = "";
-            if (flag == 1)
+            var parameter = new string[][]
             {
-                paramName = "send_openid";
-            }
-            else if (flag == 2)
+                new string[]  {"openid",openid }, //"onqOjjkmc6mFyMkG67lri4qPlpBg"
+                new string[]  {"start_time",start_time.ToString("yyyy-MM-dd HH:mm:ss")},
+                new string[]  {"end_time",end_time.ToString("yyyy-MM-dd HH:mm:ss")},
+                new string[]  {"limit",limit.ToString()},              
+                new string[]  {"offset",offset.ToString()}
+            };
+            return new TradePayData().QueryWechatHB(parameter, "QueryUserSendList");
+        }
+
+        /// <summary>
+        /// 收到的红包
+        /// </summary>
+        /// <param name="openid"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public DataSet QueryUserReceiveList(string openid, DateTime start_time, DateTime end_time, int offset, int limit)
+        {
+            var parameter = new string[][]
             {
-                paramName = "rec_openid";
-            }
-            else if (flag == 3)
+                new string[]  {"openid",openid},  //"onqOjjhRRpnwjceoYnAY2CrJd2JU"
+                new string[]  {"start_time",start_time.ToString("yyyy-MM-dd HH:mm:ss")},
+                new string[]  {"end_time",end_time.ToString("yyyy-MM-dd HH:mm:ss")},              
+                new string[]  {"limit",limit.ToString()}, 
+                new string[]  {"offset",offset.ToString()}
+            };
+            return new TradePayData().QueryWechatHB(parameter, "QueryUserReceiveList");
+        }
+
+        /// <summary>
+        /// 发送的红包,的 接受者红包信息
+        /// </summary>
+        /// <param name="send_id"></param>
+        /// <param name="qry_type">0 普通模式  完全字段, 1 简单模式</param>
+        /// <returns></returns>
+        public DataSet QueryDetail(string send_id, int qry_type)
+        {
+            var parameter = new string[][]
             {
-                paramName = "send_listid";
-            }
-            else
-                throw new Exception("flag参数有误，没有对应接口");
-            return new TradePayData().QueryWebchatHB(paramName, sendData, flag, client_ip, offset, limit);
+                new string[]  {"send_id",send_id},
+                new string[]  {"qry_type",qry_type.ToString()}
+            };
+            return new TradePayData().QueryWechatHB(parameter, "QueryDetail");  //QuerySendById:发送的红包本身的信息  ,QueryDetailReq: 发送的红包,的 接受者红包信息
+        }
+
+        /// <summary>
+        /// 收到的红包详情
+        /// </summary>
+        /// <param name="receive_id"></param>
+        /// <param name="send_id"></param>
+        /// <param name="qry_type">0 普通模式  完全字段, 1 简单模式</param>
+        /// <returns></returns>
+        public DataSet QueryReceiveHBInfoById(string receive_id, string send_id, int qry_type)
+        {
+            var parameter = new string[][]
+            {
+                new string[]  {"receive_id",receive_id},
+                new string[]  {"send_id",send_id},
+                new string[]  {"qry_type",qry_type.ToString()}
+            };
+            return new TradePayData().QueryWechatHB(parameter, "QueryReceiveById");
         }
     }
 }
