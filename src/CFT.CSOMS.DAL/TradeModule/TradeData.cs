@@ -594,6 +594,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                     else if (!string.IsNullOrEmpty(buyqq))
                     {
                         fuid = PublicRes.ConvertToFuid(buyqq);
+                        buyqqInnerID = fuid;
                         fields = "buy_uid:" + fuid + fields;
                         ds = QueryUserOrder("2212", fields, start, max);
                     }
@@ -611,7 +612,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                         {
                             dsForWX = QueryWxBuyOrderByUid(int.Parse(buyqqInnerID.Trim()), u_BeginTime, u_EndTime);//微信买家纬度订单
                             //添加将微信订单数据
-                            ds = PublicRes.ToOneDataset(dsForWX, ds);
+                            ds = PublicRes.ToOneDataset(ds, dsForWX);
                         }
                         catch (Exception ex)
                         {
@@ -674,7 +675,16 @@ namespace CFT.CSOMS.DAL.TradeModule
                          "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
                         "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
                 ds = QueryUserOrder("2216", fields, istr - 1, imax);
-
+                try
+                {
+                    DataSet dsForWX = QueryWxBuyOrderByUid(int.Parse(fuid.Trim()), dtBegin, dtEnd);//微信买家纬度订单
+                    //添加将微信订单数据
+                    ds = PublicRes.ToOneDataset(ds, dsForWX);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("添加将微信订单数据失败：" + ex.Message);
+                }
             }
             else if (iIDType == 9)  //根据QQ号码查卖家交易单
             {
