@@ -51,7 +51,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 
             try
             {
-                this.operaterName.Text = Session["OperID"].ToString();
+                this.operaterName.Text = Session["uid"].ToString();
                 if (!IsPostBack)
                 {
  
@@ -60,13 +60,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     //textBoxBeginDate.Text = DateTime.Now.AddMonths(-3).ToString("yyyy年MM月dd日");
                     //textBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
 
-                    if (operaterName.Text.Trim() == RefundPublicFun.OPERATOR.Trim())
+                    if (Session["uid"].ToString() == RefundPublicFun.OPERATOR.Trim())
                     {
                         SetRighBtnState(true);
                     }
                     else
                     {
                         SetRighBtnState(false);
+                        log4net.ILog log = log4net.LogManager.GetLogger("RefundRegistration");
+                        log.InfoFormat("uid={0},oper={1}", Session["uid"].ToString(), RefundPublicFun.OPERATOR.Trim());
                     }
                 }
             }
@@ -420,16 +422,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 
         private void SetRighBtnState(bool state =false)
         {
-            if (state)
-            {
-                txtContext.Visible = true;
-                btnText.Visible = true;
-            }
-            else
-            {
-                txtContext.Visible = false;
-                btnText.Visible = false;
-            }
+            txtContext.Visible = state;
+            btnText.Visible = state;         
         }
         protected void OnBtnYonghua_Click(object sender, EventArgs e)
         {
@@ -438,7 +432,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 return;
             }
 
-            new RefundService().RequestInfoChange(btnText.Text.Trim(), Session["uid"].ToString().Trim());
+            new RefundService().RequestInfoChange(txtContext.Text.Trim(), Session["uid"].ToString().Trim());
         }
 
         protected void OnBtnChangeItem_Click(object sender, EventArgs e)

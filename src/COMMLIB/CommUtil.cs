@@ -243,6 +243,52 @@ namespace CFT.CSOMS.COMMLIB
         }
 
         /// <summary>
+        /// 通过数据库字段内容转成页面显示内容。furion 20130517
+        /// </summary>
+        /// <param name="dt">要转换的表</param>
+        /// <param name="FieldName">要转换的字段</param>
+        public static void DbtypeToPageContent(DataTable dt, string FieldName, string destField, Dictionary<string, string> ht)
+        {
+            try
+            {
+                if (ht == null)
+                    return;
+
+                if (dt.Columns.Contains(FieldName))
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        string field = dr[FieldName].ToString();
+                        string ret = "";
+                        if (ht.ContainsKey(field))
+                        {
+                            ret = ht[field].ToString();
+                        }
+                        else
+                        {
+                            ret = "未知：" + field;
+                        }
+
+                        dr.BeginEdit();
+                        dr[destField] = ret;
+                        dr.EndEdit();
+                    }
+                }
+                else
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        dr[destField] = "";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
+        /// <summary>
         /// 通过数据库字段内容转成页面显示内容。时间戳转为C#格式时间
         /// </summary>
         /// <param name="dt">要转换的表</param>

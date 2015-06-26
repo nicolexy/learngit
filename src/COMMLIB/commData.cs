@@ -1,5 +1,7 @@
+using SunLibraryEX;
 using System;
 using System.Collections;
+using System.Data;
 
 namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 {
@@ -14,6 +16,89 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			// TODO: 在此处添加构造函数逻辑
 			//
 		}
+
+        #region 基类
+        public class T_CLASS_BASIC
+        {
+            /// <summary>
+            /// 从一条记录，获取成员变量值
+            /// </summary>
+            /// <param name="dr"></param>
+            public void LoadFromDB(DataRow dr)
+            {
+                System.Reflection.FieldInfo fi;
+                string col_name, col_type;
+                System.Type this_type = this.GetType();
+                for (int i = 0; i < dr.Table.Columns.Count; i++)
+                {
+                    col_name = dr.Table.Columns[i].ColumnName;
+                    fi = this_type.GetField(col_name);
+                    if (fi == null)
+                        fi = this_type.GetField(col_name.ToLower());
+                    if (fi != null)
+                    {
+                        col_type = dr.Table.Columns[i].DataType.FullName.ToUpper();
+                        if (col_type == "System.Int32" || col_type == "System.Int16")
+                            fi.SetValue(this, StringEx.GetInt(dr[col_name]));
+                        else if (col_type == "System.DateTime")
+                            fi.SetValue(this, StringEx.GetDateTime(dr[col_name]));
+                        else
+                            fi.SetValue(this, StringEx.GetString(dr[col_name]));
+                    }
+                }
+            }
+
+            /// <summary>
+            /// 从审批参数表获取成员变量值
+            /// </summary>
+            /// <param name="dt"></param>
+            public void LoadFromParamDB(DataTable dt)
+            {
+                System.Reflection.FieldInfo fi;
+                string col_name, col_value;
+                System.Type this_type = this.GetType();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    col_name = dr["FKey"].ToString().Trim();
+                    fi = this_type.GetField(col_name);
+                    if (fi == null)
+                        fi = this_type.GetField(col_name.ToLower());
+                    if (fi != null)
+                    {
+                        col_value = dr["FValue"].ToString().Trim();
+                        if (fi.FieldType.FullName == "System.Boolean")
+                            fi.SetValue(this, Convert.ToBoolean(col_value));
+                        else
+                            fi.SetValue(this, col_value);
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region t_bankbulletin_info 表
+        public class T_BANKBULLETIN_INFO : T_CLASS_BASIC
+        {
+            public bool IsNew = false;
+            public bool IsOPen = false;
+            public string bulletin_id;//银行公告id
+            public string banktype;
+            public string banktype_str;
+            public string businesstype;//业务类型
+            public string op_support_flag;//业务子类型
+            public string closetype;//是否影响接口
+            public string title;
+            public string maintext;
+            public string popuptext;//弹层正文
+            public string startime;
+            public string endtime;
+            public string createuser;
+            public string updateuser;
+            public string createtime;
+            public string updatetime;
+            public string returnUrl;
+        }
+        #endregion
 
         public static Hashtable AirCompany()
         {

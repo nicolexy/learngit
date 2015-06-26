@@ -944,25 +944,17 @@ namespace CFT.CSOMS.BLL.FundModule
                             if (tradeFund != null && tradeFund.Rows.Count > 0)
                             {
                                 dr["FmemoText"] += tradeFund.Rows[0]["duoFund"].ToString();
-                                dr["fetchid"] = tradeFund.Rows[0]["Ffetchid"].ToString();
+                                dr["fetchid"] += tradeFund.Rows[0]["Ffetchid"].ToString();
                             }
                         }
 
-                        else if (dr["FmemoText"].ToString().Equals("提现"))
+                        if (dr["FmemoText"].ToString().Equals("提现"))
                         {
                             DataTable tradeFund = QueryTradeFundInfoPro(spId, listid.Substring(listid.Length - 18));//查询多基金转换
                             if (tradeFund != null && tradeFund.Rows.Count > 0)
                             {
                                 dr["FmemoText"] += tradeFund.Rows[0]["duoFund"].ToString();
-                                dr["fetchid"] = tradeFund.Rows[0]["Ffetchid"].ToString();
-                            }
-                        }
-                        else
-                        {
-                            DataTable tradeFund = QueryTradeFundInfoPro(spId, listid);
-                            if (tradeFund != null && tradeFund.Rows.Count > 0)
-                            {
-                                dr["fetchid"] = tradeFund.Rows[0]["Ffetchid"].ToString();
+                                dr["fetchid"] += tradeFund.Rows[0]["Ffetchid"].ToString();
                             }
                         }
 

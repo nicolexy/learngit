@@ -385,5 +385,13 @@ namespace CFT.CSOMS.BLL.PublicService
             }
         }
 
+        public DataTable GetCheckInfo(string objid, string checkType)
+        {
+            string msg = "";
+            DataTable dt= new PublicRes().GetCheckInfo(objid, checkType, out msg);
+            if (msg != "")
+                throw new Exception(msg);
+            return dt;
+        }
     }
 }

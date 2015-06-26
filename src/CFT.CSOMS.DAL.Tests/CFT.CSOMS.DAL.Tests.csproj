@@ -80,6 +80,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="SysManageModuleTest\SysManageDataTest.cs" />
     <Compile Include="Util\Tool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TradeDataTest.cs" />

@@ -13,8 +13,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-  
-                operatorID.Text = Session["OperID"].ToString();
+
+                operatorID.Text = Session["uid"].ToString();
                 ViewState["truename"] = Request.QueryString["truename"].ToString();
                 ViewState["paybanklist"] = Request.QueryString["paybanklist"].ToString();
                 ViewState["oldid"] = Request.QueryString["oldid"].ToString();
