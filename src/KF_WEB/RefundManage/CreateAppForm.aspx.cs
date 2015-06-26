@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 		{
 			// 在此处放置用户代码以初始化页面
 			//验证权限
-            lbOperator.Text = Session["OperID"].ToString();
+            lbOperator.Text = Session["uid"].ToString();
             if (!IsPostBack)
             {
                 BindData();

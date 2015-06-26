@@ -35,7 +35,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-            this.Label1.Text = Session["OperID"].ToString();
+            this.Label1.Text = Session["uid"].ToString();
             //获取一个值，该值指示该页是否正为响应客户端回发而加载，或者它是否正被首次加载和访问，
             //如果是为响应客户端回发而加载该页，则为true；否则为 false。
             //uinID=" + strUinID + "&refundType" + strRefundType + "&bankListId" + strPayListid + "&oldId" + strOldId +"&time" + strCreateTime + 

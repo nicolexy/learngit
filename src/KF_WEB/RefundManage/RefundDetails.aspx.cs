@@ -591,14 +591,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 btnCommit.Enabled   = true;
                 btnRefuse.Enabled   = true;
                 btnCW.Enabled       = true;
-                btnInvalid.Enabled  = true;
+                //btnInvalid.Enabled  = true;
             }
             else
             {
                 btnCommit.Enabled   = false;
                 btnRefuse.Enabled   = false;
                 btnCW.Enabled       = false;
-                btnInvalid.Enabled  = false;
+                //btnInvalid.Enabled  = false;
             }
 
         }
