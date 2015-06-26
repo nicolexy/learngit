@@ -28,10 +28,14 @@ namespace CFT.CSOMS.DAL.ForeignCardModule
             var req = "uin=" + uin + "&limit=" + limit + "&offset=" + offset;
             if (list_type != null) req += "&list_type=" + list_type;
 
-            string answer = RelayAccessFactory.RelayInvoke(req, "101101", true, false, Ip, Port);
+            string answer = RelayAccessFactory.RelayInvoke(req, "101101", true, false, Ip, Port, "utf-8");
             var dic = StringEx.ToDictionary(answer); //AnalyzeDictionary(answer);
             if (dic["result"] != "0")
             {
+                if (dic.ContainsKey("res_info_origin"))
+                {
+                    throw new Exception("查询失败:" + dic["res_info_origin"]);
+                }
                 throw new Exception("查询失败:" + answer);
             }
             var num = int.Parse(dic["row_num"]);
@@ -46,41 +50,28 @@ namespace CFT.CSOMS.DAL.ForeignCardModule
         /// <summary>
         /// 外币用户交易单或退款单查询
         /// </summary>
-        /// <param name="tradeInfo">交易信息表</param>
+        /// <param name="tradeInfo">订单号</param>
         /// <param name="list_type">交易单:101 退款单:102</param>
         /// <param name="uin">财富通账号</param>
         /// <returns></returns>
-        public DataSet QueryFCTradeBillsAndRefund(Dictionary<string, Dictionary<string, string>> tradeInfo, short list_type, string uin)
+        public Dictionary<string, string> QueryFCTradeBillsAndRefund(string listid, short list_type, string uin)
         {
-            var ds = new DataSet();
-            DataTable dt = null;
-            foreach (Dictionary<string, string> item in tradeInfo.Values)
+            var req = "listid=" + listid + "&type=" + list_type + "&uin=" + uin;
+            string answer = RelayAccessFactory.RelayInvoke(req, "101102", true, false, Ip, Port, "utf-8");
+            if (string.IsNullOrEmpty(answer))
             {
-                var type = item["list_type"];
-                if ((string)type == list_type.ToString())
-                {
-                    var req = "listid=" + item["listid"] + "&type=" + item["list_type"] + "&uin=" + uin;
-                    string answer = RelayAccessFactory.RelayInvoke(req, "101102", true, false, Ip, Port);
-                    var dic = StringEx.ToDictionary(answer);
-                    if (dic["result"] == "0")
-                    {
-                        dic.Add("list_state", item["list_state"]);
-                        if (dt == null)
-                        {
-                            dt = new DataTable();
-                            dt.Columns.AddRange(dic.Keys.Select(u => new DataColumn(u)).ToArray());
-                            ds.Tables.Add(dt);
-                        }
-                        var row = dt.NewRow();
-                        foreach (var kv in dic)
-                        {
-                            row[kv.Key] = kv.Value;
-                        }
-                        dt.Rows.Add(row);
-                    }
-                }
+                throw new Exception("查询接口失败");
             }
-            return ds;
+            var dic = StringEx.ToDictionary(answer);
+            if (dic == null || dic.Count == 0)
+            {
+                if (dic.ContainsKey("res_info_origin"))
+                {
+                    throw new Exception("查询失败:" + dic["res_info_origin"]);
+                }
+                throw new Exception("查询接口失败");
+            }
+            return dic;
         }
 
         /// <summary>
@@ -92,10 +83,14 @@ namespace CFT.CSOMS.DAL.ForeignCardModule
         {
             var req = "uin=" + uin;
 
-            string answer = RelayAccessFactory.RelayInvoke(req, "101103", true, false, Ip, Port);
+            string answer = RelayAccessFactory.RelayInvoke(req, "101103", true, false, Ip, Port, "utf-8");
             var dic = StringEx.ToDictionary(answer); //AnalyzeDictionary(answer);
             if (dic["result"] != "0")
             {
+                if (dic.ContainsKey("res_info_origin"))
+                {
+                    throw new Exception("查询失败:" + dic["res_info_origin"]);
+                }
                 throw new Exception("查询失败:" + answer);
             }
             var num = int.Parse(dic["row_num"]);
@@ -127,10 +122,14 @@ namespace CFT.CSOMS.DAL.ForeignCardModule
                 "&cur_type=" + cur_type +
                 "&acc_type=" + acc_type +
                 "&client_ip=" + client_ip;
-            string answer = RelayAccessFactory.RelayInvoke(req, "100385", false, false, Ip, Port);
+            string answer = RelayAccessFactory.RelayInvoke(req, "100385", false, false, Ip, Port, "utf-8");
             var dic = StringEx.ToDictionary(answer); //AnalyzeDictionary(answer);
             if (dic["result"] != "0")
             {
+                if (dic.ContainsKey("res_info_origin"))
+                {
+                    throw new Exception("查询失败:" + dic["res_info_origin"]);
+                }
                 throw new Exception("查询失败:" + answer);
             }
             return dic;
@@ -146,15 +145,19 @@ namespace CFT.CSOMS.DAL.ForeignCardModule
         public DataTable QueryFCFlow(string acno, int limit, int offset)
         {
             var req = "acno=" + acno + "&limit=" + limit + "&offset=" + offset;
-            string answer = RelayAccessFactory.RelayInvoke(req, "101109", true, false, Ip, Port);
+            string answer = RelayAccessFactory.RelayInvoke(req, "101109", true, false, Ip, Port, "utf-8");
             var dic = StringEx.ToDictionary(answer); //AnalyzeDictionary(answer);
             if (dic["result"] != "0")
             {
+                if (dic.ContainsKey("res_info_origin"))
+                {
+                    throw new Exception("查询失败:" + dic["res_info_origin"]);
+                }
                 throw new Exception("查询失败:" + answer);
             }
             if (dic["row_num"] != "0")
             {
-                return DictionaryToDataTable( AnalyzeStringToDictionary(dic));
+                return DictionaryToDataTable(AnalyzeStringToDictionary(dic));
             }
             return null;
         }

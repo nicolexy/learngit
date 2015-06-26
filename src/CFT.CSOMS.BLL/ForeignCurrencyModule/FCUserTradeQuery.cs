@@ -24,6 +24,8 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
         private static Dictionary<string, string> CardType;
         //标示
         private static Dictionary<string, string> DeleteFlag;
+        //退款状态
+        private static Dictionary<string, string> RefundState;
         static FCUserTradeQuery()
         {
             TradeType = new Dictionary<string, string>() 
@@ -77,31 +79,108 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
                 { "0", "正常" },
                 { "1", "用户手工删除" },
             };
+
+            RefundState = new Dictionary<string, string>()
+            {
+                {"1","待审批"},
+                {"2","审批流程中"},
+                {"3","审批失败"},
+                {"4","退款成功"},
+                {"5","退款失败"},
+                {"6","资料重填"},
+                {"7","转入代发"},
+                {"8","暂不处理"},
+                {"9","退款流程中"},
+                {"10","转入代发成功"},
+                {"11","转入代发中"},
+                {"99","退款回滚"},
+            };
         }
 
         /// <summary>
-        /// 查询交易单或退款单
+        /// 查询交易单
         /// </summary>
         /// <param name="uin">财富通账号</param>
-        /// <param name="list_type">交易单:101 退款单:102</param>
         /// <param name="limit">页大小</param>
         /// <param name="offset">跳过行</param>
         /// <returns></returns>
-        public DataSet QueryFCTradeBillsAndRefund(string uin, short list_type, int limit, int offset)
+        public DataSet QueryFCTradeBills(string uin, int limit, int offset)
         {
-            var dic = dal.QueryFCTradeInfoByUin(uin, list_type, limit, offset);
+            string[] columns101 = { "acc_time", "spid", "listid", "sp_name", "list_state" };
+            string[] columns102 = { "trade_type", "trade_state", "buy_uid", "sub_business_type", "price", "price_curtype", "bank_curtype", "bank_paynum" };
+            var dic = dal.QueryFCTradeInfoByUin(uin, 101, limit, offset);
             if (dic != null)
             {
-                var ds = dal.QueryFCTradeBillsAndRefund(dic, list_type, uin);
-                if (ds != null && ds.Tables.Count > 0)
+                var a = columns101.Union(columns102);
+                var dt = new DataTable();
+                dt.Columns.AddRange(columns101.Union(columns102).Select(u => new DataColumn(u)).ToArray());
+                foreach (var item in dic.Values)
                 {
-                    var dt = ds.Tables[0];
-                    FenToYuan(dt, "_str", "bank_paynum", "price");
-                    CodeToString(dt, TradeState, "trade_state");
-                    CodeToString(dt, TradeType, "trade_type");
-                    CodeToString(dt, PriceCurType, "price_curtype");
-                    CodeToString(dt, ListState, "list_state");
+                    var result = dal.QueryFCTradeBillsAndRefund(item["listid"], 101, uin);
+                    if (result["result"] == "0")
+                    {
+                        var row = dt.NewRow();
+                        foreach (var k1 in columns101)
+                        {
+                            row[k1] = item[k1];
+                        }
+                        foreach (var k1 in columns102)
+                        {
+                            row[k1] = result[k1];
+                        }
+                        dt.Rows.Add(row);
+                    }
                 }
+                FenToYuan(dt, "_str", "bank_paynum", "price");
+                CodeToString(dt, TradeState, "trade_state");
+                CodeToString(dt, TradeType, "trade_type");
+                CodeToString(dt, PriceCurType, "price_curtype");
+                CodeToString(dt, ListState, "list_state");
+                var ds = new DataSet();
+                ds.Tables.Add(dt);
+                return ds;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 退款单 102
+        /// </summary>
+        /// <param name="uin">财富通账号</param>
+        /// <param name="limit">页大小</param>
+        /// <param name="offset">跳过行</param>
+        /// <returns></returns>
+        public DataSet QueryFCRefundBills(string uin, int limit, int offset)
+        {
+            string[] columns101 = { "acc_time", "cur_type", "listid" };
+            string[] columns102 = { "draw_id", "sp_refund_time", "sp_refund_num", "sp_refund_cash", "refund_state" };
+            var dic = dal.QueryFCTradeInfoByUin(uin, 102, limit, offset);
+            if (dic != null)
+            {
+                var dt = new DataTable();
+                dt.Columns.AddRange(columns101.Union(columns102).Select(u => new DataColumn(u)).ToArray());
+                foreach (var item in dic.Values)
+                {
+                    var result = dal.QueryFCTradeBillsAndRefund(item["listid"], 102, uin);
+                    if (result["result"] == "0")
+                    {
+                        var row = dt.NewRow();
+                        foreach (var k1 in columns101)
+                        {
+                            row[k1] = item[k1];
+                        }
+                        foreach (var k1 in columns102)
+                        {
+                            row[k1] = result[k1];
+                        }
+                        dt.Rows.Add(row);
+                    }
+                }
+                FenToYuan(dt, "_str", "sp_refund_cash", "sp_refund_num");
+                CodeToString(dt, PriceCurType, "cur_type");
+                CodeToString(dt, RefundState, "refund_state");
+                var ds = new DataSet();
+                ds.Tables.Add(dt);
                 return ds;
             }
             return null;
@@ -121,8 +200,8 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
                 dt.Columns.Add("card_owner_name");
                 foreach (DataRow item in dt.Rows)
                 {
-                    item["card_owner_name"] = (item["bill_first_name"] as string) + (item["bill_last_name"] as string);         
-                } 
+                    item["card_owner_name"] = (item["bill_first_name"] as string) + (item["bill_last_name"] as string);
+                }
                 CodeToString(dt, CardType, "card_type");
             }
             return ds;
@@ -246,13 +325,13 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
                 int j = 0;
                 foreach (var item in dic)
                 {
-                    dics.Add((++j * (i+1)).ToString(), item.Value);
+                    dics.Add((++j * (i + 1)).ToString(), item.Value);
                 }
             }
             var dt = dal.DictionaryToDataTable(dics);
             if (dt != null)
             {
-                FenToYuan(dt, "_str","total_fee");
+                FenToYuan(dt, "_str", "total_fee");
                 CodeToString(dt, ListState, "list_state");
                 CodeToString(dt, DeleteFlag, "delete_flag");
                 CodeToString(dt, PriceCurType, "cur_type");

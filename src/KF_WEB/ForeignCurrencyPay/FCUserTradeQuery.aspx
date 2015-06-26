@@ -117,6 +117,26 @@
                                 </Columns>
                             </asp:DataGrid>
 
+                            <asp:DataGrid ID="dg_refundBill" runat="server" Width="100%" AutoGenerateColumns="False" GridLines="Horizontal"
+                                CellPadding="3" BackColor="White" BorderWidth="1px" BorderStyle="None" BorderColor="#E7E7FF">
+                                <AlternatingItemStyle BackColor="#F7F7F7" />
+                                <FooterStyle BackColor="#B5C7DE" ForeColor="#4A3C8C" />
+                                <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#F7F7F7" Height="30px" />
+                                <ItemStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" />
+                                <PagerStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" HorizontalAlign="Right" Mode="NumericPages" />
+                                <SelectedItemStyle BackColor="#738A9C" Font-Bold="True" ForeColor="#F7F7F7" />
+                                <Columns>
+                                    <asp:BoundColumn DataField="acc_time" HeaderText="交易时间" />
+                                    <asp:BoundColumn DataField="listid" HeaderText="商户订单号" />
+                                    <asp:BoundColumn DataField="listid" HeaderText="MD订单号" />
+                                    <asp:BoundColumn DataField="draw_id" HeaderText="退款订单号" />
+                                    <asp:BoundColumn DataField="sp_refund_time" HeaderText="退款时间" />
+                                    <asp:BoundColumn DataField="cur_type_str" HeaderText="交易币种" />
+                                    <asp:BoundColumn DataField="sp_refund_num_str" HeaderText="退款金额" />
+                                    <asp:BoundColumn DataField="sp_refund_cash_str" HeaderText="实际退款金额" />
+                                    <asp:BoundColumn DataField="refund_state_str" HeaderText="退款状态" />
+                                </Columns>
+                            </asp:DataGrid>
 
                             <asp:DataGrid ID="dg_bindCardRecord" runat="server" Width="100%" AutoGenerateColumns="False" GridLines="Horizontal"
                                 CellPadding="3" BackColor="White" BorderWidth="1px" BorderStyle="None" BorderColor="#E7E7FF">
@@ -137,7 +157,7 @@
                                     <asp:BoundColumn DataField="bill_area" HeaderText="国家/地区" />
                                     <asp:BoundColumn DataField="bill_address" HeaderText="城市" />
                                     <asp:BoundColumn DataField="bill_address" HeaderText="街道" />
-                                    <asp:BoundColumn DataField="zip_code" HeaderText="邮编" />
+                                    <%--<asp:BoundColumn DataField="zip_code" HeaderText="邮编" />--%>
                                     <%--<asp:BoundColumn DataField="" HeaderText="绑定IP来源" />--%>
                                     <%--<asp:BoundColumn DataField="spid" HeaderText="商户号" />--%>
                                 </Columns>

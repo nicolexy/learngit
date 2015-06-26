@@ -39,7 +39,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                     WebUtils.ShowMessage(this.Page, "WeChat Id 不可以为空");
                     return;
                 }
-                var uin = AccountService.GetQQID("WeChatId", weChatId); //"085e9858ed8ed3aa9a95e4252@wx.tenpay.com";    // "test5@md.tenpay.com";
+                var uin = AccountService.GetQQID("WeChatId", weChatId); //"085e9858ed8ed3aa9a95e4252@wx.tenpay.com";    // "test5@md.tenpay.com";  //085e9858e4e80d2ce148400b6@wx.tenpay.com
                 ViewState["uin"] = uin;
                 wrap_info.Visible = true;
             }
@@ -136,6 +136,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             var uin = ViewState["uin"] as string;
             if (!string.IsNullOrEmpty(uin))
             {
+                ViewState["btnName"] = "btn_fundStream";
                 fundStreamTermInfo.Visible = true;
                 return;
             }
@@ -172,9 +173,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                     switch (btnName)
                     {
                         case "btn_tradeBill":
-                            ds = bll.QueryFCTradeBillsAndRefund(uin, 101, 10, skip); dg = dg_tradeBill; break;
+                            ds = bll.QueryFCTradeBills(uin, 10, skip); dg = dg_tradeBill; break;
                         case "btn_refund":
-                            ds = bll.QueryFCTradeBillsAndRefund(uin, 102, 10, skip); dg = dg_tradeBill; break;
+                            ds = bll.QueryFCRefundBills(uin, 10, skip); dg = dg_refundBill; break;
                         case "btn_bindCardRecord":
                             ds = bll.QueryFCBindCardRecord(uin); dg = dg_bindCardRecord; break;
                         case "btn_fundStream":
@@ -242,7 +243,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                  //new string[]{"list_type","交易单/退款单"},
                  new string[]{"sp_name","商户名称"},
                  new string[]{"total_fee_str","交易金额"},
-                 new string[]{"cur_type","币种"},
+                 new string[]{"cur_type_str","币种"},
                  new string[]{"memo","产品备注"},
                  new string[]{"delete_flag_str","标示"},
                  new string[]{"list_state_str","交易单状态"},
