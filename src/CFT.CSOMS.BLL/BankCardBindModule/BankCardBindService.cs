@@ -13,6 +13,7 @@ using CFT.CSOMS.DAL.Infrastructure;
 using CFT.CSOMS.DAL.BankcardUnbind;
 using TENCENT.OSS.CFT.KF.DataAccess;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
+using CFT.CSOMS.COMMLIB;
 
 namespace CFT.CSOMS.BLL.BankCardBindModule
 {
@@ -152,7 +153,54 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                 throw new Exception("没有查找到相应的记录！");
             }
         }
-
+        /// <summary>
+        /// 根据条件查询绑定的卡列表 qqId不能为空
+        /// </summary>
+        /// <param name="fuin"></param>
+        /// <param name="Fbank_type"></param>
+        /// <param name="bankID"></param>
+        /// <param name="uid"></param>
+        /// <param name="creType"></param>
+        /// <param name="creID"></param>
+        /// <param name="protocolno"></param>
+        /// <param name="phoneno"></param>
+        /// <param name="strBeginDate"></param>
+        /// <param name="strEndDate"></param>
+        /// <param name="queryType"></param>
+        /// <param name="isShowAboutDetail"></param>
+        /// <param name="bindStatue"></param>
+        /// <param name="bind_serialno"></param>
+        /// <param name="limStart"></param>
+        /// <param name="limCount"></param>
+        /// <returns></returns>
+        public DataSet GetBankCardBindList_New(string fuin, string Fbank_type, string bankID, string uid, string creID, string protocolno, string phoneno,
+            string strBeginDate, string strEndDate, int bindStatue, string bind_serialno, string Operator, int bind_type, string cre_type, int limStart, int limCount)
+        {
+            DataSet ds = new BankcardbindData().GetBankCardBindList_New(fuin, Fbank_type, bankID, uid, creID, protocolno, phoneno, strBeginDate, strEndDate,
+                bindStatue, bind_serialno, Operator, bind_type, cre_type, limStart, limCount);
+            try
+            {
+                //对返回的xml解密的秘钥
+                string key = System.Configuration.ConfigurationManager.AppSettings["RealNameKey"].ToString();
+                key += Operator;
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        dr["Ftruename"] = CommUtil.TripleDESDecryptRealName(dr["Ftruename"].ToString(), key);
+                        dr["Fbank_id"] = CommUtil.TripleDESDecryptRealName(dr["Fbank_id"].ToString(), key);
+                        dr["Fcre_id"] = CommUtil.TripleDESDecryptRealName(dr["Fcre_id"].ToString(), key);
+                        dr["Ftelephone"] = CommUtil.TripleDESDecryptRealName(dr["Ftelephone"].ToString(), key);
+                        dr["Fmobilephone"] = CommUtil.TripleDESDecryptRealName(dr["Fmobilephone"].ToString(), key);
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception("查询一点通业务和快捷支付业务 解密失败：" + e.Message);
+            }
+            return ds;
+        }
 
 
 
