@@ -138,8 +138,52 @@ namespace CFT.CSOMS.DAL.TradeModule
 
             var serverIp = System.Configuration.ConfigurationManager.AppSettings["WX_Order_RelayIP"].ToString();
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["WX_Order_RelayPort"].ToString());
+            DataSet ds= RelayAccessFactory.GetDSFromRelayRowNumStartWithZero(reqString, "100878", serverIp, serverPort);
 
-            return RelayAccessFactory.GetDSFromRelayRowNumStartWithZero(reqString, "100878", serverIp, serverPort);
+            if (ds != null && ds.Tables.Count > 0) 
+            {
+                if (!ds.Tables[0].Columns.Contains("Fbank_listid")) 
+                {
+                    ds.Tables[0].Columns.Add("Fbank_listid", typeof(System.String));
+                }
+                if (!ds.Tables[0].Columns.Contains("Fbank_backid"))
+                {
+                    ds.Tables[0].Columns.Add("Fbank_backid", typeof(System.String));
+                }
+                if (!ds.Tables[0].Columns.Contains("Fstate"))
+                {
+                    ds.Tables[0].Columns.Add("Fstate", typeof(System.String));
+                }
+                if (!ds.Tables[0].Columns.Contains("Fcreate_time_c2c"))
+                {
+                    ds.Tables[0].Columns.Add("Fcreate_time_c2c", typeof(System.String));
+                }
+                if (!ds.Tables[0].Columns.Contains("Fip"))
+                {
+                    ds.Tables[0].Columns.Add("Fip", typeof(System.String));
+                }
+                if (!ds.Tables[0].Columns.Contains("Fbargain_time"))
+                {
+                    ds.Tables[0].Columns.Add("Fbargain_time", typeof(System.String));
+                }
+                if (!ds.Tables[0].Columns.Contains("Freceive_time_c2c"))
+                {
+                    ds.Tables[0].Columns.Add("Freceive_time_c2c", typeof(System.String));
+                }
+                if (!ds.Tables[0].Columns.Contains("Freceive_time"))
+                {
+                    ds.Tables[0].Columns.Add("Freceive_time", typeof(System.String));
+                }
+                if (!ds.Tables[0].Columns.Contains("total"))
+                {
+                    ds.Tables[0].Columns.Add("total", typeof(System.String));
+                    foreach (DataRow item in ds.Tables[0].Rows) 
+                    {
+                        item["total"] = "10000";
+                    }
+                }
+            }
+            return ds;
         }
 
         public DataSet RemoveControledFinLogQuery(string qqid)
