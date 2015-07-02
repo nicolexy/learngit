@@ -381,6 +381,13 @@
     <Compile Include="BaseAccount\ClearMobileNumber.aspx.designer.cs">
       <DependentUpon>ClearMobileNumber.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\FetchListIntercept.aspx.cs">
+      <DependentUpon>FetchListIntercept.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\FetchListIntercept.aspx.designer.cs">
+      <DependentUpon>FetchListIntercept.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\ModifyContactInfo.aspx.cs">
       <DependentUpon>ModifyContactInfo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2738,6 +2745,7 @@
     <Content Include="BaseAccount\CardInfoQuery.aspx" />
     <Content Include="BaseAccount\ClearCreidNew.aspx" />
     <Content Include="BaseAccount\ClearMobileNumber.aspx" />
+    <Content Include="BaseAccount\FetchListIntercept.aspx" />
     <Content Include="BaseAccount\ModifyContactInfo.aspx">
       <SubType>Form</SubType>
     </Content>

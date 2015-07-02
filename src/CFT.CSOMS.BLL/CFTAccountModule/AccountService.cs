@@ -789,6 +789,30 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
           {   
               return  new AccountData().TencentCreditQuery(uin,username);
           }
+
+          public DataTable GetFetchListIntercept(string fetchListid)
+          {
+              if (string.IsNullOrEmpty(fetchListid))
+              {
+                  throw new ArgumentNullException("fetchListid");
+              }
+              return (new AccountData()).GetFetchListIntercept(fetchListid);
+          }
+
+          public bool AddFetchListIntercept(string fetchListid, string opera)
+          {
+              if (string.IsNullOrEmpty(fetchListid))
+              {
+                  throw new ArgumentNullException("fetchListid");
+              }
+
+              var dt = new AccountService().GetFetchListIntercept(fetchListid);
+              if (dt != null && dt.Rows.Count > 0)
+                  throw new Exception("该体现单号已拦截！");
+
+              return (new AccountData()).AddFetchListIntercept(fetchListid, opera);
+          }
+
     }
 
     #region 异常姓名类

@@ -65,8 +65,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 
                 textBoxBeginDate.Text ="";
                 textBoxEndDate.Text ="";
+                this.pager.RecordCount = 1000;
             }
-            this.pager.RecordCount = 1000;
+
+            this.btnOpen.Attributes["onClick"] = "if(!confirm('确定要提前放开正在维护中的公告吗？')) return false;";
         }
 
         private void ValidateDate()

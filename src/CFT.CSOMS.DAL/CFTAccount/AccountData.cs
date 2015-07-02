@@ -1340,6 +1340,52 @@ namespace CFT.CSOMS.DAL.CFTAccount
             }
             return true;
         }
+
+        /// <summary>
+        /// 添加提现拦截记录
+        /// </summary>
+        /// <param name="fetchListid">提现单号</param>
+        public bool AddFetchListIntercept(string fetchListid, string opera)
+        {
+            try
+            {
+                using (var da = MySQLAccessFactory.GetMySQLAccess("FetchListIntercept"))
+                {
+                    da.OpenConn();
+                    string Sql = string.Format("insert into c2c_zwdb.t_fetch_listid_record " +
+                        "(Ffetch_listid,Foperator,Fmodify_type)" +
+                        "values('{0}','{1}','{2}')",
+                      fetchListid, opera, System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    if (!da.ExecSql(Sql))
+                    {
+                        LogHelper.LogInfo("添加提现拦截记录");
+                        throw new Exception("添加提现拦截记录出错");
+                    }
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                string err = "添加提现拦截记录出错：" + ex.Message;
+                LogHelper.LogInfo(err);
+                throw new Exception(err);
+            }
+        }
+
+       /// <summary>
+       /// 查询提现拦截记录
+       /// </summary>
+       /// <param name="fetchListid"></param>
+       /// <returns></returns>
+        public DataTable GetFetchListIntercept(string fetchListid)
+        {
+            string sql = string.Format(@"SELECT * FROM c2c_zwdb.t_fetch_listid_record  WHERE Ffetch_listid='{0}'", fetchListid);
+            using (var da = MySQLAccessFactory.GetMySQLAccess("FetchListIntercept"))
+            {
+                da.OpenConn();
+                return da.GetTable(sql);
+            }
+        }
     }
 
     #region 异常姓名类

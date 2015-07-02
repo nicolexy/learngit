@@ -45,126 +45,135 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 			{
 				Response.Redirect("../login.aspx?wh=1");
 			}
-            if (!IsPostBack)
+
+            try
             {
-                #region onclick添加
-                iStartTime.Attributes.Add("onclick", "openBankModeBegin()");
-                iEndTime.Attributes.Add("onclick", "openBankModeEnd()");
-                iStartTime1.Attributes.Add("onclick", "openBankModeBegin1()");
-                iEndTime1.Attributes.Add("onclick", "openBankModeEnd1()");
-                iStartTime2.Attributes.Add("onclick", "openBankModeBegin2()");
-                iEndTime2.Attributes.Add("onclick", "openBankModeEnd2()");
-                iStartTime3.Attributes.Add("onclick", "openBankModeBegin3()");
-                iEndTime3.Attributes.Add("onclick", "openBankModeEnd3()");
-                iStartTime4.Attributes.Add("onclick", "openBankModeBegin4()");
-                iEndTime4.Attributes.Add("onclick", "openBankModeEnd4()");
-                this.btInterfaceAdd.Attributes.Add("onclick", "return confirm(\"你确认要进行新增操作申请吗？\");");
-                this.btInterfaceUpdate.Attributes.Add("onclick", "return confirm(\"你确认要进行修改操作申请吗？\");");
-                # endregion
-
-                sysid = Request.QueryString["sysid"].Trim();
-                ViewState["sysid"] = sysid;
-
-                if (Request.QueryString["sysid"] != null && Request.QueryString["sysid"].Trim() != "")
+                if (!IsPostBack)
                 {
-                    #region 初始化页面和参数
-                    tbStartTime.Enabled = true;
-                    iStartTime.Visible = true;
-                    tbEndTime.Enabled = true;
-                    iEndTime.Visible = true;
+                    #region onclick添加
+                    iStartTime.Attributes.Add("onclick", "openBankModeBegin()");
+                    iEndTime.Attributes.Add("onclick", "openBankModeEnd()");
+                    iStartTime1.Attributes.Add("onclick", "openBankModeBegin1()");
+                    iEndTime1.Attributes.Add("onclick", "openBankModeEnd1()");
+                    iStartTime2.Attributes.Add("onclick", "openBankModeBegin2()");
+                    iEndTime2.Attributes.Add("onclick", "openBankModeEnd2()");
+                    iStartTime3.Attributes.Add("onclick", "openBankModeBegin3()");
+                    iEndTime3.Attributes.Add("onclick", "openBankModeEnd3()");
+                    iStartTime4.Attributes.Add("onclick", "openBankModeBegin4()");
+                    iEndTime4.Attributes.Add("onclick", "openBankModeEnd4()");
+                    this.btInterfaceAdd.Attributes.Add("onclick", "return confirm(\"你确认要进行新增操作申请吗？\");");
+                    this.btInterfaceUpdate.Attributes.Add("onclick", "return confirm(\"你确认要进行修改操作申请吗？\");");
+                    # endregion
 
-                    //银行下拉列表
-                    //setConfig.GetAllBankListFromDic(ddlQueryBankTypeInterface);
-                    //ddlQueryBankTypeInterface.Items.Insert(0, new ListItem("所有银行", ""));
-                    this.tbStartTime.Text = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
-                    this.tbEndTime.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
-                    string instanceText = BankInterfaceName[sysid].ToString();//接口名称
+                    sysid = Request.QueryString["sysid"].Trim();
+                    ViewState["sysid"] = sysid;
 
-                    if (Request.QueryString["bulletinId"] != null && Request.QueryString["bulletinId"].Trim() != "")//编辑查看
+                    if (Request.QueryString["sysid"] != null && Request.QueryString["sysid"].Trim() != "")
                     {
-                        bulletinId = Request.QueryString["bulletinId"].Trim();
-                        ViewState["bulletinId"] = bulletinId;
-                    }
-                    else//新增
-                    {
-                        bulletinId = "";
-                        ViewState["bulletinId"] = bulletinId;
-                    }
+                        #region 初始化页面和参数
+                        tbStartTime.Enabled = true;
+                        iStartTime.Visible = true;
+                        tbEndTime.Enabled = true;
+                        iEndTime.Visible = true;
 
-                    if (Request.QueryString["opertype"] != null && Request.QueryString["opertype"].Trim() != "")
-                    {
-                        string opertype = Request.QueryString["opertype"].Trim();
-                        if (opertype == "2")//编辑
+                        //银行下拉列表
+                        //setConfig.GetAllBankListFromDic(ddlQueryBankTypeInterface);
+                        //ddlQueryBankTypeInterface.Items.Insert(0, new ListItem("所有银行", ""));
+                        this.tbStartTime.Text = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
+                        this.tbEndTime.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
+                        string instanceText = BankInterfaceName[sysid].ToString();//接口名称
+
+                        if (Request.QueryString["bulletinId"] != null && Request.QueryString["bulletinId"].Trim() != "")//编辑查看
                         {
-                            btAddTime.Visible = false;
-                            this.btInterfaceAdd.Visible = false;
-                            this.btInterfaceUpdate.Visible = true;
-                            this.btInterfaceBack.Visible = true;
-                            hlInterfaceBack.Visible = false;
-                            labTitle.Text = instanceText + "修改";
-                            BindBankInterface(bulletinId, "");
+                            bulletinId = Request.QueryString["bulletinId"].Trim();
+                            ViewState["bulletinId"] = bulletinId;
                         }
-                        else if (opertype == "1")//新增
+                        else//新增
                         {
-                            if (Session["BankTypeList"] != null)
+                            bulletinId = "";
+                            ViewState["bulletinId"] = bulletinId;
+                        }
+
+                        if (Request.QueryString["opertype"] != null && Request.QueryString["opertype"].Trim() != "")
+                        {
+                            string opertype = Request.QueryString["opertype"].Trim();
+                            if (opertype == "2")//编辑
                             {
-                                ArrayList BankTypeList = (ArrayList)Session["BankTypeList"];
-                                if (BankTypeList == null || BankTypeList.Count < 0)
+                                btAddTime.Visible = false;
+                                this.btInterfaceAdd.Visible = false;
+                                this.btInterfaceUpdate.Visible = true;
+                                this.btInterfaceBack.Visible = true;
+                                hlInterfaceBack.Visible = false;
+                                labTitle.Text = instanceText + "修改";
+                                BindBankInterface(bulletinId, "");
+                            }
+                            else if (opertype == "1")//新增
+                            {
+                                if (Session["BankTypeList"] != null)
+                                {
+                                    ArrayList BankTypeList = (ArrayList)Session["BankTypeList"];
+                                    if (BankTypeList == null || BankTypeList.Count < 0)
+                                    {
+                                        WebUtils.ShowMessage(this.Page, "新增公告请输入银行编码！");
+                                        return;
+                                    }
+                                    BindBank(BankTypeList);
+                                    Session.Remove("BankTypeList");
+                                }
+                                else
                                 {
                                     WebUtils.ShowMessage(this.Page, "新增公告请输入银行编码！");
                                     return;
                                 }
-                                BindBank(BankTypeList);
-                                Session.Remove("BankTypeList");
+
+                                this.btInterfaceAdd.Visible = true;
+                                this.btInterfaceUpdate.Visible = false;
+                                this.btInterfaceBack.Visible = true;
+                                hlInterfaceBack.Visible = false;
+                                this.InterfaceOpen.Visible = false;
+                                labTitle.Text = instanceText + "新增";
                             }
                             else
                             {
-                                WebUtils.ShowMessage(this.Page, "新增公告请输入银行编码！");
-                                return;
+                                this.btInterfaceAdd.Visible = false;
+                                this.btInterfaceUpdate.Visible = false;
+                                this.btInterfaceBack.Visible = false;
+                                hlInterfaceBack.Visible = true;
+                                labTitle.Text = "查看" + instanceText;
+                                if (Request.QueryString["objid"] != null && Request.QueryString["objid"].Trim() != "")
+                                {//账务系统过来查看含参数objid
+                                    string objid = Request.QueryString["objid"].Trim();
+                                    ViewState["objid"] = objid;
+                                    BindBankInterface("", objid);
+                                }
+                                else//客服系统查看无objid参数
+                                    BindBankInterface(bulletinId, "");
                             }
+                        }
 
-                            this.btInterfaceAdd.Visible = true;
-                            this.btInterfaceUpdate.Visible = false;
-                            this.btInterfaceBack.Visible = true;
-                            hlInterfaceBack.Visible = false;
-                            this.InterfaceOpen.Visible = false;
-                            labTitle.Text = instanceText + "新增";
-                        }
-                        else
-                        {
-                            this.btInterfaceAdd.Visible = false;
-                            this.btInterfaceUpdate.Visible = false;
-                            this.btInterfaceBack.Visible = false;
-                            hlInterfaceBack.Visible = true;
-                            labTitle.Text = "查看" + instanceText;
-                            if (Request.QueryString["objid"] != null && Request.QueryString["objid"].Trim() != "")
-                            {//账务系统过来查看含参数objid
-                                string objid = Request.QueryString["objid"].Trim();
-                                ViewState["objid"] = objid;
-                                BindBankInterface("", objid);
-                            }
-                            else//客服系统查看无objid参数
-                                BindBankInterface(bulletinId, "");
-                        }
+                        #endregion
                     }
-
-                    #endregion
+                    else
+                    {
+                        //出错了，不能不带参数时来
+                        Response.Redirect("../login.aspx?wh=1");
+                    }
                 }
                 else
                 {
-                    //出错了，不能不带参数时来
-                    Response.Redirect("../login.aspx?wh=1");
+                    bulletinId = ViewState["bulletinId"].ToString();
+                    sysid = ViewState["sysid"].ToString();
+                }
+
+                if (ViewState["sysid"].ToString() != "6")
+                {
+                    this.TR1.Visible = false;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                bulletinId = ViewState["bulletinId"].ToString();
-                sysid = ViewState["sysid"].ToString();
-            }
-
-            if (ViewState["sysid"].ToString() != "6")
-            {
-                this.TR1.Visible = false;
+                WebUtils.ShowMessage(this.Page,PublicRes.GetErrorMsg(ex.Message));
+                return;
             }
 		}
 
@@ -301,28 +310,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
         /// <param name="isAdd">标记是否新增：true新增，false修改</param>
         protected void OperateBankInterFace(bool isAdd)
         {
-           //银行类型限制
-            List<Bank> bankList = BankTypeLimit();
-
             try
             {
+                //银行类型限制
+                List<Bank> bankList = BankTypeLimit();
+
                 string sysid = ViewState["sysid"].ToString();
 
                 #region 输入限制
                 int n = DateTime.Now.ToString("MM月dd日HH:mm").Length;
-                if (this.tbInterfaceMainText.Text.Trim().Length >71 )//80-11+7
+                if (this.tbInterfaceMainText.Text.Trim().Length > 71)//80-11+7
                 {
                     WebUtils.ShowMessage(this.Page, "正文超过50字符,请重新输入！");
                     return;
                 }
-                if (this.TextTCMainText.Text.Trim().Length >53 )//80-11*2+8+7
+                if (this.TextTCMainText.Text.Trim().Length > 53)//80-11*2+8+7
                 {
                     WebUtils.ShowMessage(this.Page, "弹层正文超过80字符,请重新输入！");
                     return;
                 }
 
                 string popuptext = "";
-                string TCMain=TextTCMainText.Text.Trim().Replace("\r\n", "<br/>").Replace("\r", "<br/>").Replace("\n", "<br/>");
+                string TCMain = TextTCMainText.Text.Trim().Replace("\r\n", "<br/>").Replace("\r", "<br/>").Replace("\n", "<br/>");
                 //软关闭，必须有弹层，标题及弹层必须有一个，所以只确保弹层即可
                 if (this.ForbidRadio.SelectedValue == "2")
                 {
@@ -343,7 +352,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 #region 公告相同参数部分
                 commData.T_BANKBULLETIN_INFO bankbulletin = new commData.T_BANKBULLETIN_INFO();
                 bankbulletin.IsOPen = this.InterfaceOpen.Checked;
-                bankbulletin.title = tbTitle.Text.Trim();
+            //    bankbulletin.title = tbTitle.Text.Trim();
                 bankbulletin.createuser = Session["uid"].ToString();
                 bankbulletin.updateuser = Session["uid"].ToString();
                 bankbulletin.updatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -366,6 +375,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 #region 提出公告申请
                 string objid = "";
                 string maintext = this.tbInterfaceMainText.Text.Replace("\r\n", "<br/>").Replace("\r", "<br/>").Replace("\n", "<br/>");
+                string title = this.tbTitle.Text.Trim().Replace("\r\n", "<br/>").Replace("\r", "<br/>").Replace("\n", "<br/>");
                 string outStr = "";
                 for (int i = 0; i <= nTime; i++)//nTime最大4
                 {
@@ -396,11 +406,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                                 bankbulletin.createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                             }
 
+                            bankbulletin.title = title.Replace("bankName",b.banktype_str.Trim());
                             objid = System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.StaticNoManage(); //每个审批单
                             bankbulletin.banktype = b.banktype.Trim();
                             bankbulletin.returnUrl = "http://kf.cf.com/SysManage/BankInterfaceManage_Detail.aspx?Fbanktype=" + b.banktype.Trim() + "&sysid=" + sysid + "&objid=" + objid + "&opertype=0";
 
-                            CheckBulletin(this,bankbulletin, objid);
+                            CheckBulletin(this, bankbulletin, objid);
                         }
 
                     }
@@ -408,7 +419,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                     {
                         string errOne = bankbulletin.banktype + ":" + bankbulletin.startime + "--" + bankbulletin.endtime + "|";
                         outStr += errOne;
-                        LogHelper.LogInfo(errOne+" 维护异常："+err);
+                        LogHelper.LogInfo(errOne + " 维护异常：" + err);
                     }
                 }
                 #endregion
@@ -436,18 +447,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
         private List<Bank> BankTypeLimit()
         {
             List<Bank> bankList = (List<Bank>)ViewState["bankType"];
+            string limitstr = "";
             if (bankList != null)
             {
                 foreach (Bank b in bankList)
                 {
                     if (b.banktype_str.Contains("*"))
-                    {
-                        throw new Exception("带*银行类型不允许操作！");
-                    }
+                        limitstr += b.banktype + ";";
                 }
             }
             else
                 throw new Exception("未选定银行类型！");
+
+            if (limitstr!="")
+            {
+                throw new Exception(limitstr+" 已下线,请剔除该银行编码再操作！");
+            }
             return bankList;
         }
 
