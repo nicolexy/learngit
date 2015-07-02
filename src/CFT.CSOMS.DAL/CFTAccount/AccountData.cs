@@ -202,6 +202,29 @@ namespace CFT.CSOMS.DAL.CFTAccount
             }
         }
 
+        public static string ConvertToFuidX(string QQID)
+        {
+            try
+            {
+                if (QQID == null || QQID.Trim().Length < 3)
+                    return null;
+
+                string qqid = QQID.Trim();
+                string errMsg = "";
+                string strSql = "uin=" + qqid + "&wheresign=1";
+                string struid = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_RELATION, "fuid", out errMsg);
+
+                if (struid == null)
+                    return null;
+                else
+                    return struid;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public static string Uid2QQ(string uid)
         {
             try
@@ -1386,6 +1409,315 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 return da.GetTable(sql);
             }
         }
+
+
+        #region 个人账户信息
+
+        /// <summary>
+        /// 删除认证信息
+        /// </summary>
+        /// <param name="qqid"></param>
+        /// <param name="username"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public bool DelAuthen(string qqid, string username, out string msg)
+        {
+            try
+            {
+                if (qqid == null || qqid.Trim() == "")
+                {
+                    msg = "参数不足";
+                    return false;
+                }
+
+                string uid = PublicRes.ConvertToFuid(qqid);
+
+                string inmsg = "uid=" + uid; //删除认证接口改为新接口实现2013.6.13 yinhuang
+                inmsg += "&operator=" + username;
+                inmsg += "&memo=客服删除";
+
+                string reply;
+                short sresult;
+
+                if (TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.middleInvoke("au_del_auinfo_service", inmsg, true, out reply, out sresult, out msg))
+                {
+                    if (sresult != 0)
+                    {
+                        msg = "au_del_authen_service接口失败：result=" + sresult + "，msg=" + "&reply=" + reply;
+                        return false;
+                    }
+                    else
+                    {
+                        if (reply.StartsWith("result=0"))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            msg = "au_del_authen_service接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply;
+                            return false;
+                        }
+                    }
+                }
+                else
+                {
+                    msg = "au_del_authen_service接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply;
+                    return false;
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+                log4net.LogManager.GetLogger("删除认证信息失败!:" + ex.Message);
+                return false;
+            }
+        }
+
+        //查询用户商家工具按钮表
+        public DataSet GetUserButtonInfo(string u_QQID, int istr, int imax)
+        {
+            try
+            {
+                Q_BUTTONINFO cuser = new Q_BUTTONINFO(u_QQID, istr, imax);
+                return cuser.GetResultX("ZJB");
+            }
+            catch (Exception e)
+            {
+                throw new Exception("用户商家工具按钮不存在或者未注册！(" + e.Message.ToString().Replace("'", "’") + ")");
+            }
+        }
+
+        //查询用户交易流水表
+        public DataSet GetUserPayList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
+        {
+            try
+            {
+                string fuid = PublicRes.ConvertToFuid(u_ID);
+                string strSql = "uid=" + fuid;
+                strSql += "&starttime=" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss");
+                strSql += "&endtime=" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
+                strSql += "&limitstart=" + istr;
+                strSql += "&limitend=" + imax;
+
+                string errMsg = "";
+                DataSet ds = CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_USERPAY_U, out errMsg);
+
+                return ds;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("service发生错误,请联系管理员！");
+            }
+        }
+
+        public bool IsFastPayUser(string qqid)
+        {
+            try
+            {
+                if (qqid == null || qqid.Trim().Length < 3)
+                {
+                    return false;
+                }
+
+                string errMsg = "";
+                string strSql = "uin=" + qqid;
+                string sign = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_RELATION, "Fsign", out errMsg);
+
+                if (sign == null)
+                {
+
+                }
+
+                if (sign == "2")
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 查询用户帐户表
+        /// </summary>    
+        public DataSet GetUserAccount(string u_QQID, int fcurtype, int istr, int imax)
+        {
+            try
+            {
+                string fuid = PublicRes.ConvertToFuid(u_QQID);
+
+                if (fuid == null)
+                    fuid = "0";
+
+                string femail = "";
+                string fmobile = "";
+                string fatt_id = "";
+                string ftrueName = "";
+                string fz_amt = ""; //分账冻结金额 yinhuang 2014/1/8
+
+                //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+                ICEAccess ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
+                MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("AP"));
+                try
+                {
+                    string errMsg = "";
+                    string strSql = "uid=" + fuid;
+
+                    fatt_id = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_USERATT, "Fatt_id", out errMsg);
+
+                    fatt_id = QueryInfo.GetString(fatt_id);
+
+                    DataTable dt_userInfo = CommQuery.GetTableFromICE(strSql, CommQuery.QUERY_USERINFO, out errMsg);
+                    if (dt_userInfo != null && dt_userInfo.Rows.Count == 1)
+                    {
+                        femail = dt_userInfo.Rows[0]["Femail"].ToString();
+                        fmobile = dt_userInfo.Rows[0]["Fmobile"].ToString();
+                        ftrueName = dt_userInfo.Rows[0]["FtrueName"].ToString();
+
+                        string fusertype = QueryInfo.GetString(dt_userInfo.Rows[0]["Fuser_type"]);
+                        if (fusertype == "2")//公司类型
+                        {
+                            ftrueName = dt_userInfo.Rows[0]["Fcompany_name"].ToString();
+                        }
+                    }
+
+                    ice.OpenConn();
+                    string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                    strwhere += ICEAccess.URLEncode("fcurtype=" + fcurtype + "&");
+
+                    string strResp = "";
+                    DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
+                    if (dt == null || dt.Rows.Count == 0)
+                        throw new Exception("调用ICE查询T_user无记录" + strResp);
+
+                    ice.CloseConn();
+
+                    da.OpenConn();
+                    string sql = "select * from app_platform.t_account_freeze where Fuin = '" + u_QQID + "'";
+                    DataTable dt2 = da.GetTable(sql);
+                    if (dt2 != null && dt2.Rows.Count > 0)
+                    {
+                        fz_amt = dt2.Rows[0]["Famount"].ToString();
+                    }
+
+                    dt.Columns.Add("Femail", typeof(System.String));
+                    dt.Columns.Add("Fmobile", typeof(System.String));
+                    dt.Columns.Add("Att_id", typeof(System.String));
+                    dt.Columns.Add("UserRealName2", typeof(System.String));
+                    dt.Columns.Add("Ffz_amt", typeof(System.String));
+
+                    dt.Rows[0]["Femail"] = femail;
+                    dt.Rows[0]["Fmobile"] = fmobile;
+                    dt.Rows[0]["Att_id"] = fatt_id;
+                    dt.Rows[0]["UserRealName2"] = ftrueName;
+                    dt.Rows[0]["Ffz_amt"] = fz_amt;
+
+                    DataSet ds = new DataSet();
+                    ds.Tables.Add(dt);
+
+                    return ds;
+                }
+                finally
+                {
+                    ice.Dispose();
+                    da.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                log4net.LogManager.GetLogger("查询用户帐户表出错: " + ex.Message);
+                return null;
+            }
+
+        }
+
+        public DataSet GetUserAccountCancel(string fuid, int fcurtype, int istr, int imax)
+        {
+            try
+            {
+                Q_USER cuser = new Q_USER(fuid, fcurtype);
+
+                return cuser.GetResultX(istr, imax, "HT");
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public int GetUserClassInfo(string qqid, out string msg)
+        {
+            //查询一下用户认证信息 furion 20071227
+            string inmsg = "uin=" + qqid.Trim().ToLower();
+            inmsg += "&opr_type=3";
+
+            string reply;
+            short sresult;
+
+            if (TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.middleInvoke("au_query_auinfo_service", inmsg, false, out reply, out sresult, out msg))
+            {
+                if (sresult != 0)
+                {
+                    msg = "au_query_auinfo_service接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply;
+                    return -1;
+                }
+                else
+                {
+                    if (reply.StartsWith("result=0"))
+                    {
+                        //在这取msg显示出来.
+                        int iindex = reply.IndexOf("state=");
+                        if (iindex > 0)
+                        {
+                            iindex = Int32.Parse(reply.Substring(iindex + 6, 1));
+                            if (iindex == 0)
+                            {
+                                msg = "未验证";
+                            }
+                            else if (iindex == 1)
+                            {
+                                msg = "验证通过";
+                            }
+                            else if (iindex == 2)
+                            {
+                                msg = "身份验证中";
+                            }
+                            else if (iindex == 3)
+                            {
+                                msg = "验证失败,不可再申请";
+                            }
+                            else if (iindex == 4)
+                            {
+                                msg = "验证失败,可再申请";
+                            }
+                            else
+                            {
+                                msg = "未定义类型" + iindex;
+                            }
+                        }
+
+                        return iindex;
+                    }
+                    else
+                    {
+                        msg = "au_query_auinfo_service接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply;
+                        return -1;
+                    }
+                }
+            }
+            else
+            {
+                msg = "au_query_auinfo_service接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply;
+                return -1;
+            }
+        }
+
+        #endregion
+
     }
 
     #region 异常姓名类

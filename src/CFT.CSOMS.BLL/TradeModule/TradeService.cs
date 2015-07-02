@@ -11,6 +11,7 @@ using CFT.CSOMS.DAL.TradeModule;
 using System.Configuration;
 using CFT.CSOMS.DAL.Infrastructure;
 using CFT.CSOMS.BLL.WechatPay;
+using System.Xml;
 
 namespace CFT.CSOMS.BLL.TradeModule
 {
@@ -630,6 +631,440 @@ namespace CFT.CSOMS.BLL.TradeModule
             return (new TradeData()).GetUnfinishedMobileQHB(uin);
         }
         #endregion
+
+        /// <summary>
+        /// 查询腾讯收款记录表
+        /// </summary>
+        public DataSet GetTCBankRollList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, bool isHistory, int istr, int imax)
+        {
+            try
+            {
+                DataSet ds = new DataSet();
+
+                float fnum = float.Parse("0");
+                float fnummax = float.Parse("20000000.00");
+
+                if (u_IDType == 0)
+                {
+                    ds = new TradeData().GetBankRollListByListId(u_ID, "qq", 1, u_BeginTime, u_EndTime, 0, fnum, fnummax, "0000", "0", istr, imax);
+                }
+                else
+                {
+                    ds =  new TradeData().GetBankRollListByListId(u_ID, "czd", 1, u_BeginTime, u_EndTime, 0, fnum, fnummax, "0000", "0", istr, imax);
+                }
+
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    ds.Tables[0].Columns.Add("total");
+                    ds.Tables[0].Rows[0]["total"] = ds.Tables[0].Rows.Count;
+                }
+
+                if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    ds.Tables[0].Columns.Add("Fcurtype_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fstate_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Ftype_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fsubject_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fsign_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fbank_type_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fnum_str", typeof(string));
+
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        dr["Fcurtype_str"] = PublicService.PublicService.convertMoney_type(dr["Fcurtype"].ToString());
+                        dr["Fstate_str"] = PublicService.PublicService.convertTCState(dr["Fstate"].ToString());
+                        dr["Ftype_str"] = PublicService.PublicService.convertTradeType(dr["Ftype"].ToString());
+                        dr["Fsubject_str"] = PublicService.PublicService.convertSubject(dr["Fsubject"].ToString());
+                        dr["Fsign_str"] = PublicService.PublicService.convertTradeSign(dr["Fsign"].ToString());
+                        dr["Fbank_type_str"] = PublicService.PublicService.convertbankType(dr["Fbank_type"].ToString());
+                        dr["Fnum_str"] = MoneyTransfer.FenToYuan(dr["Fnum"].ToString());
+                    }
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                log4net.LogManager.GetLogger("查询腾讯收款记录表失败!: " + ex.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 查询用户帐户流水表
+        /// </summary>       
+        public DataSet GetUserRollList(string u_QQID, int type, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
+        {
+            string u_type = "";
+            try
+            {
+                if (type == 0)
+                    u_type = "qqid";
+                if (type == 1)
+                    u_type = "listid";
+
+                DataSet ds = new DataSet();
+                if (u_type == "qqid")
+                {
+                    ds = GetChildrenBankRollList(u_QQID, u_BeginTime, u_EndTime, fcurtype.ToString(), istr, imax);
+
+                    if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
+                    {
+                        ds = GetBankRollList(u_QQID, 1, u_BeginTime, u_EndTime, istr, imax);
+
+                        if (ds != null && ds.Tables.Count != 0 && ds.Tables[0].Rows.Count != 0)
+                        {
+                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            {
+                                if (ds.Tables[0].Rows[i]["Fpaynum"].ToString().Trim() == "0")
+                                {
+                                    ds.Tables[0].Rows[i].Delete();
+                                    i--;
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+                if (u_type == "listid")
+                {
+                    ds = GetBankRollList_withID(u_BeginTime, u_EndTime, u_QQID, istr, imax);
+                }
+
+                if (ds != null && ds.Tables.Count != 0 && ds.Tables[0].Rows.Count != 0)
+                {
+                    ds.Tables[0].Columns.Add("Faction_type_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fcurtype_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Ftype_str", typeof(string));  //交易类型
+                    ds.Tables[0].Columns.Add("Fsubject_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fpaynum_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fbalance_str", typeof(string));
+                    if (u_type == "qqid")
+                        ds.Tables[0].Columns.Add("Fcon_str", typeof(string));
+
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        dr["Faction_type_str"] = PublicService.PublicService.convertActionType(dr["Faction_type"].ToString());
+                        dr["Fcurtype_str"] = PublicService.PublicService.convertMoney_type(dr["Fcurtype"].ToString());
+                        dr["Ftype_str"] = PublicService.PublicService.convertTradeType(dr["Ftype"].ToString());
+                        dr["Fsubject_str"] = PublicService.PublicService.convertSubject(dr["Fsubject"].ToString());
+                        dr["Fpaynum_str"] = MoneyTransfer.FenToYuan(dr["Fpaynum"].ToString());
+                        dr["Fbalance_str"] = MoneyTransfer.FenToYuan(dr["Fbalance"].ToString());
+                        if (u_type == "qqid")
+                            dr["Fcon_str"] = MoneyTransfer.FenToYuan(dr["Fcon"].ToString());
+                    }
+
+                    #region 权限问题
+
+                    //string[] CoverPickFuid = System.Configuration.ConfigurationManager.AppSettings["CoverPickFuid"].ToString().Split('|');
+
+                    //foreach (DataRow dr in ds.Tables[0].Rows)
+                    //{
+                    //    try
+                    //    {
+                    //        string Fpaynum = MoneyTransfer.FenToYuan(dr["Fpaynum"].ToString());
+                    //        string Fbalance = MoneyTransfer.FenToYuan(dr["Fbalance"].ToString());
+                    //        dr["FpaynumStr"] = Fpaynum;
+                    //        dr["FbalanceStr"] = Fbalance;
+                    //        for (int i = 0; i < CoverPickFuid.Length; i++)
+                    //        {
+                    //            if (CoverPickFuid[i].ToString() == dr["Fuid"].ToString())
+                    //            {
+                    //                try
+                    //                {
+                    //                    int PointIndex = Fpaynum.IndexOf(".");
+                    //                    dr["FpaynumStr"] = "******" + Fpaynum.Substring(PointIndex - 1, Fpaynum.Length - PointIndex + 1);
+                    //                    PointIndex = Fbalance.IndexOf(".");
+                    //                    dr["FbalanceStr"] = "******" + Fbalance.Substring(PointIndex - 1, Fbalance.Length - PointIndex + 1);
+                    //                }
+                    //                catch
+                    //                {
+                    //                    dr["FpaynumStr"] = "******";
+                    //                    dr["FbalanceStr"] = "******";
+                    //                }
+                    //            }
+                    //        }
+                    //    }
+                    //    catch (Exception ex)
+                    //    {
+                    //        throw new Exception("金额Fpaynum：" + dr["Fnum"].ToString() + "金额Fbalance：" + dr["Fbalance"].ToString() + "转换有问题" + ex.Message);
+                    //    }
+                    //}
+
+                    #endregion
+                }
+
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                log4net.LogManager.GetLogger("查询用户帐户流水失败!: " + ex.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 查询腾讯付款记录表
+        /// </summary>
+        public DataSet GetTCBankPAYList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
+        {
+            try
+            {
+                DataSet ds = new TradeData().GetTCBankPAYList(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    ds.Tables[0].Columns.Add("Fstate_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Ftype_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fsubject_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fnum_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fsign_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fbank_type_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fabank_type_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fcurtype_str", typeof(string));
+
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        dr["Fstate_str"] = PublicService.PublicService.convertCurrentState(dr["Fstate"].ToString());
+                        dr["Ftype_str"] = PublicService.PublicService.convertTradeType(dr["Ftype"].ToString());
+                        dr["Fsubject_str"] = PublicService.PublicService.convertTCfSubject(dr["Fsubject"].ToString());
+                        dr["Fnum_str"] = MoneyTransfer.FenToYuan(dr["Fnum"].ToString());
+                        dr["Fsign_str"] = PublicService.PublicService.convertTradeSign(dr["Fsign"].ToString());
+                        dr["Fbank_type_str"] = PublicService.PublicService.convertbankType(dr["Fbank_type"].ToString());
+                        dr["Fabank_type_str"] = PublicService.PublicService.convertbankType(dr["Fabank_type"].ToString());
+                        dr["Fcurtype_str"] = PublicService.PublicService.convertMoney_type(dr["Fcurtype"].ToString());
+                    }
+                }
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                log4net.LogManager.GetLogger("查询提现记录失败: " + ex.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 查询退款单表
+        /// </summary>
+        public DataSet GetRefund(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
+        {
+            try
+            {
+                DataSet ds = new TradeData().GetRefund(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    ds.Tables[0].Columns.Add("Fpay_type_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fbuy_bank_type_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fsale_bank_type_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fsale_bankid_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fstate_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Flstate_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fpaybuy_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fpaysale_str", typeof(string));
+                    ds.Tables[0].Columns.Add("Fprocedure_str", typeof(string));
+
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        dr["Fpay_type_str"] = PublicService.PublicService.cPay_type(dr["Fpay_type"].ToString());
+                        dr["Fbuy_bank_type_str"] = PublicService.PublicService.convertbankType(dr["Fbuy_bank_type"].ToString());
+                        dr["Fsale_bank_type_str"] = PublicService.PublicService.convertbankType(dr["Fsale_bank_type"].ToString());
+                        dr["Fsale_bankid_str"] = PublicService.PublicService.convertbankType(dr["Fsale_bankid"].ToString());
+                        dr["Fstate_str"] = PublicService.PublicService.cRefundState(dr["Fstate"].ToString());
+                        dr["Flstate_str"] = PublicService.PublicService.cRlistState(dr["Flstate"].ToString());
+                        dr["Fpaybuy_str"] = MoneyTransfer.FenToYuan(dr["Fpaybuy"].ToString());
+                        dr["Fpaysale_str"] = MoneyTransfer.FenToYuan(dr["Fpaysale"].ToString());
+                        dr["Fprocedure_str"] = MoneyTransfer.FenToYuan(dr["Fprocedure"].ToString());
+                    }
+                }
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                log4net.LogManager.GetLogger("查询退款单失败: " + ex.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 查询用户帐户流水表
+        /// </summary>
+        public DataSet GetBankRollList(string u_QQID, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
+        {
+            return new TradeData().GetBankRollList(u_QQID, fcurtype, u_BeginTime, u_EndTime, istr, imax);
+        }
+
+        /// <summary>
+        /// 查询用户帐户流水表_WithListID
+        /// </summary>    
+        public DataSet GetBankRollList_withID(DateTime u_BeginTime, DateTime u_EndTime, string ListID, int istr, int imax)
+        {
+            return new TradeData().GetBankRollList_withID(u_BeginTime, u_EndTime, ListID, istr, imax);
+        }
+
+        /// <summary>
+        /// 子帐户资金流水查询函数
+        /// </summary>      
+        public DataSet GetChildrenBankRollList(string u_QQID, DateTime u_BeginTime, DateTime u_EndTime, string Fcurtype, int istr, int imax)
+        {
+            try
+            {
+                string reply = "";
+                DataSet ds = new DataSet();
+                string fuid = PublicRes.ConvertToFuid(u_QQID);
+
+                bool isOk = new TradeData().GetChildrenBankRollList(u_QQID, u_BeginTime, u_EndTime, Fcurtype, istr, imax, 0, string.Empty, out reply);
+
+                if (isOk && reply.StartsWith("result=0&res_info=ok"))
+                {
+                    DataTable dt = new DataTable();
+                    dt.Columns.Add("Flistid", typeof(string));
+                    dt.Columns.Add("Ftype", typeof(string));
+                    dt.Columns.Add("Fspid", typeof(string));
+                    dt.Columns.Add("Fbalance", typeof(string));
+                    dt.Columns.Add("Fpaynum", typeof(string));
+                    dt.Columns.Add("Fbank_type", typeof(string));
+                    dt.Columns.Add("Fsubject", typeof(string));
+                    dt.Columns.Add("Faction_type", typeof(string));
+                    dt.Columns.Add("Fmemo", typeof(string));
+                    dt.Columns.Add("Fcreate_time", typeof(string));
+                    dt.Columns.Add("Ffromid", typeof(string));
+                    dt.Columns.Add("Fvs_qqid", typeof(string));
+                    dt.Columns.Add("Ffrom_name", typeof(string));
+                    dt.Columns.Add("Fpaynum1", typeof(string));
+                    dt.Columns.Add("Fpaynum2", typeof(string));
+                    dt.Columns.Add("FbalanceNum", typeof(string));
+
+                    dt.Columns.Add("total", typeof(string));
+                    dt.Columns.Add("Fcurtype", typeof(string));
+                    dt.Columns.Add("Fexplain", typeof(string));
+                    dt.Columns.Add("FBKid", typeof(string));
+                    dt.Columns.Add("Fuid", typeof(string));
+                    dt.Columns.Add("Fqqid", typeof(string));
+                    dt.Columns.Add("Ftrue_name", typeof(string));
+                    dt.Columns.Add("Ffrom_uid", typeof(string));
+                    dt.Columns.Add("Fprove", typeof(string));
+                    dt.Columns.Add("Fapplyid", typeof(string));
+                    dt.Columns.Add("Fip", typeof(string));
+                    dt.Columns.Add("Fmodify_time_acc", typeof(string));
+                    dt.Columns.Add("Fmodify_time", typeof(string));
+                    dt.Columns.Add("Fcon", typeof(string));
+
+                    XmlDocument param = new XmlDocument();
+                    param.LoadXml(reply.Replace("result=0&res_info=ok&rec_info=", ""));
+
+                    XmlNodeList tmpElement = param.GetElementsByTagName("record");
+                    if (tmpElement != null && tmpElement.Count > 0)
+                    {
+                        for (int i = 0; i < tmpElement.Count; i++)
+                        {
+                            DataRow dr = dt.NewRow();
+
+                            foreach (XmlNode node in tmpElement[i].ChildNodes)
+                            {
+                                string strvalue = node.InnerText.Trim();
+                                if (node.Name.Trim() == "Flistid")
+                                {
+                                    dr["Flistid"] = strvalue;
+                                }
+                                else if (node.Name.Trim() == "Ffromid")
+                                {
+                                    dr["Ffromid"] = strvalue;
+                                }
+                                else if (node.Name.Trim() == "Ftype")
+                                {
+                                    dr["Ftype"] = strvalue;
+                                }
+                                else if (node.Name.Trim() == "Fspid")
+                                {
+                                    dr["Fspid"] = strvalue;
+                                }
+                                else if (node.Name.Trim() == "Fbalance")
+                                {
+                                    dr["Fbalance"] = strvalue;
+                                }
+                                else if (node.Name.Trim() == "Fpaynum")
+                                {
+                                    dr["Fpaynum"] = strvalue;
+                                }
+                                else if (node.Name.Trim() == "Fbank_type")
+                                {
+                                    dr["Fbank_type"] = strvalue;
+                                }
+                                else if (node.Name.Trim() == "Fsubject")
+                                {
+                                    dr["Fsubject"] = strvalue;
+                                }
+                                else if (node.Name.Trim() == "Faction_type")
+                                {
+                                    dr["Faction_type"] = strvalue;
+                                }
+                                else if (node.Name.Trim() == "Fmemo")
+                                {
+                                    dr["Fmemo"] = strvalue;
+                                }
+                                else if (node.Name.Trim() == "Fcreate_time")
+                                {
+                                    dr["Fcreate_time"] = strvalue;
+                                }
+                                else if (node.Name.Trim() == "Ffrom_name")
+                                {
+                                    dr["Ffrom_name"] = strvalue;
+                                }
+                                else if (node.Name.Trim() == "Fcon")
+                                {
+                                    dr["Fcon"] = strvalue;
+                                }
+                            }
+
+                            if (dr["Ftype"].ToString() == "1")
+                            {
+                                dr["Fpaynum1"] = MoneyTransfer.FenToYuan(dr["Fpaynum"].ToString());
+                                dr["FbalanceNum"] = MoneyTransfer.FenToYuan(dr["Fbalance"].ToString());
+
+                                dr["Fvs_qqid"] = "";
+                            }
+                            else
+                            {
+                                dr["Fpaynum2"] = MoneyTransfer.FenToYuan(dr["Fpaynum"].ToString());
+                                dr["FbalanceNum"] = MoneyTransfer.FenToYuan(dr["Fbalance"].ToString());
+
+                                dr["Fspid"] = "";
+                            }
+                            dr["total"] = "1000";
+                            dr["FBKid"] = "";
+                            dr["Fuid"] = fuid;
+                            dr["Fqqid"] = u_QQID;
+                            dr["Ftrue_name"] = "";
+                            dr["Ffrom_uid"] = "";
+                            dr["Fprove"] = "";
+                            dr["Fapplyid"] = "";
+                            dr["Fip"] = "";
+                            dr["Fcurtype"] = Fcurtype;
+                            dr["Fexplain"] = "";
+                            dr["Fvs_qqid"] = "";
+                            dr["Fmodify_time_acc"] = dr["Fcreate_time"];
+                            dr["Fmodify_time_acc"] = dr["Fcreate_time"];
+                            dt.Rows.Add(dr);
+                        }
+                    }
+                    ds.Tables.Add(dt);
+                }
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                log4net.LogManager.GetLogger("子帐户资金流水查询失败: " + ex.Message);
+                return null;
+            }
+        }
 
         public DataSet GetListidFromUserOrder(string qqid, string uid, int start, int max)
         {
