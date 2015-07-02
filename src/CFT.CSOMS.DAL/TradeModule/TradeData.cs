@@ -12,6 +12,7 @@ using System.Configuration;
 
 using CFT.Apollo.Logging;
 using CFT.CSOMS.COMMLIB;
+using System.Xml;
 
 namespace CFT.CSOMS.DAL.TradeModule
 {
@@ -138,8 +139,52 @@ namespace CFT.CSOMS.DAL.TradeModule
 
             var serverIp = System.Configuration.ConfigurationManager.AppSettings["WX_Order_RelayIP"].ToString();
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["WX_Order_RelayPort"].ToString());
+            DataSet ds= RelayAccessFactory.GetDSFromRelayRowNumStartWithZero(reqString, "100878", serverIp, serverPort);
 
-            return RelayAccessFactory.GetDSFromRelayRowNumStartWithZero(reqString, "100878", serverIp, serverPort);
+            if (ds != null && ds.Tables.Count > 0) 
+            {
+                if (!ds.Tables[0].Columns.Contains("Fbank_listid")) 
+                {
+                    ds.Tables[0].Columns.Add("Fbank_listid", typeof(System.String));
+                }
+                if (!ds.Tables[0].Columns.Contains("Fbank_backid"))
+                {
+                    ds.Tables[0].Columns.Add("Fbank_backid", typeof(System.String));
+                }
+                if (!ds.Tables[0].Columns.Contains("Fstate"))
+                {
+                    ds.Tables[0].Columns.Add("Fstate", typeof(System.String));
+                }
+                if (!ds.Tables[0].Columns.Contains("Fcreate_time_c2c"))
+                {
+                    ds.Tables[0].Columns.Add("Fcreate_time_c2c", typeof(System.String));
+                }
+                if (!ds.Tables[0].Columns.Contains("Fip"))
+                {
+                    ds.Tables[0].Columns.Add("Fip", typeof(System.String));
+                }
+                if (!ds.Tables[0].Columns.Contains("Fbargain_time"))
+                {
+                    ds.Tables[0].Columns.Add("Fbargain_time", typeof(System.String));
+                }
+                if (!ds.Tables[0].Columns.Contains("Freceive_time_c2c"))
+                {
+                    ds.Tables[0].Columns.Add("Freceive_time_c2c", typeof(System.String));
+                }
+                if (!ds.Tables[0].Columns.Contains("Freceive_time"))
+                {
+                    ds.Tables[0].Columns.Add("Freceive_time", typeof(System.String));
+                }
+                if (!ds.Tables[0].Columns.Contains("total"))
+                {
+                    ds.Tables[0].Columns.Add("total", typeof(System.String));
+                    foreach (DataRow item in ds.Tables[0].Rows) 
+                    {
+                        item["total"] = "10000";
+                    }
+                }
+            }
+            return ds;
         }
 
         public DataSet RemoveControledFinLogQuery(string qqid)
@@ -291,26 +336,241 @@ namespace CFT.CSOMS.DAL.TradeModule
         }
         #endregion
 
+        //按充值单号查询
+        public DataSet GetBankRollListByListId(string u_ID, string u_QueryType, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,
+           float fnum, float fnumMax, string banktype, string sorttype, int iPageStart, int iPageMax)
+        {
+            string msg = "";
+            try
+            {
+                DataSet ds = null;
+                DataSet dsqq = new DataSet();
+                DataTable dsdt = new DataTable();
+                string srtSql = "";
+                if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "qq")  //按照QQ号查询，注意使用内部uid
+                {
+                    string uid = PublicRes.ConvertToFuid(u_ID);
+                    srtSql = "auid=" + uid;
+                }
+                else if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "tobank")  //给银行的订单号
+                {
+                    srtSql = "bank_list=" + u_ID.Trim() + "";
+                }
+                else if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "bankback") //银行返回u
+                {
+                    srtSql = "bank_acc=" + u_ID.Trim();
+                }
+                else if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "czd") //充值单查询
+                {
+                    srtSql = "listid=" + u_ID.Trim();
+                }
+                if (fstate != 0)
+                {
+                    srtSql += "&sign=" + fstate;
+                }
+                long num = (long)Math.Round(fnum * 100, 0);
+                long numMax = (long)Math.Round(fnumMax * 100, 0);
+
+                srtSql += "&num_start=" + num + "&num_end=" + numMax;
+
+                if (banktype != "0000" && banktype != "")
+                {
+                    srtSql += "&bank_type=" + banktype;
+                }
+
+                if (u_QueryType.ToLower() != "tobank")
+                {
+                    TimeSpan ts = u_EndTime - u_BeginTime;
+                    int sub = ts.Days;
+                    bool iscone = false;
+                    for (int i = 0; i <= sub; i++)
+                    {
+                        string truetime = u_EndTime.AddDays(-i).ToString("yyyyMMdd");
+                        string querstr = srtSql + "&query_day=" + truetime + "&curtype=" + fcurtype + "&strlimit=limit " + iPageStart + "," + iPageMax;
+                        ds = CommQuery.GetDataSetFromICE(querstr, CommQuery.QUERY_TCBANKROLL_DAY, out msg);
+                        if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                        {
+                            if (u_QueryType.ToLower() == "qq" || u_QueryType.ToLower() == "czd")
+                            {
+                                if (!iscone)
+                                {
+                                    dsdt = ds.Tables[0].Clone();
+                                    iscone = true;
+                                }
+                                foreach (DataRow dr in ds.Tables[0].Rows)
+                                {
+                                    dsdt.ImportRow(dr);
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+
+                        }
+                    }
+                }
+                else
+                {
+                    srtSql += "&offset=0&limit=10";
+                    ds = CommQuery.GetDataSetFromICE_QueryServer(srtSql, CommQuery.QUERY_TCBANKROLL_S, out msg);
+                }
+
+                if (u_QueryType.ToLower() == "qq" || u_QueryType.ToLower() == "czd")
+                {
+                    dsqq.Tables.Add(dsdt);
+                    return dsqq;
+                }
+
+                return ds;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("service发生错误,请联系管理员！" + e.Message + msg);
+            }
+        }
+
+        // 查询用户帐户流水表
+        public DataSet GetBankRollList(string u_QQID, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
+        {
+            try
+            {
+                //idtype 0买家，1卖家
+                string fuid = PublicRes.ConvertToFuid(u_QQID);
+                DataSet ds;
+
+                int start = istr - 1;
+                if (start < 0) start = 0;
+
+                string strWhere = "start_time=" + ICEAccess.ICEEncode(u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                strWhere += "&end_time=" + ICEAccess.ICEEncode(u_EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                strWhere += "&uid=" + fuid;
+                strWhere += "&curtype=" + fcurtype;
+                strWhere += "&lim_start=" + start;
+                strWhere += "&lim_count=" + imax;
+
+                string errMsg;
+
+                if (!CommQuery.GetDataFromICE(strWhere, CommQuery.个人资金流水, out errMsg, out ds))
+                {
+                    return null;
+                }
+
+                if (ds == null)
+                    return null;
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        //查询腾讯付款记录表
+        public DataSet GetTCBankPAYList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
+        {
+            try
+            {
+                Q_TCBANKPAY_LIST cuser = new Q_TCBANKPAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime);
+                return cuser.GetResultX(istr, imax);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("service发生错误,请联系管理员！");
+            }
+        }
+
+        //查询退款单表
+        public DataSet GetRefund(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
+        {
+            try
+            {
+                Q_REFUND cuser = new Q_REFUND(u_ID, u_IDType, u_BeginTime, u_EndTime);
+                return cuser.GetResultX(istr, imax);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("service发生错误,请联系管理员！");
+            }
+        }
+
+        //子帐户资金流水查询函数
+        public bool GetChildrenBankRollList(string u_QQID, DateTime u_BeginTime, DateTime u_EndTime, string Fcurtype, int istr, int imax, int Ftype, string Fmemo,out string reply)
+        {
+            try
+            {
+                reply = "";
+                string fuid = PublicRes.ConvertToFuid(u_QQID);
+                if (fuid == null || fuid == "" || fuid == "0")
+                    return false;
+
+                //reqid=124 是uid(180000000 - 1999999999)
+                //reqid=117 是uid < 180000000的
+
+                string reqid = "124";
+                if (Int64.Parse(fuid) < 180000000)
+                {
+                    reqid = "117";
+                }
+
+                string inmsg = "fields=begin_time:" + PublicRes.ICEEncode(u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                inmsg += "|end_time:" + PublicRes.ICEEncode(u_EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                inmsg += "|uid:" + fuid;
+                inmsg += "|cur_type:" + Fcurtype;
+                if (Ftype != 0)
+                {
+                    inmsg += "|type:" + Ftype;
+                }
+                if (!string.IsNullOrEmpty(Fmemo))
+                {
+                    inmsg += "|memo:" + Fmemo;
+                }
+                inmsg += "&flag=2";
+                int start = istr - 1;
+                inmsg += "&offset=" + start.ToString();  //从0开始的
+                inmsg += "&limit=" + imax;
+                inmsg += "&reqid=" + reqid;
+
+
+                short sresult;
+                string msg;
+
+                if (TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.middleInvoke("common_simquery_service", inmsg, false, out reply, out sresult, out msg))
+                {
+                    if (sresult != 0)
+                    {
+                        throw new Exception("common_simquery_service接口失败：result=" + sresult + "，msg=" + "&reply=" + reply);
+                    }
+                    else if (reply.StartsWith("result=0&res_info=ok"))
+                    {
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                else
+                {
+                    throw new Exception("common_simquery_service接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply);
+                }
+
+            }
+            catch (Exception err)
+            {
+                throw new Exception(err.Message);
+            }
+        }
+
+
         //查询用户帐户流水表_WithListID
         public DataSet GetBankRollList_withID(DateTime u_BeginTime, DateTime u_EndTime, string ListID, int istr, int imax)
         {
          
-            string strRightCode = "GetBankRollList";
-
-            int sign = 0; string detail, actionType, signStr;
-            actionType = "查询用户帐户流水";
-
-            //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
-
             try
             {
                 //furion V30_FURION核心查询需改动 等待通用查询接口.  //V30_20090525 资金流水用listid查询 这个要增加多个查询，然后组合结果
-                sign = 1;
-
-
                 Q_BANKROLL_LIST cuser = new Q_BANKROLL_LIST(u_BeginTime, u_EndTime, ListID);
-                //T_BANKROLL_LIST[] tuser = cuser.GetResult();
-                //return tuser;
+
                 if (cuser.alTables == null || cuser.alTables.Count == 0)
                     return null;
 
@@ -329,97 +589,14 @@ namespace CFT.CSOMS.DAL.TradeModule
                 bool havefirstds = true;
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0] == null || ds.Tables[0].Columns.Count == 0)
                 {
-                    //throw new LogicException("查询买卖家资金流水时有误");
-                    //应该是未支付,啥资金流水都没发生.
-                    //return null;
                     havefirstds = false;
                 }
 
                 //先取出买卖家的一个数据表
-                for (int i = 1; i < cuser.alTables.Count; i++)
-                {
-                    DataSet newds;
-                    onerow = cuser.alTables[i].ToString();
-                    if (onerow.StartsWith("UID="))
-                    {
-                        strWhere = "uid=" + onerow.Replace("UID=", "");
-                        strWhere += "&listid=" + ListID;
-
-                        if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_个人, out errMsg, out newds))
-                        {
-                            //throw new LogicException(errMsg);
-                        }
-                    }
-                    else
-                    {
-                        strWhere = "start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
-                        strWhere += "&listid=" + ListID;
-
-                        if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_商户, out errMsg, out newds))
-                        {
-                            //throw new LogicException(errMsg);
-                        }
-                    }
-
-                    //把这次得到的表内容合并入ds中。
-                    if (newds == null || newds.Tables.Count == 0 || newds.Tables[0] == null || newds.Tables[0].Rows.Count == 0)
-                    {
-                        continue;
-                    }
-
-                    if (havefirstds)
-                    {
-                        foreach (DataRow dr in newds.Tables[0].Rows)
-                        {
-                            ds.Tables[0].Rows.Add(dr.ItemArray);
-                        }
-                    }
-                    else
-                    {
-                        havefirstds = true;
-                        ds = newds;
-                    }
-                }
+                GetBuyerRollList(ListID, cuser, ref onerow, ref strWhere, ref ds, ref errMsg, ref havefirstds);
 
                 //furion 增加银行资金流水表。 20090813
-                for (int i = 1; i < cuser.alTables.Count; i++)
-                {
-                    DataSet newds;
-                    onerow = cuser.alTables[i].ToString();
-                    if (onerow.StartsWith("UID="))
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        strWhere = "start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
-                        strWhere += "&listid=" + ListID;
-
-                        if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_银行, out errMsg, out newds))
-                        {
-                            //throw new LogicException(errMsg);
-                        }
-                    }
-
-                    //把这次得到的表内容合并入ds中。
-                    if (newds == null || newds.Tables.Count == 0 || newds.Tables[0] == null || newds.Tables[0].Rows.Count == 0)
-                    {
-                        continue;
-                    }
-
-                    if (havefirstds)
-                    {
-                        foreach (DataRow dr in newds.Tables[0].Rows)
-                        {
-                            ds.Tables[0].Rows.Add(dr.ItemArray);
-                        }
-                    }
-                    else
-                    {
-                        havefirstds = true;
-                        ds = newds;
-                    }
-                }
+                GetBankRollList(ListID, cuser, ref onerow, ref strWhere, ref ds, ref errMsg, ref havefirstds);
 
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0] == null || ds.Tables[0].Columns.Count == 0)
                 {
@@ -431,7 +608,6 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             catch (Exception e)
             {
-                sign = 0;
                 throw new Exception("service发生错误,请联系管理员！" + e.Message);
                 return null;
             }
@@ -440,6 +616,103 @@ namespace CFT.CSOMS.DAL.TradeModule
                 
             }
         }
+
+        /// <summary>
+        /// 银行资金流水表
+        /// </summary>
+        public static void GetBankRollList(string ListID, Q_BANKROLL_LIST cuser, ref string onerow, ref string strWhere, ref DataSet ds, ref string errMsg, ref bool havefirstds)
+        {
+            for (int i = 1; i < cuser.alTables.Count; i++)
+            {
+                DataSet newds;
+                onerow = cuser.alTables[i].ToString();
+                if (onerow.StartsWith("UID="))
+                {
+                    continue;
+                }
+                else
+                {
+                    strWhere = "start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
+                    strWhere += "&listid=" + ListID;
+
+                    if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_银行, out errMsg, out newds))
+                    {
+                        //throw new LogicException(errMsg);
+                    }
+                }
+
+                //把这次得到的表内容合并入ds中。
+                if (newds == null || newds.Tables.Count == 0 || newds.Tables[0] == null || newds.Tables[0].Rows.Count == 0)
+                {
+                    continue;
+                }
+
+                if (havefirstds)
+                {
+                    foreach (DataRow dr in newds.Tables[0].Rows)
+                    {
+                        ds.Tables[0].Rows.Add(dr.ItemArray);
+                    }
+                }
+                else
+                {
+                    havefirstds = true;
+                    ds = newds;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 买卖家的资金流水表
+        /// </summary>
+        public static void GetBuyerRollList(string ListID, Q_BANKROLL_LIST cuser, ref string onerow, ref string strWhere, ref DataSet ds, ref string errMsg, ref bool havefirstds)
+        {
+            for (int i = 1; i < cuser.alTables.Count; i++)
+            {
+                DataSet newds;
+                onerow = cuser.alTables[i].ToString();
+                if (onerow.StartsWith("UID="))
+                {
+                    strWhere = "uid=" + onerow.Replace("UID=", "");
+                    strWhere += "&listid=" + ListID;
+
+                    if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_个人, out errMsg, out newds))
+                    {
+                        //throw new LogicException(errMsg);
+                    }
+                }
+                else
+                {
+                    strWhere = "start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
+                    strWhere += "&listid=" + ListID;
+
+                    if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_商户, out errMsg, out newds))
+                    {
+                        //throw new LogicException(errMsg);
+                    }
+                }
+
+                //把这次得到的表内容合并入ds中。
+                if (newds == null || newds.Tables.Count == 0 || newds.Tables[0] == null || newds.Tables[0].Rows.Count == 0)
+                {
+                    continue;
+                }
+
+                if (havefirstds)
+                {
+                    foreach (DataRow dr in newds.Tables[0].Rows)
+                    {
+                        ds.Tables[0].Rows.Add(dr.ItemArray);
+                    }
+                }
+                else
+                {
+                    havefirstds = true;
+                    ds = newds;
+                }
+            }
+        }
+
         /// <summary>
         /// 查询微信支付转账和微信支付红包支付未完成交易数据
         /// </summary>

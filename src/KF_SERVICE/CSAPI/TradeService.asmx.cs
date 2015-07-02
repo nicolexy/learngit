@@ -13,6 +13,8 @@ using CFT.CSOMS.Service.CSAPI.PayMent;
 using System.Collections;
 using CFT.CSOMS.Service.CSAPI.BaseInfo;
 using System.Collections.Specialized;
+using System.Data;
+using CFT.CSOMS.Service.CSAPI.Trade;
 
 namespace CSAPI
 {
@@ -94,7 +96,12 @@ namespace CSAPI
         }
         #endregion
 
-        [WebMethod(Description = "根据交易单号查询交易记录")]
+        #region 交易单,资金流水等
+
+        /// <summary>
+        /// 各类交易单 0,买家交易单;9卖家交易单;10,中介交易单;-1,买家未完成交易单;-2,卖家未完成交易单
+        /// </summary>
+        [WebMethod]
         public void GetTradeList()
         {
             try
@@ -126,8 +133,10 @@ namespace CSAPI
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
-
-        [WebMethod(Description = "根据银行返回定单号查询交易记录")]
+        /// <summary>
+        /// 根据银行返回定单号查询交易记录
+        /// </summary>
+        [WebMethod]
         public void GetBankTradeList()
         {
             try
@@ -161,6 +170,220 @@ namespace CSAPI
             }
         }
 
+        /// <summary>
+        /// 充值记录查询 0,QQID;1,ListID
+        /// </summary>
+        [WebMethod]
+        public void GetTCBankRollList()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "ID", "id_type", "begin_time", "end_time", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string ID = paramsHt.ContainsKey("ID") ? paramsHt["ID"].ToString() : "";
+                int type = APIUtil.StringToInt(paramsHt["id_type"].ToString());
+                DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
+                DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
+                int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
+                int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
+
+                if (offset < 0)
+                {
+                    offset = 0;
+                }
+                if (limit < 0)
+                {
+                    limit = 20;
+                }
+
+                var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTCBankRollList(ID, type, begin_time, end_time, true, offset, limit);
+
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Payment.TCBankRollList> list = APIUtil.ConvertTo<Payment.TCBankRollList>(infos.Tables[0]);
+                APIUtil.Print<Payment.TCBankRollList>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetTCBankRollList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetTCBankRollList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 用户资金流水 0,QQID;1,ListID
+        /// </summary>
+        [WebMethod]
+        public void GetBankRollList()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+                int type = APIUtil.StringToInt(paramsHt["id_type"].ToString());
+                int cur_type = APIUtil.StringToInt(paramsHt["cur_type"].ToString());
+                DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
+                DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
+                int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
+                int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
+
+                if (offset < 0)
+                {
+                    offset = 0;
+                }
+                if (limit < 0)
+                {
+                    limit = 20;
+                }
+
+                var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetUserRollList(qqid, type, cur_type, begin_time, end_time, offset, limit);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+
+                if (type == 0)
+                {
+                    List<Trade.QQRollList> list = APIUtil.ConvertTo<Trade.QQRollList>(infos.Tables[0]);
+                    APIUtil.Print<Trade.QQRollList>(list);
+                }
+                if (type == 1)
+                {
+                    List<Trade.IDRollList> list = APIUtil.ConvertTo<Trade.IDRollList>(infos.Tables[0]);
+                    APIUtil.Print<Trade.IDRollList>(list);
+                }
+
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetBankRollList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetBankRollList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 提现记录 0,QQID;1,ListID
+        /// </summary>
+        [WebMethod]
+        public void GetTCBankPAYList()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string ID = paramsHt.ContainsKey("ID") ? paramsHt["ID"].ToString() : "";
+                int type = APIUtil.StringToInt(paramsHt["type"].ToString());
+                DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
+                DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
+                int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
+                int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
+
+                if (offset < 0)
+                {
+                    offset = 0;
+                }
+                if (limit < 0)
+                {
+                    limit = 20;
+                }
+
+                var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTCBankPAYList(ID, type, begin_time, end_time, offset, limit);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Trade.TXRollList> list = APIUtil.ConvertTo<Trade.TXRollList>(infos.Tables[0]);
+                APIUtil.Print<Trade.TXRollList>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetTCBankPAYList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetTCBankPAYList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 退款单 0,买家退款单;1,卖家退款单
+        /// </summary>
+        [WebMethod]
+        public void GetRefund()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string ID = paramsHt.ContainsKey("ID") ? paramsHt["ID"].ToString() : "";
+                int type = APIUtil.StringToInt(paramsHt["type"].ToString());
+                DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
+                DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
+                int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
+                int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
+
+                if (offset < 0)
+                {
+                    offset = 0;
+                }
+                if (limit < 0)
+                {
+                    limit = 20;
+                }
+
+                var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetRefund(ID, type, begin_time, end_time, offset, limit);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+
+                List<Trade.TKRollList> list = APIUtil.ConvertTo<Trade.TKRollList>(infos.Tables[0]);
+                APIUtil.Print<Trade.TKRollList>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetRefund").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetRefund").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+     
+        #endregion
 
         #region 邮政汇款
 
@@ -171,7 +394,7 @@ namespace CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "spid", "offset","limit","token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "spid", "offset", "limit", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 

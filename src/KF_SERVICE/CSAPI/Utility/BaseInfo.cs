@@ -117,7 +117,7 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             [XmlElement("image2")]
             public string Image2 { get; set; }
         }
-       
+
         #endregion
 
         #region 特殊申诉
@@ -258,6 +258,103 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             public string FmodifyTime { get; set; }
             [XmlElement("operator")]
             public string FupdateUser { get; set; }
+        }
+
+        #endregion
+
+        #region 个人账户信息
+
+        public class PersonalInfo
+        {
+            [XmlElement("qqid")]
+            public string Fqqid { get; set; }
+            [XmlElement("qqid_state")]
+            public string Fqqid_state { get; set; }
+            [XmlElement("email")]
+            public string Femail { get; set; }
+            [XmlElement("emial_state")]
+            public string Femial_state { get; set; }
+            [XmlElement("mobile")]
+            public string Fmobile { get; set; }
+            [XmlElement("mobile_state")]
+            public string Fmobile_state { get; set; }
+
+            [XmlElement("state_str")]
+            public string Fstate_str { get; set; }
+            [XmlElement("useable_fee")]
+            public string Fuseable_fee { get; set; }
+            [XmlElement("yday_balance")]   //昨日余额
+            public string Fyday_balance { get; set; }
+            [XmlElement("curtype")]
+            public string Fcurtype { get; set; }
+            [XmlElement("curtype_str")]
+            public string Fcurtype_str { get; set; }
+            [XmlElement("day_pay")]
+            public string Fapay { get; set; }
+            [XmlElement("quota_pay")]
+            public string Fquota_pay_str { get; set; }
+            [XmlElement("save_str")]
+            public string Fsave_str { get; set; }
+
+            [XmlElement("fetch_time")]  //最近提款日期
+            public string Ffetch_time { get; set; }
+            [XmlElement("modify_time")]
+            public string Fmodify_time { get; set; }
+            [XmlElement("name_str")]    //真实姓名
+            public string Fname_str { get; set; }
+            [XmlElement("uid")]
+            public string Fuid { get; set; }
+            [XmlElement("bpay_state")]
+            public string Fbpay_state { get; set; }
+            [XmlElement("bpay_state_str")]
+            public string Fbpay_state_str { get; set; }
+            [XmlElement("user_type")]
+            public string Fuser_type { get; set; }
+            [XmlElement("user_type_str")]
+            public string Fuser_type_str { get; set; }
+
+            [XmlElement("freeze_fee")]
+            public string Ffreeze_fee { get; set; }
+            [XmlElement("balance")]
+            public string Fbalance_str { get; set; }
+            [XmlElement("create_time")] //注册时间
+            public string Fcreate_time { get; set; }
+            [XmlElement("quota")]   //单笔交易限额
+            public string Fquota_str { get; set; }
+            [XmlElement("fetch")]   //当日提现金额
+            public string Ffetch_str { get; set; }
+            [XmlElement("save_time")]   //最近存款日期
+            public string Fsave_time { get; set; }
+            [XmlElement("login_ip")]
+            public string Flogin_ip { get; set; }
+            [XmlElement("pro_att")]
+            public string Fpro_att { get; set; }
+        }
+
+        public class VIPInfo
+        {
+            [XmlElement("value")]
+            public string value { get; set; }
+            [XmlElement("vipflag_str")]
+            public string vipflag_str { get; set; }
+            [XmlElement("level")]
+            public string level { get; set; }
+            [XmlElement("subid_str")]
+            public string subid_str { get; set; }
+            [XmlElement("exp_date")]
+            public string exp_date { get; set; }
+        }
+
+        public class DeleteCertLog
+        {
+            [XmlElement("qqid")]
+            public string Fqqid { get; set; }
+            [XmlElement("memo")]
+            public string Fmemo { get; set; }
+            [XmlElement("authen_operator")]
+            public string Fauthen_operator { get; set; }
+            [XmlElement("modify_time")]
+            public string Fmodify_time { get; set; }
         }
 
         #endregion

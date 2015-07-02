@@ -12,6 +12,7 @@ using CFT.CSOMS.DAL.Infrastructure;
 using TENCENT.OSS.CFT.KF.DataAccess;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using CommLib;
+using CFT.CSOMS.COMMLIB;
 
 namespace CFT.CSOMS.DAL.BankcardUnbind
 {
@@ -436,6 +437,67 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
             }
         }
 
+     /// <summary>
+        /// 查询一点通业务和快捷支付业务
+     /// </summary>
+     /// <param name="fuin"></param>
+     /// <param name="Fbank_type"></param>
+     /// <param name="bankID"></param>
+     /// <param name="uid"></param>
+     /// <param name="creID"></param>
+     /// <param name="protocolno"></param>
+     /// <param name="phoneno"></param>
+     /// <param name="strBeginDate"></param>
+     /// <param name="strEndDate"></param>
+     /// <param name="bindStatue"></param>
+     /// <param name="bind_serialno"></param>
+     /// <param name="Operator"></param>
+     /// <param name="bind_type"></param>
+     /// <param name="cre_type"></param>
+     /// <param name="limStart"></param>
+     /// <param name="limCount"></param>
+     /// <returns></returns>
+        public DataSet GetBankCardBindList_New(string fuin, string Fbank_type, string bankID, string uid, string creID, string protocolno, string phoneno,
+            string strBeginDate,string strEndDate, int bindStatue, string bind_serialno, string Operator,int bind_type,string cre_type, int limStart, int limCount)
+        {
+            var serverIp = System.Configuration.ConfigurationManager.AppSettings["BankCardIP"].ToString();
+            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["BankCardPort"].ToString());
+            try
+            {
+
+                //cre_id=43030219851127080X
+                //card_id=6214837554557000
+                //mobile=1322953200
+                //fuin=17934958
+                //uid=295214000
+                // limCount =10;
+                // string dd = PublicRes.ConvertToFuid(fuin);
+
+                //银行卡号加密
+                //bankID = PublicRes.EncryptZerosPadding(bankID);
+
+                string reqString = "operator=" + Operator + "&start=" + limStart + "&limit=" + limCount + "&bind_type=" + bind_type;
+                reqString += !string.IsNullOrEmpty(fuin) ? "&qqid=" + fuin : "";
+                reqString += !string.IsNullOrEmpty(uid) ? "&uid=" + uid : "";
+                reqString += !string.IsNullOrEmpty(bankID) ? "&card_id=" + bankID : "";
+                reqString += !string.IsNullOrEmpty(creID) ? "&cre_id=" + creID : "";
+                reqString += !string.IsNullOrEmpty(phoneno) ? "&mobile=" + phoneno : "";
+                reqString += !string.IsNullOrEmpty(bind_serialno) ? "&bind_serialno=" + bind_serialno : "";
+                reqString += !string.IsNullOrEmpty(protocolno) ? "&protocol_no=" + protocolno : "";
+                reqString += bindStatue != 99 ? "&bind_status=" + bindStatue : "";
+                reqString += !string.IsNullOrEmpty(cre_type) ? "&cre_type=" + cre_type : "";
+                reqString += !string.IsNullOrEmpty(Fbank_type) ? "&bank_type=" + Fbank_type : "";
+                reqString += !string.IsNullOrEmpty(strBeginDate) ? "&begin_time=" + strBeginDate : "";
+                reqString += !string.IsNullOrEmpty(strEndDate) ? "&end_time=" + strEndDate : "";
+
+                return RelayAccessFactory.GetDSFromRelayFromXML(reqString, "101140", serverIp, serverPort, false);
+            }
+            catch (Exception err)
+            {
+                throw new Exception(string.Format("查询一点通业务和快捷支付业务:ip:{0};{1}", serverIp, err.Message));
+            }
+           
+        }
 
         /// <summary>
         /// 同步绑定信息

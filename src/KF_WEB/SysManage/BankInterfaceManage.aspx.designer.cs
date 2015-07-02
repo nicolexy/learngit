@@ -130,31 +130,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         protected global::System.Web.UI.WebControls.Button btadd;
         
         /// <summary>
-        /// Button1 control.
+        /// btnOpen control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Button btnOpen;
         
         /// <summary>
-        /// Button2 control.
+        /// btnCurrent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button2;
+        protected global::System.Web.UI.WebControls.Button btnCurrent;
         
         /// <summary>
-        /// Button3 control.
+        /// btnHistory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button3;
+        protected global::System.Web.UI.WebControls.Button btnHistory;
         
         /// <summary>
         /// Table3 control.

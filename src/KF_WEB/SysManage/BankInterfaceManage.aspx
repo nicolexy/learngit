@@ -55,15 +55,19 @@
                 <TR>
 					<TD align="right" width="15%"><FONT face="宋体">银行类型编码 </FONT>
 					</TD>
-					<TD align="left" colSpan="4"><asp:textbox id="txtBankType" runat="server" Width="500px" Height="80px" TextMode="MultiLine"></asp:textbox>
-                        <font color="red">新增可输入多个银行编码，请按分号“;”分割填写，例如：1001;1002</font></TD>
+					<TD align="left" colSpan="4"><asp:textbox id="txtBankType" runat="server" Width="100%" Height="80px" TextMode="MultiLine"></asp:textbox>
+                        </TD>
+				</TR>
+                  <TR>
+                    <TD align="left" colspan="5"><font color="red">新增可输入多个银行编码，请按分号“;”分割填写，例如：1001;1002</font>
+					</TD>
 				</TR>
                  <TR>
 					<TD align="right" colspan="5">
                         <asp:button id="btadd" runat="server" Width="80px" Text="新增" onclick="btadd_Click"></asp:button>
-                        <asp:button id="Button1" runat="server" Width="80px" Text="开启" onclick="btOpen_Click"></asp:button>
-                         <asp:button id="Button2" runat="server" Width="80px" Text="查询当前" onclick="btCurrent_Click"></asp:button>
-                          <asp:button id="Button3" runat="server" Width="80px" Text="查询历史" onclick="btHistory_Click"></asp:button>
+                        <asp:button id="btnOpen" runat="server" Width="80px" Text="开启" onclick="btOpen_Click"></asp:button>
+                         <asp:button id="btnCurrent" runat="server" Width="80px" Text="查询当前" onclick="btCurrent_Click"></asp:button>
+                          <asp:button id="btnHistory" runat="server" Width="80px" Text="查询历史" onclick="btHistory_Click"></asp:button>
 					</TD>
 				</TR>
                 </TABLE>

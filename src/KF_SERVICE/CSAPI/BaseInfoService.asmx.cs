@@ -12,6 +12,7 @@ using CFT.CSOMS.Service.CSAPI.Language;
 using System.Collections;
 using CFT.CSOMS.Service.CSAPI.BaseInfo;
 using System.Collections.Specialized;
+using System.Data;
 namespace CFT.CSOMS.Service.CSAPI
 {
     /// <summary>
@@ -1076,5 +1077,237 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         #endregion
+
+        #region 个人账户信息
+
+        /// <summary>
+        /// 获取个人账户信息
+        /// </summary>
+        [WebMethod]
+        public void GetPersonalInfo()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "type", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+                int type = APIUtil.StringToInt(paramsHt["type"].ToString());//1,C账号;2,内部账号
+
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetPersonalInfo(qqid, type);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<BaseInfoC.PersonalInfo> list = APIUtil.ConvertTo<BaseInfoC.PersonalInfo>(infos.Tables[0]);
+                APIUtil.Print<BaseInfoC.PersonalInfo>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetPersonalInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetPersonalInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 会员信息
+        /// </summary>
+        [WebMethod]
+        public void QueryVipInfo()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().QueryVipInfo(qqid);
+                if (infos == null || infos.Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+
+                List<BaseInfoC.VIPInfo> list = APIUtil.ConvertTo<BaseInfoC.VIPInfo>(infos);
+                APIUtil.Print<BaseInfoC.VIPInfo>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("QueryVipInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("QueryVipInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 删除认证的操作日志
+        /// </summary>
+        [WebMethod]
+        public void GetDeleteCertLog()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserClassDeleteList(qqid);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+
+                List<BaseInfoC.DeleteCertLog> list = APIUtil.ConvertTo<BaseInfoC.DeleteCertLog>(infos.Tables[0]);
+                APIUtil.Print<BaseInfoC.DeleteCertLog>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetDeleteCertLog").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetDeleteCertLog").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 实名认证状态
+        /// </summary>
+        [WebMethod]
+        public void RealNameCert()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+                string msg = "";
+
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserClassInfo(qqid, out msg);
+                if (msg.Contains("接口失败"))
+                {
+                    msg = "未查询到该用户的实名认证状态";
+                }
+
+                Record record = new Record();
+                record.RetValue = msg;
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("RealNameCert").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("RealNameCert").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 查询余额支付功能关闭与否
+        /// </summary>
+        [WebMethod]
+        public void BalancePaidOrNot()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+                string ip = paramsHt.ContainsKey("ip") ? paramsHt["ip"].ToString() : "127.0.0.1";
+
+                var infos = new CFT.CSOMS.BLL.BalanceModule.BalaceService().BalancePaidOrNotQuery(qqid, ip);
+
+                Record record = new Record();
+                record.RetValue = infos.ToString().ToLower();
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("BalancePaidOrNot").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("BalancePaidOrNot").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+      
+        /// <summary>
+        /// 删除认证信息
+        /// </summary>
+        [WebMethod]
+        public void DelAuthen()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "username", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+                string username = paramsHt.ContainsKey("username") ? paramsHt["username"].ToString() : "";
+                string msg = "";
+
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().DelAuthen(qqid, username, out msg);
+
+                Record record = new Record();
+                record.RetValue = infos.ToString().ToLower();
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("DelAuthen").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("DelAuthen").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+     
+        #endregion
+
     }
 }

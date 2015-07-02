@@ -178,6 +178,7 @@
     <Compile Include="CSAPI\Utility\APIUtil.cs" />
     <Compile Include="CSAPI\Utility\Payment.cs" />
     <Compile Include="CSAPI\Utility\ResultParse.cs" />
+    <Compile Include="CSAPI\Utility\Trade.cs" />
     <Compile Include="FinanceManage.cs">
       <SubType>Code</SubType>
     </Compile>

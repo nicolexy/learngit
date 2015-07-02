@@ -258,6 +258,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 baseAccount1.AddSubMenu("腾讯信用查询", "BaseAccount/TencentCreditQuery.aspx");
 
                 FastPay1.AddSubMenu("一点通业务", "BaseAccount/BankCardUnbind.aspx");
+                FastPay1.AddSubMenu("一点通业务(新)", "BaseAccount/BankCardUnbindNew.aspx");
                 FastPay1.AddSubMenu("银行卡查询", "TradeManage/BankCardQuery.aspx");
                 FastPay1.AddSubMenu("银行卡查询(新)", "TradeManage/BankCardQueryNew.aspx");
                 FastPay1.AddSubMenu("姓名生僻字", "BaseAccount/RareNameQuery.aspx");
@@ -510,6 +511,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
             //UpdateAccountQQ
             accountOperate1.AddSubMenu("帐户QQ修改", "BaseAccount/ChangeQQOld.aspx");
+            accountOperate1.AddSubMenu("提现单拦截", "BaseAccount/FetchListIntercept.aspx");
 
             ForeignCurrencyPay1.AddSubMenu("订单查询", "ForeignCurrencyPay/FCOrderQuery.aspx");
             ForeignCurrencyPay1.AddSubMenu("退款查询", "ForeignCurrencyPay/FCRefundQuery.aspx");

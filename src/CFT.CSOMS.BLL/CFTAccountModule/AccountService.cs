@@ -29,6 +29,16 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             return AccountData.Uid2QQ(uin);
         }
 
+        public string QQ2UidX(string qqid)
+        {
+            return AccountData.ConvertToFuidX(qqid);
+        }
+
+        public string QQ2Uid(string qqid)
+        {
+            return AccountData.ConvertToFuid(qqid);
+        }
+
         public static string GetQQID(string queryType, string queryString)
         {
             return AccountData.getQQID(queryType, queryString);
@@ -432,7 +442,9 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("查询会员信息异常:{0}", ex.Message));
+                //throw new Exception(string.Format("查询会员信息异常:{0}", ex.Message));
+                log4net.LogManager.GetLogger("查询会员信息异常: " + ex.Message);
+                return null;
             }
         }
 
@@ -789,6 +801,534 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
           {   
               return  new AccountData().TencentCreditQuery(uin,username);
           }
+
+          public DataTable GetFetchListIntercept(string fetchListid)
+          {
+              if (string.IsNullOrEmpty(fetchListid))
+              {
+                  throw new ArgumentNullException("fetchListid");
+              }
+              return (new AccountData()).GetFetchListIntercept(fetchListid);
+          }
+
+          public bool AddFetchListIntercept(string fetchListid, string opera)
+          {
+              if (string.IsNullOrEmpty(fetchListid))
+              {
+                  throw new ArgumentNullException("fetchListid");
+              }
+
+              var dt = new AccountService().GetFetchListIntercept(fetchListid);
+              if (dt != null && dt.Rows.Count > 0)
+                  throw new Exception("该体现单号已拦截！");
+
+              return (new AccountData()).AddFetchListIntercept(fetchListid, opera);
+          }
+
+
+
+          #region 个人账户信息
+
+          public DataSet GetPersonalInfo(string qqid, int type)
+          {
+              try
+              {
+                  string QQID = GetQQID(qqid, type);
+                  DataSet ds = new DataSet();
+
+                  if (type == 2 && QQID == null)    //查询注销账户信息(可能是注销的账户）
+                  {
+                      ds = GetUserAccountCancel(QQID, 1, 1, 1);
+                  }
+                  else
+                  {
+                      if (QQID != null)
+                      {
+                          bool isWechat = false;
+                          ds = new AccountData().GetUserAccount(QQID, 1, 1, 1);
+
+                          if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
+                          {
+                              if (new AccountData().IsFastPayUser(QQID))
+                              {
+                                  ds.Tables[0].Rows[0]["Fname_str"] = "快速交易用户";
+                                  ds.Tables[0].Rows[0]["Fuser_type_str"] = "";
+                              }
+                              else
+                                  return null;
+                          }
+                          else
+                          {
+
+                              ds.Tables[0].Columns.Add("Fcurtype_str", typeof(string));
+                              ds.Tables[0].Columns.Add("Fbalance_str", typeof(string));      //单位元
+                              ds.Tables[0].Columns.Add("Fquota_str", typeof(string));        //单位元
+                              ds.Tables[0].Columns.Add("Fquota_pay_str", typeof(string));    //单位元
+                              ds.Tables[0].Columns.Add("Fstate_str", typeof(string));       //账户状态
+                              ds.Tables[0].Columns.Add("Fuser_type_str", typeof(string));   //账户类型
+                              ds.Tables[0].Columns.Add("Fname_str", typeof(string));        //真实姓名
+                              ds.Tables[0].Columns.Add("Ffreeze_fee", typeof(string));      //冻结金额
+                              ds.Tables[0].Columns.Add("Fuseable_fee", typeof(string));     //可用余额
+                              ds.Tables[0].Columns.Add("Fpro_att", typeof(string));         //产品属性
+                              ds.Tables[0].Columns.Add("Ffetch_str", typeof(string));       //当日提现金额
+                              ds.Tables[0].Columns.Add("Fsave_str", typeof(string));        //当日已充值金额
+                              ds.Tables[0].Columns.Add("Fqqid_state", typeof(string));      //qq关联状态
+                              ds.Tables[0].Columns.Add("Femial_state", typeof(string));     //邮箱关联状态
+                              ds.Tables[0].Columns.Add("Fmobile_state", typeof(string));    //手机关联状态
+                              ds.Tables[0].Columns.Add("Fbpay_state_str", typeof(string));  //余额支付状态
+
+                              #region 转换字段
+                              foreach (DataRow dr in ds.Tables[0].Rows)
+                              {
+                                  dr["Fcurtype_str"] = PublicService.PublicService.convertMoney_type(PublicRes.objectToString(ds.Tables[0], "Fcurtype"));   //币种类型转换
+                                  dr["Fbpay_state_str"] = PublicService.PublicService.convertBPAY(PublicRes.objectToString(ds.Tables[0], "Fbpay_state"));       //余额支付状态
+                                  dr["Fuser_type_str"] = PublicService.PublicService.convertFuser_type(dr["Fuser_type"].ToString());
+                                  dr["Femail"] = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Femail"));
+                                  dr["Fmobile"] = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile"));
+                                  MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fbalance", "Fbalance_str");
+                                  MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fquota", "Fquota_str");
+                                  MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fquota_pay", "Fquota_pay_str");
+                                  MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Ffetch", "Ffetch_str");
+                                  MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fsave", "Fsave_str");
+
+                                  string state = PublicRes.objectToString(ds.Tables[0], "Fstate");
+
+                                  if (isWechat)
+                                  {
+                                      if (state == "1")
+                                      {
+                                          dr["Fstate_str"] = "正常";
+                                      }
+                                      else if (state == "2")
+                                      {
+                                          dr["Fstate_str"] = "冻结";
+                                      }
+                                      else
+                                      {
+                                          dr["Fstate_str"] = "";
+                                      }
+                                  }
+                                  else
+                                  {
+                                      dr["Fstate_str"] = PublicService.PublicService.accountState(dr["Fstate"].ToString());
+                                  }
+
+                                  string s_fz_amt = PublicRes.objectToString(ds.Tables[0], "Ffz_amt"); //分账冻结金额
+                                  string s_balance = PublicRes.objectToString(ds.Tables[0], "Fbalance");
+                                  string s_cron = PublicRes.objectToString(ds.Tables[0], "Fcon");
+                                  long l_balance = 0, l_cron = 0, l_fzamt = 0;
+                                  if (s_balance != "")
+                                  {
+                                      l_balance = long.Parse(s_balance);
+                                  }
+                                  if (s_cron != "")
+                                  {
+                                      l_cron = long.Parse(s_cron);
+                                  }
+                                  if (s_fz_amt != "")
+                                  {
+                                      l_fzamt = long.Parse(s_fz_amt);
+                                  }
+
+                                  dr["Ffreeze_fee"] = MoneyTransfer.FenToYuan((l_fzamt + l_cron).ToString());    //冻结金额=分账冻结金额+冻结金额
+                                  dr["Fuseable_fee"] = MoneyTransfer.FenToYuan((l_balance - l_cron).ToString());   //可用余额=帐户余额减去冻结余额
+
+                                  int tempAtt = 0;
+                                  if (dr["Att_id"].ToString() != "")
+                                  {
+                                      tempAtt = int.Parse(dr["Att_id"].ToString());
+                                  }
+                                  if (tempAtt != 0)
+                                  {
+                                      dr["Fpro_att"] = CheckBasicInfo(tempAtt);
+                                  }
+                                  else
+                                  {
+                                      dr["Fpro_att"] = "";
+                                  }
+
+                                  string qq = dr["Fqqid"].ToString();
+                                  string email = dr["Femail"].ToString();
+                                  string mobile = dr["Fmobile"].ToString();
+                                  string fuid = PublicRes.objectToString(ds.Tables[0], "fuid");
+
+                                  if (qq != "")
+                                  {
+                                      string uid1 = QQ2Uid(qq);
+                                      if (uid1 != null)
+                                      {
+                                          dr["Fqqid_state"] = "注册未关联";
+                                          if (uid1.Trim() == fuid)
+                                          {
+                                              //再判断是否是已激活
+                                              string uid2 = QQ2UidX(qq);
+                                              if (uid2 != null)
+                                                  dr["Fqqid_state"] = "已关联";
+                                              else
+                                                  dr["Fqqid_state"] = "已关联未激活";
+                                          }
+                                      }
+                                      else
+                                          dr["Fqqid_state"] = "未注册";
+
+                                  }
+
+
+                                  if (email != "")
+                                  {
+                                      string uid1 = QQ2Uid(email);
+                                      if (uid1 != null)
+                                      {
+                                          dr["Femial_state"] = "注册未关联";
+                                          if (uid1.Trim() == fuid)
+                                          {
+                                              string uid2 = QQ2UidX(email);
+                                              if (uid2 != null)
+                                                  dr["Femial_state"] = "已关联";
+                                              else
+                                                  dr["Femial_state"] = "已关联未激活";
+                                          }
+                                      }
+                                      else
+                                          dr["Femial_state"] = "未注册";
+                                  }
+
+
+                                  if (mobile != "")
+                                  {
+                                      string uid1 = QQ2Uid(mobile);
+                                      if (uid1 != null)
+                                      {
+                                          dr["Fmobile_state"] = "注册未关联";
+                                          if (uid1.Trim() == fuid)
+                                          {
+                                              string uid2 = QQ2UidX(mobile);
+                                              if (uid2 != null)
+                                                  dr["Fmobile_state"] = "已关联";
+                                              else
+                                                  dr["Fmobile_state"] = "已关联未激活";
+                                          }
+                                      }
+                                      else
+                                          dr["Fmobile_state"] = "未注册";
+                                  }
+
+
+                                  try
+                                  {
+                                      string name = dr["UserRealName2"].ToString();
+                                      if (!string.IsNullOrEmpty(name))
+                                      {
+                                          dr["Fname_str"] = dr["UserRealName2"].ToString();
+                                      }
+                                  }
+                                  catch
+                                  {
+                                      dr["Fname_str"] = dr["Ftruename"].ToString();
+                                  }
+
+                              }
+
+                              #endregion
+                          }
+
+                      }
+                  }
+
+                  return ds;
+              }
+              catch (Exception ex)
+              {
+                  log4net.LogManager.GetLogger("查询个人账户信息出错: " + ex.Message);
+                  return null;
+              }
+          }
+
+          public int GetUserClassInfo(string qqid, out string msg)
+          {
+              return new AccountData().GetUserClassInfo(qqid, out msg);
+          }
+
+          /// <summary>
+          /// 查询注销用户帐户表
+          /// </summary>
+          /// <param name="fuid"></param>
+          /// <param name="fcurtype"></param>
+          /// <param name="istr"></param>
+          /// <param name="imax"></param>
+          /// <returns></returns>
+          public DataSet GetUserAccountCancel(string qqid, int fcurtype, int istr, int imax)
+          {
+              try
+              {
+                  DataSet ds = new DataSet();
+                  ds = new AccountData().GetUserAccountCancel(qqid, fcurtype, istr, imax);
+
+                  if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
+                  {
+                      return null;
+                  }
+                  else
+                  {
+
+                      ds.Tables[0].Columns.Add("Fcurtype_str", typeof(string));
+                      ds.Tables[0].Columns.Add("Fbalance_str", typeof(string));      //单位元
+                      ds.Tables[0].Columns.Add("Fquota_str", typeof(string));        //单位元
+                      ds.Tables[0].Columns.Add("Fquota_pay_str", typeof(string));    //单位元
+                      ds.Tables[0].Columns.Add("Fstate_str", typeof(string));       //账户状态
+                      ds.Tables[0].Columns.Add("Fuser_type_str", typeof(string));   //账户类型
+                      ds.Tables[0].Columns.Add("Fname_str", typeof(string));        //真实姓名
+                      ds.Tables[0].Columns.Add("Ffreeze_fee", typeof(string));      //冻结金额
+                      ds.Tables[0].Columns.Add("Fuseable_fee", typeof(string));     //可用余额
+                      ds.Tables[0].Columns.Add("Fpro_att", typeof(string));         //产品属性
+                      ds.Tables[0].Columns.Add("Ffetch_str", typeof(string));       //当日提现金额
+                      ds.Tables[0].Columns.Add("Fsave_str", typeof(string));        //当日已充值金额
+                      ds.Tables[0].Columns.Add("Fqqid_state", typeof(string));      //qq关联状态
+                      ds.Tables[0].Columns.Add("Femial_state", typeof(string));     //邮箱关联状态
+                      ds.Tables[0].Columns.Add("Fmobile_state", typeof(string));    //手机关联状态
+                      ds.Tables[0].Columns.Add("Fbpay_state_str", typeof(string));  //余额支付状态
+
+                      #region 转换字段
+
+                      foreach (DataRow dr in ds.Tables[0].Rows)
+                      {
+                          dr["Fcurtype_str"] = PublicService.PublicService.convertMoney_type(PublicRes.objectToString(ds.Tables[0], "Fcurtype"));   //币种类型转换
+                          dr["Fbpay_state_str"] = PublicService.PublicService.convertBPAY(PublicRes.objectToString(ds.Tables[0], "Fbpay_state"));       //余额支付状态
+                          dr["Fstate_str"] = PublicService.PublicService.accountState(dr["Fstate"].ToString());
+                          dr["Fuser_type_str"] = PublicService.PublicService.convertFuser_type(dr["Fuser_type"].ToString());
+                          dr["Femail"] = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Femail"));
+                          dr["Fmobile"] = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile"));
+                          MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fbalance", "Fbalance_str");
+                          MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fquota", "Fquota_str");
+                          MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fquota_pay", "Fquota_pay_str");
+                          MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Ffetch", "Ffetch_str");
+                          MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fsave", "Fsave_str");
+
+                          string s_fz_amt = PublicRes.objectToString(ds.Tables[0], "Ffz_amt"); //分账冻结金额
+                          string s_balance = PublicRes.objectToString(ds.Tables[0], "Fbalance");
+                          string s_cron = PublicRes.objectToString(ds.Tables[0], "Fcon");
+                          long l_balance = 0, l_cron = 0, l_fzamt = 0;
+                          if (s_balance != "")
+                          {
+                              l_balance = long.Parse(s_balance);
+                          }
+                          if (s_cron != "")
+                          {
+                              l_cron = long.Parse(s_cron);
+                          }
+                          if (s_fz_amt != "")
+                          {
+                              l_fzamt = long.Parse(s_fz_amt);
+                          }
+
+                          dr["Ffreeze_fee"] = MoneyTransfer.FenToYuan((l_fzamt + l_cron).ToString());    //冻结金额=分账冻结金额+冻结金额
+                          dr["Fuseable_fee"] = MoneyTransfer.FenToYuan((l_balance - l_cron).ToString());   //可用余额=帐户余额减去冻结余额
+
+                          int tempAtt = 0;
+                          if (dr["Att_id"].ToString() != "")
+                          {
+                              tempAtt = int.Parse(dr["Att_id"].ToString());
+                          }
+                          if (tempAtt != 0)
+                          {
+                              dr["Fpro_att"] = CheckBasicInfo(tempAtt);
+                          }
+                          else
+                          {
+                              dr["Fpro_att"] = "";
+                          }
+
+                          string qq = dr["Fqqid"].ToString();
+                          string email = dr["Femail"].ToString();
+                          string mobile = dr["Fmobile"].ToString();
+                          string fuid = PublicRes.objectToString(ds.Tables[0], "fuid");
+
+                          if (qq != "")
+                          {
+                              string uid1 = QQ2Uid(qq);
+                              if (uid1 != null)
+                              {
+                                  dr["Fqqid_state"] = "注册未关联";
+                                  if (uid1.Trim() == fuid)
+                                  {
+                                      //再判断是否是已激活
+                                      string uid2 = QQ2UidX(qq);
+                                      if (uid2 != null)
+                                          dr["Fqqid_state"] = "已关联";
+                                      else
+                                          dr["Fqqid_state"] = "已关联未激活";
+                                  }
+                              }
+                              else
+                                  dr["Fqqid_state"] = "未注册";
+
+                          }
+
+
+                          if (email != "")
+                          {
+                              string uid1 = QQ2Uid(email);
+                              if (uid1 != null)
+                              {
+                                  dr["Femial_state"] = "注册未关联";
+                                  if (uid1.Trim() == fuid)
+                                  {
+                                      string uid2 = QQ2UidX(email);
+                                      if (uid2 != null)
+                                          dr["Femial_state"] = "已关联";
+                                      else
+                                          dr["Femial_state"] = "已关联未激活";
+                                  }
+                              }
+                              else
+                                  dr["Femial_state"] = "未注册";
+                          }
+
+
+                          if (mobile != "")
+                          {
+                              string uid1 = QQ2Uid(mobile);
+                              if (uid1 != null)
+                              {
+                                  dr["Fmobile_state"] = "注册未关联";
+                                  if (uid1.Trim() == fuid)
+                                  {
+                                      string uid2 = QQ2UidX(mobile);
+                                      if (uid2 != null)
+                                          dr["Fmobile_state"] = "已关联";
+                                      else
+                                          dr["Fmobile_state"] = "已关联未激活";
+                                  }
+                              }
+                              else
+                                  dr["Fmobile_state"] = "未注册";
+                          }
+
+                          try
+                          {
+                              string name = dr["UserRealName2"].ToString();
+                              if (!string.IsNullOrEmpty(name))
+                              {
+                                  dr["Fname_str"] = dr["UserRealName2"].ToString();
+                              }
+                          }
+                          catch
+                          {
+                              dr["Fname_str"] = dr["Ftruename"].ToString();
+                          }
+
+                      }
+
+                      return ds;
+
+                      #endregion
+                  }
+              }
+              catch (Exception ex)
+              {
+                  log4net.LogManager.GetLogger("查询注销用户帐户表: " + ex.Message);
+                  return null;
+              }
+          }
+
+
+          /// <summary>
+          /// 查询删除实名认证日志
+          /// </summary>
+          /// <param name="Fqqid"></param>
+          /// <returns></returns>
+          public DataSet GetUserClassDeleteList(string Fqqid)
+          {
+              try
+              {
+                  return UserClassClass.GetDeleteList(Fqqid);
+              }
+              catch (Exception ex)
+              {
+                  log4net.LogManager.GetLogger("查询删除实名认证日志失败: " + ex.Message);
+                  return null;
+              }
+          }
+
+          private string CheckBasicInfo(int nAttid)
+          {
+              //从数据字典中读取数据，绑定到web页
+              DataSet ds = PermitPara.QueryDicAccName();
+              if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+              {
+                  return "";
+              }
+              DataTable dt = ds.Tables[0];
+              foreach (DataRow dr in dt.Rows)
+              {
+                  if (nAttid == int.Parse(dr["Value"].ToString().Trim()))
+                  {
+                      return dr["Text"].ToString().Trim();
+                  }
+              }
+              return "";
+          }
+
+          private string GetQQID(string qqid, int type)
+          {
+              if (string.IsNullOrEmpty(qqid))
+              {
+                  throw new Exception("输入账号为空!");
+              }
+
+              try
+              {
+                  string id = qqid;
+                  if (type == 1)//C账号
+                  {
+                      return id;
+                  }
+                  else if (type == 2)//内部账号
+                  {
+                      id = Uid2QQ(qqid);
+                  }
+                  else
+                  {
+                      throw new Exception("账号类型错误!");
+                  }
+                  return id;
+              }
+              catch (Exception ex)
+              {
+                  throw new Exception(ex.Message);
+              }
+          }
+
+          /// <summary>
+          /// 删除认证信息
+          /// </summary>
+          /// <param name="qqid"></param>
+          /// <param name="username"></param>
+          /// <param name="msg"></param>
+          /// <returns></returns>
+          public bool DelAuthen(string qqid, string username, out string msg)
+          {
+              return new AccountData().DelAuthen(qqid, username, out msg);
+          }
+
+          /// <summary>
+          /// 查询用户商家工具按钮表
+          /// </summary>      
+          public DataSet GetUserButtonInfo(string u_QQID, int istr, int imax)
+          {
+              return new AccountData().GetUserButtonInfo(u_QQID, istr, imax);
+          }
+
+          /// <summary>
+          /// 查询用户交易流水表
+          /// </summary>
+          public DataSet GetUserPayList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
+          {
+              return new AccountData().GetUserPayList(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
+          }
+
+          #endregion
+
     }
 
     #region 异常姓名类

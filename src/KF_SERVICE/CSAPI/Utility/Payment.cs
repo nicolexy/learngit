@@ -225,7 +225,7 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
             [XmlElement("dest_card")] //银行卡
             public string Fdest_card { get; set; }
 
-            [XmlElement("trade_type")] 
+            [XmlElement("trade_type")]
             public string FtrantypeName { get; set; }
             [XmlElement("trade_state")]
             public string FtranstateName { get; set; }
@@ -361,5 +361,69 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
         }
 
         #endregion
+
+        /// <summary>
+        /// 充值记录
+        /// </summary>
+        public class TCBankRollList
+        {
+            [XmlElement("trade_id")]
+            public string Ftde_id { get; set; }
+            [XmlElement("listid")]
+            public string Flistid { get; set; }
+            [XmlElement("curtype")]
+            public string Fcurtype { get; set; }
+            [XmlElement("curtype_str")]
+            public string Fcurtype_str { get; set; }
+            [XmlElement("state")]   //当前状态
+            public string Fstate { get; set; }
+            [XmlElement("state_str")]
+            public string Fstate_str { get; set; }
+            [XmlElement("type")]    //交易类型
+            public string Ftype { get; set; }
+            [XmlElement("type_str")]
+            public string Ftype_str { get; set; }
+
+            [XmlElement("subject")] //科目
+            public string Fsubject { get; set; }
+            [XmlElement("subject_str")]
+            public string Fsubject_str { get; set; }
+            [XmlElement("num")] //交易金额
+            public string Fnum_str { get; set; }
+            [XmlElement("sign")]    //交易标记
+            public string Fsign { get; set; }
+            [XmlElement("sign_str")]
+            public string Fsign_str { get; set; }
+            [XmlElement("bank_type")]
+            public string Fbank_type { get; set; }
+            [XmlElement("bank_type_str")]
+            public string Fbank_type_str { get; set; }
+
+            [XmlElement("auid")]    //对方内部账户ID
+            public string Fauid { get; set; }
+            [XmlElement("aid")]    //对方的ID
+            public string Faid { get; set; }
+            [XmlElement("aname")]    //对方的名称
+            public string Faname { get; set; }
+            [XmlElement("bank_list")]
+            public string Fbank_list { get; set; }
+            [XmlElement("bank_acc")]
+            public string Fbank_acc { get; set; }
+            [XmlElement("pay_time_acc")]
+            public string Fpay_time_acc { get; set; }
+            [XmlElement("pay_front_time")]
+            public string Fpay_front_time { get; set; }
+            [XmlElement("pay_time")]
+            public string Fpay_time { get; set; }
+
+            [XmlElement("ip")]
+            public string Fip { get; set; }
+            [XmlElement("memo")]
+            public string Fmemo { get; set; }
+            [XmlElement("prove")]
+            public string Fprove { get; set; }
+            [XmlElement("tc_bankid")]
+            public string Ftc_bankid { get; set; }
+        }
     }
 }
