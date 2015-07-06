@@ -15,15 +15,15 @@ namespace CFT.CSOMS.BLL.InternationalityPayModule
         public static readonly Dictionary<string, string> PayState = new Dictionary<string, string>(); //前台页面需要用于生成下拉框
         static QueryWeiXinMircoPay()
         {
-            PayState.Add("0", "开始下单");
+           // PayState.Add("0", "开始下单");
             PayState.Add("1", "支付成功");
             PayState.Add("2", "己退款");
             PayState.Add("3", "未支付");
             PayState.Add("4", "订单关闭");
             PayState.Add("5", "订单撤销");
             PayState.Add("6", "用户支付中");
-            PayState.Add("7", " 未支付");
-            PayState.Add("8", " 支付失败");
+            PayState.Add("7", "未支付");
+            PayState.Add("8", "支付失败");
         }
         /// <summary>
         /// 通过条件查询境外微信小额支付信息

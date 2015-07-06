@@ -217,6 +217,7 @@
                 </tbody>
             </table>
             <iframe id="iframe_tradelog" runat="server" width="100%" height="620px" scrolling="no"></iframe>
+            <span runat="server" style="color:red" id="ErrorReason"></span>
             <div style="text-align: center; margin-top: 20px;">
                 <input type="button" value="关 闭" onclick="dialog.style.visibility = 'hidden'" style="width: 50px; height: 25px; cursor: pointer;" />
             </div>
