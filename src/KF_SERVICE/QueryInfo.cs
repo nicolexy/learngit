@@ -8490,7 +8490,34 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 {
                                     detail_score = detail_score.Replace("WithdrawHist", "提现记录得分");
                                 }
-
+                                if (detail_score.IndexOf("MBVerify") > -1)
+                                {
+                                    detail_score = detail_score.Replace("MBVerify", "安平密保验证得分");
+                                }
+                                if (detail_score.IndexOf("MBQuery") > -1)
+                                {
+                                    detail_score = detail_score.Replace("MBQuery", "通过安全中心密保得分");
+                                }
+                                if (detail_score.IndexOf("BindMobile") > -1)
+                                {
+                                    detail_score = detail_score.Replace("BindMobile", "绑定的手机号码得分");
+                                }
+                                if (detail_score.IndexOf("Mobile") > -1)
+                                {
+                                    detail_score = detail_score.Replace("Mobile", "手机得分");
+                                }
+                                if (detail_score.IndexOf("Email_QQ") > -1)
+                                {
+                                    detail_score = detail_score.Replace("Email_QQ", "绑定QQ邮箱得分");
+                                }
+                                if (detail_score.IndexOf("Mobile_New") > -1)
+                                {
+                                    detail_score = detail_score.Replace("Mobile_New", "未注册手机得分");
+                                }
+                                if (detail_score.IndexOf("QQReceipt_6") > -1)
+                                {
+                                    detail_score = detail_score.Replace("QQReceipt_6", "简化注册用户QQ申诉回执单号得分");
+                                }
                                 dr["detail_score"] = detail_score;
 
                             }
@@ -8614,46 +8641,125 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                             dr["FTypeName"] = "微信解冻";
                         }
 
+                        string type = dr["FType"].ToString();
                         tmp = dr["FState"].ToString();
-                        if (tmp == "0")
+
+                        if (type != "8" && type != "11" && type != "19")
                         {
-                            dr["FStateName"] = "未处理";
+                            if (tmp == "0")
+                            {
+                                dr["FStateName"] = "未处理";
+                            }
+                            else if (tmp == "1")
+                            {
+                                dr["FStateName"] = "申诉成功";
+                            }
+                            else if (tmp == "2")
+                            {
+                                dr["FStateName"] = "申诉失败";
+                            }
+                            else if (tmp == "3")
+                            {
+                                dr["FStateName"] = "大额待复核";
+                            }
+                            else if (tmp == "4")
+                            {
+                                dr["FStateName"] = "直接转后台";
+                            }
+                            else if (tmp == "5")
+                            {
+                                dr["FStateName"] = "异常转后台";
+                            }
+                            else if (tmp == "6")
+                            {
+                                dr["FStateName"] = "发邮件失败";
+                            }
+                            else if (tmp == "7")
+                            {
+                                dr["FStateName"] = "已删除";
+                            }
+                            else if (tmp == "8")
+                            {
+                                dr["FStateName"] = "已领单";
+                            }
+                            else if (tmp == "9")
+                            {
+                                dr["FStateName"] = "短信撤销申诉";
+                            }
+                            else
+                            {
+                                dr["FStateName"] = "未知：" + tmp;
+                            }
                         }
-                        else if (tmp == "1")
+                        else if (type == "8" || type == "19")
                         {
-                            dr["FStateName"] = "申诉成功";
+                            if (tmp == "0")
+                            {
+                                dr["FStateName"] = "未处理";
+                            }
+                            else if (tmp == "1")
+                            {
+                                dr["FStateName"] = "结单（已解冻）";
+                            }
+                            else if (tmp == "2")
+                            {
+                                dr["FStateName"] = "待补充资料";
+                            }
+                            else if (tmp == "7")
+                            {
+                                dr["FStateName"] = "已作废";
+                            }
+                            else if (tmp == "8")
+                            {
+                                dr["FStateName"] = "挂起";
+                            }
+                            else if (tmp == "10")
+                            {
+                                dr["FStateName"] = "已补充资料";
+                            }
+                            else if (tmp == "21")
+                            {
+                                dr["FStateName"] = "结单（无冻结日志）";
+                            }
+                            else
+                            {
+                                dr["FStateName"] = "未知：" + tmp;
+                            }
                         }
-                        else if (tmp == "2")
+                        else if (type == "11")
                         {
-                            dr["FStateName"] = "申诉失败";
-                        }
-                        else if (tmp == "3")
-                        {
-                            dr["FStateName"] = "大额待复核";
-                        }
-                        else if (tmp == "4")
-                        {
-                            dr["FStateName"] = "直接转后台";
-                        }
-                        else if (tmp == "5")
-                        {
-                            dr["FStateName"] = "异常转后台";
-                        }
-                        else if (tmp == "6")
-                        {
-                            dr["FStateName"] = "发邮件失败";
-                        }
-                        else if (tmp == "7")
-                        {
-                            dr["FStateName"] = "已删除";
-                        }
-                        else if (tmp == "8")
-                        {
-                            dr["FStateName"] = "已领单";
-                        }
-                        else if (tmp == "9")
-                        {
-                            dr["FStateName"] = "短信撤销申诉";
+                            if (tmp == "0")
+                            {
+                                dr["FStateName"] = "未处理";
+                            }
+                            else if (tmp == "1")
+                            {
+                                dr["FStateName"] = "申诉成功";
+                            }
+                            else if (tmp == "2")
+                            {
+                                dr["FStateName"] = "申诉失败";
+                            }
+                            else if (tmp == "7")
+                            {
+                                dr["FStateName"] = "已删除";
+                            }
+                            else if (tmp == "11")
+                            {
+                                dr["FStateName"] = "待补充资料";
+                            }
+                            else if (tmp == "12")
+                            {
+                                dr["FStateName"] = "已补充资料";
+                            }
+                            else if (tmp == "20")
+                            {
+                                dr["FStateName"] = "结单（未补填资料）";
+                            }
+                            else
+                            {
+                                dr["FStateName"] = "未知：" + tmp;
+                            }
                         }
                     }
                     catch (System.Exception ex)
@@ -8868,7 +8974,34 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 {
                                     detail_score = detail_score.Replace("WithdrawHist", "提现记录得分");
                                 }
-
+                                if (detail_score.IndexOf("MBVerify") > -1)
+                                {
+                                    detail_score = detail_score.Replace("MBVerify", "安平密保验证得分");
+                                }
+                                if (detail_score.IndexOf("MBQuery") > -1)
+                                {
+                                    detail_score = detail_score.Replace("MBQuery", "通过安全中心密保得分");
+                                }
+                                if (detail_score.IndexOf("BindMobile") > -1)
+                                {
+                                    detail_score = detail_score.Replace("BindMobile", "绑定的手机号码得分");
+                                }
+                                if (detail_score.IndexOf("Mobile") > -1)
+                                {
+                                    detail_score = detail_score.Replace("Mobile", "手机得分");
+                                }
+                                if (detail_score.IndexOf("Email_QQ") > -1)
+                                {
+                                    detail_score = detail_score.Replace("Email_QQ", "绑定QQ邮箱得分");
+                                }
+                                if (detail_score.IndexOf("Mobile_New") > -1)
+                                {
+                                    detail_score = detail_score.Replace("Mobile_New", "未注册手机得分");
+                                }
+                                if (detail_score.IndexOf("QQReceipt_6") > -1)
+                                {
+                                    detail_score = detail_score.Replace("QQReceipt_6", "简化注册用户QQ申诉回执单号得分");
+                                }
                                 dr["detail_score"] = detail_score;
 
                             }
@@ -9249,7 +9382,34 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 {
                                     detail_score = detail_score.Replace("WithdrawHist", "提现记录得分");
                                 }
-
+                                if (detail_score.IndexOf("MBVerify") > -1)
+                                {
+                                    detail_score = detail_score.Replace("MBVerify", "安平密保验证得分");
+                                }
+                                if (detail_score.IndexOf("MBQuery") > -1)
+                                {
+                                    detail_score = detail_score.Replace("MBQuery", "通过安全中心密保得分");
+                                }
+                                if (detail_score.IndexOf("BindMobile") > -1)
+                                {
+                                    detail_score = detail_score.Replace("BindMobile", "绑定的手机号码得分");
+                                }
+                                if (detail_score.IndexOf("Mobile") > -1)
+                                {
+                                    detail_score = detail_score.Replace("Mobile", "手机得分");
+                                }
+                                if (detail_score.IndexOf("Email_QQ") > -1)
+                                {
+                                    detail_score = detail_score.Replace("Email_QQ", "绑定QQ邮箱得分");
+                                }
+                                if (detail_score.IndexOf("Mobile_New") > -1)
+                                {
+                                    detail_score = detail_score.Replace("Mobile_New", "未注册手机得分");
+                                }
+                                if (detail_score.IndexOf("QQReceipt_6") > -1)
+                                {
+                                    detail_score = detail_score.Replace("QQReceipt_6", "简化注册用户QQ申诉回执单号得分");
+                                }
                                 dr["detail_score"] = detail_score;
 
                             }

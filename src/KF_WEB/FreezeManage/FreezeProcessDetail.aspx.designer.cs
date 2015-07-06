@@ -121,6 +121,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         protected global::System.Web.UI.WebControls.TextBox tbx_freezeReason;
         
         /// <summary>
+        /// TR1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow TR1;
+        
+        /// <summary>
         /// lblstandard_score control.
         /// </summary>
         /// <remarks>
@@ -148,6 +157,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         protected global::System.Web.UI.WebControls.TextBox clear_pps;
         
         /// <summary>
+        /// TR2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow TR2;
+        
+        /// <summary>
         /// lblscore control.
         /// </summary>
         /// <remarks>
@@ -164,6 +182,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox lbauthenState;
+        
+        /// <summary>
+        /// TR3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow TR3;
         
         /// <summary>
         /// lbldetail_score control.
@@ -812,5 +839,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image img_zljt1;
+        
+        /// <summary>
+        /// tbx_comment control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbx_comment;
     }
 }

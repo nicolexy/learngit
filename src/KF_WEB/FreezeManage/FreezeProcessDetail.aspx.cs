@@ -191,6 +191,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
                     this.tbx_userQA.Text = dr2["FAppealReason"].ToString();  //用户描述
 
+                    this.tbx_comment.Text = dr2["Fcomment"].ToString();  //客服备注
+
                     string img_cgi = ConfigurationManager.AppSettings["GetAppealImageCgi"].ToString();
 
                     //int ftype = int.Parse(dr2["Ftype"].ToString());
@@ -437,6 +439,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                     }
 
                     #endregion
+
+                    //控制详情显示
+                    VisbleTR(ftype);
                 }
             }
             catch (SoapException eSoap) //捕获soap类异常
@@ -449,6 +454,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                 WebUtils.ShowMessage(this.Page, "查询异常！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
 		}
+
+        private void VisbleTR(int ftype)
+        {
+            if (ftype == 11)
+            {
+                this.TR1.Visible=true;
+                this.TR2.Visible = true;
+                this.TR3.Visible = true;
+            }
+            else if (ftype == 8|| ftype == 19)
+            {
+                this.TR1.Visible = false;
+                this.TR2.Visible = false;
+                this.TR3.Visible = false;
+            }
+        }
 
 
 		#region Web 窗体设计器生成的代码
@@ -476,9 +497,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
         //适用于挂起和作废操作
         private void OperateUnFreeze(int type)
         {
-            if (this.tbx_handleResult.Text.Trim() == "")
+
+            try
             {
-                WebUtils.ShowMessage(this, "请输入补充的处理结果");
+                CheckInput();
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this, ex.Message);
                 return;
             }
 
@@ -486,11 +512,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
             string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
             string userDesc = classLibrary.setConfig.replaceHtmlStr(this.tbx_userQA.Text);
-
+            string comment = classLibrary.setConfig.replaceHtmlStr(this.tbx_comment.Text);
             try
             {
                 if (qs.CreateFreezeDiary_NEW(ViewState["FID"].ToString(), type, Session["uid"].ToString()
-                    , handleResult, "", ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), 0, userDesc, "", "", "", "", "", "", "", ""))
+                    , handleResult, comment, ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), 0, userDesc, "", "", "", "", "", "", "", ""))
                 {
                     Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=s", false);
                 }
@@ -519,22 +545,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
         //结单解冻
 		protected void btn_Finish1_Click(object sender, System.EventArgs e)
 		{
-			if(this.tbx_handleResult.Text.Trim() == "")
-			{
-				WebUtils.ShowMessage(this,"请输入补充的处理结果");
-				return;
-			}
+            try
+            {
+                CheckInput();
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this, ex.Message);
+                return;
+            }
 
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
 			string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
             string userDesc = classLibrary.setConfig.replaceHtmlStr(this.tbx_userQA.Text);
+            string comment = classLibrary.setConfig.replaceHtmlStr(this.tbx_comment.Text);
 
 			try
 			{
 				// 结单的话，将FSourceType设置为结单状态 ,需要发送tips和手机短信
                 if (qs.CreateFreezeDiary_NEW(ViewState["FID"].ToString(), 1, Session["uid"].ToString()
-                    , handleResult, "", ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), 0, userDesc, "", "", "", "", "", "", "", ""))
+                    , handleResult, comment, ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), 0, userDesc, "", "", "", "", "", "", "", ""))
 				{
 					//Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=s",false);
                     Response.Write("<script language=javascript>window.location='../BaseAccount/freezeBankAcc.aspx?id=false&uid=" + ViewState["FFreezeID"].ToString() + "&iswechat=false&type=per'</script>");
@@ -565,53 +596,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 		protected void btn_Del_Click(object sender, System.EventArgs e)
 		{
             OperateUnFreeze(7);
-            //if(this.tbx_handleResult.Text.Trim() == "")
-            //{
-            //    WebUtils.ShowMessage(this,"请输入补充的处理结果");
-            //    return;
-            //}
-
-            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-            //string userDesc = classLibrary.setConfig.replaceHtmlStr(this.tbx_userQA.Text);
-            //string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
-
-            //try
-            //{
-            //    // 作废的话，将FSourceType设置为作废状态
-            //    if (qs.CreateFreezeDiary_NEW(ViewState["FID"].ToString(), 7, Session["uid"].ToString(), handleResult, "", ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), 0, userDesc, "", "", "", "", "", "", "", ""))
-            //    {
-            //        Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=s",false);
-            //    }
-            //    else
-            //    {
-            //        Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=f",false);
-            //    }
-            //}
-            //catch(Exception ex)
-            //{
-            //    WebUtils.ShowMessage(this,ex.Message);
-            //}
+           
 		}
 
         //补充处理结果
 		protected void btn_addRecord_Click(object sender, System.EventArgs e)
 		{
-			if(this.tbx_handleResult.Text.Trim() == "")
-			{
-				WebUtils.ShowMessage(this,"请输入补充的处理结果");
-				return;
-			}
+            try
+            {
+                CheckInput();
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this, ex.Message);
+                return;
+            }
 
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
 			string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
             string userDesc = classLibrary.setConfig.replaceHtmlStr(this.tbx_userQA.Text);
-
+            string comment = classLibrary.setConfig.replaceHtmlStr(this.tbx_comment.Text);
 			try
 			{
                 if (qs.CreateFreezeDiary_NEW(ViewState["FID"].ToString(), 100, Session["uid"].ToString()
-                    , handleResult, "", ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), 0, userDesc, "", "", "", "", "", "", "", ""))
+                    , handleResult, comment, ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), 0, userDesc, "", "", "", "", "", "", "", ""))
 				{
 					Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=s",false);
 				}
@@ -665,14 +674,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
         //拒绝
         protected void btn_Cancel_Click(object sender, System.EventArgs e)
         {
-            Func<string, string, string, string, string, string, string, bool> operate = new UserAppealService().CannelAppealSpecial;
+            Func<string, string, string, string, string, string, string, string, bool> operate = new UserAppealService().CannelAppealSpecial;
             OperateSepcial(operate);
         }
 
         //通过
         protected void btn_OK_Click(object sender, System.EventArgs e)
         {
-            Func<string, string, string, string, string, string, string, bool> operate = new UserAppealService().ConfirmAppealSpecial;
+            Func<string, string, string, string, string, string, string, string, bool> operate = new UserAppealService().ConfirmAppealSpecial;
             OperateSepcial(operate);
         }
 
@@ -685,7 +694,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
         //删除
         protected void btn_Delete_Click(object sender, System.EventArgs e)
         {
-            Func<string, string, string, string, string, string, string, bool> operate = new UserAppealService().DelAppealSpecial;
+            Func<string, string, string, string, string, string, string, string, bool> operate = new UserAppealService().DelAppealSpecial;
             OperateSepcial(operate);
         }
        
@@ -693,17 +702,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 
         //用于特殊找回密码拒绝、通过、删除操作
-        private void OperateSepcial(Func<string, string, string, string, string, string, string, bool> operate)
+        private void OperateSepcial(Func<string, string, string, string, string, string, string, string, bool> operate)
         {
-            if (this.tbx_handleResult.Text.Trim() == "")
+            try
             {
-                WebUtils.ShowMessage(this, "请输入补充的处理结果");
+                CheckInput();
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this, ex.Message);
                 return;
             }
             try
             {
                 string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
                 string userDesc = classLibrary.setConfig.replaceHtmlStr(this.tbx_userQA.Text);
+                string comment = classLibrary.setConfig.replaceHtmlStr(this.tbx_comment.Text);
 
                 string ip = Request.UserHostAddress.ToString();
 
@@ -722,7 +736,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                 string appeal_tb = "t_tenpay_appeal_trans_" + s_m;
                 //UserAppealService userAppealService = new UserAppealService();
                 //bool succes = userAppealService.CannelAppealSpecial(ViewState["FID"].ToString(), handleResult, userDesc, Session["uid"].ToString(), ip, appeal_db, appeal_tb);
-                bool succes = operate(ViewState["FID"].ToString(), handleResult, userDesc, Session["uid"].ToString(), ip, appeal_db, appeal_tb);
+                bool succes = operate(ViewState["FID"].ToString(), handleResult,comment, userDesc, Session["uid"].ToString(), ip, appeal_db, appeal_tb);
                 if (succes)
                 {
                     Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=s&type=11", false);
@@ -745,9 +759,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
         /// <param name="ftype">解冻操作：""   特殊找回密码："&type=11"</param>
         private void CompementResult(int operateType, string ftype)
         {
-            if (this.tbx_handleResult.Text.Trim() == "")
+            try
             {
-                WebUtils.ShowMessage(this, "请输入补充的处理结果");
+                CheckInput();
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this, ex.Message);
                 return;
             }
 
@@ -761,7 +779,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
             string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
             string userDesc = classLibrary.setConfig.replaceHtmlStr(this.tbx_userQA.Text);
-
+            string comment = classLibrary.setConfig.replaceHtmlStr(this.tbx_comment.Text);
             try
             {
                 //如果客服回复不为空，则用户描述必勾选
@@ -995,7 +1013,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                 #endregion
 
                 // 结单的话，将FSourceType设置为结单状态
-                if (qs.CreateFreezeDiary_NEW(ViewState["FID"].ToString(), operateType, Session["uid"].ToString(), handleResult, "", ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), bt, userDesc
+                if (qs.CreateFreezeDiary_NEW(ViewState["FID"].ToString(), operateType, Session["uid"].ToString(), handleResult, comment, ViewState["FFreezeID"].ToString(), this.tbx_phoneNo.Text.Trim(), ViewState["FSubmitDate"].ToString(), bt, userDesc
                     , zdyBt1, zdyBt2, zdyBt3, zdyBt4, zdyCont1, zdyCont2, zdyCont3, zdyCont4))
                 {
                     Response.Redirect("FreezeDiary.aspx?FFreezeListID=" + ViewState["FID"].ToString() + "&state=s" + ftype, false);//ftype适应特殊申诉类型
@@ -1016,8 +1034,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
             }
         }
 
-       
 
+        private void CheckInput()
+        {
+            if (this.tbx_handleResult.Text.Trim() == "")
+            {
+                throw new Exception("请输入补充的处理结果");
+            }
+            
+            if (this.tbx_comment.Text.Trim().Length>80)
+            {
+                throw new Exception("备注最多只能输入80个字符");
+            }
+        }
 
         private void ddl_fastReply1_SelectedIndexChanged(object sender, EventArgs e)
 		{
