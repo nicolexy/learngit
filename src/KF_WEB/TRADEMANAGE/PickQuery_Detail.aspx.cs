@@ -164,6 +164,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 labFabankid.Text = classLibrary.setConfig.ConvertID(PublicRes.GetString(dr["Fabankid"]),4,4);
 				labFpay_time.Text = PublicRes.GetDateTime(dr["Fpay_time"]);
 				labFmodify_time.Text = PublicRes.GetDateTime(dr["FModify_time"]);
+
+                labFbankName.Text = PublicRes.GetString(dr["Fbank_name"]);
+                labFbankID.Text = GetBankIDName(dr["Fbankid"].ToString());
+                labFbankType.Text = PublicRes.GetString(setConfig.returnDicStr("BANK_TYPE", PublicRes.GetInt(dr["Fbank_Type"])));
+                labFmemo.Text = PublicRes.GetString(dr["Fmemo"]);
 			}
 			else
 			{
@@ -171,5 +176,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			}
 		}
 
+        private string GetBankIDName(string bankId)
+        {
+            string bankIDInfo = TENCENT.OSS.C2C.Finance.BankLib.BankRefundIO.ZWDicClass.GetZWDicValue("TcpayBankid", PublicRes.GetConnString("ZW"));//PublicRes.GetZWDicValue("TcpayBankid");
+            if (bankIDInfo == null || bankIDInfo == "")
+            {
+                return "Î´Öª£º(" + bankId + ")";
+            }
+            string[] bankInfos = bankIDInfo.Split('|');
+            foreach (string oneInfo in bankInfos)
+            {
+
+                if (oneInfo.StartsWith(bankId + "="))
+                {
+                    return oneInfo.Replace(bankId + "=", "") + "(" + bankId + ")";
+                }
+            }
+            return "Î´Öª£º(" + bankId + ")";
+        }
 	}
 }

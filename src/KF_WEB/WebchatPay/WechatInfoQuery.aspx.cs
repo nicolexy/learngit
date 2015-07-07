@@ -12,6 +12,7 @@ using CFT.CSOMS.BLL.CFTAccountModule;
 using CFT.CSOMS.COMMLIB;
 using Tencent.DotNet.Common.UI;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
+using CFT.CSOMS.BLL.WechatPay;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
@@ -118,6 +119,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             this.labEmailState.Text = "";
             this.labMobileState.Text = "";
             this.lblLoginTime.Text = "";
+            this.CKV_freeze.Text = "";
+            this.CKV_WXRemainder.Text = "";
+
         }
 
         private string CheckBasicInfo(int nAttid)
@@ -279,7 +283,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 this.lbSave.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fsave"));
 
                 string fuid = PublicRes.objectToString(ds.Tables[0],"fuid");
-
                 if (Label1_Acc.Text != "")
                 {
                     string testuid = myService.QQ2Uid(Label1_Acc.Text);
@@ -885,7 +888,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
         }
 
-
+        protected void BindCKVValue(string uid)
+        {
+            var dic = new AuthenService().WXOperateCKVCGI(1,uid);
+            if (dic == null)
+            {
+                WebUtils.ShowMessage(this.Page, "CKV查询出错");
+                return;
+            }
+            CKV_freeze.Text = dic["balance"];
+            CKV_WXRemainder.Text = dic["con"];
+        }
 
         private int GetUserClassInfo(string qqid, out string msg)
         {
@@ -1139,7 +1152,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 setIframePath();        //设置路径	
 
                 //GetUserAccount 得到用户账户信息
-
+                BindCKVValue(this.lbInnerID.Text);
                 this.LKBT_TradeLog.Visible = true;
                 this.LKBT_TradeLog_Sale.Visible = true;
                 this.LkBT_PaymentLog.Visible = true;
@@ -1466,6 +1479,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             {
                 SetFrame("../BaseAccount/TradeLog.aspx?user=mediOrder", 230, this.LkBT_mediOrder);
             }
+        }
+
+        protected void CKV_Btn_synchro_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var dic = new AuthenService().WXOperateCKVCGI(2, lbInnerID.Text);
+                if (dic == null)
+                {
+                    WebUtils.ShowMessage(this.Page, "CKV同步错误");
+                    return;
+                }
+                WebUtils.ShowMessage(this.Page, dic["RESULT"] == "0" ? "同步成功" : "同步失败");
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this.Page, "同步:" + classLibrary.setConfig.replaceMStr(ex.Message));
+            }
+  
         }
     }
 

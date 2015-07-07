@@ -238,13 +238,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         protected global::System.Web.UI.WebControls.Label Label13_Fuser_type;
         
         /// <summary>
-        /// Label15_Useable control.
+        /// CKV_freeze control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label15_Useable;
+        protected global::System.Web.UI.WebControls.Label CKV_freeze;
         
         /// <summary>
         /// Label4_Freeze control.
@@ -256,13 +256,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         protected global::System.Web.UI.WebControls.Label Label4_Freeze;
         
         /// <summary>
-        /// Label5_YestodayLeft control.
+        /// CKV_WXRemainder control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label5_YestodayLeft;
+        protected global::System.Web.UI.WebControls.Label CKV_WXRemainder;
         
         /// <summary>
         /// Label3_LeftAcc control.
@@ -272,6 +272,33 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label3_LeftAcc;
+        
+        /// <summary>
+        /// CKV_Btn_synchro control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button CKV_Btn_synchro;
+        
+        /// <summary>
+        /// Label15_Useable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label15_Useable;
+        
+        /// <summary>
+        /// Label5_YestodayLeft control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label5_YestodayLeft;
         
         /// <summary>
         /// Label2_Type control.

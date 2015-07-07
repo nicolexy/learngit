@@ -109,6 +109,43 @@
 								<tr borderColor="#999999" bgColor="#999999">
 									<td colSpan="4"></td>
 								</tr>
+
+                                <TR>
+                                    <TD align="center" style="HEIGHT: 16px">
+                                        <P align="right"><asp:label id="Label3" runat="server">支行名称：</asp:label><FONT face="宋体">:</FONT></P>
+                                    </TD>
+                                    <TD align="center" style="HEIGHT: 16px">
+                                        <P align="left"><asp:label id="labFbankName" runat="server" ForeColor="Blue"></asp:label></P>
+                                    </TD>
+                                    <TD align="center" style="HEIGHT: 16px">
+                                        <P align="right"><asp:label id="Label6" runat="server">提现类型：</asp:label><FONT face="宋体">:</FONT></P>
+                                    </TD>
+                                    <TD align="center" style="HEIGHT: 16px">
+                                        <P align="left"><asp:label id="labFbankID" runat="server" ForeColor="Blue"></asp:label></P>
+                                    </TD>
+                                </TR>
+                                <tr borderColor="#999999" bgColor="#999999">
+                                    <td colSpan="4"></td>
+                                </tr>
+                                <TR>
+                                    <TD align="center" style="HEIGHT: 16px">
+                                        <P align="right"><asp:label id="Label9" runat="server">实际出款行：</asp:label><FONT face="宋体">:</FONT></P>
+                                    </TD>
+                                    <TD align="center" style="HEIGHT: 16px">
+                                        <P align="left"><asp:label id="labFbankType" runat="server" ForeColor="Blue"></asp:label></P>
+                                    </TD>
+                                    <TD align="center" style="HEIGHT: 16px">
+                                        <P align="right"><asp:label id="Label13" runat="server">备注：</asp:label><FONT face="宋体">:</FONT></P>
+                                    </TD>
+                                    <TD align="center" style="HEIGHT: 16px">
+                                        <P align="left"><asp:label id="labFmemo" runat="server" ForeColor="Blue"></asp:label></P>
+                                    </TD>
+                                </TR>
+								<tr borderColor="#999999" bgColor="#999999">
+									<td colSpan="4"></td>
+								</tr>
+
+
 								<TR>
 									<TD align="center" style="HEIGHT: 16px">
 										<P align="right"><asp:label id="Label23" runat="server">付款时间：</asp:label><FONT face="宋体">:</FONT></P>
