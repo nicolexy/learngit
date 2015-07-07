@@ -490,7 +490,7 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
                 reqString += !string.IsNullOrEmpty(strBeginDate) ? "&begin_time=" + strBeginDate : "";
                 reqString += !string.IsNullOrEmpty(strEndDate) ? "&end_time=" + strEndDate : "";
 
-                return RelayAccessFactory.GetDSFromRelayFromXML(reqString, "101140", serverIp, serverPort, false);
+                return RelayAccessFactory.GetDSFromRelayFromXML(reqString, "101140", serverIp, serverPort, true);
             }
             catch (Exception err)
             {

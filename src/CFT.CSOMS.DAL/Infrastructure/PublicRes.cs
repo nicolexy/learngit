@@ -258,6 +258,11 @@ namespace CFT.CSOMS.DAL.Infrastructure
                 if (ds2 != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0)
                     dsAll.Tables.Add(ds2.Tables[0].Copy());
             }
+            if (dsAll != null && dsAll.Tables.Count == 0)
+            {
+                dsAll = null;
+            }
+
             return dsAll;
         }
 
