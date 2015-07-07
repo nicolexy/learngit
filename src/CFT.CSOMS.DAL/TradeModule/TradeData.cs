@@ -139,7 +139,7 @@ namespace CFT.CSOMS.DAL.TradeModule
 
             var serverIp = System.Configuration.ConfigurationManager.AppSettings["WX_Order_RelayIP"].ToString();
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["WX_Order_RelayPort"].ToString());
-            DataSet ds= RelayAccessFactory.GetDSFromRelayRowNumStartWithZero(reqString, "100878", serverIp, serverPort);
+            DataSet ds = RelayAccessFactory.GetDSFromRelayRowNumStartWithZero(reqString, "100878", serverIp, serverPort, false, false, "utf-8");
 
             if (ds != null && ds.Tables.Count > 0) 
             {
@@ -948,6 +948,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                          "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
                         "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
                 ds = QueryUserOrder("2216", fields, istr - 1, imax);
+                ds = null;
                 try
                 {
                     DataSet dsForWX = QueryWxBuyOrderByUid(int.Parse(fuid.Trim()), dtBegin, dtEnd);//微信买家纬度订单
