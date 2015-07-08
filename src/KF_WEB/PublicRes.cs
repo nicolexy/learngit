@@ -1187,6 +1187,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 LogHelper.LogInfo("勾选全部出现异常：" + ex.Message);
             }
         }
+
+        /// <summary>
+        /// 绑定下拉列表
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <param name="ddl"></param>
+        public static void GetDropdownlist(Dictionary<string, string> dic, DropDownList ddl)
+        {
+            foreach (var item in dic)
+            {
+                ddl.Items.Add(new ListItem(item.Value, item.Key));
+            }
+            ddl.DataBind();
+        }
     }
 
 }

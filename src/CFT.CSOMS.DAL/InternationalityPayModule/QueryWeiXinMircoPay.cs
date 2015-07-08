@@ -44,12 +44,13 @@ namespace CFT.CSOMS.DAL.InternationalityPayModule
         /// <returns></returns>
         public List<Fmicro_Order_Result> FMicroOrderList(string spid, string out_trade_no, string listid, string cftlistid, string mobile, string name, DateTime fromtime, DateTime totime, int pagenum, int limit, string trade_state)
         {
-            var ip = System.Configuration.ConfigurationManager.AppSettings["ExternalWeiXinMircoPayIP"] ?? "172.27.31.177";
-            var port = System.Configuration.ConfigurationManager.AppSettings["ExternalWeiXinMircoPayPort"] ?? "22000";
+            //var ip = System.Configuration.ConfigurationManager.AppSettings["ExternalWeiXinMircoPayIP"] ?? "172.27.31.177";
+            //var port = System.Configuration.ConfigurationManager.AppSettings["ExternalWeiXinMircoPayPort"] ?? "22000";
+            var CGI = System.Configuration.ConfigurationManager.AppSettings["ExternalWeiXinMircoPayCGI"] ?? "http://global.tenpay.com/cgi-bin/v1.0/kf_microquery.cgi?";
             string msg = "";
-            var req = "ver=1&sp_id=2000000000&head_u=" +
-                "&spid=" + spid +
-                "&request_type=101052" +    //开发环境:100970,线上环境:101052
+            var req =// "ver=1&sp_id=2000000000&head_u=" +
+                "spid=" + spid +
+                //"&request_type=101052" +    //开发环境:100970,线上环境:101052
                 "&out_trade_no=" + out_trade_no +
                 "&listid=" + listid +
                 "&cftlistid=" + cftlistid +
@@ -61,28 +62,24 @@ namespace CFT.CSOMS.DAL.InternationalityPayModule
                 "&limit=" + limit.ToString() +
                 "&trade_state=" + trade_state
                 ;
-            //string answer = commRes.GetFromRelay(req, ip, port, out msg);
-            //string answer = RelayAccessFactory.RelayInvoke(req, "100970", false, false, ip, port);
-            string answer = RelayAccessFactory.RelayInvoke(req, ip, int.Parse(port));
-            #region 如果请求异常-->抛出异常信息
+            string answer = commRes.GetFromCGI(CGI + req, null, out msg);
             if (msg != "")
             {
                 throw new Exception(msg);
             }
-            if (string.IsNullOrEmpty(answer))
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            var dic = js.DeserializeObject(answer) as Dictionary<string, object>;
+            if (dic["retcode"].ToString() != "0" || !dic.ContainsKey("total_num")) //retcode 不等于0  或 没有响应total_num 字段 
             {
-                throw new Exception("调用Relay接口返回值等于空!");
+                throw new Exception("查询失败:" + dic["retmsg"]);
             }
-            var dic = answer.ToDictionary('&','='); //AnalyzeDictionary(answer);
-            if (dic["result"] != "0")
+            if (dic["total_num"].ToString() != "0")
             {
-                throw new Exception("查询失败:" + dic["res_info"]);
-            }
-            #endregion
-            if (dic["total_num"] != "0")
-            {
-                JavaScriptSerializer js = new JavaScriptSerializer();
-                return js.Deserialize<List<Fmicro_Order_Result>>(dic["row_info"]);
+                var obj = dic["row_info"] as string;
+                if (!string.IsNullOrEmpty(obj))
+                {
+                    return js.Deserialize<List<Fmicro_Order_Result>>(obj);
+                }
             }
             return null;
         }

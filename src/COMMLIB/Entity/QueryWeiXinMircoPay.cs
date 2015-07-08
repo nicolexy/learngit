@@ -79,6 +79,8 @@ namespace commLib.Entity
         public string trans_rate { get; set; }
         //交易状态
         public string trade_state { get; set; }
+        //失败原因
+        public string trade_state_desc { get; set; } //在订单 支付失败 的情况下才有内容 
     }
 
 }

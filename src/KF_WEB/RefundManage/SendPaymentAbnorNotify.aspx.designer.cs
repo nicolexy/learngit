@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages {
+namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage {
     
     
-    public partial class QueryWeiXinMircoPay {
+    public partial class SendPaymentAbnorNotify {
         
         /// <summary>
         /// Form1 control.
@@ -22,237 +22,291 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages {
         protected global::System.Web.UI.HtmlControls.HtmlForm Form1;
         
         /// <summary>
-        /// Label_uid control.
+        /// Label2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label_uid;
+        protected global::System.Web.UI.WebControls.Label Label2;
         
         /// <summary>
-        /// txt_spid control.
+        /// tbDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_spid;
+        protected global::System.Web.UI.WebControls.Label tbDate;
         
         /// <summary>
-        /// txt_out_trade_no control.
+        /// Label5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_out_trade_no;
+        protected global::System.Web.UI.WebControls.Label Label5;
         
         /// <summary>
-        /// txt_listid control.
+        /// tbBatchID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_listid;
+        protected global::System.Web.UI.WebControls.Label tbBatchID;
         
         /// <summary>
-        /// txt_cftlistid control.
+        /// Label3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_cftlistid;
+        protected global::System.Web.UI.WebControls.Label Label3;
         
         /// <summary>
-        /// txt_name control.
+        /// tbPackageID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_name;
+        protected global::System.Web.UI.WebControls.Label tbPackageID;
         
         /// <summary>
-        /// txt_mobile control.
+        /// Label1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_mobile;
+        protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
-        /// Button1 control.
+        /// tblistid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Label tblistid;
         
         /// <summary>
-        /// txt_fromtime control.
+        /// Label6 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_fromtime;
+        protected global::System.Web.UI.WebControls.Label Label6;
         
         /// <summary>
-        /// txt_totime control.
+        /// tbtype control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_totime;
+        protected global::System.Web.UI.WebControls.Label tbtype;
         
         /// <summary>
-        /// DropDownListTrade_State control.
+        /// Label8 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListTrade_State;
+        protected global::System.Web.UI.WebControls.Label Label8;
         
         /// <summary>
-        /// dgList control.
+        /// tbSubTypePay control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataGrid dgList;
+        protected global::System.Web.UI.WebControls.Label tbSubTypePay;
         
         /// <summary>
-        /// pager control.
+        /// Label10 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Wuqi.Webdiyer.AspNetPager pager;
+        protected global::System.Web.UI.WebControls.Label Label10;
         
         /// <summary>
-        /// dialog control.
+        /// tbNotityStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dialog;
+        protected global::System.Web.UI.WebControls.Label tbNotityStatus;
         
         /// <summary>
-        /// currency_type control.
+        /// Label12 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl currency_type;
+        protected global::System.Web.UI.WebControls.Label Label12;
         
         /// <summary>
-        /// trans_rate control.
+        /// tbNotityResult control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl trans_rate;
+        protected global::System.Web.UI.WebControls.Label tbNotityResult;
         
         /// <summary>
-        /// rate_time control.
+        /// Label14 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl rate_time;
+        protected global::System.Web.UI.WebControls.Label Label14;
         
         /// <summary>
-        /// input_fc_rmb control.
+        /// tbBankType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl input_fc_rmb;
+        protected global::System.Web.UI.WebControls.Label tbBankType;
         
         /// <summary>
-        /// total_fee_fc control.
+        /// Label16 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl total_fee_fc;
+        protected global::System.Web.UI.WebControls.Label Label16;
         
         /// <summary>
-        /// total_fee_rmb control.
+        /// tbErrorType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl total_fee_rmb;
+        protected global::System.Web.UI.WebControls.Label tbErrorType;
         
         /// <summary>
-        /// name control.
+        /// Label18 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl name;
+        protected global::System.Web.UI.WebControls.Label Label18;
         
         /// <summary>
-        /// cre_num control.
+        /// tbAccType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl cre_num;
+        protected global::System.Web.UI.WebControls.Label tbAccType;
         
         /// <summary>
-        /// mobile control.
+        /// tbNotifyType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mobile;
+        protected global::System.Web.UI.WebControls.Label tbNotifyType;
         
         /// <summary>
-        /// buyid control.
+        /// Label4 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl buyid;
+        protected global::System.Web.UI.WebControls.Label Label4;
         
         /// <summary>
-        /// iframe_tradelog control.
+        /// tbDelayReason control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl iframe_tradelog;
+        protected global::System.Web.UI.WebControls.TextBox tbDelayReason;
         
         /// <summary>
-        /// ErrorReason control.
+        /// Label7 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ErrorReason;
+        protected global::System.Web.UI.WebControls.Label Label7;
+        
+        /// <summary>
+        /// Label9 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label9;
+        
+        /// <summary>
+        /// tbToAccTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbToAccTime;
+        
+        /// <summary>
+        /// Label11 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label11;
+        
+        /// <summary>
+        /// btnSendNotify control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSendNotify;
+        
+        /// <summary>
+        /// Label13 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label13;
+        
+        /// <summary>
+        /// imgExample control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image imgExample;
     }
 }

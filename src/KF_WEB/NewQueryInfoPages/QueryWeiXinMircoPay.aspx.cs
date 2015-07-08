@@ -80,6 +80,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             mobile.InnerText = cur.mobile;
             buyid.InnerText = cur.buyid;
             cre_num.InnerText = cur.cre_num;
+            ErrorReason.InnerText = cur.trade_state == "支付失败" ? "失败原因：" + cur.trade_state_desc : "";
             #endregion
         }
         protected void Button1_Click(object sender, EventArgs e)
@@ -112,6 +113,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 var limit = pager.PageSize;
                 pager.CurrentPageIndex = index;
                 var trade_state = DropDownListTrade_State.SelectedItem.Value;
+                if (trade_state == "2" || trade_state == "5")
+                {
+                    if (string.IsNullOrEmpty(txt_spid.Text) && string.IsNullOrEmpty(txt_out_trade_no.Text) && string.IsNullOrEmpty(txt_listid.Text))
+                    {
+                        var str = PayState[trade_state];
+                        WebUtils.ShowMessage(this.Page, string.Format("交易状态等于 [{0}] 时,商户号、商户订单号、微信订单号 必须有一个或以上条件有值", str));
+                        return;
+                    }
+                }
                 var list = bll.FMicroOrderList(txt_spid.Text, txt_out_trade_no.Text, txt_listid.Text, txt_cftlistid.Text, txt_mobile.Text, txt_name.Text, fTime, tTime, index, limit, trade_state);
                 if (list != null && list.Count != 0)
                 {

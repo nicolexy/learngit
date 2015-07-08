@@ -247,7 +247,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 BankBillManage1.AddSubMenu("退单异常数据查询", "RefundManage/RefundErrorHandle.aspx");
                 BankBillManage1.AddSubMenu("退款失败查询", "RefundManage/RefundRegistration.aspx");
 
-
+                BankBillManage1.AddSubMenu("付款异常查询通知", "RefundManage/PaymentAbnormalQueryNotify.aspx");
                 baseAccount1.AddSubMenu("个人账户信息", "BaseAccount/InfoCenter.aspx");
                 baseAccount1.AddSubMenu("QQ帐号回收", "BaseAccount/QQReclaim.aspx");
                 accountOperate1.AddSubMenu("账户姓名修改", "BaseAccount/changeUserName_2.aspx");
