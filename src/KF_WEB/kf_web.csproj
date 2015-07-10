@@ -587,13 +587,6 @@
     <Compile Include="BaseAccount\QQReclaim.aspx.designer.cs">
       <DependentUpon>QQReclaim.aspx</DependentUpon>
     </Compile>
-    <Compile Include="BaseAccount\ClearCreid.aspx.cs">
-      <DependentUpon>ClearCreid.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="BaseAccount\ClearCreid.aspx.designer.cs">
-      <DependentUpon>ClearCreid.aspx</DependentUpon>
-    </Compile>
     <Compile Include="BaseAccount\QueryQQ.aspx.cs">
       <DependentUpon>QueryQQ.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2833,7 +2826,6 @@
     <Content Include="BaseAccount\QQReclaim.aspx">
       <SubType>Form</SubType>
     </Content>
-    <Content Include="BaseAccount\ClearCreid.aspx" />
     <Content Include="BaseAccount\QueryQQ.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -3795,9 +3787,6 @@
     <EmbeddedResource Include="BaseAccount\QQReclaim.aspx.resx">
       <DependentUpon>QQReclaim.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BaseAccount\ClearCreid.aspx.resx">
-      <DependentUpon>ClearCreid.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\QueryQQ.aspx.resx">
       <DependentUpon>QueryQQ.aspx.cs</DependentUpon>

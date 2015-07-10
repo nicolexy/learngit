@@ -17,19 +17,19 @@ namespace CFT.CSOMS.Service.CSAPI.Trade
         public class QQRollList
         {
             [XmlElement("action_type")]
-            public string Faction_type { get; set; }
+            public string faction_type { get; set; }
             [XmlElement("action_type_str")]
             public string Faction_type_str { get; set; }
             [XmlElement("curtype")]
-            public string Fcurtype { get; set; }
+            public string fcurtype { get; set; }
             [XmlElement("curtype_str")]
             public string Fcurtype_str { get; set; }
             [XmlElement("type")]
-            public string Ftype { get; set; }
+            public string ftype { get; set; }
             [XmlElement("type_str")]
             public string Ftype_str { get; set; }
             [XmlElement("subject")]
-            public string Fsubject { get; set; }
+            public string fsubject { get; set; }
             [XmlElement("subject_str")]
             public string Fsubject_str { get; set; }
             [XmlElement("paynum_str")]
@@ -40,104 +40,42 @@ namespace CFT.CSOMS.Service.CSAPI.Trade
             public string Fcon_str { get; set; }
 
             [XmlElement("BKid")]
-            public string FBKid { get; set; }
+            public string fBKid { get; set; }
             [XmlElement("listid")]
-            public string Flistid { get; set; }
+            public string flistid { get; set; }
             [XmlElement("uid")]
-            public string Fuid { get; set; }
+            public string fuid { get; set; }
             [XmlElement("qqid")]
-            public string Fqqid { get; set; }
+            public string fqqid { get; set; }
             [XmlElement("true_name")]
-            public string Ftrue_name { get; set; }
+            public string ftrue_name { get; set; }
             [XmlElement("from_uid")]    //对方内部帐号
-            public string Ffrom_uid { get; set; }
+            public string ffrom_uid { get; set; }
             [XmlElement("from_id")]
-            public string Ffromid { get; set; }
+            public string ffromid { get; set; }
             [XmlElement("from_name")]
-            public string Ffrom_name { get; set; }
+            public string ffrom_name { get; set; }
 
             [XmlElement("bank_type")]
-            public string Fbank_type { get; set; }
+            public string fbank_type { get; set; }
             [XmlElement("spid")]
-            public string Fspid { get; set; }
+            public string fspid { get; set; }
             [XmlElement("prove")]
-            public string Fprove { get; set; }
+            public string fprove { get; set; }
             [XmlElement("applyid")]
-            public string Fapplyid { get; set; }
+            public string fapplyid { get; set; }
             [XmlElement("ip")]
-            public string Fip { get; set; }
+            public string fip { get; set; }
             [XmlElement("memo")]
-            public string Fmemo { get; set; }
+            public string fmemo { get; set; }
             [XmlElement("modify_time_acc")]
-            public string Fmodify_time_acc { get; set; }
+            public string fmodify_time_acc { get; set; }
             [XmlElement("modify_time")]
-            public string Fmodify_time { get; set; }
+            public string fmodify_time { get; set; }
             [XmlElement("vs_qqid")]
-            public string Fvs_qqid { get; set; }
+            public string fvs_qqid { get; set; }
             [XmlElement("explain")]
-            public string Fexplain { get; set; }
-        }
-
-        public class IDRollList
-        {
-            [XmlElement("action_type")]
-            public string Faction_type { get; set; }
-            [XmlElement("action_type_str")]
-            public string Faction_type_str { get; set; }
-            [XmlElement("curtype")]
-            public string Fcurtype { get; set; }
-            [XmlElement("curtype_str")]
-            public string Fcurtype_str { get; set; }
-            [XmlElement("type")]
-            public string Ftype { get; set; }
-            [XmlElement("type_str")]
-            public string Ftype_str { get; set; }
-            [XmlElement("subject")]
-            public string Fsubject { get; set; }
-            [XmlElement("subject_str")]
-            public string Fsubject_str { get; set; }
-            [XmlElement("paynum_str")]
-            public string Fpaynum_str { get; set; }
-            [XmlElement("balance_str")]
-            public string Fbalance_str { get; set; }
-
-            [XmlElement("BKid")]
-            public string FBKid { get; set; }
-            [XmlElement("listid")]
-            public string Flistid { get; set; }
-            [XmlElement("modify_time")]
-            public string Fmodify_time { get; set; }
-            [XmlElement("uid")]
-            public string Fuid { get; set; }
-            [XmlElement("qqid")]
-            public string Fqqid { get; set; }
-            [XmlElement("true_name")]
-            public string Ftrue_name { get; set; }
-            [XmlElement("from_uid")]
-            public string Ffrom_uid { get; set; }
-            [XmlElement("from_id")]
-            public string Ffromid { get; set; }
-            [XmlElement("from_name")]
-            public string Ffrom_name { get; set; }
-            [XmlElement("modify_time_acc")]
-            public string Fmodify_time_acc { get; set; }
-            [XmlElement("bank_type")]
-            public string Fbank_type { get; set; }
-
-            [XmlElement("spid")]
-            public string Fspid { get; set; }
-            [XmlElement("prove")]
-            public string Fprove { get; set; }
-            [XmlElement("applyid")]
-            public string Fapplyid { get; set; }
-            [XmlElement("ip")]
-            public string Fip { get; set; }
-            [XmlElement("memo")]
-            public string Fmemo { get; set; }
-            [XmlElement("vs_qqid")]
-            public string Fvs_qqid { get; set; }
-            [XmlElement("explain")]
-            public string Fexplain { get; set; }
+            public string fexplain { get; set; }
         }
 
         /// <summary>
@@ -229,9 +167,7 @@ namespace CFT.CSOMS.Service.CSAPI.Trade
             [XmlElement("sale_bank_type_str")]
             public string Fsale_bank_type_str { get; set; }
             [XmlElement("sale_bankid")]
-            public string Fsale_bankid { get; set; }
-            [XmlElement("sale_bankid_str")]
-            public string Fsale_bankid_str { get; set; }
+            public string Fsale_bankid { get; set; }          
             [XmlElement("state")]
             public string Fstate { get; set; }
             [XmlElement("state_str")]

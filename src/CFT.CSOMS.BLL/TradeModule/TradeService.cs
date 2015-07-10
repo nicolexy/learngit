@@ -50,23 +50,40 @@ namespace CFT.CSOMS.BLL.TradeModule
         }
         #region 交易记录查询
 
-        public DataSet GetTradeList(string tradeid, int typeid, DateTime time)
+        /// <summary>
+        /// 交易记录查询
+        /// </summary>
+        /// <param name="tradeid"></param>
+        /// <param name="typeid">0,买家交易单;9卖家交易单;10,中介交易单;-1,买家未完成交易单;-2,卖家未完成交易单;1,银行返回定单号;4,订单号</param>
+        /// <param name="listTime">查询银行返回定单的时间</param>
+        /// <param name="beginTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="istr"></param>
+        /// <param name="imax"></param>
+        /// <returns></returns>
+        public DataSet GetTradeList(string tradeid, int typeid, DateTime listTime, DateTime beginTime, DateTime endTime, int istr, int imax)
         {
             try
             {
-                if (typeid.ToString() == "1") //根据银行返回定单号查询
+                if (typeid == 4 || typeid == 1)
                 {
-                    tradeid = new TradeData().ConvertToListID(tradeid, time);
+                    if (typeid.ToString() == "1") //根据银行返回定单号查询
+                    {
+                        tradeid = new TradeData().ConvertToListID(tradeid, listTime);
+                    }
+                    istr = 1;
+                    imax = 2;
+                    beginTime = DateTime.Parse(ConfigurationManager.AppSettings["sBeginTime"].ToString());
+                    endTime = DateTime.Parse(ConfigurationManager.AppSettings["sEndTime"].ToString());
                 }
-                int istr = 1;
-                int imax = 2;
-                DateTime beginTime = DateTime.Parse(ConfigurationManager.AppSettings["sBeginTime"].ToString());
-                DateTime endTime = DateTime.Parse(ConfigurationManager.AppSettings["sEndTime"].ToString());
+
                 //TODO:有个makelog的方法不是主需求
                 DataSet ds = new TradeData().GetTradeList(tradeid, typeid, beginTime, endTime, istr, imax);
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
+                    #region 字段处理
+
                     ds.Tables[0].Columns.Add("Fpay_type_str");  //支付类型
                     ds.Tables[0].Columns.Add("Fpaybuy_str"); //退买家金额
                     ds.Tables[0].Columns.Add("Fpaysale_str"); //退卖家金额
@@ -412,7 +429,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                                 if (ds2.Tables[0].Rows[0]["result"].ToString() == "0")
                                 {
                                     if (qry_type == "1")
-                                    {                                       
+                                    {
                                         ds.Tables[0].Rows[0]["FsaleidCFT"] = ds2.Tables[0].Rows[0]["seller_uin"].ToString();
                                     }
                                     else if (qry_type == "2")
@@ -430,6 +447,8 @@ namespace CFT.CSOMS.BLL.TradeModule
                     }
 
                     return ds;
+
+                    #endregion
                 }
 
                 else

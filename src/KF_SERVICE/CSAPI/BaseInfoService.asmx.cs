@@ -1242,7 +1242,7 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "ip", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
