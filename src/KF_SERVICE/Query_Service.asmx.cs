@@ -7406,7 +7406,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     // 结单的日志只允许补充处理结果
                     if (srcHandleType == 1 || srcHandleType == 2)
                     {
-                        if (handleType != 100)
+                        if (handleType != 7)//待补充资料可以作废处理
                         {
                             return false;
                         }
@@ -7435,9 +7435,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 da_2.OpenConn();
 
                 if (reqType == 8 || reqType == 19)
-                    memo = "风控冻结." + memo;
+                    memo = "风控冻结." + memo.Replace("风控冻结.","");
                 else if (reqType == 11)
-                    memo = "特殊找回密码." + memo;
+                    memo = "特殊找回密码." + memo.Replace("风控冻结.", "");
 
                 string sqlCmd_updateAppeal = "update " + table + " set FState=" + handleType
                     + ",Fcomment='" + memo + "', FCheckUser='" + handleUser + "',FCheckTime=Now(),"
@@ -7539,8 +7539,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         string str_params = "www.tenpay.com/v2/cs/";
                         str_params = "url=" + System.Web.HttpUtility.UrlEncode(str_params, System.Text.Encoding.GetEncoding("gb2312"));
-                        //uin = "466678748";
-                        //userPhone = "18718489269";
+                        uin = "466678748";
+                        userPhone = "18718489269";
                         TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsgQQTips(uin, "2429", str_params);
                         TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMessage(userPhone, "2429", str_params);
                     }
@@ -10862,6 +10862,34 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                             if (detail_score.IndexOf("WithdrawHist") > -1) //andrew 20110419
                             {
                                 detail_score = detail_score.Replace("WithdrawHist", "提现记录得分");
+                            }
+                            if (detail_score.IndexOf("MBVerify") > -1) 
+                            {
+                                detail_score = detail_score.Replace("MBVerify", "安平密保验证得分");
+                            }
+                            if (detail_score.IndexOf("MBQuery") > -1)
+                            {
+                                detail_score = detail_score.Replace("MBQuery", "通过安全中心密保得分");
+                            }
+                            if (detail_score.IndexOf("BindMobile") > -1)
+                            {
+                                detail_score = detail_score.Replace("BindMobile", "绑定的手机号码得分");
+                            }
+                            if (detail_score.IndexOf("Mobile") > -1)
+                            {
+                                detail_score = detail_score.Replace("Mobile", "手机得分");
+                            }
+                            if (detail_score.IndexOf("Email_QQ") > -1)
+                            {
+                                detail_score = detail_score.Replace("Email_QQ", "绑定QQ邮箱得分");
+                            }
+                            if (detail_score.IndexOf("Mobile_New") > -1)
+                            {
+                                detail_score = detail_score.Replace("Mobile_New", "未注册手机得分");
+                            }
+                            if (detail_score.IndexOf("QQReceipt_6") > -1)
+                            {
+                                detail_score = detail_score.Replace("QQReceipt_6", "简化注册用户QQ申诉回执单号得分");
                             }
 
                             dr["detail_score"] = detail_score;

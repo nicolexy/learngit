@@ -388,8 +388,8 @@ namespace CFT.CSOMS.Service.CSAPI
                 string handle_result = paramsHt.ContainsKey("handle_result") ? paramsHt["handle_result"].ToString() : "";
                 string appeal_db = paramsHt.ContainsKey("db") ? paramsHt["db"].ToString() : "";
                 string appeal_tb = paramsHt.ContainsKey("tb") ? paramsHt["tb"].ToString() : "";
-
-                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().ConfirmAppealSpecial(fid, handle_result, user_desc, user, user_ip, appeal_db, appeal_tb);
+                //""参数为comment字段，API未添加
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().ConfirmAppealSpecial(fid, handle_result,"", user_desc, user, user_ip, appeal_db, appeal_tb);
 
                 Record record = new Record();
                 record.RetValue = infos.ToString().ToLower();
@@ -428,8 +428,8 @@ namespace CFT.CSOMS.Service.CSAPI
                 string handle_result = paramsHt.ContainsKey("handle_result") ? paramsHt["handle_result"].ToString() : "";
                 string appeal_db = paramsHt.ContainsKey("db") ? paramsHt["db"].ToString() : "";
                 string appeal_tb = paramsHt.ContainsKey("tb") ? paramsHt["tb"].ToString() : "";
-
-                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().CannelAppealSpecial(fid, handle_result, user_desc, user, user_ip, appeal_db, appeal_tb);
+                //""参数为comment字段，API未添加
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().CannelAppealSpecial(fid, handle_result,"", user_desc, user, user_ip, appeal_db, appeal_tb);
 
                 Record record = new Record();
                 record.RetValue = infos.ToString().ToLower();
@@ -468,8 +468,8 @@ namespace CFT.CSOMS.Service.CSAPI
                 string handle_result = paramsHt.ContainsKey("handle_result") ? paramsHt["handle_result"].ToString() : "";
                 string appeal_db = paramsHt.ContainsKey("db") ? paramsHt["db"].ToString() : "";
                 string appeal_tb = paramsHt.ContainsKey("tb") ? paramsHt["tb"].ToString() : "";
-
-                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().DelAppealSpecial(fid, handle_result, user_desc, user, user_ip, appeal_db, appeal_tb);
+                //""参数为comment字段，API未添加
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().DelAppealSpecial(fid, handle_result,"", user_desc, user, user_ip, appeal_db, appeal_tb);
 
                 Record record = new Record();
                 record.RetValue = infos.ToString().ToLower();
@@ -1242,7 +1242,7 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "ip", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 

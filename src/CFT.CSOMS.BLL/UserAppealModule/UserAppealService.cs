@@ -17,6 +17,9 @@ namespace CFT.CSOMS.BLL.UserAppealModule
 
         /// <summary>
         /// 申诉未完成状态结单批量处理
+        /// 包含：
+        /// 特殊找密60天以前未补充资料的，自动结单为：20 结单（未补填资料）
+        /// 普通、微信解冻：该账户不处于冻结状态(10 已补充资料、2 待补充资料、0 未处理) 自动结单为：21 结单（无冻结日志）
         /// </summary>
         /// <param name="startTime">开始时间</param>
         /// <param name="endTime">结束时间</param>
@@ -35,9 +38,20 @@ namespace CFT.CSOMS.BLL.UserAppealModule
                     }
                     else if (proType == "1")
                     {
-                        ds = QueryApealListNewDB(startTime, endTime, 0, 8);//普通解冻
-                        DataSet wxFreDS = QueryApealListNewDB(startTime, endTime, 0, 19);//微信解冻
-                        ds = PublicRes.ToOneDataset(ds, wxFreDS);//两个申诉类型结果合并到一个库中
+                        DataSet normalDS = QueryApealListNewDB(startTime, endTime, 0, 8);//普通解冻 未处理
+                        DataSet wxFreDS = QueryApealListNewDB(startTime, endTime, 0, 19);//微信解冻 未处理
+                        ds = PublicRes.ToOneDataset(normalDS, wxFreDS);//两个申诉类型结果合并到一个库中
+
+                        normalDS = QueryApealListNewDB(startTime, endTime, 2, 8);//普通解冻 已补充资料
+                        ds = PublicRes.ToOneDataset(ds, normalDS);
+                        wxFreDS = QueryApealListNewDB(startTime, endTime, 2, 19);//微信解冻 已补充资料
+                        ds = PublicRes.ToOneDataset(ds, wxFreDS);
+
+                        normalDS = QueryApealListNewDB(startTime, endTime, 10, 8);//普通解冻 待补充资料
+                        ds = PublicRes.ToOneDataset(ds, normalDS);
+                        wxFreDS = QueryApealListNewDB(startTime, endTime, 10, 19);//微信解冻 待补充资料
+                        ds = PublicRes.ToOneDataset(ds, wxFreDS);
+
 
                         //筛选出无冻结日志申诉记录
                         ScreenNoFreezeLogApeal(ds);
@@ -396,18 +410,18 @@ namespace CFT.CSOMS.BLL.UserAppealModule
             return new UserAppealData().UpdateSepcialApealLog(ffreezeListID, handleType, handleUser, handleResult, userDesc);
         }
 
-        public bool CannelAppealSpecial(string fid, string Fcomment, string userDesc, string user, string userIP, string appeal_db, string appeal_tb)
+        public bool CannelAppealSpecial(string fid, string handleResult,string Fcomment, string userDesc, string user, string userIP, string appeal_db, string appeal_tb)
         {
             if (string.IsNullOrEmpty(appeal_db) || string.IsNullOrEmpty(appeal_tb))
             {
                 GetTableName(fid, out appeal_db, out appeal_tb);
             }
             UserAppealService userAppealService = new UserAppealService();
-            bool succes = userAppealService.CannelAppeal(fid, Fcomment, "", "", user, userIP, appeal_db, appeal_tb);
+            bool succes = userAppealService.CannelAppeal(fid, handleResult, "", Fcomment, user, userIP, appeal_db, appeal_tb);
             if (succes)
             {
                 //11 为申诉类型
-                bool writeLog = userAppealService.UpdateSepcialApealLog(fid, 2, user, Fcomment, userDesc);
+                bool writeLog = userAppealService.UpdateSepcialApealLog(fid, 2, user, handleResult, userDesc);
                 if (writeLog)
                     return true;
                 else
@@ -417,7 +431,7 @@ namespace CFT.CSOMS.BLL.UserAppealModule
                 return false;
         }
 
-        public bool DelAppealSpecial(string fid, string Fcomment, string userDesc, string user, string userIP, string appeal_db, string appeal_tb)
+        public bool DelAppealSpecial(string fid, string handleResult, string Fcomment, string userDesc, string user, string userIP, string appeal_db, string appeal_tb)
         {
             if (string.IsNullOrEmpty(appeal_db) || string.IsNullOrEmpty(appeal_tb))
             {
@@ -428,7 +442,7 @@ namespace CFT.CSOMS.BLL.UserAppealModule
             if (succes)
             {
                 //11 为申诉类型
-                bool writeLog = userAppealService.UpdateSepcialApealLog(fid, 7, user, Fcomment, userDesc);
+                bool writeLog = userAppealService.UpdateSepcialApealLog(fid, 7, user, handleResult, userDesc);
                 if (writeLog)
                     return true;
                 else
@@ -438,7 +452,7 @@ namespace CFT.CSOMS.BLL.UserAppealModule
                 return false;
         }
 
-        public bool ConfirmAppealSpecial(string fid, string Fcomment, string userDesc, string user, string userIP, string appeal_db, string appeal_tb)
+        public bool ConfirmAppealSpecial(string fid, string handleResult, string Fcomment, string userDesc, string user, string userIP, string appeal_db, string appeal_tb)
         {
             if (string.IsNullOrEmpty(appeal_db) || string.IsNullOrEmpty(appeal_tb))
             {
@@ -449,7 +463,7 @@ namespace CFT.CSOMS.BLL.UserAppealModule
             if (succes)
             {
                 //11 为申诉类型
-                bool writeLog = userAppealService.UpdateSepcialApealLog(fid, 1, user, Fcomment, userDesc);
+                bool writeLog = userAppealService.UpdateSepcialApealLog(fid, 1, user, handleResult, userDesc);
                 if (writeLog)
                     return true;
                 else

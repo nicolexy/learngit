@@ -286,167 +286,64 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			DateTime begindate = DateTime.Parse(TextBoxBeginDate.Text);
 			DateTime enddate = DateTime.Parse(TextBoxEndDate.Text);
 			Query_Service.Query_Service qs = new Query_Service.Query_Service();
-	
-			try
-			{
-				ValidateDate(); 
-		
-				if(CheckBox1.Checked&&(this.dpLst.SelectedValue=="czd"||this.dpLst.SelectedValue=="toBank"||this.dpLst.SelectedValue=="BankBack"))
-				{
-					//默认指定下，不再查询笔数
-					pager.RecordCount= 9999; 
-				}
-				else
-				{
-					//			pager.RecordCount= GetCount(); 
-					pager.RecordCount= 999; 
-				}
-				if(this.dpLst.SelectedValue=="total")
-				{
-					
-				}
-				else
-				{
-					this.labCountNum.Text="";
-					this.labAmount.Text="";
-					this.labAmount.Visible=false;
-					this.labCountNum.Visible=false;
-					this.Label10.Visible=false;
-					this.Label9.Visible=false;
 
-				}
-				#region 按充值单号查询
+            try
+            {
+                ValidateDate();
 
-				//	ValidateDate(); 
-				if (this.dpLst.SelectedValue.ToLower() == "czd")
-				{
-					#region 充值单号的查询处理  old 
-					
+                if (CheckBox1.Checked && (this.dpLst.SelectedValue == "czd" || this.dpLst.SelectedValue == "toBank" || this.dpLst.SelectedValue == "BankBack"))
+                {
+                    //默认指定下，不再查询笔数
+                    pager.RecordCount = 9999;
+                }
+                else
+                {
+                    //			pager.RecordCount= GetCount(); 
+                    pager.RecordCount = 999;
+                }
+                if (this.dpLst.SelectedValue == "total")
+                {
 
-					//					//furion 20051002 web2service
-					//					Finance_ManageService.Finance_Manage fm = new Finance_ManageService.Finance_Manage();
-					//					bool exeSign = fm.returnTde_id(ID,CheckBox1.Checked, DateTime.Parse(TextBoxBeginDate.Text),out tde_id,out pay_time_acc,out Msg);
-					//					if(pay_time_acc!=null&&pay_time_acc!="")
-					//					{
-					//						TextBoxBeginDate.Text = Convert.ToDateTime(pay_time_acc).ToString("yyyy年MM月dd日 00:00:00");
-					//						TextBoxEndDate.Text = Convert.ToDateTime(pay_time_acc).ToString("yyyy年MM月dd日 23:59:59");
-					//
-					//
-					//					}
-					//					
-					//					if (exeSign == false)
-					//					{
-					//						string str = "获取充值流水号失败！";
-					//						WebUtils.ShowMessage(this.Page,str);
-					//						return;
-					//					}
-					//
-					//					if(tde_id == null || tde_id.Trim() == "")
-					//					{
-					//						string str = "对不起，没有找到该充值单！请核对。";
-					//						WebUtils.ShowMessage(this.Page,str);
-					//						return;
-					//					}
-					//
-					//					string urlStr = "./FUndQuery_Detail.aspx?tdeid=" + tde_id+"&begintime="+DateTime.Parse(TextBoxBeginDate.Text)+"&endtime="+DateTime.Parse(TextBoxEndDate.Text)
-					//						+"&listid="+ID;//增加充值单号
-					//					
-					//					if (Request.QueryString["posi"] != null && Request.QueryString["posi"].ToString() != "")
-					//					{
-					//						string posiStr = Request.QueryString["posi"].ToString(); 
-					//						urlStr = urlStr + "&posi=" + posiStr;
-					//					}
-					//						
-					//					Response.Redirect(urlStr,false);
+                }
+                else
+                {
+                    this.labCountNum.Text = "";
+                    this.labAmount.Text = "";
+                    this.labAmount.Visible = false;
+                    this.labCountNum.Visible = false;
+                    this.Label10.Visible = false;
+                    this.Label9.Visible = false;
 
-					#endregion
-                   					
-					if(qs.IsNewOrderCZData(enddate))//如果是新的充值，直接查询新充值单表 rowenawu 20120301
-					{
-						BindData(1,false);
-						return;
-					}
-					else
-					{
-					
-						//						Finance_ManageService.Finance_Manage fm = new Finance_ManageService.Finance_Manage();
-						//						bool exeSign = fm.returnTde_id(ID,CheckBox1.Checked, DateTime.Parse(TextBoxBeginDate.Text),out tde_id,out pay_time_acc,out Msg);
-						//						if(pay_time_acc!=null&&pay_time_acc!="")
-						//						{
-						//							TextBoxBeginDate.Text = Convert.ToDateTime(pay_time_acc).ToString("yyyy年MM月dd日 00:00:00");
-						//							TextBoxEndDate.Text = Convert.ToDateTime(pay_time_acc).ToString("yyyy年MM月dd日 23:59:59");
-						//						}
-						//												
-						//						if (exeSign == false)
-						//						{
-						//							string str = "获取充值流水号失败！";
-						//							WebUtils.ShowMessage(this.Page,str);
-						//							return;
-						//						}
-						//							
-						//						if(tde_id == null || tde_id.Trim() == "")
-						//						{
-						//							string str = "对不起，没有找到该充值单！请核对。";
-						//							WebUtils.ShowMessage(this.Page,str);
-						//							return;
-						//						}
-						//							
-						//						string urlStr = "./FUndQuery_Detail.aspx?tdeid=" + tde_id+"&begintime="+DateTime.Parse(TextBoxBeginDate.Text)+"&endtime="+DateTime.Parse(TextBoxEndDate.Text)
-						//							+"&listid="+ID;//增加充值单号
-						//												
-						//						if (Request.QueryString["posi"] != null && Request.QueryString["posi"].ToString() != "")
-						//						{
-						//							string posiStr = Request.QueryString["posi"].ToString(); 
-						//							urlStr = urlStr + "&posi=" + posiStr;
-						//						}
-						//													
-						//						Response.Redirect(urlStr,false);
-					}
-					  
-				}
-				
-					
-			}
-			catch(Exception err)
-			{
-				WebUtils.ShowMessage(this.Page,err.Message);
-				return;
-			}
-			#endregion
+                }
+            }
+            catch (Exception err)
+            {
+                WebUtils.ShowMessage(this.Page, err.Message);
+                return;
+            }
+
 			Table2.Visible = true;
-			try
-			{
-				if(qs.IsNewOrderCZData(enddate))
-				{
-					BindData(1,false);
-				
-				}
-				else
-				{
-				
-					
-				
-					BindData(1,true);
-				
-				
-				}
-
-			}
-	
-			catch(LogicException lex)
-			{
-				string errStr = PublicRes.GetErrorMsg(lex.Message.ToString());
-				WebUtils.ShowMessage(this.Page,errStr);
-			}
-			catch(SoapException eSoap) //捕获soap类异常
-			{
-				string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-				WebUtils.ShowMessage(this.Page,"调用服务出错：" + errStr);
-			}
-			catch(Exception eSys)
-			{
-				WebUtils.ShowMessage(this.Page,"读取数据失败！" + classLibrary.setConfig.replaceHtmlStr(eSys.Message));
-			}
+            try
+            {
+                if (qs.IsNewOrderCZData(enddate))
+                    BindData(1, false);
+                else
+                    BindData(1, true);
+            }
+            catch (LogicException lex)
+            {
+                string errStr = PublicRes.GetErrorMsg(lex.Message.ToString());
+                WebUtils.ShowMessage(this.Page, errStr);
+            }
+            catch (SoapException eSoap) //捕获soap类异常
+            {
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + classLibrary.setConfig.replaceHtmlStr(eSys.Message));
+            }
 		}
 
 		private void BindData(int index,bool isold)

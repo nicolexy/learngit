@@ -114,13 +114,64 @@ namespace CSAPI
 
                 string tradeid = paramsHt.ContainsKey("tradeid") ? paramsHt["tradeid"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(tradeid, 4, DateTime.Now);
-                if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
+                if (paramsHt.ContainsKey("type"))
                 {
-                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                    int type = APIUtil.StringToInt(paramsHt["type"].ToString());
+                    if (type == 1)  //根据银行返回定单号查询交易记录
+                    {
+                        DateTime list_time = APIUtil.StrToDate(paramsHt["list_time"].ToString());
+                        var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(tradeid, type, list_time, DateTime.Now, DateTime.Now, 1, 2);
+                        if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
+                        {
+                            throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                        }
+                        List<Payment.TradePayList> list = APIUtil.ConvertTo<Payment.TradePayList>(infos.Tables[0]);
+                        APIUtil.Print<Payment.TradePayList>(list);
+                    }
+                    else
+                    {
+                        DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
+                        DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
+                        //将查询时间跨度设置在半年以内,最长半年184天
+                        TimeSpan ts = end_time - begin_time;
+                        int days = ts.Days;
+                        if (days > 184)
+                        {
+                            end_time = begin_time.AddDays(184);
+                        }
+                        end_time = end_time.AddDays(1);
+                        int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
+                        int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
+                        if (offset < 0)
+                        {
+                            offset = 0;
+                        }
+                        if (limit < 0)
+                        {
+                            limit = 20;
+                        }
+
+                        var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(tradeid, type, DateTime.Now, begin_time, end_time, offset, limit);
+                        if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
+                        {
+                            throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                        }
+                        List<Payment.TradePayList> list = APIUtil.ConvertTo<Payment.TradePayList>(infos.Tables[0]);
+                        APIUtil.Print<Payment.TradePayList>(list);
+                    }
                 }
-                List<Payment.TradePayList> list = APIUtil.ConvertTo<Payment.TradePayList>(infos.Tables[0]);
-                APIUtil.Print<Payment.TradePayList>(list);
+
+                else//根据订单号查询交易记录
+                {
+                    var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(tradeid, 4, DateTime.Now, DateTime.Now, DateTime.Now, 1, 2);
+                    if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
+                    {
+                        throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                    }
+                    List<Payment.TradePayList> list = APIUtil.ConvertTo<Payment.TradePayList>(infos.Tables[0]);
+                    APIUtil.Print<Payment.TradePayList>(list);
+                }
+
             }
             catch (ServiceException se)
             {
@@ -133,43 +184,7 @@ namespace CSAPI
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
-        /// <summary>
-        /// 根据银行返回定单号查询交易记录
-        /// </summary>
-        [WebMethod]
-        public void GetBankTradeList()
-        {
-            try
-            {
-                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
-                //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "tradeid", "date", "token");
-                //验证token
-                APIUtil.ValidateToken(paramsHt);
-
-                string tradeid = paramsHt.ContainsKey("tradeid") ? paramsHt["tradeid"].ToString() : "";
-                DateTime time = APIUtil.StrToDate(paramsHt["date"].ToString());
-
-                var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(tradeid, 1, time);
-                if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
-                {
-                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
-                }
-                List<Payment.TradePayList> list = APIUtil.ConvertTo<Payment.TradePayList>(infos.Tables[0]);
-                APIUtil.Print<Payment.TradePayList>(list);
-            }
-            catch (ServiceException se)
-            {
-                SunLibrary.LoggerFactory.Get("GetBankTradeList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
-                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
-            }
-            catch (Exception ex)
-            {
-                SunLibrary.LoggerFactory.Get("GetBankTradeList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
-                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
-            }
-        }
-
+       
         /// <summary>
         /// 充值记录查询 0,QQID;1,ListID
         /// </summary>
@@ -180,14 +195,22 @@ namespace CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "ID", "id_type", "begin_time", "end_time", "offset", "limit", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "ID", "type", "begin_time", "end_time", "offset", "limit", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
                 string ID = paramsHt.ContainsKey("ID") ? paramsHt["ID"].ToString() : "";
-                int type = APIUtil.StringToInt(paramsHt["id_type"].ToString());
+                int type = APIUtil.StringToInt(paramsHt["type"].ToString());
                 DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
                 DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
+                //将查询时间跨度设置在3个月以内,最长3个月92天
+                TimeSpan ts = end_time - begin_time;
+                int days = ts.Days;
+                if (days > 92)
+                {
+                    end_time = begin_time.AddDays(92);
+                }
+                end_time = end_time.AddDays(1);
                 int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
                 int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
 
@@ -231,15 +254,23 @@ namespace CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "offset", "limit", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "ID", "type", "cur_type", "begin_time", "end_time", "offset", "limit", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
-                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
-                int type = APIUtil.StringToInt(paramsHt["id_type"].ToString());
+                string qqid = paramsHt.ContainsKey("ID") ? paramsHt["ID"].ToString() : "";
+                int type = APIUtil.StringToInt(paramsHt["type"].ToString());
                 int cur_type = APIUtil.StringToInt(paramsHt["cur_type"].ToString());
                 DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
                 DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
+                //将查询时间跨度设置在3个月以内,最长3个月92天
+                TimeSpan ts = end_time - begin_time;
+                int days = ts.Days;
+                if (days > 92)
+                {
+                    end_time = begin_time.AddDays(92);
+                }
+                end_time = end_time.AddDays(1);
                 int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
                 int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
 
@@ -257,18 +288,8 @@ namespace CSAPI
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
                 }
-
-                if (type == 0)
-                {
-                    List<Trade.QQRollList> list = APIUtil.ConvertTo<Trade.QQRollList>(infos.Tables[0]);
-                    APIUtil.Print<Trade.QQRollList>(list);
-                }
-                if (type == 1)
-                {
-                    List<Trade.IDRollList> list = APIUtil.ConvertTo<Trade.IDRollList>(infos.Tables[0]);
-                    APIUtil.Print<Trade.IDRollList>(list);
-                }
-
+                List<Trade.QQRollList> list = APIUtil.ConvertTo<Trade.QQRollList>(infos.Tables[0]);
+                APIUtil.Print<Trade.QQRollList>(list);
             }
             catch (ServiceException se)
             {
@@ -292,7 +313,7 @@ namespace CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "ID", "type", "begin_time", "end_time", "offset", "limit", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
@@ -300,6 +321,14 @@ namespace CSAPI
                 int type = APIUtil.StringToInt(paramsHt["type"].ToString());
                 DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
                 DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
+                //将查询时间跨度设置在半年以内,最长半年184天
+                TimeSpan ts = end_time - begin_time;
+                int days = ts.Days;
+                if (days > 184)
+                {
+                    end_time = begin_time.AddDays(184);
+                }
+                end_time = end_time.AddDays(1);
                 int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
                 int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
 
@@ -342,7 +371,7 @@ namespace CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "ID", "type", "begin_time", "end_time", "offset", "limit", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
@@ -350,6 +379,14 @@ namespace CSAPI
                 int type = APIUtil.StringToInt(paramsHt["type"].ToString());
                 DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
                 DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
+                //将查询时间跨度设置在半年以内,最长半年184天
+                TimeSpan ts = end_time - begin_time;
+                int days = ts.Days;
+                if (days > 184)
+                {
+                    end_time = begin_time.AddDays(184);
+                }
+                end_time = end_time.AddDays(1);
                 int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
                 int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
 

@@ -121,29 +121,36 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                         DataRow dr = ds.Tables[0].Rows[0];
                         int fstate = Int32.Parse(dr["FState"].ToString());
                         int ftype = Int32.Parse(dr["Ftype"].ToString());
+                        string pattern = "update {0} set FState='{1}', Fcomment='{2}',FCheckUser='{3}',FCheckTime=Now(),"
+                                + " FPickTime=now(),FPickUser='{4}',"
+                                + "FModifyTime=Now(),FReCheckTime=now(),FRecheckUser='{5}'"
+                                + " where Fid='{6}' and Fstate='{7}'";
 
-                        if (fstate == 0 && (ftype==8||ftype==19))//解冻
+                        string resultState = "";//申诉需要修改的结果状态
+                        if (fstate == 0 && (ftype == 8 || ftype == 19))//解冻 未处理
                         {
-                            strSql = "update " + table + " set FState=21,"
-                                + " Fcomment='" + comment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
-                                + " FPickTime=now(),FPickUser='" + user + "',"
-                                + "FModifyTime=Now(),FReCheckTime=now(),FRecheckUser='" + user + "'"
-                                + " where Fid='" + fid + "' and Fstate=0";
+                            resultState = "21";
                         }
-                        else if (fstate == 11 && ftype ==11)//特殊找密
+                        else if (fstate == 2 && (ftype == 8 || ftype == 19))//解冻 待补充资料
                         {
-                            strSql = "update " + table + " set FState=20,"
-                                + " Fcomment='" + comment + "',FCheckUser='" + user + "',FCheckTime=Now(),"
-                                + " FPickTime=now(),FPickUser='" + user + "',"
-                                + "FModifyTime=Now(),FReCheckTime=now(),FRecheckUser='" + user + "'"
-                                + " where Fid='" + fid + "' and Fstate=11";
+                            resultState = "21";
+                        }
+                        else if (fstate == 10 && (ftype == 8 || ftype == 19))//解冻 已补充资料
+                        {
+                            resultState = "21";
+                        }
+                        else if (fstate == 11 && ftype == 11)//特殊找密
+                        {
+                            resultState = "20";
                         }
                         else
                         {
                             msg = "更新原有记录出错,此记录原始状态不正确";
-                            LogHelper.LogInfo("UpdateAppealNewDB:" + msg+" fid="+fid);
+                            LogHelper.LogInfo("UpdateAppealNewDB:" + msg + " fid=" + fid);
                             return false;
                         }
+
+                        strSql = string.Format(@pattern, table, resultState, comment, user, user, user, fid, fstate);
 
                         if (da.ExecSqlNum(strSql) == 1)
                         {
@@ -959,7 +966,34 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                             {
                                 detail_score = detail_score.Replace("WithdrawHist", "提现记录得分");
                             }
-
+                            if (detail_score.IndexOf("MBVerify") > -1)
+                            {
+                                detail_score = detail_score.Replace("MBVerify", "安平密保验证得分");
+                            }
+                            if (detail_score.IndexOf("MBQuery") > -1)
+                            {
+                                detail_score = detail_score.Replace("MBQuery", "通过安全中心密保得分");
+                            }
+                            if (detail_score.IndexOf("BindMobile") > -1)
+                            {
+                                detail_score = detail_score.Replace("BindMobile", "绑定的手机号码得分");
+                            }
+                            if (detail_score.IndexOf("Mobile") > -1)
+                            {
+                                detail_score = detail_score.Replace("Mobile", "手机得分");
+                            }
+                            if (detail_score.IndexOf("Email_QQ") > -1)
+                            {
+                                detail_score = detail_score.Replace("Email_QQ", "绑定QQ邮箱得分");
+                            }
+                            if (detail_score.IndexOf("Mobile_New") > -1)
+                            {
+                                detail_score = detail_score.Replace("Mobile_New", "未注册手机得分");
+                            }
+                            if (detail_score.IndexOf("QQReceipt_6") > -1)
+                            {
+                                detail_score = detail_score.Replace("QQReceipt_6", "简化注册用户QQ申诉回执单号得分");
+                            }
                             dr["detail_score"] = detail_score;
 
                         }
@@ -3349,7 +3383,34 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                                     {
                                         detail_score = detail_score.Replace("WithdrawHist", "提现记录得分");
                                     }
-
+                                    if (detail_score.IndexOf("MBVerify") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("MBVerify", "安平密保验证得分");
+                                    }
+                                    if (detail_score.IndexOf("MBQuery") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("MBQuery", "通过安全中心密保得分");
+                                    }
+                                    if (detail_score.IndexOf("BindMobile") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("BindMobile", "绑定的手机号码得分");
+                                    }
+                                    if (detail_score.IndexOf("Mobile") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("Mobile", "手机得分");
+                                    }
+                                    if (detail_score.IndexOf("Email_QQ") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("Email_QQ", "绑定QQ邮箱得分");
+                                    }
+                                    if (detail_score.IndexOf("Mobile_New") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("Mobile_New", "未注册手机得分");
+                                    }
+                                    if (detail_score.IndexOf("QQReceipt_6") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("QQReceipt_6", "简化注册用户QQ申诉回执单号得分");
+                                    }
                                     dr["detail_score"] = detail_score;
 
                                 }
@@ -3707,7 +3768,34 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                                     {
                                         detail_score = detail_score.Replace("WithdrawHist", "提现记录得分");
                                     }
-
+                                    if (detail_score.IndexOf("MBVerify") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("MBVerify", "安平密保验证得分");
+                                    }
+                                    if (detail_score.IndexOf("MBQuery") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("MBQuery", "通过安全中心密保得分");
+                                    }
+                                    if (detail_score.IndexOf("BindMobile") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("BindMobile", "绑定的手机号码得分");
+                                    }
+                                    if (detail_score.IndexOf("Mobile") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("Mobile", "手机得分");
+                                    }
+                                    if (detail_score.IndexOf("Email_QQ") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("Email_QQ", "绑定QQ邮箱得分");
+                                    }
+                                    if (detail_score.IndexOf("Mobile_New") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("Mobile_New", "未注册手机得分");
+                                    }
+                                    if (detail_score.IndexOf("QQReceipt_6") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("QQReceipt_6", "简化注册用户QQ申诉回执单号得分");
+                                    }
                                     dr["detail_score"] = detail_score;
 
                                 }
@@ -5322,7 +5410,34 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                                     {
                                         detail_score = detail_score.Replace("WithdrawHist", "提现记录得分");
                                     }
-
+                                    if (detail_score.IndexOf("MBVerify") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("MBVerify", "安平密保验证得分");
+                                    }
+                                    if (detail_score.IndexOf("MBQuery") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("MBQuery", "通过安全中心密保得分");
+                                    }
+                                    if (detail_score.IndexOf("BindMobile") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("BindMobile", "绑定的手机号码得分");
+                                    }
+                                    if (detail_score.IndexOf("Mobile") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("Mobile", "手机得分");
+                                    }
+                                    if (detail_score.IndexOf("Email_QQ") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("Email_QQ", "绑定QQ邮箱得分");
+                                    }
+                                    if (detail_score.IndexOf("Mobile_New") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("Mobile_New", "未注册手机得分");
+                                    }
+                                    if (detail_score.IndexOf("QQReceipt_6") > -1)
+                                    {
+                                        detail_score = detail_score.Replace("QQReceipt_6", "简化注册用户QQ申诉回执单号得分");
+                                    }
                                     dr["detail_score"] = detail_score;
 
                                 }
