@@ -129,6 +129,9 @@ namespace CFT.CSOMS.DAL.TradeModule
         public DataSet QueryWxBuyOrderByUid(int uid, DateTime startTime, DateTime endTime)
         {
             //ver=1&head_u=&sp_id=2000000501&request_type=100878&uid=123456&s_time=2015-01-01&e_time=2015-03-01&offset=0&limit=10&icard_flag=0
+            //uid= 334073577
+            //085e9858e1170937ca232fcb7@wx.tenpay.com
+            //Fstate 已经返回了，名称是Ftrade_state，其他字段都已加了
             string reqString = "uid=" + uid.ToString();
             reqString += "&s_time=" + startTime.ToString("yyyy-MM-dd 00:00:00");
             reqString += "&e_time=" + endTime.ToString("yyyy-MM-dd 23:59:59");
@@ -154,6 +157,13 @@ namespace CFT.CSOMS.DAL.TradeModule
                 if (!ds.Tables[0].Columns.Contains("Fstate"))
                 {
                     ds.Tables[0].Columns.Add("Fstate", typeof(System.String));
+                    if (ds.Tables[0].Columns.Contains("Ftrade_state"))
+                    {
+                        foreach (DataRow item in ds.Tables[0].Rows)
+                        {
+                            item["Fstate"] = item["Ftrade_state"];
+                        }
+                    }
                 }
                 if (!ds.Tables[0].Columns.Contains("Fcreate_time_c2c"))
                 {
@@ -948,7 +958,6 @@ namespace CFT.CSOMS.DAL.TradeModule
                          "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
                         "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
                 ds = QueryUserOrder("2216", fields, istr - 1, imax);
-                ds = null;
                 try
                 {
                     DataSet dsForWX = QueryWxBuyOrderByUid(int.Parse(fuid.Trim()), dtBegin, dtEnd);//微信买家纬度订单

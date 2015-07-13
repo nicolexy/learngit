@@ -7539,8 +7539,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         string str_params = "www.tenpay.com/v2/cs/";
                         str_params = "url=" + System.Web.HttpUtility.UrlEncode(str_params, System.Text.Encoding.GetEncoding("gb2312"));
-                        uin = "466678748";
-                        userPhone = "18718489269";
+                        //uin = "466678748";
+                        //userPhone = "18718489269";
                         TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsgQQTips(uin, "2429", str_params);
                         TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMessage(userPhone, "2429", str_params);
                     }
