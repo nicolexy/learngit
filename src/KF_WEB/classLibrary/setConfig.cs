@@ -82,7 +82,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			
 			return Ffh;
 		}
+        public static FINANCE_RefundSERVICE.Finance_Header FsetRefundFH(TemplateControl page)  //设置soap头信息
+        {
+            FINANCE_RefundSERVICE.Finance_Header Ffh = new FINANCE_RefundSERVICE.Finance_Header();
 
+            Ffh.UserIP = page.Page.Request.UserHostAddress;
+            Ffh.UserName = page.Page.Session["uid"].ToString();
+            Ffh.SzKey = page.Page.Session["SzKey"].ToString();
+            Ffh.OperID = Int32.Parse(page.Page.Session["OperID"].ToString());
+            Ffh.RightString = page.Page.Session["SzKey"].ToString();
+
+            return Ffh; 
+        }
 
 		public static Query_Service.Finance_Header setFH(string uid,string ip,string sessionID,string url)
 		{

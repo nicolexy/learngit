@@ -112,5 +112,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Properties {
                 return ((string)(this["finance_web_FQuery_Service_Query_Service"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://admintk.cf.com/FINANCE_SERVICE/Query_Service.asmx")]
+        public string finance_web_FINANCE_REFUNDSERVICE_Query_Service {
+            get {
+                return ((string)(this["finance_web_FINANCE_REFUNDSERVICE_Query_Service"]));
+            }
+        }
     }
 }
