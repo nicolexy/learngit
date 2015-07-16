@@ -1745,6 +1745,20 @@
     <Compile Include="RefundManage\RefundRegistration.aspx.designer.cs">
       <DependentUpon>RefundRegistration.aspx</DependentUpon>
     </Compile>
+    <Compile Include="RefundManage\RefundTotalQuery.aspx.cs">
+      <DependentUpon>RefundTotalQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RefundManage\RefundTotalQuery.aspx.designer.cs">
+      <DependentUpon>RefundTotalQuery.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RefundManage\RefundTotalQuery_Detail.aspx.cs">
+      <DependentUpon>RefundTotalQuery_Detail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RefundManage\RefundTotalQuery_Detail.aspx.designer.cs">
+      <DependentUpon>RefundTotalQuery_Detail.aspx</DependentUpon>
+    </Compile>
     <Compile Include="RefundManage\SuspendRefundment.aspx.cs">
       <DependentUpon>SuspendRefundment.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2591,6 +2605,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\FINANCE_RefundSERVICE\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\FQuery_Service\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -3183,6 +3202,8 @@
       <SubType>Form</SubType>
     </Content>
     <Content Include="RefundManage\RefundRegistration.aspx" />
+    <Content Include="RefundManage\RefundTotalQuery.aspx" />
+    <Content Include="RefundManage\RefundTotalQuery_Detail.aspx" />
     <Content Include="RefundManage\SuspendRefundment.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -3463,10 +3484,103 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\Finance_ManageService\Finance_Manage.disco" />
+    <Content Include="Web References\FINANCE_RefundSERVICE\Query_Service.disco" />
     <Content Include="Web References\FQuery_Service\C2CDB_T_TC_BANK.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <Content Include="Web References\FQuery_Service\FreezeInfo.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\Query_Service.wsdl" />
+    <Content Include="Web References\FINANCE_RefundSERVICE\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\C2CDB_T_TC_BANK1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\FreezeInfo1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\PayProcessAbility1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\RefundProcessAbility1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\SysBulletinClass1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\TCreateSessionReply1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_BANKBULLETIN_INFO1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_BANK_CLASS1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_BANK_CODE1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_BANK_INFO1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_BANK_KEYS1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_CEP_BANKCHANNEL_CLASS1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_CheckType1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_COIN_PUB1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_DIC1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_DIRECTPAY_ERRCODEINFO1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_DIRECTPAY_NCINFO1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_Export_Bank1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_Export_Bankrest1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_Export_Task_Comm1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_Export_Task_Tmp1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_FILE_MODEL_RELATION1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_GWQ1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_GWQ_Account1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_PRODUCT1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_PUCNEWSERVICE_INFO1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_SUBJECT1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_USER_MED1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_ZWDic_Info1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\FQuery_Service\Query_Service.wsdl" />
@@ -4630,6 +4744,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>finance_web_ZWCheck_Service_Check_Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://admintk.cf.com/FINANCE_SERVICE/Query_Service.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\FINANCE_RefundSERVICE\</RelPath>
+      <UpdateFromURL>http://admintk.cf.com/FINANCE_SERVICE/Query_Service.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>finance_web_FINANCE_REFUNDSERVICE_Query_Service</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://localhost:61131/Agent_Service.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>

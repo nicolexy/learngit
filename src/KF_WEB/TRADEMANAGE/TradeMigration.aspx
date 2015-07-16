@@ -40,15 +40,15 @@
 										<asp:regularexpressionvalidator id="rfvNum" runat="server" Display="Dynamic" ValidationExpression="^\d{0,32}$" ControlToValidate="txtTradeId"
 											ErrorMessage="RegularExpressionValidator" Enabled="True">交易单号有误，交易单号必须为32位内数字!</asp:regularexpressionvalidator><br>
 									</P>
-								<TD width="3%" height="40">&nbsp;</TD>
-							</tr>
-						</table>
+									<td width="25%">
+						<asp:button id="btMigration" runat="server" BorderStyle="Groove" Width="66px" Text="迁移" Height="23px" ></asp:button>&nbsp;
 					</td>
-					<td width="25%">
-						<div align="center"><asp:button id="btMigration" runat="server" BorderStyle="Groove" Width="66px" Text="迁移" Height="23px" ></asp:button>&nbsp;
-						</div>
-					</td>
-				</tr>
+			  </tr>
+              <TR>
+                    <TD><asp:label id="Label10" runat="server">批量交易单：</asp:label>&nbsp;<asp:FileUpload id="File1" runat="server" /></TD>
+                    <TD Width="30%"><asp:button id="Button2" runat="server" Visible="true" Width="80px" Text="批量查询" onclick="btnBatch_Click"></asp:button> 
+                    </td>
+              </TR>
 				<tr>
 					<td colspan="2">
 						<asp:label id="labErrMsg" runat="server" ForeColor="Red"></asp:label>

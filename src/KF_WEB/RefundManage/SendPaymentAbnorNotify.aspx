@@ -81,7 +81,7 @@
                 <TR>
 					<TD align="right"><asp:label id="Label9" runat="server">到账时间：</asp:label></TD>
 					<TD><asp:textbox id="tbToAccTime" runat="server"></asp:textbox></TD>
-                   <TD align="left"><asp:label id="Label11" runat="server">示例：2015-06-01  <font color="red">注意：必须按照该格式填日期，否则不能发送成功。</font></asp:label></TD>
+                   <TD align="left"><asp:label id="Label11" runat="server">示例：2015-07-01 23:59:59  <font color="red">注意：必须按照该格式填时间，否则不能发送成功。</font></asp:label></TD>
               </TR>
                  <TR>
                       <TD colspan="3" align="center"><asp:button id="btnSendNotify" runat="server" Width="100px" Height="30px" Text="发送通知" onclick="btnSendNotify_Click"></asp:button>

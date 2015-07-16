@@ -242,6 +242,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 SysManage1.AddSubMenu("银行接口维护管理", "SysManage/BankInterfaceManage.aspx");
 
                 BankBillManage1.AddSubMenu("汇总退单数据", "TradeManage/RefundMain.aspx");
+                BankBillManage1.AddSubMenu("退单汇总查询", "RefundManage/RefundTotalQuery.aspx");
                 BankBillManage1.AddSubMenu("订单实时查询", "TradeManage/RealTimeOrderQuery.aspx");
               //  BankBillManage1.AddSubMenu("异常任务单管理", "RefundManage/RefundErrorMain.aspx?WorkType=task");
                 BankBillManage1.AddSubMenu("退单异常数据查询", "RefundManage/RefundErrorHandle.aspx");
@@ -478,6 +479,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             tradeManage1.AddSubMenu("充值记录查询", "TradeManage/FundQuery.aspx");
             tradeManage1.AddSubMenu("银行订单查询", "TradeManage/BankOrderListQuery.aspx");
             tradeManage1.AddSubMenu("历史交易单迁移", "TradeManage/TradeMigration.aspx");
+            tradeManage1.AddSubMenu("历史订单迁移", "TradeManage/OrderMigration.aspx");
             //UserBankInfoQuery
             baseAccount1.AddSubMenu("银行账号信息", "BaseAccount/UserBankInfoQuery.aspx");
 
@@ -528,7 +530,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             PNRQuery1.AddSubMenu("PNR订单查询", "TradeManage/PNROrderQuery.aspx");
             PNRQuery1.AddSubMenu("PNR操作查询", "TradeManage/PNROperateQuery.aspx");
 
-            //tradeManage1.AddSubMenu("历史订单迁移", "TradeManage/OrderMigration.aspx");
+            
             tradeManage1.AddSubMenu("未完成交易单查询", "TradeManage/UnFinishTradeQuery.aspx");
             tradeManage1.AddSubMenu("注销前交易查询", "TradeManage/BeforeCancelTradeQuery.aspx");
 

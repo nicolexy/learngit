@@ -205,16 +205,16 @@
                     <tr>
                         <td style="height: 15px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="15">
-                            &nbsp;<font face="宋体">可用余额</font>:
+                            &nbsp;<font face="宋体">冻结金额CKV</font>:
                         </td>
                         <td style="height: 15px" bgcolor="#ffffff" colspan="2" height="15">
                             &nbsp;
-                            <asp:Label ID="Label15_Useable" runat="server" Width="180px" ForeColor="Red"></asp:Label><font
+                            <asp:Label ID="CKV_freeze" runat="server" Width="180px" ForeColor="Red"></asp:Label><font
                                 face="宋体"></font>
                         </td>
                         <td style="height: 15px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="15">
-                            &nbsp;冻结金额:
+                            &nbsp;冻结金额:DB
                         </td>
                         <td style="height: 15px" bgcolor="#ffffff" height="15">
                             &nbsp;
@@ -225,19 +225,48 @@
                     <tr>
                         <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="4">
-                            &nbsp;昨日余额:
+                            &nbsp;微信账号余额CKV:
                         </td>
                         <td style="height: 4px" bgcolor="#ffffff" colspan="2" height="4">
                             &nbsp;
-                            <asp:Label ID="Label5_YestodayLeft" runat="server">10</asp:Label>
+                            <asp:Label ID="CKV_WXRemainder" runat="server">10</asp:Label>
                         </td>
                         <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="4">
-                            &nbsp;帐户余额<font face="宋体">:</font>
+                            &nbsp;帐户余额:DB<font face="宋体">:</font>
                         </td>
                         <td style="height: 4px" bgcolor="#ffffff" height="4">
                             &nbsp;<font face="宋体">
                                 <asp:Label ID="Label3_LeftAcc" runat="server" Width="180px">3000</asp:Label></font>
+                        </td>
+                    </tr>
+
+                     <tr>
+                        <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
+                            height="4">
+                            &nbsp;同步CKV:
+                        </td>
+                        <td style="height: 4px" bgcolor="#ffffff" colspan="2" height="4">
+                            <asp:Button ID="CKV_Btn_synchro" runat="server" Text="同步" OnClick="CKV_Btn_synchro_Click" />
+                        </td>   
+                          <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
+                            height="4">
+                            &nbsp;<font face="宋体">可用余额DB:</font>
+                        </td>
+                        <td style="height: 4px" bgcolor="#ffffff" height="4">
+                             &nbsp;
+                            <asp:Label ID="Label15_Useable" runat="server" Width="180px" ForeColor="Red" Text="0"></asp:Label><font face="宋体"></font>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
+                            height="4">
+                            &nbsp;昨日余额:
+                        </td>
+                        <td style="height: 4px" bgcolor="#ffffff" colspan="4" height="4">
+                            &nbsp;
+                            <asp:Label ID="Label5_YestodayLeft" runat="server">10</asp:Label>
                         </td>
                     </tr>
                     <tr>

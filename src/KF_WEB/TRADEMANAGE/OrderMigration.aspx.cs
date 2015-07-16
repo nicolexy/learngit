@@ -12,6 +12,8 @@ using Tencent.DotNet.Common.UI;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using TENCENT.OSS.CFT.KF.KF_Web;
 using TENCENT.OSS.CFT.KF.KF_Web.Check_WebService;
+using System.IO;
+using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
@@ -27,12 +29,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         protected System.Web.UI.WebControls.Label labErrMsg;
         protected System.Web.UI.WebControls.Label lblUId;
         protected System.Web.UI.WebControls.RegularExpressionValidator rfvNum;
-    
+        protected System.Web.UI.WebControls.FileUpload File1;
+
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-            if (Session["uid"] != null)
+            try
             {
                 lblUId.Text = Session["uid"].ToString();
+                string sr = Session["SzKey"].ToString();
+                if (!ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
+            }
+            catch  //如果没有登陆或者没有权限就跳出
+            {
+                Response.Redirect("../login.aspx?wh=1");
             }
             
 		}
@@ -73,7 +82,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             if(!MigrationCheck(orderId,out  msg))
             {
                 labErrMsg.Text="提起订单迁移审批失败，失败信息如下:<br>"+msg;
-                WebUtils.ShowMessage(this.Page,"提起订单迁移审批失败，失败信息如下："+PublicRes.GetErrorMsg(msg));
+                WebUtils.ShowMessage(this.Page, "提起订单迁移审批失败，，失败详细信息见页面！");
                 return ;
             }
             else
@@ -81,6 +90,90 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 labErrMsg.Text="提起订单迁移审批申请成功!";
                 WebUtils.ShowMessage(this.Page,labErrMsg.Text);
 							
+            }
+        }
+
+        private void BatchMigrate(out string msgWrong)
+        {
+            msgWrong = "";
+            try
+            {
+                string path = Server.MapPath("~/") + "PLFile" + "\\OrderMigration.xls";
+                File1.PostedFile.SaveAs(path);
+
+                DataSet res_ds = PublicRes.readXls(path, "F1");
+                DataTable res_dt = res_ds.Tables[0];
+                int iColums = res_dt.Columns.Count;
+                int iRows = res_dt.Rows.Count;
+
+
+                for (int i = 0; i < iRows; i++)
+                {
+                    string r1 = res_dt.Rows[i][0].ToString().Trim();//交易单号
+                    try
+                    {
+
+                        if (!SunLibraryEX.StringEx.IsNumber(r1) || !SunLibraryEX.StringEx.MatchLength(r1, 0, 32))
+                        {
+                            msgWrong += "  " + r1 + ": 单号有误，单号必须为小于等于32位数字！" + "</br></br>";
+                            continue;
+                        }
+
+                        string msgErr = "";
+                        if (!MigrationCheck(r1, out  msgErr))
+                        {
+                            msgWrong += "  " + r1 + ": 失败信息如下:" + msgErr + "</br></br>";
+                            continue;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        msgWrong += "  " + r1 + ": 发起迁移异常:" + PublicRes.GetErrorMsg(ex.Message) + "</br></br>";
+                        continue;
+                    }
+                }
+            }
+            catch (Exception eSys)
+            {
+                msgWrong += "批量迁移异常！" + PublicRes.GetErrorMsg(eSys.Message.ToString());
+            }
+        }
+
+        public void btnBatch_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                if (!File1.HasFile)
+                {
+                    WebUtils.ShowMessage(this.Page, "请选择上传文件！");
+                    return;
+                }
+                if (Path.GetExtension(File1.FileName).ToLower() == ".xls")
+                {
+                    string msgWrong = "";
+                    BatchMigrate(out msgWrong);
+                    if (msgWrong != "")
+                    {
+                        labErrMsg.Text = "批量迁移审批失败，失败信息如下:<br>" + msgWrong;
+                        WebUtils.ShowMessage(this.Page, "提起订单迁移审批失败，失败信息如下：" + PublicRes.GetErrorMsg(msgWrong));
+                        return;
+                    }
+                    else
+                    {
+                        labErrMsg.Text = "批量迁移审批申请成功!";
+                        WebUtils.ShowMessage(this.Page, labErrMsg.Text);
+                        return;
+                    }
+                }
+                else
+                {
+                    WebUtils.ShowMessage(this.Page, "文件格式不正确，请选择xls格式文件上传。");
+                    return;
+                }
+            }
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString())); return;
             }
         }
 
@@ -104,24 +197,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             msg="";
             try
             {
-             /*   Check_WebService.Param[] parameters = new Check_WebService.Param[1];
+               Check_WebService.Param[] parameters = new Check_WebService.Param[1];
                 parameters[0] = new Check_WebService.Param();
                 parameters[0].ParamName = "MsgId";
                 parameters[0].ParamValue = commLib.GenID.GenOrderMigrationMSGId(orderId);
 
                 PublicRes.CreateCheckService(this).StartCheck(orderId, "OrderMigration", "订单迁移申请", "0", parameters);
-                 * */
-                ZWCheck_Service.Check_Service checkService = new ZWCheck_Service.Check_Service();
-                ZWCheck_Service.Param[] parameters = new ZWCheck_Service.Param[1];
-                parameters[0] = new ZWCheck_Service.Param();
-                parameters[0].ParamName = "MsgId";
-                parameters[0].ParamValue = commLib.GenID.GenOrderMigrationMSGId(orderId);
-                checkService.Finance_HeaderValue = SetWebServiceHeader(this);
-                //checkService.Finance_HeaderValue 
-                checkService.StartCheck(orderId, "OrderMigration", "订单迁移申请", "0", parameters);
 
+                //调账务系统接口
+                //ZWCheck_Service.Check_Service checkService = new ZWCheck_Service.Check_Service();
+                //ZWCheck_Service.Param[] parameters = new ZWCheck_Service.Param[1];
+                //parameters[0] = new ZWCheck_Service.Param();
+                //parameters[0].ParamName = "MsgId";
+                //parameters[0].ParamValue = commLib.GenID.GenOrderMigrationMSGId(orderId);
+                //checkService.Finance_HeaderValue = SetWebServiceHeader(this);
+                //checkService.StartCheck(orderId, "OrderMigration", "订单迁移申请", "0", parameters);
                
-
                 return true;
             }
             catch(Exception ex)
