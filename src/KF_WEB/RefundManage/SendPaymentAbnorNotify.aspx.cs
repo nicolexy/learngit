@@ -151,11 +151,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 
             try
             {
-                DateTime.ParseExact(accTime, "yyyy-MM-dd", System.Globalization.CultureInfo.CurrentCulture);
+                DateTime date = DateTime.Parse(accTime);
             }
             catch
             {
-                showMsg("必须按照该格式 yyyy-mm-dd 填写日期！");
+                showMsg("到账时间输入有误！"); 
                 return;
             }
 
@@ -171,7 +171,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             {
                 #region 保存参数
                 string delayReason = PublicRes.GetString(tbDelayReason.Text.Trim());
-                string toAccTime = PublicRes.GetString(tbToAccTime.Text.Trim());
+                string toAccTime = DateTime.Parse(PublicRes.GetString(tbToAccTime.Text.Trim())).ToString("yyyy-MM-dd hh:mm:ss");
                 string batchID = tbBatchID.Text.Trim();
                 string packageID = tbPackageID.Text.Trim();
                 string listid = tblistid.Text.Trim();

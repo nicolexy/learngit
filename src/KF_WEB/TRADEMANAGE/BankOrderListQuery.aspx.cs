@@ -222,11 +222,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                         catch (SoapException eSoap) //捕获soap类异常
                         {
                             string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                            throw new Exception(begin + "至" + end + "时间段根据给定银行单号查询交易单号" + BankListId + "调用服务出错：" + eSoap);
+                            throw new Exception(begin + "至" + end + "时间段根据给定银行单号查询交易单号" + BankListId + "调用服务出错：" + errStr);
                         }
                         catch (Exception eSys)
                         {
-                            throw new Exception(begin + "至" + end + "时间段根据给定银行单号查询交易单号" + BankListId + "读取数据失败！" + eSys);
+                            string errStr = PublicRes.GetErrorMsg(eSys.Message.ToString());
+                            throw new Exception(begin + "至" + end + "时间段根据给定银行单号查询交易单号" + BankListId + "读取数据失败:" + errStr);
                         }
                         // iType = 1;现在是交易单号，一样的查询
                         iType = 4;
@@ -339,6 +340,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 }
             }
 
+            //参考充值记录查询，查不到记录就去查历史
+            if (!isold && (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0))
+            {
+                ds = qs.GetFundList(u_ID, queryType, fcurtype, begindate, enddate, fstate, fnum, fnumMax, banktype, sorttype, true, start, max);
+            }
+
+
             List<String> idlist = new List<string>();
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
@@ -347,12 +355,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     //查询出多个交易单号
                     idlist.Add(dr["Flistid"].ToString());
                 }
-                return idlist;
+               
             }
-            else
-            {
-                throw new LogicException("没有找到记录！");
-            }
+            return idlist;
         }
 
         private DataSet TradeInfo(int iType)
@@ -571,16 +576,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 //}
                 return ds;
             }
-            catch (SoapException eSoap) //捕获soap类异常
-            {
-                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
-                return null;
-            }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
-                return null;
+                throw new Exception("读取数据失败！" +eSys.Message.ToString());
             }
         }
 
@@ -615,7 +613,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString())); return;
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
+                return;
             }
         }
 

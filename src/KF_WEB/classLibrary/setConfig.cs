@@ -441,7 +441,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 					ddl.Items.Add(new ListItem(dr["Fmemo"].ToString(),dr["Fvalue"].ToString()));
 				}
 			}
-			
+
+            if (type == "CRE_TYPE")
+                ddl.Items.Add(new ListItem("Î´Ö¸¶¨", "0"));
+
 			ddl.DataBind();
 		}
 
