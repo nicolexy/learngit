@@ -221,7 +221,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             string saleqqIn = ViewState["saleqqID"].ToString();
 
             int max = pager.PageSize;
-            int start = max * (index - 1) + 1;
+            int start = max * (index - 1);
 
             int fcurtype = 1;
             if (Request.QueryString["fcurtype"] != null)//rowena 20100722  增加基金项目

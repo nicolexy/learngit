@@ -67,12 +67,12 @@ namespace CFT.CSOMS.DAL.WechatPay
             var model = jss.DeserializeObject(answer) as Dictionary<string, object>;
             if (model["result"].ToString() != "0" || model["ret_data"].ToString() == "")
             {
-                throw new Exception("调用失败:[" + model["process_msg"] + model["result_msg"] + "]");
+                throw new Exception("调用CKV接口失败:[" + model["process_msg"] + model["result_msg"] + "]");
             }
             var retData = model["ret_data"].ToString();
             if (retData.IndexOf("err") != -1)
             {
-                throw new Exception("调用失败:[" + retData + "]");
+                throw new Exception("调用CKV接口失败:[" + retData + "]");
             }
             retData = retData.Replace(" ", "").Replace("BALACNEVALUE:", "");
             var arr = retData.Split(new string[] { "<br>" }, StringSplitOptions.None);

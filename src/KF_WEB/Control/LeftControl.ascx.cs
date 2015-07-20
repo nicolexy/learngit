@@ -471,7 +471,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
             //TradeLogQuery
             BankBillManage1.AddSubMenu("汇总付款数据", "BaseAccount/batPay.aspx");
-            MediumTradeManage1.AddSubMenu("中介订单查询", "TradeManage/OrderQuery.aspx");
+            //MediumTradeManage1.AddSubMenu("中介订单查询", "TradeManage/OrderQuery.aspx");
             tradeManage1.AddSubMenu("交易记录查询", "TradeManage/TradeLogQuery.aspx");
 
             //FundQuery
@@ -533,6 +533,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             
             tradeManage1.AddSubMenu("未完成交易单查询", "TradeManage/UnFinishTradeQuery.aspx");
             tradeManage1.AddSubMenu("注销前交易查询", "TradeManage/BeforeCancelTradeQuery.aspx");
+            tradeManage1.AddSubMenu("中介订单查询", "TradeManage/OrderQuery.aspx");
 
             FastPay1.AddSubMenu("快捷额度查询", "FastPay/FastPayLimitQuery.aspx");
 
