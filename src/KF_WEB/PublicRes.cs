@@ -509,7 +509,29 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             objConn.Close();
             if (ds.Tables[tableName].Rows.Count > 0)
             {
-                ds.Tables[tableName].Rows.Remove(ds.Tables[tableName].Rows[0]);
+                int rows=ds.Tables[tableName].Rows.Count;
+                int colss=ds.Tables[tableName].Columns.Count;
+
+                //È¥µô¿ÕÐÐ
+                for (int i = rows-1; i>=0; i--)
+                {
+                    bool mark = true;
+                    for (int j = 0; j < colss; j++)
+                    {
+                        if (ds.Tables[tableName].Rows[i][j].ToString().Trim() != "")
+                        {
+                            mark = false;
+                            break;
+                        }
+                    }
+                    if (mark)
+                    {
+                        ds.Tables[tableName].Rows.Remove(ds.Tables[tableName].Rows[i]);
+                    }
+                }
+
+                    ds.Tables[tableName].Rows.Remove(ds.Tables[tableName].Rows[0]);
+                    ds.AcceptChanges();
             }
 
             ExcelTable = ds.Tables[tableName];
