@@ -254,6 +254,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 baseAccount1.AddSubMenu("QQ帐号回收", "BaseAccount/QQReclaim.aspx");
                 accountOperate1.AddSubMenu("账户姓名修改", "BaseAccount/changeUserName_2.aspx");
                 baseAccount1.AddSubMenu("用户受控资金查询", "TradeManage/QueryUserControledFinPage.aspx");
+                baseAccount1.AddSubMenu("用户受控资金查询-新", "TradeManage/UserControledFundPage.aspx");
                 baseAccount1.AddSubMenu("手机绑定查询", "TradeManage/MobileBindQuery.aspx");             
                 accountOperate1.AddSubMenu("证件号码清理", "BaseAccount/ClearCreidNew.aspx");
                 baseAccount1.AddSubMenu("腾讯信用查询", "BaseAccount/TencentCreditQuery.aspx");
@@ -273,6 +274,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
                 LifeFeeDetailManage1.AddSubMenu("生活缴费查询", "TradeManage/FeeQuery.aspx");
                 LifeFeeDetailManage1.AddSubMenu("邮储汇款查询", "RemitCheck/RemitQuery.aspx");
+                LifeFeeDetailManage1.AddSubMenu("邮储汇款查询-新", "RemitCheck/RemitQueryNew.aspx");
                 LifeFeeDetailManage1.AddSubMenu("手机充值卡查询", "TradeManage/FundCardQuery_Detail.aspx");
                 LifeFeeDetailManage1.AddSubMenu("信用卡还款", "TradeManage/CreditQuery.aspx");
                 LifeFeeDetailManage1.AddSubMenu("话费发货查询", "TradeManage/PhoneBillQuery.aspx");
@@ -510,6 +512,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
             //CancelAccount
             accountOperate1.AddSubMenu("帐户销户记录", "BaseAccount/logOnUser.aspx");
+            accountOperate1.AddSubMenu("帐户销户记录-新", "BaseAccount/logOnUserNew.aspx");
 
             //UpdateAccountQQ
             accountOperate1.AddSubMenu("帐户QQ修改", "BaseAccount/ChangeQQOld.aspx");

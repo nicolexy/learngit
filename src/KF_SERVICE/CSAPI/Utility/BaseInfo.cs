@@ -359,5 +359,25 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
 
         #endregion
 
+        #region 销户
+        public class CancelAccountLog
+        {
+            [XmlElement("id")]
+            public string Fid { get; set; }
+            [XmlElement("qqid")]
+            public string Fqqid { get; set; }
+            [XmlElement("uid")]
+            public string Fquid { get; set; }
+            [XmlElement("reason")]
+            public string Freason { get; set; }
+            [XmlElement("opera")]
+            public string handid { get; set; }
+            [XmlElement("ip")]
+            public string handip { get; set; }
+            [XmlElement("modify_time")]
+            public string FlastModifyTime { get; set; }
+        }
+        #endregion
+
     }
 }

@@ -102,7 +102,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                     if (!ds.Tables[0].Columns.Contains("Ftrade_stateName"))
                     { ds.Tables[0].Columns.Add("Ftrade_stateName"); }//交易状态
 
-                    PublicService.PublicService.GetColumnValueFromDic(ds.Tables[0], "Fpay_type", "Fpay_type_str", "PAY_TYPE");//支付类型
+                    TransferMeaning.Transfer.GetColumnValueFromDic(ds.Tables[0], "Fpay_type", "Fpay_type_str", "PAY_TYPE");//支付类型
 
                     string strtmp = ds.Tables[0].Rows[0]["Fappeal_sign"].ToString();
                     if (strtmp == "1")
@@ -269,13 +269,13 @@ namespace CFT.CSOMS.BLL.TradeModule
                         }
                     }
 
-                    ds.Tables[0].Rows[0]["Fbuy_bank_type"] = PublicService.PublicService.convertbankType(ds.Tables[0].Rows[0]["Fbuy_bank_type"].ToString());
-                    ds.Tables[0].Rows[0]["Fcurtype"] = PublicService.PublicService.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());
-                    ds.Tables[0].Rows[0]["Flstate"] = PublicService.PublicService.convertTradeState(ds.Tables[0].Rows[0]["Flstate"].ToString());
-                    ds.Tables[0].Rows[0]["Fsale_bank_type"] = PublicService.PublicService.convertbankType(ds.Tables[0].Rows[0]["Fsale_bank_type"].ToString());
-                    ds.Tables[0].Rows[0]["Fadjust_flag"] = PublicService.PublicService.convertAdjustSign(ds.Tables[0].Rows[0]["Fadjust_flag"].ToString());
-                    string tradeType = PublicService.PublicService.convertPayType(ds.Tables[0].Rows[0]["Ftrade_type"].ToString());
-                    ds.Tables[0].Rows[0]["Ftrade_type"] = PublicService.PublicService.convertPayType(ds.Tables[0].Rows[0]["Ftrade_type"].ToString());
+                    ds.Tables[0].Rows[0]["Fbuy_bank_type"] = TransferMeaning.Transfer.convertbankType(ds.Tables[0].Rows[0]["Fbuy_bank_type"].ToString());
+                    ds.Tables[0].Rows[0]["Fcurtype"] = TransferMeaning.Transfer.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());
+                    ds.Tables[0].Rows[0]["Flstate"] = TransferMeaning.Transfer.convertTradeState(ds.Tables[0].Rows[0]["Flstate"].ToString());
+                    ds.Tables[0].Rows[0]["Fsale_bank_type"] = TransferMeaning.Transfer.convertbankType(ds.Tables[0].Rows[0]["Fsale_bank_type"].ToString());
+                    ds.Tables[0].Rows[0]["Fadjust_flag"] = TransferMeaning.Transfer.convertAdjustSign(ds.Tables[0].Rows[0]["Fadjust_flag"].ToString());
+                    string tradeType = TransferMeaning.Transfer.convertPayType(ds.Tables[0].Rows[0]["Ftrade_type"].ToString());
+                    ds.Tables[0].Rows[0]["Ftrade_type"] = TransferMeaning.Transfer.convertPayType(ds.Tables[0].Rows[0]["Ftrade_type"].ToString());
 
                     try
                     {
@@ -357,7 +357,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                         if (dsState != null && dsState.Tables.Count > 0 && dsState.Tables[0].Rows.Count > 0)
                         {
                             dsState.Tables[0].Columns.Add("Ftrade_stateName");
-                            PublicService.PublicService.GetColumnValueFromDic(dsState.Tables[0], "Ftrade_state", "Ftrade_stateName", "PAY_STATE");
+                            TransferMeaning.Transfer.GetColumnValueFromDic(dsState.Tables[0], "Ftrade_state", "Ftrade_stateName", "PAY_STATE");
                             ds.Tables[0].Rows[0]["Ftrade_stateName"] = dsState.Tables[0].Rows[0]["Ftrade_stateName"].ToString();
                             if (isC2C)
                             {
@@ -652,6 +652,17 @@ namespace CFT.CSOMS.BLL.TradeModule
         #endregion
 
         /// <summary>
+        /// 判断是否存在未完成交易
+        /// </summary>
+        /// <param name="u_QQID"></param>
+        /// <param name="Fcurtype"></param>
+        /// <returns></returns>
+        public bool LogOnUsercheckOrder(string u_QQID, string Fcurtype)
+        {
+            return new TradeData().LogOnUsercheckOrder(u_QQID, Fcurtype);
+        }
+
+        /// <summary>
         /// 查询腾讯收款记录表
         /// </summary>
         public DataSet GetTCBankRollList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, bool isHistory, int istr, int imax)
@@ -694,12 +705,13 @@ namespace CFT.CSOMS.BLL.TradeModule
 
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        dr["Fcurtype_str"] = PublicService.PublicService.convertMoney_type(dr["Fcurtype"].ToString());
-                        dr["Fstate_str"] = PublicService.PublicService.convertTCState(dr["Fstate"].ToString());
-                        dr["Ftype_str"] = PublicService.PublicService.convertTradeType(dr["Ftype"].ToString());
-                        dr["Fsubject_str"] = PublicService.PublicService.convertSubject(dr["Fsubject"].ToString());
-                        dr["Fsign_str"] = PublicService.PublicService.convertTradeSign(dr["Fsign"].ToString());
-                        dr["Fbank_type_str"] = PublicService.PublicService.convertbankType(dr["Fbank_type"].ToString());
+                        dr["Fcurtype_str"] = TransferMeaning.Transfer.convertMoney_type(dr["Fcurtype"].ToString());
+                        dr["Fstate_str"] = TransferMeaning.Transfer.convertTCState(dr["Fstate"].ToString());
+                        dr["Ftype_str"] = TransferMeaning.Transfer.convertTradeType(dr["Ftype"].ToString());
+                        dr["Fsubject_str"] = TransferMeaning.Transfer.convertSubject(dr["Fsubject"].ToString());
+                        dr["Fsign_str"] = TransferMeaning.Transfer.convertTradeSign(dr["Fsign"].ToString());
+                        dr["Fbank_type_str"] = TransferMeaning.Transfer.convertbankType(dr["Fbank_type"].ToString());
+
                         dr["Fnum_str"] = MoneyTransfer.FenToYuan(dr["Fnum"].ToString());
                     }
                 }
@@ -767,10 +779,10 @@ namespace CFT.CSOMS.BLL.TradeModule
 
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        dr["Faction_type_str"] = PublicService.PublicService.convertActionType(dr["Faction_type"].ToString());
-                        dr["Fcurtype_str"] = PublicService.PublicService.convertMoney_type(dr["Fcurtype"].ToString());
-                        dr["Ftype_str"] = PublicService.PublicService.convertTradeType(dr["Ftype"].ToString());
-                        dr["Fsubject_str"] = PublicService.PublicService.convertSubject(dr["Fsubject"].ToString());
+                        dr["Faction_type_str"] = TransferMeaning.Transfer.convertActionType(dr["Faction_type"].ToString());
+                        dr["Fcurtype_str"] = TransferMeaning.Transfer.convertMoney_type(dr["Fcurtype"].ToString());
+                        dr["Ftype_str"] = TransferMeaning.Transfer.convertTradeType(dr["Ftype"].ToString());
+                        dr["Fsubject_str"] = TransferMeaning.Transfer.convertSubject(dr["Fsubject"].ToString());
                         dr["Fpaynum_str"] = MoneyTransfer.FenToYuan(dr["Fpaynum"].ToString());
                         dr["Fbalance_str"] = MoneyTransfer.FenToYuan(dr["Fbalance"].ToString());
                         if (u_type == "qqid")
@@ -848,14 +860,14 @@ namespace CFT.CSOMS.BLL.TradeModule
 
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        dr["Fstate_str"] = PublicService.PublicService.convertCurrentState(dr["Fstate"].ToString());
-                        dr["Ftype_str"] = PublicService.PublicService.convertTradeType(dr["Ftype"].ToString());
-                        dr["Fsubject_str"] = PublicService.PublicService.convertTCfSubject(dr["Fsubject"].ToString());
+                        dr["Fstate_str"] = TransferMeaning.Transfer.convertCurrentState(dr["Fstate"].ToString());
+                        dr["Ftype_str"] = TransferMeaning.Transfer.convertTradeType(dr["Ftype"].ToString());
+                        dr["Fsubject_str"] = TransferMeaning.Transfer.convertTCfSubject(dr["Fsubject"].ToString());
                         dr["Fnum_str"] = MoneyTransfer.FenToYuan(dr["Fnum"].ToString());
-                        dr["Fsign_str"] = PublicService.PublicService.convertTradeSign(dr["Fsign"].ToString());
-                        dr["Fbank_type_str"] = PublicService.PublicService.convertbankType(dr["Fbank_type"].ToString());
-                        dr["Fabank_type_str"] = PublicService.PublicService.convertbankType(dr["Fabank_type"].ToString());
-                        dr["Fcurtype_str"] = PublicService.PublicService.convertMoney_type(dr["Fcurtype"].ToString());
+                        dr["Fsign_str"] = TransferMeaning.Transfer.convertTradeSign(dr["Fsign"].ToString());
+                        dr["Fbank_type_str"] = TransferMeaning.Transfer.convertbankType(dr["Fbank_type"].ToString());
+                        dr["Fabank_type_str"] = TransferMeaning.Transfer.convertbankType(dr["Fabank_type"].ToString());
+                        dr["Fcurtype_str"] = TransferMeaning.Transfer.convertMoney_type(dr["Fcurtype"].ToString());
                     }
                 }
 
@@ -890,12 +902,12 @@ namespace CFT.CSOMS.BLL.TradeModule
 
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        dr["Fpay_type_str"] = PublicService.PublicService.cPay_type(dr["Fpay_type"].ToString());
-                        dr["Fbuy_bank_type_str"] = PublicService.PublicService.convertbankType(dr["Fbuy_bank_type"].ToString());
-                        dr["Fsale_bank_type_str"] = PublicService.PublicService.convertbankType(dr["Fsale_bank_type"].ToString());
-                        dr["Fsale_bankid_str"] = PublicService.PublicService.convertbankType(dr["Fsale_bankid"].ToString());
-                        dr["Fstate_str"] = PublicService.PublicService.cRefundState(dr["Fstate"].ToString());
-                        dr["Flstate_str"] = PublicService.PublicService.cRlistState(dr["Flstate"].ToString());
+                        dr["Fpay_type_str"] = TransferMeaning.Transfer.cPay_type(dr["Fpay_type"].ToString());
+                        dr["Fbuy_bank_type_str"] = TransferMeaning.Transfer.convertbankType(dr["Fbuy_bank_type"].ToString());
+                        dr["Fsale_bank_type_str"] = TransferMeaning.Transfer.convertbankType(dr["Fsale_bank_type"].ToString());
+                        dr["Fsale_bankid_str"] = TransferMeaning.Transfer.convertbankType(dr["Fsale_bankid"].ToString());
+                        dr["Fstate_str"] = TransferMeaning.Transfer.cRefundState(dr["Fstate"].ToString());
+                        dr["Flstate_str"] = TransferMeaning.Transfer.cRlistState(dr["Flstate"].ToString());
                         dr["Fpaybuy_str"] = MoneyTransfer.FenToYuan(dr["Fpaybuy"].ToString());
                         dr["Fpaysale_str"] = MoneyTransfer.FenToYuan(dr["Fpaysale"].ToString());
                         dr["Fprocedure_str"] = MoneyTransfer.FenToYuan(dr["Fprocedure"].ToString());

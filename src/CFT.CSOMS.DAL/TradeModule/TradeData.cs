@@ -210,6 +210,40 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
         }
 
+        /// <summary>
+        /// 判断是否存在未完成交易(用户销户判断)
+        /// </summary>
+        /// <param name="u_QQID"></param>
+        /// <param name="Fcurtype"></param>
+        /// <returns></returns>
+        public bool LogOnUsercheckOrder(string u_QQID, string Fcurtype)
+        {
+            try
+            {
+                string errMsg = "";
+                string fuid = PublicRes.ConvertToFuid(u_QQID);
+                if (fuid == null)
+                    fuid = "0";
+                string strSql = "uid=" + fuid;
+                //查询买家是否有未完成交易
+                DataTable dtbuy = CommQuery.GetTableFromICE(strSql, CommQuery.QUERY_UNFINISHTRADE_BUY, out errMsg);
+                //查询卖家是否有未完成交易
+                DataTable dtsale = CommQuery.GetTableFromICE(strSql, CommQuery.QUERY_UNFINISHTRADE_SALE, out errMsg);
+                if ((dtbuy != null && dtbuy.Rows.Count > 0) || (dtsale != null && dtsale.Rows.Count > 0))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception err)
+            {
+                throw new Exception(err.Message);
+            }     
+        }
+
         #region 交易记录查询
 
         public DataSet GetTradeList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)

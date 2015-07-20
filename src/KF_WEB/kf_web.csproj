@@ -395,6 +395,13 @@
     <Compile Include="BaseAccount\FetchListIntercept.aspx.designer.cs">
       <DependentUpon>FetchListIntercept.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\logOnUserNew.aspx.cs">
+      <DependentUpon>logOnUserNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\logOnUserNew.aspx.designer.cs">
+      <DependentUpon>logOnUserNew.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\ModifyContactInfo.aspx.cs">
       <DependentUpon>ModifyContactInfo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1773,6 +1780,13 @@
     <Compile Include="RefundManage\PaymentAbnormalQueryNotify.aspx.designer.cs">
       <DependentUpon>PaymentAbnormalQueryNotify.aspx</DependentUpon>
     </Compile>
+    <Compile Include="RemitCheck\RemitQueryNew.aspx.cs">
+      <DependentUpon>RemitQueryNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RemitCheck\RemitQueryNew.aspx.designer.cs">
+      <DependentUpon>RemitQueryNew.aspx</DependentUpon>
+    </Compile>
     <Compile Include="RemitCheck\RemitQuery.aspx.cs">
       <DependentUpon>RemitQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2520,6 +2534,13 @@
     <Compile Include="TradeManage\TranLogIncomeSum.aspx.designer.cs">
       <DependentUpon>TranLogIncomeSum.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TradeManage\UserControledFundPage.aspx.cs">
+      <DependentUpon>UserControledFundPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\UserControledFundPage.aspx.designer.cs">
+      <DependentUpon>UserControledFundPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TradeManage\UserTradeLog.aspx.cs">
       <DependentUpon>UserTradeLog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2780,6 +2801,7 @@
     <Content Include="BaseAccount\ClearCreidNew.aspx" />
     <Content Include="BaseAccount\ClearMobileNumber.aspx" />
     <Content Include="BaseAccount\FetchListIntercept.aspx" />
+    <Content Include="BaseAccount\logOnUserNew.aspx" />
     <Content Include="BaseAccount\ModifyContactInfo.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -3210,6 +3232,7 @@
     <Content Include="RefundManage\PaymentAbnormalQueryNotify.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="RemitCheck\RemitQueryNew.aspx" />
     <Content Include="RemitCheck\RemitQuery.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -3427,6 +3450,7 @@
     <Content Include="TradeManage\TranLogIncomeSum.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="TradeManage\UserControledFundPage.aspx" />
     <Content Include="TradeManage\UserTradeLog.aspx">
       <SubType>Form</SubType>
     </Content>

@@ -989,14 +989,6 @@ namespace CFT.CSOMS.Service.CSAPI
         {
             try
             {
-                //SunLibrary.LoggerFactory.Get("GetUINFromWechat").InfoFormat("appid:{0},query_type:{1},query_string:{2},token:{3}", appid, query_type, query_string, token);
-
-                ////必填参数验证格式: 参数名|参数值
-                //APIUtil.ValidateParams("appid|" + appid, "query_type|" + query_type, "query_string|" + query_string, "token|" + token);
-
-                ////token验证,参数需按照加密顺序传递
-                //APIUtil.ValidateToken(token, appid, query_type, query_string);
-
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
 
                 //必填参数验证
@@ -1011,9 +1003,6 @@ namespace CFT.CSOMS.Service.CSAPI
                 record.RetValue = infos;
                 List<Record> list = new List<Record>();
                 list.Add(record);
-                //var ret = new ResultParse<Record>().ReturnToObject(list);
-
-                //return APIUtil.ConverToXml<RetObject<Record>>(ret);
 
                 APIUtil.Print<Record>(list);
             }

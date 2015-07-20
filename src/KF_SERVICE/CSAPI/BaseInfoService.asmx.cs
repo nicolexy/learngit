@@ -1312,5 +1312,120 @@ namespace CFT.CSOMS.Service.CSAPI
      
         #endregion
 
+        #region 销户操作
+
+        /// <summary>
+        /// 销户日志
+        /// </summary>
+        [WebMethod]
+        public void GetCancelAccountLog()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "begin_time", "end_time", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+                string opera = paramsHt.ContainsKey("opera") ? paramsHt["opera"].ToString() : "";
+                DateTime begin_time = DateTime.Parse("1970-01-01 00:00:00");
+                if (paramsHt.ContainsKey("begin_time"))
+                {
+                    begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
+                }
+                DateTime end_time = DateTime.Now;
+                if (paramsHt.ContainsKey("end_time"))
+                {
+                    end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
+                }
+                int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
+                int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
+
+                //限制数据过多
+                int days= (end_time - begin_time).Days;
+                if (days > 366)
+                {
+                    end_time = begin_time.AddDays(366);
+                }
+
+                if (offset < 0)
+                {
+                    offset = 0;
+                }
+                if (limit < 0 || limit > 1000)
+                {
+                    limit = 20;
+                }
+
+                string msg="";
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetCanncelAccountLog(qqid, opera, begin_time, end_time, offset, limit, out msg);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+
+                List<BaseInfoC.CancelAccountLog> list = APIUtil.ConvertTo<BaseInfoC.CancelAccountLog>(infos.Tables[0]);
+                APIUtil.Print<BaseInfoC.CancelAccountLog>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetCancelAccountLog").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetCancelAccountLog").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 销户申请
+        /// </summary>
+    
+        public void DeleteLogonAccount()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "begin_time", "end_time", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string query_id = paramsHt.ContainsKey("query_id") ? paramsHt["query_id"].ToString() : "";
+                int query_type = paramsHt.ContainsKey("query_type") ? APIUtil.StringToInt(paramsHt["query_type"].ToString()) : 0;
+                string reason = paramsHt.ContainsKey("reason") ? paramsHt["reason"].ToString() : "";
+                bool is_Send = paramsHt.ContainsKey("send") ? APIUtil.StringToBool(paramsHt["send"].ToString()) : false;
+                string email_Addr = paramsHt.ContainsKey("email_Addr") ? paramsHt["email_Addr"].ToString() : "";
+                string opera = paramsHt.ContainsKey("opera") ? paramsHt["opera"].ToString() : "";           
+                string ret_msg = "";
+                bool ret_continue;
+
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().LogOnUserDeleteUser(query_id, query_type, reason, is_Send, email_Addr, opera, out  ret_msg,out ret_continue);
+
+                RecordNew record = new RecordNew();
+                record.RetValue = infos.ToString().ToLower();
+                record.RetMemo = ret_msg;
+                List<RecordNew> list = new List<RecordNew>();
+                list.Add(record);
+                APIUtil.Print<RecordNew>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("DeleteLogonAccount").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("DeleteLogonAccount").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        #endregion
+
     }
 }
