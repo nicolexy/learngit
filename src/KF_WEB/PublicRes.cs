@@ -133,7 +133,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 //sConnStr = String.Format(connModule, f_strDataSource_ht, f_strUserID_ht, f_strPassword_ht, f_strDatabase_ht);
                 return DbConnectionString.Instance.GetConnectionString("HT");
             }
-
+            else if (strDBType.ToUpper() == "ZW")
+            {
+                //sConnStr = String.Format(connModule, f_strDataSource_zw, f_strUserID_zw, f_strPassword_zw, f_strDatabase_zw);
+                return DbConnectionString.Instance.GetConnectionString("ZW");
+            }
             return sConnStr;//.Replace("[", "{").Replace("]", "}");
         }
 

@@ -229,7 +229,7 @@
                         </td>
                         <td style="height: 4px" bgcolor="#ffffff" colspan="2" height="4">
                             &nbsp;
-                            <asp:Label ID="CKV_WXRemainder" runat="server">10</asp:Label>
+                            <asp:Label ID="CKV_WXRemainder" runat="server"></asp:Label>
                         </td>
                         <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="4">
@@ -237,7 +237,7 @@
                         </td>
                         <td style="height: 4px" bgcolor="#ffffff" height="4">
                             &nbsp;<font face="ËÎÌו">
-                                <asp:Label ID="Label3_LeftAcc" runat="server" Width="180px">3000</asp:Label></font>
+                                <asp:Label ID="Label3_LeftAcc" runat="server" Width="180px"></asp:Label></font>
                         </td>
                     </tr>
 
@@ -255,7 +255,7 @@
                         </td>
                         <td style="height: 4px" bgcolor="#ffffff" height="4">
                              &nbsp;
-                            <asp:Label ID="Label15_Useable" runat="server" Width="180px" ForeColor="Red" Text="0"></asp:Label><font face="ËÎÌו"></font>
+                            <asp:Label ID="Label15_Useable" runat="server" Width="180px" ForeColor="Red"></asp:Label><font face="ËÎÌו"></font>
                         </td>
                     </tr>
                     
