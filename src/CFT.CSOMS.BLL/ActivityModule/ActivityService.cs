@@ -91,6 +91,7 @@ namespace CFT.CSOMS.BLL.ActivityModule
                         ds.Tables[0].Columns.Add("FPrizeTypeStr", typeof(String));//抽中等级
                         ds.Tables[0].Columns.Add("FGiveStateStr", typeof(String));//赠送状态
                         ds.Tables[0].Columns.Add("FspnameStr", typeof(String));//申购基金
+                        ds.Tables[0].Columns.Add("FActName", typeof(String));//活动名称
 
                         Hashtable ht1 = new Hashtable();
                         ht1.Add("10", "初始状态");
@@ -132,6 +133,8 @@ namespace CFT.CSOMS.BLL.ActivityModule
 
                         foreach (DataRow dr in ds.Tables[0].Rows)
                         {
+                            dr["FActName"] = GetActNameByActNo(dr["FActionId"].ToString().Trim());
+
                             //通过uin，actid查中奖信息
                             DataSet ds2 = new ActivityData().QueryLCTPrize(dr["FPayUin"].ToString(), dr["FActionId"].ToString());
                             if (ds2 != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0)
@@ -472,6 +475,23 @@ namespace CFT.CSOMS.BLL.ActivityModule
         public DataSet QueryHandQActivity(string strListID, string strBegingTime, string strEndTime, int nStart, int nCount)
         {
             return new ActivityData().QueryHandQActivity(strListID, strBegingTime, strEndTime, nStart,nCount);
+        }
+
+        /// <summary>
+        /// 获取活动号对应的活动名称
+        /// 主要用于理财通活动查询功能使用
+        /// </summary>
+        /// <param name="act_no"></param>
+        /// <returns></returns>
+        public string GetActNameByActNo(string act_no)
+        {
+            DataTable dt = new ActivityService().QueryActivityList(act_no, "", 0, 1);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                return dt.Rows[0]["Fact_name"].ToString().Trim();
+            }
+            else
+                return "未知" + act_no;
         }
     }
 }

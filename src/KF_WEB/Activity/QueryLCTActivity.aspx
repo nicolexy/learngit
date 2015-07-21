@@ -146,6 +146,7 @@
             </tr>
             <tr bgcolor="#e4e5f7">
                 <td style="height: 25px;">活动号</td>
+                <td style="height: 25px;">活动名称</td>
                 <td style="height: 25px;">申购单号</td>
                 <td>赠送状态</td>
                 <td>批次号</td>
@@ -165,6 +166,8 @@
             <tr>
                 <td>
                     <asp:Label ID="lb_ActId" runat="server"></asp:Label></td>
+                 <td>
+                    <asp:Label ID="lb_ActName" runat="server"></asp:Label></td>
                 <td>
                     <asp:Label ID="lb_TransId" runat="server"></asp:Label></td>
                 <td>

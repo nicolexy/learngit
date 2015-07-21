@@ -17,6 +17,16 @@ namespace CFT.CSOMS.BLL.Tests
         }
 
         [TestMethod]
+        public void Testa()
+        {
+            decimal ALLFinance = 100.00m;
+            long b = 10011;
+            bool index = false;
+            if (ALLFinance > (decimal)b / 100)
+                index = true ;
+        }
+
+        [TestMethod]
         public void TestBatchFinishAppeal()
         {
             //验证初始状态
