@@ -118,7 +118,7 @@
 								<asp:ListItem Value="0">未定义</asp:ListItem>
 								<asp:ListItem Value="1">预期绑定状态</asp:ListItem>
 								<asp:ListItem Value="2">绑定确认</asp:ListItem>
-								<asp:ListItem Value="3">解除绑定</asp:ListItem>
+								<asp:ListItem Value="4">解除绑定</asp:ListItem>
 							</asp:DropDownList></TD>
 						<TD colSpan="2" align="center">
 							<asp:button id="btnSearch" runat="server" Width="80px" Text="查 询" onclick="btnSearch_Click"></asp:button></TD>
@@ -172,7 +172,7 @@
 									<asp:BoundColumn DataField="Fuin" HeaderText="财付通账号">
 										<HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
 									</asp:BoundColumn>
-									<asp:BoundColumn DataField="Fbank_typeStr" HeaderText="银行类型">
+									<asp:BoundColumn DataField="Fbank_type" HeaderText="银行类型">
 										<HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
 									</asp:BoundColumn>
                                     <asp:BoundColumn DataField="Fxyzf_typeStr" HeaderText="微信信用卡">
