@@ -30,6 +30,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             // 在此处放置用户代码以初始化页面
             try
             {
+                pager.PageSize = 10;
                 Label1.Text = Session["uid"].ToString();
 
                 string szkey = Session["SzKey"].ToString();

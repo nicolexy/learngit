@@ -126,17 +126,18 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// 微信买家纬度用户订单查询
         /// </summary>
         /// <returns></returns>
-        public DataSet QueryWxBuyOrderByUid(int uid, DateTime startTime, DateTime endTime)
+        public DataSet QueryWxBuyOrderByUid(int uid, DateTime startTime, DateTime endTime, int offset = 0, int limit = 10)
         {
             //ver=1&head_u=&sp_id=2000000501&request_type=100878&uid=123456&s_time=2015-01-01&e_time=2015-03-01&offset=0&limit=10&icard_flag=0
             //uid= 334073577
             //085e9858e1170937ca232fcb7@wx.tenpay.com
             //Fstate 已经返回了，名称是Ftrade_state，其他字段都已加了
+            if (offset % limit == 1) offset -= 1;
             string reqString = "uid=" + uid.ToString();
             reqString += "&s_time=" + startTime.ToString("yyyy-MM-dd 00:00:00");
             reqString += "&e_time=" + endTime.ToString("yyyy-MM-dd 23:59:59");
-            reqString += "&offset=0";
-            reqString += "&limit=10";
+            reqString += "&offset=" + offset;
+            reqString += "&limit=" + limit;
             reqString += "&icard_flag=0";
             reqString += "&MSG_NO=100878" + DateTime.Now.Ticks.ToString();
 
@@ -144,9 +145,9 @@ namespace CFT.CSOMS.DAL.TradeModule
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["WX_Order_RelayPort"].ToString());
             DataSet ds = RelayAccessFactory.GetDSFromRelayRowNumStartWithZero(reqString, "100878", serverIp, serverPort, false, false, "utf-8");
 
-            if (ds != null && ds.Tables.Count > 0) 
+            if (ds != null && ds.Tables.Count > 0)
             {
-                if (!ds.Tables[0].Columns.Contains("Fbank_listid")) 
+                if (!ds.Tables[0].Columns.Contains("Fbank_listid"))
                 {
                     ds.Tables[0].Columns.Add("Fbank_listid", typeof(System.String));
                 }
@@ -188,7 +189,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                 if (!ds.Tables[0].Columns.Contains("total"))
                 {
                     ds.Tables[0].Columns.Add("total", typeof(System.String));
-                    foreach (DataRow item in ds.Tables[0].Rows) 
+                    foreach (DataRow item in ds.Tables[0].Rows)
                     {
                         item["total"] = "10000";
                     }
@@ -823,6 +824,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         public DataSet GetListidFromUserOrder(string qqid, string uid, int start, int max)
         {
             //ver=1&head_u=&sp_id=2000000501&request_type=4613&reqid=2213&flag=2&fields=buy_uid:298686752&offset=0&limit=1&msgno=10002
+            if (start % max == 1) start -= 1;
             string fuid = "";
             if (!string.IsNullOrEmpty(qqid.Trim()))
                 fuid = PublicRes.ConvertToFuid(qqid);
@@ -849,6 +851,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             //ver=1&head_u=&sp_id=2000000501&request_type=4613&reqid=2212&flag=2&fields=buy_uid:298686752&offset=0&limit=1&msgno=10002
             try
             {
+                if (start % max == 1) start -= 1;
                 if (u_QueryType != "FlistID" || queryvalue.Trim() == "")
                 {
                     string fuid = "";
@@ -893,7 +896,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                     {
                         try
                         {
-                            dsForWX = QueryWxBuyOrderByUid(int.Parse(buyqqInnerID.Trim()), u_BeginTime, u_EndTime);//微信买家纬度订单
+                            dsForWX = QueryWxBuyOrderByUid(int.Parse(buyqqInnerID.Trim()), u_BeginTime, u_EndTime, start, max);//微信买家纬度订单
                             //添加将微信订单数据
                             ds = PublicRes.ToOneDataset(ds, dsForWX);
                         }
@@ -926,6 +929,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// </summary>
         public DataSet GetManJianUsingList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, string banktype, int istr, int imax)
         {
+            if (istr % imax == 1) istr -= 1;
             string fuid = PublicRes.ConvertToFuid(u_ID);
 
             string fields = "buy_uid:" + fuid;
@@ -952,15 +956,18 @@ namespace CFT.CSOMS.DAL.TradeModule
             //#if DEBUG
             //           fuid = strID;
             //#endif
+            //经常分页从1开始
+            if (istr % imax == 1) istr -= 1;
+
             if (iIDType == 0)  //根据QQ号码查买家交易单
             {
                 string fields = "buy_uid:" + fuid +
                          "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
                         "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
-                ds = QueryUserOrder("2216", fields, istr - 1, imax);
+                ds = QueryUserOrder("2216", fields, istr, imax);
                 try
                 {
-                    DataSet dsForWX = QueryWxBuyOrderByUid(int.Parse(fuid.Trim()), dtBegin, dtEnd);//微信买家纬度订单
+                    DataSet dsForWX = QueryWxBuyOrderByUid(int.Parse(fuid.Trim()), dtBegin, dtEnd, istr, imax);//微信买家纬度订单
                     //添加将微信订单数据
                     ds = PublicRes.ToOneDataset(ds, dsForWX);
                 }
@@ -974,14 +981,14 @@ namespace CFT.CSOMS.DAL.TradeModule
                 string fields = "sale_uid:" + fuid +
                          "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
                         "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
-                ds = QueryUserOrder("2217", fields, (istr - 1), imax);
+                ds = QueryUserOrder("2217", fields, (istr), imax);
             }
             else if (iIDType == 10) // 2012/5/29 新添加根据QQ号查询中介交易
             {
                 string fields = "sale_uid:" + fuid +
                          "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
                         "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
-                ds = QueryUserOrder("2218", fields, (istr - 1), imax);
+                ds = QueryUserOrder("2218", fields, (istr), imax);
             }
             else if (iIDType == 13)  //yinhuang 小额刷卡交易查询
             {
@@ -1000,6 +1007,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         public DataSet MediListQueryClass(string u_ID, string Fcode, string strBeginTime, string strEndTime, string u_UserFilter
             , string u_OrderBy, int limStart, int limCount)
         {
+            if (limStart % limCount == 1) limStart -= 1;
             if (u_ID != null && u_ID.Trim() != "")
             {
                 string strSql = "spid=" + u_ID;
@@ -1069,6 +1077,31 @@ namespace CFT.CSOMS.DAL.TradeModule
             {
                 errMsg = ex.Message;
                 return null;
+            }
+        }
+
+        public DataSet GetBankRollList(string u_QQID, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax, ref string ref_param)
+        {
+            try
+            {
+                var serverIp = System.Configuration.ConfigurationManager.AppSettings["BankRollQueryIP"].ToString();
+                var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["BankRollQueryPort"].ToString());
+                string fuid = PublicRes.ConvertToFuid(u_QQID);
+                if (istr % imax == 1) istr -= 1;
+
+                string requestText = "s_time=" + ICEAccess.ICEEncode(u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                requestText += "&e_time=" + ICEAccess.ICEEncode(u_EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                requestText += "&uid=" + fuid;
+                requestText += "&offset=" + istr;
+                requestText += "&limit=" + imax;
+                requestText += "&ref_param=" + ref_param;
+                string answer = RelayAccessFactory.RelayInvoke(requestText, "101215", false, false, serverIp, serverPort, "");
+                DataSet ds = CommQuery.ParseRelayPageRowNum2(answer, out ref_param);
+                return ds;
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
     }

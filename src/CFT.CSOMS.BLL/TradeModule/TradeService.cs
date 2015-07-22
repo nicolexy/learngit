@@ -1112,5 +1112,9 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             return (new TradeData()).QueryBusCardPrepaid(beginDate, endDate, PageSize, uin, listid, cardid, out errMsg);
         }
+        public DataSet GetBankRollList(string u_QQID, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax, ref  string ref_param)
+        {
+            return (new TradeData()).GetBankRollList(u_QQID, u_BeginTime, u_EndTime, istr, imax, ref  ref_param);
+        }
     }
 }

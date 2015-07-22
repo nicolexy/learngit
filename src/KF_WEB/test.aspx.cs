@@ -36,12 +36,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
+            //string ref_param = ViewState["ref_param"] == null ? "" : ViewState["ref_param"].ToString();
+            //DataSet ds = new TradeService().GetBankRollList("272906037", DateTime.Now.AddDays(-1000), DateTime.Now, 0, 10, ref ref_param);
+            //ViewState["ref_param"] = ref_param;
+
             //DataSet d1 = new TradeService().GetListidFromUserOrder("", "298686752", 0, 1);
             //DataSet d2 = new TradeService().GetQueryList(Convert.ToDateTime("2010-1-1"), Convert.ToDateTime("2015-5-10"), "", "", "298686752", "", "coding", "1", 2, 99, 0, 15);
             //DataSet d3 = new TradeService().GetQueryList(Convert.ToDateTime("2010-1-1"), Convert.ToDateTime("2015-5-10"), "", "", "", "298731022", "", "", 0, 99, 0, 15);
 
             //DataSet  d4 = new TradeService().GetManJianUsingList("298686752", 0, Convert.ToDateTime("2010-1-1"), Convert.ToDateTime("2015-5-10"), "", 0, 15);
-            //DataSet d5 = new TradeService().Q_PAY_LIST("298686752", 0, Convert.ToDateTime("2010-1-1"), Convert.ToDateTime("2015-5-10"), 0, 15);
+           // DataSet d5 = new TradeService().Q_PAY_LIST("298686752", 0, Convert.ToDateTime("2010-1-1"), Convert.ToDateTime("2015-5-10"), 0, 15);
             //DataSet d6 = new TradeService().Q_PAY_LIST("298686752", 9, Convert.ToDateTime("2010-1-1"), Convert.ToDateTime("2015-5-10"), 0, 15);
             //DataSet d7 = new TradeService().Q_PAY_LIST("298731022", 10, Convert.ToDateTime("2010-1-1"), Convert.ToDateTime("2015-5-10"), 0, 15);
             //DataSet d8 = new TradeService().Q_PAY_LIST("301778752", 13, Convert.ToDateTime("2010-1-1"), Convert.ToDateTime("2015-5-10"), 0, 15); 

@@ -175,7 +175,9 @@
 			<TABLE cellSpacing="1" cellPadding="0" width="80%" align="center" border="0">
 				<TR>
 					<TD background="../IMAGES/Page/bg_bl.gif" bgColor="#e4e5f7" colSpan="3"><IMG height="16" src="../IMAGES/Page/post.gif" width="20">
-						<asp:label id="Label3" runat="server" ForeColor="red">用户资金流水</asp:label></TD>
+						<asp:label id="Label3" runat="server" ForeColor="red">用户资金流水</asp:label>
+                        &nbsp;<asp:LinkButton runat="server" ID="lbtnQueryOld" OnClick="lbtnQueryOld_Click">新版</asp:LinkButton>
+					</TD>
 				</TR>
 				<tr>
 					<td><iframe id=iframe0 name=iframe0 marginWidth=0 marginHeight=230 src="<%=iFramePath%>" frameBorder=0 width="100%" height=50></iframe>

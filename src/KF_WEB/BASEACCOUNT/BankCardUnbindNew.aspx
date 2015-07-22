@@ -192,7 +192,7 @@
 									</asp:BoundColumn>
 									<asp:TemplateColumn HeaderText="ÏêÏ¸">
 										<ItemTemplate>
-											<a href='./BankCardUnbindNew.aspx?type=edit&Findex=<%# DataBinder.Eval(Container, "DataItem.Findex")%>&Fuid=<%# DataBinder.Eval(Container, "DataItem.Fuid")%>'>
+											<a href='./BankCardUnbindNew.aspx?type=edit&Findex=<%# DataBinder.Eval(Container, "DataItem.Findex")%>&Fuid=<%# DataBinder.Eval(Container, "DataItem.Fuid")%>&Fbind_serialno=<%# DataBinder.Eval(Container, "DataItem.Fbind_serialno")%>'>
 												ÏêÏ¸</a>
 										</ItemTemplate>
 									</asp:TemplateColumn>
