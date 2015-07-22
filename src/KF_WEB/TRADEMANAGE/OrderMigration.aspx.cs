@@ -197,27 +197,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             msg="";
             try
             {
-               Check_WebService.Param[] parameters = new Check_WebService.Param[1];
-                parameters[0] = new Check_WebService.Param();
+                //调账务系统接口
+                ZWCheck_Service.Check_Service checkService = new ZWCheck_Service.Check_Service();
+                ZWCheck_Service.Param[] parameters = new ZWCheck_Service.Param[1];
+                parameters[0] = new ZWCheck_Service.Param();
                 parameters[0].ParamName = "MsgId";
                 parameters[0].ParamValue = commLib.GenID.GenOrderMigrationMSGId(orderId);
-
-                PublicRes.CreateCheckService(this).StartCheck(orderId, "OrderMigration", "订单迁移申请", "0", parameters);
-
-                //调账务系统接口
-                //ZWCheck_Service.Check_Service checkService = new ZWCheck_Service.Check_Service();
-                //ZWCheck_Service.Param[] parameters = new ZWCheck_Service.Param[1];
-                //parameters[0] = new ZWCheck_Service.Param();
-                //parameters[0].ParamName = "MsgId";
-                //parameters[0].ParamValue = commLib.GenID.GenOrderMigrationMSGId(orderId);
-                //checkService.Finance_HeaderValue = SetWebServiceHeader(this);
-                //checkService.StartCheck(orderId, "OrderMigration", "订单迁移申请", "0", parameters);
+                checkService.Finance_HeaderValue = SetWebServiceHeader(this);
+                checkService.StartCheck(orderId, "OrderMigration", "订单迁移申请", "0", parameters);
                
                 return true;
             }
             catch(Exception ex)
             {
-                msg+=ex.Message;
+                msg+=PublicRes.GetErrorMsg(ex.Message);
                 return false;
             }
 

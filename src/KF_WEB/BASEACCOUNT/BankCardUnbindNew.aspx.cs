@@ -696,12 +696,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 else
                 {
                     DataTable dt = ds.Tables[0];
-                    dt.Columns.Add("Fbank_typeStr", typeof(string));
+                    //dt.Columns.Add("Fbank_typeStr", typeof(string));
                     dt.Columns.Add("Fbank_statusStr", typeof(string));
 
                     foreach (DataRow dr in dt.Rows)
                     {
-                        dr["Fbank_typeStr"] = classLibrary.getData.GetBankNameFromBankCode(dr["Fbank_type"].ToString());
+                        //dr["Fbank_typeStr"] = classLibrary.getData.GetBankNameFromBankCode(dr["Fbank_type"].ToString());
 
                         if (dr["Fbank_status"].ToString() == "0")
                             dr["Fbank_statusStr"] = "Œ¥∂®“Â";

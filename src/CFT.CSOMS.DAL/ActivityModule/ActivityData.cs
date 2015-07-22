@@ -293,7 +293,7 @@ namespace CFT.CSOMS.DAL.ActivityModule
             {
                 throw new ArgumentNullException("必填参数：单号为空！");
             }
-            string qrySql = "select Fact_id from c2c_fmdb.t_activity_kf where Fact_id='" + actNo + "'";
+            string qrySql = "select Fact_id from c2c_fmdb.t_activity_kf where Fact_id='" + actNo + "' and Fstate=2 ";
             using (var da = MySQLAccessFactory.GetMySQLAccess("RefundRegister"))
             {
                 da.OpenConn();
@@ -320,7 +320,7 @@ namespace CFT.CSOMS.DAL.ActivityModule
         public void DelLctActivity(int fid)
         {
 
-            string qrySql = "select Fact_id from c2c_fmdb.t_activity_kf where Fid=" + fid;
+            string qrySql = "select Fact_id from c2c_fmdb.t_activity_kf where Fid=" + fid + " and Fstate=2 ";
             using (var da = MySQLAccessFactory.GetMySQLAccess("RefundRegister"))
             {
                 da.OpenConn();
@@ -332,7 +332,7 @@ namespace CFT.CSOMS.DAL.ActivityModule
                 }
             }
 
-            string sql = string.Format("update c2c_fmdb.t_activity_kf set Fstate=4, Fmodify_time=now() where Fid={0}", fid);
+            string sql = string.Format("update c2c_fmdb.t_activity_kf set Fstate=4, Fmodify_time=now() where Fid={0} ", fid);
 
             using (var da = MySQLAccessFactory.GetMySQLAccess("RefundRegister"))
             {

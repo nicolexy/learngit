@@ -133,7 +133,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 //sConnStr = String.Format(connModule, f_strDataSource_ht, f_strUserID_ht, f_strPassword_ht, f_strDatabase_ht);
                 return DbConnectionString.Instance.GetConnectionString("HT");
             }
-
+            else if (strDBType.ToUpper() == "ZW")
+            {
+                //sConnStr = String.Format(connModule, f_strDataSource_zw, f_strUserID_zw, f_strPassword_zw, f_strDatabase_zw);
+                return DbConnectionString.Instance.GetConnectionString("ZW");
+            }
             return sConnStr;//.Replace("[", "{").Replace("]", "}");
         }
 
@@ -509,7 +513,29 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             objConn.Close();
             if (ds.Tables[tableName].Rows.Count > 0)
             {
-                ds.Tables[tableName].Rows.Remove(ds.Tables[tableName].Rows[0]);
+                int rows=ds.Tables[tableName].Rows.Count;
+                int colss=ds.Tables[tableName].Columns.Count;
+
+                //È¥µô¿ÕÐÐ
+                for (int i = rows-1; i>=0; i--)
+                {
+                    bool mark = true;
+                    for (int j = 0; j < colss; j++)
+                    {
+                        if (ds.Tables[tableName].Rows[i][j].ToString().Trim() != "")
+                        {
+                            mark = false;
+                            break;
+                        }
+                    }
+                    if (mark)
+                    {
+                        ds.Tables[tableName].Rows.Remove(ds.Tables[tableName].Rows[i]);
+                    }
+                }
+
+                    ds.Tables[tableName].Rows.Remove(ds.Tables[tableName].Rows[0]);
+                    ds.AcceptChanges();
             }
 
             ExcelTable = ds.Tables[tableName];

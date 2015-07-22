@@ -49,8 +49,8 @@
                                 
             </td>
             <td width="25%">
-            理财通余额：
-               <asp:Label ID="lblBalance" runat="server"></asp:Label>
+            理财通总资产：
+               <asp:Label ID="lblALLFinance" runat="server"></asp:Label>
             </td>
         </tr>
           <tr bgcolor="#ffffff">

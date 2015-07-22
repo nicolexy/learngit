@@ -117,7 +117,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Activity
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" +  PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
         }
 
@@ -187,11 +187,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Activity
 
         private void GetDetail(int rid)
         {
+            try{
             clearDT();
             DataTable g_dt = (DataTable)ViewState["g_dt"];
             if (g_dt != null && g_dt.Rows.Count > 0)
             {
                 lb_ActId.Text = g_dt.Rows[rid]["FActionId"].ToString();//活动号
+                lb_ActName.Text = g_dt.Rows[rid]["FActName"].ToString();//活动名称
                 lb_TransId.Text = g_dt.Rows[rid]["FPriTransId"].ToString();//申购单号
                 lb_State.Text = g_dt.Rows[rid]["FGiveStateStr"].ToString();//赠送状态
                 lb_BatchId.Text = g_dt.Rows[rid]["FPrizeDesc"].ToString();//批次号
@@ -217,7 +219,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Activity
                 lb_FActType.Text = g_dt.Rows[rid]["FActTypeStr"].ToString();//活动分类
                 lb_FPrizeType.Text = g_dt.Rows[rid]["FPrizeTypeStr"].ToString();//奖品类型
                 lb_FPrizeName.Text = g_dt.Rows[rid]["FPrizeName"].ToString();//奖品名称
+                }
             }
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" +  PublicRes.GetErrorMsg(eSys.Message.ToString()));
+            }
+       
         }
 
         private void clearDT()

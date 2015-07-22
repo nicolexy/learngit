@@ -94,13 +94,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton WeChatCft;
         
         /// <summary>
-        /// lblBalance control.
+        /// lblALLFinance control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblBalance;
+        protected global::System.Web.UI.WebControls.Label lblALLFinance;
         
         /// <summary>
         /// ddl_companyName control.

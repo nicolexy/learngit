@@ -20,7 +20,7 @@ using CFT.CSOMS.BLL.FundModule;
 using System.Configuration;
 using CFT.CSOMS.COMMLIB;
 using CFT.CSOMS.BLL.FundModule;
-
+using CFT.CSOMS.BLL.CFTAccountModule;
 namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
     using System.Configuration;
@@ -85,11 +85,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
                 if (!ClassLib.ValidateRight("BalanceControl", this))
                 {
-                    lblBalance.Text = "";
+                    lblALLFinance.Text = "";
                 }
                 else 
                 {
-                    BindBasicAccountInfo(qqId);
+                    lblALLFinance.Text = BindALLFinance(qqId);
                 }
                 
 
@@ -233,32 +233,39 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
         }
 
-        //private void BindBasicAccountInfo(string qqId)
-        //{
-        //    //查子账户余额
-        //    DataSet ds_b = queryService.GetChildrenInfo(qqId, "90");
-        //    if (ds_b == null || ds_b.Tables.Count < 1 || ds_b.Tables[0].Rows.Count < 1)
-        //    {
-        //        this.lblBalance.Text = "0";
-        //    }
-        //    else
-        //    {
-        //        string s_balance = PublicRes.objectToString(ds_b.Tables[0], "Fbalance");
-        //        long l_balance = 0;
-        //        if (s_balance != "")
-        //        {
-        //            l_balance = long.Parse(s_balance);
-        //        }
-        //        this.lblBalance.Text = classLibrary.setConfig.FenToYuan(l_balance);
-        //    }
-        //}
-
-        private void BindBasicAccountInfo(string qqId)
+        private string BindALLFinance(string qqId)
         {
-            //统计收益总和，和余额总和
-            long totalBalance = 0;
-            totalBalance = new FundService().GetUserFundTotal(qqId);
-            lblBalance.Text = classLibrary.setConfig.FenToYuan(totalBalance);
+            string LCTBalance = "0.00";
+            decimal markValue = 0;
+            try//理财通余额查询
+            {
+                DataTable subAccountInfoTable = new AccountService().QuerySubAccountInfo(ViewState["uin"].ToString(), 89);//理财通余额，币种89
+
+                if (subAccountInfoTable == null || subAccountInfoTable.Rows.Count < 1)
+                {
+                    LCTBalance = "0.00";
+                }
+                else
+                {
+                    LCTBalance = MoneyTransfer.FenToYuan((subAccountInfoTable.Rows[0]["Fbalance"].ToString()));//分转元
+                }
+            }
+            catch (Exception eSys)
+            {
+                throw new Exception("查询理财通余额失败！" + eSys.Message.ToString());
+            }
+
+            try//市值查询
+            {
+                //总市值
+                markValue = new FundService().GetUserFundMarkValue(qqId);
+            }
+            catch (Exception eSys)
+            {
+                throw new Exception("查询理基金市值失败！" + eSys.Message.ToString());
+            }
+
+            return  (decimal.Parse(LCTBalance.ToString().Trim()) + markValue).ToString();
         }
 
         private void BindFundTradeList(string qqId, string spId,int pageIndex, int pageSize = 5)
@@ -389,37 +396,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         {
             var checkResult = new List<string>();
 
-            //理财通余额小于5万
-            //查子账户余额
-            //DataSet ds_b = queryService.GetChildrenInfo(newCardInfo.uin, "90");
-            //if (ds_b != null && ds_b.Tables.Count > 0 && ds_b.Tables[0].Rows.Count > 0)
-            //{
-            //    string s_balance = PublicRes.objectToString(ds_b.Tables[0], "Fbalance");
-            //    long l_balance = 0;
-            //    if (s_balance != "")
-            //    {
-            //        l_balance = long.Parse(s_balance);
-            //    }
-            //    if (l_balance >= 5000000)
-            //    {
-            //        checkResult.Add("理财通余额大于5万");
-            //        return checkResult;
-            //    }
-            //}
-            //else
-            //{
-            //    checkResult.Add("查询理财通余额异常");
-            //    return checkResult;
-            //}
-
             //配置到文件
-            long totalBalanceStandard = long.Parse(System.Configuration.ConfigurationManager.AppSettings["SafeCardBS"].ToString());
-            long totalBalance = 0;
-            totalBalance = new FundService().GetUserFundTotal(newCardInfo.uin);
+            decimal totalBalanceStandard = decimal.Parse(System.Configuration.ConfigurationManager.AppSettings["SafeCardBS"].ToString());
+            decimal ALLFinance = 0;
+            ALLFinance = decimal.Parse(BindALLFinance(newCardInfo.uin));
             //if (totalBalance >= 5000000)
-            if (totalBalance >= totalBalanceStandard)
+            if (ALLFinance >= totalBalanceStandard/100)
             {
-                checkResult.Add("理财通余额大于" + totalBalanceStandard/100);
+                checkResult.Add("理财通总资产大于" + totalBalanceStandard/100);
                 return checkResult;
             }
 
@@ -471,7 +455,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                     }
                 }
 
-                if (totalBalance >= 1000000)//lxl 20140729加
+                if (ALLFinance >= 1000000)//lxl 20140729加
                 {
                     //新旧银行卡是同一个银行的
                     if (PublicRes.objectToString(safeCardInfo, "Fbank_type") != newCardInfo.bankType)

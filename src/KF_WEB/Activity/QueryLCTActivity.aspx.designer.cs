@@ -175,6 +175,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Activity {
         protected global::System.Web.UI.WebControls.Label lb_ActId;
         
         /// <summary>
+        /// lb_ActName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_ActName;
+        
+        /// <summary>
         /// lb_TransId control.
         /// </summary>
         /// <remarks>

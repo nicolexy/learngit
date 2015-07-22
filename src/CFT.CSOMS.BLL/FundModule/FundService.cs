@@ -279,13 +279,13 @@ namespace CFT.CSOMS.BLL.FundModule
                 return balanceStr;
         }
 
-        /// 获取用户的总余额
+        /// 获取用户的总份额
         public long GetUserFundTotal(string uin)
         {
-            //总帐户余额
+            //总帐户份额
             var summaryTable = GetUserFundSummary(uin);
 
-            //统计余额总和
+            //统计份额总和
             long totalBalance = 0;
             if (summaryTable != null && summaryTable.Rows.Count > 0)
             foreach (DataRow item in summaryTable.Rows)
@@ -293,6 +293,22 @@ namespace CFT.CSOMS.BLL.FundModule
                 totalBalance += long.Parse(item["balance"].ToString());
             }
             return totalBalance;
+        }
+
+        /// 获取用户的总市值
+        public decimal GetUserFundMarkValue(string uin)
+        {
+            //总帐户总市值
+            var summaryTable = GetUserFundSummary(uin);
+
+            //统计市值总和
+            decimal totalMarkValue = 0;
+            if (summaryTable != null && summaryTable.Rows.Count > 0)
+                foreach (DataRow item in summaryTable.Rows)
+                {
+                    totalMarkValue += decimal.Parse(item["markValue"].ToString());
+                }
+            return totalMarkValue;
         }
 
         public bool IfAnewBoughtFund(string listid, string time)

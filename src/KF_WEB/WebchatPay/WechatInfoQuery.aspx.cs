@@ -154,7 +154,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             {
                 //使用微信查询
                 isWechat = true;
-                ds = myService.GetUserAccountFromWechat(Session["QQID"].ToString(), istr, imax); 
+              //  ds = myService.GetUserAccountFromWechat(Session["QQID"].ToString(), istr, imax);
+                ds = myService.GetUserAccount(Session["QQID"].ToString(),1, istr, imax);
             }
             else { 
               //使用账号查询
@@ -896,8 +897,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 WebUtils.ShowMessage(this.Page, "CKV查询出错");
                 return;
             }
-            CKV_freeze.Text = dic["balance"];
-            CKV_WXRemainder.Text = dic["con"];
+            CKV_WXRemainder.Text =classLibrary.setConfig.FenToYuan(dic["balance"]);
+            CKV_freeze.Text = classLibrary.setConfig.FenToYuan(dic["con"]);
         }
 
         private int GetUserClassInfo(string qqid, out string msg)

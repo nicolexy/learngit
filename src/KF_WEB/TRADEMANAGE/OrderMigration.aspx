@@ -45,8 +45,11 @@
                     </td>
               </tr>
              <TR>
-                    <TD><asp:label id="Label10" runat="server">批量订单：</asp:label>&nbsp;<asp:FileUpload id="File1" runat="server" /></TD>
-                    <TD Width="30%"><asp:button id="Button2" runat="server" Visible="true" Width="80px" Text="批量查询" onclick="btnBatch_Click"></asp:button> 
+                    <TD><asp:label id="Label10" runat="server">批量订单：</asp:label>&nbsp;<asp:FileUpload id="File1" runat="server" />
+                        &nbsp; &nbsp; &nbsp; &nbsp;
+                        <asp:HyperLink ID="DownloadTemplate" runat="server" NavigateUrl="/Template/Excel/OrderMigrationTemplate.xls">下载模版</asp:HyperLink>
+                    </TD>
+                    <TD Width="30%"><asp:button id="Button2" runat="server" Visible="true" Width="80px" Text="批量迁移" onclick="btnBatch_Click"></asp:button> 
                     </td>
               </TR>
                 <tr>
