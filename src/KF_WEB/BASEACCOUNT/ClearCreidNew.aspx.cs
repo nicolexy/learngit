@@ -76,8 +76,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 if (string.IsNullOrEmpty(creid))
                     throw new Exception("请输入证件号码");
-                if (creid.Length != 18)
-                    throw new Exception("请输入合法的证件号码");
             }
             catch (Exception ex)
             {
