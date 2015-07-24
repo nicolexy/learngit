@@ -50,7 +50,11 @@
                      <asp:Button ID="Intercept" Text="拦截置失效" runat="server" Width="80px" OnClick="btnIntercept_Click" />
                 </td>
             </tr>
-
+             <tr>
+                <td align="left" colspan="2">
+                    <font color="red">注：仅适用于“等待付款”的提现单进行拦截。提交后，次日在提现记录查询中查看提现状态和退票原因。</font>
+                     </td>
+            </tr>
             <tr>
                 <td colspan="2">
                     <asp:DataGrid ID="DataGrid1" runat="server" BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px" BackColor="White"
