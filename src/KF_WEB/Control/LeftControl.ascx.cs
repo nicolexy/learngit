@@ -29,7 +29,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
         protected BankBillManageControl BankBillManage1;
         protected FastPayControl FastPay1;
         protected FundAccountManageControl FundAccountManage1;
-        protected MediumTradeManageControl MediumTradeManage1;
         protected LifeFeeDetailControl LifeFeeDetailManage1;
         protected MicroPay MicroPay1;
         protected NameAuthenedControl NameAuthened1;
@@ -89,7 +88,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                     BankBillManage1.Visible = true;
                     FastPay1.Visible = true;
                     FundAccountManage1.Visible = true;
-                    MediumTradeManage1.Visible = true;
                     LifeFeeDetailManage1.Visible = true;
                     MicroPay1.Visible = true;
                     ForeignCurrencyPay1.Visible = true;

@@ -1928,7 +1928,33 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string fuid = PublicRes.ConvertToFuid(u_QQID);
                 string strReq = "uid=" + fuid;
                 sign = 1;
-                return CommQuery.GetDataSetFromICE(strReq, CommQuery.QUERY_USERINFO, out errMsg);
+                var task= System.Threading.Tasks.Task<DataTable>.Factory.StartNew(() =>
+                {
+                    //使用新线程查询另一个接口   加速页面响应
+                    using (ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort))
+                    {
+                        ice.OpenConn();
+                        string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&") + ICEAccess.URLEncode("fcurtype=" + 1 + "&");  
+                        string strResp = "";
+                        return ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
+                    }  
+                });
+                var ds=CommQuery.GetDataSetFromICE(strReq, CommQuery.QUERY_USERINFO, out errMsg);
+                DataTable dt1 = task.Result;
+                if (ds != null && ds.Tables.Count > 0 && dt1!=null)
+                {
+                    var dt = ds.Tables[0];
+                    if (dt.Rows.Count > 0 && dt1.Rows.Count > 0)
+                    {
+                        dt.Columns.Add("Fbalance"); 
+                        dt.Columns.Add("Fcon");
+                        var row = dt.Rows[0];
+                        var row1 = dt1.Rows[0];
+                        row["Fbalance"] = row1["Fbalance"];
+                        row["Fcon"] = row1["Fcon"];
+                    }
+                }
+                return ds;
             }
             catch (Exception e)
             {

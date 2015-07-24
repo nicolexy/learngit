@@ -90,7 +90,6 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
                   <td >
                         <uc1:TradeManage id="tradeManage1" runat="server"></uc1:TradeManage> <!--交易查询-->
 			            <uc1:LifeFeeDetailManage id="LifeFeeDetailManage1" runat="Server"></uc1:LifeFeeDetailManage><!--生活缴费-->
-                        <uc1:MediumTradeManage id="MediumTradeManage1" runat="server"></uc1:MediumTradeManage><!--中介交易-->
                         <uc1:InternetBank ID="InternetBank" runat="server" /><!--网银查询-->
                   </td>
                 </tr>
