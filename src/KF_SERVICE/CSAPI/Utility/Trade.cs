@@ -14,6 +14,20 @@ namespace CFT.CSOMS.Service.CSAPI.Trade
 
         }
 
+        public class TransferDic
+        {
+            [XmlElement("no")]
+            public string Fno { get; set; }
+            [XmlElement("type")]
+            public string FType { get; set; }
+            [XmlElement("value")]
+            public string Fvalue { get; set; }
+            [XmlElement("memo")]
+            public string Fmemo { get; set; }
+            [XmlElement("symbol")]
+            public string Fsymbol { get; set; }
+        }
+
         public class QQRollList
         {
             [XmlElement("action_type")]

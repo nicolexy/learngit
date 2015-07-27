@@ -39,6 +39,8 @@ namespace CFT.CSOMS.BLL.RefundModule
             SubTypePay.Add("91", "信用卡还款-微信还款");
             SubTypePay.Add("92", "信用卡还款-手Q还款");
             SubTypePay.Add("93", "信用卡还款-主站还款");
+            SubTypePay.Add("52", "主站还房贷");
+            SubTypePay.Add("54", "主站向绑定卡快速提现");
 
             typeht.Add("", "所有");
             typeht.Add("1", "付款");

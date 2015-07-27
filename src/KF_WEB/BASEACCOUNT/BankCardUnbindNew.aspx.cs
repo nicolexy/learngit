@@ -109,7 +109,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             // 20130809 数据库标记：FBDIndex=1绑定表 FBDIndex=2 临时绑定表
 
             DataSet ds = new BankCardBindService().GetBankCardBindList_New("", "", "", Request.QueryString["Fuid"].ToString(), "",
-                "", "", "", "", 99, "", Session["uid"].ToString(), 0, "", 0, 1);
+                "", "", "", "", 99, Request.QueryString["Fbind_serialno"].ToString(), Session["uid"].ToString(), 0, "", 0, 1);
 
             if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count != 1)
             {

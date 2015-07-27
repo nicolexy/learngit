@@ -230,7 +230,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			//--申请状态: 0(或空值)-初始状态(未申请过) 1-初次申请授权书待上传 2-初次申请审核中 3-全单修改审核中 4-审核通过
 			//5-审核不通过 6-收件人信息修改中 7-收件人信息修改成功 8-收件人信息修改失败 9-待商户提交全单修改申请 10-全单修改授权书待上传
 
-			if(dr["TaxInvoiceFlag"].ToString().Trim() == "4" || dr["TaxInvoiceFlag"].ToString().Trim() == "7" || (dr["TaxInvoiceFlag"].ToString().Trim() == "5" && dr["TaxerType"].ToString() != ""))
+			if(dr["TaxInvoiceFlag"].ToString().Trim() == "4" 
+                || dr["TaxInvoiceFlag"].ToString().Trim() == "7" 
+                || (dr["TaxInvoiceFlag"].ToString().Trim() == "5" && dr["TaxerType"].ToString() != "")
+                || dr["TaxInvoiceFlag"].ToString().Trim() == "0"
+                || dr["TaxInvoiceFlag"].ToString().Trim() == "" 
+                )
 			{
 				this.btnAllModify.Visible = true;
 				this.btnLittleModify.Visible = true;

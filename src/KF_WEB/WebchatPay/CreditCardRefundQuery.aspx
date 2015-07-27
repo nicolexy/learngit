@@ -48,7 +48,7 @@
                     </TD>
 					<TD align="left" style=" width:150px"><asp:label id="Label5" runat="server">日期：</asp:label>
                       <asp:dropdownlist id="dd_queryDate" AutoPostBack="True" Runat="server">
-                        <asp:ListItem Value="1" Selected="True">最近三个月</asp:ListItem>
+                        <asp:ListItem Value="1" Selected="True">最近一个月</asp:ListItem>
                         <asp:ListItem Value="2">指定日期</asp:ListItem>
                     </asp:dropdownlist>
                     </td>

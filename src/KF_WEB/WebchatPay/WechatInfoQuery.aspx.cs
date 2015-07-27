@@ -154,8 +154,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             {
                 //使用微信查询
                 isWechat = true;
-              //  ds = myService.GetUserAccountFromWechat(Session["QQID"].ToString(), istr, imax);
-                ds = myService.GetUserAccount(Session["QQID"].ToString(),1, istr, imax);
+                ds = myService.GetUserAccountFromWechat(Session["QQID"].ToString(), istr, imax);
+                //ds = myService.GetUserAccount(Session["QQID"].ToString(),1, istr, imax);
             }
             else { 
               //使用账号查询

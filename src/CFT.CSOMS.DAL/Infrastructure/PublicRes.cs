@@ -344,6 +344,29 @@ namespace CFT.CSOMS.DAL.Infrastructure
             }
         }
 
+        public static string GetWatchWord(string methodName)
+        {
+            string keyvalue = "";
+            if (methodName != null)
+            {
+                string wordkey = methodName.ToLower() + "_word";
+                if (ConfigurationManager.AppSettings[wordkey] != null)
+                {
+                    keyvalue = ConfigurationManager.AppSettings[wordkey].Trim();
+                }
+                else
+                {
+                    keyvalue = ConfigurationManager.AppSettings["ICEPASSWORD"].Trim();
+                }
+            }
+            else
+            {
+                keyvalue = ConfigurationManager.AppSettings["ICEPASSWORD"].Trim();
+            }
+
+            return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(keyvalue, "md5").ToLower();
+        }
+
         public static string GetConnString()
         {
             return GetConnString("YWB");
@@ -1336,9 +1359,6 @@ namespace CFT.CSOMS.DAL.Infrastructure
 
 }
 
-    /// <summary>
-    /// 金额转换类。
-    /// </summary>
     /// <summary>
     /// 金额转换类。
     /// </summary>

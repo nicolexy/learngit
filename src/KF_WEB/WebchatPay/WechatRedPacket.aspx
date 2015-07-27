@@ -15,7 +15,7 @@
 <body>
     <form id="formMain" runat="server">
     <div>
-        <table border="1" cellspacing="1" cellpadding="1" width="1100">
+        <table border="1" cellspacing="1" cellpadding="1" width="1300">
             <tr>
                 <td style="width: 100%" bgcolor="#e4e5f7" colspan="5">
                     <font color="red">
@@ -28,12 +28,12 @@
                     <asp:HiddenField ID="hfHBUin" runat="server" />
                    <%-- 支付交易单号:<asp:TextBox ID="txtPayListId" runat="server"></asp:TextBox>--%>
                 </td>
-                <%--<td>
+               <td>
                     开始日期：
-                    <asp:textbox id="TextBoxBeginDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton>
+                    <asp:textbox id="TextBoxBeginDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False" OnClientClick="openModeBegin()"></asp:imagebutton>
                     
-                    结束日期：<asp:textbox id="TextBoxEndDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton>
-                </td>--%>
+                    结束日期：<asp:textbox id="TextBoxEndDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False" OnClientClick="openModeEnd()"></asp:imagebutton>
+                </td>
                 <td align="center" colspan="2">
                     <asp:Button ID="btnQuery" runat="server" Width="80px" Text="查 询" OnClick="btnQuery_Click">
                     </asp:Button>
@@ -54,7 +54,7 @@
                 </td>
         </table>
         <br />
-        <table border="1" cellspacing="0" cellpadding="0" width="1100">
+        <table border="1" cellspacing="0" cellpadding="0" width="1300">
             <tr>
                 <td style="width: 100%" bgcolor="#e4e5f7" colspan="5">
                     <font color="red">
@@ -63,7 +63,7 @@
             </tr>
             <tr>
                 <td valign="top">
-                    <asp:GridView ID="gvReceiveList" runat="server" Width="1100px" ItemStyle-HorizontalAlign="Center"
+                    <asp:GridView ID="gvReceiveList" runat="server" Width="1300px" ItemStyle-HorizontalAlign="Center"
                         HeaderStyle-HorizontalAlign="Center" HorizontalAlign="Center" PageSize="5" AutoGenerateColumns="False"
                         GridLines="Horizontal" CellPadding="1" BackColor="White" BorderWidth="1px" BorderStyle="None"
                         BorderColor="#E7E7FF" OnRowCommand="gvReceiveList_RowCommand">
@@ -71,23 +71,23 @@
                         <HeaderStyle Font-Bold="True" HorizontalAlign="Center" ForeColor="#F7F7F7" BackColor="#4A3C8C">
                         </HeaderStyle>
                         <Columns>
-                            <asp:BoundField DataField="Fcreate_time" HeaderText="日期">
+                            <asp:BoundField DataField="CreateTime" HeaderText="日期">
                                 <HeaderStyle Width="150px" HorizontalAlign="Center"></HeaderStyle>
                                 <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="Title" HeaderText="主题">
                                 <HeaderStyle Width="200px"></HeaderStyle> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="Famount_text" HeaderText="金额">
+                            <asp:BoundField DataField="Amount_text" HeaderText="金额">
                                 <HeaderStyle Width="80px"></HeaderStyle> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField> 
-                            <asp:BoundField DataField="Fwishing" HeaderText="祝福语">
+        <%--                    <asp:BoundField DataField="Wishing" HeaderText="祝福语">
                                 <HeaderStyle Width="110px"></HeaderStyle> <ItemStyle  HorizontalAlign="Center"/>
-                            </asp:BoundField>
+                            </asp:BoundField>--%>
                             <asp:TemplateField ShowHeader="False">
                                 <HeaderStyle Width="200px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="lbtnView1" runat="server" CausesValidation="False" CommandArgument='<%#string.Format("{0},{1}",((System.Data.DataRowView)Container.DataItem)["Fsend_list_id"].ToString(), ((System.Data.DataRowView)Container.DataItem)["Fcreate_time"].ToString())%>'
+                                    <asp:LinkButton ID="lbtnView1" runat="server" CausesValidation="False" CommandArgument='<%#string.Format("{0},{1}",((System.Data.DataRowView)Container.DataItem)["Listid"].ToString(), ((System.Data.DataRowView)Container.DataItem)["SendListId"].ToString())%>'
                                         CommandName="ViewDetail" Text="详情"></asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
@@ -101,7 +101,7 @@
             </tr>
         </table>
         <br />
-        <table border="1" cellspacing="0" cellpadding="0" width="1100">
+        <table border="1" cellspacing="0" cellpadding="0" width="1300">
             <tr>
                 <td style="width: 100%" bgcolor="#e4e5f7" colspan="5">
                     <font color="red">
@@ -112,30 +112,33 @@
             </tr>
             <tr>
                 <td valign="top">
-                    <asp:GridView ID="gvRedPacketDetail" runat="server" Width="1100px" itemstyle-horizontalalign="center"
+                    <asp:GridView ID="gvRedPacketDetail" runat="server" Width="1300px" itemstyle-horizontalalign="center"
                         HeaderStyle-HorizontalAlign="center" HorizontalAlign="Center" PageSize="5" AutoGenerateColumns="False"
                         GridLines="Horizontal" CellPadding="1" BackColor="White" BorderWidth="1px" BorderStyle="None"
                         BorderColor="#E7E7FF">
                         <Columns>
-                             <asp:BoundField DataField="Fsend_list_id" HeaderText="发送单">
-                            <HeaderStyle Width="100px" /> <ItemStyle  HorizontalAlign="Center"/>
+                             <asp:BoundField DataField="SendListId" HeaderText="发送单">
+                            <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="Fcreate_time" HeaderText="日期">
+                             <asp:BoundField DataField="PayListid" HeaderText="订单号">
+                            <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="CreateTime" HeaderText="日期">
                             <HeaderStyle HorizontalAlign="Center" Width="150px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="Freceive_name" HeaderText="好友昵称">
+                            <asp:BoundField DataField="ReceiveName" HeaderText="好友昵称">
                             <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                             <asp:BoundField DataField="Fsend_openid_text" HeaderText="发送方零钱账号">
+                             <asp:BoundField DataField="SendOpenid_text" HeaderText="发送方零钱账号">
                             <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="Freceive_openid_text" HeaderText="接收方零钱账号">
+                            <asp:BoundField DataField="ReceiveOpenid_text" HeaderText="接收方零钱账号">
                             <HeaderStyle Width="200px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="Famount_text" HeaderText="领取金额">
+                            <asp:BoundField DataField="Amount_text" HeaderText="领取金额">
                             <HeaderStyle Width="80px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="Fwishing" HeaderText="祝福语"> <ItemStyle  HorizontalAlign="Center"/>
+                            <asp:BoundField DataField="Wishing" HeaderText="祝福语"> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                         </Columns>
                         <FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
@@ -143,15 +146,15 @@
                             BackColor="#4A3C8C">
                         </HeaderStyle>
                     </asp:GridView>
-                    <webdiyer:aspnetpager id="redPacketDetailPager" runat="server" horizontalalign="right"
+   <%--               <webdiyer:aspnetpager id="redPacketDetailPager" runat="server" horizontalalign="right"
                         numericbuttoncount="5" pagingbuttonspacing="0" showinputbox="always" cssclass="mypager"
                         submitbuttontext="转到" numericbuttontextformatstring="[{0}]" alwaysshow="true"
-                        onpagechanged="redPacketDetailPager_PageChanged"></webdiyer:aspnetpager>
+                        onpagechanged="redPacketDetailPager_PageChanged"></webdiyer:aspnetpager>--%>
                 </td>
             </tr>
         </table>
         <br />
-        <table border="1" cellspacing="0" cellpadding="0" width="1100">
+        <table border="1" cellspacing="0" cellpadding="0" width="1300">
             <tr>
                 <td style="width: 100%" bgcolor="#e4e5f7" colspan="5">
                     <font color="red">
@@ -160,36 +163,36 @@
             </tr>
             <tr>
                 <td valign="top">
-                    <asp:GridView ID="gvSendList" runat="server" Width="1100px" itemstyle-horizontalalign="center"
+                    <asp:GridView ID="gvSendList" runat="server" Width="1300px" itemstyle-horizontalalign="center"
                         HeaderStyle-HorizontalAlign="center" HorizontalAlign="Center" PageSize="5" AutoGenerateColumns="False"
                         GridLines="Horizontal" CellPadding="1" BackColor="White" BorderWidth="1px" BorderStyle="None"
                         BorderColor="#E7E7FF" onrowcommand="gvSendList_RowCommand">
                         <Columns>
-                            <asp:BoundField DataField="Fcreate_time" HeaderText="日期">
+                            <asp:BoundField DataField="CreateTime" HeaderText="日期">
                             <HeaderStyle HorizontalAlign="Center" Width="150px" /><ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="Fpay_listid" HeaderText="订单号">
+                <%--            <asp:BoundField DataField="PayListid" HeaderText="订单号">
                             <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
-                            </asp:BoundField>
-                            <asp:BoundField DataField="Ftotal_amount_text" HeaderText="金额">
+                            </asp:BoundField>--%>
+                            <asp:BoundField DataField="TotalAmount_text" HeaderText="金额">
                             <HeaderStyle Width="80px" /><ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="Fstate_text" HeaderText="状态">
+                            <asp:BoundField DataField="State_text" HeaderText="状态">
                             <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="summary" HeaderText="红包数量" >
+                            <asp:BoundField DataField="Summary" HeaderText="红包数量" >
                             <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="refund" HeaderText="退款金额" >
+                            <asp:BoundField DataField="Refund" HeaderText="退款金额" >
                             <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="Fwishing" HeaderText="祝福语" >
+                    <%--        <asp:BoundField DataField="Wishing" HeaderText="祝福语" >
                             <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
-                            </asp:BoundField>
+                            </asp:BoundField>--%>
                             <asp:TemplateField HeaderText="详情" ShowHeader="False">
                                  <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="lbtnView2" runat="server" CausesValidation="False" CommandArgument='<%#string.Format("{0},{1}",((System.Data.DataRowView)Container.DataItem)["Flistid"].ToString(), ((System.Data.DataRowView)Container.DataItem)["Fcreate_time"].ToString())%>'
+                                    <asp:LinkButton ID="lbtnView2" runat="server" CausesValidation="False" CommandArgument='<%#string.Format("{0},{1}",((System.Data.DataRowView)Container.DataItem)["Listid"].ToString(), ((System.Data.DataRowView)Container.DataItem)["CreateTime"].ToString())%>'
                                         CommandName="ViewDetail" Text="详情"></asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>

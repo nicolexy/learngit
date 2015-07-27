@@ -29,7 +29,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
         protected BankBillManageControl BankBillManage1;
         protected FastPayControl FastPay1;
         protected FundAccountManageControl FundAccountManage1;
-        protected MediumTradeManageControl MediumTradeManage1;
         protected LifeFeeDetailControl LifeFeeDetailManage1;
         protected MicroPay MicroPay1;
         protected NameAuthenedControl NameAuthened1;
@@ -89,7 +88,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                     BankBillManage1.Visible = true;
                     FastPay1.Visible = true;
                     FundAccountManage1.Visible = true;
-                    MediumTradeManage1.Visible = true;
                     LifeFeeDetailManage1.Visible = true;
                     MicroPay1.Visible = true;
                     ForeignCurrencyPay1.Visible = true;
@@ -219,6 +217,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 }
                 accountManage1.AddSubMenu("商户交易清单", "TradeManage/TradeLogList.aspx");
                 accountManage1.AddSubMenu("商户订单查询财付通订单", "TradeManage/QuerySpOrderPage.aspx");
+                accountManage1.AddSubMenu("自助BD商户查询", "BaseAccount/SelfQuery.aspx");
 
                 AccountOperaManage1.AddSubMenu("商户资料修改", "BaseAccount/ModifyBusinessInfo.aspx");
                 AccountOperaManage1.AddSubMenu("修改联系信息", "BaseAccount/ModifyContactInfo.aspx");
@@ -253,14 +252,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 baseAccount1.AddSubMenu("QQ帐号回收", "BaseAccount/QQReclaim.aspx");
                 accountOperate1.AddSubMenu("账户姓名修改", "BaseAccount/changeUserName_2.aspx");
                 baseAccount1.AddSubMenu("用户受控资金查询", "TradeManage/QueryUserControledFinPage.aspx");
+                baseAccount1.AddSubMenu("用户受控资金查询-新", "TradeManage/UserControledFundPage.aspx");
                 baseAccount1.AddSubMenu("手机绑定查询", "TradeManage/MobileBindQuery.aspx");             
                 accountOperate1.AddSubMenu("证件号码清理", "BaseAccount/ClearCreidNew.aspx");
                 baseAccount1.AddSubMenu("腾讯信用查询", "BaseAccount/TencentCreditQuery.aspx");
 
                 FastPay1.AddSubMenu("一点通业务", "BaseAccount/BankCardUnbind.aspx");
                 FastPay1.AddSubMenu("一点通业务(新)", "BaseAccount/BankCardUnbindNew.aspx");
-                FastPay1.AddSubMenu("银行卡查询", "TradeManage/BankCardQuery.aspx");
-                FastPay1.AddSubMenu("银行卡查询(新)", "TradeManage/BankCardQueryNew.aspx");
+               // FastPay1.AddSubMenu("银行卡查询", "TradeManage/BankCardQuery.aspx");
+                FastPay1.AddSubMenu("银行卡查询", "TradeManage/BankCardQueryNew.aspx");
                 FastPay1.AddSubMenu("姓名生僻字", "BaseAccount/RareNameQuery.aspx");
                 FastPay1.AddSubMenu("卡信息查询", "BaseAccount/CardInfoQuery.aspx");
 
@@ -272,6 +272,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
                 LifeFeeDetailManage1.AddSubMenu("生活缴费查询", "TradeManage/FeeQuery.aspx");
                 LifeFeeDetailManage1.AddSubMenu("邮储汇款查询", "RemitCheck/RemitQuery.aspx");
+                LifeFeeDetailManage1.AddSubMenu("邮储汇款查询-新", "RemitCheck/RemitQueryNew.aspx");
                 LifeFeeDetailManage1.AddSubMenu("手机充值卡查询", "TradeManage/FundCardQuery_Detail.aspx");
                 LifeFeeDetailManage1.AddSubMenu("信用卡还款", "TradeManage/CreditQuery.aspx");
                 LifeFeeDetailManage1.AddSubMenu("话费发货查询", "TradeManage/PhoneBillQuery.aspx");
@@ -462,7 +463,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             DKManageControl1.AddSubMenu("调整状态查询", "NewQueryInfoPages/DK_QueryAdjust.aspx");
 
             //DrawAndApprove
-            AccountOperaManage1.AddSubMenu("自助商户领单", "BaseAccount/SelfQuery.aspx");
+          
             AccountOperaManage1.AddSubMenu("自助商户审核", "BaseAccount/SelfQueryApprove.aspx");
             AccountOperaManage1.AddSubMenu("商户申请修改资料审核", "BaseAccount/DomainApprove.aspx");
             AccountOperaManage1.AddSubMenu("商户营改增审核", "BaseAccount/ValueAddedTaxApprove.aspx");
@@ -494,7 +495,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             //baseAccount1.AddSubMenu("意见投诉查询", "BaseAccount/userReport.aspx");
 
             //HistoryModify
-            baseAccount1.AddSubMenu("信息修改历史", "BaseAccount/historyModify.aspx");
+         //   baseAccount1.AddSubMenu("信息修改历史", "BaseAccount/historyModify.aspx");
             accountOperate1.AddSubMenu("财付通帐号恢复", "BaseAccount/RecoverQQ.aspx");
 
             //FreezeList
@@ -509,6 +510,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
             //CancelAccount
             accountOperate1.AddSubMenu("帐户销户记录", "BaseAccount/logOnUser.aspx");
+            accountOperate1.AddSubMenu("帐户销户记录-新", "BaseAccount/logOnUserNew.aspx");
 
             //UpdateAccountQQ
             accountOperate1.AddSubMenu("帐户QQ修改", "BaseAccount/ChangeQQOld.aspx");

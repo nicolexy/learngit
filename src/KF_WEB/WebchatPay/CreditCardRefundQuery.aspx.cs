@@ -239,7 +239,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             if (this.dd_queryDate.SelectedValue == "1")
             {
                 DateTime d1 = DateTime.Now;
-                DateTime d2 = d1.AddMonths(-3);
+                DateTime d2 = d1.AddMonths(-1);
                 s_begindate = d2.ToString("yyyy-MM-dd 00:00:00");
                 s_enddate = d1.ToString("yyyy-MM-dd 23:59:59");
             }

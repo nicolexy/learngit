@@ -31,7 +31,22 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
 
         }
 
-
+        /// <summary>
+        /// 判断是否一点通用户
+        /// </summary>
+        /// <param name="qqid"></param>
+        /// <param name="Fcurtype"></param>
+        /// <returns></returns>
+        public bool LogOnUserCheckYDT(string qqid, string Fcurtype)
+        {
+            //调用快捷支付-一点通业务中查询函数来确定是否开通一点通
+            DataSet ds = GetBankCardBindList(qqid, "", "", "", "", "", "", "", "", "", int.Parse(Fcurtype), true, 2, "", 0, 5);
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
 
         /// <summary>
         /// 根据条件查询绑定的卡列表 qqId不能为空

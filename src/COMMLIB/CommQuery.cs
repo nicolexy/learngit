@@ -3275,6 +3275,96 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             return dsresult;
 
         }
+
+
+        /// <summary>
+        /// 格式字符串解析 result=0&row0=&row1=&row_num=...格式字符串解析(需要返回ref_param)
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="errMsg"></param>
+        /// <param name="totalNum">总记录数</param>
+        /// <returns></returns>
+        public static DataSet ParseRelayPageRowNum2(string str, out string ref_param)
+        {
+            DataSet dsresult = null;
+            Hashtable ht = null;
+            ref_param = "";
+            if (str != null && str != "")
+            {
+                string[] strlist1 = str.Split('&'); //result=0&xx1=1&xx2=2
+
+                if (strlist1.Length == 0)
+                {
+                    dsresult = null;
+                    throw new Exception("调用失败,返回结果有误" + str);
+                }
+
+                ht = new Hashtable(strlist1.Length);
+
+                foreach (string strtmp in strlist1)
+                {
+                    string[] strlist2 = strtmp.Split('=');
+                    if (strlist2.Length != 2)
+                    {
+                        continue;
+                    }
+
+                    ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
+                }
+
+                if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
+                {
+                    dsresult = null;
+                    throw new Exception("调用失败,返回结果有误" + str);
+                }
+
+                dsresult = new DataSet();
+                DataTable dt = new DataTable();
+                dsresult.Tables.Add(dt);
+
+                int irowcount = Int32.Parse(ht["row_num"].ToString().Trim());
+                ref_param = ht["ref_param"].ToString().Trim();
+                if (irowcount > 0)
+                {
+                    for (int i = 0; i < irowcount; i++)
+                    {
+                        string onerow = ht["row" + i].ToString().Trim();
+                        onerow = URLDecode(onerow, "utf-8");
+                        string[] strsplit_detail = onerow.Split('&');
+
+
+                        DataRow drfield = dt.NewRow();
+                        drfield.BeginEdit();
+
+                        foreach (string stmp in strsplit_detail)
+                        {
+                            if (stmp == null || stmp.Trim() == "")
+                                continue;
+
+                            string[] fieldsplit = stmp.Split('=');
+
+                            if (fieldsplit.Length != 2)
+                                continue;
+
+                            if (i == 0)
+                            {
+                                dt.Columns.Add(fieldsplit[0]);
+                            }
+
+                            //drfield[fieldsplit[0]] = URLDecode(fieldsplit[1].Trim());
+                            drfield[fieldsplit[0]] = IceDecode(fieldsplit[1].Trim());
+                        }
+
+                        drfield.EndEdit();
+                        dt.Rows.Add(drfield);
+                    }
+                }
+
+            }
+
+            return dsresult;
+        }
+
         /// <summary> 
         /// 清除xml中的不合法字符 
         /// </summary> 

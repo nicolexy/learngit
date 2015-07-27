@@ -7,37 +7,163 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
+namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount {
     
     
-    public partial class WechatRedPacket {
+    public partial class logOnUserNew {
         
         /// <summary>
-        /// formMain control.
+        /// Form1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm formMain;
+        protected global::System.Web.UI.HtmlControls.HtmlForm Form1;
         
         /// <summary>
-        /// txtWechatName control.
+        /// Label1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtWechatName;
+        protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
-        /// hfHBUin control.
+        /// TextBox1_QQID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfHBUin;
+        protected global::System.Web.UI.WebControls.TextBox TextBox1_QQID;
+        
+        /// <summary>
+        /// ValidateID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ValidateID;
+        
+        /// <summary>
+        /// TextBox2_WX control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBox2_WX;
+        
+        /// <summary>
+        /// txbConfirmQ control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbConfirmQ;
+        
+        /// <summary>
+        /// Requiredfieldvalidator2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator2;
+        
+        /// <summary>
+        /// labelConfirm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelConfirm;
+        
+        /// <summary>
+        /// txtReason control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtReason;
+        
+        /// <summary>
+        /// Requiredfieldvalidator3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator3;
+        
+        /// <summary>
+        /// EmailCheckBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox EmailCheckBox;
+        
+        /// <summary>
+        /// txtEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtEmail;
+        
+        /// <summary>
+        /// btLogOn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btLogOn;
+        
+        /// <summary>
+        /// Table1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTable Table1;
+        
+        /// <summary>
+        /// dgInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DataGrid dgInfo;
+        
+        /// <summary>
+        /// lkHistoryQuery control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lkHistoryQuery;
+        
+        /// <summary>
+        /// TABLE3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTable TABLE3;
         
         /// <summary>
         /// TextBoxBeginDate control.
@@ -49,15 +175,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         protected global::System.Web.UI.WebControls.TextBox TextBoxBeginDate;
         
         /// <summary>
-        /// ButtonBeginDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ButtonBeginDate;
-        
-        /// <summary>
         /// TextBoxEndDate control.
         /// </summary>
         /// <remarks>
@@ -67,111 +184,57 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         protected global::System.Web.UI.WebControls.TextBox TextBoxEndDate;
         
         /// <summary>
-        /// ButtonEndDate control.
+        /// TxbQueryQQ control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ButtonEndDate;
+        protected global::System.Web.UI.WebControls.TextBox TxbQueryQQ;
         
         /// <summary>
-        /// btnQuery control.
+        /// txbHandID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnQuery;
+        protected global::System.Web.UI.WebControls.TextBox txbHandID;
         
         /// <summary>
-        /// lblHongbaoUin control.
+        /// tbWxQQ control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblHongbaoUin;
+        protected global::System.Web.UI.WebControls.TextBox tbWxQQ;
         
         /// <summary>
-        /// lblBanlance control.
+        /// tbWxEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblBanlance;
+        protected global::System.Web.UI.WebControls.TextBox tbWxEmail;
         
         /// <summary>
-        /// lblFreezen control.
+        /// tbWxPhone control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFreezen;
+        protected global::System.Web.UI.WebControls.TextBox tbWxPhone;
         
         /// <summary>
-        /// gvReceiveList control.
+        /// btQuery control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvReceiveList;
-        
-        /// <summary>
-        /// receivePager control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Wuqi.Webdiyer.AspNetPager receivePager;
-        
-        /// <summary>
-        /// hfSendListId control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfSendListId;
-        
-        /// <summary>
-        /// hfCreateTime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfCreateTime;
-        
-        /// <summary>
-        /// gvRedPacketDetail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvRedPacketDetail;
-        
-        /// <summary>
-        /// gvSendList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvSendList;
-        
-        /// <summary>
-        /// sendListPager control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Wuqi.Webdiyer.AspNetPager sendListPager;
+        protected global::System.Web.UI.WebControls.Button btQuery;
     }
 }
