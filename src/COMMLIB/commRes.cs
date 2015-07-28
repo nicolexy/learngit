@@ -1318,7 +1318,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             string answer = "";
             try
             {
-                LogHelper.LogInfo(string.Format("CGIPostQuery : {0}   req[{1}]"), cgi, req);
+                LogHelper.LogInfo(string.Format("CGIPostQuery : {0}   req[{1}]", cgi, req));
                 System.Text.Encoding encoding = System.Text.Encoding.GetEncoding(resCode);
                 System.Net.HttpWebRequest webrequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(cgi);
                 webrequest.ContentType = "text/xml;charset=GBK";

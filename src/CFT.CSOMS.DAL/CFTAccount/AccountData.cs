@@ -1410,6 +1410,189 @@ namespace CFT.CSOMS.DAL.CFTAccount
             }
         }
 
+        #region 销户
+
+        /// <summary>
+        /// 销户历史查询
+        /// </summary>
+        /// <returns></returns>
+        public DataSet logOnUserHistory(string qqid, string opera, DateTime begin_time, DateTime end_time, int offset, int limit,out string msg)
+        {
+            msg = null;
+            string whereStr = " where 1=1 ";
+
+            //格式化时间
+            string strBgDateTime;
+            string strEdDateTime;
+            try
+            {
+                strBgDateTime = begin_time.ToString("yyyy-MM-dd 00:00:00");
+                strEdDateTime = end_time.ToString("yyyy-MM-dd 23:59:59");
+            }
+            catch
+            {
+                msg = "销户历史查询时间不正确！请检查！";
+                return null;
+            }
+
+            if (strBgDateTime != null && strBgDateTime.Trim() != "" && strEdDateTime != null && strEdDateTime.Trim() != "")
+            {
+                whereStr += " and flastModifyTime >= '" + strBgDateTime + "' and flastModifyTime <= '" + strEdDateTime + "'";
+            }
+
+            if (qqid != null && qqid.Trim() != "")
+            {
+                whereStr += " and fqqid = '" + qqid + "' ";
+            }
+
+            if (opera != null && opera.Trim() != "")
+            {
+                whereStr += " and handid = '" + opera + "' ";
+            }
+
+            int count = 10000;
+            string str = "select Fid, Fqqid, Fquid, Freason, handid, handip, FlastModifyTime,  " + count + " as icount from c2c_fmdb.t_logon_history " + whereStr + " order by fid DESC limit " + offset + "," + limit;
+            return PublicRes.returnDSAll(str, "ht");
+        }
+
+        public bool LogOnUserDeleteUser(string qqid, string reason, string user, string userIP, out string Msg)
+        {
+            try
+            {
+                Msg = null;
+                string inmsg1 = "&uin=" + qqid;
+                inmsg1 += "&client_ip=" + userIP;
+                inmsg1 += "&memo=" + ICEAccess.ICEEncode(reason);
+                inmsg1 += "&op_type=3";
+                inmsg1 += "&watch_word=" + PublicRes.GetWatchWord("upay_delete_user_service");
+
+                string reply = "";
+                string msg = "";
+                short result = -1;
+
+                if (commRes.middleInvoke("upay_delete_user_service", inmsg1, true, out reply, out result, out msg))
+                {
+                    if (result != 0)
+                    {
+                        Msg = "销户接口upay_delete_user_service返回失败：result=" + result + ",msg=" + msg;
+                        return false;
+                    }
+                    else
+                    {
+                        if (reply.IndexOf("result=0") > -1)//销户成功
+                        {
+
+                        }
+                        else
+                        {
+                            Msg = "销户接口upay_delete_user_service返回失败：reply=" + reply;
+                            return false;
+                        }
+                    }
+                }
+                else
+                {
+                    Msg = "upay_delete_user_service接口失败：result=" + result + "，msg=" + msg + "&reply=" + reply;
+                    return false;
+                }
+
+                //插入历史备份数据库
+                string nowTime = PublicRes.strNowTimeStander;
+                MySqlAccess fmda = new MySqlAccess(PublicRes.GetConnString("ht"));
+                try
+                {                  
+                    string insertStr = "insert into c2c_fmdb.t_logon_history (fqqid,fquid,freason,handid,handip,flastMOdifyTime) values ('"
+                        + qqid + "','" + PublicRes.ConvertToFuid(qqid) + "','" + commRes.replaceSqlStr(reason) + "','" + user + "','" + userIP + "','" + nowTime + "')";
+                    fmda.OpenConn();
+                    if (!fmda.ExecSql(insertStr))
+                    {                   
+                        Msg = "销户时插入历史备份数据库出错。";
+                        commRes.sendLog4Log("FinanceManage.LogOnUser", Msg);
+                        return false;
+                    }
+                    return true;
+                }
+                finally
+                {
+                    fmda.Dispose();
+                }
+            }
+            catch (Exception err)
+            {
+                throw new Exception(err.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// 检查用户是否注册或者作废
+        /// </summary>
+        /// <param name="qqid"></param>
+        /// <param name="Msg"></param>
+        /// <returns></returns>
+        public bool checkUserReg(string qqid, out string Msg)
+        {
+            Msg = null;
+
+            try
+            {
+                //furion 20061115 email登录相关
+                if (qqid == null || qqid.Trim().Length < 3)
+                {
+                    Msg = "帐号不能为空";
+                    return false;
+                }
+
+                string qq = qqid.Trim();
+                string uid3 = "";
+                try
+                {
+                    long itmp = long.Parse(qq);
+                    uid3 = qq;
+                }
+                catch
+                {
+                    if (!TENCENT.OSS.CFT.KF.Common.DESCode.GetEmailUid(qq, out uid3))
+                    {
+                        Msg = "解析EMAIL时出错。" + uid3;
+                        return false;
+                    }
+                }
+              
+                string strSql = "uin=" + qq;
+                string relaSign = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_RELATION, "Fsign", out Msg);
+
+                if (relaSign == null || relaSign.Trim() == "")
+                {
+                    Msg = "该帐号没有注册！";
+                    return false;
+                }
+
+                if (relaSign == "2")
+                {
+                    Msg = "该帐户状态为作废状态，不能够进行任何操作！";
+                    return false;
+                }
+                else if (relaSign != "1")
+                {
+                    Msg = "该账户状态标志(" + relaSign + ")错误！请立即联系管理员察看！";
+                    return false;
+                }
+            
+                string errMsg = "";
+                strSql = "uin=" + qq;
+                Msg = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_RELATION, "Fuid", out errMsg);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Msg = "检查用户是否注册或者作废失败！" + ex.Message;
+                return false;
+            }
+        }
+
+        #endregion
 
         #region 个人账户信息
 

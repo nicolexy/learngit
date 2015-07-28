@@ -793,6 +793,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
 
             return paramDic;
         }
+
         public static int StringToInt(string str)
         {
             try
@@ -803,6 +804,15 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
                 SunLibrary.LoggerFactory.Get("APIUtil.paramIsInt").Info("string("+str+") to int error:"+ ex.Message);
                 throw new ServiceException(ERR_APPKEY, str+"参数不为int");
             }
+        }
+
+        public static bool StringToBool(string str)
+        {
+            string strb = str.ToLower();
+            if (strb == "true")
+                return true;
+            else
+                return false;
         }
 
         /// <summary>

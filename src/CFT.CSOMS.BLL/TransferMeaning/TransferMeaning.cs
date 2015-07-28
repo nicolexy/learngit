@@ -6,29 +6,135 @@ using System.Collections;
 using System.Web;
 using System.Data;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
+using CFT.CSOMS.DAL.Infrastructure;
 
 namespace CFT.CSOMS.BLL.TransferMeaning
 {
     public class Transfer{
         private static Dictionary<string,Hashtable> dicData=new Dictionary<string,Hashtable>();
 
-        public static string convertActionType(string sType)  //动作类型  内部之间的帐务关系 
+        public static string accountState(string sType)  //账户状态转换  USER_STATE
         {
-            return returnDicStr("ACTION_TYPE", sType);
+            return returnDicStr("USER_STATE", sType);
         }
+
+        public static string convertFuser_type(string sType) //账户类型转换  USER_TYPE
+        {
+            return returnDicStr("USER_TYPE", sType);
+        }
+
         public static string convertMoney_type(string sType) //币种类型转换 CUR_TYPE
         {
             return returnDicStr("CUR_TYPE", sType);
         }
-        public static string convertTradeType(string sType)  //入还是出 
+
+        public static string convertbankType(string sType)  //银行类型转换 BANK_TYPE
         {
-            return returnDicStr("BG_TYPE", sType);
+            if (sType == "9999")
+                return "汇总银行";
+
+            return returnDicStr("BANK_TYPE", sType);
         }
+
+        public static string convertTradeState(string sType)  //交易单状态 RLIST_STATE
+        {
+            return returnDicStr("RLIST_STATE", sType);
+        }
+
+        public static string convertSex(string sType)  //用户性别
+        {
+            return returnDicStr("SEX", sType);
+        }
+
+        public static string convertTradeListState(string sType)  //交易单状态 PAY_STATE
+        {
+            return returnDicStr("PAY_STATE", sType);
+        }
+
         public static string convertSubject(string sType)  //类别,科目  BG_SUBJECT
         {
             return returnDicStr("BG_SUBJECT", sType);
         }
 
+        public static string convertActionType(string sType)  //动作类型  内部之间的帐务关系 
+        {
+            return returnDicStr("ACTION_TYPE", sType);
+        }
+
+        public static string convertTradeType(string sType)  //入还是出 
+        {
+            return returnDicStr("BG_TYPE", sType);
+        }
+
+        public static string convertPayType(string sType)  //交易类别 c2c,b2c ,转帐
+        {
+            return returnDicStr("PAYLIST_TYPE", sType);
+        }
+
+        public static string convertCurrentState(string sType)  //当前状态 TCPAY_STATE
+        {
+            return returnDicStr("TCPAY_STATE", sType);
+        }
+
+        public static string convertTradeSign(string sType)  //交易标记 1-成功 2-失败 TCLIST_SIGN
+        {
+            return returnDicStr("TCLIST_SIGN", sType);
+        }
+
+        public static string convertTCSubject(string sType)  //类别 科目 TCLIST_SUBJECT
+        {
+            return returnDicStr("TCLIST_SUBJECT", sType);
+        }
+
+        public static string convertCheckState(string sType)  //对帐任务的执行状态 TASK_STATUS
+        {
+            return returnDicStr("TASK_STATUS", sType);
+        }
+
+        public static string convertCheckType(string sType)  //对帐任务的类型 SUB_TASK_NO
+        {
+            return returnDicStr("SUB_TASK_NO", sType);
+        }
+
+        public static string cRefundState(string sType)  //退款状态 REFUND_STATE
+        {
+            return returnDicStr("REFUND_STATE", sType);
+        }
+
+        public static string cRlistState(string sType)  //退款单状态 RLIST_STATE
+        {
+            return returnDicStr("RLIST_STATE", sType);
+        }
+
+        public static string cPay_type(string sType)  //支付类型 PAY_TYPE
+        {
+            return returnDicStr("PAY_TYPE", sType);
+        }
+
+        public static string convertTCfSubject(string sType)  //付款的类别 TC_PLIST_SUBJECT
+        {
+            return returnDicStr("TC_PLIST_SUBJECT", sType);
+        }
+
+        public static string convertTCState(string sType)  //付款的类别 TCLIST_State
+        {
+            return returnDicStr("TCLIST_State", sType);
+        }
+
+        public static string convertInnerCkType(string sType)  //内部对帐的类型 
+        {
+            return returnDicStr("SUB_TASK_NO1", sType);
+        }
+
+        public static string convertAdjustSign(string sType)  //调帐标记 
+        {
+            return returnDicStr("ADJUST_FLAG", sType);
+        }
+
+        public static string convertBPAY(string sType)  //余额支付状态 1 开启 2 关闭 
+        {
+            return returnDicStr("FBPAY_STATE", sType);
+        }
 
         public static string returnDicStr(string type, string sType)
         {
@@ -155,5 +261,56 @@ namespace CFT.CSOMS.BLL.TransferMeaning
                 return null;
             }
         }
+
+        //在DataTable中转换值，标识值到标识名称。
+        public static void GetColumnValueFromDic(DataTable dt, string SourceColumn, string DestColumn, string sType)
+        {
+            try
+            {
+                Hashtable ht = GetAllValueByType(sType);
+                if (ht == null || ht.Count == 0) return;
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string tmp = PublicRes.GetString(dr[SourceColumn]);
+                    if (tmp != "")
+                    {
+                        dr.BeginEdit();
+                        if (ht.ContainsKey(tmp))
+                        {
+                            dr[DestColumn] = ht[tmp].ToString();
+                        }
+                        else
+                        {
+                            dr[DestColumn] = "未知类型(" + tmp + ")";
+                        }
+                        dr.EndEdit();
+                    }
+                }
+            }
+            catch
+            { }
+        }
+
+        //furion 20050804 取得指定类型的所有键和值。
+        public static Hashtable GetAllValueByType(string sType)
+        {
+            Hashtable ht = new Hashtable();
+
+            try
+            {
+                if (HttpContext.Current.Application[sType] == null)
+                    queryDic(sType);
+
+                ht = (Hashtable)HttpContext.Current.Application[sType];
+
+                return ht;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
     }
 }

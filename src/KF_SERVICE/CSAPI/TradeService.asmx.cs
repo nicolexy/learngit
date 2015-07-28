@@ -114,53 +114,18 @@ namespace CSAPI
 
                 string tradeid = paramsHt.ContainsKey("tradeid") ? paramsHt["tradeid"].ToString() : "";
 
-                if (paramsHt.ContainsKey("type"))
+                if (paramsHt.ContainsKey("list_time"))
                 {
-                    int type = APIUtil.StringToInt(paramsHt["type"].ToString());
-                    if (type == 1)  //根据银行返回定单号查询交易记录
+                    //根据银行返回定单号查询交易记录
+                    DateTime list_time = APIUtil.StrToDate(paramsHt["list_time"].ToString());
+                    var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(tradeid, 1, list_time, DateTime.Now, DateTime.Now, 1, 2);
+                    if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
                     {
-                        DateTime list_time = APIUtil.StrToDate(paramsHt["list_time"].ToString());
-                        var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(tradeid, type, list_time, DateTime.Now, DateTime.Now, 1, 2);
-                        if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
-                        {
-                            throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
-                        }
-                        List<Payment.TradePayList> list = APIUtil.ConvertTo<Payment.TradePayList>(infos.Tables[0]);
-                        APIUtil.Print<Payment.TradePayList>(list);
+                        throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
                     }
-                    else
-                    {
-                        DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
-                        DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
-                        //将查询时间跨度设置在半年以内,最长半年184天
-                        TimeSpan ts = end_time - begin_time;
-                        int days = ts.Days;
-                        if (days > 184)
-                        {
-                            end_time = begin_time.AddDays(184);
-                        }
-                        end_time = end_time.AddDays(1);
-                        int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
-                        int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
-                        if (offset < 0)
-                        {
-                            offset = 0;
-                        }
-                        if (limit < 0)
-                        {
-                            limit = 20;
-                        }
-
-                        var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(tradeid, type, DateTime.Now, begin_time, end_time, offset, limit);
-                        if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
-                        {
-                            throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
-                        }
-                        List<Payment.TradePayList> list = APIUtil.ConvertTo<Payment.TradePayList>(infos.Tables[0]);
-                        APIUtil.Print<Payment.TradePayList>(list);
-                    }
+                    List<Payment.TradePayList> list = APIUtil.ConvertTo<Payment.TradePayList>(infos.Tables[0]);
+                    APIUtil.Print<Payment.TradePayList>(list);
                 }
-
                 else//根据订单号查询交易记录
                 {
                     var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(tradeid, 4, DateTime.Now, DateTime.Now, DateTime.Now, 1, 2);
@@ -171,7 +136,6 @@ namespace CSAPI
                     List<Payment.TradePayList> list = APIUtil.ConvertTo<Payment.TradePayList>(infos.Tables[0]);
                     APIUtil.Print<Payment.TradePayList>(list);
                 }
-
             }
             catch (ServiceException se)
             {
@@ -181,6 +145,63 @@ namespace CSAPI
             catch (Exception ex)
             {
                 SunLibrary.LoggerFactory.Get("GetTradeList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 各类交易单 0,买家交易单;9卖家交易单;10,中介交易单;-1,买家未完成交易单;-2,卖家未完成交易单
+        /// </summary>
+        [WebMethod]
+        public void GetTradeListByType()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "id", "type", "begin_time", "end_time", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string id = paramsHt.ContainsKey("id") ? paramsHt["id"].ToString() : "";
+                int type = APIUtil.StringToInt(paramsHt["type"].ToString());
+                DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
+                DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
+                int offset=APIUtil.StringToInt(paramsHt["offset"].ToString());
+                int limit=APIUtil.StringToInt(paramsHt["limit"].ToString());
+
+                int days = (end_time - begin_time).Days;
+                if (days > 184)
+                {
+                    end_time = begin_time.AddDays(184);
+                }
+                end_time.AddDays(1);
+
+                if (offset < 0)
+                {
+                    offset = 0;
+                }
+                if (limit < 0 || limit > 1000)
+                {
+                    limit = 20;
+                }
+
+                var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(id, type, DateTime.Now, begin_time, end_time, offset, limit);
+                if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Payment.TradePayList> list = APIUtil.ConvertTo<Payment.TradePayList>(infos.Tables[0]);
+                APIUtil.Print<Payment.TradePayList>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetTradeListByType").ErrorFormat("return_code:{0},msg{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetTradeListByType").ErrorFormat("return_code:{0},msg{1}", APIUtil.ERR_SYSTEM, ex.Message);
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }

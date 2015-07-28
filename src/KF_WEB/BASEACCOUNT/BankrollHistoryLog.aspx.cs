@@ -238,5 +238,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			return "";
 		}
 
+        protected void lbtnQueryOld_Click(object sender, EventArgs e)
+        {
+            DateTime begindate = DateTime.Parse(TextBoxBeginDate.Text);
+            DateTime enddate = DateTime.Parse(TextBoxEndDate.Text);
+            if (lbtnQueryOld.Text == "ÐÂ°æ")
+            {
+                lbtnQueryOld.Text = "¾É°æ";
+                iFramePath = "bankrollLog.aspx?isold=true&type=QQID&BeginDate=" + begindate.ToString("yyyy-MM-dd 00:00:00") + "&EndDate=" + enddate.ToString("yyyy-MM-dd 23:59:59");
+            }
+            else 
+            {
+                lbtnQueryOld.Text = "ÐÂ°æ";
+                iFramePath = "bankrollLog.aspx?type=QQID&BeginDate=" + begindate.ToString("yyyy-MM-dd 00:00:00") + "&EndDate=" + enddate.ToString("yyyy-MM-dd 23:59:59");
+            }
+        }
+
 	}
 }

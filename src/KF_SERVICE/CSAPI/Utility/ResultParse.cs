@@ -55,4 +55,12 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
         [XmlElement("ret_value")]
         public string RetValue { get; set; }
     }
+
+    public class RecordNew
+    {
+        [XmlElement("ret_value")]
+        public string RetValue { get; set; }
+        [XmlElement("ret_memo")]
+        public string RetMemo { get; set; }
+    }
 }

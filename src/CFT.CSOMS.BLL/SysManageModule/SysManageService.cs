@@ -101,7 +101,7 @@ namespace CFT.CSOMS.BLL.SysManageModule
                {
                    dr.BeginEdit();
                    dr["sysid"] = businesstype;
-                   dr["banktype_str"] = PublicService.convertbankType(dr["banktype"].ToString());
+                   dr["banktype_str"] = TransferMeaning.Transfer.convertbankType(dr["banktype"].ToString());
                    dr.EndEdit();
                }
            }
