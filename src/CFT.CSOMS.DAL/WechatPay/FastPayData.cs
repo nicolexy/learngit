@@ -125,7 +125,7 @@ namespace CFT.CSOMS.DAL.WechatPay
 
             //request_type=2617&ver=1&head_u=&sp_id=2000000501&req_id=1006&card_no=8Qz189FjLX5CU24z_L2yWw==&biz_type=10100&start_time=2014-09-29 01:35:33&end_time=2014-09-29 20:35:33&limit=10&offset=0&table_suffix=20140929
             totalNum = 0;
-            return RelayAccessFactory.GetDSFromRelayRowNum(out totalNum,"2617",inmsg, ip, port);
+            return RelayAccessFactory.GetDSFromRelayRowNum(out totalNum, inmsg, "2617", ip, port);
         }
       
         /// <summary>

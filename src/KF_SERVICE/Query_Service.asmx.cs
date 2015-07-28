@@ -27369,8 +27369,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 try
                 {
                     dainc.OpenConn();
-                    string strSql = "select * from  c2c_db_inc.t_spm_rollopt where Fmodify_time between '" + strBeginDate
-                        + "' and '" + strEndDate + "' and  Ftype=2 ";
+                    string strSql = "select * from  c2c_db_inc.t_spm_rollopt where Ftype=2 ";
+
+                    if ((!string.IsNullOrEmpty(strBeginDate)) && (!string.IsNullOrEmpty(strEndDate)))
+                    {
+                        strSql += " Fmodify_time between '" + strBeginDate + "' and '" + strEndDate + "' ";
+                    }
 
                     if (bankID != null && bankID.Trim() != "")
                     {
@@ -27399,9 +27403,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         {
                             strSql += " and Fstatus in (1,4,5) ";
                         }
-                        else if (state == "1")//成功
+                        else if (state == "1")//成功  需要包含成功和退票两种状态
                         {
-                            strSql += " and Fstatus = 2 ";
+                            strSql += " and Fstatus in(2,6) ";
                         }
                         else if (state == "2")//失败
                         {
@@ -27473,6 +27477,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     else if (tmp == "5")
                     {
                         dr["FstatusName"] = "处理中";
+                    }
+                    else if (tmp == "6")
+                    {
+                        dr["FstatusName"] = "退票";
                     }
 
                 }
@@ -27747,7 +27755,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethodAttribute(Description = "统计代付单笔查询情况")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet CountDFInfo(string bankID, string userID, string strBeginDate, string strEndDate, string spid, string spListID
-            , string spBatchID, string state)
+            , string spBatchID, string state, string transaction_id, string bank_type, string service_code)
         {
             DataSet ds;
             MySqlAccess dainc = new MySqlAccess(PublicRes.GetConnString("INCB"));
@@ -27755,8 +27763,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 dainc.OpenConn();
 
-                string strSql = "select count(*) as totalRecordCount,sum(Famount) as totalPayNum from  c2c_db_inc.t_spm_rollopt where Fmodify_time between '" + strBeginDate
-                    + "' and '" + strEndDate + "' and  Ftype=2 ";
+                string strSql = "select count(*) as totalRecordCount,sum(Famount) as totalPayNum from  c2c_db_inc.t_spm_rollopt where Ftype=2 ";
+               
+                if ((!string.IsNullOrEmpty(strBeginDate)) && (!string.IsNullOrEmpty(strEndDate)))
+                {
+                    strSql += " Fmodify_time between '" + strBeginDate + "' and '" + strEndDate + "' ";
+                }
 
                 if (bankID != null && bankID.Trim() != "")
                 {
@@ -27778,6 +27790,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     strSql += " and Fubatch_id='" + spBatchID.Trim() + "' ";
                 }
+                if (transaction_id != null && transaction_id.Trim() != "")
+                {
+                    strSql += " and Ftransaction_id='" + transaction_id.Trim() + "' ";
+                }
+                if (bank_type != null && bank_type.Trim() != "")
+                {
+                    strSql += " and Fbank_type='" + bank_type.Trim() + "' ";
+                }
+                if (service_code != null && service_code.Trim() != "0")
+                {
+                    strSql += " and Fuser_type=" + service_code.Trim() + " ";
+                }
                 if (state != null && state.Trim() != "0")
                 {
                     if (state == "3")//处理中
@@ -27786,7 +27810,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                     else if (state == "1")//成功
                     {
-                        strSql += " and Fstatus = 2 ";
+                        strSql += " and Fstatus in(2,6) ";
                     }
                     else if (state == "2")//失败
                     {
@@ -27812,7 +27836,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         [WebMethod(Description = "代付单笔详细查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        public DataSet QueryDFDetail(string cep_id, string strBeginDate, string strEndDate)
+        public DataSet QueryDFDetail(string cep_id)
         {
             RightAndLog rl = new RightAndLog();
             try
@@ -27887,6 +27911,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     else if (tmp == "5")
                     {
                         dr["FstatusName"] = "处理中";
+                    }
+                    else if (tmp == "6")
+                    {
+                        dr["FstatusName"] = "退票";
                     }
 
                     //省份
