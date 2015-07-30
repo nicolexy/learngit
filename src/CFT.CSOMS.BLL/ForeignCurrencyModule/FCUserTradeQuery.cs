@@ -107,7 +107,7 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
         public DataSet QueryFCTradeBills(string uin, int limit, int offset)
         {
             string[] columns101 = { "acc_time", "spid", "listid", "sp_name", "list_state" };
-            string[] columns102 = { "trade_type", "trade_state", "buy_uid", "sub_business_type", "price", "price_curtype", "bank_curtype", "bank_paynum" };
+            string[] columns102 = { "trade_type", "trade_state", "buy_uid", "sub_business_type", "price", "price_curtype", "bank_curtype", "bank_paynum","coding" };
             var dic = dal.QueryFCTradeInfoByUin(uin, 101, limit, offset);
             if (dic != null)
             {
@@ -152,8 +152,8 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
         /// <returns></returns>
         public DataSet QueryFCRefundBills(string uin, int limit, int offset)
         {
-            string[] columns101 = { "acc_time", "cur_type", "listid" };
-            string[] columns102 = { "draw_id", "sp_refund_time", "sp_refund_num", "sp_refund_cash", "refund_state" };
+            string[] columns101 = { "acc_time", "cur_type", "coding", "listid" };
+            string[] columns102 = { "draw_id", "sp_refund_time", "sp_refund_num", "sp_refund_cash", "refund_state","sp_billno" };
             var dic = dal.QueryFCTradeInfoByUin(uin, 102, limit, offset);
             if (dic != null)
             {

@@ -382,6 +382,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Journey;
         
         /// <summary>
+        /// showHint control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl showHint;
+        
+        /// <summary>
         /// remark control.
         /// </summary>
         /// <remarks>

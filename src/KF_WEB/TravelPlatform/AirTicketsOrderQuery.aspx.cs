@@ -110,6 +110,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
                 var ticket_money = orow["ticket_money_str"];
                 var insurance_money = orow["insurance_money_str"];
                 remark.InnerText = string.Format("共{0}人乘机，本次订单合计金额：{1}元（其中机票{2}元，机建{3}元，燃油费{4}元，保险费{5}元）", peopleNum, totalMoney, ticket_money, airporttax_money, fuel_tax_money, insurance_money);
+                showHint.Visible = !(orow["insurance_orderid"].ToString() == "无");
                 #endregion
             }
         }
@@ -170,15 +171,37 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
                 var trade_type = this.ddlState.SelectedValue;           //订单状态     
                 var uin = this.TextUin.Text.Trim();
                 var wd = bll.GetKeyWordAndType(out queryType, TextSppreno, TextTicketno, TextTransaction_id, TextPassenger_name, TextCert_id, TextMobile, TextInsur_no, TextName);
+                DataSet ds;
                 if (string.IsNullOrEmpty(wd))
                 {
-                    WebUtils.ShowMessage(this.Page, "最少输入一个关键信息,进行查询");
-                    return;
+                    if (uin == "")
+                    {
+                        WebUtils.ShowMessage(this.Page, "最少输入一个关键信息,进行查询");
+                        return;
+                    }
+                    ds = bll.AirTicketsOrderQueryByUin(uin, trade_type, start_time, end_time, "kf", pager.PageSize, index);
                 }
-                var ds = bll.AirTicketsOrderQuery(queryType, wd, trade_type, uin, start_time, end_time, "kf", pager.PageSize, index);
+                else
+                {
+                    ds = bll.AirTicketsOrderQuery(queryType, wd, trade_type, uin, start_time, end_time, "kf", pager.PageSize, index);
+                }
+
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                {     
+                {
                     dgList.DataSource = ds.Tables[0].DefaultView;
+                    foreach (DataRow item in ds.Tables["passengers"].Rows)
+                    {
+                        var cert_id = item["cert_id"].ToString();
+                        var cert_type = item["cert_type"].ToString();
+                        if (cert_type == "NI") //身份证
+                        {
+                            item["cert_id"] = setConfig.ConvertID(cert_id, 10, 4);
+                        }
+                        else if (cert_type == "PP") //护照
+                        {
+                            item["cert_id"] = setConfig.ConvertID(cert_id, 4, 2);
+                        }
+                    }
                     dgList.DataBind();
                     ViewState["Cache"] = ds;
                 }
@@ -195,7 +218,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page,eSys.ToString());
+                WebUtils.ShowMessage(this.Page, eSys.ToString());
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
 

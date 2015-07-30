@@ -29,7 +29,7 @@ namespace CFT.CSOMS.DAL.TravelModule
         /// <returns></returns>
         public DataSet AirTicketsOrderQuery(int query_type, string wd, string trade_type, string uin, DateTime start_time, DateTime end_time, string sp_code, int limit, int page_id = 1)
         {
-            var url = System.Configuration.ConfigurationManager.AppSettings["QueryAirOrderByParamCgi"];
+            var url = System.Configuration.ConfigurationManager.AppSettings["QueryAirOrderByParamCgi"] ?? "http://kf.trip.qq.com/cgi-bin/v1.0/air_kf_search_order.cgi";
             var cgi = url
                + "?query_type=" + query_type
                + "&wd=" + System.Web.HttpUtility.UrlEncode(wd.ToString(), System.Text.Encoding.GetEncoding("gb2312"))
@@ -38,19 +38,60 @@ namespace CFT.CSOMS.DAL.TravelModule
                + "&start_time=" + start_time.ToString("yyyy-MM-dd")
                + "&end_time=" + end_time.ToString("yyyy-MM-dd")
                + "&sp_code=" + sp_code
-               + "&limit=" + limit
-               + "&page_id=" + page_id
+               + "&limit=" + limit.ToString()
+               + "&page_id=" + page_id.ToString()
               ;
             string msg;
             var answer = commRes.GetFromCGI(cgi, null, out msg);
-            //using (StreamWriter sw = new StreamWriter(@"C:\Users\Administrator\Desktop\新建文件夹\Log.txt", true))
-            //{
-            //    sw.WriteLine(cgi);
-            //}
-            //using (StreamReader sr = new StreamReader(@"C:\Users\Administrator\Desktop\kyao\01.xml", true))
-            //{
-            //    answer = sr.ReadToEnd(); //读取桌面XML文件模拟
-            //}
+            if (answer == null)
+            {
+                throw new ArgumentNullException("获取CGI失败 URL:" + cgi);
+            }
+            //请求失败
+            if (answer.IndexOf("<retcode>00</retcode>") == -1)
+            {
+                throw new Exception("请求错误返回值是:[" + answer + "]");
+            }
+            //如果有记录
+            if (answer.IndexOf("<ret_num>0</ret_num>") == -1)
+            {
+                var ds = CommQuery.PaseCgiXmlForTravelPlatform(answer, out msg);
+                var dts = AnalyzeXmlPersonsByString(answer, out msg);
+                if (dts != null)
+                {
+                    ds.Tables.AddRange(dts);
+                }
+                FieldMapString(ds);
+                return ds;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 通过uin获取订单信息
+        /// </summary>
+        /// <param name="uin">财付通账号</param>
+        /// <param name="trade_type">订单状态</param>
+        /// <param name="start_time">开始时间</param>
+        /// <param name="end_time">结束时间</param>
+        /// <param name="sp_code">Sp代码</param>
+        /// <param name="limit">页大小</param>
+        /// <param name="page_id">当前页</param>
+        /// <returns></returns>
+        public DataSet AirTicketsOrderQueryByUin(string uin, string trade_type, DateTime start_time, DateTime end_time, string sp_code, int limit, int page_id = 1)
+        {
+            var url = System.Configuration.ConfigurationManager.AppSettings["QueryAirOrderByUinCgi"] ?? "http://kf.air.tenpay.com/cgi-bin/v1.0/jp_qq_query_all_order.cgi";
+            var cgi = url
+               + "?uin=" + uin
+               + "&trade_type=" + trade_type
+               + "&start_time=" + start_time.ToString("yyyy-MM-dd")
+               + "&end_time=" + end_time.ToString("yyyy-MM-dd")
+               + "&sp_code=" + sp_code
+               + "&limit=" + limit.ToString()
+               + "&page_id=" + page_id.ToString()
+              ;
+            string msg;
+            var answer = commRes.GetFromCGI(cgi, null, out msg);
             if (answer == null)
             {
                 throw new ArgumentNullException("获取CGI失败 URL:" + cgi);
@@ -157,6 +198,10 @@ namespace CFT.CSOMS.DAL.TravelModule
                     var certType = item["cert_type"].ToString();
                     var _type = item["type"].ToString();
                     item.BeginEdit();
+                    if (item["has_insur"].ToString() == "0")
+                    {
+                        item["insur_no"] = "无";
+                    }
                     item["cert_type_str"] = certType == "NI" ? "身份证" : certType == "PP" ? "护照" : "其他";//OT  其他
                     item["type_str"] = _type == "AD" ? "成人" : "儿童";  //CH  儿童
                     item.EndEdit();
@@ -180,7 +225,14 @@ namespace CFT.CSOMS.DAL.TravelModule
                     var trade_state = item["trade_state"].ToString();
                     var trip_flag = item["trip_flag_str"].ToString();
                     item.BeginEdit();
-                    item["insur_com_str"] = company == "hezhong" ? "合众" : "其他";
+
+                    if (string.IsNullOrEmpty(company))
+                        item["insur_com_str"] = "无";
+                    else
+                        item["insur_com_str"] = company == "hezhong" ? "合众" : "其他";
+                    if (string.IsNullOrEmpty(item["insurance_orderid"].ToString()))
+                        item["insurance_orderid"] = "无";
+
                     item["strSp_code"] = SpInfo.ContainsKey(sp_code) ? SpInfo[sp_code] : "未知";
                     item["strTrade_state"] = TradeStateInfo.ContainsKey(trade_state) ? TradeStateInfo[trade_state] : "其他";
                     item["trip_flag_str"] = trip_flag == "1" ? "去程" : "回程";
