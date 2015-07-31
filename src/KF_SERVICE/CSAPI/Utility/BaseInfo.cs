@@ -379,5 +379,17 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
         }
         #endregion
 
+        #region 证书通知黑名单
+        public class CertNoticeBlackList
+        {
+            [XmlElement("spid")]
+            public string Fspid { get; set; }
+            [XmlElement("companyName")]
+            public string FcompanyName { get; set; }
+            [XmlElement("memo")]
+            public string Fmemo { get; set; }
+        }
+        #endregion
+
     }
 }

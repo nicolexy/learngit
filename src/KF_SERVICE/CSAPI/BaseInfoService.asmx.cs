@@ -1427,5 +1427,57 @@ namespace CFT.CSOMS.Service.CSAPI
 
         #endregion
 
+        #region 证书通知
+
+        [WebMethod]
+        public void QueryCertNoticeBlackList()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string spid = paramsHt.ContainsKey("spid") ? paramsHt["spid"].ToString() : "";
+                string begin_time = paramsHt.ContainsKey("begin_time") ? paramsHt["begin_time"].ToString() : "";
+                string end_time = paramsHt.ContainsKey("end_time") ? paramsHt["end_time"].ToString() : "";
+
+                int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
+                int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
+
+
+                if (offset < 0)
+                {
+                    offset = 0;
+                }
+                if (limit < 0 || limit > 1000)
+                {
+                    limit = 20;
+                }
+
+                string msg = "";
+                var infos = new CFT.CSOMS.BLL.SPOA.MerchantService().QueryCertNoticeBlackList(spid, begin_time, end_time, offset, limit);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+
+                List<BaseInfoC.CertNoticeBlackList> list = APIUtil.ConvertTo<BaseInfoC.CertNoticeBlackList>(infos.Tables[0]);
+                APIUtil.Print<BaseInfoC.CertNoticeBlackList>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("QueryCertNoticeBlackList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("QueryCertNoticeBlackList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+        #endregion
     }
 }

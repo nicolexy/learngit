@@ -9,6 +9,7 @@ using CFT.CSOMS.DAL.Infrastructure;
 using CFT.Apollo.CommunicationFramework;
 using CFT.CSOMS.COMMLIB;
 using CFT.Apollo.Logging;
+using TENCENT.OSS.CFT.KF.Common;
 
 namespace CFT.CSOMS.DAL.SPOA
 {
@@ -440,6 +441,100 @@ namespace CFT.CSOMS.DAL.SPOA
                 string Sql = string.Format("select FSpid,FModifyTime,FCertValidTimeEnd,FMixed,FCgiName,FClientHostIp,FCgiClkInt from c2c_db_inc.t_spm_certExpiredInfo_" + year + " where Fspid='{0}' and FCreateTime between '{1}' and '{2}' limit {3},{4}", spid, startTime, endTime, start, max);
                 DataSet ds = da.dsGetTotalData(Sql);
                 return ds;
+            }
+        }
+        /// <summary>
+        /// 证书过期通知黑名单 查询
+        /// </summary>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="spid"></param>
+        /// <returns></returns>
+        public DataSet QueryCertNoticeBlackList(string spid, string startTime, string endTime, int start, int max)
+        {
+            string wherestr = "";
+            if (!string.IsNullOrEmpty(spid))
+            {
+                wherestr += " and Fspid='" + spid + "'";
+            }
+            if (!string.IsNullOrEmpty(startTime))
+            {
+                wherestr += " and Fcreate_time>='" + startTime + "'";
+            }
+            if (!string.IsNullOrEmpty(endTime))
+            {
+                wherestr += " and Fcreate_time<='" + endTime + "'";
+            }
+
+            using (var da = MySQLAccessFactory.GetMySQLAccess("MerchantExpiredCert"))
+            {
+                da.OpenConn();
+                string Sql = "select FID,Fspid,FcompanyName,Fmemo,Fstate,FoperateUser,Fcreate_time,Fmodify_time from c2c_fmdb.t_certnotice_black_list where Fstate=2 {0} order by Fcreate_time desc limit {1},{2}";
+                Sql = string.Format(Sql, wherestr, start, max);
+                DataSet ds = da.dsGetTotalData(Sql);
+                return ds;
+            }
+        }
+        /// <summary>
+        /// 证书过期通知黑名单 新增
+        /// </summary>
+        /// <param name="spid"></param>
+        /// <param name="FcompanyName"></param>
+        /// <param name="Fmemo"></param>
+        /// <param name="fuid"></param>
+        public void InsertCertNoticeBlackList(string spid, string FcompanyName, string Fmemo, string fuid)
+        {
+            using (var da = MySQLAccessFactory.GetMySQLAccess("MerchantExpiredCert"))
+            {
+                da.OpenConn();
+                string qrySql = "select Fspid,Fstate from c2c_fmdb.t_certnotice_black_list where Fspid='{0}'";
+                qrySql = string.Format(qrySql, spid);
+                DataSet ds = da.dsGetTotalData(qrySql);
+                string Sql = "";
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    string fstate = ds.Tables[0].Rows[0]["Fstate"].ToString();
+                    if (fstate == "2")
+                    {
+                        throw new LogicException("该商户号已存在！");
+                    }
+                    else
+                    {
+                        Sql = "update c2c_fmdb.t_certnotice_black_list set Fstate=2,Fmemo='{0}',Fmodify_time='{1}' where fspid='{2}'";
+                        Sql = string.Format(Sql, Fmemo, DateTime.Now.ToString(), spid);
+                    }
+                }
+                else
+                {
+                    Sql = "insert into c2c_fmdb.t_certnotice_black_list (Fspid,FcompanyName,Fmemo,Fstate,FoperateUser,Fcreate_time,Fmodify_time) values('{0}','{1}','{2}',2,'{3}','{4}','{5}')";
+                    Sql = string.Format(Sql, spid, FcompanyName, Fmemo, fuid, DateTime.Now.ToString(), DateTime.Now.ToString());
+                }
+               
+                if (!da.ExecSql(Sql))
+                {
+                    throw new Exception("新增失败");
+                }
+            }
+        }
+
+        /// <summary>
+        /// 证书过期通知黑名单 删除
+        /// </summary>
+        /// <param name="Fid"></param>
+        /// <param name="FcompanyName"></param>
+        /// <param name="Fmemo"></param>
+        /// <param name="fuid"></param>
+        public void DeleteCertNoticeBlackList(string Fid, string fuid)
+        {
+            using (var da = MySQLAccessFactory.GetMySQLAccess("MerchantExpiredCert"))
+            {
+                da.OpenConn();
+                string Sql = "update c2c_fmdb.t_certnotice_black_list set fstate=4,Fmodify_time='{0}', FoperateUser='{1}'  where Fid='{2}'";
+                Sql = string.Format(Sql, DateTime.Now.ToString(), fuid, Fid);
+                if (!da.ExecSql(Sql))
+                {
+                    throw new Exception("删除失败");
+                }
             }
         }
 
