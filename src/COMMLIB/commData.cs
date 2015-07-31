@@ -97,6 +97,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             public string createtime;
             public string updatetime;
             public string returnUrl;
+            public string op_flag;//操作标志:1-新增； 2-修改； 3-作废;若没有
+            public string bull_type="1";//公告类型：1-例行维护；2-自动维护；
         }
         #endregion
 

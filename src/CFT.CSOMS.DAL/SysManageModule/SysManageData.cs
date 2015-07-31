@@ -183,7 +183,7 @@ namespace CFT.CSOMS.DAL.SysManageModule
             int port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("Relay_PORT", 22000);
             string Msg = "";
             total_num = 0;
-
+            
             string answer = RelayAccessFactory.RelayInvoke(req, request_type, false, false, ip, port);
             DataSet ds = null;
             if (answer == "")

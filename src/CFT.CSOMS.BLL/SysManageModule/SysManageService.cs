@@ -30,6 +30,7 @@ namespace CFT.CSOMS.BLL.SysManageModule
             BullType.Add("1", "例行维护");
             BullType.Add("2", "自动维护");
 
+            BullState.Add("0", "所有");
             BullState.Add("1", "正常");
             BullState.Add("2", "作废");
         }

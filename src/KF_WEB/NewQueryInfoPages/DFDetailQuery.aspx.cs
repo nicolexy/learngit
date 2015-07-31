@@ -244,7 +244,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                WebUtils.ShowMessage(this, ex.Message);
+                WebUtils.ShowMessage(this, PublicRes.GetErrorMsg(ex.Message));
             }
         }
 
@@ -335,15 +335,34 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         private DataSet GetDKDetail(string cep_id)
         {
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            try
+            {
+                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
-            //qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
+                //qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
 
-            qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
+                qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 
-            string strSTime, strETime;
+                string strSTime, strETime;
 
-            return qs.QueryDFDetail(cep_id);
+                try
+                {
+                    strSTime = DateTime.Parse(this.tbx_beginDate.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                    strETime = DateTime.Parse(this.tbx_endDate.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                }
+                catch
+                {
+                    WebUtils.ShowMessage(this, "日期格式不正确");
+                    return null;
+                }
+
+                return qs.QueryDFDetail(cep_id);
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this, PublicRes.GetErrorMsg(ex.Message));
+                return null;
+            }
         }
 
 
