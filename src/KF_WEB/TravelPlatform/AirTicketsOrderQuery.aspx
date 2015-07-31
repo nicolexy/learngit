@@ -352,7 +352,8 @@
                                         </tr>
                                         <tr>
                                             <td style="text-align: right">保险发票：</td>
-                                            <td><span>拨打保险客服电话</span><span class="bright">40001-558-558</span><span>申请邮寄</span></td>
+                                            <td>
+                                                <div runat="server" id="showHint"><span>拨打保险客服电话</span><span class='bright'>40001-558-558</span><span>申请邮寄</span></div></td>
                                         </tr>
                                     </tbody>
                                 </table>

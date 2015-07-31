@@ -63,11 +63,15 @@
 					</TD>
 				</TR>
                  <TR>
+                    <TD align="left" colspan="5"><font color="red">提现、向银行卡付款、还房贷凌晨的维护只需要软关，开发、运维、财务通知要求硬关时可与开发、财务、产品确认后进行硬关。</font>
+					</TD>
+				</TR>
+                 <TR>
 					<TD align="right" colspan="5">
                         <asp:button id="btadd" runat="server" Width="80px" Text="新增" onclick="btadd_Click"></asp:button>
                         <asp:button id="btnOpen" runat="server" Width="80px" Text="开启" onclick="btOpen_Click"></asp:button>
+                         <asp:button id="btnCancel" runat="server" Width="80px" Text="作废" onclick="btCancel_Click"></asp:button>
                          <asp:button id="btnCurrent" runat="server" Width="80px" Text="查询当前" onclick="btCurrent_Click"></asp:button>
-                          <asp:button id="btnHistory" runat="server" Width="80px" Text="查询历史" onclick="btHistory_Click"></asp:button>
 					</TD>
 				</TR>
                 </TABLE>
@@ -84,7 +88,7 @@
 								<HeaderStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#4A3C8C"></HeaderStyle>
 								<FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
 								<Columns>
-									<asp:BoundColumn DataField="bulletin_id" HeaderText="公告id" Visible="false"></asp:BoundColumn>
+									<asp:BoundColumn DataField="bulletin_id" HeaderText="公告id" Visible="true"></asp:BoundColumn>
                                     <asp:BoundColumn DataField="bull_type" Visible="false"></asp:BoundColumn>
                                     <asp:BoundColumn DataField="bull_state" Visible="false"></asp:BoundColumn>
                                     <asp:BoundColumn DataField="banktype" HeaderText="银行编码"></asp:BoundColumn>
@@ -111,10 +115,19 @@
                                   <asp:TemplateColumn>
                                       <HeaderTemplate>
                                          <asp:CheckBox id="CheckBoxAll" runat="server" OnCheckedChanged = "OnCheckBox_CheckedSelect"  AutoPostBack = "true" ></asp:CheckBox>
-                                          <asp:Label ID="selTxt" runat="server">全选</asp:Label>
+                                          <asp:Label ID="selTxt" runat="server">开启全选</asp:Label>
                                       </HeaderTemplate>
 									<ItemTemplate>
 										<asp:CheckBox id="CheckBox2" runat="server"></asp:CheckBox>
+									</ItemTemplate>
+								</asp:TemplateColumn>
+                                    <asp:TemplateColumn>
+                                      <HeaderTemplate>
+                                         <asp:CheckBox id="CheckBoxAllCancel" runat="server" OnCheckedChanged = "OnCheckBoxCancel_CheckedSelect"  AutoPostBack = "true" ></asp:CheckBox>
+                                          <asp:Label ID="CancelTxt" runat="server">作废全选</asp:Label>
+                                      </HeaderTemplate>
+									<ItemTemplate>
+										<asp:CheckBox id="CheckBoxCancel" runat="server"></asp:CheckBox>
 									</ItemTemplate>
 								</asp:TemplateColumn>
 								</Columns>

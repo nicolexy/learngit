@@ -60,7 +60,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 
                 PublicRes.GetDllDownList(ddlSysList, BankInterfaceName);
                 PublicRes.GetDllDownList(ddlBullType, BullType);
-                PublicRes.GetDllDownList(ddlBullState, BullState);
+                PublicRes.GetDropdownlist(BullState,ddlBullState);
                 ddlSysList.SelectedValue = "1";
 
                 textBoxBeginDate.Text ="";
@@ -186,23 +186,33 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             }
         }
 
-        //修改公告按钮限制
+        //修改、作废公告按钮限制
         public void dg_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
         {
             object obj1 = e.Item.Cells[16].FindControl("btupdate");
             object obj2 = e.Item.Cells[17].FindControl("CheckBox2");
+            object objcancel = e.Item.Cells[18].FindControl("CheckBoxCancel");
             if (obj1 != null)
             {
                 string banktype = e.Item.Cells[4].Text.Trim();
                 string bull_type = e.Item.Cells[1].Text.Trim();
                 DateTime endtime = DateTime.Parse(e.Item.Cells[9].Text.Trim());
+                 DateTime startime = DateTime.Parse(e.Item.Cells[8].Text.Trim());
+                 string bull_state = e.Item.Cells[2].Text.Trim();
                 LinkButton lb = (LinkButton)obj1;
                 CheckBox check = (CheckBox)obj2;
-                //不允许修改：带*银行类型；不是例行维护公告；过去时间段公告
-                if (banktype.Contains("*") || bull_type != "1" || endtime < DateTime.Now)
+                CheckBox checkCancel = (CheckBox)objcancel;
+                //不允许修改：带*银行类型、不是例行维护公告、作废公告、过去时间段公告;
+                if (banktype.Contains("*") || bull_type != "1" || endtime < DateTime.Now || bull_state=="2")
                 {
                     lb.Visible = false;
                     check.Enabled = false;
+                }
+
+                //不允许作废：带*银行类型、不是例行维护公告、作废公告；只能作废未生效公告
+                if (banktype.Contains("*") || bull_type != "1" || !(endtime > DateTime.Now && startime > DateTime.Now) || bull_state == "2")
+                {
+                    checkCancel.Enabled = false;
                 }
             }
         }
@@ -281,7 +291,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 
                 if (listIds == null || listIds.Count == 0)
                 {
-                    BindData(pager.CurrentPageIndex);
                     WebUtils.ShowMessage(this.Page, "请先选中需要操作的数据！"); return;
                 }
 
@@ -298,6 +307,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                         bulletin.endtime = DateTime.Now.AddMinutes(5).ToString("yyyy-MM-dd HH:mm:ss");
                         bulletin.IsNew = false;
                         bulletin.IsOPen = true;
+                        bulletin.op_flag = "2";//修改
                         bulletin.returnUrl = "http://kf.cf.com/SysManage/BankInterfaceManage_Detail.aspx?Fbanktype=" + bulletin.banktype.Trim() + "&sysid=" + bulletin.businesstype + "&objid=" + objid + "&opertype=0";
                         bulletin.updatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                         bulletin.updateuser = Session["uid"].ToString();
@@ -329,7 +339,63 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 WebUtils.ShowMessage(this.Page, "开启申请异常：" + errStr);
             }
         }
-      
+
+        protected void btCancel_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                int itemCounts = 0;
+                ArrayList listIds = PublicRes.GetCheckData(Datagrid2, 18, 0, "CheckBoxCancel", out itemCounts);
+
+                if (listIds == null || listIds.Count == 0)
+                {
+                    WebUtils.ShowMessage(this.Page, "请先选中需要操作的数据！"); return;
+                }
+
+                string outStr = "";
+                #region 提交申请审批
+                foreach (string id in listIds)
+                {
+                    try
+                    {
+                        commData.T_BANKBULLETIN_INFO bulletin = new commData.T_BANKBULLETIN_INFO();
+                        BankInterfaceManage_Detail bankIntManDetail = new BankInterfaceManage_Detail();
+                        string objid = System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.StaticNoManage();
+                        bulletin = bankIntManDetail.GetBulletin("", id, "");
+                        bulletin.IsNew = false;
+                        bulletin.op_flag = "3";//作废
+                        bulletin.returnUrl = "http://kf.cf.com/SysManage/BankInterfaceManage_Detail.aspx?Fbanktype=" + bulletin.banktype.Trim() + "&sysid=" + bulletin.businesstype + "&objid=" + objid + "&opertype=0";
+                        bulletin.updatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        bulletin.updateuser = Session["uid"].ToString();
+                        bankIntManDetail.CheckBulletin(this, bulletin, objid);
+                    }
+                    catch (Exception err)
+                    {
+                        string errOne = id + "|";
+                        outStr += errOne;
+                        LogHelper.LogInfo(errOne + "公告作废申请审批异常：" + err);
+                    }
+                }
+                #endregion
+
+                if (outStr != "")
+                {
+                    WebUtils.ShowMessage(this.Page, "公告作废申请异常：" + outStr);
+                    return;
+                }
+                else
+                {
+                    WebUtils.ShowMessage(this.Page, "全部作废申请已提交，请等待审批！");
+                    return;
+                }
+            }
+            catch (Exception err)
+            {
+                string errStr = PublicRes.GetErrorMsg(err.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "作废申请异常：" + errStr);
+            }
+        }
+
         protected void btCurrent_Click(object sender, System.EventArgs e)
         {
             this.pager.CurrentPageIndex = 1;
@@ -339,19 +405,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             BindData(1);
         }
       
-        protected void btHistory_Click(object sender, System.EventArgs e)
-        {
-            this.pager.CurrentPageIndex = 1;
-            ViewState["current_datetime"] = "";
-            //查询历史（三年前—--当前时间）
-            ViewState["begindate"] = DateTime.Now.AddYears(-3).ToString("yyyy-MM-dd HH:mm:ss");
-            ViewState["enddate"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            BindData(1);
-        }
-
         protected void OnCheckBox_CheckedSelect(object sender, System.EventArgs e)
         {
             PublicRes.CheckAll(sender, Datagrid2, 17, "CheckBox2");
+        }
+
+        protected void OnCheckBoxCancel_CheckedSelect(object sender, System.EventArgs e)
+        {
+            PublicRes.CheckAll(sender, Datagrid2, 18, "CheckBoxCancel");
         }
 
         private void showMsg(string msg)

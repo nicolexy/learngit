@@ -1801,6 +1801,13 @@
     <Compile Include="SpSettle\AdjustQuery.aspx.designer.cs">
       <DependentUpon>AdjustQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="SpSettle\CertBlackList.aspx.cs">
+      <DependentUpon>CertBlackList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SpSettle\CertBlackList.aspx.designer.cs">
+      <DependentUpon>CertBlackList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="SpSettle\OrderAccountQuery.aspx.cs">
       <DependentUpon>OrderAccountQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3258,6 +3265,7 @@
     <Content Include="SCRIPTS\My97DatePicker\skin\whyGreen\img.gif" />
     <Content Include="SCRIPTS\My97DatePicker\WdatePicker.js" />
     <Content Include="SpSettle\AdjustQuery.aspx" />
+    <Content Include="SpSettle\CertBlackList.aspx" />
     <Content Include="SpSettle\OrderAccountQuery.aspx" />
     <Content Include="SpSettle\OrderInfoQuery.aspx" />
     <Content Include="SpSettle\OrderRelationQuery.aspx" />
@@ -4896,7 +4904,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>8587</DevelopmentServerPort>
+          <DevelopmentServerPort>3062</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:6903/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

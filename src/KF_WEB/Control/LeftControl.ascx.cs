@@ -469,6 +469,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             AccountOperaManage1.AddSubMenu("商户营改增审核", "BaseAccount/ValueAddedTaxApprove.aspx");
             AccountOperaManage1.AddSubMenu("商户营改增查询", "BaseAccount/ValueAddedTaxQuery.aspx");
             AccountOperaManage1.AddSubMenu("结算规则查询", "TradeManage/AppealSSetting.aspx");
+            AccountOperaManage1.AddSubMenu("证书通知黑名单管理", "SpSettle/CertBlackList.aspx");
 
             //TradeLogQuery
             BankBillManage1.AddSubMenu("汇总付款数据", "BaseAccount/batPay.aspx");

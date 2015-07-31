@@ -201,6 +201,18 @@ namespace CFT.CSOMS.BLL.SPOA
         {
             return new MerchantData().QueryCgiInfo(spid, startTime, endTime, start, max);
         }
+        public DataSet QueryCertNoticeBlackList(string spid, string startTime, string endTime, int start, int max)
+        {
+            return new MerchantData().QueryCertNoticeBlackList(spid, startTime, endTime, start, max);
+        }
+        public void InsertCertNoticeBlackList(string spid, string FcompanyName, string Fmemo, string fuid)
+        {
+            new MerchantData().InsertCertNoticeBlackList(spid, FcompanyName, Fmemo, fuid);
+        }
+        public void DeleteCertNoticeBlackList(string Fid, string fuid)
+        {
+            new MerchantData().DeleteCertNoticeBlackList(Fid, fuid);
+        }
     }
 
     #region 商户联系信息

@@ -54,6 +54,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
         /// <returns></returns>
         public static string RelayInvoke(string requestString, string serviceCode, bool encrypt = false, bool invisible = false, string relayIP = "", int relayPort = 0, string coding = "", string relayDefaultSPId = "")
         {
+            LogHelper.LogInfo(relayIP +"  "+ relayPort);
             try
             {
                 if(encrypt)

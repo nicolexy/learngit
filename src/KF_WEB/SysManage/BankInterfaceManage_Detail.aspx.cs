@@ -245,7 +245,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             {
                 int total_num=0; 
                 ds = bll.QueryBankBulletin(sysid, 0, 0, bulletinId,
-                    "", "", "", "", "", 5, 0,out total_num);//通过接口返回记录
+                    "0", "", "", "", "", 5, 0,out total_num);//通过接口返回记录
                 bankbulletin = bll.TurnBankBulletinClass(ds);//将记录转换成公告类
             }
             else if (objid != null && objid != "")
@@ -351,6 +351,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 
                 #region 公告相同参数部分
                 commData.T_BANKBULLETIN_INFO bankbulletin = new commData.T_BANKBULLETIN_INFO();
+                bankbulletin.bull_type = "1";//自动维护公告(bull_type=2)客服系统不可编辑；只有例行维护公告可以编辑；
                 bankbulletin.IsOPen = this.InterfaceOpen.Checked;
             //    bankbulletin.title = tbTitle.Text.Trim();
                 bankbulletin.createuser = Session["uid"].ToString();
@@ -395,12 +396,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                         {
                             if (!isAdd)//被修改的那条公告id为旧的，不是新增
                             {
+                                bankbulletin.op_flag = "2";
                                 bankbulletin.bulletin_id = this.tbbulletin_id.Text.Trim();
                                 bankbulletin.IsNew = false;
                                 bankbulletin.createtime = this.tbcreatetime.Text.Trim();
                             }
                             else
                             {
+                                bankbulletin.op_flag = "1";
                                 bankbulletin.bulletin_id = System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.NewStaticNoManage();//每个银行公告ID
                                 bankbulletin.IsNew = true;
                                 bankbulletin.createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -677,8 +680,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             { "createuser", Convert.ToString(bankbulletin.createuser) },
             { "createtime", Convert.ToString(bankbulletin.createtime) },
             { "updateuser", Convert.ToString(bankbulletin.updateuser) },
-            //{ "Falwtime", Convert.ToString(bankbulletin.Falwtime) },
-            { "returnUrl", Convert.ToString(bankbulletin.returnUrl) }};
+            { "returnUrl", Convert.ToString(bankbulletin.returnUrl) },
+            { "op_flag", Convert.ToString(bankbulletin.op_flag) },
+            { "bull_type", Convert.ToString(bankbulletin.bull_type) }
+            };
             return param;
         }
 

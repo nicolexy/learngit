@@ -45,10 +45,31 @@ namespace CFT.CSOMS.BLL.TravelModule
             var ds = Dal.AirTicketsOrderQuery(query_type, wd, trade_type, uin, start_time, end_time, sp_code, limit, page_id);
             if (ds != null && ds.Tables != null)
             {
-               FenToYuan_Table(ds.Tables[0], "_str", "total_money", "adult_airport_tax", "adult_fuel_tax", "child_airport_tax", "child_fuel_tax", "adult_price", "child_price", "airport_tax_money", "fuel_tax_money", "ticket_money", "insurance_money");
+                FenToYuan_Table(ds.Tables[0], "_str", "total_money", "adult_airport_tax", "adult_fuel_tax", "child_airport_tax", "child_fuel_tax", "adult_price", "child_price", "airport_tax_money", "fuel_tax_money", "ticket_money", "insurance_money");
             }
             return ds;
 
+        }
+
+        /// <summary>
+        /// 通过uin获取订单信息
+        /// </summary>
+        /// <param name="uin">财付通账号</param>
+        /// <param name="trade_type">订单状态</param>
+        /// <param name="start_time">开始时间</param>
+        /// <param name="end_time">结束时间</param>
+        /// <param name="sp_code">Sp代码</param>
+        /// <param name="limit">页大小</param>
+        /// <param name="page_id">当前页</param>
+        /// <returns></returns>
+        public DataSet AirTicketsOrderQueryByUin(string uin, string trade_type, DateTime start_time, DateTime end_time, string sp_code, int limit, int page_id = 1)
+        {
+            var ds = Dal.AirTicketsOrderQueryByUin(uin, trade_type, start_time, end_time, sp_code, limit, page_id);
+            if (ds != null && ds.Tables != null)
+            {
+                FenToYuan_Table(ds.Tables[0], "_str", "total_money", "adult_airport_tax", "adult_fuel_tax", "child_airport_tax", "child_fuel_tax", "adult_price", "child_price", "airport_tax_money", "fuel_tax_money", "ticket_money", "insurance_money");
+            }
+            return ds;
         }
 
         /// <summary>

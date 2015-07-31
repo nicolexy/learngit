@@ -188,7 +188,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                WebUtils.ShowMessage(this, ex.Message);
+                WebUtils.ShowMessage(this, PublicRes.GetErrorMsg(ex.Message));
             }
         }
 
@@ -285,7 +285,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                WebUtils.ShowMessage(this, ex.Message);
+                WebUtils.ShowMessage(this, PublicRes.GetErrorMsg(ex.Message));
             }
         }
     }

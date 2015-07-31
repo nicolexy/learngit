@@ -48,11 +48,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     if (Request.QueryString["batchid"] != null)
                         this.tbx_spBatchID.Text = Request.QueryString["batchid"].Trim();
 
+                    if (Request.QueryString["sDate"] != "")
+                        this.tbx_beginDate.Text = Request.QueryString["sDate"];
+
+                    if (Request.QueryString["eDate"] != "")
+                        this.tbx_endDate.Text = Request.QueryString["eDate"];
+
                     if (Request.QueryString["state"] != null)
                     {
                         if (Request.QueryString["state"] == "s")
                         {
                             this.ddl_state.SelectedIndex = 1;
+
+                            //代付批量成功到单笔查询，单笔查询中成功的状态包含成功、退票两种状态
+                           // 而且因为退票时间长，所以不能根据时间来查询。
+                            this.tbx_beginDate.Text = "";
+                            this.tbx_endDate.Text = "";
                         }
                         else if (Request.QueryString["state"] == "f")
                         {
@@ -63,12 +74,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                             this.ddl_state.SelectedIndex = 3;
                         }
                     }
-
-                    if (Request.QueryString["sDate"] != "")
-                        this.tbx_beginDate.Text = Request.QueryString["sDate"];
-
-                    if (Request.QueryString["eDate"] != "")
-                        this.tbx_endDate.Text = Request.QueryString["eDate"];
 
                     BindData(1, true);
                 }
@@ -117,45 +122,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         private void BindData(int pageIndex, bool needUpdateCount)
         {
+            try
+            {
+                ValidData();
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this, ex.Message);
+                return;
+            }
+
             Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
             //qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
 
             qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-
+            string strSTime = ViewState["strSTime"].ToString();
+            string strETime = ViewState["strETime"].ToString();
             try
             {
-                DateTime sTime, eTime;
-                string strSTime, strETime;
-                try
-                {
-                    sTime = DateTime.Parse(this.tbx_beginDate.Text);
-                    eTime = DateTime.Parse(this.tbx_endDate.Text);
-
-                    strSTime = sTime.ToString("yyyy-MM-dd HH:mm:ss");
-                    strETime = eTime.ToString("yyyy-MM-dd HH:mm:ss");
-
-                    if (sTime.AddDays(7) <= eTime)
-                    {
-                        WebUtils.ShowMessage(this, "日期跨度不能大于一周");
-                        return;
-                    }
-
-                    /*
-                    if(this.tbx_spid.Text.Trim() == "")
-                    {
-                        WebUtils.ShowMessage(this,"查询商户号不能为空");
-                        return;
-                    }
-                    */
-                }
-                catch
-                {
-                    WebUtils.ShowMessage(this, "日期格式不正确");
-                    return;
-                }
-
-                DataSet ds = qs.QueryDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text, strSTime,
+                DataSet ds = qs.QueryDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text,strSTime,
                     strETime, this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, this.ddl_state.SelectedValue,
                     txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue,
                     (pageIndex - 1) * this.pager.PageSize + 1, this.pager.PageSize);
@@ -182,24 +168,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     if (this.ddl_state.SelectedValue == "0")
                     {
                         DataSet ds2 = qs.CountDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
-                            this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, "0");
+                            this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, "0", 
+                            txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue);
 
                         this.pager.RecordCount = int.Parse(ds2.Tables[0].Rows[0]["totalRecordCount"].ToString());
 
                         ds2 = qs.CountDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
-                            this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, "1");
+                            this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, "1",
+                            txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue);
 
                         this.lb_successAllMoney.Text = setConfig.FenToYuan(ds2.Tables[0].Rows[0]["totalPayNum"].ToString());
                         this.lb_successNum.Text = ds2.Tables[0].Rows[0]["totalRecordCount"].ToString();
 
                         ds2 = qs.CountDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
-                            this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, "2");
+                            this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, "2",
+                            txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue);
 
                         this.lb_failAllMoney.Text = setConfig.FenToYuan(ds2.Tables[0].Rows[0]["totalPayNum"].ToString());
                         this.lb_failNum.Text = ds2.Tables[0].Rows[0]["totalRecordCount"].ToString();
 
                         ds2 = qs.CountDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
-                            this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, "3");
+                            this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, "3",
+                            txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue);
 
                         this.lb_handlingAllMoney.Text = setConfig.FenToYuan(ds2.Tables[0].Rows[0]["totalPayNum"].ToString());
                         this.lb_handlingNum.Text = ds2.Tables[0].Rows[0]["totalRecordCount"].ToString();
@@ -207,7 +197,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     else
                     {
                         DataSet ds2 = qs.CountDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
-                            this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, this.ddl_state.SelectedValue);
+                            this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, this.ddl_state.SelectedValue,
+                            txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue);
 
                         switch (this.ddl_state.SelectedValue)
                         {
@@ -247,30 +238,54 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                         }
                     }
                 }
-
-
-                //				this.lb_failAllMoney.Text = setConfig.FenToYuan(fTotalMoney);
-                //				this.lb_failNum.Text = fTotalNums.ToString();
-                //
-                //				this.lb_successAllMoney.Text = setConfig.FenToYuan(sTotalMoney);
-                //				this.lb_successNum.Text = sTotalNums.ToString();
-                //
-                //				this.lb_handlingAllMoney.Text = setConfig.FenToYuan(hTotalMoney);
-                //				this.lb_handlingNum.Text = hTotalNums.ToString();
-
+              
                 this.DataGrid_QueryResult.DataSource = ds;
                 this.DataGrid_QueryResult.DataBind();
             }
             catch (Exception ex)
             {
-                WebUtils.ShowMessage(this, ex.Message);
+                WebUtils.ShowMessage(this, PublicRes.GetErrorMsg(ex.Message));
             }
         }
 
+        private void ValidData()
+        {
+            DateTime sTime, eTime;
+            ViewState["strSTime"] = "";
+            ViewState["strETime"] = "";
+            try
+            {
+                string begin = this.tbx_beginDate.Text.Trim();
+                string end = this.tbx_endDate.Text.Trim();
+                if ((!string.IsNullOrEmpty(begin)) && (!string.IsNullOrEmpty(end)))
+                {
+                    sTime = DateTime.Parse(this.tbx_beginDate.Text);
+                    eTime = DateTime.Parse(this.tbx_endDate.Text);
 
+                    ViewState["strSTime"] = sTime.ToString("yyyy-MM-dd HH:mm:ss");
+                    ViewState["strETime"] = eTime.ToString("yyyy-MM-dd HH:mm:ss");
+
+                    if (sTime.AddDays(7) <= eTime)
+                    {
+                        throw new Exception("日期跨度不能大于一周");
+                    }
+                }
+
+                if (this.tbx_spid.Text.Trim() == "" || this.tbx_spBatchID.Text.Trim() == "")
+                {
+                    throw new Exception("查询商户号、批次号不能为空");
+                }
+
+            }
+            catch
+            {
+                throw new Exception("日期格式不正确");
+            }
+        }
 
         protected void btn_serach_Click(object sender, System.EventArgs e)
         {
+           
             BindData(1, true);
 
             this.pager.CurrentPageIndex = 1;
@@ -320,26 +335,34 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         private DataSet GetDKDetail(string cep_id)
         {
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-            //qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
-
-            qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-
-            string strSTime, strETime;
-
             try
             {
-                strSTime = DateTime.Parse(this.tbx_beginDate.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                strETime = DateTime.Parse(this.tbx_endDate.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+
+                //qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
+
+                qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
+
+                string strSTime, strETime;
+
+                try
+                {
+                    strSTime = DateTime.Parse(this.tbx_beginDate.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                    strETime = DateTime.Parse(this.tbx_endDate.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                }
+                catch
+                {
+                    WebUtils.ShowMessage(this, "日期格式不正确");
+                    return null;
+                }
+
+                return qs.QueryDFDetail(cep_id);
             }
-            catch
+            catch (Exception ex)
             {
-                WebUtils.ShowMessage(this, "日期格式不正确");
+                WebUtils.ShowMessage(this, PublicRes.GetErrorMsg(ex.Message));
                 return null;
             }
-
-            return qs.QueryDFDetail(cep_id, strSTime, strETime);
         }
 
 

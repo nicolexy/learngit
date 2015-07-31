@@ -100,8 +100,8 @@
                                 <Columns>
                                     <asp:BoundColumn DataField="acc_time" HeaderText="交易时间" />
                                     <asp:BoundColumn DataField="spid" HeaderText="商户编号" />
-                                    <asp:BoundColumn DataField="listid" HeaderText="MD订单号" />
-                                    <asp:BoundColumn DataField="listid" HeaderText="财付通订单号" />
+                                    <asp:BoundColumn DataField="coding" HeaderText="商户订单号" />
+                                    <asp:BoundColumn DataField="listid" HeaderText="MD订单号 / 财付通订单号" />
                                     <asp:BoundColumn DataField="sp_name" HeaderText="商户名称" />
                                     <asp:BoundColumn DataField="price_str" HeaderText="交易金额" />
                                     <asp:BoundColumn DataField="trade_type_str" HeaderText="交易类型" />
@@ -127,8 +127,8 @@
                                 <SelectedItemStyle BackColor="#738A9C" Font-Bold="True" ForeColor="#F7F7F7" />
                                 <Columns>
                                     <asp:BoundColumn DataField="acc_time" HeaderText="交易时间" />
-                                    <asp:BoundColumn DataField="listid" HeaderText="商户订单号" />
-                                    <asp:BoundColumn DataField="listid" HeaderText="MD订单号" />
+                                    <asp:BoundColumn DataField="sp_billno" HeaderText="商户订单号" />
+                                    <asp:BoundColumn DataField="coding" HeaderText="MD订单号" />
                                     <asp:BoundColumn DataField="draw_id" HeaderText="退款订单号" />
                                     <asp:BoundColumn DataField="sp_refund_time" HeaderText="退款时间" />
                                     <asp:BoundColumn DataField="cur_type_str" HeaderText="交易币种" />
