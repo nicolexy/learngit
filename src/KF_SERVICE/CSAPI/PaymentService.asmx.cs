@@ -1019,6 +1019,233 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         #endregion
+
+        #region 手Q支付
+
+        /// <summary>
+        ///手Q还款列表 
+        /// </summary>
+        [WebMethod]
+        public void RefundHandQQuery()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //必填参数验证
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "ID", "type", "begin_time", "end_time", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string ID = paramsHt.ContainsKey("ID") ? paramsHt["ID"].ToString() : "";
+                int type = paramsHt.ContainsKey("type") ? APIUtil.StringToInt(paramsHt["type"].ToString()) : 1;
+                DateTime begin_time = paramsHt.ContainsKey("begin_time") ? APIUtil.StrToDate(paramsHt["begin_time"].ToString()) : DateTime.Now;
+                DateTime end_time = paramsHt.ContainsKey("end_time") ? APIUtil.StrToDate(paramsHt["end_time"].ToString()) : DateTime.Now;
+                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
+                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
+
+                if (offset < 0)
+                {
+                    offset = 0;
+                }
+                if (limit < 0 || limit > 1000)
+                {
+                    limit = 50;
+                }
+                string start_time = begin_time.ToString("yyyy-MM-dd 00:00:00");
+                string end_time_str = end_time.ToString("yyyy-MM-dd 23:59:59");
+
+                var infos = new CFT.CSOMS.BLL.HandQModule.HandQService().RefundHandQQuery(ID, type.ToString(), start_time, end_time_str, offset, limit);
+
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Payment.RefundHandQList> list = APIUtil.ConvertTo<Payment.RefundHandQList>(infos.Tables[0]);
+                APIUtil.Print<Payment.RefundHandQList>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("RefundHandQQuery").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("RefundHandQQuery").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 手Q还款详情
+        /// </summary>
+        [WebMethod]
+        public void RefundHandQDetail()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //必填参数验证
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "ID", "type", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string ID = paramsHt.ContainsKey("ID") ? paramsHt["ID"].ToString() : "";
+                int type = paramsHt.ContainsKey("type") ? APIUtil.StringToInt(paramsHt["type"].ToString()) : 3;
+
+                var infos = new CFT.CSOMS.BLL.HandQModule.HandQService().RefundHandQDetailQuery(ID, type.ToString());
+
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                    List<Payment.RefundHandQDetail> list = APIUtil.ConvertTo<Payment.RefundHandQDetail>(infos.Tables[0]);
+                    APIUtil.Print<Payment.RefundHandQDetail>(list);
+                }
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("RefundHandQDetail").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("RefundHandQDetail").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        [WebMethod]
+        public void GetSendRedPacketInfo()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "begin_time", "end_time", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                DateTime begin_time = paramsHt.ContainsKey("begin_time") ? APIUtil.StrToDate(paramsHt["begin_time"].ToString()) : DateTime.Now;
+                DateTime end_time = paramsHt.ContainsKey("end_time") ? APIUtil.StrToDate(paramsHt["end_time"].ToString()) : DateTime.Now;
+                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
+                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
+
+                string begin_time_str = begin_time.ToString("yyyy-MM-dd");
+                string end_time_str = end_time.AddDays(1).ToString("yyyy-MM-dd");
+                if (offset < 0)
+                {
+                    offset = 0;
+                }
+                if (limit < 0 || limit > 1000)
+                {
+                    limit = 50;
+                }
+
+                string strOutMsg = "发红包信息反馈";
+                var infos = new CFT.CSOMS.BLL.HandQModule.HandQService().SendRedPacketInfo(uin, "", begin_time_str, end_time_str, offset, limit, out strOutMsg);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Payment.SendRedPacketInfo> list = APIUtil.ConvertTo<Payment.SendRedPacketInfo>(infos.Tables[0]);
+                APIUtil.Print<Payment.SendRedPacketInfo>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetSendRedPacketInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetSendRedPacketInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        [WebMethod]
+        public void GetRecvRedPacketInfo()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "begin_time", "end_time", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                DateTime begin_time = paramsHt.ContainsKey("begin_time") ? APIUtil.StrToDate(paramsHt["begin_time"].ToString()) : DateTime.Now;
+                DateTime end_time = paramsHt.ContainsKey("end_time") ? APIUtil.StrToDate(paramsHt["end_time"].ToString()) : DateTime.Now;
+                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
+                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
+
+                string begin_time_str = begin_time.ToString("yyyy-MM-dd");
+                string end_time_str = end_time.AddDays(1).ToString("yyyy-MM-dd");
+                if (offset < 0)
+                {
+                    offset = 0;
+                }
+                if (limit < 0 || limit > 1000)
+                {
+                    limit = 50;
+                }
+
+                string strOutMsg = "收红包信息反馈";
+                var infos = new CFT.CSOMS.BLL.HandQModule.HandQService().RecvRedPacketInfo(uin, "", begin_time_str, end_time_str, offset, limit, out strOutMsg);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Payment.RecvRedPacketInfo> list = APIUtil.ConvertTo<Payment.RecvRedPacketInfo>(infos.Tables[0]);
+                APIUtil.Print<Payment.RecvRedPacketInfo>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetRecvRedPacketInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetRecvRedPacketInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        [WebMethod]
+        public void GetRedPacketDetail()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "listid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string listid = paramsHt.ContainsKey("listid") ? paramsHt["listid"].ToString() : "";              
+                int type = paramsHt.ContainsKey("type") ? APIUtil.StringToInt(paramsHt["type"].ToString()) : 1;
+            
+                string strOutMsg = "红包详情";
+                var infos = new CFT.CSOMS.BLL.HandQModule.HandQService().RequestHandQDetail(listid, 1, 0, 1, out strOutMsg);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Payment.RedPacketDetail> list = APIUtil.ConvertTo<Payment.RedPacketDetail>(infos.Tables[0]);
+                APIUtil.Print<Payment.RedPacketDetail>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetRedPacketDetail").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetRedPacketDetail").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        #endregion
     }
-    
 }

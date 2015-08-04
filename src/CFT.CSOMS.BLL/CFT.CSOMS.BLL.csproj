@@ -60,12 +60,14 @@
     <Compile Include="BankCardBindModule\BankCardBindService.cs" />
     <Compile Include="CFTAccountModule\AccountService.cs" />
     <Compile Include="CheckModoule\CheckService.cs" />
+    <Compile Include="CRTModule\CRTService.cs" />
     <Compile Include="ForeignCurrencyModule\FCUserTradeQuery.cs" />
     <Compile Include="FundModule\LCTBalanceService.cs" />
     <Compile Include="HandQModule\HandQService.cs" />
     <Compile Include="InternationalityPayModule\QueryWeiXinMircoPay.cs" />
     <Compile Include="InternetBank\InternetBankService.cs" />
     <Compile Include="LifeFeePaymentModule\LifeFeePaymentService.cs" />
+    <Compile Include="MobileModule\MobileService.cs" />
     <Compile Include="PNRModule\PNRService.cs" />
     <Compile Include="ForeignCardModule\ForeignCardService.cs" />
     <Compile Include="ForeignCurrencyModule\ForeignCurrencyService.cs" />

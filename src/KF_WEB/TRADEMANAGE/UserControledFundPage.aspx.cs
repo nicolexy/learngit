@@ -34,8 +34,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             if (!IsPostBack)
             {
-                
-            }           
+
+            }
         }
 
         #region Web 窗体设计器生成的代码
@@ -69,9 +69,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             try
             {
-                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-
                 DataTable dt = new AccountService().QueryUserCtrlFund(qqid, Session["uid"].ToString());
 
                 if (dt != null && dt.Rows.Count > 0)
@@ -83,16 +80,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 {
                     this.DataGrid_QueryResult.DataSource = null;
                     this.DataGrid_QueryResult.DataBind();
-                }             
+                    WebUtils.ShowMessage(this.Page, "用户受控资金为空");
+                }
             }
-            catch (SoapException eSoap) //捕获soap类异常
+            catch (Exception ex)
             {
-                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
-            }
-            catch (Exception eSys)
-            {
-                WebUtils.ShowMessage(this.Page, "查询异常！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
+                WebUtils.ShowMessage(this.Page, "查询异常！" + PublicRes.GetErrorMsg(ex.Message.ToString()));
             }
         }
 
@@ -117,7 +110,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 WebUtils.ShowMessage(this.Page, "查询解绑日志异常！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
         }
-    
+
         protected void btn_query_Click(object sender, System.EventArgs e)
         {
             StartQuery(this.txt_qqid.Text);
@@ -130,7 +123,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             {
                 if (!ClassLib.ValidateRight("UnFinanceControl", this))
                 {
-                    throw new Exception("无权限！");
+                    WebUtils.ShowMessage(this.Page, "无解绑权限");
+                    return;
                 }
                 if (new AccountService().UnbindAllCtrlFund(this.txt_qqid.Text, Session["uid"].ToString()))
                 {
@@ -144,13 +138,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
         }
 
-        private void ShowMsg(string msg)
-        {
-            Response.Write("<script language=javascript>alert('" + msg + "')</script>");
-        }
-
         protected void DataGrid1_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
-        {     
+        {
             object obj = e.Item.Cells[7].FindControl("removeButton");
 
             if (obj != null)
@@ -161,21 +150,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 {
                     lb.Visible = true;
                 }
-            }        
+            }
         }
 
         private void DataGrid_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
-        {      
+        {
             string cur_type = e.Item.Cells[5].Text.Trim();//类型
             string balance = e.Item.Cells[9].Text.Trim();//金额 单位分
-        
+
             try
             {
                 if (e.CommandName == "remove")
                 {
                     if (!ClassLib.ValidateRight("UnFinanceControl", this))
                     {
-                        throw new Exception("无权限！");
+                        WebUtils.ShowMessage(this.Page, "无解绑权限");
+                        return;
                     }
                     if (new AccountService().UnbindSingleCtrlFund(this.txt_qqid.Text, Session["uid"].ToString(), cur_type, balance))
                     {

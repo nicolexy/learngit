@@ -391,5 +391,147 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
         }
         #endregion
 
+        #region 手机绑定查询
+
+        public class MobileBindInfo
+        {
+            [XmlElement("uid")]
+            public string Fuid { get; set; }
+            [XmlElement("qqid")]
+            public string Fqqid { get; set; }
+            [XmlElement("email")]
+            public string Femail { get; set; }
+            [XmlElement("mobile")]
+            public string Fmobile { get; set; }
+            [XmlElement("mobile_state")]
+            public string MobileState { get; set; }
+            [XmlElement("msg_state")]
+            public string MsgState { get; set; }
+            [XmlElement("mobile_pay_state")]
+            public string MobilePayState { get; set; }
+            [XmlElement("unbind")]
+            public string Unbind { get; set; }
+        }
+        #endregion
+
+        #region 个人证书管理
+
+        public class UserCrtList
+        {
+            [XmlElement("scene")]
+            public string Fscene { get; set; }
+            [XmlElement("state_name")]
+            public string FstateName { get; set; }
+            [XmlElement("lstate_name")]
+            public string FlstateName { get; set; }
+            [XmlElement("validity_begin")]
+            public string Fvalidity_begin { get; set; }
+            [XmlElement("validity_end")]
+            public string Fvalidity_end { get; set; }
+            [XmlElement("ip")]
+            public string Fip { get; set; }
+            [XmlElement("create_time")]
+            public string Fcreate_time { get; set; }
+            [XmlElement("Fmodify_time")]
+            public string Fmodify_time { get; set; }
+            [XmlElement("delete_time")]
+            public string Fmodify_time2 { get; set; }
+        }
+
+        public class DeleteCrtInfo
+        {
+            [XmlElement("modify_time")]
+            public string Fmodify_time { get; set; }
+            [XmlElement("ip")]
+            public string DeleteIP { get; set; }
+        }
+
+        #endregion
+    }
+
+    public class FreezeInfo
+    {
+        public FreezeInfo()
+        { 
+        
+        }
+
+        public class UserFreezeRecord
+        {
+            [XmlElement("uin")]
+            public string Fqqid { get; set; }
+            [XmlElement("freeze_reason")]
+            public string strFreason { get; set; }
+            [XmlElement("type")]
+            public string strType { get; set; }
+            [XmlElement("sign_name")]
+            public string strSignName { get; set; }
+            [XmlElement("connum")]
+            public string Fconnum { get; set; }
+            [XmlElement("modify_time")]
+            public string Fmodify_time { get; set; }
+            [XmlElement("list_id")]
+            public string Flistid { get; set; }
+            [XmlElement("bkid")]
+            public string Fbkid { get; set; }
+            [XmlElement("true_name")]
+            public string Ftrue_name { get; set; }
+            [XmlElement("paynum")]
+            public string Fpaynum { get; set; }
+            [XmlElement("balance")]
+            public string Fbalance { get; set; }
+            [XmlElement("con")]
+            public string Fcon { get; set; }
+            [XmlElement("curtype")]
+            public string strFcurtype { get; set; }
+            [XmlElement("bank_name")]
+            public string strBankName { get; set; }
+            [XmlElement("memo")]
+            public string Fmemo { get; set; }
+            [XmlElement("apply_id")]
+            public string Fapplyid { get; set; }
+        }
+
+        public class FreezeList
+        {
+            [XmlElement("username")]
+            public string FUserName { get; set; }
+            [XmlElement("freeze_type")]
+            public string FFreezeTypeName { get; set; }
+            [XmlElement("handle_name")]
+            public string FHandleFinishName { get; set; }
+            [XmlElement("freeze_userID")]
+            public string FFreezeUserID { get; set; }
+            [XmlElement("freeze_time")]
+            public string FFreezeTime { get; set; }
+            [XmlElement("id")]
+            public string Fid { get; set; }
+        }
+
+        public class FreezeListDetail
+        {
+            [XmlElement("username")]
+            public string FUserName { get; set; }
+            [XmlElement("contact")]
+            public string FContact { get; set; }
+            [XmlElement("freeze_type")]
+            public string strFFreezeType { get; set; }
+            [XmlElement("freezeID")]
+            public string FFreezeID { get; set; }
+            [XmlElement("freeze_userID")]
+            public string FFreezeUserID { get; set; }
+            [XmlElement("freeze_time")]
+            public string FFreezeTime { get; set; }
+            [XmlElement("freeze_reason")]
+            public string FFreezeReason { get; set; }
+            [XmlElement("handle_userID")]
+            public string FHandleUserID { get; set; }
+            [XmlElement("handle_time")]
+            public string FHandleTime { get; set; }
+            [XmlElement("handle_result")]
+            public string FHandleResult { get; set; }
+            [XmlElement("freeze_channel")]
+            public string strFfreeze_channel { get; set; }
+        }
     }
 }

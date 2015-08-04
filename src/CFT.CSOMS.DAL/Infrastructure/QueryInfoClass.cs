@@ -1851,4 +1851,195 @@ namespace CFT.CSOMS.DAL.Infrastructure
 
     #endregion
 
+    #region 冻结查询类。
+
+    public class FreezeQueryClass : Query_BaseForNET
+    {
+        public FreezeQueryClass(string fid)
+        {
+            fstrSql = "select * from c2c_fmdb.t_freeze_list  where  Fid='" + fid + "'";
+            fstrSql_count = "select count(*) from c2c_fmdb.t_freeze_list where  Fid='" + fid + "'";
+        }
+
+        public FreezeQueryClass(string qqid, int handleFinish)
+        {
+            fstrSql = "select * from c2c_fmdb.t_freeze_list  where  FFreezeID='" + qqid + "' and FHandleFinish=1";
+            fstrSql_count = "select count(*) from c2c_fmdb.t_freeze_list where  FFreezeID='" + qqid + "' and FHandleFinish=1";
+        }
+
+        public FreezeQueryClass(DateTime u_BeginTime, DateTime u_EndTime, string freezeuser, string username, int handletype, int statetype, string qqid)
+        {
+            string strGroup = "";
+            string strWhere = "";
+
+            strWhere += " where FFreezeTime between '" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss")
+                + "' and '" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss") + "' ";
+
+            if (statetype != 0)
+            {
+                strWhere += " and FHandleFinish=" + statetype.ToString() + " ";
+            }
+
+            if (handletype != 0)
+            {
+                strWhere += " and FFreezeType=" + handletype.ToString() + " ";
+            }
+
+            if (freezeuser != null && freezeuser.Trim() != "")
+            {
+                strWhere += " and FFreezeuserID='" + freezeuser + "' ";
+            }
+
+            if (username != null && username.Trim() != "")
+            {
+                strWhere += " and FUserName like '%" + username + "%' ";
+            }
+
+            if (qqid != null && qqid.Trim() != "")
+            {
+                strWhere += " and FFreezeID = '" + qqid + "' ";
+            }
+
+            string TableName1 = "c2c_fmdb.t_freeze_list";
+            strGroup = strGroup + " select FID,FFreezeUserID,FFreezeTime,FFreezeType,FContact,FFreezeReason,FHandleUserID,FHandleResult,"
+                + "(case FFreezeType when 1 then '冻结帐户' when 2 then '锁定交易单' else '' end) FFreezeTypeName,FUserName,"
+                + "FHandleFinish,(case FHandleFinish when 1 then '处理中' when 9 then '处理完成' else '' end ) FHandleFinishName,FFreezeID from "
+                + TableName1 + strWhere + " ";
+
+            fstrSql = strGroup;
+            fstrSql_count = " select count(*) from ( " + strGroup + ") a ";
+        }
+    }
+
+    public class FreezeFinQueryClass : Query_BaseForNET
+    {
+        // 目前页面提供的冻结金额只有一个限额，所以添加一个上限。
+        private const double m_FreezeFinMax = 10000;
+
+        public FreezeFinQueryClass(string strBeginDate, string strEndDate, string fpayAccount, double freezeFin, string flistID, int limStart, int limMax)
+        {
+            if (flistID == null || flistID.Trim() == "")
+            {
+                if (fpayAccount == null)
+                {
+                    throw new Exception("查询账户不能为空！");
+                }
+
+                this.ICEcommand = "QUERY_USER_BANKROLL_FULL";
+
+                string strUID = PublicRes.ConvertToFuid(fpayAccount);
+
+                this.ICESql += "uid=" + strUID;
+                //测试用的UID
+                //this.ICESql += "uid=295191000";
+                // this.ICESql += "&start_time=" + strBeginDate + "&end_time=" + strEndDate + "&type=3";
+
+                //echo 20150113 加上解冻记录查询
+                this.ICESql += "&start_time=" + strBeginDate + "&end_time=" + strEndDate + "&type_list=3,4";
+
+                if (freezeFin != 0)
+                {
+                    this.ICESql += "&con_low=" + (freezeFin * 100) + "&con_high=" + (m_FreezeFinMax * 100);
+                }
+
+                this.ICESql += "&lim_start=" + limStart;
+                this.ICESql += "&lim_count=" + limMax;
+            }
+            else
+            {
+                // 如果有listid查询，则使用QUERY_BANKROLL_LISTID_2，而这个接口只接受2个参数
+                if (fpayAccount == null)
+                {
+                    throw new Exception("查询账户不能为空！");
+                }
+
+                this.ICEcommand = "QUERY_BANKROLL_LISTID_2";
+                string strUID = PublicRes.ConvertToFuid(fpayAccount);
+                this.ICESql += "uid=" + strUID;
+                // 测试用的UID
+                //this.ICESql += "uid=295191000";
+                this.ICESql += "&listid=" + flistID;
+            }
+        }
+    }
+
+
+
+
+
+    public class FreezeQueryClass_2 : Query_BaseForNET
+    {
+        public FreezeQueryClass_2(string fid)
+        {
+            fstrSql = "select * from c2c_fmdb.t_freeze_list  where  Fid='" + fid + "'";
+            fstrSql_count = "select count(*) from c2c_fmdb.t_freeze_list where  Fid='" + fid + "'";
+        }
+
+        public FreezeQueryClass_2(string szQQID, string szBeginDate, string szEndDate, string szStatue, string szListID,
+            string szFreezeUser, string szFreezeReason)
+        {
+            string strGroup = "";
+            string strWhere = " where (1=1) ";
+
+            if (szBeginDate != null && szBeginDate != "")
+            {
+                strWhere += " and a.FFreezeTime>= '" + szBeginDate + "' ";
+            }
+
+            if (szEndDate != null && szEndDate != "")
+            {
+                strWhere += " and a.FFreezeTime<= '" + szEndDate + "' ";
+            }
+
+            if (szStatue != "99")
+            {
+                if (szStatue == "0")
+                {
+                    strWhere += " and b.FField3 is null";
+                }
+                else if (szStatue == "10")
+                {
+                    szStatue = "0";
+
+                    strWhere += " and b.fsourceType=" + szStatue + " and b.FField3=''";
+                }
+                else
+                {
+                    strWhere += " and b.fsourceType=" + szStatue + " and b.FField3 != '' ";
+                }
+            }
+
+            if (szFreezeUser != null && szFreezeUser != "")
+            {
+                strWhere += " and b.FField3 like '%" + szFreezeUser + "%' ";
+            }
+
+            if (szQQID != null && szQQID != "")
+            {
+                strWhere += " and a.FFreezeID = '" + szQQID + "' ";
+            }
+
+            if (szListID != null && szListID != "")
+            {
+                strWhere += " and a.FID= '" + szListID + "'";
+            }
+
+            if (szFreezeReason != "")
+            {
+                strWhere += " and a.FFreezeReason like '%" + szFreezeReason + "%' ";
+            }
+
+            // 只将未解冻的结果查出来
+            strWhere += " and a.FHandleFinish=1 group by a.fid order by a.FFreezeTime DESC ";       
+            string TableName = "c2c_fmdb.t_freeze_list a ";
+            string joinSql = " left outer join c2c_fmdb.t_Freeze_Detail b on a.fid = b.FFreezeListID ";
+            strGroup += " select * from " + TableName + joinSql + strWhere;
+
+            fstrSql = strGroup;
+            fstrSql_count = " select count(*) from ( " + strGroup + ") a ";
+        }
+    }
+
+    #endregion
+
 }

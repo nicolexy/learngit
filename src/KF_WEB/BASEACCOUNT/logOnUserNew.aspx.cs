@@ -96,7 +96,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 
         }
         #endregion
-    
+
         /// <summary>
         /// 提交销户申请
         /// </summary>
@@ -144,13 +144,13 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 ValidateID.Text = "两次输入的账号不相同，请重新输入!!!";
                 return;
             }
-          
+
             string memo = "[注销QQ号码:" + qqid + "]注销原因:" + reason;
             string Msg = "";
 
             try
             {
-                Finance_Manage fm = new Finance_Manage();               
+                Finance_Manage fm = new Finance_Manage();
                 Check_Service cs = new Check_Service();
                 TENCENT.OSS.CFT.KF.KF_Web.Check_WebService.Finance_Header fh = setConfig.setFH_CheckService(this);
                 cs.Finance_HeaderValue = fh;
@@ -188,7 +188,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 string ret_msg = "";
                 bool ret_continue;
                 //TODO:申请销户提起的部分还没做
-                bool isOk = new AccountService().LogOnUserDeleteUser(qqid, wxFlag, reason, emailCheck, emailAddr, Session["uid"].ToString(), out ret_msg,out ret_continue);
+                bool isOk = new AccountService().LogOnUserDeleteUser(qqid, wxFlag, reason, emailCheck, emailAddr, Session["uid"].ToString(), out ret_msg, out ret_continue);
 
                 if (string.IsNullOrEmpty(ret_msg))
                 {
@@ -217,7 +217,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     WebUtils.ShowMessage(this.Page, "销户申请提请成功！");
                     return;
                 }
-                
+
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
@@ -234,20 +234,6 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
             }
 
             this.btLogOn.Enabled = false;
-        }
-
-        private bool SendEmail(string email, string qqid, string subject)
-        {
-            try
-            {
-                string str_params = "p_name=" + qqid + "&p_parm1=" + DateTime.Now + "&p_parm2=" + "" + "&p_parm3=" + "" + "&p_parm4=" + "系统自动销户";
-                TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsg(email, "2034", str_params);
-                return true;
-            }
-            catch (Exception err)
-            {
-                throw new Exception("给用户发邮件出错：" + err.Message);
-            }
         }
 
         protected void btQuery_Click(object sender, System.EventArgs e)
@@ -338,7 +324,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 WebUtils.ShowMessage(this.Page, ex.Message);
                 return;
             }
-            
+
         }
 
         protected void lkHistoryQuery_Click(object sender, System.EventArgs e)
