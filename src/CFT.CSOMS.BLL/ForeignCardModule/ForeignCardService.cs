@@ -87,6 +87,9 @@ namespace CFT.CSOMS.BLL.ForeignCardModule
                 throw new Exception("查询外卡商户流水(C账户)异常：" + ex.Message);
             }
         }
-
+        public DataSet QueryForeignCardInfoByOrder(string fields)
+        {
+            return new PayManageData().QueryForeignCardInfoByOrder(fields);
+        }
     }
 }

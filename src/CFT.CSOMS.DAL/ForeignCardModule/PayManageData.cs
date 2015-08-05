@@ -160,5 +160,9 @@ namespace CFT.CSOMS.DAL.ForeignCardModule
             }
         }
 
+        public DataSet QueryForeignCardInfoByOrder(string fields)
+        {
+            return new PublicRes().QueryCommRelay("3904", fields,0,1);
+        }
     }
 }
