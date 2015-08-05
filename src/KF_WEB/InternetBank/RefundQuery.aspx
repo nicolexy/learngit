@@ -98,7 +98,7 @@
                    <asp:Button ID="btnNew" runat="server" Width="80px" Text="新 增" OnClick="btnNew_Click"></asp:Button>&nbsp;
                    <asp:Button ID="Button2" runat="server" Width="80px" Text="导出excel" OnClick="Export_Click"></asp:Button>&nbsp;
                    <asp:Button ID="btnUpload" runat="server" Width="80px" Text="导入excel" OnClick="btnUpload_Click"></asp:Button>
-                    <asp:Button ID="btnSubRefund" runat="server" Visible="true" Width="80px" Text="提交账务退款" OnClick="btnRefundEmail_Click"></asp:Button>
+                    <asp:Button ID="btnSubRefund" runat="server" Visible="true"  Width="80px" Text="提交账务退款" OnClick="btnRefundEmail_Click" OnClientClick="return confirm('确定要将退款数据发送邮件给财务吗？')"></asp:Button>
                 </td>
             </tr>
             <tr>
@@ -108,7 +108,8 @@
                 <td align="left" colspan="3">
                     <asp:FileUpload ID="File1" runat="server" Width="355px" />
                     &nbsp;&nbsp;
-                    <asp:HyperLink ID="DownloadTemplate" runat="server" NavigateUrl="/uploadfile/20150416/CSOMS/Template/RefundTemplate.xls">下载模版</asp:HyperLink>
+                    <a href="/Template/Excel/RefundTemplate.xls" target="_blank">下载模版</a>
+                    <%--<asp:HyperLink ID="DownloadTemplate" runat="server" NavigateUrl="/uploadfile/20150416/CSOMS/Template/RefundTemplate.xls">下载模版</asp:HyperLink>--%>
                 </td>
             </tr>
             <tr>

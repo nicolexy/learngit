@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Threading;
 using CFT.CSOMS.BLL.RefundModule;
 using SunLibrary;
+using System.Collections.Generic;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 {
@@ -47,7 +48,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                     setConfig.GetAllTypeList(ddlTradeState, "PAY_STATE");
                     ddlTradeState.Items.Insert(0, new ListItem("全部", "0"));
                     //退款登记模版 v_yqyqguo
-                    DownloadTemplate.NavigateUrl = System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString() + DownloadTemplate.NavigateUrl;
+                    //DownloadTemplate.NavigateUrl = System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString() + DownloadTemplate.NavigateUrl;
                 }
                 Table3.Visible = false;
                 Table2.Visible = true;
@@ -827,19 +828,170 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
         public void btnRefundEmail_Click(object sender, System.EventArgs e)
         {
-
             if (!classLibrary.ClassLib.ValidateRight("InternetBankRefund", this))
             {
                 //权限判断
                 WebUtils.ShowMessage(this.Page, "没有权限！");
                 return;
             }
+           
+            DateTime begindate, enddate;
+            if(!DateTime.TryParse(TextBoxBeginDate.Text,out begindate) || !DateTime.TryParse(TextBoxEndDate.Text,out enddate))
+            {
+                WebUtils.ShowMessage(this.Page, "请输入正确的时间。");
+                return ;
+            }
+            string stime = begindate.ToString("yyyy-MM-dd 00:00:00");
+            string etime = enddate.ToString("yyyy-MM-dd 23:59:59");
 
-            Thread t = new Thread(RefundEmailMethod);
-            t.Start();
+            System.Threading.Tasks.Task.Factory.StartNew(() =>
+            {
+                int total = 0;      //总记录
+                long amount = 0;    //总金额
+                const int fileRowConut = 3002;  //单个文件最大记录数
+                System.Data.DataTable dt = null;
+                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+
+                #region 更新提交状态为 (1 = 已提交)   的委托
+                Action<System.Data.DataTable> updateState = tab =>
+                {
+                    foreach (DataRow row in tab.Rows)
+                    {
+                        var tradeType = row["FTrade_Type"].ToString();
+                        if (tradeType == "2" || tradeType == "3")
+                        {
+                            amount += long.Parse(row["Frefund_amount"].ToString());
+                            qs.UpdateSubmitRefundState(row["Fid"].ToString(), 1);
+                        }
+                    }
+                }; 
+                #endregion
+
+                #region 获取数据
+                DataSet ds = new RefundRegisterService().QueryRefundRegisterList("", "", stime, etime, 0, 2, "2", 0, 5000); //支付成功，未提交
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    dt = ds.Tables[0];
+                    total += dt.Rows.Count;
+                    updateState(dt);
+                }
+
+                if (total < 5000)
+                {
+                    var ds2 = new RefundRegisterService().QueryRefundRegisterList("", "", stime, etime, 0, 3, "2", 0, 5000 - total);    //支付成功，失效的
+                    if (ds2 != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0)
+                    {
+                        var dt2 = ds2.Tables[0];
+                        total += dt2.Rows.Count;
+                        updateState(dt2);
+                        if (dt != null && dt.Rows.Count > 0) 
+                            dt.Merge(dt2);
+                        else
+                            dt = dt2; //如果第一次查询没有记录的话
+                    }
+                } 
+                #endregion
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    #region 生成附件
+
+                    Application xlApp = new ApplicationClass();
+                    Workbooks workbooks = xlApp.Workbooks;
+                    var fileCount = (int)Math.Ceiling(total / (fileRowConut * 1.0));    // 总记录可以分成几个文件
+                    string[] annexPaths=    new string[fileCount];
+                    string no = DateTime.Now.ToString("yyyyMMddHHmmssffff");
+                    string path = Server.MapPath("~/") + "PLFile\\网银退款{0}_{1}.xls";
+
+                    try
+                    {
+                        for (int i = 1; i <= fileCount; i++)
+                        {
+                            Workbook workbook = workbooks.Add(XlWBATemplate.xlWBATWorksheet);
+                            Worksheet worksheet = (Worksheet)workbook.Worksheets[1]; //取得sheet1
+                            try
+                            {
+                                #region 标题
+                                Range range;
+                                range = (Range)worksheet.Cells[1, 1];
+                                range.ColumnWidth = 45;
+                                range.NumberFormatLocal = "@";
+                                range.Font.Size = 15;
+                                range.Value2 = "交易单号";
+
+                                range = (Range)worksheet.Cells[1, 2];
+                                range.ColumnWidth = 25;
+                                range.NumberFormatLocal = "@";
+                                range.Font.Size = 15;
+                                range.Value2 = "退款金额(元)";
+
+                                range = (Range)worksheet.Cells[1, 3];
+                                range.ColumnWidth = 30;
+                                range.NumberFormatLocal = "@";
+                                range.Font.Size = 15;
+                                range.Value2 = "退款备注";
+                                #endregion
+
+                                var alr = (i - 1) * fileRowConut;   //已生成了xls 的行数
+                                int unitCount = i == fileCount ? total - alr : fileRowConut;  //单个文件,存放多少行记录
+                                for (int j = 0; j < unitCount; j++)    
+                                {
+                                    var row = dt.Rows[alr + j];
+                                    var index = j + 2;  //从第二行开始
+
+                                    range = (Range)worksheet.Cells[index, 1]; 
+                                    range.NumberFormatLocal = "@";
+                                    range.Value2 = row["Forder_id"].ToString();
+
+                                    range = (Range)worksheet.Cells[index, 2];
+                                    range.NumberFormatLocal = "@";
+                                    range.Value2 = MoneyTransfer.FenToYuan(row["Frefund_amount"].ToString());
+
+                                    range = (Range)worksheet.Cells[index, 3];
+                                    range.Value2 = row["Fbuy_acc"].ToString();
+                                }
+
+                                workbook.Saved = true;
+                                var curPath = string.Format(path,no, i.ToString());
+                                workbook.SaveAs(curPath, 56, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value);
+                                annexPaths[i - 1] = curPath;
+                            }
+                            finally 
+                            {
+                                workbook.Close();
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        workbooks.Close();
+                        xlApp.Quit();
+                    }
+
+                    #endregion
+
+                    #region 邮件发送
+                    var emailMsg = new StringBuilder("<html><head><title></title></head><body>");
+                    emailMsg.Append("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:1310px;line-height:22px; margin-left:10px; table-layout:fixed;\" align='left' ID='Table1'><tr><td style='width:1300px;'>");
+                   
+                    var msg = "<p style='padding:10px 0;margin:0;'> 亲爱的财务同事：<br>&nbsp;&nbsp;&nbsp;&nbsp;以下为本期网银退款数据，共计{0}笔，{1}。请协助办理批量退款处理。谢谢！</p>";
+                    emailMsg.AppendFormat(msg, total, classLibrary.setConfig.FenToYuan(amount)); 
+                   
+                    emailMsg.Append("</table></p></td></tr><tr><td height=\"15\"></td></tr></table></body></html>");
+
+                    string sub = "【网银退款】编号：" + no;
+                    string toMail = ConfigurationManager.AppSettings["InternetRefundToMail"].ToString();
+                    string ccMail = ConfigurationManager.AppSettings["InternetRefundCcMail"].ToString();
+                    CommMailSend.SendInternalMail(toMail, ccMail, sub, emailMsg.ToString(), true, annexPaths);
+                    
+                    #endregion
+                }
+            });
+
             WebUtils.ShowMessage(this.Page, "后台处理中，稍后请查收邮件。");
         }
 
+        //没有使用这个方法了
         private void RefundEmailMethod()
         {
             try

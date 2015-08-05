@@ -27,6 +27,7 @@ using CFT.CSOMS.BLL.TradeModule;
 using System.Text.RegularExpressions;
 using CFT.Apollo.Logging;
 using CFT.CSOMS.COMMLIB;
+using CFT.CSOMS.BLL.CFTAccountModule;
 
 
 namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
@@ -260,13 +261,17 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                             WebUtils.ShowMessage(this.Page, "此账号有未完成微信支付转账，禁止注销!");
                             return;
                         }
-                        //int WxUnfinishedHB = (new TradeService()).QueryWXUnfinishedHB(TextBox2_WX.Text);
-                        //if (WxUnfinishedHB>0)
-                        //{
-                        //    LogHelper.LogInfo("此账号有未完成微信红包，禁止注销!");
-                        //    WebUtils.ShowMessage(this.Page, "此账号有未完成微信红包，禁止注销!");
-                        //    return;
-                        //}
+
+                        var endDate = DateTime.Today.AddDays(+1);
+                        var startDate = endDate.AddDays(-15);
+                        var openid = wxHBUIN.Replace("@hb.tenpay.com", "");
+                        var HasUnfinishedHB = (new TradeService()).QueryWXHasUnfinishedHB(openid, startDate, endDate);
+                        if (HasUnfinishedHB)
+                        {
+                            LogHelper.LogInfo("此账号有未完成微信红包，禁止注销!");
+                            WebUtils.ShowMessage(this.Page, "此账号有未完成微信红包，禁止注销!");
+                            return;
+                        }
                     }
                     catch (System.Exception ex)
                     {
@@ -325,7 +330,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 //    return;
                 //}
 
-                if (balance < 5000)//系统自动注销
+                if (balance < 10 * 10 * 200)//系统自动注销
                 {
                     if (!qs.LogOnUserDeleteUser(qqid, reason, Label1.Text, "", out Msg))
                     {
@@ -397,97 +402,71 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
             }
         }
 
-		protected void btQuery_Click(object sender, System.EventArgs e)
-		{
-			DateTime bgTime;
-			DateTime edTime;
+        protected void btQuery_Click(object sender, System.EventArgs e)
+        {
+            DateTime bgTime, edTime;
+            if (!DateTime.TryParse(this.TextBoxBeginDate.Text, out bgTime))
+            {
+                WebUtils.ShowMessage(this.Page, "起始日期格式不正确!默认为1970年1月1日");
+                this.TextBoxBeginDate.Text = "1970-01-01";
+                bgTime = new DateTime(1970, 1, 1);
+            }
 
-			try
-			{
-				bgTime = DateTime.Parse(this.TextBoxBeginDate.Text);	
-			}
-			catch
-			{
-				WebUtils.ShowMessage(this.Page,"起始日期格式不正确!默认为1970年1月1日");
-				this.TextBoxBeginDate.Text = "1970-01-01";
-				bgTime = DateTime.Parse("1970-01-01 00:00:00");
-			}
-			
-			try
-			{
-				edTime = DateTime.Parse(this.TextBoxEndDate.Text);	
-			}
-			catch
-			{
-				WebUtils.ShowMessage(this.Page,"结束日期格式不正确!默认为当天");
-				this.TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-				edTime = DateTime.Now;
-			}
-			
-			string qqid   = this.TxbQueryQQ.Text.Trim();
-			string handid = this.txbHandID.Text.Trim();
-            
+            if (!DateTime.TryParse(this.TextBoxEndDate.Text, out edTime))
+            {
+                WebUtils.ShowMessage(this.Page, "结束日期格式不正确!默认为当天");
+                this.TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                edTime = DateTime.Today;
+            }
+
+            string qqid = this.TxbQueryQQ.Text.Trim();
+            string handid = this.txbHandID.Text.Trim();
+
             //增加微信相关查询 yinhuang 2014/2/20
             string wx_qq = this.tbWxQQ.Text.Trim();
             string wx_email = this.tbWxEmail.Text.Trim();
             string wx_phone = this.tbWxPhone.Text.Trim();
-
+            string tbWxNo = this.tbWxNo.Text.Trim();
             try
             {
                 string queryType = string.Empty;
                 string id = string.Empty;
                 if (!string.IsNullOrEmpty(wx_qq))
                 {
-                    queryType = "QQ";
+                    queryType = "WeChatQQ";
                     id = wx_qq;
                 }
                 else if (!string.IsNullOrEmpty(wx_phone))
                 {
-                    queryType = "Mobile";
+                    queryType = "WeChatMobile";
                     id = wx_phone;
                 }
                 else if (!string.IsNullOrEmpty(wx_email))
                 {
-                    queryType = "Email";
+                    queryType = "WeChatEmail";
                     id = wx_email;
                 }
-
-                if (!string.IsNullOrEmpty(queryType)) 
+                else if (!string.IsNullOrEmpty(tbWxNo))
                 {
-                    string openID = string.Empty, errorMessage = string.Empty;
-                    int errorCode = 0;
-                    var IPList = ConfigurationManager.AppSettings["WeChat"].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    for (int j = 0; j < IPList.Length; j++)
+                    queryType = "WeChatUid";
+                    id = tbWxNo;
+                }
+                if (!string.IsNullOrEmpty(queryType))
+                {
+                    qqid = AccountService.GetQQID(queryType, id);
+                    if (qqid == null || qqid.IndexOf("@") == 0) //返回Null  或者 @wx.tenpay.com 时显示错误 
                     {
-                        if (PublicRes.getOpenIDFromWeChat(queryType, id, out openID, out errorCode, out errorMessage, IPList[j]))
-                        {
-                            break;
-                        }
-                    }
-                    if (errorCode == 0)
-                    {
-                        qqid = openID + "@wx.tenpay.com";
-                    }
-                    else if (errorCode == 1)
-                    {
-                        throw new Exception("没有此用户");
-                    }
-                    else
-                    {
-                        throw new Exception(errorCode + errorMessage);
+                        WebUtils.ShowMessage(this.Page, queryType + " 转换财付通账号失败"); return;
                     }
                 }
             }
-            catch (Exception err) 
+            catch (Exception err)
             {
                 WebUtils.ShowMessage(this.Page, err.Message);
                 return;
             }
-            
-
-			BindHistoryInfo(qqid,handid,bgTime,edTime,0,1000); //默认查询1000条
-		}
+            BindHistoryInfo(qqid, handid, bgTime, edTime, 0, 1000); //默认查询1000条
+        }
 
 		protected void lkHistoryQuery_Click(object sender, System.EventArgs e)
 		{

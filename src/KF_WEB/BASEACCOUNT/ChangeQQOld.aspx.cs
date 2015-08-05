@@ -20,6 +20,8 @@ using TENCENT.OSS.CFT.KF.KF_Web;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using CFT.CSOMS.BLL.FundModule;
 using CFT.CSOMS.BLL.CFTAccountModule;
+using SunLibrary;
+using CFT.CSOMS.BLL.TradeModule;
 
 
 namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
@@ -280,6 +282,19 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 return;
             }
 
+            var openid = AccountService.GetQQID("WeChatQQ", OldQQ.Text).Replace("@wx.tenpay.com","");
+            if (openid != "")
+            {
+                var endDate = DateTime.Today.AddDays(+1);
+                var startDate = endDate.AddDays(-15);
+                var HasUnfinishedHB = (new TradeService()).QueryWXHasUnfinishedHB(openid, startDate, endDate);
+                if (HasUnfinishedHB)
+                {
+                    LogHelper.LogInfo("此账号有未完成微信红包，禁止修改!");
+                    WebUtils.ShowMessage(this.Page, "此账号有未完成微信红包，禁止修改!");
+                    return;
+                }
+            }    
 
 			//发起审批。
 			//在这里变成了一个提起审批的流程，而不再是直接审批。
