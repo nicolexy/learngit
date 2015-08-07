@@ -395,6 +395,20 @@
     <Compile Include="BaseAccount\FetchListIntercept.aspx.designer.cs">
       <DependentUpon>FetchListIntercept.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\GatherLog.aspx.cs">
+      <DependentUpon>GatherLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\GatherLog.aspx.designer.cs">
+      <DependentUpon>GatherLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BaseAccount\InfoCenterNew.aspx.cs">
+      <DependentUpon>InfoCenterNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\InfoCenterNew.aspx.designer.cs">
+      <DependentUpon>InfoCenterNew.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\logOnUserNew.aspx.cs">
       <DependentUpon>logOnUserNew.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -580,6 +594,13 @@
     <Compile Include="BaseAccount\paymentlog.aspx.designer.cs">
       <DependentUpon>paymentlog.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\PaymentLogNew.aspx.cs">
+      <DependentUpon>PaymentLogNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\PaymentLogNew.aspx.designer.cs">
+      <DependentUpon>PaymentLogNew.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\PNRQuery.aspx.cs">
       <DependentUpon>PNRQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -618,6 +639,13 @@
     </Compile>
     <Compile Include="BaseAccount\refund.aspx.designer.cs">
       <DependentUpon>refund.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BaseAccount\RefundNew.aspx.cs">
+      <DependentUpon>RefundNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\RefundNew.aspx.designer.cs">
+      <DependentUpon>RefundNew.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\SelfQuery.aspx.cs">
       <DependentUpon>SelfQuery.aspx</DependentUpon>
@@ -2067,6 +2095,13 @@
     <Compile Include="TradeManage\CGIInfoQuery.aspx.designer.cs">
       <DependentUpon>CGIInfoQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TradeManage\MobileBindingQuery.aspx.cs">
+      <DependentUpon>MobileBindingQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\MobileBindingQuery.aspx.designer.cs">
+      <DependentUpon>MobileBindingQuery.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TradeManage\PayLimitManage.aspx.cs">
       <DependentUpon>PayLimitManage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2808,6 +2843,8 @@
     <Content Include="BaseAccount\ClearCreidNew.aspx" />
     <Content Include="BaseAccount\ClearMobileNumber.aspx" />
     <Content Include="BaseAccount\FetchListIntercept.aspx" />
+    <Content Include="BaseAccount\GatherLog.aspx" />
+    <Content Include="BaseAccount\InfoCenterNew.aspx" />
     <Content Include="BaseAccount\logOnUserNew.aspx" />
     <Content Include="BaseAccount\ModifyContactInfo.aspx">
       <SubType>Form</SubType>
@@ -2868,6 +2905,7 @@
     <Content Include="BaseAccount\paymentlog.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="BaseAccount\PaymentLogNew.aspx" />
     <Content Include="BaseAccount\PNRQuery.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -2880,6 +2918,7 @@
     <Content Include="BaseAccount\RareNameQuery.aspx" />
     <Content Include="BaseAccount\RecoverQQ.aspx" />
     <Content Include="BaseAccount\refund.aspx" />
+    <Content Include="BaseAccount\RefundNew.aspx" />
     <Content Include="BaseAccount\SelfQuery.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -3323,6 +3362,7 @@
     <Content Include="TradeManage\BusCardPrepaidQuery.aspx" />
     <Content Include="TradeManage\ContractQuery.aspx" />
     <Content Include="TradeManage\CGIInfoQuery.aspx" />
+    <Content Include="TradeManage\MobileBindingQuery.aspx" />
     <Content Include="TradeManage\PayLimitManage.aspx" />
     <Content Include="TradeManage\TradeMigration.aspx" />
     <Content Include="TradeManage\UnFinishTradeQuery.aspx" />

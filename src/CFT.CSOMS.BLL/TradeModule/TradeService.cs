@@ -645,6 +645,41 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             return (new TradeData()).QueryWXUnfinishedHB(WeChatName);
         }
+
+        /// <summary>
+        /// 指定时间内用户是否存在未完成的红包
+        /// </summary>
+        /// <param name="WeChatName">用户的微信Openid</param>
+        /// <param name="beginTime">开始时间</param>
+        /// <param name="endTime">结束</param>
+        /// <returns>true 存在  false 不存在</returns>
+        public bool QueryWXHasUnfinishedHB(string openid, DateTime beginTime, DateTime endTime)
+        {
+            //  15天以内 用户发送了红包并且红包状态在2,3,7 状态下 不能注销
+            var dal = new WechatPayService();
+            const int max = 100;  //最多查询次数
+            const int size = 20; //页大小
+            for (int i = 0; i < max; i++)
+            {
+                var start = i * size;
+                var ds = dal.QueryUserSendList(openid, beginTime, endTime, start, size);
+                if (ds == null || ds.Tables.Count == 0)
+                {
+                    return false;
+                }
+                var arr = ds.Tables[0].Select("State in('2','3','7')");  //如果发现State 值等于'2','3','7'  立即返回真
+                if (arr.Length != 0)
+                {
+                    return true;
+                }
+                if (ds.Tables[0].Rows.Count < size)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public DataSet GetUnfinishedMobileQHB(string uin)
         {
             return (new TradeData()).GetUnfinishedMobileQHB(uin);

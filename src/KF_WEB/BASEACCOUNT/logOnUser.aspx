@@ -165,7 +165,7 @@
 									<TD style="WIDTH: 299px; HEIGHT: 1px" bgColor="#ffffff" height="1"><FONT face="宋体"><asp:textbox id="TxbQueryQQ" runat="server" BorderStyle="Groove"></asp:textbox></FONT></TD>
 									<TD style="WIDTH: 139px; HEIGHT: 1px" bgColor="#ffffff" height="1"><FONT face="宋体">按操作员</FONT></TD>
 									<TD style="HEIGHT: 1px" bgColor="#ffffff" height="1"><FONT face="宋体"><asp:textbox id="txbHandID" runat="server" BorderStyle="Groove"></asp:textbox></FONT></TD>
-                                    <td bgColor="#ffffff">微信绑定QQ<asp:textbox id="tbWxQQ" runat="server" BorderStyle="Groove"></asp:textbox>&nbsp;&nbsp;微信绑定邮箱<asp:textbox id="tbWxEmail" runat="server" BorderStyle="Groove"></asp:textbox>&nbsp;&nbsp;微信绑定手机<asp:textbox id="tbWxPhone" runat="server" BorderStyle="Groove"></asp:textbox></td>
+                                    <td bgColor="#ffffff">微信绑定QQ<asp:textbox id="tbWxQQ" runat="server" BorderStyle="Groove"></asp:textbox>&nbsp;&nbsp;微信绑定邮箱<asp:textbox id="tbWxEmail" runat="server" BorderStyle="Groove"></asp:textbox>&nbsp;&nbsp;微信绑定手机<asp:textbox id="tbWxPhone" runat="server" BorderStyle="Groove"></asp:textbox>&nbsp;&nbsp;微信号<asp:textbox id="tbWxNo" runat="server" BorderStyle="Groove"></asp:textbox></td>
 								</TR>
 								<TR>
 									<TD bgColor="#ffffff" colSpan="5" height="12"><FONT face="宋体">

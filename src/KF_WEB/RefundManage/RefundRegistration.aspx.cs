@@ -42,6 +42,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 "未知类型",
 				"拍拍退单",
 				"提现退款异常单",
+                "准实时退款异常数据",
         };
 
         private RefundPublicFun.itemData[] aryItem = null;

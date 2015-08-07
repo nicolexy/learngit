@@ -167,6 +167,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 mail.Subject = mailSubject;
                 mail.Body = mailBody;
                 mail.IsBodyHtml = isBodyHtml;
+                mail.BodyEncoding = System.Text.Encoding.UTF8;
 
                 mail.Attachments.Clear();
                 if (fileAttachment != null && fileAttachment.Length > 0)

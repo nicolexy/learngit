@@ -425,5 +425,121 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
             [XmlElement("tc_bankid")]
             public string ftc_bankid { get; set; }
         }
+
+        #region 手Q支付
+
+        public class RefundHandQList
+        {
+            [XmlElement("card_name")]
+            public string crad_name { get; set; }
+            [XmlElement("num_str")]
+            public string num_str { get; set; }
+            [XmlElement("bank_type_str")]
+            public string bank_type_str { get; set; }
+            [XmlElement("card_id")]
+            public string card_id { get; set; }
+            [XmlElement("create_time")]
+            public string create_time { get; set; }
+            [XmlElement("state_str")]
+            public string state_str { get; set; }
+            [XmlElement("isTP")]
+            public string isTP { get; set; }
+            [XmlElement("wx_fetch_no")]
+            public string wx_fetch_no { get; set; }
+            [XmlElement("trade_no")]
+            public string trade_no { get; set; }
+        }
+
+        public class RefundHandQDetail
+        {
+            [XmlElement("openid")]
+            public string openid { get; set; }
+            [XmlElement("card_id")]
+            public string card_id { get; set; }
+            [XmlElement("wx_fetch_no")]
+            public string wx_fetch_no { get; set; }
+            [XmlElement("card_name")]
+            public string card_name { get; set; }
+            [XmlElement("num_str")]
+            public string num_str { get; set; }
+            [XmlElement("bank_type_str")]
+            public string bank_name { get; set; }
+            [XmlElement("create_time")]
+            public string create_time { get; set; }
+            [XmlElement("state_str")]
+            public string state_str { get; set; }
+            [XmlElement("modify_time")]
+            public string modify_time { get; set; }
+            [XmlElement("cft_fetch_no")]
+            public string cft_fetch_no { get; set; }
+            [XmlElement("trade_no")]
+            public string trade_no { get; set; }
+        }
+
+        public class SendRedPacketInfo
+        {
+            [XmlElement("list_id")]
+            public string send_listid { get; set; }
+            [XmlElement("create_time")]
+            public string create_time { get; set; }
+            [XmlElement("title")]
+            public string Title { get; set; }
+            [XmlElement("send_listid")]
+            public string send_listidex { get; set; }
+            [XmlElement("amount_text")]
+            public string amount_text { get; set; }
+            [XmlElement("state_text")]
+            public string state_text { get; set; }
+            [XmlElement("summary")]
+            public string summary { get; set; }
+            [XmlElement("refund")]
+            public string refund { get; set; }
+            [XmlElement("channel_text")]
+            public string channel_text { get; set; }
+            [XmlElement("wishing")]
+            public string wishing { get; set; }
+        }
+
+        public class RecvRedPacketInfo
+        {
+            [XmlElement("list_id")]
+            public string send_listid { get; set; }
+            [XmlElement("create_time")]
+            public string create_time { get; set; }
+            [XmlElement("amount_text")]
+            public string amount_text { get; set; }
+            [XmlElement("wishing")]
+            public string wishing { get; set; }
+            [XmlElement("title")]
+            public string Title { get; set; }
+            [XmlElement("recv_listid")]
+            public string recv_listid { get; set; }
+            [XmlElement("channel_text")]
+            public string channel_text { get; set; }
+        }
+
+        public class RedPacketDetail
+        {
+            [XmlElement("recv_listid")]
+            public string recv_listid { get; set; }
+            [XmlElement("create_time")]
+            public string create_time { get; set; }
+            [XmlElement("title")]
+            public string Title { get; set; }
+            [XmlElement("send_uin")]
+            public string send_uin { get; set; }
+            [XmlElement("send_name")]
+            public string send_name { get; set; }
+            [XmlElement("recv_uin")]
+            public string recv_uin { get; set; }
+            [XmlElement("recv_name")]
+            public string recv_name { get; set; }
+            [XmlElement("amount_text")]
+            public string amount_text { get; set; }
+            [XmlElement("channel_text")]
+            public string channel_text { get; set; }
+        }
+
+        #endregion
     }
 }

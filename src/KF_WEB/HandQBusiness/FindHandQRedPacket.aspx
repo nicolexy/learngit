@@ -58,7 +58,7 @@
                     <asp:GridView ID="gvReceiveHQList" runat="server" Width="1100px" ItemStyle-HorizontalAlign="Center"
                         HeaderStyle-HorizontalAlign="Center" HorizontalAlign="Center" PageSize="5" AutoGenerateColumns="False"
                         GridLines="Horizontal" CellPadding="1" BackColor="White" BorderWidth="1px" BorderStyle="None"
-                        BorderColor="#E7E7FF" OnRowCommand="gvReceiveHQList_RowCommand">
+                        BorderColor="#E7E7FF" OnRowCommand="gvReceiveHQList_RowCommand" OnSelectedIndexChanged="gvReceiveHQList_SelectedIndexChanged">
                         <FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
                         <HeaderStyle Font-Bold="True" HorizontalAlign="Center" ForeColor="#F7F7F7" BackColor="#4A3C8C">
                         </HeaderStyle>

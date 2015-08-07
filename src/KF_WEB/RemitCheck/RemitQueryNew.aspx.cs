@@ -118,7 +118,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RemitCheck
             int max = pager.PageSize;
             int start = max * (index - 1) + 1;
             try
-            {             
+            {
                 DataSet ds = new RemitService().GetRemitDataList("", tranType, dataType, remitType, tranState, spid, remitRec, listID, start, max);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
@@ -156,14 +156,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RemitCheck
                 pager.CurrentPageIndex = e.NewPageIndex;
                 BindData(e.NewPageIndex);
             }
-            catch (SoapException eSoap) //捕获soap类异常
+            catch (Exception ex)
             {
-                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
-            }
-            catch (Exception eSys)
-            {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + classLibrary.setConfig.replaceHtmlStr(eSys.Message));
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + classLibrary.setConfig.replaceHtmlStr(ex.Message));
             }
         }
     }

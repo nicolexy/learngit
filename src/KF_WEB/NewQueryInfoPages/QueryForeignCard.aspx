@@ -29,7 +29,8 @@
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form style="FONT-FAMILY: 宋体" id="Form1" method="post" runat="server">
-			<table border="0" cellSpacing="1" cellPadding="0" width="95%" align="center">
+			<TABLE style="Z-INDEX: 101; LEFT: 5%; POSITION: absolute; TOP: 5%" id="Table1" border="1"
+				cellSpacing="1" cellPadding="1" width="85%">
 				<tr style="BACKGROUND-IMAGE: url(../Images/Page/bg_bl.gif)" bgColor="#e4e5f7">
 					<td style="HEIGHT: 24px" colSpan="3"><IMG src="../IMAGES/Page/post.gif" width="20" height="16"><font color="#ff0000">
 							外卡订单交易查询 </font>
@@ -63,6 +64,9 @@
 					</td>
 					<td style="PADDING-RIGHT: 150px" colSpan="2" align="right"><asp:button id="btQuery" runat="server" Width="108px" Height="27px" Text="查 询" BorderStyle="Groove"></asp:button></td>
 				</tr>
+			</TABLE>
+			<TABLE style="Z-INDEX: 102; LEFT: 5.02%; WIDTH: 85%; POSITION: absolute; TOP: 205px;"
+				id="Table2" border="1" cellSpacing="1" cellPadding="1" width="95%" runat="server">
 				<tr>
 					<td colSpan="3"><asp:datagrid id="dgInfo" runat="server" Width="100%" BorderStyle="None" AutoGenerateColumns="False"
 							HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" PageSize="5"
@@ -110,8 +114,14 @@
 									<HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
 								</asp:BoundColumn>
 							</Columns>
+                           <PagerStyle HorizontalAlign="Right" ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>
 						</asp:datagrid></td>
 				</tr>
+             <TR height="25">
+					<TD align="right"><webdiyer:aspnetpager id="pager" runat="server" NumericButtonTextFormatString="[{0}]" SubmitButtonText="转到"
+							 HorizontalAlign="right" CssClass="mypager" ShowInputBox="always" PagingButtonSpacing="0"
+							ShowCustomInfoSection="left" NumericButtonCount="5" AlwaysShow="True"></webdiyer:aspnetpager></TD>
+				</TR>
 			</table>
 		</form>
 	</body>

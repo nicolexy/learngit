@@ -125,7 +125,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     showEdit();
                     
                     iFrameBank = "148";
-                    iFramePath = "UserBankAccountQuery.aspx?iprov=" + iprov + "&icity=" + icity + "&state=" + state + "&bankid=" + bankid + "&trueName=" + trueName + "&LastIP=" + LastIP + "&BankName=" + BankName + "+&Modify_Time=" + Modify_Time + "&Memo=" + Memo + "&BankType=" + banktype + "&compayname=" + Compayname + "&accCreate=" + AccCreate + "";
+                    iFramePath = string.Format(
+                        "UserBankAccountQuery.aspx?iprov={0}&icity={1}&state={2}&bankid={3}&trueName={4}&LastIP={5}&BankName={6}&Modify_Time={7}&Memo={8}&BankType={9}&compayname={10}&accCreate={11}", 
+                        iprov, icity, state, bankid, trueName, LastIP, BankName, Modify_Time, Memo, banktype, Compayname, AccCreate);
 				         
                     break;
                 case "CHANGE": //½â¶³
@@ -190,7 +192,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				foreach(DataRow dr in ds.Tables[0].Rows)
 				{
 					dr.BeginEdit();
-                    dr["Fbankid_str"] = classLibrary.setConfig.ConvertID(dr["Fbankid"].ToString(), 4, 4);
+                    dr["Fbankid_str"] = classLibrary.setConfig.ConvertID(dr["Fbankid"].ToString(), 4, 5);
 					string fstate=dr["Fstate"].ToString();
 					if(fstate=="1")
 					{
@@ -258,9 +260,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			string AccCreate=DGData.SelectedItem.Cells[11].Text.Trim();
 		
 			iFrameBank = "148";
-			iFramePath = "UserBankAccountQuery.aspx?iprov="+iprov+"&icity="+icity+"&state="+state+"&bankid="+bankid+"&trueName="+trueName+"&LastIP="+LastIP+"&BankName="+BankName+"+&Modify_Time="+Modify_Time+"&Memo="+Memo+"&BankType="+banktype+"&compayname="+Compayname+"&accCreate="+AccCreate+"";
-				         
-
+            iFramePath = string.Format(
+                        "UserBankAccountQuery.aspx?iprov={0}&icity={1}&state={2}&bankid={3}&trueName={4}&LastIP={5}&BankName={6}&Modify_Time={7}&Memo={8}&BankType={9}&compayname={10}&accCreate={11}",
+                        iprov, icity, state, bankid, trueName, LastIP, BankName, Modify_Time, Memo, banktype, Compayname, AccCreate);
 		}
 
 		protected void btBack_Click(object sender, System.EventArgs e)

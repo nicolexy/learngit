@@ -9,6 +9,7 @@ using CFT.CSOMS.DAL.CFTAccount;
 using System.Data;
 using CFT.CSOMS.DAL.Infrastructure;
 using CFT.Apollo.Logging;
+using TENCENT.OSS.CFT.KF.DataAccess;
 
 namespace CFT.CSOMS.DAL.FreezeModule
 {
@@ -187,6 +188,7 @@ namespace CFT.CSOMS.DAL.FreezeModule
                 da.ExecSqlNum(logStr);
             }
         }
+
         public string GetCashOutFreezeListId(string Uid)
         {
             if (string.IsNullOrEmpty(Uid))
@@ -208,6 +210,87 @@ namespace CFT.CSOMS.DAL.FreezeModule
                 }
             }
             return listId;
+        }
+
+        public DataSet GetFreezeListDetail(string tdeid)
+        {
+            try
+            {
+                FreezeQueryClass cuser = new FreezeQueryClass(tdeid);
+                DataSet ds = cuser.GetResultX(1, 1, "HT");
+                return ds;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("service发生错误,请联系管理员！");
+                return null;
+            }
+        }
+
+        public void UpdateFreezeListDetail(string fid, string FreezeReason, string UserName, string UserIP)
+        {
+            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("HT"));
+            try
+            {
+                da.OpenConn();
+                string sql = "update c2c_fmdb.t_freeze_list set FFreezeReason = '" + FreezeReason + "',FHandleUserID='" + UserName + "',FHandleUserIP='" + UserIP + "',FHandleTime=now() where  Fid='" + fid + "'";
+                da.ExecSql(sql);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("service发生错误,请联系管理员！");
+            }
+            finally
+            {
+                da.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// 冻结查询函数
+        /// </summary>
+        public DataSet GetFreezeList(DateTime u_BeginTime, DateTime u_EndTime, string freezeuser, string username, int handletype, int statetype, string qqid, int iPageStart, int iPageMax)
+        {
+            try
+            {
+                FreezeQueryClass cuser = new FreezeQueryClass(u_BeginTime, u_EndTime, freezeuser, username, handletype, statetype, qqid);
+                DataSet ds = cuser.GetResultX(iPageStart, iPageMax, "HT");
+                return ds;
+
+            }
+            catch (Exception err)
+            {
+                throw new Exception("Service处理失败！");
+            }
+        }
+
+        public int GetFreezeListCount(DateTime u_BeginTime, DateTime u_EndTime, string freezeuser, string username, int handletype, int statetype, string qqid)
+        {
+            try
+            {
+                FreezeQueryClass cuser = new FreezeQueryClass(u_BeginTime, u_EndTime, freezeuser, username, handletype, statetype, qqid);
+                return cuser.GetCount("HT");
+            }
+            catch (Exception e)
+            {
+                throw new Exception("service发生错误,请联系管理员！");
+                return 0;
+            }
+        }
+
+        public DataSet QueryUserFreezeRecord(string strBeginDate, string strEndDate, string fpayAccount, double freezeFin, string flistID, int iPageStart, int iPageMax)
+        {
+            try
+            {
+                FreezeFinQueryClass fqc = new FreezeFinQueryClass(strBeginDate, strEndDate, fpayAccount, freezeFin, flistID, iPageStart, iPageMax);
+                // 这里的数据库的IP地址未确定，需要询问
+                DataSet ds = fqc.GetResultX_ICE();
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Service处理失败！"); 
+            }
         }
     }
 }

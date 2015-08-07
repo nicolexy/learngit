@@ -13,6 +13,7 @@ using System.Collections;
 using CFT.CSOMS.Service.CSAPI.BaseInfo;
 using System.Collections.Specialized;
 using System.Data;
+
 namespace CFT.CSOMS.Service.CSAPI
 {
     /// <summary>
@@ -1478,6 +1479,442 @@ namespace CFT.CSOMS.Service.CSAPI
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
+        #endregion
+
+        #region 手机绑定
+
+        [WebMethod]
+        public void MobileBindingInfo()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                String qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.MobileModule.MobileService().GetMsgNotify(qqid);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<BaseInfoC.MobileBindInfo> list = APIUtil.ConvertTo<BaseInfoC.MobileBindInfo>(infos.Tables[0]);
+                APIUtil.Print<BaseInfoC.MobileBindInfo>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("MobileBindingInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("MobileBindingInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        [WebMethod]
+        public void UpdateMobileBind()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                String qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.MobileModule.MobileService().UpDateBindInfo(qqid);
+                Record record = new Record();
+                record.RetValue = infos.ToString().ToLower();
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("UpdateMobileBind").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("UpdateMobileBind").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        [WebMethod]
+        public void UnbindMobile()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                String uid = paramsHt.ContainsKey("uid") ? paramsHt["uid"].ToString() : "";
+                string Msg = "";
+                var infos = new CFT.CSOMS.BLL.MobileModule.MobileService().UnbindMsgNotify(uid, out Msg);
+                RecordNew record = new RecordNew();
+                record.RetValue = infos.ToString().ToLower();
+                record.RetMemo = Msg;
+                List<RecordNew> list = new List<RecordNew>();
+                list.Add(record);
+                APIUtil.Print<RecordNew>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("UnbindMobile").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("UnbindMobile").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        #endregion
+
+        #region 冻结类
+
+        [WebMethod]
+        public void GetCashOutFreezeListId()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string uid = paramsHt.ContainsKey("uid") ? paramsHt["uid"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.FreezeModule.FreezeService().GetCashOutFreezeListId(uid);
+
+                Record record = new Record();
+                record.RetValue = infos.ToString();
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetCashOutFreezeListId").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetCashOutFreezeListId").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 用户冻结记录查询
+        /// </summary>
+        [WebMethod]
+        public void QueryUserFreezeRecord()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                double balance = paramsHt.ContainsKey("balance") ? APIUtil.StringToInt(paramsHt["balance"].ToString()) : 0;
+                DateTime begin_time = paramsHt.ContainsKey("begin_time") ? APIUtil.StrToDate(paramsHt["begin_time"]) : DateTime.Now;
+                DateTime end_time = paramsHt.ContainsKey("end_time") ? APIUtil.StrToDate(paramsHt["end_time"]) : DateTime.Now;
+                string begin_time_str = begin_time.ToString("yyyy-MM-dd");
+                string end_time_str = end_time.AddDays(1).ToString("yyyy-MM-dd");
+                string list_id = paramsHt.ContainsKey("list_id") ? paramsHt["list_id"].ToString() : "";
+                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
+                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 1;
+
+                if (offset < 0)
+                    offset = 0;
+                if (limit < 0 || limit > 1000)
+                    limit = 50;
+
+                DataSet ds = new DataSet();
+                if (!string.IsNullOrEmpty(list_id))
+                {
+                    //查询列表
+                    ds = new CFT.CSOMS.BLL.FreezeModule.FreezeService().QueryUserFreezeRecord(begin_time_str, end_time_str, uin, balance, "", offset, limit);
+                }
+                else
+                {
+                    //查询详情
+                    ds = new CFT.CSOMS.BLL.FreezeModule.FreezeService().QueryUserFreezeRecord("", "", uin, 0, list_id, 0, 1);
+                }
+                if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+
+                List<FreezeInfo.UserFreezeRecord> list = APIUtil.ConvertTo<FreezeInfo.UserFreezeRecord>(ds.Tables[0]);
+                APIUtil.Print<FreezeInfo.UserFreezeRecord>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("QueryUserFreezeRecord").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("QueryUserFreezeRecord").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 冻结查询函数
+        /// </summary>
+        [WebMethod]
+        public void GetFreezeList()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "id", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string id = paramsHt.ContainsKey("id") ? paramsHt["id"].ToString() : "";
+                DateTime begin_time = paramsHt.ContainsKey("begin_time") ? APIUtil.StrToDate(paramsHt["begin_time"]) : DateTime.Now;
+                DateTime end_time = paramsHt.ContainsKey("end_time") ? APIUtil.StrToDate(paramsHt["end_time"]) : DateTime.Now;
+                end_time = end_time.AddDays(1);
+                string freezeuser = paramsHt.ContainsKey("freezeuser") ? paramsHt["freezeuser"].ToString() : "";
+                string username = paramsHt.ContainsKey("username") ? paramsHt["username"].ToString() : "";
+                int statetype = paramsHt.ContainsKey("statetype") ? APIUtil.StringToInt(paramsHt["statetype"].ToString()) : 0;
+                int handletype = paramsHt.ContainsKey("handletype") ? APIUtil.StringToInt(paramsHt["handletype"].ToString()) : 0;
+                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
+                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 1;
+
+                if (offset < 0)
+                    offset = 0;
+                if (limit < 0 || limit > 1000)
+                    limit = 50;
+
+                var infos = new CFT.CSOMS.BLL.FreezeModule.FreezeService().GetFreezeList(begin_time, end_time, freezeuser, username, handletype, statetype, id, offset, limit);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<FreezeInfo.FreezeList> list = APIUtil.ConvertTo<FreezeInfo.FreezeList>(infos.Tables[0]);
+                APIUtil.Print<FreezeInfo.FreezeList>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetFreezeList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetFreezeList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 冻结查询详细函数
+        /// </summary>
+        [WebMethod]
+        public void GetFreezeListDetail()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "id", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string id = paramsHt.ContainsKey("id") ? paramsHt["id"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.FreezeModule.FreezeService().GetFreezeListDetail(id);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<FreezeInfo.FreezeListDetail> list = APIUtil.ConvertTo<FreezeInfo.FreezeListDetail>(infos.Tables[0]);
+                APIUtil.Print<FreezeInfo.FreezeListDetail>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetFreezeListDetail").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetFreezeListDetail").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        #endregion
+
+        #region 个人证书管理
+
+        /// <summary>
+        /// 查询个人证书信息列表
+        /// </summary>
+        [WebMethod]
+        public void GetUserCrtList()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.CRTModule.CRTService().GetUserCrtList(qqid);
+
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<BaseInfoC.UserCrtList> list = APIUtil.ConvertTo<BaseInfoC.UserCrtList>(infos.Tables[0]);
+                APIUtil.Print<BaseInfoC.UserCrtList>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetUserCrtList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetUserCrtList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 查询关闭证书服务信息
+        /// </summary>
+        [WebMethod]
+        public void GetDeleteQueryInfo()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.CRTModule.CRTService().GetDeleteQueryInfo(qqid);
+
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<BaseInfoC.DeleteCrtInfo> list = APIUtil.ConvertTo<BaseInfoC.DeleteCrtInfo>(infos.Tables[0]);
+                APIUtil.Print<BaseInfoC.DeleteCrtInfo>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetDeleteQueryInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetDeleteQueryInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 删除个人证书
+        /// </summary>
+        [WebMethod]
+        public void DeleteUserCrt()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+
+                new CFT.CSOMS.BLL.CRTModule.CRTService().DeleteUserCrt(qqid);
+
+                Record record = new Record();
+                record.RetValue = "true";
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("DeleteUserCrt").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("DeleteUserCrt").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 关闭证书服务
+        /// </summary>
+        [WebMethod]
+        public void DeleteCrtService()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "ip", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+                string ip = paramsHt.ContainsKey("ip") ? paramsHt["ip"].ToString() : "";
+
+                new CFT.CSOMS.BLL.CRTModule.CRTService().DeleteCrtService(qqid, ip);
+
+                Record record = new Record();
+                record.RetValue = "true";
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("DeleteCrtService").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("DeleteCrtService").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
         #endregion
     }
 }

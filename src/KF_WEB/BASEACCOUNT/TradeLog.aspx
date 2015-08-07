@@ -11,15 +11,10 @@
         @import url( ../STYLES/ossstyle.css );
     </style>
     <script language="javascript" type="text/javascript">
-
-        function window.onload() {
-
-            var div = window.parent.document.getElementById('iframe0');
-
-            div.style.height = document.body.scrollHeight + 20;
-
+        window.onload = function () {
+            var curIfm = window.parent.document.getElementById('iframe0');
+            curIfm.style.height = document.body.scrollHeight + 20;
         }
-
     </script>
 </head>
 <body>

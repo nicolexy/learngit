@@ -4,6 +4,8 @@ using CFT.CSOMS.DAL;
 using System.Collections;
 using CFT.CSOMS.DAL.Tests;
 using CFT.CSOMS.BLL.CFTAccountModule;
+using System.Data;
+using CFT.CSOMS.BLL.ForeignCardModule;
 
 namespace CFT.CSOMS.BLL.Tests
 {
