@@ -8,6 +8,7 @@ using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using CFT.CSOMS.BLL.ForeignCardModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 {
@@ -16,7 +17,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// </summary>
 	public partial class QueryForeignCard : System.Web.UI.Page
 	{
-	
+	    ForeignCardService fcs=new ForeignCardService();
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
@@ -30,124 +31,183 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 		}
 
 		private void btn_query_Click(object sender, System.EventArgs e)
-		{
-			string strBeginDate = "",strEndDate = "";
+        {
+                this.pager.RecordCount = 1000;
+                dgInfo.CurrentPageIndex = 0;
+                try
+                {
+                    validData();
+                }
+                catch (Exception ex)
+                {
+                    ShowMsg(ex.Message);
+                    return;
+                }
 
-			try
-			{
-				if(this.TextBoxBeginDate.Text.Trim() != "" && this.TextBoxEndDate.Text.Trim() != "")
-				{
-					DateTime start = DateTime.Parse(this.TextBoxBeginDate.Text);
-					DateTime end = DateTime.Parse(this.TextBoxEndDate.Text);
-					if(start.Year != end.Year)
-					{
-						ShowMsg("请不要跨年查询！");
-						return;
-					}
-					strBeginDate = start.AddDays(-1).ToString("yyyy-MM-dd");
-					strEndDate = end.ToString("yyyy-MM-dd");
-				}
-				
-			}
-			catch
-			{
-				ShowMsg("日期格式不正确！");
-				return;
-			}
-			string merchant = txbMerchant.Text.Trim();
-			string money = txbMoney.Text.Trim();
-			string order = txbOrder.Text.Trim();
-			string bankOrder = txtBankOrder.Text.Trim();
-			if(merchant == string.Empty && order == string.Empty && bankOrder == string.Empty)
-			{
-				ShowMsg("请输入商户号、交易流水订单号或银行订单号！");
-				return;
-			}
-
-			if(merchant != string.Empty && merchant.Length < 3)
-			{
-				ShowMsg("商户号太短！");
-				return;
-			}
-			if(order != string.Empty && order.Length < 3)
-			{
-				ShowMsg("交易流水订单号太短！");
-				return;
-			}
-
-			string condition = "";
-			condition += string.Format(" Fcreate_time between '{0}' and '{1}' " , strBeginDate, strEndDate);
-
-			if(order != string.Empty)
-			{
-				condition += " and Ftransaction_id = '" + order + "'";
-			}
-			if(merchant != string.Empty)
-			{
-				condition += " and Fspid = '" + merchant + "'";
-			}
-			if(money != string.Empty)
-			{
-				condition += " and Fbank_currency_fee = '" + money + "'";
-			}
-			if(bankOrder != string.Empty)
-			{
-				condition += " and Fbank_listid = '" + bankOrder + "'";
-			}
-			
-			if(DropDownState.SelectedValue != "all")
-			{
-				int state = 0;
-				switch(DropDownState.SelectedValue)
-				{
-					case "unpay":
-						state = 1;
-						break;
-					case "payed":
-						state = 2;
-						break;
-					case "refund":
-						state = 4;
-						break;
-					case "waiting":
-						state = 3;
-						break;
-				}
-				condition += "and Ftrade_state = '" + state + "'";
-			}
-			if(order != string.Empty)
-			{
-				QueryByOrder(order, condition);
-			}
-			else if(merchant != string.Empty)
-			{
-				QueryByMerchant(merchant,condition);
-			}
-			else if(bankOrder != string.Empty)
-			{
-				QueryByBankOrder(strBeginDate.Substring(0,4), condition);
-			}
+                BindData(1);
 		}
+
+        private void validData()
+        {
+            try
+            {
+                string strBeginDate = "", strEndDate = "";
+
+                try
+                {
+                    if (this.TextBoxBeginDate.Text.Trim() != "" && this.TextBoxEndDate.Text.Trim() != "")
+                    {
+                        DateTime start = DateTime.Parse(this.TextBoxBeginDate.Text);
+                        DateTime end = DateTime.Parse(this.TextBoxEndDate.Text);
+                        if (start.Year != end.Year)
+                        {
+                            throw new Exception("请不要跨年查询！");
+                        }
+                        strBeginDate = start.AddDays(-1).ToString("yyyy-MM-dd");
+                        strEndDate = end.ToString("yyyy-MM-dd");
+                    }
+
+                }
+                catch
+                {
+                    throw new Exception("日期格式不正确！");
+                }
+                string merchant = txbMerchant.Text.Trim();
+                string money = txbMoney.Text.Trim();
+                string order = txbOrder.Text.Trim();
+                string bankOrder = txtBankOrder.Text.Trim();
+                if (merchant == string.Empty && order == string.Empty && bankOrder == string.Empty)
+                {
+                    throw new Exception("请输入商户号、交易流水订单号或银行订单号！");
+                }
+
+                if (merchant != string.Empty && merchant.Length < 3)
+                {
+                    throw new Exception("商户号太短！");
+                }
+                if (order != string.Empty && order.Length < 3)
+                {
+                    throw new Exception("交易流水订单号太短！");
+                }
+
+                string condition = "";
+                if (!string.IsNullOrEmpty(strBeginDate) && !string.IsNullOrEmpty(strEndDate))
+                {
+                    condition += string.Format("|stime:{0}|etime:{1}", strBeginDate, strEndDate);
+                }
+                if (order != string.Empty)
+                {
+                    condition += "|listid:" + order;
+                }
+                if (merchant != string.Empty)
+                {
+                    condition += "|spid:" + merchant;
+                }
+                if (money != string.Empty)
+                {
+                    condition += "|bank_currency_fee:" + money;
+                }
+                if (bankOrder != string.Empty)
+                {
+                    condition += "|bank_listid:" + bankOrder;
+                }
+
+                if (DropDownState.SelectedValue != "all")
+                {
+                    int state = 0;
+                    switch (DropDownState.SelectedValue)
+                    {
+                        case "unpay":
+                            state = 1;
+                            break;
+                        case "payed":
+                            state = 2;
+                            break;
+                        case "refund":
+                            state = 4;
+                            break;
+                        case "waiting":
+                            state = 3;
+                            break;
+                    }
+                    condition += "|trade_state:" + state;
+                }
+
+                condition = condition.Substring(1, condition.Length-1);
+
+                ViewState["order"] = order;
+                ViewState["condition"] = condition;
+                ViewState["merchant"] = merchant;
+                ViewState["bankOrder"] = bankOrder;
+                ViewState["strBeginDate"] = strBeginDate;
+                ViewState["strEndDate"] = strEndDate;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("查询条件异常：" + PublicRes.GetErrorMsg(ex.Message));
+            }
+        }
+
+        protected void BindData(int index)
+        {
+            try
+            {
+                pager.CurrentPageIndex = index;
+                int max = pager.PageSize;
+                int start = max * (index - 1) + 1;
+                string order = ViewState["order"].ToString();
+                string condition = ViewState["condition"].ToString();
+                string merchant = ViewState["merchant"].ToString();
+                string bankOrder = ViewState["bankOrder"].ToString();
+                string strBeginDate = ViewState["strBeginDate"].ToString();
+                string strEndDate = ViewState["strEndDate"].ToString();
+
+                if (order != string.Empty)
+                {
+                    QueryByOrder(order, condition);
+                }
+                else if (merchant != string.Empty)
+                {
+                    QueryByMerchant(merchant, condition, start, max);
+                }
+                else if (bankOrder != string.Empty)
+                {
+                    if (string.IsNullOrEmpty(strBeginDate) || string.IsNullOrEmpty(strEndDate))
+                    {
+                        ShowMsg("请输入日期条件！");
+                        return;
+                    }
+                    QueryByBankOrder(strBeginDate.Substring(0, 4), condition, start, max);
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowMsg("查询异常：" + PublicRes.GetErrorMsg(ex.Message)); 
+                return;
+            }
+        }
 
 		private void QueryByOrder(string order, string sqlCondition)
 		{
-			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-			DataSet ds = qs.QueryForeignCardInfoByOrder(order, sqlCondition);
+            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            //DataSet ds = qs.QueryForeignCardInfoByOrder(order, sqlCondition);
+            DataSet ds = fcs.QueryForeignCardInfoByOrder(sqlCondition);
 			dataBind(ds);
 		}
 
-
-		void QueryByMerchant(string merchant, string sqlCondition)
+		void QueryByMerchant(string merchant, string sqlCondition,int start,int max)
 		{
-			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-			DataSet ds = qs.QueryForeignCardInfoByMerchant(merchant, sqlCondition);
+            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            //DataSet ds = qs.QueryForeignCardInfoByMerchant(merchant, sqlCondition);
+            DataSet ds = fcs.QueryForeignCardInfoByMerchant(merchant, sqlCondition, start, max);
 			dataBind(ds);
 		}
 
-		void QueryByBankOrder(string year, string sqlCondition)
+        void QueryByBankOrder(string year, string sqlCondition, int start, int max)
 		{
-			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-			DataSet ds = qs.QueryForeignCardInfoByBankOrder(year, sqlCondition);
+            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            //DataSet ds = qs.QueryForeignCardInfoByBankOrder(year, sqlCondition);
+            DataSet ds = fcs.QueryForeignCardInfoByBankOrder(sqlCondition, start, max);
 			dataBind(ds);
 		}
 
@@ -195,12 +255,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 			this.dgInfo.DataBind();
 		}
 
+        public void ChangePage(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
+        {
+            pager.CurrentPageIndex = e.NewPageIndex;
+            BindData(e.NewPageIndex);
+        }
 
 		private void ShowMsg(string msg)
 		{
 			Response.Write("<script language=javascript>alert('" + msg + "')</script>");
 		}
-
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -219,6 +283,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 		private void InitializeComponent()
 		{    
 			btQuery.Click += new EventHandler(btn_query_Click);
+            this.pager.PageChanged += new Wuqi.Webdiyer.PageChangedEventHandler(this.ChangePage);
 		}
 		#endregion
 	}

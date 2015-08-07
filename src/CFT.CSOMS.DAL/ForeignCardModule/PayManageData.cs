@@ -160,9 +160,107 @@ namespace CFT.CSOMS.DAL.ForeignCardModule
             }
         }
 
+        /// <summary>
+        //财付通外卡支付查询按订单号查询
+        /// </summary>
+        /// <param name="fields">relay接口特性参数串</param>
+        /// <returns></returns>
         public DataSet QueryForeignCardInfoByOrder(string fields)
         {
-            return new PublicRes().QueryCommRelay("3904", fields,0,1);
+            return new PublicRes().QueryCommRelay("3904", fields);
+        }
+     
+        /// <summary>
+        /// 财付通外卡支付查询，按商户号
+        /// </summary>
+        /// <param name="spid">商户号</param>
+        /// <param name="fields">relay接口特性参数串</param>
+        /// <returns></returns>
+        public DataSet QueryForeignCardInfoByMerchant(string spid, string fields, int offset, int limit)
+        {
+
+            string strSql = "spid=" + spid;
+            string errMsg = "";
+            string f_strID = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_MERCHANTINFO, "FuidMiddle", out errMsg);
+
+            if (f_strID == null || f_strID.Trim() == "")
+            {
+                return null;
+            }
+            fields += "|sp_uid:" + f_strID;
+
+            return new PublicRes().QueryCommRelay("3953", fields, offset, limit);
+        }
+       
+        /// <summary>
+        ///外卡交易流水查询
+        /// </summary>
+        /// <param name="fields">relay接口特性参数串</param>
+        /// <returns></returns>
+        public DataSet QueryForeignCardRoll(string fields, int offset, int limit)
+        {
+            return new PublicRes().QueryCommRelay("3954", fields, offset, limit);
+        }
+
+        /// <summary>
+        /// 财付通外卡支付查询，按银行订单号
+        /// </summary>
+        /// <param name="fields">relay接口特性参数串</param>
+        /// <returns></returns>
+        public DataSet QueryForeignCardInfoByBankOrder(string fields, int offset, int limit)
+        {
+            string order = "";
+            try
+            {
+                DataSet ds = QueryForeignCardRoll(fields,0,1);
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                    return null;
+                order = ds.Tables[0].Rows[0]["Ftransaction_id"].ToString();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("按银行订单号查订单号异常！" + e.Message);
+            }
+
+            return QueryForeignCardInfoByOrder("listid:" + order + "");
+        }
+
+        /// <summary>
+        /// 查询外汇汇率列表函数
+        /// </summary>
+        /// <param name="foreType"></param>
+        /// <param name="issueBank"></param>
+        /// <param name="beginTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="iPageStart"></param>
+        /// <param name="iPageMax"></param>
+        /// <returns></returns>
+        public DataSet GetExchangeRateList(string foreType, string issueBank, string beginTime, string endTime, int start, int max)
+        {
+            if (string.IsNullOrEmpty(beginTime) || string.IsNullOrEmpty(endTime))
+            {
+                throw new Exception("时间不能为空！");
+            }
+
+            string fields = "";
+            if (foreType != null && foreType.Trim() != "" && foreType != "0")
+            {
+                fields += "|currency_type:" + foreType;
+            }
+            if (issueBank != null && issueBank.Trim() != "" && issueBank != "0")
+            {
+                fields += "|bank_type:" + issueBank;
+            }
+            if (beginTime != null && endTime != null)
+            {
+                fields += "|stime:" + beginTime;
+                fields += "|etime:" + endTime;
+            }
+
+            fields = fields.Substring(1, fields.Length - 1);
+
+            return new PublicRes().QueryCommRelay("3952", fields, start, max);
+
         }
     }
 }

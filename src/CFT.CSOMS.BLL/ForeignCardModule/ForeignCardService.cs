@@ -91,5 +91,18 @@ namespace CFT.CSOMS.BLL.ForeignCardModule
         {
             return new PayManageData().QueryForeignCardInfoByOrder(fields);
         }
+
+        public DataSet QueryForeignCardInfoByMerchant(string spid, string fields, int offset, int limit)
+        {
+            return new PayManageData().QueryForeignCardInfoByMerchant(spid, fields, offset, limit);
+        }
+        public DataSet QueryForeignCardInfoByBankOrder(string fields, int offset, int limit)
+        {
+            return new PayManageData().QueryForeignCardInfoByBankOrder(fields, offset, limit);
+        }
+        public DataSet GetExchangeRateList(string foreType, string issueBank, string beginTime, string endTime, int start, int max)
+        {
+            return new PayManageData().GetExchangeRateList(foreType, issueBank, beginTime, endTime, start, max);
+        }
     }
 }

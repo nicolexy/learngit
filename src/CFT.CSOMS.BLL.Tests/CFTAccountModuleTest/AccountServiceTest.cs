@@ -13,19 +13,6 @@ namespace CFT.CSOMS.BLL.Tests
     public class AccountServiceTest
     {
         [TestMethod]
-        public void TestQueryForeignCardInfoByOrder()
-        {
-            string filed = "listid:" + "11111";
-            filed += "|spid:" + "12345";
-            filed += "|bank_listid:" + "2222";
-            filed += "|bank_currency_fee:" + "200";
-            filed += "|trade_state:" + "1";
-            filed += "|stime:" + "2015-07-01 00:00:00";
-            filed += "|etime:" + "2015-07-20 00:00:00";
-            DataSet ds = new ForeignCardService().QueryForeignCardInfoByOrder(filed);
-        }
-
-        [TestMethod]
         public void LCTAccStateOperatorTest()
         {
             AccountService acc = new AccountService();
