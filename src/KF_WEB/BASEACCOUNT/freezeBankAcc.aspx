@@ -74,6 +74,7 @@
                                      <asp:ListItem Value="3">用户冻结</asp:ListItem>
                                      <asp:ListItem Value="4">商户冻结</asp:ListItem>
                                      <asp:ListItem Value="5">BG接口冻结</asp:ListItem>
+                                     <asp:ListItem Value="6">赌博冻结</asp:ListItem>
                                   </asp:dropdownlist>
                                 </P>
 								</TD>
