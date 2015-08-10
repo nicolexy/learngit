@@ -1096,10 +1096,10 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
-                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
-                    List<Payment.RefundHandQDetail> list = APIUtil.ConvertTo<Payment.RefundHandQDetail>(infos.Tables[0]);
-                    APIUtil.Print<Payment.RefundHandQDetail>(list);
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);                   
                 }
+                List<Payment.RefundHandQDetail> list = APIUtil.ConvertTo<Payment.RefundHandQDetail>(infos.Tables[0]);
+                APIUtil.Print<Payment.RefundHandQDetail>(list);
             }
             catch (ServiceException se)
             {

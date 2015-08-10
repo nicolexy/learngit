@@ -249,7 +249,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
                 BankBillManage1.AddSubMenu("付款异常查询通知", "RefundManage/PaymentAbnormalQueryNotify.aspx");
                 baseAccount1.AddSubMenu("个人账户信息", "BaseAccount/InfoCenter.aspx");
-                baseAccount1.AddSubMenu("个人账户信息-新", "BaseAccount/InfoCenterNew.aspx");
+               // baseAccount1.AddSubMenu("个人账户信息-新", "BaseAccount/InfoCenterNew.aspx");
                 baseAccount1.AddSubMenu("QQ帐号回收", "BaseAccount/QQReclaim.aspx");
                 accountOperate1.AddSubMenu("账户姓名修改", "BaseAccount/changeUserName_2.aspx");
                 baseAccount1.AddSubMenu("用户受控资金查询", "TradeManage/QueryUserControledFinPage.aspx");

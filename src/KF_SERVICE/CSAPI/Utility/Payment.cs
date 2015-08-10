@@ -431,7 +431,7 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
         public class RefundHandQList
         {
             [XmlElement("card_name")]
-            public string crad_name { get; set; }
+            public string card_name { get; set; }
             [XmlElement("num_str")]
             public string num_str { get; set; }
             [XmlElement("bank_type_str")]
@@ -446,8 +446,6 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
             public string isTP { get; set; }
             [XmlElement("wx_fetch_no")]
             public string wx_fetch_no { get; set; }
-            [XmlElement("trade_no")]
-            public string trade_no { get; set; }
         }
 
         public class RefundHandQDetail
