@@ -167,7 +167,7 @@ namespace CFT.CSOMS.DAL.ForeignCardModule
         /// <returns></returns>
         public DataSet QueryForeignCardInfoByOrder(string fields)
         {
-            return new PublicRes().QueryCommRelay("3904", fields);
+            return new PublicRes().QueryCommRelay8020("3904", fields);
         }
      
         /// <summary>
@@ -189,7 +189,7 @@ namespace CFT.CSOMS.DAL.ForeignCardModule
             }
             fields += "|sp_uid:" + f_strID;
 
-            return new PublicRes().QueryCommRelay("3953", fields, offset, limit);
+            return new PublicRes().QueryCommRelay8020("3953", fields, offset, limit);
         }
        
         /// <summary>
@@ -199,7 +199,7 @@ namespace CFT.CSOMS.DAL.ForeignCardModule
         /// <returns></returns>
         public DataSet QueryForeignCardRoll(string fields, int offset, int limit)
         {
-            return new PublicRes().QueryCommRelay("3954", fields, offset, limit);
+            return new PublicRes().QueryCommRelay8020("3954", fields, offset, limit);
         }
 
         /// <summary>
@@ -259,7 +259,7 @@ namespace CFT.CSOMS.DAL.ForeignCardModule
 
             fields = fields.Substring(1, fields.Length - 1);
 
-            return new PublicRes().QueryCommRelay("3952", fields, start, max);
+            return new PublicRes().QueryCommRelay8020("3952", fields, start, max);
 
         }
     }
