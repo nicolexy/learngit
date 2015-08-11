@@ -68,6 +68,10 @@ namespace CFT.CSOMS.DAL.WechatPay
         public DataSet QueryWechatHB(string[][] parameter, string action)
         {
             var doc = RequestPostWechatHB(parameter, action);
+
+            if (doc == null)
+                return null;
+
             switch (action)
             {
                 case "QueryUserSendList":
@@ -155,7 +159,7 @@ namespace CFT.CSOMS.DAL.WechatPay
             var relay_dic = relay_result.ToDictionary();
             if (relay_dic["result"] != "0")
             {
-                throw new Exception("relay转发l5,异常");
+                throw new Exception("relay转发l5,异常 [" + relay_result + "]");
             }
             var result = System.Web.HttpUtility.UrlDecode(relay_dic["res_info"]);
             #endregion
@@ -168,14 +172,15 @@ namespace CFT.CSOMS.DAL.WechatPay
             {
                 return doc;
             }
-            else
-            {
-                var re_msg = doc.SelectSingleNode(@"Response/result/ret_msg");
-                if (re_msg != null)
-                    throw new Exception(re_msg.InnerText);
-                else
-                    throw new Exception("接口错误");
-            }
+            //else
+            //{
+            //    var re_msg = doc.SelectSingleNode(@"Response/result/ret_msg");
+            //    if (re_msg != null)
+            //        throw new Exception(re_msg.InnerText);
+            //    else
+            //        throw new Exception("接口错误");
+            //}
+            return null;
             #endregion
         }
 

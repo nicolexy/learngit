@@ -282,19 +282,30 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 return;
             }
 
-            var openid = AccountService.GetQQID("WeChatQQ", OldQQ.Text).Replace("@wx.tenpay.com","");
-            if (openid != "")
-            {
-                var endDate = DateTime.Today.AddDays(+1);
-                var startDate = endDate.AddDays(-15);
-                var HasUnfinishedHB = (new TradeService()).QueryWXHasUnfinishedHB(openid, startDate, endDate);
-                if (HasUnfinishedHB)
-                {
-                    LogHelper.LogInfo("此账号有未完成微信红包，禁止修改!");
-                    WebUtils.ShowMessage(this.Page, "此账号有未完成微信红包，禁止修改!");
-                    return;
-                }
-            }    
+            
+            //try
+            //{
+            //    //通过QQ号  获取微信财付通账号 
+            //    var openid = AccountService.GetQQID("WeChatQQ", OldQQ.Text).Replace("@wx.tenpay.com", "");
+            //    if (!string.IsNullOrEmpty(openid))
+            //    {
+            //        var endDate = DateTime.Today.AddDays(+1);
+            //        var startDate = endDate.AddDays(-15);
+            //        var HasUnfinishedHB = (new TradeService()).QueryWXHasUnfinishedHB(openid, startDate, endDate);
+            //        if (HasUnfinishedHB)
+            //        {
+            //            LogHelper.LogInfo("此账号有未完成微信红包，禁止修改!");
+            //            WebUtils.ShowMessage(this.Page, "此账号有未完成微信红包，禁止修改!");
+            //            return;
+            //        }
+            //    }   
+            //}
+            //catch (Exception)
+            //{
+            //    // 不处理异常这个查询的异常
+            //}
+
+ 
 
 			//发起审批。
 			//在这里变成了一个提起审批的流程，而不再是直接审批。

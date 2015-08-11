@@ -649,7 +649,7 @@ namespace CFT.CSOMS.BLL.TradeModule
         /// <summary>
         /// 指定时间内用户是否存在未完成的红包
         /// </summary>
-        /// <param name="WeChatName">用户的微信Openid</param>
+        /// <param name="WeChatName">用户的微信红包Openid</param>
         /// <param name="beginTime">开始时间</param>
         /// <param name="endTime">结束</param>
         /// <returns>true 存在  false 不存在</returns>
