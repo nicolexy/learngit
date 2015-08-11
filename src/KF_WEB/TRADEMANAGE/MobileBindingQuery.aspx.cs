@@ -42,7 +42,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         {
             try
             {
-                ViewState["QQ"] = this.txbQQ.Text.Trim();
+                //ViewState["QQ"] = this.txbQQ.Text.Trim();
                 BindData(1);
             }
             catch (Exception ex)
@@ -53,7 +53,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
         private void BindData(int index)
         {
-            DataSet ds = new MobileService().GetMsgNotify(txbQQ.Text);
+            DataSet ds = new MobileService().GetMsgNotify(txbQQ.Text.Trim());
 
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
@@ -86,7 +86,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         {
             try
             {
-                if (new MobileService().UpDateBindInfo(this.txbQQ.Text))
+                if (new MobileService().UpDateBindInfo(this.txbQQ.Text.Trim()))
                 {
                     WebUtils.ShowMessage(this.Page, "更新成功!");
                 }

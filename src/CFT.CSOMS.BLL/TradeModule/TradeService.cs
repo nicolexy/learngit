@@ -15,12 +15,12 @@ using System.Xml;
 
 namespace CFT.CSOMS.BLL.TradeModule
 {
-   
+
     public class TradeService
     {
         public DataSet BeforeCancelTradeQuery(string uid)
         {
-            if (string.IsNullOrEmpty(uid.Trim()) && uid.Trim().Length<3)
+            if (string.IsNullOrEmpty(uid.Trim()) && uid.Trim().Length < 3)
             {
                 throw new Exception("内部id有误");
             }
@@ -32,14 +32,14 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             return new TradeData().RemoveControledFinLogInsert(qqid, FbalanceStr, FtypeText, curtype, FmodifyTime, FupdateUser);
         }
-        public void RemoveControledFinLogInsertAll(string qqid, string uid, DataTable dt) 
+        public void RemoveControledFinLogInsertAll(string qqid, string uid, DataTable dt)
         {
             foreach (DataRow item in dt.Rows)
             {
                 new TradeData().RemoveControledFinLogInsert(qqid, item["FbalanceStr"].ToString(), item["FtypeText"].ToString(), item["cur_type"].ToString(), DateTime.Now, uid);
             }
         }
-        public DataSet RemoveControledFinLogQuery(string qqid) 
+        public DataSet RemoveControledFinLogQuery(string qqid)
         {
             return new TradeData().RemoveControledFinLogQuery(qqid);
         }
@@ -582,7 +582,7 @@ namespace CFT.CSOMS.BLL.TradeModule
             dt.Columns.Add("Frefund_typeName", typeof(String));
 
             foreach (DataRow dr in dt.Rows)
-            {       
+            {
                 string tmp = dr["Frefund_type"].ToString();
                 if (tmp == "1")
                 {
@@ -620,7 +620,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                 {
                     dr["Frefund_typeName"] = "未知类型" + tmp;
                 }
-            
+
             }
         }
         /// <summary>
@@ -715,7 +715,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                 }
                 else
                 {
-                    ds =  new TradeData().GetBankRollListByListId(u_ID, "czd", 1, u_BeginTime, u_EndTime, 0, fnum, fnummax, "0000", "0", istr, imax);
+                    ds = new TradeData().GetBankRollListByListId(u_ID, "czd", 1, u_BeginTime, u_EndTime, 0, fnum, fnummax, "0000", "0", istr, imax);
                 }
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -1137,7 +1137,7 @@ namespace CFT.CSOMS.BLL.TradeModule
             return (new TradeData()).GetListidFromUserOrder(qqid, uid, start, max);
         }
         public DataSet GetQueryList(DateTime u_BeginTime, DateTime u_EndTime, string buyqq, string saleqq, string buyqqInnerID, string saleqqInnerID,
-          string u_QueryType, string queryvalue, int fstate, int fcurtype, int start, int max) 
+          string u_QueryType, string queryvalue, int fstate, int fcurtype, int start, int max)
         {
             return (new TradeData()).GetQueryList(u_BeginTime, u_EndTime, buyqq, saleqq, buyqqInnerID, saleqqInnerID,
             u_QueryType, queryvalue, fstate, fcurtype, start, max);
