@@ -248,7 +248,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     //如果为空,不需要进行权限判断;不为空,则需要进行权限判断.
                     string val = "";
                     string des = "";
-                    if (isChannel == "1")
+                    if (isChannel == "1" || isChannel == "6")
                     {
                         //风控渠道
                         val = "UnFreezeChannelFK";

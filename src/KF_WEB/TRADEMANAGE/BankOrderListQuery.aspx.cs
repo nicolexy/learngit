@@ -396,11 +396,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     ds = myService.GetPayList(selectStrSession, iType, beginTime, endTime, istr, imax);
 
                     if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
-                    {
-                        DataGrid1.DataSource = null;
-                        DataGrid1.DataBind();
-                        throw new Exception("数据库无此记录");
-                    }
+                        continue;
+                    //{
+                    //    DataGrid1.DataSource = null;
+                    //    DataGrid1.DataBind();
+                    //    throw new Exception("数据库无此记录");
+                    //}
                     ds.Tables[0].Columns.Add("Fpaynum_str"); //交易金额
                     //ds.Tables[0].Columns.Add("Flstate_str"); //交易单的状态
                     ds.Tables[0].Columns.Add("CompanyName"); //商户名称
