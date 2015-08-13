@@ -651,10 +651,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (index == 1 && e.Item.ItemIndex == 0 && type!="冻结"&&
                     ViewState["close_flag"].ToString() == "1")//第一页，第一行流水记录才能赎回，且存取状态不能为冻结 且为非定期基金
                 {
-                    if (!fundBLLService.isSpecialFund(fund_code, spid))//易方达沪深300强赎先隐藏，无接口
-                    {
                     if (DateTime.Now.Hour >= 9 && DateTime.Now.Hour <= 15)//强赎发起时间工作日9：00－15：00，其它时间无法发起强赎，按钮灰色
-                    lb.Visible = true;
+                    {
+                        lb.Visible = true; 
+                    }
+                    if (fundBLLService.isSpecialFund(fund_code, spid)) //指数基金
+                    {
+                        lb.Text = "强赎";
                     }
                 }
             }
@@ -870,7 +873,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (tbCloseFundRollList != null)
                 {
                     tbCloseFundRollList.Columns.Add("FDate", typeof(string));
-
+                    tbCloseFundRollList.Columns.Add("AlterEndStrategyURL", typeof(string));
                     tbCloseFundRollList.Columns.Add("URL", typeof(string));
                     if (tbCloseFundRollList.Rows.Count > 0)
                         foreach (DataRow dr in tbCloseFundRollList.Rows)
@@ -883,6 +886,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                             string strEndDate = dr["Fend_date"].ToString();
                             dr["FDate"] = strEndDate.Substring(strEndDate.Length - 4);
+
+                            dr["AlterEndStrategyURL"] = "GetFundRatePageDetail.aspx?opertype=2"
+                                + "&uin=" + ViewState["uin"].ToString()
+                                + "&fundCode=" + ViewState["fundCode"].ToString()
+                                + "&trade_id=" + tradeId
+                                + "&close_listid=" + dr["Fid"].ToString()
+                                + "&user_end_type=" + dr["Fuser_end_type"].ToString()
+                                + "&end_sell_type=" + dr["Fend_sell_type"].ToString()
+                                ;
                         }
 
                     
@@ -899,15 +911,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         //封闭基金客服强赎按钮
         public void dgCloseFundRoll_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
         {
-            object obj = e.Item.Cells[12].FindControl("CloseFundApplyButton");
+            var CloseFundApply_btn = e.Item.Cells[12].FindControl("CloseFundApplyButton");
+            var AlterEndStrategy_btn = e.Item.Cells[12].FindControl("AlterEndStrategy");
             string state = e.Item.Cells[9].Text.Trim();//绑定状态
-            if (obj != null)
+
+            if (state == "待执行")//待执行状态才能强赎
             {
-                LinkButton lb = (LinkButton)obj;
-                if (state == "待执行")//待执行状态才能强赎
-                {
-                    lb.Visible = true;
-                }
+                CloseFundApply_btn.Visible = true;
+                AlterEndStrategy_btn.Visible = true;
             }
         }
 

@@ -19,6 +19,9 @@ namespace CFT.CSOMS.BLL.FundModule
             htFund.Add("110020", "1238657101");//易方达沪深300基金
             htFund.Add("481009", "1241176901");//工银沪深300基金
             htFund.Add("160706", "1239537001");//嘉实沪深300基金
+            htFund.Add("160119", "1249279401");//南方中证500交易型开放式指数证券投资基金联接基金
+            htFund.Add("000948", "1249643101");//华夏沪港通恒生交易型开放式指数证券投资基金联接基金
+            htFund.Add("110031", "1250802101");//易方达恒生中国企业交易型开放式指数证券投资基金联接基金
 
             if (htFund.Contains(fund_code))
             {
@@ -1004,6 +1007,21 @@ namespace CFT.CSOMS.BLL.FundModule
                     tradeFund.Rows[0]["duoFund"] = "(转出至" + fundName + ")";
             }
             return tradeFund;
+        }
+
+        /// <summary>
+        /// 定期修改到期策略
+        /// </summary>
+        /// <param name="Trade_id">基金交易账户对应id</param>
+        /// <param name="Fund_code">基金代码</param>
+        /// <param name="Close_listid">定期产品用户交易记录表的自增主键</param>
+        /// <param name="user_end_type">用户指定的到期申购/赎回策略</param>
+        /// <param name="end_sell_type">到期操作</param>
+        /// <param name="client_ip">操作ip</param>
+        /// <returns></returns>
+        public bool AlterEndStrategy(string Trade_id, string Fund_code, long Close_listid, int user_end_type, int end_sell_type, string client_ip)
+        {
+           return new FundProfit().AlterEndStrategy(Trade_id, Fund_code, Close_listid, user_end_type, end_sell_type, client_ip);
         }
     }
 }

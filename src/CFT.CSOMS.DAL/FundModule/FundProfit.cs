@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using SunLibraryEX;
 
 namespace CFT.CSOMS.DAL.FundModule
 {
@@ -107,6 +108,45 @@ namespace CFT.CSOMS.DAL.FundModule
 
                 return ds.Tables[0];
             }
+        }
+
+        /// <summary>
+        /// 定期修改到期策略
+        /// </summary>
+        /// <param name="Trade_id">基金交易账户对应id</param>
+        /// <param name="Fund_code">基金代码</param>
+        /// <param name="Close_listid">定期产品用户交易记录表的自增主键</param>
+        /// <param name="user_end_type">用户指定的到期申购/赎回策略</param>
+        /// <param name="end_sell_type">到期操作</param>
+        /// <param name="client_ip">操作ip</param>
+        /// <returns></returns>
+        public bool AlterEndStrategy(string trade_id, string fund_code, long close_listid, int user_end_type, int end_sell_type, string client_ip)
+        {
+            var ip = CFT.Apollo.Common.Configuration.AppSettings.Get("AlterEndStrategy_IP", "172.27.31.177");
+            var port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("AlterEndStrategy_Port", 22000);
+
+            var watch_word = "f7d02dddf897ffef786e1c499eae41f4";
+            var token = string.Format("{0}|{1}|{2}|{3}|{4}|{5}", trade_id, fund_code, close_listid, user_end_type, end_sell_type, watch_word);
+            token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(token, "md5").ToLower();
+
+            var req =
+              "trade_id=" + trade_id +
+              "&fund_code=" + fund_code +
+              "&close_listid=" + close_listid +
+              "&user_end_type=" + user_end_type +
+              "&end_sell_type=" + end_sell_type +
+              "&client_ip=" + client_ip +
+              "&watch_word=" + watch_word +
+              "&token=" + token;
+
+            var relay_result = RelayAccessFactory.RelayInvoke(req, "101303", true, false, ip, port);
+
+            var dic= relay_result.ToDictionary('&', '=');
+            if (dic["result"] != "0")
+            {
+                throw new Exception("修改失败: " + dic["res_info"]);
+            } 
+            return true;       
         }
     }
 }

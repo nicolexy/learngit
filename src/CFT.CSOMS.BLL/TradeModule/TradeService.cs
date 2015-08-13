@@ -657,7 +657,7 @@ namespace CFT.CSOMS.BLL.TradeModule
         /// <returns>true 存在  false 不存在</returns>
         public bool QueryWXHasUnfinishedHB(string openid, DateTime beginTime, DateTime endTime)
         {
-            //  15天以内 用户发送了红包并且红包状态在2,3,7 状态下 不能注销
+            //  15天以内 用户发送了红包并且红包状态在 2:PAYOK ,3:PARTRECEIVE,7:REFUNDING  状态下 不能注销
             var dal = new WechatPayService();
             const int max = 100;  //最多查询次数
             const int size = 20; //页大小
@@ -669,7 +669,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                 {
                     return false;
                 }
-                var arr = ds.Tables[0].Select("State in('2','3','7')");  //如果发现State 值等于'2','3','7'  立即返回真
+                var arr = ds.Tables[0].Select("State in('PAYOK','PARTRECEIVE','REFUNDING')");  //如果发现State 值等于 2:PAYOK ,3:PARTRECEIVE,7:REFUNDING 立即返回真
                 if (arr.Length != 0)
                 {
                     return true;
