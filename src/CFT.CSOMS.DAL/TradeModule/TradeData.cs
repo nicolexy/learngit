@@ -1204,5 +1204,41 @@ namespace CFT.CSOMS.DAL.TradeModule
                 throw e;
             }
         }
+        //手机充值卡记录查询详细函数
+        public DataSet GetFundCardListDetail(string flistid, string fsupplylist, string fcarrdid, int offset, int limit)
+        {
+            string errMsg = "";
+            try
+            {
+                var serverIp = System.Configuration.ConfigurationManager.AppSettings["Relay_IP"].ToString();
+                var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["Relay_PORT"].ToString());
+                string requestText = "reqid=4498&flag=2&offset={0}&limit={1}&fields={2}";
+                string fields = "ver:1";
+                if (!string.IsNullOrEmpty(flistid))
+                {
+                    fields += "|listid:" + flistid;
+                }
+                if (!string.IsNullOrEmpty(fsupplylist))
+                {
+                    fields += "|supply_list:" + fsupplylist;
+                }
+                if (!string.IsNullOrEmpty(fcarrdid))
+                {
+                    fields += "|card_id:" + fcarrdid;
+                }
+
+                requestText = string.Format(requestText, offset, limit, fields);
+                DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "4046", serverIp, serverPort);
+                if (!string.IsNullOrEmpty(errMsg))
+                {
+                    throw new Exception(errMsg);
+                }
+                return ds;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

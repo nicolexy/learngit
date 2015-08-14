@@ -276,6 +276,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 LifeFeeDetailManage1.AddSubMenu("邮储汇款查询", "RemitCheck/RemitQuery.aspx");
                 LifeFeeDetailManage1.AddSubMenu("邮储汇款查询-新", "RemitCheck/RemitQueryNew.aspx");
                 LifeFeeDetailManage1.AddSubMenu("手机充值卡查询", "TradeManage/FundCardQuery_Detail.aspx");
+                LifeFeeDetailManage1.AddSubMenu("手机充值卡查询-新", "TradeManage/FundCardQuery_DetailNew.aspx");
                 LifeFeeDetailManage1.AddSubMenu("信用卡还款", "TradeManage/CreditQuery.aspx");
                 LifeFeeDetailManage1.AddSubMenu("话费发货查询", "TradeManage/PhoneBillQuery.aspx");
                 LifeFeeDetailManage1.AddSubMenu("自动充值", "TradeManage/AutomaticRechargeQuery.aspx");

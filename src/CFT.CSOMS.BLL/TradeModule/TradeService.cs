@@ -1163,5 +1163,9 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             return (new TradeData()).GetBankRollList(u_QQID, u_BeginTime, u_EndTime, istr, imax, ref  ref_param);
         }
+        public DataSet GetFundCardListDetail(string flistid, string fsupplylist, string fcarrdid, int offset, int limit)
+        {
+            return (new TradeData()).GetFundCardListDetail(flistid, fsupplylist, fcarrdid, offset, limit);
+        }
     }
 }
