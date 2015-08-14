@@ -265,12 +265,15 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                         var endDate = DateTime.Today.AddDays(+1);
                         var startDate = endDate.AddDays(-15);
                         var openid = wxHBUIN.Replace("@hb.tenpay.com", "");
-                        var HasUnfinishedHB = (new TradeService()).QueryWXHasUnfinishedHB(openid, startDate, endDate);
-                        if (HasUnfinishedHB)
-                        {
-                            LogHelper.LogInfo("此账号有未完成微信红包，禁止注销!");
-                            WebUtils.ShowMessage(this.Page, "此账号有未完成微信红包，禁止注销!");
-                            return;
+                        if (!string.IsNullOrEmpty(openid))
+                        { 
+                            var HasUnfinishedHB = (new TradeService()).QueryWXHasUnfinishedHB(openid, startDate, endDate);
+                            if (HasUnfinishedHB)
+                            {
+                                LogHelper.LogInfo("此账号有未完成微信红包，禁止注销!");
+                                WebUtils.ShowMessage(this.Page, "此账号有未完成微信红包，禁止注销!");
+                                return;
+                            }
                         }
                     }
                     catch (System.Exception ex)
@@ -448,7 +451,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 }
                 else if (!string.IsNullOrEmpty(tbWxNo))
                 {
-                    queryType = "WeChatUid";
+                    queryType = "WeChatId";
                     id = tbWxNo;
                 }
                 if (!string.IsNullOrEmpty(queryType))

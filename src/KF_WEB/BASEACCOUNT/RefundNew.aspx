@@ -11,10 +11,9 @@
 		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
 		<style type="text/css"> @import url( ../STYLES/ossstyle.css );  </style>
 		<script language="javascript">
-		    function window.onload()
-		    {
+		    window.onload = function () {
 		        var div = window.parent.document.getElementById('iframe0');
-		        div.style.height=document.body.scrollHeight+20;
+		        div.style.height = document.body.scrollHeight + 20;
 		    }
 		</script>
 	</HEAD>

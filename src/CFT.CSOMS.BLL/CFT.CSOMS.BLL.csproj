@@ -56,10 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivityModule\ActivityService.cs" />
+    <Compile Include="AutoRecharge\AutoRechargeService.cs" />
     <Compile Include="BalanceModule\BalaceService.cs" />
     <Compile Include="BankCardBindModule\BankCardBindService.cs" />
     <Compile Include="CFTAccountModule\AccountService.cs" />
     <Compile Include="CheckModoule\CheckService.cs" />
+    <Compile Include="CreditModule\CreditService.cs" />
     <Compile Include="CRTModule\CRTService.cs" />
     <Compile Include="ForeignCurrencyModule\FCUserTradeQuery.cs" />
     <Compile Include="FundModule\LCTBalanceService.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="FundModule\FundService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicModule\PublicService.cs" />
+    <Compile Include="RareName\RareNameService.cs" />
     <Compile Include="RefundModule\AbnormalRefund.cs" />
     <Compile Include="RefundModule\BankEmailService.cs" />
     <Compile Include="RefundModule\RefundRegisterService.cs" />

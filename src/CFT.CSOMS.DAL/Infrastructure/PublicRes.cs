@@ -25,15 +25,21 @@ namespace CFT.CSOMS.DAL.Infrastructure
     public class PublicRes
     {
         public static bool IgnoreLimitCheck = System.Configuration.ConfigurationManager.AppSettings["IgnoreLimitCheck"].Trim().ToLower() == "true";
-      
-        public DataSet QueryCommRelay(string reqid, string fields, int offset = -1, int limit = -1)
+
+        public DataSet QueryCommRelay8020(string reqid, string fields, int offset = -1, int limit = -1)
+        {
+            string serverIp = System.Configuration.ConfigurationManager.AppSettings["Relay_IP"].ToString();
+            int serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["Relay_PORT"].ToString());
+            string request_type = System.Configuration.ConfigurationManager.AppSettings["UserOrder_requesttype"].ToString();
+
+            return QueryCommRelay(serverIp, serverPort, request_type,reqid, fields, offset, limit);
+        }
+
+        public DataSet QueryCommRelay(string ip, int port, string request_type, string reqid, string fields, int offset = -1, int limit = -1)
         {
             string reqString = "";
             string msgno = System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.NewStaticNoManage();
-            var serverIp = System.Configuration.ConfigurationManager.AppSettings["Relay_IP"].ToString();
-            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["Relay_PORT"].ToString());
-            string request_type = System.Configuration.ConfigurationManager.AppSettings["UserOrder_requesttype"].ToString();
-
+          
             if (offset == -1 && limit == -1)//单笔查询
 
                 reqString = "reqid=" + reqid + "&flag=1&fields=" + fields + "&msgno=" + msgno;
@@ -41,7 +47,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
                 reqString = "reqid=" + reqid + "&flag=2" +
                       "&fields=" + fields +
                       "&offset=" + offset + "&limit=" + limit + "&msgno=" + msgno;
-            return RelayAccessFactory.GetDSFromRelayFromXML(reqString, request_type, serverIp, serverPort);
+            return RelayAccessFactory.GetDSFromRelayFromXML(reqString, request_type, ip, port);
         }
         
         public static bool CommQuery(string serviceName, string reqParams, bool isCret, out string sReply, out short iResult, out string sMsg)

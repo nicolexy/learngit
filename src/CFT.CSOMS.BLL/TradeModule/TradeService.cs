@@ -649,7 +649,7 @@ namespace CFT.CSOMS.BLL.TradeModule
         /// <summary>
         /// 指定时间内用户是否存在未完成的红包
         /// </summary>
-        /// <param name="WeChatName">用户的微信Openid</param>
+        /// <param name="WeChatName">用户的微信红包Openid</param>
         /// <param name="beginTime">开始时间</param>
         /// <param name="endTime">结束</param>
         /// <returns>true 存在  false 不存在</returns>
@@ -1162,6 +1162,10 @@ namespace CFT.CSOMS.BLL.TradeModule
         public DataSet GetBankRollList(string u_QQID, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax, ref  string ref_param)
         {
             return (new TradeData()).GetBankRollList(u_QQID, u_BeginTime, u_EndTime, istr, imax, ref  ref_param);
+        }
+        public DataSet GetFundCardListDetail(string flistid, string fsupplylist, string fcarrdid, int offset, int limit)
+        {
+            return (new TradeData()).GetFundCardListDetail(flistid, fsupplylist, fcarrdid, offset, limit);
         }
     }
 }

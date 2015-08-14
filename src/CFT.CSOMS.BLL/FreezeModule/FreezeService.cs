@@ -92,6 +92,10 @@ namespace CFT.CSOMS.BLL.FreezeModule
                     {
                         dr["strFfreeze_channel"] = "BG接口冻结";
                     }
+                    else if (tmp == "6")
+                    {
+                        dr["strFfreeze_channel"] = "涉嫌可疑交易冻结";
+                    }
                     else
                     {
                         dr["strFfreeze_channel"] = "无冻结渠道";

@@ -22,7 +22,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         public DataSet BeforeCancelTradeQuery(string uid)
         {
             string fields = "uid:" + uid;
-            return new PublicRes().QueryCommRelay("413", fields, 0, 1);
+            return new PublicRes().QueryCommRelay8020("413", fields, 0, 1);
 
             long uidL = long.Parse(uid);
             int uidEnd = int.Parse(uid.Substring(uid.Length - 2));
@@ -948,9 +948,9 @@ namespace CFT.CSOMS.DAL.TradeModule
                 throw new Exception(fuid + "账号不存在");
             }
             //查询买家
-            DataSet dsbuy = new PublicRes().QueryCommRelay("2213", "buy_uid:" + fuid, start, max);
+            DataSet dsbuy = new PublicRes().QueryCommRelay8020("2213", "buy_uid:" + fuid, start, max);
             //查询卖家
-            DataSet dssale = new PublicRes().QueryCommRelay("2214", "sale_uid:" + fuid, start, max);
+            DataSet dssale = new PublicRes().QueryCommRelay8020("2214", "sale_uid:" + fuid, start, max);
             dsbuy = PublicRes.ToOneDataset(dsbuy, dssale);
             return dsbuy;
         }
@@ -983,25 +983,25 @@ namespace CFT.CSOMS.DAL.TradeModule
                     if (!string.IsNullOrEmpty(buyqqInnerID))
                     {
                         fields = "buy_uid:" + buyqqInnerID + fields;
-                        ds = new PublicRes().QueryCommRelay("2212", fields, start, max);
+                        ds = new PublicRes().QueryCommRelay8020("2212", fields, start, max);
                     }
                     else if (!string.IsNullOrEmpty(saleqqInnerID))
                     {
                         fields = "sp_uid:" + saleqqInnerID + fields;
-                        ds = new PublicRes().QueryCommRelay("2211", fields, start, max);
+                        ds = new PublicRes().QueryCommRelay8020("2211", fields, start, max);
                     }
                     else if (!string.IsNullOrEmpty(buyqq))
                     {
                         fuid = PublicRes.ConvertToFuid(buyqq);
                         buyqqInnerID = fuid;
                         fields = "buy_uid:" + fuid + fields;
-                        ds = new PublicRes().QueryCommRelay("2212", fields, start, max);
+                        ds = new PublicRes().QueryCommRelay8020("2212", fields, start, max);
                     }
                     else if (!string.IsNullOrEmpty(saleqq))
                     {
                         fuid = PublicRes.ConvertToFuid(saleqq);
                         fields = "sp_uid:" + fuid + fields;
-                        ds = new PublicRes().QueryCommRelay("2211", fields, start, max);
+                        ds = new PublicRes().QueryCommRelay8020("2211", fields, start, max);
                     }
 
                     DataSet dsForWX = new DataSet();
@@ -1056,7 +1056,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                 fields += "|bank_type:" + banktype;
             }
 
-            DataSet ds = new PublicRes().QueryCommRelay("2215", fields, istr, imax);
+            DataSet ds = new PublicRes().QueryCommRelay8020("2215", fields, istr, imax);
             return ds;
         }
         /// <summary>
@@ -1077,7 +1077,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                 string fields = "buy_uid:" + fuid +
                          "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
                         "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
-                ds = new PublicRes().QueryCommRelay("2216", fields, istr, imax);
+                ds = new PublicRes().QueryCommRelay8020("2216", fields, istr, imax);
                 try
                 {
                     DataSet dsForWX = QueryWxBuyOrderByUid(int.Parse(fuid.Trim()), dtBegin, dtEnd, istr, imax);//微信买家纬度订单
@@ -1094,19 +1094,19 @@ namespace CFT.CSOMS.DAL.TradeModule
                 string fields = "sale_uid:" + fuid +
                          "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
                         "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
-                ds = new PublicRes().QueryCommRelay("2217", fields, (istr), imax);
+                ds = new PublicRes().QueryCommRelay8020("2217", fields, (istr), imax);
             }
             else if (iIDType == 10) // 2012/5/29 新添加根据QQ号查询中介交易
             {
                 string fields = "sale_uid:" + fuid +
                          "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
                         "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
-                ds = new PublicRes().QueryCommRelay("2218", fields, (istr), imax);
+                ds = new PublicRes().QueryCommRelay8020("2218", fields, (istr), imax);
             }
             else if (iIDType == 13)  //yinhuang 小额刷卡交易查询
             {
                 string fields = "buy_uid:" + fuid;
-                ds = new PublicRes().QueryCommRelay("2219", fields, istr, imax);
+                ds = new PublicRes().QueryCommRelay8020("2219", fields, istr, imax);
             }
             else
             {
@@ -1153,7 +1153,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                 {
                     fields += "|etime:" + strEndTime;
                 }
-                return new PublicRes().QueryCommRelay("2220", fields, limStart, limCount);
+                return new PublicRes().QueryCommRelay8020("2220", fields, limStart, limCount);
             }
             else
             {
@@ -1197,6 +1197,42 @@ namespace CFT.CSOMS.DAL.TradeModule
                 requestText += "&ref_param=" + ref_param;
                 string answer = RelayAccessFactory.RelayInvoke(requestText, "101215", false, false, serverIp, serverPort, "");
                 DataSet ds = CommQuery.ParseRelayPageRowNum2(answer, out ref_param);
+                return ds;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        //手机充值卡记录查询详细函数
+        public DataSet GetFundCardListDetail(string flistid, string fsupplylist, string fcarrdid, int offset, int limit)
+        {
+            string errMsg = "";
+            try
+            {
+                var serverIp = System.Configuration.ConfigurationManager.AppSettings["Relay_IP"].ToString();
+                var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["Relay_PORT"].ToString());
+                string requestText = "reqid=4498&flag=2&offset={0}&limit={1}&fields={2}";
+                string fields = "ver:1";
+                if (!string.IsNullOrEmpty(flistid))
+                {
+                    fields += "|listid:" + flistid;
+                }
+                if (!string.IsNullOrEmpty(fsupplylist))
+                {
+                    fields += "|supply_list:" + fsupplylist;
+                }
+                if (!string.IsNullOrEmpty(fcarrdid))
+                {
+                    fields += "|card_id:" + fcarrdid;
+                }
+
+                requestText = string.Format(requestText, offset, limit, fields);
+                DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "4046", serverIp, serverPort);
+                if (!string.IsNullOrEmpty(errMsg))
+                {
+                    throw new Exception(errMsg);
+                }
                 return ds;
             }
             catch (Exception e)

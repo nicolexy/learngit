@@ -11,7 +11,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
     public partial class WechatRedPacket : System.Web.UI.Page
     {
-        DateTime beginTime, endTime;
         string wechatName, hbUin, payListId;
 
 
@@ -29,6 +28,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         {
             try
             {
+                DateTime beginTime, endTime;
                 #region 值处理
                 this.receivePager.RecordCount = 1000;
                 this.sendListPager.RecordCount = 1000;
@@ -41,7 +41,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 try
                 {
                     beginTime = DateTime.Parse(TextBoxBeginDate.Text.Trim());
-                    endTime = DateTime.Parse(TextBoxEndDate.Text.Trim());
+                    endTime = DateTime.Parse(TextBoxEndDate.Text.Trim()).AddDays(1).AddSeconds(-1); // 得到当天的最后一个时刻 23:59:59
                 }
                 catch
                 {
@@ -62,6 +62,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 catch { }//防止不能查询
                 hbUin = hbUin.Replace("@hb.tenpay.com", "");
                 ViewState["hbUin"] = hbUin;
+                ViewState["beginTime"] = beginTime;
+                ViewState["endTime"] = endTime;
                 BindReceiveList(hbUin, 1, 10);
                 BindSendList(hbUin, 1, 10);
             }
@@ -99,7 +101,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 //string ip = Request.UserHostAddress.ToString();
                 //if (ip == "::1")
                 //    ip = "127.0.0.1";
-
+                DateTime beginTime = (DateTime)ViewState["beginTime"];
+                DateTime endTime =(DateTime)ViewState["endTime"];
                 var dsReceiveList = new WechatPayService().QueryUserReceiveList(hbUin, beginTime, endTime, start, max);
 
                 if (dsReceiveList != null && dsReceiveList.Tables.Count > 0)
@@ -117,6 +120,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 else
                 {
                     gvReceiveList.DataSource = null;
+                    WebUtils.ShowMessage(this.Page, "没有接受红包记录");
                 }
             }
             catch (Exception ex)
@@ -142,7 +146,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 //string ip = Request.UserHostAddress.ToString();
                 //if (ip == "::1")
                 //    ip = "127.0.0.1";
-
+                DateTime beginTime = (DateTime)ViewState["beginTime"];
+                DateTime endTime = (DateTime)ViewState["endTime"];
                 var dsSendList = new WechatPayService().QueryUserSendList(hbUin, beginTime, endTime, start, max);
 
 
@@ -181,6 +186,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 }
                 else
                 {
+                    WebUtils.ShowMessage(this.Page, "没有发送红包记录");
                     gvSendList.DataSource = null;
                 }
                 this.sendListPager.RecordCount = 1000;
@@ -195,40 +201,42 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         // 绑定红包详细 ,receive_id  如果不等于null 就表示是接受红包详情
         private void BindRedPacketDetailList(string sendListId, string receive_id = null)
         {
-            //var qs = new Query_Service.Query_Service();
-
-            //var dsDetailList = qs.GetRedPacketDetailList(sendListId, createTime, pageIndex * pageSize, pageSize);
-            // this.redPacketDetailPager.CurrentPageIndex = pageIndex;
-            //int max = pageSize;
-            //int start = max * (pageIndex - 1);
-            //string ip = Request.UserHostAddress.ToString();
-            //if (ip == "::1")
-            //    ip = "127.0.0.1";
-
             var bll = new WechatPayService();
             var dsDetailList = receive_id == null ? bll.QueryDetail(sendListId, 0) : bll.QueryReceiveHBInfoById(sendListId, receive_id, 1);
 
             if (dsDetailList != null && dsDetailList.Tables.Count > 0 && dsDetailList.Tables[0].Rows.Count > 0)
             {
-                dsDetailList.Tables[0].Columns.Add("Amount_text", typeof(string));
-                dsDetailList.Tables[0].Columns.Add("ReceiveOpenid_text", typeof(string));
-                dsDetailList.Tables[0].Columns.Add("SendOpenid_text", typeof(string));
-                //红包详情中Fsend_openid都一样
-                string send_openid_tmp = string.Format("{0}@wx.tenpay.com", WeChatHelper.GetAcctIdFromOpenId(dsDetailList.Tables[0].Rows[0]["SendOpenid"].ToString()));
-                foreach (DataRow item in dsDetailList.Tables[0].Rows)
+                var detail_dt = dsDetailList.Tables[0];
+                detail_dt.Columns.Add("Amount_text", typeof(string));
+                detail_dt.Columns.Add("ReceiveOpenid_text", typeof(string));
+                detail_dt.Columns.Add("SendOpenid_text", typeof(string));
+
+                Func<string, string> GetWxNoByOpenId = openId =>
+                {
+                    try
+                    {
+                        var accid = WeChatHelper.GetAcctIdFromOpenId(openId);
+                        return accid + "@wx.tenpay.com";
+                    }
+                    catch (Exception ex)
+                    {
+                        return ex.Message + "  [OpenId=" + openId +"]";
+                    }             
+                };
+
+                var sendOpenid = detail_dt.Rows[0]["SendOpenid"].ToString();
+                string send_openid_tmp = GetWxNoByOpenId(sendOpenid);   // string.Format("{0}@wx.tenpay.com", WeChatHelper.GetAcctIdFromOpenId(sendOpenid));
+
+                foreach (DataRow item in detail_dt.Rows)
                 {
                     item["Amount_text"] = classLibrary.setConfig.FenToYuan(item["Amount"].ToString());
-                    //  item["Freceive_openid_text"] = item["Freceive_openid"].ToString() + "@hb.tenpay.com";
-                    //本来展示红包账号，改为展示微信账号
-                    item["ReceiveOpenid_text"] = string.Format("{0}@wx.tenpay.com", WeChatHelper.GetAcctIdFromOpenId(item["ReceiveOpenid"].ToString()));
+                    item["ReceiveOpenid_text"] = GetWxNoByOpenId(item["ReceiveOpenid"].ToString());
                     item["SendOpenid_text"] = send_openid_tmp;
                 };
                 gvRedPacketDetail.Columns[1].Visible = receive_id == null;  //订单号在接受者角度是没有的
-                gvRedPacketDetail.DataSource = dsDetailList.Tables[0].DefaultView;
+                gvRedPacketDetail.DataSource = detail_dt.DefaultView;
                 gvRedPacketDetail.DataBind();
             }
-
-
         }
         //发送红包分页
         protected void sendListPager_PageChanged(object src, Wuqi.Webdiyer.PageChangedEventArgs e)

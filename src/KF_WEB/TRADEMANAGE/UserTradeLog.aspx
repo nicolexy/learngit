@@ -11,11 +11,10 @@
 		<style type="text/css">@import url( ../STYLES/ossstyle.css ); .style1 { FONT-WEIGHT: bold; FONT-SIZE: 14px }
 		</style>
 		<script language="javascript">
-			function window.onload()
-			{
-			var div = window.parent.document.getElementById('iframe4');
-			div.style.height=document.body.scrollHeight+20;
-			}
+		    window.onload = function () {
+		        var div = window.parent.document.getElementById('iframe4');
+		        div.style.height = document.body.scrollHeight + 20;
+		    }
 		</script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">

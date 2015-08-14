@@ -2095,6 +2095,13 @@
     <Compile Include="TradeManage\CGIInfoQuery.aspx.designer.cs">
       <DependentUpon>CGIInfoQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TradeManage\FundCardQuery_DetailNew.aspx.cs">
+      <DependentUpon>FundCardQuery_DetailNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\FundCardQuery_DetailNew.aspx.designer.cs">
+      <DependentUpon>FundCardQuery_DetailNew.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TradeManage\MobileBindingQuery.aspx.cs">
       <DependentUpon>MobileBindingQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3362,6 +3369,7 @@
     <Content Include="TradeManage\BusCardPrepaidQuery.aspx" />
     <Content Include="TradeManage\ContractQuery.aspx" />
     <Content Include="TradeManage\CGIInfoQuery.aspx" />
+    <Content Include="TradeManage\FundCardQuery_DetailNew.aspx" />
     <Content Include="TradeManage\MobileBindingQuery.aspx" />
     <Content Include="TradeManage\PayLimitManage.aspx" />
     <Content Include="TradeManage\TradeMigration.aspx" />
@@ -4516,6 +4524,9 @@
     <EmbeddedResource Include="TradeManage\CGIInfoQuery.aspx.resx">
       <DependentUpon>CGIInfoQuery.aspx.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TradeManage\FundCardQuery_DetailNew.aspx.resx">
+      <DependentUpon>FundCardQuery_DetailNew.aspx.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\PayLimitManage.aspx.resx">
       <DependentUpon>PayLimitManage.aspx.cs</DependentUpon>
     </EmbeddedResource>
@@ -4944,7 +4955,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>3062</DevelopmentServerPort>
+          <DevelopmentServerPort>49487</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:6903/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

@@ -1845,7 +1845,7 @@ namespace CFT.CSOMS.Service.CSAPI
         /// <summary>
         /// 删除个人证书
         /// </summary>
-        [WebMethod]
+        //暂时不提供API给外部系统
         public void DeleteUserCrt()
         {
             try
@@ -1881,7 +1881,7 @@ namespace CFT.CSOMS.Service.CSAPI
         /// <summary>
         /// 关闭证书服务
         /// </summary>
-        [WebMethod]
+        //暂时不提供API给外部系统
         public void DeleteCrtService()
         {
             try

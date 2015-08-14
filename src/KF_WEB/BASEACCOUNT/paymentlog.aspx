@@ -16,21 +16,19 @@
 			{
 		%>
 		<script language="javascript">
-				function window.onload()
-				{
-				var div = window.parent.document.getElementById('iframe2');
-				div.style.height=document.body.scrollHeight+20;
-				}
+		    window.onload = function () {
+		        var div = window.parent.document.getElementById('iframe2');
+		        div.style.height=document.body.scrollHeight+20;
+		    }
 		</script>
 		<%
 			}else {
 		%>
 		<script language="javascript">
-				function window.onload()
-				{
-				var div = window.parent.document.getElementById('iframe0');
-				div.style.height=document.body.scrollHeight+20;
-				}
+		    window.onload = function () {
+		        var div = window.parent.document.getElementById('iframe0');
+		        div.style.height = document.body.scrollHeight + 20;
+		    }
 		</script>
 		<%
 			}

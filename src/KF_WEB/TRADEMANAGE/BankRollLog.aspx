@@ -9,11 +9,10 @@
 		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
 		<style type="text/css"> @import url( ../STYLES/ossstyle.css );  </style>
 		<script language="javascript">
-			function window.onload()
-			{
-			var div = window.parent.document.getElementById('iframe3');
-			div.style.height=document.body.scrollHeight+20;
-			}
+		    window.onload = function () {
+		        var div = window.parent.document.getElementById('iframe3');
+		        div.style.height = document.body.scrollHeight + 20;
+		    }
 		</script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">

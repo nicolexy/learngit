@@ -43,7 +43,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 				if(!IsPostBack)
 				{
-                    TextBoxBeginDate.Text = DateTime.Now.AddMonths(-1).ToString("yyyy年MM月dd日");
+                    TextBoxBeginDate.Text = DateTime.Now.AddDays(-30).ToString("yyyy年MM月dd日");
 					TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
 
 					classLibrary.setConfig.GetAllBankList(ddlBankType);

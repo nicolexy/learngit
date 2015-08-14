@@ -71,10 +71,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivityModule\ActivityData.cs" />
+    <Compile Include="AutoRechargeModule\AutoRechargeData.cs" />
     <Compile Include="BalanceModule\BalanceData.cs" />
     <Compile Include="BankcardUnbind\BankcardbindData.cs" />
     <Compile Include="CFTAccount\AccountData.cs" />
     <Compile Include="CheckModoule\CheckData.cs" />
+    <Compile Include="CreditModule\CreditData.cs" />
     <Compile Include="CRTModule\CRTData.cs" />
     <Compile Include="ForeignCardModule\FCUserTradeQuery.cs" />
     <Compile Include="FundModule\LCTBalance.cs" />

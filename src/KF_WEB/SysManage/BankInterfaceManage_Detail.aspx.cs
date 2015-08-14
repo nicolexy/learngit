@@ -50,6 +50,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             {
                 if (!IsPostBack)
                 {
+                    nTime = 0;
                     #region onclickÌí¼Ó
                     iStartTime.Attributes.Add("onclick", "openBankModeBegin()");
                     iEndTime.Attributes.Add("onclick", "openBankModeEnd()");
