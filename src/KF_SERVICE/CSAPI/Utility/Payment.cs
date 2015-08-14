@@ -539,5 +539,33 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
         }
 
         #endregion
+
+        #region 姓名生僻字
+
+        public class RareNameList
+        {
+            [XmlElement("user_type")]
+            public string Fuser_type { get; set; }
+            [XmlElement("user_type_str")]
+            public string Fuser_type_str { get; set; }
+            [XmlElement("record_type_str")]
+            public string record_type_str { get; set; }
+            [XmlElement("updateuser")]
+            public string updateuser { get; set; }
+            [XmlElement("card_state")]
+            public string Fcard_state { get; set; }
+            [XmlElement("card_state_str")]
+            public string card_state_str { get; set; }
+            [XmlElement("modify_type")]
+            public string modify_type { get; set; }
+            [XmlElement("modify_time")]
+            public string Fmodify_time { get; set; }
+            [XmlElement("card_no")]
+            public string Fcard_no { get; set; }
+            [XmlElement("account_name")]
+            public string Faccount_name { get; set; }
+        }
+
+        #endregion
     }
 }

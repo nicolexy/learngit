@@ -13,6 +13,7 @@ namespace CFT.CSOMS.Service.CSAPI.Trade
         {
 
         }
+        #region
 
         public class TransferDic
         {
@@ -181,7 +182,7 @@ namespace CFT.CSOMS.Service.CSAPI.Trade
             [XmlElement("sale_bank_type_str")]
             public string Fsale_bank_type_str { get; set; }
             [XmlElement("sale_bankid")]
-            public string Fsale_bankid { get; set; }          
+            public string Fsale_bankid { get; set; }
             [XmlElement("state")]
             public string Fstate { get; set; }
             [XmlElement("state_str")]
@@ -235,5 +236,114 @@ namespace CFT.CSOMS.Service.CSAPI.Trade
             [XmlElement("modify_time")]
             public string Fmodify_time { get; set; }
         }
+
+        #endregion
+
+        #region 银行卡查询
+
+        public class BankCardList
+        {
+            [XmlElement("pay_acc")]
+            public string fpay_acc { get; set; }
+            [XmlElement("bank_order")]
+            public string fbank_order { get; set; }
+            [XmlElement("amt_str")]
+            public string FamtStr { get; set; }
+            [XmlElement("biz_type_str")]
+            public string Fbiz_type_str { get; set; }
+        }
+        #endregion
+
+        #region 信用卡还款,自动充值,手机充值卡
+
+        /// <summary>
+        /// 手机充值卡
+        /// </summary>
+        public class FundCardListDetail
+        {
+            [XmlElement("listid")]
+            public string FListID { get; set; }
+            [XmlElement("num_str")]
+            public string Fnum_str { get; set; }
+            [XmlElement("state")]
+            public string Fstate { get; set; }
+            [XmlElement("state_str")]
+            public string Fstate_str { get; set; }
+            [XmlElement("sign")]
+            public string Fsign { get; set; }
+            [XmlElement("sign_str")]
+            public string Fsign_str { get; set; }
+            [XmlElement("supply_list")]
+            public string Fsupply_list { get; set; }
+            [XmlElement("sp_back_prove")]   //经销商返回成功对账单号
+            public string Fsp_back_prove { get; set; }
+
+            [XmlElement("card_id")]
+            public string Fcard_id { get; set; }
+            [XmlElement("card_type")]
+            public string Fcard_type { get; set; }
+            [XmlElement("card_type_str")]
+            public string Fcard_type_str { get; set; }
+            [XmlElement("supply_id")]
+            public string Fsupply_id { get; set; }
+            [XmlElement("uin")] //充值人QQ
+            public string Fuin { get; set; }
+            [XmlElement("user_name")]
+            public string Fuser_name { get; set; }
+            [XmlElement("pay_front_time")]
+            public string Fpay_front_time { get; set; }
+            [XmlElement("sp_time")]
+            public string Fsp_time { get; set; }
+            [XmlElement("modify_time")]
+            public string Fmodify_time { get; set; }
+        }
+
+        public class CreditQueryList
+        {
+            [XmlElement("pay_front_time")]
+            public string Fpay_front_time { get; set; }
+            [XmlElement("listid")]
+            public string Flistid { get; set; }
+            [XmlElement("bank_type")]
+            public string Fbank_type { get; set; }
+            [XmlElement("bank_type_str")]
+            public string Fbank_name { get; set; }
+            [XmlElement("creditcard_id")]
+            public string creditcard_id { get; set; }
+            [XmlElement("num_str")]
+            public string Fnum_str { get; set; }
+            [XmlElement("sign")]
+            public string Fsign { get; set; }
+            [XmlElement("sign_str")]
+            public string Fsign_str { get; set; }
+        }
+
+        public class AutomaticRecharge
+        {
+            [XmlElement("user_id")]
+            public string user_id { get; set; }
+            [XmlElement("threshold_amount_str")]
+            public string threshold_amount_str { get; set; }
+            [XmlElement("bank_type")]
+            public string bankType { get; set; }
+            [XmlElement("withhold_uin")]
+            public string withhold_uin { get; set; }
+        }
+
+        public class AutomaticRechargeDetail
+        {
+            [XmlElement("trans_id")]
+            public string trans_id { get; set; }
+            [XmlElement("bill_amount_str")]
+            public string bill_amount_str { get; set; }
+            [XmlElement("pay_amount_str")]
+            public string pay_amount_str { get; set; }
+            [XmlElement("user_id")]
+            public string user_id { get; set; }
+            [XmlElement("state_name")]
+            public string FstateName { get; set; }
+        }
+
+        #endregion
     }
 }

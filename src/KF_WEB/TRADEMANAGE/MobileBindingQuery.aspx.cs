@@ -42,7 +42,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         {
             try
             {
-                //ViewState["QQ"] = this.txbQQ.Text.Trim();
+               // //ViewState["QQ"] = this.txbQQ.Text.Trim();
                 BindData(1);
             }
             catch (Exception ex)

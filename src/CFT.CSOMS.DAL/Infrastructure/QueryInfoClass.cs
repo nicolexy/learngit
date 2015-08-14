@@ -12,7 +12,7 @@ using TENCENT.OSS.CFT.KF.DataAccess;
 
 namespace CFT.CSOMS.DAL.Infrastructure
 {
-    #region 基类
+    #region
 
     /// <summary>
     /// 交易单表的类形式
@@ -142,6 +142,83 @@ namespace CFT.CSOMS.DAL.Infrastructure
         }
     }
 
+    #endregion
+
+    #region 基类
+    public class T_CLASS_BASIC
+    {
+        public static bool SPIDIsExists(string spid)
+        {
+            /*
+            //string strSql = "select count(1) from c2c_db.t_middle_user where fspid='" + spid + "'";
+            string strSql = "select count(1) from c2c_db.t_merchant_info where fspid='" + spid + "'";
+            return PublicRes.ExecuteOne(strSql,"ZL") == "1";
+            */
+
+            string strSql = "spid=" + spid;
+            string errMsg = "";
+            string testspid = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_MERCHANTINFO, "Fspid", out errMsg);
+
+            if (testspid != null && testspid.Trim() != "")
+                return true;
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// 从一条记录，获取成员变量值
+        /// </summary>
+        /// <param name="dr"></param>
+        public void LoadFromDB(DataRow dr)
+        {
+            System.Reflection.FieldInfo fi;
+            string col_name, col_type;
+            System.Type this_type = this.GetType();
+            for (int i = 0; i < dr.Table.Columns.Count; i++)
+            {
+                col_name = dr.Table.Columns[i].ColumnName;
+                fi = this_type.GetField(col_name);
+                if (fi == null)
+                    fi = this_type.GetField(col_name.ToLower());
+                if (fi != null)
+                {
+                    col_type = dr.Table.Columns[i].DataType.FullName.ToUpper();
+                    if (col_type == "System.Int32" || col_type == "System.Int16")
+                        fi.SetValue(this, QueryInfo.GetInt(dr[col_name]));
+                    else if (col_type == "System.DateTime")
+                        fi.SetValue(this, QueryInfo.GetDateTime(dr[col_name]));
+                    else
+                        fi.SetValue(this, QueryInfo.GetString(dr[col_name]));
+                }
+            }
+        }
+
+        /// <summary>
+        /// 从审批参数表获取成员变量值
+        /// </summary>
+        /// <param name="dt"></param>
+        public void LoadFromParamDB(DataTable dt)
+        {
+            System.Reflection.FieldInfo fi;
+            string col_name, col_value;
+            System.Type this_type = this.GetType();
+            foreach (DataRow dr in dt.Rows)
+            {
+                col_name = dr["FKey"].ToString().Trim();
+                fi = this_type.GetField(col_name);
+                if (fi == null)
+                    fi = this_type.GetField(col_name.ToLower());
+                if (fi != null)
+                {
+                    col_value = dr["FValue"].ToString().Trim();
+                    if (fi.FieldType.FullName == "System.Boolean")
+                        fi.SetValue(this, Convert.ToBoolean(col_value));
+                    else
+                        fi.SetValue(this, col_value);
+                }
+            }
+        }
+    }
     #endregion
 
     #region	 受控资金信息查询
@@ -2040,6 +2117,36 @@ namespace CFT.CSOMS.DAL.Infrastructure
         }
     }
 
+    #endregion
+
+    #region 手机充值卡记录查询
+    public class FundCardQueryClass : Query_BaseForNET
+    {
+        public FundCardQueryClass(string u_ID, string fsupplylist, string Fcard_id)
+        {
+            string strwhere = " where 1=1 ";
+            if (u_ID != "" && u_ID != null)
+            {
+                strwhere += "and Flistid='" + u_ID + "'";
+            }
+
+            if (fsupplylist != "" && fsupplylist != null)
+            {
+                strwhere += "  and  Fsupply_list='" + fsupplylist + "'";
+            }
+
+            if (Fcard_id != "" && Fcard_id != null)
+            {
+                strwhere += "  and  Fcard_id='" + Fcard_id + "'";
+            }
+
+            strwhere += "  order by  Fmodify_time  desc";
+
+            fstrSql = "select * from charge_card_db.t_card_list " + strwhere;
+            fstrSql_count = "select count(1) from charge_card_db.t_card_list  " + strwhere;
+        }
+
+    }
     #endregion
 
 }

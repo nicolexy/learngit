@@ -167,8 +167,8 @@ namespace CSAPI
                 int type = APIUtil.StringToInt(paramsHt["type"].ToString());
                 DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
                 DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
-                int offset=APIUtil.StringToInt(paramsHt["offset"].ToString());
-                int limit=APIUtil.StringToInt(paramsHt["limit"].ToString());
+                int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
+                int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
 
                 int days = (end_time - begin_time).Days;
                 if (days > 184)
@@ -205,7 +205,7 @@ namespace CSAPI
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
-       
+
         /// <summary>
         /// 充值记录查询 0,QQID;1,ListID
         /// </summary>
@@ -440,7 +440,7 @@ namespace CSAPI
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
-     
+
         #endregion
 
         #region 邮政汇款
@@ -522,6 +522,310 @@ namespace CSAPI
             catch (Exception ex)
             {
                 SunLibrary.LoggerFactory.Get("GetRemitSpid").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        #endregion
+
+        #region 银行卡查询
+
+        /// <summary>
+        /// 查询银行名称及类型编码
+        /// </summary>
+        [WebMethod]
+        public void RequestBankInfo()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                Hashtable ht = new CFT.CSOMS.BLL.WechatPay.FastPayService().RequestBankInfo();
+                ArrayList array = new ArrayList(ht.Keys);
+                array.Sort();
+                List<RecordNew> list = new List<RecordNew>();
+                foreach (string s in array)
+                {
+                    RecordNew record = new RecordNew();
+                    record.RetValue = s;
+                    record.RetMemo = ht[s].ToString();
+                    list.Add(record);
+                }
+                APIUtil.Print<RecordNew>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("RequestBankInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("RequestBankInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        [WebMethod]
+        public void QueryBankCardNewList()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "bank_card", "bank_type", "bit_type", "date", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string bank_card = paramsHt.ContainsKey("bank_card") ? paramsHt["bank_card"].ToString() : "";
+                string bank_type = paramsHt.ContainsKey("bank_type") ? paramsHt["bank_type"].ToString() : "";
+                int bit_type = paramsHt.ContainsKey("bit_type") ? APIUtil.StringToInt(paramsHt["bit_type"].ToString()) : 10100;
+                DateTime date = paramsHt.ContainsKey("date") ? APIUtil.StrToDate(paramsHt["date"].ToString()) : DateTime.Now;
+                string date_str = date.ToString("yyyyMMdd");
+                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
+                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
+
+                if (offset < 0)
+                    offset = 0;
+                if (limit < 0 || limit > 1000)
+                    limit = 100;
+
+                var infos = new CFT.CSOMS.BLL.WechatPay.FastPayService().QueryBankCardNewList(bank_card, date_str, bank_type, bit_type, offset, limit);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Trade.BankCardList> list = APIUtil.ConvertTo<Trade.BankCardList>(infos.Tables[0]);
+                APIUtil.Print<Trade.BankCardList>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("QueryBankCardNewList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("QueryBankCardNewList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+        #endregion
+
+        #region 手机充值卡,信用卡还款,自动充值
+
+        /// <summary>
+        /// 手机充值卡查询
+        /// </summary>
+        [WebMethod]
+        public void GetFundCardListDetail()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string listid = paramsHt.ContainsKey("listid") ? paramsHt["listid"].ToString() : "";        //充值单号
+                string supply_list = paramsHt.ContainsKey("supply_list") ? paramsHt["supply_list"].ToString() : "";  //给供应商订单号
+                string cardid = paramsHt.ContainsKey("cardid") ? paramsHt["cardid"].ToString() : "";        //充值卡序列号
+
+                var infos = new CFT.CSOMS.BLL.MobileModule.MobileService().GetFundCardListDetail(listid, supply_list, cardid);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Trade.FundCardListDetail> list = APIUtil.ConvertTo<Trade.FundCardListDetail>(infos.Tables[0]);
+                APIUtil.Print<Trade.FundCardListDetail>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetFundCardListDetail").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetFundCardListDetail").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 信用卡还款查询
+        /// </summary>
+        [WebMethod]
+        public void GetCreditQueryListUin()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "begin_time", "end_time", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                DateTime begin_time = paramsHt.ContainsKey("begin_time") ? APIUtil.StrToDate(paramsHt["begin_time"].ToString()) : DateTime.Now;
+                DateTime end_time = paramsHt.ContainsKey("end_time") ? APIUtil.StrToDate(paramsHt["end_time"].ToString()) : DateTime.Now;
+                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
+                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
+
+                if (offset < 0)
+                    offset = 0;
+                if (limit < 0 || limit > 100)
+                    limit = 100;
+
+                var infos = new CFT.CSOMS.BLL.CreditModule.CreditService().GetCreditQueryListForFaid(uin, begin_time, end_time, offset, limit);
+
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Trade.CreditQueryList> list = APIUtil.ConvertTo<Trade.CreditQueryList>(infos.Tables[0]);
+                APIUtil.Print<Trade.CreditQueryList>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetCreditQueryListUin").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetCreditQueryListUin").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 信用卡还款查询
+        /// </summary>
+        [WebMethod]
+        public void GetCreditQueryList()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "listid", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string listid = paramsHt.ContainsKey("listid") ? paramsHt["listid"].ToString() : "";
+                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
+                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
+
+                if (offset < 0)
+                    offset = 0;
+                if (limit < 0 || limit > 100)
+                    limit = 100;
+
+                var infos = new CFT.CSOMS.BLL.CreditModule.CreditService().GetCreditQueryList(listid, offset, limit);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Trade.CreditQueryList> list = APIUtil.ConvertTo<Trade.CreditQueryList>(infos.Tables[0]);
+                APIUtil.Print<Trade.CreditQueryList>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetCreditQueryList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetCreditQueryList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 自动充值查询
+        /// </summary>
+        [WebMethod]
+        public void QueryAutomaticRecharge()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
+                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
+
+                if (offset < 0)
+                    offset = 0;
+                if (limit < 0 || limit > 100)
+                    limit = 100;
+
+                var infos = new CFT.CSOMS.BLL.AutoRecharge.AutoRechargeService().QueryAutomaticRecharge(uin, offset, limit);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Trade.AutomaticRecharge> list = APIUtil.ConvertTo<Trade.AutomaticRecharge>(infos.Tables[0]);
+                APIUtil.Print<Trade.AutomaticRecharge>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("QueryAutomaticRecharge").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("QueryAutomaticRecharge").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 自动充值查询
+        /// </summary>
+        [WebMethod]
+        public void QueryAutomaticRechargeDetial()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "plan_id", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                string plan_id = paramsHt.ContainsKey("plan_id") ? paramsHt["plan_id"].ToString() : "";
+                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
+                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
+
+                if (offset < 0)
+                    offset = 0;
+                if (limit < 0 || limit > 100)
+                    limit = 100;
+
+                var infos = new CFT.CSOMS.BLL.AutoRecharge.AutoRechargeService().QueryAutomaticRechargeBillList(uin, plan_id, offset, limit);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Trade.AutomaticRechargeDetail> list = APIUtil.ConvertTo<Trade.AutomaticRechargeDetail>(infos.Tables[0]);
+                APIUtil.Print<Trade.AutomaticRechargeDetail>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("QueryAutomaticRechargeDetial").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("QueryAutomaticRechargeDetial").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
