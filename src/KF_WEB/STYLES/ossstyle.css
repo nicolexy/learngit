@@ -34,7 +34,7 @@ A:visited
 A:hover
 {
 	font-size: 12px;
-	cursor: hand;
+	cursor: pointer;
 	color: #4455aa;
 	font-family: Tahoma, 宋体;
 	text-decoration: underline;
@@ -74,6 +74,9 @@ input
 {
 	font-size: 12px;
 	font-family: Tahoma, 宋体;
+}
+input, label {
+    vertical-align:middle;
 }
 
 /*HTML 输入框 浮动 样式*/

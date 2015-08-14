@@ -540,6 +540,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     string r2 = res_dt.Rows[i][1].ToString().Trim();//银行订单号
                     string r3 = res_dt.Rows[i][2].ToString().Trim();//开始日期
                     string r4 = res_dt.Rows[i][3].ToString().Trim();//结束日期
+                    if (string.IsNullOrEmpty(r1) && string.IsNullOrEmpty(r2)) break;
 
                     DateTime begindate = new DateTime(), enddate = new DateTime();
                     string s_date = ""; string e_date = "";
@@ -654,7 +655,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     sw.Close();
                     Response.AddHeader("Content-Disposition", "attachment; filename=银行订单批量查询.xls");
                     Response.ContentType = "application/ms-excel";
-                    Response.ContentEncoding = System.Text.Encoding.GetEncoding("GB2312");
+                    Response.ContentEncoding = System.Text.Encoding.UTF8;
                     Response.Write(sw);
                     Response.End();
 

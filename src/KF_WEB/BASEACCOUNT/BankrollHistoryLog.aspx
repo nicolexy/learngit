@@ -32,14 +32,18 @@
 			<br>
 			<table cellSpacing="1" cellPadding="0" width="80%" align="center" bgColor="#666666" border="0">
 				<tr>
-					<td width="90%" background="../IMAGES/Page/bg_bl.gif" colSpan="2"><IMG height="16" src="../IMAGES/Page/post.gif" width="20"><font color="#ff0000">
+					<td width="90%" background="../IMAGES/Page/bg_bl.gif" colSpan="3"><IMG height="16" src="../IMAGES/Page/post.gif" width="20"><font color="#ff0000">
 							用户查询</font>
 					</td>
 				</tr>
 				<tr>
-					<td width="70%" bgColor="#ffffff">输入：
+					<td width="60%" bgColor="#ffffff">输入：
 						<asp:textbox id="TextBox1_InputQQ" runat="server"></asp:textbox>&nbsp;
 						<asp:label id="Label2" runat="server">开始日期</asp:label><asp:textbox id="TextBoxBeginDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton><asp:label id="Label5" runat="server">结束日期</asp:label><asp:textbox id="TextBoxEndDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonEndDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></td>
+                    <td bgColor="#ffffff">
+                        <input id="CFT" name="IDType" runat="server" type="radio" checked /><label for="CFT">C账号</label>
+                        <input id="InternalID" name="IDType" runat="server" type="radio" /><label for="InternalID">内部账号</label>
+                    </td>
 					<td bgColor="#ffffff"><asp:button id="Button1" runat="server" Text="查 询" onclick="Button1_Click"></asp:button></td>
 				</tr>
 			</table>

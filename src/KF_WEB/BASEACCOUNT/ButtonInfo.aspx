@@ -12,11 +12,10 @@
 		<style type="text/css">@import url( ../STYLES/ossstyle.css ); 
 		</style>
 		<script language="javascript">
-				function window.onload()
-				{
-				var div = window.parent.document.getElementById('iframe0');
-				div.style.height=document.body.scrollHeight+20;
-				}
+		    window.onload = function () {
+		        var div = window.parent.document.getElementById('iframe0');
+		        div.style.height = document.body.scrollHeight + 20;
+		    }
 		</script>
 	</HEAD>
 	<body leftMargin="0" topMargin="0" MS_POSITIONING="GridLayout">

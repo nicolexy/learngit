@@ -109,7 +109,7 @@ function init(prov,city)
         setCityById(city);  //³ÇÊÐ
 	}
 }
---> 
+
 		</script>
 	</HEAD>
 	<body onload="init('<%=iprov%>','<%=icity%>')"MS_POSITIONING="GridLayout">

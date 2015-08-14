@@ -16,8 +16,7 @@
 			{
 		%>
 		<script language="javascript">
-		    function window.onload()
-		    {
+		    window.onload = function () {
 		        var div = window.parent.document.getElementById('iframe2');
 		        div.style.height=document.body.scrollHeight+20;
 		    }
@@ -26,10 +25,9 @@
 			}else {
 		%>
 		<script language="javascript">
-		    function window.onload()
-		    {
+		    window.onload = function () {
 		        var div = window.parent.document.getElementById('iframe0');
-		        div.style.height=document.body.scrollHeight+20;
+		        div.style.height = document.body.scrollHeight + 20;
 		    }
 		</script>
 		<%
