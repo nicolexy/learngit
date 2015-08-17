@@ -110,7 +110,7 @@ namespace CFT.CSOMS.BLL.FreezeModule
         /// 用户冻结记录查询
         /// </summary>
         public DataSet QueryUserFreezeRecord(string strBeginDate, string strEndDate, string fpayAccount, double freezeFin, string flistID, int iPageStart, int iPageMax)
-        {         
+        {
             try
             {
                 DataSet ds = new FreezeData().QueryUserFreezeRecord(strBeginDate, strEndDate, fpayAccount, freezeFin, flistID, iPageStart, iPageMax);
@@ -118,7 +118,6 @@ namespace CFT.CSOMS.BLL.FreezeModule
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                     return null;
 
-                // 在原来列上修改的话，会出异常，所以只好添加列元素
                 ds.Tables[0].Columns.Add("strFreason", typeof(string));
                 ds.Tables[0].Columns.Add("strType", typeof(string));
                 ds.Tables[0].Columns.Add("strBankName", typeof(string));
@@ -127,10 +126,10 @@ namespace CFT.CSOMS.BLL.FreezeModule
 
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    dr["Fconnum"] = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(dr["Fconnum"].ToString());
-                    dr["Fpaynum"] = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(dr["Fpaynum"].ToString());
-                    dr["Fbalance"] = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(dr["Fbalance"].ToString());
-                    dr["Fcon"] = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(dr["Fcon"].ToString());
+                    dr["Fconnum"] = MoneyTransfer.FenToYuan(dr["Fconnum"].ToString());
+                    dr["Fpaynum"] = MoneyTransfer.FenToYuan(dr["Fpaynum"].ToString());
+                    dr["Fbalance"] = MoneyTransfer.FenToYuan(dr["Fbalance"].ToString());
+                    dr["Fcon"] = MoneyTransfer.FenToYuan(dr["Fcon"].ToString());
 
                     dr["strFreason"] = TransferMeaning.Transfer.convertSubject(dr["Fsubject"].ToString());
 
@@ -205,11 +204,11 @@ namespace CFT.CSOMS.BLL.FreezeModule
                     }
                 }
                 return ds;
-            }           
+            }
             catch (Exception err)
             {
                 throw new Exception("Service处理失败！");
-            }           
+            }
         }
     }
 }

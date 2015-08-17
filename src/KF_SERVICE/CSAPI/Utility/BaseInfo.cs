@@ -505,7 +505,7 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             [XmlElement("freeze_time")]
             public string FFreezeTime { get; set; }
             [XmlElement("id")]
-            public string Fid { get; set; }
+            public string fid { get; set; }
         }
 
         public class FreezeListDetail

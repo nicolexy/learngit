@@ -633,8 +633,10 @@ namespace CSAPI
                 string listid = paramsHt.ContainsKey("listid") ? paramsHt["listid"].ToString() : "";        //充值单号
                 string supply_list = paramsHt.ContainsKey("supply_list") ? paramsHt["supply_list"].ToString() : "";  //给供应商订单号
                 string cardid = paramsHt.ContainsKey("cardid") ? paramsHt["cardid"].ToString() : "";        //充值卡序列号
-
-                var infos = new CFT.CSOMS.BLL.MobileModule.MobileService().GetFundCardListDetail(listid, supply_list, cardid);
+                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
+                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 1;
+                
+                var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetFundCardListDetail(listid, supply_list, cardid, offset, limit);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);

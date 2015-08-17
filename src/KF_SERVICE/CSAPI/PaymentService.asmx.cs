@@ -1088,6 +1088,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
         #region 姓名生僻字
 
+        [WebMethod]
         public void RareNameQuery()
         {
             try
@@ -1120,6 +1121,7 @@ namespace CFT.CSOMS.Service.CSAPI
             }
         }
 
+        [WebMethod]
         public void OperateRareName()
         {
             try
@@ -1135,7 +1137,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 string account_name = paramsHt.ContainsKey("account_name") ? paramsHt["account_name"].ToString() : "";
                 string user_type = paramsHt.ContainsKey("user_type") ? paramsHt["user_type"].ToString() : "";
                 string modify_type = paramsHt.ContainsKey("modify_type") ? paramsHt["modify_type"].ToString() : "";
-                string card_state = paramsHt.ContainsKey("op_type") ? paramsHt["card_state"].ToString() : "";
+                string card_state = paramsHt.ContainsKey("card_state") ? paramsHt["card_state"].ToString() : "";
                 string modify_username = paramsHt.ContainsKey("modify_username") ? paramsHt["modify_username"].ToString() : "";
 
                 new CFT.CSOMS.BLL.RareName.RareNameService().OperateRareName(op_type, card_no, user_type, account_name, card_state, modify_username, modify_type);
