@@ -9,6 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using CFT.CSOMS.BLL.ForeignCardModule;
+using System.Text;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 {
@@ -224,6 +225,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 			bindSet.Tables[0].Columns.Add("TradeState", typeof(string));
 			foreach(DataRow row in bindSet.Tables[0].Rows)
 			{
+                row["Fdesc"] = Encoding.UTF8.GetString(Encoding.GetEncoding("gbk").GetBytes(row["Fdesc"].ToString()));
 				int fBank_type = Convert.ToInt32(row["Fbank_type"]);
 				int fTrad_state = Convert.ToInt32(row["Ftrade_state"]);
 				switch(fBank_type)
