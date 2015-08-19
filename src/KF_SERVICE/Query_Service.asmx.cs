@@ -27373,7 +27373,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                     if ((!string.IsNullOrEmpty(strBeginDate)) && (!string.IsNullOrEmpty(strEndDate)))
                     {
-                        strSql += " Fmodify_time between '" + strBeginDate + "' and '" + strEndDate + "' ";
+                        strSql += " and Fmodify_time between '" + strBeginDate + "' and '" + strEndDate + "' ";
                     }
 
                     if (bankID != null && bankID.Trim() != "")
@@ -27767,7 +27767,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                
                 if ((!string.IsNullOrEmpty(strBeginDate)) && (!string.IsNullOrEmpty(strEndDate)))
                 {
-                    strSql += " Fmodify_time between '" + strBeginDate + "' and '" + strEndDate + "' ";
+                    strSql += " and Fmodify_time between '" + strBeginDate + "' and '" + strEndDate + "' ";
                 }
 
                 if (bankID != null && bankID.Trim() != "")
