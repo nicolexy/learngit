@@ -270,16 +270,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                         throw new Exception("日期跨度不能大于一周");
                     }
                 }
-
-                if (this.tbx_spid.Text.Trim() == "" || this.tbx_spBatchID.Text.Trim() == "")
-                {
-                    throw new Exception("查询商户号、批次号不能为空");
-                }
-
             }
             catch
             {
                 throw new Exception("日期格式不正确");
+            }
+
+            if (this.tbx_spid.Text.Trim() == "" || this.tbx_spBatchID.Text.Trim() == "")
+            {
+                throw new Exception("查询商户号、批次号不能为空");
             }
         }
 
@@ -338,23 +337,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             try
             {
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-                //qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
-
                 qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-
-                string strSTime, strETime;
-
-                try
-                {
-                    strSTime = DateTime.Parse(this.tbx_beginDate.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                    strETime = DateTime.Parse(this.tbx_endDate.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                }
-                catch
-                {
-                    WebUtils.ShowMessage(this, "日期格式不正确");
-                    return null;
-                }
 
                 return qs.QueryDFDetail(cep_id);
             }
@@ -433,15 +416,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
             try
             {
-                DateTime sTime, eTime;
                 string strSTime, strETime;
                 try
                 {
-                    sTime = DateTime.Parse(this.tbx_beginDate.Text);
-                    eTime = DateTime.Parse(this.tbx_endDate.Text);
-
-                    strSTime = sTime.ToString("yyyy-MM-dd HH:mm:ss");
-                    strETime = eTime.ToString("yyyy-MM-dd HH:mm:ss");
+                    strSTime = DateTime.Parse(this.tbx_beginDate.Text).ToString("yyyy-MM-dd HH:mm:ss");
+                    strETime = DateTime.Parse(this.tbx_endDate.Text).ToString("yyyy-MM-dd HH:mm:ss");
                 }
                 catch
                 {
@@ -488,7 +467,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 sw.Close();
                 Response.AddHeader("Content-Disposition", "attachment; filename=代付单笔查询.xls");
                 Response.ContentType = "application/ms-excel";
-                Response.ContentEncoding = System.Text.Encoding.GetEncoding("GB2312");
+                Response.ContentEncoding = Encoding.UTF8;
                 Response.Write(sw);
                 Response.End(); 
             }
@@ -521,7 +500,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             sw.Close();
             Response.AddHeader("Content-Disposition", "attachment; filename="+excelName+".xls");
             Response.ContentType = "application/ms-excel";
-            Response.ContentEncoding = System.Text.Encoding.GetEncoding("GB2312");
+            Response.ContentEncoding = Encoding.UTF8;
             Response.Write(sw);
             Response.End();
         }

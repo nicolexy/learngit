@@ -1290,7 +1290,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-		[WebMethod(Description="付款单ID到交易单ID")]
+        [WebMethod(Description = "付款单ID到交易单ID")] //2015-8-11 改接口 v_yqyqguo
 		public string TdeToID(string tdeid)  //传入付款单ID
 		{
 			try

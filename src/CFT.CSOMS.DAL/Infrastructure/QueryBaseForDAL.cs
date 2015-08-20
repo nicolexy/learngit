@@ -255,10 +255,11 @@ namespace CFT.CSOMS.DAL.Infrastructure
         {
             return PublicRes.returnDSAll_Conn(fstrSql, connstr);
         }
-        public int GetCount()
-        {
-            return Int32.Parse(PublicRes.ExecuteOne(fstrSql_count, "ywb"));
-        }
+        //该方法未被调用 2015-8-11 v_yqyqguo
+        //public int GetCount()
+        //{
+        //    return Int32.Parse(PublicRes.ExecuteOne(fstrSql_count, "ywb"));
+        //}
 
         public int GetCount(string dbstr)
         {
@@ -470,6 +471,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
         /// 提供给其它语言调用的函数，以固定的类返回值。
         /// </summary>
         /// <returns></returns>
+        /* 该方法未被调用 2015-8-11 v_yqyqguo
         public T_PAY_LIST GetResult()
         {
             MySqlAccess da = new MySqlAccess(DbConnectionString.Instance.GetConnectionString("YWB"));
@@ -532,6 +534,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
                 throw e;
             }
         }
+        */
     }
 
     #endregion

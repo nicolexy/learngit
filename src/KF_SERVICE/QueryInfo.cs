@@ -1752,6 +1752,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         /// 提供给其它语言调用的函数，以固定的类返回值。
         /// </summary>
         /// <returns></returns>
+        /* 该方法未被调用 2015-8-12 v_yqyqguo
         public T_PAY_LIST GetResult()
         {
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB"));
@@ -1814,6 +1815,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 throw e;
             }
         }
+         */
     }
 
     #endregion
@@ -4943,7 +4945,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             fstrSql_count = "select 1";
         }
 
-        // 2012/5/29 添加是否解密银行卡参数
+        // 2012/5/29 添加是否解密银行卡参数 2015-8-11 改接口 v_yqyqguo
         public PickQueryClass(string u_ID, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, string sorttype, int idtype, string cashtype, bool isSecret)
         {
 

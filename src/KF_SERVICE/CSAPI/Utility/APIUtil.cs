@@ -350,25 +350,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
 
             return obj;
         }
-
-        //xml
-        //public static XmlDocument ConverToXml<T>(T t)
-        //{
-        //    XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-        //    ns.Add("","");
-        //    XmlSerializer xsSubmit = new XmlSerializer(t.GetType());
-        //    StringBuilder sb = new StringBuilder();
-        //    StringWriter sww = new StringWriter(sb);
-
-        //    xsSubmit.Serialize(sww, t, ns);
-
-        //    XmlDocument xmldoc = new XmlDocument();
-
-        //    xmldoc.LoadXml(sb.ToString());
-
-        //    return xmldoc;
-        //}
-
+ 
         public static XmlDocument ConverToXml<T>(T t)
         {
             XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
@@ -493,36 +475,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             }
         }
         public static void PrintError(string code, string msg)
-        {
-            //Dictionary<string, string> nvc = GetQueryStrings();
-            
-            ////  string[] map = nvc.AllKeys;
-            //string[] map = nvc.Keys.Cast<string>().ToArray();
-            //if (nvc.Keys != null && nvc.Keys.Contains("f"))
-            //{
-            //    string s = nvc["f"].ToString();
-            //    if (string.IsNullOrEmpty(s))
-            //    {
-            //        PrintXML(code, msg);
-            //    }
-            //    else if (s.ToLower() == "xml")
-            //    {
-            //        PrintXML(code, msg);
-            //    }
-            //    else if (s.ToLower() == "json")
-            //    {
-            //        PrintJSON(code, msg);
-            //    }
-            //    else
-            //    {
-            //        PrintXML(code, msg);
-            //    }
-            //}
-            //else
-            //{
-            //    PrintXML(code, msg);
-            //}
-
+        {          
             string paramstr = APIUtil.getReqParamStr();
             if (paramstr.ToLower().IndexOf("?f=json") > 0
                 || paramstr.ToLower().IndexOf("&f=json&") > 0
@@ -544,6 +497,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             res.Write("}");
             res.End();
         }
+
         public static void PrintJSON<T>(List<T> list)
         {
             var ret = new ResultParse<T>().ReturnToObject(list);
@@ -557,6 +511,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             res.Write(json);
             //res.End();
         }
+
         public static void PrintXML(string code, string msg)
         {
             HttpResponse res = HttpContext.Current.Response;
@@ -587,8 +542,6 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             //res.End();
         }
 
-
-
         public static void Print4DataTable(
             DataTable table, List<String> excludedColNames, Dictionary<String, String> colNameMaps)
         {
@@ -605,7 +558,6 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
                 PrintXML4DataTable(table, excludedColNames, colNameMaps);
             }
         }
-
 
         /// <summary>
         /// 将DataTable转换成为XML格式
@@ -734,34 +686,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             res.ContentEncoding = Encoding.UTF8;
             res.Write(serializer.Serialize(result));
         }
-
        
-
-        /*
-        public static Hashtable getReqParamMap()
-        {
-            Hashtable map = new Hashtable();
-            string paramstr = getReqParamStr();
-            if (paramstr == "")
-            {
-                return map;
-            }
-
-            string[] arr = paramstr.Split(new char[] { '&' }, StringSplitOptions.None);
-            foreach (string s in arr)
-            {
-                string[] arr2 = s.Split(new char[] { '=' }, StringSplitOptions.None);
-                map.Add(arr2[0], arr2[1]);
-            }
-            return map;
-        }
-        */
-
-        //public static NameValueCollection GetQueryStrings() 
-        //{
-        //    return GetQueryStrings(false, Encoding.UTF8);
-        //}
-
         public static Dictionary<string, string> GetQueryStrings()
         {
             string paramstr = APIUtil.getReqParamStr();
@@ -777,18 +702,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
                 if (!string.IsNullOrEmpty(value))
                 {
                     paramDic.Add(name, value);
-                }
-
-                //if (string.IsNullOrEmpty(value))
-                //{
-                //    throw new ServiceException(ERR_PARAM, ErroMessage.MESSAGE_NULLPARAM);
-                //}
-                //paramDic.Add(name, value);
-
-                //string[] pa = str.Split('=');
-                //if(pa.Length!=2)
-                //    throw new ServiceException(ERR_PARAM, ErroMessage.MESSAGE_NULLPARAM);
-                //paramDic.Add(pa[0].ToString(), pa[1].ToString());
+                }            
             }
 
             return paramDic;
@@ -813,136 +727,6 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
                 return true;
             else
                 return false;
-        }
-
-        /// <summary>
-        /// 获取以Url方式提交的参数集合。
-        /// </summary>
-        /// <param name="isUrlDecode">是否要进行Url解码</param>
-        /// <param name="encoding">Url解码时用的编码</param>
-        /// <returns>参数集合。</returns>
-        /// <example>
-        /// string paras = string.Empty;
-        /// System.Collections.Specialized.NameValueCollection paraCollection = RequestHelper.GetQueryStrings(true, Encoding.UTF8);
-        ///
-        /// foreach (string key in paraCollection.AllKeys)
-        /// {
-        ///     paras += key + "：" + paraCollection[key] + "\r\n";
-        /// }
-        /// </example>
-        //public static NameValueCollection GetQueryStrings(bool isUrlDecode, Encoding encoding)
-        //{
-        //    // 获取查询字符串
-        //    string query = HttpContext.Current.Request.Url.Query;
-        //    SunLibrary.LoggerFactory.Get("APIUtil.GetQueryStrings").Info("参数:" + query);
-        //    if (query.StartsWith("?"))
-        //    {
-        //        if (query.Length > 1)
-        //        {
-        //            query = query.Substring(1, query.Length - 1);
-        //        }
-        //        else
-        //        {
-        //            query = string.Empty;
-        //        }
-        //    }
-
-        //    // 处理查询字符串
-        //    NameValueCollection collection = FillFromString(query, isUrlDecode, encoding);
-        //    return collection;
-        //}
-
-        ///// <summary>
-        ///// 从参数字符串获取参数集合
-        ///// </summary>
-        ///// <param name="s">参数字符串</param>
-        ///// <param name="isUrlDecode">是否要进行Url解码</param>
-        ///// <param name="encoding">Url解码时用的编码</param>
-        ///// <returns>Url参数集合</returns>
-        //private static NameValueCollection FillFromString(string s, bool isUrlDecode, Encoding encoding)
-        //{
-        //    NameValueCollection parametersCollection = new NameValueCollection();
-
-        //    // 参数字符串长度
-        //    int sLen = (s != null) ? s.Length : 0;
-
-        //    // 遍历每个字符
-        //    for (int i = 0; i < sLen; i++)
-        //    {
-        //        // 参数名开始位置
-        //        int startIndex = i;
-
-        //        // 参数名结束位置
-        //        int endIndex = -1;
-
-        //        // 字符索引前进，直到遇到等号，更新结束的索引位置
-        //        // 如果遇到&符号，则参数结束，退出循环
-        //        while (i < sLen)
-        //        {
-        //            char ch = s[i];
-        //            if (ch == '=')
-        //            {
-        //                if (endIndex < 0)
-        //                {
-        //                    endIndex = i;
-        //                }
-        //            }
-        //            else if (ch == '&')
-        //            {
-        //                break;
-        //            }
-
-        //            // 字符索引前进
-        //            i++;
-        //        }
-
-        //        string parameterName = null;
-        //        string parameterValue = null;
-
-        //        // 存在等号，可以获取到参数名和参数值
-        //        if (endIndex >= 0)
-        //        {
-        //            parameterName = s.Substring(startIndex, endIndex - startIndex);
-        //            parameterValue = s.Substring(endIndex + 1, (i - endIndex) - 1);
-        //        }
-        //        else
-        //        {
-        //            parameterValue = s.Substring(startIndex, i - startIndex);
-        //        }
-
-        //        // 需要解码
-        //        if (isUrlDecode)
-        //        {
-        //            parametersCollection.Add(HttpUtility.UrlDecode(parameterName, encoding), HttpUtility.UrlDecode(parameterValue, encoding));
-        //        }
-        //        else
-        //        {
-        //            parametersCollection.Add(parameterName, parameterValue);
-        //        }
-
-        //        // 最后一个字符是 &，则添加一个参数为null的NameValue对。
-        //        if ((i == (sLen - 1)) && (s[i] == '&'))
-        //        {
-        //            parametersCollection.Add(null, string.Empty);
-        //        }
-        //    }
-
-        //    return parametersCollection;
-        //}
-
-
-        //public static NameValueCollection GetQueryStringsECHO()
-        //{
-        //    // 获取查询字符串
-        //    string query = HttpContext.Current.Request.Url.ToString();
-        //    SunLibrary.LoggerFactory.Get("APIUtil.GetQueryStrings").Info("参数:" + query);
-         
-
-        //    // 处理查询字符串
-        //    NameValueCollection collection = HttpContext.Current.Request.QueryString;
-        //    return collection;
-        //}
-
-
+        }    
     }
 }

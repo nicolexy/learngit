@@ -1,25 +1,20 @@
 ﻿using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-
+using CFT.CSOMS.DAL.CFTAccount;
+using System.Data;
+using CFT.CSOMS.DAL.Infrastructure;
+using TENCENT.OSS.C2C.Finance.BankLib;
+using System.Collections;
+using System.Reflection;
+using CFT.CSOMS.COMMLIB;
+using TENCENT.OSS.C2C.Finance.Common.CommLib;
+using CFT.Apollo.Logging;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using CFT.CSOMS.BLL.TradeModule;
+using CFT.CSOMS.BLL.BankCardBindModule;
 
 namespace CFT.CSOMS.BLL.CFTAccountModule
-{
-    using CFT.CSOMS.DAL.CFTAccount;
-    using System.Data;
-    using CFT.CSOMS.DAL.Infrastructure;
-    using TENCENT.OSS.C2C.Finance.BankLib;
-    using System.Collections;
-    using System.Reflection;
-    using CFT.CSOMS.COMMLIB;
-    using TENCENT.OSS.C2C.Finance.Common.CommLib;
-    using CFT.Apollo.Logging;
-    using System.Collections.Generic;
-    using System.Text.RegularExpressions;
-    using CFT.CSOMS.BLL.TradeModule;
-    using CFT.CSOMS.BLL.BankCardBindModule;
-
+{   
     public class AccountService
     {
         public static string ConvertToFuid(string uin)

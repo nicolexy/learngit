@@ -202,26 +202,5 @@ namespace CFT.CSOMS.DAL.MobileModule
         }
 
         #endregion
-
-        #region 手机充值卡查询
-
-        public DataSet GetFundCardListDetail(string flistid, string fsupplylist, string fcardid)
-        {
-            try
-            {
-                FundCardQueryClass cuser = new FundCardQueryClass(flistid, fsupplylist, fcardid);
-                int iNum = cuser.GetCount("HD");
-                if (iNum == 0)
-                    return null;
-                return cuser.GetResultX(1, iNum, "HD");
-            }
-            catch (Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！" + e.Message);
-                return null;
-            }
-        }
-
-        #endregion
     }
 }

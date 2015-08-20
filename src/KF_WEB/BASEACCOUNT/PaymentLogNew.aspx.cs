@@ -55,7 +55,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             if (Request.QueryString["type"].ToString() == "QQID")
             {
                 string selectStr = Session["QQID"].ToString();
-                this.DS_Payment = new TradeService().GetTCBankPAYList(selectStr, 0, beginTime, endTime, istr, imax);
+               // this.DS_Payment = new TradeService().GetTCBankPAYList(selectStr, 0, beginTime, endTime, istr, imax);
+                this.DS_Payment = new PickService().GetTCBankPAYList(selectStr, 0, beginTime, endTime, istr, imax);//2424,2425
 
                 int total;
                 if (DS_Payment != null && DS_Payment.Tables.Count != 0 && DS_Payment.Tables[0].Rows.Count != 0)
@@ -77,7 +78,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 this.pager.Visible = false;
                 string selectStrSession = Session["ListID"].ToString();
-                this.DS_Payment = new TradeService().GetTCBankPAYList(selectStrSession, 1, beginTime, endTime, istr, imax);
+                //this.DS_Payment = new TradeService().GetTCBankPAYList(selectStrSession, 1, beginTime, endTime, istr, imax);
+                this.DS_Payment = new PickService().GetTCBankPAYList(selectStrSession, 1, beginTime, endTime, istr, imax);//2424,2425
             }
 
             if (DS_Payment != null && DS_Payment.Tables.Count != 0)

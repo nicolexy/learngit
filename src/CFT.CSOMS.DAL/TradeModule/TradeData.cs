@@ -474,44 +474,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                 throw new Exception("service发生错误,请联系管理员！" + e.Message + msg);
             }
         }
-
-        // 查询用户帐户流水表
-        public DataSet GetBankRollList(string u_QQID, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
-        {
-            try
-            {
-                //idtype 0买家，1卖家
-                string fuid = PublicRes.ConvertToFuid(u_QQID);
-                DataSet ds;
-
-                int start = istr - 1;
-                if (start < 0) start = 0;
-
-                string strWhere = "start_time=" + ICEAccess.ICEEncode(u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"));
-                strWhere += "&end_time=" + ICEAccess.ICEEncode(u_EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
-                strWhere += "&uid=" + fuid;
-                strWhere += "&curtype=" + fcurtype;
-                strWhere += "&lim_start=" + start;
-                strWhere += "&lim_count=" + imax;
-
-                string errMsg;
-
-                if (!CommQuery.GetDataFromICE(strWhere, CommQuery.个人资金流水, out errMsg, out ds))
-                {
-                    return null;
-                }
-
-                if (ds == null)
-                    return null;
-
-                return ds;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
+    
         //查询腾讯付款记录表
         public DataSet GetTCBankPAYList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
         {

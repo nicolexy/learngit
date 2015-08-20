@@ -1648,7 +1648,7 @@ namespace CFT.CSOMS.Service.CSAPI
                     limit = 50;
 
                 DataSet ds = new DataSet();
-                if (!string.IsNullOrEmpty(list_id))
+                if (string.IsNullOrEmpty(list_id))
                 {
                     //查询列表
                     ds = new CFT.CSOMS.BLL.FreezeModule.FreezeService().QueryUserFreezeRecord(begin_time_str, end_time_str, uin, balance, "", offset, limit);

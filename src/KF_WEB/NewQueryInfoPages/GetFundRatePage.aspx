@@ -544,6 +544,7 @@
                          <HeaderStyle Width="200px"></HeaderStyle>
 							<ItemTemplate>
 								<asp:LinkButton id="CloseFundApplyButton" href = '<%# DataBinder.Eval(Container, "DataItem.URL")%>' target=_blank Visible="false" runat="server" Text="客服强赎"></asp:LinkButton>
+                                <asp:LinkButton id="AlterEndStrategy" href = '<%# DataBinder.Eval(Container, "DataItem.AlterEndStrategyURL")%>' target=_blank Visible="false" runat="server" Text="修改"></asp:LinkButton>
 							</ItemTemplate>
 					   </asp:TemplateColumn>
                     </Columns>

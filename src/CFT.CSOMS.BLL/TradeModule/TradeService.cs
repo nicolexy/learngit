@@ -361,7 +361,9 @@ namespace CFT.CSOMS.BLL.TradeModule
                             ds.Tables[0].Rows[0]["Ftrade_stateName"] = dsState.Tables[0].Rows[0]["Ftrade_stateName"].ToString();
                             if (isC2C)
                             {
-                                var dsList = new TradeData().GetBankRollList_withID(DateTime.Now.AddDays(-300), DateTime.Now.AddDays(1), listID, 1, 50);
+                                int PersonInfoDayCount = Int32.Parse(ConfigurationManager.AppSettings["PersonInfoDayCount"].Trim());
+
+                                var dsList = new TradeData().GetBankRollList_withID(DateTime.Now.AddDays(-PersonInfoDayCount), DateTime.Now.AddDays(1), listID, 1, 50);
                                 bool isRefund = false;
                                 bool isCompelete = false;
                                 if (dsList != null && dsList.Tables.Count > 0 && dsList.Tables[0].Rows.Count > 0)
@@ -655,7 +657,7 @@ namespace CFT.CSOMS.BLL.TradeModule
         /// <returns>true 存在  false 不存在</returns>
         public bool QueryWXHasUnfinishedHB(string openid, DateTime beginTime, DateTime endTime)
         {
-            //  15天以内 用户发送了红包并且红包状态在2,3,7 状态下 不能注销
+            //  15天以内 用户发送了红包并且红包状态在 2:PAYOK ,3:PARTRECEIVE,7:REFUNDING  状态下 不能注销
             var dal = new WechatPayService();
             const int max = 100;  //最多查询次数
             const int size = 20; //页大小
@@ -667,7 +669,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                 {
                     return false;
                 }
-                var arr = ds.Tables[0].Select("State in('2','3','7')");  //如果发现State 值等于'2','3','7'  立即返回真
+                var arr = ds.Tables[0].Select("State in('PAYOK','PARTRECEIVE','REFUNDING')");  //如果发现State 值等于 2:PAYOK ,3:PARTRECEIVE,7:REFUNDING 立即返回真
                 if (arr.Length != 0)
                 {
                     return true;
@@ -765,6 +767,7 @@ namespace CFT.CSOMS.BLL.TradeModule
         public DataSet GetUserRollList(string u_QQID, int type, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
         {
             string u_type = "";
+            string ref_param="";
             try
             {
                 if (type == 0)
@@ -779,7 +782,8 @@ namespace CFT.CSOMS.BLL.TradeModule
 
                     if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
                     {
-                        ds = GetBankRollList(u_QQID, 1, u_BeginTime, u_EndTime, istr, imax);
+
+                        ds = GetBankRollList(u_QQID, u_BeginTime, u_EndTime, istr, imax, ref ref_param);
 
                         if (ds != null && ds.Tables.Count != 0 && ds.Tables[0].Rows.Count != 0)
                         {
@@ -957,15 +961,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                 return null;
             }
         }
-
-        /// <summary>
-        /// 查询用户帐户流水表
-        /// </summary>
-        public DataSet GetBankRollList(string u_QQID, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
-        {
-            return new TradeData().GetBankRollList(u_QQID, fcurtype, u_BeginTime, u_EndTime, istr, imax);
-        }
-
+        
         /// <summary>
         /// 查询用户帐户流水表_WithListID
         /// </summary>    
@@ -1165,7 +1161,55 @@ namespace CFT.CSOMS.BLL.TradeModule
         }
         public DataSet GetFundCardListDetail(string flistid, string fsupplylist, string fcarrdid, int offset, int limit)
         {
-            return (new TradeData()).GetFundCardListDetail(flistid, fsupplylist, fcarrdid, offset, limit);
+            DataSet ds = new TradeData().GetFundCardListDetail(flistid, fsupplylist, fcarrdid, offset, limit);
+
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                ds.Tables[0].Columns.Add("FStateName", typeof(System.String));
+                ds.Tables[0].Columns.Add("FSignName", typeof(System.String));
+                ds.Tables[0].Columns.Add("FNumYuan", typeof(System.String));
+                ds.Tables[0].Columns.Add("FCardtypeName", typeof(System.String));
+
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    dr["FNumYuan"] = !string.IsNullOrEmpty(dr["FNumYuan"].ToString()) ? MoneyTransfer.FenToYuan(dr["Fnum"].ToString()) : "0";
+                    string tmp = dr["Fstate"].ToString();
+                    if (tmp == "1")
+                    {
+                        dr["FStateName"] = "付款前";
+                    }   
+                    if (tmp == "2")
+                    {
+                        dr["FStateName"] = "付款后";
+                    }
+
+                    tmp = dr["Fsign"].ToString();
+                    if (tmp == "1")
+                    {
+                        dr["FSignName"] = "销卡成功";
+                    }
+                    if (tmp == "2")
+                    {
+                        dr["FSignName"] = "销卡失败";
+                    }
+                    if (tmp == "3")
+                    {
+                        dr["FSignName"] = "初始化";
+                    }
+
+                    tmp = dr["Fcard_type"].ToString();
+                    if (tmp == "1")
+                    {
+                        dr["FCardtypeName"] = "移动卡";
+                    }
+                    if (tmp == "2")
+                    {
+                        dr["FCardtypeName"] = "联通卡";
+                    }
+                }
+            }
+
+            return ds;
         }
     }
 }

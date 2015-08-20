@@ -264,15 +264,15 @@ namespace CFT.CSOMS.Service.CSAPI.Trade
             [XmlElement("listid")]
             public string FListID { get; set; }
             [XmlElement("num_str")]
-            public string Fnum_str { get; set; }
+            public string FNumYuan { get; set; }
             [XmlElement("state")]
             public string Fstate { get; set; }
             [XmlElement("state_str")]
-            public string Fstate_str { get; set; }
+            public string FStateName { get; set; }
             [XmlElement("sign")]
             public string Fsign { get; set; }
             [XmlElement("sign_str")]
-            public string Fsign_str { get; set; }
+            public string FSignName { get; set; }
             [XmlElement("supply_list")]
             public string Fsupply_list { get; set; }
             [XmlElement("sp_back_prove")]   //经销商返回成功对账单号
@@ -283,7 +283,7 @@ namespace CFT.CSOMS.Service.CSAPI.Trade
             [XmlElement("card_type")]
             public string Fcard_type { get; set; }
             [XmlElement("card_type_str")]
-            public string Fcard_type_str { get; set; }
+            public string FCardtypeName { get; set; }
             [XmlElement("supply_id")]
             public string Fsupply_id { get; set; }
             [XmlElement("uin")] //充值人QQ

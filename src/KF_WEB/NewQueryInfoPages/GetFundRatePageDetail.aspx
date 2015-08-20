@@ -226,6 +226,93 @@
                    <TD align="center" colspan="4"><asp:button id="btnLCTFund" runat="server" Width="200px" Text="确认无误后，提交申请" onclick="btnLCTFundApply_Click"></asp:button></TD>
 			</TR>
 			</TABLE>
+            <TABLE id="fRate_table" runat="server" style=" " cellSpacing="1" cellPadding="1" width="800" visible="false"
+				border="1">
+                <tr><th colspan="4">指数基金额强赎</th></tr>
+                 <TR>
+                    <TD align="right">理财通账号：</TD>
+                     <TD><asp:label id="fRate_uin" runat="server"></asp:label></TD>
+                     <TD align="right">赎回类型：</TD>
+                     <TD><asp:label id="fRate_type" runat="server">t+0</asp:label></TD>
+				</TR>
+                 <TR>
+                    <TD align="right">基金公司商户号：</TD>
+                     <TD><asp:label id="fRate_spid" runat="server"></asp:label></TD>
+                     <TD align="right">基金代码：</TD>
+                     <TD><asp:label id="fRate_fund_code" runat="server"></asp:label></TD>
+				</TR>
+                 <TR>
+                    <TD align="right">赎回金额：</TD>
+                     <TD><asp:label id="fRate_total_fee" runat="server"></asp:label></TD>
+                     <TD align="right">client_ip：</TD>
+                     <TD><asp:label id="fRate_client_ip" runat="server"></asp:label></TD>
+				</TR>
+                  <TR>
+                    <TD align="right">绑定序列号：</TD>
+                     <TD><asp:label id="fRate_bind_serial_no" runat="server"></asp:label></TD>
+                     <TD align="right">卡尾号：</TD>
+                     <TD><asp:label id="fRate_crad_tail" runat="server"></asp:label></TD>
+				</TR>
+                  <TR>
+                      <TD align="right">银行类型：</TD>
+                     <TD><asp:label id="fRate_bank_type" runat="server"></asp:label></TD>
+                     <TD align="right">手机号：</TD>
+                     <TD><asp:label id="fRate_mobile" runat="server"></asp:label></TD>
+				</TR>
+             <TR>
+                   <TD align="center" colspan="4"><asp:button id="Button1" runat="server" Width="200px" Text="确认无误后，提交申请" OnClick="Button1_Click" ></asp:button></TD>
+			</TR>
+			</TABLE>
+            <table id="AlterES_table" runat="server" style=" " cellSpacing="1" cellPadding="1" width="800" visible="false" border="1">
+                 <tr>
+                    <th  colspan="4" align="center">用户指定的到期申购/赎回策略和到期操作修改</th>
+                </tr>  
+                  <tr>
+                    <td  align="right">理财通账号：</td>
+                    <td>
+                        <asp:Label ID="AlterES_uin" runat="server" Text="Label"></asp:Label>
+                    </td>
+                    <td  align="right">基金交易账户对应id：</td>
+                    <td>
+                        <asp:Label ID="AlterES_Trade_id" runat="server" Text="Label"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td  align="right">基金代码：</td>
+                    <td>
+                        <asp:Label ID="AlterES_Fund_code" runat="server" Text="Label"></asp:Label>
+                    </td>
+                    <td  align="right">client_ip：</td>
+                    <td>
+                        <asp:Label ID="AlterES_client_ip" runat="server" Text="Label"></asp:Label>
+                    </td>
+                </tr>    
+                <tr>
+                    <td  align="right">用户指定的到期申购/赎回策略：</td>
+                    <td>
+                        <select runat="server" id="AlterES_user_end_type">
+                           <%--<option value="1">指定赎回金额，余下全额申购</option>--%>
+                           <option value="2">全额赎回 </option>
+                           <option value="3">全部顺延至下一期</option>
+                           <%--<option value="4">指定申购金额，余下全额赎回（扫尾赎回）</option>--%>
+                        </select>   
+                    </td>
+                    <td  align="right">到期操作：</td>
+                    <td>
+                        <select  runat="server" id="AlterES_end_sell_type">
+                           <option value="1">赎回用于提现到银行卡</option>
+                           <%--<option value="2">赎回用于转换另一只基金</option>--%>
+                           <option value="3">赎回用于转余额账户</option>
+                           <%--<option value="4">指定申购金额，余下全额赎回（扫尾赎回）</option>--%>
+                        </select>   
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" align="center">
+                        <asp:Button ID="AlterEndStrategy" runat="server" Text="保存修改" OnClick="AlterEndStrategy_Click" />
+                    </td> 
+                </tr>
+			</table>
          </div>   	
 		</form>
 	</body>

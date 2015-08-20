@@ -23,6 +23,7 @@ using System.IO;
 using CFT.CSOMS.DAL.CheckModoule;
 using CFT.CSOMS.COMMLIB;
 using CFT.CSOMS.BLL.TradeModule;
+using CFT.CSOMS.BLL.FundModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 {
@@ -33,7 +34,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	{
         private string close_flag, uin, spid, fund_code, total_fee, end_date, bind_serialno, card_tail, mobile, bank_type;
         CheckService checkService = new CheckService();
-        static Hashtable images;
+        //static Hashtable images;
         protected void Page_Load(object sender, System.EventArgs e)
 		{
 
@@ -67,7 +68,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                             #endregion
 
-                            #region 封闭基金和非封闭基金
+                            #region 封闭基金、非封闭基金、指数基金强赎
                             if (!string.IsNullOrEmpty(Request.QueryString["close_flag"]) &&
                                 !string.IsNullOrEmpty(Request.QueryString["uin"]) &&
                                 !string.IsNullOrEmpty(Request.QueryString["spid"]) &&
@@ -91,8 +92,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                                 Response.Redirect("../login.aspx?wh=1");
                             }
 
-                            if (Request.QueryString["close_flag"].ToString() == "2")//封闭
+                            if (Request.QueryString["close_flag"].ToString() == "2")
                             {
+                                #region 封闭基金
                                 if (!string.IsNullOrEmpty(Request.QueryString["end_date"]))
                                 {
                                     ViewState["end_date"] = Request.QueryString["end_date"].Trim();
@@ -105,10 +107,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                                 this.tableCloseInput.Visible = true;
                                 this.tableCloseApply.Visible = false;
                                 this.tableUNCloseApply.Visible = false;
+                                #endregion
                             }
-
-                            if (Request.QueryString["close_flag"].ToString() == "1")//不封闭
+                            else if (Request.QueryString["close_flag"].ToString() == "1")
                             {
+                                #region 不封闭基金, 指数基金
                                 if (!string.IsNullOrEmpty(Request.QueryString["bind_serialno"]))
                                 {
                                     ViewState["bind_serialno"]  = Request.QueryString["bind_serialno"].Trim();
@@ -141,44 +144,82 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                                 {
                                     Response.Redirect("../login.aspx?wh=1");
                                 }
-                                this.tableUNCloseApply.Visible = true;
-                                this.tableCloseInput.Visible = false;
-                                this.tableCloseApply.Visible = false;
-                                CreateApplyUNClose();
+
+                                FundService fundBLLService = new FundService();
+                                if (fundBLLService.isSpecialFund(fund_code, spid)) //指数基金
+                                {
+                                    fRate_uin.Text = uin;
+                                    fRate_spid.Text = spid;
+                                    fRate_fund_code.Text = fund_code;
+                                    fRate_total_fee.Text = total_fee;
+
+                                    fRate_bind_serial_no.Text = ViewState["bind_serialno"].ToString();
+                                    fRate_crad_tail.Text = ViewState["card_tail"].ToString();
+                                    fRate_bank_type.Text = ViewState["bank_type"].ToString();
+                                    fRate_mobile.Text = ViewState["mobile"].ToString();
+                                    string ip = Request.UserHostAddress.ToString();
+                                    if (ip == "::1") ip = "127.0.0.1";
+                                    this.fRate_client_ip.Text = ip;
+
+                                    fRate_table.Visible = true;
+                                }
+                                else
+                                {
+                                    this.tableUNCloseApply.Visible = true;
+                                    this.tableCloseInput.Visible = false;
+                                    this.tableCloseApply.Visible = false;
+                                    CreateApplyUNClose();
+                                }
+
+                                #endregion
                             }
                             #endregion
                         }
-                        else//账务系统查看
+                        else if (opertype == "2")
                         {
+                            AlterEndStrategyPreview();
+                        }
+                        else
+                        {
+                            #region 账务系统查看
                             tableCloseInput.Visible = false;
-                            if (Request.QueryString["objid"] != null && Request.QueryString["objid"].Trim() != "")
+                            string objid = Request.QueryString["objid"];
+                            if (!string.IsNullOrEmpty(objid))
                             {
-                                string objid = Request.QueryString["objid"].Trim();
+                                objid = objid.Trim();
                                 ViewState["objid"] = objid;
                                 if (Request.QueryString["close_flag"].ToString() == "2")//封闭
                                     bindCloseApply(objid);
-                                if (Request.QueryString["close_flag"].ToString() == "1")//不封闭
-                                    bindUNCloseApply(objid);
-                                if (Request.QueryString["LCTFund"].ToString() == "true") //理财通余额强赎 
+                                else if (Request.QueryString["close_flag"].ToString() == "1")//不封闭
+                                {
+                                    if (Request.QueryString["FundBalanceRedeem"].ToString() == "true")  //指数基金
+                                    {
+                                        bindFRateApply(objid);
+                                    }
+                                    else
+                                    {
+                                        bindUNCloseApply(objid);
+                                    }
+                                }
+                                else if (Request.QueryString["LCTFund"].ToString() == "true") //理财通余额强赎 
                                 {
                                     bindLCTFundApply(objid);
                                 }
-                            }
+                            } 
+                            #endregion
                         }
                     }
                     else
                         Response.Redirect("../login.aspx?wh=1");
 
-                    images = new Hashtable();
+                    //images = new Hashtable();
                 }
-			}
-			catch
-			{
-				Response.Redirect("../login.aspx?wh=1");
-			}
-            
-           
-		}
+            }
+            catch
+            {
+                Response.Redirect("../login.aspx?wh=1");
+            }
+        }
 
 		#region Web 窗体设计器生成的代码
 		override protected void OnInit(EventArgs e)
@@ -245,7 +286,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 }
 
                 string objid = System.DateTime.Now.ToString("yyyyMMddHHmmss");
-                string ReturnUrl = "http://kf.cf.com/NewQueryInfoPages/GetFundRatePageDetail.aspx?close_flag=2&objid=" + objid+ "&opertype=0";
+                string ReturnUrl = "http://kf.cf.com/NewQueryInfoPages/GetFundRatePageDetail.aspx?close_flag=2&objid=" + objid + "&opertype=0";
                 string[,] param = new string[,] {  { "close_flag", ViewState["close_flag"].ToString() },
                                 { "uin", ViewState["uin"].ToString() }, 
                                 { "spid", ViewState["spid"].ToString() },
@@ -264,7 +305,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                               };
 
                 Check_WebService.Param[] pa = PublicRes.ToParamArray(param);
-                string memo = "客服系统提交强赎审批信息，close_flag:2|uin:" + ViewState["uin"].ToString() 
+                string memo = "客服系统提交强赎审批信息，close_flag:2|uin:" + ViewState["uin"].ToString()
                              + "|spid:" + ViewState["spid"].ToString()
                              + "|fund_code:" + ViewState["fund_code"].ToString()
                              + "|total_fee:" + ViewState["total_fee"].ToString()
@@ -723,5 +764,161 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         {
             Response.Write("<script language=javascript>window.operner=null;alert('" + msg + "');window.close();</script>");
         }
-	}
+
+        //指数基金额强赎
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string objid = System.DateTime.Now.ToString("yyyyMMddHHmmss");
+                string ReturnUrl = "http://kf.cf.com/NewQueryInfoPages/GetFundRatePageDetail.aspx?close_flag=1&FundBalanceRedeem=true&objid=" + objid + "&opertype=0";
+
+                string memo = "客服系统提交强赎审批信息，close_flag:1"
+                             + "|uin:" + ViewState["uin"].ToString()
+                             + "|spid:" + ViewState["spid"].ToString()
+                             + "|fund_code:" + ViewState["fund_code"].ToString()
+                             + "|total_fee:" + ViewState["total_fee"].ToString()
+                             + "|bind_serialno:" + ViewState["bind_serialno"].ToString()
+                             + "|card_tail:" + ViewState["card_tail"].ToString()
+                             + "|bank_type:" + ViewState["bank_type"].ToString()
+                             + "|mobile:" + ViewState["mobile"].ToString();
+                SunLibrary.LoggerFactory.Get("GetFundRatePageDetail").Info(memo);
+                var total_fee_yaun = MoneyTransfer.FenToYuan(ViewState["total_fee"].ToString());
+
+                string[,] param = new string[,] {  //{ "close_flag", "1" },
+                                { "uin", ViewState["uin"].ToString() }, 
+                                { "spid", ViewState["spid"].ToString() },
+                                { "total_fee", ViewState["total_fee"].ToString() },
+                                { "fund_code", ViewState["fund_code"].ToString() },
+                                { "channel_id","stat_type=68|fm_6_qs_2"},
+                                { "bind_serialno", ViewState["bind_serialno"].ToString() },
+                                { "card_tail", ViewState["card_tail"].ToString() },
+                                { "bank_type",ViewState["bank_type"].ToString() },
+                                { "cur_type","1" },
+                                { "redem_type", "1" },//赎回类型 1 t+0  2 t+1
+                                { "client_ip", this.tb_UNCclient_ip.Text.Trim()},
+                                { "mobile",ViewState["mobile"].ToString() },
+                                { "operator",Session["uid"].ToString() },
+                                { "ReturnUrl",ReturnUrl},
+                               };
+
+                Check_WebService.Param[] pa = PublicRes.ToParamArray(param);
+                PublicRes.CreateCheckService(this).StartCheck(objid, "FundBalanceRedeem", memo, "0", pa);
+                this.ShowMsg("已提交，请等待审批！");
+            }
+            catch (SoapException eSoap) //捕获soap类异常
+            {
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, "提交申请单失败：" + eSys.Message.ToString());
+                return;
+            }
+        }
+
+        //指数基金强赎 账务系统查看
+        public void bindFRateApply(string objid)
+        {
+            try
+            {
+                DataTable dt = checkService.GetCheckInfo(objid, "FundBalanceRedeem");
+                if (dt != null && dt.Rows.Count != 0)
+                {
+                    fRate_uin.Text = dt.Rows[0]["uin"].ToString();
+                    fRate_spid.Text = dt.Rows[0]["spid"].ToString();
+                    fRate_fund_code.Text = dt.Rows[0]["fund_code"].ToString();
+                    fRate_total_fee.Text = dt.Rows[0]["total_fee"].ToString();
+                    fRate_bind_serial_no.Text = dt.Rows[0]["bind_serialno"].ToString();
+                    fRate_crad_tail.Text = dt.Rows[0]["card_tail"].ToString();
+                    fRate_mobile.Text = dt.Rows[0]["mobile"].ToString();
+                    fRate_bank_type.Text = dt.Rows[0]["bank_type"].ToString();
+                    fRate_client_ip.Text = dt.Rows[0]["client_ip"].ToString();
+                    fRate_table.Visible = true;
+                    Button1.Visible = false;
+                }
+                else
+                {
+                    WebUtils.ShowMessage(this.Page, "查询出错！");
+                    return;
+                }
+            }
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, "申请单查询失败！" + eSys.Message.ToString());
+                return;
+            }
+        }
+
+        //到期申购/赎回策略 预览
+        private void AlterEndStrategyPreview()
+        {
+            try
+            {
+                Func<string,string> GetQS= (key)=>
+                {
+                    var v = (Request.QueryString[key] ?? "").Trim();
+                    if (v == "")
+                    {
+                        throw new Exception(key + " 参数不可为空");
+                    }
+                    ViewState[key] = v;
+                    return v;
+                };
+                var uin = GetQS("uin");
+                var Trade_id = GetQS("trade_id");
+                var Fund_code = GetQS("fund_code");
+                var Close_listid = GetQS("close_listid");
+                var user_end_type =GetQS("user_end_type");
+                var end_sell_type =GetQS("end_sell_type");
+                var client_ip = Request.UserHostAddress.ToString();
+                if (client_ip == "::1") client_ip = "127.0.0.1";
+
+                AlterES_uin.Text = uin;
+                AlterES_Trade_id.Text = Trade_id;
+                AlterES_Fund_code.Text = Fund_code;
+                AlterES_user_end_type.Value = user_end_type;
+                AlterES_end_sell_type.Value = end_sell_type;
+                AlterES_client_ip.Text = client_ip;
+
+                AlterES_table.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                ShowMsg(PublicRes.GetErrorMsg(ex.Message));
+            }
+        }
+
+        //到期申购/赎回策略 修改
+        protected void AlterEndStrategy_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                FundService fs = new FundService();
+                var trade_id = ViewState["trade_id"].ToString();
+                var fund_code = ViewState["fund_code"].ToString();
+                var close_listid = long.Parse(ViewState["close_listid"].ToString());
+                var user_end_type = int.Parse(AlterES_user_end_type.Value);
+                var end_sell_type = int.Parse(AlterES_end_sell_type.Value);
+
+                var client_ip = Request.UserHostAddress.ToString();
+                if (client_ip == "::1") client_ip = "127.0.0.1";
+
+                var isSucceed = fs.AlterEndStrategy(trade_id, fund_code, close_listid, user_end_type, end_sell_type, client_ip);
+                if (isSucceed)
+                {
+                    ShowMsg("修改成功");
+                }
+                else 
+                {
+                    WebUtils.ShowMessage(this.Page, "修改失败: ");
+                }
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this.Page, "修改出错: " + PublicRes.GetErrorMsg(ex.Message));
+            }
+        }
+    }
 }
