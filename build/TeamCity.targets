@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file Create the realse files include source package, patch package, update version -->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">	
+	<Target Name="DoCreateIncrementalPatch">
+		<CreateIncrementalPatch BuildRoot="$(SourceRoot)" OutPutRoot="$(OutputRoot)" LastOutputRoot="$(LastOutputRoot)" />
+	</Target>
+	
+	<UsingTask TaskName="CreateIncrementalPatch" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+		<ParameterGroup>
+			<BuildRoot ParameterType="System.String" Required="true" />
+			<OutPutRoot ParameterType="System.String" Required="true" />
+			<LastOutputRoot ParameterType="System.String" Required="true" />
+		</ParameterGroup>
+		
+		<Task>
+			
+			<Using Namespace="System" />
+			<Using Namespace="System.IO" />
+			<Using Namespace="Microsoft.Build.Framework" />
+			<Using Namespace="Microsoft.Build.Utilities" />
+			
+			<Code Type="Class" Language="cs">
+				<![CDATA[
+				public class CreateIncrementalPatch : Microsoft.Build.Utilities.Task
+				{
+					[Microsoft.Build.Framework.Required]
+					public string BuildRoot {get;set;}
+					[Microsoft.Build.Framework.Required]
+					public string OutPutRoot {get;set;}
+					[Microsoft.Build.Framework.Required]
+					public string LastOutputRoot {get;set;}
+					
+					public override bool Execute()
+					{
+					    Log.LogMessage(string.Format("Begin CreateIncrementalPatch:{0} Compare {1} => {2}", BuildRoot, LastOutputRoot, OutPutRoot));
+						CircularCompare(new System.IO.DirectoryInfo(BuildRoot));
+						return true;
+					}
+					
+					private void CircularCompare(System.IO.DirectoryInfo root)
+					{
+						System.IO.FileInfo[] files = null;
+						System.IO.DirectoryInfo[] subDirs = null;
+
+						files = root.GetFiles("*.*");
+
+						if (files != null)
+						{
+							foreach (System.IO.FileInfo fi in files)
+							{
+								
+								var compareFile = fi.FullName.Replace(BuildRoot, LastOutputRoot);
+								var outputFile = fi.FullName.Replace(BuildRoot, OutPutRoot);
+								//Log.LogMessage(BuildRoot);
+								//Log.LogMessage(LastOutputRoot);
+								//Log.LogMessage(fi.FullName);
+								//Log.LogMessage(compareFile);
+								if (System.IO.File.Exists(compareFile))
+								{
+									var fileinfo = new System.IO.FileInfo(compareFile);
+									if (fileinfo.Length == fi.Length && fileinfo.LastWriteTimeUtc == fi.LastWriteTimeUtc)
+									{
+										//Log.LogMessage(string.Format("File skip {0} => {1}", fi.FullName, compareFile));
+										continue;
+									}
+								}
+								
+								Log.LogMessage(string.Format("Copy file {0} => {1}", fi.FullName, outputFile));
+								CopyFile(fi, outputFile);
+							}
+
+							subDirs = root.GetDirectories();
+
+							foreach (System.IO.DirectoryInfo dirInfo in subDirs)
+							{
+								CircularCompare(dirInfo);
+							}
+						}
+					}
+					
+					private void CopyFile(System.IO.FileInfo fileItem, string destinationPath)
+					{
+						var parentDirectory = System.IO.Directory.GetParent(destinationPath);
+
+						if (!parentDirectory.Exists)
+							parentDirectory.Create();
+
+						fileItem.CopyTo(destinationPath, true);
+					}
+				}
+				
+				]]>
+			</Code>
+		</Task>
+	</UsingTask>
+</Project>

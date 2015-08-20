@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- This file builds the Enterprise Library Application Blocks  -->
+<!-- and runs the unit tests.                                    -->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+    DefaultTargets="Build"
+    ToolsVersion="4.0" >
+
+  <PropertyGroup>
+	<AssemblyVersion>9.9.9.9</AssemblyVersion>
+	<LastAssemblyVersion>0.0.0.0</LastAssemblyVersion>
+    <Configuration>Release</Configuration>
+    <Platform>Any CPU</Platform>
+
+    <AssemblyOriginatorKeyFile></AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
+    <DelaySign>false</DelaySign>
+
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    
+    <RepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\'))</RepoRoot>
+    <SourceRoot Condition=" '$(SourceRoot)' == '' ">$(RepoRoot)src\</SourceRoot>
+    <OutputRoot Condition=" '$(OutputRoot)' == '' ">$(RepoRoot)build\$(AssemblyVersion)\</OutputRoot>
+	<LastOutputRoot Condition=" '$(LastOutputRoot)' == '' ">$(RepoRoot)build\$(LastAssemblyVersion)\</LastOutputRoot>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Solutions Include="$(SourceRoot)\*.sln"/>
+  </ItemGroup>
+
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build"/>
+  
+  <Target Name="Build" DependsOnTargets="Compile;DoCreateIncrementalPatch" />
+
+  <Target Name="Clean" DependsOnTargets="CleanProjects"/>
+
+  <Target Name="CleanProjects">
+    <MSBuild Projects="@(Solutions)" Properties="Configuration=$(Configuration);Platform=$(Platform);AssemblyOriginatorKeyFile=$(AssemblyOriginatorKeyFile);SignAssembly=$(SignAssembly);DelaySign=$(DelaySign);" Targets="Clean"/>
+  </Target>
+
+  <Target Name="Compile">
+    <PropertyGroup>
+      <BuildProperties>$(BuildProperties);Configuration=$(Configuration);Platform=$(Platform)</BuildProperties>
+      <BuildProperties>$(BuildProperties);AssemblyOriginatorKeyFile=$(AssemblyOriginatorKeyFile);SignAssembly=$(SignAssembly);DelaySign=$(DelaySign);</BuildProperties>
+      <BuildProperties>$(BuildProperties);RunCodeAnalysis=$(RunCodeAnalysis)</BuildProperties>
+    </PropertyGroup>
+    <MSBuild Projects="@(Solutions)" Properties="$(BuildProperties)"/>
+  </Target>
+  <Import Project="TeamCity.targets"/>
+</Project>
