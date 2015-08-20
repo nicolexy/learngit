@@ -14,6 +14,7 @@ using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using TENCENT.OSS.C2C.Finance.BankLib;
+using CFT.CSOMS.BLL.TradeModule;
 namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 {
 	/// <summary>
@@ -223,7 +224,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			}
 			else if (type == "PayList")  //付款记录
 			{
-				ds = myService.GetTCBankPAYList(selectStr,i,beginTime,endTime,istr,imax);
+				//ds = myService.GetTCBankPAYList(selectStr,i,beginTime,endTime,istr,imax);
+                  ds = new PickService().GetTCBankPAYList(selectStr, i, beginTime, endTime, istr, imax);//2424,2425
 			}
 			else if (type  == "Gather")  // 收款记录
 			{

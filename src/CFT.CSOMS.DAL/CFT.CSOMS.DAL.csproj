@@ -118,6 +118,7 @@
     <Compile Include="SPOA\MerchantData.cs" />
     <Compile Include="SPOA\SPOAData.cs" />
     <Compile Include="SysManageModule\SysManageData.cs" />
+    <Compile Include="TradeModule\PickData.cs" />
     <Compile Include="TradeModule\TradeData.cs" />
     <Compile Include="TravelModule\AirTickets.cs" />
     <Compile Include="WechatPay\AuthenData.cs" />

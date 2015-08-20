@@ -211,9 +211,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
         private string TdeToID(string tdeid)
         {
-            Finance_ManageService.Finance_Manage fm = new Finance_ManageService.Finance_Manage();
+            return new PickService().TdeToID(tdeid);
 
-            return fm.TdeToID(tdeid);
+            //Finance_ManageService.Finance_Manage fm = new Finance_ManageService.Finance_Manage();
+            //return fm.TdeToID(tdeid);
         }
 
         private void setIframePath()

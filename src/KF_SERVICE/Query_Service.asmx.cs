@@ -4157,7 +4157,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        [WebMethod(Description = "提现查询函数")]
+        [WebMethod(Description = "提现查询函数")] //2015-8-11 改接口 v_yqyqguo
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetPickList(string u_ID, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, int idtype, string sorttype, string cashtype,
             int iPageStart, int iPageMax)
@@ -4188,7 +4188,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        [WebMethod(Description = "提现查询详细函数")]
+        [WebMethod(Description = "提现查询详细函数")] //2015-8-11 改接口 v_yqyqguo
         public DataSet GetPickListDetail(string listid, DateTime u_BeginTime, DateTime u_EndTime, bool oldflag)
         {
             try
@@ -17889,7 +17889,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        [WebMethod(Description = "商户今天结算记录")]
+        [WebMethod(Description = "商户今天结算记录")] //2015-8-11 改接口 v_yqyqguo
         public DataSet GetQuerySettlementTodayList(string Fspid)    //抓取今天的结算
         {
             //furion 20090611 考虑将来换数据库连接，现在YWB可以修改为拆分数据库，但前提条件是c2c_db.t_tcpay_list也在上面
@@ -18963,7 +18963,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             //			}
         }
 
-        [WebMethod(Description = "查询信用卡还款记录数")]
+        [WebMethod(Description = "查询信用卡还款记录数")]//2015-8-11 改接口 v_yqyqguo
         public DataSet GetCreditQueryListCount(string Flistid)
         {
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB"));
@@ -18987,7 +18987,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        [WebMethod(Description = "查询信用卡还款记录(按财付通号查询)")]
+        [WebMethod(Description = "查询信用卡还款记录(按财付通号查询)")] //2015-8-11 改接口 v_yqyqguo
         public DataSet GetCreditQueryListForFaid(string QQOrEmail, DateTime begindate, DateTime enddate, int istart, int imax)
         {
             string Fuid = PublicRes.ConvertToFuidX(QQOrEmail);
@@ -19039,7 +19039,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
 
-        [WebMethod(Description = "查询信用卡还款记录")]
+        [WebMethod(Description = "查询信用卡还款记录")] //2015-8-11 改接口 v_yqyqguo
         public DataSet GetCreditQueryList(string Flistid, int istart, int imax)
         {
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB"));

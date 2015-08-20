@@ -2095,6 +2095,13 @@
     <Compile Include="TradeManage\CGIInfoQuery.aspx.designer.cs">
       <DependentUpon>CGIInfoQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TradeManage\CreditQueryNew.aspx.cs">
+      <DependentUpon>CreditQueryNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\CreditQueryNew.aspx.designer.cs">
+      <DependentUpon>CreditQueryNew.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TradeManage\FundCardQuery_DetailNew.aspx.cs">
       <DependentUpon>FundCardQuery_DetailNew.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2115,6 +2122,13 @@
     </Compile>
     <Compile Include="TradeManage\PayLimitManage.aspx.designer.cs">
       <DependentUpon>PayLimitManage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TradeManage\PickQueryNew.aspx.cs">
+      <DependentUpon>PickQueryNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\PickQueryNew.aspx.designer.cs">
+      <DependentUpon>PickQueryNew.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\TradeMigration.aspx.cs">
       <DependentUpon>TradeMigration.aspx</DependentUpon>
@@ -3369,9 +3383,11 @@
     <Content Include="TradeManage\BusCardPrepaidQuery.aspx" />
     <Content Include="TradeManage\ContractQuery.aspx" />
     <Content Include="TradeManage\CGIInfoQuery.aspx" />
+    <Content Include="TradeManage\CreditQueryNew.aspx" />
     <Content Include="TradeManage\FundCardQuery_DetailNew.aspx" />
     <Content Include="TradeManage\MobileBindingQuery.aspx" />
     <Content Include="TradeManage\PayLimitManage.aspx" />
+    <Content Include="TradeManage\PickQueryNew.aspx" />
     <Content Include="TradeManage\TradeMigration.aspx" />
     <Content Include="TradeManage\UnFinishTradeQuery.aspx" />
     <Content Include="TradeManage\MediCertExpireOperate.aspx" />

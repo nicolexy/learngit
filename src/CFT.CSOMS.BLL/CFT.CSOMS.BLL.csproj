@@ -86,6 +86,7 @@
     <Compile Include="SPOA\MerchantService.cs" />
     <Compile Include="SPOA\SPOAService.cs" />
     <Compile Include="SysManageModule\SysManageService.cs" />
+    <Compile Include="TradeModule\PickService.cs" />
     <Compile Include="TradeModule\TradeService.cs" />
     <Compile Include="TransferMeaning\TransferMeaning.cs" />
     <Compile Include="TravelModule\AirTickets.cs" />
