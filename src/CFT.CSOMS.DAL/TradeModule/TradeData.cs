@@ -1180,5 +1180,38 @@ namespace CFT.CSOMS.DAL.TradeModule
                 throw e;
             }
         }
+
+        /// <summary>
+        /// 查询 转账单
+        /// </summary>
+        /// <param name="uin">单号</param>    
+        /// <param name="queryType">查询类型 财付通订单号: 1,  商户订单号:2 </param>
+        /// <returns></returns>
+        public DataSet TransferQuery(string uin, int queryType)
+        {
+            string req; //后面的空串是为了兼容 后续接口修复后把空串删除
+            if (queryType == 1)
+            {
+                req = "transaction_id=" + uin + "&out_trade_no=&query_attach=";
+            }
+            else if (queryType == 2)
+            {
+                req = "out_trade_no=" + uin + "&query_attach=OUT_TRADE_NO" + "&transaction_id=";
+            }
+            else 
+            {
+                throw new ArgumentOutOfRangeException("queryType");
+            }
+            var ip = Apollo.Common.Configuration.AppSettings.Get<string>("TransferQuery_RelayIP", "10.12.23.14");
+            var port = Apollo.Common.Configuration.AppSettings.Get<int>("TransferQuery_RelayPort", 22000);
+            var answer = RelayAccessFactory.RelayInvoke(req, "101247", false, false, ip, port);
+            string msg = "";
+            DataSet ds = CommQuery.ParseRelayPageRowNum0(answer, out msg);
+            if (msg != "")
+            {
+                throw new Exception(msg);
+            }
+            return ds;
+        }
     }
 }

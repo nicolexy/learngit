@@ -2134,6 +2134,13 @@
       <DependentUpon>TradeMigration.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="TradeManage\TransferQuery.aspx.cs">
+      <DependentUpon>TransferQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\TransferQuery.aspx.designer.cs">
+      <DependentUpon>TransferQuery.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TradeManage\UnFinishTradeQuery.aspx.cs">
       <DependentUpon>UnFinishTradeQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3375,6 +3382,7 @@
     <Content Include="TradeManage\PayLimitManage.aspx" />
     <Content Include="TradeManage\PickQueryNew.aspx" />
     <Content Include="TradeManage\TradeMigration.aspx" />
+    <Content Include="TradeManage\TransferQuery.aspx" />
     <Content Include="TradeManage\UnFinishTradeQuery.aspx" />
     <Content Include="TradeManage\MediCertExpireOperate.aspx" />
     <Content Include="TradeManage\BusinessFreeze.aspx">
