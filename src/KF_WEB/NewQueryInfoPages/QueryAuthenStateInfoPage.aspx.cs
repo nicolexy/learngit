@@ -72,7 +72,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             {
                 //查询实名认证信息
                 clearCreate();
-                ds = acc.QueryUserAuthenByCredid("1", ViewState["uin"].ToString(), Session["uid"].ToString());
+                ds = new AuthenInfoService().QueryUserAuthenByCredid("1", ViewState["uin"].ToString(), Session["uid"].ToString());
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     this.tb_cre_id.Text = ViewState["uin"].ToString();
@@ -93,7 +93,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             try
             {
                 //查询操作日志
-                DataSet ds = acc.QueryUserAuthenDisableLog(ViewState["uin"].ToString());
+                DataSet ds = new AuthenInfoService().QueryUserAuthenDisableLog(ViewState["uin"].ToString());
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                 {
                     this.DataGrid_QueryResult.Visible = false;
@@ -174,7 +174,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                 TENCENT.OSS.C2C.Finance.BankLib.Param[] pa = PublicRes.ToParamArrayStruct(param);
 
-                if (acc.DisableUserAuthenInfo("1", ViewState["uin"].ToString(), Session["uid"].ToString(), "kf", objid, "UserAuthenDisableLog", "cre_id", pa))
+                if (new AuthenInfoService().DisableUserAuthenInfo("1", ViewState["uin"].ToString(), Session["uid"].ToString(), "kf", objid, "UserAuthenDisableLog", "cre_id", pa))
                     WebUtils.ShowMessage(this.Page, "实名认证置失效成功！");
                 tableDetail.Visible = false;
                 QueryUserAuthenLog();

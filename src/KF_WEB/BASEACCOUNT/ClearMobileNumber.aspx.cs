@@ -1,4 +1,5 @@
 ﻿using CFT.CSOMS.BLL.CFTAccountModule;
+using CFT.CSOMS.BLL.MobileModule;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 if (!string.IsNullOrEmpty(mobile))
                 {
-                    var bll = new AccountService();
+                    var bll = new MobileService();
                     var dic = bll.QueryMobileBoundNumber(mobile);
                     BindCount.Text = dic["value"];
                     var ds = bll.QueryClearMobileNumberLog(mobile);
@@ -86,7 +87,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         WebUtils.ShowMessage(this.Page, "当前手机号码不需要清零");
                         return;
                     }
-                    var bll = new AccountService();
+                    var bll = new MobileService();
                     Param[] param = {
                                     new Param(){ ParamName = "Fsubmit_user" , ParamValue= uid },
                                    //    new Param(){ ParamName = "FUser_type" , ParamValue= "1" },

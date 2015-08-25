@@ -65,7 +65,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             try
             {
                 DataSet ds = new DataSet();
-                ds = acc.QueryRealNameInfo(ViewState["uin"].ToString(),Session["uid"].ToString());//check_state=0 未处理状态
+                ds = new AuthenInfoService().QueryRealNameInfo(ViewState["uin"].ToString(),Session["uid"].ToString());//check_state=0 未处理状态
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                 {
                     this.ShowMsg("查询记录为空!");
@@ -98,8 +98,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 Button lb = (Button)obj;
 
-                DataSet ds= acc.QueryNameAbnormalInfo(ViewState["uin"].ToString(), 0,cre_id_old, 0, 1);//check_state=0 未处理状态
-
+               // DataSet ds= acc.QueryNameAbnormalInfo(ViewState["uin"].ToString(), 0,cre_id_old, 0, 1);//check_state=0 未处理状态
+                DataSet ds = new AuthenInfoService().QueryNameAbnormalInfo(ViewState["uin"].ToString(), 0, cre_id_old, 0, 1);//check_state=0 未处理状态
 
                 if(!(ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0))
                 {
@@ -166,7 +166,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 nameAbnormal.Fcheck_state = "0";
 
 
-                acc.AddNameAbnormalInfo(nameAbnormal);
+                new AuthenInfoService().AddNameAbnormalInfo(nameAbnormal);
                 this.tableCreate.Visible = false;
                 BindData();
                 WebUtils.ShowMessage(this.Page, "创建申请单成功！");

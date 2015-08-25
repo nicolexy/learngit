@@ -135,50 +135,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
             }
 
         }
-
-        public DataTable QuerySubAccountInfo(string uin, int currencyType)
-        {
-            string fuid = ConvertToFuid(uin);
-            if (fuid == null)
-                fuid = "0";
-
-            ICEAccess ice = null;
-            if (currencyType != 1)
-            {
-                ice = ICEAccessFactory.GetICEAccess("ICEConnectionString3");
-            }
-            else
-            {
-                ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
-            }
-
-            try
-            {
-                ice.OpenConn();
-                string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                strwhere += ICEAccess.URLEncode("fcurtype=" + currencyType + "&");
-                string strResp = "";
-                LogHelper.LogInfo("QuerySubAccountInfo send strwhere : " + strwhere);
-
-                DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-
-                if (dt == null || dt.Rows.Count == 0)
-                    return null;
-
-                ice.CloseConn();
-
-                return dt;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            finally
-            {
-                ice.Dispose();
-            }
-        }
-
+       
         public static string ConvertToFuid(string uin)
         {
             try
@@ -323,121 +280,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
 
             return "0";
         }
-
-        public bool RemoveUserControlFin(string uid, string cur_type, string balance, string opera, int type)
-        {
-            if (string.IsNullOrEmpty(uid.Trim()))
-            {
-                throw new ArgumentNullException("uid为空！");
-            }
-            if (string.IsNullOrEmpty(opera.Trim()))
-            {
-                throw new ArgumentNullException("opera为空！");
-            }
-
-            string cgi = "";
-            string msg = "";
-            cgi = System.Configuration.ConfigurationManager.AppSettings["UserControlFinCgi"].ToString();
-            cgi += "uid=" + uid;
-            if (type == 3)//解绑指定金额
-            {
-                if (string.IsNullOrEmpty(cur_type.Trim()))
-                {
-                    throw new ArgumentNullException("cur_type为空！");
-                }
-                if (string.IsNullOrEmpty(balance.Trim()))
-                {
-                    throw new ArgumentNullException("balance为空！");
-                }
-                cgi += "&type=3";
-                cgi += "&curtype=" + cur_type;
-                cgi += "&balance=" + balance;//传分
-                cgi += "&opera=" + opera;
-            }
-            else if (type == 4)//解绑所有子账户余额
-            {
-                cgi += "&type=4";
-                cgi += "&opera=" + opera;
-            }
-
-            // 测试 cgi = "http://check.cf.com/cgi-bin/v1.0/BauClrBan.cgi?uid=400061433&type=1009&sum=2850&opera=1100000000";
-            // LogHelper.LogInfo("RemoveUserControlFin send req:" + cgi);
-            string res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(cgi, "", out msg);
-            if (msg != "")
-            {
-                throw new Exception(msg);
-            }
-            //LogHelper.LogInfo("RemoveUserControlFin return:" + res);
-
-            if (res.IndexOf("执行成功") == -1)
-                throw new Exception("解除失败：" + res);
-            else
-                return true;
-        }
-
-        public DataTable QueryUserControledRecordCgi(string uid, string opera)
-        {
-
-            string cgi = "";
-            string msg = "";
-            cgi = System.Configuration.ConfigurationManager.AppSettings["UserControlFinCgi"].ToString();
-            cgi += "uid=" + uid;
-            cgi += "&type=1";
-            cgi += "&opera=" + opera;
-
-            // 测试 cgi = "http://check.cf.com/cgi-bin/v1.0/BauClrBan_new.cgi?type=1&uid=441845935&opera=yukini";
-            //LogHelper.LogInfo("QueryUserControledRecordCgi send req:" + cgi);
-            string res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(cgi, "", out msg);
-            if (msg != "")
-            {
-                throw new Exception(msg);
-            }
-            //LogHelper.LogInfo("QueryUserControledRecordCgi return:" + res);
-
-            DataTable dt = new DataTable();
-            dt.Columns.Add("cur_type", typeof(String));
-            dt.Columns.Add("balance", typeof(String));
-
-            if (res.IndexOf("执行成功") == -1)
-            {
-                throw new Exception("cgi查询失败，返回：" + res);
-            }
-            res = res.Replace("执行成功 ", "");
-            string[] ans = res.Split(' ');
-            DataRow drfield = dt.NewRow();
-
-
-            foreach (string strtmp in ans)
-            {
-                string[] strlist2 = strtmp.Split(',');
-                if (strlist2.Length != 2)
-                {
-                    continue;
-                }
-                string[] para = strlist2[0].Split(':');
-                if (para.Length != 2)
-                {
-                    continue;
-                }
-
-                drfield.BeginEdit();
-
-                drfield["cur_type"] = PublicRes.getCgiString(para[1].Trim());
-
-                para = strlist2[1].Split(':');
-                if (para.Length != 2)
-                {
-                    continue;
-                }
-                drfield["balance"] = PublicRes.getCgiString(para[1].Trim());
-
-                drfield.EndEdit();
-                dt.Rows.Add(drfield);
-            }
-
-            return dt;
-        }
-
+          
         /// <summary>
         /// 查询用户信息：邮箱、身份证号、身份证类型
         /// </summary>
@@ -1098,123 +941,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
             RelayAccessFactory.GetDSFromRelay(requestString, "5547", ip, port, true);
             return true;
         }
-
-        /// <summary>
-        /// 记录日志
-        /// </summary>
-        /// <param name="creid"></param>
-        /// <param name="userType"></param>
-        /// <param name="Uid"></param>
-        public void WriteClearCreidLog(string creid, int userType, string Uid)
-        {
-            var tableName = GetTableName("t_creid_Log", creid);
-            string sql = string.Format(@"INSERT INTO {0}(FUid,FCreid,FUser_type) VALUES('{1}','{2}',{3})", tableName, Uid, creid, userType);
-            using (var da = MySQLAccessFactory.GetMySQLAccess("ClrearCreidLog"))
-            {
-                da.OpenConn();
-                da.ExecSql(sql);
-            }
-        }
-
-        /// <summary>
-        /// 清理证件号码
-        /// </summary>
-        /// <param name="creid"></param>
-        /// <param name="type">用户类型</param>
-        /// <returns></returns>
-        public bool ClearCreidInfo(string creid, int type)
-        {
-            int retNum = 0;
-            string tableName = GetTableName("creid_statistics", creid);
-            MySqlAccess da = null;
-            try
-            {
-                if (type == 0)
-                {
-                    //普通用户
-                    da = MySQLAccessFactory.GetMySQLAccess("statistics");    //统计数据库   
-                }
-                else
-                {
-                    //微信用户
-                    da = MySQLAccessFactory.GetMySQLAccess("comprehensive");    //综合业务数据库 
-                }
-                da.OpenConn();
-                string sql = "update " + tableName + " set count=0 where Fcreid='" + creid + "'";
-                retNum = da.ExecSqlNum(sql);
-            }
-            catch
-            {
-                throw new Exception("清理失败");
-            }
-            finally
-            {
-                if (da != null)
-                    da.Dispose();
-            }
-            return retNum == 1 ? true : false;
-        }
-
-        /// <summary>
-        /// 查询日志
-        /// </summary>
-        /// <param name="creid"></param>
-        /// <returns></returns>
-        public DataTable GetClearCreidLog(string creid)
-        {
-            var tableName = GetTableName("t_creid_Log", creid);
-            string sql = string.Format(@"SELECT FCreid,FCreate_time,CASE FUser_type WHEN 0 THEN '普通用户' WHEN 1 THEN '微信用户' END AS FUser_type ,FUid FROM {0}  WHERE FCreid='{1}'", tableName, creid);
-            using (var da = MySQLAccessFactory.GetMySQLAccess("ClrearCreidLog"))
-            {
-                da.OpenConn();
-                return da.GetTable(sql);
-            }
-        }
-
-        /// <summary>
-        /// 获取清理次数
-        /// </summary>
-        /// <param name="creid"></param>
-        /// <returns></returns>
-        public int GetClearCreidCount(string creid, int userType)
-        {
-            var tableName = GetTableName("t_creid_Log", creid);
-            string sql = string.Format(@"SELECT COUNT(FID) FROM {0} WHERE FCreid='{1}' AND FUser_type ={2}", tableName, creid, userType);
-            using (var da = MySQLAccessFactory.GetMySQLAccess("ClrearCreidLog"))
-            {
-                da.OpenConn();
-                var temp = da.GetOneResult(sql);
-                return temp != null ? Convert.ToInt32(temp) : 0;
-            }
-        }
-
-        /// <summary>
-        /// 获取表名
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="creid"></param>
-        /// <returns></returns>
-        private string GetTableName(string tableName, string creid)
-        {
-            if (creid.Length > 2)
-            {
-                string s_db = "";
-                string l_s = creid.Substring(creid.Length - 1);
-
-                if (l_s.ToUpper() == "X")
-                {
-                    s_db = "00";
-                    tableName = "statistics_db_" + s_db + "." + tableName + "_0";
-                }
-                else
-                {
-                    s_db = creid.Substring(creid.Length - 2);
-                    tableName = "statistics_db_" + s_db + "." + tableName + "_" + creid.Substring(creid.Length - 3, 1);
-                }
-            }
-            return tableName;
-        }
-
+         
         /// <summary>
         /// 添加账户信息修改日志
         /// </summary>
@@ -1262,108 +989,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 return da.GetTable(sql);
             }
         }
-
-        /// <summary>
-        /// 腾讯信用查询
-        /// </summary>
-        /// <param name="uin"></param>
-        /// <param name="username"></param>
-        /// <returns></returns>
-        public DataSet TencentCreditQuery(string uin, string username)
-        {
-            var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditQueryIP"] ?? "172.27.31.177";
-            var port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TencentCreditQueryPort"] ?? "22000");
-            var key = System.Configuration.ConfigurationManager.AppSettings["TencentCreditQueryKey"] ?? "f58ac057fd7395ff4d372a05b9796d2b";
-            var kokenValue = "uin=" + uin + "&username=" + username + "&key=" + key;
-            var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(kokenValue, "md5");
-            var req =
-                "&uin=" + uin +
-                "&username=" + username +
-                "&token=" + token
-                ;
-            return RelayAccessFactory.GetDSFromRelay(req, "101025", ip, port);
-        }
-
-        /// <summary>
-        /// 查询手机绑定次数
-        /// </summary>
-        /// <returns></returns>
-        public Dictionary<string, string> QueryMobileBoundNumber(string mobile)
-        {
-            var url = System.Configuration.ConfigurationManager.AppSettings["ClearMobileNumber"] ?? "http://op.cf.com/perltools/cgi-bin/msgnotify_ckv_tool";
-            var req = url +
-                "?jsonstr={" +
-                "\"operation\":\"2\"," +
-                "\"telphone\":\"" + mobile + "\"" +
-                "}";
-            string msg = "";
-            var answer = commRes.GetFromCGI(req, null, out msg);
-            if (msg != "")
-            {
-                throw new Exception("调用CGI出错:" + msg);
-            }
-            if (string.IsNullOrEmpty(answer))
-            {
-                throw new Exception("CGI返回值为空");
-            }
-            System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
-            var model = jss.Deserialize<QueryMobileBoundNumberJsonModel>(answer);
-            if (model.result != "0" || model.ret_data == "")
-            {
-                throw new Exception("查询出错:[" + model.process_msg + model.result_msg + "]");
-            }
-            if (model.ret_data.IndexOf(mobile) == -1)
-            {
-                if (model.ret_data.IndexOf("nofound") != -1)
-                {
-                    throw new Exception("没有找到记录");
-                }
-                throw new Exception("查询失败:[" + model.ret_data + "]");
-            }
-            var dic = model.ret_data.Replace(" ", "").ToDictionary(',', ':');
-            if (dic["mobile"] != mobile)
-            {
-                throw new ArgumentException("CGI返回值错误Model值和预期的不一致");
-            }
-            return dic;
-        }
-
-        /// <summary>
-        /// 手机绑定清零
-        /// </summary>
-        /// <param name="mobile">手机号码</param>
-        /// <returns></returns>
-        public bool ClearMobileBoundNumber(string mobile)
-        {
-            var url = System.Configuration.ConfigurationManager.AppSettings["ClearMobileNumber"] ?? "http://op.cf.com/perltools/cgi-bin/msgnotify_ckv_tool";
-            var req = url +
-                "?jsonstr={" +
-                "\"operation\":\"0\"," +
-                "\"telphone\":\"" + mobile + "\"" +
-                "}";
-            string msg = "";
-            var answer = commRes.GetFromCGI(req, null, out msg);
-            if (msg != "")
-            {
-                throw new Exception("调用CGI出错:" + msg);
-            }
-            if (string.IsNullOrEmpty(answer))
-            {
-                throw new Exception("CGI返回值为空");
-            }
-            System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
-            var model = jss.Deserialize<QueryMobileBoundNumberJsonModel>(answer);
-            if (model.result != "0" || model.ret_data == "")
-            {
-                throw new Exception("清零出错:[" + model.process_msg + model.result_msg + "]");
-            }
-            if (model.ret_data.IndexOf(mobile) == -1)
-            {
-                throw new Exception("清零失败:[" + model.ret_data + "]");
-            }
-            return true;
-        }
-
+     
         /// <summary>
         /// 添加提现拦截记录
         /// </summary>
@@ -1657,44 +1283,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 return false;
             }
         }
-
-        //查询用户商家工具按钮表
-        public DataSet GetUserButtonInfo(string u_QQID, int istr, int imax)
-        {
-            try
-            {
-                Q_BUTTONINFO cuser = new Q_BUTTONINFO(u_QQID, istr, imax);
-                return cuser.GetResultX("ZJB");
-            }
-            catch (Exception e)
-            {
-                throw new Exception("用户商家工具按钮不存在或者未注册！(" + e.Message.ToString().Replace("'", "’") + ")");
-            }
-        }
-
-        //查询用户交易流水表
-        public DataSet GetUserPayList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
-        {
-            try
-            {
-                string fuid = PublicRes.ConvertToFuid(u_ID);
-                string strSql = "uid=" + fuid;
-                strSql += "&starttime=" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss");
-                strSql += "&endtime=" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
-                strSql += "&limitstart=" + istr;
-                strSql += "&limitend=" + imax;
-
-                string errMsg = "";
-                DataSet ds = CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_USERPAY_U, out errMsg);
-
-                return ds;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！");
-            }
-        }
-
+    
         public bool IsFastPayUser(string qqid)
         {
             try
@@ -1832,6 +1421,54 @@ namespace CFT.CSOMS.DAL.CFTAccount
             }
         }
 
+        /// <summary>
+        /// 微信个人账户信息
+        /// </summary>
+        /// <param name="u_QQID"></param>
+        /// <param name="istr"></param>
+        /// <param name="imax"></param>
+        /// <returns></returns>
+        public DataSet GetUserAccountFromWechat(string u_QQID, int istr, int imax)
+        {           
+            try
+            {
+                string fuid = PublicRes.ConvertToFuid(u_QQID);
+                string strReq = "uid=" + fuid;
+                string errMsg = "";
+                var task = System.Threading.Tasks.Task<DataTable>.Factory.StartNew(() =>
+                {
+                    //使用新线程查询另一个接口   加速页面响应
+                    using (ICEAccess ice = ICEAccessFactory.GetICEAccess("ICEConnectionString"))
+                    {
+                        ice.OpenConn();
+                        string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&") + ICEAccess.URLEncode("fcurtype=" + 1 + "&");
+                        string strResp = "";
+                        return ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
+                    }
+                });
+                var ds = CommQuery.GetDataSetFromICE(strReq, CommQuery.QUERY_USERINFO, out errMsg);
+                DataTable dt1 = task.Result;
+                if (ds != null && ds.Tables.Count > 0 && dt1 != null)
+                {
+                    var dt = ds.Tables[0];
+                    if (dt.Rows.Count > 0 && dt1.Rows.Count > 0)
+                    {
+                        dt.Columns.Add("Fbalance");
+                        dt.Columns.Add("Fcon");
+                        var row = dt.Rows[0];
+                        var row1 = dt1.Rows[0];
+                        row["Fbalance"] = row1["Fbalance"];
+                        row["Fcon"] = row1["Fcon"];
+                    }
+                }
+                return ds;
+            }
+            catch (Exception e)
+            {          
+                return null;
+            }         
+        }
+
         public int GetUserClassInfo(string qqid, out string msg)
         {
             //查询一下用户认证信息 furion 20071227
@@ -1944,13 +1581,4 @@ namespace CFT.CSOMS.DAL.CFTAccount
     }
     #endregion
 
-    #region 查询手机绑定次数 实体类
-    class QueryMobileBoundNumberJsonModel
-    {
-        public string ret_data;
-        public string process_msg;
-        public string result;
-        public string result_msg;
-    }
-    #endregion
 }

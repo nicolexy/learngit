@@ -15,6 +15,7 @@ using Tencent.DotNet.Common.UI;
 using CFT.CSOMS.BLL.CFTAccountModule;
 using System.Web.Services.Protocols;
 using CFT.CSOMS.BLL.TradeModule;
+using CFT.CSOMS.BLL.FundModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -69,7 +70,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             try
             {
-                DataTable dt = new AccountService().QueryUserCtrlFund(qqid, Session["uid"].ToString());
+                DataTable dt = new ControlFundService().QueryUserCtrlFund(qqid, Session["uid"].ToString());
 
                 if (dt != null && dt.Rows.Count > 0)
                 {
@@ -93,7 +94,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         {
             try
             {
-                DataSet ds = new TradeService().RemoveControledFinLogQuery(qqid);
+                DataSet ds = new ControlFundService().RemoveControledFinLogQuery(qqid);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     this.DataGrid_OperLog.DataSource = ds.Tables[0];
@@ -126,7 +127,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     WebUtils.ShowMessage(this.Page, "无解绑权限");
                     return;
                 }
-                if (new AccountService().UnbindAllCtrlFund(this.txt_qqid.Text, Session["uid"].ToString()))
+
+                DataTable dt = getRemoveLog();
+                if (new ControlFundService().RemoveUserControlFin(this.txt_qqid.Text.Trim(), "", "", Session["uid"].ToString(), 4, dt))
                 {
                     WebUtils.ShowMessage(this.Page, "解除成功！");
                     QueryLog(this.txt_qqid.Text.Trim());
@@ -153,11 +156,40 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
         }
 
+        private DataTable getRemoveLog(int? index = null)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("FbalanceStr", typeof(System.String));
+            dt.Columns.Add("FtypeText", typeof(System.String));
+            dt.Columns.Add("cur_type", typeof(System.String));
+            if (index.HasValue)
+            {
+                DataRow dr = dt.NewRow();
+                dr["FbalanceStr"] = this.DataGrid_QueryResult.Items[index.Value].Cells[1].Text.Trim();
+                dr["FtypeText"] = this.DataGrid_QueryResult.Items[index.Value].Cells[4].Text.Trim();
+                dr["cur_type"] = this.DataGrid_QueryResult.Items[index.Value].Cells[5].Text.Trim();
+                dt.Rows.Add(dr);
+            }
+            else
+            {
+                foreach (DataGridItem item in this.DataGrid_QueryResult.Items)
+                {
+                    DataRow dr = dt.NewRow();
+                    dr["FbalanceStr"] = item.Cells[1].Text.Trim();
+                    dr["FtypeText"] = item.Cells[4].Text.Trim();
+                    dr["cur_type"] = item.Cells[5].Text.Trim();
+                    dt.Rows.Add(dr);
+                }
+            }
+            return dt;
+        }
+
         private void DataGrid_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
         {
             string cur_type = e.Item.Cells[5].Text.Trim();//类型
             string balance = e.Item.Cells[9].Text.Trim();//金额 单位分
 
+            DataTable dt = getRemoveLog(e.Item.ItemIndex);
             try
             {
                 if (e.CommandName == "remove")
@@ -167,7 +199,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                         WebUtils.ShowMessage(this.Page, "无解绑权限");
                         return;
                     }
-                    if (new AccountService().UnbindSingleCtrlFund(this.txt_qqid.Text, Session["uid"].ToString(), cur_type, balance))
+                    if (new ControlFundService().RemoveUserControlFin(this.txt_qqid.Text.Trim(), cur_type, balance, Session["uid"].ToString(), 3, dt))
                     {
                         WebUtils.ShowMessage(this.Page, "解除成功！");
                         QueryLog(this.txt_qqid.Text.Trim());

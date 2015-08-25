@@ -12,6 +12,7 @@ using System.Configuration;
 using CFT.CSOMS.DAL.Infrastructure;
 using CFT.CSOMS.BLL.WechatPay;
 using System.Xml;
+using CFT.CSOMS.DAL.FundModule;
 
 namespace CFT.CSOMS.BLL.TradeModule
 {
@@ -30,20 +31,16 @@ namespace CFT.CSOMS.BLL.TradeModule
         }
         public int ControledFinRemoveLogInsert(string qqid, string FbalanceStr, string FtypeText, string curtype, DateTime FmodifyTime, string FupdateUser)
         {
-            return new TradeData().RemoveControledFinLogInsert(qqid, FbalanceStr, FtypeText, curtype, FmodifyTime, FupdateUser);
+            return new ControlFundData().RemoveControledFinLogInsert(qqid, FbalanceStr, FtypeText, curtype, FmodifyTime, FupdateUser);
         }
         public void RemoveControledFinLogInsertAll(string qqid, string uid, DataTable dt)
         {
             foreach (DataRow item in dt.Rows)
             {
-                new TradeData().RemoveControledFinLogInsert(qqid, item["FbalanceStr"].ToString(), item["FtypeText"].ToString(), item["cur_type"].ToString(), DateTime.Now, uid);
+                new ControlFundData().RemoveControledFinLogInsert(qqid, item["FbalanceStr"].ToString(), item["FtypeText"].ToString(), item["cur_type"].ToString(), DateTime.Now, uid);
             }
         }
-        public DataSet RemoveControledFinLogQuery(string qqid)
-        {
-            return new TradeData().RemoveControledFinLogQuery(qqid);
-        }
-
+       
         public DataSet QueryWxBuyOrderByUid(int uid, DateTime startTime, DateTime endTime)
         {
             return (new TradeData()).QueryWxBuyOrderByUid(uid, startTime, endTime);

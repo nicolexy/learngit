@@ -48,7 +48,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             try
             {
-                var dt = new AccountService().GetClearCreidLog(creid);
+                var dt = new CertificateService().GetClearCreidLog(creid);
                 this.DataGrid1.DataSource = dt;
                 this.DataGrid1.DataBind();          
             }
@@ -88,7 +88,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             try
             {
-                var ret = new AccountService().ClearCreidInfo(creid, type, uid);
+                var ret = new CertificateService().ClearCreidInfo(creid, type, uid);
                 if (ret)
                 {
                     WebUtils.ShowMessage(this.Page, "清理成功");

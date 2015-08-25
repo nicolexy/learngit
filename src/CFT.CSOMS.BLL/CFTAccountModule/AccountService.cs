@@ -12,17 +12,14 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using CFT.CSOMS.BLL.TradeModule;
 using CFT.CSOMS.BLL.BankCardBindModule;
+using CFT.CSOMS.DAL.FundModule;
+using CFT.CSOMS.BLL.FundModule;
 
 namespace CFT.CSOMS.BLL.CFTAccountModule
 {   
     public class AccountService
     {
-        public static string ConvertToFuid(string uin)
-        {
-            return AccountData.ConvertToFuid(uin);
-        }
-
-        public static string Uid2QQ(string uin)
+        public  string Uid2QQ(string uin)
         {
             return AccountData.Uid2QQ(uin);
         }
@@ -41,12 +38,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         {
             return AccountData.getQQID(queryType, queryString);
         }
-
-        public DataTable QuerySubAccountInfo(string uin, int currencyType)
-        {
-            return new AccountData().QuerySubAccountInfo(uin, currencyType);
-        }
-
+   
         public string SynUserName(string aaUin, string oldName, string newName, string wxUin)
         {
             return new AccountData().SynUserName(aaUin, oldName, newName, wxUin);
@@ -55,301 +47,6 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         public DataSet GetUserAccount(string u_QQID, int fcurtype, int istr, int imax)
         {
             return new AccountData().GetUserAccount(u_QQID, fcurtype, istr, imax);
-        }
-
-        /// <summary>
-        /// 解除用户受控资金
-        /// </summary>
-        /// <param name="uid"></param>
-        /// <param name="cur_type">类型</param>
-        /// <param name="balance">金额</param>
-        /// <param name="opera">操作人</param>
-        /// <param name="dt">解绑资金信息</param>
-        /// <returns></returns>
-        public bool RemoveUserControlFin(string qqid, string cur_type, string balance, string opera, int type, DataTable dt)
-        {
-            string fuid = AccountData.ConvertToFuid(qqid);
-            //  string fuid = "540444925";
-
-            if (fuid == null || fuid == "")
-            {
-                throw new Exception("根据C帐号获取Fuid失败	qqid:" + qqid);
-            }
-            if (fuid == null || fuid.Length < 3)
-            {
-                throw new Exception("内部ID不正确！");
-            }
-            if (new AccountData().RemoveUserControlFin(fuid, cur_type, balance, opera, type))
-            {
-                foreach (DataRow item in dt.Rows)
-                {
-                    new CFT.CSOMS.DAL.TradeModule.TradeData().RemoveControledFinLogInsert(qqid, item["FbalanceStr"].ToString(), item["FtypeText"].ToString(), item["cur_type"].ToString(), DateTime.Now, opera);
-                }
-                return true;
-            }
-            else return false;
-        }
-
-        //解绑单条用户受控资金
-        public bool UnbindSingleCtrlFund(string qqid, string uid, string cur_type, string balance)
-        {
-            DataTable dt = QueryUserCtrlFund(qqid, uid);
-            bool isExist = false;
-            if (dt == null || dt.Rows.Count == 0)
-            {
-                return false; //解绑失败
-            }
-            foreach (DataRow dr in dt.Rows)
-            {
-                if (dr["cur_type"].ToString().Trim() == cur_type.Trim() && dr["balance"].ToString().Trim() == balance.Trim())
-                {
-                    isExist = true;
-                    string balanceStr = MoneyTransfer.FenToYuan(balance);
-                    return RemoveUserControlFin(qqid, cur_type, balanceStr, uid, 3, dt);
-                }
-            }
-            return isExist;
-        }
-
-        //解绑当前用户全部受控资金
-        public bool UnbindAllCtrlFund(string qqid, string uid)
-        {
-            DataTable dt = QueryUserCtrlFund(qqid, uid);
-            if (dt == null || dt.Rows.Count == 0)
-            {
-                return false;
-            }
-            return RemoveUserControlFin(qqid, "", "", uid, 4, dt);
-        }
-
-        /// <summary>
-        /// 查询用户受控资金
-        /// </summary>
-        /// <param name="qqid"></param>
-        /// <param name="opera"></param>
-        /// <returns></returns>
-        public DataTable QueryUserCtrlFund(string qqid, string opera)
-        {
-            try
-            {
-                DataTable dt = QueryUserControledRecordCgi(qqid, opera);
-                if (dt == null || dt.Rows.Count == 0)
-                {
-                    return null;
-                }
-
-                dt.Columns.Add("Fcur_typeName", typeof(string));
-                dt.Columns.Add("FstateName", typeof(string));
-                dt.Columns.Add("Fcreate_time", typeof(string));
-                dt.Columns.Add("FtypeText", typeof(string));
-                dt.Columns.Add("Fmodify_time", typeof(string));
-                dt.Columns.Add("FbalanceStr", typeof(string));
-                dt.Columns.Add("uid", typeof(string));
-                dt.Rows[0]["FbalanceStr"] = MoneyTransfer.FenToYuan(dt.Rows[0]["balance"].ToString().Trim());
-
-                foreach (DataRow dr in dt.Rows)
-                {
-                    string cur_type = dr["cur_type"].ToString();
-                    DataSet ds = QueryUserControledRecord(qqid, "", "", cur_type, 0, 1);
-                    if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                    {
-                        dr["Fcur_typeName"] = "";
-                        dr["FstateName"] = "";
-                        dr["Fcreate_time"] = "";
-                        dr["Ftype_Text"] = "";
-                        dr["Fmodify_time"] = "";
-                        dr["uid"] = "";
-                    }
-                    else
-                    {
-                        DataRow row = ds.Tables[0].Rows[0];
-                        dr["Fcur_typeName"] = row["Fcur_typeName"].ToString();
-                        dr["FstateName"] = row["FlstateName"].ToString();
-                        dr["Fcreate_time"] = row["Fcreate_time"].ToString();
-                        dr["FtypeText"] = row["FtypeText"].ToString();
-                        dr["Fmodify_time"] = row["Fmodify_time"].ToString();
-                        dr["uid"] = row["uid"].ToString();
-                    }
-                }
-                return dt;
-            }
-            catch (Exception ex)
-            {
-                log4net.LogManager.GetLogger("QueryUserCtrlFund 查询受控资金异常： " + ex.Message);
-                throw new Exception("查询记录为空" + ex.Message);
-            }
-        }
-
-        public DataSet QueryUserControledRecord(string qqid, string strBeginDate, string strEndDate, string cur_type, int iNumStart, int iNumMax)
-        {
-            try
-            {
-                string fuid = PublicRes.ConvertToFuid(qqid);
-                if (fuid == null || fuid.Trim() == "")
-                    throw new Exception("帐号不存在！");
-
-                QeuryUserControledFinInfoClass query = new QeuryUserControledFinInfoClass(fuid, strBeginDate, strEndDate, cur_type, iNumStart, iNumMax);
-
-                DataSet ds = query.GetResultX_ICE();
-
-                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                    return ds;
-
-                ds.Tables[0].Columns.Add("Fcur_typeName", typeof(string));
-                ds.Tables[0].Columns.Add("FlstateName", typeof(string));
-                ds.Tables[0].Columns.Add("FtypeText", typeof(string));
-                ds.Tables[0].Columns.Add("uid", typeof(string));
-                ds.Tables[0].Columns.Add("FbalanceStr", typeof(string));
-
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    dr["uid"] = fuid;
-                    dr["FbalanceStr"] = MoneyTransfer.FenToYuan(dr["Fbalance"].ToString()) + "元";
-
-                    switch (dr["Flstate"].ToString())
-                    {
-                        case "1":
-                            {
-                                dr["FlstateName"] = "有效"; break;
-                            }
-                        default:
-                            {
-                                dr["FlstateName"] = "无效"; break;
-                            }
-                    }
-
-                    switch (dr["Fcur_type"].ToString())
-                    {
-                        case "80":
-                            {
-                                dr["Fcur_typeName"] = "账户类"; break;
-                            }
-                        case "81":
-                            {
-                                dr["Fcur_typeName"] = "账户类"; break;
-                            }
-                        case "82":
-                            {
-                                dr["Fcur_typeName"] = "账户类"; break;
-                            }
-                        case "1002":
-                            {
-                                dr["Fcur_typeName"] = "不可提现付款类"; break;
-                            }
-                        case "1003":
-                            {
-                                dr["Fcur_typeName"] = "不可提现付款类"; break;
-                            }
-                        case "1006":
-                            {
-                                dr["Fcur_typeName"] = "不可提现付款类"; break;
-                            }
-                        case "1007":
-                            {
-                                dr["Fcur_typeName"] = "定向类"; break;
-                            }
-                        case "1008":
-                            {
-                                dr["Fcur_typeName"] = "定向类"; break;
-                            }
-                        case "1005":
-                            {
-                                dr["Fcur_typeName"] = "定向类"; break;
-                            }
-                        default:
-                            {
-                                // 这个是看表取值，因为目前“不可提现类”值太多，所以暂时使用这个判断
-                                if (dr["Fcur_type"].ToString().Length == 5 || dr["Fcur_type"].ToString() == "1004")
-                                {
-                                    dr["Fcur_typeName"] = "不可提现类";
-                                    break;
-                                }
-
-                                dr["Fcur_typeName"] = "未知类型"; break;
-                            }
-                    }
-
-                    string type = dr["Fcur_type"].ToString().Trim();
-                    if (type != null && type.Length == 5)//5位数去掉前面1按银行类型解析，其他按下文档解析
-                    {
-                        type = type.Remove(0, 1);
-                        dr["FtypeText"] = BankIO.QueryBankName(type);
-                    }
-                    else
-                    {
-                        switch (type)
-                        {
-                            case "1005":
-                                {
-                                    dr["FtypeText"] = "优秀员工奖金受控"; break;
-                                }
-                            case "1007":
-                                {
-                                    dr["FtypeText"] = "航空专区派送现金受控"; break;
-                                }
-                            case "1008":
-                                {
-                                    dr["FtypeText"] = "国航赠送现金受控"; break;
-                                }
-                            case "1010":
-                                {
-                                    dr["FtypeText"] = "淘点网充值受控"; break;
-                                }
-                            case "1011":
-                                {
-                                    dr["FtypeText"] = "paipai大促"; break;
-                                }
-                            case "1012":
-                                {
-                                    dr["FtypeText"] = "运通返现资金受控"; break;
-                                }
-                            case "1013":
-                                {
-                                    dr["FtypeText"] = "201306拍拍大促"; break;
-                                }
-                            case "1014":
-                                {
-                                    dr["FtypeText"] = "航旅B2C授信金额"; break;
-                                }
-                            default:
-                                {
-                                    dr["FtypeText"] = "无效" + type; break;
-                                }
-                        }
-                    }
-
-                }
-                return ds;
-            }
-            catch (Exception err)
-            {
-                throw new Exception("Service处理失败！" + err.Message);
-            }
-        }
-
-        public DataTable QueryUserControledRecordCgi(string qqid, string opera)
-        {
-
-            if (string.IsNullOrEmpty(qqid))
-            {
-                throw new ArgumentNullException("qqid为空！");
-            }
-            if (string.IsNullOrEmpty(opera))
-            {
-                throw new ArgumentNullException("opera为空！");
-            }
-
-            string fuid = AccountData.ConvertToFuid(qqid);
-
-            if (fuid == null || fuid == "")
-            {
-                throw new Exception("根据C帐号获取Fuid失败	qqid:" + qqid);
-            }
-            if (fuid == null || fuid.Length < 3)
-            {
-                throw new Exception("内部ID不正确！");
-            }
-            return new AccountData().QueryUserControledRecordCgi(fuid, opera);
         }
 
         public DataTable QueryVipInfo(string uin)
@@ -451,143 +148,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                 return null;
             }
         }
-
-        /// <summary>
-        /// 清理日志查询
-        /// </summary>
-        /// <param name="creid">身份证号</param>
-        /// <returns></returns>
-        public DataTable GetClearCreidLog(string creid)
-        {
-            return (new AccountData()).GetClearCreidLog(creid);
-        }
-        public DataSet QueryNameAbnormalInfo(string uin, int check_state, string cre_id_old, int limit, int offset)
-        {
-            return new AccountData().QueryNameAbnormalInfo(uin, check_state, cre_id_old, limit, offset);
-        }
-
-        /// <summary>
-        /// 记录证件号码清理日志
-        /// </summary>
-        /// <param name="creid"></param>
-        /// <param name="userType"></param>
-        /// <param name="Uid"></param>
-        public void WriteClearCreidLog(string creid, int userType, string Uid)
-        {
-            (new AccountData()).WriteClearCreidLog(creid, userType, Uid);
-        }
-
-        /// <summary>
-        /// 清理证件号码
-        /// </summary>
-        /// <param name="creid"></param>
-        /// <param name="type">用户类型</param>
-        /// <returns></returns>
-        public bool ClearCreidInfo(string creid, int type, string opera)
-        {
-            bool ret = new AccountData().ClearCreidInfo(creid, type);
-            if (ret)
-            {
-                WriteClearCreidLog(creid, type, opera);
-            }
-            return ret;
-        }
-
-        /// <summary>
-        /// 获取清理次数
-        /// </summary>
-        /// <param name="creid"></param>
-        /// <returns></returns>
-        public int GetClearCreidCount(string creid, int userType)
-        {
-            return (new AccountData()).GetClearCreidCount(creid, userType);
-        }
-        public void AddNameAbnormalInfo(NameAbnormalClass nameAbnormal)
-        {
-            CFT.CSOMS.DAL.CFTAccount.NameAbnormalClass nameA = new DAL.CFTAccount.NameAbnormalClass();
-            nameA.Fuin = nameAbnormal.Fuin;
-            nameA.Fname_old = nameAbnormal.Fname_old;
-            nameA.Fcre_id_old = nameAbnormal.Fcre_id_old;
-            nameA.Ftruename = nameAbnormal.Ftruename;
-            nameA.Fcre_id = nameAbnormal.Fcre_id;
-            nameA.Fcre_type = nameAbnormal.Fcre_type;
-            nameA.Fcre_version = nameAbnormal.Fcre_version;
-            nameA.Fcre_valid_day = nameAbnormal.Fcre_valid_day;
-            nameA.Faddress = nameAbnormal.Faddress;
-            nameA.Fimage_cre1 = nameAbnormal.Fimage_cre1;
-            nameA.Fimage_cre2 = nameAbnormal.Fimage_cre2;
-            nameA.Fimage_evidence = nameAbnormal.Fimage_evidence;
-            nameA.Fimage_other = nameAbnormal.Fimage_other;
-            nameA.Fsubmit_time = nameAbnormal.Fsubmit_time;
-            nameA.Fsubmit_user = nameAbnormal.Fsubmit_user;
-            nameA.Fcheck_time = nameAbnormal.Fcheck_time;
-            nameA.Fcheck_user = nameAbnormal.Fcheck_user;
-            nameA.Fcheck_state = nameAbnormal.Fcheck_state;
-            nameA.Frefuse_reason = nameAbnormal.Frefuse_reason;
-            nameA.Fcomment = nameAbnormal.Fcomment;
-
-            new AccountData().AddNameAbnormalInfo(nameA);
-        }
-
-        public bool UpdateNameAbnormalInfo(string uin, string refuse_reason, string comment, string check_user, string check_state)
-        {
-            return new AccountData().UpdateNameAbnormalInfo(uin, refuse_reason, comment, check_user, check_state);
-        }
-
-        public DataSet QueryRealNameInfo(string uin, string submit_user)
-        {
-
-            return new AccountData().QueryRealNameInfo(uin, submit_user);
-        }
-
-        /// <summary>
-        /// au_append_cre_info_service
-        /// 通过relay 补填用户信息：姓名 证件号
-        /// </summary>
-        /// <param name="uin"></param>
-        /// <param name="check_user"></param>
-        /// <returns></returns>
-        public bool UpdateRealNameInfo(NameAbnormalClass nameAbnormal)
-        {
-            DataSet ds = QueryNameAbnormalInfo(nameAbnormal.Fuin, 0, nameAbnormal.Fcre_id_old, 0, 1);//check_state=0 未处理状态
-
-
-            if (!(ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0))
-            {
-                throw new Exception("申请单状态不正确！");
-            }
-
-            CFT.CSOMS.DAL.CFTAccount.NameAbnormalClass nameA = new DAL.CFTAccount.NameAbnormalClass();
-            nameA.Fuin = nameAbnormal.Fuin;
-            nameA.Fname_old = nameAbnormal.Fname_old;
-            nameA.Fcre_id_old = nameAbnormal.Fcre_id_old;
-            nameA.Ftruename = nameAbnormal.Ftruename;
-            nameA.Fcre_id = nameAbnormal.Fcre_id;
-            nameA.Fcre_type = nameAbnormal.Fcre_type;
-            nameA.Fcre_version = nameAbnormal.Fcre_version;
-            nameA.Fcre_valid_day = nameAbnormal.Fcre_valid_day;
-            nameA.Faddress = nameAbnormal.Faddress;
-            nameA.Fimage_cre1 = nameAbnormal.Fimage_cre1;
-            nameA.Fimage_cre2 = nameAbnormal.Fimage_cre2;
-            nameA.Fimage_evidence = nameAbnormal.Fimage_evidence;
-            nameA.Fimage_other = nameAbnormal.Fimage_other;
-            nameA.Fsubmit_time = nameAbnormal.Fsubmit_time;
-            nameA.Fsubmit_user = nameAbnormal.Fsubmit_user;
-            nameA.Fcheck_time = nameAbnormal.Fcheck_time;
-            nameA.Fcheck_user = nameAbnormal.Fcheck_user;
-            nameA.Fcheck_state = nameAbnormal.Fcheck_state;
-            nameA.Frefuse_reason = nameAbnormal.Frefuse_reason;
-            nameA.Fcomment = nameAbnormal.Fcomment;
-
-            new AccountData().UpdateRealNameInfo(nameA);
-
-            //修改库表审批信息
-            if (new AccountData().UpdateNameAbnormalInfo(nameA.Fuin, nameA.Frefuse_reason, nameA.Fcomment, nameA.Fcheck_user, nameA.Fcheck_state))
-                return true;
-            else
-                return false;
-        }
-
+                              
         public bool AddChangeUserInfoLog(string qqid, string cre_type, string cre_type_old, string user_type, string user_type_old, string attid, string attid_old, string commet, string commet_old, string submit_user)
         {
             if (string.IsNullOrEmpty(qqid))
@@ -606,80 +167,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             }
             return new AccountData().QueryChangeUserInfoLog(qqid, offset, limit);
         }
-
-        public DataSet QueryUserAuthenByCredid(string cre_type, string cre_id, string opera)
-        {
-            DataSet ds = new AccountData().QueryUserAuthenByCredid(cre_type, cre_id, opera);
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                string key = System.Configuration.ConfigurationManager.AppSettings["RealNameKey"].ToString();
-                key += opera;
-                ds.Tables[0].Rows[0]["cname"] = CommUtil.TripleDESDecryptRealName(ds.Tables[0].Rows[0]["cname"].ToString(), key);
-                ds.Tables[0].Rows[0]["cuin"] = CommUtil.TripleDESDecryptRealName(ds.Tables[0].Rows[0]["cuin"].ToString(), key);
-                ds.Tables[0].Rows[0]["cuid"] = CommUtil.TripleDESDecryptRealName(ds.Tables[0].Rows[0]["cuid"].ToString(), key);
-            }
-            return ds;
-        }
-
-        /// <summary>
-        /// 实名认证置失效 并记录客服系统日志
-        /// </summary>
-        /// <param name="cre_type">证件类型</param>
-        /// <param name="cre_id">证件号</param>
-        /// <param name="opera">操作者</param>
-        /// <param name="memo">说明</param>
-        /// <param name="FObjID">objid 唯一</param>
-        /// <param name="log_type">日志业务类型</param>
-        /// <param name="key_name">关键字段</param>
-        /// <param name="myParams">参数列表</param>
-        /// <returns></returns>
-        public Boolean DisableUserAuthenInfo(string cre_type, string cre_id, string opera, string memo,
-            string FObjID, string log_type, string key_name, Param[] myParams)
-        {
-            if (string.IsNullOrEmpty(cre_type))
-            {
-                throw new ArgumentNullException("cre_type");
-            }
-            if (string.IsNullOrEmpty(cre_id))
-            {
-                throw new ArgumentNullException("cre_id");
-            }
-            if (string.IsNullOrEmpty(opera))
-            {
-                throw new ArgumentNullException("opera");
-            }
-
-            try
-            {
-                if (new AccountData().DisableUserAuthenInfo(cre_type, cre_id, opera, memo))//实名认证置失效
-                    PublicRes.WirteKFLog(FObjID, log_type, key_name, cre_id, opera, myParams);//写日志
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            return true;
-        }
-
-        public DataSet QueryUserAuthenDisableLog(string cre_id)
-        {
-            if (string.IsNullOrEmpty(cre_id))
-            {
-                throw new ArgumentNullException("cre_id");
-            }
-            ArrayList keyNameList = new ArrayList();
-            keyNameList.Add("Fuid");
-            keyNameList.Add("Fname_old");
-            keyNameList.Add("Fcre_id");
-            keyNameList.Add("Fcre_type");
-            keyNameList.Add("Fimage_cre1");
-            keyNameList.Add("Fimage_cre2");
-            keyNameList.Add("Fimage_evidence");
-            keyNameList.Add("Fsubmit_time");
-            keyNameList.Add("Fsubmit_user");
-            return PublicRes.QueryKFLog("UserAuthenDisableLog", "cre_id", cre_id, keyNameList);
-        }
-
+             
         public Boolean LCTAccStateOperator(string uin, string cre_id, string cre_type, string name, string op_type, string caller_name, string client_ip)
         {
             if (string.IsNullOrEmpty(uin))
@@ -751,61 +239,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                 throw new Exception(errMsg);
             return LCTAccStateOperator(uin, cre_id, cre_type, "", op_type, caller_name, client_ip);
         }
-
-
-        /// <summary>
-        /// 查询手机绑定次数
-        /// </summary>
-        /// <returns></returns>
-        public Dictionary<string, string> QueryMobileBoundNumber(string mobile)
-        {
-            return new AccountData().QueryMobileBoundNumber(mobile);
-        }
-
-        /// <summary>
-        /// 查询手机绑定清理日记
-        /// </summary>
-        /// <param name="mobile">手机号码</param>
-        /// <returns></returns>
-        public DataSet QueryClearMobileNumberLog(string mobile)
-        {
-            ArrayList keyNameList = new ArrayList()
-            {
-                  "Fsubmit_user",   //当前操作用户
-                 // "FUser_type",     //用户属性
-                  "FCreate_time",   //操作时间
-                  "FMobile",        //手机号码
-                  "MobileBindCount_Old",    //清理前绑定次数
-              };
-            return PublicRes.QueryKFLog("ClearMobileNumberLog", "Mobile", mobile, keyNameList);
-        }
-
-        /// <summary>
-        /// 手机绑定清零
-        /// </summary>
-        /// <param name="mobile">手机号码</param>
-        /// <returns></returns>
-        public bool ClearMobileBoundNumber(string mobile, string keyName, string keyValue, string operat_user, string obj_id, Param[] param)
-        {
-            var bol = new AccountData().ClearMobileBoundNumber(mobile);
-            if (bol)
-            {
-                PublicRes.WirteKFLog(obj_id, "ClearMobileNumberLog", keyName, keyValue, operat_user, param);//写日志
-            }
-            return bol;
-        }
-
-        /// <summary>
-        /// 腾讯信用查询
-        /// </summary>
-        /// <param name="uin">QQ号</param>
-        /// <param name="username">操作员</param>
-        /// <returns></returns>
-        public DataSet TencentCreditQuery(string uin, string username)
-        {
-            return new AccountData().TencentCreditQuery(uin, username);
-        }
-
+            
         public DataTable GetFetchListIntercept(string fetchListid)
         {
             if (string.IsNullOrEmpty(fetchListid))
@@ -956,17 +390,17 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
 
             long balance = 0;
 
-            DataTable dt = QuerySubAccountInfo(query_id, 1);    //主帐户余额
+            DataTable dt =new LCTBalanceService().QuerySubAccountInfo(query_id, 1);    //主帐户余额
             if (dt != null && dt.Rows.Count > 0)
             {
                 balance += long.Parse(dt.Rows[0]["Fbalance"].ToString().Trim());
             }
-            dt = QuerySubAccountInfo(query_id, 80);     //游戏子帐户
+            dt = new LCTBalanceService().QuerySubAccountInfo(query_id, 80);     //游戏子帐户
             if (dt != null && dt.Rows.Count > 0)
             {
                 balance += long.Parse(dt.Rows[0]["Fbalance"].ToString().Trim());
             }
-            dt = QuerySubAccountInfo(query_id, 82);     //直通车子帐户
+            dt = new LCTBalanceService().QuerySubAccountInfo(query_id, 82);     //直通车子帐户
             if (dt != null && dt.Rows.Count > 0)
             {
                 balance += long.Parse(dt.Rows[0]["Fbalance"].ToString().Trim());
@@ -1020,256 +454,70 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         /// 查询个人信息
         /// </summary>
         /// <param name="qqid"></param>
-        /// <param name="type">1,C账号;2,内部账号</param>
+        /// <param name="type">"Uin"-C账号,"Uid"-内部账号,"WeChatId"-微信帐号,"WeChatQQ"-微信绑定QQ,"WeChatMobile"-微信绑定手机,"WeChatEmail"-微信绑定邮箱,"WeChatUid"-微信内部ID,"WeChatCft"-微信财付通帐号</param>
         /// <returns></returns>
-        public DataSet GetPersonalInfo(string qqid, int type)
+        public DataSet GetPersonalInfo(string qqid, string type)
         {
             try
             {
-                string QQID = GetQQIDByUid(qqid, type);
+                string QQID = qqid;
+                bool isWechat = false;
+                bool cancelSign = false;
+                bool isFastPayUser = false;
+
+                if (type == "Uid")
+                {
+                    QQID = Uid2QQ(qqid);
+                }
                 DataSet ds = new DataSet();
 
-                if (type == 2 && QQID == null)    //查询注销账户信息(可能是注销的账户）
+                if (type == "Uid" && QQID == null)    //查询注销账户信息(可能是注销的账户）
                 {
-                    ds = GetUserAccountCancel(QQID, 1, 1, 1);
+                    cancelSign = true;
+                    ds = GetUserAccountCancel(qqid, 1, 1, 1);
+                }
+                else if (type == "WeChatId" || type == "WeChatQQ" || type == "WeChatMobile" || type == "WeChatEmail" || type == "WeChatUid" || type == "WeChatCft")     //微信用户
+                {
+                    isWechat = true;
+                    QQID = GetQQID(type, qqid);
+                    ds = GetUserAccountFromWechat(QQID, 1, 1);
+
+                    if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
+                    {
+                        if (new AccountData().IsFastPayUser(QQID))
+                        {
+                            isFastPayUser = true;
+                            ds.Tables[0].Rows[0]["Fname_str"] = "快速交易用户";
+                            ds.Tables[0].Rows[0]["Fuser_type_str"] = "";
+                        }
+                        else
+                            return null;
+                    }
                 }
                 else
                 {
                     if (QQID != null)
                     {
-                        bool isWechat = false;
+                        isWechat = false;
                         ds = new AccountData().GetUserAccount(QQID, 1, 1, 1);
 
                         if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
                         {
                             if (new AccountData().IsFastPayUser(QQID))
                             {
+                                isFastPayUser = true;
                                 ds.Tables[0].Rows[0]["Fname_str"] = "快速交易用户";
                                 ds.Tables[0].Rows[0]["Fuser_type_str"] = "";
                             }
                             else
                                 return null;
                         }
-                        else
-                        {
-
-                            ds.Tables[0].Columns.Add("Fcurtype_str", typeof(string));
-                            ds.Tables[0].Columns.Add("Fbalance_str", typeof(string));      //单位元
-                            ds.Tables[0].Columns.Add("Fquota_str", typeof(string));        //单位元
-                            ds.Tables[0].Columns.Add("Fquota_pay_str", typeof(string));    //单位元
-                            ds.Tables[0].Columns.Add("Fstate_str", typeof(string));       //账户状态
-                            ds.Tables[0].Columns.Add("Fuser_type_str", typeof(string));   //账户类型
-                            ds.Tables[0].Columns.Add("Fname_str", typeof(string));        //真实姓名
-                            ds.Tables[0].Columns.Add("Ffreeze_fee", typeof(string));      //冻结金额
-                            ds.Tables[0].Columns.Add("Fuseable_fee", typeof(string));     //可用余额
-                            ds.Tables[0].Columns.Add("Fpro_att", typeof(string));         //产品属性
-                            ds.Tables[0].Columns.Add("Ffetch_str", typeof(string));       //当日提现金额
-                            ds.Tables[0].Columns.Add("Fsave_str", typeof(string));        //当日已充值金额
-                            ds.Tables[0].Columns.Add("Fqqid_state", typeof(string));      //qq关联状态
-                            ds.Tables[0].Columns.Add("Femial_state", typeof(string));     //邮箱关联状态
-                            ds.Tables[0].Columns.Add("Fmobile_state", typeof(string));    //手机关联状态
-                            ds.Tables[0].Columns.Add("Fbpay_state_str", typeof(string));  //余额支付状态
-
-                            #region 转换字段
-                            foreach (DataRow dr in ds.Tables[0].Rows)
-                            {
-                                dr["Fcurtype_str"] = TransferMeaning.Transfer.convertMoney_type(PublicRes.objectToString(ds.Tables[0], "Fcurtype"));   //币种类型转换
-                                dr["Fbpay_state_str"] = TransferMeaning.Transfer.convertBPAY(PublicRes.objectToString(ds.Tables[0], "Fbpay_state"));       //余额支付状态
-                                dr["Fuser_type_str"] = TransferMeaning.Transfer.convertFuser_type(dr["Fuser_type"].ToString());
-                                dr["Femail"] = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Femail"));
-                                dr["Fmobile"] = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile"));
-                                MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fbalance", "Fbalance_str");
-                                MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fquota", "Fquota_str");
-                                MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fquota_pay", "Fquota_pay_str");
-                                MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Ffetch", "Ffetch_str");
-                                MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fsave", "Fsave_str");
-
-                                string state = PublicRes.objectToString(ds.Tables[0], "Fstate");
-
-                                if (isWechat)
-                                {
-                                    if (state == "1")
-                                    {
-                                        dr["Fstate_str"] = "正常";
-                                    }
-                                    else if (state == "2")
-                                    {
-                                        dr["Fstate_str"] = "冻结";
-                                    }
-                                    else
-                                    {
-                                        dr["Fstate_str"] = "";
-                                    }
-                                }
-                                else
-                                {
-                                    dr["Fstate_str"] = TransferMeaning.Transfer.accountState(dr["Fstate"].ToString());
-                                }
-
-                                string s_fz_amt = PublicRes.objectToString(ds.Tables[0], "Ffz_amt"); //分账冻结金额
-                                string s_balance = PublicRes.objectToString(ds.Tables[0], "Fbalance");
-                                string s_cron = PublicRes.objectToString(ds.Tables[0], "Fcon");
-                                long l_balance = 0, l_cron = 0, l_fzamt = 0;
-                                if (s_balance != "")
-                                {
-                                    l_balance = long.Parse(s_balance);
-                                }
-                                if (s_cron != "")
-                                {
-                                    l_cron = long.Parse(s_cron);
-                                }
-                                if (s_fz_amt != "")
-                                {
-                                    l_fzamt = long.Parse(s_fz_amt);
-                                }
-
-                                dr["Ffreeze_fee"] = MoneyTransfer.FenToYuan((l_fzamt + l_cron).ToString());    //冻结金额=分账冻结金额+冻结金额
-                                dr["Fuseable_fee"] = MoneyTransfer.FenToYuan((l_balance - l_cron).ToString());   //可用余额=帐户余额减去冻结余额
-
-                                int tempAtt = 0;
-                                if (dr["Att_id"].ToString() != "")
-                                {
-                                    tempAtt = int.Parse(dr["Att_id"].ToString());
-                                }
-                                if (tempAtt != 0)
-                                {
-                                    dr["Fpro_att"] = CheckBasicInfo(tempAtt);
-                                }
-                                else
-                                {
-                                    dr["Fpro_att"] = "";
-                                }
-
-                                string qq = dr["Fqqid"].ToString();
-                                string email = dr["Femail"].ToString();
-                                string mobile = dr["Fmobile"].ToString();
-                                string fuid = PublicRes.objectToString(ds.Tables[0], "fuid");
-
-                                if (qq != "")
-                                {
-                                    string uid1 = QQ2Uid(qq);
-                                    if (uid1 != null)
-                                    {
-                                        dr["Fqqid_state"] = "注册未关联";
-                                        if (uid1.Trim() == fuid)
-                                        {
-                                            //再判断是否是已激活
-                                            string uid2 = QQ2UidX(qq);
-                                            if (uid2 != null)
-                                                dr["Fqqid_state"] = "已关联";
-                                            else
-                                                dr["Fqqid_state"] = "已关联未激活";
-                                        }
-                                    }
-                                    else
-                                        dr["Fqqid_state"] = "未注册";
-
-                                }
-
-
-                                if (email != "")
-                                {
-                                    string uid1 = QQ2Uid(email);
-                                    if (uid1 != null)
-                                    {
-                                        dr["Femial_state"] = "注册未关联";
-                                        if (uid1.Trim() == fuid)
-                                        {
-                                            string uid2 = QQ2UidX(email);
-                                            if (uid2 != null)
-                                                dr["Femial_state"] = "已关联";
-                                            else
-                                                dr["Femial_state"] = "已关联未激活";
-                                        }
-                                    }
-                                    else
-                                        dr["Femial_state"] = "未注册";
-                                }
-
-
-                                if (mobile != "")
-                                {
-                                    string uid1 = QQ2Uid(mobile);
-                                    if (uid1 != null)
-                                    {
-                                        dr["Fmobile_state"] = "注册未关联";
-                                        if (uid1.Trim() == fuid)
-                                        {
-                                            string uid2 = QQ2UidX(mobile);
-                                            if (uid2 != null)
-                                                dr["Fmobile_state"] = "已关联";
-                                            else
-                                                dr["Fmobile_state"] = "已关联未激活";
-                                        }
-                                    }
-                                    else
-                                        dr["Fmobile_state"] = "未注册";
-                                }
-
-
-                                try
-                                {
-                                    string name = dr["UserRealName2"].ToString();
-                                    if (!string.IsNullOrEmpty(name))
-                                    {
-                                        dr["Fname_str"] = dr["UserRealName2"].ToString();
-                                    }
-                                }
-                                catch
-                                {
-                                    dr["Fname_str"] = dr["Ftruename"].ToString();
-                                }
-
-                            }
-
-                            #endregion
-                        }
-
                     }
                 }
 
-                return ds;
-            }
-            catch (Exception ex)
-            {
-                log4net.LogManager.GetLogger("查询个人账户信息出错: " + ex.Message);
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// 实名认证状态
-        /// </summary>
-        /// <param name="qqid"></param>
-        /// <param name="msg"></param>
-        /// <returns></returns>
-        public int GetUserClassInfo(string qqid, out string msg)
-        {
-            return new AccountData().GetUserClassInfo(qqid, out msg);
-        }
-
-        /// <summary>
-        /// 查询注销用户帐户表
-        /// </summary>
-        /// <param name="fuid"></param>
-        /// <param name="fcurtype"></param>
-        /// <param name="istr"></param>
-        /// <param name="imax"></param>
-        /// <returns></returns>
-        public DataSet GetUserAccountCancel(string qqid, int fcurtype, int istr, int imax)
-        {
-            try
-            {
-                DataSet ds = new DataSet();
-                ds = new AccountData().GetUserAccountCancel(qqid, fcurtype, istr, imax);
-
-                if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
+                //如果数据不为空且不是快速交易用户
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0 && !isFastPayUser)
                 {
-                    return null;
-                }
-                else
-                {
-
                     ds.Tables[0].Columns.Add("Fcurtype_str", typeof(string));
                     ds.Tables[0].Columns.Add("Fbalance_str", typeof(string));      //单位元
                     ds.Tables[0].Columns.Add("Fquota_str", typeof(string));        //单位元
@@ -1288,12 +536,10 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                     ds.Tables[0].Columns.Add("Fbpay_state_str", typeof(string));  //余额支付状态
 
                     #region 转换字段
-
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         dr["Fcurtype_str"] = TransferMeaning.Transfer.convertMoney_type(PublicRes.objectToString(ds.Tables[0], "Fcurtype"));   //币种类型转换
                         dr["Fbpay_state_str"] = TransferMeaning.Transfer.convertBPAY(PublicRes.objectToString(ds.Tables[0], "Fbpay_state"));       //余额支付状态
-                        dr["Fstate_str"] = TransferMeaning.Transfer.accountState(dr["Fstate"].ToString());
                         dr["Fuser_type_str"] = TransferMeaning.Transfer.convertFuser_type(dr["Fuser_type"].ToString());
                         dr["Femail"] = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Femail"));
                         dr["Fmobile"] = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile"));
@@ -1302,6 +548,28 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                         MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fquota_pay", "Fquota_pay_str");
                         MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Ffetch", "Ffetch_str");
                         MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fsave", "Fsave_str");
+
+                        string state = PublicRes.objectToString(ds.Tables[0], "Fstate");
+
+                        if (isWechat && !cancelSign)  //是微信账号,但不是已经注销的账号
+                        {
+                            if (state == "1")
+                            {
+                                dr["Fstate_str"] = "正常";
+                            }
+                            else if (state == "2")
+                            {
+                                dr["Fstate_str"] = "冻结";
+                            }
+                            else
+                            {
+                                dr["Fstate_str"] = "";
+                            }
+                        }
+                        else
+                        {
+                            dr["Fstate_str"] = TransferMeaning.Transfer.accountState(dr["Fstate"].ToString());
+                        }
 
                         string s_fz_amt = PublicRes.objectToString(ds.Tables[0], "Ffz_amt"); //分账冻结金额
                         string s_balance = PublicRes.objectToString(ds.Tables[0], "Fbalance");
@@ -1403,6 +671,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                                 dr["Fmobile_state"] = "未注册";
                         }
 
+
                         try
                         {
                             string name = dr["UserRealName2"].ToString();
@@ -1418,37 +687,36 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
 
                     }
 
-                    return ds;
-
                     #endregion
                 }
+
+                return ds;
             }
             catch (Exception ex)
             {
-                log4net.LogManager.GetLogger("查询注销用户帐户表: " + ex.Message);
+                log4net.LogManager.GetLogger("查询个人账户信息出错: " + ex.Message);
                 return null;
             }
         }
-
+     
+        public DataSet GetUserAccountFromWechat(string u_QQID, int istr, int imax)
+        {
+            return new AccountData().GetUserAccountFromWechat(u_QQID, istr, imax);
+        }
 
         /// <summary>
-        /// 查询删除实名认证日志
+        /// 查询注销用户帐户表
         /// </summary>
-        /// <param name="Fqqid"></param>
+        /// <param name="fuid"></param>
+        /// <param name="fcurtype"></param>
+        /// <param name="istr"></param>
+        /// <param name="imax"></param>
         /// <returns></returns>
-        public DataSet GetUserClassDeleteList(string Fqqid)
+        public DataSet GetUserAccountCancel(string qqid, int fcurtype, int istr, int imax)
         {
-            try
-            {
-                return UserClassClass.GetDeleteList(Fqqid);
-            }
-            catch (Exception ex)
-            {
-                log4net.LogManager.GetLogger("查询删除实名认证日志失败: " + ex.Message);
-                return null;
-            }
+            return new AccountData().GetUserAccountCancel(qqid, fcurtype, istr, imax);
         }
-
+      
         private string CheckBasicInfo(int nAttid)
         {
             //从数据字典中读取数据，绑定到web页
@@ -1467,65 +735,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             }
             return "";
         }
-
-        public string GetQQIDByUid(string qqid, int type)
-        {
-            if (string.IsNullOrEmpty(qqid))
-            {
-                throw new Exception("输入账号为空!");
-            }
-
-            try
-            {
-                string id = qqid;
-                if (type == 1)//C账号
-                {
-                    return id;
-                }
-                else if (type == 2)//内部账号
-                {
-                    id = Uid2QQ(qqid);
-                }
-                else
-                {
-                    throw new Exception("账号类型错误!");
-                }
-                return id;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// 删除认证信息
-        /// </summary>
-        /// <param name="qqid"></param>
-        /// <param name="username"></param>
-        /// <param name="msg"></param>
-        /// <returns></returns>
-        public bool DelAuthen(string qqid, string username, out string msg)
-        {
-            return new AccountData().DelAuthen(qqid, username, out msg);
-        }
-
-        /// <summary>
-        /// 查询用户商家工具按钮表
-        /// </summary>      
-        public DataSet GetUserButtonInfo(string u_QQID, int istr, int imax)
-        {
-            return new AccountData().GetUserButtonInfo(u_QQID, istr, imax);
-        }
-
-        /// <summary>
-        /// 查询用户交易流水表
-        /// </summary>
-        public DataSet GetUserPayList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
-        {
-            return new AccountData().GetUserPayList(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
-        }
-
+           
         #endregion
 
     }
@@ -1551,8 +761,8 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         public string Fcheck_time;
         public string Fcheck_user;
         public string Fcheck_state;
-        public string Frefuse_reason = "";
-        public string Fcomment = "";
+        public string Frefuse_reason;
+        public string Fcomment;
     }
     #endregion
 

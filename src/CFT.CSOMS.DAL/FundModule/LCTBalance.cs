@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using CFT.CSOMS.DAL.Infrastructure;
+using TENCENT.OSS.C2C.Finance.DataAccess;
+using CFT.Apollo.Logging;
+using CFT.CSOMS.DAL.CFTAccount;
 
 namespace CFT.CSOMS.DAL.FundModule
 {
-    using CFT.CSOMS.DAL.Infrastructure;
-
     public class LCTBalance
     {
 
@@ -25,5 +27,50 @@ namespace CFT.CSOMS.DAL.FundModule
                 return ds.Tables[0];
             }
         }
+
+        public DataTable QuerySubAccountInfo(string uin, int currencyType)
+        {
+            string fuid =AccountData.ConvertToFuid(uin);
+         
+            if (fuid == null)
+                fuid = "0";
+
+            ICEAccess ice = null;
+            if (currencyType != 1)
+            {
+                ice = ICEAccessFactory.GetICEAccess("ICEConnectionString3");
+            }
+            else
+            {
+                ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
+            }
+
+            try
+            {
+                ice.OpenConn();
+                string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                strwhere += ICEAccess.URLEncode("fcurtype=" + currencyType + "&");
+                string strResp = "";
+                LogHelper.LogInfo("QuerySubAccountInfo send strwhere : " + strwhere);
+
+                DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
+
+                if (dt == null || dt.Rows.Count == 0)
+                    return null;
+
+                ice.CloseConn();
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                ice.Dispose();
+            }
+        }
+
     }
 }
