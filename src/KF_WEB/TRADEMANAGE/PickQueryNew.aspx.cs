@@ -44,7 +44,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 				if(!IsPostBack)
 				{
-                    TextBoxBeginDate.Text = DateTime.Now.AddMonths(-1).ToString("yyyy年MM月dd日");
+                    TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy年MM月01日");
 					TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
 
 					classLibrary.setConfig.GetAllBankList(ddlBankType);
@@ -168,7 +168,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			try
 			{
 				Table2.Visible = true;
-				pager.RecordCount= GetCount(); 
+				pager.RecordCount= 10000; 
 				BindData(1);
 			}
 			catch(SoapException eSoap) //捕获soap类异常
@@ -180,30 +180,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			{
 				WebUtils.ShowMessage(this.Page,"读取数据失败！" + eSys.Message.ToString());
 			}
-		}
-
-		private int GetCount()
-		{
-			// 减少数据库访问，对不重要的数量查询采用直接返回1000的形式
-			return 1000;
-
-			string u_ID = ViewState["uid"].ToString();
-			DateTime begindate = (DateTime)ViewState["begindate"];
-			DateTime enddate = (DateTime)ViewState["enddate"];
-
-			float fnum = float.Parse(ViewState["fnum"].ToString());
-			int fstate = Int32.Parse(ViewState["fstate"].ToString());
-
-			//furion 加入银行
-			string banktype = ViewState["banktype"].ToString();
-
-            //yinhuang 2013/8/1
-            string cash_type = ddlCashType.SelectedValue;
-
-			//furion 加入银行帐号 0为帐号,1为银行帐号
-			int idtype = Int32.Parse(ViewState["idtype"].ToString());
-			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            return qs.GetPickListCount(u_ID, begindate, enddate, fstate, fnum, banktype, idtype, cash_type);
 		}
 
 		private void BindData(int index)

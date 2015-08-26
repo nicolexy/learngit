@@ -277,7 +277,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 LifeFeeDetailManage1.AddSubMenu("邮储汇款查询-新", "RemitCheck/RemitQueryNew.aspx");
                 LifeFeeDetailManage1.AddSubMenu("手机充值卡查询", "TradeManage/FundCardQuery_Detail.aspx");
                 LifeFeeDetailManage1.AddSubMenu("手机充值卡查询-新", "TradeManage/FundCardQuery_DetailNew.aspx");
-                LifeFeeDetailManage1.AddSubMenu("信用卡还款", "TradeManage/CreditQuery.aspx");
+                //LifeFeeDetailManage1.AddSubMenu("信用卡还款", "TradeManage/CreditQuery.aspx");
                 LifeFeeDetailManage1.AddSubMenu("信用卡还款-新", "TradeManage/CreditQueryNew.aspx");
                 LifeFeeDetailManage1.AddSubMenu("话费发货查询", "TradeManage/PhoneBillQuery.aspx");
                 LifeFeeDetailManage1.AddSubMenu("自动充值", "TradeManage/AutomaticRechargeQuery.aspx");
@@ -291,7 +291,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 RiskConManage1.AddSubMenu("手机绑定数清理", "BaseAccount/ClearMobileNumber.aspx");
                 SelfHelpAppealManage1.AddSubMenu("客服统计查询", "BaseAccount/KFTotalQuery.aspx");
 
-                tradeManage1.AddSubMenu("提现记录查询", "TradeManage/PickQuery.aspx");
+                //tradeManage1.AddSubMenu("提现记录查询", "TradeManage/PickQuery.aspx");
                 tradeManage1.AddSubMenu("提现记录查询(新)", "TradeManage/PickQueryNew.aspx");
                 tradeManage1.AddSubMenu("退款单查询", "TradeManage/B2CReturnQuery.aspx");
                 
