@@ -1290,26 +1290,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        [WebMethod(Description = "付款单ID到交易单ID")] //2015-8-11 改接口 v_yqyqguo
-		public string TdeToID(string tdeid)  //传入付款单ID
-		{
-			try
-			{
-				//先同时修改3张表彰的姓名 t_user_info,t_user,t_bank_user 分别为表1，2，3	
-				string tmp = PublicRes.ExecuteOne("select Flistid from c2c_db.t_tcpay_list where ftde_id='" + tdeid + "' and Fsubject<>4 " ,"ywb");  //执行并返回结果
-				if(tmp == null || tmp.ToString().Trim() == "")
-				{
-					tmp = PublicRes.ExecuteOne("select Flistid from c2c_db.t_refund_list where Frlistid = (select FListID from c2c_db.t_tcpay_list where ftde_id='" + tdeid + "' and Fsubject=4 )" ,"ywb");  //执行并返回结果
-					//return "0";
-				}
-				return tmp.ToString().Trim();
-			}
-			catch(Exception e)
-			{
-				throw new Exception(e.Message.ToString().Replace("'","’"));
-				return "0";
-			}
-		}
+        //[WebMethod(Description = "付款单ID到交易单ID")] //2015-8-11 改接口 v_yqyqguo
+        //public string TdeToID(string tdeid)  //传入付款单ID
+        //{
+        //    try
+        //    {
+        //        //先同时修改3张表彰的姓名 t_user_info,t_user,t_bank_user 分别为表1，2，3	
+        //        string tmp = PublicRes.ExecuteOne("select Flistid from c2c_db.t_tcpay_list where ftde_id='" + tdeid + "' and Fsubject<>4 " ,"ywb");  //执行并返回结果
+        //        if(tmp == null || tmp.ToString().Trim() == "")
+        //        {
+        //            tmp = PublicRes.ExecuteOne("select Flistid from c2c_db.t_refund_list where Frlistid = (select FListID from c2c_db.t_tcpay_list where ftde_id='" + tdeid + "' and Fsubject=4 )" ,"ywb");  //执行并返回结果
+        //            //return "0";
+        //        }
+        //        return tmp.ToString().Trim();
+        //    }
+        //    catch(Exception e)
+        //    {
+        //        throw new Exception(e.Message.ToString().Replace("'","’"));
+        //        return "0";
+        //    }
+        //}
 
 		/// <summary>
 		/// 根据传入的交易单数组，在帐务系统中取到审批交易单列表

@@ -270,20 +270,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="TdeToID">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="tdeid" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="TdeToIDResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="TdeToIDResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="dsReBatCheck">
         <s:complexType>
           <s:sequence>
@@ -351,26 +337,8 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="QueryDicAccName">
-        <s:complexType />
-      </s:element>
-      <s:element name="QueryDicAccNameResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="QueryDicAccNameResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="boolean" type="s:boolean" />
       <s:element name="ArrayOfString" nillable="true" type="tns:ArrayOfString" />
-      <s:element name="string" nillable="true" type="s:string" />
       <s:element name="DataSet" nillable="true">
         <s:complexType>
           <s:sequence>
@@ -510,12 +478,6 @@
   <wsdl:message name="UnFreezePerAccountWechat_NewFinance_Header">
     <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
   </wsdl:message>
-  <wsdl:message name="TdeToIDSoapIn">
-    <wsdl:part name="parameters" element="tns:TdeToID" />
-  </wsdl:message>
-  <wsdl:message name="TdeToIDSoapOut">
-    <wsdl:part name="parameters" element="tns:TdeToIDResponse" />
-  </wsdl:message>
   <wsdl:message name="dsReBatCheckSoapIn">
     <wsdl:part name="parameters" element="tns:dsReBatCheck" />
   </wsdl:message>
@@ -538,15 +500,6 @@
     <wsdl:part name="parameters" element="tns:logOnUserResponse" />
   </wsdl:message>
   <wsdl:message name="logOnUserFinance_Header">
-    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
-  </wsdl:message>
-  <wsdl:message name="QueryDicAccNameSoapIn">
-    <wsdl:part name="parameters" element="tns:QueryDicAccName" />
-  </wsdl:message>
-  <wsdl:message name="QueryDicAccNameSoapOut">
-    <wsdl:part name="parameters" element="tns:QueryDicAccNameResponse" />
-  </wsdl:message>
-  <wsdl:message name="QueryDicAccNameFinance_Header">
     <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
   </wsdl:message>
   <wsdl:message name="modifyNameHttpGetIn">
@@ -605,21 +558,11 @@
   <wsdl:message name="UnFreezePerAccountWechat_NewHttpGetOut">
     <wsdl:part name="Body" element="tns:boolean" />
   </wsdl:message>
-  <wsdl:message name="TdeToIDHttpGetIn">
-    <wsdl:part name="tdeid" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="TdeToIDHttpGetOut">
-    <wsdl:part name="Body" element="tns:string" />
-  </wsdl:message>
   <wsdl:message name="dsReBatCheckHttpGetIn">
     <wsdl:part name="ar" type="s1:StringArray" />
     <wsdl:part name="time" type="s:string" />
   </wsdl:message>
   <wsdl:message name="dsReBatCheckHttpGetOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
-  <wsdl:message name="QueryDicAccNameHttpGetIn" />
-  <wsdl:message name="QueryDicAccNameHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="modifyNameHttpPostIn">
@@ -678,21 +621,11 @@
   <wsdl:message name="UnFreezePerAccountWechat_NewHttpPostOut">
     <wsdl:part name="Body" element="tns:boolean" />
   </wsdl:message>
-  <wsdl:message name="TdeToIDHttpPostIn">
-    <wsdl:part name="tdeid" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="TdeToIDHttpPostOut">
-    <wsdl:part name="Body" element="tns:string" />
-  </wsdl:message>
   <wsdl:message name="dsReBatCheckHttpPostIn">
     <wsdl:part name="ar" type="s1:StringArray" />
     <wsdl:part name="time" type="s:string" />
   </wsdl:message>
   <wsdl:message name="dsReBatCheckHttpPostOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
-  <wsdl:message name="QueryDicAccNameHttpPostIn" />
-  <wsdl:message name="QueryDicAccNameHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:portType name="Finance_ManageSoap">
@@ -771,11 +704,6 @@
       <wsdl:input message="tns:UnFreezePerAccountWechat_NewSoapIn" />
       <wsdl:output message="tns:UnFreezePerAccountWechat_NewSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="TdeToID">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">付款单ID到交易单ID</wsdl:documentation>
-      <wsdl:input message="tns:TdeToIDSoapIn" />
-      <wsdl:output message="tns:TdeToIDSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="dsReBatCheck">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据交易单号获取到审批明细单</wsdl:documentation>
       <wsdl:input message="tns:dsReBatCheckSoapIn" />
@@ -790,11 +718,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">销户功能</wsdl:documentation>
       <wsdl:input message="tns:logOnUserSoapIn" />
       <wsdl:output message="tns:logOnUserSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="QueryDicAccName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">杂类参数登记表</wsdl:documentation>
-      <wsdl:input message="tns:QueryDicAccNameSoapIn" />
-      <wsdl:output message="tns:QueryDicAccNameSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:portType name="Finance_ManageHttpGet">
@@ -838,20 +761,10 @@
       <wsdl:input message="tns:UnFreezePerAccountWechat_NewHttpGetIn" />
       <wsdl:output message="tns:UnFreezePerAccountWechat_NewHttpGetOut" />
     </wsdl:operation>
-    <wsdl:operation name="TdeToID">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">付款单ID到交易单ID</wsdl:documentation>
-      <wsdl:input message="tns:TdeToIDHttpGetIn" />
-      <wsdl:output message="tns:TdeToIDHttpGetOut" />
-    </wsdl:operation>
     <wsdl:operation name="dsReBatCheck">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据交易单号获取到审批明细单</wsdl:documentation>
       <wsdl:input message="tns:dsReBatCheckHttpGetIn" />
       <wsdl:output message="tns:dsReBatCheckHttpGetOut" />
-    </wsdl:operation>
-    <wsdl:operation name="QueryDicAccName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">杂类参数登记表</wsdl:documentation>
-      <wsdl:input message="tns:QueryDicAccNameHttpGetIn" />
-      <wsdl:output message="tns:QueryDicAccNameHttpGetOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:portType name="Finance_ManageHttpPost">
@@ -895,20 +808,10 @@
       <wsdl:input message="tns:UnFreezePerAccountWechat_NewHttpPostIn" />
       <wsdl:output message="tns:UnFreezePerAccountWechat_NewHttpPostOut" />
     </wsdl:operation>
-    <wsdl:operation name="TdeToID">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">付款单ID到交易单ID</wsdl:documentation>
-      <wsdl:input message="tns:TdeToIDHttpPostIn" />
-      <wsdl:output message="tns:TdeToIDHttpPostOut" />
-    </wsdl:operation>
     <wsdl:operation name="dsReBatCheck">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据交易单号获取到审批明细单</wsdl:documentation>
       <wsdl:input message="tns:dsReBatCheckHttpPostIn" />
       <wsdl:output message="tns:dsReBatCheckHttpPostOut" />
-    </wsdl:operation>
-    <wsdl:operation name="QueryDicAccName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">杂类参数登记表</wsdl:documentation>
-      <wsdl:input message="tns:QueryDicAccNameHttpPostIn" />
-      <wsdl:output message="tns:QueryDicAccNameHttpPostOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="Finance_ManageSoap" type="tns:Finance_ManageSoap">
@@ -1057,15 +960,6 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="TdeToID">
-      <soap:operation soapAction="http://tempuri.org/TdeToID" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="dsReBatCheck">
       <soap:operation soapAction="http://tempuri.org/dsReBatCheck" style="document" />
       <wsdl:input>
@@ -1090,16 +984,6 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:logOnUserFinance_Header" part="Finance_Header" use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="QueryDicAccName">
-      <soap:operation soapAction="http://tempuri.org/QueryDicAccName" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-        <soap:header message="tns:QueryDicAccNameFinance_Header" part="Finance_Header" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -1252,15 +1136,6 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="TdeToID">
-      <soap12:operation soapAction="http://tempuri.org/TdeToID" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="dsReBatCheck">
       <soap12:operation soapAction="http://tempuri.org/dsReBatCheck" style="document" />
       <wsdl:input>
@@ -1285,16 +1160,6 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:logOnUserFinance_Header" part="Finance_Header" use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="QueryDicAccName">
-      <soap12:operation soapAction="http://tempuri.org/QueryDicAccName" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-        <soap12:header message="tns:QueryDicAccNameFinance_Header" part="Finance_Header" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -1375,26 +1240,8 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="TdeToID">
-      <http:operation location="/TdeToID" />
-      <wsdl:input>
-        <http:urlEncoded />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="dsReBatCheck">
       <http:operation location="/dsReBatCheck" />
-      <wsdl:input>
-        <http:urlEncoded />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="QueryDicAccName">
-      <http:operation location="/QueryDicAccName" />
       <wsdl:input>
         <http:urlEncoded />
       </wsdl:input>
@@ -1477,26 +1324,8 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="TdeToID">
-      <http:operation location="/TdeToID" />
-      <wsdl:input>
-        <mime:content type="application/x-www-form-urlencoded" />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="dsReBatCheck">
       <http:operation location="/dsReBatCheck" />
-      <wsdl:input>
-        <mime:content type="application/x-www-form-urlencoded" />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="QueryDicAccName">
-      <http:operation location="/QueryDicAccName" />
       <wsdl:input>
         <mime:content type="application/x-www-form-urlencoded" />
       </wsdl:input>

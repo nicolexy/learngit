@@ -2204,13 +2204,6 @@
     <Compile Include="TradeManage\ComplainUserInput.aspx.designer.cs">
       <DependentUpon>ComplainUserInput.aspx</DependentUpon>
     </Compile>
-    <Compile Include="TradeManage\CreditQuery.aspx.cs">
-      <DependentUpon>CreditQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TradeManage\CreditQuery.aspx.designer.cs">
-      <DependentUpon>CreditQuery.aspx</DependentUpon>
-    </Compile>
     <Compile Include="TradeManage\CrtQuery.aspx.cs">
       <DependentUpon>CrtQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2385,13 +2378,6 @@
     </Compile>
     <Compile Include="TradeManage\PhoneBillQuery.aspx.designer.cs">
       <DependentUpon>PhoneBillQuery.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="TradeManage\PickQuery.aspx.cs">
-      <DependentUpon>PickQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TradeManage\PickQuery.aspx.designer.cs">
-      <DependentUpon>PickQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\PickQuery_Detail.aspx.cs">
       <DependentUpon>PickQuery_Detail.aspx</DependentUpon>
@@ -3405,9 +3391,6 @@
     <Content Include="TradeManage\ComplainBussinessInput.aspx" />
     <Content Include="TradeManage\ComplainUserDetail.aspx" />
     <Content Include="TradeManage\ComplainUserInput.aspx" />
-    <Content Include="TradeManage\CreditQuery.aspx">
-      <SubType>Form</SubType>
-    </Content>
     <Content Include="TradeManage\CrtQuery.aspx" />
     <Content Include="TradeManage\FeeQuery.aspx" />
     <Content Include="TradeManage\FreezeReason.aspx" />
@@ -3451,7 +3434,6 @@
     <Content Include="TradeManage\PNROperateQuery.aspx" />
     <Content Include="TradeManage\PNROrderQuery.aspx" />
     <Content Include="TradeManage\PhoneBillQuery.aspx" />
-    <Content Include="TradeManage\PickQuery.aspx" />
     <Content Include="TradeManage\PickQuery_Detail.aspx" />
     <Content Include="TradeManage\AutomaticRechargeQuery.aspx" />
     <Content Include="Activity\LctActivityAdd.aspx" />
@@ -4579,9 +4561,6 @@
     <EmbeddedResource Include="TradeManage\ComplainUserInput.aspx.resx">
       <DependentUpon>ComplainUserInput.aspx.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TradeManage\CreditQuery.aspx.resx">
-      <DependentUpon>CreditQuery.aspx.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\CrtQuery.aspx.resx">
       <DependentUpon>CrtQuery.aspx.cs</DependentUpon>
     </EmbeddedResource>
@@ -4635,9 +4614,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\PhoneBillQuery.aspx.resx">
       <DependentUpon>PhoneBillQuery.aspx.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TradeManage\PickQuery.aspx.resx">
-      <DependentUpon>PickQuery.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\PickQuery_Detail.aspx.resx">
       <DependentUpon>PickQuery_Detail.aspx.cs</DependentUpon>
@@ -4971,7 +4947,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>49487</DevelopmentServerPort>
+          <DevelopmentServerPort>53241</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:6903/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
