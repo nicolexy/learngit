@@ -3072,7 +3072,13 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                 if (irowcount > 0)
                 {
-                    for (int i = 1; i <= irowcount; i++)
+                    int start_idx = 1;
+                    if (!ht.ContainsKey("row" + irowcount))
+                    {
+                        start_idx = 0;
+                        irowcount--;
+                    }
+                    for (int i = start_idx; i <= irowcount; i++)
                     {
                         string onerow = ht["row" + i].ToString().Trim();
                         onerow = URLDecode(onerow);
@@ -3092,7 +3098,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                             if (fieldsplit.Length != 2)
                                 continue;
 
-                            if (i == 1)
+                            if (i == start_idx)
                             {
                                 dt.Columns.Add(fieldsplit[0]);
                             }
