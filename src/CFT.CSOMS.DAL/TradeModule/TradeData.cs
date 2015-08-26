@@ -111,17 +111,6 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
         }
 
-        public int RemoveControledFinLogInsert(string qqid, string FbalanceStr, string FtypeText, string cur_type, DateTime ApplyTime, string ApplyUser)
-        {
-            using (var da = CommLib.DbConnectionString.Instance.GetConnection("DataSource_ht"))
-            {
-                da.OpenConn();
-
-                string Sql = "insert into  c2c_fmdb.t_log_ConFinRemove (Fuin ,FbalanceStr,FtypeText,FcurType ,FmodifyTime ,FupdateUser) " +
-                        "values('" + qqid + "','" + FbalanceStr + "','" + FtypeText + "','" + cur_type + "','" + ApplyTime.ToString() + "','" + ApplyUser + "')";
-               return da.ExecSqlNum(Sql);
-            }
-        }
         /// <summary>
         /// 微信买家纬度用户订单查询
         /// </summary>
@@ -197,19 +186,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             return ds;
         }
-
-        public DataSet RemoveControledFinLogQuery(string qqid)
-        {
-            using (var da = CommLib.DbConnectionString.Instance.GetConnection("DataSource_ht"))
-            {
-                da.OpenConn();
-
-                string Sql = "Select * from  c2c_fmdb.t_log_ConFinRemove where Fuin='" + qqid + "' Order by FmodifyTime DESC";
-                DataSet ds = da.dsGetTotalData(Sql);
-                return ds;
-            }
-        }
-
+   
         /// <summary>
         /// 判断是否存在未完成交易(用户销户判断)
         /// </summary>

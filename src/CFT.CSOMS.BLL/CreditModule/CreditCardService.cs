@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CFT.CSOMS.BLL.CreditModule
 {
-    public class CreditService
+    public class CreditCardService
     {
         /// <summary>
         /// 查询信用卡还款记录数

@@ -54,8 +54,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 		{
             try
             {
-                DataSet ds = acc.QueryNameAbnormalInfo(ViewState["uin"].ToString(), 99, ViewState["cre_id_old"].ToString(), 0, 1);//check_state=0 未处理状态
-
+                //DataSet ds = acc.QueryNameAbnormalInfo(ViewState["uin"].ToString(), 99, ViewState["cre_id_old"].ToString(), 0, 1);//check_state=0 未处理状态
+                DataSet ds = new AuthenInfoService().QueryNameAbnormalInfo(ViewState["uin"].ToString(), 99, ViewState["cre_id_old"].ToString(), 0, 1);//check_state=0 未处理状态
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                 {
                     this.ShowMsg("查询记录为空!");
@@ -137,7 +137,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 nameAbnormal.Frefuse_reason = this.ddlRefuseReason.SelectedValue;
                 nameAbnormal.Fcomment = dt.Rows[0]["Fcomment"].ToString();
 
-                if (acc.UpdateRealNameInfo(nameAbnormal))
+                if (new AuthenInfoService().UpdateRealNameInfo(nameAbnormal))
                     WebUtils.ShowMessage(this.Page, "通过成功！");
                 else
                     WebUtils.ShowMessage(this.Page, "通过失败！");
@@ -157,7 +157,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             try
             {
-                if (acc.UpdateNameAbnormalInfo(ViewState["uin"].ToString(), this.ddlRefuseReason.SelectedValue, this.tb_comment.Text, Session["uid"].ToString(), "2"))
+                if (new AuthenInfoService().UpdateNameAbnormalInfo(ViewState["uin"].ToString(), this.ddlRefuseReason.SelectedValue, this.tb_comment.Text, Session["uid"].ToString(), "2"))
                     WebUtils.ShowMessage(this.Page, "拒绝成功！");
                 else
                     WebUtils.ShowMessage(this.Page, "拒绝失败！");

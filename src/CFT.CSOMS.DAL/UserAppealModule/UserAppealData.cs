@@ -15,6 +15,7 @@ using CFT.CSOMS.COMMLIB;
 using System.Web;
 using CFT.Apollo.Logging;
 using CFT.CSOMS.DAL.FreezeModule;
+using CFT.CSOMS.DAL.FundModule;
 
 namespace CFT.CSOMS.DAL.UserAppealModule
 {
@@ -303,7 +304,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                     throw new LogicException("找不到此用户");
                 }
 
-                DataTable dt = new AccountData().QuerySubAccountInfo(qqid, 1);
+                DataTable dt = new LCTBalance().QuerySubAccountInfo(qqid, 1);
                 string Fbalance = dt.Rows[0]["Fbalance"].ToString();
                 string Fcon = dt.Rows[0]["Fcon"].ToString();
                 string Ftruename = dt.Rows[0]["Ftruename"].ToString();

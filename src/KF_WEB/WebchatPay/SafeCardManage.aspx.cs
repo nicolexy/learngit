@@ -239,7 +239,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             decimal markValue = 0;
             try//理财通余额查询
             {
-                DataTable subAccountInfoTable = new AccountService().QuerySubAccountInfo(qqId, 89);//理财通余额，币种89
+                DataTable subAccountInfoTable = new LCTBalanceService().QuerySubAccountInfo(qqId, 89);//理财通余额，币种89
 
                 if (subAccountInfoTable == null || subAccountInfoTable.Rows.Count < 1)
                 {

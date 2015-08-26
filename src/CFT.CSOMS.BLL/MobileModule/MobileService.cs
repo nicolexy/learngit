@@ -1,9 +1,13 @@
-﻿using CFT.CSOMS.DAL.MobileModule;
+﻿using CFT.CSOMS.DAL.CFTAccount;
+using CFT.CSOMS.DAL.Infrastructure;
+using CFT.CSOMS.DAL.MobileModule;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using TENCENT.OSS.C2C.Finance.BankLib;
 
 namespace CFT.CSOMS.BLL.MobileModule
 {
@@ -119,6 +123,52 @@ namespace CFT.CSOMS.BLL.MobileModule
             }
 
             return ds;
+        }
+
+        #endregion
+
+        #region 手机号码清理
+
+        /// <summary>
+        /// 查询手机绑定次数
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, string> QueryMobileBoundNumber(string mobile)
+        {
+            return new MobileData().QueryMobileBoundNumber(mobile);
+        }
+
+        /// <summary>
+        /// 查询手机绑定清理日记
+        /// </summary>
+        /// <param name="mobile">手机号码</param>
+        /// <returns></returns>
+        public DataSet QueryClearMobileNumberLog(string mobile)
+        {
+            ArrayList keyNameList = new ArrayList()
+            {
+                  "Fsubmit_user",   //当前操作用户
+                 // "FUser_type",     //用户属性
+                  "FCreate_time",   //操作时间
+                  "FMobile",        //手机号码
+                  "MobileBindCount_Old",    //清理前绑定次数
+              };
+            return PublicRes.QueryKFLog("ClearMobileNumberLog", "Mobile", mobile, keyNameList);
+        }
+
+        /// <summary>
+        /// 手机绑定清零
+        /// </summary>
+        /// <param name="mobile">手机号码</param>
+        /// <returns></returns>
+        public bool ClearMobileBoundNumber(string mobile, string keyName, string keyValue, string operat_user, string obj_id, Param[] param)
+        {
+            var bol = new MobileData().ClearMobileBoundNumber(mobile);
+            if (bol)
+            {
+                PublicRes.WirteKFLog(obj_id, "ClearMobileNumberLog", keyName, keyValue, operat_user, param);//写日志
+            }
+            return bol;
         }
 
         #endregion

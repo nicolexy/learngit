@@ -167,7 +167,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
             try//理财通余额查询
             {
-                DataTable subAccountInfoTable = new AccountService().QuerySubAccountInfo(ViewState["uin"].ToString(), 89);//理财通余额，币种89
+                DataTable subAccountInfoTable = new LCTBalanceService().QuerySubAccountInfo(ViewState["uin"].ToString(), 89);//理财通余额，币种89
 
                 if (subAccountInfoTable == null || subAccountInfoTable.Rows.Count < 1)
                 {

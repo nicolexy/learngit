@@ -80,13 +80,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				}
 
                 string qqid = TextBox1_InputQQ.Text;
-                int type = 1;   //账号类型:1,C账号;2,内部账号
+                Session["QQID"] = qqid;
+                //账号类型:1,C账号;2,内部账号
                 if (this.InternalID.Checked)
-                {
-                    type = 2;
+                {                   
+                    Session["QQID"] = new AccountService().Uid2QQ(qqid);
                 }
-
-                Session["QQID"] = new AccountService().GetQQIDByUid(qqid, type);
+           
                 GetUserInfo();
 				//BindData(1,1);           //绑定数据
 
@@ -106,10 +106,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 return;
             }
             string qqid = TextBox1_InputQQ.Text;
-            int type = 1;   //账号类型:1,C账号;2,内部账号
+            string type = "Uin";   //账号类型:Uin,C账号;Uid,内部账号
             if (this.InternalID.Checked)
             {
-                type = 2;
+                type = "Uid";
             }
             try
             {

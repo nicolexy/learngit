@@ -1,4 +1,5 @@
 ﻿using CFT.CSOMS.BLL.CFTAccountModule;
+using CFT.CSOMS.BLL.CreditModule;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     WebUtils.ShowMessage(this.Page, "请输入查询的QQ号");
                     return;
                 }
-                var ds = bll.TencentCreditQuery(uin.Trim(), uid);
+                var ds = new TencentCreditService().TencentCreditQuery(uin.Trim(), uid);
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                 {
                     WebUtils.ShowMessage(this.Page, "没有找到数据");

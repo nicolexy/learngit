@@ -39,7 +39,7 @@ namespace CFT.CSOMS.BLL.FundModule
                 return false;
             }
         }
-
+      
         public DataTable GetFundTradeLog(string qqid,int istr, int imax)
         {
             if (string.IsNullOrEmpty(qqid))
@@ -207,7 +207,7 @@ namespace CFT.CSOMS.BLL.FundModule
                 }
 
                 //balance
-                subAccountInfoTable = cftAccountBLLService.QuerySubAccountInfo(uin, int.Parse(item["Fcurtype"].ToString()));
+                subAccountInfoTable = new LCTBalanceService().QuerySubAccountInfo(uin, int.Parse(item["Fcurtype"].ToString()));
                 if (subAccountInfoTable == null || subAccountInfoTable.Rows.Count < 1)
                 {
                     item["balance"] = "0";
