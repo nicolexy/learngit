@@ -23,7 +23,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
     /// </summary>
     public partial class MobileBindingQuery : System.Web.UI.Page
     {
-
         protected void Page_Load(object sender, System.EventArgs e)
         {
             try
@@ -38,42 +37,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
         }
 
-        protected void btnQuery_Click(object sender, System.EventArgs e)
-        {
-            try
-            {
-               // //ViewState["QQ"] = this.txbQQ.Text.Trim();
-                BindData(1);
-            }
-            catch (Exception ex)
-            {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + classLibrary.setConfig.replaceMStr(ex.Message));
-            }
-        }
-
         private void BindData(int index)
         {
-            DataSet ds = new MobileService().GetMsgNotify(txbQQ.Text.Trim());
-
+            DataSet ds = new MobileService().GetMsgNotify(ViewState["QQ"].ToString());
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    string Fstatus = Convert.ToString(Convert.ToInt32(dr["Fstatus"]), 2);
-                    if (Fstatus.Substring(30, 1).ToString() == "0" && Fstatus.Substring(25, 1).ToString() == "0" && Fstatus.Substring(24, 1).ToString() == "0")
-                    {
-                        dr["Unbind"] = "";
-                    }
-                    else
-                    {
-                        if (ClassLib.ValidateRight("DeleteCrt", this))
-                            dr["Unbind"] = "解绑";
-                        else
-                            dr["Unbind"] = "";
-                    }
-                }
-
-                DataGrid1.DataSource = ds;
+                DataGrid1.DataSource = ds.Tables[0].DefaultView;
                 DataGrid1.DataBind();
             }
             else
@@ -82,23 +51,40 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
         }
 
-        protected void btnUpdateBindInfo_Click(object sender, System.EventArgs e)
+        protected void btnQuery_Click(object sender, System.EventArgs e)
         {
             try
             {
-                if (new MobileService().UpDateBindInfo(this.txbQQ.Text.Trim()))
-                {
-                    WebUtils.ShowMessage(this.Page, "更新成功!");
-                }
-                else
-                {
-                    WebUtils.ShowMessage(this.Page, "更新失败!");
-                }
-            }
-            catch (Exception ex)
+                ViewState["QQ"] = this.txbQQ.Text.Trim();
+                BindData(1);
+            }          
+            catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this, "更新失败" + ex.Message);
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + classLibrary.setConfig.replaceMStr(eSys.Message));
             }
+        }
+
+        public void btnPhoneNumberQuery(object sender, System.EventArgs e)
+        {
+            try
+            {
+                BindPhoneData();
+            }          
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + classLibrary.setConfig.replaceMStr(eSys.Message));
+            }
+        }
+
+        void BindPhoneData()
+        {
+            var qqid = new MobileService().GetMsgNotifyByPhoneNumber(this.txtPhoneNumber.Text.Trim());
+            if (string.IsNullOrEmpty(qqid))
+            {
+                WebUtils.ShowMessage(this.Page, "没有找到记录");
+            }
+            ViewState["QQ"] = qqid;
+            BindData(1);
         }
 
         public void DataGrid1_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
@@ -108,7 +94,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 try
                 {
                     string Msg = "";
-                    if (new MobileService().UnbindMsgNotify(e.Item.Cells[0].Text.Trim(), out Msg))
+                    bool sussess = new MobileService().UnbindMsgNotify(e.Item.Cells[0].Text.Trim(), out Msg);
+                    if (sussess && Msg == "")
                     {
                         BindData(1);
                         WebUtils.ShowMessage(this.Page, "解绑成功");
@@ -125,5 +112,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
         }
 
+        protected void btnUpdateBindInfo_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                if (!new MobileService().UpDateBindInfo(this.txbQQ.Text.Trim()))
+                {
+                    WebUtils.ShowMessage(this, "更新失败");
+                    return;
+                }
+
+                WebUtils.ShowMessage(this, "更新成功");
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this, "更新失败" + ex.Message);
+            }
+        }
     }
 }

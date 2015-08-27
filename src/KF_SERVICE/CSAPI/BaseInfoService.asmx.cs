@@ -1099,7 +1099,8 @@ namespace CFT.CSOMS.Service.CSAPI
                 APIUtil.ValidateToken(paramsHt);
 
                 string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
-                string type = paramsHt.ContainsKey("type") ? paramsHt["type"].ToString() : "";  //1,C账号;2,内部账号
+                //"Uin"-C账号,"Uid"-内部账号,"WeChatId"-微信帐号,"WeChatQQ"-微信绑定QQ,"WeChatMobile"-微信绑定手机,"WeChatEmail"-微信绑定邮箱,"WeChatUid"-微信内部ID,"WeChatCft"-微信财付通帐号
+                string type = paramsHt.ContainsKey("type") ? paramsHt["type"].ToString() : "";  
 
                 var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetPersonalInfo(qqid, type);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
@@ -1137,7 +1138,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().QueryVipInfo(qqid);
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.VIPService().QueryVipInfo(qqid);
                 if (infos == null || infos.Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
@@ -1917,6 +1918,8 @@ namespace CFT.CSOMS.Service.CSAPI
 
         #endregion
 
+        #region 微信实名认证
+
         /// <summary>
         /// 微信实名认证查询
         /// </summary>
@@ -1959,5 +1962,6 @@ namespace CFT.CSOMS.Service.CSAPI
             }
         }
 
+        #endregion
     }
 }

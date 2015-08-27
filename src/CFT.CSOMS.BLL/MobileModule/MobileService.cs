@@ -26,6 +26,11 @@ namespace CFT.CSOMS.BLL.MobileModule
             return new MobileData().UnbindMsgNotify(Fuid, out Msg);
         }
 
+        public string GetMsgNotifyByPhoneNumber(string phoneNumber)
+        {
+            return new MobileData().GetMsgNotifyByPhoneNumber(phoneNumber);
+        }
+
         /// <summary>
         /// 修改绑定信息
         /// </summary>

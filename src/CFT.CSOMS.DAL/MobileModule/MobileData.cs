@@ -54,6 +54,44 @@ namespace CFT.CSOMS.DAL.MobileModule
         }
 
         /// <summary>
+        /// 根据手机号查询手机绑定信息
+        /// </summary>
+        /// <param name="phoneNumber"></param>
+        /// <returns></returns>
+        public string GetMsgNotifyByPhoneNumber(string phoneNumber)
+        {
+            MySqlAccess da = null;
+            try
+            {
+                if (string.IsNullOrEmpty(phoneNumber))
+                {
+                    return null;
+                }
+                da = new MySqlAccess(PublicRes.GetConnString("MobileBind"));
+                da.OpenConn();
+                string sql = " select fuid from msgnotify.t_msgnotify_user where Fmobile = '" + phoneNumber + "'";
+                var ds = da.dsGetTotalData(sql);
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    return ds.Tables[0].Rows[0]["Fqqid"].ToString();
+                }
+                return string.Empty;
+            }
+            catch
+            {
+                return string.Empty;
+
+            }
+            finally
+            {
+                if (da != null)
+                {
+                    da.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
         /// 解除手机绑定信息
         /// </summary>
         /// <param name="Fuid"></param>

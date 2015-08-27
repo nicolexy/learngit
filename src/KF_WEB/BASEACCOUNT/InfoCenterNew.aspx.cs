@@ -284,7 +284,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             //VIP信息
             try
             {
-                DataTable dt = new AccountService().QueryVipInfo(Session["QQID"].ToString().Trim());
+                DataTable dt = new VIPService().QueryVipInfo(Session["QQID"].ToString().Trim());
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     this.vip_value.Text = dt.Rows[0]["value"].ToString();

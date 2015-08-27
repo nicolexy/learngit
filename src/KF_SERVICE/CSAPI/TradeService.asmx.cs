@@ -342,7 +342,7 @@ namespace CSAPI
                 int type = APIUtil.StringToInt(paramsHt["type"].ToString());
                 DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
                 DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
-                //将查询时间跨度设置在一个月之内,只能查询当月.
+                //将查询时间跨度设置在一个月之内,月初查询到月底
                 int month = end_time.Month - begin_time.Month;
                 if (month != 0)
                 {
@@ -682,7 +682,7 @@ namespace CSAPI
                 if (limit < 0 || limit > 100)
                     limit = 100;
 
-                var infos = new CFT.CSOMS.BLL.CreditModule.CreditCardService().GetCreditQueryListForFaid(uin, begin_time, end_time, offset, limit);
+                var infos = new CFT.CSOMS.BLL.TradeModule.PickService().GetCreditQueryListForFaid(uin, begin_time, end_time, offset, limit);
 
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
@@ -726,7 +726,7 @@ namespace CSAPI
                 if (limit < 0 || limit > 100)
                     limit = 100;
 
-                var infos = new CFT.CSOMS.BLL.CreditModule.CreditCardService().GetCreditQueryList(listid, offset, limit);
+                var infos = new CFT.CSOMS.BLL.TradeModule.PickService().GetCreditQueryList(listid, offset, limit);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);

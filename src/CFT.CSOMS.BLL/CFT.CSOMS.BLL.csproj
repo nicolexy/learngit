@@ -62,8 +62,8 @@
     <Compile Include="CFTAccountModule\AccountService.cs" />
     <Compile Include="CFTAccountModule\AuthenInfoService.cs" />
     <Compile Include="CFTAccountModule\CertificateService.cs" />
+    <Compile Include="CFTAccountModule\VIPService.cs" />
     <Compile Include="CheckModoule\CheckService.cs" />
-    <Compile Include="CreditModule\CreditCardService.cs" />
     <Compile Include="CreditModule\TencentCreditService.cs" />
     <Compile Include="CRTModule\CRTService.cs" />
     <Compile Include="ForeignCurrencyModule\FCUserTradeQuery.cs" />
