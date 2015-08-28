@@ -2853,54 +2853,54 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
         */
 
-        [WebMethod(Description = "查询交易信息")]
-        [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        public DataSet GetPayList_Pick(string u_ID)
-        {
-            RightAndLog rl = new RightAndLog();
-            try
-            {
-                if (myHeader == null)
-                {
-                    throw new Exception("不正确的调用方法！");
-                }
+        //[WebMethod(Description = "查询交易信息")]
+        //[SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
+        //public DataSet GetPayList_Pick(string u_ID)
+        //{
+        //    RightAndLog rl = new RightAndLog();
+        //    try
+        //    {
+        //        if (myHeader == null)
+        //        {
+        //            throw new Exception("不正确的调用方法！");
+        //        }
 
-                rl.actionType = "查询交易信息";
-                rl.ID = u_ID;
-                //rl.OperID = myHeader.OperID;
-                rl.sign = 1;
-                rl.strRightCode = "GetPayList";
-                //rl.RightString = myHeader.RightString;
-                //rl.SzKey = myHeader.SzKey;
-                rl.type = "查询";
-                //rl.UserID = myHeader.UserName;
-                //rl.UserIP = myHeader.UserIP;
-                PublicRes.SetRightAndLog(myHeader, rl);
-                if (!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
+        //        rl.actionType = "查询交易信息";
+        //        rl.ID = u_ID;
+        //        //rl.OperID = myHeader.OperID;
+        //        rl.sign = 1;
+        //        rl.strRightCode = "GetPayList";
+        //        //rl.RightString = myHeader.RightString;
+        //        //rl.SzKey = myHeader.SzKey;
+        //        rl.type = "查询";
+        //        //rl.UserID = myHeader.UserName;
+        //        //rl.UserIP = myHeader.UserIP;
+        //        PublicRes.SetRightAndLog(myHeader, rl);
+        //        if (!rl.CheckRight())
+        //        {
+        //            throw new LogicException("用户无权执行此操作！");
+        //        }
 
-                //furion 20090611 提现记录表还放在可查询的地方。
-                PickQueryClass cuser = new PickQueryClass(u_ID);
-                return cuser.GetResultX();
-            }
-            catch (LogicException err)
-            {
-                rl.sign = 0;
-                throw;
-            }
-            catch (Exception err)
-            {
-                rl.sign = 0;
-                throw new LogicException("Service处理失败！");
-            }
-            finally
-            {
-                rl.WriteLog();
-            }
+        //        //furion 20090611 提现记录表还放在可查询的地方。
+        //        PickQueryClass cuser = new PickQueryClass(u_ID);
+        //        return cuser.GetResultX();
+        //    }
+        //    catch (LogicException err)
+        //    {
+        //        rl.sign = 0;
+        //        throw;
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        rl.sign = 0;
+        //        throw new LogicException("Service处理失败！");
+        //    }
+        //    finally
+        //    {
+        //        rl.WriteLog();
+        //    }
 
-        }
+        //}
         //furion end
 
         [WebMethod(Description = "查询用户帐户流水表")]
@@ -3571,43 +3571,43 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             return PublicRes.IsNewOrderCZData(payFrontTime);
         }
 
-        [WebMethod(Description = "查询腾讯付款记录表")]
-        [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        public DataSet GetTCBankPAYList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
-        {
-            if (myHeader == null)
-            {
-                throw new Exception("不正确的调用方法！");
-            }
-            string strUserID = myHeader.UserName;
-            string strIP = myHeader.UserIP;
-            string strRightCode = "GetTCBankRollList";
+        //[WebMethod(Description = "查询腾讯付款记录表")]
+        //[SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
+        //public DataSet GetTCBankPAYList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
+        //{
+        //    if (myHeader == null)
+        //    {
+        //        throw new Exception("不正确的调用方法！");
+        //    }
+        //    string strUserID = myHeader.UserName;
+        //    string strIP = myHeader.UserIP;
+        //    string strRightCode = "GetTCBankRollList";
 
-            int sign = 0;
-            string detail, actionType, signStr;
-            actionType = "查询腾讯付款记录";
+        //    int sign = 0;
+        //    string detail, actionType, signStr;
+        //    actionType = "查询腾讯付款记录";
 
-            //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
+        //    //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
 
-            try
-            {
-                sign = 1;
-                Q_TCBANKPAY_LIST cuser = new Q_TCBANKPAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime);
-                //T_TCBANKPAY_LIST[] tuser = cuser.GetResult();
-                //return tuser;
-                return cuser.GetResultX(istr, imax);
-            }
-            catch (Exception e)
-            {
-                sign = 0;
-                throw new Exception("service发生错误,请联系管理员！");
-                return null;
-            }
-            finally
-            {
-                PublicRes.writeSysLog(strUserID, strIP, "query", actionType, sign, u_ID, "用户");
-            }
-        }
+        //    try
+        //    {
+        //        sign = 1;
+        //        Q_TCBANKPAY_LIST cuser = new Q_TCBANKPAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime);
+        //        //T_TCBANKPAY_LIST[] tuser = cuser.GetResult();
+        //        //return tuser;
+        //        return cuser.GetResultX(istr, imax);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        sign = 0;
+        //        throw new Exception("service发生错误,请联系管理员！");
+        //        return null;
+        //    }
+        //    finally
+        //    {
+        //        PublicRes.writeSysLog(strUserID, strIP, "query", actionType, sign, u_ID, "用户");
+        //    }
+        //}
 
 
         [WebMethod(Description = "查询退款单表")]
@@ -4099,21 +4099,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        [WebMethod(Description = "提现查询个数函数")]
-        public int GetPickListCount(string u_ID, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, int idtype, string cashtype)
-        {
-            try
-            {
-                PickQueryClass cuser = new PickQueryClass(u_ID, u_BeginTime, u_EndTime, fstate, fnum, banktype, "0", idtype, cashtype, false);
-                return cuser.GetCount("YWB");
-                //return cuser.GetCount("TCP");
-            }
-            catch (Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！");
-                return 0;
-            }
-        }
+        //[WebMethod(Description = "提现查询个数函数")]
+        //public int GetPickListCount(string u_ID, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, int idtype, string cashtype)
+        //{
+        //    try
+        //    {
+        //        PickQueryClass cuser = new PickQueryClass(u_ID, u_BeginTime, u_EndTime, fstate, fnum, banktype, "0", idtype, cashtype, false);
+        //        return cuser.GetCount("YWB");
+        //        //return cuser.GetCount("TCP");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception("service发生错误,请联系管理员！");
+        //        return 0;
+        //    }
+        //}
         [WebMethod(Description = "子帐户充值详细查询函数")]
         public DataSet GetFundListDetail_Subacc(string listid, string fcurtype, out string strResp)
         {
@@ -4157,51 +4157,51 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        [WebMethod(Description = "提现查询函数")] //2015-8-11 改接口 v_yqyqguo
-        [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        public DataSet GetPickList(string u_ID, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, int idtype, string sorttype, string cashtype,
-            int iPageStart, int iPageMax)
-        {
-            try
-            {
-                DataSet ds = null;
-                PickQueryClass cuser = new PickQueryClass(u_ID, u_BeginTime, u_EndTime, fstate, fnum, banktype, sorttype, idtype, cashtype, false);
-                ds = cuser.GetResultX(iPageStart, iPageMax, "YWB");
+        //[WebMethod(Description = "提现查询函数")] //2015-8-11 改接口 v_yqyqguo
+        //[SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
+        //public DataSet GetPickList(string u_ID, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, int idtype, string sorttype, string cashtype,
+        //    int iPageStart, int iPageMax)
+        //{
+        //    try
+        //    {
+        //        DataSet ds = null;
+        //        PickQueryClass cuser = new PickQueryClass(u_ID, u_BeginTime, u_EndTime, fstate, fnum, banktype, sorttype, idtype, cashtype, false);
+        //        ds = cuser.GetResultX(iPageStart, iPageMax, "YWB");
 
-                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                {
-                    // 如果银行卡号没加密的查不出结果，则再查询一次加密的结果
-                    if (idtype == 1)
-                    {
-                        PickQueryClass cuser2 = new PickQueryClass(u_ID, u_BeginTime, u_EndTime, fstate, fnum, banktype, sorttype, idtype, cashtype, true);
-                        ds = cuser2.GetResultX(iPageStart, iPageMax, "YWB");
-                    }
-                }
+        //        if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+        //        {
+        //            // 如果银行卡号没加密的查不出结果，则再查询一次加密的结果
+        //            if (idtype == 1)
+        //            {
+        //                PickQueryClass cuser2 = new PickQueryClass(u_ID, u_BeginTime, u_EndTime, fstate, fnum, banktype, sorttype, idtype, cashtype, true);
+        //                ds = cuser2.GetResultX(iPageStart, iPageMax, "YWB");
+        //            }
+        //        }
 
-                return ds;
-                //return cuser.GetResultX(iPageStart,iPageMax,"TCP");		
+        //        return ds;
+        //        //return cuser.GetResultX(iPageStart,iPageMax,"TCP");		
 
-            }
-            catch (Exception err)
-            {
-                throw new LogicException("Service处理失败！");
-            }
-        }
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        throw new LogicException("Service处理失败！");
+        //    }
+        //}
 
-        [WebMethod(Description = "提现查询详细函数")] //2015-8-11 改接口 v_yqyqguo
-        public DataSet GetPickListDetail(string listid, DateTime u_BeginTime, DateTime u_EndTime, bool oldflag)
-        {
-            try
-            {
-                PickQueryClass cuser = new PickQueryClass(listid, u_BeginTime, u_EndTime, oldflag);
-                return cuser.GetResultX(1, 1, "YWB");
-            }
-            catch (Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！");
-                return null;
-            }
-        }
+        //[WebMethod(Description = "提现查询详细函数")] //2015-8-11 改接口 v_yqyqguo
+        //public DataSet GetPickListDetail(string listid, DateTime u_BeginTime, DateTime u_EndTime, bool oldflag)
+        //{
+        //    try
+        //    {
+        //        PickQueryClass cuser = new PickQueryClass(listid, u_BeginTime, u_EndTime, oldflag);
+        //        return cuser.GetResultX(1, 1, "YWB");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception("service发生错误,请联系管理员！");
+        //        return null;
+        //    }
+        //}
 
         [WebMethod(Description = "查询投诉商户列表函数")]
         public DataSet GetComplainBussList(string bussId, DateTime u_BeginTime, DateTime u_EndTime, int iPageStart, int iPageMax)
@@ -18932,149 +18932,149 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         #endregion
 
         #region 信用卡还款查询
-        [WebMethod(Description = "查询信用卡还款记录数(按财付通号查询)")]//慢查询，不要了
-        public DataSet GetCreditQueryListForFaidCount(string QQOrEmail, DateTime begindate, DateTime enddate)
-        {
-            return null;
-            //			string Fuid = PublicRes.ConvertToFuidX(QQOrEmail);
-            //
-            //			MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YW"));
-            //			try
-            //			{
-            //				da.OpenConn();
-            //
-            //				string sql = "SELECT Count(1) FROM c2c_db.t_tcpay_list WHERE Fuid='" + Fuid +
-            //                             "' AND Fpay_front_time >='" + begindate.ToString("yyyy-MM-dd 00:00:00") +
-            //					         "' AND Fpay_front_time <='" + enddate.ToString("yyyy-MM-dd 23:59:59") + "' AND Fbankid IN (5,8)" +
-            //					         " AND Fmodify_time >= '" + begindate.ToString("yyyy-MM-dd 00:00:00") +
-            //					         "' AND Fmodify_time <= '" + enddate.AddDays(7).ToString("yyyy-MM-dd 23:59:59") + "' AND Fbank_type <> 2033";
-            //
-            //				DataSet ds = da.dsGetTotalData(sql);
-            //
-            //				return ds;
-            //			}
-            //			catch(Exception e)
-            //			{
-            //				throw new Exception("service发生错误,请联系管理员！");
-            //			}
-            //			finally
-            //			{
-            //				da.Dispose();
-            //			}
-        }
+        //[WebMethod(Description = "查询信用卡还款记录数(按财付通号查询)")]//慢查询，不要了
+        //public DataSet GetCreditQueryListForFaidCount(string QQOrEmail, DateTime begindate, DateTime enddate)
+        //{
+        //    return null;
+        //    //			string Fuid = PublicRes.ConvertToFuidX(QQOrEmail);
+        //    //
+        //    //			MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YW"));
+        //    //			try
+        //    //			{
+        //    //				da.OpenConn();
+        //    //
+        //    //				string sql = "SELECT Count(1) FROM c2c_db.t_tcpay_list WHERE Fuid='" + Fuid +
+        //    //                             "' AND Fpay_front_time >='" + begindate.ToString("yyyy-MM-dd 00:00:00") +
+        //    //					         "' AND Fpay_front_time <='" + enddate.ToString("yyyy-MM-dd 23:59:59") + "' AND Fbankid IN (5,8)" +
+        //    //					         " AND Fmodify_time >= '" + begindate.ToString("yyyy-MM-dd 00:00:00") +
+        //    //					         "' AND Fmodify_time <= '" + enddate.AddDays(7).ToString("yyyy-MM-dd 23:59:59") + "' AND Fbank_type <> 2033";
+        //    //
+        //    //				DataSet ds = da.dsGetTotalData(sql);
+        //    //
+        //    //				return ds;
+        //    //			}
+        //    //			catch(Exception e)
+        //    //			{
+        //    //				throw new Exception("service发生错误,请联系管理员！");
+        //    //			}
+        //    //			finally
+        //    //			{
+        //    //				da.Dispose();
+        //    //			}
+        //}
 
-        [WebMethod(Description = "查询信用卡还款记录数")]//2015-8-11 改接口 v_yqyqguo
-        public DataSet GetCreditQueryListCount(string Flistid)
-        {
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB"));
-            try
-            {
-                da.OpenConn();
+        //[WebMethod(Description = "查询信用卡还款记录数")]//2015-8-11 改接口 v_yqyqguo
+        //public DataSet GetCreditQueryListCount(string Flistid)
+        //{
+        //    MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB"));
+        //    try
+        //    {
+        //        da.OpenConn();
 
-                string sql = "SELECT Count(1) FROM c2c_db.t_tcpay_list WHERE Flistid='" + Flistid + "'";
+        //        string sql = "SELECT Count(1) FROM c2c_db.t_tcpay_list WHERE Flistid='" + Flistid + "'";
 
-                DataSet ds = da.dsGetTotalData(sql);
+        //        DataSet ds = da.dsGetTotalData(sql);
 
-                return ds;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！");
-            }
-            finally
-            {
-                da.Dispose();
-            }
-        }
+        //        return ds;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception("service发生错误,请联系管理员！");
+        //    }
+        //    finally
+        //    {
+        //        da.Dispose();
+        //    }
+        //}
 
-        [WebMethod(Description = "查询信用卡还款记录(按财付通号查询)")] //2015-8-11 改接口 v_yqyqguo
-        public DataSet GetCreditQueryListForFaid(string QQOrEmail, DateTime begindate, DateTime enddate, int istart, int imax)
-        {
-            string Fuid = PublicRes.ConvertToFuidX(QQOrEmail);
+        //[WebMethod(Description = "查询信用卡还款记录(按财付通号查询)")] //2015-8-11 改接口 v_yqyqguo
+        //public DataSet GetCreditQueryListForFaid(string QQOrEmail, DateTime begindate, DateTime enddate, int istart, int imax)
+        //{
+        //    string Fuid = PublicRes.ConvertToFuidX(QQOrEmail);
 
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB"));
-            try
-            {
-                da.OpenConn();
+        //    MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB"));
+        //    try
+        //    {
+        //        da.OpenConn();
 
-                string strwhere = " WHERE Fuid='" + Fuid +
-                    "' AND Fpay_front_time_acc >='" + begindate.ToString("yyyy-MM-dd 00:00:00") +
-                    "' AND Fpay_front_time_acc <='" + enddate.ToString("yyyy-MM-dd 23:59:59") + "' AND Fbankid IN (5,8,36,37)" +
-                    " AND Fmodify_time >= '" + begindate.ToString("yyyy-MM-dd 00:00:00") +
-                    "' AND Fmodify_time <= '" + enddate.AddDays(7).ToString("yyyy-MM-dd 23:59:59") + "' AND Fbank_type <> 2033";
+        //        string strwhere = " WHERE Fuid='" + Fuid +
+        //            "' AND Fpay_front_time_acc >='" + begindate.ToString("yyyy-MM-dd 00:00:00") +
+        //            "' AND Fpay_front_time_acc <='" + enddate.ToString("yyyy-MM-dd 23:59:59") + "' AND Fbankid IN (5,8,36,37)" +
+        //            " AND Fmodify_time >= '" + begindate.ToString("yyyy-MM-dd 00:00:00") +
+        //            "' AND Fmodify_time <= '" + enddate.AddDays(7).ToString("yyyy-MM-dd 23:59:59") + "' AND Fbank_type <> 2033";
 
-                string currtable = "";
-                string othertable = "";
-                PickQueryClass.GetPayListTableFromTime(begindate, out currtable, out othertable);
+        //        string currtable = "";
+        //        string othertable = "";
+        //        PickQueryClass.GetPayListTableFromTime(begindate, out currtable, out othertable);
 
-                //**furion提现单改造20120216 不再使用 时间用Fpay_front_time_acc
-                string sql = "SELECT Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time " +
-                    "FROM c2c_db.t_tcpay_list " + strwhere;
+        //        //**furion提现单改造20120216 不再使用 时间用Fpay_front_time_acc
+        //        string sql = "SELECT Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time " +
+        //            "FROM c2c_db.t_tcpay_list " + strwhere;
 
-                sql += " union all select Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time from " + currtable + strwhere;
-                sql += " union all select Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time from " + othertable + strwhere;
-                sql += " ORDER BY Fpay_front_time DESC " + " Limit " + (istart - 1) + "," + imax;
+        //        sql += " union all select Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time from " + currtable + strwhere;
+        //        sql += " union all select Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time from " + othertable + strwhere;
+        //        sql += " ORDER BY Fpay_front_time DESC " + " Limit " + (istart - 1) + "," + imax;
 
-                /* 原来流程
-                string sql = "SELECT Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time " + 
-                    "FROM c2c_db.t_tcpay_list WHERE Fuid='" + Fuid +
-                             "' AND Fpay_front_time >='" + begindate.ToString("yyyy-MM-dd 00:00:00") +
-                             "' AND Fpay_front_time <='" + enddate.ToString("yyyy-MM-dd 23:59:59") + "' AND Fbankid IN (5,8)" +
-                             " AND Fmodify_time >= '" + begindate.ToString("yyyy-MM-dd 00:00:00") +
-                             "' AND Fmodify_time <= '" + enddate.AddDays(7).ToString("yyyy-MM-dd 23:59:59") + "' AND Fbank_type <> 2033" +
-                             " ORDER BY Fpay_front_time DESC " + " Limit "+ (istart-1) +"," + imax;
-                 */
-                DataSet ds = da.dsGetTotalData(sql);
+        //        /* 原来流程
+        //        string sql = "SELECT Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time " + 
+        //            "FROM c2c_db.t_tcpay_list WHERE Fuid='" + Fuid +
+        //                     "' AND Fpay_front_time >='" + begindate.ToString("yyyy-MM-dd 00:00:00") +
+        //                     "' AND Fpay_front_time <='" + enddate.ToString("yyyy-MM-dd 23:59:59") + "' AND Fbankid IN (5,8)" +
+        //                     " AND Fmodify_time >= '" + begindate.ToString("yyyy-MM-dd 00:00:00") +
+        //                     "' AND Fmodify_time <= '" + enddate.AddDays(7).ToString("yyyy-MM-dd 23:59:59") + "' AND Fbank_type <> 2033" +
+        //                     " ORDER BY Fpay_front_time DESC " + " Limit "+ (istart-1) +"," + imax;
+        //         */
+        //        DataSet ds = da.dsGetTotalData(sql);
 
-                return ds;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！");
-            }
-            finally
-            {
-                da.Dispose();
-            }
-        }
+        //        return ds;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception("service发生错误,请联系管理员！");
+        //    }
+        //    finally
+        //    {
+        //        da.Dispose();
+        //    }
+        //}
 
 
-        [WebMethod(Description = "查询信用卡还款记录")] //2015-8-11 改接口 v_yqyqguo
-        public DataSet GetCreditQueryList(string Flistid, int istart, int imax)
-        {
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB"));
-            try
-            {
-                da.OpenConn();
+        //[WebMethod(Description = "查询信用卡还款记录")] //2015-8-11 改接口 v_yqyqguo
+        //public DataSet GetCreditQueryList(string Flistid, int istart, int imax)
+        //{
+        //    MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB"));
+        //    try
+        //    {
+        //        da.OpenConn();
 
-                //**furion提现单改造20120216
-                string sql = "SELECT Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time FROM c2c_db.t_tcpay_list WHERE Flistid='" + Flistid + "'";
+        //        //**furion提现单改造20120216
+        //        string sql = "SELECT Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time FROM c2c_db.t_tcpay_list WHERE Flistid='" + Flistid + "'";
 
-                string currtable = "";
-                string othertable = "";
-                PickQueryClass.GetPayListTableFromID(Flistid, out currtable, out othertable);
+        //        string currtable = "";
+        //        string othertable = "";
+        //        PickQueryClass.GetPayListTableFromID(Flistid, out currtable, out othertable);
 
-                sql += " union all select Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time from " + currtable + " where  Flistid='" + Flistid + "'";
-                sql += " union all select Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time from " + othertable + " where  Flistid='" + Flistid + "'";
-                sql += " Limit " + (istart - 1) + "," + imax;
+        //        sql += " union all select Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time from " + currtable + " where  Flistid='" + Flistid + "'";
+        //        sql += " union all select Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time from " + othertable + " where  Flistid='" + Flistid + "'";
+        //        sql += " Limit " + (istart - 1) + "," + imax;
 
-                /* 原来流程
-                string sql = "SELECT Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time " + 
-                    "FROM c2c_db.t_tcpay_list WHERE Flistid='" + Flistid + "' Limit "+ (istart-1) +"," + imax;
-                */
-                DataSet ds = da.dsGetTotalData(sql);
+        //        /* 原来流程
+        //        string sql = "SELECT Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time " + 
+        //            "FROM c2c_db.t_tcpay_list WHERE Flistid='" + Flistid + "' Limit "+ (istart-1) +"," + imax;
+        //        */
+        //        DataSet ds = da.dsGetTotalData(sql);
 
-                return ds;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！");
-            }
-            finally
-            {
-                da.Dispose();
-            }
-        }
+        //        return ds;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception("service发生错误,请联系管理员！");
+        //    }
+        //    finally
+        //    {
+        //        da.Dispose();
+        //    }
+        //}
 
         #endregion
 

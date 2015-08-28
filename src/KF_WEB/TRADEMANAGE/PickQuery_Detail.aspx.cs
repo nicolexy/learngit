@@ -117,16 +117,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			}
             DataSet ds = new DataSet();
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-            if (Request.QueryString["CreditQueryNew"] == null)
-            {
-                ds = qs.GetPickListDetail(listid, u_beginTime, u_endTime, false);
-            }
-            else 
-            {
-                ds = pickservice.GetPickListDetail(listid, u_beginTime, u_endTime);
-            }
+             
+            ds = pickservice.GetPickListDetail(listid, u_beginTime, u_endTime);
 
 			if(ds != null && ds.Tables.Count >0 && ds.Tables[0].Rows.Count > 0 )
 			{

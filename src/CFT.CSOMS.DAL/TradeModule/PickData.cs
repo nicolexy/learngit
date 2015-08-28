@@ -68,8 +68,9 @@ namespace CFT.CSOMS.DAL.TradeModule
         }
 
 
-         private DataSet PickQueryClass(string u_ID, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, string sorttype, int idtype, string cashtype, bool isSecret, int iPageStart, int iPageMax)
+       private DataSet PickQueryClass(string u_ID, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, string sorttype, int idtype, string cashtype, bool isSecret, int offset, int limit)
         {
+            if (offset % limit == 1) offset -= 1;
             string fields = "";
             DataSet ds = new DataSet();
             if (u_ID != null && u_ID.Trim() != "")
@@ -143,18 +144,18 @@ namespace CFT.CSOMS.DAL.TradeModule
                 fields = fields.Substring(1, fields.Length - 1);
             }
 
-            DataSet dstemp = new PublicRes().QueryCommRelay8020("2416", fields, iPageStart, iPageMax);
+            DataSet dstemp = new PublicRes().QueryCommRelay8020("2416", fields, offset, limit);
             ds = PublicRes.ToOneDataset(ds, dstemp);
-            dstemp = new PublicRes().QueryCommRelay8020("2417", fields, iPageStart, iPageMax);
+            dstemp = new PublicRes().QueryCommRelay8020("2417", fields, offset, limit);
             ds = PublicRes.ToOneDataset(ds, dstemp);
 
             return ds;
             //fstrSql_count = "select 10000";//" select count(*) from ( " + strGroup + ") a ";
         }
         //信用卡还款按财付通号查询
-         public DataSet GetCreditQueryListForFaid(string QQOrEmail, DateTime begindate, DateTime enddate, int istart, int imax)
+         public DataSet GetCreditQueryListForFaid(string QQOrEmail, DateTime begindate, DateTime enddate, int offset, int limit)
          {
-             if (istart % imax == 1) istart -= 1;
+             if (offset % limit == 1) offset -= 1;
 
              string Fuid = PublicRes.ConvertToFuid(QQOrEmail);
 //#if DEBUG
@@ -163,8 +164,8 @@ namespace CFT.CSOMS.DAL.TradeModule
              string fields = "Fuid:{0}|begindate:{1}|enddate:{2}";
              fields = string.Format(fields, Fuid, begindate.ToString("yyyy-MM-dd 00:00:00"), enddate.ToString("yyyy-MM-dd 23:59:59"));
 
-             DataSet ds1 = new PublicRes().QueryCommRelay8020("2418", fields, istart, imax);
-             DataSet ds2 = new PublicRes().QueryCommRelay8020("2419", fields, istart, imax);
+             DataSet ds1 = new PublicRes().QueryCommRelay8020("2418", fields, offset, limit);
+             DataSet ds2 = new PublicRes().QueryCommRelay8020("2419", fields, offset, limit);
              DataSet ds = PublicRes.ToOneDataset(ds1, ds2);
 
              //加查上月或者下月的表
@@ -176,21 +177,21 @@ namespace CFT.CSOMS.DAL.TradeModule
                  enddate = begindate;
              }
              fields = string.Format(fields, Fuid, begindate.ToString("yyyy-MM-01"), enddate.ToString("yyyy-MM-dd"));
-             ds3 = new PublicRes().QueryCommRelay8020("2418", fields, istart, imax);
+             ds3 = new PublicRes().QueryCommRelay8020("2418", fields, offset, limit);
              ds = PublicRes.ToOneDataset(ds, ds3);
              return ds;
          }
         //信用卡还款根据还款交易号查询
-        public DataSet GetCreditQueryList(string Flistid, int istart, int imax)
+        public DataSet GetCreditQueryList(string Flistid, int offset, int limit)
         {
-            if (istart % imax == 1) istart -= 1;
+            if (offset % limit == 1) offset -= 1;
             string fields = "listid:{0}";
             fields = string.Format(fields, Flistid);
-            DataSet ds = new PublicRes().QueryCommRelay8020("2420", fields, istart, imax);
+            DataSet ds = new PublicRes().QueryCommRelay8020("2420", fields, offset, limit);
             DateTime date = GetPayListTableFromID(Flistid);
             fields = "listid:{0}|date:{1}";
             fields = string.Format(fields, Flistid, date.ToString("yyyy-MM-dd"));
-            DataSet ds2 = new PublicRes().QueryCommRelay8020("2421", fields, istart, imax);
+            DataSet ds2 = new PublicRes().QueryCommRelay8020("2421", fields, offset, limit);
             ds = PublicRes.ToOneDataset(ds, ds2);
 
             //加查上月或者下月的表
@@ -198,7 +199,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             fields = "listid:{0}|date:{1}";
             date = date.Day > 15 ? date.AddMonths(1) : date.AddMonths(-1);
             fields = string.Format(fields, Flistid, date.ToString("yyyy-MM-dd"));
-            ds3 = new PublicRes().QueryCommRelay8020("2421", fields, istart, imax);
+            ds3 = new PublicRes().QueryCommRelay8020("2421", fields, offset, limit);
             ds = PublicRes.ToOneDataset(ds, ds3);
             return ds;
         }
@@ -211,8 +212,9 @@ namespace CFT.CSOMS.DAL.TradeModule
             return ds;
         }
 
-        public DataSet GetTCBankPAYList(string strID, int iIDType, DateTime dtBegin, DateTime dtEnd, int istr, int imax)
+        public DataSet GetTCBankPAYList(string strID, int iIDType, DateTime dtBegin, DateTime dtEnd, int offset, int limit)
         {
+            if (offset % limit == 1) offset -= 1;
             DataSet ds = new DataSet();
             try
             {
@@ -222,13 +224,13 @@ namespace CFT.CSOMS.DAL.TradeModule
                 if (iIDType == 0)
                 {
                     string Fuid = PublicRes.ConvertToFuid(strID);
-                    #if DEBUG
-                                       Fuid = strID;
-                    #endif
+//#if DEBUG
+//                   Fuid = strID;
+//#endif
                     string fields = "uid:{0}|begintime:{1}|endtime:{2}";
                     fields = string.Format(fields, Fuid, dtBegin.ToString("yyyy-MM-dd"), dtEnd.ToString("yyyy-MM-dd"));
-                    DataSet ds1 = new PublicRes().QueryCommRelay8020("2423", fields, istr, imax);
-                    DataSet ds2 = new PublicRes().QueryCommRelay8020("2424", fields, istr, imax);
+                    DataSet ds1 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);
+                    DataSet ds2 = new PublicRes().QueryCommRelay8020("2424", fields, offset, limit);
 
                     ds = PublicRes.ToOneDataset(ds1, ds2);
 
@@ -240,8 +242,16 @@ namespace CFT.CSOMS.DAL.TradeModule
                         dtEnd = dtBegin;
                     }
                     fields = string.Format(fields, Fuid, dtBegin.ToString("yyyy-MM-01"), dtEnd.ToString("yyyy-MM-dd"));
-                    ds3 = new PublicRes().QueryCommRelay8020("2423", fields, istr, imax);
+                    ds3 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);
                     ds = PublicRes.ToOneDataset(ds, ds3);
+                    if (ds != null && ds.Tables.Count > 0) 
+                    {
+                        ds.Tables[0].Columns.Add("total", typeof(string));
+                        foreach (DataRow dr in ds.Tables[0].Rows) 
+                        {
+                            dr["total"] = "10000";
+                        }
+                    }
                 }
                 else
                 {
@@ -253,7 +263,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                     fstrSql += " union all Select " + CFT.CSOMS.DAL.Infrastructure.PickQueryClass.GetTcPayListNewFields() + " from " + currtable + " where flistid = '" + f_strID + "' or flistid = (select frlistid from c2c_db.t_refund_list where flistid ='" + f_strID + "'and flstate <> 3) ";
                     fstrSql += " union all Select " + CFT.CSOMS.DAL.Infrastructure.PickQueryClass.GetTcPayListNewFields() + " from " + othertable + " where flistid = '" + f_strID + "' or flistid = (select frlistid from c2c_db.t_refund_list where flistid ='" + f_strID + "'and flstate <> 3) ";
                     fstrSql += " Order by fpay_front_time DESC";
-                    ds = QueryInfo.GetTable(fstrSql, istr, imax);
+                    ds = QueryInfo.GetTable(fstrSql, offset, limit);
                 }
             }
             catch (Exception e)

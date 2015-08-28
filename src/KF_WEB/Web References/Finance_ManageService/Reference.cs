@@ -62,15 +62,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
         
         private System.Threading.SendOrPostCallback UnFreezePerAccountWechat_NewOperationCompleted;
         
-        private System.Threading.SendOrPostCallback TdeToIDOperationCompleted;
-        
         private System.Threading.SendOrPostCallback dsReBatCheckOperationCompleted;
         
         private System.Threading.SendOrPostCallback logOnUserHistoryOperationCompleted;
         
         private System.Threading.SendOrPostCallback logOnUserOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback QueryDicAccNameOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -165,9 +161,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
         public event UnFreezePerAccountWechat_NewCompletedEventHandler UnFreezePerAccountWechat_NewCompleted;
         
         /// <remarks/>
-        public event TdeToIDCompletedEventHandler TdeToIDCompleted;
-        
-        /// <remarks/>
         public event dsReBatCheckCompletedEventHandler dsReBatCheckCompleted;
         
         /// <remarks/>
@@ -175,9 +168,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
         
         /// <remarks/>
         public event logOnUserCompletedEventHandler logOnUserCompleted;
-        
-        /// <remarks/>
-        public event QueryDicAccNameCompletedEventHandler QueryDicAccNameCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CheckOldName", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -935,47 +925,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/TdeToID", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string TdeToID(string tdeid) {
-            object[] results = this.Invoke("TdeToID", new object[] {
-                        tdeid});
-            return ((string)(results[0]));
-        }
-        
-        /// <remarks/>
-        public System.IAsyncResult BeginTdeToID(string tdeid, System.AsyncCallback callback, object asyncState) {
-            return this.BeginInvoke("TdeToID", new object[] {
-                        tdeid}, callback, asyncState);
-        }
-        
-        /// <remarks/>
-        public string EndTdeToID(System.IAsyncResult asyncResult) {
-            object[] results = this.EndInvoke(asyncResult);
-            return ((string)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void TdeToIDAsync(string tdeid) {
-            this.TdeToIDAsync(tdeid, null);
-        }
-        
-        /// <remarks/>
-        public void TdeToIDAsync(string tdeid, object userState) {
-            if ((this.TdeToIDOperationCompleted == null)) {
-                this.TdeToIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnTdeToIDOperationCompleted);
-            }
-            this.InvokeAsync("TdeToID", new object[] {
-                        tdeid}, this.TdeToIDOperationCompleted, userState);
-        }
-        
-        private void OnTdeToIDOperationCompleted(object arg) {
-            if ((this.TdeToIDCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.TdeToIDCompleted(this, new TdeToIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/dsReBatCheck", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public System.Data.DataSet dsReBatCheck(string[] ar, string time) {
             object[] results = this.Invoke("dsReBatCheck", new object[] {
@@ -1128,45 +1077,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
             if ((this.logOnUserCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.logOnUserCompleted(this, new logOnUserCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("Finance_HeaderValue")]
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/QueryDicAccName", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet QueryDicAccName() {
-            object[] results = this.Invoke("QueryDicAccName", new object[0]);
-            return ((System.Data.DataSet)(results[0]));
-        }
-        
-        /// <remarks/>
-        public System.IAsyncResult BeginQueryDicAccName(System.AsyncCallback callback, object asyncState) {
-            return this.BeginInvoke("QueryDicAccName", new object[0], callback, asyncState);
-        }
-        
-        /// <remarks/>
-        public System.Data.DataSet EndQueryDicAccName(System.IAsyncResult asyncResult) {
-            object[] results = this.EndInvoke(asyncResult);
-            return ((System.Data.DataSet)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void QueryDicAccNameAsync() {
-            this.QueryDicAccNameAsync(null);
-        }
-        
-        /// <remarks/>
-        public void QueryDicAccNameAsync(object userState) {
-            if ((this.QueryDicAccNameOperationCompleted == null)) {
-                this.QueryDicAccNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnQueryDicAccNameOperationCompleted);
-            }
-            this.InvokeAsync("QueryDicAccName", new object[0], this.QueryDicAccNameOperationCompleted, userState);
-        }
-        
-        private void OnQueryDicAccNameOperationCompleted(object arg) {
-            if ((this.QueryDicAccNameCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.QueryDicAccNameCompleted(this, new QueryDicAccNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1788,32 +1698,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
-    public delegate void TdeToIDCompletedEventHandler(object sender, TdeToIDCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class TdeToIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal TdeToIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public string Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
     public delegate void dsReBatCheckCompletedEventHandler(object sender, dsReBatCheckCompletedEventArgs e);
     
     /// <remarks/>
@@ -1902,32 +1786,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((string)(this.results[1]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
-    public delegate void QueryDicAccNameCompletedEventHandler(object sender, QueryDicAccNameCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class QueryDicAccNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal QueryDicAccNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public System.Data.DataSet Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((System.Data.DataSet)(this.results[0]));
             }
         }
     }
