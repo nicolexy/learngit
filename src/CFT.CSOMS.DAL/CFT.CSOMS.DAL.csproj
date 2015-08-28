@@ -75,10 +75,12 @@
     <Compile Include="BalanceModule\BalanceData.cs" />
     <Compile Include="BankcardUnbind\BankcardbindData.cs" />
     <Compile Include="CFTAccount\AccountData.cs" />
+    <Compile Include="CFTAccount\CertificateData.cs" />
     <Compile Include="CheckModoule\CheckData.cs" />
     <Compile Include="CreditModule\CreditData.cs" />
     <Compile Include="CRTModule\CRTData.cs" />
     <Compile Include="ForeignCardModule\FCUserTradeQuery.cs" />
+    <Compile Include="FundModule\ControlFundData.cs" />
     <Compile Include="FundModule\LCTBalance.cs" />
     <Compile Include="HandQModule\HandQDAL.cs" />
     <Compile Include="Infrastructure\QueryInfoClass.cs" />

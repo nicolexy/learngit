@@ -13,6 +13,7 @@ using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
+using CFT.CSOMS.BLL.UserAppealModule;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
@@ -97,7 +98,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 				Query_Service.Query_Service qs = new Query_Service.Query_Service();
 				//qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
 				qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-				DataSet ds = qs.GetUserAuthenState(acc,bankID,bankType);
+				//DataSet ds = qs.GetUserAuthenState(acc,bankID,bankType);
+                DataSet ds = new UserAppealService().GetUserAuthenState_All(acc, bankID, bankType);
 
 				if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
 				{

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Data;
 using CFT.CSOMS.DAL.FundModule;
 using TENCENT.OSS.C2C.Finance.BankLib;
+using CFT.CSOMS.BLL.CFTAccountModule;
 
 namespace CFT.CSOMS.BLL.FundModule
 {
@@ -73,5 +74,11 @@ namespace CFT.CSOMS.BLL.FundModule
             }
             return LCTBalanceDT;
         }
+
+        public DataTable QuerySubAccountInfo(string uin, int currencyType)
+        {          
+            return new LCTBalance().QuerySubAccountInfo(uin, currencyType);
+        }
+
     }
 }

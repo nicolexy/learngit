@@ -245,7 +245,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
             {
                 double LCTBalance = 0;
                 //理财通余额，币种89,统计收益总和，和余额总和
-                DataTable subAccountInfoTable = new AccountService().QuerySubAccountInfo(uin, 89);
+                DataTable subAccountInfoTable = new LCTBalanceService().QuerySubAccountInfo(uin, 89);
                 if (subAccountInfoTable != null && subAccountInfoTable.Rows.Count > 0)
                 {
                     LCTBalance = Convert.ToDouble(subAccountInfoTable.Rows[0]["Fbalance"].ToString());

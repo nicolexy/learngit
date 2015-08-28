@@ -12,6 +12,7 @@ using System.Configuration;
 using CFT.CSOMS.DAL.Infrastructure;
 using CFT.CSOMS.BLL.WechatPay;
 using System.Xml;
+using CFT.CSOMS.DAL.FundModule;
 
 namespace CFT.CSOMS.BLL.TradeModule
 {
@@ -30,20 +31,16 @@ namespace CFT.CSOMS.BLL.TradeModule
         }
         public int ControledFinRemoveLogInsert(string qqid, string FbalanceStr, string FtypeText, string curtype, DateTime FmodifyTime, string FupdateUser)
         {
-            return new TradeData().RemoveControledFinLogInsert(qqid, FbalanceStr, FtypeText, curtype, FmodifyTime, FupdateUser);
+            return new ControlFundData().RemoveControledFinLogInsert(qqid, FbalanceStr, FtypeText, curtype, FmodifyTime, FupdateUser);
         }
         public void RemoveControledFinLogInsertAll(string qqid, string uid, DataTable dt)
         {
             foreach (DataRow item in dt.Rows)
             {
-                new TradeData().RemoveControledFinLogInsert(qqid, item["FbalanceStr"].ToString(), item["FtypeText"].ToString(), item["cur_type"].ToString(), DateTime.Now, uid);
+                new ControlFundData().RemoveControledFinLogInsert(qqid, item["FbalanceStr"].ToString(), item["FtypeText"].ToString(), item["cur_type"].ToString(), DateTime.Now, uid);
             }
         }
-        public DataSet RemoveControledFinLogQuery(string qqid)
-        {
-            return new TradeData().RemoveControledFinLogQuery(qqid);
-        }
-
+       
         public DataSet QueryWxBuyOrderByUid(int uid, DateTime startTime, DateTime endTime)
         {
             return (new TradeData()).QueryWxBuyOrderByUid(uid, startTime, endTime);
@@ -1210,6 +1207,37 @@ namespace CFT.CSOMS.BLL.TradeModule
             }
 
             return ds;
+        }
+
+        /// <summary>
+        /// 查询 转账单
+        /// </summary>
+        /// <param name="uin">单号</param>    
+        /// <param name="queryType">查询类型 财付通订单号: 1,  商户订单号:2 </param>
+        /// <returns></returns>
+        public DataSet TransferQuery(string uin, int queryType)
+        {
+            Dictionary<string, string> dic_listType = new Dictionary<string, string>()
+            {
+                {"1", "微信红包"},
+                {"2", "微信AA收款"},
+                {"3", "微信转账"},
+                {"4", "手Q红包"},
+                {"5", "手Q AA收款"},
+                {"6", "手Q转账"},
+            };
+           var ds=new TradeData().TransferQuery(uin, queryType);
+           if (ds != null && ds.Tables.Count > 0)
+           {
+               var dt = ds.Tables[0];
+               dt.Columns.Add("Flist_type_str", typeof(string));
+               foreach (DataRow row in dt.Rows)
+               {
+                   string fts = row["Flist_type"] as string;
+                   row["Flist_type_str"] = dic_listType.ContainsKey(fts) ? dic_listType[fts] : "未知";
+               }
+           }
+           return ds;
         }
     }
 }

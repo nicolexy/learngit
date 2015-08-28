@@ -48,7 +48,15 @@
                 </asp:Button>
             </td>
         </tr>
-        
+        <tr style="display:none;">
+            <td align="center">
+                <label>
+                    手机号码</label><asp:TextBox ID="txtPhoneNumber" runat="server"></asp:TextBox>
+            </td>
+            <td>
+                <asp:Button ID="phoneNumberQuery" runat="server" Width="80px" Text="手机查询" OnClick="btnPhoneNumberQuery" />
+            </td>
+        </tr>
     </table>
     <table id="Table2" style="z-index: 102; position: absolute; width: 85%; height: 70%;
         top: 100px; left: 5.02%" cellspacing="1" cellpadding="1" width="808" border="1"

@@ -67,6 +67,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         protected global::System.Web.UI.WebControls.Button btnUpdateBindInfo;
         
         /// <summary>
+        /// txtPhoneNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPhoneNumber;
+        
+        /// <summary>
+        /// phoneNumberQuery control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button phoneNumberQuery;
+        
+        /// <summary>
         /// Table2 control.
         /// </summary>
         /// <remarks>

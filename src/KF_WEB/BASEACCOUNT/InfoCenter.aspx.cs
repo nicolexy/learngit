@@ -535,7 +535,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 string uin =Session["QQID"].ToString();
                  AccountService acc = new AccountService();
-                 DataTable dt = acc.QueryVipInfo(uin.Trim());
+                 DataTable dt = new VIPService().QueryVipInfo(uin.Trim());
                  if (dt != null && dt.Rows.Count > 0)
                  {
                      this.vip_value.Text = dt.Rows[0]["value"].ToString();
@@ -908,7 +908,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 string uin = Session["QQID"].ToString();
                 AccountService acc = new AccountService();
-                DataTable dt = acc.QueryVipInfo(uin.Trim());
+                DataTable dt = new VIPService().QueryVipInfo(uin.Trim());
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     this.vip_value.Text = dt.Rows[0]["value"].ToString();

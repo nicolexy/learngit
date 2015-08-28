@@ -869,7 +869,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 String creid = paramsHt.ContainsKey("creid") ? paramsHt["creid"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetClearCreidLog(creid);
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.CertificateService().GetClearCreidLog(creid);
                 if (infos == null || infos.Rows.Count == 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
@@ -905,7 +905,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 String opera = paramsHt.ContainsKey("opera") ? paramsHt["opera"].ToString() : "";
                 int u_type = APIUtil.StringToInt(paramsHt["type"]); //type=0普通用户，type=1微信用户
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().ClearCreidInfo(creid, u_type, opera);
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.CertificateService().ClearCreidInfo(creid, u_type, opera);
 
                 Record record = new Record();
                 record.RetValue = infos.ToString().ToLower();
@@ -945,7 +945,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
                 string opera = paramsHt.ContainsKey("opera") ? paramsHt["opera"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().QueryUserCtrlFund(qqid, opera);
+                var infos = new CFT.CSOMS.BLL.FundModule.ControlFundService().QueryUserCtrlFund(qqid, opera);
 
                 if (infos == null || infos.Rows.Count == 0)
                 {
@@ -985,7 +985,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 string balance = paramsHt.ContainsKey("balance") ? paramsHt["balance"].ToString() : "";
                 string cur_type = paramsHt.ContainsKey("cur_type") ? paramsHt["cur_type"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().UnbindSingleCtrlFund(qqid, opera, cur_type, balance);
+                var infos = new CFT.CSOMS.BLL.FundModule.ControlFundService().UnbindSingleCtrlFund(qqid, opera, cur_type, balance);
 
                 Record record = new Record();
                 record.RetValue = infos.ToString().ToLower();
@@ -1022,7 +1022,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
                 string opera = paramsHt.ContainsKey("opera") ? paramsHt["opera"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().UnbindAllCtrlFund(qqid, opera);
+                var infos = new CFT.CSOMS.BLL.FundModule.ControlFundService().UnbindAllCtrlFund(qqid, opera);
 
                 Record record = new Record();
                 record.RetValue = infos.ToString().ToLower();
@@ -1058,7 +1058,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().RemoveControledFinLogQuery(qqid);
+                var infos = new CFT.CSOMS.BLL.FundModule.ControlFundService().RemoveControledFinLogQuery(qqid);
 
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
@@ -1099,7 +1099,8 @@ namespace CFT.CSOMS.Service.CSAPI
                 APIUtil.ValidateToken(paramsHt);
 
                 string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
-                int type = APIUtil.StringToInt(paramsHt["type"].ToString());//1,C账号;2,内部账号
+                //"Uin"-C账号,"Uid"-内部账号,"WeChatId"-微信帐号,"WeChatQQ"-微信绑定QQ,"WeChatMobile"-微信绑定手机,"WeChatEmail"-微信绑定邮箱,"WeChatUid"-微信内部ID,"WeChatCft"-微信财付通帐号
+                string type = paramsHt.ContainsKey("type") ? paramsHt["type"].ToString() : "";  
 
                 var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetPersonalInfo(qqid, type);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
@@ -1137,7 +1138,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().QueryVipInfo(qqid);
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.VIPService().QueryVipInfo(qqid);
                 if (infos == null || infos.Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
@@ -1174,7 +1175,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserClassDeleteList(qqid);
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AuthenInfoService().GetUserClassDeleteList(qqid);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
@@ -1212,7 +1213,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
                 string msg = "";
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserClassInfo(qqid, out msg);
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AuthenInfoService().GetUserClassInfo(qqid, out msg);
                 if (msg.Contains("接口失败"))
                 {
                     msg = "未查询到该用户的实名认证状态";
@@ -1291,7 +1292,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 string username = paramsHt.ContainsKey("username") ? paramsHt["username"].ToString() : "";
                 string msg = "";
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().DelAuthen(qqid, username, out msg);
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AuthenInfoService().DelAuthen(qqid, username, out msg);
 
                 Record record = new Record();
                 record.RetValue = infos.ToString().ToLower();
@@ -1911,6 +1912,52 @@ namespace CFT.CSOMS.Service.CSAPI
             catch (Exception ex)
             {
                 SunLibrary.LoggerFactory.Get("DeleteCrtService").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        #endregion
+
+        #region 微信实名认证
+
+        /// <summary>
+        /// 微信实名认证查询
+        /// </summary>
+        [WebMethod]
+        public void QueryWechatRealNameAuthen()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin","serialNo","ip", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                string serialNo = paramsHt.ContainsKey("serialNo") ? paramsHt["serialNo"].ToString() : "";
+                string ip = paramsHt.ContainsKey("ip") ? paramsHt["ip"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.WechatPay.AuthenService().QueryWechatRealNameAuthen(uin, serialNo, ip);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+
+                Record record = new Record();
+                record.RetValue = infos.Tables[0].Rows[0]["res_info"].ToString();
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("QueryWechatRealNameAuthen").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("QueryWechatRealNameAuthen").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }

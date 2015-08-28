@@ -28,6 +28,7 @@ using System.Text.RegularExpressions;
 using CFT.Apollo.Logging;
 using CFT.CSOMS.COMMLIB;
 using CFT.CSOMS.BLL.CFTAccountModule;
+using CFT.CSOMS.BLL.FundModule;
 
 
 namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
@@ -198,17 +199,17 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 if (ret_continue)
                 {
                     long balance = 0;
-                    DataTable dt = new AccountService().QuerySubAccountInfo(qqid, 1);    //主帐户余额
+                    DataTable dt = new LCTBalanceService().QuerySubAccountInfo(qqid, 1);    //主帐户余额
                     if (dt != null && dt.Rows.Count > 0)
                     {
                         balance += long.Parse(dt.Rows[0]["Fbalance"].ToString().Trim());
                     }
-                    dt = new AccountService().QuerySubAccountInfo(qqid, 80);     //游戏子帐户
+                    dt = new LCTBalanceService().QuerySubAccountInfo(qqid, 80);     //游戏子帐户
                     if (dt != null && dt.Rows.Count > 0)
                     {
                         balance += long.Parse(dt.Rows[0]["Fbalance"].ToString().Trim());
                     }
-                    dt = new AccountService().QuerySubAccountInfo(qqid, 82);     //直通车子帐户
+                    dt = new LCTBalanceService().QuerySubAccountInfo(qqid, 82);     //直通车子帐户
                     if (dt != null && dt.Rows.Count > 0)
                     {
                         balance += long.Parse(dt.Rows[0]["Fbalance"].ToString().Trim());

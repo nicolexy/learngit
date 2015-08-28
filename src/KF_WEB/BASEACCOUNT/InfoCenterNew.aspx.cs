@@ -185,13 +185,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
 
                 string qqid = TextBox1_InputQQ.Text;
-                int type = 1;   //账号类型:1,C账号;2,内部账号
+                Session["QQID"] = qqid;
+                //账号类型:1,C账号;2,内部账号
                 if (this.InternalID.Checked)
                 {
-                    type = 2;
+                    Session["QQID"] = new AccountService().Uid2QQ(qqid);
                 }
 
-                Session["QQID"] = new AccountService().GetQQIDByUid(qqid, type);
                 GetUserInfo();
                 iFrameHeight = "230";   //iFame显示区域的高度          
                 ViewState["iswechat"] = "false";
@@ -221,10 +221,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
 
             string qqid = TextBox1_InputQQ.Text;
-            int type = 1;   //账号类型:1,C账号;2,内部账号
+            string type = "Uin";   //账号类型:1,C账号;2,内部账号
             if (this.InternalID.Checked)
             {
-                type = 2;
+                type = "Uid";
             }
 
             try
@@ -284,7 +284,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             //VIP信息
             try
             {
-                DataTable dt = new AccountService().QueryVipInfo(Session["QQID"].ToString().Trim());
+                DataTable dt = new VIPService().QueryVipInfo(Session["QQID"].ToString().Trim());
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     this.vip_value.Text = dt.Rows[0]["value"].ToString();
@@ -306,7 +306,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             try
             {
                 string msg = "";
-                int state = new AccountService().GetUserClassInfo(Session["QQID"].ToString(), out msg);
+                int state = new AuthenInfoService().GetUserClassInfo(Session["QQID"].ToString(), out msg);
                 labUserClassInfo.Text = msg;
             }
             catch (Exception ex)
@@ -320,7 +320,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             try
             {
                 //增加删除认证的操作日志
-                DataSet dsdgList = new AccountService().GetUserClassDeleteList(this.TextBox1_InputQQ.Text.Trim());
+                DataSet dsdgList = new AuthenInfoService().GetUserClassDeleteList(this.TextBox1_InputQQ.Text.Trim());
                 if (dsdgList != null && dsdgList.Tables.Count > 0 && dsdgList.Tables[0].Rows.Count > 0)
                 {
                     this.dgList.Visible = true;
@@ -661,7 +661,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 string msg = "";
                 string qqid = Session["QQID"].ToString().Trim();
                 string opera = this.Label_uid.Text;
-                if (new AccountService().DelAuthen(qqid, opera, out msg))
+                if (new AuthenInfoService().DelAuthen(qqid, opera, out msg))
                 {
                     WebUtils.ShowMessage(this.Page, "执行成功！");
                 }

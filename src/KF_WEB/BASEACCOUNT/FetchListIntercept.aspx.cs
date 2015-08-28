@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using Tencent.DotNet.Common.UI;
 using CFT.CSOMS.BLL.CFTAccountModule;
 using System.Web.Services.Protocols;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -49,7 +50,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             try
             {
-                var dt = new AccountService().GetFetchListIntercept(ViewState["fetchList"].ToString());
+                var dt = new PickService().GetFetchListIntercept(ViewState["fetchList"].ToString());
                 this.DataGrid1.DataSource = dt;
                 this.DataGrid1.DataBind();
             }
@@ -83,7 +84,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             try
             {
-                new AccountService().AddFetchListIntercept(ViewState["fetchList"].ToString(), uid);
+                new PickService().AddFetchListIntercept(ViewState["fetchList"].ToString(), uid);
                 WebUtils.ShowMessage(this.Page, "拦截成功!");
                 BindData();
             }

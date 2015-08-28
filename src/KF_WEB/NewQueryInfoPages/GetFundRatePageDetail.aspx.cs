@@ -856,6 +856,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         {
             try
             {
+                title.InnerText = "封闭基金到期策略修改";
                 Func<string,string> GetQS= (key)=>
                 {
                     var v = (Request.QueryString[key] ?? "").Trim();
@@ -872,15 +873,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 var Close_listid = GetQS("close_listid");
                 var user_end_type =GetQS("user_end_type");
                 var end_sell_type =GetQS("end_sell_type");
-                var client_ip = Request.UserHostAddress.ToString();
-                if (client_ip == "::1") client_ip = "127.0.0.1";
+                var fund_name = setConfig.convertBase64(GetQS("fund_name").Replace("%3D", "=")); 
+                //var client_ip = Request.UserHostAddress.ToString();
+                //if (client_ip == "::1") client_ip = "127.0.0.1";
 
                 AlterES_uin.Text = uin;
                 AlterES_Trade_id.Text = Trade_id;
                 AlterES_Fund_code.Text = Fund_code;
                 AlterES_user_end_type.Value = user_end_type;
                 AlterES_end_sell_type.Value = end_sell_type;
-                AlterES_client_ip.Text = client_ip;
+                AlterES_fund_name.Text = fund_name;
 
                 AlterES_table.Visible = true;
             }

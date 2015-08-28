@@ -15,6 +15,7 @@ using TENCENT.OSS.CFT.KF.KF_Web;
 using System.Web.Services.Protocols;
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
+using CFT.CSOMS.BLL.UserAppealModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 {
@@ -133,21 +134,32 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             
             //2.查询实名认证
-            ds = qs.GetUserAuthenState(s_cftno, "", 0);
-            if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count != 1)
+            //ds = qs.GetUserAuthenState(s_cftno, "", 0);
+            //if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count != 1)
+            //{
+            //    lb_c4.Text = "否";//是否实名认证
+            //}
+            //else {
+            //    DataRow row = ds.Tables[0].Rows[0];
+            //    if (row["queryType"].ToString() == "2")
+            //    {
+            //        lb_c4.Text = "是";
+            //    }
+            //    else {
+            //        lb_c4.Text = "否";
+            //    }
+            //}
+
+            //2.查询实名认证
+            bool authenState = new UserAppealService().GetUserAuthenState(s_cftno, "", 0);
+            if (authenState)
             {
-                lb_c4.Text = "否";//是否实名认证
+                lb_c4.Text = "是";
             }
-            else {
-                DataRow row = ds.Tables[0].Rows[0];
-                if (row["queryType"].ToString() == "2")
-                {
-                    lb_c4.Text = "是";
-                }
-                else {
-                    lb_c4.Text = "否";
-                }
-            }
+            else
+            {
+                lb_c4.Text = "否";
+            }             
             
             //3.免费流量
             ds = qs.GetFreeFlowInfo(s_cftno);

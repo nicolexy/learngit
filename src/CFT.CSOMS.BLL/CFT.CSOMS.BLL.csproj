@@ -60,10 +60,14 @@
     <Compile Include="BalanceModule\BalaceService.cs" />
     <Compile Include="BankCardBindModule\BankCardBindService.cs" />
     <Compile Include="CFTAccountModule\AccountService.cs" />
+    <Compile Include="CFTAccountModule\AuthenInfoService.cs" />
+    <Compile Include="CFTAccountModule\CertificateService.cs" />
+    <Compile Include="CFTAccountModule\VIPService.cs" />
     <Compile Include="CheckModoule\CheckService.cs" />
-    <Compile Include="CreditModule\CreditService.cs" />
+    <Compile Include="CreditModule\TencentCreditService.cs" />
     <Compile Include="CRTModule\CRTService.cs" />
     <Compile Include="ForeignCurrencyModule\FCUserTradeQuery.cs" />
+    <Compile Include="FundModule\ControlFundService.cs" />
     <Compile Include="FundModule\LCTBalanceService.cs" />
     <Compile Include="HandQModule\HandQService.cs" />
     <Compile Include="InternationalityPayModule\QueryWeiXinMircoPay.cs" />

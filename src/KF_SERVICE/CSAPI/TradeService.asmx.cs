@@ -342,14 +342,14 @@ namespace CSAPI
                 int type = APIUtil.StringToInt(paramsHt["type"].ToString());
                 DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
                 DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
-                //将查询时间跨度设置在半年以内,最长半年184天
-                TimeSpan ts = end_time - begin_time;
-                int days = ts.Days;
-                if (days > 184)
+                //将查询时间跨度设置在一个月之内,月初查询到月底
+                int month = end_time.Month - begin_time.Month;
+                if (month != 0)
                 {
-                    end_time = begin_time.AddDays(184);
+                    DateTime tmpDate = new DateTime(begin_time.Year, begin_time.Month, 1);
+                    end_time = tmpDate.AddMonths(1).AddDays(-1);
                 }
-                end_time = end_time.AddDays(1);
+               
                 int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
                 int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
 
@@ -357,12 +357,13 @@ namespace CSAPI
                 {
                     offset = 0;
                 }
-                if (limit < 0)
+                if (limit < 0 || limit > 100)
                 {
                     limit = 20;
                 }
 
-                var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTCBankPAYList(ID, type, begin_time, end_time, offset, limit);
+                //var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTCBankPAYList(ID, type, begin_time, end_time, offset, limit);
+                var infos = new CFT.CSOMS.BLL.TradeModule.PickService().GetTCBankPAYList(ID, type, begin_time, end_time, offset, limit);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
@@ -681,7 +682,7 @@ namespace CSAPI
                 if (limit < 0 || limit > 100)
                     limit = 100;
 
-                var infos = new CFT.CSOMS.BLL.CreditModule.CreditService().GetCreditQueryListForFaid(uin, begin_time, end_time, offset, limit);
+                var infos = new CFT.CSOMS.BLL.TradeModule.PickService().GetCreditQueryListForFaid(uin, begin_time, end_time, offset, limit);
 
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
@@ -725,7 +726,7 @@ namespace CSAPI
                 if (limit < 0 || limit > 100)
                     limit = 100;
 
-                var infos = new CFT.CSOMS.BLL.CreditModule.CreditService().GetCreditQueryList(listid, offset, limit);
+                var infos = new CFT.CSOMS.BLL.TradeModule.PickService().GetCreditQueryList(listid, offset, limit);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);

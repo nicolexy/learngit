@@ -1,12 +1,13 @@
+using System;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using CFT.CSOMS.BLL.UserAppealModule;
+
 namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 {
-	using System;
-	using System.Data;
-	using System.Drawing;
-	using System.Web;
-	using System.Web.UI.WebControls;
-	using System.Web.UI.HtmlControls;
-
 	/// <summary>
 	///		UserAppealCheckControl 的摘要说明。
 	/// </summary>
@@ -229,22 +230,33 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                     qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
                     //2.查询实名认证
                     DataSet dsA = qs.GetUserAuthenState(druser["Fqqid"].ToString(), "", 0);
-                    if (dsA == null || dsA.Tables.Count < 1 || dsA.Tables[0].Rows.Count != 1)
+                    //if (dsA == null || dsA.Tables.Count < 1 || dsA.Tables[0].Rows.Count != 1)
+                    //{
+                    //    lbauthenState.Text = "否";//是否实名认证
+                    //}
+                    //else
+                    //{
+                    //    DataRow row = dsA.Tables[0].Rows[0];
+                    //    if (row["queryType"].ToString() == "2")
+                    //    {
+                    //        lbauthenState.Text = "是";
+                    //    }
+                    //    else
+                    //    {
+                    //        lbauthenState.Text = "否";
+                    //    }
+                    //}
+
+                    //2.查询实名认证
+                    bool authenState = new UserAppealService().GetUserAuthenState(druser["Fqqid"].ToString(), "", 0);
+                    if (authenState)
                     {
-                        lbauthenState.Text = "否";//是否实名认证
+                        lbauthenState.Text = "是";
                     }
                     else
                     {
-                        DataRow row = dsA.Tables[0].Rows[0];
-                        if (row["queryType"].ToString() == "2")
-                        {
-                            lbauthenState.Text = "是";
-                        }
-                        else
-                        {
-                            lbauthenState.Text = "否";
-                        }
-                    }
+                        lbauthenState.Text = "否";
+                    }             
 				}
 			}
 			catch(Exception err)

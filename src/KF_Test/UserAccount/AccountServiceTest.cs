@@ -22,7 +22,7 @@ namespace KF_Test
         {
             string uin = "19751515";
             AccountService mer = new AccountService();
-            DataTable dt = mer.QueryVipInfo(uin);
+            DataTable dt = new VIPService().QueryVipInfo(uin);
             Assert.AreEqual("0", dt.Rows[0]["result"].ToString());
 
         }

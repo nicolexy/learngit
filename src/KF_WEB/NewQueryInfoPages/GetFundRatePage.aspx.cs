@@ -167,7 +167,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
             try//理财通余额查询
             {
-                DataTable subAccountInfoTable = new AccountService().QuerySubAccountInfo(ViewState["uin"].ToString(), 89);//理财通余额，币种89
+                DataTable subAccountInfoTable = new LCTBalanceService().QuerySubAccountInfo(ViewState["uin"].ToString(), 89);//理财通余额，币种89
 
                 if (subAccountInfoTable == null || subAccountInfoTable.Rows.Count < 1)
                 {
@@ -779,6 +779,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 ViewState["curtype"] = e.Item.Cells[1].Text.Trim();
                 ViewState["fundCode"] = e.Item.Cells[2].Text.Trim();
                 ViewState["close_flag"] = e.Item.Cells[3].Text.Trim();
+                ViewState["fund_name"] = e.Item.Cells[4].Text.Trim();
                 if (ViewState["close_flag"].ToString() == "2")//封闭即定期
                     this.queryDiv.Visible = false;
                 else
@@ -889,11 +890,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                             dr["AlterEndStrategyURL"] = "GetFundRatePageDetail.aspx?opertype=2"
                                 + "&uin=" + ViewState["uin"].ToString()
-                                + "&fundCode=" + ViewState["fundCode"].ToString()
+                                + "&fund_Code=" + ViewState["fundCode"].ToString()
                                 + "&trade_id=" + tradeId
                                 + "&close_listid=" + dr["Fid"].ToString()
                                 + "&user_end_type=" + dr["Fuser_end_type"].ToString()
                                 + "&end_sell_type=" + dr["Fend_sell_type"].ToString()
+                                + "&fund_name=" + setConfig.convertToBase64(ViewState["fund_name"].ToString()); //中文字段 , 使用base64 防止乱码
                                 ;
                         }
 

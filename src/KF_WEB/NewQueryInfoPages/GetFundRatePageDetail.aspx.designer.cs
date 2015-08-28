@@ -13,6 +13,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages {
     public partial class GetFundRatePageDetail {
         
         /// <summary>
+        /// title control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl title;
+        
+        /// <summary>
         /// Form1 control.
         /// </summary>
         /// <remarks>
@@ -868,13 +877,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages {
         protected global::System.Web.UI.WebControls.Label AlterES_Fund_code;
         
         /// <summary>
-        /// AlterES_client_ip control.
+        /// AlterES_fund_name control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label AlterES_client_ip;
+        protected global::System.Web.UI.WebControls.Label AlterES_fund_name;
         
         /// <summary>
         /// AlterES_user_end_type control.

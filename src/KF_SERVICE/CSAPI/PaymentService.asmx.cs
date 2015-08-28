@@ -405,7 +405,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().QuerySubAccountInfo(uin, 89);//查询理财通余额，币种89
+                var infos = new CFT.CSOMS.BLL.FundModule.LCTBalanceService().QuerySubAccountInfo(uin, 89);//查询理财通余额，币种89
                 if (infos == null || infos.Rows.Count == 0)
                 {
                     Payment.LCTBalance balance = new Payment.LCTBalance();

@@ -3,7 +3,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <HTML>
 	<HEAD>
-		<title>客服系统强赎</title>
+		<title id="title" runat="server">客服系统强赎</title>
 		<meta content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">
 		<meta content="C#" name="CODE_LANGUAGE">
 		<meta content="JavaScript" name="vs_defaultClientScript">
@@ -282,9 +282,9 @@
                     <td>
                         <asp:Label ID="AlterES_Fund_code" runat="server" Text="Label"></asp:Label>
                     </td>
-                    <td  align="right">client_ip：</td>
+                    <td  align="right">基金名称：</td>
                     <td>
-                        <asp:Label ID="AlterES_client_ip" runat="server" Text="Label"></asp:Label>
+                        <asp:Label ID="AlterES_fund_name" runat="server" Text="Label"></asp:Label>
                     </td>
                 </tr>    
                 <tr>
@@ -300,6 +300,7 @@
                     <td  align="right">到期操作：</td>
                     <td>
                         <select  runat="server" id="AlterES_end_sell_type">
+                           <option value="0">0</option>
                            <option value="1">赎回用于提现到银行卡</option>
                            <%--<option value="2">赎回用于转换另一只基金</option>--%>
                            <option value="3">赎回用于转余额账户</option>

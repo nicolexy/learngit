@@ -124,16 +124,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     //this.DS_Bankroll = classLibrary.setConfig.returnDataSet(selectStr,beginTime,endTime,0,"Bankroll",istr,imax,Session["uid"].ToString(),Request.UserHostAddress);
                     //KF人员反映有很多金额为0的空数据，这里过滤下
 
-                    if (Request.QueryString["isold"] != null && Request.QueryString["isold"].ToString() == "true")
-                    {
-                        this.DS_Bankroll = classLibrary.setConfig.returnDataSet(selectStr, fcurtype, beginTime, endTime, 0, "Bankroll", istr, imax, Session["uid"].ToString(), Request.UserHostAddress);
-                    }
-                    else
-                    {
-                        string ref_param = ViewState["ref_param"] == null ? "" : ViewState["ref_param"].ToString();
-                        this.DS_Bankroll = new TradeService().GetBankRollList(selectStr, beginTime, endTime, istr, imax, ref  ref_param);
-                        ViewState["ref_param"] = ref_param;
-                    }
+                    string ref_param = ViewState["ref_param"] == null ? "" : ViewState["ref_param"].ToString();
+                    this.DS_Bankroll = new TradeService().GetBankRollList(selectStr, beginTime, endTime, istr, imax, ref  ref_param);
+                    ViewState["ref_param"] = ref_param;
                     
 
                     if (DS_Bankroll != null && DS_Bankroll.Tables.Count != 0 && DS_Bankroll.Tables[0].Rows.Count != 0)

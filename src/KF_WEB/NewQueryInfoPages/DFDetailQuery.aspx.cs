@@ -250,13 +250,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         private void ValidData()
         {
+            if (string.IsNullOrEmpty(this.tbx_bankID.Text.Trim()) && string.IsNullOrEmpty(this.tbx_userName.Text.Trim()) &&
+                string.IsNullOrEmpty(this.tbx_spid.Text.Trim()) && string.IsNullOrEmpty(this.tbx_spListID.Text.Trim()) &&
+                string.IsNullOrEmpty(this.txb_transaction_id.Text.Trim()) && string.IsNullOrEmpty(this.tbx_spBatchID.Text.Trim()))
+            {
+                throw new Exception("请输入查询条件！");
+            }
+
             DateTime sTime, eTime;
             ViewState["strSTime"] = "";
             ViewState["strETime"] = "";
+            string begin = this.tbx_beginDate.Text.Trim();
+            string end = this.tbx_endDate.Text.Trim();
             try
             {
-                string begin = this.tbx_beginDate.Text.Trim();
-                string end = this.tbx_endDate.Text.Trim();
                 if ((!string.IsNullOrEmpty(begin)) && (!string.IsNullOrEmpty(end)))
                 {
                     sTime = DateTime.Parse(this.tbx_beginDate.Text);
@@ -276,9 +283,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 throw new Exception("日期格式不正确");
             }
 
-            if (this.tbx_spid.Text.Trim() == "" || this.tbx_spBatchID.Text.Trim() == "")
+            if (!string.IsNullOrEmpty(this.tbx_spBatchID.Text.Trim()))
             {
-                throw new Exception("查询商户号、批次号不能为空");
+                if (string.IsNullOrEmpty(this.tbx_spid.Text.Trim()))
+                {
+                    throw new Exception("请输入商户号一起查询！");
+                }
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(begin) || string.IsNullOrEmpty(end))
+                {
+                    throw new Exception("请输入查询时间段！");
+                }
             }
         }
 

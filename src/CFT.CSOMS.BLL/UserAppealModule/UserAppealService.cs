@@ -171,6 +171,11 @@ namespace CFT.CSOMS.BLL.UserAppealModule
             }
         }
 
+        public DataSet GetUserAuthenState_All(string uin, string userBankID, int bankType)
+        {
+            return new UserAppealData().GetUserAuthenState(uin, userBankID, bankType);
+        }
+
         //根据财付通帐号uin查询用户基本信息
         public DataTable GetAppealUserInfo(string qqid)
         {

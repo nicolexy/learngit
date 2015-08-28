@@ -16,6 +16,7 @@ using Tencent.DotNet.Common.UI;
 using CFT.CSOMS.BLL.CFTAccountModule;
 using System.Web.Services.Protocols;
 using CFT.CSOMS.BLL.TradeModule;
+using CFT.CSOMS.BLL.FundModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -89,7 +90,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 //qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
                 qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 
-                DataTable dt = new AccountService().QueryUserControledRecordCgi(qqid, Session["uid"].ToString());
+                DataTable dt = new ControlFundService().QueryUserControledRecordCgi(qqid, Session["uid"].ToString());
                 if (dt == null || dt.Rows.Count == 0)
                 {
                     this.ShowMsg("查询记录为空");
@@ -149,7 +150,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             //new TradeService().RemoveInsert(this.tbx_acc.Text.Trim(), "1000.00", "光大信用卡一点通", "13100", DateTime.Now, Session["uid"].ToString());
             try
             {
-                DataSet dsRemove = new TradeService().RemoveControledFinLogQuery(qqid);
+                DataSet dsRemove = new ControlFundService().RemoveControledFinLogQuery(qqid);
                 this.DataGrid_Remove.DataSource = dsRemove.Tables[0];
                 this.DataGrid_Remove.DataBind();
             }
@@ -215,7 +216,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     throw new Exception("无权限！");
                 }
                 DataTable dt = getRemoveLog();
-                if (new AccountService().RemoveUserControlFin(this.tbx_acc.Text.Trim(), "", "", Session["uid"].ToString(), 4, dt))
+                if (new ControlFundService().RemoveUserControlFin(this.tbx_acc.Text.Trim(), "", "", Session["uid"].ToString(), 4, dt))
                 {
                     WebUtils.ShowMessage(this.Page, "解除成功！");
                     RemoveLogQuery(this.tbx_acc.Text.Trim());
@@ -293,7 +294,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     {
                         throw new Exception("无权限！");
                     }
-                    if (new AccountService().RemoveUserControlFin(this.tbx_acc.Text.Trim(), cur_type, balance, Session["uid"].ToString(), 3,dt))
+                    if (new ControlFundService().RemoveUserControlFin(this.tbx_acc.Text.Trim(), cur_type, balance, Session["uid"].ToString(), 3,dt))
                     {
                         WebUtils.ShowMessage(this.Page, "解除成功！");
                         RemoveLogQuery(this.tbx_acc.Text.Trim());
