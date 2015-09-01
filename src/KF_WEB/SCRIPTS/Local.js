@@ -96,17 +96,35 @@ function RotaLeft(img)
 
 
 // Expand Appointed Object
-function expandObject(targetID)
+function expandObject(target)
 {
-	var TableStyle = document.getElementById(targetID).style.display ;
-	if ( TableStyle == "none" )
-	{
-		document.getElementById(targetID).style.display = "" ;
-	}
-	else
-	{
-		document.getElementById(targetID).style.display = "none" ;
-	}
+    var getChildNodes=function(ele){
+        var childArr = ele.children || ele.childNodes,  //shit IE
+            childArrTem = new Array();
+        for (var i = 0; i < childArr.length; i++) {
+            if(childArr[i].nodeType==1)
+            {
+                childArrTem.push(childArr[i]);
+            }
+        }
+        return childArrTem;
+    }
+
+    var event = target.event || window.event;
+    var tar = event.target || event.srcElement;
+    if (tar.nodeName.toLowerCase() == "a") return;
+
+    var curch=target.children[1];
+    var display = curch.style.display == "" ? "none" : "";
+    var sbiling = getChildNodes(target.parentElement.parentElement);
+    for (var i = 0; i < sbiling.length; i++) {
+        try {
+            var span = getChildNodes(sbiling[i]);
+            var menuchild = getChildNodes(span[0])[1];
+            menuchild.style.display = "none";
+        } catch (e) {}
+    }
+    curch.style.display = display;
 }
 
 // Change DataGrid Class By CheckBox

@@ -26,12 +26,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// </summary>
 	public partial class CFTUserCheck : System.Web.UI.Page
 	{
-	
+
+        public string uid;
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			// 在此处放置用户代码以初始化页面
 			try
 			{
+                uid = Session["uid"] as string;
 				string szkey = Session["SzKey"].ToString();
 				//int operid = Int32.Parse(Session["OperID"].ToString());
 

@@ -36,19 +36,23 @@
 <script language="javascript" type="text/javascript" src="scripts/local.js"></script>
 <script language="javascript" type="text/javascript">
     function showHidenMenu(o) {
-        var TableStyle = document.getElementById(o).style.display;
-        if (TableStyle == "none") {
-            document.getElementById(o).style.display = "";
-        }
-        else {
-            document.getElementById(o).style.display = "none";
+        var _this = document.getElementById(o);
+        _this.style.display = _this.style.display == "none" ? "" : "none";
+        var sbiling = _this.parentElement.children || _this.parentElement.childNodes;
+       
+        for (var i = 0; i < sbiling.length; i++) {
+            var cur = sbiling[i];
+            if (cur.nodeType == 1 && cur.nodeName.toLowerCase() == "tr" && cur.id != "" && cur.id != o)
+            {
+                cur.style.display = "none";
+            }           
         }
     }
 </script>
 <style type="text/css">
 BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
 </style>
-<table width="118" border="0" cellspacing="0" cellpadding="0" class="Left_tree" style="WIDTH: 118px; HEIGHT: 490px">
+<table width="118" border="0" cellspacing="0" cellpadding="0" class="Left_tree" style="WIDTH: 118px; HEIGHT: 490px" id="tree">
 	<tr>
 		<td width="130" valign="top" class="Left_table_wh">
             <table width="100%">
@@ -111,8 +115,8 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
                 <tr style="cursor:hand" onclick="javascript:showHidenMenu('sysManagement')">
                   <td style="background-image:url(images/page/menu_bk.gif); height:20">&nbsp;&nbsp;&nbsp;&nbsp;<strong>系统管理</strong></td>
                 </tr>
-                <tr>
-                  <td id="sysManagement" style="display:none">
+                <tr id="sysManagement" style="display:none">
+                  <td>
                         <uc1:BankBillManage id="BankBillManage1" runat="server"></uc1:BankBillManage><!--银行账单-->
                         <uc1:SysManage ID="SysManage1" runat="server" /><!--公告管理-->
                         <uc1:FreezeManage id="FreezeManage1" runat="server"></uc1:FreezeManage><!--资料审核-->

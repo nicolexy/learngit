@@ -10,6 +10,28 @@
 		<style type="text/css">@import url( ../STYLES/ossstyle.css ); UNKNOWN { COLOR: #000000 }
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
+    .watermark_wrap span {
+            z-index: 999;
+            position: absolute;
+            color:#808080;
+            font-size:14px;
+            -moz-transform: rotate(0deg) scale(1.00,1.00) translate(0px,0px) skew(0deg,-12deg);
+            -moz-transform-origin: 0% 0%;
+            -webkit-transform: rotate(0deg) scale(1.00,1.00) translate(0px,0px) skew(0deg,-12deg);
+            -webkit-transform-origin: 0% 0%;
+            -o-transform: rotate(0deg) scale(1.00,1.00) translate(0px,0px) skew(0deg,-12deg);
+            -o-transform-origin: 0% 0%;
+            transform: rotate(0deg) scale(1.00,1.00) translate(0px,0px) skew(0deg,-12deg);
+            transform-origin: 0% 0%;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -khtml-user-select: none;
+            user-select: none;
+            -moz-opacity:0.5;
+			-khtml-opacity: 0.5;
+			opacity: 0.5;
+        }
 		</style>
 		<script language="javascript">
 					function openModeBegin()
@@ -230,9 +252,33 @@
 					        bcjljtzp.checked = true;
 					    }
 					}
+					function watermark(wrapClass, text) {
+					    var wrap = document.createElement("div");
+					    wrap.className = wrapClass;
+					    var page_width = Math.max(document.body.scrollWidth, document.body.clientWidth);
+					    var page_height = Math.max(document.body.scrollHeight, document.body.clientHeight);
+					    for (var i = 20; i < page_width; i += 300) {
+					        for (var j = 20; j < page_height; j += 100) {
+					            var node = document.createElement("span");
+					            node.style.top = j;
+					            node.style.left = i;
+					            node.textContent = node.innerText = text;
+					            wrap.appendChild(node);
+					        }
+					    }
+					    document.body.appendChild(wrap);
+					    window.onresize = window.onload = function () {
+					        wrap.parentElement.removeChild(wrap);
+					        watermark(wrapClass, text);
+					    };
+					}
+
+					function Init() {
+					    watermark("watermark_wrap", "<%=uid%>");
+            	    }
 		</script>
 	</HEAD>
-	<body MS_POSITIONING="GridLayout">
+	<body MS_POSITIONING="GridLayout" onload="Init()">
 		<form id="Form1" method="post" runat="server">
 			<table border="1" cellSpacing="1" cellPadding="1" width="1200">
 				<TR>
