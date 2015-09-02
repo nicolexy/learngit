@@ -143,8 +143,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 			}
 
 			string menuString = "" ;
-			menuString += "<table width=\"96%\" border=\"0\" cellpadding=\"2\" cellspacing=\"2\">" ;
-			menuString += "<tr style=\"cursor:hand\" onclick=\"javascript:expandObject('"+this.ClientID+"_SubMenu')\">" ;
+			menuString += "<table width=\"96%\" border=\"0\" cellpadding=\"2\" cellspacing=\"2\">" ;
+
+            menuString += "<tr style=\"cursor:pointer;\" name=\"menu_flag\" onclick=\"javascript:expandObject('" + this.ClientID + "_SubMenu')\">";
 			//menuString += "<td background=\"images/page/menu_bk.gif\" height=\"20\">" ;
 
             menuString += "<td height=\"20\">";

@@ -25850,11 +25850,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetFundListDetail_New", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetFundListDetail_New(string listid, string fbank_list, string fbank_type, out string mesgg) {
+        public System.Data.DataSet GetFundListDetail_New(string listid, string fbank_list, string fbank_type, DateTime u_BeginTime, DateTime u_EndTime, out string mesgg)
+        {
             object[] results = this.Invoke("GetFundListDetail_New", new object[] {
                         listid,
                         fbank_list,
-                        fbank_type});
+                        fbank_type,
+                        u_BeginTime,
+                        u_EndTime});
             mesgg = ((string)(results[1]));
             return ((System.Data.DataSet)(results[0]));
         }

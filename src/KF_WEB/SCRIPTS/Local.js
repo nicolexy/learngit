@@ -98,6 +98,7 @@ function RotaLeft(img)
 // Expand Appointed Object
 function expandObject(targetID)
 {
+    return;
 	var TableStyle = document.getElementById(targetID).style.display ;
 	if ( TableStyle == "none" )
 	{

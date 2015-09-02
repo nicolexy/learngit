@@ -23,10 +23,11 @@ namespace CFT.CSOMS.BLL.RefundModule
         /// <param name="iPageStart"></param>
         /// <param name="iPageMax"></param>
         /// <returns></returns>
-        public DataSet QueryRefundRegisterList(string coding, string orderId, string stime, string etime, int refundType, int refundState, string tradeState, int iPageStart, int iPageMax) 
+        public DataSet QueryRefundRegisterList(string coding, string orderId, string stime, string etime, int refundType, int refundState, string tradeState, 
+            int refund_id, string submit_user, int iPageStart, int iPageMax) 
         {
             DataSet newDs = null;
-            DataSet ds = new RefundRegisterData().QueryRefundRegisterList(coding, orderId, stime, etime, refundType, refundState, "", iPageStart, iPageMax);
+            DataSet ds = new RefundRegisterData().QueryRefundRegisterList(coding, orderId, stime, etime, refundType, refundState, "", refund_id, submit_user, iPageStart, iPageMax);
 
             if (ds != null && ds.Tables.Count > 0) 
             {

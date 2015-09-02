@@ -139,6 +139,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 throw new Exception("选择时间段超过了十五天，请重新输入！");
             }
 
+            if (begindate.Year != enddate.Year)
+                throw new Exception("给银行的订单号暂不支持跨年度查询，请重新输入！");
+
 
             DateTime dtnewcsdate = DateTime.Parse(newczdate);
             DateTime dtnewendate = dtnewcsdate.AddDays(-1);

@@ -17,6 +17,7 @@ using System.Threading;
 using CFT.CSOMS.BLL.RefundModule;
 using SunLibrary;
 using System.Collections.Generic;
+using CFT.CSOMS.BLL.InternetBank;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 {
@@ -25,12 +26,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
     /// </summary>
     public partial class RefundQuery : System.Web.UI.Page
     {
+        protected static List<int> refundIdList = new List<int>();
+
         protected void Page_Load(object sender, System.EventArgs e)
         {
             // 在此处放置用户代码以初始化页面
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-            ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
-
             try
             {
                 Label1.Text = Session["uid"].ToString();            
@@ -40,15 +40,37 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 }
 
                 if (!IsPostBack)
-                { 
+                {
                     btnNew.Visible = classLibrary.ClassLib.ValidateRight("RefundCheck", this);
-                    TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
-                    TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                    TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                    TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
                     setConfig.GetAllTypeList(ddlTradeState, "PAY_STATE");
                     ddlTradeState.Items.Insert(0, new ListItem("全部", "0"));
                     //退款登记模版 v_yqyqguo
                     //DownloadTemplate.NavigateUrl = System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString() + DownloadTemplate.NavigateUrl;
+
+                    refundIdList.Clear();
+                    DataSet ds = new InternetBankService().GetRefundByFrefundId(0, "", "", 0, 0);
+                    if (ds != null && ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+                        {
+                            this.ddl_refund_id.DataSource = ds.Tables[0];
+                            foreach (DataRow item in ds.Tables[0].Rows)
+                            {
+                                refundIdList.Add(Convert.ToInt32(item["Frefund_id"]));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        this.ddl_refund_id.DataSource = null;
+                    }
+                    this.ddl_refund_id.DataTextField = "Frefund_id";
+                    this.ddl_refund_id.DataValueField = "Frefund_id";
+                    this.ddl_refund_id.DataBind();
+                    this.ddl_refund_id.Items.Insert(0, new ListItem("全部", "0"));
                 }
                 Table3.Visible = false;
                 Table2.Visible = true;
@@ -207,6 +229,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
             string listid = listId.Text.Trim();
             string cftorderid = cftOrderId.Text.Trim();
+            int refund_id = int.Parse(ddl_refund_id.SelectedValue);  //商户号
+            string submit_user = this.tbx_submit_user.Text.Trim();   //登记人
             int rf_type = int.Parse(ddlRefundType.SelectedValue);
             int rf_status = int.Parse(ddlRefundStatus.SelectedValue); //提交退款状态
 
@@ -222,7 +246,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
             //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
             //DataSet ds = qs.QueryRefundInfo(listid, cftorderid, stime, etime, rf_type, rf_status,s_trade_state, start, max);
-            DataSet ds = new RefundRegisterService().QueryRefundRegisterList(listid, cftorderid, stime, etime, rf_type, rf_status, s_trade_state, start, max);
+            DataSet ds = new RefundRegisterService().QueryRefundRegisterList(listid, cftorderid, stime, etime, rf_type, rf_status, s_trade_state, refund_id, submit_user, start, max);
 
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
@@ -305,6 +329,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
             string listid = listId.Text.Trim();
             string cftorderid = cftOrderId.Text.Trim();
+            int refund_id = int.Parse(ddl_refund_id.SelectedValue);  //商户号
+            string submit_user = this.tbx_submit_user.Text.Trim();   //登记人
             int rf_type = int.Parse(ddlRefundType.SelectedValue);
             int rf_status = int.Parse(ddlRefundStatus.SelectedValue);
             string s_trade_state = ddlTradeState.SelectedValue;
@@ -312,7 +338,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             int count = GetCount();
             //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
             //DataSet ds = qs.QueryRefundInfo(listid, cftorderid, stime, etime, rf_type, rf_status,s_trade_state, 1, count);
-            DataSet ds = new RefundRegisterService().QueryRefundRegisterList(listid, cftorderid, stime, etime, rf_type, rf_status, s_trade_state, 0, count);
+            DataSet ds = new RefundRegisterService().QueryRefundRegisterList(listid, cftorderid, stime, etime, rf_type, rf_status, s_trade_state, refund_id, submit_user, 0, count);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 System.Data.DataTable dt = ds.Tables[0];
@@ -589,6 +615,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
                 int iColums = res_dt.Columns.Count;
                 int iRows = res_dt.Rows.Count;
+                
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
                 for (int i = 0; i < iRows; i++)
                 {
@@ -701,6 +728,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 }
                 if (Path.GetExtension(File1.FileName).ToLower() == ".xls")
                 {
+                    string path = Server.MapPath("~/") + "PLFile" + "\\refund.xls";
+                    File1.PostedFile.SaveAs(path);
+                    DataSet res_ds = PublicRes.readXls(path, "F1,F2,F3,F4,F5,F6");
+                    System.Data.DataTable res_dt = res_ds.Tables[0];
+                    if (res_dt != null && res_dt.Rows.Count > 0)
+                    {
+                        string orderId = "", filterOrder = "";
+                        foreach (DataRow item in res_dt.Rows)
+                        {
+                            orderId = item[0].ToString();
+                            if (orderId.Length >= 10 && !refundIdList.Contains(Convert.ToInt32(orderId.Substring(0, 10))))
+                            {
+                                filterOrder += orderId + "，";
+                            }
+                        }
+                        filterOrder.TrimEnd(new char[] { '，' });
+                        WebUtils.ShowMessage(this.Page, filterOrder + " 商家的订单不允许走网银退款。");
+                        return;
+                    }
                     //  Upload();
                     Thread thread = new Thread(Upload);
                     thread.Start();
@@ -868,7 +914,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 #endregion
 
                 #region 获取数据
-                DataSet ds = new RefundRegisterService().QueryRefundRegisterList("", "", stime, etime, 0, 2, "2", 0, 5000); //支付成功，未提交
+                DataSet ds = new RefundRegisterService().QueryRefundRegisterList("", "", stime, etime, 0, 2, "2", 0, "", 0, 5000); //支付成功，未提交
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     dt = ds.Tables[0];
@@ -878,7 +924,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
                 if (total < 5000)
                 {
-                    var ds2 = new RefundRegisterService().QueryRefundRegisterList("", "", stime, etime, 0, 3, "2", 0, 5000 - total);    //支付成功，失效的
+                    var ds2 = new RefundRegisterService().QueryRefundRegisterList("", "", stime, etime, 0, 3, "2", 0, "", 0, 5000 - total);    //支付成功，失效的
                     if (ds2 != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0)
                     {
                         var dt2 = ds2.Tables[0];
@@ -1005,7 +1051,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 //先查询退款记录
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
                 //DataSet ds = qs.QueryRefundInfo("", "", stime, etime, 0, 2, "2", 1, 5000); //支付成功，未提交
-                DataSet ds = new RefundRegisterService().QueryRefundRegisterList("", "", stime, etime, 0, 2, "2", 0, 5000);
+                DataSet ds = new RefundRegisterService().QueryRefundRegisterList("", "", stime, etime, 0, 2, "2", 0, "", 0, 5000);
 
                 #region 生成excel文件
                 int total = 0; //总笔数
@@ -1172,7 +1218,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
                     //再查一次失效的记录，防止订单状态发生改变
                     //ds = qs.QueryRefundInfo("", "", stime, etime, 0, 3, "2", 1, 5000 - total); //支付成功，失效的
-                    ds = new RefundRegisterService().QueryRefundRegisterList("", "", stime, etime, 0, 3, "2", 0, 5000 - total);
+                    ds = new RefundRegisterService().QueryRefundRegisterList("", "", stime, etime, 0, 3, "2", 0, "", 0, 5000 - total);
                     if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                     {
                         ds.Tables[0].Columns.Add("Frefund_type_str", typeof(String));
