@@ -44,37 +44,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 		private void BindData(int index)
 		{
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-//
-//			Finance_Header fh = new Finance_Header();
-//			fh.UserIP = Request.UserHostAddress;
-//			fh.UserName = Session["uid"].ToString();
-//			//fh.UserPassword = "";
-//
-//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-//			fh.SzKey = Session["SzKey"].ToString();
-//			//fh.RightString = Session["key"].ToString();
-//
-//			qs.Finance_HeaderValue = fh;
 			Finance_Header fh = classLibrary.setConfig.setFH(this);
-			//			fh.UserIP = Request.UserHostAddress;
-			//			fh.UserName = Session["uid"].ToString();
-			//
-			//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-			//			fh.SzKey = Session["SzKey"].ToString();
-			//
 			qs.Finance_HeaderValue = fh;
-			//			qs.Finance_HeaderValue = setConfig.setFH(this);
 
 			int pageSize =  Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["pageSize"].ToString());  //通过webconfig控制页大小
 			pager.PageSize   = pageSize;
-			pager.RecordCount = qs.GetGwqCount(Session["QQID"].ToString(),"");
-	
+			pager.RecordCount = qs.GetGwqCount(Session["QQID"].ToString(),"");	
 			pager.CurrentPageIndex = index;
 			int max = pager.PageSize;
 			int start = max * (index-1) + 1;
 
 			DataSet ds = qs.GetGwq(Session["QQID"].ToString(),"",start,max);
-
 
 			if(ds != null && ds.Tables.Count >0)
 			{

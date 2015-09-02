@@ -164,8 +164,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 		private void BindData(int istr,int imax)
 		{
-			Query_Service.Query_Service myService = new Query_Service.Query_Service();
-			//myService.Finance_HeaderValue = classLibrary.setConfig.setFH(Session["uid"].ToString(),Request.UserHostAddress);    
+			Query_Service.Query_Service myService = new Query_Service.Query_Service();  
 			myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 
 			DataSet ds = myService.GetUserAccount(Session["QQID"].ToString(),1,istr,imax);	
@@ -319,16 +318,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             DateTime begindate = DateTime.Parse(TextBoxBeginDate.Text);
             DateTime enddate = DateTime.Parse(TextBoxEndDate.Text);
-            //if (lbtnQueryOld.Text == "ÐÂ°æ")
-            //{
-            //    lbtnQueryOld.Text = "¾É°æ";
-            //    iFramePath = "bankrollLog.aspx?isold=true&type=QQID&BeginDate=" + begindate.ToString("yyyy-MM-dd 00:00:00") + "&EndDate=" + enddate.ToString("yyyy-MM-dd 23:59:59");
-            //}
-            //else 
-            //{
-                lbtnQueryOld.Text = "ÐÂ°æ";
-                iFramePath = "bankrollLog.aspx?type=QQID&BeginDate=" + begindate.ToString("yyyy-MM-dd 00:00:00") + "&EndDate=" + enddate.ToString("yyyy-MM-dd 23:59:59");
-            //}
+
+            lbtnQueryOld.Text = "ÐÂ°æ";
+            iFramePath = "bankrollLog.aspx?type=QQID&BeginDate=" + begindate.ToString("yyyy-MM-dd 00:00:00") + "&EndDate=" + enddate.ToString("yyyy-MM-dd 23:59:59");
         }
 
 	}

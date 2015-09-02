@@ -22,66 +22,66 @@ using CFT.CSOMS.BLL.SPOA;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
-	/// <summary>
-	/// PayBusinessQuery 的摘要说明。
-	/// </summary>
-	public partial class PayBusinessQuery : System.Web.UI.Page
-	{
-	
-		protected void Page_Load(object sender, System.EventArgs e)
-		{
-			try
-			{
-				Label1.Text = Session["uid"].ToString();
-				string szkey = Session["SzKey"].ToString();
-				//int operid = Int32.Parse(Session["OperID"].ToString());
+    /// <summary>
+    /// PayBusinessQuery 的摘要说明。
+    /// </summary>
+    public partial class PayBusinessQuery : System.Web.UI.Page
+    {
 
-				//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
+        protected void Page_Load(object sender, System.EventArgs e)
+        {
+            try
+            {
+                Label1.Text = Session["uid"].ToString();
+                string szkey = Session["SzKey"].ToString();
+                //int operid = Int32.Parse(Session["OperID"].ToString());
 
-				if(!classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
+                //if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
 
-				this.btnSave.Attributes.Add("onclick","return CheckEmail();");
+                if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
 
-				if(!IsPostBack)
-				{
-					this.divInfo.Visible = false;
+                this.btnSave.Attributes.Add("onclick", "return CheckEmail();");
 
-					// 代扣跳转查询商户信息。。。
-					if(Request.QueryString["spid"] != null)
-					{
-						this.txtFspid.Text = Request.QueryString["spid"].Trim();
+                if (!IsPostBack)
+                {
+                    this.divInfo.Visible = false;
+
+                    // 代扣跳转查询商户信息。。。
+                    if (Request.QueryString["spid"] != null)
+                    {
+                        this.txtFspid.Text = Request.QueryString["spid"].Trim();
 
                         BindData(1);
-					}
-				}
-			}
-			catch
-			{
-				Response.Redirect("../login.aspx?wh=1");
-			}
-		}
+                    }
+                }
+            }
+            catch
+            {
+                Response.Redirect("../login.aspx?wh=1");
+            }
+        }
 
-		#region Web 窗体设计器生成的代码
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
-		/// 此方法的内容。
-		/// </summary>
-		private void InitializeComponent()
-		{    
-			this.dgList.ItemCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgList_ItemCommand);
+        #region Web 窗体设计器生成的代码
+        override protected void OnInit(EventArgs e)
+        {
+            //
+            // CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+            //
+            InitializeComponent();
+            base.OnInit(e);
+        }
+
+        /// <summary>
+        /// 设计器支持所需的方法 - 不要使用代码编辑器修改
+        /// 此方法的内容。
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.dgList.ItemCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgList_ItemCommand);
             this.pager.PageChanged += new Wuqi.Webdiyer.PageChangedEventHandler(this.ChangePage);
 
-		}
-		
+        }
+
 
         public void ChangePage(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
         {
@@ -104,65 +104,37 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
 
         }
-        
+
         protected void btnSearch_Click(object sender, System.EventArgs e)
-		{
+        {
+            this.divInfo.Visible = false;
 
-			this.divInfo.Visible = false;
-
-            //try
-           // {
-            //    ValidateDate();
-           // }
-           // catch (Exception err)
-           // {
-           //     WebUtils.ShowMessage(this.Page, err.Message);
-           //     return;
-           // }
-
-			try
-			{
+            try
+            {
                 this.pager.RecordCount = 1000;
-				dgList.CurrentPageIndex = 0;
+                dgList.CurrentPageIndex = 0;
                 BindData(1);
-			}
-			catch(SoapException eSoap) //捕获soap类异常
-			{
-				this.dgList.Visible = false;
-				string errStr = PublicRes.GetErrorMsg(eSoap.Message);
-				WebUtils.ShowMessage(this.Page,"调用服务出错：" + errStr);
-			}
-			catch(Exception eSys)
-			{
-				this.dgList.Visible = false;
-				WebUtils.ShowMessage(this.Page,"读取数据失败！" + eSys.Message);
-			}
-		}
+            }
+            catch (SoapException eSoap) //捕获soap类异常
+            {
+                this.dgList.Visible = false;
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message);
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
+            catch (Exception eSys)
+            {
+                this.dgList.Visible = false;
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message);
+            }
+        }
 
         private void BindData(int index)
-		{
+        {
             this.pager.CurrentPageIndex = index;
             int max = pager.PageSize;
             int start = max * (index - 1);
 
             Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-            //通过管理员别名转换为商户号
-            //string spalias = txtAlias.Text.ToString();
-           // string spid = "";
-            //if (!string.IsNullOrEmpty(spalias))
-            //{
-            //    spid = qs.QuerySpidOrSpalias("", spalias,"");
-            //}
-            //if (string.IsNullOrEmpty(spid))
-            //{
-            //    spid = txtFspid.Text.ToString();
-            //}
-
-           // DataSet ds = qs.GetPayBusinessList(this.txtFspidName.Text.Trim(), spid.Trim(), this.txtFspidAddress.Text.Trim(), this.txtWebName.Text.Trim());
-        //    string filter = GetFilterString();
-
-          //  DataSet ds = new SPOAService().GetSpInfo(filter, max, start);
 
             string spname = txtFspidName.Text.ToString();
             string spid = txtFspid.Text.ToString();
@@ -182,7 +154,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 dgList.DataSource = null;
                 throw new LogicException("没有找到记录！");
             }
-		}
+        }
 
         private string GetFilterString()
         {
@@ -200,38 +172,38 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             return filter;
         }
 
-		private void dgList_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
-		{
-			if(e.CommandName == "Select")
-			{
-				try
-				{
+        private void dgList_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+        {
+            if (e.CommandName == "Select")
+            {
+                try
+                {
                     Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
                     //DataSet ds1 = qs.GetPayBusinessInfo(e.Item.Cells[0].Text);
                     string KeyID = e.Item.Cells[0].Text;
-                  //  DataSet ds1 = new SPOAService().GetSpInfo(" and ApplyCpInfoID="+KeyID, 2, 0);
+                    //  DataSet ds1 = new SPOAService().GetSpInfo(" and ApplyCpInfoID="+KeyID, 2, 0);
                     DataSet ds1 = new SPOAService().GetSpInfo("", KeyID, "", "", "", "", 2, 0);
-                    
-                    if(ds1.Tables[0].Rows.Count == 1)
-					{
-						this.divInfo.Visible = true;
-						this.btnEdit.Visible = true;
-						this.btnSave.Visible = false;
-						this.btnCancel.Visible = false;
 
-						this.txtConnetionName.Enabled = false;
-						this.txtPhone.Enabled = false;
-						this.txtMobile.Enabled = false;
-						this.txtQQNo.Enabled = false;
-						//this.txtEmail.Enabled = false;
+                    if (ds1.Tables[0].Rows.Count == 1)
+                    {
+                        this.divInfo.Visible = true;
+                        this.btnEdit.Visible = true;
+                        this.btnSave.Visible = false;
+                        this.btnCancel.Visible = false;
+
+                        this.txtConnetionName.Enabled = false;
+                        this.txtPhone.Enabled = false;
+                        this.txtMobile.Enabled = false;
+                        this.txtQQNo.Enabled = false;
+                        //this.txtEmail.Enabled = false;
                         //this.txtComAddr.Enabled = false;
                         //this.txtPosCode.Enabled = false;
 
-						ViewState["KeyID"] = e.Item.Cells[0].Text;
-						ViewState["TableFlag"] = e.Item.Cells[1].Text;
+                        ViewState["KeyID"] = e.Item.Cells[0].Text;
+                        ViewState["TableFlag"] = e.Item.Cells[1].Text;
                         this.lblFspid.Text = ds1.Tables[0].Rows[0]["SPID"].ToString();
-						this.lblURL.Text = ds1.Tables[0].Rows[0]["WWWAdress"].ToString();
-						this.lblType.Text = ds1.Tables[0].Rows[0]["TradeName"].ToString();
+                        this.lblURL.Text = ds1.Tables[0].Rows[0]["WWWAdress"].ToString();
+                        this.lblType.Text = ds1.Tables[0].Rows[0]["TradeName"].ToString();
                         string IdentityCardNum = PublicRes.objectToString(ds1.Tables[0], "IdentityCardNum");
 
                         if (!string.IsNullOrEmpty(IdentityCardNum) && IdentityCardNum.Length > 5)
@@ -239,14 +211,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         else
                             this.lblFsidID.Text = IdentityCardNum;
                         this.lblArea.Text = ds1.Tables[0].Rows[0]["AreaName"].ToString();
-						this.lblBDName.Text = ds1.Tables[0].Rows[0]["BDName"].ToString();
-						this.txtConnetionName.Text = ds1.Tables[0].Rows[0]["ContactUser"].ToString();
-						this.txtPhone.Text = ds1.Tables[0].Rows[0]["ContactPhone"].ToString();
-						this.txtMobile.Text = ds1.Tables[0].Rows[0]["ContactMobile"].ToString();
-						this.txtEmail.Text = ds1.Tables[0].Rows[0]["ContactEmail"].ToString();
-					//	this.lblFaxNo.Text = ds1.Tables[0].Rows[0]["ContactFax"].ToString();
-						this.txtQQNo.Text = ds1.Tables[0].Rows[0]["ContactQQ"].ToString();
-						this.txtRemark.Text = ds1.Tables[0].Rows[0]["ErrorMemo"].ToString();
+                        this.lblBDName.Text = ds1.Tables[0].Rows[0]["BDName"].ToString();
+                        this.txtConnetionName.Text = ds1.Tables[0].Rows[0]["ContactUser"].ToString();
+                        this.txtPhone.Text = ds1.Tables[0].Rows[0]["ContactPhone"].ToString();
+                        this.txtMobile.Text = ds1.Tables[0].Rows[0]["ContactMobile"].ToString();
+                        this.txtEmail.Text = ds1.Tables[0].Rows[0]["ContactEmail"].ToString();
+                        //	this.lblFaxNo.Text = ds1.Tables[0].Rows[0]["ContactFax"].ToString();
+                        this.txtQQNo.Text = ds1.Tables[0].Rows[0]["ContactQQ"].ToString();
+                        this.txtRemark.Text = ds1.Tables[0].Rows[0]["ErrorMemo"].ToString();
 
                         this.txtBDSpidType.Text = ds1.Tables[0].Rows[0]["BDSpidTypeName"].ToString();
                         this.txtIsWXBeil.Text = ds1.Tables[0].Rows[0]["IsWXBeilName"].ToString();
@@ -258,12 +230,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         this.txtServiceEmail.Text = ds1.Tables[0].Rows[0]["ServiceEmail"].ToString();
 
                         //新增商户地址、邮政编码 yinhuang 2013/8/2
-                     //   this.txtComAddr.Text = PublicRes.objectToString(ds1.Tables[0], "CompanyAddress");
-                      //  this.txtPosCode.Text = PublicRes.objectToString(ds1.Tables[0], "Postalcode"); 
-                        ViewState["CompanyAddress"]=PublicRes.objectToString(ds1.Tables[0], "CompanyAddress");
-                         ViewState["Postalcode"]=PublicRes.objectToString(ds1.Tables[0], "Postalcode");
+                        //   this.txtComAddr.Text = PublicRes.objectToString(ds1.Tables[0], "CompanyAddress");
+                        //  this.txtPosCode.Text = PublicRes.objectToString(ds1.Tables[0], "Postalcode"); 
+                        ViewState["CompanyAddress"] = PublicRes.objectToString(ds1.Tables[0], "CompanyAddress");
+                        ViewState["Postalcode"] = PublicRes.objectToString(ds1.Tables[0], "Postalcode");
                         this.lblPickType.Text = "未找到数据";
-						this.lblFBalance.Text = "未找到数据";
+                        this.lblFBalance.Text = "未找到数据";
 
                         try
                         {
@@ -305,141 +277,123 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                         }
                         catch { }
-					}
-					else
-					{
-						this.divInfo.Visible = false;
-						WebUtils.ShowMessage(this.Page,"读取数据失败！");
-					}
-				}
-				catch(Exception ex)
-				{
-					this.divInfo.Visible = false;
-					WebUtils.ShowMessage(this.Page,"读取数据失败！"+ex.Message);
-				}
-			}
-		}
+                    }
+                    else
+                    {
+                        this.divInfo.Visible = false;
+                        WebUtils.ShowMessage(this.Page, "读取数据失败！");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.divInfo.Visible = false;
+                    WebUtils.ShowMessage(this.Page, "读取数据失败！" + ex.Message);
+                }
+            }
+        }
 
-		protected void btnSave_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-				qs.ModifyPayBusinessInfo(ViewState["TableFlag"].ToString(),ViewState["KeyID"].ToString(),
-					this.txtConnetionName.Text.Trim(),this.txtPhone.Text.Trim(),this.txtMobile.Text.Trim(),this.txtQQNo.Text.Trim(),this.txtEmail.Text.Trim(),
+        protected void btnSave_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                qs.ModifyPayBusinessInfo(ViewState["TableFlag"].ToString(), ViewState["KeyID"].ToString(),
+                    this.txtConnetionName.Text.Trim(), this.txtPhone.Text.Trim(), this.txtMobile.Text.Trim(), this.txtQQNo.Text.Trim(), this.txtEmail.Text.Trim(),
                     ViewState["CompanyAddress"].ToString(), ViewState["Postalcode"].ToString());
 
-				//DataSet ds = qs.GetPayBusinessInfo(ViewState["KeyID"].ToString());
-
-               // DataSet ds = new SPOAService().GetSpInfo(" and ApplyCpInfoID=" + ViewState["KeyID"].ToString(), 2, 0);
                 DataSet ds = new SPOAService().GetSpInfo("", ViewState["KeyID"].ToString(), "", "", "", "", 2, 0);
-				
+
                 this.txtConnetionName.Text = ds.Tables[0].Rows[0]["ContactUser"].ToString();
-				this.txtPhone.Text = ds.Tables[0].Rows[0]["ContactPhone"].ToString();
-				this.txtMobile.Text = ds.Tables[0].Rows[0]["ContactMobile"].ToString();
-				this.txtQQNo.Text = ds.Tables[0].Rows[0]["ContactQQ"].ToString();
-				//this.txtEmail.Text = ds.Tables[0].Rows[0]["ContactEmail"].ToString();
-                //this.txtComAddr.Text =  PublicRes.objectToString(ds.Tables[0], "CompanyAddress");
-                //this.txtPosCode.Text = PublicRes.objectToString(ds.Tables[0], "Postalcode");
-				
-				ControlBtn(true);
-				this.txtConnetionName.Enabled = false;
-				this.txtPhone.Enabled = false;
-				this.txtMobile.Enabled = false;
-				this.txtQQNo.Enabled = false;
-				//this.txtEmail.Enabled = false;
-                //this.txtComAddr.Enabled = false;
-                //this.txtPosCode.Enabled = false;
-			}
-			catch
-			{
-				this.divInfo.Visible = false;
-				throw new Exception("数据修改失败!");
-			}
+                this.txtPhone.Text = ds.Tables[0].Rows[0]["ContactPhone"].ToString();
+                this.txtMobile.Text = ds.Tables[0].Rows[0]["ContactMobile"].ToString();
+                this.txtQQNo.Text = ds.Tables[0].Rows[0]["ContactQQ"].ToString();
+                ControlBtn(true);
+                this.txtConnetionName.Enabled = false;
+                this.txtPhone.Enabled = false;
+                this.txtMobile.Enabled = false;
+                this.txtQQNo.Enabled = false;
 
-		}
+            }
+            catch
+            {
+                this.divInfo.Visible = false;
+                throw new Exception("数据修改失败!");
+            }
 
-		private void ControlBtn(bool IsEdit)
-		{
-			if(IsEdit)
-			{
-				this.btnEdit.Visible = true;
-				this.btnSave.Visible = false;
-				this.btnCancel.Visible = false;
-			}
-			else
-			{
-				this.btnEdit.Visible = false;
-				this.btnSave.Visible = true;
-				this.btnCancel.Visible = true;
-			}
-		}
+        }
 
-		protected void btnCancel_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-				//DataSet ds = qs.GetPayBusinessInfo(ViewState["KeyID"].ToString());
+        private void ControlBtn(bool IsEdit)
+        {
+            if (IsEdit)
+            {
+                this.btnEdit.Visible = true;
+                this.btnSave.Visible = false;
+                this.btnCancel.Visible = false;
+            }
+            else
+            {
+                this.btnEdit.Visible = false;
+                this.btnSave.Visible = true;
+                this.btnCancel.Visible = true;
+            }
+        }
+
+        protected void btnCancel_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                //DataSet ds = qs.GetPayBusinessInfo(ViewState["KeyID"].ToString());
 
                 //DataSet ds = new SPOAService().GetSpInfo(" and ApplyCpInfoID=" + ViewState["KeyID"].ToString(), 2, 0);
                 DataSet ds = new SPOAService().GetSpInfo("", ViewState["KeyID"].ToString(), "", "", "", "", 2, 0);
-				
-                if(ds.Tables[0].Rows.Count == 1)
-				{
-					this.lblURL.Text = ds.Tables[0].Rows[0]["WWWAdress"].ToString();
-					this.lblType.Text = ds.Tables[0].Rows[0]["TradeName"].ToString();
-					this.lblFsidID.Text = ds.Tables[0].Rows[0]["IDNo"].ToString();
-					this.lblArea.Text = ds.Tables[0].Rows[0]["AreaName"].ToString();
-					this.txtConnetionName.Text = ds.Tables[0].Rows[0]["ContactUser"].ToString();
-					this.txtPhone.Text = ds.Tables[0].Rows[0]["ContactPhone"].ToString();
-					this.txtMobile.Text = ds.Tables[0].Rows[0]["ContactMobile"].ToString();
-					this.txtEmail.Text = ds.Tables[0].Rows[0]["ContactEmail"].ToString();
-					//this.lblFaxNo.Text = ds.Tables[0].Rows[0]["ContactFax"].ToString();
-					this.txtQQNo.Text = ds.Tables[0].Rows[0]["ContactQQ"].ToString();
-					this.txtRemark.Text = ds.Tables[0].Rows[0]["ErrorMemo"].ToString();
-                   // this.txtComAddr.Text = PublicRes.objectToString(ds.Tables[0], "CompanyAddress");
-                   // this.txtPosCode.Text = PublicRes.objectToString(ds.Tables[0], "Postalcode");
-				}
 
-				this.txtConnetionName.Enabled = false;
-				this.txtPhone.Enabled = false;
-				this.txtMobile.Enabled = false;
-				this.txtQQNo.Enabled = false;
-				//this.txtEmail.Enabled = false;
-                //this.txtComAddr.Enabled = false;
-                //this.txtPosCode.Enabled = false;
-				ControlBtn(true);
-			}
-			catch
-			{
-				this.divInfo.Visible = false;
-				throw new Exception("数据读取失败!");
-			}
-		}
+                if (ds.Tables[0].Rows.Count == 1)
+                {
+                    this.lblURL.Text = ds.Tables[0].Rows[0]["WWWAdress"].ToString();
+                    this.lblType.Text = ds.Tables[0].Rows[0]["TradeName"].ToString();
+                    this.lblFsidID.Text = ds.Tables[0].Rows[0]["IDNo"].ToString();
+                    this.lblArea.Text = ds.Tables[0].Rows[0]["AreaName"].ToString();
+                    this.txtConnetionName.Text = ds.Tables[0].Rows[0]["ContactUser"].ToString();
+                    this.txtPhone.Text = ds.Tables[0].Rows[0]["ContactPhone"].ToString();
+                    this.txtMobile.Text = ds.Tables[0].Rows[0]["ContactMobile"].ToString();
+                    this.txtEmail.Text = ds.Tables[0].Rows[0]["ContactEmail"].ToString();
+                    this.txtQQNo.Text = ds.Tables[0].Rows[0]["ContactQQ"].ToString();
+                    this.txtRemark.Text = ds.Tables[0].Rows[0]["ErrorMemo"].ToString();
+                }
+
+                this.txtConnetionName.Enabled = false;
+                this.txtPhone.Enabled = false;
+                this.txtMobile.Enabled = false;
+                this.txtQQNo.Enabled = false;
+                ControlBtn(true);
+            }
+            catch
+            {
+                this.divInfo.Visible = false;
+                throw new Exception("数据读取失败!");
+            }
+        }
         private void ShowMsg(string msg)
         {
             Response.Write("<script language=javascript>alert('" + msg + "')</script>");
         }
-		protected void btnEdit_Click(object sender, System.EventArgs e)
-		{
+        protected void btnEdit_Click(object sender, System.EventArgs e)
+        {
             if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("PayBusinessCMD", this))
             {
-               // Response.Redirect("../login.aspx?wh=1");
+                // Response.Redirect("../login.aspx?wh=1");
                 ShowMsg("您没有权限进行此操作。如有需要，请申请权限！");
                 return;
             }
-                
-			ControlBtn(false);
-			this.txtConnetionName.Enabled = true;
-			this.txtPhone.Enabled = true;
-			this.txtQQNo.Enabled = true;
-			//取消修改yinhuang 2013/09/04
-            //this.txtEmail.Enabled = true;
-            //this.txtComAddr.Enabled = true;
-            //this.txtPosCode.Enabled = true;
-			if(ViewState["TableFlag"].ToString() == "ApplyCpInfoX")
-				this.txtMobile.Enabled = true;
-		}
-	}
+
+            ControlBtn(false);
+            this.txtConnetionName.Enabled = true;
+            this.txtPhone.Enabled = true;
+            this.txtQQNo.Enabled = true;
+
+            if (ViewState["TableFlag"].ToString() == "ApplyCpInfoX")
+                this.txtMobile.Enabled = true;
+        }
+    }
 }

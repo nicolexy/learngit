@@ -8,9 +8,7 @@ using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
-
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using TENCENT.OSS.CFT.KF.DataAccess;

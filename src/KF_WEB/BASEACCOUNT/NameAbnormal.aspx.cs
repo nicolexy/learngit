@@ -52,14 +52,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			BindData();
 		}
 		
-
-        //private void ChangePage(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
-        //{
-        //    pager.CurrentPageIndex = e.NewPageIndex;
-        //    BindData(e.NewPageIndex);
-        //}
-
-
 		public void BindData()
 		{
             try
@@ -128,7 +120,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
         }
 
-
         protected void btnSubmitApply_Click(object sender, System.EventArgs e)
         {
             try
@@ -164,7 +155,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 nameAbnormal.Fsubmit_user = Session["uid"].ToString();
                 nameAbnormal.Fsubmit_time = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 nameAbnormal.Fcheck_state = "0";
-
 
                 new AuthenInfoService().AddNameAbnormalInfo(nameAbnormal);
                 this.tableCreate.Visible = false;

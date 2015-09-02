@@ -107,5 +107,44 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                 return null;
             }
         }
+
+        /// <summary>
+        /// 财付通会员账号基本信息查询
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public DataSet QueryCFTMember(string account)
+        {
+            return new AccountData().QueryCFTMember(account);
+        }
+
+        /// <summary>
+        /// 财付通会员账号高级信息查询
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public DataSet QueryCFTMemberAdvanced(string account)
+        {
+            return new AccountData().QueryCFTMemberAdvanced(account);
+        }
+
+        /// <summary>
+        /// 财付值流水查询
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="order"></param>
+        /// <param name="begin"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public DataSet QueryTurnover(string account, string order, string begin, string end)
+        {
+            return new AccountData().QueryTurnover(account, order, begin, end);
+        }
+
+        public DataSet GetFreeFlowInfo(string cftNo)
+        {
+            return new AccountData().GetFreeFlowInfo(cftNo);
+        }
+
     }
 }

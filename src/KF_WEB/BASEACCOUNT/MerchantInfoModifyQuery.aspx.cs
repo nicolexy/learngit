@@ -19,8 +19,6 @@ using System.Collections.Generic;
 using CFT.CSOMS.BLL.SPOA;
 using System.Xml;
 
-
-
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
 	/// <summary>
@@ -113,24 +111,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             qs.Finance_HeaderValue = fh;
             string spid = this.txtspid.Text.Trim();
             string accountC = this.txtAccountC.Text.Trim();
-
             DataSet ds = new SPOAService().QueryAmendMspInfo(spid, ddlModType.SelectedValue, accountC);
 
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count>0)
             {
-                //ds.Tables[0].Columns.Add("AmendType_str",Type.GetType("System.String"));
-                //foreach (DataRow row in ds.Tables[0].Rows)
-                //{
-                //    var amendType = row["AmendType"].ToString();
-                //    if (BaseDictionary.ModType.ContainsKey(amendType))
-                //    {
-                //        row["AmendType_str"] = BaseDictionary.ModType[amendType];
-                //    }
-                //    else
-                //    {
-                //        row["AmendType_str"] = amendType;
-                //    }
-                //}
                 dgList.DataSource = ds.Tables[0].DefaultView;
                 dgList.DataBind();
             }

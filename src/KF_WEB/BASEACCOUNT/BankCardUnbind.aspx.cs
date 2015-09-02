@@ -30,9 +30,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
-                //int operid = Int32.Parse(Session["OperID"].ToString());
 
-                //if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
                 if (!ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
 
                 this.rbtn_bkt_JJK.CheckedChanged += new EventHandler(rbtns_CheckedChanged);
@@ -140,22 +138,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 this.lblFbank_type.Text = classLibrary.getData.GetBankNameFromBankCode(Fbank_type);
                 lblFbankType.Text = Fbank_type; //增加bank_type yinhuang 2013.7.18
-                /*
-                if(Fbank_type == "0")
-                    this.lblFbank_type.Text = "未知";
-                else if(Fbank_type == "2001")
-                    this.lblFbank_type.Text = "招行一点通";
-                else if(Fbank_type == "2002")
-                    this.lblFbank_type.Text = "工行一点通";
-                else if(Fbank_type == "2003")
-                    this.lblFbank_type.Text = "建行一点通";
-                else if(Fbank_type == "3001")
-                    this.lblFbank_type.Text = "兴业信用卡";
-                else if(Fbank_type == "3002")
-                    this.lblFbank_type.Text = "中行信用卡";
-                else
-                    this.lblFbank_type.Text = Fbank_type;
-                */
 
                 this.lblFbind_serialno.Text = ds.Tables[0].Rows[0]["Fbind_serialno"].ToString();
                 this.lblFprotocol_no.Text = ds.Tables[0].Rows[0]["Fprotocol_no"].ToString();
@@ -265,13 +247,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     this.lblbindTimeBank.Text = dr["Fbind_time_bank"].ToString();
                     this.lblUnbindTimeLocal.Text = dr["Funchain_time_local"].ToString();
                     this.lblUnbindTimeBank.Text = dr["Funchain_time_bank"].ToString();
-
-                    //协议编号为0时显示复选框
-                    //if (this.lblFprotocol_no.Text=="0")
-                    //{
-                    //    this.PanelCheckBox.Visible = true;
-                    //}
-
                 }
                 catch (Exception ex)
                 {
@@ -292,8 +267,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
                 qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-
-
 
                 //20130809 如果为邮储一点通、建行一点通、工行一点通，它们的协议号存在了bankID字段，不能走统一的解绑方式
                 //解绑时调用绑定服务解绑,使用uid 卡尾号
@@ -322,8 +295,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     qs.UnbindBankCard(this.lblFbankType.Text, this.lblFuin.Text, this.lblFprotocol_no.Text);
                     WebUtils.ShowMessage(this.Page, "解绑成功");
                 }
-                //qs.ModifyBankCardBind(this.lblFuid.Text,this.lblFindex.Text,this.txtFmemo.Text.Trim());
-
                 this.btnUnbind.Enabled = false;
             }
             catch (SoapException eSoap) //捕获soap类异常
@@ -476,7 +447,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 {
                     this.dgList.DataSource = null;
                     this.dgList.DataBind();
-                    //throw new Exception("没有查找到相应的记录！");	
                     WebUtils.ShowMessage(this, "查询一点通信息为空");
                     return;
                 }
@@ -534,19 +504,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
         }
 
-
         private void BindData(int index)
         {
             this.pager.CurrentPageIndex = index;
             try
             {
-                /*
-                if(this.txtQQ.Text.Trim() == "" && this.tbx_uid.Text.Trim() == "")
-                    throw new Exception("请输入财付通账号或内部ID！");
-                    */
-
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                //DataSet ds = qs.GetBankCardBindList(this.txtQQ.Text.Trim(),this.ddl_BankType.SelectedValue);
 
                 DataSet ds = null;
 
@@ -643,8 +606,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         protected void btnSearch_Click(object sender, System.EventArgs e)
         {
-            //BindData(1);
-
             if (this.tbx_uid.Text.Trim() != "" || this.txtQQ.Text.Trim() != "")
             {
                 BindData(1);
@@ -654,7 +615,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 BindData_UIN(1);
             }
         }
-
 
         private void rbtns_CheckedChanged(object sender, EventArgs e)
         {
@@ -766,8 +726,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
         }
 
-
-
         private void AddAllBankType()
         {
             getData.BankClass[] bkInfoList = null;
@@ -799,13 +757,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         private void pager_PageChanged(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
         {
-            //this.pager.CurrentPageIndex = e.NewPageIndex;
-
-            //this.BindData(e.NewPageIndex);
-
-            //原来的qqid参数
-            //string qqid = this.dgList.Items[0].Cells[3].Text.Trim();
-
             //20130828 lxl 往回翻页有问题修复
             string qqid = Session["qqid"].ToString();
 

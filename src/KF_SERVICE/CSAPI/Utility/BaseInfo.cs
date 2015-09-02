@@ -357,6 +357,95 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             public string Fmodify_time { get; set; }
         }
 
+        public class GetUserInfo
+        {
+            [XmlElement("qqid")]
+            public string Fqqid { get; set; }
+            [XmlElement("truename")]
+            public string Ftruename { get; set; }
+            [XmlElement("att_id")]  
+            public string Fatt_id { get; set; }
+            [XmlElement("att_id_str")]
+            public string Fatt_id_str { get; set; }
+            [XmlElement("sex")] 
+            public string Fsex { get; set; }
+            [XmlElement("sex_str")]
+            public string Fsex_str { get; set; }
+            [XmlElement("company_name")]
+            public string Fcompany_name { get; set; }
+            [XmlElement("age")]
+            public string Fage { get; set; }
+            [XmlElement("phone")]
+            public string Fphone { get; set; }
+            [XmlElement("mobile")]
+            public string Fmobile { get; set; }
+            [XmlElement("email")]
+            public string Femail { get; set; }
+
+            [XmlElement("address")]
+            public string Faddress { get; set; }
+            [XmlElement("pcode")]
+            public string Fpcode { get; set; }
+            [XmlElement("cre_type")]    
+            public string Fcre_type { get; set; }
+            [XmlElement("cre_type_str")]
+            public string Fcre_type_str { get; set; }
+            [XmlElement("creid")]
+            public string Fcreid { get; set; }
+            [XmlElement("memo")]
+            public string Fmemo { get; set; }
+            [XmlElement("modify_time")]
+            public string Fmodify_time { get; set; }
+            [XmlElement("area")]
+            public string Farea { get; set; }
+            [XmlElement("city")]
+            public string Fcity { get; set; }
+            [XmlElement("userType")]
+            public string userType { get; set; }
+            [XmlElement("userType_str")]
+            public string userType_str { get; set; }
+        }
+
+        public class UserInfoLog
+        {
+            [XmlElement("cre_type")]
+            public string Fcre_type { get; set; }
+            [XmlElement("cre_type_str")]
+            public string Fcre_type_str { get; set; }
+            [XmlElement("cre_type_old")]
+            public string Fcre_type_old { get; set; }
+            [XmlElement("cre_type_old_str")]
+            public string Fcre_type_old_str { get; set; }
+            [XmlElement("user_type")]
+            public string Fuser_type { get; set; }
+            [XmlElement("user_type_str")]
+            public string Fuser_type_str { get; set; }
+
+            [XmlElement("user_type_old")]
+            public string Fuser_type_old { get; set; }
+            [XmlElement("user_type_old_str")]
+            public string Fuser_type_old_str { get; set; }
+            [XmlElement("attid")]
+            public string Fattid { get; set; }
+            [XmlElement("attid_str")]
+            public string Fattid_str { get; set; }
+            [XmlElement("attid_old")]
+            public string Fattid_old { get; set; }
+            [XmlElement("attid_old_str")]
+            public string Fattid_old_str { get; set; }
+
+            [XmlElement("qqid")]
+            public string Fqqid { get; set; }
+            [XmlElement("submit_user")]
+            public string Fsubmit_user { get; set; }
+            [XmlElement("submit_time")]
+            public string Fsubmit_time { get; set; }
+            [XmlElement("commet")]
+            public string Fcommet { get; set; }
+            [XmlElement("commet_old")]
+            public string Fcommet_old { get; set; }
+        }
+
         #endregion
 
         #region 销户
@@ -444,6 +533,38 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             public string Fmodify_time { get; set; }
             [XmlElement("ip")]
             public string DeleteIP { get; set; }
+        }
+
+        #endregion
+
+        #region 实名认证一块的需求
+
+        public class FreeFlowInfo
+        {
+            [XmlElement("isVip")]
+            public string isVip { get; set; }
+            [XmlElement("vip_exp_date")]
+            public string vip_exp_date { get; set; }
+            [XmlElement("authenState")]
+            public string authenState { get; set; }
+            [XmlElement("freeFlow")]
+            public string freeFlow { get; set; }
+            [XmlElement("isBig")]
+            public string isBig { get; set; }
+            [XmlElement("isTX")]
+            public string isTX { get; set; }
+        }
+
+        public class AuthenDealList
+        {
+            [XmlElement("result")]
+            public string Result { get; set; }
+            [XmlElement("pickuser")]//处理人
+            public string FPickuser { get;set; }
+            [XmlElement("picktime")]
+            public string Fpicktime { get; set; }
+            [XmlElement("memo")]
+            public string Fmemo { get; set; }
         }
 
         #endregion

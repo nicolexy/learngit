@@ -638,40 +638,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 				labFTypeName.Text = "实名认证";
 				tbComment.Visible = false;
-//				cre_id.Text = dr["cre_id"].ToString();
 
-//				cre_type.Text = GetCreType(dr["cre_type"].ToString());
-//
-//				email.Text = dr["Femail"].ToString();
-//
-//				labFstatename.Text = dr["FStateName"].ToString();
-//
-//				if(dr["clear_pps"].ToString() == "1" && dr["FType"].ToString() == "1")
-//				{
-//					clear_pps.Text = "清除";
-//				}
-//				else if (dr["FType"].ToString() == "1" && dr["clear_pps"].ToString() != "1")
-//				{
-//					clear_pps.Text = "不清除";
-//				}
-//				else
-//				{
-//					clear_pps.Text = "";
-//				}
-
-//				tbReason.Text = dr["reason"].ToString();
-//				tbComment.Text = dr["Fcomment"].ToString();
-
-//				old_name.Text = dr["old_name"].ToString();
-//				new_name.Text = dr["new_name"].ToString();
 				tbFCheckInfo.Text = PublicRes.GetString(dr["Fmemo"]);
-
-//				if(dr["FType"].ToString() == "3")
-//				{
-//					old_name.Text = dr["old_company"].ToString();
-//					new_name.Text = dr["new_company"].ToString();
-//				}
-			
+		
 				string imagestr = dr["Fpath"].ToString().Trim();
                 //实名认证图片由原来的配置UserClassUrlPath改为GetAppealImageCgi，跟申诉1，5，6类型一致，gregyao提供改的方法
                 string url = System.Configuration.ConfigurationManager.AppSettings["GetAppealImageCgi"].Trim();
@@ -684,10 +653,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				}
 				else
 				Image1.ImageUrl =  url + imagestr;
-
-//				//更换关联手机时再加入一个图片
-//				string imagestr2 = dr["Fdes_path"].ToString().Trim();
-//				Image2.ImageUrl =  url + imagestr2;
 
 				string Msg = "";
 
@@ -705,19 +670,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 						DataRow druser = dsuser.Tables[0].Rows[0];
 
 						labFQQid.Text = druser["Fqqid"].ToString();
-
 						labFcre_type.Text = GetCreType(druser["Fcre_type"].ToString());
-
 						labFcreid.Text = PublicRes.GetString(druser["Fcreid"]);
-//						labFEmail.Text = PublicRes.GetString(druser["FEmail"]);
 						labFtruename.Text = PublicRes.GetString(druser["Ftruename"]);
-
-//						labFBankAcc.Text = PublicRes.GetString(druser["Fbankid"]);
-
-//						if(dr["FType"].ToString() == "3")
-//						{
-//							labFtruename.Text = PublicRes.GetString(druser["Fcompany_name"]);
-//						}
 					}
 				}
 				catch(Exception err)
@@ -732,7 +687,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				throw new Exception("没有找到记录！");
 			}
 		}
-
 
 		protected void btOK_Click(object sender, System.EventArgs e)
 		{
@@ -749,15 +703,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				Query_Service.Query_Service qs = new Query_Service.Query_Service();
 
 				Finance_Header fh = setConfig.setFH(this);
-				//			fh.UserIP = Request.UserHostAddress;
-				//			fh.UserName = Session["uid"].ToString();
-				//
-				//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-				//			fh.SzKey = Session["SzKey"].ToString();
-				//
 				qs.Finance_HeaderValue = fh;
-				//			qs.Finance_HeaderValue = setConfig.setFH(this);
-
 				string UserIP = Request.UserHostAddress;
 				string UserName = Session["uid"].ToString();
 
@@ -974,25 +920,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				if(reason.Trim() == "" && OtherReason.Trim() == "")
 					throw new Exception("请选择拒绝原因！");
 
-//				if(this.RejectReason.SelectedIndex == -1)
-//				{
-//					throw new Exception("请选择拒绝原因！");
-//				}
-//				if(this.RejectReason.Items[5].Selected && this.tbFCheckInfo.Text.Trim() == "")
-//				{
-//					throw new Exception("请输入其它原因！");
-//				}
-//				string reason = "",OtherReason = "";
-//				for(int i=0; i<this.RejectReason.Items.Count; i++)
-//				{
-//					if(i == 5)
-//						OtherReason = classLibrary.setConfig.replaceMStr(tbFCheckInfo.Text.Trim());
-//					else if(this.RejectReason.Items[i].Selected)
-//					{
-//						reason += this.RejectReason.Items[i].Text + "&";
-//					}
-//				}
-
 				string fid = ViewState["fid"].ToString();
 				string flist_id = ViewState["flist_id"].ToString();
                 string db = ViewState["db"].ToString();
@@ -1000,16 +927,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 				Query_Service.Query_Service qs = new Query_Service.Query_Service();
 
-				Finance_Header fh = setConfig.setFH(this);
-				//			fh.UserIP = Request.UserHostAddress;
-				//			fh.UserName = Session["uid"].ToString();
-				//
-				//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-				//			fh.SzKey = Session["SzKey"].ToString();
-				//
+				Finance_Header fh = setConfig.setFH(this);			
 				qs.Finance_HeaderValue = fh;
-				//			qs.Finance_HeaderValue = setConfig.setFH(this);
-
 				string UserIP = Request.UserHostAddress;
 				string UserName = Session["uid"].ToString();
 
@@ -1093,16 +1012,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 				Query_Service.Query_Service qs = new Query_Service.Query_Service();
 
-				Finance_Header fh = setConfig.setFH(this);
-				//			fh.UserIP = Request.UserHostAddress;
-				//			fh.UserName = Session["uid"].ToString();
-				//
-				//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-				//			fh.SzKey = Session["SzKey"].ToString();
-				//
+				Finance_Header fh = setConfig.setFH(this);				
 				qs.Finance_HeaderValue = fh;
-				//			qs.Finance_HeaderValue = setConfig.setFH(this);
-
 				string UserIP = Request.UserHostAddress;
 				string UserName = Session["uid"].ToString();
 

@@ -1311,6 +1311,105 @@ namespace CFT.CSOMS.Service.CSAPI
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
+
+        #endregion
+
+        #region /*个人信息*/
+       
+        /// <summary>
+        /// 获取个人信息
+        /// </summary>
+        [WebMethod]
+        public void GetUserInfo()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
+                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
+
+                if (offset < 0)
+                    offset = 0;
+                if (limit < 0 || limit > 100)
+                    limit = 20;
+
+                string userType = "", Msg = "", userType_str = "";
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserInfo(qqid, offset, limit);
+                bool type = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserType(qqid, out userType,out userType_str, out Msg);
+                if (type && infos != null && infos.Tables.Count > 0 && infos.Tables[0].Rows.Count > 0)
+                {
+                    infos.Tables[0].Columns.Add("userType", typeof(String));
+                    infos.Tables[0].Columns.Add("userType_str", typeof(String));
+                    foreach (DataRow dr in infos.Tables[0].Rows)
+                    {
+                        dr["userType"] = userType;
+                        dr["userType_str"] = userType_str;
+                    }
+                }
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<BaseInfoC.GetUserInfo> list = APIUtil.ConvertTo<BaseInfoC.GetUserInfo>(infos.Tables[0]);
+                APIUtil.Print<BaseInfoC.GetUserInfo>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetUserInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetUserInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        [WebMethod]
+        public void QueryChangeUserInfoLog()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
+                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
+
+                if (offset < 0)
+                    offset = 0;
+                if (limit < 0 || limit > 100)
+                    limit = 20;
+
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().QueryChangeUserInfoLog(qqid, offset, limit);
+                if (infos == null || infos.Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<BaseInfoC.UserInfoLog> list = APIUtil.ConvertTo<BaseInfoC.UserInfoLog>(infos);
+                APIUtil.Print<BaseInfoC.UserInfoLog>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("QueryChangeUserInfoLog").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("QueryChangeUserInfoLog").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
      
         #endregion
 
@@ -1963,5 +2062,170 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         #endregion
+
+        #region 实名认证这一块的需求
+
+        /// <summary>
+        /// 免费流量查询
+        /// </summary>
+        public void GetFreeFlowInfo()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+
+                string isVip = "", vip_exp_date = "", authenState = "", freeFlow = "", isBig = "", isTX = "";
+                //是否为VIP会员
+                var VipInfos = new CFT.CSOMS.BLL.CFTAccountModule.VIPService().QueryCFTMember(uin);
+                if (VipInfos == null || VipInfos.Tables.Count < 1 || VipInfos.Tables[0].Rows.Count != 1)
+                {
+                    isVip = "否";
+                }
+                else
+                {
+                    isVip = "是";
+                    vip_exp_date = VipInfos.Tables[0].Rows[0]["Fvip_exp_date"].ToString();
+                }
+
+                //实名认证
+                var Authen = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().GetUserAuthenState(uin, "", 0);
+                if (Authen)
+                {
+                    authenState = "是";
+                }
+                else
+                {
+                    authenState = "否";
+                }
+
+                var Flow = new CFT.CSOMS.BLL.CFTAccountModule.VIPService().GetFreeFlowInfo(uin);
+                if (Flow != null && Flow.Tables.Count > 0)
+                {
+                    DataTable dt = Flow.Tables[0];
+                    freeFlow = dt.Rows[0]["free_amount"].ToString();   //免费流量,单位分
+                }
+
+                //白名单、大额用户
+                var Big = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserTypeInfo(uin, 3, 1, 0, 1, 1); //1转账白名单
+                if (Big != null && Big.Tables.Count > 0 && Big.Tables[0].Rows.Count > 0)
+                {
+                    DataTable dt = Big.Tables[0];
+                    string ys = dt.Rows[0]["eip_user"].ToString();
+                    if (ys == "Y")
+                    {
+                        isBig = "是";
+                    }
+                    else if (ys == "N")
+                    {
+                        isBig = "否";
+                    }
+                    else
+                    {
+                        isBig = "";//是否为白名单
+                    }
+
+                }
+                else
+                {
+                    isBig = "否";
+                }
+
+                var TX = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserTypeInfo(uin, 5, 1, 0, 1, 1); //0提现大额用户   
+                if (TX != null && TX.Tables.Count > 0 && TX.Tables[0].Rows.Count > 0)
+                {
+                    DataTable dt = TX.Tables[0];
+                    string ys = dt.Rows[0]["eip_user"].ToString();
+                    if (ys == "Y")
+                    {
+                        isTX = "是";
+                    }
+                    else if (ys == "N")
+                    {
+                        isTX = "否";
+                    }
+                    else
+                    {
+                        isTX = "";//是否为大额用户
+                    }
+
+                }
+                else
+                {
+                    isTX = "否";
+                }
+
+                BaseInfoC.FreeFlowInfo freeTable = new BaseInfoC.FreeFlowInfo();
+                freeTable.isBig = isBig;
+                freeTable.isTX = isTX;
+                freeTable.isVip = isVip;
+                freeTable.vip_exp_date = vip_exp_date;
+                freeTable.authenState = authenState;
+                freeTable.freeFlow = freeFlow;
+                List<BaseInfoC.FreeFlowInfo> list = new List<BaseInfoC.FreeFlowInfo>();
+                list.Add(freeTable);
+                APIUtil.Print<BaseInfoC.FreeFlowInfo>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetFreeFlowInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetFreeFlowInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
+        /// 实名处理查询页面
+        /// </summary>
+        public void AuthenDealQuery()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "serialNo", "ip", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
+                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
+
+                if (offset < 0)
+                    offset = 0;
+                if (limit < 0 || limit > 100)
+                    limit = 20;
+
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AuthenInfoService().GetUserClassQueryListForThis(uin, offset, limit);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<BaseInfoC.AuthenDealList> list = APIUtil.ConvertTo<BaseInfoC.AuthenDealList>(infos.Tables[0]);
+                APIUtil.Print<BaseInfoC.AuthenDealList>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("AuthenDealQuery").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("AuthenDealQuery").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        #endregion
+
     }
 }

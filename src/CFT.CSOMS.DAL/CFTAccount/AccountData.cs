@@ -259,6 +259,52 @@ namespace CFT.CSOMS.DAL.CFTAccount
             }
         }
 
+        //查询用户资料表
+        public DataSet GetUserInfo(string u_QQID, int istr, int imax)
+        {          
+            try
+            {
+                // TODO: 1客户信息资料外移
+                string fuid = PublicRes.ConvertToFuid(u_QQID);
+                Q_USER_INFO cuser = new Q_USER_INFO(fuid);
+                return cuser.GetResultX(istr, imax, "ZW");
+            }
+            catch (Exception e)
+            {
+                throw new Exception("该用户不存在！");
+                return null;
+            }         
+        }
+
+        //返回用户的帐户类型
+        public bool getUserType(string qqid, out string userType, out string Msg)
+        {
+            userType = null;
+            Msg = null;
+            if (qqid == null)
+            {
+                Msg = "传入的参数不完整！";
+                return false;
+            }
+
+            try
+            {
+                string strID = PublicRes.ConvertToFuid(qqid);  //先转换成fuid
+                string strSql = "uid=" + strID;
+                userType = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_USERINFO, "Fuser_type", out Msg);
+
+                if (userType != null && userType.Trim() != "")
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception e)
+            {
+                Msg = "获取帐户类型失败！[" + e.Message.ToString().Replace("'", "’") + "]";
+                return false;
+            }
+        }
+
         //同步姓名
         public string SynUserName(string aaUin, string oldName, string newName, string wxUin)
         {
@@ -706,6 +752,46 @@ namespace CFT.CSOMS.DAL.CFTAccount
             }
         }
 
+        /// <summary>
+        /// 用户类型查询
+        /// </summary>
+        /// <param name="cftNo"></param>
+        /// <param name="product_type"></param>
+        /// <param name="business_type"></param>
+        /// <param name="sub_business_type"></param>
+        /// <param name="cur_type"></param>
+        /// <param name="userType"></param>
+        /// <returns></returns>
+        public DataSet GetUserTypeInfo(string cftNo, int product_type, int business_type, int sub_business_type, int cur_type, int userType)
+        {
+            string msg = "";
+            DataSet ds = null;
+
+            try
+            {
+                if (cftNo == null || cftNo == "")
+                {
+                    return null;
+                }
+                string req = "";
+                string uid = PublicRes.ConvertToFuid(cftNo);
+                req += "uid=" + uid;
+                req += "&product_type=" + product_type;
+                req += "&business_type=" + business_type;
+                req += "&sub_business_type=" + sub_business_type;
+                req += "&cur_type=" + cur_type;
+                req += "&func=" + userType;
+                string service_name = "oss_eip_query_realname_service";
+                ds = CommQuery.GetOneTableFromICE(req, CommQuery.QUERY_USER_TYPE, service_name, false, out msg);
+            }
+            catch (Exception err)
+            {
+                throw new Exception("Service处理失败！" + msg);
+            }
+
+            return ds;
+        }
+
         public DataSet QueryVipInfo(string uin)
         {
 
@@ -739,6 +825,160 @@ namespace CFT.CSOMS.DAL.CFTAccount
             }
             return ds;
 
+        }
+
+        /// <summary>
+        /// 免费流量信息查询
+        /// </summary>
+        /// <param name="cftNo"></param>
+        /// <returns></returns>
+        public DataSet GetFreeFlowInfo(string cftNo)
+        {
+            string msg = "";
+            DataSet ds = null;
+
+            try
+            {
+                if (cftNo == null || cftNo == "")
+                {
+                    return null;
+                }
+                string req = "";
+                string uid = PublicRes.ConvertToFuid(cftNo);
+                req = "uid=" + uid;
+                string service_name = "oss_eip_query_userfee_service";
+                ds = CommQuery.GetOneTableFromICE(req, CommQuery.QUERY_FREE_FLOW, service_name, out msg);
+            }
+            catch (Exception err)
+            {
+                throw new Exception("Service处理失败！" + msg);
+            }
+
+            return ds;
+        }
+
+        //财付通会员账号基本信息查询
+        public DataSet QueryCFTMember(string account)
+        {
+            string[] dbInfo = GetDbInfo(account);
+            string strSql = string.Format("select * from c2c_db_{0}.t_user_rank_{1}  where Fuin='{2}'", dbInfo[0], dbInfo[1], account);
+            DataSet ds = new DataSet();
+            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("QueryMember" + dbInfo[2]));
+            try
+            {
+                da.OpenConn();
+                ds = da.dsGetTotalData(strSql);
+
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                    return null;
+                return ds;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("service发生错误,请联系管理员！");
+                return null;
+            }
+        }
+
+        //财付通会员账号高级信息查询
+        public DataSet QueryCFTMemberAdvanced(string account)
+        {
+            string[] dbInfo = GetDbInfo(account);
+            string strSql = string.Format("select * from c2c_db_{0}.t_vipuser_info_{1}  where Fuin='{2}'", dbInfo[0], dbInfo[1], account);
+            DataSet ds = new DataSet();
+            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("QueryMember" + dbInfo[2]));
+            try
+            {
+                da.OpenConn();
+                ds = da.dsGetTotalData(strSql);
+
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                    return null;
+                return ds;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("service发生错误,请联系管理员！" + e.Message);
+            }
+        }
+
+        //财付值流水查询
+        public DataSet QueryTurnover(string account, string order, string begin, string end)
+        {
+            string[] dbInfo = GetDbInfo(account);
+            string strSql = string.Format(@"select * from cft_vip_acc_{0}.t_vipuser_acc_{1}  where Fuin='{2}' and 
+							FCommit_time between '{3}' and '{4}'", dbInfo[0], dbInfo[1], account, begin, end);
+            if (order != null && order != "")
+            {
+                strSql = string.Format("{0} and FOrig_req like '%{1}%'", strSql, order);
+            }
+            strSql += " order by FCommit_time";
+            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("PropertyTurnover"));//财付值交易流水
+            DataSet ds = new DataSet();
+            try
+            {
+                da.OpenConn();
+                ds = da.dsGetTotalData(strSql);
+
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                    return null;
+                return ds;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("service发生错误,请联系管理员！" + e.Message);
+            }
+        }
+
+        /// <summary>
+        /// 数组第一位是数据库，第二位是表，第三位是主机
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public string[] GetDbInfo(string account)
+        {
+            string[] dbInfo = new string[3] { "00", "0", "0" };
+            if (account.Length < 5)
+            {
+                return dbInfo;
+            }
+            uint qq;
+
+            try//如果是qq号
+            {
+                qq = uint.Parse(account);
+                string dbNum = account.Substring(account.Length - 2, 2);
+                string tableNum = account.Substring(account.Length - 3, 1);
+                string hostNum = Convert.ToString(qq % 1367 % 3);
+                dbInfo[0] = dbNum;
+                dbInfo[1] = tableNum;
+                dbInfo[2] = hostNum;
+            }
+            catch
+            {
+                //前两位决定数据库
+                int iDb = CharHash(account.Substring(0, 1)) * 10 + CharHash(account.Substring(1, 1));
+                iDb = Math.Abs(iDb);
+
+                //第三位决定表
+                int iTb = CharHash(account.Substring(2, 1));
+                iTb = Math.Abs(iTb);
+
+                //4,5位决定主机
+                int iHost = CharHash(account.Substring(3, 1)) * 10 + CharHash(account.Substring(4, 1));
+                iHost = Math.Abs(iHost);
+                iHost = iDb + iTb * 100 + iHost * 1000;
+                iHost = iHost % 1367 % 3;
+                dbInfo[0] = iDb.ToString("00");
+                dbInfo[1] = iTb.ToString();
+                dbInfo[2] = iHost.ToString();
+            }
+            return dbInfo;
+        }
+
+        public int CharHash(string c)
+        {
+            return (Convert.ToInt32(c[0]) - Convert.ToInt32('0')) % 10;
         }
 
         /// <summary>

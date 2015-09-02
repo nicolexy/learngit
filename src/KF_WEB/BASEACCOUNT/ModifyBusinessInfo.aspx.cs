@@ -24,107 +24,95 @@ using System.Collections.Generic;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
-	/// <summary>
-	/// ModifyBusinessInfo 的摘要说明。
-	/// </summary>
-	public partial class ModifyBusinessInfo : System.Web.UI.Page
-	{
-	
-		protected void Page_Load(object sender, System.EventArgs e)
-		{
-			try
-			{
-				Label1.Text = Session["uid"].ToString();
-				string szkey = Session["SzKey"].ToString();
-				//int operid = Int32.Parse(Session["OperID"].ToString());
+    /// <summary>
+    /// ModifyBusinessInfo 的摘要说明。
+    /// </summary>
+    public partial class ModifyBusinessInfo : System.Web.UI.Page
+    {
 
-				//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
+        protected void Page_Load(object sender, System.EventArgs e)
+        {
+            try
+            {
+                Label1.Text = Session["uid"].ToString();
+                string szkey = Session["SzKey"].ToString();
+                //int operid = Int32.Parse(Session["OperID"].ToString());
 
-				if(!classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
+                //if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
 
-				if(!IsPostBack)
-				{
-					this.rbtBusiness.Checked = true;
-					this.Table1.Visible = false;
-				}
-			}
-			catch
-			{
-				Response.Redirect("../login.aspx?wh=1");
-			}
-		}
+                if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
 
-		#region Web 窗体设计器生成的代码
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
-		/// 此方法的内容。
-		/// </summary>
-		private void InitializeComponent()
-		{    
-			this.dgList.PageIndexChanged += new System.Web.UI.WebControls.DataGridPageChangedEventHandler(this.dgList_PageIndexChanged);
+                if (!IsPostBack)
+                {
+                    this.rbtBusiness.Checked = true;
+                    this.Table1.Visible = false;
+                }
+            }
+            catch
+            {
+                Response.Redirect("../login.aspx?wh=1");
+            }
+        }
 
-		}
-		#endregion
+        #region Web 窗体设计器生成的代码
+        override protected void OnInit(EventArgs e)
+        {
+            //
+            // CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+            //
+            InitializeComponent();
+            base.OnInit(e);
+        }
 
-		private void CheckData()
-		{
-			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-			DataSet dsSPOA,dsMain;
-			if(this.rbtBusiness.Checked)          //判断是否是真的直付商户
-			{
-				dsSPOA = qs.GetPayBusinessInfoList(this.txtFspid.Text.Trim());
+        /// <summary>
+        /// 设计器支持所需的方法 - 不要使用代码编辑器修改
+        /// 此方法的内容。
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.dgList.PageIndexChanged += new System.Web.UI.WebControls.DataGridPageChangedEventHandler(this.dgList_PageIndexChanged);
 
-				if(dsSPOA != null && dsSPOA.Tables[0].Rows.Count != 1)
-				{
-					throw new  Exception("请输入正确直付商户号!");
-				}
-				else
-					dsMain = qs.GetBusinessInfoList(this.txtFspid.Text.Trim());
-			}
-			else                    //判断是否是真的中介商户
-			{
-				dsSPOA = qs.GetAgencyBusinessInfoList(this.txtFspid.Text.Trim());
+        }
+        #endregion
 
-				if(dsSPOA != null && dsSPOA.Tables[0].Rows.Count != 1)
-				{
-					throw new  Exception("请输入正确中介商户号!");
-				}
-				else
-					dsMain = qs.GetBusiness2InfoList(this.txtFspid.Text.Trim());
-			}
+        private void CheckData()
+        {
+            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            DataSet dsSPOA, dsMain;
+            if (this.rbtBusiness.Checked)          //判断是否是真的直付商户
+            {
+                dsSPOA = qs.GetPayBusinessInfoList(this.txtFspid.Text.Trim());
 
-			if(dsMain != null && dsMain.Tables[0].Rows.Count == 1)       //判断身份证后五位是否正确
-			{
-				/*
-                string IDCard = dsMain.Tables[0].Rows[0]["Fcreid"].ToString().Trim();
+                if (dsSPOA != null && dsSPOA.Tables[0].Rows.Count != 1)
+                {
+                    throw new Exception("请输入正确直付商户号!");
+                }
+                else
+                    dsMain = qs.GetBusinessInfoList(this.txtFspid.Text.Trim());
+            }
+            else                    //判断是否是真的中介商户
+            {
+                dsSPOA = qs.GetAgencyBusinessInfoList(this.txtFspid.Text.Trim());
 
-				if(IDCard != null && IDCard.Length>= 5)
-				{
-					if(IDCard.Substring(IDCard.Length-5,5).ToUpper() != this.txtIDCard.Text.Trim().ToUpper())
-						throw new Exception("身份证验证不通过,请输入正确身份证后五位!");
-				}
-				else
-				{
-					throw new Exception("该商户身份证不存在!");
-				}
-                */
-			}
-			else
-			{
-				throw new Exception("该商户资料不存在!");
-			}
+                if (dsSPOA != null && dsSPOA.Tables[0].Rows.Count != 1)
+                {
+                    throw new Exception("请输入正确中介商户号!");
+                }
+                else
+                    dsMain = qs.GetBusiness2InfoList(this.txtFspid.Text.Trim());
+            }
 
-			if(this.rbtBusiness.Checked)
-			{
+            if (dsMain != null && dsMain.Tables[0].Rows.Count == 1)       //判断身份证后五位是否正确
+            {
+
+            }
+            else
+            {
+                throw new Exception("该商户资料不存在!");
+            }
+
+            if (this.rbtBusiness.Checked)
+            {
                 //测试的时候注释掉
                 DataSet ds = qs.GetBusinessBankList(this.txtFspid.Text.Trim());
                 if (ds != null && ds.Tables[0].Rows.Count == 1)    //判断银行卡后五位是否正确
@@ -158,221 +146,176 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 {
                     throw new Exception("该商户银行绑定资料不存在!");
                 }
-			}
-			else
-			{
-				this.lblMerKey.Text = "";
-				this.txtFspName.Enabled = false;
-				this.lblFspName.Text = "";
-				this.lblEmail.Text = dsSPOA.Tables[0].Rows[0]["Femail"].ToString().Trim();
-				this.lblAddress.Text = dsSPOA.Tables[0].Rows[0]["Fdomain"].ToString().Trim();
-			}
-		}
+            }
+            else
+            {
+                this.lblMerKey.Text = "";
+                this.txtFspName.Enabled = false;
+                this.lblFspName.Text = "";
+                this.lblEmail.Text = dsSPOA.Tables[0].Rows[0]["Femail"].ToString().Trim();
+                this.lblAddress.Text = dsSPOA.Tables[0].Rows[0]["Fdomain"].ToString().Trim();
+            }
+        }
 
-		protected void btnSearch_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-				Label1.Text = Session["uid"].ToString();
-				string szkey = Session["SzKey"].ToString();
-				//int operid = Int32.Parse(Session["OperID"].ToString());
+        protected void btnSearch_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                Label1.Text = Session["uid"].ToString();
+                string szkey = Session["SzKey"].ToString();
+                //int operid = Int32.Parse(Session["OperID"].ToString());
 
-				//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
+                //if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
 
-				if(!classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
+                if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
 
-				if(!IsPostBack)
-				{
-					this.rbtBusiness.Checked = true;
-				}
-			}
-			catch
-			{
-				Response.Redirect("../login.aspx?wh=1");
-			}
+                if (!IsPostBack)
+                {
+                    this.rbtBusiness.Checked = true;
+                }
+            }
+            catch
+            {
+                Response.Redirect("../login.aspx?wh=1");
+            }
 
-			try
-			{
-				this.btnSave.Enabled = true;
-				if(this.rbtBusiness.Checked)
-					this.Linkbutton2.Visible = true;
-				else
-					this.Linkbutton2.Visible = false;
-				CheckData();
-				this.txtFspName.Text = this.lblFspName.Text;
-				this.txtAddress.Text = this.lblAddress.Text;
-				this.txtEmail.Text = this.lblEmail.Text;
+            try
+            {
+                this.btnSave.Enabled = true;
+                if (this.rbtBusiness.Checked)
+                    this.Linkbutton2.Visible = true;
+                else
+                    this.Linkbutton2.Visible = false;
+                CheckData();
+                this.txtFspName.Text = this.lblFspName.Text;
+                this.txtAddress.Text = this.lblAddress.Text;
+                this.txtEmail.Text = this.lblEmail.Text;
                 this.txtContactMobile.Text = this.lblContactMobile.Text;
-				this.Table1.Visible = true;
-			}
-			catch(SoapException eSoap) //捕获soap类异常
-			{
-				this.Table1.Visible = false;
-				this.dgList.Visible = false;
-				string errStr = PublicRes.GetErrorMsg(eSoap.Message);
-				WebUtils.ShowMessage(this.Page,"调用服务出错：" + errStr);
-			}
-			catch(Exception eSys)
-			{
-				this.Table1.Visible = false;
-				this.dgList.Visible = false;
-				WebUtils.ShowMessage(this.Page,eSys.Message);
-			}
-		}
+                this.Table1.Visible = true;
+            }
+            catch (SoapException eSoap) //捕获soap类异常
+            {
+                this.Table1.Visible = false;
+                this.dgList.Visible = false;
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message);
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
+            catch (Exception eSys)
+            {
+                this.Table1.Visible = false;
+                this.dgList.Visible = false;
+                WebUtils.ShowMessage(this.Page, eSys.Message);
+            }
+        }
 
-        /*
-		protected void btnIDCardCheck_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-				DataSet ds;
-				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+        protected void btnBankCardCheck_Click(object sender, System.EventArgs e)
+        {
+            if (this.rbtBusiness.Checked)
+            {
+                try
+                {
+                    Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                    DataSet ds = qs.GetBusinessBankList(this.txtFspid.Text.Trim());
 
-				if(this.rbtBusiness.Checked)
-					ds = qs.GetBusinessInfoList(this.txtFspid.Text.Trim());
-				else
-					ds = qs.GetBusiness2InfoList(this.txtFspid.Text.Trim());
-				if(ds != null && ds.Tables[0].Rows.Count == 1)
-				{
-					string IDCard = ds.Tables[0].Rows[0]["Fcreid"].ToString().Trim();
+                    if (ds != null && ds.Tables[0].Rows.Count == 1)
+                    {
+                        string BankCard = ds.Tables[0].Rows[0]["Fbankid"].ToString().Trim();
 
-					if(IDCard != null && IDCard.Length>= 5)
-					{
-						if(IDCard.Substring(IDCard.Length-5,5).ToUpper() == this.txtIDCard.Text.Trim().ToUpper())
-							throw new Exception("身份证验证通过!");
-						else
-							throw new Exception("身份证验证不通过,请输入正确身份证后五位!");
-					}
-					else
-					{
-						throw new Exception("该商户身份证不存在!");
-					}
-				}
-				else
-				{
-					throw new Exception("该商户资料不存在!");
-				}
-			}
-			catch(SoapException eSoap) //捕获soap类异常
-			{
-				string errStr = PublicRes.GetErrorMsg(eSoap.Message);
-				WebUtils.ShowMessage(this.Page,"调用服务出错：" + errStr);
-			}
-			catch(Exception eSys)
-			{
-				WebUtils.ShowMessage(this.Page,eSys.Message);
-			}
-		}
-        */
+                        if (BankCard != null && BankCard.Length >= 5)
+                        {
+                            if (BankCard.Substring(BankCard.Length - 5, 5) == this.txtBankCard.Text.Trim())
+                                throw new Exception("银行卡验证通过!");
+                            else
+                                throw new Exception("银行卡验证不通过,请输入正确银行卡后五位!");
+                        }
+                        else
+                        {
+                            throw new Exception("该商户银行卡不存在!");
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("该商户银行绑定资料不存在!");
+                    }
+                }
+                catch (SoapException eSoap) //捕获soap类异常
+                {
+                    string errStr = PublicRes.GetErrorMsg(eSoap.Message);
+                    WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+                }
+                catch (Exception eSys)
+                {
+                    WebUtils.ShowMessage(this.Page, eSys.Message);
+                }
+            }
+        }
 
-		protected void btnBankCardCheck_Click(object sender, System.EventArgs e)
-		{
-			if(this.rbtBusiness.Checked)
-			{
-				try
-				{
-					Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-					DataSet ds = qs.GetBusinessBankList(this.txtFspid.Text.Trim());
-
-					if(ds != null && ds.Tables[0].Rows.Count == 1)
-					{
-						string BankCard = ds.Tables[0].Rows[0]["Fbankid"].ToString().Trim();
-
-						if(BankCard != null && BankCard.Length >= 5)
-						{
-							if(BankCard.Substring(BankCard.Length-5,5) == this.txtBankCard.Text.Trim())
-								throw new Exception("银行卡验证通过!");
-							else
-								throw new Exception("银行卡验证不通过,请输入正确银行卡后五位!");
-						}
-						else
-						{
-							throw new Exception("该商户银行卡不存在!");
-						}
-					}
-					else
-					{
-						throw new Exception("该商户银行绑定资料不存在!");
-					}
-				}
-				catch(SoapException eSoap) //捕获soap类异常
-				{
-					string errStr = PublicRes.GetErrorMsg(eSoap.Message);
-					WebUtils.ShowMessage(this.Page,"调用服务出错：" + errStr);
-				}
-				catch(Exception eSys)
-				{
-					WebUtils.ShowMessage(this.Page,eSys.Message);
-				}
-			}
-		}
-
-		private void BindData()
-		{
-			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-			DataSet ds = qs.GetHisBusinessList(this.txtFspid.Text.Trim());
-			dgList.DataSource = ds.Tables[0].DefaultView;
-			dgList.DataBind();
+        private void BindData()
+        {
+            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            DataSet ds = qs.GetHisBusinessList(this.txtFspid.Text.Trim());
+            dgList.DataSource = ds.Tables[0].DefaultView;
+            dgList.DataBind();
 
             DataSet dsContactMobileHistory = new SPOAService().QueryApplyListBySpid(this.txtFspid.Text.Trim());
             dgContactMobileHistory.DataSource = dsContactMobileHistory.Tables[0].DefaultView;
             dgContactMobileHistory.DataBind();
-		}
+        }
 
-		protected void btnHisSearch_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-				dgList.CurrentPageIndex = 0;
-				BindData();
-				this.dgList.Visible = true;
-			}
-			catch(SoapException eSoap) //捕获soap类异常
-			{
-				this.dgList.Visible = false;
-				string errStr = PublicRes.GetErrorMsg(eSoap.Message);
-				WebUtils.ShowMessage(this.Page,"调用服务出错：" + errStr);
-			}
-			catch(Exception eSys)
-			{
-				this.dgList.Visible = false;
-				WebUtils.ShowMessage(this.Page,"读取数据失败！" + eSys.Message);
-			}
-		}
+        protected void btnHisSearch_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                dgList.CurrentPageIndex = 0;
+                BindData();
+                this.dgList.Visible = true;
+            }
+            catch (SoapException eSoap) //捕获soap类异常
+            {
+                this.dgList.Visible = false;
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message);
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
+            catch (Exception eSys)
+            {
+                this.dgList.Visible = false;
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message);
+            }
+        }
 
-		private void dgList_PageIndexChanged(object source, System.Web.UI.WebControls.DataGridPageChangedEventArgs e)
-		{
-			this.dgList.CurrentPageIndex = e.NewPageIndex;
-			BindData();
-		}
+        private void dgList_PageIndexChanged(object source, System.Web.UI.WebControls.DataGridPageChangedEventArgs e)
+        {
+            this.dgList.CurrentPageIndex = e.NewPageIndex;
+            BindData();
+        }
 
-		protected void btnSave_Click(object sender, System.EventArgs e)
-		{
-           string[] fileArr =new  string[2];
-           string strfileMobileChange = "";//修改手机变更函
-           string strfileMobileCredit = "";//修改手机身份证
-			try
-			{
-               string file="";
+        protected void btnSave_Click(object sender, System.EventArgs e)
+        {
+            string[] fileArr = new string[2];
+            string strfileMobileChange = "";//修改手机变更函
+            string strfileMobileCredit = "";//修改手机身份证
+            try
+            {
+                string file = "";
                 //上传图片
                 if (this.lblEmail.Text.Trim() != this.txtEmail.Text.Trim())//若修改邮箱，必传邮箱变更扫描件
                 {
-                   if( FileEmail.Value=="")
-                       throw new Exception("请上传图片");
-                   upImage(FileEmail);
-                    file+=FileEmail.Value;
-                    file+="|"+ViewState["ViewFileName"].ToString();
-                    file+="|0";
-                    fileArr[0]=file;
+                    if (FileEmail.Value == "")
+                        throw new Exception("请上传图片");
+                    upImage(FileEmail);
+                    file += FileEmail.Value;
+                    file += "|" + ViewState["ViewFileName"].ToString();
+                    file += "|0";
+                    fileArr[0] = file;
                 }
                 if (FileCredit.Value != "")//身份证扫描件可传可不传
                 {
                     upImage(FileCredit);
                     file = "";
-                    file+=FileEmail.Value;
-                    file+="|"+ViewState["ViewFileName"].ToString();
-                    file+="|1";
-                    fileArr[1]=file;
+                    file += FileEmail.Value;
+                    file += "|" + ViewState["ViewFileName"].ToString();
+                    file += "|1";
+                    fileArr[1] = file;
                 }
 
                 //上传手机变更函扫描件
@@ -392,23 +335,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     strfileMobileCredit = strfileMobileCredit.Replace("uploadfile/", "");
                 }
 
-				string strszkey = Session["SzKey"].ToString().Trim();
-				int ioperid = Int32.Parse(Session["OperID"].ToString());
-				int iserviceid = TENCENT.OSS.CFT.KF.Common.AllUserRight.GetServiceID("InfoCenter") ;
-				string struserdata = Session["uid"].ToString().Trim();
-				string content = struserdata + "执行了[修改商户资料]操作,操作对象[" + " "
-					+ "]时间:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string strszkey = Session["SzKey"].ToString().Trim();
+                int ioperid = Int32.Parse(Session["OperID"].ToString());
+                int iserviceid = TENCENT.OSS.CFT.KF.Common.AllUserRight.GetServiceID("InfoCenter");
+                string struserdata = Session["uid"].ToString().Trim();
+                string content = struserdata + "执行了[修改商户资料]操作,操作对象[" + " "
+                    + "]时间:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-				Common.AllUserRight.UpdateSession(strszkey,ioperid,PublicRes.GROUPID,iserviceid,struserdata,content);
+                Common.AllUserRight.UpdateSession(strszkey, ioperid, PublicRes.GROUPID, iserviceid, struserdata, content);
 
-				string log = SensitivePowerOperaLib.MakeLog("edit",struserdata,"[修改商户资料]",Session["uid"].ToString(),
-					this.txtFspid.Text.Trim(),this.lblFspName.Text.Trim(),this.txtFspName.Text.Trim(),this.lblEmail.Text.Trim(),
-					this.txtEmail.Text.Trim(),this.lblAddress.Text.Trim(),this.txtAddress.Text.Trim());
+                string log = SensitivePowerOperaLib.MakeLog("edit", struserdata, "[修改商户资料]", Session["uid"].ToString(),
+                    this.txtFspid.Text.Trim(), this.lblFspName.Text.Trim(), this.txtFspName.Text.Trim(), this.lblEmail.Text.Trim(),
+                    this.txtEmail.Text.Trim(), this.lblAddress.Text.Trim(), this.txtAddress.Text.Trim());
 
-				if(!SensitivePowerOperaLib.WriteOperationRecord("InfoCenter",log,this))
-				{
-					
-				}
+                if (!SensitivePowerOperaLib.WriteOperationRecord("InfoCenter", log, this))
+                {
+
+                }
                 log = SensitivePowerOperaLib.MakeLog("edit", struserdata, "[修改商户联系人手机]", Session["uid"].ToString(),
                     this.txtFspid.Text.Trim(), this.lblContactMobile.Text.Trim(), this.txtContactMobile.Text.Trim());
 
@@ -416,12 +359,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 {
 
                 }
-			}
-			catch(Exception err)
-			{
-				WebUtils.ShowMessage(this.Page,err.Message);
-				return;
-			}
+            }
+            catch (Exception err)
+            {
+                WebUtils.ShowMessage(this.Page, err.Message);
+                return;
+            }
             if (lblFspName.Text.Trim() != txtFspName.Text.Trim() || lblAddress.Text.Trim() != txtAddress.Text.Trim() || lblEmail.Text.Trim() != txtEmail.Text.Trim())
             {
                 try
@@ -481,163 +424,121 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     WebUtils.ShowMessage(this.Page, "修改联系人手机出错：" + eSys.Message);
                 }
             }
-		}
+        }
 
-		protected void Linkbutton2_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-				if(ViewState["Fspid"] == null || ViewState["Fspid"].ToString() == "")
-				{
-					throw new Exception("请先点查询按钮,查询出直付商户!");
-				}
-				if(this.txtSendEmail.Text.Trim() == "")
-				{
-					throw new Exception("请输入发送邮箱!");
-				}
-				string Password = "";
-				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-				if(qs.ResetMediPasswd(ViewState["Fspid"].ToString(),out Password))
-				{
-					if(Password == "")
-					{
-						throw new Exception("密码无效!");
-					}
-					if(SendEmailForPassword(ViewState["Fspid"].ToString(),this.txtSendEmail.Text.Trim(),Password))
-						WebUtils.ShowMessage(this.Page,"密码发送成功");
-					else
-					{
-						WebUtils.ShowMessage(this.Page,"无效的值，密码发送失败");
-					}
-				}
-				else
-				{
-					WebUtils.ShowMessage(this.Page,"无效的值，密码发送失败");
-				}
-			}
-			catch(SoapException eSoap)
-			{
-				string errStr = PublicRes.GetErrorMsg(eSoap.Message);
-				WebUtils.ShowMessage(this.Page,"调用服务出错：" + errStr);
-			}
-			catch(Exception eSys)
-			{
-				WebUtils.ShowMessage(this.Page,eSys.Message);
-			}
-		}
+        protected void Linkbutton2_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                if (ViewState["Fspid"] == null || ViewState["Fspid"].ToString() == "")
+                {
+                    throw new Exception("请先点查询按钮,查询出直付商户!");
+                }
+                if (this.txtSendEmail.Text.Trim() == "")
+                {
+                    throw new Exception("请输入发送邮箱!");
+                }
+                string Password = "";
+                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                if (qs.ResetMediPasswd(ViewState["Fspid"].ToString(), out Password))
+                {
+                    if (Password == "")
+                    {
+                        throw new Exception("密码无效!");
+                    }
+                    if (SendEmailForPassword(ViewState["Fspid"].ToString(), this.txtSendEmail.Text.Trim(), Password))
+                        WebUtils.ShowMessage(this.Page, "密码发送成功");
+                    else
+                    {
+                        WebUtils.ShowMessage(this.Page, "无效的值，密码发送失败");
+                    }
+                }
+                else
+                {
+                    WebUtils.ShowMessage(this.Page, "无效的值，密码发送失败");
+                }
+            }
+            catch (SoapException eSoap)
+            {
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message);
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, eSys.Message);
+            }
+        }
 
-		private bool SendEmailForPassword(string Fspid,string Email,string Password)
-		{
-			try
-			{
-				/*
-                string content = "";
-				StreamReader sr = new StreamReader(Server.MapPath(Request.ApplicationPath).Trim().ToLower() 
-					+ "\\Email\\ForgetBusinessPassword.htm",System.Text.Encoding.GetEncoding("GB2312"));
-				try
-				{
-					content = sr.ReadToEnd();
-				}
-				finally
-				{
-					sr.Close();
-				}
-				content = String.Format(content,Fspid,Password,DateTime.Now.ToString("yyyy年MM月dd日 HH:时mm分ss秒"));
-
-				TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend newMail=new TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend();
-				newMail.SendMail(Email,"","您的商户号密码找回成功",content,true,null);
-                */
-
+        private bool SendEmailForPassword(string Fspid, string Email, string Password)
+        {
+            try
+            {
                 //yinhuang 2013/8/7
                 string str_params = "p_parm1=" + Fspid + "&p_parm2=" + Password + "&p_parm3=" + DateTime.Now.ToString("yyyy年MM月dd日 HH:时mm分ss秒");
                 TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsg(Email, "2038", str_params);
 
-				return true;
-			}
-			catch(Exception err)
-			{
-				throw new Exception(err.Message);
-			}			
-		}
+                return true;
+            }
+            catch (Exception err)
+            {
+                throw new Exception(err.Message);
+            }
+        }
 
-		protected void btnSendEmail_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-				if(ViewState["Fspid"] == null || ViewState["Fspid"].ToString() == "")
-				{
-					throw new Exception("请先点查询按钮,查询出直付商户!");
-				}
+        protected void btnSendEmail_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                if (ViewState["Fspid"] == null || ViewState["Fspid"].ToString() == "")
+                {
+                    throw new Exception("请先点查询按钮,查询出直付商户!");
+                }
 
-				if(this.txtSendEmail.Text.Trim() == "")
-				{
-					throw new Exception("请输入发送邮箱!");
-				}
-				if(this.lblMerKey.Text.Trim() == "")
-				{
-					throw new Exception("密钥无效!");
-				}
+                if (this.txtSendEmail.Text.Trim() == "")
+                {
+                    throw new Exception("请输入发送邮箱!");
+                }
+                if (this.lblMerKey.Text.Trim() == "")
+                {
+                    throw new Exception("密钥无效!");
+                }
 
-				if(SendEmailForKey(ViewState["Fspid"].ToString(),this.txtSendEmail.Text.Trim(),this.lblMerKey.Text.Trim()))
-					WebUtils.ShowMessage(this.Page,"密钥发送成功");
-				else
-					WebUtils.ShowMessage(this.Page,"无效的值，密钥发送失败");
-			}
-			catch(SoapException eSoap)
-			{
-				string errStr = PublicRes.GetErrorMsg(eSoap.Message);
-				WebUtils.ShowMessage(this.Page,"调用服务出错：" + errStr);
-			}
-			catch(Exception eSys)
-			{
-				WebUtils.ShowMessage(this.Page,eSys.Message);
-			}
-		}
+                if (SendEmailForKey(ViewState["Fspid"].ToString(), this.txtSendEmail.Text.Trim(), this.lblMerKey.Text.Trim()))
+                    WebUtils.ShowMessage(this.Page, "密钥发送成功");
+                else
+                    WebUtils.ShowMessage(this.Page, "无效的值，密钥发送失败");
+            }
+            catch (SoapException eSoap)
+            {
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message);
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+            }
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, eSys.Message);
+            }
+        }
 
-		private bool SendEmailForKey(string Fspid,string Email,string Key)
-		{
-			try
-			{
-				/*
-                string content = "";
-				StreamReader sr = new StreamReader(Server.MapPath(Request.ApplicationPath).Trim().ToLower() 
-					+ "\\Email\\ForgetBusinessKeys.htm",System.Text.Encoding.GetEncoding("GB2312"));
-				try
-				{
-					content = sr.ReadToEnd();
-				}
-				finally
-				{
-					sr.Close();
-				}
-				content = String.Format(content,Fspid,Key,DateTime.Now.ToString("yyyy年MM月dd日 HH:时mm分ss秒"));
-
-				TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend newMail=new TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend();
-				newMail.SendMail(Email,"","您的商户号密钥找回成功",content,true,null);
-                */
-
+        private bool SendEmailForKey(string Fspid, string Email, string Key)
+        {
+            try
+            {
                 //yinhuang 2013/8/7
                 string str_params = "p_parm1=" + Fspid + "&p_parm2=" + Key + "&p_parm3=" + DateTime.Now.ToString("yyyy年MM月dd日 HH:时mm分ss秒");
                 TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsg(Email, "2040", str_params);
 
-				return true;
-			}
-			catch(Exception err)
-			{
-				throw new Exception(err.Message);
-			}			
-		}
+                return true;
+            }
+            catch (Exception err)
+            {
+                throw new Exception(err.Message);
+            }
+        }
 
         protected void btnSendEmailAgain_Click(object sender, System.EventArgs e)
         {
             try
             {
-                //SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
-                //string sendXml = "<root><function>1067</function><param><sp_id>"+ViewState["Fspid"].ToString() +"</sp_id></param></root>"; 
-                //XmlDocument doc = new XmlDocument();
-                //doc.LoadXml(sendXml);
-                //XmlNode xmlresuts = spoaService.MerchantHelper(doc);
-                //string ret = xmlresuts.SelectNodes("ret")[0].ChildNodes[0].InnerText;
                 string msg = "";
                 //ViewState["Fspid"] = "2000000501";
                 //Session["uid"] = "v_xlingliao";
@@ -657,12 +558,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             try
             {
-                //SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
-                //string sendXml = "<root><function>1066</function><param><sp_id>" + ViewState["Fspid"].ToString() + "</sp_id></param></root>";
-                //XmlDocument doc = new XmlDocument();
-                //doc.LoadXml(sendXml);
-                //XmlNode xmlresuts = spoaService.MerchantHelper(doc);
-                //string ret = xmlresuts.SelectNodes("ret")[0].ChildNodes[0].InnerText;
                 string msg = "";
                 //ViewState["Fspid"] = "2000000501";
                 //Session["uid"] = "v_xlingliao";
@@ -705,12 +600,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 if (inputFile.Value != "")
                 {
-                    objid = System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.StaticNoManage(); 
-                  //  string fileName = "kf" + DateTime.Now.ToString("yyyyMMddHHmmss") + szTypeName; //
+                    objid = System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.StaticNoManage();
+                    //  string fileName = "kf" + DateTime.Now.ToString("yyyyMMddHHmmss") + szTypeName; //
                     string fileName = objid + szTypeName; //
 
                     upStr = "uploadfile/" + System.DateTime.Now.ToString("yyyyMMdd") + "/CSOMS/Merchant";//System.Configuration.ConfigurationManager.AppSettings["uploadPath"].ToString();
-                  
+
                     string targetPath = Server.MapPath(Request.ApplicationPath) + "\\" + upStr;
                     PublicRes.CreateDirectory(targetPath);
 
@@ -732,8 +627,5 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 throw new Exception(errMsg);
             }
         }
-
-       
-
-	}
+    }
 }

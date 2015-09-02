@@ -31,9 +31,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
-                //int operid = Int32.Parse(Session["OperID"].ToString());
-
-                //if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
                 if (!ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
 
                 this.rbtn_bkt_JJK.CheckedChanged += new EventHandler(rbtns_CheckedChanged);
@@ -62,15 +59,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                     this.pager.RecordCount = 1000;
                     this.pager.PageSize = 10;
-
-                    //this.pager1.RecordCount = 1000;
-                    //this.pager1.PageSize = 10;
                 }
 
                 this.pager.PageChanged += new Wuqi.Webdiyer.PageChangedEventHandler(pager_PageChanged);
-                //this.pager1.PageChanged += new Wuqi.Webdiyer.PageChangedEventHandler(pager1_PageChanged);
-                //this.Datagrid1.ItemCommand += new DataGridCommandEventHandler(Datagrid1_ItemCommand);
-
                 this.ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
                 this.ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
             }
@@ -142,23 +133,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 this.lblFbank_type.Text = classLibrary.getData.GetBankNameFromBankCode(Fbank_type);
                 lblFbankType.Text = Fbank_type; //增加bank_type yinhuang 2013.7.18
-                /*
-                if(Fbank_type == "0")
-                    this.lblFbank_type.Text = "未知";
-                else if(Fbank_type == "2001")
-                    this.lblFbank_type.Text = "招行一点通";
-                else if(Fbank_type == "2002")
-                    this.lblFbank_type.Text = "工行一点通";
-                else if(Fbank_type == "2003")
-                    this.lblFbank_type.Text = "建行一点通";
-                else if(Fbank_type == "3001")
-                    this.lblFbank_type.Text = "兴业信用卡";
-                else if(Fbank_type == "3002")
-                    this.lblFbank_type.Text = "中行信用卡";
-                else
-                    this.lblFbank_type.Text = Fbank_type;
-                */
-
                 this.lblFbind_serialno.Text = ds.Tables[0].Rows[0]["Fbind_serialno"].ToString();
                 this.lblFprotocol_no.Text = ds.Tables[0].Rows[0]["Fprotocol_no"].ToString();
                 string Fbank_status = ds.Tables[0].Rows[0]["Fbank_status"].ToString();
@@ -267,13 +241,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     this.lblbindTimeBank.Text = dr["Fbind_time_bank"].ToString();
                     this.lblUnbindTimeLocal.Text = dr["Funchain_time_local"].ToString();
                     this.lblUnbindTimeBank.Text = dr["Funchain_time_bank"].ToString();
-
-                    //协议编号为0时显示复选框
-                    //if (this.lblFprotocol_no.Text=="0")
-                    //{
-                    //    this.PanelCheckBox.Visible = true;
-                    //}
-
                 }
                 catch (Exception ex)
                 {
@@ -294,8 +261,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
                 qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-
-
 
                 //20130809 如果为邮储一点通、建行一点通、工行一点通，它们的协议号存在了bankID字段，不能走统一的解绑方式
                 //解绑时调用绑定服务解绑,使用uid 卡尾号
@@ -324,7 +289,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     qs.UnbindBankCard(this.lblFbankType.Text, this.lblFuin.Text, this.lblFprotocol_no.Text);
                     WebUtils.ShowMessage(this.Page, "解绑成功");
                 }
-                //qs.ModifyBankCardBind(this.lblFuid.Text,this.lblFindex.Text,this.txtFmemo.Text.Trim());
 
                 this.btnUnbind.Enabled = false;
             }
@@ -369,13 +333,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             this.pager.CurrentPageIndex = index;
             try
             {
-                /*
-                if(this.txtQQ.Text.Trim() == "" && this.tbx_uid.Text.Trim() == "")
-                    throw new Exception("请输入财付通账号或内部ID！");
-                    */
-
-                //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
                 DataSet ds = null;
 
                 int queryType = 0;
@@ -417,13 +374,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 else
                 {
                     DataTable dt = ds.Tables[0];
-                    //dt.Columns.Add("Fbank_typeStr", typeof(string));
                     dt.Columns.Add("Fbank_statusStr", typeof(string));
 
                     foreach (DataRow dr in dt.Rows)
                     {
-                        //dr["Fbank_typeStr"] = classLibrary.getData.GetBankNameFromBankCode(dr["Fbank_type"].ToString());
-
                         if (dr["Fbank_status"].ToString() == "0")
                             dr["Fbank_statusStr"] = "未定义";
                         else if (dr["Fbank_status"].ToString() == "1")

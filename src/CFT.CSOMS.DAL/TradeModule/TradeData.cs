@@ -451,21 +451,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                 throw new Exception("service发生错误,请联系管理员！" + e.Message + msg);
             }
         }
-    
-        //查询腾讯付款记录表
-        public DataSet GetTCBankPAYList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
-        {
-            try
-            {
-                Q_TCBANKPAY_LIST cuser = new Q_TCBANKPAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime);
-                return cuser.GetResultX(istr, imax);
-            }
-            catch (Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！");
-            }
-        }
-
+         
         //查询退款单表
         public DataSet GetRefund(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
         {

@@ -18,8 +18,6 @@ using TENCENT.OSS.CFT.KF.KF_Web;
 using System.Web.Mail;
 using System.IO;
 
-
-
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
 	/// <summary>
@@ -230,18 +228,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			{
 				TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend newMail=new TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend();
 				newMail.SendMail(email,"","更换新的财付通账户名",GetOutMailContent(),true,null);
-
-//				MailMessage mail = new MailMessage();
-//				mail.From = System.Configuration.ConfigurationManager.AppSettings["OutMailFrom"].ToString();
-//
-//				mail.To = email;   
-//				mail.BodyFormat = MailFormat.Html;
-//				mail.Body = GetOutMailContent(); 
-//				mail.Subject  = "更换新的财付通账户名";     
-//			
-//				SmtpMail.SmtpServer = System.Configuration.ConfigurationManager.AppSettings["OutSmtpServer"].ToString();
-//				SmtpMail.Send(mail);
-
 				return true;
 			}
 			catch(Exception err)

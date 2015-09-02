@@ -54,6 +54,29 @@ namespace CFT.CSOMS.DAL.Infrastructure
     }
 
     /// <summary>
+    /// 用户资料表的类形式
+    /// </summary>
+    public class T_USER_INFO
+    {
+        public string u_QQID;								//帐户号码
+        public string u_Credit;								//信用等级
+        public string u_TrueName;							//真实姓名
+        public string u_Sex;									//性别
+        public string u_Age;									//年龄
+        public string u_Phone;								//固定电话
+        public string u_Mobile;								//手机
+        public string u_Email;								//用户的E-mail地址
+        public string u_Area;								//地区，省级
+        public string u_City;								//城市
+        public string u_Address;							//联系地址
+        public string u_PCode;								//邮政编码
+        public string u_Cre_Type;								//证件类型
+        public string u_CreID;								//证件号码
+        public string u_Memo;								//备注
+        public string u_Modify_Time;						//最后修改时间（本地）
+    }
+
+    /// <summary>
     /// 腾讯付款记录表的类形式
     /// </summary>
     public class T_TCBANKPAY_LIST
@@ -2147,6 +2170,103 @@ namespace CFT.CSOMS.DAL.Infrastructure
         }
 
     }
+    #endregion
+
+
+    #region 用户资料表的查询处理
+
+
+    /// <summary>
+    /// 用户资料表的查询类
+    /// </summary>
+    public class Q_USER_INFO : Query_BaseForNET
+    {
+        private string f_strID;
+        public Q_USER_INFO(string fuid)
+        {
+            string Fatt_id = "";
+            try
+            {
+                string errmsg = "";
+                string strSql = "uid=" + fuid;
+                Fatt_id = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_USERATT, "Fatt_id", out errmsg);
+            }
+            finally
+            {
+                //da.Dispose();
+            }
+
+            string errMsg = "";
+            string strsql = "uid=" + fuid;
+            DataTable dt = CommQuery.GetTableFromICE(strsql, CommQuery.QUERY_USERINFO, out errMsg);
+
+            if (dt == null || dt.Rows.Count != 1)
+            {
+                throw new LogicException(errMsg);
+            }
+
+            fstrSql = "select ";
+            foreach (DataColumn dc in dt.Columns)
+            {
+                string valuetmp = QueryInfo.GetString(dt.Rows[0][dc.ColumnName]);
+                fstrSql += " '" + valuetmp + "' as " + dc.ColumnName + ",";
+            }
+
+            fstrSql += "'" + Fatt_id + "' as Fatt_id";
+
+        }
+
+        /// <summary>
+        /// 提供给其它语言调用的函数，以固定的类返回值。
+        /// </summary>
+        /// <returns></returns>
+        public T_USER_INFO GetResult()
+        {
+            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZL"));
+            T_USER_INFO result = new T_USER_INFO();
+            try
+            {
+                da.OpenConn();
+                DataTable dt = new DataTable();
+                dt = da.GetTable(fstrSql);
+
+                if (dt.Rows.Count > 0)
+                {
+                    DataRow dr = dt.Rows[0];
+                    result.u_Address = QueryInfo.GetString(dr["faddress"]);
+                    result.u_Age = QueryInfo.GetInt(dr["fage"]);
+                    result.u_Area = QueryInfo.GetString(dr["farea"]);
+                    result.u_City = QueryInfo.GetString(dr["fcity"]);
+                    result.u_Cre_Type = QueryInfo.GetInt(dr["fcre_type"]);
+                    result.u_Credit = QueryInfo.GetInt(dr["fcredit"]);
+                    result.u_CreID = QueryInfo.GetString(dr["fcreid"]);
+                    result.u_Email = QueryInfo.GetString(dr["femail"]);
+                    result.u_Memo = QueryInfo.GetString(dr["fmemo"]);
+                    result.u_Mobile = QueryInfo.GetString(dr["fmobile"]);
+                    result.u_Modify_Time = QueryInfo.GetDateTime(dr["fmodify_time"]);
+                    result.u_PCode = QueryInfo.GetString(dr["fpcode"]);
+                    result.u_Phone = QueryInfo.GetString(dr["fphone"]);
+                    result.u_QQID = QueryInfo.GetString(dr["fqqid"]);
+                    result.u_Sex = QueryInfo.GetInt(dr["fsex"]);
+                    result.u_TrueName = QueryInfo.GetString(dr["ftruename"]);
+                }
+                else
+                {
+                    throw new Exception("没有查找到相应的记录");
+                }
+                da.CloseConn();
+                da.Dispose();
+                return result;
+            }
+            catch (Exception e)
+            {
+                da.CloseConn();
+                da.Dispose();
+                throw e;
+            }
+        }
+    }
+
     #endregion
 
 }

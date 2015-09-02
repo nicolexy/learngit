@@ -276,7 +276,7 @@ function init(prov,city)
 					</td>
 					<td width="25%">
 						<div align="center">&nbsp;
-							<asp:button id="Button1" runat="server" Text="²é Ñ¯"></asp:button></div>
+							<asp:button id="Button1" runat="server" Text="²é Ñ¯" OnClick="Button1_Click1"></asp:button></div>
 					</td>
 				</tr>
 			</table>

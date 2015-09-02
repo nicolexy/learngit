@@ -16,10 +16,10 @@ using CFT.CSOMS.DAL.FundModule;
 using CFT.CSOMS.BLL.FundModule;
 
 namespace CFT.CSOMS.BLL.CFTAccountModule
-{   
+{
     public class AccountService
     {
-        public  string Uid2QQ(string uin)
+        public string Uid2QQ(string uin)
         {
             return AccountData.Uid2QQ(uin);
         }
@@ -38,7 +38,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         {
             return AccountData.getQQID(queryType, queryString);
         }
-   
+
         public string SynUserName(string aaUin, string oldName, string newName, string wxUin)
         {
             return new AccountData().SynUserName(aaUin, oldName, newName, wxUin);
@@ -48,7 +48,89 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         {
             return new AccountData().GetUserAccount(u_QQID, fcurtype, istr, imax);
         }
-                      
+
+        public DataSet GetUserTypeInfo(string cftNo, int product_type, int business_type, int sub_business_type, int cur_type, int userType)
+        {
+            return new AccountData().GetUserTypeInfo(cftNo, product_type, business_type, sub_business_type, cur_type, userType);
+        }
+
+        //查询用户资料表
+        public DataSet GetUserInfo(string u_QQID, int istr, int imax)
+        {
+            DataSet ds = new AccountData().GetUserInfo(u_QQID, istr, imax);
+
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                ds.Tables[0].Columns.Add("Fatt_id_str", typeof(String));
+                ds.Tables[0].Columns.Add("Fsex_str", typeof(String));
+                ds.Tables[0].Columns.Add("Fcre_type_str", typeof(String));
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    dr["Fsex_str"] = TransferMeaning.Transfer.convertSex(dr["Fsex"].ToString());
+                    dr["Fcre_type_str"] = TransferMeaning.Transfer.convertFcre_type(dr["Fcre_type"].ToString());
+                    int tmp = int.Parse(dr["Fatt_id"].ToString());
+                    dr["Fatt_id_str"] = TransferMeaning.Transfer.convertProAttType(tmp);
+                }
+            }
+
+            return ds;
+        }
+
+        public DataTable QueryChangeUserInfoLog(string qqid, int offset, int limit)
+        {
+            if (string.IsNullOrEmpty(qqid))
+            {
+                throw new ArgumentNullException("qqid");
+            }
+            DataTable dt = new AccountData().QueryChangeUserInfoLog(qqid, offset, limit);
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                dt.Columns.Add("Fcre_type_str", typeof(String));
+                dt.Columns.Add("Fcre_type_old_str", typeof(String));
+                dt.Columns.Add("Fuser_type_str", typeof(String));
+                dt.Columns.Add("Fuser_type_old_str", typeof(String));
+                dt.Columns.Add("Fattid_str", typeof(String));
+                dt.Columns.Add("Fattid_old_str", typeof(String));
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Fcre_type_str"] = TransferMeaning.Transfer.convertFcre_type(dr["Fcre_type"].ToString());
+                    dr["Fcre_type_old_str"] = TransferMeaning.Transfer.convertFcre_type(dr["Fcre_type_old"].ToString());
+                    dr["Fuser_type_str"] = ConvertToUsertype(dr["Fuser_type"].ToString());
+                    dr["Fuser_type_old_str"] = ConvertToUsertype(dr["Fuser_type_old"].ToString());
+                    int tmp = int.Parse(dr["Fattid"].ToString());
+                    dr["Fattid_str"] = TransferMeaning.Transfer.convertProAttType(tmp);
+                    tmp = int.Parse(dr["Fattid_old"].ToString());
+                    dr["Fattid_old_str"] = TransferMeaning.Transfer.convertProAttType(tmp);
+                }
+            }
+
+            return dt;
+        }
+        //个人信息获取用户类型
+        private string ConvertToUsertype(string itype)
+        {
+            if (itype == "0")
+                return "未指定";
+            else if (itype == "1")
+                return "个人";
+            else if (itype == "2")
+                return "公司";
+            else
+                return "";
+        }
+
+        public bool GetUserType(string qqid, out string userType, out string userType_str, out string Msg)
+        {
+            userType_str = "";
+            bool ret_value = new AccountData().getUserType(qqid, out userType, out Msg);
+            if (ret_value)
+            {
+                userType_str = ConvertToUsertype((userType));
+            }
+            return ret_value;
+        }
+
         public bool AddChangeUserInfoLog(string qqid, string cre_type, string cre_type_old, string user_type, string user_type_old, string attid, string attid_old, string commet, string commet_old, string submit_user)
         {
             if (string.IsNullOrEmpty(qqid))
@@ -59,15 +141,6 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             return new AccountData().AddChangeUserInfoLog(qqid, cre_type, cre_type_old, user_type, user_type_old, attid, attid_old, commet, commet_old, submit_user);
         }
 
-        public DataTable QueryChangeUserInfoLog(string qqid, int offset, int limit)
-        {
-            if (string.IsNullOrEmpty(qqid))
-            {
-                throw new ArgumentNullException("qqid");
-            }
-            return new AccountData().QueryChangeUserInfoLog(qqid, offset, limit);
-        }
-             
         public Boolean LCTAccStateOperator(string uin, string cre_id, string cre_type, string name, string op_type, string caller_name, string client_ip)
         {
             if (string.IsNullOrEmpty(uin))
@@ -139,7 +212,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                 throw new Exception(errMsg);
             return LCTAccStateOperator(uin, cre_id, cre_type, "", op_type, caller_name, client_ip);
         }
-            
+
         #region 销户操作
 
         /// <summary>
@@ -267,7 +340,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
 
             long balance = 0;
 
-            DataTable dt =new LCTBalanceService().QuerySubAccountInfo(query_id, 1);    //主帐户余额
+            DataTable dt = new LCTBalanceService().QuerySubAccountInfo(query_id, 1);    //主帐户余额
             if (dt != null && dt.Rows.Count > 0)
             {
                 balance += long.Parse(dt.Rows[0]["Fbalance"].ToString().Trim());
@@ -475,7 +548,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                         }
                         if (tempAtt != 0)
                         {
-                            dr["Fpro_att"] = CheckBasicInfo(tempAtt);
+                            dr["Fpro_att"] = TransferMeaning.Transfer.convertProAttType(tempAtt);
                         }
                         else
                         {
@@ -575,7 +648,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                 return null;
             }
         }
-     
+
         public DataSet GetUserAccountFromWechat(string u_QQID, int istr, int imax)
         {
             return new AccountData().GetUserAccountFromWechat(u_QQID, istr, imax);
@@ -593,26 +666,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         {
             return new AccountData().GetUserAccountCancel(qqid, fcurtype, istr, imax);
         }
-      
-        private string CheckBasicInfo(int nAttid)
-        {
-            //从数据字典中读取数据，绑定到web页
-            DataSet ds = PermitPara.QueryDicAccName();
-            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-            {
-                return "";
-            }
-            DataTable dt = ds.Tables[0];
-            foreach (DataRow dr in dt.Rows)
-            {
-                if (nAttid == int.Parse(dr["Value"].ToString().Trim()))
-                {
-                    return dr["Text"].ToString().Trim();
-                }
-            }
-            return "";
-        }
-           
+
         #endregion
 
     }

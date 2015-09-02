@@ -16,7 +16,6 @@ using System.Web.Services.Protocols;
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 
-
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
 	/// <summary>
@@ -153,21 +152,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			int NotInCount = TopCount * (index-1);
 
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-//			Finance_Header fh = new Finance_Header();
-//			fh.UserIP = Request.UserHostAddress;
-//			fh.UserName = Session["uid"].ToString();
-//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-//			fh.SzKey = Session["SzKey"].ToString();
-//
-//			qs.Finance_HeaderValue = fh;
 			Query_Service.Finance_Header fh = classLibrary.setConfig.setFH(this);
-			//			fh.UserIP = Request.UserHostAddress;
-			//			fh.UserName = Session["uid"].ToString();
-			//
-			//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-			//			fh.SzKey = Session["SzKey"].ToString();
-			//
 			qs.Finance_HeaderValue = fh;
 
 			string log = SensitivePowerOperaLib.MakeLog("get",Session["uid"].ToString().Trim(),"[自助商户审核查询]",filter

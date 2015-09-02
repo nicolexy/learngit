@@ -343,6 +343,7 @@ namespace CSAPI
                 DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
                 DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
                 //将查询时间跨度设置在一个月之内,月初查询到月底
+                end_time.AddDays(1);    //需要加一天,不然当天的记录查询不到
                 int month = end_time.Month - begin_time.Month;
                 if (month != 0)
                 {
@@ -362,7 +363,6 @@ namespace CSAPI
                     limit = 20;
                 }
 
-                //var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTCBankPAYList(ID, type, begin_time, end_time, offset, limit);
                 var infos = new CFT.CSOMS.BLL.TradeModule.PickService().GetTCBankPAYList(ID, type, begin_time, end_time, offset, limit);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {

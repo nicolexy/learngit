@@ -36,7 +36,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
                 ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-                ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
+                ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
                 //int operid = Int32.Parse(Session["OperID"].ToString());
 
                 //if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
@@ -52,7 +52,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy年MM月dd日 00:00:00");
                 TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日 23:59:59");
-               
+
             }
 
         }
@@ -85,7 +85,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string begindate = TextBoxBeginDate.Text.Trim();
             string enddate = TextBoxEndDate.Text.Trim();
             bind(UinListId, BankListId, begindate, enddate);
-           
+
         }
         private void bind(string UinListId, string BankListId, string begindate, string enddate)
         {
@@ -165,10 +165,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             //furion 20060324 增加银行查询条件
             ViewState["banktype"] = "0000";
-
-            //furion 20050819 加入对SQL敏感字符的判断
-           // txtBankListId.Text = classLibrary.setConfig.replaceSqlStr(u_ID);
-
         }
 
         protected int query(string UinListId, string BankListId, string begin, string end)
@@ -176,9 +172,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             int iType = 0;
             try
             {
-                if (UinListId== "" && BankListId== "")
+                if (UinListId == "" && BankListId == "")
                 {
-                    throw new Exception("财付通订单和银行订单号请至少输入一项！"); 
+                    throw new Exception("财付通订单和银行订单号请至少输入一项！");
                 }
 
                 if (UinListId != "")//根据财付通订单
@@ -192,7 +188,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     if (BankListId != "")
                     {
                         ValidateDate(BankListId, begin, end);
-                      //根据给定银行单号查询交易单号
+                        //根据给定银行单号查询交易单号
                         Query_Service.Query_Service qs = new Query_Service.Query_Service();
                         DateTime begindate = DateTime.Parse(begin);
                         DateTime enddate = DateTime.Parse(end);
@@ -229,7 +225,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         {
                             throw new Exception(begin + "至" + end + "时间段根据给定银行单号查询交易单号" + BankListId + "读取数据失败！" + eSys);
                         }
-                       // iType = 1;现在是交易单号，一样的查询
+                        // iType = 1;现在是交易单号，一样的查询
                         iType = 4;
                     }
                 }
@@ -238,11 +234,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 Session["ListID"] = listID;
 
                 return iType;
-             
+
             }
             catch (Exception es)
             {
-                throw new Exception("查询出错:" + es.Message.ToString()); 
+                throw new Exception("查询出错:" + es.Message.ToString());
             }
         }
         private List<String> BindDataListId(int index, bool isold)
@@ -262,10 +258,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             int fstate = Int32.Parse(ViewState["fstate"].ToString());
 
-            int max =100;
+            int max = 100;
             int start = max * (index - 1) + 1;
 
-            int newmax =100;
+            int newmax = 100;
             int newstart = max * (index - 1);
 
             string banktype = ViewState["banktype"].ToString();
@@ -291,7 +287,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 ds = qs.GetBankRollListByListId(u_ID, queryType, fcurtype, begindate, enddate, fstate, fnum, fnumMax, banktype, sorttype, newstart, newmax);
 
             }
-            if ((queryType == "toBank" ) && !u_ID.ToUpper().StartsWith("CFT"))
+            if ((queryType == "toBank") && !u_ID.ToUpper().StartsWith("CFT"))
             {
                 DataTable cftDetail = new DataTable();
                 if (ds != null && ds.Tables.Count == 1)
@@ -340,7 +336,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
 
             List<String> idlist = new List<string>();
-            if (ds != null && ds.Tables.Count > 0&&ds.Tables[0].Rows.Count>0)
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
@@ -462,7 +458,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     string r1 = res_dt.Rows[i][0].ToString().Trim();//财付通订单
                     string r2 = res_dt.Rows[i][1].ToString().Trim();//银行订单号
                     string r3 = res_dt.Rows[i][2].ToString().Trim();//开始日期
-                    string r4= res_dt.Rows[i][3].ToString().Trim();//结束日期
+                    string r4 = res_dt.Rows[i][3].ToString().Trim();//结束日期
 
                     DateTime begindate = new DateTime(), enddate = new DateTime();
                     string s_date = ""; string e_date = "";
@@ -486,20 +482,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     }
                     query(r1, r2, s_date, e_date);
 
-                    //dsOne = TradeInfo(iType);
-                    //if (dsOne != null && dsOne.Tables.Count > 0)
-                    //    listD.Add(dsOne);
                 }
 
                 ds = TradeInfo(4);//int iType总是4
-                //if (listD != null && listD.Count > 0)
-                //{
-                //    ds = listD[0];
-                //    for (int i = 1; i < listD.Count; i++)
-                //    {
-                //        ds = PublicRes.ToOneDataset(ds, listD[i]);//合并多个dataset
-                //    }
-                //}
+
                 return ds;
             }
             catch (SoapException eSoap) //捕获soap类异常
@@ -554,47 +540,32 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             try
             {
-                //if (!File1.HasFile)
-                //{
-                //    WebUtils.ShowMessage(this.Page, "请选择上传文件！");
-                //    return;
-                //}
-                //if (Path.GetExtension(File1.FileName).ToLower() == ".xls")
-                //{
-                  //  DataSet ds = SearchMore();
-                    DataSet ds = (DataSet)ViewState["gt_more"];
-                    if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                    {
-                        WebUtils.ShowMessage(this, "查询结果为空");
-                        return;
-                    }
+                DataSet ds = (DataSet)ViewState["gt_more"];
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                {
+                    WebUtils.ShowMessage(this, "查询结果为空");
+                    return;
+                }
 
-                    DataTable dt = ds.Tables[0];
-                    StringWriter sw = new StringWriter();
-                    string excelHeader = DataGrid1.Columns[0].HeaderText;
-                    for (int i = 1; i < DataGrid1.Columns.Count; i++)
-                    {
-                        excelHeader += "\t" + DataGrid1.Columns[i].HeaderText;
-                    }
-                    sw.WriteLine(excelHeader);
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        sw.WriteLine("=\"" + dr["Flistid"].ToString() + "\"\t=\"" + dr["Fbank_listid"].ToString() + "\"\t=\"" + dr["Fcard_tail"] + "\"\t=\""
-                            + dr["Fbuy_bank_type_str"] + "\"\t=\"" + dr["Fpaynum_str"] + "\"\t=\"" + dr["Fbuy_name"] + "\"");
-                    }
-                    sw.Close();
-                    Response.AddHeader("Content-Disposition", "attachment; filename=卡信息批量查询.xls");
-                    Response.ContentType = "application/ms-excel";
-                    Response.ContentEncoding = System.Text.Encoding.GetEncoding("GB2312");
-                    Response.Write(sw);
-                    Response.End();
-
-                //}
-                //else
-                //{
-                //    WebUtils.ShowMessage(this.Page, "文件格式不正确，请选择xls格式文件上传。");
-                //    return;
-                //}
+                DataTable dt = ds.Tables[0];
+                StringWriter sw = new StringWriter();
+                string excelHeader = DataGrid1.Columns[0].HeaderText;
+                for (int i = 1; i < DataGrid1.Columns.Count; i++)
+                {
+                    excelHeader += "\t" + DataGrid1.Columns[i].HeaderText;
+                }
+                sw.WriteLine(excelHeader);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    sw.WriteLine("=\"" + dr["Flistid"].ToString() + "\"\t=\"" + dr["Fbank_listid"].ToString() + "\"\t=\"" + dr["Fcard_tail"] + "\"\t=\""
+                        + dr["Fbuy_bank_type_str"] + "\"\t=\"" + dr["Fpaynum_str"] + "\"\t=\"" + dr["Fbuy_name"] + "\"");
+                }
+                sw.Close();
+                Response.AddHeader("Content-Disposition", "attachment; filename=卡信息批量查询.xls");
+                Response.ContentType = "application/ms-excel";
+                Response.ContentEncoding = System.Text.Encoding.GetEncoding("GB2312");
+                Response.Write(sw);
+                Response.End();
             }
             catch (Exception eSys)
             {
@@ -605,7 +576,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         protected void btn_outExcel_Click(object sender, System.EventArgs e)
         {
             BindDataOutExcel();
-
         }
 
     }

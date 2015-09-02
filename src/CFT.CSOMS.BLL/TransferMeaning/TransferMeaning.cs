@@ -23,6 +23,11 @@ namespace CFT.CSOMS.BLL.TransferMeaning
             return returnDicStr("USER_TYPE", sType);
         }
 
+        public static string convertFcre_type(string sType) //查询证件类型  CRE_TYPE
+        {
+            return returnDicStr("CRE_TYPE", sType);
+        }
+
         public static string convertMoney_type(string sType) //币种类型转换 CUR_TYPE
         {
             return returnDicStr("CUR_TYPE", sType);
@@ -134,6 +139,25 @@ namespace CFT.CSOMS.BLL.TransferMeaning
         public static string convertBPAY(string sType)  //余额支付状态 1 开启 2 关闭 
         {
             return returnDicStr("FBPAY_STATE", sType);
+        }
+
+        public static string convertProAttType(int nAttid) //产品属性
+        {
+            //从数据字典中读取数据，绑定到web页
+            DataSet ds = PermitPara.QueryDicAccName();
+            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+            {
+                return "";
+            }
+            DataTable dt = ds.Tables[0];
+            foreach (DataRow dr in dt.Rows)
+            {
+                if (nAttid == int.Parse(dr["Value"].ToString().Trim()))
+                {
+                    return dr["Text"].ToString().Trim();
+                }
+            }
+            return "";
         }
 
         public static string returnDicStr(string type, string sType)
