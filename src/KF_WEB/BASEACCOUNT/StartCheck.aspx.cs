@@ -55,15 +55,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 Response.Redirect("../login.aspx?wh=1");
             }
-          
-                //if (Session["uid"] == null || AllUserRight.GetOneRightState("StartCheck", Session["key"].ToString()) == false)
-                //{
-                //    WebUtils.ShowMessage(this.Page, "超时！ 请重新登陆。");
-                //    Response.Redirect("../login.aspx?wh=1");
-                //}
-    
-            
-
+                   
             if (!Page.IsPostBack)
             {
                 exeShow = "false";  //是否执行
@@ -75,17 +67,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 {
                     dlCheckType.Items.Add(new ListItem(ht[s].ToString(), s));
                 }
-                //if (Request.QueryString["paycheck"] != null) //审批系统传过来的资金调拨审批参数
-                //{
-                //    this.dlCheckType.SelectedValue = "CNBankTreasurer";
-                //}
-                //else
-                //{
-                //    this.dlCheckType.SelectedValue = "0";
-                //}
                 this.dlCheckType.SelectedValue = "0";
                 dlCheckType.DataBind();
-
                 BindInfo();
             }
         }
@@ -115,10 +98,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
 
             int iStr, iMax;
-
             iMax = pager.PageSize; //每页显示
             iStr = (pageIndex - 1) * iMax + 1;  //初始索引
-
             pager.RecordCount = Int32.Parse(ViewState["uncheckNum"].ToString());  //记录条数
 
             //数据绑定处理
@@ -190,12 +171,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             Check_Service cs = new Check_Service();
        
             uncheckNum =cs.GetStartCheckCount(selectType, uid);
-
             checkedNum = cs.GetFinishCheckCount(selectType, uid);
-
             ViewState["uncheckNum"] = uncheckNum;
             ViewState["checkedNum"] = checkedNum;
-
             this.lbInfo.Text = "今天是：" + DateTime.Now.ToString("yyyy年MM月dd日") + " 您当前有" + this.dlCheckType.SelectedItem.Text + uncheckNum.ToString() + "件待审批," + checkedNum.ToString() + "件通过审批," + cs.GetToDoNum(selectType, Session["uid"].ToString().Trim()) + "件待执行。";
             iFrameHeight = "0";
 
@@ -372,12 +350,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 BindChecked(pager.CurrentPageIndex);
 
             sign = ViewState["sign"].ToString();  //审批过还是未审批的标识
-
             dgCheck.DataBind();
-
-            //			pager.CustomInfoText="记录总数：<font color=\"blue\"><b>"+pager.RecordCount.ToString()+"</b></font>";
-            //			pager.CustomInfoText+=" 总页数：<font color=\"blue\"><b>"+pager.PageCount.ToString()+"</b></font>";
-            //			pager.CustomInfoText+=" 当前页：<font color=\"red\"><b>"+pager.CurrentPageIndex.ToString()+"</b></font>";
         }
 
         private void lkUnchecked_Click(object sender, System.EventArgs e)

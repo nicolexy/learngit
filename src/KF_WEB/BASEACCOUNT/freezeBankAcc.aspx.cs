@@ -9,10 +9,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Web.Services.Protocols;
-
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
-
 using TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
@@ -39,7 +37,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			// 在此处放置用户代码以初始化页面
 
 			this.ibtn_FreezeEndDate.Attributes.Add("OnClick","openModeEnd()");
-
 			this.cbx_showEndDate.CheckedChanged += new EventHandler(cbx_showEndDate_CheckedChanged);
 
 			try
@@ -47,12 +44,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				if(System.Configuration.ConfigurationManager.AppSettings["isTestingMode"].ToString().ToLower() == "false")
 				{
 					labUid.Text = Session["uid"].ToString();
-
 					string szkey = Session["SzKey"].ToString();
 					//int operid = Int32.Parse(Session["OperID"].ToString());
-
-					//if (!AllUserRight.ValidRight(szkey, operid, PublicRes.GROUPID, "FreezeUser")) Response.Redirect("../login.aspx?wh=1");	
-					
+					//if (!AllUserRight.ValidRight(szkey, operid, PublicRes.GROUPID, "FreezeUser")) Response.Redirect("../login.aspx?wh=1");						
 					if(!classLibrary.ClassLib.ValidateRight("FreezeUser",this)) Response.Redirect("../login.aspx?wh=1");
 				}
 			}
@@ -121,22 +115,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 				//读取出原来提交的用户姓名和联系方式和帐户号码。
 				Query_Service.Query_Service fm = new Query_Service.Query_Service();
-//				Query_Service.Finance_Header fh = new Query_Service.Finance_Header();
-//				fh.UserName = Session["uid"].ToString();
-//				fh.UserIP   = Request.UserHostAddress;
-//				fh.OperID = Int32.Parse(Session["OperID"].ToString());
-//				fh.SzKey = Session["SzKey"].ToString();
-//				//fh.RightString = Session["key"].ToString();
-//				fm.Finance_HeaderValue = fh;
 				Query_Service.Finance_Header fh = classLibrary.setConfig.setFH(this);
-				//			fh.UserIP = Request.UserHostAddress;
-				//			fh.UserName = Session["uid"].ToString();
-				//
-				//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-				//			fh.SzKey = Session["SzKey"].ToString();
-				//
 				fm.Finance_HeaderValue = fh;
-				//			qs.Finance_HeaderValue = setConfig.setFH(this);
+				
 				try
 				{
 					//FFreezeType: 1为冻结帐户，2为锁定工单
@@ -219,24 +200,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				Common.AllUserRight.UpdateSession(strszkey,ioperid,PublicRes.GROUPID,iserviceid,struserdata,content);
 
 				Finance_Manage fm = new Finance_Manage();
-//				Finance_ManageService.Finance_Header fh = new Finance_ManageService.Finance_Header();
-//				fh.UserName = Session["uid"].ToString();
-//				fh.UserIP   = Request.UserHostAddress;
-//				fh.OperID = Int32.Parse(Session["OperID"].ToString());
-//				fh.SzKey = Session["SzKey"].ToString();
-//				//fh.RightString = Session["key"].ToString();
-//				fm.Finance_HeaderValue = fh;
-
 				Finance_ManageService.Finance_Header fh = classLibrary.setConfig.setFH_Finance(this);
-				//			fh.UserIP = Request.UserHostAddress;
-				//			fh.UserName = Session["uid"].ToString();
-				//
-				//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-				//			fh.SzKey = Session["SzKey"].ToString();
-				//
 				fm.Finance_HeaderValue = fh;
-				//			qs.Finance_HeaderValue = setConfig.setFH(this);
-
                 string op_type = "";//理财通账户状态操作类型
 
 				//调用冻结或者解冻帐户的service
@@ -280,23 +245,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 					//furion 20050906 要先加入工单，不成功不进行下面的工作。
 					Query_Service.Query_Service qs = new Query_Service.Query_Service();
-//					Query_Service.Finance_Header fhq = new Query_Service.Finance_Header();
-//					fhq.UserName = Session["uid"].ToString();
-//					fhq.UserIP   = Request.UserHostAddress;
-//					fhq.OperID = Int32.Parse(Session["OperID"].ToString());
-//					fhq.SzKey = Session["SzKey"].ToString();
-//					//fhq.RightString = Session["key"].ToString();
-//					qs.Finance_HeaderValue = fhq;
-
 					Query_Service.Finance_Header fhq = classLibrary.setConfig.setFH(this);
-					//			fh.UserIP = Request.UserHostAddress;
-					//			fh.UserName = Session["uid"].ToString();
-					//
-					//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-					//			fh.SzKey = Session["SzKey"].ToString();
-					//
 					qs.Finance_HeaderValue = fhq;
-					//			qs.Finance_HeaderValue = setConfig.setFH(this);
+
 					try
 					{
 						Query_Service.FreezeInfo fi = new FreezeInfo();

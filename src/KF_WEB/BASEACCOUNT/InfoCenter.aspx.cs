@@ -161,367 +161,220 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             DataSet ds = new DataSet();
             //判断是用微信查还是账号查 yinhuang 2013/7/30  2014/1/23 把微信查询的移到微信支付
             bool isWechat = false;
-            //if (this.WeChatQQ.Checked || this.WeChatMobile.Checked || this.WeChatEmail.Checked || this.WeChatCft.Checked || this.WeChatUid.Checked)
-            //{
-                //使用微信查询
-            //    isWechat = true;
-            //    ds = myService.GetUserAccountFromWechat(Session["QQID"].ToString(), istr, imax); 
-            //}
-            //else { 
             try
             {
-                ds = myService.GetUserAccount(Session["QQID"].ToString(), 1, istr, imax); 
-         
-              //使用账号查询
-            
-           // }
-                      
-            if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
-            {
-                //也有可能是快速交易用户
-                //furion 新加一个函数，判断是否为快速交易用户，fsign=2并且无t_user表。
-                if (myService.IsFastPayUser(Session["QQID"].ToString()))
-                {
-                    this.Label14_Ftruename.Text = "快速交易用户";
-                    this.Label12_Fstate.Text = "";
-                }
-                else
-                    throw new Exception("数据库无此记录");
-            }
-            else
-            {//2013/7/19 yinhuang 兼容不存在的列 PublicRes.objectToString
-                //this.Label1_Acc.Text			= this.TextBox1_InputQQ.Text.Trim();  //"22000254";
-                this.Label1_Acc.Text = PublicRes.objectToString(ds.Tables[0], "Fqqid");
-                string s_curtype = PublicRes.objectToString(ds.Tables[0], "Fcurtype");
-                if (s_curtype == "")
-                {
-                    this.Label2_Type.Text = "";
-                }
-                else {
-                    this.Label2_Type.Text = classLibrary.setConfig.convertMoney_type(s_curtype);//tu.u_CurType;				   //"代金券";
-                }
+                ds = myService.GetUserAccount(Session["QQID"].ToString(), 1, istr, imax);
 
-                this.Label3_LeftAcc.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fbalance"));//tu.u_Balance;				   //"3000";
-                //this.Label4_Freeze.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fcon"));                  //"1000";
-                this.Label5_YestodayLeft.Text = PublicRes.objectToString(ds.Tables[0],"Fyday_balance");		   //"10";
-                this.lblLoginTime.Text = PublicRes.objectToString(ds.Tables[0],"Fcreate_time");
-                this.Label6_LastModify.Text = PublicRes.objectToString(ds.Tables[0],"Fmodify_time");		   //"2005-05-01";
-                this.Label7_SingleMax.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fquota"));		   //"2000";
-                this.Label8_PerDayLmt.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fquota_pay"));			//"5000";
-                this.Label9_LastSaveDate.Text = PublicRes.objectToString(ds.Tables[0],"Fsave_time");				//"2005-03-01";
-                this.Label10_Drawing.Text = PublicRes.objectToString(ds.Tables[0],"Ffetch_time");              //"2005-04-15";
-                this.Label11_Remark.Text = PublicRes.objectToString(ds.Tables[0],"Fmemo");					//"这个家伙很懒，什么都没有留下！";
-                
-                //微信查询的state判断有所不同 yinhuang
-                if (isWechat)
+                if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
                 {
-                    string str_state = PublicRes.objectToString(ds.Tables[0],"Fstate");
-                    if (str_state == "1") {
-                        this.Label12_Fstate.Text = "正常";
-                    }
-                    else if (str_state == "2")
+                    //也有可能是快速交易用户
+                    //furion 新加一个函数，判断是否为快速交易用户，fsign=2并且无t_user表。
+                    if (myService.IsFastPayUser(Session["QQID"].ToString()))
                     {
-                        this.Label12_Fstate.Text = "冻结";
-                    }
-                    else {
+                        this.Label14_Ftruename.Text = "快速交易用户";
                         this.Label12_Fstate.Text = "";
                     }
-                }
-                else {
-                    this.Label12_Fstate.Text = classLibrary.setConfig.accountState(PublicRes.objectToString(ds.Tables[0],"Fstate"));
-                }
-                this.Label13_Fuser_type.Text = classLibrary.setConfig.convertFuser_type(PublicRes.objectToString(ds.Tables[0],"Fuser_type"));
-
-                // 2012/5/2 因为需要Q_USER_INFO获取准确的用户真实姓名而改动
-                /*
-                try
-                {
-                    this.Label14_Ftruename.Text = PublicRes.objectToString(ds.Tables[0].Rows[0]["UserRealName2"]);
-                }
-                catch
-                {
-                    this.Label14_Ftruename.Text = PublicRes.objectToString(ds.Tables[0].Rows[0]["Ftruename"]);
-                }
-                */
-                //将上面取姓名的逻辑修改 yinhuang 2013/7/30
-                string str_truename = PublicRes.objectToString(ds.Tables[0],"UserRealName2");
-                if (str_truename == "") {
-                    str_truename = PublicRes.objectToString(ds.Tables[0],"Ftruename");
-                }
-                this.Label14_Ftruename.Text = str_truename;
-
-                string s_fz_amt = PublicRes.objectToString(ds.Tables[0], "Ffz_amt"); //分账冻结金额
-                string s_balance = PublicRes.objectToString(ds.Tables[0],"Fbalance");
-                string s_cron = PublicRes.objectToString(ds.Tables[0],"Fcon");
-                long l_balance = 0,l_cron=0,l_fzamt=0;
-                if (s_balance != "") {
-                    l_balance = long.Parse(s_balance);
-                }
-                if (s_cron != "")
-                {
-                    l_cron = long.Parse(s_cron);
-                }
-                if (s_fz_amt != "")
-                {
-                    l_fzamt = long.Parse(s_fz_amt);
-                }
-
-                this.Label4_Freeze.Text = classLibrary.setConfig.FenToYuan(l_fzamt + l_cron);//冻结金额=分账冻结金额+冻结金额
-                //this.Label15_Useable.Text = classLibrary.setConfig.FenToYuan((long.Parse(ds.Tables[0].Rows[0]["Fbalance"].ToString()) - long.Parse(ds.Tables[0].Rows[0]["Fcon"].ToString())).ToString());  //帐户余额减去冻结余额= 可用余额
-                this.Label15_Useable.Text = classLibrary.setConfig.FenToYuan(l_balance - l_cron);  //帐户余额减去冻结余额= 可用余额
-
-                try
-                {
-                    string ip = myService.Finance_HeaderValue.UserIP;
-                    bool isOpen = balaceService.BalancePaidOrNotQuery(Session["QQID"].ToString(), ip);//查询余额支付功能关闭与否
-                    if (isOpen)
-                        this.Label19_OpenOrNot.Text = "打开";
                     else
-                        this.Label19_OpenOrNot.Text = "已关闭";
+                        throw new Exception("数据库无此记录");
                 }
-                catch
-                {}
-
-                this.Label16_Fapay.Text = PublicRes.objectToString(ds.Tables[0],"Fapay");
-                this.Label17_Flogin_ip.Text = PublicRes.objectToString(ds.Tables[0],"Flogin_ip");
-
-                //furion 20061116 email登录修改
-                this.labEmail.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0],"Femail"));
-                this.labMobile.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0],"Fmobile"));
-                //2006-10-18 edwinyang 增加产品属性
-                int nAttid = 0;
-                //				pbp.BindDropDownList(pm.QueryDicAccName(),ddlAttid,out Msg);
-                string s_attid = PublicRes.objectToString(ds.Tables[0],"Att_id");
-                if (s_attid != "") {
-                    nAttid = int.Parse(s_attid);
-                }
-                if (nAttid != 0)
-                {
-                    this.Label18_Attid.Text = CheckBasicInfo(nAttid);
-                }
-                else {
-                    this.Label18_Attid.Text = "";
-                }
-                
-                this.lbInnerID.Text = PublicRes.objectToString(ds.Tables[0],"fuid");
-                this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Ffetch"));
-                this.lbLeftPay.Text = classLibrary.setConfig.convertBPAY(PublicRes.objectToString(ds.Tables[0],"Fbpay_state"));
-                this.lbSave.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fsave"));
-
-                string fuid = PublicRes.objectToString(ds.Tables[0],"fuid");
-
-                if (Label1_Acc.Text != "")
-                {
-                    string testuid = myService.QQ2Uid(Label1_Acc.Text);
-                    if (testuid != null)
+                else
+                {//2013/7/19 yinhuang 兼容不存在的列 PublicRes.objectToString
+                    //this.Label1_Acc.Text			= this.TextBox1_InputQQ.Text.Trim();  //"22000254";
+                    this.Label1_Acc.Text = PublicRes.objectToString(ds.Tables[0], "Fqqid");
+                    string s_curtype = PublicRes.objectToString(ds.Tables[0], "Fcurtype");
+                    if (s_curtype == "")
                     {
-                        labQQstate.Text = "注册未关联";
-                        if (testuid.Trim() == fuid)
+                        this.Label2_Type.Text = "";
+                    }
+                    else
+                    {
+                        this.Label2_Type.Text = classLibrary.setConfig.convertMoney_type(s_curtype);//tu.u_CurType;				   //"代金券";
+                    }
+
+                    this.Label3_LeftAcc.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fbalance"));//tu.u_Balance;				   //"3000";
+                    //this.Label4_Freeze.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fcon"));                  //"1000";
+                    this.Label5_YestodayLeft.Text = PublicRes.objectToString(ds.Tables[0], "Fyday_balance");		   //"10";
+                    this.lblLoginTime.Text = PublicRes.objectToString(ds.Tables[0], "Fcreate_time");
+                    this.Label6_LastModify.Text = PublicRes.objectToString(ds.Tables[0], "Fmodify_time");		   //"2005-05-01";
+                    this.Label7_SingleMax.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fquota"));		   //"2000";
+                    this.Label8_PerDayLmt.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fquota_pay"));			//"5000";
+                    this.Label9_LastSaveDate.Text = PublicRes.objectToString(ds.Tables[0], "Fsave_time");				//"2005-03-01";
+                    this.Label10_Drawing.Text = PublicRes.objectToString(ds.Tables[0], "Ffetch_time");              //"2005-04-15";
+                    this.Label11_Remark.Text = PublicRes.objectToString(ds.Tables[0], "Fmemo");					//"这个家伙很懒，什么都没有留下！";
+
+                    //微信查询的state判断有所不同 yinhuang
+                    if (isWechat)
+                    {
+                        string str_state = PublicRes.objectToString(ds.Tables[0], "Fstate");
+                        if (str_state == "1")
                         {
-                            //再判断是否是已激活 furion 20070226
-                            string trueuid = myService.QQ2UidX(Label1_Acc.Text);
-                            if (trueuid != null)
-                                labQQstate.Text = "已关联";
-                            else
-                                labQQstate.Text = "已关联未激活";
+                            this.Label12_Fstate.Text = "正常";
+                        }
+                        else if (str_state == "2")
+                        {
+                            this.Label12_Fstate.Text = "冻结";
+                        }
+                        else
+                        {
+                            this.Label12_Fstate.Text = "";
                         }
                     }
                     else
-                        labQQstate.Text = "未注册";
-                }
-                else
-                    labQQstate.Text = "";
-
-                if (labEmail.Text != "")
-                {
-                    string testuid = myService.QQ2Uid(labEmail.Text);
-                    if (testuid != null)
                     {
-                        labEmailState.Text = "注册未关联";
-                        if (testuid.Trim() == fuid)
-                        {
-                            //再判断是否是已激活 furion 20070226
-                            string trueuid = myService.QQ2UidX(labEmail.Text);
-                            if (trueuid != null)
-                                labEmailState.Text = "已关联";
-                            else
-                                labEmailState.Text = "已关联未激活";
-                        }
+                        this.Label12_Fstate.Text = classLibrary.setConfig.accountState(PublicRes.objectToString(ds.Tables[0], "Fstate"));
+                    }
+                    this.Label13_Fuser_type.Text = classLibrary.setConfig.convertFuser_type(PublicRes.objectToString(ds.Tables[0], "Fuser_type"));
+
+                    //将上面取姓名的逻辑修改 yinhuang 2013/7/30
+                    string str_truename = PublicRes.objectToString(ds.Tables[0], "UserRealName2");
+                    if (str_truename == "")
+                    {
+                        str_truename = PublicRes.objectToString(ds.Tables[0], "Ftruename");
+                    }
+                    this.Label14_Ftruename.Text = str_truename;
+
+                    string s_fz_amt = PublicRes.objectToString(ds.Tables[0], "Ffz_amt"); //分账冻结金额
+                    string s_balance = PublicRes.objectToString(ds.Tables[0], "Fbalance");
+                    string s_cron = PublicRes.objectToString(ds.Tables[0], "Fcon");
+                    long l_balance = 0, l_cron = 0, l_fzamt = 0;
+                    if (s_balance != "")
+                    {
+                        l_balance = long.Parse(s_balance);
+                    }
+                    if (s_cron != "")
+                    {
+                        l_cron = long.Parse(s_cron);
+                    }
+                    if (s_fz_amt != "")
+                    {
+                        l_fzamt = long.Parse(s_fz_amt);
+                    }
+
+                    this.Label4_Freeze.Text = classLibrary.setConfig.FenToYuan(l_fzamt + l_cron);//冻结金额=分账冻结金额+冻结金额
+                    //this.Label15_Useable.Text = classLibrary.setConfig.FenToYuan((long.Parse(ds.Tables[0].Rows[0]["Fbalance"].ToString()) - long.Parse(ds.Tables[0].Rows[0]["Fcon"].ToString())).ToString());  //帐户余额减去冻结余额= 可用余额
+                    this.Label15_Useable.Text = classLibrary.setConfig.FenToYuan(l_balance - l_cron);  //帐户余额减去冻结余额= 可用余额
+
+                    try
+                    {
+                        string ip = myService.Finance_HeaderValue.UserIP;
+                        bool isOpen = balaceService.BalancePaidOrNotQuery(Session["QQID"].ToString(), ip);//查询余额支付功能关闭与否
+                        if (isOpen)
+                            this.Label19_OpenOrNot.Text = "打开";
+                        else
+                            this.Label19_OpenOrNot.Text = "已关闭";
+                    }
+                    catch
+                    { }
+
+                    this.Label16_Fapay.Text = PublicRes.objectToString(ds.Tables[0], "Fapay");
+                    this.Label17_Flogin_ip.Text = PublicRes.objectToString(ds.Tables[0], "Flogin_ip");
+
+                    //furion 20061116 email登录修改
+                    this.labEmail.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Femail"));
+                    this.labMobile.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile"));
+                    //2006-10-18 edwinyang 增加产品属性
+                    int nAttid = 0;
+                    //				pbp.BindDropDownList(pm.QueryDicAccName(),ddlAttid,out Msg);
+                    string s_attid = PublicRes.objectToString(ds.Tables[0], "Att_id");
+                    if (s_attid != "")
+                    {
+                        nAttid = int.Parse(s_attid);
+                    }
+                    if (nAttid != 0)
+                    {
+                        this.Label18_Attid.Text = CheckBasicInfo(nAttid);
                     }
                     else
-                        labEmailState.Text = "未注册";
-                }
-                else
-                    labEmailState.Text = "";
-
-                if (labMobile.Text != "")
-                {
-                    string testuid = myService.QQ2Uid(labMobile.Text);
-                    if (testuid != null)
                     {
-                        labMobileState.Text = "注册未关联";
-                        if (testuid.Trim() == fuid)
+                        this.Label18_Attid.Text = "";
+                    }
+
+                    this.lbInnerID.Text = PublicRes.objectToString(ds.Tables[0], "fuid");
+                    this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Ffetch"));
+                    this.lbLeftPay.Text = classLibrary.setConfig.convertBPAY(PublicRes.objectToString(ds.Tables[0], "Fbpay_state"));
+                    this.lbSave.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fsave"));
+
+                    string fuid = PublicRes.objectToString(ds.Tables[0], "fuid");
+
+                    if (Label1_Acc.Text != "")
+                    {
+                        string testuid = myService.QQ2Uid(Label1_Acc.Text);
+                        if (testuid != null)
                         {
-                            //再判断是否是已激活 furion 20070226
-                            string trueuid = myService.QQ2UidX(labMobile.Text);
-                            if (trueuid != null)
-                                labMobileState.Text = "已关联";
-                            else
-                                labMobileState.Text = "已关联未激活";
+                            labQQstate.Text = "注册未关联";
+                            if (testuid.Trim() == fuid)
+                            {
+                                //再判断是否是已激活 furion 20070226
+                                string trueuid = myService.QQ2UidX(Label1_Acc.Text);
+                                if (trueuid != null)
+                                    labQQstate.Text = "已关联";
+                                else
+                                    labQQstate.Text = "已关联未激活";
+                            }
                         }
+                        else
+                            labQQstate.Text = "未注册";
                     }
                     else
-                        labMobileState.Text = "未注册";
+                        labQQstate.Text = "";
+
+                    if (labEmail.Text != "")
+                    {
+                        string testuid = myService.QQ2Uid(labEmail.Text);
+                        if (testuid != null)
+                        {
+                            labEmailState.Text = "注册未关联";
+                            if (testuid.Trim() == fuid)
+                            {
+                                //再判断是否是已激活 furion 20070226
+                                string trueuid = myService.QQ2UidX(labEmail.Text);
+                                if (trueuid != null)
+                                    labEmailState.Text = "已关联";
+                                else
+                                    labEmailState.Text = "已关联未激活";
+                            }
+                        }
+                        else
+                            labEmailState.Text = "未注册";
+                    }
+                    else
+                        labEmailState.Text = "";
+
+                    if (labMobile.Text != "")
+                    {
+                        string testuid = myService.QQ2Uid(labMobile.Text);
+                        if (testuid != null)
+                        {
+                            labMobileState.Text = "注册未关联";
+                            if (testuid.Trim() == fuid)
+                            {
+                                //再判断是否是已激活 furion 20070226
+                                string trueuid = myService.QQ2UidX(labMobile.Text);
+                                if (trueuid != null)
+                                    labMobileState.Text = "已关联";
+                                else
+                                    labMobileState.Text = "已关联未激活";
+                            }
+                        }
+                        else
+                            labMobileState.Text = "未注册";
+                    }
+                    else
+                        labMobileState.Text = "";
+
+                    LinkButton3.Text = "";
+
+                    if (Label12_Fstate.Text.Trim() == "正常")
+                    {
+                        LinkButton3.Text = "冻结";
+                    }
+                    else if (Label12_Fstate.Text.Trim() == "冻结")
+                    {
+                        LinkButton3.Text = "解冻";
+                    }
                 }
-                else
-                    labMobileState.Text = "";
 
-                LinkButton3.Text = "";
-
-                if (Label12_Fstate.Text.Trim() == "正常")
-                {
-                    LinkButton3.Text = "冻结";
-                }
-                else if (Label12_Fstate.Text.Trim() == "冻结")
-                {
-                    LinkButton3.Text = "解冻";
-                }
-            }
-
-            SetButtonVisible(); //furion 20050902
-
-            //try
-            //{
-            //    string inmsg = "uin=" + Session["QQID"].ToString();
-            //    inmsg += "&query_str=level|value|vipflag|subid|exp_date";
-
-            //    string reply;
-            //    short sresult;
-            //    string msg = "";
-
-            //    if (TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.middleInvoke("vip_query_svc", inmsg, false, out reply, out sresult, out msg))
-            //    {
-            //        if (sresult != 0)
-            //        {
-            //            throw new Exception("vip_query_svc接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply);
-            //        }
-            //        else
-            //        {
-            //            if (reply.IndexOf("result=0") > -1)
-            //            {
-            //                //"channel=1&exp_date=20121212&last_tran_time=1323087894&level=1&res_info=query%20db%20success&result=0&subid=1&uin=19751515&value=4460&vipflag=2"
-
-            //                string[] paramlist = reply.Split('&');
-
-            //                foreach (string param in paramlist)
-            //                {
-            //                    if (param.StartsWith("value"))
-            //                    {
-            //                        this.vip_value.Text = getCgiString(param.Replace("value=", ""));
-            //                    }
-            //                    else if (param.StartsWith("vipflag"))
-            //                    {
-            //                        string vipflag = getCgiString(param.Replace("vipflag=", ""));
-            //                        if (vipflag == "0")
-            //                            this.vip_flag.Text = "非会员";
-            //                        else if (vipflag == "1")
-            //                            this.vip_flag.Text = "普通会员";
-            //                        else if (vipflag == "2")
-            //                            this.vip_flag.Text = "VIP会员";
-            //                        else if (vipflag == "4")
-            //                            this.vip_flag.Text = "连续1个月不做任务的普通会员（同非会员）";
-            //                        else
-            //                            this.vip_flag.Text = "Unknown";
-            //                    }
-            //                    else if (param.StartsWith("level"))
-            //                    {
-            //                        this.vip_level.Text = getCgiString(param.Replace("level=", ""));
-            //                    }
-            //                    else if (param.StartsWith("subid"))
-            //                    {
-            //                        string subid = getCgiString(param.Replace("subid=", ""));
-            //                        if (subid == "0")
-            //                            this.vip_channel.Text = "无支付方式";
-            //                        else if (subid == "1")
-            //                            this.vip_channel.Text = "手机支付";
-            //                        else if (subid == "2")
-            //                            this.vip_channel.Text = "个人帐户支付";
-            //                        else if (subid == "3")
-            //                            this.vip_channel.Text = "Vnet支付";
-            //                        else if (subid == "4")
-            //                            this.vip_channel.Text = "PHS小灵通支付";
-            //                        else if (subid == "5")
-            //                            this.vip_channel.Text = "银行支付";
-            //                        else if (subid == "100")
-            //                            this.vip_channel.Text = "Q币卡支付";
-            //                        else if (subid == "101")
-            //                            this.vip_channel.Text = "声讯支付";
-            //                        else if (subid == "102")
-            //                            this.vip_channel.Text = "ESALES支付";
-            //                        else if (subid == "103")
-            //                            this.vip_channel.Text = "他人赠送";
-            //                        else if (subid == "104")
-            //                            this.vip_channel.Text = "索要";
-            //                        else if (subid == "105")
-            //                            this.vip_channel.Text = "公司活动赠送";
-            //                        else if (subid == "106")
-            //                            this.vip_channel.Text = "免费（用于公免）";
-            //                        else if (subid == "107")
-            //                            this.vip_channel.Text = "电信卡";
-            //                        else if (subid == "108")
-            //                            this.vip_channel.Text = "缴费卡支付";
-            //                        else if (subid == "109")
-            //                            this.vip_channel.Text = "积分";
-            //                        else if (subid == "110")
-            //                            this.vip_channel.Text = "广州收费易";
-            //                        else if (subid == "111")
-            //                            this.vip_channel.Text = "Q点";
-            //                        else if (subid == "112")
-            //                            this.vip_channel.Text = "EPAY";
-            //                        else if (subid == "113")
-            //                            this.vip_channel.Text = "MPAY";
-            //                        else if (subid == "114")
-            //                            this.vip_channel.Text = "声讯预付费（活动接口）";
-            //                        else if (subid == "115")
-            //                            this.vip_channel.Text = "PPW_PAIPAI 拍拍渠道";
-            //                        else if (subid == "116")
-            //                            this.vip_channel.Text = "赠送索回";
-            //                        else if (subid == "117")
-            //                            this.vip_channel.Text = "声讯预付费  2006.10,移动联通";
-            //                        else if (subid == "118")
-            //                            this.vip_channel.Text = "Q币不足Q点支付";
-            //                        else if (subid == "119")
-            //                            this.vip_channel.Text = "Q点不足Q币支付";
-            //                        else if (subid == "120")
-            //                            this.vip_channel.Text = "移动do分离";
-            //                        else if (subid == "121")
-            //                            this.vip_channel.Text = "tenpay";
-            //                        else if (subid == "122")
-            //                            this.vip_channel.Text = "手机声讯渠道";
-            //                        else if (subid == "123")
-            //                            this.vip_channel.Text = "统一帐户渠道";
-            //                        else
-            //                            this.vip_channel.Text = "Unknown";
-            //                    }
-            //                    else if (param.StartsWith("exp_date"))
-            //                    {
-            //                        this.vip_exp_date.Text = getCgiString(param.Replace("exp_date=", ""));
-            //                    }
-            //                }
-            //            }
-            //            else
-            //            {
-            //                throw new Exception("vip_query_svc接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply);
-            //            }
-            //        }
-            //    }
-            //    else
-            //    {
-            //        throw new Exception("vip_query_svc接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply);
-            //    }
-            //}
-            //catch
-            //{ }
+                SetButtonVisible(); //furion 20050902      
             }
             catch (Exception ex)
             {
@@ -533,17 +386,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             try
             {
-                string uin =Session["QQID"].ToString();
-                 AccountService acc = new AccountService();
-                 DataTable dt = new VIPService().QueryVipInfo(uin.Trim());
-                 if (dt != null && dt.Rows.Count > 0)
-                 {
-                     this.vip_value.Text = dt.Rows[0]["value"].ToString();
-                     this.vip_flag.Text = dt.Rows[0]["vipflag_str"].ToString();
-                     this.vip_level.Text = dt.Rows[0]["level"].ToString();
-                     this.vip_channel.Text = dt.Rows[0]["subid_str"].ToString();
-                     this.vip_exp_date.Text = dt.Rows[0]["exp_date"].ToString();
-                 }
+                string uin = Session["QQID"].ToString();
+                AccountService acc = new AccountService();
+                DataTable dt = new VIPService().QueryVipInfo(uin.Trim());
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    this.vip_value.Text = dt.Rows[0]["value"].ToString();
+                    this.vip_flag.Text = dt.Rows[0]["vipflag_str"].ToString();
+                    this.vip_level.Text = dt.Rows[0]["level"].ToString();
+                    this.vip_channel.Text = dt.Rows[0]["subid_str"].ToString();
+                    this.vip_exp_date.Text = dt.Rows[0]["exp_date"].ToString();
+                }
             }
             catch (Exception ex)
             {
@@ -581,7 +434,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 labUserClassInfo.Text = msg;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogHelper.LogInfo("出现异常：" + ex.Message);
                 LogHelper.LogInfo("异常堆栈信息：" + new System.Diagnostics.StackTrace().GetFrames().ToString());
@@ -601,14 +454,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
             {
-                ////也有可能是快速交易用户
-                ////furion 新加一个函数，判断是否为快速交易用户，fsign=2并且无t_user表。
-                //if (myService.IsFastPayUser(Session["QQID"].ToString()))
-                //{
-                //    this.Label14_Ftruename.Text = "快速交易用户";
-                //    this.Label12_Fstate.Text = "";
-                //}
-                //else
                 throw new Exception("数据库无此记录");
             }
             else
@@ -771,139 +616,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 return;
             }
 
-            //try
-            //{
-            //    string inmsg = "uin=" + Session["QQID"].ToString();
-            //    inmsg += "&query_str=level|value|vipflag|subid|exp_date";
-
-            //    string reply;
-            //    short sresult;
-            //    string msg = "";
-
-            //    if (TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.middleInvoke("vip_query_svc", inmsg, false, out reply, out sresult, out msg))
-            //    {
-            //        if (sresult != 0)
-            //        {
-            //            throw new Exception("vip_query_svc接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply);
-            //        }
-            //        else
-            //        {
-            //            if (reply.IndexOf("result=0") > -1)
-            //            {
-            //                //"channel=1&exp_date=20121212&last_tran_time=1323087894&level=1&res_info=query%20db%20success&result=0&subid=1&uin=19751515&value=4460&vipflag=2"
-
-            //                string[] paramlist = reply.Split('&');
-
-            //                foreach (string param in paramlist)
-            //                {
-            //                    if (param.StartsWith("value"))
-            //                    {
-            //                        this.vip_value.Text = getCgiString(param.Replace("value=", ""));
-            //                    }
-            //                    else if (param.StartsWith("vipflag"))
-            //                    {
-            //                        string vipflag = getCgiString(param.Replace("vipflag=", ""));
-            //                        if (vipflag == "0")
-            //                            this.vip_flag.Text = "非会员";
-            //                        else if (vipflag == "1")
-            //                            this.vip_flag.Text = "普通会员";
-            //                        else if (vipflag == "2")
-            //                            this.vip_flag.Text = "VIP会员";
-            //                        else if (vipflag == "4")
-            //                            this.vip_flag.Text = "连续1个月不做任务的普通会员（同非会员）";
-            //                        else
-            //                            this.vip_flag.Text = "Unknown";
-            //                    }
-            //                    else if (param.StartsWith("level"))
-            //                    {
-            //                        this.vip_level.Text = getCgiString(param.Replace("level=", ""));
-            //                    }
-            //                    else if (param.StartsWith("subid"))
-            //                    {
-            //                        string subid = getCgiString(param.Replace("subid=", ""));
-            //                        if (subid == "0")
-            //                            this.vip_channel.Text = "无支付方式";
-            //                        else if (subid == "1")
-            //                            this.vip_channel.Text = "手机支付";
-            //                        else if (subid == "2")
-            //                            this.vip_channel.Text = "个人帐户支付";
-            //                        else if (subid == "3")
-            //                            this.vip_channel.Text = "Vnet支付";
-            //                        else if (subid == "4")
-            //                            this.vip_channel.Text = "PHS小灵通支付";
-            //                        else if (subid == "5")
-            //                            this.vip_channel.Text = "银行支付";
-            //                        else if (subid == "100")
-            //                            this.vip_channel.Text = "Q币卡支付";
-            //                        else if (subid == "101")
-            //                            this.vip_channel.Text = "声讯支付";
-            //                        else if (subid == "102")
-            //                            this.vip_channel.Text = "ESALES支付";
-            //                        else if (subid == "103")
-            //                            this.vip_channel.Text = "他人赠送";
-            //                        else if (subid == "104")
-            //                            this.vip_channel.Text = "索要";
-            //                        else if (subid == "105")
-            //                            this.vip_channel.Text = "公司活动赠送";
-            //                        else if (subid == "106")
-            //                            this.vip_channel.Text = "免费（用于公免）";
-            //                        else if (subid == "107")
-            //                            this.vip_channel.Text = "电信卡";
-            //                        else if (subid == "108")
-            //                            this.vip_channel.Text = "缴费卡支付";
-            //                        else if (subid == "109")
-            //                            this.vip_channel.Text = "积分";
-            //                        else if (subid == "110")
-            //                            this.vip_channel.Text = "广州收费易";
-            //                        else if (subid == "111")
-            //                            this.vip_channel.Text = "Q点";
-            //                        else if (subid == "112")
-            //                            this.vip_channel.Text = "EPAY";
-            //                        else if (subid == "113")
-            //                            this.vip_channel.Text = "MPAY";
-            //                        else if (subid == "114")
-            //                            this.vip_channel.Text = "声讯预付费（活动接口）";
-            //                        else if (subid == "115")
-            //                            this.vip_channel.Text = "PPW_PAIPAI 拍拍渠道";
-            //                        else if (subid == "116")
-            //                            this.vip_channel.Text = "赠送索回";
-            //                        else if (subid == "117")
-            //                            this.vip_channel.Text = "声讯预付费  2006.10,移动联通";
-            //                        else if (subid == "118")
-            //                            this.vip_channel.Text = "Q币不足Q点支付";
-            //                        else if (subid == "119")
-            //                            this.vip_channel.Text = "Q点不足Q币支付";
-            //                        else if (subid == "120")
-            //                            this.vip_channel.Text = "移动do分离";
-            //                        else if (subid == "121")
-            //                            this.vip_channel.Text = "tenpay";
-            //                        else if (subid == "122")
-            //                            this.vip_channel.Text = "手机声讯渠道";
-            //                        else if (subid == "123")
-            //                            this.vip_channel.Text = "统一帐户渠道";
-            //                        else
-            //                            this.vip_channel.Text = "Unknown";
-            //                    }
-            //                    else if (param.StartsWith("exp_date"))
-            //                    {
-            //                        this.vip_exp_date.Text = getCgiString(param.Replace("exp_date=", ""));
-            //                    }
-            //                }
-            //            }
-            //            else
-            //            {
-            //                throw new Exception("vip_query_svc接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply);
-            //            }
-            //        }
-            //    }
-            //    else
-            //    {
-            //        throw new Exception("vip_query_svc接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply);
-            //    }
-            //}
-            //catch
-            //{ }
-
             try
             {
                 string uin = Session["QQID"].ToString();
@@ -949,8 +661,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             { }
 
         }
-
-
 
         private int GetUserClassInfo(string qqid, out string msg)
         {
@@ -1049,46 +759,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 var qs = new Query_Service.Query_Service();
                 return qs.Uid2QQ(id);
             }
-            /*else if (this.WeChatQQ.Checked || this.WeChatMobile.Checked || this.WeChatEmail.Checked)
-            {
-                string queryType = string.Empty;
-                if (this.WeChatQQ.Checked)
-                {
-                    queryType = "QQ";
-                }
-                else if (this.WeChatMobile.Checked)
-                {
-                    queryType = "Mobile";
-                }
-                else if (this.WeChatEmail.Checked)
-                {
-                    queryType = "Email";
-                }
-
-                string openID = string.Empty, errorMessage = string.Empty;
-                int errorCode = 0;
-                var IPList = ConfigurationManager.AppSettings["WeChat"].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-
-                for (int j = 0; j < IPList.Length; j++)
-                {
-                    if (getOpenIDFromWeChat(queryType, id, out openID, out errorCode, out errorMessage, IPList[j]))
-                    {
-                        break;
-                    }
-                }
-                if (errorCode == 0)
-                {
-                    return openID + "@wx.tenpay.com";
-                }
-                else if (errorCode == 1)
-                {
-                    throw new Exception("没有此用户");
-                }
-                else
-                {
-                    throw new Exception(errorCode + errorMessage);
-                }
-            }*/
 
             return id;
         }
@@ -1174,13 +844,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 iFrameHeight = "230";   //iFame显示区域的高度
 
-                //if (this.WeChatQQ.Checked || this.WeChatMobile.Checked || this.WeChatEmail.Checked || this.WeChatCft.Checked || this.WeChatUid.Checked)
-                //{
-                //   //使用微信查询
-                //   ViewState["iswechat"] = "true";
-                //}
-                //else
-                //{
                 //使用账号查询
                 ViewState["iswechat"] = "false";
                 //}

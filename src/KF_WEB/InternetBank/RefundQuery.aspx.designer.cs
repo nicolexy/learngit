@@ -67,6 +67,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank {
         protected global::System.Web.UI.WebControls.TextBox cftOrderId;
         
         /// <summary>
+        /// ddl_refund_id control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddl_refund_id;
+        
+        /// <summary>
+        /// tbx_submit_user control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbx_submit_user;
+        
+        /// <summary>
         /// Label4 control.
         /// </summary>
         /// <remarks>
@@ -85,15 +103,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank {
         protected global::System.Web.UI.WebControls.TextBox TextBoxBeginDate;
         
         /// <summary>
-        /// ButtonBeginDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ButtonBeginDate;
-        
-        /// <summary>
         /// Label5 control.
         /// </summary>
         /// <remarks>
@@ -110,15 +119,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBoxEndDate;
-        
-        /// <summary>
-        /// ButtonEndDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ButtonEndDate;
         
         /// <summary>
         /// Label6 control.

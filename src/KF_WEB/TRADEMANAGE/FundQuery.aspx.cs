@@ -64,13 +64,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			}
 			
 			// 在此处放置用户代码以初始化页面
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
 
 			if(!IsPostBack)
 			{
-				TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy年MM月dd日 00:00:00");
-				TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日 23:59:59");
+                TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
+                TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
 
 				classLibrary.setConfig.GetAllBankList(ddlBankType);
 				ddlBankType.Items.Insert(0,new ListItem("所有银行","0000"));
@@ -91,8 +89,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				{
 					string date=Request.QueryString["checkdate"].Trim();
 					date=date.Substring(0,4)+"-"+date.Substring(4,2)+"-"+date.Substring(6,2);
-					TextBoxBeginDate.Text=DateTime.Parse(date).AddDays(-1).ToString("yyyy年MM月dd日 00:00:00");
-					TextBoxEndDate.Text=DateTime.Parse(date).AddDays(1).ToString("yyyy年MM月dd日 23:59:59");
+					TextBoxBeginDate.Text=DateTime.Parse(date).AddDays(-1).ToString("yyyy-MM-dd 00:00:00");
+					TextBoxEndDate.Text=DateTime.Parse(date).AddDays(1).ToString("yyyy-MM-dd 23:59:59");
 				
 				}
 				this.tbQQID.Text=ID;
@@ -193,40 +191,33 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			{
 				throw new Exception("未查询到OldOrderCZDataEndTime对应的配置值！" );
 			}
-            
-			if(this.dpLst.SelectedValue!="total")
-			{
-				if(u_ID != null && u_ID.Trim() != "")
-				{
-					//if(begindate.AddDays(32).CompareTo(enddate) < 0)
-					if(begindate.AddDays(15).CompareTo(enddate) < 0)
-					{
-						//throw new Exception("选择时间段超过了三十天，请重新输入！");
-						throw new Exception("选择时间段超过了十五天，请重新输入！");
-					}
-				}
-				else
-				{
-					//if(begindate.AddDays(3).CompareTo(enddate) < 0)
-				{
-					//throw new Exception("选择时间段超过了三天，请重新输入！");
-					throw new Exception("不允许不输入单号或QQ号进行查询，请重新输入！");
-				}
-				}
-			}
-			else
-			{
-				if(begindate.AddDays(1).CompareTo(enddate) < 0)
-				{
-					//throw new Exception("选择时间段超过了三十天，请重新输入！");
-					throw new Exception("选择时间段超过了一天，请重新输入！");
-				}
-			}
+
+            if (this.dpLst.SelectedValue != "total")
+            {
+                if (string.IsNullOrEmpty(u_ID))
+                    throw new Exception("不允许不输入单号或QQ号进行查询，请重新输入！");
+
+                if (begindate.AddDays(15).CompareTo(enddate) < 0)
+                    throw new Exception("选择时间段超过了十五天，请重新输入！");
+
+                if (this.dpLst.SelectedValue.ToLower() == "tobank")
+                {
+                    if(begindate.Year != enddate.Year)
+                        throw new Exception("给银行的订单号暂不支持跨年度查询，请重新输入！");
+                }
+            }
+            else
+            {
+                if (begindate.AddDays(1).CompareTo(enddate) < 0)
+                {
+                    throw new Exception("选择时间段超过了一天，请重新输入！");
+                }
+            }
 			DateTime dtnewcsdate=DateTime.Parse(newczdate);
 			DateTime  dtnewendate=dtnewcsdate.AddDays(-1);
 			if(enddate.CompareTo(dtnewcsdate)>=0 && begindate.CompareTo(dtnewcsdate)<0)
 			{
-				string nenddate=dtnewendate.ToString("yyyy年MM月dd日 23:59:59");
+				string nenddate=dtnewendate.ToString("yyyy-MM-dd 23:59:59");
 				TextBoxEndDate.Text = nenddate;
 				throw new Exception("请以"+newczdate+"为开始日期或以"+nenddate+"结束日期!");
 			}
@@ -285,7 +276,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	
 			DateTime begindate = DateTime.Parse(TextBoxBeginDate.Text);
 			DateTime enddate = DateTime.Parse(TextBoxEndDate.Text);
-			Query_Service.Query_Service qs = new Query_Service.Query_Service();
 
             try
             {
@@ -325,6 +315,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			Table2.Visible = true;
             try
             {
+                Query_Service.Query_Service qs = new Query_Service.Query_Service();
                 if (qs.IsNewOrderCZData(enddate))
                     BindData(1, false);
                 else
@@ -379,32 +370,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				fcurtype=int.Parse(Request.QueryString["fcurtype"].Trim());
 			}
 			DataSet ds =null;
-			 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-//			Finance_Header fh = new Finance_Header();
-//			fh.UserIP = Request.UserHostAddress;
-//			fh.UserName = Session["uid"].ToString();
-//			fh.UserPassword = "";
-//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-//			fh.SzKey = Session["SzKey"].ToString();
-//			fh.RightString = Session["key"].ToString();
-//
-//			qs.Finance_HeaderValue = fh;
+			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 			Query_Service.Finance_Header fh = classLibrary.setConfig.setFH(this);
 			qs.Finance_HeaderValue = fh;
+
 			if(isold)
 			{
 				//furion 加入历史记录查询 20060522
 				bool isHistory = CheckBox1.Checked;
-
 				ds = qs.GetFundList(u_ID,queryType,fcurtype,begindate,enddate,fstate,fnum,fnumMax,banktype,sorttype,isHistory, start,max);
-
 			}
 			else
 			{
-
 				ds=qs.GetBankRollListByListId(u_ID,queryType,fcurtype,begindate,enddate,fstate,fnum,fnumMax,banktype,sorttype, newstart,newmax);
-
 			}
 			if((this.dpLst.SelectedValue == "toBank"||this.dpLst.SelectedValue == "BankBack")&&!u_ID.ToUpper().StartsWith("CFT"))
 			{

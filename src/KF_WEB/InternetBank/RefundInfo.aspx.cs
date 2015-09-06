@@ -2,6 +2,9 @@ using System;
 using System.Web.Services.Protocols;
 using Tencent.DotNet.Common.UI;
 using CFT.CSOMS.BLL.RefundModule;
+using CFT.CSOMS.BLL.InternetBank;
+using System.Data;
+using System.Collections.Generic;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 {
@@ -11,6 +14,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
     public partial class RefundInfo : System.Web.UI.Page
 	{
         private string listid;
+        protected static List<int> refundIdList = new List<int>();
         
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
@@ -20,6 +24,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
                 if (!IsPostBack)
                 {
+                    refundIdList.Clear();
+                    DataSet ds = new InternetBankService().GetRefundByFrefundId(0, "", "", 0, 0);
+                    if (ds != null && ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+                        {
+                            foreach (DataRow item in ds.Tables[0].Rows)
+                            {
+                                refundIdList.Add(Convert.ToInt32(item["Frefund_id"]));
+                            }
+                        }
+                    }
                     
                     if (Request.QueryString["listid"] != null && Request.QueryString["listid"].Trim() != "")
                     {
@@ -149,7 +165,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                     sRefundAmount = sRefundAmount.Replace("元", "");
                     refundAmount = classLibrary.setConfig.YuanToFen(Convert.ToDouble(sRefundAmount));
                 }
-                if (refundAmount == 0 || refundAmount < 0) 
+                if (refundAmount <= 0) 
                 {
                     WebUtils.ShowMessage(this.Page, "退款金额应大于0！");
                     return;
@@ -158,6 +174,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 {
                     WebUtils.ShowMessage(this.Page, "退款金额小于或等于订单金额！");
                     return;
+                }
+                string orderId = cftOrderId.Text.Trim();
+                if (!string.IsNullOrEmpty(orderId) && orderId.Length >= 10)
+                {
+                    if (!refundIdList.Contains(Convert.ToInt32(orderId.Substring(0, 10))))
+                    {
+                        WebUtils.ShowMessage(this.Page, "该商家的订单不允许走网银退款。");
+                        return;
+                    }
                 }
 
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();

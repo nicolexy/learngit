@@ -376,25 +376,6 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
         {
             try
             {
-                /*
-                TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend newMail = new TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend();
-                
-                string pattern = "";
-                string filename = Server.MapPath(Request.ApplicationPath).Trim().ToLower() + "\\Email\\DelUserYes.htm";
-
-                StreamReader sr = new StreamReader(filename, System.Text.Encoding.GetEncoding("GB2312"));
-                try
-                {
-                    pattern = sr.ReadToEnd();
-                }
-                finally
-                {
-                    sr.Close();
-                }
-
-                pattern = String.Format(pattern, qqid,DateTime.Now, "", "" ,"");
-                newMail.SendMail(email, "", subject, pattern, true, null);
-                */
                 string str_params = "p_name=" + qqid + "&p_parm1=" + DateTime.Now + "&p_parm2=" + "" + "&p_parm3=" + "" + "&p_parm4=" + "系统自动销户";
                 TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsg(email, "2034", str_params);
                 return true;

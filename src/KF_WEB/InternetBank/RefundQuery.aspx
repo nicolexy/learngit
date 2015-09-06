@@ -25,45 +25,32 @@
             BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif);
         }
     </style>
-    <script language="javascript">
-        function openModeBegin() {
-            var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxBeginDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-            if (returnValue != null) Form1.TextBoxBeginDate.value = returnValue;
-        }
-        function openModeEnd() {
-            var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxEndDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-            if (returnValue != null) Form1.TextBoxEndDate.value = returnValue;
-        }
-    </script>
+    <script src="../Scripts/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
 </head>
 <body ms_positioning="GridLayout">
     <form id="Form1" method="post" runat="server">
-        <table style="LEFT: 5%; POSITION: absolute; TOP: 5%" cellspacing="1" cellpadding="1" width="820"
-            border="1">
+        <table style="LEFT: 5%; POSITION: absolute; TOP: 5%" cellspacing="1" cellpadding="1" width="1020" border="1">
             <tr>
-                <td style="WIDTH: 100%" bgcolor="#e4e5f7" colspan="4"><font face="宋体"><font color="red">
+                <td style="WIDTH: 100%" bgcolor="#e4e5f7" colspan="8"><font face="宋体"><font color="red">
                     <img height="16" src="../IMAGES/Page/post.gif" width="20">&nbsp;&nbsp;退款登记</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </font>操作员代码: </FONT><span class="style3"><asp:Label ID="Label1" runat="server" ForeColor="Red" Width="73px"></asp:Label></span></td>
             </tr>
             <tr>
-                <td align="right">
-                    <asp:Label ID="Label2" runat="server">订单编码：</asp:Label></td>
-                <td>
-                    <asp:TextBox ID="listId" runat="server"></asp:TextBox></td>
-                <td align="right">
-                    <asp:Label ID="Label3" runat="server">财付通订单号：</asp:Label></td>
-                <td>
-                    <asp:TextBox ID="cftOrderId" Width="230px" runat="server"></asp:TextBox></td>
+                <td align="right"><asp:Label ID="Label2" runat="server">订单编码：</asp:Label></td>
+                <td><asp:TextBox ID="listId" runat="server"></asp:TextBox></td>
+                <td align="right"><asp:Label ID="Label3" runat="server">财付通订单号：</asp:Label></td>
+                <td><asp:TextBox ID="cftOrderId" Width="230px" runat="server"></asp:TextBox></td>
+                <td align="right">商户号：</td>
+                <td><asp:DropDownList ID="ddl_refund_id" runat="server"></asp:DropDownList></td>
+                <td align="right">登记人：</td>
+                <td><asp:TextBox ID="tbx_submit_user" runat="server"></asp:TextBox></td>
             </tr>
             <tr>
                 <td align="right">
                     <asp:Label ID="Label4" runat="server">开始日期：</asp:Label></td>
-                <td>
-                    <asp:TextBox ID="TextBoxBeginDate" runat="server"></asp:TextBox><asp:ImageButton ID="ButtonBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:ImageButton></td>
-                <td align="right">
-                    <asp:Label ID="Label5" runat="server">结束日期：</asp:Label></td>
-                <td>
-                    <asp:TextBox ID="TextBoxEndDate" runat="server"></asp:TextBox><asp:ImageButton ID="ButtonEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:ImageButton></td>
+                <td><asp:TextBox ID="TextBoxBeginDate" onClick="WdatePicker({maxDate:'#F{$dp.$D(\'TextBoxEndDate\')}'})" Width="160px" CssClass="Wdate" runat="server"></asp:TextBox></td>
+                <td align="right"><asp:Label ID="Label5" runat="server">结束日期：</asp:Label></td>
+                <td colspan="5"><asp:TextBox ID="TextBoxEndDate" onClick="WdatePicker({minDate:'#F{$dp.$D(\'TextBoxBeginDate\')}'})" Width="160px" CssClass="Wdate" runat="server"></asp:TextBox></td>
             </tr>
             <tr>
                 <td align="right">
@@ -78,7 +65,7 @@
                 </td>
                 <td align="right">
                     <asp:Label ID="Label7" runat="server">提交退款：</asp:Label></td>
-                <td>
+                <td colspan="5">
                     <asp:DropDownList ID="ddlRefundStatus" runat="server" Width="152px">
                         <asp:ListItem Value="0" Selected="True">全部</asp:ListItem>
                         <asp:ListItem Value="1">已提交</asp:ListItem>
@@ -93,7 +80,7 @@
                 <td>
                     <asp:DropDownList ID="ddlTradeState" runat="server"></asp:DropDownList></td>
                 <td align="right">&nbsp;</td>
-                <td>
+                <td colspan="5">
                     <asp:Button ID="Button1" runat="server" Width="80px" Text="查 询" OnClick="Button1_Click"></asp:Button>&nbsp;
                    <asp:Button ID="btnNew" runat="server" Width="80px" Text="新 增" OnClick="btnNew_Click"></asp:Button>&nbsp;
                    <asp:Button ID="Button2" runat="server" Width="80px" Text="导出excel" OnClick="Export_Click"></asp:Button>&nbsp;
@@ -105,7 +92,7 @@
                 <td align="right">
                     <asp:Label ID="Label10" runat="server">文件：</asp:Label>
                 </td>
-                <td align="left" colspan="3">
+                <td align="left" colspan="7">
                     <asp:FileUpload ID="File1" runat="server" Width="355px" />
                     &nbsp;&nbsp;
                     <a href="/Template/Excel/RefundTemplate.xls" target="_blank">下载模版</a>
@@ -113,7 +100,7 @@
                 </td>
             </tr>
             <tr>
-                <td align="left" colspan="4">
+                <td align="left" colspan="8">
                     <asp:Label ID="Label8" runat="server">统计数据：</asp:Label>&nbsp;&nbsp;&nbsp;
                        <asp:Label ID="Label9" runat="server">0</asp:Label>
                 </td>

@@ -874,48 +874,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                 return null;
             }
         }
-
-        /// <summary>
-        /// 查询腾讯付款记录表
-        /// </summary>
-        public DataSet GetTCBankPAYList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
-        {
-            try
-            {
-                DataSet ds = new TradeData().GetTCBankPAYList(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                {
-                    ds.Tables[0].Columns.Add("Fstate_str", typeof(string));
-                    ds.Tables[0].Columns.Add("Ftype_str", typeof(string));
-                    ds.Tables[0].Columns.Add("Fsubject_str", typeof(string));
-                    ds.Tables[0].Columns.Add("Fnum_str", typeof(string));
-                    ds.Tables[0].Columns.Add("Fsign_str", typeof(string));
-                    ds.Tables[0].Columns.Add("Fbank_type_str", typeof(string));
-                    ds.Tables[0].Columns.Add("Fabank_type_str", typeof(string));
-                    ds.Tables[0].Columns.Add("Fcurtype_str", typeof(string));
-
-                    foreach (DataRow dr in ds.Tables[0].Rows)
-                    {
-                        dr["Fstate_str"] = TransferMeaning.Transfer.convertCurrentState(dr["Fstate"].ToString());
-                        dr["Ftype_str"] = TransferMeaning.Transfer.convertTradeType(dr["Ftype"].ToString());
-                        dr["Fsubject_str"] = TransferMeaning.Transfer.convertTCfSubject(dr["Fsubject"].ToString());
-                        dr["Fnum_str"] = MoneyTransfer.FenToYuan(dr["Fnum"].ToString());
-                        dr["Fsign_str"] = TransferMeaning.Transfer.convertTradeSign(dr["Fsign"].ToString());
-                        dr["Fbank_type_str"] = TransferMeaning.Transfer.convertbankType(dr["Fbank_type"].ToString());
-                        dr["Fabank_type_str"] = TransferMeaning.Transfer.convertbankType(dr["Fabank_type"].ToString());
-                        dr["Fcurtype_str"] = TransferMeaning.Transfer.convertMoney_type(dr["Fcurtype"].ToString());
-                    }
-                }
-
-                return ds;
-            }
-            catch (Exception ex)
-            {
-                log4net.LogManager.GetLogger("查询提现记录失败: " + ex.Message);
-                return null;
-            }
-        }
-
+      
         /// <summary>
         /// 查询退款单表
         /// </summary>

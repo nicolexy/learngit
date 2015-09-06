@@ -10,7 +10,6 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using TENCENT.OSS.CFT.KF.DataAccess;
 using System.Web.Services.Protocols;
-
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
@@ -128,44 +127,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 		}
 
 		private void BindData()
-		{/* 页面已被废除 begin
-			DateTime begindate = (DateTime)ViewState["begindate"];
-			DateTime enddate = (DateTime)ViewState["enddate"];
+		{
 
-			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-			Finance_Header fh = new Finance_Header();
-			fh.UserIP = Request.UserHostAddress;
-			fh.UserName = Session["uid"].ToString();
-
-			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-			fh.SzKey = Session["SzKey"].ToString();
-			//fh.RightString = Session["key"].ToString();
-
-			qs.Finance_HeaderValue = fh;
-
-			string msg = "";
-			DataSet ds = qs.GetCFTUserPickTJ(begindate,enddate,out msg);
-
-			if(ds != null && ds.Tables.Count >0)
-			{
-				DataGrid1.DataSource = ds.Tables[0].DefaultView;
-				DataGrid1.DataBind();
-			}
-			else
-			{
-				throw new LogicException("没有找到记录！" + msg);
-			}
-
-			//再查询一下各统计信息.
-			string[] countlist = qs.GetAppealSum(begindate,enddate);
-			if(countlist != null || countlist.Length == 3)
-			{
-				labSumCount.Text = countlist[0].Trim();
-				labHandleCount.Text = countlist[1].Trim();
-				labothercount.Text = countlist[2].Trim();
-			}
-			 页面已被废除 end */
 		}
 
 		protected void btnTJ_Click(object sender, System.EventArgs e)

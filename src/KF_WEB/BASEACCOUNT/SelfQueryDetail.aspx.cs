@@ -150,13 +150,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 
                 if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
                 {
-                    string spidType = ds1.Tables[0].Rows[0]["BDSpidType"].ToString();
-                    //if (dsSpidList != null && dsSpidList.Tables.Count > 0 && dsSpidList.Tables[0].Rows.Count > 0)
-                    //{
-                    //    if (dsSpidList.Tables[0].Rows[0]["value"].ToString() == spidType)
-                    //        this.txtBDSpidType.Text = dsSpidList.Tables[0].Rows[0]["text"].ToString();
-                    //}
-                   
+                    string spidType = ds1.Tables[0].Rows[0]["BDSpidType"].ToString();               
                     Hashtable htSpidList = getSpidTypeList();
                     if (htSpidList.Contains(spidType))
                         this.txtBDSpidType.Text = htSpidList[spidType].ToString();
@@ -291,17 +285,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			{
 				TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend newMail=new TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend();
 				newMail.SendMail(email,"","您的自助商户申请被拒绝",GetOutMailContent(),true,null);
-
-//				MailMessage mail = new MailMessage();
-//				mail.From = System.Configuration.ConfigurationManager.AppSettings["OutMailFrom"].ToString();
-//
-//				mail.To = email;
-//				mail.BodyFormat = MailFormat.Html;
-//				mail.Body = GetOutMailContent(); 
-//				mail.Subject  = "您的自助商户申请被拒绝";     
-//			
-//				SmtpMail.SmtpServer = System.Configuration.ConfigurationManager.AppSettings["OutSmtpServer"].ToString();
-//				SmtpMail.Send(mail);
 			}
 			catch(Exception err)
 			{

@@ -335,6 +335,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 InternetBank.AddSubMenu("历史账单", "InternetBank/BillHistoryQuery.aspx");
                 InternetBank.AddSubMenu("会员优惠额度", "InternetBank/MermberDiscount.aspx");
                 InternetBank.AddSubMenu("退款登记", "InternetBank/RefundQuery.aspx");
+                InternetBank.AddSubMenu("退款商户录入", "InternetBank/RefundMerchant.aspx");
                 InternetBank.AddSubMenu("自动续费查询", "InternetBank/AtuoRenewQuery.aspx");
                 //手Q支付
                 HandQBusiness.AddSubMenu("手Q红包查询", "HandQBusiness/FindHandQRedPacket.aspx");

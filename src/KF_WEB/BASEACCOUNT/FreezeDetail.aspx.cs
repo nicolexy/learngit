@@ -94,29 +94,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			if(ds != null && ds.Tables.Count >0 && ds.Tables[0].Rows.Count > 0 )
 			{
 				DataRow dr = ds.Tables[0].Rows[0];
-//				labFListID.Text = PublicRes.GetString(dr["FListID"]);
-//
-//				int itmp = Int32.Parse(PublicRes.GetString(dr["FNum"]));
-//				float ltmp = (float)itmp/100;
-//
-//				labFNum.Text = ltmp.ToString();
-//
-//				string tmp = PublicRes.GetInt(dr["FState"]);
-//				labFState.Text = classLibrary.setConfig.GetDicValue("TCLIST_STATE",tmp);
-//
-//				tmp = PublicRes.GetInt(dr["Fsign"]);
-//				labFSign.Text = classLibrary.setConfig.GetDicValue("TCLIST_SIGN",tmp);
-//				
-//
-//				labFBank_List.Text = PublicRes.GetString(dr["FBank_List"]);
-//				labFBank_Acc.Text = PublicRes.GetString(dr["FBank_Acc"]);
-//				labFBank_Type.Text = PublicRes.GetString(setConfig.GetDicValue("BANK_TYPE",PublicRes.GetInt(dr["FBank_Type"])));
-//
-//				labFaid.Text = PublicRes.GetString(dr["faid"]);
-//				labFaname.Text = PublicRes.GetString(dr["faname"]);
-//				labFpay_front_time.Text = PublicRes.GetDateTime(dr["Fpay_front_time"]);
-//				labFbank_time.Text = PublicRes.GetDateTime(dr["FBank_Time"]);
-//				labFmodify_time.Text = PublicRes.GetDateTime(dr["FModify_time"]);
+
 				lblfid.Text = tdeid;
 				labFUserName.Text = PublicRes.GetString(dr["FUserName"]);
 				labFContact.Text = PublicRes.GetString(dr["FContact"]);

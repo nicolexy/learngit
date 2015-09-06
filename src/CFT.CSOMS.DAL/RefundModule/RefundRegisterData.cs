@@ -11,7 +11,8 @@ namespace CFT.CSOMS.DAL.RefundModule
     public class RefundRegisterData
     {
         //退款登记列表查询
-        public DataSet QueryRefundRegisterList(string coding, string orderId, string stime, string etime, int refundType, int refundState, string tradeState, int iPageStart, int iPageMax) 
+        public DataSet QueryRefundRegisterList(string coding, string orderId, string stime, string etime, int refundType, int refundState, string tradeState,
+            int refund_id, string submit_user, int iPageStart, int iPageMax) 
         {
             StringBuilder Sql = new StringBuilder("select * from  c2c_fmdb.t_refund_info where 1=1 ");
             
@@ -51,6 +52,12 @@ namespace CFT.CSOMS.DAL.RefundModule
             {
                 Sql.Append(" and Ftrade_state='" + tradeState + "'");
             }
+            if (refund_id > 0)
+                Sql.Append(" and LEFT(Forder_id,10) = " + refund_id);
+
+            if (!string.IsNullOrEmpty(submit_user))
+                Sql.Append(" and Fsubmit_user = '" + submit_user + "'");
+
             Sql.Append(" limit " + iPageStart + "," + iPageMax);
 
             DataSet ds = null;

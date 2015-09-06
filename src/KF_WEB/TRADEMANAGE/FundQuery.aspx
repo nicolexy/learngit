@@ -13,20 +13,7 @@
 	.style5 { COLOR: #000000 }
 	.style6 { COLOR: #ff0000 }
 		</style>
-		<script language="javascript">
-					function openModeBegin()
-					{
-						var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-						if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue+" 00:00:00";
-					}
-		</script>
-		<script language="javascript">
-					function openModeEnd()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxEndDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.TextBoxEndDate.value=returnValue+" 23:59:59";
-					}
-		</script>
+		<script src="../Scripts/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -43,6 +30,7 @@
 							<Columns>
 								<asp:BoundColumn DataField="Fbank_list" HeaderText="给银行订单号"></asp:BoundColumn>
 								<asp:BoundColumn DataField="Faid" HeaderText="帐号"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FListID" HeaderText="收款单ID单号"></asp:BoundColumn>
 								<asp:BoundColumn DataField="Faname" HeaderText="姓名"></asp:BoundColumn>
 								<asp:BoundColumn DataField="FbankName" HeaderText="银行类型"></asp:BoundColumn>
 								<asp:BoundColumn DataField="Fpay_front_time" HeaderText="充值时间"></asp:BoundColumn>
@@ -92,15 +80,13 @@
 					<TD style="WIDTH: 91px" align="right">
 						<asp:label id="Label2" runat="server">开始日期</asp:label></TD>
 					<TD style="WIDTH: 290px">
-						<asp:textbox id="TextBoxBeginDate" runat="server" Width="152px" BorderStyle="Groove"></asp:textbox>
-						<asp:imagebutton id="ButtonBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton><FONT face="宋体">&nbsp;
-						</FONT>
+						<asp:textbox id="TextBoxBeginDate" runat="server" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'TextBoxEndDate\')}'})" Width="160px" CssClass="Wdate" BorderStyle="Groove"></asp:textbox>
 					</TD>
 					<TD align="right">
 						<asp:label id="Label3" runat="server">结束日期</asp:label></TD>
 					<TD>
-						<asp:textbox id="TextBoxEndDate" runat="server" Width="152px" BorderStyle="Groove"></asp:textbox>
-						<asp:imagebutton id="ButtonEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton></TD>
+						<asp:textbox id="TextBoxEndDate" runat="server" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'TextBoxBeginDate\')}'})" Width="160px" CssClass="Wdate" BorderStyle="Groove"></asp:textbox>
+					</TD>
 				</TR>
 				<TR>
 					<TD style="WIDTH: 91px; HEIGHT: 25px" align="right">

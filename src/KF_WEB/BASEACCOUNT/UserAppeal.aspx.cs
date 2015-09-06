@@ -15,7 +15,6 @@ using Tencent.DotNet.OSS.Web.UI;
 using System.Web.Services.Protocols;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 
-
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
 	/// <summary>
@@ -223,16 +222,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			string dotype = ViewState["dotype"].ToString();
 
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
 			Finance_Header fh = classLibrary.setConfig.setFH(this);
-//			fh.UserIP = Request.UserHostAddress;
-//			fh.UserName = Session["uid"].ToString();
-//
-//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-//			fh.SzKey = Session["SzKey"].ToString();
-//
 			qs.Finance_HeaderValue = fh;
-//			qs.Finance_HeaderValue = setConfig.setFH(this);
 
             DataSet ds = new DataSet();
 			if(ftype == 20)
@@ -450,48 +441,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     lb.Visible = true;
                 }
             }
-        }
-
-//		private void btnPass_Click(object sender, System.EventArgs e)
-//		{
-//			try
-//			{
-//				DateTime begindate;
-//				DateTime enddate;
-//
-//				try
-//				{
-//					begindate = DateTime.Parse(TextBoxBeginDate.Text);
-//					enddate = DateTime.Parse(TextBoxEndDate.Text);
-//				}
-//				catch
-//				{
-//					throw new Exception("日期输入有误！");
-//				}
-//
-//				if(begindate.CompareTo(enddate) > 0)
-//				{
-//					throw new Exception("终止日期小于起始日期，请重新输入！");
-//				}
-//
-//				if(begindate.AddDays(7) < enddate)
-//				{
-//					throw new Exception("日期间隔大于7天，请重新输入！");
-//				}
-//
-//				string UserIP = Request.UserHostAddress;
-//
-//				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-//				string msg = qs.CFTUserAppealPass(begindate.ToString("yyyy-MM-dd 00:00:00"),enddate.ToString("yyyy-MM-dd 23:59:59"),UserIP,ddlType.SelectedValue);
-//				WebUtils.ShowMessage(this.Page,PublicRes.GetErrorMsg(msg));
-//			}
-//			catch(Exception ex)
-//			{
-//				WebUtils.ShowMessage(this.Page,PublicRes.GetErrorMsg(ex.Message));
-//			}
-//		}
-
-       
-
+        }   
 	}
 }

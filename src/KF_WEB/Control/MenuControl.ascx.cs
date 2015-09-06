@@ -103,66 +103,38 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 		}
 		#endregion
 
-		private string BuildSubMenu()
-		{
-			try
-			{
-				string subMenu = this.ViewState["SubMenu"].ToString() ;
-				string buildString = "" ;
-
-				for ( int i = 0 ; i < subMenu.Split('@').Length-1 ; i ++ )
-				{
-					string subMenuString = subMenu.Split('@')[i] ;
-					string subTitle = subMenu.Split('@')[i].Split('#')[0] ;
-					string subURL = subMenu.Split('@')[i].Split('#')[1] ;
-
-					buildString += "<tr>" ;
-					buildString += "<td><a href=\""+subURL+"\" class=\"Red\" TARGET=\"WorkArea\">"+subTitle+"</a></td>" ;
-
-					buildString += "</tr>" ;
-				}
-				return buildString ;
-			}
-			catch ( Exception exce )
-			{
-				string err = exce.Message ;
-				return "" ;
-			}
-
+		private string BuildSubMenu()
+		{
+			try
+			{
+				string subMenu = this.ViewState["SubMenu"]as string;
+                if (string.IsNullOrEmpty(subMenu)) 
+                    return string.Empty;
+
+				var arr = subMenu.Split('@') ;
+                var buff = new System.Text.StringBuilder(arr.Length * 50);
+                for (int i = 0; i < arr.Length - 1; i++)
+				{
+                    var menuArr = arr[i].Split('#');
+                    string subTitle = menuArr[0];
+                    string subURL = menuArr[1];
+                    buff.AppendFormat("<div style='padding:2px 0 4px 5px;'><a href='{0}' class='Red' TARGET='WorkArea'>{1}</a></div>",subURL,subTitle);
+				}
+                return buff.ToString();
+			}
+			catch {}
+            return " ";
 		}
 
-		private void InitControls()
-		{
-			string expand = "none" ;
-			try
-			{
-				expand = this.ViewState["Expand"].ToString() ;
-			}
-			catch
-			{
-			}
-
-			string menuString = "" ;
-			menuString += "<table width=\"96%\" border=\"0\" cellpadding=\"2\" cellspacing=\"2\">" ;
-			menuString += "<tr style=\"cursor:hand\" onclick=\"javascript:expandObject('"+this.ClientID+"_SubMenu')\">" ;
-			//menuString += "<td background=\"images/page/menu_bk.gif\" height=\"20\">" ;
-
-            menuString += "<td height=\"20\">";
-			menuString += "<strong>" + Title + "</strong>" ;
-			menuString += "</td>" ;
-			menuString += "</tr>" ;
-			menuString += "<tr id=\""+this.ClientID+"_SubMenu\" style=\"display:"+expand+"\">" ;
-			menuString += "<td align=\"left\">" ;
-			menuString += "<table width=\"93%\" border=\"0\" cellpadding=\"2\" cellspacing=\"2\">" ;
-
-			menuString += BuildSubMenu() ;
-
-			menuString += "</table>" ;
-			menuString += "</td>" ;
-			menuString += "</tr>" ;
-			menuString += "</table>" ;
-
-			lbMenu.Text = menuString ;
+		private void InitControls()
+		{
+            string expand = this.ViewState["Expand"] as string ?? "none";
+            var menuString =
+                    "<div style='cursor:hand;padding:2px 0 4px 4px;' onclick='expandObject(this)'>" + 
+                        "<strong>" + Title + "</strong>" + 
+                        "<div style='padding:4px 0 4px 8px;display:" + expand + "'>" + BuildSubMenu() + "</div>"+
+                    "</div>" ;
+			lbMenu.Text = menuString ;
 		}
 	}
 }

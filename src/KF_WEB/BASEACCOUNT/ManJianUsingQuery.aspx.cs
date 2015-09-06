@@ -1,71 +1,41 @@
 using System;
-
 using System.Collections;
-
 using System.ComponentModel;
-
 using System.Data;
-
 using System.Drawing;
-
 using System.Web;
-
 using System.Web.SessionState;
-
 using System.Web.UI;
-
 using System.Web.UI.WebControls;
-
 using System.Web.UI.HtmlControls;
-
 using Tencent.DotNet.Common.UI;
-
 using Tencent.DotNet.OSS.Web.UI;
-
 using System.Web.Services.Protocols;
-
-
-
 using System.Reflection;
-
 using Wuqi.Webdiyer;
-
 using System.Configuration;
 using CFT.CSOMS.BLL.TradeModule;
 
 
-
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
-
     /// <summary>
-
     /// TradeLog 的摘要说明。
-
     /// </summary>
-
     public partial class ManJianUsingQuery : System.Web.UI.Page
     {
-
-
         protected System.Data.DataSet DS_TradeLog;
-
         protected System.Data.DataTable dataTable1;
-
         protected System.Data.DataColumn Fuid;
-
         protected System.Data.DataColumn FListID;
-
         protected System.Data.DataColumn dataColumn1;
-
         protected System.Data.DataColumn dataColumn2;
-
         DateTime dt;
 
         protected void Page_Load(object sender, System.EventArgs e)
         {
             ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-            ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
+            ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
             try
             {
                 Label1.Text = Session["uid"].ToString();
@@ -83,24 +53,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 string user = "buy";
                 ViewState["user"] = user;
                 DateTime now = DateTime.Now;
-                DateTime d1 = new DateTime(now.Year,now.Month,1);
+                DateTime d1 = new DateTime(now.Year, now.Month, 1);
                 TextBoxBeginDate.Text = d1.ToString("yyyy年MM月dd日");
                 TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
                 BindBankType(ddlBankType);
             }
         }
 
-
-
         public void Item_DataBound(Object sender, DataGridItemEventArgs e)
         {
-
             if (e.Item.ItemType == ListItemType.Item ||
 
                 e.Item.ItemType == ListItemType.AlternatingItem)
 
                 e.Item.Cells[1].Text = "<nobr>" + e.Item.Cells[1].Text + "</nobr>";
-
         }
 
         private void ValidateDate()
@@ -124,7 +90,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 throw new Exception("终止日期小于起始日期，请重新输入！");
             }
         }
-      
+
         void BindBankType(DropDownList ddl)
         {
             ddl.Items.Add(new ListItem("所有银行", ""));
@@ -165,6 +131,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             return dt;
 
         }
+
         protected void btnSearch_Click(object sender, System.EventArgs e)
         {
             try
@@ -184,8 +151,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             try
             {
                 BindData(0, 1);
-              //  this.DataGrid2.Visible = true;
-              //  Page.DataBind();
+                //  this.DataGrid2.Visible = true;
+                //  Page.DataBind();
             }
             catch (Exception eSys)
             {
@@ -219,7 +186,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     //Query_Service.Query_Service myService = new Query_Service.Query_Service();
                     //myService.Finance_HeaderValue = classLibrary.setConfig.setFH(Session["uid"].ToString(), Request.UserHostAddress);
                     //DS_TradeLog = myService.GetManJianUsingList(selectStr, i, beginTime, endTime, banktype, istr, imax);
-                    #endregion 
+                    #endregion
                     DS_TradeLog = new TradeService().GetManJianUsingList(selectStr, i, beginTime, endTime, banktype, istr, imax);
                     int total;
                     if (DS_TradeLog != null && DS_TradeLog.Tables.Count != 0 && DS_TradeLog.Tables[0].Rows.Count != 0)
@@ -246,7 +213,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         pager.CustomInfoText = "记录总数：<font color=\"blue\"><b>" + pager.RecordCount.ToString() + "</b></font>";
                         pager.CustomInfoText += " 总页数：<font color=\"blue\"><b>" + pager.PageCount.ToString() + "</b></font>";
                         pager.CustomInfoText += " 当前页：<font color=\"red\"><b>" + pager.CurrentPageIndex.ToString() + "</b></font>";
-                        this.DataGrid2.Visible = true; 
+                        this.DataGrid2.Visible = true;
                         Page.DataBind();
                     }
                     else
@@ -267,135 +234,69 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
         }
 
-
-
         #region Web 窗体设计器生成的代码
 
         override protected void OnInit(EventArgs e)
         {
-
             //
-
             // CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
-
             //
-
             InitializeComponent();
-
             base.OnInit(e);
-
         }
 
-
-
         /// <summary>
-
         /// 设计器支持所需的方法 - 不要使用代码编辑器修改
-
         /// 此方法的内容。
-
         /// </summary>
-
         private void InitializeComponent()
         {
-
             this.DS_TradeLog = new System.Data.DataSet();
-
             this.dataTable1 = new System.Data.DataTable();
-
             this.Fuid = new System.Data.DataColumn();
-
             this.FListID = new System.Data.DataColumn();
-
             this.dataColumn1 = new System.Data.DataColumn();
-
             this.dataColumn2 = new System.Data.DataColumn();
-
             ((System.ComponentModel.ISupportInitialize)(this.DS_TradeLog)).BeginInit();
-
             ((System.ComponentModel.ISupportInitialize)(this.dataTable1)).BeginInit();
 
             // 
-
             // DS_TradeLog
-
             // 
-
             this.DS_TradeLog.DataSetName = "NewDataSet";
-
             this.DS_TradeLog.Locale = new System.Globalization.CultureInfo("zh-CN");
-
-            this.DS_TradeLog.Tables.AddRange(new System.Data.DataTable[] {
-
-																			 this.dataTable1});
-
+            this.DS_TradeLog.Tables.AddRange(new System.Data.DataTable[] { this.dataTable1 });
             // 
-
             // dataTable1
-
             // 
-
-            this.dataTable1.Columns.AddRange(new System.Data.DataColumn[] {
-
-																			  this.Fuid,
-
-																			  this.FListID,
-
-																			  this.dataColumn1,
-
-																			  this.dataColumn2});
-
+            this.dataTable1.Columns.AddRange(new System.Data.DataColumn[] { this.Fuid, this.FListID, this.dataColumn1, this.dataColumn2 });
             this.dataTable1.TableName = "Table1";
-
             // 
-
             // Fuid
-
             // 
-
             this.Fuid.ColumnName = "Fuid";
-
             // 
-
             // FListID
-
             // 
-
             this.FListID.ColumnName = "FlistID";
-
             // 
-
             // dataColumn1
-
             // 
-
             this.dataColumn1.ColumnName = "Column1";
-
             // 
-
             // dataColumn2
-
             // 
-
             this.dataColumn2.ColumnName = "Column2";
-
             ((System.ComponentModel.ISupportInitialize)(this.DS_TradeLog)).EndInit();
-
             ((System.ComponentModel.ISupportInitialize)(this.dataTable1)).EndInit();
-
-
-
         }
 
         #endregion
 
         public void ChangePage(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
         {
-
             pager.CurrentPageIndex = e.NewPageIndex;
-
             BindData(0, pager.CurrentPageIndex);
-
             Page.DataBind();
         }
 

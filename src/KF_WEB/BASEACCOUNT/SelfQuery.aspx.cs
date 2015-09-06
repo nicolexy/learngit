@@ -18,8 +18,6 @@ using Tencent.DotNet.OSS.Web.UI;
 using System.Collections.Generic;
 using CFT.CSOMS.BLL.SPOA;
 
-
-
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
 	/// <summary>
@@ -150,17 +148,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			string filter = GetfilterString();
 			ViewState["filter"] = filter;
 
-		  /*	//Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            int count = 0;
-            DataSet ds = new SPOAService().GetSelfQueryListCount();
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0) 
-            {
-                count = Convert.ToInt32(ds.Tables[0].Rows[0][0]);
-            }*/
-            //(string SPID, int? DraftFlag, string CompanyName, int? Flag,string WWWAdress, string Appid, DateTime? ApplyTimeStart, DateTime? ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType)
-
-
-
             string SPID = (BoxCpNumber.Text.Trim() == "") ? "" : BoxCpNumber.Text.Trim();
             int? DraftFlag = null;
             string CompanyName = (BoxCpName.Text.Trim() == "") ? "" : BoxCpName.Text.Trim();
@@ -198,29 +185,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 		{
 			string filter = ViewState["filter"].ToString();
             string[] filter1 = GetfilterArrString();  //修改为数组方式查询 yinhuang 2014/05/12
-
 			int TopCount = pager.PageSize;
 			int NotInCount = TopCount * (index-1);
 
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-//			Finance_Header fh = new Finance_Header();
-//			fh.UserIP = Request.UserHostAddress;
-//			fh.UserName = Session["uid"].ToString();
-//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-//			fh.SzKey = Session["SzKey"].ToString();
-//
-//			qs.Finance_HeaderValue = fh;
 			Query_Service.Finance_Header fh = classLibrary.setConfig.setFH(this);
-			//			fh.UserIP = Request.UserHostAddress;
-			//			fh.UserName = Session["uid"].ToString();
-			//
-			//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-			//			fh.SzKey = Session["SzKey"].ToString();
-			//
 			qs.Finance_HeaderValue = fh;
 
-			//DataSet ds = qs.GetSelfQueryList(filter,TopCount,NotInCount);
             string SPID = (BoxCpNumber.Text.Trim() == "") ? "" : BoxCpNumber.Text.Trim();
             int? DraftFlag = null;
             string CompanyName = (BoxCpName.Text.Trim() == "") ? "" : BoxCpName.Text.Trim();

@@ -6,6 +6,9 @@ using System.Net;
 using System.IO;
 using System.Xml;
 using System.Configuration;
+using SunLibrary;
+using CFT.Apollo.CommunicationFramework;
+
 
 namespace CFT.CSOMS.COMMLIB
 {
@@ -20,23 +23,53 @@ namespace CFT.CSOMS.COMMLIB
     //微信接口辅助类
     public class WeChatHelper
     {
-        public static string CallWechatAPI(string apiUrl, string parameterString, string resultKeyWord)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="requstType"></param>
+        /// <param name="parameterString"></param>
+        /// <param name="resultKeyWord"></param>
+        /// <returns></returns>
+        protected static string CallWechatAPI(string requstType, string parameterString, string resultKeyWord)
         {
             try
             {
-                var data = Encoding.Default.GetBytes(parameterString);
-                var request = (HttpWebRequest)WebRequest.Create(apiUrl);
-                request.Method = "POST";
-                request.ContentType = "text/xml;charset=UTF-8";
-                var parameter = request.GetRequestStream();
-                parameter.Write(data, 0, data.Length);
-                var response = (HttpWebResponse)request.GetResponse();
-                var myResponseStream = response.GetResponseStream();
-                var myStreamReader = new StreamReader(myResponseStream, Encoding.GetEncoding("utf-8"));
+                string result;
+
+                var ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("WeChatAppId_Ip", "10.198.132.188");
+                var port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("WeChatAppId_Port", 22000);
+
+                var req = "wechat_xml_text=" + parameterString;
+                var relay_result = RelayInvoke(req, requstType, false, false, ip, port);
+                var relay_dic = SunLibraryEX.StringEx.ToDictionary(relay_result);
+                if (relay_dic["result"] != "0")
+                {
+                    throw new Exception("relay转发l5,异常 [" + relay_result + "]");
+                }
+                result = System.Web.HttpUtility.UrlDecode(relay_dic["res_info"]);
+
+                #region 开发时不使用l5 功能,注释上面的代码, 直接访问接口
+
+                //string msg;
+                //string api = "";
+                //switch (requstType)
+                //{
+                //    case "101338": api = "/usernametoopenid?f=xml&appname=cft_fahongbao"; break;
+                //    case "101339": api = "/usernametoopenid?f=xml&appname=cft_xykhk"; break;
+                //    case "101340": api = "/usernametoopenid?f=xml&appname=wx_cft-aa"; break;
+                //    case "101341": api = "/openidtoacctid?f=xml&appname=cft_fahongbao"; break;
+                //    case "101342": api = "/openidtoacctid?f=xml&appname=wx_cft-aa"; break;
+                //    default:
+                //        break;
+                //}
+                //var url = "http://172.27.31.236:8080/wx_tenpay_new/bizhttp";
+                //result = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGIPost(url + api, "", parameterString, out msg); 
+
+                #endregion
+
                 var resultXml = new XmlDocument();
-                resultXml.LoadXml(myStreamReader.ReadToEnd());
-                myStreamReader.Close();
-                myResponseStream.Close();
+                resultXml.LoadXml(result);
                 var responseNode = resultXml.SelectSingleNode("Response");
                 var errorCode = responseNode.SelectSingleNode("error").SelectSingleNode("errcode").InnerText;
                 var errorMessage = responseNode.SelectSingleNode("error").SelectSingleNode("errmsg").InnerText;
@@ -46,9 +79,46 @@ namespace CFT.CSOMS.COMMLIB
 
                 return responseNode.SelectSingleNode("result").SelectSingleNode(resultKeyWord).InnerText;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(string.Format("调用微信URL接口异常：{0}", ex.Message));
+            }
+        }
+
+        /// <summary>
+        /// 调relay接口
+        /// </summary>
+        /// <param name="requestString">请求串，包含接口特性的参数，不包含ver、head等</param>
+        /// <param name="serviceCode">request-type</param>
+        /// <param name="encrypt">请求串是否加密</param>
+        /// <param name="invisible"></param>
+        /// <param name="relayIP">ip 不填默认</param>
+        /// <param name="relayPort">端口 不填默认</param>
+        /// <param name="relayDefaultSPId">sp_id</param>
+        /// <returns></returns>
+        protected static string RelayInvoke(string requestString, string serviceCode, bool encrypt = false, bool invisible = false, string relayIP = "", int relayPort = 0, string coding = "", string relayDefaultSPId = "")
+        {
+            LogHelper.LogInfo(relayIP + "  " + relayPort);
+            try
+            {
+                if (encrypt)
+                    LogHelper.LogInfo("加密前特性参数串：" + requestString);
+                var relayResponse = RelayHelper.CommunicateWithRelay(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
+                if (!string.IsNullOrEmpty(coding))
+                {
+                    Encoding encoding = Encoding.GetEncoding(coding);
+                    return encoding.GetString(relayResponse.ResponseBuffer);
+                }
+                else
+                {
+                    return Encoding.Default.GetString(relayResponse.ResponseBuffer);
+                }
+            }
+            catch (Exception err)
+            {
+                string error = "调用relay服务前失败" + err.Message;
+                LogHelper.LogInfo(error);
+                throw new Exception(error);
             }
         }
 
@@ -126,30 +196,15 @@ namespace CFT.CSOMS.COMMLIB
         {
             try
             {
-                string ip, appId, api, appName, apiUrl, parameterString;
+                var appId = ConfigurationManager.AppSettings["WeChatAppIdAA"];
+                var parameterString = string.Format("<root><appid>{0}</appid><username>{1}</username></root>", appId, wechatName);
 
-                try
-                {
-                    ip = ConfigurationManager.AppSettings["WeChatApiIP"];
-                    appName = ConfigurationManager.AppSettings["WeChatAppNameAA"];
-                    appId = ConfigurationManager.AppSettings["WeChatAppIdAA"];
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(string.Format("从配置文件读取微信接口参数异常：{0}", ex.Message));
-                }
-
-                api = "usernametoopenid";
-                apiUrl = string.Format("{0}/{1}?f=xml&appname={2}", ip, api, appName);
-                parameterString = string.Format("<root><appid>{0}</appid><username>{1}</username></root>", appId, wechatName);
-
-                return CallWechatAPI(apiUrl, parameterString, "openid");
+                return CallWechatAPI("101340", parameterString, "openid");
             }
             catch (Exception ex)
             {
                 throw new Exception(string.Format("通过微信api转换微信号到AAopenid异常:{0}", ex.Message));
             }
-
         }
 
         /// <summary>
@@ -161,30 +216,15 @@ namespace CFT.CSOMS.COMMLIB
         {
             try
             {
-                string ip, appId, api, appName, apiUrl, parameterString;
+                var appId = ConfigurationManager.AppSettings["WeChatAppIdHB"];
+                var parameterString = string.Format("<root><appid>{0}</appid><username>{1}</username></root>", appId, wechatName);
 
-                try
-                {
-                    ip = ConfigurationManager.AppSettings["WeChatApiIP"];
-                    appName = ConfigurationManager.AppSettings["WeChatAppNameHB"];
-                    appId = ConfigurationManager.AppSettings["WeChatAppIdHB"];
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(string.Format("从配置文件读取微信接口参数异常：{0}", ex.Message));
-                }
-
-                api = "usernametoopenid";
-                apiUrl = string.Format("{0}/{1}?f=xml&appname={2}", ip, api, appName);
-                parameterString = string.Format("<root><appid>{0}</appid><username>{1}</username></root>", appId, wechatName);
-
-                return CallWechatAPI(apiUrl, parameterString, "openid");
+                return CallWechatAPI("101338", parameterString, "openid");
             }
             catch (Exception ex)
             {
                 throw new Exception(string.Format("通过微信api转换微信号到红包openid异常:{0}", ex.Message));
             }
-
         }
 
         /// <summary>
@@ -196,24 +236,10 @@ namespace CFT.CSOMS.COMMLIB
         {
             try
             {
-                string ip, appId, api, appName, apiUrl, parameterString;
+                var appId = ConfigurationManager.AppSettings["WeChatAppIdXYKHK"];
+                var parameterString = string.Format("<root><appid>{0}</appid><username>{1}</username></root>", appId, wechatName);
 
-                try
-                {
-                    ip = ConfigurationManager.AppSettings["WeChatApiIP"];
-                    appName = ConfigurationManager.AppSettings["WeChatAppNameXYKHK"];
-                    appId = ConfigurationManager.AppSettings["WeChatAppIdXYKHK"];
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(string.Format("从配置文件读取微信接口参数异常：{0}", ex.Message));
-                }
-
-                api = "usernametoopenid";
-                apiUrl = string.Format("{0}/{1}?f=xml&appname={2}", ip, api, appName);
-                parameterString = string.Format("<root><appid>{0}</appid><username>{1}</username></root>", appId, wechatName);
-
-                return CallWechatAPI(apiUrl, parameterString, "openid");
+                return CallWechatAPI("101339", parameterString, "openid");
             }
             catch (Exception ex)
             {
@@ -231,30 +257,15 @@ namespace CFT.CSOMS.COMMLIB
         {
             try
             {
-                string ip, appId, api, appName, apiUrl, parameterString;
+                var appId = ConfigurationManager.AppSettings["WeChatAppIdHB"];
+                var parameterString = string.Format("<root><appid>{0}</appid><openid>{1}</openid></root>", appId, openId);
 
-                try
-                {
-                    ip = ConfigurationManager.AppSettings["WeChatApiIP"];
-                    appName = ConfigurationManager.AppSettings["WeChatAppNameHB"];
-                    appId = ConfigurationManager.AppSettings["WeChatAppIdHB"];
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(string.Format("从配置文件读取微信接口参数异常：{0}", ex.Message));
-                }
-
-                api = "openidtoacctid";
-                apiUrl = string.Format("{0}/{1}?f=xml&appname={2}", ip, api, appName);
-                parameterString = string.Format("<root><appid>{0}</appid><openid>{1}</openid></root>", appId, openId);
-
-                return CallWechatAPI(apiUrl, parameterString, "outeracctid");
+                return CallWechatAPI("101341", parameterString, "outeracctid");
             }
             catch (Exception ex)
             {
                 throw new Exception(string.Format("通过微信api转换openid到财付通帐号acctId异常:{0}", ex.Message));
             }
-
         }
 
         /// <summary>
@@ -266,31 +277,15 @@ namespace CFT.CSOMS.COMMLIB
         {
             try
             {
-                string ip, appId, api, appName, apiUrl, parameterString;
+                var appId = ConfigurationManager.AppSettings["WeChatAppIdAA"];
+                var parameterString = string.Format("<root><appid>{0}</appid><openid>{1}</openid></root>", appId, openId);
 
-                try
-                {
-                    ip = ConfigurationManager.AppSettings["WeChatApiIP"];
-                    appName = ConfigurationManager.AppSettings["WeChatAppNameAA"];
-                    appId = ConfigurationManager.AppSettings["WeChatAppIdAA"];
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(string.Format("从配置文件读取微信接口参数异常：{0}", ex.Message));
-                }
-
-                api = "openidtoacctid";
-                apiUrl = string.Format("{0}/{1}?f=xml&appname={2}", ip, api, appName);
-                parameterString = string.Format("<root><appid>{0}</appid><openid>{1}</openid></root>", appId, openId);
-
-                return CallWechatAPI(apiUrl, parameterString, "outeracctid");
+                return CallWechatAPI("101342", parameterString, "outeracctid");
             }
             catch (Exception ex)
             {
                 throw new Exception(string.Format("通过微信api转换openid到财付通帐号acctId异常:{0}", ex.Message));
             }
-
         }
-
     }
 }

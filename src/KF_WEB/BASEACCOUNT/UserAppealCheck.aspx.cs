@@ -262,18 +262,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 msg = ex.Message;
                 return;
             }
-
-            /*
-            for(int i=0; i<Control.cblRejectReason.Items.Count; i++)
-            {
-                if(i == 5)
-                    OtherReason = classLibrary.setConfig.replaceMStr(Control.tbOtherReason);
-                else if(Control.cblRejectReason.Items[i].Selected)
-                {
-                    reason += Control.cblRejectReason.Items[i].Text + "&";
-                }
-            }
-            */
+   
             string db = Control.db;
             string tb = Control.tb;
             if (db == "" && tb == "")//原表数据

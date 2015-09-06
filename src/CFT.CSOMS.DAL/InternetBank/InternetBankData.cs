@@ -135,5 +135,168 @@ namespace CFT.CSOMS.DAL.InternetBank
             return true;
         }
 
+
+        /// <summary>
+        /// 添加 退款商户名单 
+        /// </summary>
+        /// <param name="Frefund_id">商户号码</param>
+        /// <param name="Frefund_name">商户名称</param>
+        /// <param name="Fcreate_by">创建人</param>
+        /// <returns>-1:失败，0：成功，1：商户号码已存在</returns>
+        public int AddRefundList(int Frefund_id,string Frefund_name, string Fcreate_by)
+        {
+            int result = -1;
+            var da = MySQLAccessFactory.GetMySQLAccess("NameAbnormal");
+            try
+            {
+                da.OpenConn();
+                string strSql = string.Format(
+                    "SELECT COUNT(Fid) FROM c2c_fmdb.t_refund_list WHERE Frefund_state = 0 AND Frefund_id = {0}", 
+                    Frefund_id);
+                if (Convert.ToInt32(da.GetOneResult(strSql)) == 0)
+                {
+                    strSql = string.Format(@"
+                    INSERT c2c_fmdb.t_refund_list 
+                      (Frefund_id, Frefund_name, Fcreate_by, Fmodify_by, Fcreate_time, Fmodify_time) 
+                    VALUES 
+                      ({0},'{1}','{2}','{3}',NOW(),NOW())",
+                    Frefund_id, Frefund_name, Fcreate_by, Fcreate_by);
+
+                    int flag = da.ExecSqlNum(strSql);
+                    if (flag > 0)
+                        result = 0;
+                }
+                else
+                {
+                    result = 1;
+                }
+            }
+            catch (Exception e)
+            {
+                loger.err("AddRefundList", e.Message);
+            }
+            finally
+            {
+                if (da != null)
+                {
+                    da.Dispose();
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 删除  退款商户名单 
+        /// </summary>
+        /// <param name="Fid">自增ID</param>
+        /// <returns></returns>
+        public bool DelRefundByFid(int Fid)
+        {
+            bool result = false;
+            string strSql = string.Format("UPDATE c2c_fmdb.t_refund_list SET Frefund_state = 1 WHERE Fid = {0}", Fid);
+            using (var da = MySQLAccessFactory.GetMySQLAccess("NameAbnormal"))
+            {
+                da.OpenConn();
+                if (da.ExecSql(strSql))
+                    result = true;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 修改 退款商户名单 
+        /// </summary>
+        /// <param name="Frefund_id">商户号码</param>
+        /// <param name="Frefund_name">商户名称</param>
+        /// <param name="Fmodify_by">修改人</param>
+        /// <param name="Fid">自增ID</param>
+        /// <returns>-1:失败，0：成功，1：商户号码已存在</returns>
+        public int EditRefundByFid(int Frefund_id,int Old_Frefund_id,string Frefund_name, string Fmodify_by,int Fid)
+        {
+            int result = -1;
+            string strSql = string.Format(
+                    "SELECT COUNT(Fid) FROM c2c_fmdb.t_refund_list WHERE Frefund_state = 0 AND Frefund_id = {0}",
+                    Frefund_id);
+            using (var da = MySQLAccessFactory.GetMySQLAccess("NameAbnormal"))
+            {
+                da.OpenConn();
+                int temp_flag = 0;
+                if (Frefund_id != Old_Frefund_id)
+                {
+                    temp_flag = Convert.ToInt32(da.GetOneResult(strSql));
+                }
+                if (temp_flag == 0)
+                {
+                    strSql = string.Format(@"
+                        UPDATE c2c_fmdb.t_refund_list 
+                            SET Frefund_id = {0}, Frefund_name = '{1}', Fmodify_by = '{2}', Fmodify_time = now() 
+                        WHERE Fid = {3}",
+                        Frefund_id, Frefund_name, Fmodify_by, Fid);
+                    if (da.ExecSql(strSql))
+                        result = 0;
+                }
+                else
+                {
+                    result = 1;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 查询 退款商户名单 
+        /// </summary>
+        /// <param name="Frefund_id"></param>
+        /// <param name="sTime"></param>
+        /// <param name="eTime"></param>
+        /// <returns></returns>
+        public DataSet GetRefundByFrefundId(int Frefund_id, string sTime, string eTime, int start, int max)
+        {
+            DataSet ds = null;
+            string strLimit = string.Empty;
+
+            string strWhere = " WHERE Frefund_state = 0 ";
+
+            if (Frefund_id > 0)
+                strWhere += " AND Frefund_id = " + Frefund_id;
+
+            if (!string.IsNullOrEmpty(sTime) && !string.IsNullOrEmpty(eTime))
+                strWhere += " AND Fcreate_time >= '" + sTime + "' AND Fcreate_time <= '" + eTime + "'";
+
+            if (max > 0)
+                strLimit = string.Format(" LIMIT {0},{1}", start, max);
+           
+
+            string strSql = string.Format(
+                "SELECT * FROM c2c_fmdb.t_refund_list {0} ORDER BY Fcreate_time DESC {1}",
+                strWhere, strLimit);
+            using (var da = MySQLAccessFactory.GetMySQLAccess("NameAbnormal"))
+            {
+                da.OpenConn();
+                ds = da.dsGetTotalData(strSql);
+            }
+            return ds;
+        }
+
+        public int GetRefundCount(int Frefund_id, string sTime, string eTime)
+        {
+            int result = 0;
+            string strWhere = " WHERE Frefund_state = 0 ";
+
+            if (Frefund_id > 0)
+                strWhere += " AND Frefund_id = " + Frefund_id;
+
+            if (!string.IsNullOrEmpty(sTime) && !string.IsNullOrEmpty(eTime))
+                strWhere += " AND Fcreate_time >= '" + sTime + "' AND Fcreate_time <= '" + eTime + "'";
+
+            string strSql = string.Format(
+                "SELECT COUNT(Fid) FROM c2c_fmdb.t_refund_list {0}", strWhere);
+            using (var da = MySQLAccessFactory.GetMySQLAccess("NameAbnormal"))
+            {
+                da.OpenConn();
+                result = Convert.ToInt32(da.GetOneResult(strSql));
+            }
+            return result;
+        }
     }
 }

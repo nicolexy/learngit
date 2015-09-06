@@ -19,7 +19,6 @@ using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
 
-
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
 	/// <summary>
@@ -100,20 +99,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			int start = max * (index-1);
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 			DataSet ds = qs.GetSeparateOperationList(flist,start,max);
-/*
- * 	string listid;  // 交易单号
-				int type;  // 借贷类型：1-入; 2-出;
-				int subject; // 科目、类别：见数据字典 2.1.13
-				string paynum; // 金额
-				int bankType; // 用户银行的类型
-				int sign; // 流水的标记：0 正常 1 被冲正 2 冲正
-				int actionType; //Faction_type
 
-				string fromId; // 对方的ID（QQ号码，银行帐号）
-				string fromName; // 对方的名称
-				string balance;  // 账户余额
-				string memo; // 转账说明
-				string modifyTime; // 最后修改时间*/
 			if(ds != null && ds.Tables.Count > 0)
 			{
 				ds.Tables[0].Columns.Add("subjectStr",typeof(string));

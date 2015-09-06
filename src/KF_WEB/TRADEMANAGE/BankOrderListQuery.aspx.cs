@@ -139,6 +139,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
 
 
+            if (begindate.Year != enddate.Year)
+                throw new Exception("给银行的订单号暂不支持跨年度查询，请重新输入！");
+
+
             DateTime dtnewcsdate = DateTime.Parse(newczdate);
             DateTime dtnewendate = dtnewcsdate.AddDays(-1);
             if (enddate.CompareTo(dtnewcsdate) >= 0 && begindate.CompareTo(dtnewcsdate) < 0)

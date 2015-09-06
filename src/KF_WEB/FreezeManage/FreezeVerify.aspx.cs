@@ -21,9 +21,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 	public partial class FreezeVerify1 : System.Web.UI.Page
 	{
 
-	
+        public string uid;
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
+            uid = Session["uid"] as string;
 			if(!ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
 
 			// 在此处放置用户代码以初始化页面

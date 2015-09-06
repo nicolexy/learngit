@@ -10,7 +10,6 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using TENCENT.OSS.CFT.KF.DataAccess;
 using System.Web.Services.Protocols;
-
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
@@ -137,21 +136,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				WebUtils.ShowMessage(this.Page,"读取数据失败！" + eSys.Message.ToString());
 			}
 		}
-/*
-		private int GetCount()
-		{
-			string fuin = ViewState["fuin"].ToString();
-			DateTime begindate = (DateTime)ViewState["begindate"];
-			DateTime enddate = (DateTime)ViewState["enddate"];
 
-			int fstate = Int32.Parse(ViewState["fstate"].ToString());
-			int ftype = Int32.Parse(ViewState["ftype"].ToString());
-
-
-			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-			return qs.GetCFTUserAppealCount(fuin,begindate,enddate,fstate,ftype);
-		}
-*/
 		private void BindData(int index)
 		{
 			string fuin = ViewState["fuin"].ToString();
@@ -162,14 +147,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
 			Finance_Header fh = setConfig.setFH(this);
-			//			fh.UserIP = Request.UserHostAddress;
-			//			fh.UserName = Session["uid"].ToString();
-			//
-			//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-			//			fh.SzKey = Session["SzKey"].ToString();
-			//
 			qs.Finance_HeaderValue = fh;
-			//			qs.Finance_HeaderValue = setConfig.setFH(this);
             DataSet ds = new DataSet();
             DataSet ds1 = qs.GetCFTUserAppealListNew(fuin, "", "", 99, 100, "", "9", start, max, 99);//ftype=100查询所有申诉类型
 

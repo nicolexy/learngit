@@ -1,45 +1,24 @@
 using System;
-
 using System.Collections;
-
 using System.ComponentModel;
-
 using System.Data;
-
 using System.Drawing;
-
 using System.Web;
-
 using System.Web.SessionState;
-
 using System.Web.UI;
-
 using System.Web.UI.WebControls;
-
 using System.Web.UI.HtmlControls;
-
-
-
 using Tencent.DotNet.Common.UI;
-
 using Tencent.DotNet.OSS.Web.UI;
-
 using System.Configuration;
-
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using CFT.CSOMS.BLL.TradeModule;
 
-
-
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
-
     /// <summary>
-
     /// bankrolllog 的摘要说明。
-
     /// </summary>
-
     public partial class bankrolllog : System.Web.UI.Page
     {
         protected System.Data.DataSet DS_Bankroll;
@@ -59,18 +38,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 {
                     WebUtils.ShowMessage(this.Page, "操作超时！请重新查询。" + PublicRes.GetErrorMsg(err.Message));
                 }
-
             }
-
         }
-
-
-
-
 
         private void BindData(int pageIndex)
         {
-
             DateTime beginTime, endTime;
 
             if (Request.QueryString["BeginDate"] != null)
@@ -80,26 +52,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             else
             {
-                //furion 不用以前的时间段,用新的配置来替代.
-
-                //DateTime beginTime = DateTime.Parse(PublicRes.sBeginTime); 
-
                 beginTime = DateTime.Now.AddDays(-PublicRes.PersonInfoDayCount);
-
-                //DateTime endTime   = DateTime.Parse(PublicRes.sEndTime); 
-
                 endTime = DateTime.Now.AddDays(1);
             }
 
             int pageSize = Int32.Parse(ConfigurationManager.AppSettings["pageSize"].ToString());  //通过webconfig控制页大小
-
-
-
             int istr = 1 + pageSize * (pageIndex - 1);  //初始为1（事实上索引0始）
-
             int imax = pageSize;                       //每页显示10条记录
-
-
 
             if (Request.QueryString["type"].ToString() == "QQID")
             {
@@ -127,7 +86,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     string ref_param = ViewState["ref_param"] == null ? "" : ViewState["ref_param"].ToString();
                     this.DS_Bankroll = new TradeService().GetBankRollList(selectStr, beginTime, endTime, istr, imax, ref  ref_param);
                     ViewState["ref_param"] = ref_param;
-                    
+
 
                     if (DS_Bankroll != null && DS_Bankroll.Tables.Count != 0 && DS_Bankroll.Tables[0].Rows.Count != 0)
                     {
@@ -212,114 +171,55 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             Page.DataBind();
         }
 
-
-
         public void ChangePage(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
         {
-
             pager.CurrentPageIndex = e.NewPageIndex;
-
             BindData(pager.CurrentPageIndex);
-
-            //			Page.DataBind();
-
-
-
-            //			pager.CustomInfoText="记录总数：<font color=\"blue\"><b>"+pager.RecordCount.ToString()+"</b></font>";
-
-            //			pager.CustomInfoText+=" 总页数：<font color=\"blue\"><b>"+pager.PageCount.ToString()+"</b></font>";
-
-            //			pager.CustomInfoText+=" 当前页：<font color=\"red\"><b>"+pager.CurrentPageIndex.ToString()+"</b></font>";
-
         }
-
-
 
         #region Web 窗体设计器生成的代码
 
         override protected void OnInit(EventArgs e)
         {
-
             //
-
             // CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
-
             //
 
             InitializeComponent();
-
             base.OnInit(e);
-
         }
 
-
-
         /// <summary>
-
         /// 设计器支持所需的方法 - 不要使用代码编辑器修改
-
         /// 此方法的内容。
-
         /// </summary>
-
         private void InitializeComponent()
         {
-
             this.DS_Bankroll = new System.Data.DataSet();
-
             this.dataTable1 = new System.Data.DataTable();
-
             this.dataColumn1 = new System.Data.DataColumn();
-
             ((System.ComponentModel.ISupportInitialize)(this.DS_Bankroll)).BeginInit();
-
             ((System.ComponentModel.ISupportInitialize)(this.dataTable1)).BeginInit();
-
             // 
-
             // DS_Bankroll
-
             // 
-
             this.DS_Bankroll.DataSetName = "NewDataSet";
-
             this.DS_Bankroll.Locale = new System.Globalization.CultureInfo("zh-CN");
-
-            this.DS_Bankroll.Tables.AddRange(new System.Data.DataTable[] {
-
-																			 this.dataTable1});
-
+            this.DS_Bankroll.Tables.AddRange(new System.Data.DataTable[] { this.dataTable1 });
             // 
-
             // dataTable1
-
             // 
-
-            this.dataTable1.Columns.AddRange(new System.Data.DataColumn[] {
-
-																			  this.dataColumn1});
-
+            this.dataTable1.Columns.AddRange(new System.Data.DataColumn[] { this.dataColumn1 });
             this.dataTable1.TableName = "Table1";
-
             // 
-
             // dataColumn1
-
             // 
-
             this.dataColumn1.ColumnName = "FBKid";
-
             ((System.ComponentModel.ISupportInitialize)(this.DS_Bankroll)).EndInit();
-
             ((System.ComponentModel.ISupportInitialize)(this.dataTable1)).EndInit();
-
-
-
         }
 
         #endregion
-
     }
-
 }
 

@@ -14,7 +14,6 @@ using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
 
-
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
     /// <summary>
@@ -72,7 +71,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 WebUtils.ShowMessage(this.Page, "显示数据时出错，请重试。");
             }
         }
-
 
         private void InitGrid()
         {
@@ -186,31 +184,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     return FFlag_name;
                 }
             }
-            return "无此银行";
-
-            //switch(strBankID.Trim())
-            //{
-            //    case "1001" :
-            //        return "招商银行";
-            //    case "1002" :
-            //        return "工商银行";
-            //    case "1003" : 
-            //        return "建设银行";
-            //    case "1005" :
-            //        return "农业银行"; 
-            //    case "1004" :
-            //        return "浦发银行"; 
-            //    case "1010" :
-            //        return "深圳平安银行";
-            //    case "1020" :
-            //        return "交通银行";
-            //    case "1027" :
-            //        return "广东发展银行";
-            //    case "9999" :
-            //        return "汇总银行";
-            //    default :
-            //        return "无此银行";
-            //}
+            return "无此银行";     
         }
 
         public static void GetAllPayBankList(DropDownList ddl)
@@ -233,14 +207,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
 
             }
-
-            //ddl.Items.Add(new ListItem("工商银行","1002"));
-            //ddl.Items.Add(new ListItem("建设银行","1003"));
-            //ddl.Items.Add(new ListItem("农业银行","1005"));
-            //ddl.Items.Add(new ListItem("浦发银行","1004"));
-            //ddl.Items.Add(new ListItem("深圳平安银行","1010"));
-            //ddl.Items.Add(new ListItem("交通银行","1020"));
-            //ddl.Items.Add(new ListItem("广东发展银行","1027"));
         }
 
         private static bool CanVisible(string strDate)

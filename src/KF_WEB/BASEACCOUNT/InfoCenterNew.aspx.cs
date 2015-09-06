@@ -271,7 +271,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             //查询余额支付功能关闭与否
             try
             {
-                string ip = "127.0.0.1";
+                string ip = this.Page.Request.UserHostAddress;
                 bool isOpen = new BalaceService().BalancePaidOrNotQuery(Session["QQID"].ToString(), ip);
                 if (isOpen)
                     this.Label19_OpenOrNot.Text = "打开";

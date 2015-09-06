@@ -42,6 +42,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             DataSet ds = new MobileService().GetMsgNotify(ViewState["QQ"].ToString());
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
+                foreach (DataRow dr in ds.Tables[0].Rows) //这里有个权限的判断
+                {
+                    if (dr["Unbind"].ToString() == "解绑")
+                    {
+                        if (!ClassLib.ValidateRight("DeleteCrt", this))
+                            dr["Unbind"] = "";
+                    }
+                }
                 DataGrid1.DataSource = ds.Tables[0].DefaultView;
                 DataGrid1.DataBind();
             }

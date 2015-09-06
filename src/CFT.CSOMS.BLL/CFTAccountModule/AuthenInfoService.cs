@@ -227,5 +227,52 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         }
 
         #endregion
+
+        /// <summary>
+        /// 实名认证处理查询--专为(实名认证处理查询)做的查询  把权限做到页面里面
+        /// </summary>
+        /// <param name="fuin"></param>
+        /// <param name="iPageStart"></param>
+        /// <param name="iPageMax"></param>
+        /// <returns></returns>
+        public DataSet GetUserClassQueryListForThis(string fuin, int iPageStart, int iPageMax)
+        {
+            try
+            {
+                UserClassClass cuser = new UserClassClass(fuin, "UserClassQuery");
+                DataSet ds = cuser.GetResultX(iPageStart, iPageMax, "RU");
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    //这里和页面不同,引入页面时需要加上一个URL地址的组成
+                    ds.Tables[0].Columns.Add("Result", typeof(string));                  
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {                    
+                        if (dr["Fcard_stat"].ToString() == "1" && dr["Fcre_stat"].ToString() == "1")
+                        {
+                            dr["Result"] = "认证成功";
+                        }
+                        else if (dr["Fcard_stat"].ToString() == "9" && dr["Fcre_stat"].ToString() == "9")
+                        {
+                            dr["Result"] = "认证失败";
+                        }
+                        else if (dr["Fcard_stat"].ToString() == "10" && dr["Fcre_stat"].ToString() == "10")
+                        {
+                            dr["Result"] = "作废";
+                        }
+                        else
+                        {
+                            dr["Result"] = "认证处理中";
+                        }
+                    }
+                }
+
+                return ds;
+            }
+            catch (Exception err)
+            {
+                throw new Exception("Service处理失败！");
+            }
+        }
+
     }  
 }
