@@ -33,6 +33,7 @@
 <%@ Register TagPrefix="uc1" TagName="PNRQuery" Src="PNRQueryControl.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="HandQBusiness" Src="HandQBusiness.ascx" %>
 
+<script language="javascript" type="text/javascript" src="scripts/jquery-1.11.3.min.js"></script>
 <script language="javascript" type="text/javascript" src="scripts/local.js"></script>
 <script language="javascript" type="text/javascript">
     function showHidenMenu(o) {
@@ -48,6 +49,34 @@
             }           
         }
     }
+    $(document).ready(function () {
+        //$('table tr[name=menu_one]').click(function () {
+        //    if ($(this).next().css('display') == 'none') {
+        //        $('table tr[name=menu_one]').each(function (i) {
+        //            $(this).next().hide();
+        //        });
+        //        $(this).next().show();
+        //    } else {
+        //        $(this).next().hide();
+        //    }
+        //});
+        //$('span tr[name=menu_flag]').click(function () {
+        //    if ($(this).next().css('display') == 'none') {
+        //        $(this).parents('table tr[name=menu_two]').find('tr[name=menu_flag]').each(function (i) {
+        //            $(this).next().hide();
+        //        });
+        //        $(this).next().show();
+        //    } else {
+        //        $(this).next().hide();
+        //    }
+        //});
+        $('a[target=WorkArea]').click(function () {
+            $('a[target=WorkArea]').each(function (i) {
+                $(this).css('color','');
+            });
+            $(this).css('color','red');
+        });
+    });
 </script>
 <style type="text/css">
 BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
@@ -56,10 +85,10 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
 	<tr>
 		<td width="130" valign="top" class="Left_table_wh">
             <table width="100%">
-                <tr style="cursor:hand" onclick="javascript:showHidenMenu('basicInfo')">
-                  <td style="background-image:url(images/page/menu_bk.gif); height:20">&nbsp;&nbsp;&nbsp;&nbsp;<strong>基础信息管理</strong></td>
+                <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('basicInfo')">
+                  <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>基础信息管理</strong></td>
                 </tr>
-                <tr id="basicInfo" style="display:none">
+                <tr id="basicInfo" name="menu_two" style="display:none">
                     <td >
                         <uc1:BaseAccount id="baseAccount1" runat="server"></uc1:BaseAccount> <!--账户管理-->
                          <uc1:AccountOperate id="accountOperate1" runat="server"></uc1:AccountOperate> <!--账户操作-->
@@ -72,10 +101,10 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
 			            <uc1:FundAccountManage id="FundAccountManage1" runat="server"></uc1:FundAccountManage><!--基金账户-->
                   </td>
                 </tr>
-                <tr style="cursor:hand" onclick="javascript:showHidenMenu('payManagement')">
-                  <td style="background-image:url(images/page/menu_bk.gif); height:20">&nbsp;&nbsp;&nbsp;&nbsp;<strong>支付管理</strong></td>
+                <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('payManagement')">
+                  <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>支付管理</strong></td>
                 </tr>
-                <tr id="payManagement" style="display:none">
+                <tr id="payManagement" name="menu_two" style="display:none">
                   <td >
                         <uc1:WebchatPayControl ID="WebchatPayControl1" runat="server" /><!--微信支付-->
                         <uc1:FastPay id="FastPay1" runat="server"></uc1:FastPay><!--快捷支付-->
@@ -87,20 +116,20 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
                         <uc1:HandQBusiness ID="HandQBusiness" runat="server" /><!--手Q业务-->
                   </td>
                 </tr>
-                <tr style="cursor:hand" onclick="javascript:showHidenMenu('tradeManagement')">
-                  <td style="background-image:url(images/page/menu_bk.gif); height:20">&nbsp;&nbsp;&nbsp;&nbsp;<strong>交易管理</strong></td>  
+                <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('tradeManagement')">
+                  <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>交易管理</strong></td>  
                 </tr>
-                <tr id="tradeManagement" style="display:none">
+                <tr id="tradeManagement" name="menu_two" style="display:none">
                   <td >
                         <uc1:TradeManage id="tradeManage1" runat="server"></uc1:TradeManage> <!--交易查询-->
 			            <uc1:LifeFeeDetailManage id="LifeFeeDetailManage1" runat="Server"></uc1:LifeFeeDetailManage><!--生活缴费-->
                         <uc1:InternetBank ID="InternetBank" runat="server" /><!--网银查询-->
                   </td>
                 </tr>
-                <tr style="cursor:hand" onclick="javascript:showHidenMenu('bussInfo')">
-                  <td style="background-image:url(images/page/menu_bk.gif); height:20">&nbsp;&nbsp;&nbsp;&nbsp;<strong>商户信息管理</strong></td>
+                <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('bussInfo')">
+                  <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>商户信息管理</strong></td>
                 </tr>
-                <tr id="bussInfo" style="display:none">
+                <tr id="bussInfo" name="menu_two" style="display:none">
                   <td >
                         <uc1:AccountManage id="accountManage1" runat="server"></uc1:AccountManage><!--商户管理-->
                         <uc1:PNRQuery id="PNRQuery1" runat="server"></uc1:PNRQuery><!--PNR查询-->
@@ -112,10 +141,10 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
                         <uc1:ForeignCurrencyAccount ID="ForeignCurrencyAccount1" runat="server" /><!--外币商户管理-->
                   </td>
                 </tr>
-                <tr style="cursor:hand" onclick="javascript:showHidenMenu('sysManagement')">
-                  <td style="background-image:url(images/page/menu_bk.gif); height:20">&nbsp;&nbsp;&nbsp;&nbsp;<strong>系统管理</strong></td>
+                <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('sysManagement')">
+                  <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>系统管理</strong></td>
                 </tr>
-                <tr id="sysManagement" style="display:none">
+                <tr id="sysManagement" name="menu_two" style="display:none">
                   <td>
                         <uc1:BankBillManage id="BankBillManage1" runat="server"></uc1:BankBillManage><!--银行账单-->
                         <uc1:SysManage ID="SysManage1" runat="server" /><!--公告管理-->

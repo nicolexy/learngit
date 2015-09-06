@@ -3449,60 +3449,57 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 DataSet ds = null;
                 DataSet dsqq = new DataSet();
                 DataTable dsdt = new DataTable();
-                string srtSql = "";
-                if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "qq")  //按照QQ号查询，注意使用内部uid
-                {
-                    string uid = PublicRes.ConvertToFuid(u_ID);
-                    srtSql = "auid=" + uid;
-                }
-                else if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "tobank")  //给银行的订单号
-                {
-                    srtSql = "bank_list=" + u_ID.Trim() + "";
+                string strSql = "";
 
-
-                }
-                else if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "bankback") //银行返回u
+                if (!string.IsNullOrEmpty(u_ID))
                 {
-                    srtSql = "bank_acc=" + u_ID.Trim();
+                    switch (u_QueryType.ToLower())
+                    {
+                        case "qq":         //按照QQ号查询，注意使用内部uid
+                            string uid = PublicRes.ConvertToFuid(u_ID);
+                            strSql = "auid=" + uid;
+                            break;
+                        case "tobank":     //给银行的订单号
+                            strSql = "bank_list=" + u_ID.Trim();
+                            break;
+                        case "bankback":   //银行返回u
+                            strSql = "bank_acc=" + u_ID.Trim();
+                            break;
+                        case "czd":        //充值单查询
+                            strSql = "listid=" + u_ID.Trim();
+                            break;
+                    }
                 }
-                else if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "czd") //充值单查询
-                {
-                    srtSql = "listid=" + u_ID.Trim();
-                }
+                
                 if (fstate != 0)
                 {
-
-                    srtSql += "&sign=" + fstate;
-
+                    strSql += "&sign=" + fstate;
                 }
                 long num = (long)Math.Round(fnum * 100, 0);
                 long numMax = (long)Math.Round(fnumMax * 100, 0);
 
 
-                srtSql += "&num_start=" + num + "&num_end=" + numMax;
+                strSql += "&num_start=" + num + "&num_end=" + numMax;
 
                 if (banktype != "0000" && banktype != "")
                 {
-
-                    srtSql += "&bank_type=" + banktype;
+                    strSql += "&bank_type=" + banktype;
                 }
 
                 if (u_QueryType.ToLower() != "tobank")
                 {
-
                     TimeSpan ts = u_EndTime - u_BeginTime;
                     int sub = ts.Days;
                     bool iscone = false;
                     for (int i = 0; i <= sub; i++)
                     {
                         string truetime = u_EndTime.AddDays(-i).ToString("yyyyMMdd");
-                        string querstr = srtSql + "&query_day=" + truetime + "&curtype=" + fcurtype + "&strlimit=limit " + iPageStart + "," + iPageMax;
+                        string querstr = strSql + "&query_day=" + truetime + "&curtype=" + fcurtype + "&strlimit=limit " + iPageStart + "," + iPageMax;
                         ds = CommQuery.GetDataSetFromICE(querstr, CommQuery.QUERY_TCBANKROLL_DAY, out msg);
                         if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                         {
                             if (u_QueryType.ToLower() == "qq" || u_QueryType.ToLower() == "czd")
                             {
-
                                 if (!iscone)
                                 {
                                     dsdt = ds.Tables[0].Clone();
@@ -3513,26 +3510,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 {
                                     dsdt.ImportRow(dr);
                                 }
-
-
                             }
                             else
                             {
                                 break;
                             }
-
                         }
                     }
                 }
-                else
+                else   //按给银行订单号查询
                 {
-                    srtSql += "&offset=0&limit=10";
-                    ds = CommQuery.GetDataSetFromICE_QueryServer(srtSql, CommQuery.QUERY_TCBANKROLL_S, out msg);
+                    strSql += string.Format("&offset=0&limit=10&sp_id=1000000000&MSG_NO=&fronttime_start={0}&fronttime_end={1}", 
+                        u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"), u_EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                    ds = CommQuery.GetDataSetFromICE_QueryServer(strSql, CommQuery.QUERY_TCBANKROLL_S, out msg);
                 }
 
                 if (u_QueryType.ToLower() == "qq" || u_QueryType.ToLower() == "czd")
                 {
-
                     dsqq.Tables.Add(dsdt);
                     return dsqq;
                 }
@@ -3548,12 +3542,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
 
         [WebMethod(Description = "充值单按给银行订单号分库分表查询详细函数")]//add rowenwu 20120301
-        public DataSet GetFundListDetail_New(string listid, string fbank_list, string fbank_type, out string mesgg)
+        public DataSet GetFundListDetail_New(string listid, string fbank_list, string fbank_type, DateTime u_BeginTime, DateTime u_EndTime, out string mesgg)
         {
             mesgg = "";
             try
             {
-                string strSql = "listid=" + listid + "&bank_list=" + fbank_list + "&bank_type=" + fbank_type + "&offset=0&limit=1";
+                string strSql = string.Format("listid={0}&bank_list={1}&bank_type={2}&offset=0&limit=1&sp_id=1000000000&MSG_NO=&fronttime_start={3}&fronttime_end={4}",
+                    listid, fbank_list, fbank_type, u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"), u_EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
 
                 DataSet ds = PublicRes.QueyNewCZDataDataSet(strSql, out mesgg);
                 return ds;
@@ -3787,6 +3782,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public DataSet GetFundList(string u_ID, string u_QueryType, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,
             float fnum, float fnumMax, string banktype, string sorttype, bool isHistory, int iPageStart, int iPageMax)
         {
+            string msg = string.Empty;
             RightAndLog rl = new RightAndLog();
             try
             {
@@ -3813,13 +3809,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 FundQueryClass cuser = new FundQueryClass(u_ID, u_QueryType, fcurtype, u_BeginTime, u_EndTime, fstate, fnum, fnumMax, banktype, sorttype, isHistory);
 
-                /*
-                //furion 20050822 好多记录中取不出来人名，必须有一个统一函数去处理它。
-                //return cuser.GetResultX(iPageStart,iPageMax);
-                //DataSet ds = cuser.GetResultX(iPageStart,iPageMax,"YWB_30");
-                DataSet ds = cuser.GetResultX(iPageStart,iPageMax,"ZJB");
-                */
-
                 int start = iPageStart - 1;
                 if (start < 0) start = 0;
 
@@ -3827,101 +3816,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string strSql = cuser.ICESQL + "&strlimit=limit " + start + "," + iPageMax;
                 DataSet ds = CommQuery.GetDataSetFromICE(strSql, cuser.ICETYPE, out errMsg);
 
-                #region andrew 20100505
-                ////勾选查询历史表的话，循环查询多个月的
-                //if(isHistory&&(u_QueryType=="czd"||u_QueryType=="toBank"||u_QueryType=="BankBack"))
-                //{
-                //    if(strSql.IndexOf("&start_time")>-1)
-                //    {
-                //        string hisStrSql1=strSql.Substring(0,strSql.IndexOf("start_time"));
-                //        string hisStrSql2=strSql.Substring(strSql.IndexOf("start_time"));
-                //        hisStrSql2=hisStrSql2.Substring(hisStrSql2.IndexOf("&"));
-                //        string tmpMonth = u_BeginTime.AddMonths(-1).ToString("yyyyMM");
-
-                //        DataTable hisDetail=new DataTable();
-                //        if(ds!=null&&ds.Tables.Count==1)
-                //        {
-                //            hisDetail=ds.Tables[0];
-                //        }
-
-
-                //        int index = -1;
-                //        while(tmpMonth.CompareTo(DateTime.Now.AddMonths(2).ToString("yyyyMM")) < 0)
-                //        {
-                //            string starttime = u_BeginTime.AddMonths(index).ToString("yyyy-MM-dd");
-                //            string newSql=hisStrSql1+"start_time="+starttime+hisStrSql2;
-
-                //            if(newSql==strSql)
-                //            {
-                //                index ++;
-                //                tmpMonth = u_BeginTime.AddMonths(index).ToString("yyyyMM");
-                //                continue;
-                //            }
-
-                //            DataSet tmpDS = CommQuery.GetDataSetFromICE(newSql,cuser.ICETYPE,out errMsg);
-                //            DataTable tmpDetail=null;
-                //            if(tmpDS!=null&&tmpDS.Tables.Count==1)
-                //            {
-                //                tmpDetail=tmpDS.Tables[0];
-                //            }
-                //            //合并数据
-                //            if(tmpDetail!=null&&tmpDetail.Rows.Count>0)
-                //            {
-                //                if(hisDetail==null||hisDetail.Rows.Count==0)
-                //                {
-                //                    ds=tmpDS;
-                //                    hisDetail=ds.Tables[0];
-
-                //                }
-                //                else
-                //                {
-                //                    foreach(DataRow dr2 in tmpDetail.Rows)
-                //                    {
-                //                        hisDetail.ImportRow(dr2);
-                //                    }
-                //                }
-
-                //            }
-                //            index ++;
-                //            tmpMonth = u_BeginTime.AddMonths(index).ToString("yyyyMM");
-                //        }
-                //    }
-                //}
-                #endregion
-                //如果能查询到记录则不去历史表查询 2014/03/24
-                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)  
                 {
-                    //yinhuang 2014/1/21 勾选历史查询，直接查询新迁移的历史库
-                    if (isHistory)
+                    if (u_QueryType.ToLower() == "tobank")   //给银行的订单号
                     {
-                        //判断订单号
-                        if (string.IsNullOrEmpty(u_ID))
+                        strSql = "bank_list=" + u_ID;
+
+                        if (fstate != 0)
+                            strSql += "&sign=" + fstate;
+
+                        long num = (long)Math.Round(fnum * 100, 0);
+                        long numMax = (long)Math.Round(fnumMax * 100, 0);
+
+
+                        strSql += "&num_start=" + num + "&num_end=" + numMax;
+
+                        if (banktype != "0000" && banktype != "")
                         {
-                            return null;
+                            strSql += "&bank_type=" + banktype;
                         }
-
-                        MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("BANKLISTHIS"));
-                        da.OpenConn();
-                        string db_year = "2013";
-
-                        if (u_BeginTime == null)
-                        {
-                            u_BeginTime = DateTime.Now;
-                        }
-                        db_year = u_BeginTime.Year.ToString();
-
-                        //如果其它类型，按查询日期确定年
-
-                        //201309302913811  order1_c2c_order_db_11_2013.t_tcbankroll_list_8
-                        string table = "order1_c2c_order_db_" + u_ID.Substring(u_ID.Length - 2, 2) + "_" + db_year + ".t_tcbankroll_list_" + u_ID.Substring(u_ID.Length - 3, 1);
-                        string sql = "select * from " + table + " " + cuser.HISSQL;
-                        ds = da.dsGetTotalData(sql);
-                        if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                        {
-                            table = "order2_c2c_order_db_" + u_ID.Substring(u_ID.Length - 2, 2) + "_" + db_year + ".t_tcbankroll_list_" + u_ID.Substring(u_ID.Length - 3, 1);
-                            sql = "select * from " + table + " " + cuser.HISSQL;
-                            ds = da.dsGetTotalData(sql);
-                        }
+                        strSql += string.Format("&offset=0&limit=10&sp_id=1000000000&MSG_NO=&fronttime_start={0}&fronttime_end={1}",
+                        u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"), u_EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                        ds = CommQuery.GetDataSetFromICE_QueryServer(strSql, CommQuery.QUERY_TCBANKROLL_S, out msg);
                     }
                 }
 
@@ -3936,14 +3852,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             catch (LogicException err)
             {
                 rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
+                rl.ErrorMsg = PublicRes.replaceMStr(err.Message + " " + msg);
                 throw;
             }
             catch (Exception err)
             {
                 rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                throw new LogicException("Service处理失败！" + err.Message);
+                rl.ErrorMsg = PublicRes.replaceMStr(err.Message + " " + msg);
+                throw new LogicException("Service处理失败！" + err.Message + " " + msg);
             }
             finally
             {

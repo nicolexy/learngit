@@ -1371,6 +1371,12 @@
     <Compile Include="InternetBank\RefundInfo.aspx.designer.cs">
       <DependentUpon>RefundInfo.aspx</DependentUpon>
     </Compile>
+    <Compile Include="InternetBank\RefundMerchant.aspx.cs">
+      <DependentUpon>RefundMerchant.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="InternetBank\RefundMerchant.aspx.designer.cs">
+      <DependentUpon>RefundMerchant.aspx</DependentUpon>
+    </Compile>
     <Compile Include="InternetBank\RefundQuery.aspx.cs">
       <DependentUpon>RefundQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3186,6 +3192,7 @@
     <Content Include="InternetBank\BillQuery.aspx" />
     <Content Include="InternetBank\AtuoRenewQuery.aspx" />
     <Content Include="InternetBank\RefundInfo.aspx" />
+    <Content Include="InternetBank\RefundMerchant.aspx" />
     <Content Include="InternetBank\RefundQuery.aspx" />
     <Content Include="InternetBank\MermberDiscount.aspx" />
     <Content Include="InternetBank\TurnoverQuery.aspx" />
@@ -3296,6 +3303,7 @@
     <Content Include="RemitCheck\RemitQuery.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="SCRIPTS\jquery-1.11.3.min.js" />
     <Content Include="SCRIPTS\Local.js" />
     <Content Include="config\DB.config">
       <SubType>Designer</SubType>

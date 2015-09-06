@@ -101,22 +101,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			DataSet ds = null;
 			string mesgg="";
-			
+
+            DateTime u_beginTime = new DateTime(1940, 1, 1);
+            DateTime u_endTime = new DateTime(1940, 1, 1);
+
 			Query_Service.Query_Service qs = new Query_Service.Query_Service();
 			if(fpay_front_time!=null && fpay_front_time!="" && qs.IsNewOrderCZData(DateTime.Parse(fpay_front_time)))//如果是新的充值，直接查询新充值单表 rowenawu 20120301
 			{
-				//				string strSql = "listid=" + listid + "&bank_list="+fbank_list+"&bank_type="+fbank_type;
-				ds=qs.GetFundListDetail_New(listid,fbank_list,fbank_type,out mesgg);
-				
+				//string strSql = "listid=" + listid + "&bank_list="+fbank_list+"&bank_type="+fbank_type;
+                u_beginTime = DateTime.Parse(begintime + " 00:00:00");
+                u_endTime = DateTime.Parse(endtime + " 23:59:59");
 
+                ds = qs.GetFundListDetail_New(listid, fbank_list, fbank_type, u_beginTime, u_endTime, out mesgg);
 			}
 			else
 			{
 				if(fcurtype.Trim()=="" ||fcurtype.Trim()==null)
 				{
-					DateTime u_beginTime  = new DateTime(1940,1,1);
-					DateTime u_endTime  = new DateTime(1940,1,1);
-
 					bool isHistory = true;
 					if(begintime == null || endtime == null)
 					{				
@@ -138,10 +139,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 					}
 
 					//furion 加入历史记录查询 20060522
-			
-
-			
-
 					ds =  qs.GetFundListDetail(tdeid,listid,u_beginTime,u_endTime,false,false);
 					if(ds==null||ds.Tables.Count==0)
 					{

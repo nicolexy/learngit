@@ -12,19 +12,7 @@
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
-		<script language="javascript">
-			function openModeBegin()
-			{
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-				if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue;
-			}
-
-			function openModeEnd()
-			{
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxEndDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-				if(returnValue != null) Form1.TextBoxEndDate.value=returnValue;
-			}
-		</script>
+        <script src="../Scripts/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -39,7 +27,11 @@
 				<tr>
 					<td width="60%" bgColor="#ffffff">输入：
 						<asp:textbox id="TextBox1_InputQQ" runat="server"></asp:textbox>&nbsp;
-						<asp:label id="Label2" runat="server">开始日期</asp:label><asp:textbox id="TextBoxBeginDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton><asp:label id="Label5" runat="server">结束日期</asp:label><asp:textbox id="TextBoxEndDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonEndDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></td>
+						开始日期：
+                        <asp:textbox id="TextBoxBeginDate" onClick="WdatePicker({maxDate:'#F{$dp.$D(\'TextBoxEndDate\')}'})" Width="160px" CssClass="Wdate" runat="server"></asp:textbox>
+                        结束日期：
+                        <asp:textbox id="TextBoxEndDate" onClick="WdatePicker({minDate:'#F{$dp.$D(\'TextBoxBeginDate\')}'})" Width="160px" CssClass="Wdate" runat="server"></asp:textbox>
+					</td>
                     <td bgColor="#ffffff">
                         <input id="CFT" name="IDType" runat="server" type="radio" checked /><label for="CFT">C账号</label>
                         <input id="InternalID" name="IDType" runat="server" type="radio" /><label for="InternalID">内部账号</label>
