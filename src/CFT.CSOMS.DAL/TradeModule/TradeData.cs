@@ -13,6 +13,7 @@ using System.Configuration;
 using CFT.Apollo.Logging;
 using CFT.CSOMS.COMMLIB;
 using System.Xml;
+using SunLibraryEX;
 
 namespace CFT.CSOMS.DAL.TradeModule
 {
@@ -1198,6 +1199,25 @@ namespace CFT.CSOMS.DAL.TradeModule
                 throw new Exception(msg);
             }
             return ds;
+        }
+
+        /// <summary>
+        /// 微粒贷查询-是否有未还清的欠款
+        /// </summary>
+        /// <param name="uin">QQ号</param>
+        /// <returns>0:无未还清欠款, 1:有未还清欠款</returns>
+        public int WeiLibDaiQuery(string uin)
+        {
+            var req = "uin=" + uin;
+            var ip = Apollo.Common.Configuration.AppSettings.Get<string>("WeiLibDaiQuery_IP", "10.12.196.164");
+            var port = Apollo.Common.Configuration.AppSettings.Get<int>("WeiLibDaiQuery_Port", 22000);
+            var answer = RelayAccessFactory.RelayInvoke(req, "100921", false, false, ip, port);
+            var dic = StringEx.ToDictionary(answer, '&', '=');
+            if (dic["result"] != "0")
+            {
+                throw new Exception("微粒贷查询是否有未还清的欠款-响应错误:" + answer);
+            }
+            return int.Parse(dic["have_unpaid_loan"]);
         }
     }
 }

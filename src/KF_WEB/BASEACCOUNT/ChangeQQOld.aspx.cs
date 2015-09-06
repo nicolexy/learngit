@@ -219,6 +219,22 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 return;
             }
 
+            #region 微粒贷
+            try
+            {
+                if (new TradeService().HasUnfinishedWeiLibDai(OldQQ.Text.Trim()))
+                {
+                    WebUtils.ShowMessage(this.Page, "存在未完成的微粒贷欠款,禁止修改账号");
+                    return;
+                }
+            }
+            catch (Exception)
+            {
+                WebUtils.ShowMessage(this.Page, "微粒贷查询,出错");
+                return;
+            }
+            #endregion
+
             //发起审批。
             //在这里变成了一个提起审批的流程，而不再是直接审批。
             TENCENT.OSS.CFT.KF.KF_Web.Check_WebService.Param[] myParams = new TENCENT.OSS.CFT.KF.KF_Web.Check_WebService.Param[3];

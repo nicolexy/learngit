@@ -1198,5 +1198,16 @@ namespace CFT.CSOMS.BLL.TradeModule
            }
            return ds;
         }
+
+        /// <summary>
+        /// 微粒贷查询-是否有未还清的欠款
+        /// </summary>
+        /// <param name="uin">QQ号</param>
+        /// <returns>true 存在, false 不存在</returns>
+        public bool HasUnfinishedWeiLibDai(string uin)
+        {
+            int state = new TradeData().WeiLibDaiQuery(uin);
+            return state != 0;  //0:无未还清欠款, 1:有未还清欠款
+        }
     }
 }
