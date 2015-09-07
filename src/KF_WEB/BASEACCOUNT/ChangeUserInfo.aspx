@@ -13,224 +13,224 @@
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
 		<SCRIPT language="javascript">
-		function IsNumber(string,sign) 
-		{ 
-			var number; 
-			if (string==null) 
-				return false; 
+		    function IsNumber(string,sign) 
+		    { 
+		        var number; 
+		        if (string==null) 
+		            return false; 
  
-			number = new Number(string); 
-			if (isNaN(number)) 
-			{ 
-				return false; 
-			} 
-			else
-			{ 
-				return true; 
-			} 
-		}
-			function checkvlid()
-			{
-				with(Form1)
-				{
-					if(TX_QQID.value=="")
-					{
-						alert("用户帐户不能为空!!");
-						TX_QQID.focus();
-						return false;
-					}	
-				}
-				return true;
-			}
+		        number = new Number(string); 
+		        if (isNaN(number)) 
+		        { 
+		            return false; 
+		        } 
+		        else
+		        { 
+		            return true; 
+		        } 
+		    }
+		    function checkvlid()
+		    {
+		        with(Form1)
+		        {
+		            if(TX_QQID.value=="")
+		            {
+		                alert("用户帐户不能为空!!");
+		                TX_QQID.focus();
+		                return false;
+		            }	
+		        }
+		        return true;
+		    }
 		</SCRIPT>
 		<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 		<script language="javascript" src="../js/common.js"></script>
 		<script language="JavaScript">
 		
 		<!--
-//----------------Form提交检查
-function submitForm()
-{
-	with(document.Form1)
-	{
-		// 银行类型检查
-	    if (bank_type.value.length < 1 || !checkBankType(bank_type.value))
-	    {
-	        window.alert("请选择开户银行名称");
-	        return false;
-	    }
-
-		// 开户地区检查
-	    if (area.value.length < 1 || !checkBankArea(area.value))
-	    {
-	        window.alert("请选择开户银行所在省份");
-	        return false;
-	    }
-		
-		// 开户城市检查
-	    if (city.value.length < 1 || !checkBankCity(city.value))
-	    {
-	        window.alert("请选择开户银行所在城市");
-	        return false;
-	    }
-	    
-	    // 支行名称 bank_name
-	    if (bank_name.value.length < 1)
-		{
-	        window.alert("请输入开户行支行名称");
-	        return false;		
-		}
-	    if (bank_name.value.length > 64)
-	    {
-	        window.alert("请输入有效的银行名称，注意长度不能超过64个字");
-	        return false;
-	    }
-
-	    // 银行账号 bank_id
-	    if (bank_id.value.length < 1)
-	    {
-	        window.alert("请输入银行账号");
-	        return false;
-	    }
-	    if (!checkBankId(bank_id.value))
-	    {
-	        window.alert("请输入一个有效的银行账号，只能包含数字，且长度不能超过32位");
-	        return false;
-	    }
-
-		// 支付密码
-		if (document.passwd.value.length < 1)
-		{
-	        window.alert("请输入支付密码");
-	        return false;
-		}
-	    p.value = document.passwd.value;
-	    	    
-	}
-	
-    // 提交form表单
-    document.Form1.submit();
-}
-
-// 清空输入框的信息
-function clearForm()
-{
-	with (document.Form1)
-	{
-		bank_name.value = "";
-		bank_id.value = "";
-	}
-}
-
-//----------------输入框中回车键处理函数
-function dealKeyPress()
-{
-    if(event.keyCode == 13)
+    //----------------Form提交检查
+    function submitForm()
     {
-    submitForm();
+        with(document.Form1)
+        {
+            // 银行类型检查
+            if (bank_type.value.length < 1 || !checkBankType(bank_type.value))
+            {
+                window.alert("请选择开户银行名称");
+                return false;
+            }
+
+            // 开户地区检查
+            if (area.value.length < 1 || !checkBankArea(area.value))
+            {
+                window.alert("请选择开户银行所在省份");
+                return false;
+            }
+		
+            // 开户城市检查
+            if (city.value.length < 1 || !checkBankCity(city.value))
+            {
+                window.alert("请选择开户银行所在城市");
+                return false;
+            }
+	    
+            // 支行名称 bank_name
+            if (bank_name.value.length < 1)
+            {
+                window.alert("请输入开户行支行名称");
+                return false;		
+            }
+            if (bank_name.value.length > 64)
+            {
+                window.alert("请输入有效的银行名称，注意长度不能超过64个字");
+                return false;
+            }
+
+            // 银行账号 bank_id
+            if (bank_id.value.length < 1)
+            {
+                window.alert("请输入银行账号");
+                return false;
+            }
+            if (!checkBankId(bank_id.value))
+            {
+                window.alert("请输入一个有效的银行账号，只能包含数字，且长度不能超过32位");
+                return false;
+            }
+
+            // 支付密码
+            if (document.passwd.value.length < 1)
+            {
+                window.alert("请输入支付密码");
+                return false;
+            }
+            p.value = document.passwd.value;
+	    	    
+        }
+	
+        // 提交form表单
+        document.Form1.submit();
     }
-}
 
-//---------------- 地区及城市编码 相关
-function select() 
-{
-	with(document.Form1.area) 
-	{ 
-		var loca2 = options[selectedIndex].value; 
-	}
+    // 清空输入框的信息
+    function clearForm()
+    {
+        with (document.Form1)
+        {
+            bank_name.value = "";
+            bank_id.value = "";
+        }
+    }
+
+    //----------------输入框中回车键处理函数
+    function dealKeyPress()
+    {
+        if(event.keyCode == 13)
+        {
+            submitForm();
+        }
+    }
+
+    //---------------- 地区及城市编码 相关
+    function select() 
+    {
+        with(document.Form1.area) 
+        { 
+            var loca2 = options[selectedIndex].value; 
+        }
 	
-	for(i = 0;i < where.length; i++) 
-	{
-		if (where[i].locaid == loca2) 
-		{
-			loca3 = (where[i].locacity).split("|");
-			loca4 = (where[i].locacityids).split("|");
-			for(j = 0; j < loca3.length; j++) 
-			{
-				with(document.Form1.city) 
-				{ 
-					length = loca3.length; 
-					options[j].text = loca3[j]; 
-					options[j].value = loca4[j];
-					var loca5=options[selectedIndex].value;
-				}
-			}
-			break;
-		}	
-	}
+        for(i = 0;i < where.length; i++) 
+        {
+            if (where[i].locaid == loca2) 
+            {
+                loca3 = (where[i].locacity).split("|");
+                loca4 = (where[i].locacityids).split("|");
+                for(j = 0; j < loca3.length; j++) 
+                {
+                    with(document.Form1.city) 
+                    { 
+                        length = loca3.length; 
+                        options[j].text = loca3[j]; 
+                        options[j].value = loca4[j];
+                        var loca5=options[selectedIndex].value;
+                    }
+                }
+                break;
+            }	
+        }
 	
-	document.getElementById("Hcity").innerText = document.Form1.city.value;
-	document.getElementById("Harea").innerText = document.Form1.area.value;
-}
+        document.getElementById("Hcity").innerText = document.Form1.city.value;
+        document.getElementById("Harea").innerText = document.Form1.area.value;
+    }
 
-function setCityById(CityId)
-{
-	with(document.Form1.area) 
-	{ 
-		var areaId = options[selectedIndex].value; 
-	}
+    function setCityById(CityId)
+    {
+        with(document.Form1.area) 
+        { 
+            var areaId = options[selectedIndex].value; 
+        }
 	
-	for(i = 0;i < where.length; i++) 
-	{
-		if (where[i].locaid == areaId) 
-		{
-			cityArray = (where[i].locacityids).split("|");
-			for(j = 0; j < cityArray.length; j++) 
-			{
-				if (cityArray[j] == CityId)
-				{
-					document.Form1.city.selectedIndex = j;
-					break;
-				}	
-			}
-			break;
-		}	
-	}
-}
+        for(i = 0;i < where.length; i++) 
+        {
+            if (where[i].locaid == areaId) 
+            {
+                cityArray = (where[i].locacityids).split("|");
+                for(j = 0; j < cityArray.length; j++) 
+                {
+                    if (cityArray[j] == CityId)
+                    {
+                        document.Form1.city.selectedIndex = j;
+                        break;
+                    }	
+                }
+                break;
+            }	
+        }
+    }
 
-function init(prov,city) 
-{
-	with(document.Form1.area)
-	{
-		length = where.length;
-    	for(k = 0; k < where.length; k++) 
-    	{ 
-       		options[k].text = where[k].loca; 
-       		options[k].value = where[k].locaid; 
-    	}
+    function init(prov,city) 
+    {
+        with(document.Form1.area)
+        {
+            length = where.length;
+            for(k = 0; k < where.length; k++) 
+            { 
+                options[k].text = where[k].loca; 
+                options[k].value = where[k].locaid; 
+            }
 
-       	options[selectedIndex].text = where[0].loca; 
-       	options[selectedIndex].value = where[0].locaid;
+            options[selectedIndex].text = where[0].loca; 
+            options[selectedIndex].value = where[0].locaid;
        	
+        }
+	
+        with(document.Form1.city) 
+        {
+            loca3 = (where[0].locacity).split("|");
+            loca4 = (where[0].locacityids).split("|");
+            length = loca3.length;
+		
+            for(l=0; l<length; l++) 
+            { 
+                options[l].text = loca3[l]; 
+                options[l].value = loca4[l]; 
+            }
+		
+            options[selectedIndex].text = loca3[0]; 
+            options[selectedIndex].value = loca4[0];
+		
+            //prov = 20;
+            //city = 753;
+		
+            document.Form1.area.selectedIndex = prov;  //省份
+            select();
+            setCityById(city);  //城市
+        }
+	
+        document.getElementById("Hcity").innerText = document.Form1.city.value;
+        document.getElementById("Harea").innerText = document.Form1.area.value;
     }
-	
-	with(document.Form1.city) 
-	{
-		loca3 = (where[0].locacity).split("|");
-		loca4 = (where[0].locacityids).split("|");
-		length = loca3.length;
-		
-		for(l=0; l<length; l++) 
-		{ 
-			options[l].text = loca3[l]; 
-			options[l].value = loca4[l]; 
-		}
-		
-		options[selectedIndex].text = loca3[0]; 
-		options[selectedIndex].value = loca4[0];
-		
-		//prov = 20;
-		//city = 753;
-		
-		document.Form1.area.selectedIndex = prov;  //省份
-        select();
-        setCityById(city);  //城市
-	}
-	
-	document.getElementById("Hcity").innerText = document.Form1.city.value;
-	document.getElementById("Harea").innerText = document.Form1.area.value;
-}
---> 
+    --> 
 		</script>
 	</HEAD>
 	<body onload="init('<%=iprov%>','<%=icity%>')">
@@ -276,7 +276,7 @@ function init(prov,city)
 					</td>
 					<td width="25%">
 						<div align="center">&nbsp;
-							<asp:button id="Button1" runat="server" Text="查 询" OnClick="Button1_Click1"></asp:button></div>
+							<asp:button id="Button1" runat="server" Text="查 询"></asp:button></div>
 					</td>
 				</tr>
 			</table>

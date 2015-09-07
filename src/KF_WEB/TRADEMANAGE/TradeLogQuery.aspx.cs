@@ -1,29 +1,16 @@
 using System;
-
 using System.Collections;
-
 using System.ComponentModel;
-
 using System.Data;
-
 using System.Drawing;
-
 using System.Web;
-
 using System.Web.SessionState;
-
 using System.Web.UI;
-
 using System.Web.UI.WebControls;
-
 using System.Web.UI.HtmlControls;
-
 using System.Configuration;
-
 using Tencent.DotNet.Common.UI;
-
 using Tencent.DotNet.OSS.Web.UI;
-
 using TENCENT.OSS.CFT.KF.Common;
 using CFT.CSOMS.BLL.WechatPay;
 using log4net;
@@ -39,43 +26,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
     public partial class TradeLogQuery : System.Web.UI.Page
     {
         public string iFramePath_Gathering;
-
         public string iFramePath_PaymentLog;
-
         public string iFramePath_bankrollLog;
-
         public string iFramePath_TradeLog;    //设置iFrame的路径
-
         public string iFrameHeight;  //设置iFrame(用户交易记录)显示区域的高度
-
         public string iFrameBank;    //设置iFrameBank的显示区域的高度
-
         public string listShow;
 
         protected System.Web.UI.WebControls.LinkButton LinkButton1;
-
         protected System.Web.UI.WebControls.LinkButton LinkButton2;
-
         protected System.Web.UI.WebControls.ImageButton ImageButton3;
-
         protected System.Web.UI.WebControls.ImageButton ImageButton2;
-
         protected System.Web.UI.WebControls.ImageButton Imagebutton1;
-
         protected System.Web.UI.WebControls.ImageButton Imagebutton3;
-
         protected System.Web.UI.WebControls.ImageButton Imagebutton4;
-
         protected System.Web.UI.WebControls.Label Label3_LeftAcc;
-
         protected System.Web.UI.WebControls.Label Label4_Freeze;
-
         protected System.Web.UI.WebControls.Label Label5_YestodayLeft;
-
         protected System.Web.UI.WebControls.Label Label6_LastModigy;
-
         protected System.Web.UI.WebControls.LinkButton LinkButton4;
-
         protected System.Web.UI.WebControls.DropDownList DropDownList1;
 
         //private static bool tradeUpOrDown; //furion 最烦static变量，网页上根本不敢用这种。
@@ -212,19 +181,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         private string TdeToID(string tdeid)
         {
             return new PickService().TdeToID(tdeid);
-
-            //Finance_ManageService.Finance_Manage fm = new Finance_ManageService.Finance_Manage();
-            //return fm.TdeToID(tdeid);
         }
 
         private void setIframePath()
         {
             iFramePath_Gathering = "../BaseAccount/GatheringLog.aspx?type=ListID";    //收款记录	
-
             iFramePath_PaymentLog = "../BaseAccount/PaymentLog.aspx?type=ListID";      //付款记录
-
             iFramePath_bankrollLog = "../BaseAccount/bankrolllog.aspx?type=ListID";    //资金流水
-
             iFramePath_TradeLog = "./UserTradeLog.aspx?type=ListID";      //交易流水
         }
 
@@ -233,66 +196,45 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             iFramePath_TradeLog = "UserTradeLog.aspx?type=ListID";
 
             //iFrameHeight = "85";
-
             this.LKBT_TradeLog.ForeColor = Color.Red;
-
             this.LKBT_bankrollLog.ForeColor = Color.Black;
-
             this.LKBT_GatheringLog.ForeColor = Color.Black;
-
             setIframePath();
         }
 
         private void LKBT_bankrollLog_Click(object sender, System.EventArgs e)
         {
             iFramePath_bankrollLog = "../BaseAccount/bankrolllog.aspx?type=ListID";
-
             iFrameHeight = "85";
-
             this.LKBT_TradeLog.ForeColor = Color.Black;
-
             this.LKBT_bankrollLog.ForeColor = Color.Red;
-
             this.LKBT_GatheringLog.ForeColor = Color.Black;
-
             setIframePath();
         }
 
         private void LKBT_GatheringLog_Click(object sender, System.EventArgs e)
         {
             iFramePath_Gathering = "../BaseAccount/GatheringLog.aspx?type=ListID";
-
             iFrameHeight = "85";
-
             this.LKBT_TradeLog.ForeColor = Color.Black;
-
             this.LKBT_bankrollLog.ForeColor = Color.Black;
-
             this.LKBT_GatheringLog.ForeColor = Color.Red;
-
             setIframePath();
         }
 
         private void LkBT_PaymentLog_Click(object sender, System.EventArgs e)
         {
-
             iFramePath_PaymentLog = "../BaseAccount/PaymentLog.aspx?type=ListID";
-
             iFrameHeight = "85";
-
             this.LKBT_TradeLog.ForeColor = Color.Black;
-
             this.LKBT_bankrollLog.ForeColor = Color.Black;
-
             this.LKBT_GatheringLog.ForeColor = Color.Black;
-
             setIframePath();
         }
 
         private void Submit1_ServerClick(object sender, System.EventArgs e)
         {
             iFrameHeight = "85";   //iFame显示区域的高度
-
             setIframePath();        //设置路径
         }
 
@@ -486,32 +428,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             ht.Add("116", "微信c2c转账");
             ht.Add("117", "手Q b2c");
             classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Fchannel_id", "Fchannel_id_str", ht);
-            /*
-            if (strtmp == "1")
-            {
-                ds.Tables[0].Rows[0]["Fchannel_id_str"] = "财付通";
-            }
-            else if (strtmp == "2")
-            {
-                ds.Tables[0].Rows[0]["Fchannel_id_str"] = "拍拍网";
-            }
-            else if (strtmp == "3")
-            {
-                ds.Tables[0].Rows[0]["Fchannel_id_str"] = "客户端小钱包";
-            }
-            else if (strtmp == "4")
-            {
-                ds.Tables[0].Rows[0]["Fchannel_id_str"] = "手机支付";
-            }
-            else if (strtmp == "5")
-            {
-                ds.Tables[0].Rows[0]["Fchannel_id_str"] = "第三方";
-            }
-            else
-            {
-                ds.Tables[0].Rows[0]["Fchannel_id_str"] = "未知类型" + strtmp;
-            }
-            */
+          
 
             //关闭原因,支付绑定序列号 yinhuang 2014/1/9
             this.lbPayBindSeqId.Text = PublicRes.objectToString(ds.Tables[0], "Fbuy_bankid");
@@ -542,34 +459,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
 
             this.LB_Fbank_backid.Text = ds.Tables[0].Rows[0]["Fbank_backid"].ToString();
-
             this.LB_Fbank_listid.Text = ds.Tables[0].Rows[0]["Fbank_listid"].ToString();
-
             this.LB_Fbargain_time.Text = ds.Tables[0].Rows[0]["Fbargain_time"].ToString();
-
-            this.LB_Fbuy_bank_type.Text = classLibrary.setConfig.convertbankType(ds.Tables[0].Rows[0]["Fbuy_bank_type"].ToString());
-
-            //string b_bankid = ds.Tables[0].Rows[0]["Fbuy_bankid"].ToString();
-            //if (!string.IsNullOrEmpty(b_bankid)) 
-            //{
-            //    this.LB_Fbuy_bankid.Text = b_bankid.Substring(b_bankid.Length-4); //绑定银行卡尾号
-            //}
+            this.LB_Fbuy_bank_type.Text = classLibrary.setConfig.convertbankType(ds.Tables[0].Rows[0]["Fbuy_bank_type"].ToString());          
             this.LB_Fbuy_bankid.Text = "";
-
             this.LB_Fbuy_name.Text = ds.Tables[0].Rows[0]["Fbuy_name"].ToString();
-
             this.LB_Fbuy_uid.Text = ds.Tables[0].Rows[0]["Fbuy_uid"].ToString();
 
             //this.LB_Fbuyid.Text = ds.Tables[0].Rows[0]["Fbuyid"].ToString();
 
             this.LB_Fcarriage.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fcarriage"].ToString());
-
             this.LB_Fcash.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fcash"].ToString());
-
             string fcoding = ds.Tables[0].Rows[0]["Fcoding"].ToString();
-
             string banktype = ds.Tables[0].Rows[0]["Fbuy_bank_type"].ToString();
-
             this.HyperLink1.Text = fcoding;
 
             if (ds.Tables[0].Rows[0]["Fspid"].ToString().Trim() == System.Configuration.ConfigurationManager.AppSettings["QQCOMSP"].Trim())
@@ -582,50 +484,29 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
 
             this.LB_Fcreate_time.Text = ds.Tables[0].Rows[0]["Fcreate_time"].ToString();
-
             this.LB_FCreate_time_c2c.Text = ds.Tables[0].Rows[0]["Fcreate_time_c2c"].ToString();
-
             this.LB_Fcurtype.Text = classLibrary.setConfig.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());
-
             //this.LB_Fexplain.Text = ds.Tables[0].Rows[0]["Fmemo"].ToString();
-
             this.LB_Ffact.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Ffact"].ToString());
-
             this.LB_Fip.Text = ds.Tables[0].Rows[0]["Fip"].ToString();
-
             this.LB_Flistid.Text = ds.Tables[0].Rows[0]["Flistid"].ToString();
-
             this.LB_Flstate.Text = classLibrary.setConfig.convertTradeState(ds.Tables[0].Rows[0]["Flstate"].ToString());
-
             this.LB_Fmodify_time.Text = ds.Tables[0].Rows[0]["Fmodify_time"].ToString();
-
             this.LB_Fpay_time.Text = ds.Tables[0].Rows[0]["Fpay_time"].ToString();
 
             classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0], "Fpay_type", "Fpay_type_str", "PAY_TYPE");
             this.LB_Fpay_type.Text = ds.Tables[0].Rows[0]["Fpay_type_str"].ToString();  //支付类型
-
             this.LB_Fpaynum.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fpaynum"].ToString());
-
             this.LB_Fprice.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fprice"].ToString());
-
             this.LB_Fprocedure.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fprocedure"].ToString());
-
             this.LB_Freceive_time.Text = ds.Tables[0].Rows[0]["Freceive_time"].ToString();
-
             this.LB_Freceive_time_c2c.Text = ds.Tables[0].Rows[0]["Freceive_time_c2c"].ToString();
-
             this.LB_Fsale_bank_type.Text = classLibrary.setConfig.convertbankType(ds.Tables[0].Rows[0]["Fsale_bank_type"].ToString());
-
             this.LB_Fsale_bankid.Text = ds.Tables[0].Rows[0]["Fsale_bankid"].ToString();
-
             this.LB_Fsale_name.Text = ds.Tables[0].Rows[0]["Fsale_name"].ToString();
-
             this.LB_Fsale_uid.Text = ds.Tables[0].Rows[0]["Fsale_uid"].ToString();
-
             this.LB_Fsaleid.Text = ds.Tables[0].Rows[0]["Fsaleid"].ToString();
-
             this.LB_Fservice.Text = ds.Tables[0].Rows[0]["Fservice"].ToString();
-
             this.LB_Fspid.Text = ds.Tables[0].Rows[0]["Fspid"].ToString().Trim();
 
             this.lbAdjustFlag.Text = classLibrary.setConfig.convertAdjustSign(ds.Tables[0].Rows[0]["Fadjust_flag"].ToString().Trim());
@@ -696,13 +577,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 this.LB_Fexplain.Text = ds.Tables[0].Rows[0]["Fmemo"].ToString();
             }
 
-            //string isNopwdnosms = PublicRes.objectToString(ds.Tables[0], "nopwdnosms_flag"); // 是否双免
-            //this.lbIsNopwdnosms.Text = "否";
-            //if (!string.IsNullOrEmpty(isNopwdnosms) && isNopwdnosms == "1") 
-            //{
-            //    this.lbIsNopwdnosms.Text = "是";
-           // }
-
             bool isC2C = false;
             int type = 0;
             if (int.TryParse(ds.Tables[0].Rows[0]["Ftrade_type"].ToString(), out type))
@@ -729,9 +603,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     this.LB_FsaleidCFT.Text = dsCoinWalPay.Tables[0].Rows[0]["rcv_openid"].ToString();
                 }
             }
-
-
-
 
             if (ds.Tables[0].Rows[0]["Flistid"].ToString() != "")
             {
@@ -801,29 +672,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             if (ds.Tables[0].Rows[0]["Flstate"].ToString() == "1") //如果是锁定状态
             {
                 this.LinkButton3_action.Text = "解锁";
-
                 sign = false;
             }
             else if (ds.Tables[0].Rows[0]["Flstate"].ToString() == "2")
             {
                 this.LinkButton3_action.Text = "锁定";
-
                 sign = true;
             }
             else
             {
                 this.LinkButton3_action.Text = "无效";
-
                 this.LinkButton3_action.Visible = false;
             }
 
-            //			this.LinkButton3_action.Text =  
-
-            //			    this.DropDownList2_tradeState.Enabled = false;
-
-
             setIframePath();
-
             SetButtonVisible(); //furion 20050802;
         }
 
@@ -894,9 +756,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             Response.Write("<script language=javascript>window.open('LeftAccountFreeze.aspx?id=true','','left=100,top=50,width=300,height=250');</script>");
 
             //初始化页面使用
-
             iFrameHeight = "85";   //iFame显示区域的高度
-
             setIframePath();        //设置路径
         }
 
@@ -907,62 +767,37 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             Response.Write("<script language=javascript>window.open('LeftAccountFreeze.aspx?id=false','','left=100,top=50,width=300,height=250');</script>");
 
             //初始化页面使用
-
             iFrameHeight = "85";   //iFame显示区域的高度
-
             setIframePath();        //设置路径
         }
 
-
-
-
-
         private void ImageButton2_Click(object sender, System.Web.UI.ImageClickEventArgs e)
         {
-
-            //tradeUpOrDown = !tradeUpOrDown;
-
-            //Response.Write(tradeUpOrDown.ToString().ToLower());
-
             if (tradeUpOrDown == false)
             {
-
                 this.ImageButton2.ImageUrl = "../Images/Page/down.gif";
-
                 iFrameHeight = "0";
-
                 setIframePath();
-
                 tradeUpOrDown = true;
-
             }
             else
             {
                 this.ImageButton2.ImageUrl = "../Images/Page/up.gif";
-
                 iFrameHeight = "85";
-
                 setIframePath();
-
                 tradeUpOrDown = false;
             }
         }
-
-
 
         private void Imagebutton1_Click(object sender, System.Web.UI.ImageClickEventArgs e)
         {
 
         }
 
-
-
         private void Imagebutton3_Click(object sender, System.Web.UI.ImageClickEventArgs e)
         {
 
         }
-
-
 
         private void Imagebutton4_Click(object sender, System.Web.UI.ImageClickEventArgs e)
         {
@@ -979,11 +814,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             Response.Redirect("../TradeManage/FreezeReason.aspx?id=" + sign + "&lsd=" + this.TextBox1_ListID.Text.Trim());
 
             //初始化页面使用
-
             iFrameHeight = "85";   //iFame显示区域的高度
-
             //setLableText_Demo();    //演示数据赋值
-
             setIframePath();        //设置路径 
         }
 
@@ -991,86 +823,56 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
         private void LinkButton4_Click(object sender, System.EventArgs e)
         {
-
             iFramePath_bankrollLog = "../BaseAccount/Bank_Counteract.aspx?type=ListID";
-
             iFramePath_Gathering = "../BaseAccount/GatheringLog.aspx?type=ListID";
-
             iFramePath_PaymentLog = "../BaseAccount/PaymentLog.aspx?type=ListID";
-
             iFramePath_TradeLog = "UserTradeLog.aspx?type=ListID";
-
             iFrameHeight = "125";
         }
-
-
 
         private void DropDownList2_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             clickEvent(); //触发事件
         }
 
-
-
         protected void LinkButton3_action_Click(object sender, System.EventArgs e)
         {
 
             //Response.Write("<script language=javascript>window.open('../BaseAccount/FreezeReason.aspx?id=true','','left=100,top=50,width=300,height=250');</script>");
-
             Response.Redirect("../TradeManage/FreezeReason.aspx?id=" + sign + "&lsd=" + this.LB_Flistid.Text.Trim());//this.TextBox1_ListID.Text.Trim());
-
             //初始化页面使用
-
             iFrameHeight = "85";   //iFame显示区域的高度
-
             //setLableText_Demo();    //演示数据赋值
-
             setIframePath();        //设置路径 
         }
-
-
 
         private void Button2_Click(object sender, System.EventArgs e)
         {
             clickEvent();
         }
 
-
-
         protected void btQuery_Click(object sender, System.EventArgs e)
         {
             string strszkey = Session["SzKey"].ToString().Trim();
-
             int ioperid = Int32.Parse(Session["OperID"].ToString());
-
             int iserviceid = Common.AllUserRight.GetServiceID("TradeLogQuery");
-
             string struserdata = Session["uid"].ToString().Trim();
-
             string content = struserdata + "执行了[交易记录查询]操作,操作对象[" + this.TextBox1_ListID.Text.Trim()
 
                 + "]时间:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
             Common.AllUserRight.UpdateSession(strszkey, ioperid, PublicRes.GROUPID, iserviceid, struserdata, content);
-
-
-
             clickEvent();
         }
-
-
 
         protected void lkTime_Click(object sender, System.EventArgs e)
         {
             this.Calendar1.Visible = true;
         }
 
-
-
         protected void Calendar1_SelectionChanged(object sender, System.EventArgs e)
         {
             this.Calendar1.Visible = false;
-
             this.txDate.Text = this.Calendar1.SelectedDate.ToString("yyyy-MM-dd");
         }
 

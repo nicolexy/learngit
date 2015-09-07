@@ -234,13 +234,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
-//			Finance_Header fh = new Finance_Header();
-			
-//			fh.UserIP = Request.UserHostAddress;
-//			fh.UserName = Session["uid"].ToString();
-//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-//			fh.SzKey = Session["SzKey"].ToString();
-//			qs.Finance_HeaderValue = fh;
 			Query_Service.Finance_Header fh = classLibrary.setConfig.setFH(this);
 			qs.Finance_HeaderValue = fh;
 

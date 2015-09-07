@@ -206,23 +206,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			int max = pager.PageSize;
 			int start = max * (index-1) + 1;
-
-            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            //DataSet ds = qs.GetPickList(u_ID, begindate, enddate, fstate, fnum, banktype, idtype, sorttype, cash_type, start, max);
+      
             DataSet ds = pickservice.GetPickList(u_ID, begindate, enddate, fstate, fnum, banktype, idtype, sorttype, cash_type, start, max);
 			if(ds != null && ds.Tables.Count >0 && ds.Tables[0].Rows.Count > 0)
 			{
 				ds.Tables[0].Columns.Add("FNewNumFlag",typeof(String));
-				//ds.Tables[0].Columns.Add("FNewNum",typeof(String));
                 ds.Tables[0].Columns.Add("FaBankID_str", typeof(String)); //银行账号
                 ds.Tables[0].Columns.Add("Fabank_type_str", typeof(String)); //提现银行
                 ds.Tables[0].Columns.Add("Fbank_type_str", typeof(String)); //出款银行
                 ds.Tables[0].Columns.Add("Fsign_str", typeof(String)); //退票
                 ds.Tables[0].Columns.Add("Fcharge_str", typeof(String)); //手续费
                 ds.Tables[0].Columns.Add("Fnum_str", typeof(String)); //提现金额
-				//classLibrary.setConfig.FenToYuan_Table(ds.Tables[0],"Fnum", "FNewNumFlag");
-
-				//string[] CoverPickFuid = System.Configuration.ConfigurationManager.AppSettings["CoverPickFuid"].ToString().Split('|');
+	
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fcharge", "Fcharge_str");
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fnum", "Fnum_str");
 
@@ -238,23 +233,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     }
                     dr["Fabank_type_str"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fabank_type"].ToString());
                     dr["Fbank_type_str"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fbank_type"].ToString());
-                    /*
-                    for(int i=0; i<CoverPickFuid.Length; i++)
-					{
-						if(CoverPickFuid[i].ToString() == dr["Fuid"].ToString())
-						{
-							try
-							{
-								int PointIndex = dr["FNewNumFlag"].ToString().IndexOf(".");
-								dr["FNewNum"] = "******" + dr["FNewNumFlag"].ToString().Substring(PointIndex-1,dr["FNewNumFlag"].ToString().Length-PointIndex+1);
-							}
-							catch
-							{
-								dr["FNewNum"] = "******";
-							}
-						}
-					}
-                    */
+                   
 				}
 
 				ds.Tables[0].Columns.Add("FStateName",typeof(String));

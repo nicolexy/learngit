@@ -138,26 +138,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + errStr);
 
             }
-            //if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            //{
-            //    ds.Tables[0].Columns.Add("Fbiz_type_str", typeof(String));//业务状态
-            //    DataToGrid(ds);
-            //}
-            //else
-            //{//如果前面的查询结果为null，则可能为“中行信用卡”和“兴业信用卡”
-            //    DateTime Date= DateTime.Parse(TextBoxDate.Text);
-                
-
-            //    DataSet ds2 = qs.Getfbank_twoBank_orderList(ViewState["fpay_acc"].ToString(), Date);
-            //    if (ds2 != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0)
-            //    {
-            //        DataToGrid(ds2);
-            //    }
-            //    else
-            //    {
-            //        throw new LogicException("没有找到记录！");
-            //    }
-            //}
+           
         }
 
         private void DataToGrid(DataSet ds)

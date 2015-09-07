@@ -23,40 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	public partial class MediOperatorManage_Detail : System.Web.UI.Page
 	{
 		protected System.Web.UI.HtmlControls.HtmlTable Table2;
-
-	
-        //protected void Page_Load(object sender, System.EventArgs e)
-        //{
-        //    if(!IsPostBack)
-        //    {
-        //        try
-        //        {
-        //            string spid = Request.QueryString["SPID"];
-        //            labSP.Text = spid;
-
-        //            string username = Request.QueryString["UserName"];
-        //            labUserName.Text = username;
-
-        //            string qq = Request.QueryString["QQ"];
-        //            labQQ.Text = qq;
-
-        //            int iFSign = GetRole(spid,qq);
-
-        //            string Msg = "";
-
-        //            if(!bindCheckControl(iFSign,"CheckBoxX",1,26,out Msg))
-        //            {
-        //                WebUtils.ShowMessage(this.Page,Msg);
-        //            }
-
-        //        }
-        //        catch(Exception err)
-        //        {
-        //            WebUtils.ShowMessage(this.Page,"输入参数有误"+err.Message);
-        //        }
-        //    }
-        //}
-
+   
         protected void Page_Load(object sender, System.EventArgs e)
         {
             if (!IsPostBack)
@@ -86,45 +53,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         private void GetRole(string spid)
         {
             DataSet ds = QuerySPRole(spid);
-            //Table tb1 = new Table();
-            //Table tb2 = new Table();
-            //Table tb3 = new Table();
-
+           
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 int n = 1;
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
-                    //TableCell c1 = new TableCell();
-                    //TableCell c2 = new TableCell();
-                    //TableCell c3 = new TableCell();
-                    //c1.Text = ds.Tables[0].Rows[i]["Value"].ToString();
-                    //c2.Text = ds.Tables[0].Rows[i]["Text"].ToString();
-
-                    //CheckBox cb = new CheckBox();
-                    //cb.ID = "CheckBoxX" + n;
-                    ////可能取到的为null
-                    //if (ds.Tables[0].Rows[i]["Selected"].ToString().ToLower() == "false" || ds.Tables[0].Rows[i]["Selected"].ToString().ToLower() == "true")
-                    //    cb.Checked = bool.Parse(ds.Tables[0].Rows[i]["Selected"].ToString());
-                    //else
-                    //    cb.Checked = false;
-                    //c3.Controls.Add(cb);
-                    //// c3.Text = "<asp:checkbox id='CheckBoxX" + n + "' Checked='" + dr["Selected"].ToString() + "' ></asp:checkbox>";
-                    //n++;
-
-                    //TableRow r = new TableRow();
-                    //r.Cells.Add(c1);
-                    //r.Cells.Add(c2);
-                    //r.Cells.Add(c3);
-                    //if (i < 40)
-                    //    tb1.Rows.Add(r);
-                    //else if (i >= 40 && i < 80)
-                    //    tb2.Rows.Add(r);
-                    //else
-                    //    tb3.Rows.Add(r);
-
-
-
+                  
                     ListItem li = new ListItem();
                     string GroupName = ds.Tables[0].Rows[i]["GroupName"].ToString();
                     li.Text = ds.Tables[0].Rows[i]["Value"].ToString() + " " + ds.Tables[0].Rows[i]["Text"].ToString();
@@ -166,25 +101,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     else if (GroupName == "未启用")
                         this.cblWQY.Items.Add(li);
 
-                }
-
-                //TableRow row = new TableRow();
-                //TableCell cell1 = new TableCell();
-                //TableCell cell2 = new TableCell();
-                //TableCell cell3 = new TableCell();
-                //cell1.Controls.Add(tb1);
-                //cell2.Controls.Add(tb2);
-                //cell3.Controls.Add(tb3);
-                //row.Cells.Add(cell1);
-                //row.Cells.Add(cell2);
-                //row.Cells.Add(cell3);
-                //OpTable.Rows.Add(row);
-                //OpTable.Attributes.Add("border", "1");
-                //OpTable.Attributes.Add("cellspacing", "0");
-                //OpTable.Attributes.Add("bordercolor", "DarkGray");
-                //OpTable.Attributes.Add("BorderStyle", "Solid");
-           //     OpTable.Attributes.Add("valign", "Top"); 
-
+                }             
             }
         }
 
@@ -207,46 +124,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 		}
 		#endregion
-
-
-        //private int GetRole(string spid, string qq)
-        //{
-        //    Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-        //    return qs.GetMediOperatorRole(spid,qq);
-        //}
-
-        //private bool bindCheckControl(int iFsign, string checkboxname,int iBegin,int iEnd,out string Msg)
-        //{
-        //    Msg = null;	
-
-        //    try
-        //    {
-        //        string str = Convert.ToString((long)iFsign,2);
-        //        str = str.PadLeft((iEnd-iBegin+1),'0');
-			
-        //        int iLen = str.Length;
-
-        //        for (int i = iEnd ; i>=iBegin ;i--)
-        //        {
-        //            string s = str[i-iBegin].ToString();
-        //            string checkboxName = checkboxname + (iEnd-i+iBegin);
-        //            CheckBox ck = (CheckBox)FindControl(checkboxName);
-
-        //            if (s == "1")
-        //                ck.Checked = true;
-        //            else
-        //                ck.Checked = false;
-        //        }
-
-        //        return true;	
-        //    }
-        //    catch(Exception e)
-        //    {
-        //        Msg = "绑定界面元素checkBox失败！" + e.Message;
-        //        return false;
-        //    }
-        //}
-
 
 
         public DataSet QuerySPRole(string SPID)

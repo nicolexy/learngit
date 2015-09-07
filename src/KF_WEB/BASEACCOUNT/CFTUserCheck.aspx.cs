@@ -376,8 +376,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 //}
 
                 //2.查询实名认证
-                bool authenState = new UserAppealService().GetUserAuthenState(dr["Fuin"].ToString(), "", 0);
-                if (authenState)
+                bool stateMsg = false;
+                DataSet authenState = new UserAppealService().GetUserAuthenState(dr["Fuin"].ToString(), "", 0, out stateMsg);
+                if (stateMsg)
                 {
                     lbauthenState.Text = "是";
                 }
@@ -583,8 +584,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 //}
 
                 //2.查询实名认证
-                bool authenState = new UserAppealService().GetUserAuthenState(dr["Fuin"].ToString(), "", 0);
-                if (authenState)
+                bool stateMsg = false;
+                DataSet authenState = new UserAppealService().GetUserAuthenState(dr["Fuin"].ToString(), "", 0, out stateMsg);
+                if (stateMsg)
                 {
                     lbauthenState.Text = "是";
                 }

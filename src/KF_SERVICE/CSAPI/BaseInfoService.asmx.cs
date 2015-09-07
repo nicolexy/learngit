@@ -50,11 +50,11 @@ namespace CFT.CSOMS.Service.CSAPI
                 {
                     bank_type = APIUtil.StringToInt(paramsHt["bank_type"].ToString());
                 }
-
-                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().GetUserAuthenState(paramsHt["uin"].ToString(), user_bank_id, bank_type);
+                bool stateMsg = false;
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().GetUserAuthenState(paramsHt["uin"].ToString(), user_bank_id, bank_type, out stateMsg);
 
                 Record record = new Record();
-                record.RetValue = infos.ToString().ToLower();
+                record.RetValue = stateMsg.ToString().ToLower();
                 List<Record> list = new List<Record>();
                 list.Add(record);
 
@@ -2068,6 +2068,7 @@ namespace CFT.CSOMS.Service.CSAPI
         /// <summary>
         /// 免费流量查询
         /// </summary>
+        [WebMethod]
         public void GetFreeFlowInfo()
         {
             try
@@ -2094,8 +2095,9 @@ namespace CFT.CSOMS.Service.CSAPI
                 }
 
                 //实名认证
-                var Authen = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().GetUserAuthenState(uin, "", 0);
-                if (Authen)
+                bool stateMsg = false;
+                var Authen = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().GetUserAuthenState(uin, "", 0,out stateMsg);
+                if (stateMsg)
                 {
                     authenState = "是";
                 }
@@ -2186,6 +2188,7 @@ namespace CFT.CSOMS.Service.CSAPI
         /// <summary>
         /// 实名处理查询页面
         /// </summary>
+        [WebMethod]
         public void AuthenDealQuery()
         {
             try

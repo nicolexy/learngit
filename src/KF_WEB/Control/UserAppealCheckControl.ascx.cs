@@ -248,8 +248,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                     //}
 
                     //2.查询实名认证
-                    bool authenState = new UserAppealService().GetUserAuthenState(druser["Fqqid"].ToString(), "", 0);
-                    if (authenState)
+                    bool stateMsg = false;
+                    DataSet authenState = new UserAppealService().GetUserAuthenState(druser["Fqqid"].ToString(), "", 0, out stateMsg);
+                    if (stateMsg)
                     {
                         lbauthenState.Text = "是";
                     }

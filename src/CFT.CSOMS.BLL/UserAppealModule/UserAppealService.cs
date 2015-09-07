@@ -143,37 +143,35 @@ namespace CFT.CSOMS.BLL.UserAppealModule
         }
        
         //自助申诉详细页面判断是否实名认证 API接口
-        public bool GetUserAuthenState(string uin, string userBankID, int bankType)
+        public DataSet GetUserAuthenState(string uin, string userBankID, int bankType,out bool stateMsg)
         {
+            stateMsg = false;
             try
             {
                 DataSet ds = new UserAppealData().GetUserAuthenState(uin, userBankID, bankType);
                 if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count != 1)
                 {
-                    return false;//是否实名认证
+                    stateMsg = false;//是否实名认证
                 }
                 else
                 {
                     DataRow row = ds.Tables[0].Rows[0];
                     if (row["queryType"].ToString() == "2")
                     {
-                        return true;
+                        stateMsg = true;
                     }
                     else
                     {
-                        return false;
+                        stateMsg = false;
                     }
                 }
+
+                return ds;
             }
             catch (Exception ex)
             {
                 throw new Exception("获取是否实名认证异常："+ex.Message);
             }
-        }
-
-        public DataSet GetUserAuthenState_All(string uin, string userBankID, int bankType)
-        {
-            return new UserAppealData().GetUserAuthenState(uin, userBankID, bankType);
         }
 
         //根据财付通帐号uin查询用户基本信息

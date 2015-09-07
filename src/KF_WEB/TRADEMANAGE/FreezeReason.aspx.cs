@@ -9,10 +9,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Web.Services.Protocols;
-
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
-
 using TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
@@ -39,8 +37,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 				string szkey = Session["SzKey"].ToString();
 				int operid = Int32.Parse(Session["OperID"].ToString());
-
-				//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "LockTradeList")) Response.Redirect("../login.aspx?wh=1");
 				if(!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("LockTradeList",this)) Response.Redirect("../login.aspx?wh=1");
 			}
 			catch  //如果没有登陆或者没有权限就跳出
@@ -48,14 +44,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				Response.Redirect("../login.aspx?wh=1");
 			} 
 
-
 			if (!Page.IsPostBack)
 			{
 				sign   = Request.QueryString["id"].ToString();
 				listID = Request.QueryString["lsd"].ToString();
-
-				
-
+	
 				//furion 20050906 上面这种局部变量的做法不行，必须用ViewState。
 				ViewState["sign"] = sign;
 				ViewState["listID"] = listID;
@@ -103,13 +96,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 				//读取出原来提交的用户姓名和联系方式和帐户号码。
 				Query_Service.Query_Service fm = new Query_Service.Query_Service();
-//				Query_Service.Finance_Header fh = new Query_Service.Finance_Header();
-//				fh.UserName = Session["uid"].ToString();
-//				fh.UserIP   = Request.UserHostAddress;
-//				fh.OperID = Int32.Parse(Session["OperID"].ToString());
-//				fh.SzKey = Session["SzKey"].ToString();
-//				//fh.RightString = Session["key"].ToString();
-//				fm.Finance_HeaderValue = fh;
+				
 				Query_Service.Finance_Header fh = classLibrary.setConfig.setFH(this);
 				fm.Finance_HeaderValue = fh;
 				try
@@ -200,11 +187,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				//furion 20050906 要先加入工单，不成功不进行下面的工作。
 				Query_Service.Query_Service qs = new Query_Service.Query_Service();
 				Query_Service.Finance_Header fhq = classLibrary.setConfig.setFH(this);
-//				fhq.UserName = Session["uid"].ToString();
-//				fhq.UserIP   = Request.UserHostAddress;
-//				fhq.OperID = Int32.Parse(Session["OperID"].ToString());
-//				fhq.SzKey = Session["SzKey"].ToString();
-//				//fhq.RightString = Session["key"].ToString();
+
 				qs.Finance_HeaderValue = fhq;
 				try
 				{
@@ -290,11 +273,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 //furion 20050906 要先加入工单，不成功不进行下面的工作。
 				Query_Service.Query_Service qs = new Query_Service.Query_Service();
 				Query_Service.Finance_Header fhq = classLibrary.setConfig.setFH(this);
-//				fhq.UserName = Session["uid"].ToString();
-//				fhq.UserIP   = Request.UserHostAddress;
-//				fhq.OperID = Int32.Parse(Session["OperID"].ToString());
-//				fhq.SzKey = Session["SzKey"].ToString();
-//				//fhq.RightString = Session["key"].ToString();
+
 				qs.Finance_HeaderValue = fhq;
 
 				try
@@ -314,7 +293,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 				//解冻操作
 				TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService.Finance_Manage myService = new KF_Web.Finance_ManageService.Finance_Manage();
-				//myService.Finance_HeaderValue = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.setFH_Finance(Session["uid"].ToString(),Request.UserHostAddress);
 
 				myService.Finance_HeaderValue = classLibrary.setConfig.setFH_Finance(this);
 

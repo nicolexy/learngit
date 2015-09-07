@@ -138,13 +138,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                         throw new Exception("暂停结算错误："+spoa_ret);
                     }
                 }
-                //else 
-                //{
-                //    Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                //    qs.BusinessFreeze(this.txtFspid.Text.Trim(), Session["uid"].ToString(), false, IsFreezePay, IsAccLoss, IsCloseAgent, this.txtReason.Text.Trim());
-               //     WebUtils.ShowMessage(this.Page, "操作成功");
-                //}
-
+               
                 if (IsFreezePay)
                 {
                     //关闭支付，直接调spoa接口

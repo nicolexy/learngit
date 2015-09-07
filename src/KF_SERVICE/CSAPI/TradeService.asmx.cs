@@ -444,7 +444,7 @@ namespace CSAPI
 
         #endregion
 
-        #region 邮政汇款
+        #region 生活缴费
 
         [WebMethod]
         public void GetRemitDataList()
@@ -527,96 +527,6 @@ namespace CSAPI
             }
         }
 
-        #endregion
-
-        #region 银行卡查询
-
-        /// <summary>
-        /// 查询银行名称及类型编码
-        /// </summary>
-        [WebMethod]
-        public void RequestBankInfo()
-        {
-            try
-            {
-                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
-                //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "token");
-                //验证token
-                APIUtil.ValidateToken(paramsHt);
-
-                Hashtable ht = new CFT.CSOMS.BLL.WechatPay.FastPayService().RequestBankInfo();
-                ArrayList array = new ArrayList(ht.Keys);
-                array.Sort();
-                List<RecordNew> list = new List<RecordNew>();
-                foreach (string s in array)
-                {
-                    RecordNew record = new RecordNew();
-                    record.RetValue = s;
-                    record.RetMemo = ht[s].ToString();
-                    list.Add(record);
-                }
-                APIUtil.Print<RecordNew>(list);
-            }
-            catch (ServiceException se)
-            {
-                SunLibrary.LoggerFactory.Get("RequestBankInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
-                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
-            }
-            catch (Exception ex)
-            {
-                SunLibrary.LoggerFactory.Get("RequestBankInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
-                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
-            }
-        }
-
-        [WebMethod]
-        public void QueryBankCardNewList()
-        {
-            try
-            {
-                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
-                //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "bank_card", "bank_type", "bit_type", "date", "offset", "limit", "token");
-                //验证token
-                APIUtil.ValidateToken(paramsHt);
-
-                string bank_card = paramsHt.ContainsKey("bank_card") ? paramsHt["bank_card"].ToString() : "";
-                string bank_type = paramsHt.ContainsKey("bank_type") ? paramsHt["bank_type"].ToString() : "";
-                int bit_type = paramsHt.ContainsKey("bit_type") ? APIUtil.StringToInt(paramsHt["bit_type"].ToString()) : 10100;
-                DateTime date = paramsHt.ContainsKey("date") ? APIUtil.StrToDate(paramsHt["date"].ToString()) : DateTime.Now;
-                string date_str = date.ToString("yyyyMMdd");
-                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
-                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
-
-                if (offset < 0)
-                    offset = 0;
-                if (limit < 0 || limit > 1000)
-                    limit = 100;
-
-                var infos = new CFT.CSOMS.BLL.WechatPay.FastPayService().QueryBankCardNewList(bank_card, date_str, bank_type, bit_type, offset, limit);
-                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
-                {
-                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
-                }
-                List<Trade.BankCardList> list = APIUtil.ConvertTo<Trade.BankCardList>(infos.Tables[0]);
-                APIUtil.Print<Trade.BankCardList>(list);
-            }
-            catch (ServiceException se)
-            {
-                SunLibrary.LoggerFactory.Get("QueryBankCardNewList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
-                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
-            }
-            catch (Exception ex)
-            {
-                SunLibrary.LoggerFactory.Get("QueryBankCardNewList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
-                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
-            }
-        }
-        #endregion
-
-        #region 手机充值卡,信用卡还款,自动充值
-
         /// <summary>
         /// 手机充值卡查询
         /// </summary>
@@ -636,7 +546,7 @@ namespace CSAPI
                 string cardid = paramsHt.ContainsKey("cardid") ? paramsHt["cardid"].ToString() : "";        //充值卡序列号
                 int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
                 int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 1;
-                
+
                 var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetFundCardListDetail(listid, supply_list, cardid, offset, limit);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
@@ -834,5 +744,92 @@ namespace CSAPI
         }
 
         #endregion
+
+        #region 银行卡查询
+
+        /// <summary>
+        /// 查询银行名称及类型编码
+        /// </summary>
+        [WebMethod]
+        public void RequestBankInfo()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                Hashtable ht = new CFT.CSOMS.BLL.WechatPay.FastPayService().RequestBankInfo();
+                ArrayList array = new ArrayList(ht.Keys);
+                array.Sort();
+                List<RecordNew> list = new List<RecordNew>();
+                foreach (string s in array)
+                {
+                    RecordNew record = new RecordNew();
+                    record.RetValue = s;
+                    record.RetMemo = ht[s].ToString();
+                    list.Add(record);
+                }
+                APIUtil.Print<RecordNew>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("RequestBankInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("RequestBankInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        [WebMethod]
+        public void QueryBankCardNewList()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "bank_card", "bank_type", "bit_type", "date", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string bank_card = paramsHt.ContainsKey("bank_card") ? paramsHt["bank_card"].ToString() : "";
+                string bank_type = paramsHt.ContainsKey("bank_type") ? paramsHt["bank_type"].ToString() : "";
+                int bit_type = paramsHt.ContainsKey("bit_type") ? APIUtil.StringToInt(paramsHt["bit_type"].ToString()) : 10100;
+                DateTime date = paramsHt.ContainsKey("date") ? APIUtil.StrToDate(paramsHt["date"].ToString()) : DateTime.Now;
+                string date_str = date.ToString("yyyyMMdd");
+                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
+                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
+
+                if (offset < 0)
+                    offset = 0;
+                if (limit < 0 || limit > 1000)
+                    limit = 100;
+
+                var infos = new CFT.CSOMS.BLL.WechatPay.FastPayService().QueryBankCardNewList(bank_card, date_str, bank_type, bit_type, offset, limit);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Trade.BankCardList> list = APIUtil.ConvertTo<Trade.BankCardList>(infos.Tables[0]);
+                APIUtil.Print<Trade.BankCardList>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("QueryBankCardNewList").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("QueryBankCardNewList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+        #endregion
+
     }
 }

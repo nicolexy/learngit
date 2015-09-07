@@ -1373,6 +1373,7 @@
     </Compile>
     <Compile Include="InternetBank\RefundMerchant.aspx.cs">
       <DependentUpon>RefundMerchant.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="InternetBank\RefundMerchant.aspx.designer.cs">
       <DependentUpon>RefundMerchant.aspx</DependentUpon>

@@ -41,19 +41,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			if(!IsPostBack)
 			{
-                //this.tbx_beginDate.Text = DateTime.Now.AddDays(-1).ToString("yyyy年MM月dd日");
-                //this.tbx_endDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
-
-				// 没必要特殊查询总记录的个数了，因为目前没什么用
-                //this.pager.RecordCount = 1000;
-                //this.pager.PageSize = 10;
+    
 			}
-
-            //this.btnBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-            //this.btnEndDate.Attributes.Add("onclick","openModeEnd()");
-
-		//	this.pager.PageChanged += new Wuqi.Webdiyer.PageChangedEventHandler(pager_PageChanged);
-			// 在此处放置用户代码以初始化页面
 		}
 
 		#region Web 窗体设计器生成的代码
@@ -187,23 +176,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             return dt;
         }
 		protected void btn_query_Click(object sender, System.EventArgs e)
-		{
-            //string strBeginDate = "",strEndDate = "";
-
-            //try
-            //{
-            //    if(this.tbx_beginDate.Text.Trim() != "" && this.tbx_endDate.Text.Trim() != "")
-            //    {
-            //        strBeginDate = DateTime.Parse(this.tbx_beginDate.Text).ToString("yyyy-MM-dd HH:mm:ss");
-            //        strEndDate = DateTime.Parse(this.tbx_endDate.Text).ToString("yyyy-MM-dd HH:mm:ss");
-            //    }
-            //}
-            //catch
-            //{
-            //    ShowMsg("日期格式不正确！");
-            //    return;
-            //}
-
+		{        
 			StartQuery(this.tbx_acc.Text);
             RemoveLogQuery(this.tbx_acc.Text);
 		}
@@ -235,31 +208,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			Response.Write("<script language=javascript>alert('" + msg + "')</script>");
 		}
 
-        //private void pager_PageChanged(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
-        //{
-        //    this.pager.CurrentPageIndex = e.NewPageIndex;
-
-        //    string strBeginDate = "",strEndDate = "";
-
-        //    try
-        //    {
-        //        if(this.tbx_beginDate.Text.Trim() != "" && this.tbx_endDate.Text.Trim() != "")
-        //        {
-        //            strBeginDate = DateTime.Parse(this.tbx_beginDate.Text).ToString("yyyy-MM-dd");
-        //            strEndDate = DateTime.Parse(this.tbx_endDate.Text).ToString("yyyy-MM-dd");
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        ShowMsg("日期格式不正确！");
-        //        return;
-        //    }
-
-        //    StartQuery(this.tbx_acc.Text,strBeginDate,strEndDate);
-        //}
-
-        //解除按钮
        
+        //解除按钮   
         public void DataGrid1_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
         {
             //if (e.Item.ItemType == ListItemType.Item)

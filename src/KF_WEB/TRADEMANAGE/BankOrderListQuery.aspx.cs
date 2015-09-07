@@ -401,11 +401,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
                     if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
                         continue;
-                    //{
-                    //    DataGrid1.DataSource = null;
-                    //    DataGrid1.DataBind();
-                    //    throw new Exception("数据库无此记录");
-                    //}
+                   
                     ds.Tables[0].Columns.Add("Fpaynum_str"); //交易金额
                     //ds.Tables[0].Columns.Add("Flstate_str"); //交易单的状态
                     ds.Tables[0].Columns.Add("CompanyName"); //商户名称
@@ -570,16 +566,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
                 }
                 ds = TradeInfo(4);//int iType总是4
-                //if (dsOne != null && dsOne.Tables.Count > 0)
-                //    listD.Add(dsOne);
-                //if (listD != null && listD.Count > 0)
-                //{
-                //    ds = listD[0];
-                //    for (int i = 1; i < listD.Count; i++)
-                //    {
-                //        ds = PublicRes.ToOneDataset(ds, listD[i]);//合并多个dataset
-                //    }
-                //}
+              
                 return ds;
             }
             catch (Exception eSys)
@@ -628,47 +615,33 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         {
             try
             {
-                //if (!File1.HasFile)
-                //{
-                //    WebUtils.ShowMessage(this.Page, "请选择上传文件！");
-                //    return;
-                //}
-                //if (Path.GetExtension(File1.FileName).ToLower() == ".xls")
-                //{
-                    //DataSet ds = SearchMore();
-                    DataSet ds = (DataSet)ViewState["gt_more"];
-                    if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                    {
-                        WebUtils.ShowMessage(this, "查询结果为空");
-                        return;
-                    }
 
-                    DataTable dt = ds.Tables[0];
-                    StringWriter sw = new StringWriter();
-                    string excelHeader = DataGrid1.Columns[0].HeaderText;
-                    for (int i = 1; i < DataGrid1.Columns.Count; i++)
-                    {
-                        excelHeader += "\t" + DataGrid1.Columns[i].HeaderText;
-                    }
-                    sw.WriteLine(excelHeader);
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        sw.WriteLine("=\"" + dr["Fbank_listid"].ToString() + "\"\t=\"" + dr["Flistid"].ToString() + "\"\t=\"" + dr["Fpaynum_str"] + "\"\t=\""
-                            + dr["TradeState_str"] + "\"\t=\"" + dr["CompanyName"] + "\"\t=\"" + dr["WWWAdress"] + "\"\t=\"" + dr["Fbuy_bank_type_str"] + "\"\t=\"" + dr["Fmemo"] + "\"");
-                    }
-                    sw.Close();
-                    Response.AddHeader("Content-Disposition", "attachment; filename=银行订单批量查询.xls");
-                    Response.ContentType = "application/ms-excel";
-                    Response.ContentEncoding = System.Text.Encoding.UTF8;
-                    Response.Write(sw);
-                    Response.End();
+                DataSet ds = (DataSet)ViewState["gt_more"];
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                {
+                    WebUtils.ShowMessage(this, "查询结果为空");
+                    return;
+                }
 
-                //}
-                //else
-                //{
-                //    WebUtils.ShowMessage(this.Page, "文件格式不正确，请选择xls格式文件上传。");
-                //    return;
-                //}
+                DataTable dt = ds.Tables[0];
+                StringWriter sw = new StringWriter();
+                string excelHeader = DataGrid1.Columns[0].HeaderText;
+                for (int i = 1; i < DataGrid1.Columns.Count; i++)
+                {
+                    excelHeader += "\t" + DataGrid1.Columns[i].HeaderText;
+                }
+                sw.WriteLine(excelHeader);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    sw.WriteLine("=\"" + dr["Fbank_listid"].ToString() + "\"\t=\"" + dr["Flistid"].ToString() + "\"\t=\"" + dr["Fpaynum_str"] + "\"\t=\""
+                        + dr["TradeState_str"] + "\"\t=\"" + dr["CompanyName"] + "\"\t=\"" + dr["WWWAdress"] + "\"\t=\"" + dr["Fbuy_bank_type_str"] + "\"\t=\"" + dr["Fmemo"] + "\"");
+                }
+                sw.Close();
+                Response.AddHeader("Content-Disposition", "attachment; filename=银行订单批量查询.xls");
+                Response.ContentType = "application/ms-excel";
+                Response.ContentEncoding = System.Text.Encoding.UTF8;
+                Response.Write(sw);
+                Response.End();
             }
             catch (Exception eSys)
             {
