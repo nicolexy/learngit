@@ -721,8 +721,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             //查询卖家财付通账号 没写完
             FastPayService fpService = new FastPayService();//fcoding订单编码
-            var Fsale_name = ds.Tables[0].Rows[0]["Fsale_name"].ToString();
-            if (fcoding != "" && (Fsale_name.Contains("微信转账业务中转账户") || Fsale_name.Contains("微信转账中转专用账户")))//该笔为微信转账
+            if (fcoding != "" && ds.Tables[0].Rows[0]["Fsale_name"].ToString().Contains("微信转账业务中转账户"))//该笔为微信转账
             {
                 DataSet dsCoinWalPay = fpService.CoinWalletsPaymentQuery(fcoding);
                 if (dsCoinWalPay != null & dsCoinWalPay.Tables.Count > 0 & dsCoinWalPay.Tables[0].Rows.Count > 0)
