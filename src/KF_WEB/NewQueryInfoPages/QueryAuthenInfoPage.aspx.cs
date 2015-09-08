@@ -99,7 +99,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 				//qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
 				qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 				//DataSet ds = qs.GetUserAuthenState(acc,bankID,bankType);
-                DataSet ds = new UserAppealService().GetUserAuthenState_All(acc, bankID, bankType);
+                bool stateMsg = false;
+                DataSet ds = new UserAppealService().GetUserAuthenState(acc, bankID, bankType, out stateMsg);
 
 				if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
 				{

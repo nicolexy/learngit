@@ -66,7 +66,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                 ds.Tables[0].Columns.Add("Fcre_type_str", typeof(String));
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    dr["Fsex_str"] = TransferMeaning.Transfer.convertSex(dr["Fsex"].ToString());
+                    //dr["Fsex_str"] = TransferMeaning.Transfer.convertSex(dr["Fsex"].ToString());
                     dr["Fcre_type_str"] = TransferMeaning.Transfer.convertFcre_type(dr["Fcre_type"].ToString());
                     int tmp = int.Parse(dr["Fatt_id"].ToString());
                     dr["Fatt_id_str"] = TransferMeaning.Transfer.convertProAttType(tmp);

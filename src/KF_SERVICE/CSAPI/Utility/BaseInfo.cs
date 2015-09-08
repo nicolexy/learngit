@@ -360,46 +360,46 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
         public class GetUserInfo
         {
             [XmlElement("qqid")]
-            public string Fqqid { get; set; }
+            public string fqqid { get; set; }
             [XmlElement("truename")]
-            public string Ftruename { get; set; }
+            public string ftruename { get; set; }
             [XmlElement("att_id")]  
             public string Fatt_id { get; set; }
             [XmlElement("att_id_str")]
             public string Fatt_id_str { get; set; }
             [XmlElement("sex")] 
-            public string Fsex { get; set; }
+            public string fsex { get; set; }
             [XmlElement("sex_str")]
             public string Fsex_str { get; set; }
             [XmlElement("company_name")]
-            public string Fcompany_name { get; set; }
+            public string fcompany_name { get; set; }
             [XmlElement("age")]
-            public string Fage { get; set; }
+            public string fage { get; set; }
             [XmlElement("phone")]
-            public string Fphone { get; set; }
+            public string fphone { get; set; }
             [XmlElement("mobile")]
-            public string Fmobile { get; set; }
+            public string fmobile { get; set; }
             [XmlElement("email")]
-            public string Femail { get; set; }
+            public string femail { get; set; }
 
             [XmlElement("address")]
-            public string Faddress { get; set; }
+            public string faddress { get; set; }
             [XmlElement("pcode")]
-            public string Fpcode { get; set; }
+            public string fpcode { get; set; }
             [XmlElement("cre_type")]    
-            public string Fcre_type { get; set; }
+            public string fcre_type { get; set; }
             [XmlElement("cre_type_str")]
             public string Fcre_type_str { get; set; }
             [XmlElement("creid")]
-            public string Fcreid { get; set; }
+            public string fcreid { get; set; }
             [XmlElement("memo")]
-            public string Fmemo { get; set; }
+            public string fmemo { get; set; }
             [XmlElement("modify_time")]
-            public string Fmodify_time { get; set; }
+            public string fmodify_time { get; set; }
             [XmlElement("area")]
-            public string Farea { get; set; }
+            public string farea { get; set; }
             [XmlElement("city")]
-            public string Fcity { get; set; }
+            public string fcity { get; set; }
             [XmlElement("userType")]
             public string userType { get; set; }
             [XmlElement("userType_str")]

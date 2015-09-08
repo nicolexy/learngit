@@ -151,8 +151,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             //}
 
             //2.查询实名认证
-            bool authenState = new UserAppealService().GetUserAuthenState(s_cftno, "", 0);
-            if (authenState)
+            bool stateMsg = false;
+            DataSet authenState = new UserAppealService().GetUserAuthenState(s_cftno, "", 0, out stateMsg);
+            if (stateMsg)
             {
                 lb_c4.Text = "是";
             }

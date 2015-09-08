@@ -182,8 +182,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                         this.clear_pps.Text = "";
                     }
                     this.lblscore.Text = dr2["FAppealScore"].ToString();//实际得分
-                    bool isAuthen = new UserAppealService().GetUserAuthenState(dr2["Fuin"].ToString(), "", 0);//实名认证
-                    if (isAuthen)
+                    bool stateMsg = false;
+                    DataSet isAuthen = new UserAppealService().GetUserAuthenState(dr2["Fuin"].ToString(), "", 0, out stateMsg);//实名认证
+                    if (stateMsg)
                         this.lbauthenState.Text = "是";
                     else
                         this.lbauthenState.Text = "否";

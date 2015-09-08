@@ -328,6 +328,8 @@ namespace CFT.CSOMS.Service.CSAPI.Trade
             public string bankType { get; set; }
             [XmlElement("withhold_uin")]
             public string withhold_uin { get; set; }
+            [XmlElement("plan_id")]
+            public string plan_id { get; set; }
         }
 
         public class AutomaticRechargeDetail

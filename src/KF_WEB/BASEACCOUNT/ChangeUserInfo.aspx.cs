@@ -118,11 +118,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             this.TX_Memo.Text = "";
             this.TX_Fmodify_time.Text = "";
-
             this.DropDownList1_Sex.Visible = false;
             //furion 20060816
             this.ddlAttid.Visible = false;
-
             this.DropDownList2_certify.Visible = false;
 
         }
@@ -311,7 +309,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 mi[15, 1] = this.TX_Fmodify_time.Text.Trim();
                 mi[15, 2] = this.TX_Fmodify_time.Text.Trim();
                 mi[15, 3] = "";
-
+       
                 Query_Service.Query_Service myService = new Query_Service.Query_Service();
                 myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 
@@ -381,8 +379,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             this.Button1.Click += new System.EventHandler(this.Button1_Click);
             this.LinkButton1_Edit.Click += new System.EventHandler(this.LinkButton1_Edit_Click);
-            //this.Linkbutton2_Update.Click += new System.EventHandler(this.Linkbutton2_Update_Click);
-            //	this.ImageButton3.Click += new System.Web.UI.ImageClickEventHandler(this.ImageButton3_Click);
             this.Button_Update.Click += new System.EventHandler(this.Button_Update_Click);
             this.Button3.Click += new System.EventHandler(this.Button3_Click);
             this.Load += new System.EventHandler(this.Page_Load);
@@ -479,6 +475,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             //furion 20060816
             string Msg = "";
+
             PublicRes.BindDropDownList(PermitPara.QueryDicAccName(), ddlAttid, out Msg);
 
             Hashtable htCertify = new Hashtable();
@@ -502,10 +499,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             try
             {
-
-                this.TX_Memo.ReadOnly = false;
+                this.TX_Memo.ReadOnly = false;      
                 this.TX_Memo.BorderWidth = 1;
                 this.TX_Memo.BackColor = Color.GreenYellow;
+
                 this.DropDownList2_certify.Enabled = true;//证件类型可选
                 this.ddlType.Enabled = true;//账户类型可选
                 this.LinkButton1_Edit.Visible = false;
@@ -547,11 +544,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 WebUtils.ShowMessage(this.Page, er.Message.ToString().Replace("'", "’"));
             }
-
+            //BindInfo();
         }
 
         private void returnState()
         {
+            //更新之后需要恢复
             this.TX_Memo.ReadOnly = true;
             this.TX_Memo.BorderWidth = 0;
             this.TX_Memo.BackColor = Color.White;

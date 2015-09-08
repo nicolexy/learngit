@@ -229,24 +229,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             {
                 fcurtype = int.Parse(Request.QueryString["fcurtype"].Trim()); ;
             }
-            #region old
-            /*
-            Query_Service.Query_Service qs = new Query_Service.Query_Service();
-
-            Finance_Header fh = new Finance_Header();
-            fh.UserIP = Request.UserHostAddress;
-            fh.UserName = Session["uid"].ToString();
-            //fh.UserPassword = "";
-            fh.OperID = Int32.Parse(Session["OperID"].ToString());
-            fh.SzKey = Session["SzKey"].ToString();
-            //fh.RightString = Session["key"].ToString();
-
-            qs.Finance_HeaderValue = fh;
-
-           DataSet ds = qs.GetQueryList(dtBegin, dtEnd, buyqq, saleqq, buyqqIn, saleqqIn, querytype, queryvalue, fstate, fcurtype, start, max);
-           */
-             #endregion
-
+  
             //¸Ärelay½Ó¿Ú
             DataSet ds = new TradeService().GetQueryList(dtBegin, dtEnd, buyqq, saleqq, buyqqIn, saleqqIn, querytype, queryvalue, fstate, fcurtype, start, max);
 

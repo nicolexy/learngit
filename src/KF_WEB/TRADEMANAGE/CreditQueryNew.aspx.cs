@@ -176,16 +176,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 					enddate = DateTime.Today;
 				}
 
-//				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-//				ds = qs.GetCreditQueryListForFaidCount(this.txtFspid.Text.Trim(),begindate,enddate);
-
 				ViewState["begindate"] = begindate;
 				ViewState["enddate"] = enddate;
 			}
 			else
 			{
-//				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-//				ds = qs.GetCreditQueryListCount(this.txtFspid.Text.Trim());
+
 			}
 
 			return 100;//Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
@@ -198,26 +194,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
-//			Finance_Header fh = new Finance_Header();
-//			fh.UserIP = Request.UserHostAddress;
-//			fh.UserName = Session["uid"].ToString();
-//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-//			fh.SzKey = Session["SzKey"].ToString();
-//
-//			qs.Finance_HeaderValue = fh;
 			Query_Service.Finance_Header fh = classLibrary.setConfig.setFH(this);
 			qs.Finance_HeaderValue = fh;
 
 			DataSet ds;
             if (this.rbtFspid.Checked)
             {
-                ds = pickservice.GetCreditQueryListForFaid(this.txtFspid.Text.Trim(), Convert.ToDateTime(ViewState["begindate"].ToString()), Convert.ToDateTime(ViewState["enddate"].ToString()), start, max);
-                //ds = qs.GetCreditQueryListForFaid(this.txtFspid.Text.Trim(),Convert.ToDateTime(ViewState["begindate"].ToString()),Convert.ToDateTime(ViewState["enddate"].ToString()),start,max);
+                ds = pickservice.GetCreditQueryListForFaid(this.txtFspid.Text.Trim(), Convert.ToDateTime(ViewState["begindate"].ToString()), Convert.ToDateTime(ViewState["enddate"].ToString()), start, max);               
             }
             else
             {
-                ds = pickservice.GetCreditQueryList(this.txtFlistid.Text.Trim(), start, max);
-                //ds = qs.GetCreditQueryList(this.txtFlistid.Text.Trim(), start, max);
+                ds = pickservice.GetCreditQueryList(this.txtFlistid.Text.Trim(), start, max);               
             }
 
 			if(ds != null && ds.Tables.Count >0)

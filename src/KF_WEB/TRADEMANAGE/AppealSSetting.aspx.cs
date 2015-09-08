@@ -31,7 +31,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				string szkey = Session["SzKey"].ToString();
 				int operid = Int32.Parse(Session["OperID"].ToString());
 
-				//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
 				if(!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
 
 			}
@@ -42,8 +41,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			if (!IsPostBack)
 			{
-                //pager.RecordCount= GetCount();
-                //BindData(1);
+                
 			}
 		}
 
@@ -132,49 +130,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				this.lb_msg.Text = ex.Message;
 			}
 		}
-
-
-
-        //private void DataGrid1_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
-        //{
-        //    string transaction_id = e.Item.Cells[0].Text.Trim();
-        //    string draw_id = e.Item.Cells[1].Text.Trim();
-        //    try
-        //    {
-        //        if (e.CommandName == "query")
-        //            BindDataDetail(transaction_id, draw_id);
-        //    }
-        //    catch (Exception eSys)
-        //    {
-        //        WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message);
-        //    }
-        //}
-
-        //public void DataGrid1_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
-        //{
-        //    object obj = e.Item.Cells[9].FindControl("queryButton");
-        //    string isT0 = e.Item.Cells[7].Text.Trim();//如果T+0，则显示“编辑/查看”
-        //    if (obj != null)
-        //    {
-        //        LinkButton lb = (LinkButton)obj;
-        //        if (isT0 == "T+0")
-        //        {
-        //            lb.Visible = true;
-        //        }
-        //    }
-        //}
-
-        //private void BindDataDetail(string transaction_id, string draw_id)
-        //{
-        //    try
-        //    {
-        //            WebUtils.ShowMessage(this.Page, "没有查询到记录");
-        //    }
-        //    catch (Exception eSys)
-        //    {
-        //        WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message);
-        //    }
-        //}
 
 		private string DicFCycNumber(string s)
 		{

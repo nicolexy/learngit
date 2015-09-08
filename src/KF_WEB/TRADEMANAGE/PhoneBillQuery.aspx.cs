@@ -217,23 +217,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 		private void dgList_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
 		{
-// 			if(e.Item.ItemIndex > -1)
-// 			{
-// 				if(e.Item.Cells[0].Text.Trim() != "")
-// 					e.Item.Cells[0].Text = DateTime.Parse(e.Item.Cells[0].Text.Trim()).ToString("yyyy-MM-dd");
-// 				if(e.Item.Cells[2].Text.Trim() == "3001")
-// 					e.Item.Cells[3].Text = "兴业银行";
-// 				if(e.Item.Cells[5].Text.Trim() != "")
-// 					e.Item.Cells[5].Text = MoneyTransfer.FenToYuan(e.Item.Cells[5].Text.Trim());
-// 				if(e.Item.Cells[6].Text.Trim() == "1")
-// 					e.Item.Cells[6].Text = "成功";
-// 				else if(e.Item.Cells[6].Text.Trim() == "2")
-// 					e.Item.Cells[6].Text = "失败";
-// 				else if(e.Item.Cells[6].Text.Trim() == "3" || e.Item.Cells[6].Text.Trim() == "4")
-// 					e.Item.Cells[6].Text = "还款中";
-// 				else
-// 					e.Item.Cells[6].Text = "Unknow";
-//			}
+
 		}
 
 		protected void Textbox1_TextChanged(object sender, System.EventArgs e)

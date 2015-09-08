@@ -69,14 +69,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 		protected void btnFreeze_Click(object sender, System.EventArgs e)
 		{
             try 
-            {
-                //string msg = QueryResumeMsg();
-
-                //if (msg == "")
-                //{
-                //    throw new Exception("没有可恢复的项！");
-                //}
-                //WebUtils.ShowMessage(this.Page, "本次申请将恢复" + msg);
+            {              
                 btnFreeze_Ex();
             }
             catch (SoapException eSoap)
