@@ -135,8 +135,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             + "&newBankAccNo=" + strNewBankAccNo + "&bankUserName=" + strBankUserName + "&newBankType=" + strNewBankType+"&newBankID="+strNewBankID + "&remark=" + strRemark + "&create=" + strCreate
             + "&commitment=" + strCommitmentFile + "&identityCard=" + strIdentityCardFile + "&bankWater=" + strBankWaterFile + "&cancellation=" + strCancellationFile + "&refundId=" + Request.QueryString["oldId"].ToString()
             + "&userFlagID=" + strUserFlagID+"&userFlagText="+strUserFlagText+"&cardTypeText="+strCardTypeText + "&cardTypeID=" + strCardTypeID +"&bankName="+strBankName;
-            
 
+            strURL = strURL.Replace("\r", "").Replace("\n", "");
             Response.Redirect(strURL);
             
         }
