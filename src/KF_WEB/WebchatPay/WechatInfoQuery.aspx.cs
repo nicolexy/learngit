@@ -254,7 +254,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                     l_fzamt = long.Parse(s_fz_amt);
                 }
 
-                this.Label4_Freeze.Text = classLibrary.setConfig.FenToYuan(l_fzamt + l_cron);//冻结金额=分账冻结金额+冻结金额
+                this.Label4_Freeze.Text = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(l_fzamt + l_cron).ToString("f2") + "元";   //classLibrary.setConfig.FenToYuan(l_fzamt + l_cron);//冻结金额=分账冻结金额+冻结金额
                 //this.Label15_Useable.Text = classLibrary.setConfig.FenToYuan((long.Parse(ds.Tables[0].Rows[0]["Fbalance"].ToString()) - long.Parse(ds.Tables[0].Rows[0]["Fcon"].ToString())).ToString());  //帐户余额减去冻结余额= 可用余额
                 this.Label15_Useable.Text = classLibrary.setConfig.FenToYuan(l_balance - l_cron);  //帐户余额减去冻结余额= 可用余额
                 this.Label16_Fapay.Text = PublicRes.objectToString(ds.Tables[0],"Fapay");
@@ -597,7 +597,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                     l_cron = long.Parse(s_cron);
                 }
 
-                this.Label4_Freeze.Text = classLibrary.setConfig.FenToYuan(l_fzamt + l_cron);//冻结金额=分账冻结金额+冻结金额
+                this.Label4_Freeze.Text = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(l_fzamt + l_cron).ToString("f2") + "元";    // classLibrary.setConfig.FenToYuan(l_fzamt + l_cron);//冻结金额=分账冻结金额+冻结金额
 
                 // 2012/5/2 因为需要Q_USER_INFO获取准确的用户真实姓名而改动
                 try

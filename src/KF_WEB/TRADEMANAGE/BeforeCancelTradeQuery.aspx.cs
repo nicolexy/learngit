@@ -27,8 +27,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
     /// </summary>
     public partial class BeforeCancelTradeQuery : System.Web.UI.Page
     {
-        public DateTime qbegindate, qenddate;
-        protected ForeignCardService FCBLLService = new ForeignCardService();
         protected void Page_Load(object sender, System.EventArgs e)
         {
             try
@@ -47,50 +45,35 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
         }
 
-        #region Web 窗体设计器生成的代码
-        override protected void OnInit(EventArgs e)
-        {
-            //
-            // CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
-            //
-            InitializeComponent();
-            base.OnInit(e);
-        }
-
-        /// <summary>
-        /// 设计器支持所需的方法 - 不要使用代码编辑器修改
-        /// 此方法的内容。
-        /// </summary>
-        private void InitializeComponent()
-        {
-
-        }
-        #endregion
-
-        private void ValidateDate()
-        {
-            string uid = txtuid.Text.ToString();
-            if (uid == "")
-            {
-                throw new Exception("请输入查询项！");
-            }
-        }
-
         public void btnQuery_Click(object sender, System.EventArgs e)
         {
             try
             {
-                ValidateDate();
-            }
-            catch (Exception err)
-            {
-                WebUtils.ShowMessage(this.Page, err.Message);
-                return;
-            }
 
-            try
-            {
-                BindData();
+                string uid = txtuid.Text.Trim();
+                if (uid.Length != 0)
+                {
+                    DataSet ds = new TradeService().BeforeCancelTradeQuery(uid);
+                    if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
+                    {
+                        WebUtils.ShowMessage(this.Page, "没有找到记录");
+                        dg_info.DataSource = null;
+                    }
+                    else
+                    {
+                        var dt = ds.Tables[0];
+
+                        dt.Columns.Add("Fpaynum_str", typeof(string));
+                        classLibrary.setConfig.FenToYuan_Table(dt, "Fpaynum", "Fpaynum_str");
+                        dg_info.DataSource = dt;
+                    }
+                    dg_info.DataBind();
+                }
+                else
+                {
+                    WebUtils.ShowMessage(this.Page, "内部ID： 不可以为空");
+                }
+
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
@@ -102,27 +85,5 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
         }
-
-        private void BindData()
-        {
-            try
-            {
-                string uid = txtuid.Text.ToString();
-
-                DataSet ds =new TradeService().BeforeCancelTradeQuery(uid);
-                if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
-                {
-                    this.lbFlistid.Text = "";
-                    throw new Exception("数据库无此记录");
-                }
-                this.lbFlistid.Text = ds.Tables[0].Rows[0]["Flistid"].ToString();
-            }
-            catch (Exception eSys)
-            {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
-            }
-        }
-
-
     }
 }
