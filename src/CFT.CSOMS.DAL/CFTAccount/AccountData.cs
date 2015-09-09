@@ -1229,7 +1229,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 return da.GetTable(sql);
             }
         }
-          
+           
         #region 销户
 
         /// <summary>

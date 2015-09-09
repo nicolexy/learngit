@@ -431,28 +431,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             var dt = new AccountService().QueryChangeUserInfoLog(this.TX_QQID.Text.Trim(), start, max);
             if (dt != null && dt.Rows.Count > 0)
-            {
-                dt.Columns.Add("Fcre_type_str", typeof(String));
-                dt.Columns.Add("Fcre_type_old_str", typeof(String));
-                dt.Columns.Add("Fuser_type_str", typeof(String));
-                dt.Columns.Add("Fuser_type_old_str", typeof(String));
-                dt.Columns.Add("Fattid_str", typeof(String));
-                dt.Columns.Add("Fattid_old_str", typeof(String));
-
-                Hashtable htCertify = (Hashtable)ViewState["htCertify"];
-                Hashtable htAttid = (Hashtable)ViewState["htAttid"];
-                Hashtable htUsertype = new Hashtable();
-                htUsertype.Add("0", "未指定");
-                htUsertype.Add("1", "个人");
-                htUsertype.Add("2", "公司");
-
-                classLibrary.setConfig.DbtypeToPageContent(dt, "Fcre_type", "Fcre_type_str", htCertify);
-                classLibrary.setConfig.DbtypeToPageContent(dt, "Fcre_type_old", "Fcre_type_old_str", htCertify);
-                classLibrary.setConfig.DbtypeToPageContent(dt, "Fuser_type", "Fuser_type_str", htUsertype);
-                classLibrary.setConfig.DbtypeToPageContent(dt, "Fuser_type_old", "Fuser_type_old_str", htUsertype);
-                classLibrary.setConfig.DbtypeToPageContent(dt, "Fattid", "Fattid_str", htAttid);
-                classLibrary.setConfig.DbtypeToPageContent(dt, "Fattid_old", "Fattid_old_str", htAttid);
-
+            {              
                 dgLog.DataSource = dt.DefaultView;
                 dgLog.DataBind();
             }

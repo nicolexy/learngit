@@ -18,7 +18,8 @@ using CommLib;
 using ReCommQuery = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery;
 using TENCENT.OSS.C2C.Finance.BankLib;
 using System.Collections;
-using System.Threading;//解决命名冲突
+using System.Threading;
+using System.Text.RegularExpressions;//解决命名冲突
 
 namespace CFT.CSOMS.DAL.Infrastructure
 {
@@ -84,6 +85,22 @@ namespace CFT.CSOMS.DAL.Infrastructure
             }
         }
 
+        //用DataReader获取数据，获取单行多列数据
+        public static string[] returnDrData(string strCmd, string[] ar, string dbStr)
+        {
+            MySqlAccess da = null;
+            try
+            {
+                da = new MySqlAccess(PublicRes.GetConnString(dbStr));  //选择读取的数据库
+                da.OpenConn();
+                return da.drData(strCmd, ar);
+            }
+			finally  //释放资源
+            {
+                da.Dispose();
+            }
+        }
+
         public static string ExecuteOne(string sqlStr, string dbStr) //查询单个结果
         {
             using (var da = MySQLAccessFactory.GetMySQLAccess(dbStr))
@@ -100,6 +117,38 @@ namespace CFT.CSOMS.DAL.Infrastructure
                 da.OpenConn();
                 return da.GetOneResult(sqlStr);
             }
+        }
+
+        public static string GetErrorMsg(string ExceptionMsg)
+        {
+
+            if (ExceptionMsg == null || ExceptionMsg.Trim().Length == 0) return " ";
+
+            string resultstr = ExceptionMsg;
+
+            //下面是捕获Soap异常的语句
+            string pattern = "";
+
+            if (ExceptionMsg.IndexOf("SoapException") > 1)
+            {
+                pattern = "---> [^:]+:(.*)\n";
+            }
+            else
+            {
+                pattern = "--> (.*)$";
+            }
+
+            MatchCollection mc = Regex.Matches(ExceptionMsg, pattern);
+
+            if (mc.Count > 0)
+            {
+                string str = mc[0].Groups[1].Value;
+                resultstr = str.Replace("'", "’").Replace("\r\n", "");
+            }
+
+            return resultstr.Replace("'", "‘").Replace("\r", " ").Replace("\n", " ");
+
+
         }
 
         public static string GetString(object aValue)
@@ -1379,6 +1428,52 @@ namespace CFT.CSOMS.DAL.Infrastructure
                 }
             }
         }
+
+        public static bool ReleaseCache(string strqqid, string type)
+        {
+            return true;
+        }
+
+        public static bool sendMail(string mailToStr, string mailFromStr, string subject, string content, string type, out string Msg)  //发送邮件
+        {
+            Msg = null;
+
+            if (PublicRes.IgnoreLimitCheck)
+                return true;
+
+            try
+            {
+                TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend newMail = new TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend();
+                newMail.SendMail(mailToStr, "", subject, content, true, null);
+             
+                //邮件发送本地日志
+                PublicRes.WriteFile_ForCheck("发送审批邮件成功！ 收件人：" + mailToStr + " 邮件内容：" + content);
+                PublicRes.CloseFile();
+
+                return true;
+            }
+            catch (Exception er)
+            {
+                Msg = er.Message.ToString().Replace("'", "’");
+                return false;
+            }
+        }
+
+        // 为审核类写的WriteFile方法
+        public static void WriteFile_ForCheck(string strmsg)
+        {
+            log4net.ILog log = log4net.LogManager.GetLogger("Finance_service.PublicRes.WriteFile");
+            if (log.IsInfoEnabled)
+                log.Info(strmsg);
+        }
+
+        public static void CloseFile()
+        {
+            //			swFromFile.Flush();
+            //			swFromFile.Close();
+            //			swFromFile = null;
+        }
+
 
     }
 

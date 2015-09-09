@@ -468,6 +468,24 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
         }
         #endregion
 
+        #region 修改QQ账号
+
+        public class ChangeQQList
+        {
+            [XmlElement("old_qqid")]
+            public string Foldqq { get; set; }
+            [XmlElement("new_qqid")]
+            public string Fnewqq { get;set; }
+            [XmlElement("operator")]
+            public string Fuserid { get;set; }
+            [XmlElement("action_time")]
+            public string Factiontime { get; set; }
+            [XmlElement("memo")]
+            public string Fmemo { get; set; }
+        }
+
+        #endregion
+
         #region 证书通知黑名单
         public class CertNoticeBlackList
         {

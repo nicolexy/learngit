@@ -59,11 +59,14 @@
     <Compile Include="AutoRecharge\AutoRechargeService.cs" />
     <Compile Include="BalanceModule\BalaceService.cs" />
     <Compile Include="BankCardBindModule\BankCardBindService.cs" />
+    <Compile Include="CFTAccountModule\AccountOperate.cs" />
     <Compile Include="CFTAccountModule\AccountService.cs" />
     <Compile Include="CFTAccountModule\AuthenInfoService.cs" />
     <Compile Include="CFTAccountModule\CertificateService.cs" />
     <Compile Include="CFTAccountModule\VIPService.cs" />
     <Compile Include="CheckModoule\CheckService.cs" />
+    <Compile Include="CheckModoule\Check_Class.cs" />
+    <Compile Include="CheckModoule\FinishCheck.cs" />
     <Compile Include="CreditModule\TencentCreditService.cs" />
     <Compile Include="CRTModule\CRTService.cs" />
     <Compile Include="ForeignCurrencyModule\FCUserTradeQuery.cs" />

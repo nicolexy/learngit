@@ -2172,7 +2172,6 @@ namespace CFT.CSOMS.DAL.Infrastructure
     }
     #endregion
 
-
     #region 用户资料表的查询处理
 
 
@@ -2268,5 +2267,34 @@ namespace CFT.CSOMS.DAL.Infrastructure
     }
 
     #endregion
+
+    #region 修改QQ查询类
+
+    public class ChangeQQQueryClass : Query_BaseForNET
+    {
+        public ChangeQQQueryClass(string userid, string qq)
+        {
+            string strWhere = " where 1=1 ";
+
+            if (userid != null && userid.Trim() != "")
+            {
+                strWhere += " and FUserID='" + userid + "' ";
+            }
+
+            if (qq != null && qq.Trim() != "")
+            {
+                strWhere += " and (FOldQQ='" + qq + "' or FNewQQ='" + qq + "') ";
+            }
+
+            fstrSql = " select * from c2c_fmdb.t_changeqq_list " + strWhere + " order by FActionTime desc";
+
+            fstrSql_count = " select count(*) from  c2c_fmdb.t_changeqq_list " + strWhere;
+
+        }
+
+    }
+
+    #endregion
+
 
 }

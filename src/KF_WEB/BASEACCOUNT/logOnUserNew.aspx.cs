@@ -58,7 +58,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 string msg = "";
                 try
                 {
-                    DataSet ds = new AccountService().GetCanncelAccountLog("", "", DateTime.Parse("1970-01-01 00:00:00"), DateTime.Now, 0, 10, out msg);
+                    DataSet ds = new AccountOperate().GetCanncelAccountLog("", "", DateTime.Parse("1970-01-01 00:00:00"), DateTime.Now, 0, 10, out msg);
                     if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                     {
                         this.dgInfo.DataSource = ds;
@@ -187,38 +187,15 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 qs.Finance_HeaderValue = fh2;
 
                 string ret_msg = "";
-                bool ret_continue;
+       
+                string ip = "";
                 //TODO:申请销户提起的部分还没做
-                bool isOk = new AccountService().LogOnUserDeleteUser(qqid, wxFlag, reason, emailCheck, emailAddr, Session["uid"].ToString(), out ret_msg, out ret_continue);
+                bool isOk = new AccountOperate().LogOnUserDeleteUser(qqid, wxFlag, reason, emailCheck, emailAddr, Session["uid"].ToString(), ip, out ret_msg);
 
-                if (string.IsNullOrEmpty(ret_msg))
+                if (!string.IsNullOrEmpty(ret_msg))
                 {
                     WebUtils.ShowMessage(this.Page, ret_msg);
-                }
-                //TODO:销户申请提请的部分还没有做到BLL层
-                if (ret_continue)
-                {
-                    long balance = 0;
-                    DataTable dt = new LCTBalanceService().QuerySubAccountInfo(qqid, 1);    //主帐户余额
-                    if (dt != null && dt.Rows.Count > 0)
-                    {
-                        balance += long.Parse(dt.Rows[0]["Fbalance"].ToString().Trim());
-                    }
-                    dt = new LCTBalanceService().QuerySubAccountInfo(qqid, 80);     //游戏子帐户
-                    if (dt != null && dt.Rows.Count > 0)
-                    {
-                        balance += long.Parse(dt.Rows[0]["Fbalance"].ToString().Trim());
-                    }
-                    dt = new LCTBalanceService().QuerySubAccountInfo(qqid, 82);     //直通车子帐户
-                    if (dt != null && dt.Rows.Count > 0)
-                    {
-                        balance += long.Parse(dt.Rows[0]["Fbalance"].ToString().Trim());
-                    }
-                    cs.StartCheck(mainID, checkType, memo, MoneyTransfer.FenToYuan(balance.ToString()), myParams);
-                    WebUtils.ShowMessage(this.Page, "销户申请提请成功！");
-                    return;
-                }
-
+                }               
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
@@ -307,7 +284,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
             try
             {
                 string msg = "";
-                DataSet ds = new AccountService().GetCanncelAccountLog(qqid, handid, begin_time, end_time, 0, 1000, out msg);
+                DataSet ds = new AccountOperate().GetCanncelAccountLog(qqid, handid, begin_time, end_time, 0, 1000, out msg);
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
