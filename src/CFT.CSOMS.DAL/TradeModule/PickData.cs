@@ -290,6 +290,13 @@ namespace CFT.CSOMS.DAL.TradeModule
                     fields = string.Format(fields, Fuid, dtBegin.ToString("yyyy-MM-01"), dtEnd.ToString("yyyy-MM-dd"));
                     ds3 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);
                     ds = PublicRes.ToOneDataset(ds, ds3);
+
+                    //引用查询 [交易查询-提现记录查询（新）]
+                    DataSet dstemp = new PublicRes().QueryCommRelay8020("2416", fields, offset, limit);
+                    ds = PublicRes.ToOneDataset(ds, dstemp);
+                    dstemp = new PublicRes().QueryCommRelay8020("2417", fields, offset, limit);
+                    ds = PublicRes.ToOneDataset(ds, dstemp);
+
                     if (ds != null && ds.Tables.Count > 0) 
                     {
                         ds.Tables[0].Columns.Add("total", typeof(string));

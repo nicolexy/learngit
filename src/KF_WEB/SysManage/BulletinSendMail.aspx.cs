@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 {
@@ -124,6 +125,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             this.btnSendMail.Visible = true;
         }
 
+        protected void btn_InEmail_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.tbmaintext.Text.Trim()) || string.IsNullOrEmpty(this.tbdate.Text.Trim()))
+            {
+                WebUtils.ShowMessage(this.Page, "请输入邮件正文及日期！"); return;
+            }
+            this.btnSendMail.Visible = true;
+            this.taa_emails.Visible = true;
+            this.taa_emails.Focus();
+        }
+
 
         protected void btnSubmitGroup_Click(object sender, System.EventArgs e)
         {
@@ -163,6 +175,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
         //发送邮件
         protected void btnSendMail_Click(object sender, System.EventArgs e)
         {
+            string[] emailList = null;
+            string emails = this.taa_emails.Value.Trim().TrimEnd(';').Replace("\r", "").Replace("\n", "");
+            if ((listGroupId != null && listGroupId.Count == 0) && string.IsNullOrEmpty(emails))
+            {
+                WebUtils.ShowMessage(this.Page, "联系人分组和收件邮箱至少输入一个！");
+                return;
+            }
+            else
+            {
+                emailList = emails.Split(';');
+                if (emailList!=null && emailList.Length > 0)
+                {
+                    foreach (string item in emailList)
+                    {
+                        if (!string.IsNullOrEmpty(item) && 
+                            !Regex.IsMatch(item, @"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$", RegexOptions.IgnoreCase))
+                        {
+                            WebUtils.ShowMessage(this.Page, item+" 邮箱格式有误！");
+                            return;
+                        }
+                    }
+                }
+            }
+
             try
             {
                 string maintext = this.tbmaintext.Text.Trim();
@@ -173,7 +209,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 + "财付通支付科技有限公司<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                 +"{1}</p></td></tr></table></body></html>";
                 emailMsg = string.Format(emailMsg, maintext, date);
-                StringBuilder emailList = new StringBuilder();
+                
                 foreach (string id in listGroupId)
                 {
                     DataSet ds = new DataSet();
@@ -186,6 +222,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                             string bccMail = row["Femail"].ToString();//发送密件邮箱地址
                             CommMailSend.SendInternalMailCanSecret("", "", bccMail, ViewState["title"].ToString(), emailMsg.ToString(), true, null);
                         }
+                    }
+                }
+                if (emailList != null && emailList.Length > 0)
+                {
+                    foreach (string item in emailList)
+                    {
+                        if (!string.IsNullOrEmpty(item))
+                            CommMailSend.SendInternalMailCanSecret("", "", item, ViewState["title"].ToString(), emailMsg.ToString(), true, null);
                     }
                 }
 
