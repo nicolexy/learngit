@@ -1084,9 +1084,9 @@ namespace CFT.CSOMS.BLL.TradeModule
             }
         }
 
-        public DataSet GetListidFromUserOrder(string qqid, string uid, int start, int max)
+        public DataSet GetListidFromUserOrder(string qqid, string uid, int start, int max,int type)
         {
-            return (new TradeData()).GetListidFromUserOrder(qqid, uid, start, max);
+            return (new TradeData()).GetListidFromUserOrder(qqid, uid, start, max,type);
         }
         public DataSet GetQueryList(DateTime u_BeginTime, DateTime u_EndTime, string buyqq, string saleqq, string buyqqInnerID, string saleqqInnerID,
           string u_QueryType, string queryvalue, int fstate, int fcurtype, int start, int max)

@@ -857,11 +857,19 @@ namespace CFT.CSOMS.DAL.TradeModule
             DataSet ds = CommQuery.ParseRelayStr(answer, out Msg, true);
             return ds;
         }
+
         /// <summary>
-        /// 未完成交易单查询
+        /// 未完成交易单查询(买家、卖家)
         /// </summary>
-        public DataSet GetListidFromUserOrder(string qqid, string uid, int start, int max)
+        /// <param name="qqid"></param>
+        /// <param name="uid"></param>
+        /// <param name="start"></param>
+        /// <param name="max"></param>
+        /// <param name="type">0买家、卖家，-1：买家，-2卖家</param>
+        /// <returns></returns>
+        public DataSet GetListidFromUserOrder(string qqid, string uid, int start, int max,int type)
         {
+            DataSet result = null;
             //ver=1&head_u=&sp_id=2000000501&request_type=4613&reqid=2213&flag=2&fields=buy_uid:298686752&offset=0&limit=1&msgno=10002
             if (start % max == 1) start -= 1;
             string fuid = "";
@@ -873,12 +881,23 @@ namespace CFT.CSOMS.DAL.TradeModule
             {
                 throw new Exception(fuid + "账号不存在");
             }
-            //查询买家
-            DataSet dsbuy = new PublicRes().QueryCommRelay8020("2213", "buy_uid:" + fuid, start, max);
-            //查询卖家
-            DataSet dssale = new PublicRes().QueryCommRelay8020("2214", "sale_uid:" + fuid, start, max);
-            dsbuy = PublicRes.ToOneDataset(dsbuy, dssale);
-            return dsbuy;
+            switch (type)
+            {
+                case 0:
+                    //查询买家
+                    DataSet dsbuy = new PublicRes().QueryCommRelay8020("2213", "buy_uid:" + fuid, start, max);
+                    //查询卖家
+                    DataSet dssale = new PublicRes().QueryCommRelay8020("2214", "sale_uid:" + fuid, start, max);
+                    result = PublicRes.ToOneDataset(dsbuy, dssale);
+                    break;
+                case -1:
+                    result = new PublicRes().QueryCommRelay8020("2213", "buy_uid:" + fuid, start, max);
+                    break;
+                case -2:
+                    result = new PublicRes().QueryCommRelay8020("2214", "sale_uid:" + fuid, start, max);
+                    break;
+            }
+            return result;
         }
         /// <summary>
         /// 中介订单查询

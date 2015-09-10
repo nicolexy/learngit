@@ -127,7 +127,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
                 //DataSet ds = qs.GetListidFromUserOrder(qqid,uid,start,max);
                 #endregion
-                DataSet ds = new TradeService().GetListidFromUserOrder(qqid, uid, 0, 1);
+                DataSet ds = new TradeService().GetListidFromUserOrder(qqid, uid, 0, 1, 0);
                 if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
                 {
                     DataGrid1.DataSource = null;

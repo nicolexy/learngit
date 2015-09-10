@@ -14,6 +14,7 @@ using System.Web.Services.Protocols;
 using System.Reflection;
 using Wuqi.Webdiyer;
 using System.Configuration;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -103,7 +104,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         }
                     }
 
-                    DS_TradeLog = classLibrary.setConfig.returnDataSet(selectStr, 1, beginTime, endTime, iusertype, "GetPayList", istr, imax, Session["uid"].ToString(), Request.UserHostAddress);
+                    if (iusertype >= 0)
+                    {
+                        DS_TradeLog = classLibrary.setConfig.returnDataSet(selectStr, 1, beginTime, endTime, iusertype, "GetPayList", istr, imax, Session["uid"].ToString(), Request.UserHostAddress);
+                    }
+                    else
+                    {
+                        DS_TradeLog = new TradeService().GetListidFromUserOrder(selectStr, Session["uid"].ToString(), 0, 1, iusertype);
+                    }
 
                     if (DS_TradeLog != null && DS_TradeLog.Tables.Count != 0 && DS_TradeLog.Tables[0].Rows.Count != 0)
                     {

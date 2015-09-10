@@ -63,6 +63,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				int total;
 				if(DS_Payment != null && DS_Payment.Tables.Count != 0 && DS_Payment.Tables[0].Rows.Count != 0)
 				{
+                    DataView dv = DS_Payment.Tables[0].DefaultView;
+                    dv.Sort = "Fpay_front_time DESC";
+                    DS_Payment.Tables.RemoveAt(0);
+                    DS_Payment.Tables.Add(dv.ToTable());
+
 					total = Int32.Parse(DS_Payment.Tables[0].Rows[0]["total"].ToString());
 				}
 				else
@@ -85,6 +90,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 			if(DS_Payment != null && DS_Payment.Tables.Count != 0)
 			{
+                DataView dv = DS_Payment.Tables[0].DefaultView;
+                dv.Sort = "Fpay_front_time DESC";
+                DS_Payment.Tables.RemoveAt(0);
+                DS_Payment.Tables.Add(dv.ToTable());
+
 				DS_Payment.Tables[0].Columns.Add("FnumStr",typeof(string));
 				string[] CoverPickFuid = System.Configuration.ConfigurationManager.AppSettings["CoverPickFuid"].ToString().Split('|');
 
