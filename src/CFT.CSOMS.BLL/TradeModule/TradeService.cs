@@ -1084,9 +1084,9 @@ namespace CFT.CSOMS.BLL.TradeModule
             }
         }
 
-        public DataSet GetListidFromUserOrder(string qqid, string uid, int start, int max)
+        public DataSet GetListidFromUserOrder(string qqid, string uid, int start, int max,int type)
         {
-            return (new TradeData()).GetListidFromUserOrder(qqid, uid, start, max);
+            return (new TradeData()).GetListidFromUserOrder(qqid, uid, start, max,type);
         }
         public DataSet GetQueryList(DateTime u_BeginTime, DateTime u_EndTime, string buyqq, string saleqq, string buyqqInnerID, string saleqqInnerID,
           string u_QueryType, string queryvalue, int fstate, int fcurtype, int start, int max)
@@ -1197,6 +1197,17 @@ namespace CFT.CSOMS.BLL.TradeModule
                }
            }
            return ds;
+        }
+
+        /// <summary>
+        /// 微粒贷查询-是否有未还清的欠款
+        /// </summary>
+        /// <param name="uin">QQ号</param>
+        /// <returns>true 存在, false 不存在</returns>
+        public bool HasUnfinishedWeiLibDai(string uin)
+        {
+            int state = new TradeData().WeiLibDaiQuery(uin);
+            return state != 0;  //0:无未还清欠款, 1:有未还清欠款
         }
     }
 }

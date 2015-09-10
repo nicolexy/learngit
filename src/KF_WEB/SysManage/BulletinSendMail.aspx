@@ -28,8 +28,16 @@
 					<TD><asp:textbox id="tbdate" runat="server"></asp:textbox><asp:requiredfieldvalidator id="Requiredfieldvalidator2" runat="server" ErrorMessage="请输入" ControlToValidate="tbdate"></asp:requiredfieldvalidator></TD>
 				</TR>
                 <TR>
-                     <TD align="center"><asp:button id="ButtonContacts" runat="server" Width="100px" Text="选择联系人分组" onclick="btnContacts_Click"></asp:button></TD>
-                      <TD><asp:label id="tbGroup" runat="server" TextMode="MultiLine" Height="300px"></asp:label></TD>
+                     <TD align="center">
+                         <asp:button id="ButtonContacts" runat="server" Width="100px" Text="选择联系人分组" onclick="btnContacts_Click"></asp:button>
+                         <br />
+                         <br />
+                         <asp:button id="btn_InEmail" runat="server" Width="100px" Text="输入收件邮箱" OnClick="btn_InEmail_Click"></asp:button>
+                     </TD>
+                      <TD>
+                          <asp:label id="tbGroup" runat="server" TextMode="MultiLine" style="display:block;" Height="120px"></asp:label>
+                          <textarea id="taa_emails" rows="10" cols="80" placeholder="请输入收件人邮箱，每个邮箱以;隔开" visible="false" runat="server"></textarea>
+                      </TD>
                 </TR>
                  <TR>
                       <TD colspan="2" align="center"><asp:button id="btnSendMail" Visible="false" runat="server" Width="80px" Text="发送邮件" onclick="btnSendMail_Click"></asp:button></TD>

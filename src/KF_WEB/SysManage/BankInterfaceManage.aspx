@@ -66,6 +66,9 @@
                     <TD align="left" colspan="5"><font color="red">提现、向银行卡付款、还房贷凌晨的维护只需要软关，开发、运维、财务通知要求硬关时可与开发、财务、产品确认后进行硬关。</font>
 					</TD>
 				</TR>
+                <TR>
+                    <TD align="left" colspan="5"><font color="red">每次维护开始时间必须从当前时间往后推至少5分钟，维护时间长度必须大于5分钟。</font></TD>
+				</TR>
                  <TR>
 					<TD align="right" colspan="5">
                         <asp:button id="btadd" runat="server" Width="80px" Text="新增" onclick="btadd_Click"></asp:button>

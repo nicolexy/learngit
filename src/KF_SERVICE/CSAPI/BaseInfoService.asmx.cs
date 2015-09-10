@@ -1413,6 +1413,89 @@ namespace CFT.CSOMS.Service.CSAPI
      
         #endregion
 
+        #region QQ账号修改申请
+        [WebMethod]
+        public void ChangeQQApply()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "old_qqid", "new_qqid", "reason", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string old_qqid = paramsHt.ContainsKey("old_qqid") ? paramsHt["old_qqid"].ToString() : "";
+                string new_qqid = paramsHt.ContainsKey("new_qqid") ? paramsHt["new_qqid"].ToString() : "";
+                string reason = paramsHt.ContainsKey("reason") ? paramsHt["reason"].ToString() : "";
+                string opera = paramsHt.ContainsKey("opera") ? paramsHt["opera"].ToString() : "";
+                string ip = paramsHt.ContainsKey("ip") ? paramsHt["ip"].ToString() : "";
+
+                string outMsg = "";
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountOperate().ChangeQQApply(old_qqid, new_qqid, reason, opera, ip, out outMsg);
+
+                RecordNew record = new RecordNew();
+                record.RetValue = infos.ToString().ToLower();
+                record.RetMemo = outMsg;
+                List<RecordNew> list = new List<RecordNew>();
+                list.Add(record);
+                APIUtil.Print<RecordNew>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("ChangeQQApply").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("ChangeQQApply").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        //修改QQ的日志记录
+        [WebMethod]
+        public void ChangeQQHistoryLog()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "oper", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+                string oper = paramsHt.ContainsKey("oper") ? paramsHt["oper"].ToString() : "";
+                int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
+                int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
+                if (offset < 0)
+                    offset = 0;
+                if (limit < 0 || limit > 100)
+                    limit = 20;
+
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountOperate().GetChangeQQList(oper, qqid, offset, limit);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<BaseInfoC.ChangeQQList> list = APIUtil.ConvertTo<BaseInfoC.ChangeQQList>(infos.Tables[0]);
+                APIUtil.Print<BaseInfoC.ChangeQQList>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("ChangeQQHistoryLog").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("ChangeQQHistoryLog").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        #endregion
+
         #region 销户操作
 
         /// <summary>
@@ -1461,7 +1544,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 }
 
                 string msg="";
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetCanncelAccountLog(qqid, opera, begin_time, end_time, offset, limit, out msg);
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountOperate().GetCanncelAccountLog(qqid, opera, begin_time, end_time, offset, limit, out msg);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
@@ -1485,7 +1568,7 @@ namespace CFT.CSOMS.Service.CSAPI
         /// <summary>
         /// 销户申请
         /// </summary>
-    
+        [WebMethod]
         public void DeleteLogonAccount()
         {
             try
@@ -1501,11 +1584,11 @@ namespace CFT.CSOMS.Service.CSAPI
                 string reason = paramsHt.ContainsKey("reason") ? paramsHt["reason"].ToString() : "";
                 bool is_Send = paramsHt.ContainsKey("send") ? APIUtil.StringToBool(paramsHt["send"].ToString()) : false;
                 string email_Addr = paramsHt.ContainsKey("email_Addr") ? paramsHt["email_Addr"].ToString() : "";
-                string opera = paramsHt.ContainsKey("opera") ? paramsHt["opera"].ToString() : "";           
+                string opera = paramsHt.ContainsKey("opera") ? paramsHt["opera"].ToString() : "";
+                string ip = paramsHt.ContainsKey("ip") ? paramsHt["ip"].ToString() : "";
                 string ret_msg = "";
-                bool ret_continue;
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().LogOnUserDeleteUser(query_id, query_type, reason, is_Send, email_Addr, opera, out  ret_msg,out ret_continue);
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountOperate().LogOnUserDeleteUser(query_id, query_type, reason, is_Send, email_Addr, opera, ip, out  ret_msg);
 
                 RecordNew record = new RecordNew();
                 record.RetValue = infos.ToString().ToLower();

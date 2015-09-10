@@ -77,6 +77,8 @@
     <Compile Include="CFTAccount\AccountData.cs" />
     <Compile Include="CFTAccount\CertificateData.cs" />
     <Compile Include="CheckModoule\CheckData.cs" />
+    <Compile Include="CheckModoule\FinishCheckData.cs" />
+    <Compile Include="CheckModoule\priorCheck.cs" />
     <Compile Include="CreditModule\CreditData.cs" />
     <Compile Include="CRTModule\CRTData.cs" />
     <Compile Include="ForeignCardModule\FCUserTradeQuery.cs" />

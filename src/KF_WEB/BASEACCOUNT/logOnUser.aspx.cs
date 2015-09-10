@@ -218,12 +218,15 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 //手Q用户转账中、退款中、未完成的订单禁止注销和批量注销
                 if (Regex.IsMatch(qqid, @"^[1-9]\d*$"))
                 {
+                    #region 手Q特有判断
                     DataSet dsHandQ = new TradeService().QueryPaymentParty("", "1,2,12,4", "3", qqid);
                     if (dsHandQ != null && dsHandQ.Tables.Count > 0 && dsHandQ.Tables[0].Rows.Count > 0 && dsHandQ.Tables[0].Rows[0]["result"].ToString() != "97420006")
                     {
                         WebUtils.ShowMessage(this.Page, "手Q用户转账中、退款中、未完成的订单禁止注销和批量注销");
                         return;
                     }
+
+                    #region 红包
                     try
                     {
                         DataSet dsMobileQHB = new TradeService().GetUnfinishedMobileQHB(qqid);
@@ -244,14 +247,34 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     catch (System.Exception ex)
                     {
                         LogHelper.LogError("查询手Q红包未完成交易失败" + ex.Message, "LogOnUser");
-                        WebUtils.ShowMessage(this.Page, "查询手Q红包未完成交易失败"+ex.Message);
+                        WebUtils.ShowMessage(this.Page, "查询手Q红包未完成交易失败" + ex.Message);
                         return;
+                    }  
+                    #endregion
+
+                    #region 微粒贷
+                    try
+                    {
+                        if (new TradeService().HasUnfinishedWeiLibDai(qqid))
+                        {
+                            WebUtils.ShowMessage(this.Page, "存在未完成的微粒贷欠款,禁止注销和批量注销");
+                            return;
+                        }
                     }
+                    catch (Exception)
+                    {
+                        WebUtils.ShowMessage(this.Page, "微粒贷查询,出错");
+                        return;
+                    } 
+                    #endregion
+    
+                    #endregion
                 }
 
                 //有微信支付、转账、红包未完成的禁止注销和批量注销
                 if (wxFlag == 1)
                 {
+                    #region 微信特有判断
                     try
                     {
                         int WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(TextBox2_WX.Text);
@@ -266,7 +289,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                         var startDate = endDate.AddDays(-15);
                         var openid = wxHBUIN.Replace("@hb.tenpay.com", "");
                         if (!string.IsNullOrEmpty(openid))
-                        { 
+                        {
                             var HasUnfinishedHB = (new TradeService()).QueryWXHasUnfinishedHB(openid, startDate, endDate);
                             if (HasUnfinishedHB)
                             {
@@ -281,7 +304,8 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                         LogHelper.LogError("销户操作查询微信支付在途条目出错" + ex.Message);
                         WebUtils.ShowMessage(this.Page, "销户操作查询微信支付在途条目出错" + ex.Message);
                         return;
-                    }
+                    } 
+                    #endregion
                 }
                 //是否有未完成的交易单
                 if (qs.LogOnUsercheckOrder(fqqid, "1"))
