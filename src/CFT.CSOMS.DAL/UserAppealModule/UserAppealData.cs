@@ -3065,12 +3065,15 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             }
             catch (Exception err)
             {
-                msg = err.Message;
-                return false;
+                LogHelper.LogInfo("申诉通过异常:" + "Fid:" + fid + msg + err.Message);
+                throw new Exception(msg + err.Message, err);
             }
             finally
             {
-                LogHelper.LogInfo("申诉通过报错:" + msg);
+                if (msg != "")
+                {
+                    LogHelper.LogInfo("申诉通过报错:" + msg);
+                }
                 da.Dispose();
             }
         }
