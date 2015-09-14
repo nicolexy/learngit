@@ -249,6 +249,49 @@ namespace CFT.CSOMS.COMMLIB
         }
 
         /// <summary>
+        /// 通过微信号获取香港钱包openid
+        /// </summary>
+        /// <param name="wechatName"></param>
+        /// <returns></returns>
+        public static string GetFCXGOpenIdFromWeChatName(string wechatName)
+        {
+            var ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("WeChatAppId_Ip", "10.198.132.188");
+            var port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("WeChatAppId_Port", 22000);
+            System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+
+            try
+            {
+                var obj = new
+                {
+                    appid = "wx29c4303a2ae3bf0f",
+                    username = wechatName
+                };
+
+                var req = "wechat_xml_text=" + jss.Serialize(obj);
+                var relay_result = RelayInvoke(req, "101448", false, false, ip, port);
+
+                var relay_dic = SunLibraryEX.StringEx.ToDictionary(relay_result);
+                if (relay_dic["result"] != "0")
+                {
+                    throw new Exception("relay转发l5,异常 [" + relay_result + "]");
+                }
+
+                var result = System.Web.HttpUtility.UrlDecode(relay_dic["res_info"]); //"{\"openid\":\"o6_bmjrPTlm6_2sgVt7hMZOPfL2M\"}";
+                var resultDic = jss.DeserializeObject(result) as Dictionary<string, object>;
+                if (resultDic == null)
+                {
+                    throw new Exception("通过微信api转换微信号到香港钱包openid出错" + result);
+                }
+                return resultDic["openid"] as string;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("通过微信api转换微信号到香港钱包openid", ex.Message));
+            }
+
+        }
+
+        /// <summary>
         /// 通过openid获取财付通帐号acctId
         /// </summary>
         /// <param name="openId"></param>

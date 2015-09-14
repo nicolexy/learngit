@@ -33,15 +33,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 
         public string[] m_arrUserFlag = 
         {
-            "借记卡",
-            "信用卡",
-            "未知类型卡",
-        };
-        public string[] m_arrCardType = 
-        {
             "个人",
             "公司",
             "未知类型",
+
+        };
+        public string[] m_arrCardType = 
+        {
+            "借记卡",
+            "信用卡",
+            "未知类型卡",
         };
         private  static log4net.ILog s_log;
         private  static log4net.ILog log
