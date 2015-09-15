@@ -104,7 +104,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         }
                     }
 
-                    if (iusertype > 0)
+                    if (iusertype >= 0)
                     {
                         DS_TradeLog = classLibrary.setConfig.returnDataSet(selectStr, 1, beginTime, endTime, iusertype, "GetPayList", istr, imax, Session["uid"].ToString(), Request.UserHostAddress);
                     }
