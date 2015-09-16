@@ -10,7 +10,21 @@ namespace CFT.CSOMS.DAL.RefundModule
 {
     public class RefundRegisterData
     {
-        //退款登记列表查询
+        /// <summary>
+        /// 退款登记列表查询
+        /// </summary>
+        /// <param name="coding">订单编码</param>
+        /// <param name="orderId">财付通订单号</param>
+        /// <param name="stime"></param>
+        /// <param name="etime"></param>
+        /// <param name="refundType">退款类型</param>
+        /// <param name="refundState">提交退款状态</param>
+        /// <param name="tradeState">交易状态</param>
+        /// <param name="refund_id">商户号</param>
+        /// <param name="submit_user">登记人</param>
+        /// <param name="iPageStart"></param>
+        /// <param name="iPageMax"></param>
+        /// <returns></returns>
         public DataSet QueryRefundRegisterList(string coding, string orderId, string stime, string etime, int refundType, int refundState, string tradeState,
             int refund_id, string submit_user, int iPageStart, int iPageMax) 
         {
@@ -71,7 +85,7 @@ namespace CFT.CSOMS.DAL.RefundModule
             return ds;
         }
 
-        public int QueryRefundRegisterCount(string coding, string orderId, string stime, string etime, int refundType, int refundState, string tradeState)
+        public int QueryRefundRegisterCount(string coding, string orderId, string stime, string etime, int refundType, int refundState, string tradeState, int refund_id, string submit_user)
         {
             StringBuilder Sql = new StringBuilder("select count(*) from  c2c_fmdb.t_refund_info where 1=1 ");
 
@@ -111,6 +125,11 @@ namespace CFT.CSOMS.DAL.RefundModule
             {
                 Sql.Append(" and Ftrade_state='" + tradeState + "'");
             }
+            if (refund_id > 0)
+                Sql.Append(" and LEFT(Forder_id,10) = " + refund_id);
+
+            if (!string.IsNullOrEmpty(submit_user))
+                Sql.Append(" and Fsubmit_user = '" + submit_user + "'");
 
             string ret = null;
             using (var da = MySQLAccessFactory.GetMySQLAccess("RefundRegister"))
