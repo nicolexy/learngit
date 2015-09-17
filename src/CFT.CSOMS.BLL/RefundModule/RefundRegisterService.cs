@@ -27,7 +27,8 @@ namespace CFT.CSOMS.BLL.RefundModule
             int refund_id, string submit_user, int iPageStart, int iPageMax) 
         {
             DataSet newDs = null;
-            DataSet ds = new RefundRegisterData().QueryRefundRegisterList(coding, orderId, stime, etime, refundType, refundState, "", refund_id, submit_user, iPageStart, iPageMax);
+            DataSet ds = new RefundRegisterData().QueryRefundRegisterList(coding, orderId, stime, etime, refundType, refundState, tradeState, 
+                refund_id, submit_user, iPageStart, iPageMax);
 
             if (ds != null && ds.Tables.Count > 0) 
             {
@@ -81,9 +82,23 @@ namespace CFT.CSOMS.BLL.RefundModule
             return newDs;
         }
 
-        public int QueryRefundRegisterCount(string coding, string orderId, string stime, string etime, int refundType, int refundState, string tradeState) 
+        /// <summary>
+        /// 查询 退款登记 总条数
+        /// </summary>
+        /// <param name="coding">订单编码</param>
+        /// <param name="orderId">财付通订单号</param>
+        /// <param name="stime"></param>
+        /// <param name="etime"></param>
+        /// <param name="refundType">退款类型</param>
+        /// <param name="refundState">提交退款状态</param>
+        /// <param name="tradeState">交易状态</param>
+        /// <param name="refund_id">商户号</param>
+        /// <param name="submit_user">登记人</param>
+        /// <returns></returns>
+        public int QueryRefundRegisterCount(string coding, string orderId, string stime, string etime, 
+            int refundType, int refundState, string tradeState, int refund_id, string submit_user) 
         {
-            return new RefundRegisterData().QueryRefundRegisterCount(coding, orderId, stime, etime, refundType, refundState, tradeState);
+            return new RefundRegisterData().QueryRefundRegisterCount(coding, orderId, stime, etime, refundType, refundState, tradeState, refund_id, submit_user);
         }
 
         public string QueryTradeAmount(string listid) 

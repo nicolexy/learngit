@@ -145,9 +145,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
             try
             {
-                int count = GetCount();
-                Label9.Text = count.ToString();
-
                 BindData(1);
             }
             catch (SoapException eSoap) //捕获soap类异常
@@ -200,26 +197,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             }
         }
 
-        private int GetCount()
-        {
-            DateTime begindate = DateTime.Parse(TextBoxBeginDate.Text);
-            string stime = begindate.ToString("yyyy-MM-dd 00:00:00");
-            DateTime enddate = DateTime.Parse(TextBoxEndDate.Text);
-            string etime = enddate.ToString("yyyy-MM-dd 23:59:59");
-
-            string listid = listId.Text.Trim();
-            string cftorderid = cftOrderId.Text.Trim();
-            int rf_type = int.Parse(ddlRefundType.SelectedValue);
-            int rf_status = int.Parse(ddlRefundStatus.SelectedValue);
-
-            string s_trade_state = ddlTradeState.SelectedValue;
-
-
-            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            //return qs.QueryRefundCount(listid, cftorderid, stime, etime, rf_type, rf_status, s_trade_state);
-            return new RefundRegisterService().QueryRefundRegisterCount(listid, cftorderid, stime, etime, rf_type, rf_status, s_trade_state);
-        }
-
         private void BindData(int index)
         {
             DateTime begindate = DateTime.Parse(TextBoxBeginDate.Text);
@@ -227,25 +204,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             DateTime enddate = DateTime.Parse(TextBoxEndDate.Text);
             string etime = enddate.ToString("yyyy-MM-dd 23:59:59");
 
-            string listid = listId.Text.Trim();
-            string cftorderid = cftOrderId.Text.Trim();
-            int refund_id = int.Parse(ddl_refund_id.SelectedValue);  //商户号
-            string submit_user = this.tbx_submit_user.Text.Trim();   //登记人
-            int rf_type = int.Parse(ddlRefundType.SelectedValue);
+            string listid = listId.Text.Trim();                       //订单编码
+            string cftorderid = cftOrderId.Text.Trim();               //财付通订单号
+            int refund_id = int.Parse(ddl_refund_id.SelectedValue);   //商户号
+            string submit_user = this.tbx_submit_user.Text.Trim();    //登记人
+            int rf_type = int.Parse(ddlRefundType.SelectedValue);     //退款类型
             int rf_status = int.Parse(ddlRefundStatus.SelectedValue); //提交退款状态
+            string s_trade_state = ddlTradeState.SelectedValue;       //交易状态
 
-            string s_trade_state = ddlTradeState.SelectedValue;
+            int count = new RefundRegisterService().QueryRefundRegisterCount(listid, cftorderid, stime, etime, rf_type, rf_status, s_trade_state, refund_id, submit_user);
+            Label9.Text = count.ToString();
 
-
-            pager.RecordCount = 1000;
+            pager.RecordCount = count;
             pager.CurrentPageIndex = index;
-
-
             int max = pager.PageSize;
             int start = max * (index - 1);
 
-            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            //DataSet ds = qs.QueryRefundInfo(listid, cftorderid, stime, etime, rf_type, rf_status,s_trade_state, start, max);
             DataSet ds = new RefundRegisterService().QueryRefundRegisterList(listid, cftorderid, stime, etime, rf_type, rf_status, s_trade_state, refund_id, submit_user, start, max);
 
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -335,9 +309,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             int rf_status = int.Parse(ddlRefundStatus.SelectedValue);
             string s_trade_state = ddlTradeState.SelectedValue;
 
-            int count = GetCount();
-            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            //DataSet ds = qs.QueryRefundInfo(listid, cftorderid, stime, etime, rf_type, rf_status,s_trade_state, 1, count);
+            int count = new RefundRegisterService().QueryRefundRegisterCount(listid, cftorderid, stime, etime, rf_type, rf_status, s_trade_state, refund_id, submit_user);
+            
             DataSet ds = new RefundRegisterService().QueryRefundRegisterList(listid, cftorderid, stime, etime, rf_type, rf_status, s_trade_state, refund_id, submit_user, 0, count);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
