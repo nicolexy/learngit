@@ -19,6 +19,7 @@ using System.Web.Mail;
 using System.IO;
 using System.Configuration;
 using System.Collections.Generic;
+using System.Text;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -637,9 +638,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                         + dr["TradeState_str"] + "\"\t=\"" + dr["CompanyName"] + "\"\t=\"" + dr["WWWAdress"] + "\"\t=\"" + dr["Fbuy_bank_type_str"] + "\"\t=\"" + dr["Fmemo"] + "\"");
                 }
                 sw.Close();
-                Response.AddHeader("Content-Disposition", "attachment; filename=银行订单批量查询.xls");
+                Response.Clear();
+                Response.AddHeader("Content-Disposition", "attachment; filename=" + HttpUtility.UrlEncode("银行订单批量查询", Encoding.UTF8) + ".xls");
                 Response.ContentType = "application/ms-excel";
-                Response.ContentEncoding = System.Text.Encoding.UTF8;
+                Response.ContentEncoding = Encoding.UTF8;
                 Response.Write(sw);
                 Response.End();
             }
