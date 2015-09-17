@@ -31,9 +31,17 @@
 			</TABLE>
             <br/>
              <br/>
-            <div style="Z-INDEX: 102; LEFT: 5.02%;POSITION: absolute; TOP: 184px; HEIGHT: 35%" >
-                <asp:label id="Label3" runat="server">财付通订单号：</asp:label>
-                <asp:label id="lbFlistid" runat="server"></asp:label>
+            <div style="Z-INDEX: 102; LEFT: 5.02%;POSITION: absolute; TOP: 184px; HEIGHT: 35%;" >
+                <asp:DataGrid ID="dg_info" runat="server"  AutoGenerateColumns="False">
+                    <ItemStyle Wrap="False"></ItemStyle>
+				    <HeaderStyle Wrap="False" BackColor="#EEEEEE"></HeaderStyle>
+                    <Columns>
+                        <asp:BoundColumn DataField="Flistid" HeaderText="财付通订单号" ItemStyle-Width="300px" />
+                        <asp:BoundColumn DataField="Fpaynum_str" HeaderText="金额" ItemStyle-Width="110px"/>
+                        <asp:BoundColumn DataField="Fmodify_time" HeaderText="时间" ItemStyle-Width="200px"/>
+                        <asp:BoundColumn DataField="Fmemo" HeaderText="备注"  ItemStyle-Width="200px"/>
+                    </Columns>
+                </asp:DataGrid>
              </div>
 		</form>
 	</body>

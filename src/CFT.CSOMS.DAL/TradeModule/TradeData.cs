@@ -22,9 +22,43 @@ namespace CFT.CSOMS.DAL.TradeModule
         //注销前交易查询
         public DataSet BeforeCancelTradeQuery(string uid)
         {
-            string fields = "uid:" + uid;
-            return new PublicRes().QueryCommRelay8020("413", fields, 0, 1);
+            #region 委托--获取销户转账数据
+            Func<DataSet, DataSet> GetXiaoHuOrder = ds =>
+            {
+                DataSet result = null;
+                if (ds != null && ds.Tables.Count !=0 && ds.Tables[0].Rows.Count != 0)
+                {
+                    var rows = ds.Tables[0].Select("Fmemo = '销户转账' or Fspid = '1000009801'");
+                    if (rows.Length != 0)
+                    {
+                        var dt = ds.Tables[0].Clone();
+                        foreach (DataRow item in rows)
+                        {
+                            dt.ImportRow(item);
+                        }
 
+                        result = new DataSet();
+                        result.Tables.Add(dt);
+                    }
+                }
+                return result;
+            };
+            #endregion
+
+            string fields = "uid:" + uid;
+            var order_ds = new PublicRes().QueryCommRelay8020("413", fields, 0, 20);
+
+            var XHOrderds = GetXiaoHuOrder(order_ds);
+            if (XHOrderds == null)
+            {
+                //查询历史表
+                fields += "|year:" + DateTime.Now.AddDays(-15).Year.ToString();  //多久迁移一次历史库,就减去相应的天数
+                order_ds = new PublicRes().QueryCommRelay8020("414", fields, 0, 20);
+                XHOrderds = GetXiaoHuOrder(order_ds);
+            }
+            return XHOrderds;
+
+            #region SQL 转relay 之前代码
             long uidL = long.Parse(uid);
             int uidEnd = int.Parse(uid.Substring(uid.Length - 2));
             string conString = "";
@@ -106,10 +140,11 @@ namespace CFT.CSOMS.DAL.TradeModule
             {
                 da.OpenConn();
                 string tableStr = PublicRes.GetTableNameUid("t_bankroll_list", uid);
-                string Sql = "Select * from  " + tableStr + " where Fuid='"+uid+"' Order by Fmodify_time DESC limit 1";
+                string Sql = "Select * from  " + tableStr + " where Fuid='" + uid + "' Order by Fmodify_time DESC limit 1";
                 DataSet ds = da.dsGetTotalData(Sql);
                 return ds;
-            }
+            } 
+            #endregion
         }
 
         /// <summary>
