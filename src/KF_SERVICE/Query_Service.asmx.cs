@@ -4693,7 +4693,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
                 string req = "";
                 string uid = PublicRes.ConvertToFuid(cftNo);
-                req = "uid=" + uid;
+                req = string.Format("uid={0}&product_type=3&business_type=1&sub_business_type=0&cur_type=1", 
+                    uid);
                 string service_name = "oss_eip_query_userfee_service";
                 ds = CommQuery.GetOneTableFromICE(req, CommQuery.QUERY_FREE_FLOW, service_name, out msg);
             }
