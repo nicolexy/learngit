@@ -15,39 +15,72 @@ namespace CFT.CSOMS.DAL.FundModule
         //获取理财通交易记录  查基金交易（客户）表
         public DataTable QueryFundRollList(string u_QQID, DateTime u_BeginTime, DateTime u_EndTime, string Fcurtype, int istr, int imax, int Ftype)
         {
+            //string uid = AccountData.ConvertToFuid(u_QQID);
+            //if (uid == null || uid.Length < 3)
+            //{
+            //    throw new Exception("内部ID不正确！");
+            //}
+
+            //using (var da = MySQLAccessFactory.GetMySQLAccess("Fund"))
+            //{
+            //    var table_name = string.Format("fund_db_{0}.t_trade_user_fund_{1}", uid.Substring(uid.Length - 2), uid.Substring(uid.Length - 3, 1));
+
+            //    var sqlBuilder = new StringBuilder(string.Format("select * from {0} where Fuid='{1}'", table_name, uid));
+            //    string begin = u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss");
+            //    string end = u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
+            //    if (begin != "1900-01-01 00:00:00" && end != "1900-01-01 00:00:00")
+            //    {
+            //        sqlBuilder.AppendFormat(" and Facc_time between '{0}' and '{1}' ", begin, end);
+            //    }
+            //    if (!string.IsNullOrEmpty(Fcurtype))//基金公司
+            //        sqlBuilder.AppendFormat(" and Fcur_type = '{0}'", Fcurtype);
+            //    if (Ftype != -1)
+            //    {
+            //        if (Ftype == 1)//出入：入：Fpur_type =1 申购 Fstate 2,3状态的为申购成功
+            //            sqlBuilder.AppendFormat(" and Fpur_type = 1 and Fstate in (2,3) ");
+            //        if (Ftype == 2)//出入：出：Fpur_type =4 赎回  Fstate 5，10状态的为赎回成功
+            //            sqlBuilder.AppendFormat(" and Fpur_type =4  and Fstate in (5,10) ");
+            //    }
+            //    sqlBuilder.AppendFormat(" order by Facc_time desc limit " + istr + "," + imax);
+
+            //    da.OpenConn();
+            //    DataSet ds = da.dsGetTotalData(sqlBuilder.ToString());
+
+            //    return ds.Tables[0];
+            //}
             string uid = AccountData.ConvertToFuid(u_QQID);
+
             if (uid == null || uid.Length < 3)
             {
                 throw new Exception("内部ID不正确！");
             }
 
-            using (var da = MySQLAccessFactory.GetMySQLAccess("Fund"))
+            var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
+            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
+            string requestText = "reqid=677&flag=2&offset=" + istr + "&limit=" + imax + "&fields=uid:" + uid;
+
+            string begin = u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss");
+            string end = u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
+            if (begin != "1900-01-01 00:00:00" && end != "1900-01-01 00:00:00")
             {
-                var table_name = string.Format("fund_db_{0}.t_trade_user_fund_{1}", uid.Substring(uid.Length - 2), uid.Substring(uid.Length - 3, 1));
-
-                var sqlBuilder = new StringBuilder(string.Format("select * from {0} where Fuid='{1}'", table_name, uid));
-                string begin=u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss");
-                string end=u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
-                if (begin != "1900-01-01 00:00:00" && end != "1900-01-01 00:00:00")
-                {
-                    sqlBuilder.AppendFormat(" and Facc_time between '{0}' and '{1}' ", begin, end);
-                }
-                if (!string.IsNullOrEmpty(Fcurtype))//基金公司
-                    sqlBuilder.AppendFormat(" and Fcur_type = '{0}'", Fcurtype);
-                if (Ftype != -1)
-                {
-                    if (Ftype == 1)//出入：入：Fpur_type =1 申购 Fstate 2,3状态的为申购成功
-                        sqlBuilder.AppendFormat(" and Fpur_type = 1 and Fstate in (2,3) ");
-                    if (Ftype == 2)//出入：出：Fpur_type =4 赎回  Fstate 5，10状态的为赎回成功
-                        sqlBuilder.AppendFormat(" and Fpur_type =4  and Fstate in (5,10) ");
-                }
-                sqlBuilder.AppendFormat(" order by Facc_time desc limit " + istr + "," + imax);
-                
-                da.OpenConn();
-                DataSet ds = da.dsGetTotalData(sqlBuilder.ToString());
-
-                return ds.Tables[0];
+                requestText += "|begin_time:" + begin + "|end_time:" + end;
             }
+            if (!string.IsNullOrEmpty(Fcurtype))//基金公司
+                requestText += "|cur_type:" + Fcurtype;
+            if (Ftype != -1)
+            {
+                if (Ftype == 1)//出入：入：Fpur_type =1 申购 Fstate 2,3状态的为申购成功
+                    requestText += "|pur_type=1|state=2,3";
+                if (Ftype == 2)//出入：出：Fpur_type =4 赎回  Fstate 5，10状态的为赎回成功
+                    requestText += "|pur_type=4|state=5,10";
+            }
+            DataTable dt = null;
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                dt = ds.Tables[0];
+            }
+            return dt;
         }
 
         //从KF_SERVICE迁移过来的

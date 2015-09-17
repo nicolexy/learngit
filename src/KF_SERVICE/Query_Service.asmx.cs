@@ -20316,80 +20316,80 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
 
-        [WebMethod(Description = "查询基金账户的支付银行卡信息")]
-        public DataTable GetPayCardInfo(string qqid)
-        {
-            try
-            {
-                if (qqid == null || qqid == "")
-                {
-                    throw new LogicException("财付通账号不能为空！");
-                }
+        //[WebMethod(Description = "查询基金账户的支付银行卡信息")]
+        //public DataTable GetPayCardInfo(string qqid)
+        //{
+        //    try
+        //    {
+        //        if (qqid == null || qqid == "")
+        //        {
+        //            throw new LogicException("财付通账号不能为空！");
+        //        }
 
-                string fuid = PublicRes.ConvertToFuid(qqid);
-                if (string.IsNullOrEmpty(fuid))
-                {
-                    throw new LogicException("财付通账号不存在！");
-                }
+        //        string fuid = PublicRes.ConvertToFuid(qqid);
+        //        if (string.IsNullOrEmpty(fuid))
+        //        {
+        //            throw new LogicException("财付通账号不存在！");
+        //        }
 
-                string sql = "select * from fund_db.t_fund_pay_card where Fqqid='" + qqid + "'";
+        //        string sql = "select * from fund_db.t_fund_pay_card where Fqqid='" + qqid + "'";
 
-                using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("fund")))
-                {
-                    da.OpenConn();
-                    var dt = da.GetTable(sql);
-                    dt.TableName = "PayCardInfo";
-                    return dt;
-                }
-            }
-            catch (Exception err)
-            {
-                throw new LogicException("Service处理失败！");
-            }
+        //        using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("fund")))
+        //        {
+        //            da.OpenConn();
+        //            var dt = da.GetTable(sql);
+        //            dt.TableName = "PayCardInfo";
+        //            return dt;
+        //        }
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        throw new LogicException("Service处理失败！");
+        //    }
 
-        }
+        //}
 
 
-        [WebMethod(Description = "查询基金账户的支付银行卡信息(将银行转义封装在里面)")]
-        public DataTable GetPayCardInfoEx(string qqid)
-        {
-            try
-            {
-                if (qqid == null || qqid == "")
-                {
-                    throw new LogicException("财付通账号不能为空！");
-                }
+        //[WebMethod(Description = "查询基金账户的支付银行卡信息(将银行转义封装在里面)")]
+        //public DataTable GetPayCardInfoEx(string qqid)
+        //{
+        //    try
+        //    {
+        //        if (qqid == null || qqid == "")
+        //        {
+        //            throw new LogicException("财付通账号不能为空！");
+        //        }
 
-                string fuid = PublicRes.ConvertToFuid(qqid);
-                if (string.IsNullOrEmpty(fuid))
-                {
-                    throw new LogicException("财付通账号不存在！");
-                }
+        //        string fuid = PublicRes.ConvertToFuid(qqid);
+        //        if (string.IsNullOrEmpty(fuid))
+        //        {
+        //            throw new LogicException("财付通账号不存在！");
+        //        }
 
-                string sql = "select * from fund_db.t_fund_pay_card where Fqqid='" + qqid + "'";
+        //        string sql = "select * from fund_db.t_fund_pay_card where Fqqid='" + qqid + "'";
 
-                using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("fund")))
-                {
-                    da.OpenConn();
-                    var dt = da.GetTable(sql);
-                    dt.TableName = "PayCardInfo";
-                    if (dt != null && dt.Rows.Count > 0)
-                    {
-                        dt.Columns.Add("Fbank_type_name", typeof(string));
-                        foreach (DataRow dr in dt.Rows)
-                        {
-                            dr["Fbank_type_name"] = BankIO.QueryBankName(dt.Rows[0]["Fbank_type"].ToString());
-                        }
-                    }
-                    return dt;
-                }
-            }
-            catch (Exception err)
-            {
-                throw new LogicException("Service处理失败！");
-            }
+        //        using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("fund")))
+        //        {
+        //            da.OpenConn();
+        //            var dt = da.GetTable(sql);
+        //            dt.TableName = "PayCardInfo";
+        //            if (dt != null && dt.Rows.Count > 0)
+        //            {
+        //                dt.Columns.Add("Fbank_type_name", typeof(string));
+        //                foreach (DataRow dr in dt.Rows)
+        //                {
+        //                    dr["Fbank_type_name"] = BankIO.QueryBankName(dt.Rows[0]["Fbank_type"].ToString());
+        //                }
+        //            }
+        //            return dt;
+        //        }
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        throw new LogicException("Service处理失败！");
+        //    }
 
-        }
+        //}
         /// <summary>
         /// 查询用户绑定银行卡，走relay hanson 2014.2.17
         /// </summary>
@@ -20420,27 +20420,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        [WebMethod(Description = "查询理财通支持的银行类型")]
-        public DataTable GetFundSupportBank()
-        {
-            try
-            {
+        //[WebMethod(Description = "查询理财通支持的银行类型")]
+        //public DataTable GetFundSupportBank()
+        //{
+        //    try
+        //    {
 
-                string sql = "select * from fund_db.t_fund_bank_config where Flstate=1";
+        //        string sql = "select * from fund_db.t_fund_bank_config where Flstate=1";
 
-                using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("fund")))
-                {
-                    da.OpenConn();
-                    var dt = da.GetTable(sql);
-                    dt.TableName = "SupportBank";
-                    return dt;
-                }
-            }
-            catch (Exception err)
-            {
-                throw new LogicException("Service处理失败！");
-            }
-        }
+        //        using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("fund")))
+        //        {
+        //            da.OpenConn();
+        //            var dt = da.GetTable(sql);
+        //            dt.TableName = "SupportBank";
+        //            return dt;
+        //        }
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        throw new LogicException("Service处理失败！");
+        //    }
+        //}
 
         [WebMethod(Description = "修改理财通支付银行卡")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -20498,38 +20498,38 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         }
 
-        [Obsolete("合并到FundRoll中QueryFundRollList")]
-        [WebMethod(Description = "获取理财通交易记录")]
-        [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        public DataSet GetFundTradeList(string qqId, int pageIndex, int pageSize)
-        {
-            try
-            {
-                if (qqId == null || qqId == "")
-                {
-                    throw new LogicException("财付通账号不能为空！");
-                }
+        //[Obsolete("合并到FundRoll中QueryFundRollList")]
+        //[WebMethod(Description = "获取理财通交易记录")]
+        //[SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
+        //public DataSet GetFundTradeList(string qqId, int pageIndex, int pageSize)
+        //{
+        //    try
+        //    {
+        //        if (qqId == null || qqId == "")
+        //        {
+        //            throw new LogicException("财付通账号不能为空！");
+        //        }
 
-                string fuid = PublicRes.ConvertToFuid(qqId);
-                if (string.IsNullOrEmpty(fuid))
-                {
-                    throw new LogicException("财付通账号不存在！");
-                }
+        //        string fuid = PublicRes.ConvertToFuid(qqId);
+        //        if (string.IsNullOrEmpty(fuid))
+        //        {
+        //            throw new LogicException("财付通账号不存在！");
+        //        }
 
-                var tableName = string.Format("fund_db_{0}.t_trade_user_fund_{1}", fuid.Substring(fuid.Length - 2, 2), fuid.Substring(fuid.Length - 3, 1));
-                var sql = string.Format("select * from {0} where Fuid='{1}' and Fcur_type=90 limit {2},{3}", tableName, fuid, pageIndex * pageSize, pageSize);
+        //        var tableName = string.Format("fund_db_{0}.t_trade_user_fund_{1}", fuid.Substring(fuid.Length - 2, 2), fuid.Substring(fuid.Length - 3, 1));
+        //        var sql = string.Format("select * from {0} where Fuid='{1}' and Fcur_type=90 limit {2},{3}", tableName, fuid, pageIndex * pageSize, pageSize);
 
-                using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("fund")))
-                {
-                    da.OpenConn();
-                    return da.dsGetTotalData(sql);
-                }
-            }
-            catch (Exception err)
-            {
-                throw new LogicException(string.Format("Service处理失败！{0}", err.Message));
-            }
-        }
+        //        using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("fund")))
+        //        {
+        //            da.OpenConn();
+        //            return da.dsGetTotalData(sql);
+        //        }
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        throw new LogicException(string.Format("Service处理失败！{0}", err.Message));
+        //    }
+        //}
 
         #endregion
 

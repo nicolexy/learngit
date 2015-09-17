@@ -297,28 +297,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             return id;
         }
 
-        private void BindFundsList()
-        {
-            try
-            {
-                var fundCorLists = FundService.GetAllFundInfo();
+        //private void BindFundsList()
+        //{
+        //    try
+        //    {
+        //        var fundCorLists = FundService.GetAllFundInfo();
 
-                if (fundCorLists.Count < 1)
-                    throw new Exception("未拉取到基金公司记录表");
+        //        if (fundCorLists.Count < 1)
+        //            throw new Exception("未拉取到基金公司记录表");
 
-                //this.ddl_companyName.DataSource = fundCorLists;
-                //this.ddl_companyName.DataTextField = "Name";
-                //this.ddl_companyName.DataValueField = "SPId";
-                //this.ddl_companyName.DataBind();
-                //插入空选项
-                //this.ddl_companyName.Items.Insert(0, new ListItem("全部", string.Empty));
+        //        //this.ddl_companyName.DataSource = fundCorLists;
+        //        //this.ddl_companyName.DataTextField = "Name";
+        //        //this.ddl_companyName.DataValueField = "SPId";
+        //        //this.ddl_companyName.DataBind();
+        //        //插入空选项
+        //        //this.ddl_companyName.Items.Insert(0, new ListItem("全部", string.Empty));
 
-            }
-            catch (Exception ex)
-            {
-                WebUtils.ShowMessage(this, "基金公司列表拉取失败:" + HttpUtility.JavaScriptStringEncode(ex.Message));
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        WebUtils.ShowMessage(this, "基金公司列表拉取失败:" + HttpUtility.JavaScriptStringEncode(ex.Message));
+        //    }
+        //}
 
         private void BindBasicAccountInfo(string qqId)
         {
@@ -343,18 +343,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
 
             //基金账户信息
-            var basicFundAccountInfo = queryService.GetUserFundAccountInfo(qqId);
-            if (basicFundAccountInfo != null && basicFundAccountInfo.Tables.Count > 0 && basicFundAccountInfo.Tables[0].Rows.Count > 0)
+            //var basicFundAccountInfo = queryService.GetUserFundAccountInfo(qqId);
+
+            var basicFundAccountInfo = fundBLLService.GetUserFundAccountInfo(qqId);
+            if (basicFundAccountInfo != null && basicFundAccountInfo.Rows.Count > 0)
             {
-                lblName.Text = basicFundAccountInfo.Tables[0].Rows[0]["Ftrue_name"].ToString();
-                lblAccountStatus.Text = basicFundAccountInfo.Tables[0].Rows[0]["FstateName"].ToString();
-                lblCell.Text = basicFundAccountInfo.Tables[0].Rows[0]["Fmobile"].ToString();
-                lblCreateTime.Text = basicFundAccountInfo.Tables[0].Rows[0]["Fcreate_time"].ToString();
+                lblName.Text = basicFundAccountInfo.Rows[0]["Ftrue_name"].ToString();
+                lblAccountStatus.Text = basicFundAccountInfo.Rows[0]["FstateName"].ToString();
+                lblCell.Text = basicFundAccountInfo.Rows[0]["Fmobile"].ToString();
+                lblCreateTime.Text = basicFundAccountInfo.Rows[0]["Fcreate_time"].ToString();
             }
 
 
             //安全卡信息
-            var safeCardInfo = queryService.GetPayCardInfo(qqId);
+            var safeCardInfo = fundBLLService.GetPayCardInfo(qqId);
             string card_tail = "";
             string bind_serialno = "";
             string bank_type = "";
@@ -454,9 +456,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             decimal totalMarkValue = 0;
             foreach (DataRow item in summaryTable.Rows)
             {
-                totalBalance += long.Parse(item["balance"].ToString());
-                totalProfit += long.Parse(item["Ftotal_profit"].ToString());
-                totalMarkValue += decimal.Parse(item["markValue"].ToString());
+                try
+                {
+                    totalBalance += long.Parse(item["balance"].ToString());
+                    totalProfit += long.Parse(item["Ftotal_profit"].ToString());
+                    totalMarkValue += decimal.Parse(item["markValue"].ToString());
+                }
+                catch 
+                {
+
+                }
             }
             if (!ClassLib.ValidateRight("BalanceControl", this))
             {
@@ -565,7 +574,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 bool markQuerySfCar = false;
                 foreach (DataRow dr in bankRollList.Rows)
                 {
-                  //  ViewState["HasSafeCard"] = false;//测试无安全卡
+                    //ViewState["HasSafeCard"] = false;//测试无安全卡
                     if (ViewState["close_flag"].ToString() == "2")//封闭基金
                     {
                         dr["URL"] = "";
@@ -661,22 +670,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     }
                 }
             }
-        }
-
-        private string QueryTradeFundInfo(string spId, string listid)
-        {
-            string duoFund = "";
-            var tradeFund = fundBLLService.QueryTradeFundInfo(spId, listid);
-            if (tradeFund != null && tradeFund.Rows.Count > 0)
-            {
-                string fundName = tradeFund.Rows[0]["Ffund_name"].ToString();
-                string tmp = tradeFund.Rows[0]["Fpur_type"].ToString();
-                if (tmp == "11")
-                    duoFund = "(" + fundName + "转入)";
-                if (tmp == "12")
-                    duoFund = "(转出至" + fundName + ")";
-            }
-            return duoFund;
         }
 
         private void BindBankRollListNotChildren(string qqId, string spId, string curtype, DateTime beginDate, DateTime endDate, int pageIndex = 1, int redirectionType = 0)

@@ -367,25 +367,37 @@ namespace CFT.CSOMS.DAL.ActivityModule
         //通过FUid找到用户参加活动的渠道号
         public string GetChannelIDByFUId(string uid)
         {
-            if (string.IsNullOrEmpty(uid)) return string.Empty;
+            //if (string.IsNullOrEmpty(uid)) return string.Empty;
 
-            var tableName = string.Format("fund_db_{0}.t_trade_user_fund_{1}", uid.Substring(uid.Length - 2), uid.Substring(uid.Length - 3, 1));
+            //var tableName = string.Format("fund_db_{0}.t_trade_user_fund_{1}", uid.Substring(uid.Length - 2), uid.Substring(uid.Length - 3, 1));
 
-            string sql = string.Format("SELECT Fchannel_id FROM {0} WHERE Fuid = '{1}' ", tableName, uid);
-            using (var da = MySQLAccessFactory.GetMySQLAccess("Fund"))
+            //string sql = string.Format("SELECT Fchannel_id FROM {0} WHERE Fuid = '{1}' ", tableName, uid);
+            //using (var da = MySQLAccessFactory.GetMySQLAccess("Fund"))
+            //{
+            //    da.OpenConn();
+            //    DataTable dt = da.GetTable(sql);
+            //    if (dt != null && dt.Rows.Count > 0)
+            //    {
+            //        return dt.Rows[0]["Fchannel_id"].ToString();
+            //    }
+            //    else
+            //    {
+            //        return string.Empty;
+            //    }
+
+            //}
+            string channel = string.Empty;
+
+            var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
+            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
+            string requestText = "reqid=677&flag=2&offset=0&limit=1&fields=uid:" + uid;
+
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-                da.OpenConn();
-                DataTable dt = da.GetTable(sql);
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    return dt.Rows[0]["Fchannel_id"].ToString();
-                }
-                else
-                {
-                    return string.Empty;
-                }
-
+                channel = ds.Tables[0].Rows[0]["Fchannel_id"].ToString();
             }
+            return channel;
         }
         private string GetParamFields()
         {
