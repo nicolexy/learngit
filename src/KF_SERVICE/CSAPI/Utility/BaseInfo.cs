@@ -539,7 +539,7 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             public string Fip { get; set; }
             [XmlElement("create_time")]
             public string Fcreate_time { get; set; }
-            [XmlElement("Fmodify_time")]
+            [XmlElement("modify_time")]
             public string Fmodify_time { get; set; }
             [XmlElement("delete_time")]
             public string Fmodify_time2 { get; set; }
@@ -578,7 +578,7 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             [XmlElement("result")]
             public string Result { get; set; }
             [XmlElement("pickuser")]//处理人
-            public string FPickuser { get;set; }
+            public string Fpickuser { get;set; }
             [XmlElement("picktime")]
             public string Fpicktime { get; set; }
             [XmlElement("memo")]
@@ -644,7 +644,7 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             [XmlElement("freeze_time")]
             public string FFreezeTime { get; set; }
             [XmlElement("id")]
-            public string fid { get; set; }
+            public string Fid { get; set; }
         }
 
         public class FreezeListDetail

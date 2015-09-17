@@ -666,20 +666,21 @@ namespace CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "offset", "limit", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "offset", "limit", "ip", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
                 string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
                 int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
                 int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
+                string ip = paramsHt.ContainsKey("ip") ? paramsHt["ip"].ToString() : "";
 
                 if (offset < 0)
                     offset = 0;
                 if (limit < 0 || limit > 100)
                     limit = 100;
 
-                var infos = new CFT.CSOMS.BLL.AutoRecharge.AutoRechargeService().QueryAutomaticRecharge(uin, offset, limit);
+                var infos = new CFT.CSOMS.BLL.AutoRecharge.AutoRechargeService().QueryAutomaticRecharge(uin, offset, limit, ip);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
@@ -709,7 +710,7 @@ namespace CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "plan_id", "offset", "limit", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "plan_id", "offset", "limit", "ip", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
@@ -717,13 +718,14 @@ namespace CSAPI
                 string plan_id = paramsHt.ContainsKey("plan_id") ? paramsHt["plan_id"].ToString() : "";
                 int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
                 int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
+                string ip = paramsHt.ContainsKey("ip") ? paramsHt["ip"].ToString() : "";
 
                 if (offset < 0)
                     offset = 0;
                 if (limit < 0 || limit > 100)
                     limit = 100;
 
-                var infos = new CFT.CSOMS.BLL.AutoRecharge.AutoRechargeService().QueryAutomaticRechargeBillList(uin, plan_id, offset, limit);
+                var infos = new CFT.CSOMS.BLL.AutoRecharge.AutoRechargeService().QueryAutomaticRechargeBillList(uin, plan_id, offset, limit, ip);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);

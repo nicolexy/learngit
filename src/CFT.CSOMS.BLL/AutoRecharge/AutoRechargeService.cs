@@ -12,9 +12,9 @@ namespace CFT.CSOMS.BLL.AutoRecharge
         /// <summary>
         /// 自动充值签约查询
         /// </summary>
-        public DataSet QueryAutomaticRecharge(string uin, int limStart, int limMax)
+        public DataSet QueryAutomaticRecharge(string uin, int limStart, int limMax,string ip)
         {
-            DataSet ds = new AutoRechargeData().QueryAutomaticRecharge(uin, limStart, limMax);
+            DataSet ds = new AutoRechargeData().QueryAutomaticRecharge(uin, limStart, limMax, ip);
 
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
@@ -45,9 +45,9 @@ namespace CFT.CSOMS.BLL.AutoRecharge
         /// <summary>
         /// 自动充值交易单查询
         /// </summary>
-        public DataSet QueryAutomaticRechargeBillList(string uin, string plan_id, int limStart, int limMax)
+        public DataSet QueryAutomaticRechargeBillList(string uin, string plan_id, int limStart, int limMax,string ip)
         {
-            DataSet ds = new AutoRechargeData().QueryAutomaticRechargeBillList(uin, plan_id, limStart, limMax);
+            DataSet ds = new AutoRechargeData().QueryAutomaticRechargeBillList(uin, plan_id, limStart, limMax, ip);
 
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {

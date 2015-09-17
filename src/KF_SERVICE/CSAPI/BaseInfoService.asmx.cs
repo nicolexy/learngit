@@ -1461,12 +1461,12 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "oper", "offset", "limit", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "opera", "offset", "limit", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
                 string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
-                string oper = paramsHt.ContainsKey("oper") ? paramsHt["oper"].ToString() : "";
+                string opera = paramsHt.ContainsKey("opera") ? paramsHt["opera"].ToString() : "";
                 int offset = paramsHt.ContainsKey("offset") ? APIUtil.StringToInt(paramsHt["offset"].ToString()) : 0;
                 int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
                 if (offset < 0)
@@ -1474,7 +1474,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 if (limit < 0 || limit > 100)
                     limit = 20;
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountOperate().GetChangeQQList(oper, qqid, offset, limit);
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountOperate().GetChangeQQList(opera, qqid, offset, limit);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
@@ -1575,7 +1575,7 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "begin_time", "end_time", "offset", "limit", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "query_id", "query_type", "reason", "send", "opera", "ip", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
@@ -1811,7 +1811,7 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "begin_time", "end_time", "offset", "limit", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
@@ -1827,7 +1827,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 if (offset < 0)
                     offset = 0;
-                if (limit < 0 || limit > 1000)
+                if (limit < 0 || limit > 100)
                     limit = 50;
 
                 DataSet ds = new DataSet();
@@ -1871,7 +1871,7 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "id", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "id", "begin_time", "end_time", "offset", "limit", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
@@ -1888,7 +1888,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 if (offset < 0)
                     offset = 0;
-                if (limit < 0 || limit > 1000)
+                if (limit < 0 || limit > 100)
                     limit = 50;
 
                 var infos = new CFT.CSOMS.BLL.FreezeModule.FreezeService().GetFreezeList(begin_time, end_time, freezeuser, username, handletype, statetype, id, offset, limit);
@@ -2278,7 +2278,7 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "serialNo", "ip", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 

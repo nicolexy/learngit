@@ -13,7 +13,7 @@ namespace CFT.CSOMS.DAL.AutoRechargeModule
         /// <summary>
         /// 自动充值签约查询
         /// </summary>
-        public DataSet QueryAutomaticRecharge(string uin, int limStart, int limMax)
+        public DataSet QueryAutomaticRecharge(string uin, int limStart, int limMax, string client_ip)
         {
             string msg = "";
             try
@@ -22,7 +22,7 @@ namespace CFT.CSOMS.DAL.AutoRechargeModule
                 string req = "";
 
                 DataSet ds = null;
-                req = "charge_type=nsp&uin=" + uin + "&offset=" + limStart + "&limit=" + limMax;// +"&client_ip=" + client_ip;
+                req = "charge_type=nsp&uin=" + uin + "&offset=" + limStart + "&limit=" + limMax + "&client_ip=" + client_ip;
                 ds = CommQuery.GetXmlToDataSetFromICE(req, "", service_name, out msg);
                 DataTable dtt = ds.Tables[0];
                 return ds;
@@ -36,7 +36,7 @@ namespace CFT.CSOMS.DAL.AutoRechargeModule
         /// <summary>
         /// 自动充值交易单查询
         /// </summary>
-        public DataSet QueryAutomaticRechargeBillList(string uin, string plan_id, int limStart, int limMax)
+        public DataSet QueryAutomaticRechargeBillList(string uin, string plan_id, int limStart, int limMax, string client_ip)
         {
             string msg = "";
             try
@@ -45,7 +45,7 @@ namespace CFT.CSOMS.DAL.AutoRechargeModule
                 string req = "";
 
                 DataSet ds = null;
-                req = "uin=" + uin + "&offset=" + limStart + "&limit=" + limMax + "&plan_id=" + plan_id;// +"&client_ip=" + client_ip;
+                req = "uin=" + uin + "&offset=" + limStart + "&limit=" + limMax + "&plan_id=" + plan_id + "&client_ip=" + client_ip;
                 ds = CommQuery.GetXmlToDataSetFromICE(req, "BATCH_QUERY", service_name, out msg);
                 DataTable dtt = ds.Tables[0];
                 return ds;

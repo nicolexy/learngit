@@ -310,12 +310,10 @@ namespace CFT.CSOMS.Service.CSAPI.Trade
             public string Fbank_name { get; set; }
             [XmlElement("creditcard_id")]
             public string creditcard_id { get; set; }
-            [XmlElement("num_str")]
-            public string Fnum_str { get; set; }
+            [XmlElement("num")]
+            public string Fnum { get; set; }
             [XmlElement("sign")]
-            public string Fsign { get; set; }
-            [XmlElement("sign_str")]
-            public string Fsign_str { get; set; }
+            public string Fsign { get; set; }          
         }
 
         public class AutomaticRecharge
