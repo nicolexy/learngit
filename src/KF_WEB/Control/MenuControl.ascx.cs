@@ -118,7 +118,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                     var menuArr = arr[i].Split('#');
                     string subTitle = menuArr[0];
                     string subURL = menuArr[1];
-                    buff.AppendFormat("<div style='padding:2px 0 4px 5px;'><a href='{0}' class='Red' TARGET='WorkArea'>{1}</a></div>",subURL,subTitle);
+                    buff.AppendFormat("<div><a href='{0}' class='Red' TARGET='WorkArea' style='display:block;padding:2px 0;'>{1}</a></div>", subURL, subTitle);
 				}
                 return buff.ToString();
 			}

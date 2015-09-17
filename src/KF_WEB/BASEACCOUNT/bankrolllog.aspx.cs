@@ -60,6 +60,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             int istr = 1 + pageSize * (pageIndex - 1);  //初始为1（事实上索引0始）
             int imax = pageSize;                       //每页显示10条记录
 
+            #region type==QQID
             if (Request.QueryString["type"].ToString() == "QQID")
             {
 
@@ -112,8 +113,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 pager.CustomInfoText = "记录总数：<font color=\"blue\"><b>" + pager.RecordCount.ToString() + "</b></font>";
                 pager.CustomInfoText += " 总页数：<font color=\"blue\"><b>" + pager.PageCount.ToString() + "</b></font>";
                 pager.CustomInfoText += " 当前页：<font color=\"red\"><b>" + pager.CurrentPageIndex.ToString() + "</b></font>";
-            }
+            } 
+            #endregion
 
+            #region type==ListID
             else if (Request.QueryString["type"].ToString() == "ListID")
             {
                 if (Session["uid"] == null)
@@ -126,9 +129,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 imax = 30; //如果是查询交易单时，一次性显示所有的纪录
                 string selectStr = Session["ListID"].ToString();
                 this.DS_Bankroll = myService.GetBankRollList_withID(beginTime, endTime, selectStr, istr, imax);
-            }
+            } 
+            #endregion
 
-
+            #region 结果处理
             if (DS_Bankroll != null && DS_Bankroll.Tables.Count != 0)
             {
                 DS_Bankroll.Tables[0].Columns.Add("FpaynumStr", typeof(string));
@@ -149,6 +153,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                             {
                                 try
                                 {
+                                    var fmemo = dr["Fmemo"] as string;  //乱码Bug问题
+                                    if (!string.IsNullOrEmpty(fmemo))
+                                    {
+                                        var buff = System.Text.Encoding.Default.GetBytes(fmemo);
+                                        dr["Fmemo"] = System.Text.Encoding.UTF8.GetString(buff);
+                                    }
+                                  
                                     int PointIndex = Fpaynum.IndexOf(".");
                                     dr["FpaynumStr"] = "******" + Fpaynum.Substring(PointIndex - 1, Fpaynum.Length - PointIndex + 1);
                                     PointIndex = Fbalance.IndexOf(".");
@@ -167,7 +178,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         throw new Exception("金额Fpaynum：" + dr["Fnum"].ToString() + "金额Fbalance：" + dr["Fbalance"].ToString() + "转换有问题" + ex.Message);
                     }
                 }
-            }
+            } 
+            #endregion
             Page.DataBind();
         }
 
