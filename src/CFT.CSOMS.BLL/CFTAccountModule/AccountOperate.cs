@@ -41,6 +41,22 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                 return false;
             }
 
+            #region 微粒贷
+            try
+            {
+                if (new TradeService().HasUnfinishedWeiLibDai(old_qqid.Trim()))
+                {
+                    outMsg = "存在未完成的微粒贷欠款,禁止修改账号";
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                outMsg = "微粒贷查询,出错";
+                return false;
+            }
+            #endregion
+
             //发起审批。
             //在这里变成了一个提起审批的流程，而不再是直接审批。
             Param[] myParams = new Param[3];
@@ -270,6 +286,22 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                     return false;
                 }
             }
+
+            #region 微粒贷
+            try
+            {
+                if (new TradeService().HasUnfinishedWeiLibDai(query_id))
+                {
+                    ret_msg = "存在未完成的微粒贷欠款,禁止注销和批量注销";
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                ret_msg = "微粒贷查询,出错";
+                return false;
+            }
+            #endregion
 
             //是否有未完成的交易单
             if (new TradeService().LogOnUsercheckOrder(query_id, "1"))
