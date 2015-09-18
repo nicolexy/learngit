@@ -340,28 +340,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Frefund_type", "Frefund_type_str", ht1);
                 classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Fsubmit_refund", "Fsubmit_refund_str", ht2);
 
-                /*
-                StringWriter sw = new StringWriter();
-                sw.WriteLine("财付通订单号\t订单编码\t交易状态\t交易金额\t买家账号\t交易说明\t登记人\t物品回收人\t退款类型\tSAM工单号\t创建时间\t提交退款");
-
-                foreach (DataRow dr in dt.Rows)
-                {
-                    sw.WriteLine("=\"" + dr["Forder_id"].ToString() + "\"\t=\"" + dr["Fcoding"].ToString() + "\"\t=\"" + dr["Ftrade_state_str"]
-                        + "\"\t" + dr["Famount_str"] + "\t=\"" + dr["Fbuy_acc"] + "\"\t=\"" + dr["Ftrade_desc"] + "\"\t=\"" + dr["Fsubmit_user"] + "\"\t=\"" + dr["Frecycle_user"]
-                    + "\"\t=\"" + dr["Frefund_type_str"] + "\"\t=\"" + dr["Fsam_no"] + "\"\t=\"" + dr["Fcreate_time"]
-                     + "\"\t=\"" + dr["Fsubmit_refund_str"] + "\"");
-
-                }
-                sw.WriteLine("总条数：=" + count + "\t总金额：=" + classLibrary.setConfig.FenToYuan(amount));
-                sw.Close();
-                string f_name = "退款登记";
-                f_name = System.Web.HttpUtility.UrlEncode(System.Text.Encoding.UTF8.GetBytes(f_name));
-                Response.AddHeader("Content-Disposition", "attachment; filename=" + f_name+".xls");
-                Response.ContentType = "application/ms-excel";
-                Response.ContentEncoding = System.Text.Encoding.GetEncoding("GB2312");
-                Response.Write(sw);
-                Response.End();
-                */
                 try
                 {
                     #region 生成excel文件

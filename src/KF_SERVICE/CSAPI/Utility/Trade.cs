@@ -262,7 +262,7 @@ namespace CFT.CSOMS.Service.CSAPI.Trade
         public class FundCardListDetail
         {
             [XmlElement("listid")]
-            public string FListID { get; set; }
+            public string Flistid { get; set; }
             [XmlElement("num_str")]
             public string FNumYuan { get; set; }
             [XmlElement("state")]

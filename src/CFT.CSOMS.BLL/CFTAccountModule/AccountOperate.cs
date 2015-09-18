@@ -339,7 +339,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
 
             if (balance < 10 * 10 * 200) //系统自动销户
             {
-                if (new AccountData().LogOnUserDeleteUser(query_id, reason, opera, "", out Msg))
+                if (!new AccountData().LogOnUserDeleteUser(query_id, reason, opera, ip, out Msg))
                 {
                     throw new Exception(Msg);
 

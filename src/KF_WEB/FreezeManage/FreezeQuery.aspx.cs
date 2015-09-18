@@ -8,7 +8,6 @@ using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-
 using Tencent.DotNet.Common.UI;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
@@ -34,12 +33,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 				this.tbx_beginDate.Text = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd 00:00:00");
                 this.tbx_endDate.Text = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd 00:00:00");
 			}
-
-			//this.pager.RecordCount = this.GetRecordCount();
             pager.PageSize = 10;
 			pager.PageChanged += new Wuqi.Webdiyer.PageChangedEventHandler(pager_PageChanged);
 
-			//this.DataGrid_QueryResult.ItemCommand += new DataGridCommandEventHandler(DataGrid_QueryResult_ItemCommand);
 		}
 
 		#region Web 窗体设计器生成的代码
@@ -62,8 +58,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 		}
 		#endregion
-
-
 
 
 		private void BindData(int index)
@@ -119,9 +113,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 				{
 					DataRow dr = ds.Tables[0].Rows[i];
 
-					//dr["OpUrl"] = @".\FreezeVerify.aspx?fid="+ dr["FID"].ToString() + "&ffreeze_id=" + dr["FFreezeID"].ToString();
-					//dr["DiaryUrl"] = @".\FreezeDiary.aspx?FFreezeListID="+ dr["FID"].ToString() + "&ffreeze_id=" + dr["FFreezeID"].ToString();
-
                     dr["OpUrl"] = @".\FreezeVerify.aspx?fid=" + dr["FID"].ToString() + "&ffreeze_id=" + dr["FUin"].ToString();
                     dr["DiaryUrl"] = @".\FreezeDiary.aspx?FFreezeListID=" + dr["FID"].ToString() + "&ffreeze_id=" + dr["FUin"].ToString();
 
@@ -137,53 +128,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 						case "0":
 						{
 							stateName = string.Format(stateName,"未处理");
-							//dr["handleStateName"] = stateName;
-							//dr["handleUserName"] = dr["FCheckUser"].ToString();
 							break;
 						}
 						case "1":
 						{
 							stateName = string.Format(stateName,"结单(已解冻)");
-							//dr["handleStateName"] = stateName;
-							//dr["handleUserName"] =  dr["FCheckUser"].ToString();
 							break;
 						}
 						case "2":
 						{
                             stateName = string.Format(stateName, "结单（未解冻）");
-							//dr["handleStateName"] = "结单（未解冻）";
-							//dr["handleUserName"] =  dr["FCheckUser"].ToString();
 							break;
 						}
 						case "7":
 						{
 							stateName = string.Format(stateName,"已作废");
-							//dr["handleStateName"] = "已作废";
-							//dr["handleUserName"] = dr["FCheckUser"].ToString();
 							break;
 						}
 						case "8":
 						{
-							stateName = string.Format(stateName,"挂起");
-							//dr["handleStateName"] = "挂起";
-							//dr["handleUserName"] = dr["FCheckUser"].ToString();
+							stateName = string.Format(stateName,"挂起");				
 							break;
-						}
-                        
-						/*
-						case "5":
-						{
-							dr["handleStateName"] = "补充处理结果";
-							dr["handleUserName"] = dr["FCheckUser"].ToString();
-							break;
-						}
-						*/
+						}                       				
 						default:
 						{
 							stateName = string.Format(stateName,"未知" + dr["Fstate"].ToString());
-							//stateName += "(未知" + dr["Fstate"].ToString() + ")";
-							//dr["handleStateName"] = "未知" + dr["Fstate"].ToString();
-							//dr["handleUserName"] = "未知";
 							break;
 						}
 					}
@@ -209,14 +178,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 			BindData(1);
 		}
 
-
-
 		private int GetRecordCount()
 		{
 			// 不采用查询数据库来查询页面数了，直接采用10000
 			return 10000;
 		}
-
 
 		private void ShowMsg(string szMsg)
 		{
@@ -230,38 +196,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 			BindData(newPageIndex);
 		}
-
-
-		/*
-		private void BindData_ForDiary(int index)
-		{
-			Query_Service.Query_Service qs = new Query_Service.Query_Service();
-
-			string tdeid = ViewState["FFreezeListID"].ToString();
-
-			DataSet ds =  qs.GetFreezeDiary("",tdeid,"","","","","","",0,1);
-
-			if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-			{
-				WebUtils.ShowMessage(this,"该记录的处理日志为空");
-				this.Datagrid1.DataSource = null;
-				this.Datagrid1.DataBind();
-				return;
-			}
-
-			ds.Tables[0].Columns.Add("DiaryHandleResult",typeof(string));
-
-			foreach(DataRow dr in ds.Tables[0].Rows)
-			{
-				dr["DiaryHandleResult"] = dr["FCreateDate"].ToString() + "  " + dr["FHandleUser"].ToString() 
-					+ " 执行了 " + ConvertHandleTypeToString(dr["FHandleType"].ToString()) + " 操作，结果为：" + dr["FHandleResult"].ToString();
-			}
-
-			this.Datagrid1.DataSource = ds;
-			this.Datagrid1.DataBind();
-		}
-		*/
-
 
 		private string ConvertHandleTypeToString(string type)
 		{
@@ -302,7 +236,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 				e.Item.Cells[1].ForeColor = Color.Red;
 			}
 		}
-
 
 	}
 }

@@ -154,10 +154,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
                 int allRecordCount = 0;
 
-                //ds = qs.GetFreezeList_New(uin, beginDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"), 
-                //    int.Parse(this.ddl_orderState.SelectedValue), this.tbx_listNo.Text.Trim(), this.tbx_people.Text.Trim(), this.tbx_reason.Text.Trim(),
-                //    (index - 1) * this.pager.PageSize, this.pager.PageSize, this.ddl_queryOrderType.SelectedValue, out allRecordCount);
-
                 ds = qs.GetFreezeList_New(uin, beginDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"), int.Parse(this.ddlType.SelectedValue),
                   state, this.tbx_listNo.Text.Trim(), this.tbx_people.Text.Trim(), this.tbx_reason.Text.Trim(),
                   (index - 1) * this.pager.PageSize, this.pager.PageSize, this.ddl_queryOrderType.SelectedValue, out allRecordCount);
@@ -463,38 +459,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 			BindData(newPageIndex);
 		}
-
-
-		/*
-		private void BindData_ForDiary(int index)
-		{
-			Query_Service.Query_Service qs = new Query_Service.Query_Service();
-
-			string tdeid = ViewState["FFreezeListID"].ToString();
-
-			DataSet ds =  qs.GetFreezeDiary("",tdeid,"","","","","","",0,1);
-
-			if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-			{
-				WebUtils.ShowMessage(this,"该记录的处理日志为空");
-				this.Datagrid1.DataSource = null;
-				this.Datagrid1.DataBind();
-				return;
-			}
-
-			ds.Tables[0].Columns.Add("DiaryHandleResult",typeof(string));
-
-			foreach(DataRow dr in ds.Tables[0].Rows)
-			{
-				dr["DiaryHandleResult"] = dr["FCreateDate"].ToString() + "  " + dr["FHandleUser"].ToString() 
-					+ " 执行了 " + ConvertHandleTypeToString(dr["FHandleType"].ToString()) + " 操作，结果为：" + dr["FHandleResult"].ToString();
-			}
-
-			this.Datagrid1.DataSource = ds;
-			this.Datagrid1.DataBind();
-		}
-		*/
-
 
 		private string ConvertHandleTypeToString(string type)
 		{

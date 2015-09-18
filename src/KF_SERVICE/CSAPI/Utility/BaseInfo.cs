@@ -473,15 +473,15 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
         public class ChangeQQList
         {
             [XmlElement("old_qqid")]
-            public string Foldqq { get; set; }
+            public string FOldQQ { get; set; }
             [XmlElement("new_qqid")]
-            public string Fnewqq { get;set; }
+            public string FNewQQ { get; set; }
             [XmlElement("operator")]
-            public string Fuserid { get;set; }
+            public string FUserID { get; set; }
             [XmlElement("action_time")]
-            public string Factiontime { get; set; }
+            public string FActionTime { get; set; }
             [XmlElement("memo")]
-            public string Fmemo { get; set; }
+            public string FMemo { get; set; }
         }
 
         #endregion
@@ -644,7 +644,7 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             [XmlElement("freeze_time")]
             public string FFreezeTime { get; set; }
             [XmlElement("id")]
-            public string Fid { get; set; }
+            public string FID { get; set; }
         }
 
         public class FreezeListDetail
