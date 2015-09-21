@@ -60,17 +60,17 @@ namespace CFT.CSOMS.BLL.FundModule
             return dt;
         }
 
+        public bool GetFundSupportBank(string bank_type)
+        {
+            return new SafeCard().GetFundSupportBank(bank_type);
+        }
+
         public DataTable GetFundRollList(string u_QQID, DateTime u_BeginTime, DateTime u_EndTime, string Fcurtype, int istr, int imax, int Ftype)
         {
             if (string.IsNullOrEmpty(u_QQID))
                 throw new ArgumentNullException("u_QQID");
             DataTable dt=new FundRoll().QueryFundRollList(u_QQID, u_BeginTime, u_EndTime, Fcurtype, istr, imax, Ftype);
             return dt;
-        }
-
-        public DataTable GetFundProfitRecord(string tradeId, string beginDateStr, string endDateStr, int currencyType = -1, string spId = "", int currentPageIndex = 0, int pageSize = 10)
-        {
-            return new FundProfit().QueryProfitRecord(tradeId, beginDateStr, endDateStr, currencyType, spId, currentPageIndex*pageSize, pageSize);            
         }
 
         public static IList<Fund> GetAllFundInfo()
@@ -221,18 +221,24 @@ namespace CFT.CSOMS.BLL.FundModule
 
                 //fundname
 
-           //    item["fundName"] = GetAllFundInfo().Where(i => i.CurrencyType == int.Parse(item["Fcurtype"].ToString())).First().Name;
+                //    item["fundName"] = GetAllFundInfo().Where(i => i.CurrencyType == int.Parse(item["Fcurtype"].ToString())).First().Name;
+                try
+                {
+                    var ProfitTable = new FundProfit().QueryProfitStatistic(tradeId, int.Parse(item["Fcurtype"].ToString()));//查累计收益
 
-                var ProfitTable = new FundProfit().QueryProfitStatistic(tradeId, int.Parse(item["Fcurtype"].ToString()));//查累计收益
-                if (ProfitTable != null && ProfitTable.Rows.Count > 0)
-                {
-                    item["Ftotal_profit"] = ProfitTable.Rows[0]["Ftotal_profit"].ToString();
+                    if (ProfitTable != null && ProfitTable.Rows.Count > 0)
+                    {
+                        item["Ftotal_profit"] = ProfitTable.Rows[0]["Ftotal_profit"].ToString();
+                    }
+                    else
+                    {
+                        item["Ftotal_profit"] = "0";
+                    }
                 }
-                else
+                catch
                 {
-                    item["Ftotal_profit"] = "0";
+
                 }
-               
                 string fund_code = item["fund_code"].ToString();
                 string spid = item["Fspid"].ToString();
                 string balance = item["balance"].ToString();
@@ -242,7 +248,7 @@ namespace CFT.CSOMS.BLL.FundModule
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("查询市值异常："+ex.Message);
+                    throw new Exception("查询市值异常：" + ex.Message);
                 }
             }
 
@@ -451,11 +457,7 @@ namespace CFT.CSOMS.BLL.FundModule
         {
             return new FundInfoData().QueryFundInfoBySpid(spid);
         }
-        //返回所有基金公司信息
-        public DataTable QueryAllFundInfo()
-        {
-            return new FundInfoData().QueryAllFundInfo();
-        }
+       
         //查询用户余额收益情况明细  -- 将页面的逻辑封装在接口中
         public DataTable BindProfitList(string tradeId, string beginDateStr, string endDateStr, int currencyType = -1, string spId = "", int currentPageIndex = 0, int pageSize = 5, string fund_code = "")
         {
