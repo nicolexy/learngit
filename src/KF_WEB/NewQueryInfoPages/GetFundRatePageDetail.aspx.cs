@@ -796,7 +796,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                                 { "bank_type",ViewState["bank_type"].ToString() },
                                 { "cur_type","1" },
                                 { "redem_type", "1" },// Íªÿ¿‡–Õ 1 t+0  2 t+1
-                                { "client_ip", this.tb_UNCclient_ip.Text.Trim()},
+                                { "client_ip", this.fRate_client_ip.Text.Trim()},
                                 { "mobile",ViewState["mobile"].ToString() },
                                 { "operator",Session["uid"].ToString() },
                                 { "ReturnUrl",ReturnUrl},

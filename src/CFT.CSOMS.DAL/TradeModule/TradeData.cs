@@ -22,130 +22,130 @@ namespace CFT.CSOMS.DAL.TradeModule
         //注销前交易查询
         public DataSet BeforeCancelTradeQuery(string uid)
         {
-            #region 委托--获取销户转账数据
-            Func<DataSet, DataSet> GetXiaoHuOrder = ds =>
-            {
-                DataSet result = null;
-                if (ds != null && ds.Tables.Count !=0 && ds.Tables[0].Rows.Count != 0)
-                {
-                    var rows = ds.Tables[0].Select("Fmemo = '销户转账' or Fspid = '1000009801'");
-                    if (rows.Length != 0)
-                    {
-                        var dt = ds.Tables[0].Clone();
-                        foreach (DataRow item in rows)
-                        {
-                            dt.ImportRow(item);
-                        }
-
-                        result = new DataSet();
-                        result.Tables.Add(dt);
-                    }
-                }
-                return result;
-            };
-            #endregion
-
             string fields = "uid:" + uid;
-            var order_ds = new PublicRes().QueryCommRelay8020("413", fields, 0, 20);
-
-            var XHOrderds = GetXiaoHuOrder(order_ds);
-            if (XHOrderds == null)
+            var ds = new PublicRes().QueryCommRelay8020("413", fields, 0, 20);
+            if (ds != null && ds.Tables.Count != 0 && ds.Tables[0].Rows.Count != 0)
             {
-                //查询历史表
-                fields += "|year:" + DateTime.Now.AddDays(-15).Year.ToString();  //多久迁移一次历史库,就减去相应的天数
-                order_ds = new PublicRes().QueryCommRelay8020("414", fields, 0, 20);
-                XHOrderds = GetXiaoHuOrder(order_ds);
+                var dt = ds.Tables[0];
+                var rows = dt.Select("Fmemo <> '销户转账' and Fspid <> '1000009801'");
+                for (int i = 0; i < rows.Length; i++)
+                {
+                    dt.Rows.Remove(rows[i]);
+                }
             }
-            return XHOrderds;
+            return ds;
 
             #region SQL 转relay 之前代码
-            long uidL = long.Parse(uid);
-            int uidEnd = int.Parse(uid.Substring(uid.Length - 2));
-            string conString = "";
-            //标记分机器的方式：uidSize 大于1.8亿一个库，小于另一个库； uidEnd 尾号 00-49 在一个库 50-99 在另外一个库
-            string mark = "uidSize";
-            try
-            {
-                mark = System.Configuration.ConfigurationManager.AppSettings["BankRollList_mark"].ToString();
-            }
-            catch
-            { }
+            //long uidL = long.Parse(uid);
+            //int uidEnd = int.Parse(uid.Substring(uid.Length - 2));
+            //string conString = "";
+            ////标记分机器的方式：uidSize 大于1.8亿一个库，小于另一个库； uidEnd 尾号 00-49 在一个库 50-99 在另外一个库
+            //string mark = "uidSize";
+            //try
+            //{
+            //    mark = System.Configuration.ConfigurationManager.AppSettings["BankRollList_mark"].ToString();
+            //}
+            //catch
+            //{ }
 
-            //原来的用户数据库分成二个，uid<1.8亿的在DB1，uid>=1.8亿的在DB2。
-            //现在，用户数据库要分成四个，uid后二位 < 25 的在 DB1， 
-            //25 <= uid后二位 < 50 的在 DB2,
-            //50 <= uid后二位 < 75 的在 DB3,
-            //75 <= uid后二位 <= 99 的在 DB4,
-            if (mark == "uidSize")
-            {
-                if (uidL < 180000000)
-                    conString = "BankRollList1";
-                else
-                    conString = "BankRollList2";
-            }
-            if (mark == "uidEnd")
-            {
-                if (uidEnd >= 0 && uidEnd <= 3)
-                    conString = "zw1";
-                else if (uidEnd >= 4 && uidEnd <= 7)
-                    conString = "zw2";
-                else if (uidEnd >= 8 && uidEnd <= 11)
-                    conString = "zw3";
-                else if (uidEnd >= 12 && uidEnd <= 15)
-                    conString = "zw4";
-                else if (uidEnd >= 16 && uidEnd <= 19)
-                    conString = "zw5";
-                else if (uidEnd >= 20 && uidEnd <= 23)
-                    conString = "zw6";
-                else if (uidEnd >= 24 && uidEnd <= 27)
-                    conString = "zw7";
-                else if (uidEnd >= 28 && uidEnd <= 31)
-                    conString = "zw8";
-                else if (uidEnd >= 32 && uidEnd <= 35)
-                    conString = "zw9";
-                else if (uidEnd >= 36 && uidEnd <= 39)
-                    conString = "zw10";
-                else if (uidEnd >= 40 && uidEnd <= 43)
-                    conString = "zw11";
-                else if (uidEnd >= 44 && uidEnd <= 47)
-                    conString = "zw12";
-                else if (uidEnd >= 48 && uidEnd <= 51)
-                    conString = "zw13";
-                else if (uidEnd >= 52 && uidEnd <= 55)
-                    conString = "zw14";
-                else if (uidEnd >= 56 && uidEnd <= 59)
-                    conString = "zw15";
-                else if (uidEnd >= 60 && uidEnd <= 63)
-                    conString = "zw16";
-                else if (uidEnd >= 64 && uidEnd <= 67)
-                    conString = "zw17";
-                else if (uidEnd >= 68 && uidEnd <= 71)
-                    conString = "zw18";
-                else if (uidEnd >= 72 && uidEnd <= 75)
-                    conString = "zw19";
-                else if (uidEnd >= 76 && uidEnd <= 79)
-                    conString = "zw20";
-                else if (uidEnd >= 80 && uidEnd <= 83)
-                    conString = "zw21";
-                else if (uidEnd >= 84 && uidEnd <= 87)
-                    conString = "zw22";
-                else if (uidEnd >= 88 && uidEnd <= 91)
-                    conString = "zw23";
-                else if (uidEnd >= 92 && uidEnd <= 95)
-                    conString = "zw24";
-                else if (uidEnd >= 96 && uidEnd <= 99)
-                    conString = "zw25";
-            }
-            using (var da = MySQLAccessFactory.GetMySQLAccess(conString))
-            {
-                da.OpenConn();
-                string tableStr = PublicRes.GetTableNameUid("t_bankroll_list", uid);
-                string Sql = "Select * from  " + tableStr + " where Fuid='" + uid + "' Order by Fmodify_time DESC limit 1";
-                DataSet ds = da.dsGetTotalData(Sql);
-                return ds;
-            } 
+            ////原来的用户数据库分成二个，uid<1.8亿的在DB1，uid>=1.8亿的在DB2。
+            ////现在，用户数据库要分成四个，uid后二位 < 25 的在 DB1， 
+            ////25 <= uid后二位 < 50 的在 DB2,
+            ////50 <= uid后二位 < 75 的在 DB3,
+            ////75 <= uid后二位 <= 99 的在 DB4,
+            //if (mark == "uidSize")
+            //{
+            //    if (uidL < 180000000)
+            //        conString = "BankRollList1";
+            //    else
+            //        conString = "BankRollList2";
+            //}
+            //if (mark == "uidEnd")
+            //{
+            //    if (uidEnd >= 0 && uidEnd <= 3)
+            //        conString = "zw1";
+            //    else if (uidEnd >= 4 && uidEnd <= 7)
+            //        conString = "zw2";
+            //    else if (uidEnd >= 8 && uidEnd <= 11)
+            //        conString = "zw3";
+            //    else if (uidEnd >= 12 && uidEnd <= 15)
+            //        conString = "zw4";
+            //    else if (uidEnd >= 16 && uidEnd <= 19)
+            //        conString = "zw5";
+            //    else if (uidEnd >= 20 && uidEnd <= 23)
+            //        conString = "zw6";
+            //    else if (uidEnd >= 24 && uidEnd <= 27)
+            //        conString = "zw7";
+            //    else if (uidEnd >= 28 && uidEnd <= 31)
+            //        conString = "zw8";
+            //    else if (uidEnd >= 32 && uidEnd <= 35)
+            //        conString = "zw9";
+            //    else if (uidEnd >= 36 && uidEnd <= 39)
+            //        conString = "zw10";
+            //    else if (uidEnd >= 40 && uidEnd <= 43)
+            //        conString = "zw11";
+            //    else if (uidEnd >= 44 && uidEnd <= 47)
+            //        conString = "zw12";
+            //    else if (uidEnd >= 48 && uidEnd <= 51)
+            //        conString = "zw13";
+            //    else if (uidEnd >= 52 && uidEnd <= 55)
+            //        conString = "zw14";
+            //    else if (uidEnd >= 56 && uidEnd <= 59)
+            //        conString = "zw15";
+            //    else if (uidEnd >= 60 && uidEnd <= 63)
+            //        conString = "zw16";
+            //    else if (uidEnd >= 64 && uidEnd <= 67)
+            //        conString = "zw17";
+            //    else if (uidEnd >= 68 && uidEnd <= 71)
+            //        conString = "zw18";
+            //    else if (uidEnd >= 72 && uidEnd <= 75)
+            //        conString = "zw19";
+            //    else if (uidEnd >= 76 && uidEnd <= 79)
+            //        conString = "zw20";
+            //    else if (uidEnd >= 80 && uidEnd <= 83)
+            //        conString = "zw21";
+            //    else if (uidEnd >= 84 && uidEnd <= 87)
+            //        conString = "zw22";
+            //    else if (uidEnd >= 88 && uidEnd <= 91)
+            //        conString = "zw23";
+            //    else if (uidEnd >= 92 && uidEnd <= 95)
+            //        conString = "zw24";
+            //    else if (uidEnd >= 96 && uidEnd <= 99)
+            //        conString = "zw25";
+            //}
+            //using (var da = MySQLAccessFactory.GetMySQLAccess(conString))
+            //{
+            //    da.OpenConn();
+            //    string tableStr = PublicRes.GetTableNameUid("t_bankroll_list", uid);
+            //    string Sql = "Select * from  " + tableStr + " where Fuid='" + uid + "' Order by Fmodify_time DESC limit 1";
+            //    DataSet ds = da.dsGetTotalData(Sql);
+            //    return ds;
+            //} 
             #endregion
         }
+
+        //注销前历史库交易查询
+        public DataSet BeforeCancelTradeHistoryQuery(string uid, DateTime start_time, DateTime end_time)
+        {
+            string fields =
+                "uid:" + uid +
+                "|year:" + start_time.Year.ToString() +
+                "|start_time:" + start_time.ToString("yyyy-MM-dd") +
+                "|end_time:" + end_time.ToString("yyyy-MM-dd");
+
+            var ds = new PublicRes().QueryCommRelay8020("414", fields, 0, 20);
+            if (ds != null && ds.Tables.Count != 0 && ds.Tables[0].Rows.Count != 0)
+            {
+                var dt = ds.Tables[0];
+                var rows = dt.Select("Fmemo <> '销户转账' and Fspid <> '1000009801'");
+                for (int i = 0; i < rows.Length; i++)
+                {
+                    dt.Rows.Remove(rows[i]);
+                }
+            }
+            return ds;
+        }
+
 
         /// <summary>
         /// 微信买家纬度用户订单查询
@@ -222,7 +222,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             return ds;
         }
-   
+
         /// <summary>
         /// 判断是否存在未完成交易(用户销户判断)
         /// </summary>
@@ -254,7 +254,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             catch (Exception err)
             {
                 throw new Exception(err.Message);
-            }     
+            }
         }
 
         #region 交易记录查询
@@ -263,8 +263,8 @@ namespace CFT.CSOMS.DAL.TradeModule
         {
 
             string ServerIP = ConfigurationManager.AppSettings["ICEServerIP"].Trim();
-            int Port = Int32.Parse( ConfigurationManager.AppSettings["ICEPort"].Trim());
-            ICEAccess ice = new ICEAccess(ServerIP,Port);
+            int Port = Int32.Parse(ConfigurationManager.AppSettings["ICEPort"].Trim());
+            ICEAccess ice = new ICEAccess(ServerIP, Port);
             try
             {
                 //已修改 furion V30_FURION核心查询需改动 type=1和2时,由t_tran_list改为查询t_order
@@ -487,7 +487,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                 throw new Exception("service发生错误,请联系管理员！" + e.Message + msg);
             }
         }
-         
+
         //查询退款单表
         public DataSet GetRefund(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
         {
@@ -503,7 +503,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         }
 
         //子帐户资金流水查询函数
-        public bool GetChildrenBankRollList(string u_QQID, DateTime u_BeginTime, DateTime u_EndTime, string Fcurtype, int istr, int imax, int Ftype, string Fmemo,out string reply)
+        public bool GetChildrenBankRollList(string u_QQID, DateTime u_BeginTime, DateTime u_EndTime, string Fcurtype, int istr, int imax, int Ftype, string Fmemo, out string reply)
         {
             try
             {
@@ -571,7 +571,7 @@ namespace CFT.CSOMS.DAL.TradeModule
 
         //查询用户帐户流水表_WithListID
         public DataSet GetBankRollList_withID(DateTime u_BeginTime, DateTime u_EndTime, string ListID, int istr, int imax)
-        {        
+        {
             try
             {
                 //furion V30_FURION核心查询需改动 等待通用查询接口.  //V30_20090525 资金流水用listid查询 这个要增加多个查询，然后组合结果
@@ -698,9 +698,9 @@ namespace CFT.CSOMS.DAL.TradeModule
                 return ds;
             }
             catch (Exception e)
-            { 
+            {
                 return null;
-            }           
+            }
         }
 
         /// <summary>
@@ -814,7 +814,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             int relayPort = Apollo.Common.Configuration.AppSettings.Get<int>("Relay_PORT", 22000);
             string RequestType = "100222";//转账的
             string open_id = wxUIN.Trim();
-            string RequestText = "pay_openid="+open_id;
+            string RequestText = "pay_openid=" + open_id;
             try
             {
                 string answer = RelayAccessFactory.RelayInvoke(RequestText, RequestType, true, false, relayIP, relayPort, "");
@@ -854,8 +854,8 @@ namespace CFT.CSOMS.DAL.TradeModule
             try
             {
                 string stranswer = RelayAccessFactory.RelayInvoke(RequestText, "100038", false, false, relayIP, relayPort, "");
-                stranswer= System.Web.HttpUtility.UrlDecode(stranswer, System.Text.Encoding.GetEncoding("GB2312"));
-                DataSet ds= CommQuery.ParseRelayStr(stranswer, out Msg, true);
+                stranswer = System.Web.HttpUtility.UrlDecode(stranswer, System.Text.Encoding.GetEncoding("GB2312"));
+                DataSet ds = CommQuery.ParseRelayStr(stranswer, out Msg, true);
                 if (Msg != "")
                 {
                     LogHelper.LogError(Msg);
@@ -875,9 +875,9 @@ namespace CFT.CSOMS.DAL.TradeModule
             catch (System.Exception ex)
             {
                 LogHelper.LogError("微信红包在途条目查询失败:" + ex.Message);
-                throw new Exception("微信红包在途条目查询失败:"+ex.Message);
+                throw new Exception("微信红包在途条目查询失败:" + ex.Message);
             }
-            
+
         }
 
         public DataSet GetUnfinishedMobileQHB(string uin)
@@ -903,7 +903,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// <param name="max"></param>
         /// <param name="type">0买家、卖家，-1：买家，-2卖家</param>
         /// <returns></returns>
-        public DataSet GetListidFromUserOrder(string qqid, string uid, int start, int max,int type)
+        public DataSet GetListidFromUserOrder(string qqid, string uid, int start, int max, int type)
         {
             DataSet result = null;
             //ver=1&head_u=&sp_id=2000000501&request_type=4613&reqid=2213&flag=2&fields=buy_uid:298686752&offset=0&limit=1&msgno=10002
@@ -960,7 +960,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                            ((queryvalue.Trim() != "" && u_QueryType != "") ? "|" + u_QueryType.Trim() + ":" + queryvalue.Trim() : "");
 
                     DataSet ds = new DataSet();
-                   
+
                     if (!string.IsNullOrEmpty(buyqqInnerID))
                     {
                         fields = "buy_uid:" + buyqqInnerID + fields;
@@ -1239,7 +1239,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             {
                 req = "out_trade_no=" + uin + "&query_attach=OUT_TRADE_NO" + "&transaction_id=";
             }
-            else 
+            else
             {
                 throw new ArgumentOutOfRangeException("queryType");
             }

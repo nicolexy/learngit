@@ -21,7 +21,7 @@ namespace CFT.CSOMS.BLL.TradeModule
     {
         public DataSet BeforeCancelTradeQuery(string uid)
         {
-            if (string.IsNullOrEmpty(uid.Trim()) && uid.Trim().Length < 3)
+            if (uid.Trim().Length < 3)
             {
                 throw new Exception("内部id有误");
             }
@@ -29,6 +29,13 @@ namespace CFT.CSOMS.BLL.TradeModule
             return new TradeData().BeforeCancelTradeQuery(uid);
 
         }
+
+               //注销前历史库交易查询
+        public DataSet BeforeCancelTradeHistoryQuery(string uid, DateTime start_time, DateTime end_time)
+        {
+            return new TradeData().BeforeCancelTradeHistoryQuery(uid,start_time,end_time);
+        }
+
         public int ControledFinRemoveLogInsert(string qqid, string FbalanceStr, string FtypeText, string curtype, DateTime FmodifyTime, string FupdateUser)
         {
             return new ControlFundData().RemoveControledFinLogInsert(qqid, FbalanceStr, FtypeText, curtype, FmodifyTime, FupdateUser);

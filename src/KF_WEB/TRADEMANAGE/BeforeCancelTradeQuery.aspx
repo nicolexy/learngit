@@ -12,18 +12,34 @@
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
 			<TABLE style="LEFT: 5%; POSITION: absolute; TOP: 5%" cellSpacing="1" cellPadding="1" width="820"
 				border="1">
 				<TR>
-					<TD style="WIDTH: 100%" bgColor="#e4e5f7" colspan="2"><FONT face="宋体"><FONT color="red"><IMG height="16" src="../IMAGES/Page/post.gif" width="20">&nbsp;&nbsp;注销前交易查询</FONT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						</FONT>操作员代码: </FONT><SPAN class="style3"><asp:label id="Label1" runat="server" ForeColor="Red" Width="73px"></asp:label></SPAN></TD>
+					<TD style="WIDTH: 100%" bgColor="#e4e5f7" colspan="2">
+                        <FONT face="宋体">
+                            <FONT color="red"><IMG height="16" src="../IMAGES/Page/post.gif" width="20">&nbsp;&nbsp;注销前交易查询</FONT>
+						    <FONT style="float:right;">操作员代码: <SPAN class="style3"><asp:label id="Label1" runat="server" ForeColor="Red" Width="73px"></asp:label></SPAN></FONT>
+                        </FONT>
+					</TD>
 				</TR>
 				<TR>
-					<TD align="right"><asp:label id="Label4" runat="server">内部ID：</asp:label></TD>
-                    <TD><asp:textbox id="txtuid" style="WIDTH: 180px;" runat="server"></asp:textbox></TD>
+					<TD colspan="2">
+                        <asp:label id="Label4" runat="server">内部ID：</asp:label>
+                        <asp:textbox id="txtuid" style="WIDTH: 180px;" runat="server"></asp:textbox>
+					</TD>
+				</TR>
+                <TR>
+					<TD  colspan="2">
+                        <asp:label id="Label2" runat="server">订单时间：</asp:label>
+                        <input type="text" id="txt_start_time" runat="server" value="" onclick="WdatePicker()" />
+                        至
+                         <input type="text" id="txt_end_time" runat="server" value="" onclick="WdatePicker()" />
+                        <span style="color:red">注意:如果输入订单时间后,将会直接查询历史库表(默认查询当前库表)</span>
+					</TD>
 				</TR>
 				<TR>
                     <TD align="center" colspan="2"><asp:button id="btnQuery" runat="server" Width="80px" Text="查 询" onclick="btnQuery_Click"></asp:button>
