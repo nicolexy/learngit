@@ -96,6 +96,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 BindFundPayBankCardInfo(qqId);
 
                 var bindBankCards = queryService.GetBindBankCard(qqId);
+
                 if (bindBankCards != null && bindBankCards.Tables.Count > 0)
                 {
                     gvBindBankCard.DataSource = FilterSupportBankCard(bindBankCards.Tables[0], qqId);
@@ -128,7 +129,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             string safeCardBankType = string.Empty;
             string safeCardTail = string.Empty;
             string safeCardId = string.Empty;
-            var dtFundPayCard = queryService.GetPayCardInfo(qqId);
+            var dtFundPayCard = fundBLLService.GetPayCardInfo(qqId);
             if (dtFundPayCard != null && dtFundPayCard.Rows.Count > 0)
             {
                 safeCardBankType = dtFundPayCard.Rows[0]["Fbank_type"].ToString();
@@ -136,40 +137,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 safeCardId = dtFundPayCard.Rows[0]["Fbank_id"].ToString();
             }
 
-            var dtSupportBankCards = queryService.GetFundSupportBank();
-            if (dtSupportBankCards != null && dtSupportBankCards.Rows.Count > 0)
+            foreach (DataRow bindCardItem in dtBindBankCards.Rows)
             {
-                var supportCardsList = new List<string>();
-                foreach (DataRow supportCardItem in dtSupportBankCards.Rows)
+
+                bindCardItem["bankTypeName"] = BankIO.QueryBankName(bindCardItem["bank_type"].ToString());
+
+                if (fundBLLService.GetFundSupportBank(bindCardItem["bank_type"].ToString()))
                 {
-                    supportCardsList.Add(supportCardItem["Fbank_type"].ToString());
+                    bindCardItem["supportFund"] = "支持";
+                }
+                else
+                {
+                    bindCardItem["supportFund"] = "不支持";
                 }
 
-                foreach (DataRow bindCardItem in dtBindBankCards.Rows)
+                if (bindCardItem["bank_type"].ToString() == safeCardBankType
+                    && bindCardItem["card_tail"].ToString() == safeCardTail
+                    && bindCardItem["bankid"].ToString() == safeCardId)
                 {
-
-                    bindCardItem["bankTypeName"] = BankIO.QueryBankName(bindCardItem["bank_type"].ToString());
-
-                    if (supportCardsList.Contains(bindCardItem["bank_type"].ToString()))
-                    {
-                        bindCardItem["supportFund"] = "支持";
-                    }
-                    else
-                    {
-                       bindCardItem["supportFund"] = "不支持";
-                    }
-
-                    if (bindCardItem["bank_type"].ToString() == safeCardBankType
-                        && bindCardItem["card_tail"].ToString() == safeCardTail
-                        && bindCardItem["bankid"].ToString() == safeCardId)
-                    {
-                        bindCardItem["safeCard"] = "是";
-                    }
-                    else
-                    {
-                        bindCardItem["safeCard"] = "否";
-                    }
+                    bindCardItem["safeCard"] = "是";
                 }
+                else
+                {
+                    bindCardItem["safeCard"] = "否";
+                }
+
             }
 
             return dtBindBankCards;
@@ -219,7 +211,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         protected void BindFundPayBankCardInfo(string qqId)
         {
             //安全卡信息
-            var safeCardInfo = queryService.GetPayCardInfo(qqId);
+            var safeCardInfo = fundBLLService.GetPayCardInfo(qqId);
             if (safeCardInfo != null && safeCardInfo.Rows.Count > 0)
             {
                 lblBankType.Text = BankIO.QueryBankName(safeCardInfo.Rows[0]["Fbank_type"].ToString());
@@ -328,7 +320,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             {
                 var tradeId = string.Empty;
 
-                var dtFundPayCard = queryService.GetPayCardInfo(newCardInfo.uin);
+                var dtFundPayCard = fundBLLService.GetPayCardInfo(newCardInfo.uin);
                 if (dtFundPayCard != null && dtFundPayCard.Rows.Count > 0)
                 {
                     tradeId = dtFundPayCard.Rows[0]["Ftrade_id"].ToString();
@@ -414,7 +406,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             //    return checkResult;
             //}
 
-            var safeCardInfo = queryService.GetPayCardInfo(newCardInfo.uin);
+            var safeCardInfo = fundBLLService.GetPayCardInfo(newCardInfo.uin);
 
             if (safeCardInfo != null && safeCardInfo.Rows.Count > 0)
             {

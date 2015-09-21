@@ -14,100 +14,162 @@ namespace CFT.CSOMS.DAL.FundModule
         //查询指数型基金（目前只有易方达沪深300基金）的每日单位净值和日涨跌字段
         public DataTable QueryFundProfitRate(string spid, string fund_code, string date)
         {
-            if (string.IsNullOrEmpty(spid))
-                throw new ArgumentNullException("spid");
-            if (string.IsNullOrEmpty(fund_code))
-                throw new ArgumentNullException("fund_code");
-            if (string.IsNullOrEmpty(date))
-                throw new ArgumentNullException("date");
-            using (var da = MySQLAccessFactory.GetMySQLAccess("Fund"))
-            {
-                da.OpenConn();
-                string Sql = " select F1day_profit_rate,F7day_profit_rate from fund_db.t_fund_profit_rate where Fspid='" + spid + "' and Ffund_code='" + fund_code + "' and Fdate='" + date + "'";
-                DataSet ds = da.dsGetTotalData(Sql);
+            //if (string.IsNullOrEmpty(spid))
+            //    throw new ArgumentNullException("spid");
+            //if (string.IsNullOrEmpty(fund_code))
+            //    throw new ArgumentNullException("fund_code");
+            //if (string.IsNullOrEmpty(date))
+            //    throw new ArgumentNullException("date");
+            //using (var da = MySQLAccessFactory.GetMySQLAccess("Fund"))
+            //{
+            //    da.OpenConn();
+            //    string Sql = " select F1day_profit_rate,F7day_profit_rate from fund_db.t_fund_profit_rate where Fspid='" + spid + "' and Ffund_code='" + fund_code + "' and Fdate='" + date + "'";
+            //    DataSet ds = da.dsGetTotalData(Sql);
 
-                return ds.Tables[0];
+            //    return ds.Tables[0];
+            //}
+
+
+            DataTable dt = null;
+            var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
+            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
+            string requestText = "reqid=667&flag=2&offset=0&limit=10&fields=spid:{0}|fund_code:{1}|date:{2}";
+            requestText = string.Format(requestText, spid, fund_code, date);
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
             }
+            return dt;
         }
 
         public DataTable QueryProfitRecord(string tradeId, string beginDateStr, string endDateStr, int currencyType = -1, string spId = "", int limStart = 0, int limCount = 10)
         {
-            if (string.IsNullOrEmpty(tradeId))
-                throw new ArgumentNullException("tradeId");
+            //if (string.IsNullOrEmpty(tradeId))
+            //    throw new ArgumentNullException("tradeId");
 
-            using (var da = MySQLAccessFactory.GetMySQLAccess("Fund"))
+            //using (var da = MySQLAccessFactory.GetMySQLAccess("Fund"))
+            //{
+            //    var table_name = string.Format("fund_db_{0}.t_fund_profit_record_{1}", tradeId.Substring(tradeId.Length - 2), tradeId.Substring(tradeId.Length - 3, 1));
+
+            //    var sqlBuilder = new StringBuilder(string.Format("select * from {0} where Ftrade_id='{1}'", table_name, tradeId));
+
+            //    if (!string.IsNullOrEmpty(beginDateStr))
+            //        sqlBuilder.AppendFormat(" and Fday >='{0}'", beginDateStr);
+
+            //    if (!string.IsNullOrEmpty(endDateStr))
+            //        sqlBuilder.AppendFormat(" and Fday <='{0}'", endDateStr);
+
+            //    if (!string.IsNullOrEmpty(spId))
+            //        sqlBuilder.AppendFormat(" and Fspid = '{0}'", spId);
+
+            //    if (currencyType != -1)
+            //        sqlBuilder.AppendFormat(" and Fcurtype = {0}", currencyType);
+
+            //    sqlBuilder.AppendFormat(" order by Fday desc limit " + limStart + "," + limCount);
+
+            //    da.OpenConn();
+            //    DataSet ds = da.dsGetTotalData(sqlBuilder.ToString());
+
+            //  return ds.Tables[0];
+            //}
+
+            DataTable dt = null;
+            var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
+            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
+            string requestText = "reqid=623&flag=2&offset={0}&limit={1}&fields=trade_id:{2}|begin_time:{3}|end_time:{4}|spid:{5}";
+            requestText = string.Format(requestText, limStart, limCount, tradeId, beginDateStr, endDateStr, spId);
+            DataSet ds1 = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
             {
-                var table_name = string.Format("fund_db_{0}.t_fund_profit_record_{1}", tradeId.Substring(tradeId.Length - 2), tradeId.Substring(tradeId.Length - 3, 1));
-
-                var sqlBuilder = new StringBuilder(string.Format("select * from {0} where Ftrade_id='{1}'", table_name, tradeId));
-
-                if (!string.IsNullOrEmpty(beginDateStr))
-                    sqlBuilder.AppendFormat(" and Fday >='{0}'", beginDateStr);
-
-                if (!string.IsNullOrEmpty(endDateStr))
-                    sqlBuilder.AppendFormat(" and Fday <='{0}'", endDateStr);
-
-                if (!string.IsNullOrEmpty(spId))
-                    sqlBuilder.AppendFormat(" and Fspid = '{0}'", spId);
-
-                if(currencyType != -1)
-                    sqlBuilder.AppendFormat(" and Fcurtype = {0}", currencyType);
-
-                sqlBuilder.AppendFormat(" order by Fday desc limit " + limStart + "," + limCount);
-
-                da.OpenConn();
-                DataSet ds = da.dsGetTotalData(sqlBuilder.ToString());
-
-                return ds.Tables[0];
+                dt = ds1.Tables[0];
             }
+            return dt;
         }
 
         //用户基金账户绑定记录，只能查到有收益的
         public DataTable QueryProfitStatistic(string tradeId, int currencyType = -1, string spId = "")
         {
 
-            if (string.IsNullOrEmpty(tradeId))
-                throw new ArgumentNullException("tradeId");
+            //if (string.IsNullOrEmpty(tradeId))
+            //    throw new ArgumentNullException("tradeId");
 
-            using (var da = MySQLAccessFactory.GetMySQLAccess("Fund"))
+            //using (var da = MySQLAccessFactory.GetMySQLAccess("Fund"))
+            //{
+            //    var table_name = string.Format("fund_db_{0}.t_fund_profit_{1}", tradeId.Substring(tradeId.Length - 2), tradeId.Substring(tradeId.Length - 3, 1));
+
+                
+            //    var sqlBuilder = new StringBuilder(string.Format("select * from {0} where Ftrade_id='{1}'", table_name, tradeId));
+
+            //    if (!string.IsNullOrEmpty(spId))
+            //        sqlBuilder.AppendFormat(" and Fspid = '{0}'", spId);
+
+            //    if (currencyType != -1)
+            //        sqlBuilder.AppendFormat(" and Fcurtype = {0}", currencyType);
+                
+            //    da.OpenConn();
+            //    DataSet ds = da.dsGetTotalData(sqlBuilder.ToString());
+
+            //    return ds.Tables[0];
+            //}
+
+
+            DataTable dt = null;
+            var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
+            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
+            string requestText = "reqid=678&flag=2&offset=0&limit=10&fields=trade_id:" + tradeId;
+            if (!string.IsNullOrEmpty(spId))
             {
-                var table_name = string.Format("fund_db_{0}.t_fund_profit_{1}", tradeId.Substring(tradeId.Length - 2), tradeId.Substring(tradeId.Length - 3, 1));
-
-                
-                var sqlBuilder = new StringBuilder(string.Format("select * from {0} where Ftrade_id='{1}'", table_name, tradeId));
-
-                if (!string.IsNullOrEmpty(spId))
-                    sqlBuilder.AppendFormat(" and Fspid = '{0}'", spId);
-
-                if (currencyType != -1)
-                    sqlBuilder.AppendFormat(" and Fcurtype = {0}", currencyType);
-                
-                da.OpenConn();
-                DataSet ds = da.dsGetTotalData(sqlBuilder.ToString());
-
-                return ds.Tables[0];
+                requestText += "|spid:" + spId;
             }
+            if (currencyType != -1)
+            {
+                requestText += "|curtype:" + currencyType;
+            }
+
+            requestText = string.Format(requestText, tradeId, "2010-01-10", "2015-10-01", spId);
+            DataSet ds1 = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
+            {
+                dt = ds1.Tables[0];
+            }
+            return dt;
         }
 
         //基金账户绑定记录表，查到有份额的所有基金
         public DataTable QueryFundBind(string tradeId)
         {
 
+            //if (string.IsNullOrEmpty(tradeId))
+            //    throw new ArgumentNullException("tradeId");
+
+            //using (var da = MySQLAccessFactory.GetMySQLAccess("Fund"))
+            //{
+            //    var table_name = string.Format("fund_db_{0}.t_fund_bind_sp_{1}", tradeId.Substring(tradeId.Length - 2), tradeId.Substring(tradeId.Length - 3, 1));
+
+
+            //    var sqlBuilder = new StringBuilder(string.Format("select * from {0} where Ftrade_id='{1}'", table_name, tradeId));
+
+            //    da.OpenConn();
+            //    DataSet ds = da.dsGetTotalData(sqlBuilder.ToString());
+
+            //    return ds.Tables[0];
+            //}
+
             if (string.IsNullOrEmpty(tradeId))
                 throw new ArgumentNullException("tradeId");
-
-            using (var da = MySQLAccessFactory.GetMySQLAccess("Fund"))
+            DataTable dt = null;
+            var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
+            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
+            string requestText = "reqid=612&flag=2&offset=0&limit=20&fields=trade_id:{0}";
+            requestText = string.Format(requestText, tradeId);
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-                var table_name = string.Format("fund_db_{0}.t_fund_bind_sp_{1}", tradeId.Substring(tradeId.Length - 2), tradeId.Substring(tradeId.Length - 3, 1));
-
-
-                var sqlBuilder = new StringBuilder(string.Format("select * from {0} where Ftrade_id='{1}'", table_name, tradeId));
-
-                da.OpenConn();
-                DataSet ds = da.dsGetTotalData(sqlBuilder.ToString());
-
-                return ds.Tables[0];
+                dt = ds.Tables[0];
             }
+            return dt;
+          
         }
 
         /// <summary>
