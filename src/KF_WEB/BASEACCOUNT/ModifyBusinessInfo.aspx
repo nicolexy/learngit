@@ -64,9 +64,9 @@
 					<TD align="right"><asp:label id="Label14" runat="server">商户密钥</asp:label></TD>
 					<TD><asp:label id="lblMerKey" runat="server" Visible=False></asp:label>&nbsp;&nbsp;&nbsp;&nbsp;如果商户忘记密钥，无法自助重置，请点击
                         <asp:linkbutton id="btnSendEmail" runat="server" Font-Bold="True" CausesValidation="False" onclick="btnSendEmail_Click">重发密钥</asp:linkbutton></TD>
-					<TD align="right"><asp:label id="Label10" runat="server">管理密码</asp:label></TD>
+					<TD align="right"><asp:label id="Label10" runat="server">登录密码</asp:label></TD>
 					<TD><FONT face="宋体">如果商户忘记管理员密码，无法登陆企业版，请点击</FONT>
-					<asp:linkbutton id="Linkbutton2" runat="server" Font-Bold="True" CausesValidation="False" onclick="Linkbutton2_Click">重发密码</asp:linkbutton>
+					<asp:linkbutton id="Linkbutton2" runat="server" Font-Bold="True" CausesValidation="False" onclick="Linkbutton2_Click">重置密码</asp:linkbutton>
 
 					</TD>
 
@@ -83,54 +83,52 @@
 				</TR>
 				<TR>
 					<TD align="right"><asp:label id="Label6" runat="server">网站名称</asp:label></TD>
-					<TD><asp:label id="lblFspName" runat="server"></asp:label></TD>
-					<TD align="right"><asp:label id="Label3" runat="server">联系人手机</asp:label></TD>
-					<TD><asp:label id="lblContactMobile" runat="server"></asp:label></TD>
+					<TD colspan="3"><asp:label id="lblFspName" runat="server"></asp:label></TD>
 				</TR>
 				<TR>
 					<TD align="right"><asp:label id="Label9" runat="server">新网站名称</asp:label></TD>
-					<TD><asp:textbox id="txtFspName" runat="server" Width="300px"></asp:textbox></TD>
-					<TD align="right"><asp:label id="Label15" runat="server">新联系人手机</asp:label></TD>
-					<TD><asp:textbox id="txtContactMobile" runat="server"  Width="300px"></asp:textbox></TD>
+					<TD colspan="3"><asp:textbox id="txtFspName" runat="server" Width="100%"></asp:textbox></TD>
 				</TR> 
                 <TR>
                     <TD align="right"><asp:label id="Label7" runat="server">网址</asp:label></TD>
-					<TD><asp:label id="lblAddress" runat="server"></asp:label></TD>
-                    <TD align="right"><asp:label id="Label16" runat="server">上传手机变更函扫描件</asp:label></TD>
-                    <TD> <INPUT id="fileMobileChange" style=" HEIGHT: 21px; width:300px" type="file" size="21" name="fileMobileChange"
-							runat="server"><SPAN class="style5"><Font color="red">*</Font></TD>
+					<TD colspan="3"><asp:label id="lblAddress" runat="server"></asp:label></TD>
                 </TR>
                
                 <TR>
 				   <TD align="right"><asp:label id="Label11" runat="server">新网址</asp:label></TD>
-				   <TD><asp:textbox id="txtAddress" runat="server" Width="300px"></asp:textbox></TD>
-                   <TD align="right"><asp:label id="Label17" runat="server">个人上传身份证扫描件</asp:label></TD>
-                   <TD><INPUT id="fileMobileCredit" style="HEIGHT: 21px; width:300px" type="file" size="21" name="fileMobileCredit"
-							runat="server"><SPAN class="style5"><Font color="red">*</Font></TD>
+				   <TD colspan="3"><asp:textbox id="txtAddress" runat="server" Width="100%"></asp:textbox></TD>
                 </TR>
                 <TR>
                     <TD align="right"><asp:label id="Label8" runat="server">绑定邮箱</asp:label></TD>
-                    <TD colspan="3"><asp:label id="lblEmail" runat="server"></asp:label></TD>
+                    <TD><asp:label id="lblEmail" runat="server"></asp:label></TD>
+                    <TD align="right"><asp:label id="Label3" runat="server">联系人手机</asp:label></TD>
+					<TD><asp:label id="lblContactMobile" runat="server"></asp:label></TD>
                 </TR>
                  <TR>
                     <TD align="right"><asp:label id="Label13" runat="server">新绑定邮箱</asp:label></TD>
-                    <TD colspan="3"><asp:textbox id="txtEmail" runat="server" Width="300px"></asp:textbox></TD>
+                    <TD><asp:textbox id="txtEmail" runat="server" Width="300px"></asp:textbox></TD>
+					<TD align="right"><asp:label id="Label15" runat="server">新联系人手机</asp:label></TD>
+					<TD><asp:textbox id="txtContactMobile" runat="server"  Width="300px"></asp:textbox></TD>
                 </TR>
                 <TR>
                      <TD align="right"><FONT face="宋体">上传邮箱变更函扫描件</FONT></TD>
-                    <TD colspan="4">
+                    <TD>
                         <INPUT id="FileEmail" style="WIDTH:300px; HEIGHT: 21px" type="file" size="21" name="FileEmail"
 							runat="server"><SPAN class="style5"><Font color="red">*</Font></SPAN>
                     </TD>
-
+                    <TD align="right"><asp:label id="Label16" runat="server">上传手机变更函扫描件</asp:label></TD>
+                    <TD> <INPUT id="fileMobileChange" style=" HEIGHT: 21px; width:300px" type="file" size="21" name="fileMobileChange"
+							runat="server"><SPAN class="style5"><Font color="red">*</Font></TD>
                 </TR>
                   <TR>
                      <TD align="right" ><FONT face="宋体">个人账号上传身份证扫描件</FONT></TD>
-                    <TD colspan="3">
+                    <TD>
                         <INPUT id="FileCredit" style="WIDTH: 300px; HEIGHT: 21px" type="file" size="21" name="FileCredit"
 							runat="server"><SPAN class="style5"><Font color="red">*</Font></SPAN>
                     </TD>
-
+                    <TD align="right"><asp:label id="Label17" runat="server">个人上传身份证扫描件</asp:label></TD>
+                   <TD><INPUT id="fileMobileCredit" style="HEIGHT: 21px; width:300px" type="file" size="21" name="fileMobileCredit"
+							runat="server"><SPAN class="style5"><Font color="red">*</Font></TD>
                 </TR>
                  <TR>
                     <TD align="right"><FONT face="宋体">修改原因</FONT></TD>

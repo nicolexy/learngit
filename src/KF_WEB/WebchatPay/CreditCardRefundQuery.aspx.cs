@@ -97,9 +97,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 throw new Exception("日期输入有误！");
             }
 
-            if (this.dd_queryDate.SelectedValue == "2"&&!string.IsNullOrEmpty(s_date) && !string.IsNullOrEmpty(e_date) && begindate.AddMonths(1)< enddate)
+            if (this.dd_queryDate.SelectedValue == "2" && !string.IsNullOrEmpty(s_date) && !string.IsNullOrEmpty(e_date) && begindate.AddDays(3) < enddate)
             {
-                throw new Exception("日期间隔大于1个月，请重新输入！");
+                throw new Exception("日期间隔大于3天，请重新输入！");
             }
 
             string no = this.cftNo.Text;
@@ -336,6 +336,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 DataGrid1.DataBind();
             }
             
+        }
+
+        protected void dd_queryType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.dd_queryType.SelectedValue == "2")
+            {
+                this.dd_queryDate.SelectedIndex = 1;
+                this.dd_queryDate.Enabled = false;
+                this.showQueryDate.Visible = true;
+            }
+            else
+            {
+                this.dd_queryDate.SelectedIndex = 0;
+                this.dd_queryDate.Enabled = true;
+                this.showQueryDate.Visible = false;
+            }
         }
 
         //string getQQID()
