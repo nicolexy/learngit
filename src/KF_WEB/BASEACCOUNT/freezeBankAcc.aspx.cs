@@ -206,7 +206,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 				//调用冻结或者解冻帐户的service
 				if (sign.ToLower() == "true")  //如果是正常帐户，进行冻结操作
-				{
+                {
+                    #region
                     op_type = "1";
 					bool exeSign = false;
 					if (Request.QueryString["type"] == null)
@@ -215,22 +216,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					}
 					else 
 					{
+                        string uname = "";
+                        if (ViewState["tuserName"] != null && ViewState["tuserName"].ToString() != "")
+                        {
+                            uname = ViewState["tuserName"].ToString();
+                        }
                         if (ViewState["iswechat"].ToString() == "true")
                         {
                             //微信处理流程 ,yinhuang 使用接口实现
                             //exeSign = fm.FreezePerAccountWechat(uid, 1);
-                            string uname = "";
-                            if (ViewState["tuserName"] != null && ViewState["tuserName"].ToString() != "")
-                            {
-                                uname = ViewState["tuserName"].ToString();
-                            }
                             exeSign = fm.FreezePerAccountWechat_New(uid, uname, ddlFreezeChannel.SelectedValue);
                         }
                         else {
-                            //走原来流程
-                            exeSign = fm.freezePerAccount(uid, 1,"");
+                            //冻结 1 ui_freeze_user_service
+                            exeSign = fm.freezePerAccount(uid, 1, uname, ddlFreezeChannel.SelectedValue);
                         }
-						
 					}
 
 					if (false == exeSign)
@@ -323,9 +323,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                             }
                         }
                     }
-				}
+                    #endregion
+                }
 				else if (sign.ToLower() == "false")
-				{
+                {
+                    #region 
                     op_type = "2";
                     //解冻需要根据冻结渠道判断是否有权限 yinhuang 2013/12/9
                     string isChannel = "";
@@ -479,8 +481,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         }
                         else
                         {
-                            //走原来流程
-                            fm.freezePerAccount(uid, 2, uname); 
+                            //解冻 2 ui_unfreeze_user_service
+                            fm.freezePerAccount(uid, 2, uname, "");
                         }
                     }
 
@@ -500,8 +502,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 							WebUtils.ShowMessage(this.Page,"处理冻结工单时失败！");
 						//	return;
 						}
-					}
-				}
+                    }
+                    #endregion
+                }
 
                 //理财通账户冻结或解冻操作
                 try
@@ -512,7 +515,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         ip = "127.0.0.1";
                     Boolean state = acc.LCTAccStateOperator(uid, op_type, Session["uid"].ToString(), ip);
                 }
-                catch(Exception err)
+                catch (Exception err)
                 {
                     string errStr = PublicRes.GetErrorMsg(err.Message.ToString());
                     WebUtils.ShowMessage(this.Page, "操作理财通账户状态失败！" + errStr);
