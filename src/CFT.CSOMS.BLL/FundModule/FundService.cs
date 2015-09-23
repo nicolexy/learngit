@@ -157,7 +157,7 @@ namespace CFT.CSOMS.BLL.FundModule
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("基金账户信息查询异常：{0}", ex.Message));
+                throw new Exception(string.Format("基金账户信息查询异常：{0}", ex.ToString()));
             }
         }
 
