@@ -162,7 +162,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + HttpUtility.JavaScriptStringEncode(eSys.ToString()));
             }
 
             try//理财通余额查询
@@ -180,7 +180,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "查询理财通余额失败！" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "查询理财通余额失败！" + HttpUtility.JavaScriptStringEncode(eSys.ToString()));
             }
         }
         /// <summary>
@@ -224,12 +224,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
-                string errStr = PublicRes.GetErrorMsg(eSoap.Message);
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + HttpUtility.JavaScriptStringEncode(errStr));
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + HttpUtility.JavaScriptStringEncode(eSoap.ToString()));
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + HttpUtility.JavaScriptStringEncode(eSys.Message));
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + HttpUtility.JavaScriptStringEncode(eSys.ToString()));
             }
         }
 
@@ -338,7 +337,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception err)
             {
-                string errStr = PublicRes.GetErrorMsg(err.Message.ToString());
+                string errStr = PublicRes.GetErrorMsg(err.ToString());
                 LogHelper.LogInfo("查询理财通账户状态失败！" + errStr);
             }
 
