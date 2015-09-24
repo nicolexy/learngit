@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             {
                 this.lab_operator.Text = Session["uid"].ToString();
 
-                if (!classLibrary.ClassLib.ValidateRight("InternetBankRefund", this))
+                if (!classLibrary.ClassLib.ValidateRight("RefundMerchantCheck", this))
                     Response.Redirect("../login.aspx?wh=1");
             }
             catch

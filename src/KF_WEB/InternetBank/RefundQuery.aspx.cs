@@ -42,6 +42,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 if (!IsPostBack)
                 {
                     btnNew.Visible = classLibrary.ClassLib.ValidateRight("RefundCheck", this);
+                    btnUpload.Visible = classLibrary.ClassLib.ValidateRight("RefundCheck", this);  //退款登记导入excel按钮权限
+
                     TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
                     TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
@@ -716,9 +718,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                                 filterOrder += orderId + "，";
                             }
                         }
-                        filterOrder.TrimEnd(new char[] { '，' });
-                        WebUtils.ShowMessage(this.Page, filterOrder + " 商家的订单不允许走网银退款。");
-                        return;
+                        if (!string.IsNullOrEmpty(filterOrder))
+                        {
+                            WebUtils.ShowMessage(this.Page, filterOrder + " 商家的订单不允许走网银退款。");
+                            return;
+                        }
                     }
                     //  Upload();
                     Thread thread = new Thread(Upload);

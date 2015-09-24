@@ -67,7 +67,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			if(!IsPostBack)
 			{
-                TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
+                TextBoxBeginDate.Text = DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd 00:00:00");
                 TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
 
 				classLibrary.setConfig.GetAllBankList(ddlBankType);
@@ -83,8 +83,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				this.dpLst.SelectedValue = "czd";
 				string ID = Request.QueryString["czID"].ToString().Trim();
 				//				this.CheckBox1.Checked=true;
-				TextBoxBeginDate.Text="2009年01月01日 00:00:00";
-				TextBoxEndDate.Text = "2009年01月01日 00:00:00";
+                TextBoxBeginDate.Text = "2009-01-01 00:00:00";
+                TextBoxEndDate.Text = "2009-01-01 00:00:00";
 				if(Request.QueryString["checkdate"] != null)
 				{
 					string date=Request.QueryString["checkdate"].Trim();

@@ -603,6 +603,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
                 rights[99] = new OneRight("InternetBankRefund", 99, "网银提交账务退款");
                 rights[156] = new OneRight("PayBusinessCMD", 162, "网银提交账务退款");
                 rights[166] = new OneRight("RefundCheck", 166, "退款登记");
+
+                rights[102] = new OneRight("RefundMerchantCheck", 102, "退款商户录入");
                 //增加代扣调整按钮权限
                 rights[31] = new OneRight("DKAdjust", 31, "代扣调整状态");
 
