@@ -49,30 +49,55 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         {
             try
             {
-
                 string uid = txtuid.Text.Trim();
-                if (uid.Length != 0)
+                string start_time_str = txt_start_time.Value.Trim();
+                string end_time_str = txt_end_time.Value.Trim();
+                DateTime start_time, end_time;
+                DataSet ds = null;
+                if (uid.Length < 1)
                 {
-                    DataSet ds = new TradeService().BeforeCancelTradeQuery(uid);
-                    if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
+                    throw new Exception("内部ID： 不可以为空");
+                }
+
+                if (start_time_str.Length > 0 && end_time_str.Length > 0)
+                {
+                    if (DateTime.TryParse(start_time_str, out start_time) && DateTime.TryParse(end_time_str, out end_time))
                     {
-                        WebUtils.ShowMessage(this.Page, "没有找到记录");
-                        dg_info.DataSource = null;
+                        var day = (end_time - start_time).Days;
+                        if (day < 1)
+                        {
+                            throw new Exception("结束时间应该 大于 开始时间");
+                        }
+                        if (start_time.Year != end_time.Year || day > 30)
+                        {
+                            throw new Exception("订单时间不允许跨年,并且跨度在30天内");
+                        }
+                        ds = new TradeService().BeforeCancelTradeHistoryQuery(uid, start_time, end_time);
                     }
                     else
                     {
-                        var dt = ds.Tables[0];
-
-                        dt.Columns.Add("Fpaynum_str", typeof(string));
-                        classLibrary.setConfig.FenToYuan_Table(dt, "Fpaynum", "Fpaynum_str");
-                        dg_info.DataSource = dt;
+                        throw new Exception("请输入正确的时间");
                     }
-                    dg_info.DataBind();
                 }
                 else
                 {
-                    WebUtils.ShowMessage(this.Page, "内部ID： 不可以为空");
+                    ds = new TradeService().BeforeCancelTradeQuery(uid);
                 }
+
+                if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
+                {
+                    WebUtils.ShowMessage(this.Page, "没有找到记录");
+                    dg_info.DataSource = null;
+                }
+                else
+                {
+                    var dt = ds.Tables[0];
+
+                    dt.Columns.Add("Fpaynum_str", typeof(string));
+                    classLibrary.setConfig.FenToYuan_Table(dt, "Fpaynum", "Fpaynum_str");
+                    dg_info.DataSource = dt;
+                }
+                dg_info.DataBind();
 
             }
             catch (SoapException eSoap) //捕获soap类异常

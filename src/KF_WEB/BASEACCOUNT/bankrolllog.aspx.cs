@@ -151,15 +151,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         {
                             if (CoverPickFuid[i].ToString() == dr["Fuid"].ToString())
                             {
-                                try
+                                var fmemo = dr["Fmemo"] as string;  //乱码Bug问题
+                                if (!string.IsNullOrEmpty(fmemo))
                                 {
-                                    var fmemo = dr["Fmemo"] as string;  //乱码Bug问题
-                                    if (!string.IsNullOrEmpty(fmemo))
-                                    {
-                                        var buff = System.Text.Encoding.Default.GetBytes(fmemo);
-                                        dr["Fmemo"] = System.Text.Encoding.UTF8.GetString(buff);
-                                    }
-                                  
+                                    var buff = System.Text.Encoding.Default.GetBytes(fmemo);
+                                    dr["Fmemo"] = System.Text.Encoding.UTF8.GetString(buff);
+                                }
+                                try
+                                {                                  
                                     int PointIndex = Fpaynum.IndexOf(".");
                                     dr["FpaynumStr"] = "******" + Fpaynum.Substring(PointIndex - 1, Fpaynum.Length - PointIndex + 1);
                                     PointIndex = Fbalance.IndexOf(".");
