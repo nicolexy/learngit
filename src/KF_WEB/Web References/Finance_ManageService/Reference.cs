@@ -741,20 +741,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("Finance_HeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/freezePerAccount", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool freezePerAccount(string uid, int type, string username) {
+        public bool freezePerAccount(string uid, int type, string username, string channel) {
             object[] results = this.Invoke("freezePerAccount", new object[] {
                         uid,
                         type,
-                        username});
+                        username,
+                        channel});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginfreezePerAccount(string uid, int type, string username, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginfreezePerAccount(string uid, int type, string username, string channel, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("freezePerAccount", new object[] {
                         uid,
                         type,
-                        username}, callback, asyncState);
+                        username,
+                        channel}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -764,19 +766,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService {
         }
         
         /// <remarks/>
-        public void freezePerAccountAsync(string uid, int type, string username) {
-            this.freezePerAccountAsync(uid, type, username, null);
+        public void freezePerAccountAsync(string uid, int type, string username, string channel) {
+            this.freezePerAccountAsync(uid, type, username, channel, null);
         }
         
         /// <remarks/>
-        public void freezePerAccountAsync(string uid, int type, string username, object userState) {
+        public void freezePerAccountAsync(string uid, int type, string username, string channel, object userState) {
             if ((this.freezePerAccountOperationCompleted == null)) {
                 this.freezePerAccountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnfreezePerAccountOperationCompleted);
             }
             this.InvokeAsync("freezePerAccount", new object[] {
                         uid,
                         type,
-                        username}, this.freezePerAccountOperationCompleted, userState);
+                        username,
+                        channel}, this.freezePerAccountOperationCompleted, userState);
         }
         
         private void OnfreezePerAccountOperationCompleted(object arg) {

@@ -913,7 +913,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 		//freezePerAccount
 		[WebMethod(Description="冻结个人账户")]
 		[SoapHeader("myHeader",Direction=SoapHeaderDirection.In)]
-        public bool freezePerAccount(string uid, int type, string username)
+        public bool freezePerAccount(string uid, int type, string username, string channel)
 		{
 			string mediflag = "false";
 
@@ -928,24 +928,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 			ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP,PublicRes.ICEPort);
 			try
 			{
-				//dazl.OpenConn();
-				//dazl.StartTran();
-			
 				//furion 20060331 先判断用户是否是商户.
 				if(mediflag.ToLower() == "false")
 				{
-					/*
-					// TODO1: 客户信息资料外移
-					//int itmp = Int32.Parse(PublicRes.ExecuteOne("select count(*) from c2c_db.t_merchant_info where Fspecial='" + uid + "' ","YW_30"));
-					//int itmp = Int32.Parse(PublicRes.ExecuteOne("select count(*) from c2c_db.t_merchant_info where Fspecial='" + uid + "' ","ZL"));
-					int itmp = Int32.Parse(dazl.GetOneResult("select count(*) from c2c_db.t_merchant_info where Fspecial='" + uid + "' "));
-					
-					if(itmp > 0)
-					{
-						throw new LogicException("不允许冻结或解冻商户所绑定的QQ号码");
-					}
-					*/
-
 					//新增判断，29813和 10***@mch.tenpay.com类的不允许
 					if(uid.StartsWith("29813"))
 					{
@@ -965,8 +950,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 					{
 						throw new LogicException("不允许冻结或解冻商户所绑定的QQ号码");
 					}
-					
-					
 				}
 
 				//furion 20061116 email登录相关
@@ -976,39 +959,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 				{
 					throw new Exception("冻结解冻个人账户出错！内部ＩＤ不正确。" );
 				}
-
-				string strSql = "uid=" + fuid;
-				strSql += "&modify_time=" + PublicRes.strNowTimeStander;
-					
+			
 				int newtype = 0;
 
-				if (type == 1)  //传入正常，需要冻结
-				{
-					strSql += "&state=2";
-					newtype = 2;
-				}
-				else if (type == 2)  //传入冻结 需要解冻 正常化
-				{				
-					strSql += "&state=1";
-					newtype = 1;
-				}
+                if (type == 1)  //传入正常，需要冻结
+                    newtype = 2;
+                else if (type == 2)  //传入冻结 需要解冻 正常化
+                    newtype = 1;
 
                 //echo 20141211 解冻ui_common_update_service接口全部换成ui_unfreeze_user_service
-                if (type == 1)//冻结走之前的流程
+                if (type == 1)//冻结
                 {
                     string errMsg = "";
-                    int iresult = CommQuery.ExecSqlFromICE(strSql, CommQuery.UPDATE_USERINFO, out errMsg);
+                    string sql = "uid=" + fuid;
+                    string fcredit = CommQuery.GetOneResultFromICE(sql, CommQuery.QUERY_USERINFO, "Fcreid", out errMsg);
+                    string fcretype = CommQuery.GetOneResultFromICE(sql, CommQuery.QUERY_USERINFO, "Fcre_type", out errMsg);
 
-                    if (iresult != 1)
+                    string Msg = "";
+                    string req = "uin=" + uid + "&cre_id=" + fcredit + "&cre_type=" + fcretype + "&caller=" + myHeader.UserName;
+                    req += "&source=2&client_ip=" + myHeader.UserIP + "&channel=" + channel + "&name=" + username + "&modify_time=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    CommQuery.GetDSForServiceFromICE(req, "ui_freeze_user_service", true, out Msg);
+                    if (Msg != "")
                     {
-                        throw new LogicException("更新了非一条记录:" + errMsg);
+                        throw new Exception("调ui_freeze_user_service冻结异常：" + Msg);
                     }
-
-                    strSql += "&curtype=1";
-
-                    //iresult = 
-                    CommQuery.ExecSqlFromICE(strSql, CommQuery.UPDATE_BANKUSER, out errMsg);
-
                 }
                 else if (type == 2) //解冻ui_common_update_service接口换成ui_unfreeze_user_service
                 {
@@ -1028,51 +1002,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                 }
 
-
-//				if(iresult != 1)
-//				{
-//					throw new LogicException("更新了非一条记录:" + errMsg);
-//				}
-
-				/*
-				string freezeStr1 = "";
-				string freezeStr2 = "";
-				int newtype = 0;
-
-				if (type == 1)  //传入正常，需要冻结
-				{
-					newtype = 2;
-				}
-				else if (type == 2)  //传入冻结 需要解冻 正常化
-				{				
-					newtype = 1;
-				}
-
-				freezeStr1 = "UPDATE " + PublicRes.GetTName("t_user_info",fuid) + " SET fstate = " + newtype + " WHERE fuid=" + fuid;   //1 正常 2 冻结
-				freezeStr2 = "UPDATE " + PublicRes.GetTName("t_bank_user",fuid) + " SET fstate = " + newtype + " WHERE fuid=" + fuid;   //1 正常 2 冻结
-
-				//清除cache
-				PublicRes.ReleaseCache(uid,"qqid");
-
-				if(dazl.ExecSqlNum(freezeStr1) != 1)
-				{
-					throw new Exception("冻结解冻个人账户出错！更新t_user_info出错。" );
-				}
-
-				if(dazl.ExecSqlNum(freezeStr2) != 1)
-				{
-					throw new Exception("冻结解冻个人账户出错！更新t_bank_user出错。" );
-				}
-				
-				
-
-				//return PublicRes.ExecuteSql(freezeStr,"YW_30");
-
-				//furion 20090304 现在的冻结需要冻三个地方，一个在核心，还有t_bank_user/t_user_info
-				//核心t_user的冻结属于资金止付的冻结，外围是真正的冻结。
-				//需要先冻结外围再处理核心。
-				dazl.Commit();
-*/
 				ice.OpenConn();
 				string strwhere = "where=" + ICEAccess.URLEncode("fcurtype=1&");
 				strwhere += ICEAccess.URLEncode("fuid=" + fuid + "&");
@@ -1094,15 +1023,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 			catch(Exception e)
 			{
 				ice.CloseConn();
-				//dazl.RollBack();
-				//throw new Exception("Finance_Service-Insert_Service:AdjustTradeRequest Error! " + e.Message.ToString().Replace("'","’"));
 				throw new Exception("冻结个人账户出错！" + e.Message.ToString().Replace("'","’"));
 				return false;		
 			}
 			finally
 			{
 				ice.Dispose();
-				//dazl.Dispose();
 				try
 				{
 					PublicRes.writeSysLog(strUserID,strIP,"dj","冻结个人账户",1,uid,"");	
@@ -1275,6 +1201,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //client_ip,modify_time;name;caller uin source=2 watch_word cre_id
                 string req = "uin=" + uin + "&cre_id=" + fcredit + "&cre_type=" + fcretype + "&caller=" + myHeader.UserName;
                 req += "&source=2&client_ip=" + myHeader.UserIP + "&name=" + username + "&modify_time=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                req += "&op_id=" + myHeader.OperID + "&op_name=" + myHeader.UserName;
                 CommQuery.GetDSForServiceFromICE(req, "ui_unfreeze_user_service", true, out Msg);
                 if (Msg != "")
                 {

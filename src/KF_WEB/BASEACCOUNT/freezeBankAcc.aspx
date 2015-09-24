@@ -20,7 +20,7 @@
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
-			<TABLE id="Table2" style="Z-INDEX: 101; POSITION: absolute; WIDTH: 336px; HEIGHT: 355px; TOP: 18%; LEFT: 30%"
+			<TABLE id="Table2" style="Z-INDEX: 101; POSITION: absolute; WIDTH: 436px; HEIGHT: 355px; TOP: 18%; LEFT: 30%"
 				cellSpacing="1" cellPadding="1" width="336" border="1">
 				<TR bgColor="#eeeeee" height="24">
 					<TD colSpan="2"><FONT color="#ff0000"><SPAN class="style1"><IMG height="16" src="../IMAGES/Page/post.gif" width="15"><STRONG>&nbsp;
@@ -66,17 +66,15 @@
 								<TD style="WIDTH: 236px; HEIGHT: 18px" align="center">
 									<P align="right"><asp:label id="Label1" runat="server">冻结渠道：</asp:label><FONT face="宋体">:</FONT></P>
 								</TD>
-								<TD style="HEIGHT: 18px" align="center" colSpan="3">
-                                <P align="left">
-                                  <asp:dropdownlist id="ddlFreezeChannel" runat="server">
-							         <asp:ListItem Value="1" Selected="True">风控冻结</asp:ListItem>
-                                     <asp:ListItem Value="2">拍拍冻结</asp:ListItem>
-                                     <asp:ListItem Value="3">用户冻结</asp:ListItem>
-                                     <asp:ListItem Value="4">商户冻结</asp:ListItem>
-                                     <asp:ListItem Value="5">BG接口冻结</asp:ListItem>
-                                     <asp:ListItem Value="6">涉嫌可疑交易冻结</asp:ListItem>
-                                  </asp:dropdownlist>
-                                </P>
+								<TD style="HEIGHT: 18px" align="left" colSpan="3">
+                                    <asp:dropdownlist id="ddlFreezeChannel" runat="server">
+							            <asp:ListItem Value="1" Selected="True">风控冻结</asp:ListItem>
+                                        <asp:ListItem Value="2">拍拍冻结</asp:ListItem>
+                                        <asp:ListItem Value="3">用户冻结</asp:ListItem>
+                                        <asp:ListItem Value="4">商户冻结</asp:ListItem>
+                                        <asp:ListItem Value="5">BG接口冻结</asp:ListItem>
+                                        <asp:ListItem Value="6">涉嫌可疑交易冻结</asp:ListItem>
+                                    </asp:dropdownlist>
 								</TD>
 							</TR>
 							<TR borderColor="#999999" bgColor="#999999">
