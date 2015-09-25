@@ -122,6 +122,7 @@
     <Compile Include="SPOA\MerchantHandle.cs" />
     <Compile Include="SPOA\MerchantData.cs" />
     <Compile Include="SPOA\SPOAData.cs" />
+    <Compile Include="SysManageModule\BankClassifyData.cs" />
     <Compile Include="SysManageModule\SysManageData.cs" />
     <Compile Include="TradeModule\PickData.cs" />
     <Compile Include="TradeModule\SettleData.cs" />

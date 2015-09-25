@@ -36,7 +36,7 @@
     <OldToolsVersion>4.0</OldToolsVersion>
     <TargetFrameworkProfile />
     <SccAuxPath />
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -119,6 +119,9 @@
     </Reference>
     <Reference Include="MySql.Data.Apollo">
       <HintPath>..\packages\MySql.Data.Apllo.6.95.5494.24500\lib\MySql.Data.Apollo.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>bin2\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="OFFICE, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1165,6 +1168,9 @@
     <Compile Include="CreditPay\QueryCreditBillList.aspx.designer.cs">
       <DependentUpon>QueryCreditBillList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Data\Sys_BankClassify.ashx.cs">
+      <DependentUpon>Sys_BankClassify.ashx</DependentUpon>
+    </Compile>
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1744,6 +1750,9 @@
     <Compile Include="NewQueryInfoPages\TestPage.aspx.designer.cs">
       <DependentUpon>TestPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="PageBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -1941,6 +1950,13 @@
     </Compile>
     <Compile Include="SpSettle\SettleReqQuery.aspx.designer.cs">
       <DependentUpon>SettleReqQuery.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SysManage\BankClassifyManage.aspx.cs">
+      <DependentUpon>BankClassifyManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SysManage\BankClassifyManage.aspx.designer.cs">
+      <DependentUpon>BankClassifyManage.aspx</DependentUpon>
     </Compile>
     <Compile Include="SysManage\BankInterfaceManage.aspx.cs">
       <DependentUpon>BankInterfaceManage.aspx</DependentUpon>
@@ -3252,6 +3268,7 @@
     <Content Include="Images\Public\edit.gif" />
     <Content Include="Images\Public\GrayLine_dot.gif" />
     <Content Include="Images\Public\help.gif" />
+    <Content Include="Images\Public\icon-down.gif" />
     <Content Include="Images\Public\point.gif" />
     <Content Include="InternetBank\BillHistoryQuery.aspx" />
     <Content Include="InternetBank\BillQuery.aspx" />
@@ -3377,6 +3394,7 @@
     <Content Include="Configs\Log4net.config" />
     <None Include="DataAccess.dll.log4net" />
     <Content Include="packages.config" />
+    <Content Include="Data\Sys_BankClassify.ashx" />
     <None Include="Properties\DataSources\System.Data.DataSet.datasource" />
     <None Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
     <Content Include="SCRIPTS\My97DatePicker\calendar.js" />
@@ -3404,6 +3422,7 @@
     <Content Include="Styles\ossstyle.css" />
     <Content Include="Styles\style.css" />
     <Content Include="Styles\text.css" />
+    <Content Include="SysManage\BankClassifyManage.aspx" />
     <Content Include="SysManage\BankInterfaceManage.aspx" />
     <Content Include="SysManage\BankInterfaceManage_Detail.aspx" />
     <Content Include="SysManage\BulletinContacts.aspx" />
@@ -3609,6 +3628,7 @@
     </Content>
     <None Include="Properties\PublishProfiles\CSOMS.pubxml" />
     <None Include="Properties\PublishProfiles\kfweb.pubxml" />
+    <None Include="Properties\PublishProfiles\kf_web.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -5028,11 +5048,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>18923</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:6903/</IISUrl>
+          <IISUrl>http://www.kfcftest.com</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

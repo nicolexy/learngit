@@ -58,8 +58,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                     ddlSysList.SelectedValue = Request.QueryString["sysid"].Trim();
                 }
 
-                PublicRes.GetDllDownList(ddlSysList, BankInterfaceName);
-                PublicRes.GetDllDownList(ddlBullType, BullType);
+                PublicRes.GetDllDownList(ddlSysList, BankInterfaceName, "全部", "");
+                PublicRes.GetDllDownList(ddlBullType, BullType, "全部", "");
                 PublicRes.GetDropdownlist(BullState,ddlBullState);
                 ddlSysList.SelectedValue = "1";
 

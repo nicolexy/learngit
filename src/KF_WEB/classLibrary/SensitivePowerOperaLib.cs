@@ -542,6 +542,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 				rights = new OneRight[RIGHTCOUNT];
 				//加入所有的权限。
 
+				
+                rights[14] = new OneRight("BankClassifyInfo", 14, "银行分类信息");
+				
                 rights[23] = new OneRight("InfoCenter", 23, "基础信息管理");
                 rights[24] = new OneRight("PayManagement", 24, "支付管理 ");
                 rights[25] = new OneRight("TradeManagement", 25, "交易管理");

@@ -28,7 +28,7 @@ using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
-    public partial class InfoCenter : System.Web.UI.Page
+    public partial class InfoCenter : PageBase//System.Web.UI.Page
     {
         public string iFramePath;  //设置iFrame的路径
         public string iFrameHeight;  //设置iFrame(用户交易记录)显示区域的高度
