@@ -8,7 +8,6 @@ using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-
 using System.IO;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using Tencent.DotNet.Common.UI;
@@ -30,17 +29,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 			// 在此处放置用户代码以初始化页面
 			if(!IsPostBack)
 			{
-				/*
-				ClassLib.ValidateRight(Session["uid"].ToString(),Session["SzKey"].ToString(),Request.Url,Request.UserHostAddress,Session.SessionID,
-					"",Session["OperID"].ToString(),this);
-					*/
-
-				//if(!ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1",true); 
-
 				ViewState["FID"] = Request.QueryString["fid"].ToString().Trim();
-
 				ViewState["FFreezeID"] = Request.QueryString["ffreeze_id"].ToString().Trim();
-
 				SetAllBtnVisible(false);
 
 				BindData(1);
@@ -86,28 +76,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
-//			Query_Service.Finance_Header fh = new Query_Service.Finance_Header();//
-//			fh.UserIP = Request.UserHostAddress;
-//			fh.UserName = Session["uid"].ToString();
-//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-//			fh.SzKey = Session["SzKey"].ToString();
-//			qs.Finance_HeaderValue = fh;
 			Query_Service.Finance_Header fh = classLibrary.setConfig.setFH(this);
 			qs.Finance_HeaderValue = fh;
-
-			/*
-			DataSet ds = qs.GetFreezeList_2(null,null,null,0,ViewState["QueryFFreezeListID"].ToString(),null,null,0,1);
-
-			if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-			{
-				WebUtils.ShowMessage(this,"查询冻结单结果为空");
-				//return;
-			}
-
-			DataRow dr = ds.Tables[0].Rows[0];
-
-			this.tbx_payAccount.Text = dr["FFreezeID"].ToString();
-			*/
 
 			this.tbx_payAccount.Text = ViewState["FFreezeID"].ToString();
 
@@ -224,24 +194,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 				}
 			}
 
-			/*
-			// 记录该冻结单的“原始”处理日志
-			ViewState["sourceHandleType"] = "0";
-
-			// 查询最新的处理日志，如果遇到结单和作废的日志则屏蔽相应的按钮功能
-			DataSet ds4 = qs.GetFreezeDiary("",ViewState["FID"].ToString(),"","","","","","",1,1);
-
-			if(ds4 == null || ds4.Tables.Count == 0 || ds4.Tables[0].Rows.Count == 0)
-			{
-				SetAllBtnVisible(true);
-				return;
-			}
-			*/
-
-			//bool isFin = false,isDel = false;
-
-			//ViewState["sourceHandleType"] = ds4.Tables[0].Rows[0]["FSourceType"].ToString();
-
 			if(ViewState["isFreezeListHas"].ToString() == "1")
 			{
 				if(ViewState["Fstate"].ToString() == "1" || ViewState["Fstate"].ToString() == "2")
@@ -298,29 +250,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 				return;
 			}
 
-			/*
-			if(ViewState["sourceHandleType"].ToString() == "1" || ViewState["sourceHandleType"].ToString() == "2"
-				|| ViewState["sourceHandleType"].ToString() == "3")
-			{
-				WebUtils.ShowMessage(this,"冻结单日志异常，操作失败，请联系管理员");
-				return;
-			}
-			*/
-
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-			/*
-			Query_Service.Finance_Header fh = new Query_Service.Finance_Header();
-			fh.UserIP = Request.UserHostAddress;
-			fh.UserName = Session["uid"].ToString();
-			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-			fh.SzKey = Session["SzKey"].ToString();
-			qs.Finance_HeaderValue = fh;
-			*/
-
 			string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
-
-			//handleResult = handleResult.Replace("\r\n","<br>");
 
 			try
 			{
@@ -349,15 +280,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 			}
 
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-			/*
-			Query_Service.Finance_Header fh = new Query_Service.Finance_Header();
-			fh.UserIP = Request.UserHostAddress;
-			fh.UserName = Session["uid"].ToString();
-			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-			fh.SzKey = Session["SzKey"].ToString();
-			qs.Finance_HeaderValue = fh;
-			*/
 
 			string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
 
@@ -390,15 +312,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 			}
 
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-			/*
-			Query_Service.Finance_Header fh = new Query_Service.Finance_Header();
-			fh.UserIP = Request.UserHostAddress;
-			fh.UserName = Session["uid"].ToString();
-			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-			fh.SzKey = Session["SzKey"].ToString();
-			qs.Finance_HeaderValue = fh;
-			*/
 
 			string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
 
@@ -433,18 +346,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
-			/*
-			Query_Service.Finance_Header fh = new Query_Service.Finance_Header();
-			fh.UserIP = Request.UserHostAddress;
-			fh.UserName = Session["uid"].ToString();
-			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-			fh.SzKey = Session["SzKey"].ToString();
-			qs.Finance_HeaderValue = fh;
-			*/
-
 			string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
-
-			//qs.UpdateFreezeDiary(ViewState["QueryFID"].ToString(),"[删除]","[" + Session["uid"] + "]",fastReplay);
 
 			try
 			{
@@ -475,15 +377,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
-			/*
-			Query_Service.Finance_Header fh = new Query_Service.Finance_Header();
-			fh.UserIP = Request.UserHostAddress;
-			fh.UserName = Session["uid"].ToString();
-			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-			fh.SzKey = Session["SzKey"].ToString();
-			qs.Finance_HeaderValue = fh;
-			*/
-
 			string handleResult = classLibrary.setConfig.replaceHtmlStr(this.tbx_handleResult.Text);
 
 			try
@@ -504,15 +397,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 			}
 		}
 
-
 		private void ddl_fastReply1_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			string strFastReply = this.ddl_fastReply1.SelectedValue;
 
 			this.tbx_handleResult.Text += (strFastReply);
 		}
-
-
 
 		protected void btn_manageFastReply_Click(object sender, System.EventArgs e)
 		{

@@ -15,6 +15,7 @@ using Tencent.DotNet.OSS.Web.UI;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
+using CFT.CSOMS.BLL.CFTAccountModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -132,38 +133,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             int max = pager.PageSize;
             int start = max * (index - 1) + 1;
 
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            Query_Service.Finance_Header fh = classLibrary.setConfig.setFH(this);
-            qs.Finance_HeaderValue = fh;
-
-            DataSet ds = qs.GetUserClassQueryListForThis(fuin, start, max);
+            DataSet ds = new AuthenInfoService().GetUserClassQueryListForThis(fuin, start, max);
 
             if (ds != null && ds.Tables.Count > 0)
             {
-                ds.Tables[0].Columns.Add("Result", typeof(string));
                 ds.Tables[0].Columns.Add("URL", typeof(string));
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    string Fpickstate = dr["Fpickstate"].ToString();
-                    string Fcard_stat = dr["Fcard_stat"].ToString();
                     dr["URL"] = "CFTUserCheck.aspx?fid=&db=&tb=&flist_id=" + dr["flist_id"].ToString();
-
-                    if (dr["Fcard_stat"].ToString() == "1" && dr["Fcre_stat"].ToString() == "1")
-                    {
-                        dr["Result"] = "认证成功";
-                    }
-                    else if (dr["Fcard_stat"].ToString() == "9" && dr["Fcre_stat"].ToString() == "9")
-                    {
-                        dr["Result"] = "认证失败";
-                    }
-                    else if (dr["Fcard_stat"].ToString() == "10" && dr["Fcre_stat"].ToString() == "10")
-                    {
-                        dr["Result"] = "作废";
-                    }
-                    else
-                    {
-                        dr["Result"] = "认证处理中";
-                    }
                 }
                 DataGrid1.DataSource = ds.Tables[0].DefaultView;
                 DataGrid1.DataBind();

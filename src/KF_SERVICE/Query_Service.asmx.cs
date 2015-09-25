@@ -10,7 +10,6 @@ using System.EnterpriseServices;
 using System.Configuration;
 using TENCENT.OSS.CFT.KF.DataAccess;
 using TENCENT.OSS.CFT.KF.Common;
-
 using TENCENT.OSS.C2C.Finance.DataAccess;
 using TENCENT.OSS.C2C.Finance.Common;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
@@ -93,7 +92,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
             }
 
-
             try
             {
                 ice.OpenConn();
@@ -105,7 +103,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 if (dt == null || dt.Rows.Count == 0)
                     return null;
-                //throw new LogicException("调用ICE查询T_user无记录" + strResp);
 
                 ice.CloseConn();
                 DataSet ds = new DataSet();
@@ -122,7 +119,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
 
         }
-
 
         #region 账户销户记录，判断是否存在未完成交易
         [WebMethod(Description = "判断是否存在未完成交易")]
@@ -152,36 +148,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             catch (Exception err)
             {
                 throw new Exception(err.Message);
-            }
-
-            //自己调数据库查询未完成交易信息不知道查询条件
-            //string fuid = PublicRes.ConvertToFuid(u_QQID);
-            //fuid = "12345678";
-            //if (fuid == null)
-            //    fuid = "0";
-            //string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
-            ////未完成交易查询sql
-            //string strSql = "select *from c2c_db_00.t_user_order_0 where Fbuy_uid='6666'";
-            //DataSet ds = new DataSet();
-            //DataTable dt;
-            //MySqlAccess da = new MySqlAccess(connstr);
-            //try
-            //{
-            //    da.OpenConn();
-            //    ds = da.dsGetTotalData(strSql);
-            //    return ds;
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new Exception(ex.Message);
-            //}
-            //finally
-            //{
-            //    da.Dispose();
-            //}
+            }        
         }
         #endregion
-
 
         #region 账户销户记录，系统自动执行注销结果
         [WebMethod(Description = "系统自动执行注销结果")]
@@ -258,7 +227,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
         #endregion
 
-
         #region 账户销户记录，判断是否一点通用户
         [WebMethod(Description = "判断是否一点通用户")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -294,7 +262,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 //reqid=124 是uid(180000000 - 1999999999)
                 //reqid=117 是uid < 180000000的
-
                 string reqid = "124";
                 if (Int64.Parse(fuid) < 180000000)
                     reqid = "117";
@@ -316,7 +283,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 short sresult;
                 string msg;
 
-                //common_simquery_service
                 if (TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.middleInvoke("common_simquery_service", inmsg, false, out reply, out sresult, out msg))
                 {
                     if (sresult != 0)
@@ -328,8 +294,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         if (reply.StartsWith("result=0&res_info=ok"))
                         {
                             DataSet ds = new DataSet();
-
                             DataTable dt = new DataTable();
+
                             dt.Columns.Add("Flistid", typeof(string));
                             dt.Columns.Add("Ftype", typeof(string));
                             dt.Columns.Add("Fspid", typeof(string));
@@ -347,7 +313,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                             dt.Columns.Add("Fpaynum2", typeof(string));
                             dt.Columns.Add("FbalanceNum", typeof(string));
 
-
                             dt.Columns.Add("total", typeof(string));
                             dt.Columns.Add("Fcurtype", typeof(string));
                             dt.Columns.Add("Fexplain", typeof(string));
@@ -361,7 +326,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                             dt.Columns.Add("Fip", typeof(string));
                             dt.Columns.Add("Fmodify_time_acc", typeof(string));
                             dt.Columns.Add("Fmodify_time", typeof(string));
-
                             dt.Columns.Add("Fcon", typeof(string));
 
                             XmlDocument param = new XmlDocument();
@@ -435,14 +399,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                     {
                                         dr["Fpaynum1"] = MoneyTransfer.FenToYuan(dr["Fpaynum"].ToString());
                                         dr["FbalanceNum"] = MoneyTransfer.FenToYuan(dr["Fbalance"].ToString());
-
                                         dr["Fvs_qqid"] = "";
                                     }
                                     else
                                     {
                                         dr["Fpaynum2"] = MoneyTransfer.FenToYuan(dr["Fpaynum"].ToString());
                                         dr["FbalanceNum"] = MoneyTransfer.FenToYuan(dr["Fbalance"].ToString());
-
                                         dr["Fspid"] = "";
                                     }
                                     dr["total"] = "1000";
@@ -498,6 +460,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             return duoFund;
         }
+
         [WebMethod(Description = "子帐户资金流水查询函数(整合了页面逻辑)")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetChildrenBankRollListEx(string qqId, DateTime beginTime, DateTime endTime, string spId, int pageIndex, int pageMax, int fType, string fMemo)
@@ -509,7 +472,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     throw new Exception(string.Format("无法同时查询所有基金的流水信息，请选择指定的基金"));
 
                 var fundInfo = FundService.GetAllFundInfo().Where(i => i.SPId == spId);
-
 
                 if (fundInfo.Count() < 1)
                     throw new Exception(string.Format("找不到{0}对应的基金信息", spId));
@@ -589,7 +551,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             return null;
         }
 
-
         [WebMethod(Description = "子帐户交易单查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetChildrenFlistList(string Flistid, string Fcurtype)
@@ -608,7 +569,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 if (dt == null || dt.Rows.Count == 0)
                     return null;
-                //throw new LogicException("调用ICE查询无记录" + strResp);
 
                 DataSet ds = new DataSet();
                 ds.Tables.Add(dt);
@@ -623,7 +583,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 ice.Dispose();
             }
         }
-
 
         [WebMethod(Description = "子帐户冻结或解冻函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -662,8 +621,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         #endregion
 
-
-
         #region 系统公告
         [WebMethod(Description = "获取系统公告数据")]
         public DataSet GetSysBulletin(string listtype, out string msg)
@@ -697,7 +654,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                         dr.EndEdit();
                     }
-
                 }
 
                 return ds;
@@ -728,10 +684,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     strwhere += "  and  Fbanktype=" + banktype + "";
                 }
                 strwhere += "  order by fid desc ";
-
-
                 DataSet ds = da.dsGetTotalData(strsql + strwhere);
-
 
                 return ds;
             }
@@ -770,10 +723,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     strwhere += "  and  Fbanktype=" + banktype + "";
                 }
                 strwhere += "  order by fid desc ";
-
-
                 DataSet ds = da.dsGetTotalData(strsql + strwhere);
-
 
                 return ds;
             }
@@ -800,15 +750,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     msg = "查询的ID不能为空！";
                     return null;
                 }
-
                 dazw.OpenConn();
                 string strSql = "select * from  c2c_db_inc.t_bankbulletin_type_all  where Fid='" + fid + "' ";
                 DataTable dt = dazw.GetTable(strSql);
 
                 T_BANKBULLETIN_TYPE_ALL um = new T_BANKBULLETIN_TYPE_ALL();
                 um.LoadFromDB(dt.Rows[0]);
-                return um;
 
+                return um;
             }
             catch (Exception ex)
             {
@@ -819,7 +768,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 dazw.Dispose();
             }
-
         }
 
         [WebMethod(Description = "查询银行接口信息ByObjid")]
@@ -844,7 +792,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 msg = ex.Message;
                 return null;
             }
-
         }
 
         [WebMethod(Description = "查询新增或修改银行公告时间段是否已存在")]
@@ -891,7 +838,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 dazw.Dispose();
             }
-
         }
 
         [WebMethod(Description = "查询银行维护公告信息ById")]
@@ -925,13 +871,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 dazw.Dispose();
             }
-
         }
 
         [WebMethod(Description = "查询银行维护公告信息ByObjid")]
         public T_BANKBULLETIN_INFO_ALL QueryBankBulletinInfoByObjid(string objid, string checkType, out string msg)
         {
-
             msg = "";
             try
             {
@@ -950,12 +894,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 msg = ex.Message;
                 return null;
             }
-
         }
 
         private DataTable GetCheckInfo(string objid, string checkType, out string msg)
         {
-
             msg = "";
             MySqlAccess daht = new MySqlAccess(PublicRes.GetConnString("HT"));
             try
@@ -984,7 +926,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
 
                 return dt_param;
-
             }
             catch (Exception ex)
             {
@@ -1013,10 +954,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     //strwhere+="  and  Fservicecode="+servicecode+"";
                     strwhere += "  and  A.FResourcesId=" + servicecode + "";
                 }
-
-
                 DataSet ds = da.dsGetTotalData(strsql + strwhere);
-
 
                 return ds;
             }
@@ -1049,15 +987,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     return null;
                 }
 
-                dazw.OpenConn();
-                //string strSql="select Fservicecode,'8' as Fuctype,Frepair_limit_tips as Ftips,Frepair_limit_starttime as Fstartime,Frepair_limit_endtime as Fendtime from  public_utility_charge.t_puc_new_service_info  where Fservicecode='"+fid+"'";
+                dazw.OpenConn();                
                 string strSql = "select FResourcesId as Fservicecode,'8' as Fuctype,Frepair_limit_tips as Ftips,Frepair_limit_starttime as Fstartime,Frepair_limit_endtime as Fendtime from  public_utility_charge_platform.t_charge_resources_info  where FResourcesId='" + fid + "'";
                 DataTable dt = dazw.GetTable(strSql);
-
                 T_PUCNEWSERVICE_INFO um = new T_PUCNEWSERVICE_INFO();
                 um.LoadFromDB(dt.Rows[0]);
-                return um;
 
+                return um;
             }
             catch (Exception ex)
             {
@@ -1068,12 +1004,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 dazw.Dispose();
             }
-
         }
+
         [WebMethod(Description = "查询生活缴费维护公告信息ByObjid")]
         public T_PUCNEWSERVICE_INFO QueryUCBulletinInfoByObjid(string objid, string checkType, out string msg)
         {
-
             msg = "";
             try
             {
@@ -1084,15 +1019,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
                 T_PUCNEWSERVICE_INFO um = new T_PUCNEWSERVICE_INFO();
                 um.LoadFromParamDB(dt);
-                return um;
 
+                return um;
             }
             catch (Exception ex)
             {
                 msg = ex.Message;
                 return null;
             }
-
         }
 
         [WebMethod(Description = "系统公告发布函数")]
@@ -1222,7 +1156,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
         #endregion
 
-
         #region 以下是公告2期
         [WebMethod(Description = "银行公告查询 利用接口查询  不分页 不使用了")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -1281,7 +1214,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
         [WebMethod(Description = "银行公告查询 利用接口查询")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet QueryBankBulletin(int businesstype, int op_support_flag, int banktype, string bulletin_id, int limit, int offset)
@@ -1301,7 +1233,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 if (bulletin_id != "")
                     req += "&bulletin_id=" + bulletin_id;
                 req += "&limit=" + limit + "&channeltype=1&offset=" + offset;//chengzi测试接口最多limit=8，因为怕网络一次传不了那么多数据
-
 
                 ds = CommQuery.GetXmlToDataSetFromICE(req, "", service_name, out msg, false);
                 if (msg != "")
@@ -1344,7 +1275,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             return dsAll;
         }
 
-
         [WebMethod(Description = "将接口返回公告信息转换成公告类")]
         public T_BANKBULLETIN_INFO TurnBankBulletinClass(DataSet ds)
         {
@@ -1372,7 +1302,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod(Description = "查询银行接口信息ByObjid 公告2期")]
         public T_BANKBULLETIN_INFO QueryBankBulletinByObjid(string objid, string checkType, out string msg)
         {
-
             msg = "";
             try
             {
@@ -1391,7 +1320,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 msg = ex.Message;
                 return null;
             }
-
         }
         #endregion
 
@@ -1407,7 +1335,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     throw new Exception("日期不能为空！");
                 }
-
                 string zwskDate = "20130331";
                 try
                 {
@@ -1417,7 +1344,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     zwskDate = "20130331";
                 }
-
                 if (string.IsNullOrEmpty(zwskDate))
                 {
                     zwskDate = "20130331";
@@ -1465,8 +1391,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string serBankaccno = BankLib.BankIOX.Encrypt(fpay_acc);//银行卡加密
                 // 先使用新表查询
                 string strSql = "select  Fcard_no as fpay_acc ,Fbill_no as fbank_order,Famount as Famt,Fbiz_type from c2c_db_pos.t_bank_pos_" + date.Substring(0, 6) + " where Fcard_no='" + serBankaccno + "'and Fcreate_time between '" + begintime + "' and '" + endtime + "'";
-                //DataSet ds;
-                //ds = QueryInfo.GetTable(strSql, istr, imax, "ZWNEWTABLE");
+
                 ds = da.dsGetTotalData(strSql);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)//查新表
                 {
@@ -1706,7 +1631,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     return null;
                 }
 
-
                 DataTable dt_all = new DataTable();
                 dt_all.Columns.Add("Fno", System.Type.GetType("System.String"));
                 dt_all.Columns.Add("FType", System.Type.GetType("System.String"));
@@ -1747,9 +1671,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                     limitStart = limitStart + onceCount;
                 }
-
                 DataSet ds = new DataSet();
                 ds.Tables.Add(dt_all);
+
                 return ds;
             }
             catch (Exception ex)
@@ -1808,7 +1732,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             string strPassword = myHeader.UserPassword;
             string strIP = myHeader.UserIP;
             string strRightCode = "GetUserAccount";
-
             int sign = 0;
             string detail, actionType;
             actionType = "查询用户帐户表";
@@ -1816,8 +1739,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 string fuid = PublicRes.ConvertToFuid(u_QQID);
-                //Q_USER cuser = new Q_USER(fuid, fcurtype);
-
                 sign = 1;
 
                 if (fuid == null)
@@ -1878,7 +1799,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     dt.Columns.Add("Att_id", typeof(System.String));
                     dt.Columns.Add("UserRealName2", typeof(System.String));
                     dt.Columns.Add("Ffz_amt", typeof(System.String));
-
                     dt.Rows[0]["Femail"] = femail;
                     dt.Rows[0]["Fmobile"] = fmobile;
                     dt.Rows[0]["Att_id"] = fatt_id;
@@ -1917,8 +1837,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             string strUserID = myHeader.UserName;
             string strIP = myHeader.UserIP;
-            //string strRightCode = "GetUserAccount";
-
             int sign = 0;
             string actionType = "查询用户帐户表";
             string errMsg = "";
@@ -1984,8 +1902,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             string detail, actionType;
             actionType = "查询用户帐户表";
 
-            //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
-
             try
             {
                 Q_USER cuser = new Q_USER(fuid, fcurtype);
@@ -1997,7 +1913,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             catch (Exception e)
             {
                 sign = 0;
-                //throw new Exception("用户账户不存在或者未注册！("+ e.Message.ToString().Replace("'","’") + ")");
                 return null;
             }
         }
@@ -2010,9 +1925,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 string fuid = PublicRes.ConvertToFuid(u_QQID);
                 Q_USER cuser = new Q_USER(fuid, 1);
-
                 //furion 20090611 已改写，这个SQL从任何数据库连接都可执行。
-                //return cuser.GetResultX(istr,imax,"YW_V30");
                 return cuser.GetResultX(istr, imax, "ZJB");
             }
             catch (Exception e)
@@ -2037,14 +1950,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             string detail, actionType;
             actionType = "查询用户商家工具按钮表";
 
-            //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
-
             try
             {
                 Q_BUTTONINFO cuser = new Q_BUTTONINFO(u_QQID, istr, imax);
                 sign = 1;
                 //furion 20090611 此表移入订单库了
-                //return cuser.GetResultX();
                 return cuser.GetResultX("ZJB");
             }
             catch (Exception e)
@@ -2081,12 +1991,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                //				if(!rl.CheckRight())
-                //				{
-                //					throw new LogicException("用户无权执行此操作！");
-                //				}		
-
-
+  	
                 Q_USER_MED cuser = new Q_USER_MED();   //spid 中介账户
 
                 //furion 20090611 此函数再无客户端调用。
@@ -2108,7 +2013,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 rl.WriteLog();
             }
-
         }
 
         [WebMethod(Description = "查询商户帐户信息")]
@@ -2125,6 +2029,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 throw new Exception("Service处理失败！" + PublicRes.replaceMStr(ex.Message));
             }
         }
+
         [WebMethod(Description = "修改商户登录密码")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public bool ResetMediPasswd(string spid, out string Password)
@@ -2154,18 +2059,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             int sign = 0; string detail, actionType, signStr;
             actionType = "查询用户资料表";
-
-            //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
-
             try
             {
                 // TODO: 1客户信息资料外移
                 sign = 1;
                 string fuid = PublicRes.ConvertToFuid(u_QQID);
                 Q_USER_INFO cuser = new Q_USER_INFO(fuid);
-                //T_USER_INFO tuser = cuser.GetResult();
-                //return tuser;
-                //return cuser.GetResultX(istr,imax);
+         
                 return cuser.GetResultX(istr, imax, "ZW");
             }
             catch (Exception e)
@@ -2178,9 +2078,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 PublicRes.writeSysLog(strUserID, strIP, "query", actionType, sign, u_QQID, "用户");
             }
-
         }
-
 
         [WebMethod(Description = "查询用户绑定银行帐户表")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -2193,21 +2091,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             string strUserID = myHeader.UserName;
             string strIP = myHeader.UserIP;
             string strRightCode = "GetUserBankAccount";
-
             int sign = 0;
             string detail, actionType, signStr;
             actionType = "查询用户绑定银行账户表";
-            //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
 
             try
             {
                 sign = 1;
                 // TODO: 1客户信息资料外移
                 Q_BANK_USER cuser = new Q_BANK_USER(u_QQID);
-                //T_BANK_USER[] tuser = cuser.GetResult();
-                //return tuser;
-                //return cuser.GetResultX(istr,imax);
-                //return cuser.GetResultX(istr,imax,"ZL");
                 return cuser.GetResultX_ICE();
             }
             catch (Exception e)
@@ -2243,7 +2135,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         string errMsg = "";
                         string fuid = PublicRes.ConvertToFuid(u_QQID);
                         string fqqid = PublicRes.Uid2QQ(fuid);
-
                         string strSql = "uid=" + fuid;
                         string ftruename = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_USERINFO, "Ftruename", out errMsg);
                         string fcompany_name = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_USERINFO, "Fcompany_name", out errMsg);
@@ -2275,35 +2166,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //已修改 furion V30_FURION核心查询需改动 type=1和2时,由t_tran_list改为查询t_order
                 //0买家交易单，9卖家交易单，1，通过交易单查询，2通过给银行订单号查询，4，通过订单查询
                 Q_PAY_LIST cuser = new Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
-                /*
-                //T_PAY_LIST tuser = cuser.GetResult();
-                //return tuser;
-                if(u_IDType == 1 || u_IDType == 2 )
-                {
-                    //return cuser.GetResultX();
-                    return cuser.GetResultX("ZJB");
-                    //return cuser.GetResultX("ZJ");
-                }
-                    //furion 20081016 买卖家订单移库
-                else if(u_IDType == 4)
-                {
-                    return cuser.GetResultX("ZJB");
-                }
-                else
-                {
-                    return cuser.GetResultX("BSB");
-                }
-                */
-
+              
                 if (cuser.ICESQL == "")
                 {
                     if (u_IDType == 0 || u_IDType == 9 || u_IDType == 10 || u_IDType == 13)
                     {
-                        #region old
-                        //string fuid = PublicRes.ConvertToFuid(u_ID);
-                        //string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
-                        //return cuser.GetResultX_Conn(connstr);
-                        #endregion
                         //改成调用relay接口 v_yqyqguo 2015-5-9
                         return new TradeService().Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
                     }
@@ -2327,9 +2194,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     if (dt == null || dt.Rows.Count == 0)
                     {
                         return null;
-                        //throw new LogicException("调用ICE查询T_tran_list无记录" + strResp);
                     }
-
                     DataSet ds = new DataSet();
                     ds.Tables.Add(dt);
                     return ds;
@@ -2395,25 +2260,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod(Description = "满减用户查询")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet ManJianUserList(string u_QQID)
-        {
-            //#region
-            ////减少一次满减资格，为了测试
-            //DataSet ds = new DataSet();
-            //string service_name = "exau_limitsum_service";
-            //string msg = "";
-            //string req = "channel_id=1&direct=1&req_type=28&activity_no=1&uin=2322405969&cre_id=500234197805037308&bank_type=2001&amount=1";//招行一点通
-            ////req = "channel_id=1&direct=1&req_type=27&activity_no=1&bank_card_id=1&uin=2322405969&cre_id=500234197805037308&bank_type=3002&mobile=15013500723";
-            //ds = CommQuery.GetOneTableFromICE(req, "", service_name, true, out msg);
-            //DataTable dtt = ds.Tables[0];
-            //foreach (DataRow dr in dtt.Rows)
-            //{
-            //    string res_info = dr["res_info"].ToString();
-            //}
-            //return ds;
-            //#endregion
-
-
-            #region
+        {        
             #region
             string fuid = "";
             try
@@ -2540,17 +2387,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 dtResult.Rows.Add(drfield);//结果表增加一条记录
                             }
                         }
-                    }
-
-                    //req = "channel_id=1&direct=1&req_type=28&uin=11470931&cre_id=350583198002060053&bank_type=2002&activity_no=1";
-                    //req = "channel_id=1&direct=1&req_type=27&uin=11470931&cre_id=350583198002060053&bank_type=2002&activity_no=1&mobile=18682336225&bank_card_id=1";
-                    //DataSet ds = new DataSet();
-                    //ds = CommQuery.GetOneTableFromICE(req, "", service_name, false, out msg);
-                    //DataTable dtt = ds.Tables[0];
-                    //foreach (DataRow dr in dtt.Rows)
-                    //{
-                    //    string limit_dim_0 = dr["limit_dim_0"].ToString();
-                    //}
+                    }   
                     return dsResult;
                 }
                 catch (Exception err)
@@ -2562,7 +2399,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 throw new Exception(err.Message);
             }
-            #endregion
             #endregion
         }
 
@@ -2643,17 +2479,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 Q_PAY_LIST cuser = new Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
-                //				if(cuser.ICESQL == "")
-                //					return cuser.GetResultX("BSB");
+      
                 if (cuser.ICESQL == "")
                 {
                     if (u_IDType == 0 || u_IDType == 9 || u_IDType == 10)
                     {
-                        #region old
-                        //string fuid = PublicRes.ConvertToFuid(u_ID);
-                        //string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
-                        //return cuser.GetResultX_Conn(connstr);
-                        #endregion
                         //改成调用relay接口 v_yqyqguo 2015-5-9
                         return new TradeService().Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
                     }
@@ -2742,7 +2572,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
         //furion 20050811 为了查询二期充值信息和二期提现信息而设的查询。
         [WebMethod(Description = "查询交易信息")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -2758,26 +2587,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 rl.actionType = "查询交易信息";
                 rl.ID = u_ID;
-                //rl.OperID = myHeader.OperID;
                 rl.sign = 1;
                 rl.strRightCode = "GetPayList";
-                //rl.RightString = myHeader.RightString;
-                //rl.SzKey = myHeader.SzKey;
                 rl.type = "查询";
-                //rl.UserID = myHeader.UserName;
-                //rl.UserIP = myHeader.UserIP;	
+
                 PublicRes.SetRightAndLog(myHeader, rl);
                 if (!rl.CheckRight())
                 {
                     throw new LogicException("用户无权执行此操作！");
                 }
-
                 Q_PAY_LIST cuser = new Q_PAY_LIST(u_ID);
-
-                /*
-                //return cuser.GetResultX();
-                return cuser.GetResultX("ZJB");
-                */
 
                 string errMsg = "";
                 DataSet ds = CommQuery.GetDataSetFromICE(cuser.ICESQL, CommQuery.QUERY_ORDER, out errMsg);
@@ -2801,108 +2620,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         }
 
-        /*
-        [WebMethod(Description="查询交易信息")]
-        [SoapHeader("myHeader", Direction=SoapHeaderDirection.In)]
-        public DataSet GetPayList_Pay(string u_ID)
-        {
-            RightAndLog rl = new RightAndLog();
-            try
-            {
-                if(myHeader == null)
-                {
-                    throw new Exception("不正确的调用方法！");
-                }
-
-                rl.actionType = "查询交易信息";
-                rl.ID = u_ID;
-                rl.OperID = myHeader.OperID;
-                rl.sign = 1;
-                rl.strRightCode = "GetPayList";
-                rl.RightString = myHeader.RightString;
-                rl.SzKey = myHeader.SzKey;
-                rl.type = "查询";
-                rl.UserID = myHeader.UserName;
-                rl.UserIP = myHeader.UserIP;				
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-
-                FundQueryClass cuser = new FundQueryClass(u_ID);
-
-                //furion 20090611 从订单库查询。
-                //return cuser.GetResultX();
-                return cuser.GetResultX("ZJB");
-            }
-            catch(LogicException err)
-            {
-                rl.sign = 0;
-                throw;
-            }
-            catch(Exception err)
-            {
-                rl.sign = 0;
-                throw new LogicException("Service处理失败！");
-            }
-            finally
-            {
-                rl.WriteLog();
-            }
-
-        }
-        */
-
-        //[WebMethod(Description = "查询交易信息")]
-        //[SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        //public DataSet GetPayList_Pick(string u_ID)
-        //{
-        //    RightAndLog rl = new RightAndLog();
-        //    try
-        //    {
-        //        if (myHeader == null)
-        //        {
-        //            throw new Exception("不正确的调用方法！");
-        //        }
-
-        //        rl.actionType = "查询交易信息";
-        //        rl.ID = u_ID;
-        //        //rl.OperID = myHeader.OperID;
-        //        rl.sign = 1;
-        //        rl.strRightCode = "GetPayList";
-        //        //rl.RightString = myHeader.RightString;
-        //        //rl.SzKey = myHeader.SzKey;
-        //        rl.type = "查询";
-        //        //rl.UserID = myHeader.UserName;
-        //        //rl.UserIP = myHeader.UserIP;
-        //        PublicRes.SetRightAndLog(myHeader, rl);
-        //        if (!rl.CheckRight())
-        //        {
-        //            throw new LogicException("用户无权执行此操作！");
-        //        }
-
-        //        //furion 20090611 提现记录表还放在可查询的地方。
-        //        PickQueryClass cuser = new PickQueryClass(u_ID);
-        //        return cuser.GetResultX();
-        //    }
-        //    catch (LogicException err)
-        //    {
-        //        rl.sign = 0;
-        //        throw;
-        //    }
-        //    catch (Exception err)
-        //    {
-        //        rl.sign = 0;
-        //        throw new LogicException("Service处理失败！");
-        //    }
-        //    finally
-        //    {
-        //        rl.WriteLog();
-        //    }
-
-        //}
-        //furion end
-
         [WebMethod(Description = "查询用户帐户流水表")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetBankRollList(string u_QQID, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
@@ -2918,21 +2635,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             int sign = 0; string detail, actionType, signStr;
             actionType = "查询用户帐户流水";
 
-            //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
-
             try
             {
                 //已改动 furion V30_FURION核心查询需改动 资金流水查询待通用接口  //已处理 V30_20090525 资金流水用QQID查询
                 //idtype 0买家，1卖家
                 sign = 1;
-
-                /*
-                Q_BANKROLL_LIST cuser = new Q_BANKROLL_LIST(u_QQID,u_BeginTime, u_EndTime,istr,imax);
-                //T_BANKROLL_LIST[] tuser = cuser.GetResult();
-                //return tuser;
-                return cuser.GetResultX(istr,imax);
-                */
-
                 string fuid = PublicRes.ConvertToFuid(u_QQID);
                 DataSet ds;
 
@@ -2985,17 +2692,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             int sign = 0; string detail, actionType, signStr;
             actionType = "查询用户帐户流水";
 
-            //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
-
             try
             {
                 //furion V30_FURION核心查询需改动 等待通用查询接口.  //V30_20090525 资金流水用listid查询 这个要增加多个查询，然后组合结果
                 sign = 1;
-
-
                 Q_BANKROLL_LIST cuser = new Q_BANKROLL_LIST(u_BeginTime, u_EndTime, ListID);
-                //T_BANKROLL_LIST[] tuser = cuser.GetResult();
-                //return tuser;
+  
                 if (cuser.alTables == null || cuser.alTables.Count == 0)
                     return null;
 
@@ -3138,24 +2840,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             string strUserID = myHeader.UserName;
             string strIP = myHeader.UserIP;
             string strRightCode = "GetUserPayList";
-
             int sign = 0; string detail, actionType, signStr;
             actionType = "查询用户交易流水";
 
-            //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
-
             try
             {
-                /*
-                //已改动 furion V30_FURION核心查询需改动 userpaylist不再记录或者在订单库吧.
-                sign = 1;
-                Q_USERPAY_LIST cuser = new Q_USERPAY_LIST(u_ID, u_IDType,u_BeginTime, u_EndTime);
-                //T_USERPAY_LIST[] tuser = cuser.GetResult();
-                //return tuser;
-                //return cuser.GetResultX(istr,imax);
-                return cuser.GetResultX(istr,imax,"ZJB");
-                */
-
                 string fuid = PublicRes.ConvertToFuid(u_ID);
                 string strSql = "uid=" + fuid;
                 strSql += "&starttime=" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss");
@@ -3197,96 +2886,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             string detail, actionType, signStr;
             actionType = "查询用户交易流水";
 
-            //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
-
             try
             {
-                /*
-                //已改动 furion V30_FURION核心查询需改动 userpaylist不再记录,或者在订单库吧?
-                sign = 1;
-                Q_USERPAY_LIST cuser = new Q_USERPAY_LIST(u_ID,u_BeginTime, u_EndTime,slistID);
-                //T_USERPAY_LIST[] tuser = cuser.GetResult();
-                //return tuser;
-                //return cuser.GetResultX(istr,imax);
-                return cuser.GetResultX(istr,imax,"ZJB");
-                */
                 string errMsg = "";
 
-                /*
-                string strSelectBuyID  = "SELECT  fbuy_uid   FROM " + PublicRes.GetTName("t_order",slistID) + " WHERE flistid ='" + slistID + "'" ;
-                string buyuid = PublicRes.ExecuteOne(strSelectBuyID,"ZJ");
-
-                string strSelectSaleID  = "SELECT fsale_uid  FROM " + PublicRes.GetTName("t_order",slistID) + " WHERE flistid ='" + slistID + "'" ;
-                string saleuid = PublicRes.ExecuteOne(strSelectSaleID,"ZJ");
-                */
-
-
                 string strSql = "listid=" + slistID;
-
                 DataSet dsbuy = CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_USERPAY_L, out errMsg);
 
-                //20141114 FINANCE_OD_QUERY_USERPAY_L改调relay
-                /////////////////////////////////////
-
-                //string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
-                //string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
-
-                //string req = "request_type=100567&ver=1&head_u=&sp_id=&listid=" + slistID;
-
-
-                //string Msg = ""; //重置
-
-                //string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
-
-                //if (answer == "")
-                //{
-                //    return null;
-                //}
-                //if (Msg != "")
-                //{
-                //    throw new Exception("调relay异常：" + Msg);
-                //}
-
-                ////解析relay str
-                //DataSet dsbuy = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
-                //if (Msg != "")
-                //{
-                //    throw new Exception("解析relay异常：" + Msg);
-                //}
-
-                ///////////////////////////////
-
                 return dsbuy;
-
-                /*
-                string buyuid = CommQuery.GetOneResultFromICE(strSql,CommQuery.QUERY_ORDER,"Fbuy_uid",out errMsg);
-                string saleuid = CommQuery.GetOneResultFromICE(strSql,CommQuery.QUERY_ORDER,"fsale_uid",out errMsg);
-
-                strSql = "uid=" + buyuid;
-                strSql += "&listid=" + slistID;
-				
-                DataSet dsbuy = CommQuery.GetDataSetFromICE(strSql,CommQuery.QUERY_USERPAY_L,out errMsg);
-
-                strSql = "uid=" + saleuid;
-                strSql += "&listid=" + slistID;
-
-                DataSet dssale = CommQuery.GetDataSetFromICE(strSql,CommQuery.QUERY_USERPAY_L,out errMsg);
-
-                if(dsbuy != null && dsbuy.Tables.Count>0 && dsbuy.Tables[0] != null && dsbuy.Tables[0].Rows.Count > 0)
-                {
-                    if(dssale != null && dssale.Tables.Count>0 && dssale.Tables[0] != null && dssale.Tables[0].Rows.Count > 0)
-                    {
-                        foreach(DataRow dr in dssale.Tables[0].Rows)
-                        {
-                            dsbuy.Tables[0].Rows.Add(dr.ItemArray);
-                        }
-                    }
-
-                    return dsbuy;
-                }
-                else
-                    return dssale;
-                    */
             }
             catch (Exception e)
             {
@@ -3316,45 +2923,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             int sign = 0; string detail, actionType, signStr;
             actionType = "查询腾讯银行帐户";
 
-            //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
-
             try
             {
                 sign = 1;
                 Q_PAY_LIST cuser = new Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
-
-                /*
-                if(u_IDType == 1 || u_IDType == 2 )
-                {
-                    //return cuser.GetResultX();
-                    return cuser.GetResultX("ZJB");
-                }
-                else if(u_IDType == -1 || u_IDType == -2 )
-                {
-                    return cuser.GetResultX("BSB");
-                }
-                else
-                {
-                    return cuser.GetResultX("BS");
-                }
-
-//				if(u_IDType == 0)
-//					return cuser.GetResultX(istr,imax,"BS");
-//				else
-//					return cuser.GetResultX(istr,imax);
-*/
-                //				if(cuser.ICESQL == "")
-                //					//return cuser.GetResultX(istr,imax,"ZJB");
-                //					return cuser.GetResultX(istr,imax,"BSB");
+              
                 if (cuser.ICESQL == "")
                 {
                     if (u_IDType == 0 || u_IDType == 9 || u_IDType == 10)
                     {
-                        #region old
-                        //string fuid = PublicRes.ConvertToFuid(u_ID);
-                        //string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
-                        //return cuser.GetResultX_Conn(istr, imax, connstr);
-                        #endregion
                         //改成调用relay接口 v_yqyqguo 2015-5-9
                         return new TradeService().Q_PAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime, istr, imax);
                     }
@@ -3398,8 +2975,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             string detail, actionType, signStr;
             actionType = "查询腾讯收款记录";
 
-            //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
-
             try
             {
                 DataSet ds = null;
@@ -3421,8 +2996,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     ds.Tables[0].Columns.Add("total");
                     ds.Tables[0].Rows[0]["total"] = ds.Tables[0].Rows.Count;
                 }
-
-
 
                 return ds;
             }
@@ -3540,7 +3113,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
         [WebMethod(Description = "充值单按给银行订单号分库分表查询详细函数")]//add rowenwu 20120301
         public DataSet GetFundListDetail_New(string listid, string fbank_list, string fbank_type, DateTime u_BeginTime, DateTime u_EndTime, out string mesgg)
         {
@@ -3565,46 +3137,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             return PublicRes.IsNewOrderCZData(payFrontTime);
         }
-
-        //[WebMethod(Description = "查询腾讯付款记录表")]
-        //[SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        //public DataSet GetTCBankPAYList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
-        //{
-        //    if (myHeader == null)
-        //    {
-        //        throw new Exception("不正确的调用方法！");
-        //    }
-        //    string strUserID = myHeader.UserName;
-        //    string strIP = myHeader.UserIP;
-        //    string strRightCode = "GetTCBankRollList";
-
-        //    int sign = 0;
-        //    string detail, actionType, signStr;
-        //    actionType = "查询腾讯付款记录";
-
-        //    //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
-
-        //    try
-        //    {
-        //        sign = 1;
-        //        Q_TCBANKPAY_LIST cuser = new Q_TCBANKPAY_LIST(u_ID, u_IDType, u_BeginTime, u_EndTime);
-        //        //T_TCBANKPAY_LIST[] tuser = cuser.GetResult();
-        //        //return tuser;
-        //        return cuser.GetResultX(istr, imax);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        sign = 0;
-        //        throw new Exception("service发生错误,请联系管理员！");
-        //        return null;
-        //    }
-        //    finally
-        //    {
-        //        PublicRes.writeSysLog(strUserID, strIP, "query", actionType, sign, u_ID, "用户");
-        //    }
-        //}
-
-
+   
         [WebMethod(Description = "查询退款单表")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetRefund(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
@@ -3621,14 +3154,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             string detail, actionType, signStr;
             actionType = "查询退款单";
 
-            //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
-
             try
             {
                 sign = 1;
                 Q_REFUND cuser = new Q_REFUND(u_ID, u_IDType, u_BeginTime, u_EndTime);
-                //T_REFUND tuser = cuser.GetResult();
-                //return tuser;
                 return cuser.GetResultX(istr, imax);
             }
             catch (Exception e)
@@ -3655,22 +3184,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             string strUserID = myHeader.UserName;
             string strIP = myHeader.UserIP;
             string strRightCode = "GetPayListByType";
-
             int sign = 0;
             string detail, actionType, signStr;
             actionType = "查询交易单";
 
-            //PublicRes.CheckUserRight(strUserID,strPassword,strRightCode);
-
             try
             {
                 sign = 1;
-                Q_PAY_LIST_BYTYPE cuser = new Q_PAY_LIST_BYTYPE(u_BuyID, u_BeginTime, u_EndTime, U_Type);
-                //T_PAY_LIST[] tuser = cuser.GetResult();
-                //return tuser;
-                //return cuser.GetResultX(istr,imax);
+                Q_PAY_LIST_BYTYPE cuser = new Q_PAY_LIST_BYTYPE(u_BuyID, u_BeginTime, u_EndTime, U_Type);   
                 string connstr = PublicRes.GetConnString("t_user_order_bs", u_BuyID.Substring(u_BuyID.Length - 2));
-                //return cuser.GetResultX(istr,imax,"BS");
                 return cuser.GetResultX_Conn(istr, imax, connstr);
             }
             catch (Exception e)
@@ -3691,29 +3213,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                /*
-                // TODO: 1furion 数据库优化 20080111
-                string strCmd = "Select flistid from c2c_db.t_tcbankroll_list where fbank_acc='" + sFbankAcc + "' and fpay_front_time like '" + sDateTime + "%'";
-                //return PublicRes.ExecuteOne(strCmd,"YW_30");
-                return PublicRes.ExecuteOne(strCmd,"ZJB");
-                */
                 DateTime dt_checkTime = PublicRes.ConvertToDateTime(sDateTime);
-                //				string priCheckTime = dt_checkTime.AddMonths(-1).ToString("yyyy-MM-dd");//前一月
-                //				string nextCheckTime = dt_checkTime.AddMonths(1).ToString("yyyy-MM-dd");//后一月
-
-                string errMsg = "";
-                //				string strCmd = "bank_acc=" + sFbankAcc + "&pay_front_time_likestr=" + sDateTime + ""+"&start_time=" + dt_checkTime.ToString("yyyy-MM-dd");  //增加时间参数 andrew 20110322;
-                //				string listID= CommQuery.GetOneResultFromICE(strCmd,CommQuery.QUERY_TCBANKROLL,"Flistid",out errMsg);
-                //				if (listID == null || listID == "")
-                //				{
-                //					strCmd = "bank_acc=" + sFbankAcc + "&pay_front_time_likestr=" + sDateTime + "" + "&start_time=" + priCheckTime;  //增加时间参数 andrew 20110322;
-                //					listID = CommQuery.GetOneResultFromICE(strCmd, CommQuery.QUERY_TCBANKROLL, "Flistid", out errMsg);
-                //					if (listID == null || listID == "")
-                //					{
-                //						strCmd = "bank_acc=" + sFbankAcc + "&pay_front_time_likestr=" + sDateTime + "" + "&start_time=" + nextCheckTime;  //增加时间参数 andrew 20110322;
-                //						listID = CommQuery.GetOneResultFromICE(strCmd, CommQuery.QUERY_TCBANKROLL, "Flistid", out errMsg);
-                //					}
-                //				}
+                string errMsg = "";        
                 string strCmd = "bank_acc=" + sFbankAcc + "&query_day=" + dt_checkTime.ToString("yyyyMMdd");  //增加时间参数 andrew 20110322;
                 string listID = CommQuery.GetOneResultFromICE(strCmd, CommQuery.QUERY_TCBANKROLL_DAY, "Flistid", out errMsg);
                 return listID;
@@ -3723,7 +3224,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 throw new Exception("根据银行订单号和日期查询交易单失败！");
             }
         }
-
 
         [WebMethod(Description = "检验用户登录")]
         public TCreateSessionReply ValidUser(string LoginUserID, string strPassword, string userIP)
@@ -3741,7 +3241,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "登录";
                 rl.UserID = LoginUserID;
                 rl.UserIP = userIP;
-
                 rl.detail = "用户" + LoginUserID + "在" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
                     + "时在IP为" + userIP + "的机器进行了尝试登录成功！";
 
@@ -3761,7 +3260,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 rl.sign = 0;
                 rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-
                 rl.detail = "用户" + LoginUserID + "在" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
                     + "时在IP为" + userIP + "的机器进行了尝试登录失败！";
 
@@ -3772,7 +3270,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.WriteLog();
             }
         }
-
 
         /// <summary>
         /// Ray 20051104新增加按照银行订单号和银行返回的订单号查询 增加参数：u_QueryType
@@ -3793,14 +3290,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 rl.actionType = "充值查询函数";
                 rl.ID = u_ID;
-                //rl.OperID = myHeader.OperID;
                 rl.sign = 1;
                 rl.strRightCode = "GetFundList";
-                //rl.RightString = myHeader.RightString;
-                //rl.SzKey = myHeader.SzKey;
                 rl.type = "查询";
-                //rl.UserID = myHeader.UserName;
-                //rl.UserIP = myHeader.UserIP;	
+        
                 PublicRes.SetRightAndLog(myHeader, rl);
                 if (!rl.CheckRight())
                 {
@@ -3894,61 +3387,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string strSql = cuser.ICESQL;
                 DataSet ds = CommQuery.GetDataSetFromICE(strSql, cuser.ICETYPE, out errMsg);
 
-                //yinhuang 2014/2/20 查历史表详情
-
-
-                #region andrew 20100505
-                //勾选查询历史表的话，循环查询多个月的
-                //if(isHistory&&(ds==null||ds.Tables.Count==0))
-                //{
-                //    if(strSql.IndexOf("&start_time")>-1)
-                //    {
-                //        string hisStrSql1=strSql.Substring(0,strSql.IndexOf("start_time"));
-                //        string hisStrSql2=strSql.Substring(strSql.IndexOf("start_time"));
-                //        if(hisStrSql2.IndexOf("&")>-1)
-                //        {
-                //            hisStrSql2=hisStrSql2.Substring(hisStrSql2.IndexOf("&"));
-                //        }
-                //        else
-                //        {
-                //            hisStrSql2="";
-                //        }
-                //        string tmpMonth = u_BeginTime.AddMonths(-1).ToString("yyyyMM");
-
-                //        int index = -1;
-                //        while(tmpMonth.CompareTo(DateTime.Now.AddMonths(2).ToString("yyyyMM")) < 0)
-                //        {
-                //            string starttime = u_BeginTime.AddMonths(index).ToString("yyyy-MM-dd");
-                //            string newSql=hisStrSql1+"start_time="+starttime+hisStrSql2;
-
-                //            if(newSql==strSql)
-                //            {
-                //                index ++;
-                //                tmpMonth = u_BeginTime.AddMonths(index).ToString("yyyyMM");
-                //                continue;
-                //            }
-
-                //            DataSet tmpDS = CommQuery.GetDataSetFromICE(newSql,cuser.ICETYPE,out errMsg);
-                //            if(tmpDS!=null&&tmpDS.Tables.Count==1)
-                //            {
-                //                ds=tmpDS;
-                //                break;
-                //            }
-
-                //            index ++;
-                //            tmpMonth = u_BeginTime.AddMonths(index).ToString("yyyyMM");
-                //        }
-                //    }
-                //}
-                #endregion
-
+                //yinhuang 2014/2/20 查历史表详情 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     PublicRes.GetUserName_Table(ds.Tables[0], "Fauid", "Faname");
-
-                    //PublicRes.GetTureBankList(ds.Tables[0],"Fbank_list");
-
-                    //PublicRes.GetTureBankList(ds.Tables[0],"Fbank_acc");
                 }
 
                 return ds;
@@ -4000,7 +3442,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     sql = "select * from " + table + " " + str_where;
                     ds = da.dsGetTotalData(sql);
                 }
-
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     PublicRes.GetUserName_Table(ds.Tables[0], "Fauid", "Faname");
@@ -4015,28 +3456,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        //[WebMethod(Description = "提现查询个数函数")]
-        //public int GetPickListCount(string u_ID, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, int idtype, string cashtype)
-        //{
-        //    try
-        //    {
-        //        PickQueryClass cuser = new PickQueryClass(u_ID, u_BeginTime, u_EndTime, fstate, fnum, banktype, "0", idtype, cashtype, false);
-        //        return cuser.GetCount("YWB");
-        //        //return cuser.GetCount("TCP");
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new Exception("service发生错误,请联系管理员！");
-        //        return 0;
-        //    }
-        //}
         [WebMethod(Description = "子帐户充值详细查询函数")]
         public DataSet GetFundListDetail_Subacc(string listid, string fcurtype, out string strResp)
         {
             try
             {
-
-                //             ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP,PublicRes.ICEPort);
                 ICEAccess ice = new ICEAccess(PublicRes.ICEServerIPSub, PublicRes.ICEPortSub);
                 ice.OpenConn();
                 string strwhere = "where=" + ICEAccess.URLEncode("flistid=" + listid.Trim() + "&");
@@ -4045,24 +3469,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 strwhere += ICEAccess.URLEncode("fcurtype=" + fcurtype + "&");
                 strResp = "";
                 DataTable dt2 = ice.InvokeQuery_GetDataTable(YWSourceType.充值单资源, YWCommandCode.查询核心充值单信息, listid.Trim(), strwhere, out strResp);
-
                 ice.CloseConn();
-
-
-
                 DataSet ds = null;
 
                 if (dt2 != null && dt2.Rows.Count > 0)
                 {
                     PublicRes.GetUserName_Table(dt2, "Fauid", "Faname");
-
-                    //PublicRes.GetTureBankList(dt2,"Fbank_list");
-
-                    //PublicRes.GetTureBankList(dt2,"Fbank_acc");
                     ds = new DataSet();
                     ds.Tables.Add(dt2);
                 }
-
 
                 return ds;
             }
@@ -4072,53 +3487,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 return null;
             }
         }
-
-        //[WebMethod(Description = "提现查询函数")] //2015-8-11 改接口 v_yqyqguo
-        //[SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        //public DataSet GetPickList(string u_ID, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, int idtype, string sorttype, string cashtype,
-        //    int iPageStart, int iPageMax)
-        //{
-        //    try
-        //    {
-        //        DataSet ds = null;
-        //        PickQueryClass cuser = new PickQueryClass(u_ID, u_BeginTime, u_EndTime, fstate, fnum, banktype, sorttype, idtype, cashtype, false);
-        //        ds = cuser.GetResultX(iPageStart, iPageMax, "YWB");
-
-        //        if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-        //        {
-        //            // 如果银行卡号没加密的查不出结果，则再查询一次加密的结果
-        //            if (idtype == 1)
-        //            {
-        //                PickQueryClass cuser2 = new PickQueryClass(u_ID, u_BeginTime, u_EndTime, fstate, fnum, banktype, sorttype, idtype, cashtype, true);
-        //                ds = cuser2.GetResultX(iPageStart, iPageMax, "YWB");
-        //            }
-        //        }
-
-        //        return ds;
-        //        //return cuser.GetResultX(iPageStart,iPageMax,"TCP");		
-
-        //    }
-        //    catch (Exception err)
-        //    {
-        //        throw new LogicException("Service处理失败！");
-        //    }
-        //}
-
-        //[WebMethod(Description = "提现查询详细函数")] //2015-8-11 改接口 v_yqyqguo
-        //public DataSet GetPickListDetail(string listid, DateTime u_BeginTime, DateTime u_EndTime, bool oldflag)
-        //{
-        //    try
-        //    {
-        //        PickQueryClass cuser = new PickQueryClass(listid, u_BeginTime, u_EndTime, oldflag);
-        //        return cuser.GetResultX(1, 1, "YWB");
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new Exception("service发生错误,请联系管理员！");
-        //        return null;
-        //    }
-        //}
-
+      
         [WebMethod(Description = "查询投诉商户列表函数")]
         public DataSet GetComplainBussList(string bussId, DateTime u_BeginTime, DateTime u_EndTime, int iPageStart, int iPageMax)
         {
@@ -4126,11 +3495,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 DataSet ds = null;
                 ComplainBussClass cuser = new ComplainBussClass(bussId, u_BeginTime, u_EndTime);
-
                 ds = cuser.GetResultX(iPageStart, iPageMax, "ht");
 
                 return ds;
-
             }
             catch (Exception err)
             {
@@ -4158,7 +3525,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public bool AddComplainBuss(ComplainBussClass cbs, out string msg)
         {
             msg = "";
-
             try
             {
                 return cbs.addComplainBuss(out msg);
@@ -4174,7 +3540,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public bool ChangeComplainBuss(ComplainBussClass cbs, out string msg)
         {
             msg = "";
-
             try
             {
                 return cbs.changeComplainBuss(out msg);
@@ -4229,7 +3594,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 DataSet ds = null;
                 UserComplainClass cuser = new UserComplainClass(bussId, cft_orderid, comptype, compstatus, u_BeginTime, u_EndTime);
-
                 ds = cuser.GetResultX(iPageStart, iPageMax, "ht");
 
                 return ds;
@@ -4260,7 +3624,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public string AddUserComplain(UserComplainClass ucc, out string msg)
         {
             msg = "";
-
             try
             {
                 return ucc.addUserComplain(out msg);
@@ -4276,7 +3639,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public bool ChangeUserComplain(UserComplainClass ucc, out string msg)
         {
             msg = "";
-
             try
             {
                 return ucc.changeUserComplain(out msg);
@@ -4307,7 +3669,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public bool RemindUserComplain(UserComplainClass ucc, out string msg)
         {
             msg = "";
-
             try
             {
                 return ucc.remindUserComplain(out msg);
@@ -4898,9 +4259,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 byte[] b_ot = tans.ComputeHash(fs);
                 fs.Close();
 
-                //System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create();
-                //byte[] bb = md5.ComputeHash(System.Text.Encoding.Default.GetBytes("abc"));
-
                 string file_md5 = BitConverter.ToString(b_ot).Replace("-", "").ToLower();
                 string req = "merchant_spid=" + m_sp_id;
                 string sp_str = file_md5 + "%26key%3D";
@@ -5072,24 +4430,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     throw new Exception("不正确的调用方法！");
                 }
-
-                /*
-                rl.actionType = "查询财付券记录信息";
-                rl.ID = u_ID;
-                rl.OperID = myHeader.OperID;
-                rl.sign = 1;
-                rl.strRightCode = "GetGwq";
-                rl.RightString = myHeader.RightString;
-                rl.SzKey = myHeader.SzKey;
-                rl.type = "查询";
-                rl.UserID = myHeader.UserName;
-                rl.UserIP = myHeader.UserIP;
-                if (!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
+    
                 GwqQueryClass cuser = new GwqQueryClass(u_ID, 0);   //spid 中介账户
                 return cuser.GetResult(ticket_id);
             }
@@ -5122,23 +4463,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 if (myHeader == null)
                 {
                     throw new LogicException("不正确的调用方法！");
-                }
-                /*
-                rl.actionType = "财付券操作日志查询函数";
-                rl.ID = u_ID;
-                rl.OperID = myHeader.OperID;
-                rl.sign = 1;
-                rl.strRightCode = "GetGwq";
-                rl.RightString = myHeader.RightString;
-                rl.SzKey = myHeader.SzKey;
-                rl.type = "查询";
-                rl.UserID = myHeader.UserName;
-                rl.UserIP = myHeader.UserIP;
-                if (!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
+                }          
                 GwqRollQueryClass cuser = new GwqRollQueryClass(u_ID, ticket_id);
                 return cuser.GetResultX("GWQ");
 
@@ -5184,12 +4509,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     strSql += "&curtype=" + curtype.Trim();
                 }
-
                 if (!string.IsNullOrEmpty(banktype))
                 {
                     strSql += "&bank_type=" + banktype.Trim();
                 }
-
                 if (!string.IsNullOrEmpty(cardtail))
                 {
                     strSql += "&card_tail=" + cardtail.Trim();
@@ -5221,13 +4544,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     throw new Exception("账号不能为空");
                 }
-
                 string uid = PublicRes.ConvertToFuid(uin);
                 if (uid == null || uid.Length < 3)
                 {
                     throw new Exception(uin + "账号不存在");
                 }
-
                 //通过uid查询account_no
                 string req_a = "request_type=8009&flag=1&reqid=5002&fields=uid:" + uid;
 
@@ -5263,7 +4584,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     uidtoc = ds_a.Tables[0].Rows[0]["Fuidtoc"].ToString();
                 }
-
                 if (uidtoc == "")
                 {
                     throw new Exception("必填参数uidtoc为空");
@@ -5278,7 +4598,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     iPageMax = 10;
                 }
-
                 if (string.IsNullOrEmpty(s_day))
                 {
                     if (!string.IsNullOrEmpty(e_day))
@@ -5289,7 +4608,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         s_day = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd"); //当前日期的前30天
                     }
-
                 }
                 if (string.IsNullOrEmpty(e_day))
                 {
@@ -5323,7 +4641,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     throw new Exception(Msg);
                 }
-
                 //解析xml
                 ds = CommQuery.PaseRelayXml(answer, out errMsg);
                 if (errMsg != "")
@@ -5352,13 +4669,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     throw new Exception("账号不能为空");
                 }
-
                 string uid = PublicRes.ConvertToFuid(uin);
                 if (uid == null || uid.Length < 3)
                 {
                     throw new Exception(uin + "账号不存在");
                 }
-
                 //通过uid查询account_no
                 string req_a = "request_type=8009&flag=1&reqid=5002&fields=uid:" + uid;
 
@@ -5367,7 +4682,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     throw new Exception(Msg);
                 }
-
                 string acc_no = ""; //贷款账号
                 string bank_type = "";
 
@@ -5376,7 +4690,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     acc_no = ds_a.Tables[0].Rows[0]["Faccount_no"].ToString();
                     bank_type = ds_a.Tables[0].Rows[0]["Fbank_type"].ToString();
                 }
-
                 if (acc_no == "")
                 {
                     throw new Exception("贷款账号为空");
@@ -5395,7 +4708,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     uidtoc = ds_a.Tables[0].Rows[0]["Fuidtoc"].ToString();
                 }
-
                 if (uidtoc == "")
                 {
                     throw new Exception("必填参数uidtoc为空");
@@ -5406,7 +4718,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string wxzfAccount = ConfigurationManager.AppSettings["wxzfAccount"];
                 string relay_ip = ConfigurationManager.AppSettings["Relay_IP"];
                 string relay_port = ConfigurationManager.AppSettings["Relay_PORT"];
-
                 string sign = "account_no=" + acc_no + "&bank_type=" + bank_type + "&uid=" + uid + "&uidtoc=" + uidtoc + "&key=";
                 sign = System.Web.HttpUtility.UrlEncode(sign, System.Text.Encoding.GetEncoding("gb2312"));
 
@@ -5414,8 +4725,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 errMsg = "";
 
                 string req_sign = "request_type=132&ver=1&head_u=&sp_id=" + wxzfAccount + "&merchant_spid=" + wxzfAccount + "&sp_str=" + sign;
-
                 string sign_md5 = commRes.GetFromRelay(req_sign, relay_ip, relay_port, out Msg);
+
                 if (Msg != "")
                 {
                     throw new Exception(Msg);
@@ -5432,9 +4743,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 string qzj_ip = ConfigurationManager.AppSettings["CreditPay_QZJ_IP"];
                 string qzj_port = ConfigurationManager.AppSettings["CreditPay_QZJ_PORT"];
-
                 string req = "request_type=2209&ver=1&head_u=&uid=" + uid;
-
                 req += "&account_no=" + acc_no + "&bank_type=" + bank_type + "&sp_id=" + CFTAccount + "&uidtoc=" + uidtoc + "&sign=" + sign_md5;
 
                 Msg = ""; //重置
@@ -5466,9 +4775,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         dr.BeginEdit();
                         string errMsg2 = "";
-                        //string fuid = PublicRes.ConvertToFuid(uin);
-                        //string fqqid = PublicRes.Uid2QQ(fuid);
-
                         string strSql = "uid=" + uid;
                         string ftruename = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_USERINFO, "Ftruename", out errMsg2);
 
@@ -5500,13 +4806,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     throw new Exception("账号不能为空");
                 }
-
                 string uid = PublicRes.ConvertToFuid(uin);
                 if (uid == null || uid.Length < 3)
                 {
                     throw new Exception(uin + "账号不存在");
                 }
-
                 //通过uid查询uidtoc
                 Msg = "";
                 string req_a = "request_type=8009&flag=1&reqid=5008&fields=uid:" + uid;
@@ -5541,7 +4845,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     creditFlag = ds_a.Tables[0].Rows[0]["Fpre_credit_state"].ToString();
                 }
 
-
                 //通过uid查询account_no
                 Msg = "";
                 req_a = "request_type=8009&flag=1&reqid=5002&fields=uid:" + uid;
@@ -5551,7 +4854,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     throw new Exception(Msg);
                 }
-
                 string acc_no = ""; //贷款账号
                 string bank_type = "";  //银行类型
                 string credit_result = ""; //征信结果
@@ -5625,9 +4927,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                     string qzj_ip = ConfigurationManager.AppSettings["CreditPay_QZJ_IP"];
                     string qzj_port = ConfigurationManager.AppSettings["CreditPay_QZJ_PORT"];
-
                     string req = "request_type=2208&ver=1&head_u=&uid=" + uid;
-
                     req += "&account_no=" + acc_no + "&bank_type=" + bank_type + "&sp_id=" + CFTAccount + "&uidtoc=" + uidtoc + "&sign=" + sign_md5;
 
                     Msg = ""; //重置
@@ -5711,13 +5011,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     throw new Exception("账号不能为空");
                 }
-
                 string uid = PublicRes.ConvertToFuid(uin);
                 if (uid == null || uid.Length < 3)
                 {
                     throw new Exception(uin + "账号不存在");
                 }
-
                 //通过uid查询account_no
                 string req_a = "request_type=8009&flag=1&reqid=5002&fields=uid:" + uid;
 
@@ -5735,12 +5033,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     acc_no = ds_a.Tables[0].Rows[0]["Faccount_no"].ToString();
                     bank_type = ds_a.Tables[0].Rows[0]["Fbank_type"].ToString();
                 }
-
                 if (acc_no == "")
                 {
                     throw new Exception("贷款账号为空");
                 }
-
                 //通过uid查询uidtoc
                 Msg = "";
                 req_a = "request_type=8009&flag=1&reqid=5008&fields=uid:" + uid;
@@ -5804,9 +5100,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 string qzj_ip = ConfigurationManager.AppSettings["CreditPay_QZJ_IP"];
                 string qzj_port = ConfigurationManager.AppSettings["CreditPay_QZJ_PORT"];
-
                 string req = "request_type=2205&ver=1&head_u=&uid=" + uid;
-
                 req += "&account_no=" + acc_no + "&bank_type=" + bank_type + "&sp_id=" + CFTAccount + "&uidtoc=" + uidtoc;
                 req += "&offset=" + iPageStart + "&limit=" + iPageMax + "&sign=" + sign_md5;
                 Msg = ""; //重置
@@ -5943,9 +5237,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 string qzj_ip = ConfigurationManager.AppSettings["CreditPay_QZJ_IP"];
                 string qzj_port = ConfigurationManager.AppSettings["CreditPay_QZJ_PORT"];
-
                 string req = "request_type=2218&ver=1&head_u=&uid=" + uid;
-
                 req += "&account_no=" + acc_no + "&bank_type=" + bank_type + "&sp_id=" + CFTAccount + "&uidtoc=" + uidtoc;
                 req += "&offset=" + iPageStart + "&limit=" + iPageMax + "&bill_month=" + month + "&sign=" + sign_md5;
                 Msg = ""; //重置
@@ -6050,12 +5342,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 string CFTAccount = ConfigurationManager.AppSettings["CFTAccount"];
                 string wxzfAccount = ConfigurationManager.AppSettings["wxzfAccount"];
-
                 string qzj_ip = ConfigurationManager.AppSettings["CreditPay_QZJ_IP"];
                 string qzj_port = ConfigurationManager.AppSettings["CreditPay_QZJ_PORT"];
-
                 string req = "request_type=2221&ver=1&head_u=&uid=" + uid;
-
                 req += "&acctNo=" + acc_no + "&sp_id=" + CFTAccount + "&bank_type=" + bank_type + "&uidtoc=" + uidtoc + "&queryBegDate=" + sDate + "&queryEndDate=" + eDate;
                 req += "&queryBegNum=" + iPageStart + "&queryCnt=" + iPageMax;
                 Msg = ""; //重置
@@ -6100,7 +5389,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     throw new LogicException("不正确的调用方法！");
                 }
 
-
                 rl.actionType = "外围订单查询函数";
                 rl.ID = spid;
                 rl.OperID = myHeader.OperID;
@@ -6111,31 +5399,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-
-                //				if(!rl.CheckRight())
-                //				{
-                //					throw new LogicException("用户无权执行此操作！");
-                //				}
-
+   
                 string errmsg = "";
                 string strWhere = "partner_id=" + spid + "&sp_billno=" + spcoding + "&business_type=1";
-
                 DataSet ds = CommQuery.GetDataSetFromICE_OrderServer(strWhere, "sp_order_query_service", true, out errmsg);
 
-                return ds;
-
-                //MediListQueryClass cuser = new MediListQueryClass(u_ID,Fcode,strBeginTime,strEndTime,u_UserFilter,u_OrderBy,limStart,limCount);
-                //return cuser.GetResultX("BSB");
-
-                // 2012/5/29 新添加查询B帐号下挂的C帐号作为中介的交易情况
-                /*
-                DataSet ds = cuser.GetResultX("BSB");
-
-                if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                    return null;
-
-                string fspid = ds.Tables[0].Rows[0]["Fspid"].ToString();
-                */
+                return ds; 
             }
             catch (LogicException err)
             {
@@ -6169,8 +5438,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
                 sql += " order by FCreateTime desc";
                 da.OpenConn();
-
-
                 ds = da.dsGetTotalData(sql);
             }
             catch (Exception err)
@@ -6307,7 +5574,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
 
                 sql += " LIMIT " + iPageStart + "," + iPageMax;
-
                 ds = da.dsGetTotalData(sql);
             }
             catch (Exception err)
@@ -6347,11 +5613,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                //				if(!rl.CheckRight())
-                //				{
-                //					throw new LogicException("用户无权执行此操作！");
-                //				}
-
+          
                 string strSql = "spid=" + u_ID;
                 string errMsg = "";
                 string fuid = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_MERCHANTINFO, "FuidMiddle", out errMsg);
@@ -6364,25 +5626,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     return null;
                 }
-
-                //return new TradeService().MediListQueryClass(u_ID, Fcode, strBeginTime, strEndTime, u_UserFilter, u_OrderBy, limStart, limCount);
-
-                //2015-5-11 sql转relay
-                
-                MediListQueryClass cuser = new MediListQueryClass(u_ID, Fcode, strBeginTime, strEndTime, u_UserFilter, u_OrderBy, limStart, limCount);
-                //return cuser.GetResultX("BSB");
-                return cuser.GetResultX_Conn(connstr);
-               
-
-                // 2012/5/29 新添加查询B帐号下挂的C帐号作为中介的交易情况
-                /*
-                DataSet ds = cuser.GetResultX("BSB");
-
-                if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                    return null;
-
-                string fspid = ds.Tables[0].Rows[0]["Fspid"].ToString();
-                */
+                //2015-5-11 sql转relay                
+                MediListQueryClass cuser = new MediListQueryClass(u_ID, Fcode, strBeginTime, strEndTime, u_UserFilter, u_OrderBy, limStart, limCount);   
+                return cuser.GetResultX_Conn(connstr);              
             }
             catch (LogicException err)
             {
@@ -6415,17 +5661,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     throw new LogicException("不正确的调用方法！");
                 }
 
-
                 rl.actionType = "商户流水查询函数";
-                rl.ID = u_ID;
-                //rl.OperID = myHeader.OperID;
+                rl.ID = u_ID;       
                 rl.sign = 1;
-                rl.strRightCode = "GetMediList";
-                //rl.RightString = myHeader.RightString;
-                //rl.SzKey = myHeader.SzKey;
+                rl.strRightCode = "GetMediList";   
                 rl.type = "查询";
-                //rl.UserID = myHeader.UserName;
-                //rl.UserIP = myHeader.UserIP;			
+           		
                 PublicRes.SetRightAndLog(myHeader, rl);
                 if (!rl.CheckRight())
                 {
@@ -6437,10 +5678,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string fuid = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_MERCHANTINFO, "FuidMiddle", out errMsg);
                 string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
 
-                MediListQueryClass cuser = new MediListQueryClass(u_ID, Fcode, u_BeginTime, u_EndTime);
-                //return cuser.GetResultX(iPageStart,iPageMax,"BSB");	
+                MediListQueryClass cuser = new MediListQueryClass(u_ID, Fcode, u_BeginTime, u_EndTime);	
                 return cuser.GetResultX_Conn(iPageStart, iPageMax, connstr);
-
             }
             catch (LogicException err)
             {
@@ -6472,7 +5711,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string connstr = PublicRes.GetConnString("t_user_order_bsb", fuid.Substring(fuid.Length - 2));
 
                 MediListQueryClass cuser = new MediListQueryClass(u_ID, Fcode, u_BeginTime, u_EndTime);
-                //return cuser.GetCount("BSB");
                 return cuser.GetCount_Conn(connstr);
             }
             catch (LogicException err)
@@ -6495,11 +5733,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 //已改动 furion V30_FURION核心查询需改动 从订单里查
                 QuickTradeQueryClass cuser = new QuickTradeQueryClass(listid);
-
                 //furion 现在加入了新的功能，要取得买家的真实姓名。
-                //return cuser.GetResultX(1,1);
-                //DataSet ds = cuser.GetResultX(1,1);
-                //DataSet ds = cuser.GetResultX(1,1,"ZJ");
                 DataSet ds = cuser.GetResultX(1, 1, "HT");
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -6508,7 +5742,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
 
                 return ds;
-
             }
             catch (Exception e)
             {
@@ -6516,8 +5749,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 return null;
             }
         }
-
-
 
         [WebMethod(Description = "风控解冻审核的查询")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -6542,14 +5773,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-
-                //				if(!rl.CheckRight())
-                //				{
-                //					throw new LogicException("用户无权执行此操作！");
-                //				}
-
+       
                 FreezeQueryClass_2 cuser = new FreezeQueryClass_2(qqid, szBeginDate, szEndDate, szStatue, szListID, szFreezeUser, szFreezeReason);
-
                 DataSet ds = cuser.GetResultX(iPageStart, iPageMax, "HT");
 
                 return ds;
@@ -6571,8 +5796,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.WriteLog();
             }
         }
-
-
 
         [WebMethod(Description = "风控解冻审核的查询3")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -6597,12 +5820,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-
-                //				if(!rl.CheckRight())
-                //				{
-                //					throw new LogicException("用户无权执行此操作！");
-                //				}
-
 
                 CFTUserAppealClass cuser = new CFTUserAppealClass(qqid, szBeginDate, szEndDate, iStatue, 8, "", szFreezeUser, szListID, szFreezeReason, orderType);
                 DataSet ds = cuser.GetResultX(iPageStart, iPageMax, "CFT");
@@ -6640,16 +5857,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                             else
                             {
                                 dr["isFreezeListHas"] = "0";
-
-                                //throw new  Exception("单号" + dr["fid"] + "风控冻结单的帐号在冻结单表中不存在！");
                             }
 
                             dr["Fuincolor"] = "";
                             string fuid = PublicRes.ConvertToFuid(dr["Fuin"].ToString());
-
                             string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
                             strwhere += ICEAccess.URLEncode("fcurtype=1&");
-
                             string strResp = "";
 
                             DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
@@ -6721,11 +5934,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-
-                //				if(!rl.CheckRight())
-                //				{
-                //					throw new LogicException("用户无权执行此操作！");
-                //				}
+        
                 AllRecordCount = 0;
                 DataSet ds = null;
 
@@ -6752,8 +5961,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         s_m = i_m.ToString();
                     }
-                    string table = "db_appeal_" + sdate.Year.ToString() + ".t_tenpay_appeal_trans_" + s_m;
-                    //   CFTUserAppealClass cuser = new CFTUserAppealClass(qqid, szBeginDate, qedate.ToString("yyyy-MM-dd"), iStatue, 8, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
+                    string table = "db_appeal_" + sdate.Year.ToString() + ".t_tenpay_appeal_trans_" + s_m;                
                     CFTUserAppealClass cuser = new CFTUserAppealClass(qqid, szBeginDate, qedate.ToString("yyyy-MM-dd"), iStatue, ftype, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
                     ds = cuser.GetResultX(iPageStart, iPageMax, "fkdj");
                     int count1 = cuser.GetCount("fkdj");
@@ -6770,7 +5978,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         s_m = i_m.ToString();
                     }
                     table = "db_appeal_" + edate.Year.ToString() + ".t_tenpay_appeal_trans_" + s_m;
-                    // CFTUserAppealClass cuser2 = new CFTUserAppealClass(qqid, qsdate.ToString("yyyy-MM-dd"), szEndDate, iStatue, 8, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
                     CFTUserAppealClass cuser2 = new CFTUserAppealClass(qqid, qsdate.ToString("yyyy-MM-dd"), szEndDate, iStatue, ftype, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
                     DataSet ds2 = cuser2.GetResultX(iPageStart, iPageMax, "fkdj");
                     int count2 = cuser2.GetCount("fkdj");
@@ -6805,7 +6012,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         s_m = i_m.ToString();
                     }
                     string table = "db_appeal_" + sdate.Year.ToString() + ".t_tenpay_appeal_trans_" + s_m;
-                    // CFTUserAppealClass cuser = new CFTUserAppealClass(qqid, szBeginDate, szEndDate, iStatue, 8, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
                     CFTUserAppealClass cuser = new CFTUserAppealClass(qqid, szBeginDate, szEndDate, iStatue, ftype, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
                     ds = cuser.GetResultX(iPageStart, iPageMax, "fkdj");
                     AllRecordCount = cuser.GetCount("fkdj");
@@ -6846,8 +6052,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 else
                                 {
                                     dr["isFreezeListHas"] = "0";
-
-                                    //throw new  Exception("单号" + dr["fid"] + "风控冻结单的帐号在冻结单表中不存在！");
                                 }
                             }
                             #endregion
@@ -6855,10 +6059,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                             #region 添加大额标记
                             dr["Fuincolor"] = "";
                             string fuid = PublicRes.ConvertToFuid(dr["Fuin"].ToString());
-
                             string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
                             strwhere += ICEAccess.URLEncode("fcurtype=1&");
-
                             string strResp = "";
 
                             DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
@@ -6908,9 +6110,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
-
-
         [WebMethod(Description = "风控解冻审核的查询冻结单详细资料")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetFreezeListDetail_2(string fid)
@@ -6948,8 +6147,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 return null;
             }
         }
-
-
 
         [WebMethod(Description = "查询风控冻结处理日志")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -7002,11 +6199,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
 
-
-
-
-
-
         // 暂时不用
         [WebMethod(Description = "创建风控冻结处理日志")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -7016,7 +6208,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("HT"));
 
             da.OpenConn();
-
             string tableName = "c2c_fmdb.t_Freeze_Detail";
 
             DataSet ds = GetFreezeDiary("", ffreezeListID, "", "", "", "", "", "", 1, 1);
@@ -7070,8 +6261,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
 
 
-
-
             // 结单和作废操作都必须将FSourceType设置成HandleType，而遇到日志的FSourceType为结单或作废状态的，
             // 在创建新日志的时候都要将SourceType写回
             string sqlCmd = "insert " + tableName + " (FFreezeListID,FSourceType,FCreateDate,FHandleType,FHandleUser,FHandleResult,FMemo,FField3) values ("
@@ -7100,24 +6289,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 if (handleType == 1 || handleType == 2)
                 {
-                    //string url = ConfigurationManager.AppSettings["FreezeAccountAppeal"].Trim();
                     string msg = "";
-                    /*string emailFile = ConfigurationManager.AppSettings["ServicePath"].Trim();
-                    if(!emailFile.EndsWith("\\"))
-                        emailFile += "\\";
-
-                    emailFile += "FreezeAccountAppeal.htm";
-
-                    System.IO.StreamReader sr = new System.IO.StreamReader(emailFile,System.Text.Encoding.GetEncoding("GB2312"));
-                    */
+              
                     try
                     {
-                        //string content = sr.ReadToEnd();
-
-                        //content = string.Format(content,freezedUserName,DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),handleResult,"","");
-
-                        //PublicRes.sendMail(emailTo,System.Configuration.ConfigurationManager.AppSettings["OutMailFrom"].ToString(),"财付通帐号解冻申诉结果通知",content);
-
                         string str_params = "p_name=" + freezedUserName + "&p_parm1=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "&p_parm2=" + handleResult + "&p_parm3=" + "" + "&p_parm4=" + "";
                         TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsg(emailTo, "2033", str_params);
                     }
@@ -7125,7 +6300,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         // 发送邮件失败
                         da.RollBack();
-
                         return false;
                     }
 
@@ -7142,21 +6316,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             return false;
         }
 
-
         [WebMethod(Description = "创建风控冻结处理日志2")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public bool CreateFreezeDiary_2(string ffreezeListID, int handleType, string handleUser, string handleResult
             , string memo, string freezedUserName, string emailTo)
         {
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("HT"));
-
             da.OpenConn();
-
             string tableName = "c2c_fmdb.t_Freeze_Detail";
 
             CFTUserAppealClass cuser = new CFTUserAppealClass(int.Parse(ffreezeListID));
             DataSet ds = cuser.GetResultX(0, 1, "CFT");
-
 
             // 记录结单状态和结单人员
             int srcHandleType = 0;
@@ -7231,34 +6401,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 if (handleType == 1 || handleType == 2)
                 {
-                    //string url = ConfigurationManager.AppSettings["FreezeAccountAppeal"].Trim();
-                    string msg = "";
-                    /*
-                    string emailFile = ConfigurationManager.AppSettings["ServicePath"].Trim();
-                    if(!emailFile.EndsWith("\\"))
-                        emailFile += "\\";
-
-                    emailFile += "FreezeAccountAppeal.htm";
-
-                    System.IO.StreamReader sr = new System.IO.StreamReader(emailFile,System.Text.Encoding.GetEncoding("GB2312"));
-                    */
+                    string msg = "";            
                     try
-                    {
-                        /*
-						string content = sr.ReadToEnd();
-
-						content = string.Format(content,freezedUserName,freezeSubmitTime,handleResult,"","");
-
-						string mailFromStr = System.Configuration.ConfigurationManager.AppSettings["OutMailFrom"].ToString();
-
-
-						string errMsg = "";
-
-						if(!PublicRes.sendMail(emailTo,mailFromStr,"财付通帐号解冻申诉结果通知",content,"out",out errMsg))
-						{
-							throw new Exception("发送邮件失败" + errMsg);
-						}
-                        */
+                    {                
                         string str_params = "p_name=" + freezedUserName + "&p_parm1=" + freezeSubmitTime + "&p_parm2=" + handleResult + "&p_parm3=" + "" + "&p_parm4=" + "";
                         TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsg(emailTo, "2033", str_params);
                     }
@@ -7266,9 +6411,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         // 发送邮件失败
                         //da.RollBack();
-
                         throw new Exception("发送邮件失败：" + ex.Message);
-
                         return false;
                     }
 
@@ -7669,27 +6812,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod(Description = "更新风控冻结日志")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public bool UpdateFreezeDiary(string fid, string updateType, string handleUser, string handleResult)
-        {
-            /*
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("HT"));
-			
-            DataSet ds = GetFreezeList_2(null,null,null,0,fid,null,null,0,1);
-
-            if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-            {
-                return false;
-            }
-
-            DataRow dr = ds.Tables[0].Rows[0];
-
-            string diaryRecord = dr["FFreezeMemo"].ToString() + DateTime.Now.ToString("yyyy-MM-dd HH:mm:SS") + handleUser
-                + updateType + ";" + memo + "|";
-
-            string sqlCmd = "update c2c_fmdb.t_freeze_list set FFreezeMemo=" + diaryRecord;
-
-            return da.ExecSql(sqlCmd);
-            */
-
+        {         
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("HT"));
 
             da.OpenConn();
@@ -7727,8 +6850,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         }
 
-
-
         [WebMethod(Description = "冻结查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetFreezeList(DateTime u_BeginTime, DateTime u_EndTime, string freezeuser,
@@ -7753,16 +6874,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
 
-                //				if(!rl.CheckRight())
-                //				{
-                //					throw new LogicException("用户无权执行此操作！");
-                //				}
-
                 FreezeQueryClass cuser = new FreezeQueryClass(u_BeginTime, u_EndTime, freezeuser, username, handletype, statetype, qqid);
-
-
                 DataSet ds = cuser.GetResultX(iPageStart, iPageMax, "HT");
-
 
                 return ds;
 
@@ -7808,11 +6921,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
 
-                //				if(!rl.CheckRight())
-                //				{
-                //					throw new LogicException("用户无权执行此操作！");
-                //				}
-
                 return FreezeInfo.GetExistFreeze(freezeid, FFreezeType);
 
             }
@@ -7857,11 +6965,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
 
-                //				if(!rl.CheckRight())
-                //				{
-                //					throw new LogicException("用户无权执行此操作！");
-                //				}
-
                 FreezeInfo.CreateNewFreeze(myHeader, fi);
             }
             catch (LogicException err)
@@ -7905,11 +7008,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
 
-                //				if(!rl.CheckRight())
-                //				{
-                //					throw new LogicException("用户无权执行此操作！");
-                //				}
-
                 FreezeInfo.UpdateFreezeInfo(myHeader, fi);
             }
             catch (LogicException err)
@@ -7952,7 +7050,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 FreezeQueryClass cuser = new FreezeQueryClass(tdeid);
-
                 DataSet ds = cuser.GetResultX(1, 1, "HT");
 
                 return ds;
@@ -8009,12 +7106,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-
-                //				if(!rl.CheckRight())
-                //				{
-                //					throw new LogicException("用户无权执行此操作！");
-                //				}
-
+        
                 FreezeFinQueryClass fqc = new FreezeFinQueryClass(strBeginDate, strEndDate, fpayAccount, freezeFin, flistID, iPageStart, iPageMax);
 
                 // 这里的数据库的IP地址未确定，需要询问
@@ -8036,7 +7128,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     dr["Fpaynum"] = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(dr["Fpaynum"].ToString());
                     dr["Fbalance"] = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(dr["Fbalance"].ToString());
                     dr["Fcon"] = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(dr["Fcon"].ToString());
-
                     dr["strFreason"] = getData.GetSubjectName(dr["Fsubject"].ToString());
 
                     switch (dr["Ftype"].ToString())
@@ -8129,8 +7220,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
-
         [WebMethod(Description = "用户受控资金查询")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet QueryUserControledRecord(string qqid, string strBeginDate, string strEndDate, string cur_type, int iNumStart, int iNumMax)
@@ -8154,11 +7243,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
 
-                //				if(!rl.CheckRight())
-                //				{
-                //					throw new LogicException("用户无权执行此操作！");
-                //				}
-
                 string fuid = PublicRes.ConvertToFuid(qqid);
                 // 测试
                 //  fuid = "295191000";
@@ -8178,7 +7262,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 ds.Tables[0].Columns.Add("FtypeText", typeof(string));
                 ds.Tables[0].Columns.Add("uid", typeof(string));
                 ds.Tables[0].Columns.Add("FbalanceStr", typeof(string));
-                //ds.Tables[0].Columns.Add("FBal");
 
                 /*   这里没完全确认好！ */
                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -8300,57 +7383,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 }
 
-                return ds;
-
-                /*
-                switch(dr["Flstate"].ToString())
-                {
-                    case "1":
-                    {
-                        dr["strFlstate"] = "锁定";break;
-                    }
-                    case "2":
-                    {
-                        dr["strFlstate"] = "正常";break;
-                    }
-                    case "3":
-                    {
-                        dr["strFlstate"] = "作废";break;
-                    }
-                    default:
-                    {
-                        dr["strFlstate"] = "未知";break;
-                    }
-                }
-
-                switch(dr["Fcurtype"].ToString())
-                {
-                    case "1":
-                    {
-                        dr["strFcurtype"] = "RMB";break;
-                    }
-                    case "2":
-                    {
-                        dr["strFcurtype"] = "基金";break;
-                    }
-                    case "3":
-                    {
-                        dr["strFcurtype"] = "游戏子账户(零钱包)";break;
-                    }
-                    case "4":
-                    {
-                        dr["strFcurtype"] = "彩贝积分";break;
-                    }
-                    case "5":
-                    {
-                        dr["strFcurtype"] = "直通车";break;
-                    }
-                    default:
-                    {
-                        dr["strFcurtype"] = "未知";break;
-                    }
-                }
-                */
+                return ds;             
             }
             catch (LogicException err)
             {
@@ -8378,7 +7411,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             string strSql = "select *,count(distinct Fbank_sname) from cft_cep_db.t_bank_channel where Fbank_sname<>'' group by Fbank_sname";
 
             DataSet ds = new DataSet();
-
             DataTable dt;
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("INCB_NEW"));
             try
@@ -8415,7 +7447,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             return "未知银行渠道（" + englishName + "）";
         }
 
-
         #region	代扣查询
         [WebMethod(Description = "代扣单笔查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -8442,16 +7473,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
+   
                 QueryDKInfo query = new QueryDKInfo(explain, bankID, userID, strBeginDate, strEndDate, spid, spListID, spBatchID, cep_id, state, transaction_id, bank_type, service_code, limStart, limMax);
 
-                //DataSet ds = query.GetResultX_ICE();
                 DataSet ds = query.GetResultX_AllAndLimit(limStart, limMax, "INCB_NEW");
 
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
@@ -8461,10 +7485,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 ds.Tables[0].Columns.Add("FailedReason", typeof(string));
                 ds.Tables[0].Columns.Add("Ftrade_state", typeof(string));
                 ds.Tables[0].Columns.Add("Ftrade_stateName", typeof(string));
-
                 ds.Tables[0].Columns.Add("Fbank_typeName", typeof(string));
                 ds.Tables[0].Columns.Add("Fservice_codeName", typeof(string));
-
 
                 DataTable dt;
                 dt = QueryDkInfo_GetBank().Tables[0];
@@ -8486,9 +7508,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         }
                     }
 
-                    //string tmp = dr["Fbank_type"].ToString().Trim();
-                    //dr["Fbank_typeName"] = BankIO.QueryBankName(tmp);
-
                     tmp = dr["Fservice_code"].ToString().Trim();
                     tmp = tmp.Replace(dr["Fspid"].ToString().Trim(), "");
                     if (getData.htService_code.Contains(tmp))
@@ -8509,8 +7528,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                             break;
                         }
                     }
-
-                    //dr["FailedReason"] = strExplain;
 
                     if (strExplain != "")
                     {
@@ -8591,9 +7608,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
-
-
         [WebMethodAttribute(Description = "统计代扣单笔查询情况")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet CountDKInfo(string transactionId, string bankType, string bankID, string userID, string strBeginDate, string strEndDate, string spid, string spListID
@@ -8650,8 +7664,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             return ds;
         }
 
-
-
         [WebMethod(Description = "代扣单笔详细查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet QueryDkDetail(string cep_id, string strBeginDate, string strEndDate)
@@ -8674,15 +7686,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
+   
                 QueryDKInfo query = new QueryDKInfo(cep_id, strBeginDate, strEndDate);
-
                 DataSet ds = query.GetResultX_ICE();
 
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
@@ -8696,15 +7701,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 ds.Tables[0].Columns.Add("Fbankacc_attrName", typeof(string));
                 ds.Tables[0].Columns.Add("Fbankacc_typeName", typeof(string));
                 ds.Tables[0].Columns.Add("Fpay_modeName", typeof(string));
-
-                //ds.Tables[0].Columns.Add("Fbank_typeName",typeof(string));
                 ds.Tables[0].Columns.Add("Fservice_codeName", typeof(string));
 
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    //string tmp = dr["Fbank_type"].ToString().Trim();
-                    //dr["Fbank_typeName"] = BankIO.QueryBankName(tmp);
-
                     string tmp = dr["Fservice_code"].ToString().Trim();
                     tmp = tmp.Replace(dr["Fspid"].ToString().Trim(), "");
                     if (getData.htService_code.Contains(tmp))
@@ -8831,7 +7831,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
 
 
-
                     switch (dr["Ftrade_type"].ToString())
                     {
                         case "1":
@@ -8942,8 +7941,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
-
         [WebMethod(Description = "代扣批量查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet QueryBatchInfo(string strBeginDate, string strEndDate, string spid, string spBatchID, string batchid, string state, int limStart, int limMax)
@@ -8966,16 +7963,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
 
                 QueryBatchDKInfo query = new QueryBatchDKInfo(strBeginDate, strEndDate, spid, spBatchID, batchid, state, limStart, limMax);
-
-                //DataSet ds = query.GetResultX_ICE();
                 DataSet ds = query.GetResultX_AllAndLimit(limStart, limMax, "INC_NEW");
 
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
@@ -8984,7 +7973,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 ds.Tables[0].Columns.Add("FstateName", typeof(string));
                 ds.Tables[0].Columns.Add("FHandling_Count", typeof(string));
                 ds.Tables[0].Columns.Add("FHandling_amount", typeof(string));
-
                 ds.Tables[0].Columns.Add("Fservice_codeName", typeof(string));
 
                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -8998,9 +7986,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                     long handling_count = long.Parse(dr["Ftotal_count"].ToString()) - long.Parse(dr["Fsucpay_count"].ToString())
                         - long.Parse(dr["Ffailpay_count"].ToString());
-
-                    /*long handling_amount = long.Parse(dr["Ffact_amount"].ToString()) - long.Parse(dr["Fsucpay_amount"].ToString()) 
-                        - long.Parse(dr["Ffailpay_amount"].ToString()) - long.Parse(dr["Ffee"].ToString());*/
 
                     long handling_amount = long.Parse(dr["Ftotal_paynum"].ToString()) - long.Parse(dr["Fsucpay_amount"].ToString())
                         - long.Parse(dr["Ffailpay_amount"].ToString());
@@ -9090,8 +8075,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
-
         [WebMethodAttribute(Description = "统计代扣批量的情况")]
         public DataSet CountBatchInfo(string strBeginDate, string strEndDate, string spid, string spBatchID, string batchid, string state)
         {
@@ -9141,11 +8124,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         #endregion
 
-
         #endregion
-
-
-
 
         [WebMethod(Description = "财付券查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -9199,7 +8178,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        //getUserReports(istr*pageSize,pageSize,bgdate,eddate,whereStr,out ds,out Msg)
         [WebMethod(Description = "返回用户投诉意见信息")]
         public bool getUserReports(int istartIndex, int length, DateTime bgdate, DateTime eddate, string whereStr, out DataSet ds, out string Msg)
         {
@@ -9228,7 +8206,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 string fstrSql_count = "select count(1) from " + dbName + "" + whereCommand;
                 int count = Int32.Parse(da.GetOneResult(fstrSql_count));
-
                 string fstrSql = "select *," + count + " as icount from " + dbName + " " + whereCommand + "  order by dttm DESC limit " + istartIndex + "," + length; //查询最新的数据
                 ds = da.dsGetTotalData(fstrSql);
 
@@ -9244,9 +8221,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 da.Dispose();
             }
-
         }
-
 
         [WebMethod(Description = "返回用户敏感信息修改历史")]
         public bool getUserModify(int istartIndex, int length, DateTime bgdate, DateTime eddate, string whereStr, out DataSet ds, out string Msg)
@@ -9259,7 +8234,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 string bgstrDate = bgdate.ToString("yyyy-MM-dd 00:00:00");
                 string edstrDate = eddate.ToString("yyyy-MM-dd 23:59:59");
-
                 string whereCommand = " where FcommitTime >= '" + bgstrDate + "' and FcommitTime <='" + edstrDate + "' ";
 
                 if (whereStr != "" && whereStr.Trim() != "")
@@ -9268,13 +8242,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
 
                 string dbName = "c2c_fmdb.t_mediation";
-
                 da = new MySqlAccess(PublicRes.GetConnString("ht"));
                 da.OpenConn();
-
                 string fstrSql_count = "select count(1) from " + dbName + " " + whereCommand;
                 int count = Int32.Parse(da.GetOneResult(fstrSql_count));
-
                 string fstrSql = "select *," + count + " as icount from " + dbName + " " + whereCommand + "  order by FID DESC limit " + istartIndex + "," + length; //查询最新的数据
                 ds = da.dsGetTotalData(fstrSql);
 
@@ -9290,9 +8261,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 da.Dispose();
             }
-
         }
-
 
         [WebMethod(Description = "查询处理器（处理多种查询)")]
         public bool getQueryData(int istartIndex, int length, DateTime bgDate, DateTime edDate, string whereStr, string queryType, out DataSet ds, out string Msg)
@@ -9309,9 +8278,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 Msg = " 未定义的查询类型！ 请检查！";
                 return false;
             }
-
         }
-
 
         [WebMethod(Description = "自助申诉查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -9327,14 +8294,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 rl.actionType = "自助申诉查询函数";
                 rl.ID = fuin;
-                //rl.OperID = myHeader.OperID;
                 rl.sign = 1;
                 rl.strRightCode = "CFTUserAppeal";
-                //rl.RightString = myHeader.RightString;
-                //rl.SzKey = myHeader.SzKey;
                 rl.type = "查询";
-                //rl.UserID = myHeader.UserName;
-                //rl.UserIP = myHeader.UserIP;	
+ 
                 PublicRes.SetRightAndLog(myHeader, rl);
                 if (!rl.CheckRight())
                 {
@@ -9361,12 +8324,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     ds.Tables[0].Columns.Add("Fuincolor", typeof(String));
                     ds.Tables[0].Columns.Add("balance", typeof(String));//金额 echo 20140909
 
-
                     ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
                     try
                     {
                         ice.OpenConn();
-
                         foreach (DataRow dr in ds.Tables[0].Rows)
                         {
                             try
@@ -9444,14 +8405,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 rl.actionType = "自助申诉查询函数";
                 rl.ID = fuin;
-                //rl.OperID = myHeader.OperID;
                 rl.sign = 1;
                 rl.strRightCode = "CFTUserAppeal";
-                //rl.RightString = myHeader.RightString;
-                //rl.SzKey = myHeader.SzKey;
                 rl.type = "查询";
-                //rl.UserID = myHeader.UserName;
-                //rl.UserIP = myHeader.UserIP;	
                 PublicRes.SetRightAndLog(myHeader, rl);
                 if (!rl.CheckRight())
                 {
@@ -9467,17 +8423,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     u_EndTime = DateTime.Now.ToString();
                     u_BeginTime = "2014-01-01 00:00:00";
                 }
-
-                ////大于2013年10月才有数据需约束
-                //int year = DateTime.Parse(u_EndTime).Year;
-                //int month = DateTime.Parse(u_EndTime).Month;
-
-                //DataSet ds2 = null;
-                //if (year >= 2014)
-                //{
-                //    CFTUserAppealClass cuser2 = new CFTUserAppealClass(fuin, u_BeginTime, u_EndTime, fstate, ftype, QQType, dotype, SortType, true);//分库分表的查询
-                //    ds2 = cuser2.GetResultXAppeal("CFTNEW");
-                //}
 
                 DateTime date = DateTime.Parse(u_BeginTime);
                 int yearEnd = DateTime.Parse(u_EndTime).Year;
@@ -9530,76 +8475,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
                 //将旧表与分库表数据写入一个表
                 DataSet dsAll = NewMethod(ds, dsFenResult);
-
-
-
-                ////将旧表与分库表数据写入一个表
-                //DataSet dsAll = NewMethod(ds, ds2);
-
-
-                //long Appeal_BigMoney = long.Parse(System.Configuration.ConfigurationManager.AppSettings["Appeal_BigMoney"]);
-
-                //if (dsAll != null && dsAll.Tables.Count > 0 && dsAll.Tables[0].Rows.Count > 0)
-                //{
-                //    if (ftype == 8)
-                //    {
-                //        CFTUserAppealClass.HandleParameter_ForControledFreeze(ds, true);
-                //    }
-                //    else
-                //    {
-                //    CFTUserAppealClass.HandleParameter(dsAll, false);
-                //    }
-
-                //    //取出金额后如果超过大金额，打上标记。
-                //    // ds.Tables[0].Columns.Add("Fuincolor", typeof(String));
-
-                //    dsAll.Tables[0].Columns.Add("Fuincolor", typeof(String));
-
-                //    ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
-                //    try
-                //    {
-                //        ice.OpenConn();
-
-                //        foreach (DataRow dr in dsAll.Tables[0].Rows)
-                //        {
-                //            try
-                //            {
-                //                dr["Fuincolor"] = "";
-                //                string fuid = PublicRes.ConvertToFuid(dr["Fuin"].ToString());
-
-                //                string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                //                strwhere += ICEAccess.URLEncode("fcurtype=1&");
-
-                //                string strResp = "";
-
-                //                DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-
-                //                if (dtuser == null || dtuser.Rows.Count == 0)
-                //                {
-                //                    continue;
-                //                }
-
-                //                long lbalance = long.Parse(dtuser.Rows[0]["fbalance"].ToString());
-
-                //                if (lbalance >= Appeal_BigMoney)
-                //                {
-                //                    dr["Fuincolor"] = "BIGMONEY";
-                //                }
-                //            }
-                //            catch
-                //            {
-                //                continue;
-                //            }
-                //        }
-
-                //        ice.CloseConn();
-                //    }
-                //    finally
-                //    {
-                //        ice.Dispose();
-                //    }
-                //}
-
+           
                 return dsAll;
 
             }
@@ -9635,8 +8511,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     CFTUserAppealClass.HandleParameter(dsAll, false);
 
                     //取出金额后如果超过大金额，打上标记。
-                    // ds.Tables[0].Columns.Add("Fuincolor", typeof(String));
-
                     dsAll.Tables[0].Columns.Add("Fuincolor", typeof(String));
                     dsAll.Tables[0].Columns.Add("balance", typeof(String));//金额 echo 20140909
 
@@ -9704,8 +8578,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 rl.WriteLog();
             }
-
-
         }
 
         private static DataSet NewMethod(DataSet ds, DataSet ds2)
@@ -9745,30 +8617,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 if (ds2 != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0)
                     dsAll.Tables.Add(ds2.Tables[0].Copy());
-
-                ////获取表结构
-                //if (ds2 != null || ds2.Tables.Count > 0)
-                //{//分库表不为null
-                //    foreach (DataTable tbl in ds2.Tables)
-                //        if (tbl.Rows.Count > 0)//分库表不为null
-                //        {
-                //            dtAll = tbl.Clone();
-                //            break;
-                //        }
-                //}
-
-                //if (ds2 != null || ds2.Tables.Count > 0)
-                //{//分库表不为null
-                //    foreach (DataTable tbl in ds2.Tables)
-                //        if (tbl.Rows.Count > 0)//分库表不为null
-                //        {
-                //            foreach (DataRow dr in tbl.Rows)
-                //            {
-                //                dtAll.ImportRow(dr);//将记录加入到一个表里
-                //            }
-                //        }
-                //    dsAll.Tables.Add(dtAll);
-                //}
+           
             }
             return dsAll;
         }
@@ -9822,7 +8671,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     //在这个函数里,所有auto_appeal=1的单被置状态为Fstate=8; 					
 
                     string errMsg = "";
-
                     int Success = 0;
                     int Fail = 0;
                     foreach (DataRow dr in ds.Tables[0].Rows)
@@ -9858,7 +8706,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                         ice.OpenConn();
                                         string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
                                         strwhere += ICEAccess.URLEncode("fcurtype=1&");
-
                                         string strResp = "";
 
                                         DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
@@ -9964,7 +8811,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     //在这个函数里,所有低分单，余额不超过设定值、或开通快捷、或开通一点通被置状态为Fstate=8; 					
 
                     string errMsg = "";
-
                     int Success = 0;
                     int Fail = 0;
                     foreach (DataRow dr in ds2.Tables[0].Rows)
@@ -10099,9 +8945,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string Sql3;
                 if (IsLockList)//只执行锁定单
                 {
-                    //Sql3 = "select Fid,Fuin,Fuid,Ftype,Fstate,FSubmitTime,FParameter  from t_tenpay_appeal_trans where FSubmitTime>='" + NowFlag.AddDays(-3).ToString("yyyy-MM-dd HH:mm:ss")
-                    //    + "' and FSubmitTime<='" + NowFlag.ToString("yyyy-MM-dd HH:mm:ss") + "' and Fstate = 8 and FType in(1,2,5,6,7) and FParameter like '%&sheetIVRSate=1%' ";
-
                     string from = "select Fid,Fuin,Fuid,Ftype,Fstate,FSubmitTime from db_appeal_";
                     string where = " where FSubmitTime>='" + NowFlag.AddDays(-3).ToString("yyyy-MM-dd HH:mm:ss")
                        + "' and FSubmitTime<='" + NowFlag.ToString("yyyy-MM-dd HH:mm:ss") + "' and Fstate = 8 and FType=5 and FIVRState=1 ";
@@ -10301,8 +9144,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                 }
                 #endregion
-
-
 
 
                 //分库分表，Ftype=5类型高分单IVR外呼
@@ -10533,82 +9374,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
-        /*
-                [WebMethod(Description="申诉处理查询函数")]
-                [SoapHeader("myHeader", Direction=SoapHeaderDirection.In)]
-                public DataSet GetCFTQueryAppealList(string fuin, DateTime u_BeginTime, DateTime u_EndTime,int fstate,
-                    int iPageStart, int iPageMax, bool Isfuin, string fQQ)
-                {
-                    RightAndLog rl = new RightAndLog();
-                    try
-                    {
-                        if(myHeader == null)
-                        {
-                            throw new LogicException("不正确的调用方法！");
-                        }
-				
-			
-                        rl.actionType = "申诉处理查询函数";
-                        rl.ID = fuin;
-                        rl.OperID = myHeader.OperID;
-                        rl.sign = 1;
-                        rl.strRightCode = "CFTUserPickTJ";
-                        rl.RightString = myHeader.RightString;
-                        rl.SzKey = myHeader.SzKey;
-                        rl.type = "查询";
-                        rl.UserID = myHeader.UserName;
-                        rl.UserIP = myHeader.UserIP;				
-                        if(!rl.CheckRight())
-                        {
-                            throw new LogicException("用户无权执行此操作！");
-                        }
-
-                        CFTUserAppealClass cuser = new CFTUserAppealClass(fuin,u_BeginTime,u_EndTime,fstate,Isfuin,fQQ);
-                        DataSet ds = cuser.GetResultX(iPageStart,iPageMax,"CFT");		
-	
-                        if(ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                        {
-                            CFTUserAppealClass.HandleParameter(ds,true);
-                        }
-
-                        return ds;
-
-                    }
-                    catch(LogicException err)
-                    {
-                        rl.sign = 0;
-                        rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                        throw;
-                    }
-                    catch(Exception err)
-                    {
-                        rl.sign = 0;
-                        rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                        throw new LogicException("Service处理失败！");
-                    }
-                    finally
-                    {
-                        rl.WriteLog();
-                    }
-                }
-
-                [WebMethod(Description="申诉处理查询个数函数")]
-                public int GetCFTQueryAppealCount(string fuin, DateTime u_BeginTime, DateTime u_EndTime,int fstate, bool Isfuin, string fQQ)
-                {
-                    try
-                    {
-                        CFTUserAppealClass cuser = new CFTUserAppealClass(fuin,u_BeginTime,u_EndTime,fstate,Isfuin,fQQ);
-                        return cuser.GetCount("CFT");
-                    }
-                    catch(Exception e)
-                    {
-                        throw new Exception("service发生错误,请联系管理员！");
-                        return 0;
-                    }
-                }
-        */
-
         [WebMethod(Description = "自助申诉查询详细函数")]
         public DataSet GetCFTUserAppealDetail(int fid)
         {
@@ -10638,14 +9403,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         else
                         {
                             ds.Tables[0].Rows[0]["isFreezeListHas"] = "0";
-                            //throw new  Exception("单号" + dr["fid"] + "风控冻结单的帐号在冻结单表中不存在！");
                         }
                     }
                     else
                     {
                         CFTUserAppealClass.HandleParameter(ds, true);
                     }
-                    //CFTUserAppealClass.HandleParameter(ds,true);
 
                     //如果类型是5:完整注册用户更换关联手机 ,增加上外呼结果. //IVR外呼专用furion
                     ds.Tables[0].Columns.Add("FIVRResult");
@@ -10850,9 +9613,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                         DataSet ds2 = cuser2.GetResultX(0, 1, "HT");
 
-                        //ds.Tables[0].Columns.Add("isFreezeListHas", typeof(string));
-                        //ds.Tables[0].Columns.Add("FreezeReason", typeof(string));//冻结原因
-
                         if (ds2 != null && ds2.Tables.Count != 0 && ds2.Tables[0].Rows.Count != 0)
                         {
                             ds.Tables[0].Rows[0]["isFreezeListHas"] = "1";
@@ -10861,7 +9621,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         else
                         {
                             ds.Tables[0].Rows[0]["isFreezeListHas"] = "0";
-                            //throw new  Exception("单号" + dr["fid"] + "风控冻结单的帐号在冻结单表中不存在！");
                         }
 
                         #endregion
@@ -10902,33 +9661,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     int ftype = int.Parse(ds.Tables[0].Rows[0]["Ftype"].ToString());
-                    //ftype不可能为8，注释掉
-                    //if (ftype == 8)
-                    //{
-                    //    CFTUserAppealClass.HandleParameter_ForControledFreeze(ds, true);
-
-                    //    FreezeQueryClass cuser2 = new FreezeQueryClass(ds.Tables[0].Rows[0]["Fuin"].ToString(), 1);
-
-                    //    DataSet ds2 = cuser2.GetResultX(0, 1, "HT");
-
-                    //    ds.Tables[0].Columns.Add("isFreezeListHas", typeof(string));
-
-                    //    if (ds2 != null && ds2.Tables.Count != 0 && ds2.Tables[0].Rows.Count != 0)
-                    //    {
-                    //        ds.Tables[0].Rows[0]["isFreezeListHas"] = "1";
-                    //    }
-                    //    else
-                    //    {
-                    //        ds.Tables[0].Rows[0]["isFreezeListHas"] = "0";
-                    //        //throw new  Exception("单号" + dr["fid"] + "风控冻结单的帐号在冻结单表中不存在！");
-                    //    }
-                    //}
-                    //else
-                    //{
+                   
                     CFTUserAppealClass.HandleParameterByDBTB(ds, true);//分库表的处理方法，处理结果后的结果与旧表一样
-                    // }
-                    //CFTUserAppealClass.HandleParameter(ds,true);
-
+ 
                     //如果类型是5:完整注册用户更换关联手机 ,增加上外呼结果. //IVR外呼专用furion
                     ds.Tables[0].Columns.Add("FIVRResult");
                     ds.Tables[0].Rows[0]["FIVRResult"] = "";
@@ -11060,20 +9795,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                 }
 
-                //将这部分放到GetUserAppealLockListDBTBInnrFun处理，避免系统反应过慢
-                //if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                //{
-                //    CFTUserAppealClass.HandleParameter(ds, true);
-                //}
-
-                //if (dsFenResult != null && dsFenResult.Tables.Count > 0 && dsFenResult.Tables[0].Rows.Count > 0)
-                //{
-                //    CFTUserAppealClass.HandleParameterByDBTBList(dsFenResult, true);
-                //}
-
                 //将旧表与分库表数据写入一个表
                 DataSet dsAll = NewMethod(ds, dsFenResult);
-                //  string s = dsAll.Tables[0].Rows[0]["IsPass"].ToString();
+
                 return dsAll;
             }
             catch (Exception ex)
@@ -11111,12 +9835,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         }
                     }
 
-
                     if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
                     {
                         CFTUserAppealClass.HandleParameter(ds1, true);
                     }
-
                     if (ds2 != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0)
                     {
                         CFTUserAppealClass.HandleParameterByDBTBList(ds2, true);
@@ -11134,7 +9856,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 throw new Exception("批量领单获处理内部信息出错：" + ex.Message);
             }
         }
-
 
         [WebMethod(Description = "自助申诉批量领单函数:分库表类型,领单处理")]
         public DataSet GetUserAppealLockListDBTB2(DataSet ds, string username)
@@ -11157,26 +9878,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                     string WhereStr = "";
                     string db = "", tb = "";
-                    //foreach (DataRow dr in ds.Tables[0].Rows)
-                    //{
-                    //    if (dr["IsPass"].ToString() == "Y")
-                    //    {
-                    //        dr.Delete();
-                    //    }
-                    //}
-
-                    //注释这几行，可解决批量领导领不出的问题
-                    //for (int i = ds.Tables[0].Rows.Count - 1; i >= 0; i--)
-                    //{
-                    //    DataRow dr = ds.Tables[0].Rows[i];
-                    //    if (dr["IsPass"].ToString() == "Y")
-                    //    {
-                    //        ds.Tables[0].Rows.Remove(dr);
-                    //    }
-                    //}
-                    //ds.AcceptChanges();
-
-
+                       
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         db = dr["DBName"].ToString();
@@ -11214,9 +9916,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 da2.Dispose();
             }
 
-
         }
-
 
         [WebMethod(Description = "自助申诉拒绝函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -11226,56 +9926,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             RightAndLog rl = new RightAndLog();
             try
-            {
-                /*
-                if(myHeader == null)
-                {
-                    throw new LogicException("不正确的调用方法！");
-                }
-				
-			
-                rl.actionType = "自助申诉拒绝函数";
-                rl.ID = fid.ToString();
-                rl.OperID = myHeader.OperID;
-                rl.sign = 1;
-                rl.strRightCode = "CFTUserAppeal";
-                rl.RightString = myHeader.RightString;
-                rl.SzKey = myHeader.SzKey;
-                rl.type = "执行";
-                rl.UserID = myHeader.UserName;
-                rl.UserIP = myHeader.UserIP;				
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-				
-                */
-
+            {              
                 return CFTUserAppealClass.CancelAppeal(fid, reason, OtherReason, Fcomment, UserName, UserIP, out msg);
             }
             catch (LogicException err)
             {
-                /*
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                msg = rl.ErrorMsg;
-                */
-
                 return false;
             }
             catch (Exception err)
             {
-                /*
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                msg = rl.ErrorMsg;
-                */
                 return false;
             }
             finally
             {
                 System.GC.Collect();
-                //rl.WriteLog();
             }
         }
 
@@ -11287,93 +9951,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             RightAndLog rl = new RightAndLog();
             try
-            {
-                /*
-                if(myHeader == null)
-                {
-                    throw new LogicException("不正确的调用方法！");
-                }
-				
-			
-                rl.actionType = "自助申诉拒绝函数";
-                rl.ID = fid.ToString();
-                rl.OperID = myHeader.OperID;
-                rl.sign = 1;
-                rl.strRightCode = "CFTUserAppeal";
-                rl.RightString = myHeader.RightString;
-                rl.SzKey = myHeader.SzKey;
-                rl.type = "执行";
-                rl.UserID = myHeader.UserName;
-                rl.UserIP = myHeader.UserIP;				
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-				
-                */
-
+            {            
                 return CFTUserAppealClass.CancelAppealDBTB(fid, db, tb, reason, OtherReason, Fcomment, UserName, UserIP, out msg);
             }
             catch (LogicException err)
             {
-                /*
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                msg = rl.ErrorMsg;
-                */
-
                 return false;
             }
             catch (Exception err)
             {
-                /*
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                msg = rl.ErrorMsg;
-                */
-                return false;
-            }
-            finally
-            {
-                System.GC.Collect();
-                //rl.WriteLog();
-            }
-        }
-
-        /*
-        public bool SendMailTest(int fid, string reason, string OtherReason, string Fcomment, string UserName,string UserIP,out string msg)
-        {
-            msg = "";
-            try
-            {
-                if(OtherReason != null && OtherReason.Trim() != "")
-                {
-                    OtherReason = PublicRes.replaceMStr(OtherReason);
-                }
-                if(Fcomment != null && Fcomment.Trim() != "")
-                {
-                    Fcomment = PublicRes.replaceMStr(Fcomment);
-                }
-                string email = "";
-                int ftype = 0;
-                string fuin = "";
-                string submittime = DateTime.Now.ToString("yyyy年MM月dd日");
-
-                //发送失败邮件 失败的一律没有三四参数
-                if(!SendAppealMail(email,ftype,false,UserName,submittime,"","",reason,OtherReason,fuin,out msg))
-                {
-                    msg = "发送邮件失败：" + msg;
-                    return false;
-                }
-				
-                return true;
-            }
-            catch(LogicException err)
-            {
-                return false;
-            }
-            catch(Exception err)
-            {
                 return false;
             }
             finally
@@ -11381,9 +9967,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 System.GC.Collect();
             }
         }
-        */
-
-
+     
         [WebMethod(Description = "自助申诉通过函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public bool CFTConfirmAppeal(int fid, string Fcomment, string UserName, string UserIP, out string msg)
@@ -11391,49 +9975,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             msg = "";
             RightAndLog rl = new RightAndLog();
             try
-            {
-                /*
-                if(myHeader == null)
-                {
-                    throw new LogicException("不正确的调用方法！");
-                }
-				
-			
-                rl.actionType = "自助申诉通过函数";
-                rl.ID = fid.ToString();
-                rl.OperID = myHeader.OperID;
-                rl.sign = 1;
-                rl.strRightCode = "CFTUserAppeal";
-                rl.RightString = myHeader.RightString;
-                rl.SzKey = myHeader.SzKey;
-                rl.type = "执行";
-                rl.UserID = myHeader.UserName;
-                rl.UserIP = myHeader.UserIP;				
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
+            {             
                 return CFTUserAppealClass.ConfirmAppeal(fid, Fcomment, UserName, UserIP, out msg);
             }
             catch (LogicException err)
             {
-                /*
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                msg = rl.ErrorMsg;
-                */
-
                 return false;
             }
             catch (Exception err)
             {
-                /*
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                msg = rl.ErrorMsg;
-                */
                 return false;
             }
             finally
@@ -11449,49 +9999,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             msg = "";
             RightAndLog rl = new RightAndLog();
             try
-            {
-                /*
-                if(myHeader == null)
-                {
-                    throw new LogicException("不正确的调用方法！");
-                }
-				
-			
-                rl.actionType = "自助申诉通过函数";
-                rl.ID = fid.ToString();
-                rl.OperID = myHeader.OperID;
-                rl.sign = 1;
-                rl.strRightCode = "CFTUserAppeal";
-                rl.RightString = myHeader.RightString;
-                rl.SzKey = myHeader.SzKey;
-                rl.type = "执行";
-                rl.UserID = myHeader.UserName;
-                rl.UserIP = myHeader.UserIP;				
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
+            {             
                 return CFTUserAppealClass.ConfirmAppealDBTB(fid, db, tb, Fcomment, UserName, UserIP, out msg);
             }
             catch (LogicException err)
-            {
-                /*
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                msg = rl.ErrorMsg;
-                */
-
+            {             
                 return false;
             }
             catch (Exception err)
-            {
-                /*
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                msg = rl.ErrorMsg;
-                */
+            {             
                 return false;
             }
             finally
@@ -11500,7 +10016,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
         [WebMethod(Description = "自助申诉删除函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public bool CFTDelAppeal(int fid, string Fcomment, string UserName, string UserIP, out string msg)
@@ -11508,55 +10023,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             msg = "";
             RightAndLog rl = new RightAndLog();
             try
-            {
-                /*
-                if(myHeader == null)
-                {
-                    throw new LogicException("不正确的调用方法！");
-                }
-				
-			
-                rl.actionType = "自助申诉删除函数";
-                rl.ID = fid.ToString();
-                rl.OperID = myHeader.OperID;
-                rl.sign = 1;
-                rl.strRightCode = "CFTUserAppeal";
-                rl.RightString = myHeader.RightString;
-                rl.SzKey = myHeader.SzKey;
-                rl.type = "执行";
-                rl.UserID = myHeader.UserName;
-                rl.UserIP = myHeader.UserIP;				
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
+            {             
                 return CFTUserAppealClass.DelAppeal(fid, Fcomment, UserName, UserIP, out msg);
             }
             catch (LogicException err)
             {
-                /*
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                msg = rl.ErrorMsg;
-                */
-
                 return false;
             }
             catch (Exception err)
             {
-                /*
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                msg = rl.ErrorMsg;
-                */
                 return false;
             }
             finally
             {
                 System.GC.Collect();
-                //rl.WriteLog();
             }
         }
 
@@ -11567,55 +10047,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             msg = "";
             RightAndLog rl = new RightAndLog();
             try
-            {
-                /*
-                if(myHeader == null)
-                {
-                    throw new LogicException("不正确的调用方法！");
-                }
-				
-			
-                rl.actionType = "自助申诉删除函数";
-                rl.ID = fid.ToString();
-                rl.OperID = myHeader.OperID;
-                rl.sign = 1;
-                rl.strRightCode = "CFTUserAppeal";
-                rl.RightString = myHeader.RightString;
-                rl.SzKey = myHeader.SzKey;
-                rl.type = "执行";
-                rl.UserID = myHeader.UserName;
-                rl.UserIP = myHeader.UserIP;				
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
+            {            
                 return CFTUserAppealClass.DelAppealDBTB(fid, db, tb, Fcomment, UserName, UserIP, out msg);
             }
             catch (LogicException err)
             {
-                /*
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                msg = rl.ErrorMsg;
-                */
-
                 return false;
             }
             catch (Exception err)
             {
-                /*
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                msg = rl.ErrorMsg;
-                */
                 return false;
             }
             finally
             {
                 System.GC.Collect();
-                //rl.WriteLog();
             }
         }
 
@@ -11685,8 +10130,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public DataSet GetAppealUserInfo(string qqid)
         {
             //已更改 furion V30_FURION核心查询需改动 查询核心走接口.
-            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB_V30"));
-
             ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZW"));
             try
@@ -11714,7 +10157,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string Fcompany_name = dt.Rows[0]["Fcompany_name"].ToString();
                 string Fuser_type = dt.Rows[0]["Fuser_type"].ToString();
                 string Fqqid = dt.Rows[0]["Fqqid"].ToString();
-
                 string errMsg = "";
                 string strSql = "uid=" + uid;
                 DataTable dtuserinfo = CommQuery.GetTableFromICE(strSql, CommQuery.QUERY_USERINFO, out errMsg);
@@ -11725,7 +10167,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string Femail = dtuserinfo.Rows[0]["Femail"].ToString();
                 string Fcre_type = dtuserinfo.Rows[0]["Fcre_type"].ToString();
                 string Fcreid = dtuserinfo.Rows[0]["Fcreid"].ToString();
-
                 strSql = "uid=" + uid + "&curtype=1";
                 string Fbankid = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_BANKUSER, "Fbankid", out errMsg);
 
@@ -11733,83 +10174,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     + Fbalance + "' as Fbalance,'" + Fcon + "' as Fcon,'" + Fuser_type + "' as Fuser_type,'" + Femail
                     + "' as Femail,'" + Fcre_type + "' as Fcre_type,'" + Fcreid + "' as Fcreid,'" + Fbankid + "' as Fbankid";
 
-                return da.dsGetTotalData(strSql);
-                /*
-                da_zl.OpenConn();
-                //string tablename1 = PublicRes.GetTName("t_user",uid);
-                string tablename2 = PublicRes.GetTName("t_user_info",uid);
-                string tablename3 = PublicRes.GetTName("t_bank_user",uid);
-
-                //string strSql = " select  B.Femail,B.Fcre_type,B.Fcreid,C.Fbankid from "
-                string strSql = " select " + Fbalance + " as Fbalance," + Fcon + " as Fcon, B.*,C.Fbankid from "
-                    + tablename2 + " B," + tablename3 + " C where  C.Fuid=B.Fuid and B.Fuid=" + uid;
-
-                return da_zl.dsGetTotalData(strSql);
-                */
-
-                /*
-                DataTable dt = da_zl.GetTable(strSql);
-                if(dt == null || dt.Rows.Count != 1)
-                {
-                    return null;
-                }
-
-                //				string strSql = " select A.Fqqid,A.Ftruename,A.Fcompany_name,A.Fbalance,A.Fcon,A.Fuser_type,B.Femail,B.Fcre_type,B.Fcreid,C.Fbankid from "
-                //					+ tablename1 + " A," + tablename2 + " B," + tablename3 + " C where A.Fuid=B.Fuid and C.Fuid=A.Fuid and A.Fuid=" + uid;
-                strSql = " select A.Fqqid,A.Ftruename,A.Fcompany_name,A.Fbalance,A.Fcon,A.Fuser_type,'{0}' as Femail,'{1}' as Fcre_type,'{2}' as Fcreid,'3' as Fbankid from "
-                    + tablename1 + " A  where  A.Fuid=" + uid;
-
-                strSql = String.Format(strSql,dt.Rows[0]["Femail"],dt.Rows[0]["Fcre_type"],dt.Rows[0]["Fcreid"],dt.Rows[0]["Fbankid"]);
-
-                return da.dsGetTotalData(strSql);
-                */
+                return da.dsGetTotalData(strSql);              
             }
             finally
             {
                 da.Dispose();
                 ice.Dispose();
-                //da_zl.Dispose();
             }
         }
 
-
-        /*
-        [WebMethod(Description="自助申诉统计个数函数")]
-        public string[] GetAppealSum( DateTime u_BeginTime, DateTime u_EndTime)
-        {
-            string[] result = new string[3];
-
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("CFT"));
-            try
-            {
-                da.OpenConn();
-                string strSql = "select count(*) from t_tenpay_appeal_trans where +  FSubmitTime>='" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss")
-                    + "' and FSubmitTime<='" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss") + "'";
-
-                int icount = Int32.Parse(da.GetOneResult(strSql));
-                result[0] = icount.ToString();
-
-                strSql = "select count(*) from t_tenpay_appeal_trans where +  FSubmitTime>='" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss")
-                    + "' and FSubmitTime<='" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and FState>0";
-
-                icount = Int32.Parse(da.GetOneResult(strSql));
-                result[1] = icount.ToString();
-
-                strSql = "select count(*) from t_tenpay_appeal_trans where +  FSubmitTime>='" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss")
-                    + "' and FSubmitTime<='" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and FState=0";
-
-                icount = Int32.Parse(da.GetOneResult(strSql));
-                result[2] = icount.ToString();
-
-                return result;
-            }
-            catch(Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！");
-                return null;
-            }
-        }
-*/
         [WebMethod(Description = "修改QQ查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetChangeQQList(string userid, string qq, int iPageStart, int iPageMax)
@@ -11822,7 +10195,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     throw new LogicException("不正确的调用方法！");
                 }
 
-
                 rl.actionType = "修改QQ查询函数";
                 rl.ID = qq;
                 rl.OperID = myHeader.OperID;
@@ -11833,11 +10205,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                //				if(!rl.CheckRight())
-                //				{
-                //					throw new LogicException("用户无权执行此操作！");
-                //				}
-
+   
                 ChangeQQQueryClass cuser = new ChangeQQQueryClass(userid, qq);
                 return cuser.GetResultX(iPageStart, iPageMax, "HT");
 
@@ -11857,7 +10225,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             finally
             {
                 rl.WriteLog();
-
             }
         }
 
@@ -11899,28 +10266,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     da = new MySqlAccess(PublicRes.GetConnString("zw" + index));
                     da.OpenConn();
-
                     string fstrSql_count = "select count(*) from " + dbName + " " + whereCommand;
                     int count = Int32.Parse(da.GetOneResult(fstrSql_count));
-
-
                     string fstrSql = "select Fqqid," + count + " as icount from " + dbName + " " + whereCommand + "  order by Fqqid DESC limit " + istartIndex + "," + length; //查询最新的数据
                     ds = da.dsGetTotalData(fstrSql);
-
                 }
                 else
                 {
                     da = new MySqlAccess(PublicRes.GetConnString("zw" + index));
                     da.OpenConn();
-
                     string fstrSql_count = "select count(*) from " + dbName + " " + whereCommand;
                     int count = Int32.Parse(da.GetOneResult(fstrSql_count));
-
-
                     string fstrSql = "select Fqqid," + count + " as icount from " + dbName + " " + whereCommand + "  order by Fqqid DESC limit " + istartIndex + "," + length; //查询最新的数据
                     ds = da.dsGetTotalData(fstrSql);
                 }
-
 
                 return true;
             }
@@ -11936,171 +10295,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
 
         }
-        /*
-                [WebMethod(Description="自助申诉处理领单函数")]
-                [SoapHeader("myHeader", Direction=SoapHeaderDirection.In)]
-                public DataSet GetCFTUserPickList(string fuin,int iPageMax, int flag)
-                {
-                    RightAndLog rl = new RightAndLog();
-                    try
-                    {
-                        if(myHeader == null)
-                        {
-                            throw new LogicException("不正确的调用方法！");
-                        }
-				
-			
-                        rl.actionType = "自助申诉处理领单函数";
-                        rl.ID = fuin;
-                        rl.OperID = myHeader.OperID;
-                        rl.sign = 1;
-                        rl.strRightCode = "CFTUserPick";
-                        rl.RightString = myHeader.RightString;
-                        rl.SzKey = myHeader.SzKey;
-                        rl.type = "查询";
-                        rl.UserID = myHeader.UserName;
-                        rl.UserIP = myHeader.UserIP;				
-                        if(!rl.CheckRight())
-                        {
-                            throw new LogicException("用户无权执行此操作！");
-                        }
-
-                        DataSet ds = CFTUserAppealClass.GetPickList(fuin,iPageMax,"CFT",flag);		
-	
-                        if(ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                        {
-                            CFTUserAppealClass.HandleParameter(ds,true);
-                        }
-
-                        return ds;
-
-                    }
-                    catch(LogicException err)
-                    {
-                        rl.sign = 0;
-                        rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                        throw;
-                    }
-                    catch(Exception err)
-                    {
-                        rl.sign = 0;
-                        rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                        throw new LogicException("Service处理失败！");
-                    }
-                    finally
-                    {
-                        rl.WriteLog();
-                    }
-                }
-
-
-                [WebMethod(Description="自助申诉处理提交函数")]
-                [SoapHeader("myHeader", Direction=SoapHeaderDirection.In)]
-                public bool GetCFTUserCommit( string[] result,out string msg)
-                {
-                    RightAndLog rl = new RightAndLog();
-                    try
-                    {
-                        if(myHeader == null)
-                        {
-                            throw new LogicException("不正确的调用方法！");
-                        }
-				
-			
-                        rl.actionType = "自助申诉处理提交函数";
-                        rl.ID = myHeader.UserName;
-                        rl.OperID = myHeader.OperID;
-                        rl.sign = 1;
-                        rl.strRightCode = "CFTUserPick";
-                        rl.RightString = myHeader.RightString;
-                        rl.SzKey = myHeader.SzKey;
-                        rl.type = "处理";
-                        rl.UserID = myHeader.UserName;
-                        rl.UserIP = myHeader.UserIP;				
-                        if(!rl.CheckRight())
-                        {
-                            throw new LogicException("用户无权执行此操作！");
-                        }
-
-                        return CFTUserAppealClass.CommitAppeal(myHeader, result,"CFT",out msg);	
-                    }
-                    catch(LogicException err)
-                    {
-                        rl.sign = 0;
-                        rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-
-                        msg = rl.ErrorMsg;
-                        return false;
-                    }
-                    catch(Exception err)
-                    {
-                        rl.sign = 0;
-                        rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-
-                        msg = rl.ErrorMsg;
-                        return false;
-                    }
-                    finally
-                    {
-                        rl.WriteLog();
-                    }
-                }
-
-
-                [WebMethod(Description="自助申诉处理统计函数")]
-                [SoapHeader("myHeader", Direction=SoapHeaderDirection.In)]
-                public DataSet GetCFTUserPickTJ(DateTime begindate, DateTime enddate,out string msg )
-                {
-                    RightAndLog rl = new RightAndLog();
-                    try
-                    {
-                        if(myHeader == null)
-                        {
-                            throw new LogicException("不正确的调用方法！");
-                        }
-				
-			
-                        rl.actionType = "自助申诉处理统计函数";
-                        rl.ID = myHeader.UserName;
-                        rl.OperID = myHeader.OperID;
-                        rl.sign = 1;
-                        rl.strRightCode = "CFTUserPickTJ";
-                        rl.RightString = myHeader.RightString;
-                        rl.SzKey = myHeader.SzKey;
-                        rl.type = "处理";
-                        rl.UserID = myHeader.UserName;
-                        rl.UserIP = myHeader.UserIP;				
-                        if(!rl.CheckRight())
-                        {
-                            throw new LogicException("用户无权执行此操作！");
-                        }
-
-                        return CFTUserAppealClass.CFTUserPickTJ(myHeader, "CFT", begindate, enddate, out msg);	
-                    }
-                    catch(LogicException err)
-                    {
-                        rl.sign = 0;
-                        rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-
-                        msg = rl.ErrorMsg;
-                        return null;
-                    }
-                    catch(Exception err)
-                    {
-                        rl.sign = 0;
-                        rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-
-                        msg = rl.ErrorMsg;
-                        return null;
-                    }
-                    finally
-                    {
-                        rl.WriteLog();
-                    }
-                }
-        */
-
-
+       
         /// <summary>
         /// 获取内部ID
         /// </summary>
@@ -12134,11 +10329,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 OrderQueryClassZJ cuser = new OrderQueryClassZJ(u_BeginTime, u_EndTime, buyqq, saleqq, buyqqInnerID, saleqqInnerID, u_QueryType, queryvalue, fstate, fcurtype);
 
-                //DataSet ds = cuser.GetResultX(iPageStart,iPageMax,"ZJB");
                 if (u_QueryType != "FlistID" || queryvalue.Trim() == "")
                 {
-                    //DataSet ds = cuser.GetResultX(iPageStart,iPageMax,"BSB");
-
                     string dbConn = "";
                     if (buyqq.Trim() != "")
                     {
@@ -12187,18 +10379,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
                 else
                 {
-                    /*
-                    DataSet ds = cuser.GetResultX(iPageStart,iPageMax,"ZJB");
-                    */
-
                     string errMsg = "";
                     DataSet ds = CommQuery.GetDataSetFromICE(cuser.ICESQL, CommQuery.QUERY_ORDER, out errMsg);
-
-                    //				if(ds!= null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                    //				{
-                    //					PublicRes.GetUserName_Table(ds.Tables[0],"Fauid","Faname");
-                    //				}
-
                     return ds;
                 }
 
@@ -12231,7 +10413,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     newRow["Fbuyid"] = dr["Fbuyid"];
                     newRow["Fbuy_uid"] = dr["Fbuy_uid"];
                     newRow["Fpay_type"] = dr["Fpay_type"];
-                    // newRow["Fsource_type"] = dr["Fsource_type"];
                     newRow["Fspid"] = dr["Fspid"];
                     newRow["Fcoding"] = dr["Fcoding"];
                     newRow["Flistid"] = dr["Flistid"];
@@ -12253,7 +10434,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     newRow["Ftrade_state"] = dr["Ftrade_state"];
                     newRow["Fcurtype"] = dr["Fcurtype"];
                     newRow["Fsale_bankid"] = dr["Fsale_bankid"];
-                    //newRow["Fsystem_time"] = DBNull.Value;
                     newRow["Fstandby2"] = dr["Fstandby2"];
                     newRow["Fstandby1"] = dr["Fstandby1"];
                     newRow["Fgwq_listid"] = dr["Fgwq_listid"];
@@ -12280,7 +10460,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 OrderQueryClassZJ cuser = new OrderQueryClassZJ(u_BeginTime, u_EndTime, buyqq, saleqq, buyqqInnerID, saleqqInnerID, u_QueryType, queryvalue, fstate, fcurtype);
-                //return cuser.GetCount("ZJB");
                 if (u_QueryType != "FlistID" || queryvalue.Trim() == "")
                 {
                     string dbConn = "";
@@ -12318,11 +10497,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
 
                     return (cuser.GetCount(dbConn) + WxCount);//支持多台DB的查询 20121112
-                    //return cuser.GetCount("BSB");
                 }
                 else
                 {
-                    //return cuser.GetCount("ZJB");
                     return 1;
                 }
             }
@@ -12339,18 +10516,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 OrderQueryClassZJ cuser = new OrderQueryClassZJ(listid);
-
-                /*
-                DataSet ds = cuser.GetResultX(1,1,"ZJ");
-                */
-
                 string errMsg = "";
                 DataSet ds = CommQuery.GetDataSetFromICE(cuser.ICESQL, CommQuery.QUERY_ORDER, out errMsg);
 
-                //				if(ds!= null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                //				{
-                //					PublicRes.GetUserName_Table(ds.Tables[0],"Fauid","Faname");
-                //				}
                 return ds;
             }
             catch (Exception e)
@@ -12360,31 +10528,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
         [WebMethod(Description = "查询订单的投诉单信息")]
         public DataSet GetAppealList(string listid)
-        {
-            /*
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZJ"));
-            try
-            {
-                da.OpenConn();
-
-                string strSql = "select * from c2c_db_appeal.t_appeal where FListID='" + listid + "'";
-                DataSet ds = da.dsGetTotalData(strSql);
-
-                return ds;
-            }
-            catch(Exception e)
-            {
-                return null;
-            }
-            finally
-            {
-                da.Dispose();
-            }
-            */
-
+        {         
             string strSql = "listid=" + listid;
             string errMsg = "";
             DataSet ds = CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_APPEAL, out errMsg);
@@ -12392,111 +10538,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             return ds;
         }
 
-
         [WebMethod(Description = "查询订单的交易流水信息")]
         public DataSet GetUserpayList(string listid)
-        {
-            /*
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZJ"));
+        {  
             try
             {
-                da.OpenConn();
-
-                string strSql = "select * from " + PublicRes.GetTName("t_userpay_list",listid) + " where FListID='" + listid + "'";
-                DataSet ds = da.dsGetTotalData(strSql);
-
-                return ds;
-            }
-            catch(Exception e)
-            {
-                return null;
-            }
-            finally
-            {
-                da.Dispose();
-            }
-            */
-
-            try
-            {
-                string errMsg = "";
-                /*
-                string strSelectBuyID  = "SELECT  fbuy_uid   FROM " + PublicRes.GetTName("t_order",listid) + " WHERE flistid ='" + listid + "'" ;
-                string buyuid = PublicRes.ExecuteOne(strSelectBuyID,"ZJ");
-
-                string strSelectSaleID  = "SELECT fsale_uid  FROM " + PublicRes.GetTName("t_order",listid) + " WHERE flistid ='" + listid + "'" ;
-                string saleuid = PublicRes.ExecuteOne(strSelectSaleID,"ZJ");
-                */
-
+                string errMsg = "";            
                 string strSql = "listid=" + listid;
                 DataSet dssale = CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_USERPAY_L, out errMsg);
-
-                //20141114 FINANCE_OD_QUERY_USERPAY_L改调relay
-                /////////////////////////////////////
-
-                //string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
-                //string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
-
-                //string req = "request_type=100567&ver=1&head_u=&sp_id=&listid=" + listid;
-
-
-                //string Msg = ""; //重置
-
-                //string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
-
-                //if (answer == "")
-                //{
-                //    return null;
-                //}
-                //if (Msg != "")
-                //{
-                //    throw new Exception("调relay异常：" + Msg);
-                //}
-
-                ////解析relay str
-                //DataSet dssale = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
-                //if (Msg != "")
-                //{
-                //    throw new Exception("解析relay异常：" + Msg);
-                //}
-
-                ///////////////////////////////
-
-
-                return dssale;
-
-                /*
-                string buyuid = CommQuery.GetOneResultFromICE(strSql,CommQuery.QUERY_ORDER,"Fbuy_uid",out errMsg);
-                string saleuid = CommQuery.GetOneResultFromICE(strSql,CommQuery.QUERY_ORDER,"fsale_uid",out errMsg);
-
-				
-
-                strSql = "uid=" + buyuid;
-                strSql += "&listid=" + listid;
-				
-                DataSet dsbuy = CommQuery.GetDataSetFromICE(strSql,CommQuery.QUERY_USERPAY_L,out errMsg);
-
-                strSql = "uid=" + saleuid;
-                strSql += "&listid=" + listid;
-				
-
-                DataSet dssale = CommQuery.GetDataSetFromICE(strSql,CommQuery.QUERY_USERPAY_L,out errMsg);
-
-                if(dsbuy != null && dsbuy.Tables.Count>0 && dsbuy.Tables[0] != null && dsbuy.Tables[0].Rows.Count > 0)
-                {
-                    if(dssale != null && dssale.Tables.Count>0 && dssale.Tables[0] != null && dssale.Tables[0].Rows.Count > 0)
-                    {
-                        foreach(DataRow dr in dssale.Tables[0].Rows)
-                        {
-                            dsbuy.Tables[0].Rows.Add(dr.ItemArray);
-                        }
-                    }
-
-                    return dsbuy;
-                }
-                else
-                    return dssale;
-                    */
+            
+                return dssale;     
             }
             catch (Exception e)
             {
@@ -12504,23 +10555,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
         [WebMethod(Description = "查询订单的物流单信息")]
         public DataSet GetTransportList(string listid)
-        {
-            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZJ"));
+        {           
             try
-            {
-                //da.OpenConn();
-
-                //				string strSql = "select * from " + PublicRes.GetTName("t_transport",listid) + " where FListID='" + listid + "'";
-                //				DataSet ds = da.dsGetTotalData(strSql);
-
+            {              
                 string errMsg = "";
                 string strSql = "listid=" + listid;
                 return CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_TRANSPORT, out errMsg);
-
-                //return ds;
             }
             catch (Exception e)
             {
@@ -12555,17 +10597,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                //				if(!rl.CheckRight())
-                //				{
-                //					throw new LogicException("用户无权执行此操作！");
-                //				}
-
+          
                 AppealQueryClass cuser = new AppealQueryClass(u_BeginTime, u_EndTime, buyqq, saleqq, queryvalue, fstate);
-
-                /*
-                DataSet ds = cuser.GetResultX(iPageStart,iPageMax,"ZJB");
-                */
-
+          
                 int start = iPageStart - 1;
                 if (start < 0) start = 0;
 
@@ -12573,12 +10607,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 strSql += "&strlimit=" + "limit " + start + "," + iPageMax;
                 string errMsg = "";
                 DataSet ds = CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_APPEAL, out errMsg);
-
-                //				if(ds!= null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                //				{
-                //					PublicRes.GetUserName_Table(ds.Tables[0],"Fauid","Faname");
-                //				}
-
+               
                 return ds;
 
             }
@@ -12607,7 +10636,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 AppealQueryClass cuser = new AppealQueryClass(u_BeginTime, u_EndTime, buyqq, saleqq, queryvalue, fstate);
-                //return cuser.GetCount("ZJB");
                 return cuser.GetCount("HT");
             }
             catch (Exception e)
@@ -12623,18 +10651,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 AppealQueryClass cuser = new AppealQueryClass(appealid);
-
-                /*
-                DataSet ds = cuser.GetResultX(1,1,"ZJ");
-                */
-
                 string errMsg = "";
                 DataSet ds = CommQuery.GetDataSetFromICE(cuser.ICESQL, CommQuery.QUERY_APPEAL, out errMsg);
-
-                //				if(ds!= null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                //				{
-                //					PublicRes.GetUserName_Table(ds.Tables[0],"Fauid","Faname");
-                //				}
+               
                 return ds;
             }
             catch (Exception e)
@@ -12644,117 +10663,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        /*
-                [WebMethod(Description="查询个人处理申诉统计信息")]
-                public bool GetAppealUserSumInfo(string user,DateTime u_BeginTime, DateTime u_EndTime, out string msg)
-                {
-                    return CFTUserAppealClass.GetAppealUserSumInfo(user,u_BeginTime,u_EndTime,out msg);
-                }
-
-
-
-                [WebMethod(Description="实名认证处理领单函数")]
-                [SoapHeader("myHeader", Direction=SoapHeaderDirection.In)]
-                public DataSet GetUserClassPickList(string fuin,int iPageMax, int flag)
-                {
-                    RightAndLog rl = new RightAndLog();
-                    try
-                    {
-                        if(myHeader == null)
-                        {
-                            throw new LogicException("不正确的调用方法！");
-                        }
-				
-			
-                        rl.actionType = "实名认证处理领单函数";
-                        rl.ID = fuin;
-                        rl.OperID = myHeader.OperID;
-                        rl.sign = 1;
-                        rl.strRightCode = "CFTUserPick";
-                        rl.RightString = myHeader.RightString;
-                        rl.SzKey = myHeader.SzKey;
-                        rl.type = "查询";
-                        rl.UserID = myHeader.UserName;
-                        rl.UserIP = myHeader.UserIP;				
-                        if(!rl.CheckRight())
-                        {
-                            throw new LogicException("用户无权执行此操作！");
-                        }
-
-                        DataSet ds = UserClassClass.GetPickList(fuin,iPageMax,"RU",flag);		
-	
-                        if(ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                        {
-                            UserClassClass.HandleParameterX(ds);
-                        }
-
-                        return ds;
-
-                    }
-                    catch(LogicException err)
-                    {
-                        rl.sign = 0;
-                        rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                        throw;
-                    }
-                    catch(Exception err)
-                    {
-                        rl.sign = 0;
-                        rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                        throw new LogicException("Service处理失败！");
-                    }
-                    finally
-                    {
-                        rl.WriteLog();
-                    }
-                }
-        */
-
+      
         [WebMethod(Description = "实名认证处理详细函数")]
         public DataSet GetUserClassInfo(string qqid)
-        {
-            /*
-            //furion 20090611 如果只取Fqqid,Ftruename,Fcre_type, Fcreid的话，只需要从t_user
-            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB_V30"));
-            MySqlAccess da_zl = new MySqlAccess(PublicRes.GetConnString("ZL"));
-            try
-            { 
-                string uid = PublicRes.ConvertToFuid(qqid);
-                if(uid == null || uid.Trim() == "")
-                {
-                    throw new LogicException("找不到此用户");
-                }
-
-                // TODO: 1客户信息资料外移 
-                //da.OpenConn();
-                da_zl.OpenConn();
-
-                //string tablename1 = PublicRes.GetTName("t_user",uid);
-                string tablename2 = PublicRes.GetTName("t_user_info",uid);
-
-                string strSql = " select Fqqid,Ftruename,Fcre_type,Fcreid from " + tablename2 + " where Fuid= " + uid;
-
-                /*
-                DataTable dt = da_zl.GetTable(strSql);
-                if(dt == null || dt.Rows.Count != 1)
-                {
-                    return null;
-                }
-
-                strSql = " select Fqqid,Ftruename,'{0}' as Fcre_type,'{1}' as Fcreid from " + tablename1 + " where Fuid=" + uid;
-
-                strSql = String.Format(strSql,dt.Rows[0]["Fcre_type"],dt.Rows[0]["Fcreid"]);
-                /
-
-                return da_zl.dsGetTotalData(strSql);
-            }
-            finally
-            {
-                //da.Dispose();
-                da_zl.Dispose();
-            }
-            */
-
+        {          
             string uid = PublicRes.ConvertToFuid(qqid);
             if (uid == null || uid.Trim() == "")
             {
@@ -12801,49 +10713,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             msg = "";
             RightAndLog rl = new RightAndLog();
             try
-            {
-                /*
-                if(myHeader == null)
-                {
-                    throw new LogicException("不正确的调用方法！");
-                }
-				
-			
-                rl.actionType = "实名认证通过函数";
-                rl.ID = flist_id.ToString();
-                rl.OperID = myHeader.OperID;
-                rl.sign = 1;
-                rl.strRightCode = "CFTUserAppeal";
-                rl.RightString = myHeader.RightString;
-                rl.SzKey = myHeader.SzKey;
-                rl.type = "执行";
-                rl.UserID = myHeader.UserName;
-                rl.UserIP = myHeader.UserIP;				
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
+            {            
                 return UserClassClass.UserClassConfirm(flist_id, "RU", UserName, out msg);
             }
             catch (LogicException err)
-            {
-                /*
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                msg = rl.ErrorMsg;
-                */
-
+            {              
                 return false;
             }
             catch (Exception err)
-            {
-                /*
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                msg = rl.ErrorMsg;
-                */
+            {               
                 return false;
             }
             finally
@@ -12870,49 +10748,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             msg = "";
             RightAndLog rl = new RightAndLog();
             try
-            {
-                /*
-                if(myHeader == null)
-                {
-                    throw new LogicException("不正确的调用方法！");
-                }
-				
-			
-                rl.actionType = "实名认证拒绝函数";
-                rl.ID = flist_id.ToString();
-                rl.OperID = myHeader.OperID;
-                rl.sign = 1;
-                rl.strRightCode = "CFTUserAppeal";
-                rl.RightString = myHeader.RightString;
-                rl.SzKey = myHeader.SzKey;
-                rl.type = "执行";
-                rl.UserID = myHeader.UserName;
-                rl.UserIP = myHeader.UserIP;				
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
+            {            
                 return UserClassClass.UserClassCancel(flist_id, reason, OtherReason, "RU", UserName, out msg);
             }
             catch (LogicException err)
-            {
-                /*
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                msg = rl.ErrorMsg;
-                */
-
+            {   
                 return false;
             }
             catch (Exception err)
             {
-                /*
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-                msg = rl.ErrorMsg;
-                */
                 return false;
             }
             finally
@@ -12920,7 +10764,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 System.GC.Collect();
             }
         }
-
 
         [WebMethod(Description = "查询删除实名认证日志")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -12936,7 +10779,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
         [WebMethod(Description = "获取退单失败数据记录个数函数")]
         public int GetRefundErrorCount(string batchid, string refundOrder, int orderType, string beginDate, string endDate, int refundType, string bankType,
             int refundPath, int handleType, int errorType, int refundState, string viewOldIds)
@@ -12949,8 +10791,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
-
-                //throw new Exception("service发生错误,请联系管理员！");
                 return 0;
             }
         }
@@ -12993,8 +10833,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
-                //throw new Exception("service发生错误,请联系管理员！");
-
                 return null;
             }
         }
@@ -13080,7 +10918,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             dt.Columns.Add("FreturnamtName", typeof(String));
             dt.Columns.Add("FamtName", typeof(String));
-
             dt.Columns.Add("FstateName", typeof(String));
             dt.Columns.Add("FreturnStateName", typeof(String));
             dt.Columns.Add("FrefundTypeName", typeof(String));
@@ -13089,8 +10926,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             dt.Columns.Add("FlstateName", typeof(String));
             dt.Columns.Add("FAdjustTypeName", typeof(String));
             dt.Columns.Add("Fbank_typeName", typeof(String));
-
-
 
             foreach (DataRow dr in dt.Rows)
             {
@@ -13141,8 +10976,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     dr["FstateName"] = "未知类型" + tmp;
                 }
-
-
 
                 tmp = dr["FreturnState"].ToString();
 
@@ -13212,8 +11045,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     dr["FrefundPathName"] = "未知类型" + tmp;
                 }
-
-
 
                 tmp = dr["Flstate"].ToString();
                 if (tmp == "1")
@@ -13287,15 +11118,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0] != null)
                 {
                     #region 转化操作
-
                     DataTable dt = ds.Tables[0];
-
                     PublicRes.GetTureBankListForView(dt, "fbank_listid");
                     PublicRes.GetTureBankListForView(dt, "Fbank_backid");
-
-                    //TransferRefundTotalTable(dt);
                     TransferRefundOtherTable(dt);
                     #endregion
+
                     return ds;
                 }
                 else
@@ -13328,159 +11156,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 return null;
             }
         }
-
-        /*
-        [WebMethod(Description="实名认证处理提交函数")]
-        [SoapHeader("myHeader", Direction=SoapHeaderDirection.In)]
-        public bool GetUserClassCommit( string[] result,out string msg)
-        {
-            RightAndLog rl = new RightAndLog();
-            try
-            {
-                if(myHeader == null)
-                {
-                    throw new LogicException("不正确的调用方法！");
-                }
-				
-			
-                rl.actionType = "实名认证处理提交函数";
-                rl.ID = myHeader.UserName;
-                rl.OperID = myHeader.OperID;
-                rl.sign = 1;
-                rl.strRightCode = "CFTUserPick";
-                rl.RightString = myHeader.RightString;
-                rl.SzKey = myHeader.SzKey;
-                rl.type = "处理";
-                rl.UserID = myHeader.UserName;
-                rl.UserIP = myHeader.UserIP;				
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-
-                return UserClassClass.CommitAppeal(myHeader, result,"RU",out msg);	
-            }
-            catch(LogicException err)
-            {
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-
-                msg = rl.ErrorMsg;
-                return false;
-            }
-            catch(Exception err)
-            {
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-
-                msg = rl.ErrorMsg;
-                return false;
-            }
-            finally
-            {
-                rl.WriteLog();
-            }
-        }
-
-
-        [WebMethod(Description="实名认证处理统计函数")]
-        [SoapHeader("myHeader", Direction=SoapHeaderDirection.In)]
-        public DataSet GetUserClassPickTJ(DateTime begindate, DateTime enddate,out string msg )
-        {
-            RightAndLog rl = new RightAndLog();
-            try
-            {
-                if(myHeader == null)
-                {
-                    throw new LogicException("不正确的调用方法！");
-                }
-				
-			
-                rl.actionType = "实名认证处理统计函数";
-                rl.ID = myHeader.UserName;
-                rl.OperID = myHeader.OperID;
-                rl.sign = 1;
-                rl.strRightCode = "CFTUserPickTJ";
-                rl.RightString = myHeader.RightString;
-                rl.SzKey = myHeader.SzKey;
-                rl.type = "处理";
-                rl.UserID = myHeader.UserName;
-                rl.UserIP = myHeader.UserIP;				
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-
-                return UserClassClass.UserClassClassPickTJ(myHeader, "RU", begindate, enddate, out msg);	
-            }
-            catch(LogicException err)
-            {
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-
-                msg = rl.ErrorMsg;
-                return null;
-            }
-            catch(Exception err)
-            {
-                rl.sign = 0;
-                rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
-
-                msg = rl.ErrorMsg;
-                return null;
-            }
-            finally
-            {
-                rl.WriteLog();
-            }
-        }
-
-        [WebMethod(Description="查询实名认证个人统计信息")]
-        public bool GetUserClassSumInfo(string user,DateTime u_BeginTime, DateTime u_EndTime, out string msg)
-        {
-            return UserClassClass.GetUserClassSumInfo(user,u_BeginTime,u_EndTime,out msg);
-        }
-
-        [WebMethod(Description="实名认证统计个数函数")]
-        public string[] GetUserClassSum( DateTime u_BeginTime, DateTime u_EndTime)
-        {
-            string[] result = new string[3];
-
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("RU"));
-            try
-            {
-                da.OpenConn();
-                string strSql = "select count(*) from authen_process_db.t_authening_info where Fcreate_time>='" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss")
-                    + "' and Fcreate_time<='" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss") + "'"
-                    + " and Fstat=1 and Fcre_stat=2 and Fauthen_type=1 and Fcard_stat=1 " ;
-                    //状态为正常，认证状态为待认证，认证途径为客服认证，银行卡状态为已认证" ;
-
-                int icount = Int32.Parse(da.GetOneResult(strSql));
-                result[0] = icount.ToString();
-
-                strSql = "select count(*) from authen_process_db.t_authening_info where  Fcreate_time>='" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss")
-                    + "' and Fcreate_time<='" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and Fpickstate>1";
-
-                int icount_do = Int32.Parse(da.GetOneResult(strSql));
-                result[1] = icount_do.ToString();
-
-//				strSql = "select count(*) from t_tenpay_appeal_trans where +  FSubmitTime>='" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss")
-//					+ "' and FSubmitTime<='" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and FState=0";
-//
-//				icount = Int32.Parse(da.GetOneResult(strSql));
-                icount = icount - icount_do;
-                result[2] = icount.ToString();
-
-                return result;
-            }
-            catch(Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！");
-                return null;
-            }
-        }
-*/
-
+ 
         #region 分帐查询
         [WebMethod(Description = "商户收支分离付款C帐号查询")]
         public DataSet GetSettleRuleList(string Fspid, int iPageStart, int iPageMax)
@@ -13603,7 +11279,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
 
                 da.OpenConn();
-
 
                 return da.dsGetTotalData(sql);
             }
@@ -13747,7 +11422,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 da.OpenConn();
 
-
                 return da.dsGetTotalData(sql);
             }
             catch (Exception err)
@@ -13787,7 +11461,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 da.OpenConn();
 
-
                 return da.dsGetTotalData(sql);
             }
             catch (Exception err)
@@ -13804,7 +11477,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public DataSet GetSettleListAppend(string szListid)
         {
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("AP"));
-
             try
             {
                 da.OpenConn();
@@ -13827,7 +11499,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public DataSet GetSettleInfoListDetail(string szListid)
         {
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("AP"));
-
             try
             {
                 da.OpenConn();
@@ -13849,7 +11520,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public DataSet GetSettleRefundListDetail(string szRefundId, string szListid)
         {
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("AP"));
-
             try
             {
                 da.OpenConn();
@@ -13872,7 +11542,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public DataSet GetSpAgentRelation(string spid, string agentid, int start, int max)
         {
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZL"));
-
             try
             {
                 da.OpenConn();
@@ -13988,7 +11657,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
         [WebMethod(Description = "分账退款查询")]
         public DataSet GetSettleRefundList(string Flistid, int iQueryType, int iPageStart, int iPageMax)
         {
@@ -14043,7 +11711,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 string serverIP = ConfigurationManager.AppSettings["ICEServerIP2"];
                 string serverPort = ConfigurationManager.AppSettings["ICEPort2"];
-
                 string initStr = "AMSManager:tcp -h " + serverIP + " -p " + serverPort;
 
                 String[] args = { "AMSManager" };
@@ -14116,9 +11783,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod(Description = "分帐业务查询函数详情")]
         public DataSet GetSeparateOperationDetail(DateTime Starttime, DateTime Endtime, string Flistid, string Fuid)
         {
-            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB"));		//根据日期抓分帐
-
-            //MySqlAccess daFuid = new MySqlAccess(PublicRes.GetConnString("BSB"));
             MySqlAccess daFuid = new MySqlAccess(PublicRes.GetConnString("t_user_order_bsb", Fuid.Substring(Fuid.Length - 2)));
             try
             {
@@ -14136,12 +11800,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     throw new Exception(errMsg);
                 }
-
-                //				if(ds ==null || ds.Tables.Count == 0 || ds.Tables[0] == null || ds.Tables[0].Columns.Count == 0)
-                //				{
-                //					throw new LogicException("查询创建时间资金流水时有误");
-                //				}
-
+   
                 if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
                 {
                     ds = ds1;
@@ -14234,58 +11893,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 else
                 {
                     return null;
-                }
-
-                /*
-                //da.OpenConn();
-                string strSql = "";
-				
-                if(Starttime != DateTime.MinValue && Endtime != DateTime.MinValue)
-                {
-                    DateTime NewStart = new DateTime(Starttime.Year,Starttime.Month,1);
-                    DateTime NewEnd = new DateTime(Endtime.Year,Endtime.Month,1);
-                    string NewTable = "c2c_db_medi_user.t_bankroll_list_"+NewStart.ToString("yyyyMMdd").Substring(0,6);
-                    strSql = "select Fmodify_time,Ftype,Faction_type,Fsubject,Ffromid,Ffrom_name,COALESCE(Fpaynum,0)/100 as Fpaynum,abs(COALESCE(Fbalance,0)/100) as Fblance from (select * from "+NewTable+" where flistid='"+Flistid+"'";
-                    NewStart = NewStart.AddMonths(1);
-					
-                    for(;NewStart<=NewEnd;NewStart.AddMonths(1))
-                    {
-                        NewTable = "c2c_db_medi_user.t_bankroll_list_"+NewStart.ToString("yyyyMMdd").Substring(0,6);
-                        strSql += "union select * from "+NewTable+" where flistid='"+Flistid+"'";
-                        NewStart = NewStart.AddMonths(1);
-                    }
-                }
-                else if(Starttime != DateTime.MinValue)
-                {
-                    string NewTable = "c2c_db_medi_user.t_bankroll_list_"+Starttime.ToString("yyyyMMdd").Substring(0,6);
-                    strSql = "select Fmodify_time,Ftype,Faction_type,Fsubject,Ffromid,Ffrom_name,COALESCE(Fpaynum,0)/100 as Fpaynum,abs(COALESCE(Fbalance,0)/100) as Fblance from (select * from "+NewTable+" where flistid='"+Flistid+"'";
-                }
-				
-                    //根据Fuid抓取Flistid,Fcreate_time
-                DataSet dsFuid = new DataSet();
-                daFuid.OpenConn();
-                string strSqlFuid = "select Flistid, Fcreate_time from "+PublicRes.GetTName("t_user_order",Fuid)+" where Fcoding='"+Flistid+"' order by Fcreate_time";
-                dsFuid = daFuid.dsGetTotalData(strSqlFuid);
-                daFuid.Dispose();
-                string TableData;
-				
-                for(int i=0;i<dsFuid.Tables[0].Rows.Count; i++)
-                {
-                    TableData = "c2c_db_medi_user.t_bankroll_list_"+Convert.ToDateTime(dsFuid.Tables[0].Rows[i]["Fcreate_time"]).ToString("yyyyMMdd").Substring(0,6);
-                    strSql += "union select * from "+TableData+" where flistid='"+dsFuid.Tables[0].Rows[i]["Flistid"].ToString()+"'";
-                }
-				
-                if(strSql == "")
-                {
-                    return null;
-                }
-                else
-                {
-                    strSql += ") tmp order by Fmodify_time";
-                    ds = da.dsGetTotalData(strSql);
-                    return ds;
-                }
-                */
+                }              
             }
             catch (Exception ex)
             {
@@ -14294,7 +11902,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             finally
             {
                 daFuid.Dispose();
-                //da.Dispose();
             }
         }
 
@@ -14348,7 +11955,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 da.Dispose();
             }
         }
-
 
         #endregion
 
@@ -14420,31 +12026,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             DataSet ds = null;
             try
             {
-                ds = new SPOAService().GetOneValueAddedTax(CompanyID);
-
-                //PublicRes PR = new PublicRes();
-
-                //string sql = "SELECT *,isnull(replace(space(len(IdentityCardNum)-5),' ','*'),'')+right(IdentityCardNum,5) AS IDNo " +
-                //             "FROM vCompanyInfo(NOLOCK) " +
-                //             "WHERE ISNULL(CompanyName,'') LIKE '%" + CompanyName + "%' AND ISNULL(CompanyID,'') LIKE '%" + CompanyID + "%' AND ISNULL(WWWAdress,'') LIKE '%" + URL + "%'AND ISNULL(WebName,'') LIKE '%" + WebName + "%'";
-                //ds = PR.GetSqlServerData(sql);
-
-
-
-                /*
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0) 
-                {
-                    ds.Tables[0].Columns.Add("SpAlias", typeof(String));//别名
-
-                    foreach (DataRow dr in ds.Tables[0].Rows) 
-                    {
-                        string s = QuerySpidOrSpalias(dr["CompanyID"].ToString(), "", dr["CompanyID"].ToString()); //通过商户号查管理员别名
-                        dr.BeginEdit();
-                        dr["SpAlias"] = s;
-                        dr.EndEdit();
-                    }
-                }
-                */
+                ds = new SPOAService().GetOneValueAddedTax(CompanyID);             
             }
             catch (Exception ex)
             {
@@ -14467,7 +12049,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     msg = "传入的Spid不能为空！";
                     return false;
                 }
-
                 if (spid == "0")
                 {
                     midUid = "0";
@@ -14492,7 +12073,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 msg = err.Message;
                 return false;
             }
-
         }
 
         [WebMethod(Description = "查询商户保证金账户")]
@@ -14640,9 +12220,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                //PublicRes PR = new PublicRes();
-                //string sql = "SELECT *,isnull(replace(space(len(IdentityCardNum)-5),' ','*'),'')+right(IdentityCardNum,5) AS IDNo FROM vCompanyInfo(NOLOCK) WHERE KeyID =" + KeyID;
-                //return PR.GetSqlServerData(sql);
                 return new SPOAService().GetSpInfo(null, KeyID, null, null, null, null, 1, 0);
             }
             catch (Exception ex)
@@ -14656,9 +12233,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                //PublicRes PR = new PublicRes();
-                //string sql = "SELECT * FROM vCompanyInfo(NOLOCK) WHERE CompanyID ='" + Fspid + "'";
-                //return PR.GetSqlServerData(sql);
                 return new SPOAService().GetOneValueAddedTax(Fspid);
             }
             catch (Exception ex)
@@ -14667,22 +12241,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
         [WebMethod(Description = "直付商户查询函数根据商户号查询余额和提现类型")]
         public DataSet GetPayBusinessElseInfo(string KeyID)
         {
-
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("HT"));
             ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
             try
             {
-
                 da.OpenConn();
-
-                /*
-                string f_strID = da.GetOneResult("select FuidMiddle from c2c_db.t_merchant_info where Fspid='" + KeyID + "' ");
-                */
-
+       
                 string Msg = "";
                 string strSql = "spid=" + KeyID;
                 string f_strID = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_MERCHANTINFO, "FuidMiddle", out Msg);
@@ -14703,7 +12270,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 ice.CloseConn();
 
-                //string Fbalance = PublicRes.ExecuteOne("select COALESCE(Fbalance,0)/100 as Fbalance from c2c_db.t_middle_user where fspid='" + KeyID + "'","YWB_V30");
                 string Fbalance = dt.Rows[0]["Fbalance"].ToString();
 
                 if (Fbalance == null || Fbalance.Trim() == "")
@@ -14713,11 +12279,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 else
                 {
                     Fbalance = MoneyTransfer.FenToYuan(Fbalance);
-
-                    /*
-                    string sql = "select " + Fbalance +" as Fbalance,Fstandby1 from c2c_db.t_merchant_info where FSpid='" + KeyID + "'";
-                    */
-
+         
                     strSql = "spid=" + KeyID;
                     string Fstandby1 = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_MERCHANTINFO, "Fstandby1", out Msg);
 
@@ -14736,22 +12298,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public void ModifyPayBusinessInfo(string TableFlag, string KeyID, string ContactUser, string ContactPhone, string ContactMobile, string ContactQQ, string ContactEmail, string CompanyAddress, string Postalcode)
         {
             try
-            {
-                /*
-                PublicRes PR = new PublicRes();
-                string sql;
-                if (TableFlag == "ApplyCpInfoX")
-                {
-                    sql = "UPDATE ApplyCpInfoX SET ContactUser='" + ContactUser + "',ContactPhone='" + ContactPhone + "',ContactMobile='"
-                        + ContactMobile + "',ContactQQ='" + ContactQQ + "' WHERE ApplyCpInfoID =" + KeyID;
-                }
-                else
-                {
-                    sql = "UPDATE ResultInfo SET ServiceUser='" + ContactUser + "',ServiceTel='" + ContactPhone + "',ServiceQQ='"
-                        + ContactQQ + "',ServiceEmail='" + ContactEmail + "' WHERE ApplyFormID =" + KeyID;
-                }
-                PR.ModifySqlServerData(sql);
-                */
+            {           
                 new SPOAService().ModifyPayBusinessInfo(TableFlag, KeyID, ContactUser, ContactPhone, ContactMobile, ContactQQ, ContactEmail, CompanyAddress, Postalcode);
             }
             catch (Exception ex)
@@ -14766,20 +12313,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             DataSet ds = null;
             try
-            {
-                /*
-                PublicRes PR = new PublicRes();
-                string sql = "SELECT a.*,b.DictName,c.TradeName " +
-                             "FROM t_apply_msp_info a(NOLOCK) LEFT JOIN DictInfo b(NOLOCK) ON b.DictType='CONFLAG' AND a.Fstate=b.DictID " +
-                             "LEFT JOIN TradeType c(NOLOCK) ON a.Ftrade_id=c.TradeID " +
-                             "WHERE ISNULL(Fqqid,'') LIKE '%"+Fqqid+"%' AND ISNULL(Fdomain,'') LIKE '%"+Fdomain+"%'";
-                ds =  PR.GetSqlServerData(sql);
-                */
+            {            
                 ds = new SPOAService().GetAgencyBusinessList(Fqqid, Fdomain, offset, qcount);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     ds.Tables[0].Columns.Add("Sflag", typeof(String));//选择,用做详情是查哪个方法
-                    //ds.Tables[0].Columns.Add("SpAlias", typeof(String));//别名
 
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
@@ -14804,9 +12342,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                //PublicRes PR = new PublicRes();
-                //string sql = "SELECT a.*,b.DictName,c.TradeName FROM t_apply_msp_info a(NOLOCK) LEFT JOIN DictInfo b(NOLOCK) ON b.DictType='CONFLAG' AND a.Fstate=b.DictID LEFT JOIN TradeType c(NOLOCK) ON a.Ftrade_id=c.TradeID WHERE a.Fid ="+Fid;
-                //return PR.GetSqlServerData(sql);
                 return new SPOAService().GetAgencyBusinessInfo(Fid);
             }
             catch (Exception ex)
@@ -14825,14 +12360,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     throw new Exception("商户号不能为空");
                 }
-
-                //PublicRes PR = new PublicRes();
-                //string sql = "SELECT a.ApplyCpInfoID,a.CompanyName,a.WebName,a.CompanyAddress,a.Postalcode,a.WWWAdress,a.ContactUser,a.ContactEmail,a.ContactPhone,a.ContactQQ,a.QQID,a.SPID,a.UserID" +
-                //             ",a.UserName,a.ApplyTime,a.CheckUserID,a.CheckUserName,a.CheckTime,a.ErrorMemo,a.ContactMobile,a.OtherMemo,a.TradeType,a.SuggestUser,b.DictName,c.TradeName " +
-                //             "FROM ApplyCpInfoX a(NOLOCK) LEFT JOIN DictInfo b(NOLOCK) ON b.DictType='FLAGTYPE' AND a.Flag=b.DictID " +
-                //             "LEFT JOIN TradeType c(NOLOCK) ON a.TradeType=c.TradeID " +
-                //             "WHERE a.datafrom=6 and a.Fagentid is null and a.SPID='" + spid + "'";
-                //ds = PR.GetSqlServerData(sql);
 
                 ds = new SPOAService().QueryAgencyBySpid(spid);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -14878,13 +12405,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             DataSet ds = null;
             try
             {
-                //PublicRes PR = new PublicRes();
-                //string sql = "SELECT a.ApplyCpInfoID,a.CompanyName,a.WebName,a.CompanyAddress,a.Postalcode,a.WWWAdress,a.ContactUser,a.ContactEmail,a.ContactPhone,a.ContactQQ,a.QQID,a.SPID,a.UserID" +
-                //             ",a.UserName,a.ApplyTime,a.CheckUserID,a.CheckUserName,a.CheckTime,a.ErrorMemo,a.ContactMobile,a.OtherMemo,a.TradeType,a.SuggestUser,b.DictName,c.TradeName " +
-                //             "FROM ApplyCpInfoX a(NOLOCK) LEFT JOIN DictInfo b(NOLOCK) ON b.DictType='FLAGTYPE' AND a.Flag=b.DictID " +
-                //             "LEFT JOIN TradeType c(NOLOCK) ON a.TradeType=c.TradeID " +
-                //             "WHERE a.ApplyCpInfoID='" + fid + "'";
-                //ds = PR.GetSqlServerData(sql);
+    
                 ds = new SPOAService().QueryAgencyInfoById(fid);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
@@ -14904,7 +12425,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     ds.Tables[0].Columns.Add("Fcheck_time", typeof(String));//审核时间
                     ds.Tables[0].Columns.Add("Fsuggester", typeof(String));//推荐人
                     ds.Tables[0].Columns.Add("Fop_memo", typeof(String));//操作备注
-
                     ds.Tables[0].Columns.Add("Fcreate_time", typeof(String));//创建时间
 
                     foreach (DataRow dr in ds.Tables[0].Rows)
@@ -14914,7 +12434,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         dr["Fqqid"] = dr["QQID"].ToString();
                         dr["Fdomain"] = dr["WWWAdress"].ToString();
                         dr["Femail"] = dr["ContactEmail"].ToString();
-
                         dr["Ftel"] = dr["ContactPhone"].ToString();
                         dr["FMobile"] = dr["ContactMobile"].ToString();
                         dr["FName"] = dr["ContactUser"].ToString();
@@ -14927,7 +12446,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         dr["Fcheck_time"] = dr["CheckTime"].ToString();
                         dr["Fsuggester"] = dr["SuggestUser"].ToString();
                         dr["Fop_memo"] = "";
-
                         dr["Fcreate_time"] = "";
 
                         dr.EndEdit();
@@ -14948,21 +12466,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                return new SPOAService().GetShouFuYiList(qq);
-                //PublicRes PR = new PublicRes();
-                //string sql = "SELECT a.* ,b.* FROM ApplyGatheringPay a(NOLOCK) INNER JOIN t_user_task b(NOLOCK) ON a.TaskID=b.ApplyID WHERE 1=1";
-                //if (!qq.Equals(""))
-                //{
-                //    sql += "and qq= '" + qq + "'";
-                //}
-
-
-                //string sql = "SELECT a.* ,b.* " +
-                //             "FROM ApplyGatheringPay a(NOLOCK) " +
-                //              "INNER JOIN t_user_task b(NOLOCK) ON a.TaskID=b.ApplyID " +
-                //             "WHERE 1=1 and ISNULL(qq,'') = '" + qq + "'";
-
-                //return PR.GetSqlServerData(sql);
+                return new SPOAService().GetShouFuYiList(qq);   
             }
             catch (Exception ex)
             {
@@ -14975,9 +12479,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                //PublicRes PR = new PublicRes();
-                //string sql = "SELECT * FROM t_apply_msp_info (NOLOCK) WHERE Fqqid ='" + Fspid + "' AND Fstate = 1";
-                //return PR.GetSqlServerData(sql);
                 return new SPOAService().GetAgencyBusinessInfoList(Fspid);
             }
             catch (Exception ex)
@@ -14989,14 +12490,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod(Description = "商户资料函数")]
         public DataSet GetBusinessInfoList(string Fspid)
         {
-            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZL"));
             try
             {
-                /*
-                da.OpenConn();
-                string fuid = PublicRes.ExecuteOne("select fuid from c2c_db.t_merchant_info where fspid='" + Fspid + "'","ZL");
-                */
-
                 string Msg = "";
                 string strSql = "spid=" + Fspid;
                 string fuid = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_MERCHANTINFO, "FuidMiddle", out Msg);
@@ -15005,12 +12500,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     throw new Exception("查找不到指定的记录，请确认你的输入是否正确！");
                 }
-
-                /*
-                string Sql = " select *,(case when fuser_type=1 then Fcompany_name when fuser_type=2 then Ftruename else '' end) as FspidName from "+ 
-                    PublicRes.GetTName("t_user_info",fuid) + " where fuid=" + fuid;
-                return da.dsGetTotalData(Sql);
-                */
 
                 strSql = "uid=" + fuid;
                 DataSet ds = CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_USERINFO, out Msg);
@@ -15045,21 +12534,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod(Description = "中介C帐户资料函数")]
         public DataSet GetBusiness2InfoList(string Fspid)
         {
-            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZL"));
             try
             {
-                //da.OpenConn();
                 string fuid = PublicRes.ConvertToFuid(Fspid);
                 if (fuid == null || fuid.Trim() == "")
                 {
                     throw new Exception("查找不到指定的记录，请确认你的输入是否正确！");
                 }
-
-                /*
-                string Sql = " select * from " +  PublicRes.GetTName("t_user_info",fuid) + " where fuid=" + fuid;
-                return da.dsGetTotalData(Sql);
-                */
-
+    
                 string errMsg = "";
                 string Sql = "uid=" + fuid;
                 return CommQuery.GetDataSetFromICE(Sql, CommQuery.QUERY_USERINFO, out errMsg);
@@ -15077,14 +12559,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod(Description = "商户银行绑定函数")]
         public DataSet GetBusinessBankList(string Fspid)
         {
-            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZL"));
             try
-            {
-                /*
-                da.OpenConn();
-                string fuid = PublicRes.ExecuteOne("select fuid from c2c_db.t_merchant_info where fspid='" + Fspid + "'","ZL");
-                */
-
+            {  
                 string Msg = "";
                 string strSql = "spid=" + Fspid;
                 string fuid = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_MERCHANTINFO, "Fuid", out Msg);
@@ -15093,11 +12569,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     throw new Exception("查找不到指定的记录，请确认你的输入是否正确！");
                 }
-
-                /*
-                string Sql = " select * from " +  PublicRes.GetTName("t_bank_user",fuid) + " where fuid=" + fuid;
-                return da.dsGetTotalData(Sql);
-                */
 
                 strSql = "uid=" + fuid + "&curtype=1";
                 return CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_BANKUSER, out Msg);
@@ -15115,14 +12586,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod(Description = "得到直付商户Email函数")]
         public DataSet GetBusinessEmail(string Fspid)
         {
-            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZL"));
             try
             {
-                /*
-                da.OpenConn();
-                string fuid = PublicRes.ExecuteOne("select Fuidmiddle from c2c_db.t_merchant_info where fspid='" + Fspid + "'","ZL");
-                */
-
                 string Msg = "";
                 string strSql = "spid=" + Fspid;
                 string fuid = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_MERCHANTINFO, "FuidMiddle", out Msg);
@@ -15131,11 +12596,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     throw new Exception("查找不到指定的邮箱记录，请确认你的输入是否正确！");
                 }
-
-                /*
-                string Sql = " select * from " +  PublicRes.GetTName("t_user_info",fuid) + " where fuid=" + fuid;
-                return da.dsGetTotalData(Sql);
-                */
 
                 strSql = "uid=" + fuid;
                 return CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_USERINFO, out Msg);
@@ -15155,15 +12615,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                /*
-                PublicRes PR = new PublicRes();
-                string sql = "select top 100 a.oldemail,a.newemail,a.oldwwwaddress,a.newwwwaddress,a.oldcompanyname,a.newcompanyname,c.DictName,b.ApplyUser,b.ApplyTime " +
-                             "from t_msp_amend_info a(nolock) " +
-                             "left join t_msp_amend_task b(nolock) on b.TaskId = a.TaskId " +
-                             "left join dictinfo c(nolock) on c.dicttype='AmendType' AND c.dictID = b.AmendState " +
-                             "where a.spid='" + Fspid + "' and a.AmendType = 4 order by b.ApplyTime desc";
-                return PR.GetSqlServerData(sql);
-                */
                 return new SPOAService().GetHisBusinessList(Fspid);
             }
             catch (Exception ex)
@@ -15177,26 +12628,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                /*
-                PublicRes PR = new PublicRes();
-                string sql = " if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' and a.amendtype=4 and a.TaskId = b.TaskId and b.AmendState not in (3,4)) " +
-                             "raiserror 99999 '该商户已存在待审核记录!' " +
-                             "ELSE BEGIN " +
-                             "Declare @taskid int " +
-                             "begin tran " +
-                             "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) " +
-                             "values(0,'" + UserName + "',4,'" + OldFspName + "') " +
-                             "if @@error<>0 rollback tran " +
-                             "set @taskid = SCOPE_IDENTITY() " +
-                             "insert into t_msp_amend_info" +
-                             "(TaskId,AmendType,SPId,oldemail,newemail,oldwwwaddress,newwwwaddress,oldcompanyname,newcompanyname) " +
-                             "values(@taskid,'4','" + Fspid + "','" + OldEmail + "','" + NewEmail + "','" + OldAddress + "','" +
-                             NewAddress + "','" + OldFspName + "','" + NewFspName + "') " +
-                             "if @@error=0 commit tran " +
-                             "else rollback tran " +
-                             "END";
-                PR.ModifySqlServerData(sql);
-                */
                 new SPOAService().SubmitBusinessInfo(UserName, Fspid, OldFspName, NewFspName, OldEmail, NewEmail, OldAddress, NewAddress, ApplyResult, FileInfos);
             }
             catch (Exception ex)
@@ -15204,8 +12635,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 throw new Exception(ex.Message);
             }
         }
-
-
 
         [WebMethod(Description = "商户修改证件信息函数")]
         public void SubmitBusinessCreInfo(string spid, string oldCreID, string newCreID, string memo)
@@ -15215,15 +12644,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             throw new Exception("UnFinish");
         }
 
-
         [WebMethod(Description = "自助和BD商户--商户接入状态函数")]
         public DataSet GetSelfTypeList()
         {
             try
             {
-                //PublicRes PR = new PublicRes();
-                //string sql = "SELECT DictID,DictName FROM DictInfo(NOLOCK) WHERE DictType='FLAGTYPE'";
-                //return PR.GetSqlServerData(sql);
                 return new SPOAService().GetSelfTypeList();
             }
             catch
@@ -15237,9 +12662,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                //PublicRes PR = new PublicRes();
-                //string sql = "SELECT distinct KFCheckUser FROM ApplyCpInfoX  WHERE flag=-1 and datafrom=1 and DraftFlag=0";
-                //return PR.GetSqlServerData(sql);
                 return new SPOAService().GetSelfKFList();
             }
             catch
@@ -15253,9 +12675,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                //PublicRes PR = new PublicRes();
-                //string sql = "SELECT count(1) FROM ApplyCpInfoX WHERE " + filter;
-                //return PR.GetSqlServerData(sql);
                 return new SPOAService().GetSelfQueryListCount(SPID, DraftFlag, CompanyName, Flag, WWWAdress, Appid, ApplyTimeStart, ApplyTimeEnd, BankUserName, KFCheckUser, SuggestUser, MerType);
             }
             catch
@@ -15270,14 +12689,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                /*
-                PublicRes PR = new PublicRes();
-                string sql = "SELECT TOP " + TopCount + " a.*,b.DictName AS FlagStr FROM ApplyCpInfoX a(NOLOCK) LEFT JOIN DictInfo b(NOLOCK) " +
-                    "ON b.DictType='FLAGTYPE' AND a.Flag = b.DictID WHERE " + filter + " AND ApplyCpInfoID NOT IN " +
-                    "(select top " + NotInCount + " ApplyCpInfoID from ApplyCpInfoX(NOLOCK) order by ApplyTime desc) ORDER BY ApplyTime DESC";
-
-                return PR.GetSqlServerData(sql);
-                */
                 return new SPOAService().GetSelfQueryList(SPID, DraftFlag, CompanyName, Flag, WWWAdress, Appid, ApplyTimeStart, ApplyTimeEnd, BankUserName, KFCheckUser, SuggestUser, MerType, topCount, notInCount);
             }
             catch (Exception e)
@@ -15291,21 +12702,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                /*
-                PublicRes PR = new PublicRes();
-                string sql = "SELECT a.*,b.TradeName AS TradeTypeStr,c.AreaName AS AreaIDStr,d.UserName AS BDIDStr,e.DictName AS UserTypeStr," +
-                             "f.DictName AS AreaCodeStr,g.DictName AS BankTypeStr,h.DictName AS CityCodeStr FROM ApplyCpInfoX a(NOLOCK) " +
-                             "LEFT JOIN TradeType b(NOLOCK) ON a.TradeType = b.TradeID " +
-                             "LEFT JOIN DicAreaInfo c(NOLOCK) ON c.EnableFlag=0 AND a.AreaID=c.AreaInfoID " +
-                             "LEFT JOIN BdUserAreaInfo d(NOLOCK) ON d.EnableFlag=0 AND a.BDID=d.UserID " +
-                             "LEFT JOIN DictInfo e(NOLOCK) ON e.DictType='USERTYPE' AND a.UserType=e.DictID " +
-                             "LEFT JOIN DictInfo f(NOLOCK) ON f.DictType='AREATYPE' AND a.AreaCode=f.DictID " +
-                             "LEFT JOIN DictInfo g(NOLOCK) ON g.DictType='BANKTYPE' AND a.BankType=g.DictID " +
-                             "LEFT JOIN DictInfo h(NOLOCK) ON h.DictType='CITYTYPE' AND a.CityCode=h.DictID " +
-                             "WHERE ApplyCpInfoID = " + ApplyCpInfoID + " ORDER BY ApplyTime DESC";
-
-                return PR.GetSqlServerData(sql);
-                */
                 return new SPOAService().GetSelfQueryInfo(ApplyCpInfoID);
             }
             catch (Exception e)
@@ -15319,15 +12715,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                /*
-                PublicRes PR = new PublicRes();
-				
-                string sql = "DECLARE @Flag int SELECT @Flag = Flag FROM ApplyCpInfoX(NOLOCK) WHERE ApplyCpInfoID =" + ApplyCpInfoID +
-                             " IF @Flag = NULL raiserror 99999 '该记录不存在!' ELSE IF @Flag = -2 " +　
-                         "UPDATE ApplyCpInfoX SET Flag = -1,KFCheckUser = '" + UserID + "' WHERE ApplyCpInfoID =" + ApplyCpInfoID + 
-                             " ELSE raiserror 99999 '该记录不处于领单状态!'";
-                PR.ModifySqlServerData(sql);
-                */
                 new SPOAService().CheckTicket(ApplyCpInfoID, UserID);
             }
             catch (Exception ex)
@@ -15340,39 +12727,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public void ApproveTicket(string ApplyCpInfoID, string UserID, bool Result, string Reason)
         {
             try
-            {
-                /*
-                PublicRes PR = new PublicRes();
-
-                string sql;
-				
-                int Type = 0;
-                if(!Result)
-                {
-                    Type = 8;
-                    //datafrom=0  and Fagentid is not null平台下属
-                    sql = "select spid,datafrom,Fagentid FROM ApplyCpInfoX(NOLOCK) WHERE ApplyCpInfoID =" + ApplyCpInfoID;
-                    DataSet ds = PR.GetSqlServerData(sql);
-                    if(ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count == 1)
-                    {
-                        if(ds.Tables[0].Rows[0]["datafrom"].ToString().Trim() == "0" && ds.Tables[0].Rows[0]["datafrom"].ToString().Trim() != "")
-                        {
-                            AgentCancel(ds.Tables[0].Rows[0]["spid"].ToString());
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception("该记录不存在!");
-                    }
-                }
-
-                sql = "DECLARE @Flag int SELECT @Flag = Flag FROM ApplyCpInfoX(NOLOCK) WHERE ApplyCpInfoID =" + ApplyCpInfoID +
-                             " IF @Flag = NULL raiserror 99999 '该记录不存在!' ELSE IF @Flag = -1 " +　
-                             "UPDATE ApplyCpInfoX SET Flag = " + Type + ",CheckUserName = '" + UserID + "',ErrorMemo = '" + Reason + "',CheckTime = getdate() WHERE ApplyCpInfoID =" + ApplyCpInfoID + 
-                             " ELSE raiserror 99999 '该记录不处于审核状态!'";
-                PR.ModifySqlServerData(sql);
-                */
-
+            {      
                 int Type = 0;
                 if (!Result)
                 {
@@ -15409,9 +12764,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                //PublicRes PR = new PublicRes();
-                //string sql = "SELECT count(1) FROM SpidDomainApply a(NOLOCK),t_msp_amend_task b(NOLOCK) WHERE " + filter;
-                //return PR.GetSqlServerData(sql);
                 return new SPOAService().GetSpidDomainQueryListCount(filter);
             }
             catch
@@ -15425,36 +12777,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                /*
-                string sql = "";
-                PublicRes PR = new PublicRes();
-                if (SubmitType == "1")
-                {
-                    //没排序，DB不是默认按照自增长排序，如果排序需要，语句复杂，没特殊要求就不排了
-                    sql = "SELECT c.*,d.wwwadress FROM ( select top " + TopCount + " a.*,b.AmendState,b.ApplyTime,b.ApplyUser,b.CheckTime,b.CheckUser,b.CompanyName " +
-                        "from SpidDomainApply a(NOLOCK),t_msp_amend_task b(NOLOCK) where " + filter + " and " +
-                        "a.ID NOT IN(select top " + NotInCount + " a.ID from SpidDomainApply a(NOLOCK),t_msp_amend_task b(NOLOCK) " +
-                        "where " + filter + ")) c " +
-                        "LEFT JOIN ApplyCpInfoX d ON d.flag=4 and c.spid=d.spid";
-                }
-                else if (SubmitType == "2")
-                {
-                    sql = "SELECT c.*,d.ContactEmail FROM ( select top " + TopCount + " a.*,b.AmendState,b.ApplyTime,b.ApplyUser,b.CheckTime,b.CheckUser,b.CompanyName " +
-                        "from t_msp_amend_info a(NOLOCK),t_msp_amend_task b(NOLOCK) where " + filter + " and a.AmendType = 44 and " +
-                        "a.taskid NOT IN(select top " + NotInCount + " a.taskid from t_msp_amend_info a(NOLOCK),t_msp_amend_task b(NOLOCK) " +
-                        "where " + filter + " and a.AmendType = 44)) c " +
-                        "LEFT JOIN ApplyCpInfoX d ON d.flag=4 and c.spid=d.spid";
-                }
-                else if (SubmitType == "3")
-                {
-                    sql = "SELECT c.* FROM ( select top " + TopCount + " a.*,b.AmendState,b.ApplyTime,b.ApplyUser,b.CheckTime,b.CheckUser,b.CompanyName " +
-                        "from t_msp_amend_info a(NOLOCK),t_msp_amend_task b(NOLOCK) where " + filter + " and a.AmendType = 45 and " +
-                        "a.taskid NOT IN(select top " + NotInCount + " a.taskid from t_msp_amend_info a(NOLOCK),t_msp_amend_task b(NOLOCK) " +
-                        "where " + filter + " and a.AmendType = 45)) c " +
-                        "LEFT JOIN ApplyCpInfoX d ON d.flag=4 and c.spid=d.spid";
-                }
-                return PR.GetSqlServerData(sql);
-                */
                 return new SPOAService().GetSpidDomainQueryList(Spid, CompanyName, ApplyTimeStart, ApplyTimeEnd, AmendState, submitType, topCount, notInCount);
             }
             catch (Exception e)
@@ -15473,10 +12795,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     throw new Exception("审核人不允许为空!");
                 }
 
-                //PublicRes PR = new PublicRes();
-
-                //string sql = "select AmendState from t_msp_amend_task (NOLOCK) WHERE Taskid =" + Taskid;
-                //DataSet ds = PR.GetSqlServerData(sql);
                 DataSet ds = new SPOAService().GetMspAmendTaskByID(Taskid);
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count == 1)
@@ -15485,16 +12803,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         if (Result)
                         {
-                            //sql = "Update t_msp_amend_task set AmendState = 0,CheckUser='" + UserID + "',CheckTime=getdate() where taskid = " + Taskid;
-                            //PR.ModifySqlServerData(sql);
                             new SPOAService().UpdateMspAmendTaskByTaskid(Taskid, 0, UserID);
                             CFTUserAppealClass.InputAppealNumber(UserID, "Success", "domain");
                         }
                         else
                         {
-                            //sql = "Update SpidDomainApply set Reason = '" + Reason + "' where taskid = " + Taskid + " ; " +
-                            //      "Update t_msp_amend_task set AmendState=4,CheckUser='" + UserID + "',CheckTime=getdate() where taskid = " + Taskid;
-                            //PR.ModifySqlServerData(sql);
                             new SPOAService().UpdateSpidDomainApplyByTaskid(Taskid, Reason);
                             new SPOAService().UpdateMspAmendTaskByTaskid(Taskid, 4, UserID);
                             CFTUserAppealClass.InputAppealNumber(UserID, "Fail", "domain");
@@ -15516,7 +12829,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
         [WebMethod(Description = "商户系统邮箱申请审核函数")]
         public void ApproveSpidEmail(string Taskid, string UserID, bool Result, string Reason)
         {
@@ -15527,10 +12839,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     throw new Exception("审核人不允许为空!");
                 }
 
-                //PublicRes PR = new PublicRes();
-
-                //string sql = "select AmendState from t_msp_amend_task (NOLOCK) WHERE Taskid =" + Taskid;
-                //DataSet ds = PR.GetSqlServerData(sql);
                 DataSet ds = new SPOAService().GetMspAmendTaskByID(Taskid);
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count == 1)
@@ -15539,16 +12847,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         if (Result)
                         {
-                            //sql = "Update t_msp_amend_task set AmendState = 0,CheckUser='" + UserID + "',CheckTime=getdate() where taskid = " + Taskid;
-                            //PR.ModifySqlServerData(sql);
                             new SPOAService().UpdateMspAmendTaskByTaskid(Taskid, 0, UserID);
                             CFTUserAppealClass.InputAppealNumber(UserID, "Success", "email");
                         }
                         else
                         {
-                            //sql = "Update t_msp_amend_info set DisagreeResult = '" + Reason + "' where taskid = " + Taskid + " ; " +
-                            //    "Update t_msp_amend_task set AmendState=4,CheckUser='" + UserID + "',CheckTime=getdate() where taskid = " + Taskid;
-                            //PR.ModifySqlServerData(sql);
                             new SPOAService().UpdateMspAmendInfoByTaskid(Taskid, Reason);
                             new SPOAService().UpdateMspAmendTaskByTaskid(Taskid, 4, UserID);
                             CFTUserAppealClass.InputAppealNumber(UserID, "Fail", "email");
@@ -15570,7 +12873,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
         [WebMethod(Description = "商户系统商户名称申请审核函数")]
         public void ApproveSpidCompanyName(string Taskid, string UserID, bool Result, string Reason)
         {
@@ -15581,10 +12883,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     throw new Exception("审核人不允许为空!");
                 }
 
-                //PublicRes PR = new PublicRes();
-
-                //string sql = "select AmendState from t_msp_amend_task (NOLOCK) WHERE Taskid =" + Taskid;
-                //DataSet ds = PR.GetSqlServerData(sql);
                 DataSet ds = new SPOAService().GetMspAmendTaskByID(Taskid);
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count == 1)
@@ -15593,16 +12891,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         if (Result)
                         {
-                            //sql = "Update t_msp_amend_task set AmendState = 0,CheckUser='" + UserID + "',CheckTime=getdate() where taskid = " + Taskid;
-                            //PR.ModifySqlServerData(sql);
                             new SPOAService().UpdateMspAmendTaskByTaskid(Taskid, 0, UserID);
                             CFTUserAppealClass.InputAppealNumber(UserID, "Success", "companyname");
                         }
                         else
                         {
-                            //sql = "Update t_msp_amend_info set DisagreeResult = '" + Reason + "' where taskid = " + Taskid + " ; " +
-                            //    "Update t_msp_amend_task set AmendState=4,CheckUser='" + UserID + "',CheckTime=getdate() where taskid = " + Taskid;
-                            //PR.ModifySqlServerData(sql);
                             new SPOAService().UpdateMspAmendInfoByTaskid(Taskid, Reason);
                             new SPOAService().UpdateMspAmendTaskByTaskid(Taskid, 4, UserID);
                             CFTUserAppealClass.InputAppealNumber(UserID, "Fail", "companyname");
@@ -15632,9 +12925,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                //PublicRes PR = new PublicRes();
-                //string sql = "SELECT top " + TopCount + " a.*,b.companyname FROM ApplyValueAddedTax a,t_msp_amend_task b WHERE " + filter + " and a.taskid not in (select top " + NotInCount + " a.taskid from ApplyValueAddedTax a,t_msp_amend_task b where " + filter + ")";
-                //return PR.GetSqlServerData(sql);
                 return new SPOAService().GetApplyValueAddedTax(Spid, Flags, topCount, notInCount);
             }
             catch (Exception ex)
@@ -15648,9 +12938,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                //PublicRes PR = new PublicRes();
-                //string sql = "SELECT a.*,b.companyname FROM ApplyValueAddedTax a,t_msp_amend_task b WHERE a.taskid = b.taskid and a.taskid = " + taskid + " order by b.applytime desc";
-                //return PR.GetSqlServerData(sql);
                 return new SPOAService().GetValueAddedTaxDetail(taskid);
             }
             catch (Exception ex)
@@ -15663,34 +12950,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public void ValueAddedTaxApprove(string taskid, string Memo, string imgTaxCert, string imgBizLicenseCert, string imgAuthorizationCert, string UserName)
         {
             try
-            {
-                /*
-                PublicRes PR = new PublicRes();
-                string sql = "SELECT a.*,b.ApplyCpInfoID FROM ApplyValueAddedTax a,ApplyCpInfoX b WHERE a.spid = b.spid and a.taskid = " + taskid;
-                DataSet ds = PR.GetSqlServerData(sql);
-
-                if (ds != null && ds.Tables.Count != 0 || ds.Tables[0].Rows.Count != 0)
-                {
-                    DataRow dr = ds.Tables[0].Rows[0];
-
-                    sql = "update t_msp_amend_task set AmendState=3,CheckUser='" + UserName + "' where taskid = " + taskid + ";" +
-                        "update ApplyValueAddedTax set Flag=4,OldIsInvoice=1,NewIsInvoice=1,Memo='" + Memo + "' where taskid = " + taskid + ";" +
-                        "update ApplyCpInfoX set CompanyName='" + dr["NewCompanyName"].ToString() + "',TaxInvoiceFlag=4,IsInvoice=1,TaxInvoiceMemo='" + Memo + "',TaxerType=" + dr["NewTaxerType"].ToString() + "," +
-                        "TaxInvoiceType=" + dr["NewTaxInvoiceType"].ToString() + ",TaxerCompanyName='" + dr["NewCompanyName"].ToString() + "'," +
-                        "TaxerID='" + dr["NewTaxerID"].ToString() + "',TaxerBasebankName='" + dr["NewBasebankName"].ToString() + "'," +
-                        "TaxerBaseBankAcct='" + dr["NewBaseBankAcct"].ToString() + "',TaxerReceiverName='" + dr["NewReceiverName"].ToString() + "'," +
-                        "TaxerReceiverAddr='" + dr["NewReceiverAddr"].ToString() + "',TaxerReceiverPostalCode='" + dr["NewReceiverPostalCode"].ToString() + "'," +
-                        "TaxerReceiverPhone='" + dr["NewReceiverPhone"].ToString() + "',TaxerUserType=" + dr["NewUserType"].ToString() + "," +
-                        "TaxerCompanyAddress='" + dr["NewCompanyAddress"].ToString() + "',TaxerCompanyPhone='" + dr["NewCompanyPhone"].ToString() + "' where spid = '" + dr["spid"].ToString() + "';";
-                    if (imgTaxCert != "")
-                        sql += "insert t_msp_amend_file(TaskId,FileTrueName,ViewFileName,SpId,ApplyUser,MspId,Type,Memo) values(" + taskid + ",'一般纳税人资格证书或税务登记证副本','" + imgTaxCert + "','" + dr["Spid"].ToString() + "','商户自传'," + dr["ApplyCpInfoID"].ToString() + ",0,'一般纳税人资格证书或税务登记证副本');";
-                    if (imgBizLicenseCert != "")
-                        sql += "insert t_msp_amend_file(TaskId,FileTrueName,ViewFileName,SpId,ApplyUser,MspId,Type,Memo) values(" + taskid + ",'营业执照','" + imgBizLicenseCert + "','" + dr["Spid"].ToString() + "','商户自传'," + dr["ApplyCpInfoID"].ToString() + ",2,'营业执照');";
-                    if (imgAuthorizationCert != "")
-                        sql += "insert t_msp_amend_file(TaskId,FileTrueName,ViewFileName,SpId,ApplyUser,MspId,Type,Memo) values(" + taskid + ",'授权书','" + imgAuthorizationCert + "','" + dr["Spid"].ToString() + "','商户自传'," + dr["ApplyCpInfoID"].ToString() + ",12,'授权书');";
-                    PR.ModifySqlServerData(sql);
-                }
-                */
+            {               
                 new SPOAService().ValueAddedTaxApprove(taskid, Memo, imgTaxCert, imgBizLicenseCert, imgAuthorizationCert, UserName);
             }
             catch (Exception ex)
@@ -15704,11 +12964,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                //PublicRes PR = new PublicRes();
-                //string sql = "update t_msp_amend_task set AmendState=4,CheckUser='" + UserName + "' where taskid = " + taskid + ";" +
-                //    "update ApplyValueAddedTax set Flag=5,Memo='" + Memo + "' where taskid = " + taskid + ";" +
-                //    "update ApplyCpInfoX set TaxInvoiceFlag=5 where spid = '" + spid + "'";
-                //PR.ModifySqlServerData(sql);
                 new SPOAService().ValueAddedTaxCancel(taskid, spid, Memo, UserName);
             }
             catch (Exception ex)
@@ -15722,9 +12977,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                //PublicRes PR = new PublicRes();
-                //string sql = "SELECT top " + TopCount + " * FROM ApplyCpInfoX WHERE " + filter + " and Spid not in (select top " + NotInCount + " Spid from ApplyCpInfoX where " + filter + ")";
-                //return PR.GetSqlServerData(sql);
                 return new SPOAService().GetAllValueAddedTax(Spid, CompanyName, topCount, notInCount);
             }
             catch (Exception ex)
@@ -15738,9 +12990,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                //PublicRes PR = new PublicRes();
-                //string sql = "SELECT * FROM ApplyCpInfoX WHERE Spid = '" + Spid + "'";
-                //return PR.GetSqlServerData(sql);
                 return new SPOAService().GetOneValueAddedTax(Spid);
             }
             catch (Exception ex)
@@ -15753,25 +13002,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public void ValueAddedTaxModify(string Spid, int Flag)
         {
             try
-            {
-                /*
-                PublicRes PR = new PublicRes();
-                string sql = "SELECT TaxInvoiceFlag,TaxerType FROM ApplyCpInfoX WHERE Spid = '" + Spid + "'";
-                DataSet ds = PR.GetSqlServerData(sql);
-                if (ds != null && ds.Tables.Count != 0 || ds.Tables[0].Rows.Count != 0)
-                {
-                    DataRow dr = ds.Tables[0].Rows[0];
-                    if (dr["TaxInvoiceFlag"].ToString().Trim() == "4" || dr["TaxInvoiceFlag"].ToString().Trim() == "7" || (dr["TaxInvoiceFlag"].ToString().Trim() == "5" && dr["TaxerType"].ToString() != ""))
-                    {
-                        sql = "update ApplyCpInfoX set TaxInvoiceFlag=" + Flag + " where spid = '" + Spid + "'";
-                        PR.ModifySqlServerData(sql);
-                    }
-                    else
-                    {
-                        throw new Exception("该状态不允许发起修改！");
-                    }
-                }
-                */
+            {               
                 new SPOAService().ValueAddedTaxModify(Spid, Flag);
             }
             catch (Exception ex)
@@ -15791,24 +13022,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             MySqlAccess daCS = new MySqlAccess(PublicRes.GetConnString("CS"));
             MySqlAccess daJS = new MySqlAccess(PublicRes.GetConnString("JS"));
-            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YW"));
 
             try
             {
                 daCS.OpenConn();
                 daJS.OpenConn();
-                //da.OpenConn();
 
                 string sql = "update t_feecontract set FStandardStatus = " + (int)FeeContractStatus.正常 + ",FEndDate = adddate(now(),15) where Fspid = '" + Fspid + "' AND now() BETWEEN FStartDate AND FEndDate ";
                 daCS.ExecSql(sql);
 
                 sql = "update t_settlement set FRecordStatus = " + (int)FeeRecordStatus.正常 + " where Fspid = '" + Fspid + "' AND (FFeeItem = 4 or FFeeItem = 5) AND now() BETWEEN FStartDate AND FEndDate ";
                 daJS.ExecSql(sql);
-
-                /*
-                sql = "update t_middle_user set Fatt_id = 44 where Fspid = '" + Fspid + "'";
-                da.ExecSql(sql);
-                */
 
                 string Msg = "";
                 string strSql = "spid=" + Fspid;
@@ -15834,7 +13058,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 daCS.Dispose();
                 daJS.Dispose();
-                //da.Dispose();
             }
         }
 
@@ -15858,23 +13081,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 throw new LogicException("权限位越界");
             }
 
-            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YW_30"));
-            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZL"));
             try
             {
                 // TODO: 1客户信息资料外移
-                /*
-                string STRSQL = "update c2c_db.t_muser_user set Fsign" + signorder + "={0} where Fqqid='{1}' and FSpid='" + spid + "'";
-
-                */
-
+   
                 string STRSQL = "qqid={1}&spid=" + spid;
                 STRSQL += "&modify_time=" + PublicRes.strNowTimeStander;
                 STRSQL += "&sign" + signorder + "={0}";
-
-                //da.OpenConn();
                 string strSql = "";
-
                 string str = Convert.ToString((long)newrole, 2);
                 str = str.PadLeft(32, '0');
 
@@ -15882,10 +13096,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     // TODO: 1客户信息资料外移
                     //先校验,如果是修改的管理员,则把操作员的管理员为0的权限位也置0
-                    /*
-                    strSql = " select Fqqid,Fsign" + signorder + " from  c2c_db.t_muser_user where Fspid='" + spid + "' ";
-                    DataTable dt = da.GetTable(strSql);
-                    */
 
                     string errMsg = "";
                     strSql = "spid=" + spid;
@@ -15900,21 +13110,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         if (operatorqq == spid)
                         {
                             int changedrole = Convert.ToInt32(str, 2);
-                            strSql = String.Format(STRSQL, changedrole, spid);
-                            /*
-                            da.ExecSqlNum(strSql);
-                            */
+                            strSql = String.Format(STRSQL, changedrole, spid);             
                             CommQuery.ExecSqlFromICE(strSql, CommQuery.UPDATE_MUSER, out errMsg);
                         }
                         else
                         {
-                            /*
-                            strSql = " select Fsign" + signorder + " from c2c_db.t_muser_user where Fqqid='" + operatorqq + "' and Fspid='" + spid + "'";
-                            long opersign = long.Parse(da.GetOneResult(strSql));
-                            */
                             strSql = "spid=" + spid + "&qqid=" + operatorqq;
                             long opersign = long.Parse(CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_MUSER, "Fsign" + signorder, out errMsg));
-
                             string strspsign = Convert.ToString(opersign, 2);
                             strspsign = strspsign.PadLeft(32, '0');
 
@@ -15928,9 +13130,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                             int changedrole = Convert.ToInt32(strspsign, 2);
                             strSql = String.Format(STRSQL, changedrole, operatorqq);
-                            /*
-                            da.ExecSqlNum(strSql);
-                            */
+               
                             CommQuery.ExecSqlFromICE(strSql, CommQuery.UPDATE_MUSER, out errMsg);
                         }
                     }
@@ -15941,10 +13141,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     // TODO: 1客户信息资料外移
                     //如果修改的是操作员,则把管理员为0的权限位也置0
-                    /*
-                    strSql = " select Fsign" + signorder + " from c2c_db.t_muser_user where Fqqid='" + spid + "' and Fspid='" + spid + "'";
-                    long spsign = long.Parse(da.GetOneResult(strSql));
-                    */
 
                     string errMsg = "";
                     strSql = "qqid=" + spid + "&spid=" + spid;
@@ -15964,9 +13160,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     int changedrole = Convert.ToInt32(str, 2);
                     strSql = String.Format(STRSQL, changedrole, qq);
 
-                    /*
-                    return da.ExecSqlNum(strSql) == 1;
-                    */
                     int iresult = CommQuery.ExecSqlFromICE(strSql, CommQuery.UPDATE_MUSER, out errMsg);
                     return iresult == 1;
                 }
@@ -15986,54 +13179,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public void BusinessLogout(string Fspid, string UserName, string Reason)
         {
             try
-            {
-                //PublicRes PR = new PublicRes();
-                //string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
-                //             "select @Type = Flag,@CompanyName=CompanyName from ApplyCpInfoX(nolock) where SPId = '" + Fspid + "' " +
-                //             "IF @Type is null " +
-                //             "BEGIN " +
-                //             "select @Type = StateID,@CompanyName=CompanyName from ResultInfo(nolock) where BusinessNo = '" + Fspid + "' " +
-                //             "if @Type is null " +
-                //             "raiserror 99999 '该商户号不存在!' " +
-                //             "else if @Type = 99 " +
-                //             "raiserror 99999 '该商户已处于注销状态!' " +
-                //             "else " +
-                //             "begin " +
-                //             "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                //             "and a.amendtype=8 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                //             "raiserror 99999 '该商户已存在待审核记录!' " +
-                //             "else " +
-                //             "begin " +
-                //             "begin tran " +
-                //             "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(0,'" + UserName + "',8,@CompanyName) " +
-                //             "if @@error<>0 rollback tran " +
-                //             "set @taskid = SCOPE_IDENTITY() " +
-                //             "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,8,'" + Fspid + "','" + Reason + "') " +
-                //             "if @@error=0 commit tran " +
-                //             "else rollback tran " +
-                //             "end " +
-                //             "end " +
-                //             "END " +
-                //             "ELSE IF @Type = 8 " +
-                //             "raiserror 99999 '该商户已处于注销状态!' " +
-                //             "ELSE " +
-                //             "BEGIN " +
-                //             "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                //             "and a.amendtype=8 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                //             "raiserror 99999 '该商户已存在待审核记录!' " +
-                //             "else " +
-                //             "begin " +
-                //             "begin tran " +
-                //             "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(0,'" + UserName + "',8,@CompanyName) " +
-                //             "if @@error<>0 rollback tran " +
-                //             "set @taskid = SCOPE_IDENTITY() " +
-                //             "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,8,'" + Fspid + "','" + Reason + "') " +
-                //             "if @@error=0 commit tran " +
-                //             "else rollback tran " +
-                //             "end " +
-                //             "END ";
-                //PR.ModifySqlServerData(sql);
-
+            {               
                 if (new SPOAService().BusinessLogout(Fspid, UserName, Reason) != "0")
                 {
                     throw new Exception("商户注销申请失败");
@@ -16054,14 +13200,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             try
             {
-                //PublicRes PR = new PublicRes();
-                //string sql = " Declare @Type int " +
-                //    "select @Type = Flag from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' " +
-                //    "IF @Type is null " +
-                //    "BEGIN " +
-                //    "raiserror 99999 '该商户号不存在!' " +
-                //    "END ";
-                //PR.ModifySqlServerData(sql);
                 DataSet ds = new SPOAService().GetOneValueAddedTax(Fspid);
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                 {
@@ -16079,78 +13217,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod(Description = "商户冻结提交记录查询函数")]
         public DataSet QueryBussFreezeList(string spid, string type, string state)
         {
-            //DataSet ds = null;
-            //PublicRes PR = new PublicRes();
             try
-            {
-                /*
-                if (string.IsNullOrEmpty(spid))
-                {
-                    throw new Exception("商户号不能为空");
-                }
-                if (string.IsNullOrEmpty(type))
-                {
-                    throw new Exception("状态不能为空");
-                }
-                spid = spid.Trim();
-                string sql = "select A.spid,A.taskid,A.amendstate,A.applytime,A.applyuser,A.checktime,A.checkuser,A.amendtype,A.applyresult,A.disagreeresult,B.companyname,A.CAccounts,B.BDID "
-                    + "from (select b.spid,a.taskid,b.applyresult,b.disagreeresult,a.amendstate,a.applytime,a.applyuser,a.checktime,a.checkuser,a.amendtype,a.companyname,b.CAccounts " +
-                                       " from t_msp_amend_task a(NOLOCK),t_msp_amend_info b(NOLOCK) where a.taskid=b.taskid " +
-                                        ") A,ApplyCpInfoX B where A.spid = B.spid ";
-                if (spid != "")
-                {
-                    sql += "   and A.spid='" + spid + "'";
-                }
-                if (type != "")
-                {
-                    sql += "   and A.AmendType IN( " + type + ")";
-
-                }
-                if (state != "")
-                {
-                    sql += "   and A.AmendState not in(3,4,7)";
-                }
-
-                ds = PR.GetSqlServerData(sql);
-                */
+            {              
                 return new SPOAService().QueryBussFreezeList(spid, type, state);
             }
             catch (Exception e)
             {
                 throw new LogicException("提交记录查询错误：" + e.Message);
             }
-
-            //return ds;
         }
 
         [WebMethod(Description = "查询属组函数")]
         public string GetBDName(string spid)
         {
             try
-            {
-                /*
-                PublicRes PR = new PublicRes();
-                string sql = "select BdUserAreaInfo.username from ApplyCpInfoX ,BdUserAreaInfo  where ApplyCpInfoX.BDID=BdUserAreaInfo.UserId and ApplyCpInfoX.spid='" + spid + "'";
-                DataSet ds = PR.GetSqlServerData(sql);
-
-                if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
-                {
-                    return ds.Tables[0].Rows[0][0].ToString();
-                }
-                else
-                {
-                    sql = "select username from ResultInfo where BusinessNo='" + spid + "'";
-                    ds = PR.GetSqlServerData(sql);
-                    if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
-                    {
-                        return ds.Tables[0].Rows[0][0].ToString();
-                    }
-                    else
-                    {
-                        return "";
-                    }
-                }
-                */
+            {             
                 return new SPOAService().GetBDName(spid);
             }
             catch (Exception e)
@@ -16163,30 +13244,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public string GetWWWAddress(string spid)
         {
             try
-            {
-                /*
-                PublicRes PR = new PublicRes();
-                string sql = "select WWWAdress from ApplyCpInfoX   where ApplyCpInfoX.spid='" + spid + "'";
-                DataSet ds = PR.GetSqlServerData(sql);
-
-                if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
-                {
-                    return ds.Tables[0].Rows[0][0].ToString();
-                }
-                else
-                {
-                    sql = "select WebUrl from ResultInfo where BusinessNo='" + spid + "'";
-                    ds = PR.GetSqlServerData(sql);
-                    if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
-                    {
-                        return ds.Tables[0].Rows[0][0].ToString();
-                    }
-                    else
-                    {
-                        return "";
-                    }
-                }
-                */
+            {             
                 return new SPOAService().GetWWWAddress(spid);
             }
             catch (Exception e)
@@ -16199,30 +13257,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public string GetTradeType(string spid)
         {
             try
-            {
-                /*
-                PublicRes PR = new PublicRes();
-                string sql = "select TradeType.TradeName from ApplyCpInfoX,dbo.TradeType where ApplyCpInfoX.TradeType=TradeType.TradeId and ApplyCpInfoX.Spid='" + spid + "'";
-                DataSet ds = PR.GetSqlServerData(sql);
-                if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
-                {
-                    return ds.Tables[0].Rows[0][0].ToString();
-                }
-                else
-                {
-                    sql = "select businessmode from ResultInfo where BusinessNo='" + spid + "'";
-                    ds = PR.GetSqlServerData(sql);
-                    if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
-                    {
-                        return ds.Tables[0].Rows[0][0].ToString();
-                    }
-                    else
-                    {
-                        return "";
-                    }
-
-                }
-                */
+            {           
                 return new SPOAService().GetTradeType(spid);
             }
             catch (Exception e)
@@ -16238,43 +13273,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             if (IsFreezePay)
             {//关闭支付
                 try
-                {
-                    //string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
-                    //    "select @Type = Flag,@CompanyName=CompanyName from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' " +
-                    //    "IF @Type is null " +
-                    //    "BEGIN " +
-                    //    "raiserror 99999 '该商户号不存在!' " +
-                    //    "END " +
-                    //    "ELSE BEGIN " +
-                    //    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                    //    "and a.amendtype=41 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                    //    "raiserror 99999 '该商户已存在待审核记录!' " +
-                    //    "else " +
-                    //    "begin " +
-                    //    "begin tran " +
-                    //    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',41,@CompanyName) " +
-                    //    "if @@error<>0 rollback tran " +
-                    //    "set @taskid = SCOPE_IDENTITY() " +
-                    //    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,41,'" + Fspid + "','" + Reason + "') " +
-                    //    "if @@error=0 commit tran " +
-                    //    "else rollback tran " +
-                    //    "select @taskid " +
-                    //    "end " +
-                    //    "END ";
-                    //DataSet ds = PR.GetSqlServerData(sql);
-                    //if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count == 1)
-                    //{
-                    //    if (ds.Tables[0].Rows[0][0].ToString() != "")
-                    //    {
-                    //        //增加风控邮件功能
-                    //        SetEmailToFKCheck(int.Parse(ds.Tables[0].Rows[0][0].ToString()), UserName, "申请关闭商户支付权限");
-                    //    }
-                    //    else
-                    //    {
-                    //        throw new Exception("关闭支付申请失败!");
-                    //    }
-
-                    //}
+                {                  
                     if (new SPOAService().ClosePay(Fspid, UserName, Reason) != "0")
                     {
                         throw new Exception("关闭支付申请失败!");
@@ -16287,88 +13286,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
 
             if (IsFreeze)
-            {//暂停结算
-                //string sqlpr = "select Flag from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' ";
-                //DataSet dspr = PR.GetSqlServerData(sqlpr);
-                //if (dspr.Tables[0].Rows[0]["Flag"].ToString() == "12")
-                //{
-                //    return;
-                //}
-                //else
-                //{
-                //    MySqlAccess daCS = new MySqlAccess(PublicRes.GetConnString("CS"));
-                //    MySqlAccess daJS = new MySqlAccess(PublicRes.GetConnString("JS"));
-
-                //    try
-                //    {
-                //        daCS.OpenConn();
-                //        daJS.OpenConn();
-
-                //        string sql = "SELECT FStandardStatus FROM t_feecontract WHERE Fspid = '" + Fspid + "' AND FStandardStatus <> " + (int)FeeContractStatus.取消 + " AND '" + DateTime.Today.ToString("yyyy-MM-dd 00:00:00") + "' BETWEEN FStartDate AND FEndDate ";
-
-                //        DataSet ds = daCS.dsGetTotalData(sql);
-                //        if (ds == null || ds.Tables.Count == 0 || ds.Tables[0] == null || ds.Tables[0].Rows.Count == 0)
-                //        {
-                //            throw new Exception("当前日期不存在合同！");
-                //        }
-                //        else
-                //        {
-                //            sql = "update t_feecontract set FStandardStatus = " + (int)FeeContractStatus.冻结 + " where Fspid = '" + Fspid + "' AND FStandardStatus <> " + (int)FeeContractStatus.取消 + " AND '" + DateTime.Today.ToString("yyyy-MM-dd 00:00:00") + "' BETWEEN FStartDate AND FEndDate ";
-
-                //            daCS.ExecSql(sql);
-
-                //            sql = "update t_settlement set FRecordStatus = " + (int)FeeRecordStatus.无效 + " where Fspid = '" + Fspid + "' AND '" + DateTime.Today.ToString("yyyy-MM-dd 00:00:00") + "' BETWEEN FStartDate AND FEndDate ";
-
-                //            daJS.ExecSql(sql);
-                //        }
-
-                //        //冻结商户要求去掉商户退款_转账（8）和商户退款_银行提现（10）这2个权限
-                //        //前28属于signorder = 1后63到68属于signorder=3
-                //        int iFSign = GetRole(Fspid, Fspid, 1);
-                //        string str = Convert.ToString((long)iFSign, 2);
-                //        str = str.PadLeft(32, '0');
-                //        //从右往左数，把第8和10位置为0
-                //        if (str.Substring(22, 1) == "1" || str.Substring(24, 1) == "1")
-                //        {
-                //            str = str.Substring(0, 22) + "0" + str.Substring(23, 1) + "0" + str.Substring(25, 7);
-                //            iFSign = Convert.ToInt32(str, 2);
-                //            SetRole(Fspid, Fspid, iFSign, 1);
-                //        }
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        throw new Exception("冻结失败：操作合同失败，" + ex.Message);
-                //    }
-                //    finally
-                //    {
-                //        daCS.Dispose();
-                //        daJS.Dispose();
-                //    }
-                //    try
-                //    {
-                //        string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
-                //            "select @Type = Flag,@CompanyName=CompanyName from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' " +
-                //            "IF @Type is null " +
-                //            "BEGIN " +
-                //            "raiserror 99999 '该商户号不存在!' " +
-                //            "END " +
-                //            "ELSE BEGIN " +
-                //            "begin tran " +
-                //            "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(3,'" + UserName + "',12,@CompanyName) " +
-                //            "if @@error<>0 rollback tran " +
-                //            "set @taskid = SCOPE_IDENTITY() " +
-                //            "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,12,'" + Fspid + "','" + Reason + "') " +
-                //            "if @@error=0 commit tran " +
-                //            "else rollback tran " +
-                //            "END " +
-                //            "update ApplyCpInfoX set Flag=12 where spid='" + Fspid + "'";
-                //        PR.ModifySqlServerData(sql);
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        throw new Exception("冻结商户成功：记录日志失败，" + ex.Message);
-                //    }
-                //}
+            {//暂停结算             
                 try
                 {
                     if (new SPOAService().FreezeSpid(Fspid, UserName, Reason) != "0")
@@ -16384,56 +13302,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             if (IsAccLoss)
             {//账号挂失51
                 try
-                {
-                    //string sqlpr = "select Flag from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' ";
-                    //DataSet dspr = PR.GetSqlServerData(sqlpr);
-                    //if (dspr.Tables[0].Rows[0]["Flag"].ToString() == "51")
-                    //{
-                    //    throw new Exception("该商户已账号挂失，请勿重复操作！");
-                    //}
-                    //else
-                    //{//设置权限位
-                    //    int iFSign = GetRole(Fspid, Fspid, 1);
-                    //    string str = Convert.ToString((long)iFSign, 2);
-                    //    str = str.PadLeft(32, '0');
-                    //    //从右往左数6 7 8 9 10 13 17 19 20 25 27 39 位置为0
-                    //    str = str.Substring(0, 22) + "00000" + str.Substring(27);
-                    //    str = str.Substring(0, 19) + "0" + str.Substring(20);//13
-                    //    str = str.Substring(0, 15) + "0" + str.Substring(16);//17
-                    //    str = str.Substring(0, 12) + "00" + str.Substring(14);//19 20
-                    //    str = str.Substring(0, 7) + "0" + str.Substring(8);//25
-                    //    str = str.Substring(0, 5) + "0" + str.Substring(6);//27
-                    //    iFSign = Convert.ToInt32(str, 2);
-                    //    SetRole(Fspid, Fspid, iFSign, 1);
-
-                    //    //设置39权限位,从32开始
-                    //    int iFSign2 = GetRole(Fspid, Fspid, 2);
-                    //    string str2 = Convert.ToString((long)iFSign2, 2);
-                    //    str2 = str2.PadLeft(32, '0');
-                    //    str2 = str2.Substring(0, 24) + "0" + str2.Substring(25);//39
-                    //    iFSign2 = Convert.ToInt32(str2, 2);
-                    //    SetRole(Fspid, Fspid, iFSign2, 2);
-
-                    //    //记录操作日志
-                    //    string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
-                    //        "select @Type = Flag,@CompanyName=CompanyName from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' " +
-                    //        "IF @Type is null " +
-                    //        "BEGIN " +
-                    //        "raiserror 99999 '该商户号不存在!' " +
-                    //        "END " +
-                    //        "ELSE BEGIN " +
-                    //        "begin tran " +
-                    //        "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(3,'" + UserName + "',51,@CompanyName) " +
-                    //        "if @@error<>0 rollback tran " +
-                    //        "set @taskid = SCOPE_IDENTITY() " +
-                    //        "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,51,'" + Fspid + "','" + Reason + "') " +
-                    //        "if @@error=0 commit tran " +
-                    //        "else rollback tran " +
-                    //        "END " +
-                    //        "update ApplyCpInfoX set Flag=51 where spid='" + Fspid + "'";
-                    //    PR.ModifySqlServerData(sql);
-                    //}
-
+                {                 
                     if (new SPOAService().LostOfSpid(Fspid, UserName, Reason) != "0")
                     {
                         throw new Exception("账号挂失失败!");
@@ -16447,43 +13316,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             if (IsCloseAgent)
             {//关闭中介52
                 try
-                {
-                    //string sqlpr = "select Flag from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' ";
-                    //DataSet dspr = PR.GetSqlServerData(sqlpr);
-                    //if (dspr.Tables[0].Rows[0]["Flag"].ToString() == "52")
-                    //{
-                    //    throw new Exception("该商户已关闭中介，请勿重复操作！");
-                    //}
-                    //else
-                    //{//设置权限位
-                    //    int iFSign = GetRole(Fspid, Fspid, 2);
-                    //    string str = Convert.ToString((long)iFSign, 2);
-                    //    str = str.PadLeft(32, '0');
-                    //    //从32开始从右往左数33 34 35 46 位置为0
-                    //    str = str.Substring(0, 28) + "000" + str.Substring(31, 1);
-                    //    str = str.Substring(0, 17) + "0" + str.Substring(18);//46
-                    //    iFSign = Convert.ToInt32(str, 2);
-                    //    SetRole(Fspid, Fspid, iFSign, 2);
-
-                    //    //记录操作日志
-                    //    string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
-                    //        "select @Type = Flag,@CompanyName=CompanyName from vCompanyInfo(nolock) where CompanyID = '" + Fspid + "' " +
-                    //        "IF @Type is null " +
-                    //        "BEGIN " +
-                    //        "raiserror 99999 '该商户号不存在!' " +
-                    //        "END " +
-                    //        "ELSE BEGIN " +
-                    //        "begin tran " +
-                    //        "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(3,'" + UserName + "',52,@CompanyName) " +
-                    //        "if @@error<>0 rollback tran " +
-                    //        "set @taskid = SCOPE_IDENTITY() " +
-                    //        "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,52,'" + Fspid + "','" + Reason + "') " +
-                    //        "if @@error=0 commit tran " +
-                    //        "else rollback tran " +
-                    //        "END " +
-                    //        "update ApplyCpInfoX set Flag=52 where spid='" + Fspid + "'";
-                    //    PR.ModifySqlServerData(sql);
-                    //}
+                {                 
                     if (new SPOAService().CloseAgency(Fspid, UserName, Reason) != "0")
                     {
                         throw new Exception("关闭中介失败!");
@@ -16522,15 +13355,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 //外发邮件
-                //				System.Web.Mail.MailMessage mail = new System.Web.Mail.MailMessage();
-                //				mail.From = ConfigurationManager.AppSettings["InnermailFrom"].ToString();        
-                //				mail.To   = ConfigurationManager.AppSettings["amendcheck_fk"].ToString().Replace(";","@tencent.com;"); 
-                //				mail.BodyFormat = System.Web.Mail.MailFormat.Html;
-                //				mail.Body =GetEmalContentFK(maskid,Type,UserName); 
-                //				mail.Subject  = Type + "，请风控审核";  
-                //				System.Web.Mail.SmtpMail.SmtpServer = ConfigurationManager.AppSettings["InnersmtpServer"].ToString(); 
-                //				System.Web.Mail.SmtpMail.Send(mail);
-
                 TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend newMail = new TENCENT.OSS.C2C.Finance.Common.CommLib.NewMailSend();
                 newMail.SendMail(ConfigurationManager.AppSettings["amendcheck_fk"].ToString().Replace(";", "@tencent.com;"), "", Type + "，请风控审核", GetEmalContentFK(maskid, Type, UserName), true, null);
 
@@ -16582,67 +13406,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public void ShutRefund(string Fspid, string UserName, string Reason)
         {
             try
-            {
-                //PublicRes PR = new PublicRes();
-                //string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
-                //    "select @Type = Flag,@CompanyName=CompanyName from ApplyCpInfoX(nolock) where SPId = '" + Fspid + "' " +
-                //    "IF @Type is null " +
-                //    "BEGIN " +
-                //    "select @Type = StateID,@CompanyName=CompanyName from ResultInfo(nolock) where BusinessNo = '" + Fspid + "' " +
-                //    "if @Type is null " +
-                //    "raiserror 99999 '该商户号不存在!' " +
-                //    "else if @Type = 99 " +
-                //    "raiserror 99999 '该商户已处于注销状态!' " +
-                //    "else " +
-                //    "begin " +
-                //    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                //    "and a.amendtype=42 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                //    "raiserror 99999 '该商户已存在待审核记录!' " +
-                //    "else " +
-                //    "begin " +
-                //    "begin tran " +
-                //    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',42,@CompanyName) " +
-                //    "if @@error<>0 rollback tran " +
-                //    "set @taskid = SCOPE_IDENTITY() " +
-                //    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,42,'" + Fspid + "','" + Reason + "') " +
-                //    "if @@error=0 commit tran " +
-                //    "else rollback tran " +
-                //    "end " +
-                //    "end " +
-                //    "END " +
-                //    "ELSE IF @Type = 8 " +
-                //    "raiserror 99999 '该商户已处于注销状态!' " +
-                //    "ELSE " +
-                //    "BEGIN " +
-                //    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                //    "and a.amendtype=42 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                //    "raiserror 99999 '该商户已存在待审核记录!' " +
-                //    "else " +
-                //    "begin " +
-                //    "begin tran " +
-                //    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',42,@CompanyName) " +
-                //    "if @@error<>0 rollback tran " +
-                //    "set @taskid = SCOPE_IDENTITY() " +
-                //    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,42,'" + Fspid + "','" + Reason + "') " +
-                //    "if @@error=0 commit tran " +
-                //    "else rollback tran " +
-                //    "select @taskid " +
-                //    "end " +
-                //    "END ";
-                //DataSet ds = PR.GetSqlServerData(sql);
-                //if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count == 1)
-                //{
-                //    if (ds.Tables[0].Rows[0][0].ToString() != "")
-                //    {
-                //        //增加风控邮件功能
-                //        SetEmailToFKCheck(int.Parse(ds.Tables[0].Rows[0][0].ToString()), UserName, "申请关闭商户退款权限");
-                //    }
-                //    else
-                //    {
-                //        throw new Exception("关闭商户退款申请失败!");
-                //    }
-                //}
-
+            {             
                 if (new SPOAService().CloseRefund(Fspid, UserName, Reason) != "0")
                 {
                     throw new Exception("关闭商户退款申请失败!");
@@ -16654,83 +13418,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
         [WebMethod]
         public void ApplyRefund(string Fspid, string UserName, string Reason)    //开通退款申请
         {
             try
-            {
-                //PublicRes PR = new PublicRes();
-                //string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
-                //    "select @Type = Flag,@CompanyName=CompanyName from ApplyCpInfoX(nolock) where SPId = '" + Fspid + "' " +
-                //    "IF @Type is null " +
-                //    "BEGIN " +
-                //    "select @Type = StateID,@CompanyName=CompanyName from ResultInfo(nolock) where BusinessNo = '" + Fspid + "' " +
-                //    "if @Type is null " +
-                //    "raiserror 99999 '该商户号不存在!' " +
-                //    "else if @Type = 99 " +
-                //    "raiserror 99999 '该商户已处于注销状态!' " +
-                //    "else " +
-                //    "begin " +
-                //    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                //    "and a.amendtype=43 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                //    "raiserror 99999 '该商户已存在待审核记录!' " +
-                //    "else " +
-                //    "begin " +
-                //    "if not exists (select top 1 a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                //    "and a.amendtype=42 and a.TaskId = b.TaskId and b.AmendState=3 order by a.taskid desc) " +
-                //    "raiserror 99999 '该商户未申请过关闭退款!' " +
-                //    "else " +
-                //    "begin " +
-                //    "begin tran " +
-                //    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',43,@CompanyName) " +
-                //    "if @@error<>0 rollback tran " +
-                //    "set @taskid = SCOPE_IDENTITY() " +
-                //    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,43,'" + Fspid + "','" + Reason + "') " +
-                //    "if @@error=0 commit tran " +
-                //    "else rollback tran " +
-                //    "end " +
-                //    "end " +
-                //    "end " +
-                //    "END " +
-                //    "ELSE IF @Type = 8 " +
-                //    "raiserror 99999 '该商户已处于注销状态!' " +
-                //    "ELSE " +
-                //    "BEGIN " +
-                //    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                //    "and a.amendtype=43 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                //    "raiserror 99999 '该商户已存在待审核记录!' " +
-                //    "else " +
-                //    "begin " +
-                //    "if not exists (select top 1 a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                //    "and a.amendtype=42 and a.TaskId = b.TaskId and b.AmendState=3 order by a.taskid desc) " +
-                //    "raiserror 99999 '该商户未申请过关闭退款!' " +
-                //    "else " +
-                //    "begin " +
-                //    "begin tran " +
-                //    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',43,@CompanyName) " +
-                //    "if @@error<>0 rollback tran " +
-                //    "set @taskid = SCOPE_IDENTITY() " +
-                //    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,43,'" + Fspid + "','" + Reason + "') " +
-                //    "if @@error=0 commit tran " +
-                //    "else rollback tran " +
-                //    "select @taskid " +
-                //    "end " +
-                //    "end " +
-                //    "END ";
-                //DataSet ds = PR.GetSqlServerData(sql);
-                //if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count == 1)
-                //{
-                //    if (ds.Tables[0].Rows[0][0].ToString() != "")
-                //    {
-                //        //增加风控邮件功能
-                //        SetEmailToFKCheck(int.Parse(ds.Tables[0].Rows[0][0].ToString()), UserName, "申请开通商户退款权限");
-                //    }
-                //    else
-                //    {
-                //        throw new Exception("关闭商户退款申请失败!");
-                //    }
-                //}
+            {               
                 if (new SPOAService().OpenRefund(Fspid, UserName, Reason) != "0")
                 {
                     throw new Exception("开通退款申请失败!");
@@ -16748,53 +13440,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public void BusinessResume(string Fspid, string UserName, string Reason)
         {
             try
-            {
-                //PublicRes PR = new PublicRes();
-                //string sql = " Declare @Type int,@taskid int,@CompanyName nvarchar(100) " +
-                //    "select @Type = Flag,@CompanyName=CompanyName from ApplyCpInfoX(nolock) where SPId = '" + Fspid + "' " +
-                //    "IF @Type is null " +
-                //    "BEGIN " +
-                //    "select @Type = StateID,@CompanyName=CompanyName from ResultInfo(nolock) where BusinessNo = '" + Fspid + "' " +
-                //    "if @Type is null " +
-                //    "raiserror 99999 '该商户号不存在!' " +
-                //    "else if @Type = 11 " +
-                //    "raiserror 99999 '该商户已处于恢复状态!' " +
-                //    "else " +
-                //    "begin " +
-                //    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                //    "and a.amendtype=13 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                //    "raiserror 99999 '该商户已存在待审核记录!' " +
-                //    "else " +
-                //    "begin " +
-                //    "begin tran " +
-                //    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',13,@CompanyName) " +
-                //    "if @@error<>0 rollback tran " +
-                //    "set @taskid = SCOPE_IDENTITY() " +
-                //    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,13,'" + Fspid + "','" + Reason + "') " +
-                //    "if @@error=0 commit tran " +
-                //    "else rollback tran " +
-                //    "end " +
-                //    "end " +
-                //    "END " +
-                //    "ELSE IF @Type = 4 " +
-                //    "raiserror 99999 '该商户已处于恢复状态!' " +
-                //    "ELSE " +
-                //    "BEGIN " +
-                //    "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                //    "and a.amendtype=13 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                //    "raiserror 99999 '该商户已存在待审核记录!' " +
-                //    "else " +
-                //    "begin " +
-                //    "begin tran " +
-                //    "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(-1,'" + UserName + "',13,@CompanyName) " +
-                //    "if @@error<>0 rollback tran " +
-                //    "set @taskid = SCOPE_IDENTITY() " +
-                //    "insert into t_msp_amend_info(TaskId,AmendType,SPId,ApplyResult) values(@taskid,13,'" + Fspid + "','" + Reason + "') " +
-                //    "if @@error=0 commit tran " +
-                //    "else rollback tran " +
-                //    "end " +
-                //    "END ";
-                //PR.ModifySqlServerData(sql);
+            {              
                 if (new SPOAService().RestoreOfSpid(Fspid, UserName, Reason) != "0")
                 {
                     throw new Exception("商户恢复申请失败！");
@@ -16833,7 +13479,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 string errMsg;
                 string strWhere = "vali_type=2&cre_type=1&cre_id=" + cerNum;
-
                 string result = CommQuery.GetOneResultFromICE(strWhere, "fund_queryacc_service", "uid", out errMsg);
 
                 return result;
@@ -16844,7 +13489,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
         [WebMethod(Description = "获取B2C退款查询个数函数")]
         public int GetB2cReturnCount(string spid, string begintime, string endtime, int refundtype, int status,
             string tranid, string buyqq, string banktype, int sumtype, string drawid)
@@ -16852,14 +13496,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 B2cReturnClass cuser = new B2cReturnClass(spid, begintime, endtime, refundtype, status, tranid, buyqq, banktype, sumtype, drawid);
-
-                //return cuser.GetCount("INC");
                 return 10000;
             }
             catch (Exception e)
             {
                 string tmp = e.Message;
-                //throw new Exception("service发生错误,请联系管理员！");
                 return 0;
             }
         }
@@ -16873,11 +13514,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 DataSet ds = null;
                 if (queryTable == 3)//查询快照表 andrew 20120712
                 {
-
                     B2cReturnClass cuser = new B2cReturnClass(spid, begintime, endtime, refundtype, status, tranid, buyqq, banktype, sumtype, drawid);
                     ds = cuser.GetResultX(istart, imax, "ZWTK");
-
-
                 }
                 else if (queryTable == 1)//商户退款申请表
                 {
@@ -16892,51 +13530,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         string comSql = "draw_id=" + drawid;
                         string msg = "";
                         tranid = CommQuery.GetOneResultFromICE(comSql, CommQuery.QUERY_REFUND_RELATION, "Ftransaction_id", out msg);
-
-                        //20141114 FINANCE_OD_QUERY_REFUND_RELATION改调relay
-                        /////////////////////////////////////
-
-                        // string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
-                        // string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
-
-                        // string req = "request_type=100569&ver=1&head_u=&sp_id=&draw_id=" + drawid;
-
-
-                        //string Msg = ""; //重置
-
-                        // string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
-
-                        // if (answer == "")
-                        // {
-                        //     tranid = "";
-                        // }
-                        // if (Msg != "")
-                        // {
-                        //     throw new Exception("调relay异常："+Msg);
-                        // }
-
-                        // //解析relay str
-                        // ds = CommQuery.ParseRelayStr(answer, out Msg);
-                        // if (Msg != "")
-                        // {
-                        //     throw new Exception("解析relay异常：" + Msg);
-                        // }
-
-                        // if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                        // {
-                        //     tranid = ds.Tables[0].Rows[0]["ftransaction_id"].ToString();
-                        // }
-                        // else
-                        //     tranid = "";
-                        ///////////////////////////////
-
-
+                      
                         if (tranid == null || tranid.Trim() == "")
                         {
                             throw new Exception("通过退款单号：" + drawid + "未查询到对应的交易单号！");
                         }
                     }
-
 
                     if (tranid.Trim() != "")//交易单不为空
                     {
@@ -16948,39 +13547,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         string strSql = cuser.ICESQL + "&strlimit=limit " + start + "," + imax;
                         string errMsg = "";
                         ds = CommQuery.GetDataSetFromICE(strSql, CommQuery.QUERY_MCH_REFUND, out errMsg);
-
-
-                        //20141114 FINANCE_OD_QUERY_MCH_REFUND改调relay
-                        /////////////////////////////////////
-
-                        //string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
-                        //string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
-
-                        //string req = "request_type=100568&ver=1&head_u=&sp_id=&" + strSql;
-
-
-                        //string Msg = ""; //重置
-
-                        //string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
-
-                        //if (answer == "")
-                        //{
-                        //    ds=null;
-                        //}
-                        //if (Msg != "")
-                        //{
-                        //    throw new Exception("调relay异常：" + Msg);
-                        //}
-
-                        ////解析relay str
-                        //ds = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
-                        //if (Msg != "")
-                        //{
-                        //    throw new Exception("解析relay异常：" + Msg);
-                        //}
-
-                        ///////////////////////////////
-
+                  
                     }
                     else
                     {
@@ -17012,7 +13579,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     #region 转化操作
 
                     DataTable dt = ds.Tables[0];
-
                     TransferB2cReturnTable(dt);
 
                     #endregion
@@ -17028,10 +13594,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             catch (Exception e)
             {
                 throw new Exception(e.Message);
-                //return null;
             }
         }
-
 
         private void TransferB2cReturnTable(DataTable dt)
         {
@@ -17043,8 +13607,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             dt.Columns.Add("Fbank_typeName", typeof(String));
             dt.Columns.Add("FareaName", typeof(String));
             dt.Columns.Add("FcityName", typeof(String));
-
-
 
             foreach (DataRow dr in dt.Rows)
             {
@@ -17204,15 +13766,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             try
             {
-
                 DataSet ds = new DataSet();
-
                 da.OpenConn();
-
                 filter = (filter == "") ? "" : (" WHERE " + filter);
-
                 string sql = "SELECT * FROM t_settlement " + filter + " ORDER BY FSpid,FPreDate DESC,FCalculateNo";
-
                 ds = da.dsGetTotalData(sql);
 
                 return ds;
@@ -17269,13 +13826,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             try
             {
-
                 DataSet ds = new DataSet();
-
                 da.OpenConn();
-
                 string sql = "SELECT FChannelNo,FProductType,FName FROM t_producttype WHERE FRecordStatus=1 ORDER BY FChannelNo,FProductType";
-
                 ds = da.dsGetTotalData(sql);
 
                 return ds;
@@ -17294,19 +13847,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod(Description = "结算查询得静态值函数2")]
         public DataSet QueryForSelect2_NOUSE()
         {
-            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB_V30"));
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZLB"));
 
             try
             {
-
                 DataSet ds = new DataSet();
-
                 da.OpenConn();
-
-                //string sql = "SELECT FSpid,Ftruename AS FName FROM c2c_db.t_middle_user ORDER BY FSpid";
                 string sql = "SELECT FSpid,FName FROM c2c_db.t_merchant_info ORDER BY FSpid";
-
                 ds = da.dsGetTotalData(sql);
 
                 return ds;
@@ -17330,13 +13877,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             try
             {
-
                 DataSet ds = new DataSet();
-
                 da.OpenConn();
-
                 string sql = "SELECT FChannelNo,FName FROM t_channel WHERE FRecordStatus=1 ORDER BY FChannelNo";
-
                 ds = da.dsGetTotalData(sql);
 
                 return ds;
@@ -17358,13 +13901,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             try
             {
-
                 DataSet ds = new DataSet();
-
                 da.OpenConn();
-
                 string sql = "SELECT FFeeItem,FName FROM t_feeitem WHERE FRecordStatus=1 ORDER BY FFeeItem";
-
                 ds = da.dsGetTotalData(sql);
 
                 return ds;
@@ -17387,13 +13926,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             try
             {
-
                 DataSet ds = new DataSet();
-
                 da.OpenConn();
-
                 string sql = "SELECT FFeeStandard,FName FROM t_feestandard WHERE FRecordStatus=1 AND FNo=0 ORDER BY FFeeStandard";
-
                 ds = da.dsGetTotalData(sql);
 
                 return ds;
@@ -17416,18 +13951,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             try
             {
-
                 DataSet ds = new DataSet();
 
-                //da.OpenConn();
-
                 id = id.Replace("'", "''").Replace("\r\n", "' + CHAR(13) + CHAR(10) + '").Replace("\n", "' + CHAR(10) + '");
-
-                /*
-                string sql = "SELECT * FROM c2c_db.t_merchant_info WHERE FSpid='"+id+"'";
-
-                ds = da.dsGetTotalData(sql);
-                */
 
                 string Msg = "";
                 string strSql = "spid=" + id;
@@ -17445,96 +13971,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
         private int GetUid(string special)
         {
             //furion 20061115 email修改相关
             if (special == null || special.Trim().Length < 3)
                 return 0;
 
-
             string qqid = special.Trim();
-
-            return Int32.Parse(PublicRes.ConvertToFuid(qqid));
-
-            /*string uid3 = "";
-            try
-            {
-                long itmp = long.Parse(qqid);
-                uid3 = qqid;
-            }
-            catch
-            {
-                return 0;
-            }
-
-            string dbname = "c2c_db_"+uid3.Substring(uid3.Length-2,2);
-
-            string tableName = dbname+".t_relation_"+uid3.Substring(uid3.Length-3,1);
-
-            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB_V30"));
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZLB"));
-
-            DataSet ds = new DataSet();
-
-            object uid = null;
-
-            try
-            {
-                da.OpenConn();
-
-                qqid = qqid.Replace("'","''").Replace("\r\n", "' + CHAR(13) + CHAR(10) + '").Replace("\n", "' + CHAR(10) + '");
-								
-                string sql = "SELECT FUid FROM "+tableName+" WHERE Fqqid='"+qqid+"'";
-
-                ds = da.dsGetTotalData(sql);
-
-                uid = ds.Tables[0].Rows[0]["FUid"].ToString().Trim();
-            }
-            catch(Exception e)
-            {
-                return 0;
-            }
-            finally
-            {
-                da.Dispose();
-            }
-
-            if ( uid == null )
-                return 0;
-            else
-                return Convert.ToInt32(uid);
-                */
+            return Int32.Parse(PublicRes.ConvertToFuid(qqid));         
         }
 
 
         private DataSet GetBanks()
-        {
-            /*
-            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB_V30"));
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZLB"));
-
-            DataSet ds = new DataSet();
-
-            try
-            {
-                da.OpenConn();
-								
-                string sql = "SELECT Fbank_type,Fmemo FROM c2c_db.t_tc_bank WHERE Fbank_type>1000 ORDER BY Fbank_type";
-
-                ds = da.dsGetTotalData(sql);
-
-                return ds;
-            }
-            catch(Exception e)
-            {
-                return null;
-            }
-            finally
-            {
-                da.Dispose();
-            }
-            */
+        {         
             string Msg = "";
             DataSet ds = QueryDicInfoByType("BANK_TYPE", out Msg);
             return ds;
@@ -17543,16 +13992,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         private string NameByType(string type)
         {
-            return GetBankName(type);
-            /*
-            for (int i=0;i<GetBanks().Tables[0].Rows.Count;i++)
-            {
-                if (GetBanks().Tables[0].Rows[i]["Fbank_type"].ToString()==type)
-                    return GetBanks().Tables[0].Rows[i]["Fmemo"].ToString();
-					
-            }
-            return "";
-            */
+            return GetBankName(type);          
         }
 
 
@@ -17565,55 +14005,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             if (uid != 0 && uid.ToString().Length > 2)
             {
-                /*
-                string suid = uid.ToString();
-                string dbname = "c2c_db_"+suid.Substring(suid.Length-2,2);
-                string tableName = dbname+".t_bank_user_"+suid.Substring(suid.Length-3,1);
-
-                MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZL"));
-	
-                DataSet ds = new DataSet();
-	
-                try
-                {
-                    da.OpenConn();
-									
-                    string sql = "SELECT * FROM "+tableName+" WHERE FUid="+uid;
-	
-                    ds = da.dsGetTotalData(sql);
-                }
-                catch(Exception e)
-                {
-                    return bank;
-                }
-                finally
-                {
-                    da.Dispose();
-                }
-
-                if ( ds.Tables[0].Rows.Count>0 )
-                {
-                    string FbankID = ds.Tables[0].Rows[0]["Fbankid"].ToString().Trim();
-                    string NewFbankID = "";
-
-                    if(FbankID != "" && FbankID.Length > 5)
-                    {
-                        for(int i=0;i<FbankID.Length-5;i++)
-                        {
-                            NewFbankID += "*";
-                        }
-                        NewFbankID = NewFbankID + FbankID.Substring(FbankID.Length-5,5).ToString();
-                    }
-                    else
-                        NewFbankID = FbankID;
-
-                    bank = NameByType(ds.Tables[0].Rows[0]["Fbank_type"].ToString())+"  "+
-                        ds.Tables[0].Rows[0]["Fbank_name"].ToString()+"  "+
-                        NewFbankID;
-                }
-                ds.Dispose();
-                */
-
+               
                 string Msg = "";
                 string strSql = "uid=" + uid + "&curtype=1";
                 DataTable dt = CommQuery.GetTableFromICE(strSql, CommQuery.QUERY_BANKUSER, out Msg);
@@ -17652,13 +14044,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 DataSet ds = new DataSet();
-
                 da.OpenConn();
-
                 filter = (filter == "") ? "" : " AND (" + filter + ")";
 
                 string sql = "SELECT * FROM t_feecontract WHERE FRecordStatus=1" + filter + " ORDER BY FFeeContract,FNo,FChannelNo,FProductType";
-
                 ds = da.dsGetTotalData(sql);
 
                 return ds;
@@ -17681,7 +14070,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 DataSet ds = new DataSet();
-
                 da.OpenConn();
 
                 filter = (filter == "") ? "" : " AND (" + filter + ")";
@@ -17713,9 +14101,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 DataSet ds = new DataSet();
-
                 da.OpenConn();
-
 
                 if (dateTo < dateFrom)
                     dateTo = dateFrom;
@@ -18421,33 +14807,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
 
                 string req = "";
-                //需求86之前代码
-                //if (card_tail != null && card_tail != "" && card_tail.Length <= 4)
-                //{
-                //    //需要参数query_type=3&bank_type=&card_tail=&qqid=&function=BIND_CANCEL
-                //    req = "function=BIND_CANCEL&query_type=3";
-                //    req += "&bank_type=" + bankType;
-                //    req += "&qqid=" + qqid;
-                //    req += "&card_tail=" + card_tail;
-                //    //测试通过：req = "function=BIND_CANCEL&query_type=3&bank_type=3107&qqid=2817570940&card_tail=7834";
-                //}
-                //else
-                //{
-                //    if (bindSerialno == "")
-                //    {
-                //        msg = "绑定序列号为空，无法解绑";
-                //        throw new LogicException(msg);
-                //    }
-                //    else
-                //    {
-                //        //需要参数query_type=2&bank_type=&qqid=&bind_serialno=$Fbind_serialno
-                //        req = "function=BIND_CANCEL&query_type=2";
-                //        req += "&bank_type=" + bankType;
-                //        req += "&qqid=" + qqid;
-                //        req += "&bind_serialno=" + bindSerialno;
-                //    }
-                //}
-
+               
                 if (protocol_no == "0")
                 {
                     if (card_tail != null && card_tail != "" && card_tail.Length <= 4)
@@ -18486,12 +14846,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 string service_name = "bind_modi_service";
                 DataSet ds = CommQuery.GetOneTableFromICE(req, "", service_name, out msg);
-                //if (ds != null && ds.Tables.Count > 0)
-                //{
-                //    DataTable dt = ds.Tables[0];
-                //    string res_info = dt.Rows[0]["res_info"].ToString();
-
-                //}
+         
                 if (ds == null)
                 {
                     throw new LogicException(msg);
@@ -18606,15 +14961,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
 
                     filter = filter.Substring(0, filter.Length - 1) + ") ";
-
-                    /*
-                    fuid = ds_findUID.Tables[0].Rows[0]["fuid"].ToString();
-                    if(fuid == null || fuid.Trim() == "")
-                        return null;
-                    filter += " and fuid=" + fuid;
-                    */
-
-                    //throw new Exception("必须输入QQ帐号或内部ID作为查询条件！");
                 }
 
                 if (!isShowAboutDetail)
@@ -18849,150 +15195,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         #endregion
 
         #region 信用卡还款查询
-        //[WebMethod(Description = "查询信用卡还款记录数(按财付通号查询)")]//慢查询，不要了
-        //public DataSet GetCreditQueryListForFaidCount(string QQOrEmail, DateTime begindate, DateTime enddate)
-        //{
-        //    return null;
-        //    //			string Fuid = PublicRes.ConvertToFuidX(QQOrEmail);
-        //    //
-        //    //			MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YW"));
-        //    //			try
-        //    //			{
-        //    //				da.OpenConn();
-        //    //
-        //    //				string sql = "SELECT Count(1) FROM c2c_db.t_tcpay_list WHERE Fuid='" + Fuid +
-        //    //                             "' AND Fpay_front_time >='" + begindate.ToString("yyyy-MM-dd 00:00:00") +
-        //    //					         "' AND Fpay_front_time <='" + enddate.ToString("yyyy-MM-dd 23:59:59") + "' AND Fbankid IN (5,8)" +
-        //    //					         " AND Fmodify_time >= '" + begindate.ToString("yyyy-MM-dd 00:00:00") +
-        //    //					         "' AND Fmodify_time <= '" + enddate.AddDays(7).ToString("yyyy-MM-dd 23:59:59") + "' AND Fbank_type <> 2033";
-        //    //
-        //    //				DataSet ds = da.dsGetTotalData(sql);
-        //    //
-        //    //				return ds;
-        //    //			}
-        //    //			catch(Exception e)
-        //    //			{
-        //    //				throw new Exception("service发生错误,请联系管理员！");
-        //    //			}
-        //    //			finally
-        //    //			{
-        //    //				da.Dispose();
-        //    //			}
-        //}
-
-        //[WebMethod(Description = "查询信用卡还款记录数")]//2015-8-11 改接口 v_yqyqguo
-        //public DataSet GetCreditQueryListCount(string Flistid)
-        //{
-        //    MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB"));
-        //    try
-        //    {
-        //        da.OpenConn();
-
-        //        string sql = "SELECT Count(1) FROM c2c_db.t_tcpay_list WHERE Flistid='" + Flistid + "'";
-
-        //        DataSet ds = da.dsGetTotalData(sql);
-
-        //        return ds;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new Exception("service发生错误,请联系管理员！");
-        //    }
-        //    finally
-        //    {
-        //        da.Dispose();
-        //    }
-        //}
-
-        //[WebMethod(Description = "查询信用卡还款记录(按财付通号查询)")] //2015-8-11 改接口 v_yqyqguo
-        //public DataSet GetCreditQueryListForFaid(string QQOrEmail, DateTime begindate, DateTime enddate, int istart, int imax)
-        //{
-        //    string Fuid = PublicRes.ConvertToFuidX(QQOrEmail);
-
-        //    MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB"));
-        //    try
-        //    {
-        //        da.OpenConn();
-
-        //        string strwhere = " WHERE Fuid='" + Fuid +
-        //            "' AND Fpay_front_time_acc >='" + begindate.ToString("yyyy-MM-dd 00:00:00") +
-        //            "' AND Fpay_front_time_acc <='" + enddate.ToString("yyyy-MM-dd 23:59:59") + "' AND Fbankid IN (5,8,36,37)" +
-        //            " AND Fmodify_time >= '" + begindate.ToString("yyyy-MM-dd 00:00:00") +
-        //            "' AND Fmodify_time <= '" + enddate.AddDays(7).ToString("yyyy-MM-dd 23:59:59") + "' AND Fbank_type <> 2033";
-
-        //        string currtable = "";
-        //        string othertable = "";
-        //        PickQueryClass.GetPayListTableFromTime(begindate, out currtable, out othertable);
-
-        //        //**furion提现单改造20120216 不再使用 时间用Fpay_front_time_acc
-        //        string sql = "SELECT Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time " +
-        //            "FROM c2c_db.t_tcpay_list " + strwhere;
-
-        //        sql += " union all select Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time from " + currtable + strwhere;
-        //        sql += " union all select Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time from " + othertable + strwhere;
-        //        sql += " ORDER BY Fpay_front_time DESC " + " Limit " + (istart - 1) + "," + imax;
-
-        //        /* 原来流程
-        //        string sql = "SELECT Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time " + 
-        //            "FROM c2c_db.t_tcpay_list WHERE Fuid='" + Fuid +
-        //                     "' AND Fpay_front_time >='" + begindate.ToString("yyyy-MM-dd 00:00:00") +
-        //                     "' AND Fpay_front_time <='" + enddate.ToString("yyyy-MM-dd 23:59:59") + "' AND Fbankid IN (5,8)" +
-        //                     " AND Fmodify_time >= '" + begindate.ToString("yyyy-MM-dd 00:00:00") +
-        //                     "' AND Fmodify_time <= '" + enddate.AddDays(7).ToString("yyyy-MM-dd 23:59:59") + "' AND Fbank_type <> 2033" +
-        //                     " ORDER BY Fpay_front_time DESC " + " Limit "+ (istart-1) +"," + imax;
-        //         */
-        //        DataSet ds = da.dsGetTotalData(sql);
-
-        //        return ds;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new Exception("service发生错误,请联系管理员！");
-        //    }
-        //    finally
-        //    {
-        //        da.Dispose();
-        //    }
-        //}
-
-
-        //[WebMethod(Description = "查询信用卡还款记录")] //2015-8-11 改接口 v_yqyqguo
-        //public DataSet GetCreditQueryList(string Flistid, int istart, int imax)
-        //{
-        //    MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YWB"));
-        //    try
-        //    {
-        //        da.OpenConn();
-
-        //        //**furion提现单改造20120216
-        //        string sql = "SELECT Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time FROM c2c_db.t_tcpay_list WHERE Flistid='" + Flistid + "'";
-
-        //        string currtable = "";
-        //        string othertable = "";
-        //        PickQueryClass.GetPayListTableFromID(Flistid, out currtable, out othertable);
-
-        //        sql += " union all select Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time from " + currtable + " where  Flistid='" + Flistid + "'";
-        //        sql += " union all select Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time from " + othertable + " where  Flistid='" + Flistid + "'";
-        //        sql += " Limit " + (istart - 1) + "," + imax;
-
-        //        /* 原来流程
-        //        string sql = "SELECT Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time " + 
-        //            "FROM c2c_db.t_tcpay_list WHERE Flistid='" + Flistid + "' Limit "+ (istart-1) +"," + imax;
-        //        */
-        //        DataSet ds = da.dsGetTotalData(sql);
-
-        //        return ds;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new Exception("service发生错误,请联系管理员！");
-        //    }
-        //    finally
-        //    {
-        //        da.Dispose();
-        //    }
-        //}
-
+     
         #endregion
 
         #region  付款
@@ -19465,23 +15668,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                         string uid = dr["fuid"].ToString();
                         if (uid != null && uid.Trim() != "")
-                        {
-                            /*
-                            strSql = "select fqqid from " + PublicRes.GetTName("t_user_info",uid) + " where fuid=" + uid;
-                            string qqid = da_zl.GetOneResult(strSql);
-
-                            if(qqid == null || qqid.Trim() == "")
-                            {
-                                strSql = "select femail from " + PublicRes.GetTName("t_user_info",uid) + " where fuid=" + uid;
-                                qqid = da_zl.GetOneResult(strSql);
-                            }
-
-                            if(qqid == null || qqid.Trim() == "")
-                            {
-                                strSql = "select Fmobile from " + PublicRes.GetTName("t_user_info",uid) + " where fuid=" + uid;
-                                qqid = da_zl.GetOneResult(strSql);
-                            }
-                            */
+                        {                           
                             string qqid = ConvertUid2QQ(uid);
 
                             dr["FQQID"] = qqid;
@@ -19565,13 +15752,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
+    
                 Q_InvestorSignInfo query = new Q_InvestorSignInfo(signType, strID, serialno, cerNum, spid, spName, beginDateStr, endDateStr, lim_start, lim_count);
 
                 DataSet queryResult = query.GetResultX_ICE();
@@ -19698,8 +15879,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         }
 
-
-
         [WebMethod(Description = "以财付通订单号帐号或基金易帐号或两者一齐查询基金易信息")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetFundInfo(string listID, string uid, string beginDateStr, string endDateStr, string purType, int limStart, int limCount)
@@ -19723,12 +15902,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
 
                 Q_FundInfo query = new Q_FundInfo(listID, uid, beginDateStr, endDateStr, purType, limStart, limCount);
 
@@ -19882,9 +16055,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.WriteLog();
             }
 
-
         }
-
 
 
         [WebMethod(Description = "查询投资人充值或提现信息")]
@@ -19909,15 +16080,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
+    
                 Q_ChargeInfo query = new Q_ChargeInfo(qType, strID, beginDateStr, endDateStr, listid, lim_start, lim_count);
-
                 DataSet queryResult = query.GetResultX_ICE();
 
                 if (queryResult == null || queryResult.Tables.Count == 0 || queryResult.Tables[0].Rows.Count == 0)
@@ -20016,8 +16180,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
 
-
-
         [WebMethod(Description = "通过证件号码查询用户内部ID")]
         public string QueryUid_ByCerNum(string cerNum)
         {
@@ -20110,13 +16272,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
+    
                 string strWhere = "";
 
                 switch (type)
@@ -20317,80 +16473,79 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
 
-        //[WebMethod(Description = "查询基金账户的支付银行卡信息")]
-        //public DataTable GetPayCardInfo(string qqid)
-        //{
-        //    try
-        //    {
-        //        if (qqid == null || qqid == "")
-        //        {
-        //            throw new LogicException("财付通账号不能为空！");
-        //        }
+        [WebMethod(Description = "查询基金账户的支付银行卡信息")]
+        public DataTable GetPayCardInfo(string qqid)
+        {
+            try
+            {
+                if (qqid == null || qqid == "")
+                {
+                    throw new LogicException("财付通账号不能为空！");
+                }
 
-        //        string fuid = PublicRes.ConvertToFuid(qqid);
-        //        if (string.IsNullOrEmpty(fuid))
-        //        {
-        //            throw new LogicException("财付通账号不存在！");
-        //        }
+                string fuid = PublicRes.ConvertToFuid(qqid);
+                if (string.IsNullOrEmpty(fuid))
+                {
+                    throw new LogicException("财付通账号不存在！");
+                }
 
-        //        string sql = "select * from fund_db.t_fund_pay_card where Fqqid='" + qqid + "'";
+                string sql = "select * from fund_db.t_fund_pay_card where Fqqid='" + qqid + "'";
 
-        //        using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("fund")))
-        //        {
-        //            da.OpenConn();
-        //            var dt = da.GetTable(sql);
-        //            dt.TableName = "PayCardInfo";
-        //            return dt;
-        //        }
-        //    }
-        //    catch (Exception err)
-        //    {
-        //        throw new LogicException("Service处理失败！");
-        //    }
+                using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("fund")))
+                {
+                    da.OpenConn();
+                    var dt = da.GetTable(sql);
+                    dt.TableName = "PayCardInfo";
+                    return dt;
+                }
+            }
+            catch (Exception err)
+            {
+                throw new LogicException("Service处理失败！");
+            }
 
-        //}
+        }
 
+        [WebMethod(Description = "查询基金账户的支付银行卡信息(将银行转义封装在里面)")]
+        public DataTable GetPayCardInfoEx(string qqid)
+        {
+            try
+            {
+                if (qqid == null || qqid == "")
+                {
+                    throw new LogicException("财付通账号不能为空！");
+                }
 
-        //[WebMethod(Description = "查询基金账户的支付银行卡信息(将银行转义封装在里面)")]
-        //public DataTable GetPayCardInfoEx(string qqid)
-        //{
-        //    try
-        //    {
-        //        if (qqid == null || qqid == "")
-        //        {
-        //            throw new LogicException("财付通账号不能为空！");
-        //        }
+                string fuid = PublicRes.ConvertToFuid(qqid);
+                if (string.IsNullOrEmpty(fuid))
+                {
+                    throw new LogicException("财付通账号不存在！");
+                }
 
-        //        string fuid = PublicRes.ConvertToFuid(qqid);
-        //        if (string.IsNullOrEmpty(fuid))
-        //        {
-        //            throw new LogicException("财付通账号不存在！");
-        //        }
+                string sql = "select * from fund_db.t_fund_pay_card where Fqqid='" + qqid + "'";
 
-        //        string sql = "select * from fund_db.t_fund_pay_card where Fqqid='" + qqid + "'";
+                using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("fund")))
+                {
+                    da.OpenConn();
+                    var dt = da.GetTable(sql);
+                    dt.TableName = "PayCardInfo";
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        dt.Columns.Add("Fbank_type_name", typeof(string));
+                        foreach (DataRow dr in dt.Rows)
+                        {
+                            dr["Fbank_type_name"] = BankIO.QueryBankName(dt.Rows[0]["Fbank_type"].ToString());
+                        }
+                    }
+                    return dt;
+                }
+            }
+            catch (Exception err)
+            {
+                throw new LogicException("Service处理失败！");
+            }
 
-        //        using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("fund")))
-        //        {
-        //            da.OpenConn();
-        //            var dt = da.GetTable(sql);
-        //            dt.TableName = "PayCardInfo";
-        //            if (dt != null && dt.Rows.Count > 0)
-        //            {
-        //                dt.Columns.Add("Fbank_type_name", typeof(string));
-        //                foreach (DataRow dr in dt.Rows)
-        //                {
-        //                    dr["Fbank_type_name"] = BankIO.QueryBankName(dt.Rows[0]["Fbank_type"].ToString());
-        //                }
-        //            }
-        //            return dt;
-        //        }
-        //    }
-        //    catch (Exception err)
-        //    {
-        //        throw new LogicException("Service处理失败！");
-        //    }
-
-        //}
+        }
         /// <summary>
         /// 查询用户绑定银行卡，走relay hanson 2014.2.17
         /// </summary>
@@ -20421,27 +16576,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        //[WebMethod(Description = "查询理财通支持的银行类型")]
-        //public DataTable GetFundSupportBank()
-        //{
-        //    try
-        //    {
+        [WebMethod(Description = "查询理财通支持的银行类型")]
+        public DataTable GetFundSupportBank()
+        {
+            try
+            {
 
-        //        string sql = "select * from fund_db.t_fund_bank_config where Flstate=1";
+                string sql = "select * from fund_db.t_fund_bank_config where Flstate=1";
 
-        //        using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("fund")))
-        //        {
-        //            da.OpenConn();
-        //            var dt = da.GetTable(sql);
-        //            dt.TableName = "SupportBank";
-        //            return dt;
-        //        }
-        //    }
-        //    catch (Exception err)
-        //    {
-        //        throw new LogicException("Service处理失败！");
-        //    }
-        //}
+                using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("fund")))
+                {
+                    da.OpenConn();
+                    var dt = da.GetTable(sql);
+                    dt.TableName = "SupportBank";
+                    return dt;
+                }
+            }
+            catch (Exception err)
+            {
+                throw new LogicException("Service处理失败！");
+            }
+        }
 
         [WebMethod(Description = "修改理财通支付银行卡")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -20499,38 +16654,38 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         }
 
-        //[Obsolete("合并到FundRoll中QueryFundRollList")]
-        //[WebMethod(Description = "获取理财通交易记录")]
-        //[SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        //public DataSet GetFundTradeList(string qqId, int pageIndex, int pageSize)
-        //{
-        //    try
-        //    {
-        //        if (qqId == null || qqId == "")
-        //        {
-        //            throw new LogicException("财付通账号不能为空！");
-        //        }
+        [Obsolete("合并到FundRoll中QueryFundRollList")]
+        [WebMethod(Description = "获取理财通交易记录")]
+        [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
+        public DataSet GetFundTradeList(string qqId, int pageIndex, int pageSize)
+        {
+            try
+            {
+                if (qqId == null || qqId == "")
+                {
+                    throw new LogicException("财付通账号不能为空！");
+                }
 
-        //        string fuid = PublicRes.ConvertToFuid(qqId);
-        //        if (string.IsNullOrEmpty(fuid))
-        //        {
-        //            throw new LogicException("财付通账号不存在！");
-        //        }
+                string fuid = PublicRes.ConvertToFuid(qqId);
+                if (string.IsNullOrEmpty(fuid))
+                {
+                    throw new LogicException("财付通账号不存在！");
+                }
 
-        //        var tableName = string.Format("fund_db_{0}.t_trade_user_fund_{1}", fuid.Substring(fuid.Length - 2, 2), fuid.Substring(fuid.Length - 3, 1));
-        //        var sql = string.Format("select * from {0} where Fuid='{1}' and Fcur_type=90 limit {2},{3}", tableName, fuid, pageIndex * pageSize, pageSize);
+                var tableName = string.Format("fund_db_{0}.t_trade_user_fund_{1}", fuid.Substring(fuid.Length - 2, 2), fuid.Substring(fuid.Length - 3, 1));
+                var sql = string.Format("select * from {0} where Fuid='{1}' and Fcur_type=90 limit {2},{3}", tableName, fuid, pageIndex * pageSize, pageSize);
 
-        //        using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("fund")))
-        //        {
-        //            da.OpenConn();
-        //            return da.dsGetTotalData(sql);
-        //        }
-        //    }
-        //    catch (Exception err)
-        //    {
-        //        throw new LogicException(string.Format("Service处理失败！{0}", err.Message));
-        //    }
-        //}
+                using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("fund")))
+                {
+                    da.OpenConn();
+                    return da.dsGetTotalData(sql);
+                }
+            }
+            catch (Exception err)
+            {
+                throw new LogicException(string.Format("Service处理失败！{0}", err.Message));
+            }
+        }
 
         #endregion
 
@@ -20620,12 +16775,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
 
                 if (GetUserCrtCFDInfo(qqid, 11) == "开通")
                 {
@@ -20835,16 +16984,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod(Description = "操作员查询列表函数")]
         public DataSet GetMediOperatorManageList(string spid, string account)
         {
-            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZL"));
-
             try
             {
                 MediOperatorManageClass cuser = new MediOperatorManageClass(spid, account);
-
-                /*
-                //DataSet ds = cuser.GetResultX(istart, imax, "YWB_30");
-                DataSet ds = cuser.GetResultX(istart, imax, "ZL");
-                */
 
                 //kf没有分页? 增加个默认分页.
                 int istart = 1;
@@ -20939,28 +17081,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         [WebMethod(Description = "操作员权限查询列表函数")]
         public int GetMediOperatorRole(string spid, string qqid)
-        {
-            /*
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZL"));
-
-            try
-            {
-				
-                DataSet ds = new DataSet();
-
-                da.OpenConn();
-
-                string sql = "select Fsign1 from c2c_db.t_muser_user where Fqqid='" + qqid + "' and FSpid='" + spid + "'";
-
-                return Int32.Parse(da.GetOneResult(sql));
-				
-            }
-            finally
-            {
-                da.Dispose();
-            }
-            */
-
+        {           
             string Msg = "";
             string strSql = "qqid=" + qqid + "&spid=" + spid;
             string sign1 = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_MUSER, "Fsign1", out Msg);
@@ -21658,47 +17779,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
 
                 B2cReturnClass cuser = new B2cReturnClass(transid, drawid);
-
-                /*
-                DataSet ds = cuser.GetResultX(1, 1, "INC");	
-                */
-
+          
                 string errMsg = "";
                 DataSet ds = CommQuery.GetDataSetFromICE(cuser.ICESQL, CommQuery.QUERY_MCH_REFUND, out errMsg);
-
-                //20141114 FINANCE_OD_QUERY_MCH_REFUND改调relay
-                /////////////////////////////////////
-
-                //string qzj_ip = ConfigurationManager.AppSettings["ComQueryToRelay_IP"];
-                //string qzj_port = ConfigurationManager.AppSettings["ComQueryToRelay_PORT"];
-
-                //string req = "request_type=100568&ver=1&head_u=&sp_id=&" + cuser.ICESQL;
-
-
-                //string Msg = ""; //重置
-
-                //string answer = commRes.GetFromRelay(req, qzj_ip, qzj_port, out Msg);
-
-                //if (answer == "")
-                //{
-                //    return null;
-                //}
-                //if (Msg != "")
-                //{
-                //    throw new Exception("调relay异常：" + Msg);
-                //}
-
-                ////解析relay str
-                //DataSet ds = CommQuery.ParseRelayPageRowNum0(answer, out Msg);
-                //if (Msg != "")
-                //{
-                //    throw new Exception("解析relay异常：" + Msg);
-                //}
-
-                ///////////////////////////////
-
-
-
+             
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0] != null)
                 {
                     DataTable dt = ds.Tables[0];
@@ -21955,8 +18039,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 fStatue = fStatue | 0x00000010;
                 fStatue = fStatue | 0x00000100;
 
-                //string updateSql = "update " + strTable + " set Fstatus='" + fStatue + "' where Fuid= '" + _fuid + "'";
-
                 string updateSql = "update " + strTable + " set Fqqid='" + QQ + "',Fstatus=" + fStatue
                     + " where Fuid='" + _fuid + "' ";
 
@@ -22105,10 +18187,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                     long timestamp = long.Parse(TimeTransfer.GetTickFromTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
 
-                    /*  2012/5/8 修改在解绑手机的同时清空手机号码
-                    sql = "update msgnotify_" + Fuid.Substring(Fuid.Length-3,2) + ".t_msgnotify_user_" + Fuid.Substring(Fuid.Length-1,1) + " set Fstatus = " + NewFstatus +
-                        ",Fupdatetime = " + timestamp + " where Fuid = '" + Fuid + "'";
-                        */
                     sql = "update msgnotify_" + Fuid.Substring(Fuid.Length - 3, 2) + ".t_msgnotify_user_" + Fuid.Substring(Fuid.Length - 1, 1) + " set Fstatus = " + NewFstatus +
                         ",Fupdatetime = " + timestamp + ",Fmobile=''" + " where Fuid = '" + Fuid + "'";
 
@@ -22495,30 +18573,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
 
-        //		private void SetUDPErrorEmail(string uin)
-        //		{
-        //			try
-        //			{
-        //				string IsSendFK_UDPMail = ConfigurationManager.AppSettings["IsSendFK_UDPMail"].ToString();
-        //
-        //				if(IsSendFK_UDPMail == "true")
-        //				{
-        //					System.Web.Mail.MailMessage mail = new System.Web.Mail.MailMessage();
-        //					mail.From = ConfigurationManager.AppSettings["mailFrom"].ToString();
-        //					mail.To   = ConfigurationManager.AppSettings["FK_UDP_Error_Email"].ToString().Replace(";","@tencent.com;"); 
-        //					mail.BodyFormat = System.Web.Mail.MailFormat.Html;
-        //					mail.Body ="C账号 " + uin ; 
-        //					mail.Subject  = "绑定手机通知风控系统失败";  
-        //					System.Web.Mail.SmtpMail.SmtpServer = ConfigurationManager.AppSettings["smtpServer"].ToString(); 
-        //					System.Web.Mail.SmtpMail.Send(mail);
-        //				}
-        //			}
-        //			catch
-        //			{
-        //			}			
-        //
-        //		}
-
         #endregion
 
         #region T+0付款查询
@@ -22777,24 +18831,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                         string uid = dr["fuid"].ToString();
                         if (uid != null && uid.Trim() != "")
-                        {
-                            /*
-                            strSql = "select fqqid from " + PublicRes.GetTName("t_user_info",uid) + " where fuid=" + uid;
-                            string qqid = da_zl.GetOneResult(strSql);
-								
-                            if(qqid == null || qqid.Trim() == "")
-                            {
-                                strSql = "select femail from " + PublicRes.GetTName("t_user_info",uid) + " where fuid=" + uid;
-                                qqid = da_zl.GetOneResult(strSql);
-                            }
-
-                            if(qqid == null || qqid.Trim() == "")
-                            {
-                                strSql = "select Fmobile from " + PublicRes.GetTName("t_user_info",uid) + " where fuid=" + uid;
-                                qqid = da_zl.GetOneResult(strSql);
-                            }
-                            */
-
+                        {                        
                             string qqid = ConvertUid2QQ(uid);
 
                             dr["FQQID"] = qqid;
@@ -23281,49 +19318,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public void BusinessIdentityCardNum(string Fspid, string OldIdentityCardNum, string NewIdentityCardNum, string IDImage, string ElseImage, string UserName, string Reason)
         {
             try
-            {
-                /*
-                PublicRes PR = new PublicRes();
-
-                string sql = "select IdentityCardNum from ApplyCpInfoX(nolock) where SPId = '" + Fspid + "' and Flag = 4";
-
-                DataSet ds = PR.GetSqlServerData(sql);
-
-                if (ds != null && ds.Tables.Count != 0 && ds.Tables[0].Rows.Count == 1)
-                {
-                    if (OldIdentityCardNum != ds.Tables[0].Rows[0]["IdentityCardNum"].ToString())
-                    {
-                        throw new Exception("旧身份证号有误！");
-                    }
-
-                    sql = " Declare @BankAccount varchar(50),@BankType varchar(10),@BankName nvarchar(100),@BankUserName nvarchar(100),@UserType varchar(10)," +
-                        "@IdentityCardNum varchar(20),@AreaCode varchar(10),@CityCode varchar(10),@taskid int,@CompanyName nvarchar(100) " +
-                        "select @IdentityCardNum = IdentityCardNum,@BankType = BankType,@BankName = BankName,@BankUserName = BankUserName," +
-                        "@UserType = UserType,@AreaCode = AreaCode,@CityCode = CityCode,@CompanyName=CompanyName from ApplyCpInfoX(nolock) where SPId = '" + Fspid + "' " +
-                        "if exists (select a.taskid from t_msp_amend_info a(nolock),t_msp_amend_task b(nolock) where a.SPId = '" + Fspid + "' " +
-                        "and a.amendtype=0 and a.TaskId = b.TaskId and b.AmendState not in (3,4,7)) " +
-                        "raiserror 99999 '该商户已存在待审核记录!' " +
-                        "else " +
-                        "begin " +
-                        "begin tran " +
-                        "insert into t_msp_amend_task(AmendState,ApplyUser,AmendType,CompanyName) values(0,'" + UserName + "',0,@CompanyName) " +
-                        "if @@error<>0 rollback tran " +
-                        "set @taskid = SCOPE_IDENTITY() " +
-                        "insert into t_msp_amend_info(taskid,amendtype,spid,oldBankAccount,oldBankType,oldBankName,oldBankUserName,newBankAccount,newBankType,newBankName," +
-                        "newBankUserName,OldUserType,NewUserType,OldUserIdentify,NewUserIdentify,OldAreaCode,NewAreaCode,OldCityCode,NewCityCode,ApplyResult,IDImage,ElseImage) " +
-                        "values(@taskid,0,'" + Fspid + "',@BankAccount,@BankType,@BankName,@BankUserName,@BankAccount,@BankType,@BankName,@BankUserName," +
-                        "@UserType,@UserType,@IdentityCardNum,'" + NewIdentityCardNum + "',@AreaCode,@AreaCode,@CityCode,@CityCode,'" + Reason + "','" + IDImage + "','" + ElseImage + "') " +
-                        "if @@error=0 commit tran " +
-                        "else rollback tran " +
-                        "end ";
-                    PR.ModifySqlServerData(sql);
-                    
-                }
-                else
-                {
-                    throw new Exception("商户号不存在！");
-                }
-                */
+            {              
                 new SPOAService().BusinessIdentityCardNum(Fspid, OldIdentityCardNum, NewIdentityCardNum, IDImage, ElseImage, UserName, Reason);
             }
             catch (Exception ex)
@@ -23444,14 +19439,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 rl.actionType = "实名认证处理查询函数";
                 rl.ID = fuin;
-                //rl.OperID = myHeader.OperID;
                 rl.sign = 1;
                 rl.strRightCode = "CFTUserPickTJ";
-                //rl.RightString = myHeader.RightString;
-                //rl.SzKey = myHeader.SzKey;
                 rl.type = "查询";
-                //rl.UserID = myHeader.UserName;
-                //rl.UserIP = myHeader.UserIP;	
+
                 PublicRes.SetRightAndLog(myHeader, rl);
                 if (!rl.CheckRight())
                 {
@@ -23555,14 +19546,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 rl.actionType = "实名认证处理查询";
                 rl.ID = fuin;
-                //rl.OperID = myHeader.OperID;
                 rl.sign = 1;
                 rl.strRightCode = "CFTUserPickTJ";
-                //rl.RightString = myHeader.RightString;
-                //rl.SzKey = myHeader.SzKey;
                 rl.type = "查询";
-                //rl.UserID = myHeader.UserName;
-                //rl.UserIP = myHeader.UserIP;		
+	
                 PublicRes.SetRightAndLog(myHeader, rl);
                 if (!rl.CheckRight())
                 {
@@ -23639,8 +19626,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
 
-
-
         // 2012/4/4
         [WebMethod(Description = "使用财付通帐号或者银行卡号获取用户实名认证信息")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
@@ -23657,14 +19642,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 rl.actionType = "实名认证状态用户名银行卡号查询_New";
                 rl.ID = userAccount;
-                //rl.OperID = myHeader.OperID;
                 rl.sign = 1;
                 rl.strRightCode = "BaseAccount";
-                //rl.RightString = myHeader.RightString;
-                //rl.SzKey = myHeader.SzKey;
                 rl.type = "查询";
-                //rl.UserID = myHeader.UserName;
-                //rl.UserIP = myHeader.UserIP;
+
                 PublicRes.SetRightAndLog(myHeader, rl);
 
                 if (!rl.CheckRight())
@@ -23765,15 +19746,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
 
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
                 QueryAuthenInfo_ByCre2 qs2 = new QueryAuthenInfo_ByCre2(creid, creType);
-
                 DataSet ds = qs2.GetResultX_ICE();
 
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
@@ -23870,8 +19843,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
 
-
-
         [WebMethod(Description = "使用证件类型和证件号获取用户实名认证信息")]
         public DataSet GetUserAuthenState_ByCre(int creType, string creNO)
         {
@@ -23958,41 +19929,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 throw new Exception(ex.Message);
             }
-
-            /*
-
-            try
-            {
-                string errmsg = "";
-                ds = CommQuery.GetDataSetFromICE(serviceName,strSql,"",out errmsg);
-            }
-            catch(Exception ex)
-            {
-                throw new Exception("服务调用出错");
-            }
-            */
-
+        
             return null;
         }
 
-        /*
-                //根据受理人查询（IsFuin为true）,根据财付通帐号查询（IsFuin为false）
-                [WebMethod(Description="实名认证处理查询个数函数")]
-                public int GetUserClassQueryCount(string fuin, DateTime u_BeginTime, DateTime u_EndTime,int fstate, bool IsFuin, string fQQ)
-                {
-                    try
-                    {
-                        UserClassClass cuser = new UserClassClass(fuin,u_BeginTime,u_EndTime,fstate,IsFuin,fQQ);
-                        return cuser.GetCount("RU");
-                    }
-                    catch(Exception e)
-                    {
-                        throw new Exception("service发生错误,请联系管理员！");
-                        return 0;
-                    }
-                }
-        */
-
+      
         [WebMethod(Description = "删除认证信息")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public bool DelAuthen(string qqid, out string msg)
@@ -24007,14 +19948,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 rl.actionType = "删除认证信息";
                 rl.ID = qqid;
-                //rl.OperID = myHeader.OperID;
                 rl.sign = 1;
                 rl.strRightCode = "FreezeUser";
-                //rl.RightString = myHeader.RightString;
-                //rl.SzKey = myHeader.SzKey;
                 rl.type = "查询";
-                //rl.UserID = myHeader.UserName;
-                //rl.UserIP = myHeader.UserIP;	
+
                 PublicRes.SetRightAndLog(myHeader, rl);
                 if (!rl.CheckRight())
                 {
@@ -24144,9 +20081,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
 
-
-
-
         [WebMethod(Description = "按类型查询银行")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetBankByType(string typename, string flag)
@@ -24199,8 +20133,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
 
         }
-
-
 
 
         [WebMethod(Description = "查询个人证书信息列表")]
@@ -24374,16 +20306,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 string Sql = "update " + PublicRes.GetTName("cft_digit_crt", "t_user_crt", uid) + " set Fstate = 4 , Flstate = 2 , Fmodify_time = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' where Fuid = '"
                               + uid + "' and Ftype = 1 and Flstate != 2";
-                //string Sql = "delete from " + PublicRes.GetTName("cft_digit_crt", "t_user_crt", uid) + " where Fuid='"
-                //             + uid + "' and Ftype=1";
 
                 da.ExecSqlNum(Sql);
                 string IP = myHeader.UserIP;
                 Sql = "update " + PublicRes.GetTName("cft_digit_crt", "t_user_attr", uid) + " set Fstate = 2 , Fvalue = '2' , Fmodify_time = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' , Fstandby3 = '" + IP + "' where Fuid = '"
                              + uid + "' and  Fattr = 1";
-
-                //Sql = "delete from " + PublicRes.GetTName("cft_digit_crt", "t_user_attr", uid) + " where Fuid='"
-                //      + uid + "' and Fattr=1";
 
                 da.ExecSqlNum(Sql);
             }
@@ -24483,7 +20410,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //1. 根据订单号获取Uin
                 DateTime beginTime = DateTime.Parse(ConfigurationManager.AppSettings["sBeginTime"].ToString());
                 DateTime endTime = DateTime.Parse(ConfigurationManager.AppSettings["sEndTime"].ToString());
-
                 DataSet ds = GetPayList(strListID, 4, beginTime, endTime, 1, 2);
 
                 if (ds == null || ds.Tables.Count == 0)
@@ -24493,17 +20419,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 //买家QQ账号
                 string strBuyUid = ds.Tables[0].Rows[0]["Fbuyid"].ToString();
-
                 string strDbName = "mobile.t_trans_" + strBuyUid.Substring(strBuyUid.Length - 2, 2);
-
                 string strSql = "SELECT FTransId,FSubmitTime,FTotalFee,FAmount,FComment,FChgMobile,FState,FChargeTime,FSpName ,FUserState FROM {0} WHERE FTransId='{1}' AND FUin='{2}'";
-
                 strSql = String.Format(strSql, strDbName, strListID, strBuyUid);
 
                 ds = sqlcc.dsGetTotalData(strSql);
                 return ds;
-
-
             }
             catch (System.Exception ex)
             {
@@ -24514,8 +20435,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 sqlcc.Dispose();
             }
-
-
 
         }
 
@@ -24529,19 +20448,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             try
             {
-
                 sqlcc.OpenConn();
-
                 string strDbName = "mobile.t_telno_" + strPhoneNumber.Substring(strPhoneNumber.Length - 2, 2);
-
                 string strSql = "SELECT FTransId,FSubmitTime,FTotalFee,FAmount,FComment,FChgMobile,FState,FChargeTime,FSpName,FUserState FROM {0} WHERE FChgMobile='{1}'";
-
                 strSql = String.Format(strSql, strDbName, strPhoneNumber);
-
                 DataSet ds = sqlcc.dsGetTotalData(strSql);
+
                 return ds;
-
-
             }
             catch (System.Exception ex)
             {
@@ -24578,12 +20491,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
 
                 string strSql = " select A.*,B.Fspid,B.Fsp_batchid from cft_cep_db.t_bank_batchrcd A,cft_cep_db.t_batch_record B where A.Fcreate_time between '"
                     + starttime + "' and '" + endtime + "' and B.Fbatchid=A.Fbatchid ";
@@ -24691,8 +20598,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-
-
         [WebMethodAttribute(Description = "统计银行批次交易情况")]
         public DataSet CountDKBankList(string batchid, string batchid_forbank, string bank_type, string status, string starttime, string endtime)
         {
@@ -24752,12 +20657,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
 
                 string strSql = " select * from cft_cep_db.t_bank_batchrcd where Fbank_batch_id='" + bank_batch_id + "'";
 
@@ -24853,9 +20752,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
 
-
-
-
         [WebMethod(Description = "协议库单笔查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet QueryDKContractList(string spid, string mer_cnr, string sp_batchid,
@@ -24880,13 +20776,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
+ 
                 string strSql = " select * from cft_cep_db.t_contract  where Fcreate_time>='" + strSTime + "' and Fcreate_time<='" + strETime + "' ";
 
                 if (spid != "")
@@ -25034,12 +20924,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
 
                 string strSql = " select * from cft_cep_db.t_contract  where Fcep_cnr='" + cep_cnr + "' ";
 
@@ -25127,8 +21011,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
 
-
-
         [WebMethod(Description = "协议库批次查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet QueryDKContractBatchList(string spid, string sp_batchid, string strSTime, string strETime, int limStart, int limMax)
@@ -25151,12 +21033,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
 
                 string strSql = " select *,Ftotal_count-Fsucc_count-Ffail_count as Fhandle_count from cft_cep_db.t_contract_batch  where Fcreate_time>='" + strSTime + "' and Fcreate_time<='" + strETime + "' ";
 
@@ -25274,7 +21150,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
 
-
         [WebMethod(Description = "协议批次查询明细函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet QueryDKContractBatchDetail(string batchid)
@@ -25297,13 +21172,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
+      
                 string strSql = " select * from cft_cep_db.t_contract_batch  where Fbatchid='" + batchid + "' ";
 
                 DataSet ds = new DataSet();
@@ -25437,14 +21306,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
-
+      
                 DataSet ds = new DataSet();
 
                 MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("INC_NEW"));
@@ -25575,14 +21437,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
-
+  
                 DataSet ds = new DataSet();
 
                 MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("INC_NEW"));
@@ -25713,13 +21568,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
 
                 DataSet ds = new DataSet();
 
@@ -25888,14 +21736,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
-
+   
                 DataSet ds = new DataSet();
 
                 MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("INC_NEW"));
@@ -26003,13 +21844,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
 
                 DataSet ds = new DataSet();
 
@@ -27144,8 +22978,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     long handling_count = long.Parse(dr["Ffact_num"].ToString()) - long.Parse(dr["Fsucpay_num"].ToString())
                         - long.Parse(dr["Ffailpay_num"].ToString());
 
-                    /*long handling_amount = long.Parse(dr["Ffact_amount"].ToString()) - long.Parse(dr["Fsucpay_amount"].ToString()) 
-                        - long.Parse(dr["Ffailpay_amount"].ToString()) - long.Parse(dr["Ffee"].ToString());*/
 
                     long handling_amount = long.Parse(dr["Ffact_fee"].ToString()) - long.Parse(dr["Fsucpay_fee"].ToString())
                         - long.Parse(dr["Ffailpay_fee"].ToString());
@@ -27274,13 +23106,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
-
+ 
                 DataSet ds;
                 MySqlAccess dainc = new MySqlAccess(PublicRes.GetConnString("INCB"));
                 try
@@ -27444,12 +23270,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
+        
                 string strWhere = " where Fcreate_time between '" + strBeginDate + "' and '" + strEndDate + "' and Ftype=1 ";
                 if (spid.Trim() != "")
                 {
@@ -27491,9 +23312,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                     long handling_count = long.Parse(dr["Ffact_num"].ToString()) - long.Parse(dr["Fsucpay_num"].ToString())
                         - long.Parse(dr["Ffailpay_num"].ToString());
-
-                    /*long handling_amount = long.Parse(dr["Ffact_amount"].ToString()) - long.Parse(dr["Fsucpay_amount"].ToString()) 
-                        - long.Parse(dr["Ffailpay_amount"].ToString()) - long.Parse(dr["Ffee"].ToString());*/
 
                     long handling_amount = long.Parse(dr["Ffact_fee"].ToString()) - long.Parse(dr["Fsucpay_fee"].ToString())
                         - long.Parse(dr["Ffailpay_fee"].ToString());
@@ -27581,12 +23399,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
+      
                 DataSet ds;
                 MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("INC"));
                 try
@@ -27773,12 +23586,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.type = "查询";
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
-                /*
-                if(!rl.CheckRight())
-                {
-                    throw new LogicException("用户无权执行此操作！");
-                }
-                */
+          
                 DataSet ds;
                 MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("INC"));
                 try
@@ -28065,37 +23873,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 throw new Exception("Service处理失败！" + msg);
             }
-
-            //权限没放开
-            //try
-            //{
-            //    var parameters = Encoding.Default.GetBytes("charge_type=nsp&uin=" + uin + "&offset=" + limStart + "&limit=" + limMax+"\r\n");
-            //    string msg = "";
-            //    string IP = "172.25.38.123";
-            //    string PORT ="22000";
-            //    string answer = UDP.GetTCPReplyString(parameters, IP, Int32.Parse(PORT), out msg);
-            //    Hashtable paramsHt = new Hashtable();
-            //    DataSet ds = new DataSet();
-            //    DataTable dt = ds.Tables.Add();
-            //    if (answer != "")
-            //    {
-            //        paramsHt = UDP.tcpParameters(answer);
-
-            //        if (!paramsHt.Contains("result") || paramsHt["result"].ToString().Trim() != "0")
-            //        {
-            //            throw new LogicException("返回结果有误：" + answer);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        throw new Exception(msg);
-            //    }
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new Exception(ex.Message);
-            //}
+        
         }
 
         [WebMethod(Description = "自动充值交易单查询")]
@@ -29089,14 +24867,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 //furion 20061116 email登录修改。
                 string strID = PublicRes.ConvertToFuid(qqid);  //先转换成fuid
-
-                /*
+              
                 // TODO1: 客户信息资料外移
-                //string upStrAcc  = "update " + PublicRes.GetTableName("t_user",qqid)      + " SET Fuser_type = '" + userType + "' where fqqid = '" + qqid + "'";	
-                string upStrAcc  = "update " + PublicRes.GetTName("t_user",strID)      + " SET Fuser_type = '" + userType + "' where fuid =" + strID;	
-                string upStrInfo = "update " + PublicRes.GetTName("t_user_info",strID) + " SET Fuser_type = '" + userType + "' where fuid =" + strID;
-               */
-
+              
                 ice.OpenConn();
                 string strwhere = "where=" + ICEAccess.URLEncode("fcurtype=1&");
                 strwhere += ICEAccess.URLEncode("fuid=" + strID + "&");
@@ -29112,11 +24885,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     throw new Exception("修改个人账户类型出错！" + strResp);
                 }
 
-                /*
-                //if(PublicRes.ExecuteSqlNum(upStrAcc,"YW_30") != 1 || PublicRes.ExecuteSqlNum(upStrInfo,"ZL") != 1)
-                if(PublicRes.ExecuteSqlNum(upStrInfo,"ZL") != 1)
-                    return false;
-                    */
 
                 string strSql = "uid=" + strID;
                 strSql += "&modify_time=" + PublicRes.strNowTimeStander;
@@ -29168,23 +24936,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 //furion 20061116 email登录修改。
                 string strID = PublicRes.ConvertToFuid(qqid);  //先转换成fuid
-
-                //furion V30_FURION改动 20090310
-
-                //string upStrAcc  = "update " + PublicRes.GetTableName("t_user",qqid)      + " SET Fatt_id = '" + atttype + "' where fqqid = '" + qqid + "'";	
-                //string upStrAcc  = "update " + PublicRes.GetTName("t_user",strID)      
-                //+ " SET Fatt_id = '" + atttype + "' where fuid =" + strID;	
-
-                /*
-                string upStrAcc  = "update " + PublicRes.GetTName("t_useratt_info",strID)      
-                    + " SET Fatt_id = '" + atttype + "' where fuid =" + strID;	
-
-                ArrayList al = new ArrayList();
-                al.Add(upStrAcc);
-
-                //PublicRes.Execute(al,"YW_30");
-                PublicRes.Execute(al,"ZL"); */
-
                 string strSql = "uid=" + strID;
                 strSql += "&attid=" + atttype;
                 strSql += "&modify_time=" + CommQuery.ICEEncode(PublicRes.strNowTimeStander);
@@ -29197,7 +24948,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     string oldname = oldattid.Trim();
                     string newname = atttype.Trim();
-                    //  PublicRes.writeSysLog_kf(qqid, myHeader.UserName, myHeader.UserIP, oldname, newname, "产品属性", "changeUserInfo", "");
                 }
 
                 Msg = "修改用户属性类型成功！";

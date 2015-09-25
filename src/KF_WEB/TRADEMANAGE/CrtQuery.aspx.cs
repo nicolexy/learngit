@@ -15,6 +15,7 @@ using System.Web.Services.Protocols;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.DataAccess;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
+using CFT.CSOMS.BLL.CRTModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -93,19 +94,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 }
 
 				//开始查询
-				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-				DataSet ds = qs.GetUserCrtList(this.tbQQID.Text.Trim());
+                DataSet ds = new CRTService().GetUserCrtList(this.tbQQID.Text.Trim());
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-				{
-                    ds.Tables[0].Columns.Add("Fmodify_time2", typeof(System.String));
-                    foreach (DataRow dr in ds.Tables[0].Rows)
-                    {
-                        if (dr["Fstate"].ToString()=="4")
-                        {
-                            dr["Fmodify_time2"] = dr["Fmodify_time"].ToString();
-                        }
-                    }
+				{                   
                     this.Table2.Visible = true;
                     this.TableDelete.Visible = false;
 					DataGrid1.DataSource = ds.Tables[0].DefaultView;
@@ -151,12 +143,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 					
 				}
 
-				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-				Query_Service.Finance_Header fh = classLibrary.setConfig.setFH(this);
-				qs.Finance_HeaderValue = fh;
-
-				qs.DeleteUserCrt(this.tbQQID.Text.Trim());
+                new CRTService().DeleteUserCrt(this.tbQQID.Text.Trim());
  
 			}
 			catch(Exception ex)
@@ -175,8 +162,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     return;
                 }
                 //开始查询
-                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                DataSet ds = qs.GetDeleteQueryInfo(this.tbQQID.Text.Trim());
+                DataSet ds = new CRTService().GetDeleteQueryInfo(this.tbQQID.Text.Trim());
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
@@ -226,16 +212,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
                 }
 
-                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-       
-                qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-                qs.DeleteCrtService(this.tbQQID.Text.Trim());
+                new CRTService().DeleteCrtService(this.tbQQID.Text.Trim(), Request.UserHostAddress.ToString());
                 WebUtils.ShowMessage(this.Page, "关闭证书服务成功");
-            }
-            catch (SoapException eSoap) //捕获soap类异常
-            {
-                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
             }
             catch (Exception eSys)
             {

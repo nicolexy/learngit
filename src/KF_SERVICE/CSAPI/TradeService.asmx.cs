@@ -537,7 +537,7 @@ namespace CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "offset", "limit", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
@@ -568,7 +568,7 @@ namespace CSAPI
         }
 
         /// <summary>
-        /// 信用卡还款查询
+        /// 信用卡还款查询-列表
         /// </summary>
         [WebMethod]
         public void GetCreditQueryListUin()
@@ -614,7 +614,7 @@ namespace CSAPI
         }
 
         /// <summary>
-        /// 信用卡还款查询
+        /// 信用卡还款查询-详情
         /// </summary>
         [WebMethod]
         public void GetCreditQueryList()
