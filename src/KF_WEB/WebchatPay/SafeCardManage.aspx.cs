@@ -69,7 +69,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
             catch (Exception ex)
             {
-                WebUtils.ShowMessage(this, "基金公司列表拉取失败:" + HttpUtility.JavaScriptStringEncode(ex.Message));
+                WebUtils.ShowMessage(this, "基金公司列表拉取失败:" + HttpUtility.JavaScriptStringEncode(ex.ToString()));
             }
         }
         protected void btnQuery_Click(object sender, EventArgs e)
@@ -111,12 +111,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
-                string errStr = PublicRes.GetErrorMsg(eSoap.Message);
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + HttpUtility.JavaScriptStringEncode(eSoap.ToString()));
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message);
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + HttpUtility.JavaScriptStringEncode(eSys.ToString()));
             }
         }
 
@@ -199,12 +198,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             catch (SoapException eSoap) //捕获soap类异常
             {
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message);
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + HttpUtility.JavaScriptStringEncode(eSoap.Message));
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + HttpUtility.JavaScriptStringEncode(eSoap.ToString()));
 
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "修改绑定安全卡异常！" + HttpUtility.JavaScriptStringEncode(eSys.Message));
+                WebUtils.ShowMessage(this.Page, "修改绑定安全卡异常！" + HttpUtility.JavaScriptStringEncode(eSys.ToString()));
             }
         }
 
