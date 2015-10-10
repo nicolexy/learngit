@@ -6,7 +6,8 @@ using System.Xml;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using System.Reflection;
-
+using System.Linq;
+using SunLibraryEX;
 
 namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 {
@@ -3188,6 +3189,58 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
             return dsresult;
         }
+
+        /// <summary>
+        /// 把字符串解析成DataTable - result=0&=ok&row_num=n&row_info=n&paramOne_0=&paramTwo_0=&paramOne_1=&paramTwo_1=...&paramOne_n=&paramTwo_n=
+        /// result=0&res_info=ok&row_num=4&row_info=
+        /// </summary>
+        /// <param name="str">要解析的字符串</param>
+        /// <param name="rowCountField">行数 字段名</param>
+        /// <param name="rowsField">值所在字段</param>
+        /// <returns></returns>
+        public static DataTable ParseRelayStringToDataTable(string str, string rowCountField, string rowsField)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                throw new ArgumentNullException("返回值: str ");
+            }
+            var dic = str.ToDictionary();
+            if (dic["result"] != "0")
+            {
+                throw new Exception("请求失败[" + str + "]");
+            }
+
+            DataTable dt = null;
+            var rowsCount = int.Parse(dic[rowCountField]);
+
+            if (rowsCount > 0)
+            {
+                dt = new DataTable();
+                var rowsStr = dic[rowsField].Replace("%25", "%").Replace("%26", "&").Replace("%3D", "=").Replace("%3d", "=");
+                var rowdic = rowsStr.ToDictionary();
+                foreach (var item in rowdic)
+                {
+                    var index = item.Key.LastIndexOf("_0"); 
+                    if (index > 0)
+                    {
+                        var field = item.Key.Substring(0, item.Key.Length - 2);
+                        dt.Columns.Add(field);
+                    }
+                }
+                for (int i = 0; i < rowsCount; i++)
+                {
+                    var row = dt.NewRow(); 
+                    foreach (DataColumn item in dt.Columns)
+                    {
+                        row[item] = rowdic[item + "_" + i];
+                    }
+                    dt.Rows.Add(row);
+                }
+            }
+
+            return dt;
+        }
+
 
         /// <summary>
         /// 格式字符串解析 result=0&row0=&row1=&row_num=...格式字符串解析
