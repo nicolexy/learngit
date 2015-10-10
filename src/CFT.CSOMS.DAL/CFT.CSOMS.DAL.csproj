@@ -82,6 +82,7 @@
     <Compile Include="CreditModule\CreditData.cs" />
     <Compile Include="CRTModule\CRTData.cs" />
     <Compile Include="ForeignCardModule\FCUserTradeQuery.cs" />
+    <Compile Include="ForeignCurrencModule\FCXGWallet.cs" />
     <Compile Include="FundModule\ControlFundData.cs" />
     <Compile Include="FundModule\LCTBalance.cs" />
     <Compile Include="HandQModule\HandQDAL.cs" />

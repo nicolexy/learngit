@@ -15044,7 +15044,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
-                return null;
+                throw err;
             }
             finally
             {

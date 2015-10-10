@@ -70,6 +70,7 @@
     <Compile Include="CreditModule\TencentCreditService.cs" />
     <Compile Include="CRTModule\CRTService.cs" />
     <Compile Include="ForeignCurrencyModule\FCUserTradeQuery.cs" />
+    <Compile Include="ForeignCurrencyModule\FCXGWallet.cs" />
     <Compile Include="FundModule\ControlFundService.cs" />
     <Compile Include="FundModule\LCTBalanceService.cs" />
     <Compile Include="HandQModule\HandQService.cs" />

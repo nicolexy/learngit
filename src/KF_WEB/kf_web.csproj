@@ -388,6 +388,13 @@
     <Compile Include="BaseAccount\ClearMobileNumber.aspx.designer.cs">
       <DependentUpon>ClearMobileNumber.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\FCXGFreezeLog.aspx.cs">
+      <DependentUpon>FCXGFreezeLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\FCXGFreezeLog.aspx.designer.cs">
+      <DependentUpon>FCXGFreezeLog.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\FetchListIntercept.aspx.cs">
       <DependentUpon>FetchListIntercept.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1212,6 +1219,62 @@
     </Compile>
     <Compile Include="ForeignCardPay\FCardRollQuery.aspx.designer.cs">
       <DependentUpon>FCardRollQuery.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGDialogUnBindCard.aspx.cs">
+      <DependentUpon>FCXGDialogUnBindCard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGDialogUnBindCard.aspx.designer.cs">
+      <DependentUpon>FCXGDialogUnBindCard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGDialogReset.aspx.cs">
+      <DependentUpon>FCXGDialogReset.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGDialogReset.aspx.designer.cs">
+      <DependentUpon>FCXGDialogReset.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGDialogFreezeOrUnfreeze.aspx.cs">
+      <DependentUpon>FCXGDialogFreezeOrUnfreeze.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGDialogFreezeOrUnfreeze.aspx.designer.cs">
+      <DependentUpon>FCXGDialogFreezeOrUnfreeze.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGMoneyAndFlow.aspx.cs">
+      <DependentUpon>FCXGMoneyAndFlow.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGMoneyAndFlow.aspx.designer.cs">
+      <DependentUpon>FCXGMoneyAndFlow.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGSPQuery.aspx.cs">
+      <DependentUpon>FCXGSPQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGSPQuery.aspx.designer.cs">
+      <DependentUpon>FCXGSPQuery.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGOrderQuery.aspx.cs">
+      <DependentUpon>FCXGOrderQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGOrderQuery.aspx.designer.cs">
+      <DependentUpon>FCXGOrderQuery.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGBindCardQuery.aspx.cs">
+      <DependentUpon>FCXGBindCardQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGBindCardQuery.aspx.designer.cs">
+      <DependentUpon>FCXGBindCardQuery.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGAccountQuery.aspx.cs">
+      <DependentUpon>FCXGAccountQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGAccountQuery.aspx.designer.cs">
+      <DependentUpon>FCXGAccountQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="ForeignCurrencyPay\FCASettlementQuery.aspx.cs">
       <DependentUpon>FCASettlementQuery.aspx</DependentUpon>
@@ -2863,6 +2926,7 @@
     <Content Include="BaseAccount\CardInfoQuery.aspx" />
     <Content Include="BaseAccount\ClearCreidNew.aspx" />
     <Content Include="BaseAccount\ClearMobileNumber.aspx" />
+    <Content Include="BaseAccount\FCXGFreezeLog.aspx" />
     <Content Include="BaseAccount\FetchListIntercept.aspx" />
     <Content Include="BaseAccount\GatherLog.aspx" />
     <Content Include="BaseAccount\InfoCenterNew.aspx" />
@@ -3107,6 +3171,14 @@
     <Content Include="ForeignCardPay\FCardOrderQuery.aspx" />
     <Content Include="ForeignCardPay\FCardRefusePayQuery.aspx" />
     <Content Include="ForeignCardPay\FCardRollQuery.aspx" />
+    <Content Include="ForeignCurrencyPay\FCXGDialogUnBindCard.aspx" />
+    <Content Include="ForeignCurrencyPay\FCXGDialogReset.aspx" />
+    <Content Include="ForeignCurrencyPay\FCXGDialogFreezeOrUnfreeze.aspx" />
+    <Content Include="ForeignCurrencyPay\FCXGMoneyAndFlow.aspx" />
+    <Content Include="ForeignCurrencyPay\FCXGSPQuery.aspx" />
+    <Content Include="ForeignCurrencyPay\FCXGOrderQuery.aspx" />
+    <Content Include="ForeignCurrencyPay\FCXGBindCardQuery.aspx" />
+    <Content Include="ForeignCurrencyPay\FCXGAccountQuery.aspx" />
     <Content Include="ForeignCurrencyPay\FCASettlementQuery.aspx" />
     <Content Include="ForeignCurrencyPay\FCRefusePayQuery.aspx" />
     <Content Include="ForeignCurrencyPay\FCATransferQuery.aspx" />
@@ -4964,7 +5036,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>53241</DevelopmentServerPort>
+          <DevelopmentServerPort>40466</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:6903/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
