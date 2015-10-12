@@ -181,9 +181,9 @@ namespace CSAPI
                 {
                     offset = 0;
                 }
-                if (limit < 0 || limit > 1000)
+                if (limit < 0 || limit > 50)
                 {
-                    limit = 20;
+                    limit = 50;
                 }
 
                 var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(id, type, DateTime.Now, begin_time, end_time, offset, limit);
@@ -239,9 +239,9 @@ namespace CSAPI
                 {
                     offset = 0;
                 }
-                if (limit < 0)
+                if (limit < 0 || limit > 50)
                 {
-                    limit = 20;
+                    limit = 50;
                 }
 
                 var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTCBankRollList(ID, type, begin_time, end_time, true, offset, limit);
@@ -299,9 +299,9 @@ namespace CSAPI
                 {
                     offset = 0;
                 }
-                if (limit < 0)
+                if (limit < 0 || limit > 50)
                 {
-                    limit = 20;
+                    limit = 50;
                 }
 
                 var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetUserRollList(qqid, type, cur_type, begin_time, end_time, offset, limit);
@@ -358,9 +358,9 @@ namespace CSAPI
                 {
                     offset = 0;
                 }
-                if (limit < 0 || limit > 100)
+                if (limit < 0 || limit > 50)
                 {
-                    limit = 20;
+                    limit = 50;
                 }
 
                 var infos = new CFT.CSOMS.BLL.TradeModule.PickService().GetTCBankPAYList(ID, type, begin_time, end_time, offset, limit);
@@ -416,9 +416,9 @@ namespace CSAPI
                 {
                     offset = 0;
                 }
-                if (limit < 0)
+                if (limit < 0 || limit > 50)
                 {
-                    limit = 20;
+                    limit = 50;
                 }
 
                 var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetRefund(ID, type, begin_time, end_time, offset, limit);
@@ -466,9 +466,9 @@ namespace CSAPI
                 {
                     offset = 0;
                 }
-                if (limit < 0)
+                if (limit < 0 || limit > 50)
                 {
-                    limit = 20;
+                    limit = 50;
                 }
 
                 string trade_type = paramsHt.ContainsKey("trade_type") ? paramsHt["trade_type"].ToString() : "99";
@@ -589,8 +589,8 @@ namespace CSAPI
 
                 if (offset < 0)
                     offset = 0;
-                if (limit < 0 || limit > 100)
-                    limit = 100;
+                if (limit < 0 || limit > 50)
+                    limit = 50;
 
                 var infos = new CFT.CSOMS.BLL.TradeModule.PickService().GetCreditQueryListForFaid(uin, begin_time, end_time, offset, limit);
 
@@ -633,8 +633,8 @@ namespace CSAPI
 
                 if (offset < 0)
                     offset = 0;
-                if (limit < 0 || limit > 100)
-                    limit = 100;
+                if (limit < 0 || limit > 50)
+                    limit = 50;
 
                 var infos = new CFT.CSOMS.BLL.TradeModule.PickService().GetCreditQueryList(listid, offset, limit);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
@@ -677,8 +677,8 @@ namespace CSAPI
 
                 if (offset < 0)
                     offset = 0;
-                if (limit < 0 || limit > 100)
-                    limit = 100;
+                if (limit < 0 || limit > 50)
+                    limit = 50;
 
                 var infos = new CFT.CSOMS.BLL.AutoRecharge.AutoRechargeService().QueryAutomaticRecharge(uin, offset, limit, ip);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
@@ -722,8 +722,8 @@ namespace CSAPI
 
                 if (offset < 0)
                     offset = 0;
-                if (limit < 0 || limit > 100)
-                    limit = 100;
+                if (limit < 0 || limit > 50)
+                    limit = 50;
 
                 var infos = new CFT.CSOMS.BLL.AutoRecharge.AutoRechargeService().QueryAutomaticRechargeBillList(uin, plan_id, offset, limit, ip);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
@@ -809,8 +809,8 @@ namespace CSAPI
 
                 if (offset < 0)
                     offset = 0;
-                if (limit < 0 || limit > 1000)
-                    limit = 100;
+                if (limit < 0 || limit > 50)
+                    limit = 50;
 
                 var infos = new CFT.CSOMS.BLL.WechatPay.FastPayService().QueryBankCardNewList(bank_card, date_str, bank_type, bit_type, offset, limit);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)

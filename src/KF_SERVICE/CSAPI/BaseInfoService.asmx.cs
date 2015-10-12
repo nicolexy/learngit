@@ -131,9 +131,9 @@ namespace CFT.CSOMS.Service.CSAPI
                     offset = 0;
                 }
 
-                if (limit > 20 || limit <= 0)
+                if (limit > 50 || limit <= 0)
                 {
-                    limit = 20;
+                    limit = 50;
                 }
                 //校验时间格式
                 APIUtil.ValidateDate(paramsHt["start_date"].ToString(), "yyyy-MM-dd HH:mm:ss", false);
@@ -553,9 +553,9 @@ namespace CFT.CSOMS.Service.CSAPI
                 {
                     offset = 0;
                 }
-                if (limit <= 0)
+                if (limit <= 0 || limit > 50)
                 {
-                    limit = 20;
+                    limit = 50;
                 }
 
                 string order_type = paramsHt.ContainsKey("order_type") ? paramsHt["order_type"].ToString() : "1";   //排序方式
@@ -819,19 +819,19 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "oldcreid", "newcreid", "user", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "old_creid", "new_creid", "user","user_ip", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
                 string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
-                string oldcreid = paramsHt.ContainsKey("oldcreid") ? paramsHt["oldcreid"].ToString() : "";//注册证件号码
-                string newcreid = paramsHt.ContainsKey("newcreid") ? paramsHt["newcreid"].ToString() : "";//用户提交证件号码
-                //int cretype = APIUtil.StringToInt(paramsHt["cretype"].ToString());
-                int cretype = 1;
+                string oldcreid = paramsHt.ContainsKey("old_creid") ? paramsHt["old_creid"].ToString() : "";//注册证件号码
+                string newcreid = paramsHt.ContainsKey("new_creid") ? paramsHt["new_creid"].ToString() : "";//用户提交证件号码
+                //int cretype = APIUtil.StringToInt(paramsHt["cre_type"].ToString());
+                int cre_type = 1;
                 string user = paramsHt.ContainsKey("user") ? paramsHt["user"].ToString() : "";
-                string ip = paramsHt.ContainsKey("ip") ? paramsHt["ip"].ToString() : "";
+                string user_ip = paramsHt.ContainsKey("user_ip") ? paramsHt["user_ip"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.FreezeModule.FreezeService().SyncCreid(uin, oldcreid, newcreid, cretype, user, ip);
+                var infos = new CFT.CSOMS.BLL.FreezeModule.FreezeService().SyncCreid(uin, oldcreid, newcreid, cre_type, user, user_ip);
 
                 Record record = new Record();
                 record.RetValue = infos.ToString().ToLower();
@@ -1336,8 +1336,8 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 if (offset < 0)
                     offset = 0;
-                if (limit < 0 || limit > 100)
-                    limit = 20;
+                if (limit < 0 || limit > 50)
+                    limit = 50;
 
                 string userType = "", Msg = "", userType_str = "";
                 var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserInfo(qqid, offset, limit);
@@ -1388,8 +1388,8 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 if (offset < 0)
                     offset = 0;
-                if (limit < 0 || limit > 100)
-                    limit = 20;
+                if (limit < 0 || limit > 50)
+                    limit = 50;
 
                 var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().QueryChangeUserInfoLog(qqid, offset, limit);
                 if (infos == null || infos.Rows.Count <= 0)
@@ -1471,8 +1471,8 @@ namespace CFT.CSOMS.Service.CSAPI
                 int limit = paramsHt.ContainsKey("limit") ? APIUtil.StringToInt(paramsHt["limit"].ToString()) : 10;
                 if (offset < 0)
                     offset = 0;
-                if (limit < 0 || limit > 100)
-                    limit = 20;
+                if (limit < 0 || limit > 50)
+                    limit = 50;
 
                 var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountOperate().GetChangeQQList(opera, qqid, offset, limit);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
@@ -1538,9 +1538,9 @@ namespace CFT.CSOMS.Service.CSAPI
                 {
                     offset = 0;
                 }
-                if (limit < 0 || limit > 1000)
+                if (limit < 0 || limit > 50)
                 {
-                    limit = 20;
+                    limit = 50;
                 }
 
                 string msg="";
@@ -1609,6 +1609,50 @@ namespace CFT.CSOMS.Service.CSAPI
             }
         }
 
+        /// <summary>
+        /// 获取销户信息
+        /// </summary>
+        [WebMethod]
+        public void GetCloseAccountInfo()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "query_id", "query_type", "reason", "send", "opera", "ip", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string query_id = paramsHt.ContainsKey("query_id") ? paramsHt["query_id"].ToString() : "";
+                int query_type = paramsHt.ContainsKey("query_type") ? APIUtil.StringToInt(paramsHt["query_type"].ToString()) : 0;
+                string reason = paramsHt.ContainsKey("reason") ? paramsHt["reason"].ToString() : "";
+                bool is_Send = paramsHt.ContainsKey("send") ? APIUtil.StringToBool(paramsHt["send"].ToString()) : false;
+                string email_Addr = paramsHt.ContainsKey("email_Addr") ? paramsHt["email_Addr"].ToString() : "";
+                string opera = paramsHt.ContainsKey("opera") ? paramsHt["opera"].ToString() : "";
+                string ip = paramsHt.ContainsKey("ip") ? paramsHt["ip"].ToString() : "";
+                string ret_msg = "";
+
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountOperate().CloseingAccountInfo(query_id, query_type, reason, is_Send, email_Addr, opera, ip, out  ret_msg);
+
+                RecordNew record = new RecordNew();
+                record.RetValue = infos.ToString().ToLower();
+                record.RetMemo = ret_msg;
+                List<RecordNew> list = new List<RecordNew>();
+                list.Add(record);
+                APIUtil.Print<RecordNew>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetCloseAccountInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetCloseAccountInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
         #endregion
 
         #region 证书通知
@@ -1636,9 +1680,9 @@ namespace CFT.CSOMS.Service.CSAPI
                 {
                     offset = 0;
                 }
-                if (limit < 0 || limit > 1000)
+                if (limit < 0 || limit > 50)
                 {
-                    limit = 20;
+                    limit = 50;
                 }
 
                 string msg = "";
@@ -1827,7 +1871,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 if (offset < 0)
                     offset = 0;
-                if (limit < 0 || limit > 100)
+                if (limit < 0 || limit > 50)
                     limit = 50;
 
                 DataSet ds = new DataSet();
@@ -1888,7 +1932,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 if (offset < 0)
                     offset = 0;
-                if (limit < 0 || limit > 100)
+                if (limit < 0 || limit > 50)
                     limit = 50;
 
                 var infos = new CFT.CSOMS.BLL.FreezeModule.FreezeService().GetFreezeList(begin_time, end_time, freezeuser, username, handletype, statetype, id, offset, limit);
@@ -2288,8 +2332,8 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 if (offset < 0)
                     offset = 0;
-                if (limit < 0 || limit > 100)
-                    limit = 20;
+                if (limit < 0 || limit > 50)
+                    limit = 50;
 
                 var infos = new CFT.CSOMS.BLL.CFTAccountModule.AuthenInfoService().GetUserClassQueryListForThis(uin, offset, limit);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
