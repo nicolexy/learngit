@@ -3291,7 +3291,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.actionType = "充值查询函数";
                 rl.ID = u_ID;
                 rl.sign = 1;
-                rl.strRightCode = "GetFundList";
+                rl.strRightCode = "TradeManagement"; //"GetFundList";
                 rl.type = "查询";
         
                 PublicRes.SetRightAndLog(myHeader, rl);
@@ -5607,7 +5607,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.ID = u_ID;
                 rl.OperID = myHeader.OperID;
                 rl.sign = 1;
-                rl.strRightCode = "TradeLogList";
+                rl.strRightCode = "SPInfoManagement"; //"TradeLogList";
                 rl.RightString = myHeader.RightString;
                 rl.SzKey = myHeader.SzKey;
                 rl.type = "查询";
@@ -19440,7 +19440,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.actionType = "实名认证处理查询函数";
                 rl.ID = fuin;
                 rl.sign = 1;
-                rl.strRightCode = "CFTUserPickTJ";
+                rl.strRightCode = "InfoCenter"; // "CFTUserPickTJ";
                 rl.type = "查询";
 
                 PublicRes.SetRightAndLog(myHeader, rl);
@@ -19547,7 +19547,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.actionType = "实名认证处理查询";
                 rl.ID = fuin;
                 rl.sign = 1;
-                rl.strRightCode = "CFTUserPickTJ";
+                rl.strRightCode = "InfoCenter";// "CFTUserPickTJ";
                 rl.type = "查询";
 	
                 PublicRes.SetRightAndLog(myHeader, rl);
@@ -19643,7 +19643,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.actionType = "实名认证状态用户名银行卡号查询_New";
                 rl.ID = userAccount;
                 rl.sign = 1;
-                rl.strRightCode = "BaseAccount";
+                rl.strRightCode = "InfoCenter";// "BaseAccount";
                 rl.type = "查询";
 
                 PublicRes.SetRightAndLog(myHeader, rl);

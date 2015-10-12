@@ -99,7 +99,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     int operid = Int32.Parse(Session["OperID"].ToString());
 
                     // if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "TradeLogQuery")) Response.Redirect("../login.aspx?wh=1");
-                    if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("TradeLogQuery", this)) Response.Redirect("../login.aspx?wh=1");
+                    if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("TradeManagement", this)) Response.Redirect("../login.aspx?wh=1");
                 }
                 catch  //如果没有登陆或者没有权限就跳出
                 {
@@ -339,7 +339,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             string log = classLibrary.SensitivePowerOperaLib.MakeLog("get", Session["uid"].ToString().Trim(), "[交易记录查询]",
                 selectStrSession, iType.ToString(), beginTime.ToString(), endTime.ToString(), istr.ToString(), imax.ToString());
 
-            if (!classLibrary.SensitivePowerOperaLib.WriteOperationRecord("TradeLogQuery", log, this))
+            if (!classLibrary.SensitivePowerOperaLib.WriteOperationRecord("TradeManagement", log, this))
             {
 
             }
@@ -855,7 +855,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         {
             string strszkey = Session["SzKey"].ToString().Trim();
             int ioperid = Int32.Parse(Session["OperID"].ToString());
-            int iserviceid = Common.AllUserRight.GetServiceID("TradeLogQuery");
+            int iserviceid = Common.AllUserRight.GetServiceID("TradeManagement");
             string struserdata = Session["uid"].ToString().Trim();
             string content = struserdata + "执行了[交易记录查询]操作,操作对象[" + this.TextBox1_ListID.Text.Trim()
 

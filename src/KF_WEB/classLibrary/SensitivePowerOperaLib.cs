@@ -542,17 +542,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 				rights = new OneRight[RIGHTCOUNT];
 				//加入所有的权限。
 
-				rights[10] = new OneRight("BaseAccount",10,"基本账户功能");
-				rights[11] = new OneRight("InfoCenter",11,"个人账户查询");
-				rights[12] = new OneRight("UserBankInfoQuery",12,"银行账号信息");
-				rights[13] = new OneRight("ChangeUserInfo",13,"资料查询修改");
-				rights[17] = new OneRight("FreezeList",17,"冻结操作查询");
+                rights[23] = new OneRight("InfoCenter", 23, "基础信息管理");
+                rights[24] = new OneRight("PayManagement", 24, "支付管理 ");
+                rights[25] = new OneRight("TradeManagement", 25, "交易管理");
+                rights[26] = new OneRight("SPInfoManagement", 26, "商户信息管理");
+                rights[27] = new OneRight("SystemManagement", 27, "系统管理");
+
+                //rights[10] = new OneRight("BaseAccount",10,"基本账户功能");
+                //rights[11] = new OneRight("InfoCenter",11,"个人账户查询");
+                //rights[12] = new OneRight("UserBankInfoQuery",12,"银行账号信息");
+                //rights[13] = new OneRight("ChangeUserInfo",13,"资料查询修改");
+				//rights[17] = new OneRight("FreezeList",17,"冻结操作查询");
 				rights[18] = new OneRight("UserReport",18,"意见投诉");
 				rights[19] = new OneRight("HistoryModify",19,"资料修改历史");
 
-				rights[60] = new OneRight("TradeManage",60,"交易管理");
-				rights[61] = new OneRight("TradeLogQuery",61,"交易记录查询");
-				rights[100] = new OneRight("TradeLogList",100,"商户交易清单");
+				//rights[60] = new OneRight("TradeManage",60,"交易管理");
+				//rights[61] = new OneRight("TradeLogQuery",61,"交易记录查询");
+				//rights[100] = new OneRight("TradeLogList",100,"商户交易清单");
 
 				rights[81] = new OneRight("FreezeUser",81,"冻结帐户按钮");
 				rights[82] = new OneRight("FreezeBalance",82,"冻结可用余额按钮");
@@ -560,14 +566,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 				//rights[84] = new OneRight("ChangeUser",84,"编辑用户资料按钮");
 				rights[85] = new OneRight("LockTradeList",85,"锁定交易单按钮");
 
-				rights[62] = new OneRight("FundQuery",62,"充值记录查询");
-				rights[162] = new OneRight("GetFundList",62,"充值记录查询");
+				//rights[62] = new OneRight("FundQuery",62,"充值记录查询");
+				//rights[162] = new OneRight("GetFundList",62,"充值记录查询");
 			
 				rights[181] = new OneRight("UnFreezeUser",87,"解冻帐户按钮");
 				rights[185] = new OneRight("UnLockTradeList",88,"解锁交易单按钮");
 				rights[121] = new OneRight("CFTUserAppeal",11,"财付通自助申诉查询");
 				rights[21] = new OneRight("CFTUserPick",21,"财付通自助申诉处理");
-				rights[22] = new OneRight("CFTUserPickTJ",22,"财付通自助申诉统计");
+				//rights[22] = new OneRight("CFTUserPickTJ",22,"财付通自助申诉统计");
                 rights[155] = new OneRight("CFTUserPickQuer", 155, "财付通自助申诉处理查询");//二级权限 查询记录及1000元金额以下审批
 
                 rights[161] = new OneRight("NameAbnormalCheck", 161, "姓名异常审批");

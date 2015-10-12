@@ -34,7 +34,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 					this.lb_operatorID.Text = Session["OperID"].ToString();
 			}
 
-			if(!classLibrary.ClassLib.ValidateRight("BaseAccount",this)) Response.Redirect("../login.aspx?wh=1");
+            if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
 
 			/*
 				if(Session["OperID"] != null)
@@ -90,7 +90,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
 				string opLog = SensitivePowerOperaLib.MakeLog("get","","",acc,bankID.ToString(),bankType.ToString());
 
-				SensitivePowerOperaLib.WriteOperationRecord("BaseAccount",opLog,this);
+                SensitivePowerOperaLib.WriteOperationRecord("InfoCenter", opLog, this);
 
 				if(bankID != null && bankID.Trim() != "")
 					bankType = classLibrary.getData.GetBankCodeFromBankName(this.ddl_bankType.SelectedValue);

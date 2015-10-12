@@ -29,7 +29,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				{
 					this.Label_uid.Text = Session["uid"].ToString();
 					string szkey = Session["SzKey"].ToString();
-					if(!classLibrary.ClassLib.ValidateRight("UserBankInfoQuery",this)) Response.Redirect("../login.aspx?wh=1");
+                    if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
 				}
 				catch
 				{

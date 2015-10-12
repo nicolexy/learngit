@@ -56,7 +56,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 			int operid = Int32.Parse(Session["OperID"].ToString());
 
 			//if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "ChangeUserInfo"))
-			if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("ChangeUserInfo",this))
+            if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
 			{
 				menuControl.AddSubMenu("子帐户查询","BaseAccount/ChildrenQuery.aspx");
 				menuControl.AddSubMenu("子帐户订单查询","BaseAccount/ChildrenOrderFromQuery.aspx");

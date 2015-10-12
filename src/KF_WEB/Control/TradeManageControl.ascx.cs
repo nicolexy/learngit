@@ -82,14 +82,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
 
 			//if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "TradeLogQuery"))
-			if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("TradeLogQuery",this))
+            if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("TradeManagement", this))
 			{
 				menuControl.AddSubMenu("交易记录查询","TradeManage/TradeLogQuery.aspx") ;
 				//menuControl.AddSubMenu("汇总付款数据","BaseAccount/batPay.aspx") ;
 			}
 
 			//if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "FundQuery"))
-			if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("FundQuery",this))
+            if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("TradeManagement", this))
 			{
 				menuControl.AddSubMenu("充值记录查询","TradeManage/FundQuery.aspx") ;
 				//menuControl.AddSubMenu("订单实时调帐","TradeManage/RealtimeOrder.aspx") ;
