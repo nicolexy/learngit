@@ -46,7 +46,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                     var uin = input;
                     if (checkWeChatId.Checked)
                     {
-                        uin = WeChatHelper.GetFCXGOpenIdFromWeChatName(input) + "@wx.hkg";
+                        uin = WeChatHelper.GetFCXGOpenIdFromWeChatName(input, Request.UserHostAddress) + "@wx.hkg";
                     }
                     queryuid = bll.QueryUserId(uin);
                 }
