@@ -243,10 +243,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                     ds.Tables[0].Columns.Add("UrlNotify", typeof(String));
                     foreach (DataRow r in ds.Tables[0].Rows)
                     {
-                        string title = r["FTitle"].ToString();
-                        title= title.Replace("<font color=red>", "");
-                        title = title.Replace("</font>", "");
-                        r["UrlNotify"] = "BulletinSendMail.aspx?title=" + title;
+                        r["UrlNotify"] = "BulletinSendMail.aspx?id=" + r["FID"];
                     }
 
                     DataGrid1.DataSource = ds.Tables[0].DefaultView;
