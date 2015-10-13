@@ -2769,6 +2769,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="WebchatPay\QueryRealtimeRepayment.aspx.cs">
+      <DependentUpon>QueryRealtimeRepayment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebchatPay\QueryRealtimeRepayment.aspx.designer.cs">
+      <DependentUpon>QueryRealtimeRepayment.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WebchatPay\QueryWechatRealNameAuthen.aspx.cs">
       <DependentUpon>QueryWechatRealNameAuthen.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3255,6 +3262,7 @@
     <Content Include="InternetBank\MermberDiscount.aspx" />
     <Content Include="InternetBank\TurnoverQuery.aspx" />
     <Content Include="js\airportCity.js" />
+    <Content Include="js\contrastBankErrorCode.js" />
     <Content Include="js\common.js" />
     <Content Include="Left.aspx">
       <SubType>Form</SubType>
@@ -3841,6 +3849,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="WebchatPay\QueryRealtimeRepayment.aspx" />
     <Content Include="WebchatPay\QueryWechatRealNameAuthen.aspx" />
     <Content Include="WebchatPay\WechatMerchantTrans.aspx" />
     <Content Include="WebchatPay\CreditCardRefundQuery.aspx" />

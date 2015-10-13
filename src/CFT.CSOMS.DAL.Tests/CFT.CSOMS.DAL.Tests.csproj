@@ -88,6 +88,7 @@
     <Compile Include="TradeDataTest.cs" />
     <Compile Include="UserAppealModuleTest\UserAppealDataTest.cs" />
     <Compile Include="UserAppealModuleTest\UserAppealDataInitData.cs" />
+    <Compile Include="WechatPay\TradePayDataTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CFT.CSOMS.DAL\CFT.CSOMS.DAL.csproj">

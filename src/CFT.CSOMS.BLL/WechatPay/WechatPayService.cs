@@ -234,5 +234,35 @@ namespace CFT.CSOMS.BLL.WechatPay
             };
             return new TradePayData().QueryWechatHB(parameter, "QueryReceiveById");
         }
+
+        
+        /// <summary>
+        /// 查询实时还款详情
+        /// </summary>
+        /// <param name="transaction_id">还款提现单号</param>
+        /// <param name="acc_date">还款日期</param>
+        /// <param name="status">交易状态1：请求；2：成功</param>
+        /// <returns></returns>
+        public DataTable QueryRealtimeRepayment(string transaction_id, DateTime acc_date, int status)
+        {
+            var dt = new TradePayData().QueryRealtimeRepayment(transaction_id, acc_date, status);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                dt.Columns.Add("Fstatus_str");
+                Dictionary<string, string> dicFstatus = new Dictionary<string, string>()
+                {
+                    {"0","无状态消息"},
+                    {"1","请求还款"},
+                    {"2","还款成功"},
+                    {"3","还款失败"},
+                    {"4","还款结果未知"},
+                };
+                var row = dt.Rows[0];
+                row["Fret_code"] = CommUtil.URLDecode(row["Fret_code"] as string);
+                CFT.CSOMS.COMMLIB.CommUtil.DbtypeToPageContent(dt, "Fstatus", "Fstatus_str", dicFstatus);
+                
+            }
+            return dt;
+        }
     }
 }
