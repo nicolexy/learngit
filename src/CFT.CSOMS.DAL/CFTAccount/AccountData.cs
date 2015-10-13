@@ -18,6 +18,7 @@ using TENCENT.OSS.C2C.Finance.BankLib;
 using System.Collections;
 using CFT.Apollo.Common;
 using SunLibraryEX;
+using CFT.Apollo.Common.Configuration;
 
 namespace CFT.CSOMS.DAL.CFTAccount
 {
@@ -834,7 +835,6 @@ namespace CFT.CSOMS.DAL.CFTAccount
         /// <returns></returns>
         public DataSet GetFreeFlowInfo(string cftNo)
         {
-            string msg = "";
             DataSet ds = null;
 
             try
@@ -843,18 +843,21 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 {
                     return null;
                 }
+                string ip = AppSettings.Get<string>("UserFeeIP", "172.27.31.177");
+                int port = AppSettings.Get<int>("UserFeePORT", 22000);
+                string request_type = "1245";
+
                 string req = "";
                 string uid = PublicRes.ConvertToFuid(cftNo);
-               // req = "uid=" + uid;
+                //oss_eip_query_userfee_service
                 req = string.Format("uid={0}&product_type=3&business_type=1&sub_business_type=0&cur_type=1", uid);
-                string service_name = "oss_eip_query_userfee_service";
-                ds = CommQuery.GetOneTableFromICE(req, CommQuery.QUERY_FREE_FLOW, service_name, out msg);
+
+                ds = RelayAccessFactory.GetDSFromRelay(req, request_type, ip, port);
             }
             catch (Exception err)
             {
-                throw new Exception("Service处理失败！" + msg);
+                throw new Exception("Service处理失败！" + err.Message);
             }
-
             return ds;
         }
 

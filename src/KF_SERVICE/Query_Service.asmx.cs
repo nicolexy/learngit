@@ -28,6 +28,7 @@ using CFT.CSOMS.BLL.FreezeModule;
 using CFT.CSOMS.COMMLIB;
 using SunLibrary;
 using CFT.CSOMS.BLL.TradeModule;
+using CFT.CSOMS.BLL.CFTAccountModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Service
 {
@@ -4043,27 +4044,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetFreeFlowInfo(string cftNo)
         {
-            string msg = "";
             DataSet ds = null;
-
-            try
+            if (!string.IsNullOrEmpty(cftNo))
             {
-                if (cftNo == null || cftNo == "")
-                {
-                    return null;
-                }
-                string req = "";
-                string uid = PublicRes.ConvertToFuid(cftNo);
-                req = string.Format("uid={0}&product_type=3&business_type=1&sub_business_type=0&cur_type=1", 
-                    uid);
-                string service_name = "oss_eip_query_userfee_service";
-                ds = CommQuery.GetOneTableFromICE(req, CommQuery.QUERY_FREE_FLOW, service_name, out msg);
+                //oss_eip_query_userfee_service
+                ds = new VIPService().GetFreeFlowInfo(cftNo);
             }
-            catch (Exception err)
-            {
-                throw new LogicException("Service¥¶¿Ì ß∞‹£°" + msg);
-            }
-
             return ds;
         }
 
