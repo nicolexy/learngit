@@ -71,6 +71,11 @@ namespace CFT.CSOMS.DAL.FundModule
             {
                 dt = ds.Tables[0];
                 dt.TableName = "PayCardInfo";
+
+                foreach (DataRow dr in dt.Rows) 
+                {
+                    dr["Fbank_id"] = System.Web.HttpUtility.UrlDecode(dr["Fbank_id"].ToString());
+                }
             }
             return dt;
 

@@ -464,7 +464,7 @@ namespace CFT.CSOMS.BLL.FundModule
             try
             {
                 DataTable profits = new FundProfit().QueryProfitRecord(tradeId, beginDateStr, endDateStr, currencyType, spId, currentPageIndex * pageSize, pageSize);
-                if (profits.Rows.Count > 0)
+                if (profits != null && profits.Rows.Count > 0)
                 {
                     profits.Columns.Add("Fvalid_money_str", typeof(String));//收益本金额
                     profits.Columns.Add("Fpur_typeName", typeof(String));//科目

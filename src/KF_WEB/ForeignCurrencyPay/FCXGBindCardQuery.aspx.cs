@@ -82,7 +82,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                 var row = e.Item.DataItem as DataRowView;
                 if ((string)row["bind_status"] == "2")
                 {//解绑操作
-                  
+
                     e.Item.Cells[12].Controls[0].Visible = false;
                 }
                 else
@@ -109,7 +109,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             }
             else if (checkWeChatId.Checked)
             {
-                return WeChatHelper.GetFCXGOpenIdFromWeChatName(input) + "@wx.hkg";
+                return WeChatHelper.GetFCXGOpenIdFromWeChatName(input, Request.UserHostAddress) + "@wx.hkg";
             }
             return "";
         }

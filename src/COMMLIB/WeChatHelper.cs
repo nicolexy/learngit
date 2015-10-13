@@ -252,8 +252,9 @@ namespace CFT.CSOMS.COMMLIB
         /// 通过微信号获取香港钱包openid
         /// </summary>
         /// <param name="wechatName"></param>
+        /// <param name="client_ip"></param>
         /// <returns></returns>
-        public static string GetFCXGOpenIdFromWeChatName(string wechatName)
+        public static string GetFCXGOpenIdFromWeChatName(string wechatName,string client_ip)
         {
             var ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("WeChatAppId_Ip", "10.198.132.188");
             var port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("WeChatAppId_Port", 22000);
@@ -264,7 +265,8 @@ namespace CFT.CSOMS.COMMLIB
                 var obj = new
                 {
                     appid = "wx29c4303a2ae3bf0f",
-                    username = wechatName
+                    username = wechatName,
+                    client_ip = client_ip
                 };
 
                 var req = "wechat_xml_text=" + jss.Serialize(obj);
