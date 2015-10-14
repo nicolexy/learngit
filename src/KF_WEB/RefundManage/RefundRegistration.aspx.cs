@@ -487,7 +487,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     }
                     try
                     {
-                        new RefundService().SetRefundCheckState(5, strOldID);
+                        new RefundService().SetRefundCheckState(7, strOldID);
                     }
                     catch (Exception ex)
                     {

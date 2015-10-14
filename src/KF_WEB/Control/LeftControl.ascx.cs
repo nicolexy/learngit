@@ -509,7 +509,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             RiskConManage1.AddSubMenu("财付盾查询", "BaseAccount/CFDQuery.aspx");
             RiskConManage1.AddSubMenu("手机令牌", "Trademanage/MobileTokenQuery.aspx");
             RiskConManage1.AddSubMenu("冻结操作查询", "BaseAccount/FreezeList.aspx");
-            RiskConManage1.AddSubMenu("香港钱包冻结操作查询", "BaseAccount/FCXGFreezeLog.aspx");
+            
             RiskConManage1.AddSubMenu("冻结资金记录", "BaseAccount/FreezeFinQuery.aspx");
             RiskConManage1.AddSubMenu("提现冻结资金查询", "BaseAccount/CashOutFreezeQuery.aspx");
 
@@ -524,17 +524,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             accountOperate1.AddSubMenu("帐户QQ修改", "BaseAccount/ChangeQQOld.aspx");
             accountOperate1.AddSubMenu("提现单拦截", "BaseAccount/FetchListIntercept.aspx");
 
+            ForeignCurrencyPay1.AddSubMenu("外币帐号查询", "ForeignCurrencyPay/FCXGAccountQuery.aspx");
+            ForeignCurrencyPay1.AddSubMenu("绑卡查询", "ForeignCurrencyPay/FCXGBindCardQuery.aspx");
+            ForeignCurrencyPay1.AddSubMenu("账户资金和流水查询", "ForeignCurrencyPay/FCXGMoneyAndFlow.aspx");
+            ForeignCurrencyPay1.AddSubMenu("订单查询(新)", "ForeignCurrencyPay/FCXGOrderQuery.aspx");
+            ForeignCurrencyPay1.AddSubMenu("香港钱包冻结操作查询", "BaseAccount/FCXGFreezeLog.aspx");
+            ForeignCurrencyPay1.AddSubMenu("外币商户查询", "ForeignCurrencyPay/FCXGSPQuery.aspx");
             ForeignCurrencyPay1.AddSubMenu("订单查询", "ForeignCurrencyPay/FCOrderQuery.aspx");
             ForeignCurrencyPay1.AddSubMenu("退款查询", "ForeignCurrencyPay/FCRefundQuery.aspx");
             ForeignCurrencyPay1.AddSubMenu("拒付查询", "ForeignCurrencyPay/FCRefusePayQuery.aspx");
             ForeignCurrencyPay1.AddSubMenu("账户流水查询", "ForeignCurrencyPay/FCRollQuery.aspx");
             ForeignCurrencyPay1.AddSubMenu("外币用户交易查询", "ForeignCurrencyPay/FCUserTradeQuery.aspx");
-
-            ForeignCurrencyPay1.AddSubMenu("外币帐号查询", "ForeignCurrencyPay/FCXGAccountQuery.aspx");
-            ForeignCurrencyPay1.AddSubMenu("绑卡查询", "ForeignCurrencyPay/FCXGBindCardQuery.aspx");
-            ForeignCurrencyPay1.AddSubMenu("订单查询(新)", "ForeignCurrencyPay/FCXGOrderQuery.aspx");
-            ForeignCurrencyPay1.AddSubMenu("账户资金和流水查询", "ForeignCurrencyPay/FCXGMoneyAndFlow.aspx");
-            ForeignCurrencyPay1.AddSubMenu("外币商户查询", "ForeignCurrencyPay/FCXGSPQuery.aspx");
 
             ForeignCurrencyAccount1.AddSubMenu("商户信息查询", "ForeignCurrencyPay/FCAInfoQuery.aspx");
             ForeignCurrencyAccount1.AddSubMenu("商户结算查询", "ForeignCurrencyPay/FCASettlementQuery.aspx");

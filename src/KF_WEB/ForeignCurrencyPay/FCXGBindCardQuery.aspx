@@ -80,17 +80,11 @@
                             <asp:TextBox ID="txt_input" runat="server" Width="250" />
                         <asp:RadioButton ID="checkWeChatId" runat="server" GroupName="chekedType" Text="WeChat ID" />
                         <asp:RadioButton ID="checkUin" runat="server" GroupName="chekedType" Text="钱包账户" Checked="true" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>银行卡号：
-                    <asp:TextBox ID="txt_CardNo" runat="server" Width="200" /></td>
-                    <td>
+                        <asp:RadioButton ID="checkBankCard" runat="server" GroupName="chekedType" Text="银行卡号" Checked="true" />
+                        <span style="margin-left:20px;"></span>
                         <asp:Button ID="Button1" runat="server" Text="绑卡查询" OnClick="Button1_Click" />
-                        <span style="margin-right: 20px;"></span>
                     </td>
                 </tr>
-
             </table>
             <asp:DataGrid ID="dg_passwordLog" runat="server" AutoGenerateColumns="False" CssClass="tab_dg" Caption="绑卡详情" OnItemDataBound="dg_passwordLog_ItemDataBound">
                 <HeaderStyle Font-Bold="True" Height="25px" />
@@ -107,7 +101,7 @@
                     <asp:BoundColumn HeaderText="国家/区域" DataField="bill_area" />
                     <asp:BoundColumn HeaderText="城市" DataField="bill_address" />
                     <asp:BoundColumn HeaderText="街道" DataField="bill_address" />
-                    <asp:HyperLinkColumn HeaderText="操作" Target="_blank" Text="解绑" DataNavigateUrlField="UnbundlingUrl"  />
+                    <asp:HyperLinkColumn HeaderText="操作" Target="_blank" Text="解绑" DataNavigateUrlField="UnbundlingUrl" />
                     <asp:HyperLinkColumn HeaderText="解绑详细" Target="_blank" Text="查看" DataNavigateUrlField="UnbundInfoUrl" />
                 </Columns>
             </asp:DataGrid>
