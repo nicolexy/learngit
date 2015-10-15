@@ -124,6 +124,13 @@ namespace CFT.CSOMS.DAL.Tests
             DataTable dt = service.QueryCloseFundRollList("20140311301196518", "000022", "20100816", "20150917");
         }
         [TestMethod]
+        public void Testfund_684()
+        {
+            FundInfoData service = new FundInfoData();
+            DataTable dt = service.QueryEstimateProfit("20140117000094000", "9000004", "2010-08-16", "2015-09-30");
+        }
+
+        [TestMethod]
         public void Testfund_680()
         {
             DateTime time = DateTime.Now;
@@ -159,10 +166,14 @@ namespace CFT.CSOMS.DAL.Tests
          public void Testfund_623()
          {
              //reqid=623&flag=2&offset=0&limit=10&fields=trade_id:|begin_time:2010-01-10|end_time:2015-10-01|spid:2000000507
+             //FundProfit service = new FundProfit();
+             //DateTime dte = DateTime.Now;
+             //DataTable dt = service.QueryProfitRecord("20140117000094000", "9000004", "2010-01-10", "2015-09-30", -1, "2000000507");
 
-             FundProfit service = new FundProfit();
-             DateTime dte = DateTime.Now;
-             DataTable dt = service.QueryProfitRecord("20140311301196518", "2010-01-10", "2015-10-01", -1, "2000000507");
+
+             //FundProfit service = new FundProfit();
+             //DateTime dte = DateTime.Now;
+             //DataTable dt = service.QueryProfitRecord("20140311301196518","", "2010-01-10", "2015-10-01", -1, "2000000507");
          }
          [TestMethod]
          public void Testfund_678()

@@ -478,6 +478,7 @@ namespace CFT.CSOMS.BLL.FundModule
                     profits.Columns.Add("Sday_profit_rate_str", typeof(string));//日涨跌
                     profits.Columns.Add("fund_balance", typeof(string));//基金份额
                     profits.Columns.Add("mark_value", typeof(string));//市值
+                    profits.Columns.Add("EstimateFprofit", typeof(string));//预估收益
 
                     COMMLIB.CommUtil.FenToYuan_Table(profits, "Fvalid_money", "Fvalid_money_str");
                     COMMLIB.CommUtil.FenToYuan_Table(profits, "Fprofit", "Fprofit_str");
@@ -511,7 +512,7 @@ namespace CFT.CSOMS.BLL.FundModule
                         }
                         catch (Exception ex)
                         {
-                            throw new Exception("查询spid:"+dr["Fspid"].ToString()+"的基金公司名异常！");
+                            throw new Exception("查询spid:" + dr["Fspid"].ToString() + "的基金公司名异常！");
                         }
 
                         if (isSpecialFund(fund_code, spId)) //易方达沪深300基金
@@ -531,7 +532,7 @@ namespace CFT.CSOMS.BLL.FundModule
                                         string tmp = row["F7day_profit_rate"].ToString();
                                         if (!string.IsNullOrEmpty(tmp))
                                         {
-                                            
+
                                             decimal d = (decimal)(Int64.Parse(tmp)) / 10000;
                                             dr["Sday_profit_rate_str"] = d.ToString("P2");
                                         }
@@ -540,7 +541,7 @@ namespace CFT.CSOMS.BLL.FundModule
                             }
                             catch (Exception ex)
                             {
-                                throw new Exception("查询spid:" + dr["Fspid"].ToString() + "  fund_code："+fund_code+" 的日涨跌异常！"+ex.Message);
+                                throw new Exception("查询spid:" + dr["Fspid"].ToString() + "  fund_code：" + fund_code + " 的日涨跌异常！" + ex.Message);
                             }
 
                             decimal fund_value = 0.0M;
@@ -556,9 +557,29 @@ namespace CFT.CSOMS.BLL.FundModule
                             dr["fund_balance"] = "";
                             dr["mark_value"] = "";
                         }
+
+
+                        #region 查询预估收益
+                        try
+                        {
+                            string fday = dr["Fday"].ToString();
+                            string Fprofit = "0";
+                            // DataTable dtFprofit = new FundInfoData().QueryEstimateProfit("20140117000094000", "9000004", fday, fday, 0, 1);
+                            DataTable dtEstimateFprofit = new FundInfoData().QueryEstimateProfit(tradeId, fund_code, fday, fday, 0, 1);
+                            if (dtEstimateFprofit != null && dtEstimateFprofit.Rows.Count > 0)
+                            {
+                                Fprofit = COMMLIB.CommUtil.FenToYuan(Convert.ToDouble(dtEstimateFprofit.Rows[0]["Fprofit"]));
+                            }
+                            dr["EstimateFprofit"] = Fprofit;
+
+                        }
+                        catch (Exception exc)
+                        {
+                            dr["EstimateFprofit"] ="查询预估收益失败："+ exc.Message;
+                        }
+                        #endregion
                     }
 
-                  
                     return profits;
                 }
             }

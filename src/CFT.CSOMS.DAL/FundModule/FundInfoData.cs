@@ -161,6 +161,42 @@ namespace CFT.CSOMS.DAL.FundModule
 
 
         }
+         
+
+        //查询预估收益
+        public DataTable QueryEstimateProfit(string tradeId, string fundCode, string beginDateStr, string endDateStr, int currentPageIndex = 0, int pageSize = 10)
+        {
+            if (string.IsNullOrEmpty(tradeId))
+                throw new ArgumentNullException("tradeId");
+            if (string.IsNullOrEmpty(fundCode))
+                throw new ArgumentNullException("fundCode");
+            DataTable dt = null;
+            var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
+            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
+            string requestText = "reqid=684&flag=2&offset={0}&limit={1}&fields=trade_id:{2}";
+            requestText = string.Format(requestText, currentPageIndex, pageSize, tradeId);
+            if (!string.IsNullOrEmpty(fundCode))
+            {
+                requestText += "|fund_code:" + fundCode;
+            }
+            if (!string.IsNullOrEmpty(beginDateStr))
+            {
+                requestText += "|begin_day:" + beginDateStr;
+            }
+            if (!string.IsNullOrEmpty(endDateStr))
+            {
+                requestText += "|end_day:" + endDateStr;
+            }
+
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+            }
+            return dt;
+
+
+        }
 
     }
 }
