@@ -36,9 +36,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CFT.Apollo.Common.3.1.5494.24496\lib\CFT.Apollo.Common.dll</HintPath>
     </Reference>
-    <Reference Include="CFT.Apollo.CommunicationFramework, Version=3.2.39.4489, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.3.2.39\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
+    <Reference Include="CFT.Apollo.CommunicationFramework, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.3.3.0\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="CFT.Apollo.Logging, Version=1.0.5494.24493, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -49,8 +49,8 @@
       <HintPath>..\KF_WEB\bin2\Google.ProtocolBuffers.dll</HintPath>
     </Reference>
     <Reference Include="icecs_gb2312, Version=3.1.1.0, Culture=neutral, PublicKeyToken=1f998c50fec78381">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.3.2.39\lib\net40\icecs_gb2312.dll</HintPath>
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.3.3.0\lib\net40\icecs_gb2312.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
