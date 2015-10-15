@@ -578,7 +578,6 @@ namespace CFT.CSOMS.DAL.TradeModule
         }
 
 
-        //查询用户帐户流水表_WithListID
         public DataSet GetBankRollList_withID(DateTime u_BeginTime, DateTime u_EndTime, string ListID, int istr, int imax)
         {
             try
@@ -592,16 +591,26 @@ namespace CFT.CSOMS.DAL.TradeModule
                     return null;
 
                 string onerow = cuser.alTables[0].ToString().Replace("UID=", "");
-                string strWhere = "uid=" + onerow;
-                strWhere += "&listid=" + ListID;
 
                 DataSet ds;
                 string errMsg;
 
-                if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_个人, out errMsg, out ds))
-                {
-                    //throw new LogicException(errMsg);
-                }
+                string service_name_user = "qry_user_bankroll_c";   //个人
+                string service_name_sp = "qry_sp_bankroll_c";       //商户
+                string service_name_bank = "qry_bank_bankroll_c";   //银行
+
+                string req = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                req += "&sp_id=2000000000";
+                req += "&transaction_id=" + ListID;
+                req += "&uid=" + onerow;
+                ds = CommQuery.GetDataSetFromICE(req, CommQuery.交易单资金流水_个人, false, service_name_user, out errMsg);
+
+                //string strWhere = "uid=" + onerow;
+                //strWhere += "&listid=" + ListID;
+                //if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_个人, out errMsg, out ds))
+                //{
+                //    //throw new LogicException(errMsg);
+                //}
 
                 bool havefirstds = true;
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0] == null || ds.Tables[0].Columns.Count == 0)
@@ -612,6 +621,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                     havefirstds = false;
                 }
 
+                string spUid = PublicRes.GetSpUidBySpId(cuser.spUid);
                 //先取出买卖家的一个数据表
                 for (int i = 1; i < cuser.alTables.Count; i++)
                 {
@@ -619,23 +629,34 @@ namespace CFT.CSOMS.DAL.TradeModule
                     onerow = cuser.alTables[i].ToString();
                     if (onerow.StartsWith("UID="))
                     {
-                        strWhere = "uid=" + onerow.Replace("UID=", "");
-                        strWhere += "&listid=" + ListID;
+                        req = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                        req += "&sp_id=2000000000";
+                        req += "&transaction_id=" + ListID;
+                        req += "&uid=" + onerow.Replace("UID=", "");
+                        newds = CommQuery.GetDataSetFromICE(req, CommQuery.交易单资金流水_个人, false, service_name_user, out errMsg);
 
-                        if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_个人, out errMsg, out newds))
-                        {
-                            //throw new LogicException(errMsg);
-                        }
+                        //strWhere = "uid=" + onerow.Replace("UID=", "");
+                        //strWhere += "&listid=" + ListID;
+                        //if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_个人, out errMsg, out newds))
+                        //{
+                        //    //throw new LogicException(errMsg);
+                        //}
                     }
                     else
                     {
-                        strWhere = "start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
-                        strWhere += "&listid=" + ListID;
+                        req = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                        req += "&sp_id=2000000000";
+                        req += "&transaction_id=" + ListID;
+                        req += "&sp_uid=" + spUid;
+                        req += "&start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
+                        newds = CommQuery.GetDataSetFromICE(req, CommQuery.交易单资金流水_商户, false, service_name_sp, out errMsg);
 
-                        if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_商户, out errMsg, out newds))
-                        {
-                            //throw new LogicException(errMsg);
-                        }
+                        //strWhere = "start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
+                        //strWhere += "&listid=" + ListID;
+                        //if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_商户, out errMsg, out newds))
+                        //{
+                        //    //throw new LogicException(errMsg);
+                        //}
                     }
 
                     //把这次得到的表内容合并入ds中。
@@ -669,13 +690,19 @@ namespace CFT.CSOMS.DAL.TradeModule
                     }
                     else
                     {
-                        strWhere = "start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
-                        strWhere += "&listid=" + ListID;
+                        req = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                        req += "&sp_id=2000000000";
+                        req += "&transaction_id=" + ListID;
+                        req += "&bank_type=" + cuser.bankType;
+                        req += "&start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
+                        newds = CommQuery.GetDataSetFromICE(req, CommQuery.交易单资金流水_银行, false, service_name_bank, out errMsg);
 
-                        if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_银行, out errMsg, out newds))
-                        {
-                            //throw new LogicException(errMsg);
-                        }
+                        //strWhere = "start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
+                        //strWhere += "&listid=" + ListID;
+                        //if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_银行, out errMsg, out newds))
+                        //{
+                        //    //throw new LogicException(errMsg);
+                        //}
                     }
 
                     //把这次得到的表内容合并入ds中。
@@ -715,7 +742,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// <summary>
         /// 银行资金流水表
         /// </summary>
-        public static void GetBankRollList(string ListID, Q_BANKROLL_LIST cuser, ref string onerow, ref string strWhere, ref DataSet ds, ref string errMsg, ref bool havefirstds)
+        public static void GetBankRollList(int bankType, string ListID, Q_BANKROLL_LIST cuser, ref string onerow, ref string strWhere, ref DataSet ds, ref string errMsg, ref bool havefirstds)
         {
             for (int i = 1; i < cuser.alTables.Count; i++)
             {
@@ -727,13 +754,20 @@ namespace CFT.CSOMS.DAL.TradeModule
                 }
                 else
                 {
-                    strWhere = "start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
-                    strWhere += "&listid=" + ListID;
+                    string service_name_bank = "qry_bank_bankroll_c";   //银行
+                    strWhere = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                    strWhere += "&sp_id=2000000000";
+                    strWhere += "&transaction_id=" + ListID;
+                    strWhere += "&bank_type=" + bankType;
+                    strWhere += "&start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
+                    newds = CommQuery.GetDataSetFromICE(strWhere, CommQuery.交易单资金流水_银行, false, service_name_bank, out errMsg);
 
-                    if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_银行, out errMsg, out newds))
-                    {
-                        //throw new LogicException(errMsg);
-                    }
+                    //strWhere = "start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
+                    //strWhere += "&listid=" + ListID;
+                    //if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_银行, out errMsg, out newds))
+                    //{
+                    //    //throw new LogicException(errMsg);
+                    //}
                 }
 
                 //把这次得到的表内容合并入ds中。
@@ -760,7 +794,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// <summary>
         /// 买卖家的资金流水表
         /// </summary>
-        public static void GetBuyerRollList(string ListID, Q_BANKROLL_LIST cuser, ref string onerow, ref string strWhere, ref DataSet ds, ref string errMsg, ref bool havefirstds)
+        public static void GetBuyerRollList(string spUid, string ListID, Q_BANKROLL_LIST cuser, ref string onerow, ref string strWhere, ref DataSet ds, ref string errMsg, ref bool havefirstds)
         {
             for (int i = 1; i < cuser.alTables.Count; i++)
             {
@@ -768,23 +802,36 @@ namespace CFT.CSOMS.DAL.TradeModule
                 onerow = cuser.alTables[i].ToString();
                 if (onerow.StartsWith("UID="))
                 {
-                    strWhere = "uid=" + onerow.Replace("UID=", "");
-                    strWhere += "&listid=" + ListID;
+                    string service_name_user = "qry_user_bankroll_c";   //个人
+                    strWhere = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                    strWhere += "&sp_id=2000000000";
+                    strWhere += "&transaction_id=" + ListID;
+                    strWhere += "&uid=" + onerow.Replace("UID=", "");
+                    newds = CommQuery.GetDataSetFromICE(strWhere, CommQuery.交易单资金流水_个人, false, service_name_user, out errMsg);
 
-                    if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_个人, out errMsg, out newds))
-                    {
-                        //throw new LogicException(errMsg);
-                    }
+                    //strWhere = "uid=" + onerow.Replace("UID=", "");
+                    //strWhere += "&listid=" + ListID;
+                    //if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_个人, out errMsg, out newds))
+                    //{
+                    //    //throw new LogicException(errMsg);
+                    //}
                 }
                 else
                 {
-                    strWhere = "start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
-                    strWhere += "&listid=" + ListID;
+                    string service_name_sp = "qry_sp_bankroll_c";       //商户
+                    strWhere = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                    strWhere += "&sp_id=2000000000";
+                    strWhere += "&transaction_id=" + ListID;
+                    strWhere += "&sp_uid=" + spUid;
+                    strWhere += "&start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
+                    newds = CommQuery.GetDataSetFromICE(strWhere, CommQuery.交易单资金流水_商户, false, service_name_sp, out errMsg);
 
-                    if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_商户, out errMsg, out newds))
-                    {
-                        //throw new LogicException(errMsg);
-                    }
+                    //strWhere = "start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
+                    //strWhere += "&listid=" + ListID;
+                    //if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_商户, out errMsg, out newds))
+                    //{
+                    //    //throw new LogicException(errMsg);
+                    //}
                 }
 
                 //把这次得到的表内容合并入ds中。

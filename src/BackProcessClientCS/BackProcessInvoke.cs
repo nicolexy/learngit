@@ -35,6 +35,13 @@ namespace BackProcessInvoke
 
 		int InvokeQuery(int SourceType, int SourceCmd, string szKey, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp);
 		int InvokeQuery(int SourceType, int SourceCmd, string szKey, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp, Ice.Context context__);
+
+
+        #region 增加参数setID
+        int InvokeQuery_SetID(int SourceType, int SourceCmd, string szKey, string setID, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp);
+        int InvokeQuery_SetID(int SourceType, int SourceCmd, string szKey, string setID, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp, Ice.Context context__);
+        #endregion
+
 	}
 }
 
@@ -49,6 +56,10 @@ namespace BackProcessInvoke
 		int InvokeV30(string transListNo, string sequenceNo, int cmdNo, int middleNo, string request, out string respond, Ice.Current current__);
 
 		int InvokeQuery(int SourceType, int SourceCmd, string szKey, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp, Ice.Current current__);
+
+        #region 增加参数setID
+        int InvokeQuery_SetID(int SourceType, int SourceCmd, string szKey, string setID, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp, Ice.Current current__);
+        #endregion
 	}
 
 	public interface IProcessInvokeOperationsNC_
@@ -60,6 +71,10 @@ namespace BackProcessInvoke
 		int InvokeV30(string transListNo, string sequenceNo, int cmdNo, int middleNo, string request, out string respond);
 
 		int InvokeQuery(int SourceType, int SourceCmd, string szKey, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp);
+
+        #region 增加参数setID
+        int InvokeQuery_SetID(int SourceType, int SourceCmd, string szKey, string setID, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp);
+        #endregion
 	}
 }
 
@@ -124,6 +139,36 @@ namespace BackProcessInvoke
 				}
 			}
 		}
+
+        #region  增加参数setID
+        public int InvokeQuery_SetID(int SourceType, int SourceCmd, string szKey, string setID, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp)
+        {
+            return InvokeQuery_SetID(SourceType, SourceCmd, szKey, setID, middleNo, ParaLen, szPara, out RespLen, out szResp, defaultContext__());
+        }
+
+        public int InvokeQuery_SetID(int SourceType, int SourceCmd, string szKey, string setID, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp, Ice.Context context__)
+        {
+            int cnt__ = 0;
+            while (true)
+            {
+                try
+                {
+                    checkTwowayOnly__("InvokeQuery");
+                    Ice.ObjectDel_ delBase__ = getDelegate__();
+                    IProcessInvokeDel_ del__ = (IProcessInvokeDel_)delBase__;
+                    return del__.InvokeQuery_SetID(SourceType, SourceCmd, szKey, setID, middleNo, ParaLen, szPara, out RespLen, out szResp, context__);
+                }
+                catch (IceInternal.LocalExceptionWrapper ex__)
+                {
+                    handleExceptionWrapper__(ex__);
+                }
+                catch (Ice.LocalException ex__)
+                {
+                    cnt__ = handleException__(ex__, cnt__);
+                }
+            }
+        }
+        #endregion
 
 		public int InvokeV30(string transListNo, string sequenceNo, int cmdNo, int middleNo, string request, out string respond)
 		{
@@ -336,6 +381,10 @@ namespace BackProcessInvoke
 		int InvokeV30(string transListNo, string sequenceNo, int cmdNo, int middleNo, string request, out string respond, Ice.Context context__);
 
 		int InvokeQuery(int SourceType, int SourceCmd, string szKey, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp, Ice.Context context__);
+
+        #region 增加参数setID
+        int InvokeQuery_SetID(int SourceType, int SourceCmd, string szKey, string setID, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp, Ice.Context context__);
+        #endregion
 	}
 }
 
@@ -439,6 +488,61 @@ namespace BackProcessInvoke
 				reclaimOutgoing(og__);
 			}
 		}
+
+
+        #region  增加参数setID
+        public int InvokeQuery_SetID(int SourceType, int SourceCmd, string szKey, string setID, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp, Ice.Context context__)
+        {
+            IceInternal.Outgoing og__ = getOutgoing("InvokeQuery_SetID", Ice.OperationMode.Normal, context__);
+            try
+            {
+                try
+                {
+                    IceInternal.BasicStream os__ = og__.ostr();
+                    os__.writeInt(SourceType);
+                    os__.writeInt(SourceCmd);
+                    os__.writeString(szKey);
+                    os__.writeString(setID);
+                    os__.writeInt(middleNo);
+                    os__.writeInt(ParaLen);
+                    os__.writeString(szPara);
+                }
+                catch (Ice.LocalException ex__)
+                {
+                    og__.abort(ex__);
+                }
+                bool ok__ = og__.invoke();
+                try
+                {
+                    IceInternal.BasicStream is__ = og__.istr();
+                    if (!ok__)
+                    {
+                        try
+                        {
+                            is__.throwException();
+                        }
+                        catch (Ice.UserException ex)
+                        {
+                            throw new Ice.UnknownUserException(ex);
+                        }
+                    }
+                    RespLen = is__.readInt();
+                    szResp = is__.readString();
+                    int ret__;
+                    ret__ = is__.readInt();
+                    return ret__;
+                }
+                catch (Ice.LocalException ex__)
+                {
+                    throw new IceInternal.LocalExceptionWrapper(ex__, false);
+                }
+            }
+            finally
+            {
+                reclaimOutgoing(og__);
+            }
+        }
+        #endregion
 
 		public int InvokeV30(string transListNo, string sequenceNo, int cmdNo, int middleNo, string request, out string respond, Ice.Context context__)
 		{
@@ -582,6 +686,7 @@ namespace BackProcessInvoke
 			}
 		}
 
+
 		public int InvokeQuery(int SourceType, int SourceCmd, string szKey, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp, Ice.Context context__)
 		{
 			Ice.Current current__ = new Ice.Current();
@@ -616,6 +721,43 @@ namespace BackProcessInvoke
 				}
 			}
 		}
+
+        #region 增加参数setID
+        public int InvokeQuery_SetID(int SourceType, int SourceCmd, string szKey, string setID, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp, Ice.Context context__)
+        {
+            Ice.Current current__ = new Ice.Current();
+            initCurrent__(ref current__, "InvokeQuery_SetID", Ice.OperationMode.Normal, context__);
+            while (true)
+            {
+                IceInternal.Direct direct__ = new IceInternal.Direct(current__);
+                object servant__ = direct__.servant();
+                if (servant__ is IProcessInvoke)
+                {
+                    try
+                    {
+                        return ((BackProcessInvoke.IProcessInvoke)servant__).InvokeQuery_SetID(SourceType, SourceCmd, szKey, setID, middleNo, ParaLen, szPara, out RespLen, out szResp, current__);
+                    }
+                    catch (Ice.LocalException ex__)
+                    {
+                        throw new IceInternal.LocalExceptionWrapper(ex__, false);
+                    }
+                    finally
+                    {
+                        direct__.destroy();
+                    }
+                }
+                else
+                {
+                    direct__.destroy();
+                    Ice.OperationNotExistException opEx__ = new Ice.OperationNotExistException();
+                    opEx__.id = current__.id;
+                    opEx__.facet = current__.facet;
+                    opEx__.operation = current__.operation;
+                    throw opEx__;
+                }
+            }
+        }
+        #endregion
 
 		public int InvokeV30(string transListNo, string sequenceNo, int cmdNo, int middleNo, string request, out string respond, Ice.Context context__)
 		{
@@ -722,6 +864,16 @@ namespace BackProcessInvoke
 		}
 
 		public abstract int InvokeQuery(int SourceType, int SourceCmd, string szKey, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp, Ice.Current current__);
+
+
+        #region 增加参数setID
+        public int InvokeQuery_SetID(int SourceType, int SourceCmd, string szKey, string setID, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp)
+        {
+            return InvokeQuery_SetID(SourceType, SourceCmd, szKey, setID, middleNo, ParaLen, szPara, out RespLen, out szResp, Ice.ObjectImpl.defaultCurrent);
+        }
+
+        public abstract int InvokeQuery_SetID(int SourceType, int SourceCmd, string szKey, string setID, int middleNo, int ParaLen, string szPara, out int RespLen, out string szResp, Ice.Current current__);
+        #endregion
 
 		#endregion
 
@@ -908,6 +1060,36 @@ namespace BackProcessInvoke
 			return IceInternal.DispatchStatus.DispatchOK;
 		}
 
+        #region 增加参数setID
+        public static IceInternal.DispatchStatus InvokeQuery_SetID___(IProcessInvoke obj__, IceInternal.Incoming inS__, Ice.Current current__)
+        {
+            checkMode__(Ice.OperationMode.Normal, current__.mode);
+            IceInternal.BasicStream is__ = inS__.istr();
+            IceInternal.BasicStream os__ = inS__.ostr();
+            int SourceType;
+            SourceType = is__.readInt();
+            int SourceCmd;
+            SourceCmd = is__.readInt();
+            string szKey;
+            szKey = is__.readString();
+            string setID; //增加参数setID
+            setID = is__.readString();
+            int middleNo;
+            middleNo = is__.readInt();
+            int ParaLen;
+            ParaLen = is__.readInt();
+            string szPara;
+            szPara = is__.readString();
+            int RespLen;
+            string szResp;
+            int ret__ = obj__.InvokeQuery_SetID(SourceType, SourceCmd, szKey, setID, middleNo, ParaLen, szPara, out RespLen, out szResp, current__);
+            os__.writeInt(RespLen);
+            os__.writeString(szResp);
+            os__.writeInt(ret__);
+            return IceInternal.DispatchStatus.DispatchOK;
+        }
+        #endregion
+
 		private static string[] all__ =
 	{
 		"ice_id",
@@ -917,7 +1099,8 @@ namespace BackProcessInvoke
 		"Invoke",
 		"InvokeQuery",
 		"InvokeV30",
-		"MiddleInvoke"
+		"MiddleInvoke",
+        "InvokeQuery_SetID" //增加参数setID
 	};
 
 		public override IceInternal.DispatchStatus dispatch__(IceInternal.Incoming inS__, Ice.Current current__)
@@ -984,6 +1167,10 @@ namespace BackProcessInvoke
 				{
 					return MiddleInvoke___(this, inS__, current__);
 				}
+                case 8: //增加参数setID
+                {
+                    return InvokeQuery_SetID___(this, inS__, current__);
+                }
 			}
 
 			_System.Diagnostics.Debug.Assert(false);

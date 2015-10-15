@@ -48,30 +48,32 @@ namespace CFT.CSOMS.DAL.FundModule
             if (fuid == null)
                 fuid = "0";
 
-            ICEAccess ice = null;
-            if (currencyType != 1)
-            {
-                ice = ICEAccessFactory.GetICEAccess("ICEConnectionString3");
-            }
-            else
-            {
-                ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
-            }
+            //ICEAccess ice = null;
+            //if (currencyType != 1)
+            //{
+            //    ice = ICEAccessFactory.GetICEAccess("ICEConnectionString3");
+            //}
+            //else
+            //{
+            //    ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
+            //}
 
             try
             {
-                ice.OpenConn();
-                string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                strwhere += ICEAccess.URLEncode("fcurtype=" + currencyType + "&");
-                string strResp = "";
-                LogHelper.LogInfo("QuerySubAccountInfo send strwhere : " + strwhere);
-
-                DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
+                //ice.OpenConn();
+                //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                //strwhere += ICEAccess.URLEncode("fcurtype=" + currencyType + "&");
+                //string strResp = "";
+                //LogHelper.LogInfo("QuerySubAccountInfo send strwhere : " + strwhere);
+                //string setID = PublicRes.GetSetIDByQQID(uin);
+                //DataTable dt = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                string errMsg = "";
+                DataTable dt = AccountData.GetAccountInfo(fuid, currencyType.ToString(), out errMsg);
 
                 if (dt == null || dt.Rows.Count == 0)
                     return null;
 
-                ice.CloseConn();
+                //ice.CloseConn();
 
                 return dt;
             }
@@ -81,7 +83,7 @@ namespace CFT.CSOMS.DAL.FundModule
             }
             finally
             {
-                ice.Dispose();
+                //ice.Dispose();
             }
         }
 

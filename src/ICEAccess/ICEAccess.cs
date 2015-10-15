@@ -266,6 +266,183 @@ namespace TENCENT.OSS.C2C.Finance.DataAccess
 			return iresult;
 		}
 
+        #region 增加参数setID
+
+        /// <summary>
+        /// 资源管理器查询,返回一行记录
+        /// </summary>
+        /// <param name="iSourceType"></param>
+        /// <param name="iSourceCmd"></param>
+        /// <param name="strKey"></param>
+        /// <param name="strPara"></param>
+        /// <param name="strResp"></param>
+        /// <returns></returns>
+        public DataTable InvokeQuery_GetDataTable_SetID(int iSourceType, int iSourceCmd, string strKey, string setID, string strPara, out string strResp)
+        {
+            DataTable dtresult = null;
+            strResp = "调用ICE时出错";
+
+            if (strPara == null || strPara.Trim() == "")
+                return null;
+
+            int iParaLen = strPara.Length;
+            int iRespLen = 0;
+            int iresult = -1;
+
+            if (iceconn.InvokeQuery_SetID(iSourceType, iSourceCmd, strKey, setID, MiddleNo, iParaLen, strPara, out iRespLen, out strResp, out iresult))
+            {
+                if (iresult == 0 && strResp.StartsWith("result=0"))
+                {
+                    //解析strResp	
+                    //strResp = URLDecode(strResp);
+
+                    string[] strsplit = strResp.Split('&');
+
+                    if (strsplit.Length == 0)
+                        return null;
+
+                    dtresult = new DataTable();
+                    Hashtable ht = new Hashtable(strsplit.Length);
+
+                    foreach (string stmp in strsplit)
+                    {
+                        if (stmp == null || stmp.Trim() == "")
+                            continue;
+
+                        string[] fieldsplit = stmp.Split('=');
+
+                        if (fieldsplit.Length != 2)
+                            continue;
+
+                        ht.Add(fieldsplit[0], URLDecode(fieldsplit[1].Trim()));
+                        dtresult.Columns.Add(fieldsplit[0]);
+                    }
+
+                    DataRow dr = dtresult.NewRow();
+                    dr.BeginEdit();
+                    foreach (DataColumn dc in dtresult.Columns)
+                    {
+                        dr[dc.ColumnName] = ht[dc.ColumnName];
+                    }
+                    dr.EndEdit();
+
+                    dtresult.Rows.Add(dr);
+
+                    return dtresult;
+                }
+                else
+                {
+                    strResp = "[" + strResp + "] [" + YWCommandResult.GetResultDetailInfo(iresult.ToString()) + "]";
+                }
+            }
+
+            return dtresult;
+        }
+
+        /// <summary>
+        /// 调用资源管理器查询接口,返回一个值.
+        /// </summary>
+        /// <param name="iSourceType"></param>
+        /// <param name="iSourceCmd"></param>
+        /// <param name="strKey"></param>
+        /// <param name="strPara"></param>
+        /// <param name="strResp"></param>
+        /// <returns></returns>
+        public int InvokeQuery_GetOneResult_SetID(int iSourceType, int iSourceCmd, string strKey, string setID, string strPara, string strFieldName, out string strResp)
+        {
+            int iresult = -1;
+            strResp = "调用ICE时出错";
+
+            if (strPara == null || strPara.Trim() == "")
+                return iresult;
+
+            if (strFieldName == null || strFieldName.Trim() == "")
+                return iresult;
+
+            int iParaLen = strPara.Length;
+            int iRespLen = 0;
+
+            if (iceconn.InvokeQuery_SetID(iSourceType, iSourceCmd, strKey, setID, MiddleNo, iParaLen, strPara, out iRespLen, out strResp, out iresult))
+            {
+                if (iresult == 0)
+                {
+                    //解析strResp	
+                    //strResp = URLDecode(strResp);
+                    strFieldName = strFieldName.Trim().ToLower();
+
+                    string strtmp = "&" + strFieldName + "=";
+                    int istartindex = strResp.ToLower().IndexOf(strtmp);
+
+                    if (istartindex == -1)
+                    {
+                        strResp = "未查询到指定字段[" + strFieldName + "]";
+                        return -1;
+                    }
+
+                    istartindex += strtmp.Length;
+                    int iendindex = strResp.IndexOf("&", istartindex);
+                    if (iendindex == -1)
+                        iendindex = strResp.Length;
+
+                    strResp = strResp.Substring(istartindex, iendindex - istartindex);
+                    strResp = URLDecode(strResp);
+
+                    return iresult;
+                }
+                else
+                {
+                    strResp = "[" + strResp + "] [" + YWCommandResult.GetResultDetailInfo(iresult.ToString()) + "]";
+                }
+            }
+
+            return iresult;
+        }
+
+        /// <summary>
+        /// 调用资源管理器修改接口  
+        /// </summary>
+        /// <param name="iSourceType"></param>
+        /// <param name="iSourceCmd"></param>
+        /// <param name="strKey"></param>
+        /// <param name="setID"></param>
+        /// <param name="strPara"></param>
+        /// <param name="strResp"></param>
+        /// <returns></returns>
+        public int InvokeQuery_Exec_SetID(int iSourceType, int iSourceCmd, string strKey, string setID, string strPara, out string strResp)
+        {
+            int iresult = -1;
+            strResp = "调用ICE时出错";
+
+            if (strPara == null || strPara.Trim() == "")
+                return iresult;
+
+            int iParaLen = strPara.Length;
+            int iRespLen = 0;
+
+            if (iceconn.InvokeQuery_SetID(iSourceType, iSourceCmd, strKey, setID, MiddleNo, iParaLen, strPara, out iRespLen, out strResp, out iresult))
+            {
+                if (iresult == 0 || iresult == 60027000)
+                {
+                    if (strResp.StartsWith("result=0") || strResp.StartsWith("result=60027000"))
+                    {
+                        iresult = 0;
+                    }
+                    else
+                    {
+                        iresult = Int32.Parse(strResp.Substring(0, strResp.IndexOf("&")).Replace("result=", "").Replace("&", ""));
+                        strResp = "[" + strResp + "]";
+                    }
+                }
+                else
+                {
+                    strResp = "[" + strResp + "] [" + YWCommandResult.GetResultDetailInfo(iresult.ToString()) + "]";
+                }
+            }
+
+            return iresult;
+        }
+
+        #endregion
 
 		/// <summary>
 		/// 调用事务管理器

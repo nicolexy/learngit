@@ -1514,6 +1514,31 @@ namespace CFT.CSOMS.DAL.CFTAccount
         }
 
         /// <summary>
+        /// YWCommandCode.查询用户信息 调核心转Relay
+        /// </summary>
+        /// <param name="fuid"></param>
+        /// <param name="fcurtype"></param>
+        /// <returns></returns>
+        public static DataTable GetAccountInfo(string fuid, string fcurtype, out string errMsg)
+        {
+            DataTable dt = null;
+            string req = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            req += "&curtype=" + fcurtype;
+            req += "&uid=" + fuid;
+            DataSet userDs = CommQuery.GetDSForServiceFromICE(req, "qry_user_balance_slave_c", false, out errMsg);
+            if (userDs == null || userDs.Tables.Count == 0 || userDs.Tables[0] == null || userDs.Tables[0].Columns.Count == 0)
+            {
+                dt = userDs.Tables[0];
+            }
+            //else
+            //{
+            //    throw new Exception("调用Relay查询T_user无记录：" + errMsg);
+            //}
+
+            return dt;
+        }
+
+        /// <summary>
         /// 查询用户帐户表
         /// </summary>    
         public DataSet GetUserAccount(string u_QQID, int fcurtype, int istr, int imax)
@@ -1531,8 +1556,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 string ftrueName = "";
                 string fz_amt = ""; //分账冻结金额 yinhuang 2014/1/8
 
-                //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
-                ICEAccess ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
+                //ICEAccess ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
                 //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("AP"));
                 SettleData settledata = new SettleData();
                 try
@@ -1558,16 +1582,18 @@ namespace CFT.CSOMS.DAL.CFTAccount
                         }
                     }
 
-                    ice.OpenConn();
-                    string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                    strwhere += ICEAccess.URLEncode("fcurtype=" + fcurtype + "&");
-
-                    string strResp = "";
-                    DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
+                    //ice.OpenConn();
+                    //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                    //strwhere += ICEAccess.URLEncode("fcurtype=" + fcurtype + "&");
+                    //string setID = PublicRes.GetSetIDByQQID(u_QQID);
+                    //string strResp = "";
+                    //DataTable dt = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                    //if (dt == null || dt.Rows.Count == 0)
+                    //    throw new Exception("调用ICE查询T_user无记录" + strResp);
+                    //ice.CloseConn();
+                    DataTable dt = GetAccountInfo(fuid, fcurtype.ToString(), out errMsg);
                     if (dt == null || dt.Rows.Count == 0)
-                        throw new Exception("调用ICE查询T_user无记录" + strResp);
-
-                    ice.CloseConn();
+                        throw new Exception("调用Relay查询T_user无记录：" + errMsg);
 
                     //da.OpenConn();
                     //string sql = "select * from app_platform.t_account_freeze where Fuin = '" + u_QQID + "'";
@@ -1598,7 +1624,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 }
                 finally
                 {
-                    ice.Dispose();
+                    //ice.Dispose();
                     //da.Dispose();
                 }
             }
@@ -1641,13 +1667,16 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 var task = System.Threading.Tasks.Task<DataTable>.Factory.StartNew(() =>
                 {
                     //使用新线程查询另一个接口   加速页面响应
-                    using (ICEAccess ice = ICEAccessFactory.GetICEAccess("ICEConnectionString"))
-                    {
-                        ice.OpenConn();
-                        string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&") + ICEAccess.URLEncode("fcurtype=" + 1 + "&");
-                        string strResp = "";
-                        return ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-                    }
+                    //using (ICEAccess ice = ICEAccessFactory.GetICEAccess("ICEConnectionString"))
+                    //{
+                    //    ice.OpenConn();
+                    //    string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&") + ICEAccess.URLEncode("fcurtype=" + 1 + "&");
+                    //    string setID = PublicRes.GetSetIDByQQID(u_QQID);
+                    //    string strResp = "";
+                    //    return ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                    //}
+                    string errOut = "";
+                    return GetAccountInfo(fuid, "1", out errOut);
                 });
                 var ds = CommQuery.GetDataSetFromICE(strReq, CommQuery.QUERY_USERINFO, out errMsg);
                 DataTable dt1 = task.Result;

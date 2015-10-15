@@ -15,6 +15,8 @@ using TENCENT.OSS.C2C.Finance.DataAccess;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.C2C.Finance.Common;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
+using CFT.CSOMS.BLL.Infrastructure;
+using CFT.CSOMS.BLL.CheckModoule;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Service
@@ -151,38 +153,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 		[SoapHeader("myHeader",Direction=SoapHeaderDirection.In)]
 		public bool modifyName(string QQID,string changedName,string cCompany)  //传入修改后的姓名和公司名称
 		{
-			ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP,PublicRes.ICEPort);
+			//ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP,PublicRes.ICEPort);
 			try
 			{
-				/*
-				string companyStr;
-
-				if (cCompany != null && cCompany != "")
-					companyStr = "', Fcompany_name = '" + cCompany;
-				else
-					companyStr = "";
-
-				// TODO1: 客户信息资料外移
-
-				//furion 20061117 email登录修改
-				string fuid = PublicRes.ConvertToFuid(QQID);
-				//先同时修改3张表彰的姓名 t_user_info,t_user,t_bank_user 分别为表1，2，3
-				//string strCmd1 = "update " + PublicRes.GetTableName("t_user_info",QQID) + " SET Ftruename = '" + changedName +  companyStr +"' where Fqqid ='" +  QQID + "'";  //+PublicRes.GetSqlFromQQ(QQID,"fuid");
-				string strCmd1 = "update " + PublicRes.GetTName("t_user_info",fuid) + " SET Ftruename = '" + changedName +  companyStr +"' where Fuid =" +  fuid ;  //+PublicRes.GetSqlFromQQ(QQID,"fuid");
-				string strCmd2 = "update " + PublicRes.GetTName("t_user",fuid)      + " SET Ftruename = '" + changedName +  companyStr +"' where Fuid =" +  fuid ;
-				string strCmd3 = "update " + PublicRes.GetTName("t_bank_user",fuid) + " SET Ftruename = '" + changedName +  companyStr +"' where Fuid =" +  fuid ;
-			
-				ArrayList al = new ArrayList();
-			
-				al.Add(strCmd1);
-				//al.Add(strCmd2);
-				al.Add(strCmd3);
-				
-				//清除cache
-				PublicRes.ReleaseCache(QQID,"qqid");
-				*/
-
-
 				string fuid = PublicRes.ConvertToFuid(QQID);
 				string strSql = "uid=" + fuid;
 				strSql += "&modify_time=" + PublicRes.strNowTimeStander;
@@ -200,51 +173,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 					throw new LogicException("更新了非一条记录:" + errMsg);
 				}
 
-				//				strSql += "&curtype=1";   (t_fetch_bank 表中已经不存在 truename 和 company_name) 20110125 rowenawu
-				//
-				//				iresult = CommQuery.ExecSqlFromICE(strSql,CommQuery.UPDATE_BANKUSER,out errMsg);
-
-				if(iresult != 1)
-				{
-					throw new LogicException("更新了非一条记录:" + errMsg);
-				}
-
-				//furion V30_FURION改动 20090310 改动核心时调ICE
-				//if(PublicRes.ExecuteSqlNum(strCmd2,"YW_30") != 1)
-				//return false;
-
-				ice.OpenConn();
-				string strwhere = "where=" + ICEAccess.URLEncode("fcurtype=1&");
-				strwhere += ICEAccess.URLEncode("fuid=" + fuid + "&");
-
-				string strUpdate = "data=" + ICEAccess.URLEncode("ftruename=" + ICEAccess.URLEncode(changedName));
-
-				if (cCompany != null && cCompany != "")
-					strUpdate += ICEAccess.URLEncode("&fcompany_name=" + ICEAccess.URLEncode(cCompany));
-
-				strUpdate += ICEAccess.ICEEncode("&fmodify_time=" + PublicRes.strNowTimeStander);
-
-				string strResp = "";
-
-				//3.0接口测试需要 furion 20090708
-				if(ice.InvokeQuery_Exec(YWSourceType.用户资源,YWCommandCode.修改用户信息,fuid,strwhere + "&" + strUpdate,out strResp) != 0)
-				{
-					throw new Exception("修改个人姓名出错！" + strResp);
-				}
-
-				//return PublicRes.Execute(al,"YW_30");  //执行并返回结果
-				//return PublicRes.Execute(al,"ZL");  //执行并返回结果
-				return true;
+                //ice.OpenConn();
+                //string strwhere = "where=" + ICEAccess.URLEncode("fcurtype=1&");
+                //strwhere += ICEAccess.URLEncode("fuid=" + fuid + "&");
+                //string strUpdate = "data=" + ICEAccess.URLEncode("ftruename=" + ICEAccess.URLEncode(changedName));
+                //if (cCompany != null && cCompany != "")
+                //    strUpdate += ICEAccess.URLEncode("&fcompany_name=" + ICEAccess.URLEncode(cCompany));
+                //strUpdate += ICEAccess.ICEEncode("&fmodify_time=" + PublicRes.strNowTimeStander);
+                //string setID = PublicResService.GetSetIDByQQID(QQID);
+                //string strResp = "";
+                ////3.0接口测试需要 furion 20090708
+                //if (ice.InvokeQuery_Exec_SetID(YWSourceType.用户资源, YWCommandCode.修改用户信息, fuid, setID, strwhere + "&" + strUpdate, out strResp) != 0)
+                //{
+                //    throw new Exception("修改个人姓名出错！" + strResp);
+                //}
+                return FinishCheckService.Update_UserName(fuid, "", cCompany, changedName, QQID);
 			}
 			catch(Exception e)
 			{
-				ice.CloseConn();
+                //ice.CloseConn();
 				throw new Exception(e.Message.ToString().Replace("'","’"));
 				return false;
 			}
 			finally
 			{
-				ice.Dispose();
+                //ice.Dispose();
 			}
 		}
 
@@ -924,8 +877,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 			string strUserID = myHeader.UserName;
 			string strIP = myHeader.UserIP;
 			
-			//MySqlAccess dazl = new MySqlAccess(PublicRes.GetConnString("ZL"));
-			ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP,PublicRes.ICEPort);
+			//ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP,PublicRes.ICEPort);
 			try
 			{
 				//furion 20060331 先判断用户是否是商户.
@@ -1002,33 +954,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                 }
 
-				ice.OpenConn();
-				string strwhere = "where=" + ICEAccess.URLEncode("fcurtype=1&");
-				strwhere += ICEAccess.URLEncode("fuid=" + fuid + "&");
-                strwhere += ICEAccess.URLEncode("fstate=" + type + "&");
-
-				string strUpdate = "data=" + ICEAccess.URLEncode("fstate=" + newtype);
-				strUpdate += ICEAccess.URLEncode("&fmodify_time=" + PublicRes.strNowTimeStander);
-
-				string strResp = "";
-
-				//3.0接口测试需要 furion 20090708
-				if(ice.InvokeQuery_Exec(YWSourceType.用户资源,YWCommandCode.修改用户信息,fuid,strwhere + "&" + strUpdate,out strResp) != 0)
-				{
-					throw new Exception("冻结解冻个人账户出错！" + strResp);
-				}
-
-				return true;
+                //ice.OpenConn();
+                //string strwhere = "where=" + ICEAccess.URLEncode("fcurtype=1&");
+                //strwhere += ICEAccess.URLEncode("fuid=" + fuid + "&");
+                //strwhere += ICEAccess.URLEncode("fstate=" + type + "&");
+                //string strUpdate = "data=" + ICEAccess.URLEncode("fstate=" + newtype);
+                //strUpdate += ICEAccess.URLEncode("&fmodify_time=" + PublicRes.strNowTimeStander);
+                //string setID = PublicResService.GetSetIDByQQID(uid);
+                //string strResp = "";
+                ////3.0接口测试需要 furion 20090708
+                //if (ice.InvokeQuery_Exec_SetID(YWSourceType.用户资源, YWCommandCode.修改用户信息, fuid, setID, strwhere + "&" + strUpdate, out strResp) != 0)
+                //{
+                //    throw new Exception("冻结解冻个人账户出错！" + strResp);
+                //}
+                return FinishCheckService.Freeze_User(fuid, "1", newtype.ToString(), uid);
 			}	
 			catch(Exception e)
 			{
-				ice.CloseConn();
+                //ice.CloseConn();
 				throw new Exception("冻结个人账户出错！" + e.Message.ToString().Replace("'","’"));
 				return false;		
 			}
 			finally
 			{
-				ice.Dispose();
+                //ice.Dispose();
 				try
 				{
 					PublicRes.writeSysLog(strUserID,strIP,"dj","冻结个人账户",1,uid,"");	

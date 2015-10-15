@@ -206,5 +206,36 @@ namespace BackProcessClientCS
 				return false;
 			}			
 		}
+
+        #region 增加参数setID
+        public bool InvokeQuery_SetID(int iSourceType, int iSourceCmd, string strKey, string setID, int iMiddleNo, int iParaLen, string strPara
+            , out int iRespLen, out string strResp, out int iResult)
+        {
+            iResult = -1;
+            iRespLen = 0;
+            strResp = "调用前";
+
+            if (ic == null || register == null)
+            {
+                lastError = "请先初始化ICE，再进行调用。";
+                return false;
+            }
+
+            try
+            {
+                //WriteSqlLog(serverIP, strKey, "InvokeQuery_SetID:" + iSourceType + "||" + iSourceCmd + "||" + strKey + "||" + setID + "||" + iMiddleNo + "||" + strPara);
+
+                iResult = register.InvokeQuery_SetID(iSourceType, iSourceCmd, strKey, setID, iMiddleNo, iParaLen, strPara, out iRespLen, out strResp);
+
+                //WriteSqlLog(serverIP, strKey, "strResp=" + strResp);
+                return true;
+            }
+            catch (System.Exception err)
+            {
+                //WriteSqlLog(serverIP, strKey, "|ERR=" + err.Message);
+                return false;
+            }
+        }
+        #endregion
 	}
 }

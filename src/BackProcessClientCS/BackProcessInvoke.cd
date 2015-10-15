@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BackProcessInvoke.IProcessInvokePrxHelper" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAIAAAACBAAAABQAAIAIAAIAAAAEAAAAAA=</HashCode>
+      <FileName>BackProcessInvoke.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BackProcessInvoke.IProcessInvokeDelM_" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAACBAAAAAAAAAAAAAIAAAAEAAAAAA=</HashCode>
+      <FileName>BackProcessInvoke.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BackProcessInvoke.IProcessInvokeDelD_" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAACBAAAAAAAAAAAAAIAAAAEAAAAAA=</HashCode>
+      <FileName>BackProcessInvoke.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BackProcessInvoke.IProcessInvokeDisp_" BaseTypeListCollapsed="true">
+    <Position X="6" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AgKAAAAAAAAMAAAAiBCAAAgAAAQEACAIQAAAEAAAAAA=</HashCode>
+      <FileName>BackProcessInvoke.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="BackProcessInvoke.IProcessInvoke" Collapsed="true">
+    <Position X="2" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BackProcessInvoke.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BackProcessInvoke.IProcessInvokePrx">
+    <Position X="15.75" Y="2.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAACBAAAAAAAAAAAAAIAAAAEAAAAAA=</HashCode>
+      <FileName>BackProcessInvoke.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BackProcessInvoke.IProcessInvokeOperations_">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAACBAAAAAAAAAAAAAIAAAAEAAAAAA=</HashCode>
+      <FileName>BackProcessInvoke.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BackProcessInvoke.IProcessInvokeOperationsNC_">
+    <Position X="3.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAACBAAAAAAAAAAAAAIAAAAEAAAAAA=</HashCode>
+      <FileName>BackProcessInvoke.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BackProcessInvoke.IProcessInvokeDel_">
+    <Position X="12.25" Y="2.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAACBAAAAAAAAAAAAAIAAAAEAAAAAA=</HashCode>
+      <FileName>BackProcessInvoke.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft YaHei" Size="9" />
+</ClassDiagram>

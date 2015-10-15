@@ -2,8 +2,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Text;
+using System.Web.Security;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using TENCENT.OSS.C2C.Finance.DataAccess;
 
@@ -11,22 +14,171 @@ namespace CFT.CSOMS.DAL.CheckModoule
 {
     public class FinishCheckData
     {
+        /// <summary>
+        /// 修改用户姓名
+        /// </summary>
+        /// <param name="fuid"></param>
+        /// <param name="userip">客户端IP</param>
+        /// <param name="companyName">公司名</param>
+        /// <param name="trueName">用户名</param>
+        /// <param name="qqId"></param>
+        /// <returns></returns>
+        public static bool Update_UserName(string fuid,string userip, string companyName, string trueName,string qqId)
+        {
+            bool result = false;
+
+            string setID = PublicRes.GetSetIDByQQID(qqId);
+
+            string errMsg = "";
+            string key = ConfigurationManager.AppSettings["ModUserAccKey"].ToString();
+
+            string req = "CMD=UPDATE_USERNAME";
+            req += "&MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            
+
+            string reqMd5 = "fuid=" + fuid;
+            reqMd5 += "&fcurtype=1";
+            reqMd5 += "&acc_set=" + setID;
+            if (!string.IsNullOrEmpty(userip))
+                reqMd5 += "&fip=" + userip;
+            if (!string.IsNullOrEmpty(companyName))
+                req += "&fcompany_name=" + companyName;
+            if (!string.IsNullOrEmpty(trueName))
+                req += "&ftruename=" + trueName;
+            reqMd5 += "&fmodify_time=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+            req += "&" + reqMd5;
+            req += "&token=" + PublicRes.md5GBK(reqMd5 + key);
+
+            if (!string.IsNullOrEmpty(companyName))
+                req += "&fcompany_name=" + ICEAccess.URLEncode(companyName);
+            if (!string.IsNullOrEmpty(trueName))
+                req += "&ftruename=" + ICEAccess.URLEncode(trueName);
+
+            string reply = string.Empty;
+            short sresult;
+            if (commRes.middleInvoke("ui_mod_user_acc_c", req, true, out reply, out sresult, out errMsg))
+            {
+                if (sresult != 0)
+                {
+                    throw new Exception("修改用户姓名出错！：result=" + sresult + "，msg=" + errMsg + "&reply=" + reply);
+                }
+                else
+                {
+                    if (reply.StartsWith("result=0"))
+                    {
+                        result = true;
+                    }
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 修改用户状态
+        /// </summary>
+        /// <param name="fuid"></param>
+        /// <param name="fstate"></param>
+        /// <param name="qqId"></param>
+        /// <returns></returns>
+        public static bool Freeze_User(string fuid,string fcurtype,string fstate, string qqId)
+        {
+            bool result = false;
+
+            string setID = PublicRes.GetSetIDByQQID(qqId);
+            string errMsg = "";
+            string key = ConfigurationManager.AppSettings["ModUserAccKey"].ToString();
+
+            string req = "CMD=FREEZE_USER";
+            req += "&MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+
+            string reqMd5 = "fuid=" + fuid;
+            reqMd5 += "&fcurtype=" + fcurtype;
+            reqMd5 += "&acc_set=" + setID;
+            reqMd5 += "&fstate=" + fstate;
+            reqMd5 += "&fmodify_time=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+            req += "&" + reqMd5;
+            req += "&token=" + FormsAuthentication.HashPasswordForStoringInConfigFile(reqMd5 + key, "md5");
+
+            string reply = string.Empty;
+            short sresult;
+            if (commRes.middleInvoke("ui_mod_user_acc_c", req, true, out reply, out sresult, out errMsg))
+            {
+                if (sresult != 0)
+                {
+                    throw new Exception("修改用户状态出错！：result=" + sresult + "，msg=" + errMsg + "&reply=" + reply);
+                }
+                else
+                {
+                    if (reply.StartsWith("result=0"))
+                    {
+                        result = true;
+                    }
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 修改用户账户类型
+        /// </summary>
+        /// <param name="fuid"></param>
+        /// <param name="fuser_type"></param>
+        /// <param name="qqId"></param>
+        /// <returns></returns>
+        public static bool Update_User_Type(string fuid,string fuser_type, string qqId)
+        {
+            bool result = false;
+
+            string setID = PublicRes.GetSetIDByQQID(qqId);
+            string errMsg = "";
+            string key = ConfigurationManager.AppSettings["ModUserAccKey"].ToString();
+
+            string req = "CMD=UPDATE_USER_TYPE";
+            req += "&MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+
+            string reqMd5 = "fuid=" + fuid;
+            reqMd5 += "&fcurtype=1";
+            reqMd5 += "&acc_set=" + setID;
+            reqMd5 += "&fuser_type=" + fuser_type;
+            reqMd5 += "&fmodify_time=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+            req += "&" + reqMd5;
+            req += "&token=" + FormsAuthentication.HashPasswordForStoringInConfigFile(reqMd5 + key, "md5");
+
+            string reply = string.Empty;
+            short sresult;
+            if (commRes.middleInvoke("ui_mod_user_acc_c", req, true, out reply, out sresult, out errMsg))
+            {
+                if (sresult != 0)
+                {
+                    throw new Exception("修改用户账户类型出错！：result=" + sresult + "，msg=" + errMsg + "&reply=" + reply);
+                }
+                else
+                {
+                    if (reply.StartsWith("result=0"))
+                    {
+                        result = true;
+                    }
+                }
+            }
+            return result;
+        }
 
         // 2012/5/4 将账务系统相关功能移动到KF系统
         public bool modifyName(string QQID, string changedName, string cCompany)  //传入修改后的姓名和公司名称
         {
-            string ICEServerIP = System.Configuration.ConfigurationManager.AppSettings["ICEServerIP"].ToString();
-            int ICEPort = int.Parse(System.Configuration.ConfigurationManager.AppSettings["ICEPort"].ToString());
-            ICEAccess ice = new ICEAccess(ICEServerIP, ICEPort);
+            bool result = false;
+            //string ICEServerIP = System.Configuration.ConfigurationManager.AppSettings["ICEServerIP"].ToString();
+            //int ICEPort = int.Parse(System.Configuration.ConfigurationManager.AppSettings["ICEPort"].ToString());
+            //ICEAccess ice = new ICEAccess(ICEServerIP, ICEPort);
             try
             {
-
                 string fuid = PublicRes.ConvertToFuid(QQID);
                 string strSql = "uid=" + fuid;
                 strSql += "&modify_time=" + PublicRes.strNowTimeStander;
-
                 strSql += "&truename=" + changedName;
-
                 if (cCompany != null && cCompany != "")
                     strSql += "&company_name=" + cCompany;
 
@@ -37,49 +189,33 @@ namespace CFT.CSOMS.DAL.CheckModoule
                 {
                     throw new Exception("更新了非一条记录:" + errMsg);
                 }
-
-
-                if (iresult != 1)
-                {
-                    throw new Exception("更新了非一条记录:" + errMsg);
-                }
-
-                //furion V30_FURION改动 20090310 改动核心时调ICE
-                //if(PublicRes.ExecuteSqlNum(strCmd2,"YW_30") != 1)
-                //return false;
-
-                ice.OpenConn();
-                string strwhere = "where=" + ICEAccess.URLEncode("fcurtype=1&");
-                strwhere += ICEAccess.URLEncode("fuid=" + fuid + "&");
-
-                string strUpdate = "data=" + ICEAccess.URLEncode("ftruename=" + ICEAccess.URLEncode(changedName));
-
-                if (cCompany != null && cCompany != "")
-                    strUpdate += ICEAccess.URLEncode("&fcompany_name=" + ICEAccess.URLEncode(cCompany));
-
-                strUpdate += ICEAccess.ICEEncode("&fmodify_time=" + PublicRes.strNowTimeStander);
-
-                string strResp = "";
-
-                //3.0接口测试需要 furion 20090708
-                if (ice.InvokeQuery_Exec(YWSourceType.用户资源, YWCommandCode.修改用户信息, fuid, strwhere + "&" + strUpdate, out strResp) != 0)
-                {
-                    throw new Exception("修改个人姓名出错！" + strResp);
-                }
-
-                //return PublicRes.Execute(al,"YW_30");  //执行并返回结果
-                //return PublicRes.Execute(al,"ZL");  //执行并返回结果
-                return true;
+                //ice.OpenConn();
+                //string strwhere = "where=" + ICEAccess.URLEncode("fcurtype=1&");
+                //strwhere += ICEAccess.URLEncode("fuid=" + fuid + "&");
+                //string strUpdate = "data=" + ICEAccess.URLEncode("ftruename=" + ICEAccess.URLEncode(changedName));
+                //if (cCompany != null && cCompany != "")
+                //    strUpdate += ICEAccess.URLEncode("&fcompany_name=" + ICEAccess.URLEncode(cCompany));
+                //strUpdate += ICEAccess.ICEEncode("&fmodify_time=" + PublicRes.strNowTimeStander);
+                //string setID = PublicRes.GetSetIDByQQID(QQID);
+                //string strResp = "";
+                ////3.0接口测试需要 furion 20090708
+                //if (ice.InvokeQuery_Exec_SetID(YWSourceType.用户资源, YWCommandCode.修改用户信息, fuid, setID, strwhere + "&" + strUpdate, out strResp) != 0)
+                //{
+                //    throw new Exception("修改个人姓名出错！" + strResp);
+                //}
+                result = Update_UserName(fuid, "", cCompany, changedName, QQID);
+                
+                return result;
             }
             catch (Exception e)
             {
-                ice.CloseConn();
+                //ice.CloseConn();
                 throw new Exception(e.Message.ToString().Replace("'", "’"));
                 return false;
             }
             finally
             {
-                ice.Dispose();
+                //ice.Dispose();
             }
         }
 

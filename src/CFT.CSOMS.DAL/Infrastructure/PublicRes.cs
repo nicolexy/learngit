@@ -780,6 +780,57 @@ namespace CFT.CSOMS.DAL.Infrastructure
         }
 
         /// <summary>
+        /// 根据 商户号 获取商户 内部uid
+        /// </summary>
+        /// <param name="fSpId">商户号</param>
+        /// <returns></returns>
+        public static string GetSpUidBySpId(string fSpId)
+        {
+            string spUid = string.Empty;
+            try
+            {
+                string Msg = "";
+                string strSql = "spid=" + fSpId;
+                spUid = ReCommQuery.GetOneResultFromICE(strSql, ReCommQuery.QUERY_MERCHANTINFO, "Fuid", out Msg);
+                if (!string.IsNullOrEmpty(Msg))
+                    LogHelper.LogInfo("GetSpUidBySpId:" + Msg);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogInfo(string.Format("GetSpUidBySpId-Exception:{0};{1}", ex, ex.StackTrace));
+            }
+            return spUid;
+        }
+
+        /// <summary>
+        /// 根据QQ帐号获取，facc_set
+        /// </summary>
+        /// <param name="QQID"></param>
+        /// <returns></returns>
+        public static string GetSetIDByQQID(string QQID)
+        {
+            string result = string.Empty;
+            string errMsg = string.Empty;
+            try
+            {
+                if (!string.IsNullOrEmpty(QQID) && QQID.Trim().Length >= 3)
+                {
+                    string qqid = QQID.Trim();
+
+                    string strSql = "uin=" + qqid;
+                    result = ReCommQuery.GetOneResultFromICE(strSql, ReCommQuery.QUERY_RELATION, "facc_set", out errMsg);
+                    if(!string.IsNullOrEmpty(errMsg))
+                        LogHelper.LogInfo("GetSetIDByQQID:" + errMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogInfo(string.Format("GetSetIDByQQID-Exception:{0};{1}", ex, ex.StackTrace));
+            }
+            return result;
+        }
+
+        /// <summary>
         /// DataTable分页
         /// </summary>
         /// <param name="dt">DataTable</param>
@@ -1474,6 +1525,21 @@ namespace CFT.CSOMS.DAL.Infrastructure
             //			swFromFile = null;
         }
 
+
+        public static String md5GBK(String str)
+        {
+            System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+            byte[] bytes = Encoding.GetEncoding("gb2312").GetBytes(str);
+            bytes = md5.ComputeHash(bytes);
+            md5.Clear();
+
+            string ret = "";
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                ret += Convert.ToString(bytes[i], 16).PadLeft(2, '0');
+            }
+            return ret.PadLeft(32, '0').ToUpper();
+        }
 
     }
 

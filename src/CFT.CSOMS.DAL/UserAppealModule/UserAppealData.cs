@@ -16,6 +16,7 @@ using System.Web;
 using CFT.Apollo.Logging;
 using CFT.CSOMS.DAL.FreezeModule;
 using CFT.CSOMS.DAL.FundModule;
+using CFT.CSOMS.DAL.CheckModoule;
 
 namespace CFT.CSOMS.DAL.UserAppealModule
 {
@@ -894,12 +895,12 @@ namespace CFT.CSOMS.DAL.UserAppealModule
 
                 long Appeal_FreezeMoney = long.Parse(System.Configuration.ConfigurationManager.AppSettings["Appeal_FreezeMoney"]);
 
-                string ServerIP = System.Configuration.ConfigurationManager.AppSettings["ICEServerIP"];
-                int Port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["ICEPort"]);
-                ICEAccess ice = new ICEAccess(ServerIP, Port);
+                //string ServerIP = System.Configuration.ConfigurationManager.AppSettings["ICEServerIP"];
+                //int Port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["ICEPort"]);
+                //ICEAccess ice = new ICEAccess(ServerIP, Port);
                 try
                 {
-                    ice.OpenConn();
+                    //ice.OpenConn();
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         try
@@ -926,15 +927,15 @@ namespace CFT.CSOMS.DAL.UserAppealModule
 
                             #region 添加大额标记
                             dr["Fuincolor"] = "";
+
                             string fuid = PublicRes.ConvertToFuid(dr["Fuin"].ToString());
-
-                            string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                            strwhere += ICEAccess.URLEncode("fcurtype=1&");
-
-                            string strResp = "";
-
-                            DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-
+                            //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                            //strwhere += ICEAccess.URLEncode("fcurtype=1&");
+                            //string setID = PublicRes.GetSetIDByQQID(dr["Fuin"].ToString());
+                            //string strResp = "";
+                            //DataTable dtuser = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                            string errMsg = "";
+                            DataTable dtuser = AccountData.GetAccountInfo(fuid, "1", out errMsg);
                             if (dtuser == null || dtuser.Rows.Count == 0)
                             {
                                 continue;
@@ -953,11 +954,11 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                             continue;
                         }
                     }
-                    ice.CloseConn();
+                    //ice.CloseConn();
                 }
                 finally
                 {
-                    ice.Dispose();
+                    //ice.Dispose();
                 }
                 return ds;
 
@@ -1177,10 +1178,10 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                 ds.Tables[0].Columns.Add("Fuincolor", typeof(String));
                 ds.Tables[0].Columns.Add("balance", typeof(String));//金额 
 
-                ICEAccess ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
+                //ICEAccess ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
                 try
                 {
-                    ice.OpenConn();
+                    //ice.OpenConn();
 
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
@@ -1189,13 +1190,13 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                             dr["Fuincolor"] = "";
                             string fuid = AccountData.ConvertToFuid(dr["Fuin"].ToString());
 
-                            string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                            strwhere += ICEAccess.URLEncode("fcurtype=1&");
-
-                            string strResp = "";
-
-                            DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-
+                            //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                            //strwhere += ICEAccess.URLEncode("fcurtype=1&");
+                            //string setID = PublicRes.GetSetIDByQQID(dr["Fuin"].ToString());
+                            //string strResp = "";
+                            //DataTable dtuser = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                            string errMsg = "";
+                            DataTable dtuser = AccountData.GetAccountInfo(fuid, "1", out errMsg);
                             if (dtuser == null || dtuser.Rows.Count == 0)
                             {
                                 dr["balance"] = "0";
@@ -1216,11 +1217,11 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                         }
                     }
 
-                    ice.CloseConn();
+                    //ice.CloseConn();
                 }
                 finally
                 {
-                    ice.Dispose();
+                    //ice.Dispose();
                 }
             }
             return ds;
@@ -4732,7 +4733,6 @@ namespace CFT.CSOMS.DAL.UserAppealModule
         private bool UpdateUserName(string qqid, string new_name, bool iscompany, string userip, string nowtime, out string msg)
         {
             msg = "";
-
             if (new_name == null || new_name.Trim() == "")
             {
                 msg = "新名称不能为空";
@@ -4758,40 +4758,40 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                     strSql += "&modify_time=" + systemtime;
                     strSql += "&ip=" + userip;
                     strSql += strsetname;
-
                     int iresult = CommQuery.ExecSqlFromICE(strSql, CommQuery.UPDATE_USERINFO, out msg);
-
                     if (iresult != 1)
                         return false;
 
-
-                    ICEAccess ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
+                    //ICEAccess ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
                     try
                     {
-                        ice.OpenConn();
-                        string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + uid + "&");
-                        strwhere += ICEAccess.URLEncode("fcurtype=" + 1 + "&");
+                        //ice.OpenConn();
+                        //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + uid + "&");
+                        //strwhere += ICEAccess.URLEncode("fcurtype=" + 1 + "&");
+                        //string strUpdate = "data=" + ICEAccess.URLEncode("fip=" + userip);
+                        //if (iscompany)
+                        //{
+                        //    strUpdate += ICEAccess.URLEncode("&fcompany_name=" + ICEAccess.URLEncode(new_name));
+                        //}
+                        //else
+                        //{
+                        //    strUpdate += ICEAccess.URLEncode("&ftruename=" + ICEAccess.URLEncode(new_name));
+                        //}
+                        //strUpdate += ICEAccess.URLEncode("&fmodify_time=" + PublicRes.strNowTimeStander);
+                        //string setID = PublicRes.GetSetIDByQQID(qqid);
+                        //string strResp = "";
+                        ////3.0接口测试需要 furion 20090708
+                        //if (ice.InvokeQuery_Exec_SetID(YWSourceType.用户资源, YWCommandCode.修改用户信息, uid, setID, strwhere + "&" + strUpdate, out strResp) != 0)
+                        //{
+                        //    throw new Exception("修改用户信息时出错！" + strResp);
+                        //}
 
-                        string strUpdate = "data=" + ICEAccess.URLEncode("fip=" + userip);
+                        string companyName = string.Empty, trueName = string.Empty;
                         if (iscompany)
-                        {
-                            strUpdate += ICEAccess.URLEncode("&fcompany_name=" + ICEAccess.URLEncode(new_name));
-                        }
+                            companyName = new_name;
                         else
-                        {
-                            strUpdate += ICEAccess.URLEncode("&ftruename=" + ICEAccess.URLEncode(new_name));
-                        }
-
-                        strUpdate += ICEAccess.URLEncode("&fmodify_time=" + PublicRes.strNowTimeStander);
-
-                        string strResp = "";
-                        //3.0接口测试需要 furion 20090708
-                        if (ice.InvokeQuery_Exec(YWSourceType.用户资源, YWCommandCode.修改用户信息, uid, strwhere + "&" + strUpdate, out strResp) != 0)
-                        {
-                            throw new Exception("修改用户信息时出错！" + strResp);
-                        }
-
-                        return true;
+                            trueName = new_name;
+                        return FinishCheckData.Update_UserName(uid, userip, companyName, trueName, qqid);
                     }
                     catch (Exception err)
                     {
@@ -4800,7 +4800,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                     }
                     finally
                     {
-                        ice.Dispose();
+                        //ice.Dispose();
                     }
                 }
                 else

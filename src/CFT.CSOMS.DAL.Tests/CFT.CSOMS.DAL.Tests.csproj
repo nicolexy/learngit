@@ -66,6 +66,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <Choose>
@@ -81,6 +82,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CFTAccountTest\AccountDataTest.cs" />
+    <Compile Include="CheckModouleTest\FinishCheckDataTest.cs" />
+    <Compile Include="ForeignCardModuleTest\PayManageDataTest.cs" />
     <Compile Include="Infrastructure\PublicResTest.cs" />
     <Compile Include="SysManageModuleTest\SysManageDataTest.cs" />
     <Compile Include="TradeModule\TradeDataTest.cs" />
@@ -104,6 +108,10 @@
     <ProjectReference Include="..\DATAACCESS\DataAccess.csproj">
       <Project>{3f80e194-4a0b-4e45-bb3e-5e482bf3139f}</Project>
       <Name>DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ICEAccess\ICEAccess.csproj">
+      <Project>{1434c13f-494a-4196-8733-a3edd0e5d6a5}</Project>
+      <Name>ICEAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
