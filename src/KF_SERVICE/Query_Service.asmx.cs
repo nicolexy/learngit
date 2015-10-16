@@ -669,6 +669,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
+        [WebMethod(Description = "获取系统公告标题")]
+        public string GetSysBulletinTitleById(int id, out string msg)
+        {
+            string result = string.Empty;
+            msg = "";
+            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("INC"));
+            try
+            {
+                da.OpenConn();
+                result = da.GetOneResult(@"
+                    select Ftitle from c2c_db_inc.t_bulletin_info 
+                        where FState=1 and Flist_state=1 and FID=" + id);
+            }
+            catch (Exception err)
+            {
+                msg = err.Message + err.StackTrace;
+            }
+            finally
+            {
+                da.Dispose();
+            }
+            return result;
+        }
+
         [WebMethod(Description = "获取银行维护公告数据")]
         public DataSet GetSysBankBulletin(string banktype, out string msg)
         {

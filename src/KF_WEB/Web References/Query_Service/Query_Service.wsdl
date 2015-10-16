@@ -2,6 +2,32 @@
 <wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://Tencent.com/OSS/C2C/Finance/Query_WebService" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://Tencent.com/OSS/C2C/Finance/Query_WebService/AbstractTypes" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService">
+      <s:element name="CountDKBankList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="batchid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="batchid_forbank" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bank_type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="starttime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="endtime" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CountDKBankListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CountDKBankListResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="QueryDKBankListDetail">
         <s:complexType>
           <s:sequence>
@@ -1553,6 +1579,23 @@
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="modifyAttTypeResult" type="s:boolean" />
             <s:element minOccurs="0" maxOccurs="1" name="Msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BatPay_GetBank">
+        <s:complexType />
+      </s:element>
+      <s:element name="BatPay_GetBankResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BatPay_GetBankResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -3119,22 +3162,17 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="CountDKBankList">
+      <s:element name="GetBusinessInfoList">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="batchid" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="batchid_forbank" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="bank_type" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="starttime" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="endtime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Fspid" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="CountDKBankListResponse">
+      <s:element name="GetBusinessInfoListResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="CountDKBankListResult">
+            <s:element minOccurs="0" maxOccurs="1" name="GetBusinessInfoListResult">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -4661,13 +4699,24 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="BatPay_GetBank">
-        <s:complexType />
-      </s:element>
-      <s:element name="BatPay_GetBankResponse">
+      <s:element name="GetCFTUserAppealListFunction">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="BatPay_GetBankResult">
+            <s:element minOccurs="0" maxOccurs="1" name="dsAll">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCFTUserAppealListFunctionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCFTUserAppealListFunctionResult">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -6395,24 +6444,19 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetBusinessInfoList">
+      <s:element name="GetComplainBussCount">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="Fspid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bussId" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="u_BeginTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="u_EndTime" type="s:dateTime" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetBusinessInfoListResponse">
+      <s:element name="GetComplainBussCountResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetBusinessInfoListResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
+            <s:element minOccurs="1" maxOccurs="1" name="GetComplainBussCountResult" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -8345,34 +8389,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetCFTUserAppealListFunction">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="dsAll">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetCFTUserAppealListFunctionResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetCFTUserAppealListFunctionResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="GetChildrenInfo">
         <s:complexType>
           <s:sequence>
@@ -8577,6 +8593,21 @@
                 </s:sequence>
               </s:complexType>
             </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSysBulletinTitleById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSysBulletinTitleByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSysBulletinTitleByIdResult" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
@@ -9836,6 +9867,8 @@
             <s:element minOccurs="0" maxOccurs="1" name="listid" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="fbank_list" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="fbank_type" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="u_BeginTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="u_EndTime" type="s:dateTime" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -10113,22 +10146,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetComplainBussCount">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="bussId" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="u_BeginTime" type="s:dateTime" />
-            <s:element minOccurs="1" maxOccurs="1" name="u_EndTime" type="s:dateTime" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetComplainBussCountResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetComplainBussCountResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="DataSet" nillable="true">
         <s:complexType>
           <s:sequence>
@@ -10170,6 +10187,12 @@
       </s:complexType>
     </s:schema>
   </wsdl:types>
+  <wsdl:message name="CountDKBankListSoapIn">
+    <wsdl:part name="parameters" element="tns:CountDKBankList" />
+  </wsdl:message>
+  <wsdl:message name="CountDKBankListSoapOut">
+    <wsdl:part name="parameters" element="tns:CountDKBankListResponse" />
+  </wsdl:message>
   <wsdl:message name="QueryDKBankListDetailSoapIn">
     <wsdl:part name="parameters" element="tns:QueryDKBankListDetail" />
   </wsdl:message>
@@ -10719,6 +10742,12 @@
   <wsdl:message name="modifyAttTypeFinance_Header">
     <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
   </wsdl:message>
+  <wsdl:message name="BatPay_GetBankSoapIn">
+    <wsdl:part name="parameters" element="tns:BatPay_GetBank" />
+  </wsdl:message>
+  <wsdl:message name="BatPay_GetBankSoapOut">
+    <wsdl:part name="parameters" element="tns:BatPay_GetBankResponse" />
+  </wsdl:message>
   <wsdl:message name="BatPay_CanVisibleSoapIn">
     <wsdl:part name="parameters" element="tns:BatPay_CanVisible" />
   </wsdl:message>
@@ -11265,11 +11294,11 @@
   <wsdl:message name="QueryDKBankListFinance_Header">
     <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
   </wsdl:message>
-  <wsdl:message name="CountDKBankListSoapIn">
-    <wsdl:part name="parameters" element="tns:CountDKBankList" />
+  <wsdl:message name="GetBusinessInfoListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBusinessInfoList" />
   </wsdl:message>
-  <wsdl:message name="CountDKBankListSoapOut">
-    <wsdl:part name="parameters" element="tns:CountDKBankListResponse" />
+  <wsdl:message name="GetBusinessInfoListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBusinessInfoListResponse" />
   </wsdl:message>
   <wsdl:message name="GetBusiness2InfoListSoapIn">
     <wsdl:part name="parameters" element="tns:GetBusiness2InfoList" />
@@ -11748,11 +11777,14 @@
   <wsdl:message name="BatPay_InitGridSoapOut">
     <wsdl:part name="parameters" element="tns:BatPay_InitGridResponse" />
   </wsdl:message>
-  <wsdl:message name="BatPay_GetBankSoapIn">
-    <wsdl:part name="parameters" element="tns:BatPay_GetBank" />
+  <wsdl:message name="GetCFTUserAppealListFunctionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCFTUserAppealListFunction" />
   </wsdl:message>
-  <wsdl:message name="BatPay_GetBankSoapOut">
-    <wsdl:part name="parameters" element="tns:BatPay_GetBankResponse" />
+  <wsdl:message name="GetCFTUserAppealListFunctionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCFTUserAppealListFunctionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCFTUserAppealListFunctionFinance_Header">
+    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
   </wsdl:message>
   <wsdl:message name="CFTUserAppealPassSoapIn">
     <wsdl:part name="parameters" element="tns:CFTUserAppealPass" />
@@ -12279,11 +12311,11 @@
   <wsdl:message name="GetAgencyBusinessInfoListSoapOut">
     <wsdl:part name="parameters" element="tns:GetAgencyBusinessInfoListResponse" />
   </wsdl:message>
-  <wsdl:message name="GetBusinessInfoListSoapIn">
-    <wsdl:part name="parameters" element="tns:GetBusinessInfoList" />
+  <wsdl:message name="GetComplainBussCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetComplainBussCount" />
   </wsdl:message>
-  <wsdl:message name="GetBusinessInfoListSoapOut">
-    <wsdl:part name="parameters" element="tns:GetBusinessInfoListResponse" />
+  <wsdl:message name="GetComplainBussCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetComplainBussCountResponse" />
   </wsdl:message>
   <wsdl:message name="AddComplainBussSoapIn">
     <wsdl:part name="parameters" element="tns:AddComplainBuss" />
@@ -12897,15 +12929,6 @@
   <wsdl:message name="GetCFTUserAppealListNewFinance_Header">
     <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
   </wsdl:message>
-  <wsdl:message name="GetCFTUserAppealListFunctionSoapIn">
-    <wsdl:part name="parameters" element="tns:GetCFTUserAppealListFunction" />
-  </wsdl:message>
-  <wsdl:message name="GetCFTUserAppealListFunctionSoapOut">
-    <wsdl:part name="parameters" element="tns:GetCFTUserAppealListFunctionResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetCFTUserAppealListFunctionFinance_Header">
-    <wsdl:part name="Finance_Header" element="tns:Finance_Header" />
-  </wsdl:message>
   <wsdl:message name="GetChildrenInfoSoapIn">
     <wsdl:part name="parameters" element="tns:GetChildrenInfo" />
   </wsdl:message>
@@ -12992,6 +13015,12 @@
   </wsdl:message>
   <wsdl:message name="GetSysBulletinSoapOut">
     <wsdl:part name="parameters" element="tns:GetSysBulletinResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSysBulletinTitleByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSysBulletinTitleById" />
+  </wsdl:message>
+  <wsdl:message name="GetSysBulletinTitleByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSysBulletinTitleByIdResponse" />
   </wsdl:message>
   <wsdl:message name="GetSysBankBulletinSoapIn">
     <wsdl:part name="parameters" element="tns:GetSysBankBulletin" />
@@ -13494,11 +13523,16 @@
   <wsdl:message name="GetComplainBussListSoapOut">
     <wsdl:part name="parameters" element="tns:GetComplainBussListResponse" />
   </wsdl:message>
-  <wsdl:message name="GetComplainBussCountSoapIn">
-    <wsdl:part name="parameters" element="tns:GetComplainBussCount" />
+  <wsdl:message name="CountDKBankListHttpGetIn">
+    <wsdl:part name="batchid" type="s:string" />
+    <wsdl:part name="batchid_forbank" type="s:string" />
+    <wsdl:part name="bank_type" type="s:string" />
+    <wsdl:part name="status" type="s:string" />
+    <wsdl:part name="starttime" type="s:string" />
+    <wsdl:part name="endtime" type="s:string" />
   </wsdl:message>
-  <wsdl:message name="GetComplainBussCountSoapOut">
-    <wsdl:part name="parameters" element="tns:GetComplainBussCountResponse" />
+  <wsdl:message name="CountDKBankListHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="QueryDKBankListDetailHttpGetIn">
     <wsdl:part name="bank_batch_id" type="s:string" />
@@ -14004,6 +14038,10 @@
   </wsdl:message>
   <wsdl:message name="AtuoRenewUnbindHttpGetOut">
     <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="BatPay_GetBankHttpGetIn" />
+  <wsdl:message name="BatPay_GetBankHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="BatPay_CanVisibleHttpGetIn">
     <wsdl:part name="strDate" type="s:string" />
@@ -14536,15 +14574,10 @@
   <wsdl:message name="QueryDKBankListHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
-  <wsdl:message name="CountDKBankListHttpGetIn">
-    <wsdl:part name="batchid" type="s:string" />
-    <wsdl:part name="batchid_forbank" type="s:string" />
-    <wsdl:part name="bank_type" type="s:string" />
-    <wsdl:part name="status" type="s:string" />
-    <wsdl:part name="starttime" type="s:string" />
-    <wsdl:part name="endtime" type="s:string" />
+  <wsdl:message name="GetBusinessInfoListHttpGetIn">
+    <wsdl:part name="Fspid" type="s:string" />
   </wsdl:message>
-  <wsdl:message name="CountDKBankListHttpGetOut">
+  <wsdl:message name="GetBusinessInfoListHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="GetBusiness2InfoListHttpGetIn">
@@ -15107,10 +15140,6 @@
   <wsdl:message name="BatPay_InitGridHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
-  <wsdl:message name="BatPay_GetBankHttpGetIn" />
-  <wsdl:message name="BatPay_GetBankHttpGetOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
   <wsdl:message name="CFTUserAppealPassHttpGetIn">
     <wsdl:part name="UserIP" type="s:string" />
     <wsdl:part name="IsLockList" type="s:string" />
@@ -15655,11 +15684,13 @@
   <wsdl:message name="GetAgencyBusinessInfoListHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
-  <wsdl:message name="GetBusinessInfoListHttpGetIn">
-    <wsdl:part name="Fspid" type="s:string" />
+  <wsdl:message name="GetComplainBussCountHttpGetIn">
+    <wsdl:part name="bussId" type="s:string" />
+    <wsdl:part name="u_BeginTime" type="s:string" />
+    <wsdl:part name="u_EndTime" type="s:string" />
   </wsdl:message>
-  <wsdl:message name="GetBusinessInfoListHttpGetOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
+  <wsdl:message name="GetComplainBussCountHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
   </wsdl:message>
   <wsdl:message name="DelComplainBussHttpGetIn">
     <wsdl:part name="bussid" type="s:string" />
@@ -16782,13 +16813,16 @@
   <wsdl:message name="GetComplainBussListHttpGetOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
-  <wsdl:message name="GetComplainBussCountHttpGetIn">
-    <wsdl:part name="bussId" type="s:string" />
-    <wsdl:part name="u_BeginTime" type="s:string" />
-    <wsdl:part name="u_EndTime" type="s:string" />
+  <wsdl:message name="CountDKBankListHttpPostIn">
+    <wsdl:part name="batchid" type="s:string" />
+    <wsdl:part name="batchid_forbank" type="s:string" />
+    <wsdl:part name="bank_type" type="s:string" />
+    <wsdl:part name="status" type="s:string" />
+    <wsdl:part name="starttime" type="s:string" />
+    <wsdl:part name="endtime" type="s:string" />
   </wsdl:message>
-  <wsdl:message name="GetComplainBussCountHttpGetOut">
-    <wsdl:part name="Body" element="tns:int" />
+  <wsdl:message name="CountDKBankListHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="QueryDKBankListDetailHttpPostIn">
     <wsdl:part name="bank_batch_id" type="s:string" />
@@ -17294,6 +17328,10 @@
   </wsdl:message>
   <wsdl:message name="AtuoRenewUnbindHttpPostOut">
     <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="BatPay_GetBankHttpPostIn" />
+  <wsdl:message name="BatPay_GetBankHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="BatPay_CanVisibleHttpPostIn">
     <wsdl:part name="strDate" type="s:string" />
@@ -17826,15 +17864,10 @@
   <wsdl:message name="QueryDKBankListHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
-  <wsdl:message name="CountDKBankListHttpPostIn">
-    <wsdl:part name="batchid" type="s:string" />
-    <wsdl:part name="batchid_forbank" type="s:string" />
-    <wsdl:part name="bank_type" type="s:string" />
-    <wsdl:part name="status" type="s:string" />
-    <wsdl:part name="starttime" type="s:string" />
-    <wsdl:part name="endtime" type="s:string" />
+  <wsdl:message name="GetBusinessInfoListHttpPostIn">
+    <wsdl:part name="Fspid" type="s:string" />
   </wsdl:message>
-  <wsdl:message name="CountDKBankListHttpPostOut">
+  <wsdl:message name="GetBusinessInfoListHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
   <wsdl:message name="GetBusiness2InfoListHttpPostIn">
@@ -18397,10 +18430,6 @@
   <wsdl:message name="BatPay_InitGridHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
-  <wsdl:message name="BatPay_GetBankHttpPostIn" />
-  <wsdl:message name="BatPay_GetBankHttpPostOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
-  </wsdl:message>
   <wsdl:message name="CFTUserAppealPassHttpPostIn">
     <wsdl:part name="UserIP" type="s:string" />
     <wsdl:part name="IsLockList" type="s:string" />
@@ -18945,11 +18974,13 @@
   <wsdl:message name="GetAgencyBusinessInfoListHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
-  <wsdl:message name="GetBusinessInfoListHttpPostIn">
-    <wsdl:part name="Fspid" type="s:string" />
+  <wsdl:message name="GetComplainBussCountHttpPostIn">
+    <wsdl:part name="bussId" type="s:string" />
+    <wsdl:part name="u_BeginTime" type="s:string" />
+    <wsdl:part name="u_EndTime" type="s:string" />
   </wsdl:message>
-  <wsdl:message name="GetBusinessInfoListHttpPostOut">
-    <wsdl:part name="Body" element="tns:DataSet" />
+  <wsdl:message name="GetComplainBussCountHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
   </wsdl:message>
   <wsdl:message name="DelComplainBussHttpPostIn">
     <wsdl:part name="bussid" type="s:string" />
@@ -20072,15 +20103,12 @@
   <wsdl:message name="GetComplainBussListHttpPostOut">
     <wsdl:part name="Body" element="tns:DataSet" />
   </wsdl:message>
-  <wsdl:message name="GetComplainBussCountHttpPostIn">
-    <wsdl:part name="bussId" type="s:string" />
-    <wsdl:part name="u_BeginTime" type="s:string" />
-    <wsdl:part name="u_EndTime" type="s:string" />
-  </wsdl:message>
-  <wsdl:message name="GetComplainBussCountHttpPostOut">
-    <wsdl:part name="Body" element="tns:int" />
-  </wsdl:message>
   <wsdl:portType name="Query_ServiceSoap">
+    <wsdl:operation name="CountDKBankList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">统计银行批次交易情况</wsdl:documentation>
+      <wsdl:input message="tns:CountDKBankListSoapIn" />
+      <wsdl:output message="tns:CountDKBankListSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="QueryDKBankListDetail">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">银行批次交易查询函数</wsdl:documentation>
       <wsdl:input message="tns:QueryDKBankListDetailSoapIn" />
@@ -20433,6 +20461,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">修改用户属性类型</wsdl:documentation>
       <wsdl:input message="tns:modifyAttTypeSoapIn" />
       <wsdl:output message="tns:modifyAttTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BatPay_GetBank">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取银行名及编号</wsdl:documentation>
+      <wsdl:input message="tns:BatPay_GetBankSoapIn" />
+      <wsdl:output message="tns:BatPay_GetBankSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="BatPay_CanVisible">
       <wsdl:input message="tns:BatPay_CanVisibleSoapIn" />
@@ -20808,10 +20841,10 @@
       <wsdl:input message="tns:QueryDKBankListSoapIn" />
       <wsdl:output message="tns:QueryDKBankListSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="CountDKBankList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">统计银行批次交易情况</wsdl:documentation>
-      <wsdl:input message="tns:CountDKBankListSoapIn" />
-      <wsdl:output message="tns:CountDKBankListSoapOut" />
+    <wsdl:operation name="GetBusinessInfoList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">商户资料函数</wsdl:documentation>
+      <wsdl:input message="tns:GetBusinessInfoListSoapIn" />
+      <wsdl:output message="tns:GetBusinessInfoListSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetBusiness2InfoList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">中介C帐户资料函数</wsdl:documentation>
@@ -21190,10 +21223,10 @@
       <wsdl:input message="tns:BatPay_InitGridSoapIn" />
       <wsdl:output message="tns:BatPay_InitGridSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="BatPay_GetBank">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取银行名及编号</wsdl:documentation>
-      <wsdl:input message="tns:BatPay_GetBankSoapIn" />
-      <wsdl:output message="tns:BatPay_GetBankSoapOut" />
+    <wsdl:operation name="GetCFTUserAppealListFunction">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自助申诉查询三种类型，在排序后处理用户信息</wsdl:documentation>
+      <wsdl:input message="tns:GetCFTUserAppealListFunctionSoapIn" />
+      <wsdl:output message="tns:GetCFTUserAppealListFunctionSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CFTUserAppealPass">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自助申诉直接通过函数</wsdl:documentation>
@@ -21590,10 +21623,10 @@
       <wsdl:input message="tns:GetAgencyBusinessInfoListSoapIn" />
       <wsdl:output message="tns:GetAgencyBusinessInfoListSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetBusinessInfoList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">商户资料函数</wsdl:documentation>
-      <wsdl:input message="tns:GetBusinessInfoListSoapIn" />
-      <wsdl:output message="tns:GetBusinessInfoListSoapOut" />
+    <wsdl:operation name="GetComplainBussCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询投诉商户数量函数</wsdl:documentation>
+      <wsdl:input message="tns:GetComplainBussCountSoapIn" />
+      <wsdl:output message="tns:GetComplainBussCountSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="AddComplainBuss">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">添加投诉商户函数</wsdl:documentation>
@@ -22010,11 +22043,6 @@
       <wsdl:input message="tns:GetCFTUserAppealListNewSoapIn" />
       <wsdl:output message="tns:GetCFTUserAppealListNewSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetCFTUserAppealListFunction">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自助申诉查询三种类型，在排序后处理用户信息</wsdl:documentation>
-      <wsdl:input message="tns:GetCFTUserAppealListFunctionSoapIn" />
-      <wsdl:output message="tns:GetCFTUserAppealListFunctionSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="GetChildrenInfo">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">得到子帐户详细信息</wsdl:documentation>
       <wsdl:input message="tns:GetChildrenInfoSoapIn" />
@@ -22064,6 +22092,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取系统公告数据</wsdl:documentation>
       <wsdl:input message="tns:GetSysBulletinSoapIn" />
       <wsdl:output message="tns:GetSysBulletinSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSysBulletinTitleById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取系统公告标题</wsdl:documentation>
+      <wsdl:input message="tns:GetSysBulletinTitleByIdSoapIn" />
+      <wsdl:output message="tns:GetSysBulletinTitleByIdSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetSysBankBulletin">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取银行维护公告数据</wsdl:documentation>
@@ -22400,13 +22433,13 @@
       <wsdl:input message="tns:GetComplainBussListSoapIn" />
       <wsdl:output message="tns:GetComplainBussListSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetComplainBussCount">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询投诉商户数量函数</wsdl:documentation>
-      <wsdl:input message="tns:GetComplainBussCountSoapIn" />
-      <wsdl:output message="tns:GetComplainBussCountSoapOut" />
-    </wsdl:operation>
   </wsdl:portType>
   <wsdl:portType name="Query_ServiceHttpGet">
+    <wsdl:operation name="CountDKBankList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">统计银行批次交易情况</wsdl:documentation>
+      <wsdl:input message="tns:CountDKBankListHttpGetIn" />
+      <wsdl:output message="tns:CountDKBankListHttpGetOut" />
+    </wsdl:operation>
     <wsdl:operation name="QueryDKBankListDetail">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">银行批次交易查询函数</wsdl:documentation>
       <wsdl:input message="tns:QueryDKBankListDetailHttpGetIn" />
@@ -22716,6 +22749,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自动续费解绑</wsdl:documentation>
       <wsdl:input message="tns:AtuoRenewUnbindHttpGetIn" />
       <wsdl:output message="tns:AtuoRenewUnbindHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BatPay_GetBank">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取银行名及编号</wsdl:documentation>
+      <wsdl:input message="tns:BatPay_GetBankHttpGetIn" />
+      <wsdl:output message="tns:BatPay_GetBankHttpGetOut" />
     </wsdl:operation>
     <wsdl:operation name="BatPay_CanVisible">
       <wsdl:input message="tns:BatPay_CanVisibleHttpGetIn" />
@@ -23031,10 +23069,10 @@
       <wsdl:input message="tns:QueryDKBankListHttpGetIn" />
       <wsdl:output message="tns:QueryDKBankListHttpGetOut" />
     </wsdl:operation>
-    <wsdl:operation name="CountDKBankList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">统计银行批次交易情况</wsdl:documentation>
-      <wsdl:input message="tns:CountDKBankListHttpGetIn" />
-      <wsdl:output message="tns:CountDKBankListHttpGetOut" />
+    <wsdl:operation name="GetBusinessInfoList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">商户资料函数</wsdl:documentation>
+      <wsdl:input message="tns:GetBusinessInfoListHttpGetIn" />
+      <wsdl:output message="tns:GetBusinessInfoListHttpGetOut" />
     </wsdl:operation>
     <wsdl:operation name="GetBusiness2InfoList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">中介C帐户资料函数</wsdl:documentation>
@@ -23394,11 +23432,6 @@
       <wsdl:input message="tns:BatPay_InitGridHttpGetIn" />
       <wsdl:output message="tns:BatPay_InitGridHttpGetOut" />
     </wsdl:operation>
-    <wsdl:operation name="BatPay_GetBank">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取银行名及编号</wsdl:documentation>
-      <wsdl:input message="tns:BatPay_GetBankHttpGetIn" />
-      <wsdl:output message="tns:BatPay_GetBankHttpGetOut" />
-    </wsdl:operation>
     <wsdl:operation name="CFTUserAppealPass">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自助申诉直接通过函数</wsdl:documentation>
       <wsdl:input message="tns:CFTUserAppealPassHttpGetIn" />
@@ -23724,10 +23757,10 @@
       <wsdl:input message="tns:GetAgencyBusinessInfoListHttpGetIn" />
       <wsdl:output message="tns:GetAgencyBusinessInfoListHttpGetOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetBusinessInfoList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">商户资料函数</wsdl:documentation>
-      <wsdl:input message="tns:GetBusinessInfoListHttpGetIn" />
-      <wsdl:output message="tns:GetBusinessInfoListHttpGetOut" />
+    <wsdl:operation name="GetComplainBussCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询投诉商户数量函数</wsdl:documentation>
+      <wsdl:input message="tns:GetComplainBussCountHttpGetIn" />
+      <wsdl:output message="tns:GetComplainBussCountHttpGetOut" />
     </wsdl:operation>
     <wsdl:operation name="DelComplainBuss">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除投诉商户函数</wsdl:documentation>
@@ -24314,13 +24347,13 @@
       <wsdl:input message="tns:GetComplainBussListHttpGetIn" />
       <wsdl:output message="tns:GetComplainBussListHttpGetOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetComplainBussCount">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询投诉商户数量函数</wsdl:documentation>
-      <wsdl:input message="tns:GetComplainBussCountHttpGetIn" />
-      <wsdl:output message="tns:GetComplainBussCountHttpGetOut" />
-    </wsdl:operation>
   </wsdl:portType>
   <wsdl:portType name="Query_ServiceHttpPost">
+    <wsdl:operation name="CountDKBankList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">统计银行批次交易情况</wsdl:documentation>
+      <wsdl:input message="tns:CountDKBankListHttpPostIn" />
+      <wsdl:output message="tns:CountDKBankListHttpPostOut" />
+    </wsdl:operation>
     <wsdl:operation name="QueryDKBankListDetail">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">银行批次交易查询函数</wsdl:documentation>
       <wsdl:input message="tns:QueryDKBankListDetailHttpPostIn" />
@@ -24630,6 +24663,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自动续费解绑</wsdl:documentation>
       <wsdl:input message="tns:AtuoRenewUnbindHttpPostIn" />
       <wsdl:output message="tns:AtuoRenewUnbindHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BatPay_GetBank">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取银行名及编号</wsdl:documentation>
+      <wsdl:input message="tns:BatPay_GetBankHttpPostIn" />
+      <wsdl:output message="tns:BatPay_GetBankHttpPostOut" />
     </wsdl:operation>
     <wsdl:operation name="BatPay_CanVisible">
       <wsdl:input message="tns:BatPay_CanVisibleHttpPostIn" />
@@ -24945,10 +24983,10 @@
       <wsdl:input message="tns:QueryDKBankListHttpPostIn" />
       <wsdl:output message="tns:QueryDKBankListHttpPostOut" />
     </wsdl:operation>
-    <wsdl:operation name="CountDKBankList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">统计银行批次交易情况</wsdl:documentation>
-      <wsdl:input message="tns:CountDKBankListHttpPostIn" />
-      <wsdl:output message="tns:CountDKBankListHttpPostOut" />
+    <wsdl:operation name="GetBusinessInfoList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">商户资料函数</wsdl:documentation>
+      <wsdl:input message="tns:GetBusinessInfoListHttpPostIn" />
+      <wsdl:output message="tns:GetBusinessInfoListHttpPostOut" />
     </wsdl:operation>
     <wsdl:operation name="GetBusiness2InfoList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">中介C帐户资料函数</wsdl:documentation>
@@ -25308,11 +25346,6 @@
       <wsdl:input message="tns:BatPay_InitGridHttpPostIn" />
       <wsdl:output message="tns:BatPay_InitGridHttpPostOut" />
     </wsdl:operation>
-    <wsdl:operation name="BatPay_GetBank">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取银行名及编号</wsdl:documentation>
-      <wsdl:input message="tns:BatPay_GetBankHttpPostIn" />
-      <wsdl:output message="tns:BatPay_GetBankHttpPostOut" />
-    </wsdl:operation>
     <wsdl:operation name="CFTUserAppealPass">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">自助申诉直接通过函数</wsdl:documentation>
       <wsdl:input message="tns:CFTUserAppealPassHttpPostIn" />
@@ -25638,10 +25671,10 @@
       <wsdl:input message="tns:GetAgencyBusinessInfoListHttpPostIn" />
       <wsdl:output message="tns:GetAgencyBusinessInfoListHttpPostOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetBusinessInfoList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">商户资料函数</wsdl:documentation>
-      <wsdl:input message="tns:GetBusinessInfoListHttpPostIn" />
-      <wsdl:output message="tns:GetBusinessInfoListHttpPostOut" />
+    <wsdl:operation name="GetComplainBussCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询投诉商户数量函数</wsdl:documentation>
+      <wsdl:input message="tns:GetComplainBussCountHttpPostIn" />
+      <wsdl:output message="tns:GetComplainBussCountHttpPostOut" />
     </wsdl:operation>
     <wsdl:operation name="DelComplainBuss">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除投诉商户函数</wsdl:documentation>
@@ -26228,14 +26261,18 @@
       <wsdl:input message="tns:GetComplainBussListHttpPostIn" />
       <wsdl:output message="tns:GetComplainBussListHttpPostOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetComplainBussCount">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询投诉商户数量函数</wsdl:documentation>
-      <wsdl:input message="tns:GetComplainBussCountHttpPostIn" />
-      <wsdl:output message="tns:GetComplainBussCountHttpPostOut" />
-    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="Query_ServiceSoap" type="tns:Query_ServiceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CountDKBankList">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/CountDKBankList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="QueryDKBankListDetail">
       <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryDKBankListDetail" style="document" />
       <wsdl:input>
@@ -26911,6 +26948,15 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:modifyAttTypeFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BatPay_GetBank">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/BatPay_GetBank" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -27644,8 +27690,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="CountDKBankList">
-      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/CountDKBankList" style="document" />
+    <wsdl:operation name="GetBusinessInfoList">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetBusinessInfoList" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -28358,10 +28404,11 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="BatPay_GetBank">
-      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/BatPay_GetBank" style="document" />
+    <wsdl:operation name="GetCFTUserAppealListFunction">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetCFTUserAppealListFunction" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:GetCFTUserAppealListFunctionFinance_Header" part="Finance_Header" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -29095,8 +29142,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetBusinessInfoList">
-      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetBusinessInfoList" style="document" />
+    <wsdl:operation name="GetComplainBussCount">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetComplainBussCount" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -29889,16 +29936,6 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetCFTUserAppealListFunction">
-      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetCFTUserAppealListFunction" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-        <soap:header message="tns:GetCFTUserAppealListFunctionFinance_Header" part="Finance_Header" use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetChildrenInfo">
       <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetChildrenInfo" style="document" />
       <wsdl:input>
@@ -29991,6 +30028,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetSysBulletin">
       <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetSysBulletin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSysBulletinTitleById">
+      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetSysBulletinTitleById" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -30634,18 +30680,18 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetComplainBussCount">
-      <soap:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetComplainBussCount" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="Query_ServiceSoap12" type="tns:Query_ServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CountDKBankList">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/CountDKBankList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="QueryDKBankListDetail">
       <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/QueryDKBankListDetail" style="document" />
       <wsdl:input>
@@ -31321,6 +31367,15 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:modifyAttTypeFinance_Header" part="Finance_Header" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BatPay_GetBank">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/BatPay_GetBank" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -32054,8 +32109,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="CountDKBankList">
-      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/CountDKBankList" style="document" />
+    <wsdl:operation name="GetBusinessInfoList">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetBusinessInfoList" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -32768,10 +32823,11 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="BatPay_GetBank">
-      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/BatPay_GetBank" style="document" />
+    <wsdl:operation name="GetCFTUserAppealListFunction">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetCFTUserAppealListFunction" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:GetCFTUserAppealListFunctionFinance_Header" part="Finance_Header" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -33505,8 +33561,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetBusinessInfoList">
-      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetBusinessInfoList" style="document" />
+    <wsdl:operation name="GetComplainBussCount">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetComplainBussCount" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -34299,16 +34355,6 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetCFTUserAppealListFunction">
-      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetCFTUserAppealListFunction" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-        <soap12:header message="tns:GetCFTUserAppealListFunctionFinance_Header" part="Finance_Header" use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetChildrenInfo">
       <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetChildrenInfo" style="document" />
       <wsdl:input>
@@ -34401,6 +34447,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetSysBulletin">
       <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetSysBulletin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSysBulletinTitleById">
+      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetSysBulletinTitleById" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -35044,18 +35099,18 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetComplainBussCount">
-      <soap12:operation soapAction="http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetComplainBussCount" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="Query_ServiceHttpGet" type="tns:Query_ServiceHttpGet">
     <http:binding verb="GET" />
+    <wsdl:operation name="CountDKBankList">
+      <http:operation location="/CountDKBankList" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="QueryDKBankListDetail">
       <http:operation location="/QueryDKBankListDetail" />
       <wsdl:input>
@@ -35603,6 +35658,15 @@
     </wsdl:operation>
     <wsdl:operation name="AtuoRenewUnbind">
       <http:operation location="/AtuoRenewUnbind" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BatPay_GetBank">
+      <http:operation location="/BatPay_GetBank" />
       <wsdl:input>
         <http:urlEncoded />
       </wsdl:input>
@@ -36194,8 +36258,8 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="CountDKBankList">
-      <http:operation location="/CountDKBankList" />
+    <wsdl:operation name="GetBusinessInfoList">
+      <http:operation location="/GetBusinessInfoList" />
       <wsdl:input>
         <http:urlEncoded />
       </wsdl:input>
@@ -36831,15 +36895,6 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="BatPay_GetBank">
-      <http:operation location="/BatPay_GetBank" />
-      <wsdl:input>
-        <http:urlEncoded />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="CFTUserAppealPass">
       <http:operation location="/CFTUserAppealPass" />
       <wsdl:input>
@@ -37419,8 +37474,8 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetBusinessInfoList">
-      <http:operation location="/GetBusinessInfoList" />
+    <wsdl:operation name="GetComplainBussCount">
+      <http:operation location="/GetComplainBussCount" />
       <wsdl:input>
         <http:urlEncoded />
       </wsdl:input>
@@ -38462,15 +38517,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetComplainBussList">
       <http:operation location="/GetComplainBussList" />
-      <wsdl:input>
-        <http:urlEncoded />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetComplainBussCount">
-      <http:operation location="/GetComplainBussCount" />
       <wsdl:input>
         <http:urlEncoded />
       </wsdl:input>
@@ -38481,6 +38527,15 @@
   </wsdl:binding>
   <wsdl:binding name="Query_ServiceHttpPost" type="tns:Query_ServiceHttpPost">
     <http:binding verb="POST" />
+    <wsdl:operation name="CountDKBankList">
+      <http:operation location="/CountDKBankList" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="QueryDKBankListDetail">
       <http:operation location="/QueryDKBankListDetail" />
       <wsdl:input>
@@ -39028,6 +39083,15 @@
     </wsdl:operation>
     <wsdl:operation name="AtuoRenewUnbind">
       <http:operation location="/AtuoRenewUnbind" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BatPay_GetBank">
+      <http:operation location="/BatPay_GetBank" />
       <wsdl:input>
         <mime:content type="application/x-www-form-urlencoded" />
       </wsdl:input>
@@ -39619,8 +39683,8 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="CountDKBankList">
-      <http:operation location="/CountDKBankList" />
+    <wsdl:operation name="GetBusinessInfoList">
+      <http:operation location="/GetBusinessInfoList" />
       <wsdl:input>
         <mime:content type="application/x-www-form-urlencoded" />
       </wsdl:input>
@@ -40256,15 +40320,6 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="BatPay_GetBank">
-      <http:operation location="/BatPay_GetBank" />
-      <wsdl:input>
-        <mime:content type="application/x-www-form-urlencoded" />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="CFTUserAppealPass">
       <http:operation location="/CFTUserAppealPass" />
       <wsdl:input>
@@ -40844,8 +40899,8 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetBusinessInfoList">
-      <http:operation location="/GetBusinessInfoList" />
+    <wsdl:operation name="GetComplainBussCount">
+      <http:operation location="/GetComplainBussCount" />
       <wsdl:input>
         <mime:content type="application/x-www-form-urlencoded" />
       </wsdl:input>
@@ -41887,15 +41942,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetComplainBussList">
       <http:operation location="/GetComplainBussList" />
-      <wsdl:input>
-        <mime:content type="application/x-www-form-urlencoded" />
-      </wsdl:input>
-      <wsdl:output>
-        <mime:mimeXml part="Body" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetComplainBussCount">
-      <http:operation location="/GetComplainBussCount" />
       <wsdl:input>
         <mime:content type="application/x-www-form-urlencoded" />
       </wsdl:input>

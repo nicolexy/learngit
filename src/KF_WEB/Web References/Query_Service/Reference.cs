@@ -33,6 +33,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(object[]))]
     public partial class Query_Service : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
+        private System.Threading.SendOrPostCallback CountDKBankListOperationCompleted;
+        
         private Finance_Header finance_HeaderValueField;
         
         private System.Threading.SendOrPostCallback QueryDKBankListDetailOperationCompleted;
@@ -176,6 +178,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         private System.Threading.SendOrPostCallback modifyUserTypeOperationCompleted;
         
         private System.Threading.SendOrPostCallback modifyAttTypeOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback BatPay_GetBankOperationCompleted;
         
         private System.Threading.SendOrPostCallback BatPay_CanVisibleOperationCompleted;
         
@@ -333,7 +337,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         private System.Threading.SendOrPostCallback QueryDKBankListOperationCompleted;
         
-        private System.Threading.SendOrPostCallback CountDKBankListOperationCompleted;
+        private System.Threading.SendOrPostCallback GetBusinessInfoListOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetBusiness2InfoListOperationCompleted;
         
@@ -491,7 +495,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         private System.Threading.SendOrPostCallback BatPay_InitGridOperationCompleted;
         
-        private System.Threading.SendOrPostCallback BatPay_GetBankOperationCompleted;
+        private System.Threading.SendOrPostCallback GetCFTUserAppealListFunctionOperationCompleted;
         
         private System.Threading.SendOrPostCallback CFTUserAppealPassOperationCompleted;
         
@@ -651,7 +655,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         private System.Threading.SendOrPostCallback GetAgencyBusinessInfoListOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetBusinessInfoListOperationCompleted;
+        private System.Threading.SendOrPostCallback GetComplainBussCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback AddComplainBussOperationCompleted;
         
@@ -819,8 +823,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         private System.Threading.SendOrPostCallback GetCFTUserAppealListNewOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetCFTUserAppealListFunctionOperationCompleted;
-        
         private System.Threading.SendOrPostCallback GetChildrenInfoOperationCompleted;
         
         private System.Threading.SendOrPostCallback LogOnUsercheckOrderOperationCompleted;
@@ -840,6 +842,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         private System.Threading.SendOrPostCallback ChildrenFreezeOrUnfreezeOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetSysBulletinOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetSysBulletinTitleByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetSysBankBulletinOperationCompleted;
         
@@ -975,8 +979,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         private System.Threading.SendOrPostCallback GetComplainBussListOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetComplainBussCountOperationCompleted;
-        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -1023,6 +1025,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
                 this.useDefaultCredentialsSetExplicitly = true;
             }
         }
+        
+        /// <remarks/>
+        public event CountDKBankListCompletedEventHandler CountDKBankListCompleted;
         
         /// <remarks/>
         public event QueryDKBankListDetailCompletedEventHandler QueryDKBankListDetailCompleted;
@@ -1236,6 +1241,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         /// <remarks/>
         public event modifyAttTypeCompletedEventHandler modifyAttTypeCompleted;
+        
+        /// <remarks/>
+        public event BatPay_GetBankCompletedEventHandler BatPay_GetBankCompleted;
         
         /// <remarks/>
         public event BatPay_CanVisibleCompletedEventHandler BatPay_CanVisibleCompleted;
@@ -1472,7 +1480,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         public event QueryDKBankListCompletedEventHandler QueryDKBankListCompleted;
         
         /// <remarks/>
-        public event CountDKBankListCompletedEventHandler CountDKBankListCompleted;
+        public event GetBusinessInfoListCompletedEventHandler GetBusinessInfoListCompleted;
         
         /// <remarks/>
         public event GetBusiness2InfoListCompletedEventHandler GetBusiness2InfoListCompleted;
@@ -1709,7 +1717,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         public event BatPay_InitGridCompletedEventHandler BatPay_InitGridCompleted;
         
         /// <remarks/>
-        public event BatPay_GetBankCompletedEventHandler BatPay_GetBankCompleted;
+        public event GetCFTUserAppealListFunctionCompletedEventHandler GetCFTUserAppealListFunctionCompleted;
         
         /// <remarks/>
         public event CFTUserAppealPassCompletedEventHandler CFTUserAppealPassCompleted;
@@ -1949,7 +1957,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         public event GetAgencyBusinessInfoListCompletedEventHandler GetAgencyBusinessInfoListCompleted;
         
         /// <remarks/>
-        public event GetBusinessInfoListCompletedEventHandler GetBusinessInfoListCompleted;
+        public event GetComplainBussCountCompletedEventHandler GetComplainBussCountCompleted;
         
         /// <remarks/>
         public event AddComplainBussCompletedEventHandler AddComplainBussCompleted;
@@ -2201,9 +2209,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         public event GetCFTUserAppealListNewCompletedEventHandler GetCFTUserAppealListNewCompleted;
         
         /// <remarks/>
-        public event GetCFTUserAppealListFunctionCompletedEventHandler GetCFTUserAppealListFunctionCompleted;
-        
-        /// <remarks/>
         public event GetChildrenInfoCompletedEventHandler GetChildrenInfoCompleted;
         
         /// <remarks/>
@@ -2232,6 +2237,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         /// <remarks/>
         public event GetSysBulletinCompletedEventHandler GetSysBulletinCompleted;
+        
+        /// <remarks/>
+        public event GetSysBulletinTitleByIdCompletedEventHandler GetSysBulletinTitleByIdCompleted;
         
         /// <remarks/>
         public event GetSysBankBulletinCompletedEventHandler GetSysBankBulletinCompleted;
@@ -2435,7 +2443,60 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         public event GetComplainBussListCompletedEventHandler GetComplainBussListCompleted;
         
         /// <remarks/>
-        public event GetComplainBussCountCompletedEventHandler GetComplainBussCountCompleted;
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/CountDKBankList", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet CountDKBankList(string batchid, string batchid_forbank, string bank_type, string status, string starttime, string endtime) {
+            object[] results = this.Invoke("CountDKBankList", new object[] {
+                        batchid,
+                        batchid_forbank,
+                        bank_type,
+                        status,
+                        starttime,
+                        endtime});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginCountDKBankList(string batchid, string batchid_forbank, string bank_type, string status, string starttime, string endtime, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("CountDKBankList", new object[] {
+                        batchid,
+                        batchid_forbank,
+                        bank_type,
+                        status,
+                        starttime,
+                        endtime}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet EndCountDKBankList(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CountDKBankListAsync(string batchid, string batchid_forbank, string bank_type, string status, string starttime, string endtime) {
+            this.CountDKBankListAsync(batchid, batchid_forbank, bank_type, status, starttime, endtime, null);
+        }
+        
+        /// <remarks/>
+        public void CountDKBankListAsync(string batchid, string batchid_forbank, string bank_type, string status, string starttime, string endtime, object userState) {
+            if ((this.CountDKBankListOperationCompleted == null)) {
+                this.CountDKBankListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCountDKBankListOperationCompleted);
+            }
+            this.InvokeAsync("CountDKBankList", new object[] {
+                        batchid,
+                        batchid_forbank,
+                        bank_type,
+                        status,
+                        starttime,
+                        endtime}, this.CountDKBankListOperationCompleted, userState);
+        }
+        
+        private void OnCountDKBankListOperationCompleted(object arg) {
+            if ((this.CountDKBankListCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CountDKBankListCompleted(this, new CountDKBankListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("Finance_HeaderValue")]
@@ -5871,6 +5932,44 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
             if ((this.modifyAttTypeCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.modifyAttTypeCompleted(this, new modifyAttTypeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/BatPay_GetBank", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet BatPay_GetBank() {
+            object[] results = this.Invoke("BatPay_GetBank", new object[0]);
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginBatPay_GetBank(System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("BatPay_GetBank", new object[0], callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet EndBatPay_GetBank(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void BatPay_GetBankAsync() {
+            this.BatPay_GetBankAsync(null);
+        }
+        
+        /// <remarks/>
+        public void BatPay_GetBankAsync(object userState) {
+            if ((this.BatPay_GetBankOperationCompleted == null)) {
+                this.BatPay_GetBankOperationCompleted = new System.Threading.SendOrPostCallback(this.OnBatPay_GetBankOperationCompleted);
+            }
+            this.InvokeAsync("BatPay_GetBank", new object[0], this.BatPay_GetBankOperationCompleted, userState);
+        }
+        
+        private void OnBatPay_GetBankOperationCompleted(object arg) {
+            if ((this.BatPay_GetBankCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.BatPay_GetBankCompleted(this, new BatPay_GetBankCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -9759,58 +9858,43 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/CountDKBankList", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet CountDKBankList(string batchid, string batchid_forbank, string bank_type, string status, string starttime, string endtime) {
-            object[] results = this.Invoke("CountDKBankList", new object[] {
-                        batchid,
-                        batchid_forbank,
-                        bank_type,
-                        status,
-                        starttime,
-                        endtime});
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetBusinessInfoList", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetBusinessInfoList(string Fspid) {
+            object[] results = this.Invoke("GetBusinessInfoList", new object[] {
+                        Fspid});
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginCountDKBankList(string batchid, string batchid_forbank, string bank_type, string status, string starttime, string endtime, System.AsyncCallback callback, object asyncState) {
-            return this.BeginInvoke("CountDKBankList", new object[] {
-                        batchid,
-                        batchid_forbank,
-                        bank_type,
-                        status,
-                        starttime,
-                        endtime}, callback, asyncState);
+        public System.IAsyncResult BeginGetBusinessInfoList(string Fspid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetBusinessInfoList", new object[] {
+                        Fspid}, callback, asyncState);
         }
         
         /// <remarks/>
-        public System.Data.DataSet EndCountDKBankList(System.IAsyncResult asyncResult) {
+        public System.Data.DataSet EndGetBusinessInfoList(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public void CountDKBankListAsync(string batchid, string batchid_forbank, string bank_type, string status, string starttime, string endtime) {
-            this.CountDKBankListAsync(batchid, batchid_forbank, bank_type, status, starttime, endtime, null);
+        public void GetBusinessInfoListAsync(string Fspid) {
+            this.GetBusinessInfoListAsync(Fspid, null);
         }
         
         /// <remarks/>
-        public void CountDKBankListAsync(string batchid, string batchid_forbank, string bank_type, string status, string starttime, string endtime, object userState) {
-            if ((this.CountDKBankListOperationCompleted == null)) {
-                this.CountDKBankListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCountDKBankListOperationCompleted);
+        public void GetBusinessInfoListAsync(string Fspid, object userState) {
+            if ((this.GetBusinessInfoListOperationCompleted == null)) {
+                this.GetBusinessInfoListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetBusinessInfoListOperationCompleted);
             }
-            this.InvokeAsync("CountDKBankList", new object[] {
-                        batchid,
-                        batchid_forbank,
-                        bank_type,
-                        status,
-                        starttime,
-                        endtime}, this.CountDKBankListOperationCompleted, userState);
+            this.InvokeAsync("GetBusinessInfoList", new object[] {
+                        Fspid}, this.GetBusinessInfoListOperationCompleted, userState);
         }
         
-        private void OnCountDKBankListOperationCompleted(object arg) {
-            if ((this.CountDKBankListCompleted != null)) {
+        private void OnGetBusinessInfoListOperationCompleted(object arg) {
+            if ((this.GetBusinessInfoListCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.CountDKBankListCompleted(this, new CountDKBankListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.GetBusinessInfoListCompleted(this, new GetBusinessInfoListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -13642,40 +13726,44 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/BatPay_GetBank", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet BatPay_GetBank() {
-            object[] results = this.Invoke("BatPay_GetBank", new object[0]);
+        [System.Web.Services.Protocols.SoapHeaderAttribute("Finance_HeaderValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetCFTUserAppealListFunction", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetCFTUserAppealListFunction(System.Data.DataSet dsAll) {
+            object[] results = this.Invoke("GetCFTUserAppealListFunction", new object[] {
+                        dsAll});
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginBatPay_GetBank(System.AsyncCallback callback, object asyncState) {
-            return this.BeginInvoke("BatPay_GetBank", new object[0], callback, asyncState);
+        public System.IAsyncResult BeginGetCFTUserAppealListFunction(System.Data.DataSet dsAll, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetCFTUserAppealListFunction", new object[] {
+                        dsAll}, callback, asyncState);
         }
         
         /// <remarks/>
-        public System.Data.DataSet EndBatPay_GetBank(System.IAsyncResult asyncResult) {
+        public System.Data.DataSet EndGetCFTUserAppealListFunction(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public void BatPay_GetBankAsync() {
-            this.BatPay_GetBankAsync(null);
+        public void GetCFTUserAppealListFunctionAsync(System.Data.DataSet dsAll) {
+            this.GetCFTUserAppealListFunctionAsync(dsAll, null);
         }
         
         /// <remarks/>
-        public void BatPay_GetBankAsync(object userState) {
-            if ((this.BatPay_GetBankOperationCompleted == null)) {
-                this.BatPay_GetBankOperationCompleted = new System.Threading.SendOrPostCallback(this.OnBatPay_GetBankOperationCompleted);
+        public void GetCFTUserAppealListFunctionAsync(System.Data.DataSet dsAll, object userState) {
+            if ((this.GetCFTUserAppealListFunctionOperationCompleted == null)) {
+                this.GetCFTUserAppealListFunctionOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetCFTUserAppealListFunctionOperationCompleted);
             }
-            this.InvokeAsync("BatPay_GetBank", new object[0], this.BatPay_GetBankOperationCompleted, userState);
+            this.InvokeAsync("GetCFTUserAppealListFunction", new object[] {
+                        dsAll}, this.GetCFTUserAppealListFunctionOperationCompleted, userState);
         }
         
-        private void OnBatPay_GetBankOperationCompleted(object arg) {
-            if ((this.BatPay_GetBankCompleted != null)) {
+        private void OnGetCFTUserAppealListFunctionOperationCompleted(object arg) {
+            if ((this.GetCFTUserAppealListFunctionCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.BatPay_GetBankCompleted(this, new BatPay_GetBankCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.GetCFTUserAppealListFunctionCompleted(this, new GetCFTUserAppealListFunctionCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -17589,43 +17677,49 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetBusinessInfoList", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetBusinessInfoList(string Fspid) {
-            object[] results = this.Invoke("GetBusinessInfoList", new object[] {
-                        Fspid});
-            return ((System.Data.DataSet)(results[0]));
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetComplainBussCount", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetComplainBussCount(string bussId, System.DateTime u_BeginTime, System.DateTime u_EndTime) {
+            object[] results = this.Invoke("GetComplainBussCount", new object[] {
+                        bussId,
+                        u_BeginTime,
+                        u_EndTime});
+            return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetBusinessInfoList(string Fspid, System.AsyncCallback callback, object asyncState) {
-            return this.BeginInvoke("GetBusinessInfoList", new object[] {
-                        Fspid}, callback, asyncState);
+        public System.IAsyncResult BeginGetComplainBussCount(string bussId, System.DateTime u_BeginTime, System.DateTime u_EndTime, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetComplainBussCount", new object[] {
+                        bussId,
+                        u_BeginTime,
+                        u_EndTime}, callback, asyncState);
         }
         
         /// <remarks/>
-        public System.Data.DataSet EndGetBusinessInfoList(System.IAsyncResult asyncResult) {
+        public int EndGetComplainBussCount(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
-            return ((System.Data.DataSet)(results[0]));
+            return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void GetBusinessInfoListAsync(string Fspid) {
-            this.GetBusinessInfoListAsync(Fspid, null);
+        public void GetComplainBussCountAsync(string bussId, System.DateTime u_BeginTime, System.DateTime u_EndTime) {
+            this.GetComplainBussCountAsync(bussId, u_BeginTime, u_EndTime, null);
         }
         
         /// <remarks/>
-        public void GetBusinessInfoListAsync(string Fspid, object userState) {
-            if ((this.GetBusinessInfoListOperationCompleted == null)) {
-                this.GetBusinessInfoListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetBusinessInfoListOperationCompleted);
+        public void GetComplainBussCountAsync(string bussId, System.DateTime u_BeginTime, System.DateTime u_EndTime, object userState) {
+            if ((this.GetComplainBussCountOperationCompleted == null)) {
+                this.GetComplainBussCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetComplainBussCountOperationCompleted);
             }
-            this.InvokeAsync("GetBusinessInfoList", new object[] {
-                        Fspid}, this.GetBusinessInfoListOperationCompleted, userState);
+            this.InvokeAsync("GetComplainBussCount", new object[] {
+                        bussId,
+                        u_BeginTime,
+                        u_EndTime}, this.GetComplainBussCountOperationCompleted, userState);
         }
         
-        private void OnGetBusinessInfoListOperationCompleted(object arg) {
-            if ((this.GetBusinessInfoListCompleted != null)) {
+        private void OnGetComplainBussCountOperationCompleted(object arg) {
+            if ((this.GetComplainBussCountCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetBusinessInfoListCompleted(this, new GetBusinessInfoListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.GetComplainBussCountCompleted(this, new GetComplainBussCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -22104,48 +22198,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("Finance_HeaderValue")]
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetCFTUserAppealListFunction", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetCFTUserAppealListFunction(System.Data.DataSet dsAll) {
-            object[] results = this.Invoke("GetCFTUserAppealListFunction", new object[] {
-                        dsAll});
-            return ((System.Data.DataSet)(results[0]));
-        }
-        
-        /// <remarks/>
-        public System.IAsyncResult BeginGetCFTUserAppealListFunction(System.Data.DataSet dsAll, System.AsyncCallback callback, object asyncState) {
-            return this.BeginInvoke("GetCFTUserAppealListFunction", new object[] {
-                        dsAll}, callback, asyncState);
-        }
-        
-        /// <remarks/>
-        public System.Data.DataSet EndGetCFTUserAppealListFunction(System.IAsyncResult asyncResult) {
-            object[] results = this.EndInvoke(asyncResult);
-            return ((System.Data.DataSet)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetCFTUserAppealListFunctionAsync(System.Data.DataSet dsAll) {
-            this.GetCFTUserAppealListFunctionAsync(dsAll, null);
-        }
-        
-        /// <remarks/>
-        public void GetCFTUserAppealListFunctionAsync(System.Data.DataSet dsAll, object userState) {
-            if ((this.GetCFTUserAppealListFunctionOperationCompleted == null)) {
-                this.GetCFTUserAppealListFunctionOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetCFTUserAppealListFunctionOperationCompleted);
-            }
-            this.InvokeAsync("GetCFTUserAppealListFunction", new object[] {
-                        dsAll}, this.GetCFTUserAppealListFunctionOperationCompleted, userState);
-        }
-        
-        private void OnGetCFTUserAppealListFunctionOperationCompleted(object arg) {
-            if ((this.GetCFTUserAppealListFunctionCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetCFTUserAppealListFunctionCompleted(this, new GetCFTUserAppealListFunctionCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("Finance_HeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetChildrenInfo", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public System.Data.DataSet GetChildrenInfo(string u_QQID, string Fcurtype) {
             object[] results = this.Invoke("GetChildrenInfo", new object[] {
@@ -22649,6 +22701,49 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
             if ((this.GetSysBulletinCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetSysBulletinCompleted(this, new GetSysBulletinCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetSysBulletinTitleById", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetSysBulletinTitleById(int id, out string msg) {
+            object[] results = this.Invoke("GetSysBulletinTitleById", new object[] {
+                        id});
+            msg = ((string)(results[1]));
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginGetSysBulletinTitleById(int id, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetSysBulletinTitleById", new object[] {
+                        id}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public string EndGetSysBulletinTitleById(System.IAsyncResult asyncResult, out string msg) {
+            object[] results = this.EndInvoke(asyncResult);
+            msg = ((string)(results[1]));
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetSysBulletinTitleByIdAsync(int id) {
+            this.GetSysBulletinTitleByIdAsync(id, null);
+        }
+        
+        /// <remarks/>
+        public void GetSysBulletinTitleByIdAsync(int id, object userState) {
+            if ((this.GetSysBulletinTitleByIdOperationCompleted == null)) {
+                this.GetSysBulletinTitleByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetSysBulletinTitleByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetSysBulletinTitleById", new object[] {
+                        id}, this.GetSysBulletinTitleByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetSysBulletinTitleByIdOperationCompleted(object arg) {
+            if ((this.GetSysBulletinTitleByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetSysBulletinTitleByIdCompleted(this, new GetSysBulletinTitleByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -25306,8 +25401,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetFundListDetail_New", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetFundListDetail_New(string listid, string fbank_list, string fbank_type, DateTime u_BeginTime, DateTime u_EndTime, out string mesgg)
-        {
+        public System.Data.DataSet GetFundListDetail_New(string listid, string fbank_list, string fbank_type, System.DateTime u_BeginTime, System.DateTime u_EndTime, out string mesgg) {
             object[] results = this.Invoke("GetFundListDetail_New", new object[] {
                         listid,
                         fbank_list,
@@ -25319,11 +25413,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetFundListDetail_New(string listid, string fbank_list, string fbank_type, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetFundListDetail_New(string listid, string fbank_list, string fbank_type, System.DateTime u_BeginTime, System.DateTime u_EndTime, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetFundListDetail_New", new object[] {
                         listid,
                         fbank_list,
-                        fbank_type}, callback, asyncState);
+                        fbank_type,
+                        u_BeginTime,
+                        u_EndTime}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -25334,19 +25430,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
         }
         
         /// <remarks/>
-        public void GetFundListDetail_NewAsync(string listid, string fbank_list, string fbank_type) {
-            this.GetFundListDetail_NewAsync(listid, fbank_list, fbank_type, null);
+        public void GetFundListDetail_NewAsync(string listid, string fbank_list, string fbank_type, System.DateTime u_BeginTime, System.DateTime u_EndTime) {
+            this.GetFundListDetail_NewAsync(listid, fbank_list, fbank_type, u_BeginTime, u_EndTime, null);
         }
         
         /// <remarks/>
-        public void GetFundListDetail_NewAsync(string listid, string fbank_list, string fbank_type, object userState) {
+        public void GetFundListDetail_NewAsync(string listid, string fbank_list, string fbank_type, System.DateTime u_BeginTime, System.DateTime u_EndTime, object userState) {
             if ((this.GetFundListDetail_NewOperationCompleted == null)) {
                 this.GetFundListDetail_NewOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetFundListDetail_NewOperationCompleted);
             }
             this.InvokeAsync("GetFundListDetail_New", new object[] {
                         listid,
                         fbank_list,
-                        fbank_type}, this.GetFundListDetail_NewOperationCompleted, userState);
+                        fbank_type,
+                        u_BeginTime,
+                        u_EndTime}, this.GetFundListDetail_NewOperationCompleted, userState);
         }
         
         private void OnGetFundListDetail_NewOperationCompleted(object arg) {
@@ -25951,53 +26049,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
             if ((this.GetComplainBussListCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetComplainBussListCompleted(this, new GetComplainBussListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Query_WebService/GetComplainBussCount", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Query_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetComplainBussCount(string bussId, System.DateTime u_BeginTime, System.DateTime u_EndTime) {
-            object[] results = this.Invoke("GetComplainBussCount", new object[] {
-                        bussId,
-                        u_BeginTime,
-                        u_EndTime});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public System.IAsyncResult BeginGetComplainBussCount(string bussId, System.DateTime u_BeginTime, System.DateTime u_EndTime, System.AsyncCallback callback, object asyncState) {
-            return this.BeginInvoke("GetComplainBussCount", new object[] {
-                        bussId,
-                        u_BeginTime,
-                        u_EndTime}, callback, asyncState);
-        }
-        
-        /// <remarks/>
-        public int EndGetComplainBussCount(System.IAsyncResult asyncResult) {
-            object[] results = this.EndInvoke(asyncResult);
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetComplainBussCountAsync(string bussId, System.DateTime u_BeginTime, System.DateTime u_EndTime) {
-            this.GetComplainBussCountAsync(bussId, u_BeginTime, u_EndTime, null);
-        }
-        
-        /// <remarks/>
-        public void GetComplainBussCountAsync(string bussId, System.DateTime u_BeginTime, System.DateTime u_EndTime, object userState) {
-            if ((this.GetComplainBussCountOperationCompleted == null)) {
-                this.GetComplainBussCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetComplainBussCountOperationCompleted);
-            }
-            this.InvokeAsync("GetComplainBussCount", new object[] {
-                        bussId,
-                        u_BeginTime,
-                        u_EndTime}, this.GetComplainBussCountOperationCompleted, userState);
-        }
-        
-        private void OnGetComplainBussCountOperationCompleted(object arg) {
-            if ((this.GetComplainBussCountCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetComplainBussCountCompleted(this, new GetComplainBussCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -28695,6 +28746,32 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    public delegate void CountDKBankListCompletedEventHandler(object sender, CountDKBankListCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CountDKBankListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CountDKBankListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
     public delegate void QueryDKBankListDetailCompletedEventHandler(object sender, QueryDKBankListDetailCompletedEventArgs e);
     
     /// <remarks/>
@@ -30541,6 +30618,32 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    public delegate void BatPay_GetBankCompletedEventHandler(object sender, BatPay_GetBankCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class BatPay_GetBankCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal BatPay_GetBankCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
             }
         }
     }
@@ -32569,17 +32672,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
-    public delegate void CountDKBankListCompletedEventHandler(object sender, CountDKBankListCompletedEventArgs e);
+    public delegate void GetBusinessInfoListCompletedEventHandler(object sender, GetBusinessInfoListCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class CountDKBankListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class GetBusinessInfoListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal CountDKBankListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal GetBusinessInfoListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -34213,17 +34316,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
-    public delegate void BatPay_GetBankCompletedEventHandler(object sender, BatPay_GetBankCompletedEventArgs e);
+    public delegate void GetCFTUserAppealListFunctionCompletedEventHandler(object sender, GetCFTUserAppealListFunctionCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class BatPay_GetBankCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class GetCFTUserAppealListFunctionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal BatPay_GetBankCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal GetCFTUserAppealListFunctionCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -36339,26 +36442,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
-    public delegate void GetBusinessInfoListCompletedEventHandler(object sender, GetBusinessInfoListCompletedEventArgs e);
+    public delegate void GetComplainBussCountCompletedEventHandler(object sender, GetComplainBussCountCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetBusinessInfoListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class GetComplainBussCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal GetBusinessInfoListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal GetComplainBussCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
         
         /// <remarks/>
-        public System.Data.DataSet Result {
+        public int Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((System.Data.DataSet)(this.results[0]));
+                return ((int)(this.results[0]));
             }
         }
     }
@@ -38445,32 +38548,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
-    public delegate void GetCFTUserAppealListFunctionCompletedEventHandler(object sender, GetCFTUserAppealListFunctionCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetCFTUserAppealListFunctionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetCFTUserAppealListFunctionCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public System.Data.DataSet Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((System.Data.DataSet)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
     public delegate void GetChildrenInfoCompletedEventHandler(object sender, GetChildrenInfoCompletedEventArgs e);
     
     /// <remarks/>
@@ -38711,6 +38788,40 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    public delegate void GetSysBulletinTitleByIdCompletedEventHandler(object sender, GetSysBulletinTitleByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetSysBulletinTitleByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetSysBulletinTitleByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
             }
         }
         
@@ -40653,32 +40764,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Query_Service {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((System.Data.DataSet)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
-    public delegate void GetComplainBussCountCompletedEventHandler(object sender, GetComplainBussCountCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetComplainBussCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetComplainBussCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
             }
         }
     }
