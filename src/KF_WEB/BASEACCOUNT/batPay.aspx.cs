@@ -36,7 +36,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 //int operid = Int32.Parse(Session["OperID"].ToString());
 
                 //if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"TradeLogQuery")) Response.Redirect("../login.aspx?wh=1");
-                if (!classLibrary.ClassLib.ValidateRight("TradeLogQuery", this)) Response.Redirect("../login.aspx?wh=1");
+                if (!classLibrary.ClassLib.ValidateRight("TradeManagement", this)) Response.Redirect("../login.aspx?wh=1");
             }
             catch
             {

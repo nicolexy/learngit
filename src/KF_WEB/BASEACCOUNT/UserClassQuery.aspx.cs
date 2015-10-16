@@ -34,7 +34,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 string szkey = Session["SzKey"].ToString();
                 //int operid = Int32.Parse(Session["OperID"].ToString());
                 //if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"CFTUserPickTJ")) Response.Redirect("../login.aspx?wh=1");
-                if (!classLibrary.ClassLib.ValidateRight("CFTUserPickTJ", this)) Response.Redirect("../login.aspx?wh=1");
+                if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
             }
             catch
             {

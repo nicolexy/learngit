@@ -120,15 +120,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                     //int operid = Int32.Parse(Session["OperID"].ToString());
 
                     //if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "baseAccount"))
-                    if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("baseAccount", this))
+                    if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
                     {
                         baseAccount1.Visible = true;
                         accountOperate1.Visible = true;
                         accountManage1.Visible = true;
                     }
 
+                    if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("PayManagement", this))  //支付管理下的菜单，都需要申请该权限
+                    {
+                        WebchatPayControl1.Visible=false;
+                        FastPay1.Visible=false;
+                        CreditPayControl1.Visible=false;
+                        OverseasPay1.Visible=false;
+                        MicroPay1.Visible=false;
+                        ForeignCurrencyPay1.Visible=false;
+                        ForeignCardPay1.Visible=false;
+                        HandQBusiness.Visible = false;
+                    }
+
                     //if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "tradeManage"))
-                    if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("tradeManage", this))
+                    if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("TradeManagement", this))
                     {
                         tradeManage1.Visible = true;
                     }

@@ -29,7 +29,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			// 在此处放置用户代码以初始化页面
 			try
 			{
-                if (!classLibrary.ClassLib.ValidateRight("FreezeList", this)) Response.Redirect("../login.aspx?wh=1");
+                if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
 
                 Label1.Text = Session["uid"].ToString();
 
