@@ -103,7 +103,8 @@ namespace CFT.CSOMS.COMMLIB
             {
                 if (encrypt)
                     LogHelper.LogInfo("加密前特性参数串：" + requestString);
-                var relayResponse = RelayHelper.CommunicateWithRelay(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
+                RelayRequest relayReq = new RelayRequest() { RequestString = requestString };
+                var relayResponse = RelayHelper.CommunicateWithRelay(relayReq, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
                 if (!string.IsNullOrEmpty(coding))
                 {
                     Encoding encoding = Encoding.GetEncoding(coding);

@@ -27,7 +27,8 @@ namespace CFT.CSOMS.DAL.Infrastructure
         {
             LogHelper.LogInfo(relayRequestString);
             //关闭组件日志打印，因打印的可能是乱，编码后手动打印。
-            var relayResponse = RelayHelper.CommunicateWithRelay(relayRequestString, true, relayIP, relayPort);
+            RelayRequest relayReq = new RelayRequest() { RequestString = relayRequestString };
+            var relayResponse = RelayHelper.CommunicateWithRelay(relayReq, true, relayIP, relayPort);
             if (!string.IsNullOrEmpty(coding))
             {
                 Encoding encoding = Encoding.GetEncoding(coding);
@@ -59,7 +60,9 @@ namespace CFT.CSOMS.DAL.Infrastructure
             {
                 if(encrypt)
                     LogHelper.LogInfo("加密前特性参数串："+requestString);
-                var relayResponse = RelayHelper.CommunicateWithRelay( requestString,  serviceCode,  encrypt,  invisible ,  relayIP ,  relayPort,  relayDefaultSPId);
+
+                RelayRequest relayReq = new RelayRequest() { RequestString = requestString };
+                var relayResponse = RelayHelper.CommunicateWithRelay(relayReq, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
                 if (!string.IsNullOrEmpty(coding))
                 {
                     Encoding encoding = Encoding.GetEncoding(coding);
@@ -93,8 +96,8 @@ namespace CFT.CSOMS.DAL.Infrastructure
         {
             try
             {
-
-                var relayResponse = RelayHelper.CommunicateWithRelay(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
+                RelayRequest relayReq = new RelayRequest() { RequestString = requestString };
+                var relayResponse = RelayHelper.CommunicateWithRelay(relayReq, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
                 return Encoding.UTF8.GetString(relayResponse.ResponseBuffer);
             }
             catch (Exception err)
@@ -176,7 +179,8 @@ namespace CFT.CSOMS.DAL.Infrastructure
             string answer = "";
             try
             {
-                var relayResponse = RelayHelper.CommunicateWithRelay(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
+                RelayRequest relayReq = new RelayRequest() { RequestString = requestString };
+                var relayResponse = RelayHelper.CommunicateWithRelay(relayReq, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
                 answer = Encoding.GetEncoding("gb2312").GetString(relayResponse.ResponseBuffer);//Encoding.UTF8.GetString(relayResponse.ResponseBuffer);
                 //记录下日志
                 string strLog = string.Format("银行类型请求串:{0},通过gb2312转义结果:{1}", requestString, answer);
@@ -211,7 +215,8 @@ namespace CFT.CSOMS.DAL.Infrastructure
            string answer = "";
            try
             {
-                var relayResponse = RelayHelper.CommunicateWithRelay(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
+                RelayRequest relayReq = new RelayRequest() { RequestString = requestString };
+                var relayResponse = RelayHelper.CommunicateWithRelay(relayReq, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
                 answer = Encoding.UTF8.GetString(relayResponse.ResponseBuffer);
                 //记录下日志
                 string strLog = string.Format("红包详情请求串:{0},通过UTF8转义结果:{1}", requestString, answer);
@@ -247,8 +252,8 @@ namespace CFT.CSOMS.DAL.Infrastructure
             string answer = "";
             try
             {
-
-                var relayResponse = RelayHelper.CommunicateWithRelay(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
+                RelayRequest relayReq = new RelayRequest() { RequestString = requestString };
+                var relayResponse = RelayHelper.CommunicateWithRelay(relayReq, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
                 answer = Encoding.UTF8.GetString(relayResponse.ResponseBuffer);
                 //记录下日志
                 string strLog = string.Format("红包数据请求串:{0},通过UTF8转义结果:{1}",requestString,answer);
