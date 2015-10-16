@@ -54,9 +54,9 @@ namespace CFT.CSOMS.Service.CSAPI
                     offset = 0;
                 }
 
-                if (limit > 20 || limit < 0)
+                if (limit > 50 || limit < 0)
                 {
-                    limit = 20;
+                    limit = 50;
                 }
 
                 string start_date = "", end_date = "", spid = "";
@@ -196,9 +196,9 @@ namespace CFT.CSOMS.Service.CSAPI
                     offset = 0;
                 }
 
-                if (limit > 20 || limit < 0)
+                if (limit > 50 || limit < 0)
                 {
-                    limit = 20;
+                    limit = 50;
                 }
 
                 DateTime sDate = APIUtil.StrToDate(start_date);
@@ -285,9 +285,9 @@ namespace CFT.CSOMS.Service.CSAPI
                     offset = 0;
                 }
 
-                if (limit > 20 || limit == 0)
+                if (limit > 50 || limit == 0)
                 {
-                    limit = 20;
+                    limit = 50;
                 }
 
                 var infos = new CFT.CSOMS.BLL.FundModule.FundService().QueryCloseFundRollList(paramsHt["trade_id"].ToString(), paramsHt["fund_code"].ToString(), paramsHt["start_date"].ToString(), paramsHt["end_date"].ToString(), offset, limit);
@@ -365,9 +365,9 @@ namespace CFT.CSOMS.Service.CSAPI
                     offset = 0;
                 }
 
-                if (limit > 20 || limit == 0)
+                if (limit > 50 || limit == 0)
                 {
-                    limit = 20;
+                    limit = 50;
                 }
                 DateTime sDate = APIUtil.StrToDate(start_date);
                 DateTime eDate = APIUtil.StrToDate(end_date);
@@ -456,9 +456,9 @@ namespace CFT.CSOMS.Service.CSAPI
                     offset = 0;
                 }
 
-                if (limit > 20 || limit < 0)
+                if (limit > 50 || limit < 0)
                 {
-                    limit = 20;
+                    limit = 50;
                 }
 
                 //10100 目前接口只查询支付，后续接入其他业务类型，但是要增加接口参数
@@ -646,11 +646,11 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //必填参数验证
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "query_type", "bind_state", "offset", "limit", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "query_type", "bind_state", "offset", "limit", "token");
                 //token验证
                 APIUtil.ValidateToken(paramsHt);
 
-                String fuin = paramsHt["uin"].ToString();
+                String fuin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
 
                 String bankID = paramsHt.ContainsKey("bank_id") ? paramsHt["bank_id"].ToString() : "";
                 String fuid = paramsHt.ContainsKey("uid") ? paramsHt["uid"].ToString() : "";
@@ -662,19 +662,18 @@ namespace CFT.CSOMS.Service.CSAPI
                 String strEndDate = paramsHt.ContainsKey("end_date") ? paramsHt["end_date"].ToString() : "";
                 String Fbank_type = paramsHt.ContainsKey("bank_type") ? paramsHt["bank_type"].ToString() : "";
 
-                int queryType = APIUtil.StringToInt(paramsHt["query_type"]);
-                int bindState = 99;
-                if (paramsHt.ContainsKey("bind_state"))
-                {
-                    bindState = APIUtil.StringToInt(paramsHt["bind_state"]);
-                }
-
+                int queryType = paramsHt.ContainsKey("query_type") ? APIUtil.StringToInt(paramsHt["query_type"]) : 0;
+                int bindState = paramsHt.ContainsKey("bind_state") ? APIUtil.StringToInt(paramsHt["bind_state"]) : 99;
+                
                 APIUtil.ValidateDate(strBeginDate, "yyyy-MM-dd HH:mm:ss", true);
                 APIUtil.ValidateDate(strBeginDate, "yyyy-MM-dd HH:mm:ss", true);
 
                 int limStart = APIUtil.StringToInt(paramsHt["offset"].ToString());
                 int limCount = APIUtil.StringToInt(paramsHt["limit"].ToString());
-
+                if (limStart < 0)
+                    limStart = 0;
+                if (limCount < 0 || limCount > 50)
+                    limCount = 50;
 
                 //解绑操作
                 var infos = new CFT.CSOMS.BLL.BankCardBindModule.BankCardBindService().GetBankCardBindList(
@@ -687,7 +686,6 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 Dictionary<string, string> maps = new Dictionary<string, string>();
 
-
                 maps.Add("fuin", "uin");
                 maps.Add("fbank_id", "bank_id");
                 maps.Add("fbank_type", "bank_type");
@@ -698,18 +696,14 @@ namespace CFT.CSOMS.Service.CSAPI
                 maps.Add("fbind_type", "bind_type");
                 maps.Add("fbind_status", "bind_status");
                 maps.Add("fbind_flag", "bind_flag");
-
-
                 maps.Add("fprotocol_no", "protocol_no");
                 maps.Add("fbind_serialno", "bind_serialno");
 
                 maps.Add("fuid", "uid");
                 maps.Add("findex", "index");
                 maps.Add("fbdindex", "bdindex");
-
                 maps.Add("fmemo", "memo");
                 maps.Add("fcre_id", "cre_id");
-
                 maps.Add("ftelephone", "telephone");
                 maps.Add("fmobilephone", "mobilephone");
 
@@ -718,6 +712,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 maps.Add("fmodify_time", "modify_time");
                 maps.Add("fbind_time_bank", "bind_time_bank");
                 maps.Add("fbind_time_local", "bind_time_local");
+
                 APIUtil.Print4DataTable(infos.Tables[0], null, maps);
             }
             catch (ServiceException se)
@@ -885,7 +880,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 {
                     offset = 0;
                 }
-                if (limit < 0 || limit > 1000)
+                if (limit < 0 || limit > 50)
                 {
                     limit = 50;
                 }
@@ -974,7 +969,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 {
                     offset = 0;
                 }
-                if (limit < 0 || limit > 1000)
+                if (limit < 0 || limit > 50)
                 {
                     limit = 50;
                 }
@@ -1023,7 +1018,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 {
                     offset = 0;
                 }
-                if (limit < 0 || limit > 1000)
+                if (limit < 0 || limit > 50)
                 {
                     limit = 50;
                 }
