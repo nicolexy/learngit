@@ -81,7 +81,7 @@
                             <asp:Label ID="lblCell" runat="server"></asp:Label>
                         </td>
                         <td align="left">
-                            开户时间：
+                            首次申购时间：
                             <asp:Label ID="lblCreateTime" runat="server"></asp:Label>
                         </td>
                     </tr>
@@ -119,10 +119,15 @@
                             <asp:Button ID="btnLCTFundApply" runat="server" Width="80px" Visible="false" Text="强 赎" />
                         </td>
                         <td align="left">
-                            <asp:Button ID="btnBalanceQuery" runat="server" Width="250px" Text="资金流水查询" OnClick="btnBalanceQuery_Click">
-                            </asp:Button>
+                            微信财付通账号:
+                            <asp:Label ID="lbUin" runat="server"></asp:Label>
                         </td>
                      </tr>
+                    <tr>
+                        <td colspan="3">&nbsp;</td>
+                        <td><asp:Button ID="btnBalanceQuery" runat="server" Width="250px" Text="资金流水查询" OnClick="btnBalanceQuery_Click">
+                            </asp:Button></td>
+                    </tr>
                 </table>
             </td>
         </tr>
@@ -321,6 +326,9 @@
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
                         <asp:BoundColumn DataField="Fprofit_str" HeaderText="收益金额">
+                            <HeaderStyle Width="80px"></HeaderStyle>
+                        </asp:BoundColumn>
+                        <asp:BoundColumn DataField="EstimateFprofit" HeaderText="预估收益">
                             <HeaderStyle Width="80px"></HeaderStyle>
                         </asp:BoundColumn>
                          <asp:BoundColumn DataField="fund_value" HeaderText="单位净值">

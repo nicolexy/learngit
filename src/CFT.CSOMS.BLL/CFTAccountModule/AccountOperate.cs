@@ -156,7 +156,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         }
 
         /// <summary>
-        /// 申请销户
+        /// 获取销户信息
         /// </summary>
         /// <param name="query_id"></param>
         /// <param name="query_type">0，财付通，手Q账号；1微信账号</param>
@@ -166,7 +166,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         /// <param name="ip"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public bool LogOnUserDeleteUser(string query_id, int query_type, string reason, bool is_Send, string email_Addr, string opera,string ip, out string ret_msg)
+        public bool CloseingAccountInfo(string query_id, int query_type, string reason, bool is_Send, string email_Addr, string opera,string ip, out string ret_msg)
         {
             ret_msg = "";
           
@@ -196,25 +196,25 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                 return false;
             }
 
-            Param[] myParams = new Param[4];
-            myParams[0] = new Param();
-            myParams[0].ParamName = "fqqid";
-            myParams[0].ParamValue = query_id;
+            //Param[] myParams = new Param[4];
+            //myParams[0] = new Param();
+            //myParams[0].ParamName = "fqqid";
+            //myParams[0].ParamValue = query_id;
 
-            myParams[1] = new Param();
-            myParams[1].ParamName = "Memo";
-            myParams[1].ParamValue = memo;
+            //myParams[1] = new Param();
+            //myParams[1].ParamName = "Memo";
+            //myParams[1].ParamValue = memo;
 
-            myParams[2] = new Param();
-            myParams[2].ParamName = "returnUrl";
-            myParams[2].ParamValue = "/BaseAccount/InfoCenter.aspx?id=" + query_id;
+            //myParams[2] = new Param();
+            //myParams[2].ParamName = "returnUrl";
+            //myParams[2].ParamValue = "/BaseAccount/InfoCenter.aspx?id=" + query_id;
 
-            myParams[3] = new Param();
-            myParams[3].ParamName = "fuser";
-            myParams[3].ParamValue = opera;
+            //myParams[3] = new Param();
+            //myParams[3].ParamName = "fuser";
+            //myParams[3].ParamValue = opera;
 
-            string mainID = DateTime.Now.ToString("yyyyMMdd") + query_id;
-            string checkType = "logonUser";
+            //string mainID = DateTime.Now.ToString("yyyyMMdd") + query_id;
+            //string checkType = "logonUser";
 
 
             //手Q用户转账中、退款中、未完成的订单禁止注销和批量注销
@@ -339,35 +339,63 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
 
             if (balance < 10 * 10 * 200) //系统自动销户
             {
-                if (!new AccountData().LogOnUserDeleteUser(query_id, reason, opera, ip, out Msg))
-                {
-                    throw new Exception(Msg);
-
-                }
-                //系统自动注销成功给用户发邮件
-                if (is_Send)
-                {
-                    SendEmail(email_Addr, query_id, "系统自动销户", out Msg);
-                }
-                ret_msg = "系统自动销户成功！";
+                ret_msg = "账户余额小于200元，可以注销";
                 return true;
+                //if (!new AccountData().LogOnUserDeleteUser(query_id, reason, opera, ip, out Msg))
+                //{
+                //    throw new Exception(Msg);
+
+                //}
+                ////系统自动注销成功给用户发邮件
+                //if (is_Send)
+                //{
+                //    SendEmail(email_Addr, query_id, "系统自动销户", out Msg);
+                //}
+                //ret_msg = "系统自动销户成功！";
+                //return true;
             }
-            else //提起销户申请
+            else
             {
-                //TODO:提起销户申请
-                try
-                {
-                    new CheckService().StartCheck(mainID, checkType, memo, MoneyTransfer.FenToYuan(balance.ToString()), opera, ip, myParams);
-                    ret_msg = "销户申请提请成功！";
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    ret_msg = "销户申请提请失败：" + ex.Message;
-                    return false;
-                }
+                ret_msg = "账户余额大于或等于200元，请提起审批流程";
+                return false;
             }
+            //else //提起销户申请
+            //{
+            //    
+            //    try
+            //    {
+            //        new CheckService().StartCheck(mainID, checkType, memo, MoneyTransfer.FenToYuan(balance.ToString()), opera, ip, myParams);
+            //        ret_msg = "销户申请提请成功！";
+            //        return true;
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        ret_msg = "销户申请提请失败：" + ex.Message;
+            //        return false;
+            //    }
+            //}
          
+        }
+
+        //注销账号
+        public bool LogOnUserDeleteUser(string query_id, int query_type, string reason, bool is_Send, string email_Addr, string opera, string ip, out string Msg)
+        {
+            //0，财付通，手Q账号；1微信账号
+            if (query_type == 1)
+            {
+                query_id = WeChatHelper.GetUINFromWeChatName(query_id);
+            }
+            if (!new AccountData().LogOnUserDeleteUser(query_id, reason, opera, ip, out  Msg))
+            {
+                Msg = "系统自动销户失败 ： " + Msg;
+                return false;
+            }
+            if (is_Send)
+            {
+                SendEmail(email_Addr, query_id, "系统自动销户", out Msg);
+            }
+            Msg = "系统自动销户成功！";
+            return true;
         }
 
         private bool SendEmail(string email, string qqid, string subject, out string Msg)

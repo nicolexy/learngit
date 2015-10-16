@@ -32,37 +32,51 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
         {
             try
             {
-                var bll = new FCXGWallet();
                 DataTable dt = null;
-                var cardno = txt_CardNo.Text.Trim();
-
-                var queryUin = GetUin();
-                if (queryUin == "" && cardno == "")
+                var input = txt_input.Text.Trim();
+                if (input.Length > 0)
                 {
-                    WebUtils.ShowMessage(this.Page, "请输入查询条件");
-                }
-                else
-                {
-                    dt = bll.QueryBindCardInfo(Request.UserHostAddress, queryUin, cardno);
-                }
-
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    dt.Columns.Add("UnbundlingUrl");
-                    dt.Columns.Add("UnbundInfoUrl");
-                    foreach (DataRow row in dt.Rows)
+                    var bll = new FCXGWallet();
+                    if (checkBankCard.Checked)
                     {
-                        var bind_serialno = row["bind_serialno"];
-                        var uin = row["uin"];
-                        var Queryuid = row["uid"];
-                        var card_tail = row["card_tail"];
-                        row["UnbundlingUrl"] = string.Format("FCXGDialogUnBindCard.aspx?sign=unbind&bind_serialno={0}&uin={1}&card_tail={2}", bind_serialno, uin, card_tail);
-                        row["UnbundInfoUrl"] = string.Format("FCXGDialogUnBindCard.aspx?sign=unbind_info&bind_serialno={0}&uid={1}", bind_serialno, Queryuid);
+                        dt = bll.QueryBindCardInfo(Request.UserHostAddress, null, input);
+                    }
+                    else
+                    {
+                        string QueryUin = "";
+                        if (checkUin.Checked)
+                        {
+                            QueryUin = input;
+                        }
+                        else if (checkWeChatId.Checked)
+                        {
+                            QueryUin = WeChatHelper.GetFCXGOpenIdFromWeChatName(input, Request.UserHostAddress) + "@wx.hkg";
+                        }
+                        dt = bll.QueryBindCardInfo(Request.UserHostAddress, QueryUin, null);
+                    }
+
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        dt.Columns.Add("UnbundlingUrl");
+                        dt.Columns.Add("UnbundInfoUrl");
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            var bind_serialno = row["bind_serialno"];
+                            var uin = row["uin"];
+                            var Queryuid = row["uid"];
+                            var card_tail = row["card_tail"];
+                            row["UnbundlingUrl"] = string.Format("FCXGDialogUnBindCard.aspx?sign=unbind&bind_serialno={0}&uin={1}&card_tail={2}", bind_serialno, uin, card_tail);
+                            row["UnbundInfoUrl"] = string.Format("FCXGDialogUnBindCard.aspx?sign=unbind_info&bind_serialno={0}&uid={1}", bind_serialno, Queryuid);
+                        }
+                    }
+                    else
+                    {
+                        WebUtils.ShowMessage(this.Page, "没有找到数据");
                     }
                 }
                 else
                 {
-                    WebUtils.ShowMessage(this.Page, "没有找到数据");
+                    WebUtils.ShowMessage(this.Page, "请输入查询条件");
                 }
 
                 dg_passwordLog.DataSource = dt;
@@ -92,27 +106,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             }
         }
         #endregion
-
-
-        //获取Uin
-        protected string GetUin()
-        {
-            var input = txt_input.Text.Trim();
-            if (input.Length < 1)
-            {
-                return "";
-            }
-
-            if (checkUin.Checked)
-            {
-                return input;
-            }
-            else if (checkWeChatId.Checked)
-            {
-                return WeChatHelper.GetFCXGOpenIdFromWeChatName(input, Request.UserHostAddress) + "@wx.hkg";
-            }
-            return "";
-        }
 
     }
 }

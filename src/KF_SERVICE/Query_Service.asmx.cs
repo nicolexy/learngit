@@ -28,6 +28,7 @@ using CFT.CSOMS.BLL.FreezeModule;
 using CFT.CSOMS.COMMLIB;
 using SunLibrary;
 using CFT.CSOMS.BLL.TradeModule;
+using CFT.CSOMS.BLL.CFTAccountModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Service
 {
@@ -667,6 +668,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 da.Dispose();
             }
+        }
+
+        [WebMethod(Description = "获取系统公告标题")]
+        public string GetSysBulletinTitleById(int id, out string msg)
+        {
+            string result = string.Empty;
+            msg = "";
+            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("INC"));
+            try
+            {
+                da.OpenConn();
+                result = da.GetOneResult(@"
+                    select Ftitle from c2c_db_inc.t_bulletin_info 
+                        where FState=1 and Flist_state=1 and FID=" + id);
+            }
+            catch (Exception err)
+            {
+                msg = err.Message + err.StackTrace;
+            }
+            finally
+            {
+                da.Dispose();
+            }
+            return result;
         }
 
         [WebMethod(Description = "获取银行维护公告数据")]
@@ -3291,7 +3316,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.actionType = "充值查询函数";
                 rl.ID = u_ID;
                 rl.sign = 1;
-                rl.strRightCode = "GetFundList";
+                rl.strRightCode = "TradeManagement"; //"GetFundList";
                 rl.type = "查询";
         
                 PublicRes.SetRightAndLog(myHeader, rl);
@@ -4043,27 +4068,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetFreeFlowInfo(string cftNo)
         {
-            string msg = "";
             DataSet ds = null;
-
-            try
+            if (!string.IsNullOrEmpty(cftNo))
             {
-                if (cftNo == null || cftNo == "")
-                {
-                    return null;
-                }
-                string req = "";
-                string uid = PublicRes.ConvertToFuid(cftNo);
-                req = string.Format("uid={0}&product_type=3&business_type=1&sub_business_type=0&cur_type=1", 
-                    uid);
-                string service_name = "oss_eip_query_userfee_service";
-                ds = CommQuery.GetOneTableFromICE(req, CommQuery.QUERY_FREE_FLOW, service_name, out msg);
+                //oss_eip_query_userfee_service
+                ds = new VIPService().GetFreeFlowInfo(cftNo);
             }
-            catch (Exception err)
-            {
-                throw new LogicException("Service处理失败！" + msg);
-            }
-
             return ds;
         }
 
@@ -5607,7 +5617,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.ID = u_ID;
                 rl.OperID = myHeader.OperID;
                 rl.sign = 1;
-                rl.strRightCode = "TradeLogList";
+                rl.strRightCode = "SPInfoManagement"; //"TradeLogList";
                 rl.RightString = myHeader.RightString;
                 rl.SzKey = myHeader.SzKey;
                 rl.type = "查询";
@@ -19440,7 +19450,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.actionType = "实名认证处理查询函数";
                 rl.ID = fuin;
                 rl.sign = 1;
-                rl.strRightCode = "CFTUserPickTJ";
+                rl.strRightCode = "InfoCenter"; // "CFTUserPickTJ";
                 rl.type = "查询";
 
                 PublicRes.SetRightAndLog(myHeader, rl);
@@ -19547,7 +19557,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.actionType = "实名认证处理查询";
                 rl.ID = fuin;
                 rl.sign = 1;
-                rl.strRightCode = "CFTUserPickTJ";
+                rl.strRightCode = "InfoCenter";// "CFTUserPickTJ";
                 rl.type = "查询";
 	
                 PublicRes.SetRightAndLog(myHeader, rl);
@@ -19643,7 +19653,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.actionType = "实名认证状态用户名银行卡号查询_New";
                 rl.ID = userAccount;
                 rl.sign = 1;
-                rl.strRightCode = "BaseAccount";
+                rl.strRightCode = "InfoCenter";// "BaseAccount";
                 rl.type = "查询";
 
                 PublicRes.SetRightAndLog(myHeader, rl);

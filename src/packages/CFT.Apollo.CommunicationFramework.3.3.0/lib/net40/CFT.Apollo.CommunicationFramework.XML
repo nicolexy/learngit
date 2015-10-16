@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CFT.Apollo.CommunicationFramework</name>
+    </assembly>
+    <members>
+        <member name="T:CFT.Apollo.CommunicationFramework.CFException">
+            <summary>
+            CF异常基类
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.CommunicationFramework.BusinessLogicException">
+            <summary>
+            业务异常
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.CommunicationFramework.CommunicationException">
+            <summary>
+            调用异常
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.CommunicationFramework.TranslateException">
+            <summary>
+            解析数据包异常
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.CommunicationFramework.Message">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.CommunicationFramework.Message.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.CommunicationFramework.Message.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.CommunicationFramework.Message.MapMiddleReturnERROR">
+            <summary>
+              Looks up a localized string similar to 反序列化Middle返回对象异常:{0}.
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.CommunicationFramework.Message.MapMiddleReturnXMLDataERROR">
+            <summary>
+              Looks up a localized string similar to 映射Middle返回XML对象{0}异常：{1}.
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.CommunicationFramework.MiddleRequestString.EncryptRequestText(System.String,System.Byte[],System.Byte[],System.String)">
+            <summary>
+            加密middle请求字符串的request_text部分
+            </summary>
+            <param name="requestText">明文</param>
+            <param name="key">密钥，为空则用默认值</param>
+            <param name="iv">偏移，为空则用默认值</param>
+            <param name="plaintextPageCodeName">明文的编码方式名</param>
+            <returns>密文</returns>
+        </member>
+        <member name="M:CFT.Apollo.CommunicationFramework.RelayCommunication.Send``1(CFT.Apollo.CommunicationFramework.ICommunicationConnection,``0)">
+            <summary>
+            Relay向middle发送调用请求
+            </summary>
+            <typeparam name="TRequest">请求内容类型</typeparam>
+            <param name="conn">Relay连接对象</param>
+            <param name="request">请求内容</param>
+            <exception cref="T:CFT.Apollo.CommunicationFramework.Exceptions.RelayCommunicationException">发送数据时超时抛出异常</exception>
+        </member>
+        <member name="M:CFT.Apollo.CommunicationFramework.RelayCommunication.Receive``1(CFT.Apollo.CommunicationFramework.ICommunicationConnection)">
+            <summary>
+            Relay接收middle返回内容
+            </summary>
+            <typeparam name="TResponse">返回类型</typeparam>
+            <param name="conn">Relay连接对象</param>
+            <returns>返回内容</returns>
+            <exception cref="T:CFT.Apollo.CommunicationFramework.Exceptions.RelayCommunicationException">接收数据超时抛出异常</exception>
+        </member>
+        <member name="M:CFT.Apollo.CommunicationFramework.RelayResponse.Decompose(System.Text.Encoding)">
+            <summary>
+            默认的反序列化返回的字节数组函数
+            </summary>
+            <param name="rawRelayResponse"></param>
+            <param name="coding">编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.CommunicationFramework.RelayHelper.CommunicateWithRelay(CFT.Apollo.CommunicationFramework.RelayRequest,System.Boolean,System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="relayRequest">请求</param>
+            <param name="invisible">是否隐藏请求过程数据</param>
+            <returns></returns>
+            <exception cref="!:RelayCommunicationException">Relay发送或接收数据时超时引发此异常</exception>
+        </member>
+        <member name="M:CFT.Apollo.CommunicationFramework.RelayHelper.CommunicateWithRelay(CFT.Apollo.CommunicationFramework.RelayRequest,System.String,System.Boolean,System.Boolean,System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+            调用Relay的公共方法
+            </summary>
+            <param name="request"></param>
+            <param name="serviceCode"></param>
+            <param name="encrypt">是否加密</param>
+            <returns></returns>
+            <exception cref="!:RelayCommunicationException">Relay发送或接收数据时超时引发此异常</exception>
+        </member>
+        <member name="M:CFT.Apollo.CommunicationFramework.RelayHelper.CommunicateWithRelay(System.String,System.Boolean,System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="relayRequestString">请求串</param>
+            <param name="invisible">是否隐藏请求过程数据</param>
+            <returns></returns>
+            <exception cref="!:RelayCommunicationException">Relay发送或接收数据时超时引发此异常</exception>
+        </member>
+        <member name="M:CFT.Apollo.CommunicationFramework.RelayHelper.CommunicateWithRelay(System.String,System.String,System.Boolean,System.Boolean,System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+            调用Relay的公共方法
+            </summary>
+            <param name="requestString"></param>
+            <param name="serviceCode"></param>
+            <param name="encrypt">是否加密</param>
+            <returns></returns>
+            <exception cref="!:RelayCommunicationException">Relay发送或接收数据时超时引发此异常</exception>
+        </member>
+    </members>
+</doc>

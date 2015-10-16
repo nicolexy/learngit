@@ -58,7 +58,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 			}
 
 			//if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "FreezeList"))
-			if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("FreezeList",this))
+            if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
 			{
 				menuControl.AddSubMenu("冻结操作查询","BaseAccount/FreezeList.aspx") ;
 				menuControl.AddSubMenu("冻结资金记录","BaseAccount/FreezeFinQuery.aspx");

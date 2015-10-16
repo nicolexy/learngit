@@ -33,7 +33,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 string szkey = Session["SzKey"].ToString();
                 //int operid = Int32.Parse(Session["OperID"].ToString());
                 //if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "FreezeList")) Response.Redirect("../login.aspx?wh=1");
-                if (!classLibrary.ClassLib.ValidateRight("FreezeList", this)) Response.Redirect("../login.aspx?wh=1");
+                if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
             }
             catch
             {
@@ -129,7 +129,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 string strszkey = Session["SzKey"].ToString().Trim();
                 int ioperid = Int32.Parse(Session["OperID"].ToString());
-                int iserviceid = Common.AllUserRight.GetServiceID("FreezeList");
+                int iserviceid = Common.AllUserRight.GetServiceID("InfoCenter");
                 string struserdata = Session["uid"].ToString().Trim();
                 string content = struserdata + "执行了[查看冻结列表]操作,操作对象[" + " "
                     + "]时间:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -194,7 +194,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 fh.SzKey, begindate.ToString(), enddate.ToString(), freezeuser, username, handletype.ToString(), statetype.ToString(), qq,
                 start.ToString(), max.ToString());
 
-            if (!classLibrary.SensitivePowerOperaLib.WriteOperationRecord("FreezeList", log, this))
+            if (!classLibrary.SensitivePowerOperaLib.WriteOperationRecord("InfoCenter", log, this))
             {
 
             }

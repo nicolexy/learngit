@@ -211,6 +211,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages {
         protected global::System.Web.UI.WebControls.Button btnLCTFundApply;
         
         /// <summary>
+        /// lbUin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbUin;
+        
+        /// <summary>
         /// btnBalanceQuery control.
         /// </summary>
         /// <remarks>

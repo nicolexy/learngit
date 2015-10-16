@@ -155,6 +155,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         private void BindAllData()
         {
+            lbUin.Text = ViewState["uin"].ToString();
             BindBasicAccountInfo(ViewState["uin"].ToString());
             try
             {
@@ -523,10 +524,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     this.DataGrid_QueryResult.DataBind();
                 }
 	        }
-	        catch (Exception ex)
-	        {	
-		        throw new Exception(string.Format("查询基金收益记录异常：{0}", PublicRes.GetErrorMsg(ex.Message.ToString())));
-	        }
+            catch (SoapException eSoap) //捕获soap类异常
+            {
+                WebUtils.ShowMessage(this.Page, "查询基金收益记录异常：" + HttpUtility.JavaScriptStringEncode(eSoap.ToString()));
+            }
+            catch (Exception eSys)
+            {
+                WebUtils.ShowMessage(this.Page, "查询基金收益记录异常:" + HttpUtility.JavaScriptStringEncode(eSys.ToString()));
+            }
             
         }
 
@@ -809,7 +814,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     this.tableQueryResult.Visible = true;
                     this.tableBankRollList.Visible = true;
                     this.tableBankRollListNotChildren.Visible = true;
-                    BindAllDetailData();
+                    this.tableCloseFundRoll.Visible = true;
+                    //BindAllDetailData();
+                    BindProfitList(ViewState["tradeId"].ToString(), ViewState["fundSPId"].ToString(), beginDate, endDate);
+                    BindCloseFundRoll(ViewState["tradeId"].ToString(), ViewState["fundCode"].ToString(), beginDate, endDate, 1);
+                    BindBankRollList(ViewState["uin"].ToString(), ViewState["fundSPId"].ToString(), ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType, memo);
+                    BindBankRollListNotChildren(ViewState["uin"].ToString(), ViewState["fundSPId"].ToString(), ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType);
                 }
             }
             catch (Exception eSys)
@@ -836,19 +846,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             redirectionType = int.Parse(ddlDirection.SelectedItem.Value);
             memo = ddlMemo.SelectedItem.Value;
         }
-        private void BindAllDetailData()
-        {
-            try
-            {
-                BindProfitList(ViewState["tradeId"].ToString(), ViewState["fundSPId"].ToString(), beginDate, endDate);
-            }
-            catch (Exception eSys)
-            {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString());
-            }
-            BindBankRollList(ViewState["uin"].ToString(), ViewState["fundSPId"].ToString(), ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType, memo);
-            BindBankRollListNotChildren(ViewState["uin"].ToString(), ViewState["fundSPId"].ToString(), ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType);
-        }
+        //private void BindAllDetailData()
+        //{
+        //    try
+        //    {
+        //        BindProfitList(ViewState["tradeId"].ToString(), ViewState["fundSPId"].ToString(), beginDate, endDate);
+        //    }
+        //    catch (Exception eSys)
+        //    {
+        //        WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString());
+        //    }
+        //    BindBankRollList(ViewState["uin"].ToString(), ViewState["fundSPId"].ToString(), ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType, memo);
+        //    BindBankRollListNotChildren(ViewState["uin"].ToString(), ViewState["fundSPId"].ToString(), ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType);
+        //}
 
         private void BindCloseFundRoll(string tradeId, string fundCode, DateTime beginDate, DateTime endDate, int pageIndex = 1)
         {
@@ -901,6 +911,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 throw new Exception(string.Format("查询交易明细:{0}", PublicRes.GetErrorMsg(ex.Message)));
             }
         }
+
 
         //封闭基金客服强赎按钮
         public void dgCloseFundRoll_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)

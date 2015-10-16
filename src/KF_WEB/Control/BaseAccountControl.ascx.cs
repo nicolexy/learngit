@@ -79,14 +79,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 			*/
 
 			//if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "UserBankInfoQuery"))
-			if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("UserBankInfoQuery",this))
+            if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
 			{
 				menuControl.AddSubMenu("银行账号信息","BaseAccount/UserBankInfoQuery.aspx") ;
 			}
 
 
 			//if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "ChangeUserInfo"))
-			if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("ChangeUserInfo",this))
+            if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
 			{
 				menuControl.AddSubMenu("个人信息","BaseAccount/ChangeUserInfo.aspx") ;
 				//menuControl.AddSubMenu("子帐户查询","BaseAccount/ChildrenQuery.aspx") ;

@@ -56,10 +56,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             TableGroup.Visible = false;
             TableContacts.Visible = false;
 
-            if(Request.QueryString["title"] != null && Request.QueryString["title"].Trim() != "")
-				{
-                    ViewState["title"] = Request.QueryString["title"].Trim();
-				}
+            if (Request.QueryString["id"] != null && Request.QueryString["id"].Trim() != "")
+            {
+                ViewState["id"] = Request.QueryString["id"].Trim();
+            }
             else
                 Response.Redirect("../login.aspx?wh=1");
         }
@@ -201,6 +201,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 
             try
             {
+                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                string outmsg = "";
+                string title = qs.GetSysBulletinTitleById(Convert.ToInt32(ViewState["id"]), out outmsg);
+                if (string.IsNullOrEmpty(title))
+                {
+                    WebUtils.ShowMessage(this.Page, "未读取到标题：" + PublicRes.GetErrorMsg(outmsg));
+                    return;
+                }
+
                 string maintext = this.tbmaintext.Text.Trim();
                 string date = this.tbdate.Text.Trim();
 
@@ -220,7 +229,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                         foreach (DataRow row in ds.Tables[0].Rows)
                         {
                             string bccMail = row["Femail"].ToString();//发送密件邮箱地址
-                            CommMailSend.SendInternalMailCanSecret("", "", bccMail, ViewState["title"].ToString(), emailMsg.ToString(), true, null);
+                            CommMailSend.SendInternalMailCanSecret("", "", bccMail, title, emailMsg.ToString(), true, null);
                         }
                     }
                 }
@@ -229,7 +238,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                     foreach (string item in emailList)
                     {
                         if (!string.IsNullOrEmpty(item))
-                            CommMailSend.SendInternalMailCanSecret("", "", item, ViewState["title"].ToString(), emailMsg.ToString(), true, null);
+                            CommMailSend.SendInternalMailCanSecret("", "", item, title, emailMsg.ToString(), true, null);
                     }
                 }
 

@@ -44,8 +44,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					//int operid = Int32.Parse(Session["OperID"].ToString());
 
 					//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"ChangeUserInfo")) Response.Redirect("../login.aspx?wh=1");
-					 
-					if(!classLibrary.ClassLib.ValidateRight("ChangeUserInfo",this)) Response.Redirect("../login.aspx?wh=1");
+
+                    if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
 				}
 				catch  //如果没有登陆或者没有权限就跳出
 				{
@@ -174,7 +174,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			{
 				string strszkey = Session["SzKey"].ToString().Trim();
 				int ioperid = Int32.Parse(Session["OperID"].ToString());
-				int iserviceid = Common.AllUserRight.GetServiceID("ChangeUserInfo") ;
+                int iserviceid = Common.AllUserRight.GetServiceID("InfoCenter");
 				string struserdata = Session["uid"].ToString().Trim();
 				string content = struserdata + "执行了[查询QQ帐户]操作,操作对象[" + this.TX_QQID.Text.Trim()
 					+ "]时间:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -183,7 +183,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 				string log = SensitivePowerOperaLib.MakeLog("get",struserdata,"[查询QQ帐户]",this.TX_QQID.Text.Trim(),"1","1");
 
-				if(!SensitivePowerOperaLib.WriteOperationRecord("ChangeUserInfo",log,this))
+                if (!SensitivePowerOperaLib.WriteOperationRecord("InfoCenter", log, this))
 				{
 					
 				}

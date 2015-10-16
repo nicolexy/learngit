@@ -154,7 +154,7 @@ namespace CFT.CSOMS.DAL.FreezeModule
                     if (sReply.IndexOf("result=0") > -1)
                     {
                         ret = true;
-                        writeLog(uin, optUser, ip, oldCredId, newCredId, "证件号码", "changeUserInfo", "");
+                        writeLog(uin, optUser, ip, oldCredId, newCredId, "证件号码", "InfoCenter", "");
                     }
                 }
                 else

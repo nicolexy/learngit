@@ -37,7 +37,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 int operid = Int32.Parse(Session["OperID"].ToString());
 
                 //if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "FundQuery")) return;
-                if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("TradeLogQuery", this)) return;
+                if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("TradeManagement", this)) return;
             }
             catch
             {

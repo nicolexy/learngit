@@ -42,8 +42,9 @@
     <Reference Include="CFT.Apollo.Common">
       <HintPath>..\packages\CFT.Apollo.Common.3.1.5477.31814\lib\CFT.Apollo.Common.dll</HintPath>
     </Reference>
-    <Reference Include="CFT.Apollo.CommunicationFramework">
-      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.3.2.39\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
+    <Reference Include="CFT.Apollo.CommunicationFramework, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.3.3.0\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="CFT.Apollo.Logging">
       <HintPath>..\packages\CFT.Apollo.Logging.1.0.5444.18012\lib\net40\CFT.Apollo.Logging.dll</HintPath>
@@ -53,8 +54,9 @@
       <HintPath>..\Assemblies\CFT.CommunicationFramework.dll</HintPath>
     </Reference>
     <Reference Include="icecs, Version=3.0.1.0, Culture=neutral, PublicKeyToken=1f998c50fec78381" />
-    <Reference Include="icecs_gb2312">
-      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.3.2.39\lib\net40\icecs_gb2312.dll</HintPath>
+    <Reference Include="icecs_gb2312, Version=3.1.1.0, Culture=neutral, PublicKeyToken=1f998c50fec78381">
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.3.3.0\lib\net40\icecs_gb2312.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Interop.CFTGWCLib, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>

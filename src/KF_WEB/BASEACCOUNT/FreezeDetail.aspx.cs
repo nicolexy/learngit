@@ -49,7 +49,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				{
 					string strszkey = Session["SzKey"].ToString().Trim();
 					int ioperid = Int32.Parse(Session["OperID"].ToString());
-					int iserviceid = Common.AllUserRight.GetServiceID("FreezeList") ;
+                    int iserviceid = Common.AllUserRight.GetServiceID("InfoCenter");
 					string struserdata = Session["uid"].ToString().Trim();
 					string content = struserdata + "执行了[查看冻结详情]操作,操作对象[" + tdeid
 						+ "]时间:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -59,7 +59,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 					string log = SensitivePowerOperaLib.MakeLog("get",struserdata,"[查看冻结详情]",tdeid);
 
-					if(!SensitivePowerOperaLib.WriteOperationRecord("FreezeList",log,this))
+                    if (!SensitivePowerOperaLib.WriteOperationRecord("InfoCenter", log, this))
 					{
 						
 					}
