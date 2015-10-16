@@ -39,7 +39,15 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
         {
             var req = "CMD=QUERY_UID_BY_UIN&uin=" + uin + "&";
             var result = RelayAccessFactory.RelayInvoke(req, "8514", false, false, ip, port, "utf-8");
-            return ParseRelayOneRow(result, "查询用户uid");
+            string msg = "";
+            var ds = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.GetDataSetFromReply(result, out msg);
+            if (msg != "")
+            {
+                throw new Exception(msg);
+            }
+            if (ds != null && ds.Tables.Count > 0)
+                return ds.Tables[0];
+            return null;
         }
 
         /// <summary>

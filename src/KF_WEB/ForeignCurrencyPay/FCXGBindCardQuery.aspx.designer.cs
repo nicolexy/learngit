@@ -58,13 +58,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay {
         protected global::System.Web.UI.WebControls.RadioButton checkUin;
         
         /// <summary>
-        /// txt_CardNo control.
+        /// checkBankCard control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_CardNo;
+        protected global::System.Web.UI.WebControls.RadioButton checkBankCard;
         
         /// <summary>
         /// Button1 control.

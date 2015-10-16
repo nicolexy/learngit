@@ -127,13 +127,22 @@ namespace CFT.CSOMS.DAL.TradeModule
         //注销前历史库交易查询
         public DataSet BeforeCancelTradeHistoryQuery(string uid, DateTime start_time, DateTime end_time)
         {
+            var year = start_time.Year.ToString();
             string fields =
                 "uid:" + uid +
-                "|year:" + start_time.Year.ToString() +
+                "|year:" + year +
                 "|start_time:" + start_time.ToString("yyyy-MM-dd") +
                 "|end_time:" + end_time.ToString("yyyy-MM-dd");
 
-            var ds = new PublicRes().QueryCommRelay8020("414", fields, 0, 20);
+            var configReqids = Apollo.Common.Configuration.AppSettings.Get<string>("BeforeCancelTradeQueryReqIds", "2014:415,2015:414");
+            var dic = configReqids.ToDictionary(',', ':');
+            if (!dic.ContainsKey(year))
+            {
+                throw new Exception("注销前历史库交易查询失败 未配置:" + year + "这个年份的reqid ");
+            }
+
+            var reqid = dic[year];
+            var ds = new PublicRes().QueryCommRelay8020(reqid, fields, 0, 20);
             if (ds != null && ds.Tables.Count != 0 && ds.Tables[0].Rows.Count != 0)
             {
                 var dt = ds.Tables[0];
