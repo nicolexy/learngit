@@ -89,8 +89,9 @@
     <Reference Include="AspNetPager">
       <HintPath>..\Assemblies\AspNetPager.dll</HintPath>
     </Reference>
-    <Reference Include="CFT.Apollo.Common">
-      <HintPath>..\packages\CFT.Apollo.Common.3.1.5494.24496\lib\CFT.Apollo.Common.dll</HintPath>
+    <Reference Include="CFT.Apollo.Common, Version=3.1.5496.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CFT.Apollo.Common.3.1.5496.0\lib\CFT.Apollo.Common.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="CFT.Apollo.Logging">
       <HintPath>..\packages\CFT.Apollo.Logging.1.0.5494.24500\lib\net40\CFT.Apollo.Logging.dll</HintPath>
