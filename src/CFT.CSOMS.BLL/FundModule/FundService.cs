@@ -12,10 +12,28 @@ namespace CFT.CSOMS.BLL.FundModule
     public class FundService
     {
         private static IList<Fund> FundInfos;
-        private Hashtable htFund;
+
+        //理财通渠道字典
+        static Dictionary<string, string> DicFchannel;
+
+        static FundService()
+        {
+            DicFchannel = new Dictionary<string, string>()
+            {
+                {"1", "PC充值"},
+                {"2", "微信充值"},
+                {"3", "手Q充值"},
+                {"68", "H5微信支付"},
+                {"88", "QQ钱包"},
+                {"97", "PC网银"},
+                {"98", "PC微信支付"},
+                {"99", "PCQQ钱包"}
+            };
+        }
+
         public bool isSpecialFund(string fund_code, string spid)
         {
-            htFund = new Hashtable();
+            Hashtable htFund = new Hashtable();
             htFund.Add("110020", "1238657101");//易方达沪深300基金
             htFund.Add("481009", "1241176901");//工银沪深300基金
             htFund.Add("160706", "1239537001");//嘉实沪深300基金
@@ -411,21 +429,27 @@ namespace CFT.CSOMS.BLL.FundModule
                                  dr["Fpay_type_str"] = dr["Fpay_type"].ToString();
                                  break;
                          }
-                         switch (dr["Fchannel_id"].ToString())
-                         {
-                             case "1":
-                                 dr["Fchannel_id_str"] = "财付通网站";
-                                 break;
-                             case "2":
-                                 dr["Fchannel_id_str"] = "微信";
-                                 break;
-                             case "3":
-                                 dr["Fchannel_id_str"] = "手Q";
-                                 break;
-                             default:
-                                 dr["Fchannel_id_str"] = dr["Fchannel_id"].ToString();
-                                 break;
-                         }
+
+                         #region 支付渠道
+                         var Fchannel = FchannelAnalysis((string)dr["Fchannel_id"]);
+                         dr["Fchannel_id_str"] = COMMLIB.CommUtil.DbtypeToPageContent(Fchannel, DicFchannel, "");
+
+                         //switch ()
+                         //{
+                         //    case "1":
+                         //        dr["Fchannel_id_str"] = "财付通网站";
+                         //        break;
+                         //    case "2":
+                         //        dr["Fchannel_id_str"] = "微信";
+                         //        break;
+                         //    case "3":
+                         //        dr["Fchannel_id_str"] = "手Q";
+                         //        break;
+                         //    default:
+                         //        dr["Fchannel_id_str"] = dr["Fchannel_id"].ToString();
+                         //        break;
+                         //}
+                         #endregion    
 
                          switch (dr["Fend_sell_type"].ToString())
                          {
@@ -615,6 +639,7 @@ namespace CFT.CSOMS.BLL.FundModule
                     bankRollList.Columns.Add("Floading_type_str", typeof(string));
                     bankRollList.Columns.Add("Fstate_str", typeof(string));
                     bankRollList.Columns.Add("Fbank_type_str", typeof(string));
+                    bankRollList.Columns.Add("Fchannel_str", typeof(string));
 
                     //这两个字段只有在易方达沪深300基金才有值
                     bankRollList.Columns.Add("charge_fee", typeof(string));//手续费分
@@ -631,6 +656,8 @@ namespace CFT.CSOMS.BLL.FundModule
                             string Fpur_type = dr["Fpur_type"].ToString();
                             string Floading_type = dr["Floading_type"].ToString();
                             string Fpurpose = dr["Fpurpose"].ToString();
+
+                            #region 存取
                             switch (Fpur_type)
                             {
                                 case "1":
@@ -672,7 +699,10 @@ namespace CFT.CSOMS.BLL.FundModule
                                 default:
                                     dr["FtypeText"] = dr["Fpur_type"].ToString();
                                     break;
-                            }
+                            } 
+                            #endregion
+
+                            #region 赎回用途
                             if (Fpur_type == "4" && Floading_type == "1")
                             {
                                 dr["Floading_type_str"] = "快速赎回到银行卡";
@@ -681,7 +711,7 @@ namespace CFT.CSOMS.BLL.FundModule
                             {
                                 dr["Floading_type_str"] = "普通赎回到银行卡";
                             }
-                            else if (Fpurpose == "7" && Fpur_type == "12") 
+                            else if (Fpurpose == "7" && Fpur_type == "12")
                             {
                                 dr["Floading_type_str"] = "赎回到余额";
                             }
@@ -697,7 +727,10 @@ namespace CFT.CSOMS.BLL.FundModule
                             {
                                 //除了出其他都没有赎回方式
                                 dr["Floading_type_str"] = "";
-                            }
+                            } 
+                            #endregion
+
+                            #region 注释
                             /*
                             if (Fpur_type == "4")
                             {
@@ -758,13 +791,17 @@ namespace CFT.CSOMS.BLL.FundModule
                                 dr["Floading_type_str"] = "";
                             }
                             */
+                            
+                            #endregion
+
                             dr["Fbank_type_str"] = BankIO.QueryBankName(dr["Fbank_type"].ToString());
 
+                            #region 易方达沪深300基金
                             if (isSpecialFund(fund_code, spid)) //易方达沪深300基金
                             {
                                 //原存取状态“入”就是金额
                                 //原存取状态“出”就是份额
-                                string type=dr["FtypeText"].ToString();
+                                string type = dr["FtypeText"].ToString();
                                 if (type == "入")
                                 {
                                     dr["fund_balance"] = "";
@@ -785,14 +822,24 @@ namespace CFT.CSOMS.BLL.FundModule
                                 }
                                 catch (Exception ex)
                                 {
-                                    throw new Exception("查询手续费异常："+ex.Message);
+                                    throw new Exception("查询手续费异常：" + ex.Message);
                                 }
+                            } 
+                            #endregion
+
+                            #region 支付渠道
+
+                            if (Fpur_type == "1" && (string)dr["Fstate"] == "3")
+                            {
+                                var Fchannel = FchannelAnalysis((string)dr["Fchannel_id"]);
+                                dr["Fchannel_str"] = COMMLIB.CommUtil.DbtypeToPageContent(Fchannel, DicFchannel, "");
                             }
                         
-                        
+                            #endregion    
                         
                         }
 
+                        #region 状态
                         Hashtable ht = new Hashtable();
                         ht.Add("0", "创建申购单");
                         ht.Add("1", "等待扣款");
@@ -810,7 +857,9 @@ namespace CFT.CSOMS.BLL.FundModule
                         ht.Add("13", "到基金公司发起赎回成功，但赎回结果待确认");
                         ht.Add("20", "作废");
 
-                        COMMLIB.CommUtil.DbtypeToPageContent(bankRollList, "Fstate", "Fstate_str", ht);
+                        COMMLIB.CommUtil.DbtypeToPageContent(bankRollList, "Fstate", "Fstate_str", ht); 
+                        #endregion
+
                         COMMLIB.CommUtil.FenToYuan_Table(bankRollList, "charge_fee", "charge_fee_str");
                     }
                     return bankRollList;
@@ -1045,6 +1094,33 @@ namespace CFT.CSOMS.BLL.FundModule
         public bool AlterEndStrategy(string Trade_id, string Fund_code, long Close_listid, int user_end_type, int end_sell_type, string client_ip)
         {
            return new FundProfit().AlterEndStrategy(Trade_id, Fund_code, Close_listid, user_end_type, end_sell_type, client_ip);
+        }
+
+        /// <summary>
+        /// 理财通支付渠道字符串 解析
+        /// </summary>
+        /// <param name="Fchannel_id"></param>
+        /// <returns></returns>
+        protected string FchannelAnalysis(string Fchannel_id)
+        {
+            if (string.IsNullOrEmpty(Fchannel_id)) // 1   68|fm_3_unknown   2_98|fm_3_unknown
+                return Fchannel_id;
+            var arr1 = Fchannel_id.Split('|');
+            if (arr1.Length > 0)
+            {
+                var arr2 = arr1[0].Split('_');
+                string code = "";
+                if (arr2.Length == 1)
+                {
+                    code = arr2[0];
+                }
+                else if (arr2.Length == 2)
+                {
+                    code = arr2[1];
+                }
+                return code.Trim();
+            }
+            return Fchannel_id;
         }
     }
 }

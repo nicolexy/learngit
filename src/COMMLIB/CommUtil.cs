@@ -289,6 +289,29 @@ namespace CFT.CSOMS.COMMLIB
         }
 
         /// <summary>
+        /// 通过数据库字段内容转成页面显示内容
+        /// </summary>
+        /// <param name="code">编码</param>
+        /// <param name="dic">字典</param>
+        /// <param name="defaultString">默认值</param>
+        /// <returns></returns>
+        public static string DbtypeToPageContent(object code, IDictionary dic, string defaultString = "其他")
+        {
+            if (dic.Contains(code))
+            {
+                return dic[code] as string;
+            }
+            else 
+            {
+                if (defaultString == null)
+                {
+                    return "";
+                }
+                return defaultString + "(" + code + ")";
+            }
+        }
+
+        /// <summary>
         /// 通过数据库字段内容转成页面显示内容。时间戳转为C#格式时间
         /// </summary>
         /// <param name="dt">要转换的表</param>
