@@ -19,13 +19,12 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
         //交易类型:     DicTradeType
         //交易状态:     DicTradeState
         //交易卡种:     DicCardType
-        //退款状态:     DicRefundState
         //交易单状态:   ListState
         //绑卡状态:     DicBindStatus
         //用户注册状态： DicUserRegState 
         //渠道：        DicChannel
         //币种:        CurType
-        Dictionary<string, string> DicLstate, DicTradeType, DicUserType, DicTradeState, DicCardType, DicRefundState, DicAppealSign, DicBindStatus, DicUserRegState, DicChannel, CurType;
+        Dictionary<string, string> DicLstate, DicTradeType, DicUserType, DicTradeState, DicCardType, DicAppealSign, DicBindStatus, DicUserRegState, DicChannel, CurType;
 
         public FCXGWallet()
         {
@@ -66,18 +65,6 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
                 { "5", "DinnerCard" }
             };
 
-            DicRefundState = new Dictionary<string, string>()
-            {
-                {"1",  "待审批"},
-                {"2",  "审批流程中"},
-                {"3",  "审批失败"},
-                {"4",  "退款成功"},
-                {"5",  "退款失败"},
-                {"7",  "转入代付"},
-                {"9",  "退款流程中"},
-                {"99", "退款回滚"}
-            };
-
             DicAppealSign = new Dictionary<string, string>()
             {
                 {"1","正常"},
@@ -100,12 +87,7 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
                  {"2",  "简化注册完成"},//；【没有密码】
                  {"3",  "注册完成"},//【有密码
             };
-            //ListState = new Dictionary<string, string>() 
-            //{
-            //    { "0", "成功" },
-            //    { "1", "提现中" },
-            //    { "2", "提现失败" },
-            //};
+
             CurType = new Dictionary<string, string>() 
             {
                 { "344", "HKD" },
@@ -258,11 +240,12 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
             var dt = dal.QueryOrderByMDList(listid);
             if (dt != null && dt.Rows.Count > 0)
             {
-                string[] addColumns = { "paynum_str", "trade_type_str", "trade_state_str", "card_curtype_str", "refund_state_str",
+                string[] addColumns = { "paynum_str", "trade_type_str", "trade_state_str", "card_curtype_str", "refund_state_str","price_str",
                                           "IsRefund", "IsRefuse", "appeal_sign_str", "total_payout_str", "bank_paynum_str", "bank_curtype_str", "MDList","price_curtype_str" };
                 dt.Columns.AddRange(addColumns.Select(u => new DataColumn(u, typeof(string))).ToArray());
 
                 var row = dt.Rows[0];
+                row["price_str"] = MoneyTransfer.FenToYuan((string)row["price"]);
                 row["paynum_str"] = MoneyTransfer.FenToYuan((string)row["paynum"]);
                 row["total_payout_str"] = MoneyTransfer.FenToYuan((string)row["total_payout"]);
                 row["bank_paynum_str"] = MoneyTransfer.FenToYuan((string)row["bank_paynum"]);
@@ -271,10 +254,9 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
                 row["price_curtype_str"] = GetDictionaryTryValue(CurType, row["price_curtype"], "其他");
                 row["trade_type_str"] = GetDictionaryTryValue(DicTradeType, row["trade_type"], "其他");
                 row["trade_state_str"] = GetDictionaryTryValue(DicTradeState, row["trade_state"], "其他");
-                row["card_curtype_str"] = GetDictionaryTryValue(DicTradeState, row["card_curtype"], "其他");
-                row["refund_state_str"] = GetDictionaryTryValue(DicRefundState, row["refund_state"], "其他");
+                row["card_curtype_str"] = GetDictionaryTryValue(DicCardType, row["card_curtype"], "其他");
+                row["refund_state_str"] = (string)row["refund_state"] == "0" ? "初始状态" : "退款成功"; // 9 : 卖家同意退款,交易结束  0 : 初始状态
                 row["appeal_sign_str"] = GetDictionaryTryValue(DicAppealSign, row["appeal_sign"], "其他");
-                // row["list_state_str"] = GetDictionaryTryValue(ListState, row["lstate"], "其他");
                 row["IsRefund"] = ((string)row["trade_state"]) == "7" ? "是" : "否";
                 row["IsRefuse"] = ((string)row["appeal_sign"]) == "2" ? "是" : "否";
             }

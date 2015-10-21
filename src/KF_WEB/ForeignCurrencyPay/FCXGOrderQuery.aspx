@@ -47,7 +47,7 @@
 
             .container .tab_info th {
                 font-weight: lighter;
-                width: 120px;
+                width: 160px;
                 text-align: right;
             }
 
@@ -87,7 +87,7 @@
                     </td>
                     <td>查询日期：
                      <input type="text" runat="server" id="txt_cardQuery_date" onclick="WdatePicker()" />
-                        <img onclick="txt_startDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" alt="选择日期" /></td>
+                        <img onclick="txt_cardQuery_date.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" alt="选择日期" /></td>
                 </tr>
                 <tr>
                     <td>MD订单号：
@@ -147,41 +147,83 @@
                     </td>
                 </tr>
                 <tr>
-                    <%-- <th>银行授权号：</th>
-                    <td>
-                        <asp:Label ID="lb_1" runat="server" />
-                    </td>--%>
                     <th>银行订单号：</th>
                     <td>
                         <asp:Label ID="lb_rec_banklist" runat="server" />
                     </td>
-                    <th>交易卡种：</th>
+                    <th>买家发卡行：</th>
+                    <td>
+                        <asp:Label ID="lb_card_bank_type" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>总支付费用：</th>
+                    <td>
+                        <asp:Label ID="lb_paynum_str" runat="server" />
+                    </td>
+                    <th>卡号：</th>
+                    <td>
+                        <asp:Label ID="Label8" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>产品的价格：</th>
+                    <td>
+                        <asp:Label ID="lb_price_str" runat="server" />
+                    </td>
+                    <th>买家交易卡种：</th>
                     <td>
                         <asp:Label ID="lb_card_curtype_str" runat="server" />
                     </td>
                 </tr>
                 <tr>
-                    <th>交易时间：</th>
+                    <th>订单创建时间(本地)：</th>
                     <td>
-                        <asp:Label ID="lb_acc_time" runat="server" />
+                        <asp:Label ID="lb_create_time" runat="server" />
                     </td>
-                    <%--       <th>卡号：</th>
+                    <th>卖家标价的币种：</th>
                     <td>
-                        <asp:Label ID="lb_6" runat="server" />
-                    </td>--%>
-                    <th>交易金额：</th>
-                    <td>
-                        <asp:Label ID="lb_paynum_str" runat="server" />
+                        <asp:Label ID="lb_price_curtype" runat="server" />
                     </td>
                 </tr>
                 <tr>
-                    <th>买家账号：</th>
+                    <th>订单创建时间(商户时间)：</th>
+                    <td>
+                        <asp:Label ID="lb_create_time_spid" runat="server" />
+                    </td>
+                    <th>买家付款时间(账务时间)：</th>
+                    <td>
+                        <asp:Label ID="lb_acc_time" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>买家付款时间(Bank)：</th>
+                    <td>
+                        <asp:Label ID="lb_bargain_time" runat="server" />
+                    </td>
+                    <th>买家付款时间(本地)：</th>
+                    <td>
+                        <asp:Label ID="lb_pay_time" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>买家内部账号：</th>
                     <td>
                         <asp:Label ID="lb_buy_uid" runat="server" />
                     </td>
-                    <th>卖家账号：</th>
+                    <th>卖家内部账号：</th>
                     <td>
                         <asp:Label ID="lb_sp_uid" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>买家登录账号：</th>
+                    <td>
+                        <asp:Label ID="lb_buy_uin" runat="server" />
+                    </td>
+                    <th>卖家入账账号：</th>
+                    <td>
+                        <asp:Label ID="lb_sp_acno" runat="server" />
                     </td>
                 </tr>
                 <tr>

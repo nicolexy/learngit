@@ -148,6 +148,42 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay {
         protected global::System.Web.UI.WebControls.Label lb_rec_banklist;
         
         /// <summary>
+        /// lb_card_bank_type control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_card_bank_type;
+        
+        /// <summary>
+        /// lb_paynum_str control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_paynum_str;
+        
+        /// <summary>
+        /// Label8 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label8;
+        
+        /// <summary>
+        /// lb_price_str control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_price_str;
+        
+        /// <summary>
         /// lb_card_curtype_str control.
         /// </summary>
         /// <remarks>
@@ -155,6 +191,33 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lb_card_curtype_str;
+        
+        /// <summary>
+        /// lb_create_time control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_create_time;
+        
+        /// <summary>
+        /// lb_price_curtype control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_price_curtype;
+        
+        /// <summary>
+        /// lb_create_time_spid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_create_time_spid;
         
         /// <summary>
         /// lb_acc_time control.
@@ -166,13 +229,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay {
         protected global::System.Web.UI.WebControls.Label lb_acc_time;
         
         /// <summary>
-        /// lb_paynum_str control.
+        /// lb_bargain_time control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lb_paynum_str;
+        protected global::System.Web.UI.WebControls.Label lb_bargain_time;
+        
+        /// <summary>
+        /// lb_pay_time control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_pay_time;
         
         /// <summary>
         /// lb_buy_uid control.
@@ -191,6 +263,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lb_sp_uid;
+        
+        /// <summary>
+        /// lb_buy_uin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_buy_uin;
+        
+        /// <summary>
+        /// lb_sp_acno control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_sp_acno;
         
         /// <summary>
         /// lb_trade_state_str control.
