@@ -4063,52 +4063,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 throw new LogicException("Service处理失败！" +err.Message);
             }
         }
-
-        [WebMethod(Description = "免费流量信息查询")]
-        [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        public DataSet GetFreeFlowInfo(string cftNo)
-        {
-            DataSet ds = null;
-            if (!string.IsNullOrEmpty(cftNo))
-            {
-                //oss_eip_query_userfee_service
-                ds = new VIPService().GetFreeFlowInfo(cftNo);
-            }
-            return ds;
-        }
-
-        [WebMethod(Description = "用户类型查询")]
-        [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        public DataSet GetUserTypeInfo(string cftNo, int product_type, int business_type, int sub_business_type, int cur_type, int userType)
-        {
-            string msg = "";
-            DataSet ds = null;
-
-            try
-            {
-                if (cftNo == null || cftNo == "")
-                {
-                    return null;
-                }
-                string req = "";
-                string uid = PublicRes.ConvertToFuid(cftNo);
-                req += "uid=" + uid;
-                req += "&product_type=" + product_type;
-                req += "&business_type=" + business_type;
-                req += "&sub_business_type=" + sub_business_type;
-                req += "&cur_type=" + cur_type;
-                req += "&func=" + userType;
-                string service_name = "oss_eip_query_realname_service";
-                ds = CommQuery.GetOneTableFromICE(req, CommQuery.QUERY_USER_TYPE, service_name, false, out msg);
-            }
-            catch (Exception err)
-            {
-                throw new LogicException("Service处理失败！" + msg);
-            }
-
-            return ds;
-        }
-
+          
         [WebMethod(Description = "代扣批次请求")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet BatchWithholdReq(string sp_id, string sp_batchid, string batchid, string fname, int verify_way, int total_count, int faudit_flag, int fcmd)
@@ -21901,30 +21856,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
 
-        [WebMethod(Description = "财付通会员账号基本信息查询")]
-        public DataSet QueryCFTMember(string account)
-        {
-            string[] dbInfo = GetDbInfo(account);
-            string strSql = string.Format("select * from c2c_db_{0}.t_user_rank_{1}  where Fuin='{2}'", dbInfo[0], dbInfo[1], account);
-            DataSet ds = new DataSet();
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("QueryMember" + dbInfo[2]));
-            try
-            {
-                da.OpenConn();
-                ds = da.dsGetTotalData(strSql);
-
-                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                    return null;
-                return ds;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！");
-                return null;
-            }
-        }
-
-
+    
         [WebMethod(Description = "财付通会员账号高级信息查询")]
         public DataSet QueryCFTMemberAdvanced(string account)
         {

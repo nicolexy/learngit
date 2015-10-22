@@ -18,6 +18,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -108,7 +109,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 				foreach(DataRow dr in ds.Tables[0].Rows)
 				{
-					dr["subjectStr"] = classLibrary.setConfig.convertSubject(dr["subject"].ToString());
+                    dr["subjectStr"] = Transfer.convertSubject(dr["subject"].ToString());
 					if(dr["type"].ToString().Trim() == "1")
 					{
 						dr["paynumInt"] = MoneyTransfer.FenToYuan(dr["paynum"].ToString());

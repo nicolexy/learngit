@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using Tencent.DotNet.Common.UI;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 {
@@ -332,7 +333,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 				else if(tmp == "4")
 					lb_c22.Text = "×÷·Ï";
 				lb_c23.Text = setConfig.FenToYuan(dr["Fautopay_amount"].ToString());
-				lb_c24.Text = setConfig.convertMoney_type(dr["Fautopay_curtype"].ToString());
+                lb_c24.Text = Transfer.convertMoney_type(dr["Fautopay_curtype"].ToString());
 
 				tmp = dr["Fautopay_type"].ToString();
 				if(tmp == "1")

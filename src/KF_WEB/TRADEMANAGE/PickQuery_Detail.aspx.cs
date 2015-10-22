@@ -16,6 +16,7 @@ using System.Web.Services.Protocols;
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using CFT.CSOMS.BLL.TradeModule;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -152,12 +153,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				labFNum.Text = ltmp.ToString();
 
 				string tmp = PublicRes.GetInt(dr["FState"]);
-				labFState.Text = classLibrary.setConfig.returnDicStr("TCLIST_STATE",tmp);
+                labFState.Text = Transfer.returnDicStr("TCLIST_STATE", tmp);
 
 				tmp = PublicRes.GetInt(dr["Fsign"]);
-				labFSign.Text = classLibrary.setConfig.returnDicStr("TCLIST_SIGN",tmp);
+                labFSign.Text = Transfer.returnDicStr("TCLIST_SIGN", tmp);
 
-				labFaBank_Type.Text = PublicRes.GetString(setConfig.returnDicStr("BANK_TYPE",PublicRes.GetInt(dr["FaBank_Type"])));
+                labFaBank_Type.Text = PublicRes.GetString(Transfer.returnDicStr("BANK_TYPE", PublicRes.GetInt(dr["FaBank_Type"])));
 
 				labFaid.Text = PublicRes.GetString(dr["faid"]);
 				labFaname.Text = PublicRes.GetString(dr["faname"]);
@@ -167,7 +168,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
                 labFbankName.Text = PublicRes.GetString(dr["Fbank_name"]);
                 labFbankID.Text = GetBankIDName(dr["Fbankid"].ToString());
-                labFbankType.Text = PublicRes.GetString(setConfig.returnDicStr("BANK_TYPE", PublicRes.GetInt(dr["Fbank_Type"])));
+                labFbankType.Text = PublicRes.GetString(Transfer.returnDicStr("BANK_TYPE", PublicRes.GetInt(dr["Fbank_Type"])));
                 labFmemo.Text = PublicRes.GetString(dr["Fmemo"]);
 			}
 			else

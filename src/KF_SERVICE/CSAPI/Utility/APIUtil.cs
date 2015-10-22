@@ -697,7 +697,8 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             {
                 int pos = str.IndexOf('=');
                 string name = str.Substring(0, pos);
-                string value = HttpContext.Current.Request.QueryString[name];
+                //string value = HttpContext.Current.Request.QueryString[name];
+                string value = str.Substring(pos + 1);
 
                 if (!string.IsNullOrEmpty(value))
                 {

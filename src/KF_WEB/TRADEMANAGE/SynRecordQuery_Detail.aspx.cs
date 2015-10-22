@@ -16,6 +16,7 @@ using TENCENT.OSS.CFT.KF.KF_Web;
 using TENCENT.OSS.CFT.KF.DataAccess;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -115,7 +116,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				labFsp_id.Text = PublicRes.GetString(dr["Fsp_id"]);
 				labFsp_billno.Text = PublicRes.GetString(dr["Fsp_billno"]);
 				labFsp_timeName.Text = PublicRes.GetString(dr["Fsp_timeName"]);
-				labFbank_typeName.Text = PublicRes.GetString(setConfig.returnDicStr("BANK_TYPE",PublicRes.GetInt(dr["Fbank_type"])));
+                labFbank_typeName.Text = PublicRes.GetString(Transfer.returnDicStr("BANK_TYPE", PublicRes.GetInt(dr["Fbank_type"])));
 				labFbank_billno.Text = PublicRes.GetString(dr["Fbank_billno"]);
 				labFbank_ret_billno.Text = PublicRes.GetString(dr["Fbank_ret_billno"]);
 				labFpurchaser_uin.Text = PublicRes.GetString(dr["Fpurchaser_uin"]);

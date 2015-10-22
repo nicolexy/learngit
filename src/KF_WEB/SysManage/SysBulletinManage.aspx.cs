@@ -19,6 +19,7 @@ using System.Web.Mail;
 using System.IO;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using System.Configuration;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 {
@@ -170,7 +171,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                         dr.BeginEdit();
 
                         dr["Fsysid"] = listtype;
-                        dr["FBank_TypeName"] = classLibrary.setConfig.returnDicStr("BANK_TYPE", dr["Fbanktype"].ToString());
+                        dr["FBank_TypeName"] = Transfer.returnDicStr("BANK_TYPE", dr["Fbanktype"].ToString());
 
                         dr.EndEdit();
                     }

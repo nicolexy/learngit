@@ -15,6 +15,7 @@ using TENCENT.OSS.CFT.KF.KF_Web;
 using System.Web.Services.Protocols;
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -185,10 +186,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 foreach (DataRow dr in ds.Tables[0].Rows) 
                 {
-                    string s_actiontype = setConfig.convertActionType(dr["Faction_type"].ToString());
-                    string s_curtype = setConfig.convertMoney_type(dr["Fcurtype"].ToString());
-                    string s_type = setConfig.convertTradeType(dr["Ftype"].ToString());
-                    string s_subject = setConfig.convertSubject(dr["Fsubject"].ToString());
+                    string s_actiontype = Transfer.convertActionType(dr["Faction_type"].ToString());
+                    string s_curtype = Transfer.convertMoney_type(dr["Fcurtype"].ToString());
+                    string s_type = Transfer.convertTradeType(dr["Ftype"].ToString());
+                    string s_subject = Transfer.convertSubject(dr["Fsubject"].ToString());
 
                     dr.BeginEdit();
                     dr["Faction_type_str"] = s_actiontype;

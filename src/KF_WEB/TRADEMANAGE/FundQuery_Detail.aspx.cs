@@ -13,6 +13,7 @@ using Tencent.DotNet.OSS.Web.UI;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using System.Web.Services.Protocols;
 using TENCENT.OSS.CFT.KF.Common;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
@@ -175,15 +176,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				labFNum.Text = ltmp.ToString();
 
 				string tmp = PublicRes.GetInt(dr["FState"]);
-				labFState.Text = classLibrary.setConfig.returnDicStr("TCLIST_STATE",tmp);
+                labFState.Text = Transfer.returnDicStr("TCLIST_STATE", tmp);
 
 				tmp = PublicRes.GetInt(dr["Fsign"]);
-				labFSign.Text = classLibrary.setConfig.returnDicStr("TCLIST_SIGN",tmp);
+                labFSign.Text = Transfer.returnDicStr("TCLIST_SIGN", tmp);
 				
 
 				labFBank_List.Text = PublicRes.GetString(dr["FBank_List"]);
 				labFBank_Acc.Text = PublicRes.GetString(dr["FBank_Acc"]);
-				labFBank_Type.Text = PublicRes.GetString(setConfig.returnDicStr("BANK_TYPE",PublicRes.GetInt(dr["FBank_Type"])));
+                labFBank_Type.Text = PublicRes.GetString(Transfer.returnDicStr("BANK_TYPE", PublicRes.GetInt(dr["FBank_Type"])));
 
 				labFaid.Text = PublicRes.GetString(dr["faid"]);
 				labFaname.Text = PublicRes.GetString(dr["faname"]);

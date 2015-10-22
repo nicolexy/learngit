@@ -14,6 +14,7 @@ using Tencent.DotNet.OSS.Web.UI;
 using System.Web.Services.Protocols;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.DataAccess;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -152,7 +153,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 							}
 
 							if(ht.ContainsKey("fsign"))
-								labFSign.Text = classLibrary.setConfig.returnDicStr("TCLIST_SIGN",ht["fsign"].ToString());
+                                labFSign.Text = Transfer.returnDicStr("TCLIST_SIGN", ht["fsign"].ToString());
 
 							if(ht.ContainsKey("fbank_list"))
 								labFBank_List.Text = ht["fbank_list"].ToString();
@@ -162,7 +163,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 								labFBank_Acc.Text = ht["fbank_acc"].ToString();
 
 							if(ht.ContainsKey("fbank_type"))
-								labFBank_Type.Text = classLibrary.setConfig.returnDicStr("BANK_TYPE",ht["fbank_type"].ToString());
+                                labFBank_Type.Text = Transfer.returnDicStr("BANK_TYPE", ht["fbank_type"].ToString());
 
 							if(ht.ContainsKey("faid"))
 								labFaid.Text = ht["faid"].ToString();

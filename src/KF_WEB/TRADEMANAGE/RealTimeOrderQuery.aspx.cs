@@ -14,6 +14,7 @@ using Tencent.DotNet.OSS.Web.UI;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
@@ -263,7 +264,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 					dr["FSignName"] = tmp;
 
 					tmp = dr["FBank_Type"].ToString();
-					dr["FBankName"] = classLibrary.setConfig.returnDicStr("BANK_TYPE",tmp);
+                    dr["FBankName"] = Transfer.returnDicStr("BANK_TYPE", tmp);
 					dr.EndEdit();
 				}
 

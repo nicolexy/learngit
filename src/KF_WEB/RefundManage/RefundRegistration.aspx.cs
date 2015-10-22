@@ -9,6 +9,7 @@ using CFT.CSOMS.BLL.RefundModule;
 using Tencent.DotNet.Common.UI;
 using System.IO;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
+using CFT.CSOMS.BLL.TransferMeaning;
 namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 {
     public partial class RefundRegistration : System.Web.UI.Page
@@ -161,7 +162,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     }
                     else
                     {
-                        dr["FbankTypeName"] = classLibrary.setConfig.convertbankType(dr["FBuyBanktype"].ToString());
+                        dr["FbankTypeName"] = Transfer.convertbankType(dr["FBuyBanktype"].ToString());
                     }
                     dr["FAmtEx"] = RefundPublicFun.FenToYuan(dr["FAmt"].ToString());
                     dr["FReturnAmtEx"] = RefundPublicFun.FenToYuan(dr["FReturnAmt"].ToString());
@@ -364,8 +365,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 WebUtils.ShowMessage(this.Page, "通知银行详情取参长度不对！");
                 return;
             }
-            
-            string strNewBank = classLibrary.setConfig.convertbankType(arrParam[0]);
+
+            string strNewBank = Transfer.convertbankType(arrParam[0]);
             Response.Write("<script>window.open('NoticeBankByEmail.aspx?newBankName=" + strNewBank + "&newBankAccNo=" + arrParam[1] + "&trueName=" + arrParam[2] + "&returnDate=" + arrParam[3]
                 + "&bankType=" + arrParam[4] + "&createTime=" + arrParam[5] + "&bankListID=" + arrParam[6] + "&returnAmt=" + arrParam[7] + "&amt=" + arrParam[8] + "','_blank')</script>");
         }

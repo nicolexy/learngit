@@ -254,21 +254,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 		//存在溢出问题
 		public static string FenToYuan(string fen)
 		{
-			//			if (fen == "")
-			//			{
-			//				fen = "0";
-			//			}
-			//			
-			//			//float yuan = (float)(Int64.Parse(fen))/100;
-			//			double yuan = (double)(Int64.Parse(fen))/100;
-			//			yuan = Math.Round(yuan,2);
-			//
-			//			string tmp = yuan.ToString();
-			//			int iindex = tmp.IndexOf(".");
-			//			if(iindex == -1) tmp += ".00";
-			//			if(iindex == tmp.Length - 2) tmp += "0";
-			//			return tmp + "元";
-
 			//rayguo 06.04.16 支持粗体的分元转换
 			bool strong = false;
 			if (fen.IndexOf("<B>") !=-1 || fen.IndexOf("<b>") !=-1)
@@ -417,31 +402,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			ar[0] = "Fmemo";
 			ar[1] = "Fvalue";
 
-			/*
-			string strCmd = "SELECT Fvalue,Fmemo FROM c2c_db.t_dic where Ftype ='" + type + "'";  //查询数据字典
-			
-			//MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ywb_V30"));
-			MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZLB"));
-			try
-			{
-				da.OpenConn();
-				al = da.drReturn(strCmd,ar);
-			}
-			catch (Exception e)
-			{
-				throw new Exception(e.Message.ToString());
-			}
-			finally
-			{
-				da.Dispose();
-			}
-			
-			foreach(ArrayList pal in al)
-			{
-				ddl.Items.Add(new ListItem(pal[0].ToString(),pal[1].ToString()));
-			}
-			*/
-
 			string Msg = "";
 			DataSet ds =  QueryDicInfoByType(type,out Msg);
 
@@ -534,27 +494,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 
 		public static string GetDicValue(string atype, string avalue)
 		{
-			/*
-			string strCmd = "SELECT Fmemo FROM c2c_db.t_dic where Ftype ='" + atype + "' and FValue='" + avalue + "'";  //查询数据字典
-			
-			//MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ywb_V30"));
-			MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZLB"));
-			try
-			{
-				da.OpenConn();
-				string tmp = da.GetOneResult(strCmd);
-				return tmp;
-			}
-			catch (Exception)
-			{
-				throw new Exception("在数据字典中找不到指定的值！");
-			}
-			finally
-			{
-				da.Dispose();
-			}
-			*/
-
 			string Msg;
 			string strSql = "type=" + atype + "&value=" + avalue;	
 			string temp = CommQuery.GetOneResultFromICE(strSql,CommQuery.QUERY_DIC,"Fmemo",out Msg);
@@ -562,74 +501,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			return temp;
 		}
 
-		//检查权限
-		//		public static void checkPromission(string id)
-		//		{
-		//			try
-		//			{
-		//				string uid = Session["uid"].ToString();
-		//				string pwd = Session["pwd"].ToString();
-		//
-		//				PublicRes.CheckUserRight(uid,pwd,id);
-		//			}
-		//			catch  //如果没有登陆或者没有权限就跳出
-		//			{
-		//				Response.Redirect("../login.aspx?wh=1");
-		//			}
-		//		}
-
-		//**********************************************************************************************
-		//  一下为数据字典的转换函数
-		//**********************************************************************************************
-
-
-		//		public static void returnDicStr1(string type,string sType)
-		//		{
-		//			ArrayList al = queryDic(type);
-		//
-		//			foreach(ArrayList p in al)
-		//			{
-		//				string ptype = p[1].ToString().Trim();
-		//				string pmemo = p[0].ToString().Trim();
-		//			}
-		//		}
+	
 		//获取数据字典
 		public static void queryDic(string type)
 		{
-			/*
-			ArrayList al;
-			string [] ar = new string[2];
-			Hashtable ht = new Hashtable();
-			ar[0] = "Fmemo";
-			ar[1] = "Fvalue";
-
-			string strCmd = "SELECT Fvalue,Fmemo FROM c2c_db.t_dic where Ftype ='" + type + "' order by FValue";  //查询数据字典
-			
-			//MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ywb_V30"));
-			MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZLB"));
-			try
-			{
-				da.OpenConn();
-				al = da.drReturn(strCmd,ar);
-				Hashtable myht = new Hashtable();
-
-				foreach(ArrayList p in al)
-				{
-					myht.Add(p[1].ToString(),p[0].ToString());
-				}
-
-				HttpContext.Current.Application[type] = myht;
-			}
-			catch (Exception e)
-			{
-				throw new Exception(e.Message.ToString());
-			}
-			finally
-			{
-				da.Dispose();
-			}
-			*/
-
+		
 			string Msg;
 			DataSet ds =  QueryDicInfoByType(type,out Msg);
 
@@ -655,160 +531,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			HttpContext.Current.Application[type] = myht;
 		}
 
-		public static string returnDicStr(string type,string sType)
-		{
-			try
-			{
-				if (sType == "")  //传入空，则返回空
-				{
-					return "";
-				}
-				else
-				{
-					Hashtable ht = new Hashtable();
-
-					if (HttpContext.Current.Application[type] == null)
-						queryDic(type);
-					ht = (Hashtable)HttpContext.Current.Application[type];
-			
-					string memo = ht[sType].ToString();
-					return memo;
-				}
-			}
-			catch  //没有从数据字典中读到memo
-			{
-				return "";
-			} 
-		}
-
-		public static string accountState(string sType)  //账户状态转换  USER_STATE
-		{  
-			return returnDicStr("USER_STATE",sType);
-		}
-
-		public static string convertFuser_type(string sType) //账户类型转换  USER_TYPE
-		{
-			return returnDicStr("USER_TYPE",sType);
-		}
-
-		public static string convertMoney_type(string sType) //币种类型转换 CUR_TYPE
-		{
-			return returnDicStr("CUR_TYPE",sType);
-		}
-
-		public static string convertbankType(string sType)  //银行类型转换 BANK_TYPE
-		{
-			if(sType == "9999")
-				return "汇总银行";
-
-			return returnDicStr("BANK_TYPE",sType);
-		}
-
-		public static string convertTradeState(string sType)  //交易单状态 RLIST_STATE
-		{
-			return returnDicStr("RLIST_STATE",sType);
-		}
-
-		public static string convertSex(string sType)  //用户性别
-		{
-			return returnDicStr("SEX",sType);
-		}
-
-		public static string convertTradeListState(string sType)  //交易单状态 PAY_STATE
-		{
-			return returnDicStr("PAY_STATE",sType);
-		}
-
-		public static string convertSubject(string sType)  //类别,科目  BG_SUBJECT
-		{
-			return returnDicStr("BG_SUBJECT",sType);
-		}
-
-		public static string convertActionType(string sType)  //动作类型  内部之间的帐务关系 
-		{
-			return returnDicStr("ACTION_TYPE",sType);
-		}
-		 
-		public static string convertTradeType(string sType)  //入还是出 
-		{
-			return returnDicStr("BG_TYPE",sType);
-		}
-
-		public static string convertPayType(string sType)  //交易类别 c2c,b2c ,转帐
-		{
-			return returnDicStr("PAYLIST_TYPE",sType);
-		}
-
-		//	    public static string convertAdjustFlag(string )  //正常交易还是转帐标志
-		
-		public static string convertCurrentState(string sType)  //当前状态 TCPAY_STATE
-		{
-			return returnDicStr("TCPAY_STATE",sType);
-		}
-
-		public static string convertTradeSign(string sType)  //交易标记 1-成功 2-失败 TCLIST_SIGN
-		{
-			return returnDicStr("TCLIST_SIGN",sType);
-		}
-
-		//
-		public static string convertTCSubject(string sType)  //类别 科目 TCLIST_SUBJECT
-		{
-			return returnDicStr("TCLIST_SUBJECT",sType);
-		}
-
-		public static string convertCheckState(string sType)  //对帐任务的执行状态 TASK_STATUS
-		{
-			return returnDicStr("TASK_STATUS",sType);
-		}
-
-
-		public static string convertCheckType(string sType)  //对帐任务的类型 SUB_TASK_NO
-		{
-			return returnDicStr("SUB_TASK_NO",sType);
-		}
-
-		public static string cRefundState(string sType)  //退款状态 REFUND_STATE
-		{
-			return returnDicStr("REFUND_STATE",sType);
-		}
-
-		public static string cRlistState(string sType)  //退款单状态 RLIST_STATE
-		{
-			return returnDicStr("RLIST_STATE",sType);
-		}
-
-		public static string cPay_type(string sType)  //支付类型 PAY_TYPE
-		{
-			return returnDicStr("PAY_TYPE",sType);
-		}
-
-		public static string convertTCfSubject(string sType)  //付款的类别 TC_PLIST_SUBJECT
-		{
-			return returnDicStr("TC_PLIST_SUBJECT",sType);
-		}
-
-		public static string convertTCState(string sType)  //付款的类别 TCLIST_State
-		{
-			return returnDicStr("TCLIST_State",sType);
-		}
-
-		public static string convertInnerCkType(string sType)  //内部对帐的类型 
-		{
-			return returnDicStr("SUB_TASK_NO1",sType);   
-		} 
-
-		public static string convertAdjustSign(string sType)  //调帐标记 
-		{
-			return returnDicStr("ADJUST_FLAG",sType);   
-		} 
-
-		public static string convertBPAY(string sType)  //余额支付状态 1 开启 2 关闭 
-		{
-			return returnDicStr("FBPAY_STATE",sType);   
-		} 
-
-		
+	
 
 		//furion 20050804 取得指定类型的所有键和值。
 		public static Hashtable GetAllValueByType(string sType)
@@ -1199,7 +922,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
             }
             ddl.Items.Add(new ListItem("全部", ""));
         }
-
-      
+    
 	}
 }
