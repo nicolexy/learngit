@@ -260,8 +260,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 BankBillManage1.AddSubMenu("退款失败查询", "RefundManage/RefundRegistration.aspx");
 
                 BankBillManage1.AddSubMenu("付款异常查询通知", "RefundManage/PaymentAbnormalQueryNotify.aspx");
-                baseAccount1.AddSubMenu("个人账户信息", "BaseAccount/InfoCenter.aspx");
-               // baseAccount1.AddSubMenu("个人账户信息-新", "BaseAccount/InfoCenterNew.aspx");
+                baseAccount1.AddSubMenu("个人账户信息", "BaseAccount/InfoCenter.aspx");              
                 baseAccount1.AddSubMenu("QQ帐号回收", "BaseAccount/QQReclaim.aspx");
                 accountOperate1.AddSubMenu("账户姓名修改", "BaseAccount/changeUserName_2.aspx");
                 baseAccount1.AddSubMenu("用户受控资金查询", "TradeManage/QueryUserControledFinPage.aspx");
@@ -383,6 +382,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 WebchatPayControl1.AddSubMenu("微信信用卡还款", "WebchatPay/CreditCardRefundQuery.aspx");
                 WebchatPayControl1.AddSubMenu("理财通增值券", "WebchatPay/AddedValueTicketQuery.aspx");
                 WebchatPayControl1.AddSubMenu("合约机查询", "WebchatPay/QueryContractMachine.aspx");
+                WebchatPayControl1.AddSubMenu("实时还款查询", "WebchatPay/QueryRealtimeRepayment.aspx");
             }
 
             if (classLibrary.ClassLib.ValidateRight("DKAdjust", this))

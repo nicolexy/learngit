@@ -60,6 +60,37 @@ namespace CFT.CSOMS.DAL.WechatPay
         }
 
         /// <summary>
+        /// 查询实时还款详情
+        /// </summary>
+        /// <param name="transaction_id">还款提现单号</param>
+        /// <param name="acc_date">还款日期</param>
+        /// <param name="status">交易状态1：请求；2：成功</param>
+        /// <returns></returns>
+        public DataTable QueryRealtimeRepayment(string transaction_id, DateTime acc_date, int status)
+        {
+            var req =
+                "transaction_id=" + transaction_id +
+                "&acc_date=" + acc_date.ToString("yyyyMMdd") +
+                "&status=" + status.ToString();
+            var ip = Apollo.Common.Configuration.AppSettings.Get<string>("QueryRealtimeRepayment_IP", "10.123.12.34");
+            var port = Apollo.Common.Configuration.AppSettings.Get<int>("QueryRealtimeRepayment_Port", 22000);
+            var result = RelayAccessFactory.RelayInvoke(req, "101477", false, false, ip, port);
+
+            var msg = "";
+            var ds = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.ParseRelayStr(result, out msg, false);
+            if (msg != "")
+            {
+                throw new Exception("查询实时还款详情出错:" + msg);
+            }
+
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                return ds.Tables[0];
+            }
+            return null;
+        }
+
+        /// <summary>
         /// 查询微信红包
         /// </summary>
         /// <param name="parameter">Post参数</param>

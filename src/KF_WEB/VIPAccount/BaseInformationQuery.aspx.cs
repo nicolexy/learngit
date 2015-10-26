@@ -9,6 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
+using CFT.CSOMS.BLL.CFTAccountModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.VIPAccount
 {
@@ -39,7 +40,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.VIPAccount
 			{
 				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 				string accountInput = txtQQ.Text.Trim();
-				DataSet ds = qs.QueryCFTMember(accountInput);
+                DataSet ds = new VIPService().QueryCFTMember(accountInput);
 				if(ds == null || ds.Tables.Count<1 || ds.Tables[0].Rows.Count != 1)
 				{
 					account.Text = "¸ÃÕÊºÅ²»´æÔÚ£¡";

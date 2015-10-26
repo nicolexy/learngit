@@ -11,7 +11,7 @@ using System.Web.UI.HtmlControls;
 using Tencent.DotNet.Common.UI;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using CFT.CSOMS.BLL.CFTAccountModule;
-
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -222,10 +222,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 else
                     labMobileState.Text = "";
                 #endregion
-                this.lbLeftPay.Text = classLibrary.setConfig.convertBPAY(ds.Tables[0].Rows[0]["Fbpay_state"].ToString().Trim());
+                this.lbLeftPay.Text = Transfer.convertBPAY(ds.Tables[0].Rows[0]["Fbpay_state"].ToString().Trim());
 
-                this.Label12_Fstate.Text = classLibrary.setConfig.accountState(ds.Tables[0].Rows[0]["Fstate"].ToString());
-                this.Label13_Fuser_type.Text = classLibrary.setConfig.convertFuser_type(ds.Tables[0].Rows[0]["Fuser_type"].ToString());
+                this.Label12_Fstate.Text = Transfer.accountState(ds.Tables[0].Rows[0]["Fstate"].ToString());
+                this.Label13_Fuser_type.Text = Transfer.convertFuser_type(ds.Tables[0].Rows[0]["Fuser_type"].ToString());
 
                 this.Label15_Useable.Text = classLibrary.setConfig.FenToYuan((long.Parse(ds.Tables[0].Rows[0]["Fbalance"].ToString()) - long.Parse(ds.Tables[0].Rows[0]["Fcon"].ToString())).ToString());  //帐户余额减去冻结余额= 可用余额
                 #region this.Label4_Freeze
@@ -246,7 +246,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 this.Label5_YestodayLeft.Text = ds.Tables[0].Rows[0]["Fyday_balance"].ToString();		   //"10";
                 this.Label3_LeftAcc.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fbalance"].ToString());//tu.u_Balance;				   //"3000";
 
-                this.Label2_Type.Text = classLibrary.setConfig.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());//tu.u_CurType;				   //"代金券";
+                this.Label2_Type.Text = Transfer.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());//tu.u_CurType;				   //"代金券";
                 this.lblLoginTime.Text = ds.Tables[0].Rows[0]["Fcreate_time"].ToString();
 
                 this.Label16_Fapay.Text = ds.Tables[0].Rows[0]["Fapay"].ToString();
@@ -290,7 +290,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			}	
 
 			this.Label1_Acc.Text			= ds.Tables[0].Rows[0]["Fqqid"].ToString();
-			this.Label2_Type.Text			= classLibrary.setConfig.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());//tu.u_CurType;				   //"代金券";
+            this.Label2_Type.Text           = Transfer.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());//tu.u_CurType;				   //"代金券";
 			this.Label3_LeftAcc.Text		= classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fbalance"].ToString());//tu.u_Balance;				   //"3000";
 			this.Label4_Freeze.Text			= classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fcon"].ToString());                  //"1000";
 			this.Label5_YestodayLeft.Text	= ds.Tables[0].Rows[0]["Fyday_balance"].ToString();		   //"10";
@@ -301,8 +301,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			this.Label9_LastSaveDate.Text   = ds.Tables[0].Rows[0]["Fsave_time"].ToString();				//"2005-03-01";
 			this.Label10_Drawing.Text		= ds.Tables[0].Rows[0]["Ffetch_time"].ToString();              //"2005-04-15";
 			this.Label11_Remark.Text		= ds.Tables[0].Rows[0]["Fmemo"].ToString();					//"这个家伙很懒，什么都没有留下！";
-			this.Label12_Fstate.Text        = classLibrary.setConfig.accountState(ds.Tables[0].Rows[0]["Fstate"].ToString());
-			this.Label13_Fuser_type.Text    = classLibrary.setConfig.convertFuser_type(ds.Tables[0].Rows[0]["Fuser_type"].ToString());
+            this.Label12_Fstate.Text        = Transfer.accountState(ds.Tables[0].Rows[0]["Fstate"].ToString());
+            this.Label13_Fuser_type.Text    = Transfer.convertFuser_type(ds.Tables[0].Rows[0]["Fuser_type"].ToString());
 			
 			try
 			{
@@ -327,7 +327,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			this.Label18_Attid.Text			 = CheckBasicInfo(nAttid);
 			this.lbInnerID.Text             = ds.Tables[0].Rows[0]["fuid"].ToString().Trim();
 			this.lbFetchMoney.Text          = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Ffetch"].ToString().Trim());
-			this.lbLeftPay.Text             = classLibrary.setConfig.convertBPAY(ds.Tables[0].Rows[0]["Fbpay_state"].ToString().Trim());
+            this.lbLeftPay.Text             = Transfer.convertBPAY(ds.Tables[0].Rows[0]["Fbpay_state"].ToString().Trim());
 			this.lbSave.Text                = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fsave"].ToString().Trim());
 			string fuid = ds.Tables[0].Rows[0]["fuid"].ToString().Trim();
 

@@ -12,6 +12,7 @@ using System.Web.UI.HtmlControls;
 using TENCENT.OSS.C2C.Finance;
 using TENCENT.OSS.CFT.KF.Common;
 using Tencent.DotNet.Common.UI;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 {
@@ -217,7 +218,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 			if(strBankID == "9999")
 				return "»ã×ÜÒøÐÐ";
 			else
-				return classLibrary.setConfig.convertbankType(strBankID);
+                return Transfer.convertbankType(strBankID);
 		}
 
 		public static void GetAllBankList(DropDownList ddl)
@@ -244,7 +245,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 				if(strtmp.Length >= 4)
 				{
 					strtmp = strtmp.Substring(0,4);
-					string bankname = classLibrary.setConfig.convertbankType(strtmp);
+                    string bankname = Transfer.convertbankType(strtmp);
 					ddl.Items.Add(new ListItem(bankname,strtmp));
 				}
 			}

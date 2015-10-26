@@ -15,7 +15,7 @@ using TENCENT.OSS.CFT.KF.Common;
 using CFT.CSOMS.BLL.WechatPay;
 using log4net;
 using CFT.CSOMS.BLL.TradeModule;
-
+using CFT.CSOMS.BLL.TransferMeaning;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
@@ -461,7 +461,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             this.LB_Fbank_backid.Text = ds.Tables[0].Rows[0]["Fbank_backid"].ToString();
             this.LB_Fbank_listid.Text = ds.Tables[0].Rows[0]["Fbank_listid"].ToString();
             this.LB_Fbargain_time.Text = ds.Tables[0].Rows[0]["Fbargain_time"].ToString();
-            this.LB_Fbuy_bank_type.Text = classLibrary.setConfig.convertbankType(ds.Tables[0].Rows[0]["Fbuy_bank_type"].ToString());          
+            this.LB_Fbuy_bank_type.Text = Transfer.convertbankType(ds.Tables[0].Rows[0]["Fbuy_bank_type"].ToString());          
             this.LB_Fbuy_bankid.Text = "";
             this.LB_Fbuy_name.Text = ds.Tables[0].Rows[0]["Fbuy_name"].ToString();
             this.LB_Fbuy_uid.Text = ds.Tables[0].Rows[0]["Fbuy_uid"].ToString();
@@ -485,12 +485,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             this.LB_Fcreate_time.Text = ds.Tables[0].Rows[0]["Fcreate_time"].ToString();
             this.LB_FCreate_time_c2c.Text = ds.Tables[0].Rows[0]["Fcreate_time_c2c"].ToString();
-            this.LB_Fcurtype.Text = classLibrary.setConfig.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());
+            this.LB_Fcurtype.Text = Transfer.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());
             //this.LB_Fexplain.Text = ds.Tables[0].Rows[0]["Fmemo"].ToString();
             this.LB_Ffact.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Ffact"].ToString());
             this.LB_Fip.Text = ds.Tables[0].Rows[0]["Fip"].ToString();
             this.LB_Flistid.Text = ds.Tables[0].Rows[0]["Flistid"].ToString();
-            this.LB_Flstate.Text = classLibrary.setConfig.convertTradeState(ds.Tables[0].Rows[0]["Flstate"].ToString());
+            this.LB_Flstate.Text = Transfer.convertTradeState(ds.Tables[0].Rows[0]["Flstate"].ToString());
             this.LB_Fmodify_time.Text = ds.Tables[0].Rows[0]["Fmodify_time"].ToString();
             this.LB_Fpay_time.Text = ds.Tables[0].Rows[0]["Fpay_time"].ToString();
 
@@ -501,7 +501,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             this.LB_Fprocedure.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fprocedure"].ToString());
             this.LB_Freceive_time.Text = ds.Tables[0].Rows[0]["Freceive_time"].ToString();
             this.LB_Freceive_time_c2c.Text = ds.Tables[0].Rows[0]["Freceive_time_c2c"].ToString();
-            this.LB_Fsale_bank_type.Text = classLibrary.setConfig.convertbankType(ds.Tables[0].Rows[0]["Fsale_bank_type"].ToString());
+            this.LB_Fsale_bank_type.Text = Transfer.convertbankType(ds.Tables[0].Rows[0]["Fsale_bank_type"].ToString());
             this.LB_Fsale_bankid.Text = ds.Tables[0].Rows[0]["Fsale_bankid"].ToString();
             this.LB_Fsale_name.Text = ds.Tables[0].Rows[0]["Fsale_name"].ToString();
             this.LB_Fsale_uid.Text = ds.Tables[0].Rows[0]["Fsale_uid"].ToString();
@@ -509,7 +509,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             this.LB_Fservice.Text = ds.Tables[0].Rows[0]["Fservice"].ToString();
             this.LB_Fspid.Text = ds.Tables[0].Rows[0]["Fspid"].ToString().Trim();
 
-            this.lbAdjustFlag.Text = classLibrary.setConfig.convertAdjustSign(ds.Tables[0].Rows[0]["Fadjust_flag"].ToString().Trim());
+            this.lbAdjustFlag.Text = Transfer.convertAdjustSign(ds.Tables[0].Rows[0]["Fadjust_flag"].ToString().Trim());
             try
             {
                 //增加退款类型
@@ -587,7 +587,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 }
             }
 
-            this.lbTradeType.Text = classLibrary.setConfig.convertPayType(ds.Tables[0].Rows[0]["Ftrade_type"].ToString().Trim());
+            this.lbTradeType.Text = Transfer.convertPayType(ds.Tables[0].Rows[0]["Ftrade_type"].ToString().Trim());
 
             this.Label1_listID.Text = this.TextBox1_ListID.Text.Trim();
 

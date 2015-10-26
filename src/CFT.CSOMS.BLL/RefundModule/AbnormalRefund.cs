@@ -42,6 +42,13 @@ namespace CFT.CSOMS.BLL.RefundModule
             SubTypePay.Add("52", "主站还房贷");
             SubTypePay.Add("54", "主站向绑定卡快速提现");
 
+            SubTypePay.Add("53", "财付通主站普通提现");
+            // SubTypePay.Add("54", "财付通主站快速提现");
+            SubTypePay.Add("55", "财付通主站实时提现");
+            SubTypePay.Add("56", "财付通想银行卡付款");
+            SubTypePay.Add("58", "QQ钱包提现）");
+
+
             typeht.Add("", "所有");
             typeht.Add("1", "付款");
 

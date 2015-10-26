@@ -255,7 +255,7 @@ namespace CFT.CSOMS.COMMLIB
         /// <param name="wechatName"></param>
         /// <param name="client_ip"></param>
         /// <returns></returns>
-        public static string GetFCXGOpenIdFromWeChatName(string wechatName,string client_ip)
+        public static string GetFCXGOpenIdFromWeChatName(string wechatName, string client_ip)
         {
             var ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("WeChatAppId_Ip", "10.198.132.188");
             var port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("WeChatAppId_Port", 22000);
@@ -289,7 +289,7 @@ namespace CFT.CSOMS.COMMLIB
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("通过微信api转换微信号到香港钱包openid", ex.Message));
+                throw new Exception("通过微信api转换微信号到香港钱包openid 接口返回信息:" + ex.Message);
             }
 
         }

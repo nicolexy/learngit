@@ -38,13 +38,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         protected Query_Service.Query_Service queryService = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
         protected FundService fundBLLService = new FundService();
 
-       // private string uin, fundSPId;
-      //  private string uin;
+        // private string uin, fundSPId;
+        //  private string uin;
         private DateTime beginDate = DateTime.Now;
         private DateTime endDate = DateTime.Now;
         private int redirectionType = 0;
         private string memo = string.Empty;
-       // private string tradeId;
+        // private string tradeId;
 
         protected void Page_Load(object sender, System.EventArgs e)
         {
@@ -78,7 +78,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     this.tbx_endDate.Text = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
 
                     //绑定基金公司列表
-                  //  BindFundsList();
+                    //  BindFundsList();
                     this.tableQueryResult.Visible = false;
                     this.tableBankRollList.Visible = false;
                     this.tableBankRollListNotChildren.Visible = false;
@@ -97,27 +97,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         }
 
-        #region Web 窗体设计器生成的代码
-        override protected void OnInit(EventArgs e)
-        {
-            //
-            // CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
-            //
-            InitializeComponent();
-            base.OnInit(e);
-        }
-
-        /// <summary>
-        /// 设计器支持所需的方法 - 不要使用代码编辑器修改
-        /// 此方法的内容。
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.dgUserFundSummary.ItemCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgUserFundSummary_ItemCommand);
-
-        }
-        #endregion
-
         private void FetchInput()
         {
             string uin = this.TextBox1_InputQQ.Text.Trim();
@@ -134,7 +113,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 throw new Exception("查询不到用户的TradeId，请确认当前用户是否有注册基金账户");
             ViewState["uin"] = uin;
             ViewState["tradeId"] = tradeId;
-        //    fundSPId = this.ddl_companyName.SelectedValue;
+            //    fundSPId = this.ddl_companyName.SelectedValue;
 
             //try
             //{
@@ -187,7 +166,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         /// <summary>
         /// 理财通余额强赎
         /// </summary>
-        private void LCTFundApply() 
+        private void LCTFundApply()
         {
             try
             {
@@ -196,7 +175,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 {
                     string param = "opertype=1&LCTFund=true&uin=" + ViewState["uin"].ToString() + //财付通账号
                                     "&total_fee=" + classLibrary.setConfig.YuanToFen(Convert.ToDouble(lbLCTBalance.Text.Replace("元", ""))) +//提现金额(分)
-                                    //"&fund_code=" + ViewState["fundcode"] +        //基金编码
+                        //"&fund_code=" + ViewState["fundcode"] +        //基金编码
                                     "&bind_serialno=" + ViewState["bind_serialno"] +    //安全卡绑定序列号
                                     "&bank_type=" + ViewState["bank_type"] +        //安全卡银行类型
                                     "&card_tail=" + ViewState["card_tail"];        //卡尾号
@@ -462,7 +441,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     totalProfit += long.Parse(item["Ftotal_profit"].ToString());
                     totalMarkValue += decimal.Parse(item["markValue"].ToString());
                 }
-                catch 
+                catch
                 {
 
                 }
@@ -471,11 +450,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             {
                 lblBalance.Text = "";
             }
-            else 
+            else
             {
-                lblBalance.Text = classLibrary.setConfig.FenToYuan(totalBalance).Replace("元",""); //账户总金额
+                lblBalance.Text = classLibrary.setConfig.FenToYuan(totalBalance).Replace("元", ""); //账户总金额
             }
-            
+
             lblTotalProfit.Text = classLibrary.setConfig.FenToYuan(totalProfit);
             lbMarkValue.Text = totalMarkValue.ToString();//市值
         }
@@ -483,47 +462,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         private void BindProfitList(string tradeId, string spId, DateTime beginDate, DateTime endDate, int pageIndex = 1)
         {
 
-            try 
-	        {
+            try
+            {
                 this.pager.CurrentPageIndex = pageIndex;
                 var profits = fundBLLService.BindProfitList(tradeId: tradeId,
-                                                            beginDateStr:beginDate.ToString("yyyyMMdd"), 
+                                                            beginDateStr: beginDate.ToString("yyyyMMdd"),
                                                             endDateStr: endDate.ToString("yyyyMMdd"),
                                                             spId: spId,
-                                                            currentPageIndex: pageIndex -1,
+                                                            currentPageIndex: pageIndex - 1,
                                                             pageSize: pager.PageSize,
-                                                            fund_code:ViewState["fundCode"].ToString());
+                                                            fund_code: ViewState["fundCode"].ToString());
 
-                if (profits!=null&&profits.Rows.Count > 0)
+                if (profits != null && profits.Rows.Count > 0)
                 {
                     string fund_code = ViewState["fundCode"].ToString();
-                    DataGrid_QueryResult.Columns[3].Visible = true;
-                    DataGrid_QueryResult.Columns[4].Visible = true;
-                    DataGrid_QueryResult.Columns[5].Visible = true;
-                    DataGrid_QueryResult.Columns[7].Visible = true;
-                    DataGrid_QueryResult.Columns[8].Visible = true;
-                    DataGrid_QueryResult.Columns[9].Visible = true;
-                    DataGrid_QueryResult.Columns[10].Visible = true;
-
-                    //根据基金来控制展示字段
-                    if ( fundBLLService.isSpecialFund(fund_code, spId)) //易方达沪深300基金
-                    {
-                        DataGrid_QueryResult.Columns[3].Visible = false;
-                        DataGrid_QueryResult.Columns[4].Visible = false;
-                        DataGrid_QueryResult.Columns[5].Visible = false;
-                    }
-                    else
-                    {
-                        DataGrid_QueryResult.Columns[7].Visible = false;
-                        DataGrid_QueryResult.Columns[8].Visible = false;
-                        DataGrid_QueryResult.Columns[9].Visible = false;
-                        DataGrid_QueryResult.Columns[10].Visible = false;
-                    }
-
                     this.DataGrid_QueryResult.DataSource = profits.DefaultView;
                     this.DataGrid_QueryResult.DataBind();
                 }
-	        }
+            }
             catch (SoapException eSoap) //捕获soap类异常
             {
                 WebUtils.ShowMessage(this.Page, "查询基金收益记录异常：" + HttpUtility.JavaScriptStringEncode(eSoap.ToString()));
@@ -532,9 +488,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             {
                 WebUtils.ShowMessage(this.Page, "查询基金收益记录异常:" + HttpUtility.JavaScriptStringEncode(eSys.ToString()));
             }
-            
+
         }
 
+        //查询 - 用户资金流水情况
         private void BindBankRollList(string qqId, string spId, string curtype, DateTime beginDate, DateTime endDate, int pageIndex = 1, int redirectionType = 0, string memo = "")
         {
             try
@@ -546,7 +503,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (string.IsNullOrEmpty(spId))
                     throw new Exception(string.Format("无法同时查询所有基金的流水信息，请选择指定的基金"));
 
-            //   var bankRollList = queryService.GetChildrenBankRollList(qqId, beginDate, endDate, curtype, start + 1, max, redirectionType, memo);
+                //   var bankRollList = queryService.GetChildrenBankRollList(qqId, beginDate, endDate, curtype, start + 1, max, redirectionType, memo);
                 var bankRollList = fundBLLService.GetChildrenBankRollListEx(qqId, spId, curtype, beginDate, endDate, start, max, redirectionType, memo);
 
                 //获取强赎申请URL,未提供强赎功能接口到客服部
@@ -656,17 +613,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             object obj = e.Item.Cells[8].FindControl("UnCloseFundApplyButton");
             int index = this.bankRollListPager.CurrentPageIndex;
             string type = e.Item.Cells[2].Text.Trim();//存取
-             string fund_code = ViewState["fundCode"].ToString();
-             string spid = ViewState["fundSPId"].ToString();
+            string fund_code = ViewState["fundCode"].ToString();
+            string spid = ViewState["fundSPId"].ToString();
             if (obj != null)
             {
                 LinkButton lb = (LinkButton)obj;
-                if (index == 1 && e.Item.ItemIndex == 0 && type!="冻结"&&
+                if (index == 1 && e.Item.ItemIndex == 0 && type != "冻结" &&
                     ViewState["close_flag"].ToString() == "1")//第一页，第一行流水记录才能赎回，且存取状态不能为冻结 且为非定期基金
                 {
                     if (DateTime.Now.Hour >= 9 && DateTime.Now.Hour <= 15)//强赎发起时间工作日9：00－15：00，其它时间无法发起强赎，按钮灰色
                     {
-                        lb.Visible = true; 
+                        lb.Visible = true;
                     }
                     if (fundBLLService.isSpecialFund(fund_code, spid)) //指数基金
                     {
@@ -676,6 +633,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
         }
 
+        //查询 - 用户交易流水情况
         private void BindBankRollListNotChildren(string qqId, string spId, string curtype, DateTime beginDate, DateTime endDate, int pageIndex = 1, int redirectionType = 0)
         {
             try
@@ -767,7 +725,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
         }
 
-        private void dgUserFundSummary_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+        protected void dgUserFundSummary_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
         {
             try
             {
@@ -802,7 +760,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 this.bankRollListNotChildrenPager.RecordCount = 1000;
                 this.CloseFundRollPager.RecordCount = 1000;
                 FetchInputDetail();
-                if (ViewState["close_flag"].ToString() == "2")//封闭即定期
+                var close_flag = ViewState["close_flag"].ToString(); ;
+                if (close_flag == "2")//封闭即定期
                 {
                     this.tableCloseFundRoll.Visible = true;
                     this.tableBankRollList.Visible = true;
@@ -811,13 +770,29 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 }
                 else
                 {
+                    dgCloseFundRoll.DataSource = null;
+                    dgCloseFundRoll.DataBind();
                     this.tableQueryResult.Visible = true;
                     this.tableBankRollList.Visible = true;
                     this.tableBankRollListNotChildren.Visible = true;
-                    this.tableCloseFundRoll.Visible = true;
-                    //BindAllDetailData();
+
+                    ExhibitionDataGridColumns(DataGrid_QueryResult, true, null);    //显示所有字段 查询用户余额收益情况明细
+                    ExhibitionDataGridColumns(dgCloseFundRoll, true, null);         //显示所有字段 查询交易明细
+                    if (close_flag == "3") //半封闭
+                    {
+                        ExhibitionDataGridColumns(DataGrid_QueryResult, false, 7, 8, 9, 10);
+                        ExhibitionDataGridColumns(dgCloseFundRoll, false, 0, 6, 7, 8, 9, 16);
+
+                        this.tableCloseFundRoll.Visible = true;
+                        BindCloseFundRoll(ViewState["tradeId"].ToString(), ViewState["fundCode"].ToString(), beginDate, endDate, 1);
+                    }
+                    else if (close_flag == "1") //不封闭
+                    {
+                        ExhibitionDataGridColumns(DataGrid_QueryResult, false, 3, 4, 5, 11);
+                        ExhibitionDataGridColumns(dgCloseFundRoll, false, 4, 5);
+                    }
+
                     BindProfitList(ViewState["tradeId"].ToString(), ViewState["fundSPId"].ToString(), beginDate, endDate);
-                    BindCloseFundRoll(ViewState["tradeId"].ToString(), ViewState["fundCode"].ToString(), beginDate, endDate, 1);
                     BindBankRollList(ViewState["uin"].ToString(), ViewState["fundSPId"].ToString(), ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType, memo);
                     BindBankRollListNotChildren(ViewState["uin"].ToString(), ViewState["fundSPId"].ToString(), ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType);
                 }
@@ -860,6 +835,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         //    BindBankRollListNotChildren(ViewState["uin"].ToString(), ViewState["fundSPId"].ToString(), ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType);
         //}
 
+        //查询 - 交易明细
         private void BindCloseFundRoll(string tradeId, string fundCode, DateTime beginDate, DateTime endDate, int pageIndex = 1)
         {
             try
@@ -898,10 +874,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                                 + "&user_end_type=" + dr["Fuser_end_type"].ToString()
                                 + "&end_sell_type=" + dr["Fend_sell_type"].ToString()
                                 + "&fund_name=" + setConfig.convertToBase64(ViewState["fund_name"].ToString()); //中文字段 , 使用base64 防止乱码
-                                ;
+                            ;
                         }
 
-                    
+
                     dgCloseFundRoll.DataSource = tbCloseFundRollList.DefaultView;
                     dgCloseFundRoll.DataBind();
                 }
@@ -916,15 +892,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         //封闭基金客服强赎按钮
         public void dgCloseFundRoll_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
         {
-            var CloseFundApply_btn = e.Item.Cells[12].FindControl("CloseFundApplyButton");
-            var AlterEndStrategy_btn = e.Item.Cells[12].FindControl("AlterEndStrategy");
-            string state = e.Item.Cells[9].Text.Trim();//绑定状态
-
-            if (state == "待执行")//待执行状态才能强赎
+            if (e.Item.ItemIndex > -1)
             {
-                CloseFundApply_btn.Visible = true;
-                AlterEndStrategy_btn.Visible = true;
+                var row = (DataRowView)e.Item.DataItem;
+                if (row["Fstate_str"] == "待执行")
+                {
+                    var CloseFundApply_btn = e.Item.FindControl("CloseFundApplyButton");
+                    var AlterEndStrategy_btn = e.Item.FindControl("AlterEndStrategy");
+                    CloseFundApply_btn.Visible = true;
+                    AlterEndStrategy_btn.Visible = true;
+                }
             }
+
         }
 
         protected void CloseFundRollPager_PageChanged(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
@@ -950,7 +929,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             {
                 this.tableLCTBalanceRoll.Visible = true;
                 this.BalanceRollPager.RecordCount = 1000;
-              //  ViewState["tradeId"] = "111111111111001";//测试
+                //  ViewState["tradeId"] = "111111111111001";//测试
                 BindLCTBalanceRollList(ViewState["tradeId"].ToString(), 1);
             }
             catch (Exception eSys)
@@ -968,7 +947,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 int start = max * (index - 1);
                 var balanceRoll = new LCTBalanceService().QueryLCTBalanceRollList(tradeId, start, max);
 
-                if (balanceRoll!=null&&balanceRoll.Rows.Count > 0)
+                if (balanceRoll != null && balanceRoll.Rows.Count > 0)
                 {
                     this.dgLCTBalanceRollList.DataSource = balanceRoll.DefaultView;
                     this.dgLCTBalanceRollList.DataBind();
@@ -993,6 +972,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             catch (Exception ex)
             {
                 WebUtils.ShowMessage(this, string.Format("翻页异常:{0}", PublicRes.GetErrorMsg(ex.Message)));
+            }
+        }
+
+        /// <summary>
+        /// 控制DataGrid 字段的显示 
+        /// </summary>
+        /// <param name="dg">DataGrid 控件对象</param>
+        /// <param name="visable">可见性</param>
+        /// <param name="Fields">下标集合 Fields == null 进行 全量操作</param>
+        protected void ExhibitionDataGridColumns(DataGrid dg, bool visable, params int[] Fields)
+        {
+            for (int i = 0; i < dg.Columns.Count; i++)
+            {
+                if (Fields != null)
+                {
+                    if (Fields.Contains(i))
+                    {
+                        dg.Columns[i].Visible = visable;
+                    }
+                }
+                else
+                {
+                    dg.Columns[i].Visible = visable;
+                }
             }
         }
     }

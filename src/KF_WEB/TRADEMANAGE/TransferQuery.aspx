@@ -70,9 +70,10 @@
             </tr>
             <tr>
                 <td colspan="2" style="border: 0">
+                    <span style="line-height:2em">功能说明：查询微信/手Q的红包、转账、AA的入账单详情。</span>
                     <table style="width: 100%;" id="tab_transfer_info" cellspacing="1" cellpadding="0" runat="server"  visible="false">
                         <caption style="text-align: left; background: #b0c3d1; padding: 4px;">
-                            转账单详情：（查询微信/手Q的: 红包、转账、AA的转账单详情）
+                            转账单详情：
                         </caption>
                         <tr>
                             <td>交易单号：</td>

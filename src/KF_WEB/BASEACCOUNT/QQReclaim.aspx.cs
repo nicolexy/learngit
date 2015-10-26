@@ -17,6 +17,7 @@ using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
 using System.Web.Mail;
 using System.IO;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -186,7 +187,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			}
 			else
 			{
-				string Flag = classLibrary.setConfig.accountState(ds.Tables[0].Rows[0]["Fstate"].ToString());
+                string Flag = Transfer.accountState(ds.Tables[0].Rows[0]["Fstate"].ToString());
 
 				if (Flag == "Õý³£")
 				{

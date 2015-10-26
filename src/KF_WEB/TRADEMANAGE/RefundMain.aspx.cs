@@ -13,6 +13,7 @@ using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
@@ -180,7 +181,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             if (strBankID == "9999")
                 return "»ã×ÜÒøÐÐ";
             else
-                return classLibrary.setConfig.convertbankType(strBankID);
+                return Transfer.convertbankType(strBankID);
 
         }
 

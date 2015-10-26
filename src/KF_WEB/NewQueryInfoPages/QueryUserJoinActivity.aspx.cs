@@ -1,3 +1,4 @@
+using CFT.CSOMS.BLL.TransferMeaning;
 using System;
 using System.Data;
 using System.Web.Services.Protocols;
@@ -194,7 +195,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
 
                     dr["Feffective_date"] = s_bdate + "µ½" + s_edate;
-                    dr["Fprize_name"] = setConfig.returnDicStr("FPrizeType", dr["FPrizeType"].ToString());
+                    dr["Fprize_name"] = Transfer.returnDicStr("FPrizeType", dr["FPrizeType"].ToString());
                 }
 
                 //classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "FState", "Fstate_str", ht1);

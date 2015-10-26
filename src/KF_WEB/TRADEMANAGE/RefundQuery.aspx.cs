@@ -14,7 +14,7 @@ using Tencent.DotNet.OSS.Web.UI;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
-
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -100,7 +100,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 foreach (Object obj in al)
                 {
                     string banktype = obj.ToString();
-                    string bankname = classLibrary.setConfig.convertbankType(banktype);
+                    string bankname = Transfer.convertbankType(banktype);
                     if (!bankTypeName.Contains(bankname))
                         bankTypeName.Add(bankname, banktype);
                 }

@@ -13,6 +13,7 @@ using Tencent.DotNet.OSS.Web.UI;
 using System.Web.Services.Protocols;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.Common;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -113,7 +114,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				DataRow dr = ds.Tables[0].Rows[0];				
 
 				labFareaName.Text = PublicRes.GetString(dr["FareaName"]);
-				labFbank_typeName.Text = classLibrary.setConfig.returnDicStr("BANK_TYPE",PublicRes.GetInt(dr["FBank_Type"]));
+                labFbank_typeName.Text = Transfer.returnDicStr("BANK_TYPE", PublicRes.GetInt(dr["FBank_Type"]));
 
 				labFbank_id.Text = PublicRes.GetString(dr["Fbank_id"]);
 				labFbank_name.Text = PublicRes.GetString(dr["Fbank_name"]);

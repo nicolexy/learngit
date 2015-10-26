@@ -94,6 +94,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             lb_trade_state_str.Text = row["trade_state_str"] as string;
             lb_rec_banklist.Text = row["rec_banklist"] as string;
             lb_appeal_sign_str.Text = row["appeal_sign_str"] as string;
+
+            lb_card_bank_type.Text = row["card_bank_type"] as string;
+            lb_create_time.Text = row["create_time"] as string;
+            lb_create_time_spid.Text = row["create_time_spid"] as string;
+            lb_bargain_time.Text = row["bargain_time"] as string;
+            lb_pay_time.Text = row["pay_time"] as string;
+            lb_buy_uin.Text = row["buy_uin"] as string;
+            lb_sp_acno.Text = row["sp_acno"] as string;
+            lb_price_str.Text = row["price_str"] as string;
+            lb_price_curtype.Text = row["price_curtype"] as string;
         }
     }
 }

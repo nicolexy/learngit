@@ -15,6 +15,7 @@ using System.Web.Services.Protocols;
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using System.Web.Services;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
@@ -112,7 +113,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					if(ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
 					{
 						this.lblCommonMoney.Text = classLibrary.setConfig.FenToYuan(ds1.Tables[0].Rows[0]["Fbalance"].ToString());
-						this.lblCommonType.Text = classLibrary.setConfig.accountState(ds1.Tables[0].Rows[0]["Fstate"].ToString());
+                        this.lblCommonType.Text = Transfer.accountState(ds1.Tables[0].Rows[0]["Fstate"].ToString());
 					}
 				}
 				catch(Exception ex)
@@ -127,7 +128,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					{
 						this.lblGameMoney.Text = classLibrary.setConfig.FenToYuan(ds80.Tables[0].Rows[0]["Fbalance"].ToString());
 						string Fstate = ds80.Tables[0].Rows[0]["Fstate"].ToString();
-						this.lblGameType.Text = classLibrary.setConfig.accountState(Fstate);
+                        this.lblGameType.Text = Transfer.accountState(Fstate);
 						this.btnGame.Enabled = true;
 						if(Fstate == "1")
 						{
@@ -153,7 +154,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					{
 						this.lblFLMoney.Text = ds81.Tables[0].Rows[0]["Fbalance"].ToString() + "»ý·Ö";
 						string Fstate = ds81.Tables[0].Rows[0]["Fstate"].ToString();
-						this.lblFLType.Text = classLibrary.setConfig.accountState(Fstate);
+                        this.lblFLType.Text = Transfer.accountState(Fstate);
 						this.btnFL.Enabled = true;
 						if(Fstate == "1")
 						{
@@ -179,7 +180,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					{
 						this.lblZTCMoney.Text = classLibrary.setConfig.FenToYuan(ds82.Tables[0].Rows[0]["Fbalance"].ToString());
 						string Fstate = ds82.Tables[0].Rows[0]["Fstate"].ToString();
-						this.lblZTCType.Text = classLibrary.setConfig.accountState(Fstate);
+                        this.lblZTCType.Text = Transfer.accountState(Fstate);
 						this.btnZTC.Enabled = true;
 						if(Fstate == "1")
 						{

@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using Tencent.DotNet.Common.UI;
 using TENCENT.OSS.CFT.KF.Common;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
@@ -90,7 +91,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 				labFPaylistid.Text = PublicRes.GetString(dr["FPaylistid"]);
 				labFbank_listid.Text = PublicRes.GetString(dr["Fbank_listid"]);
 				labFbank_backid.Text = PublicRes.GetString(dr["Fbank_backid"]);
-				labFbanktype.Text = classLibrary.setConfig.returnDicStr("BANK_TYPE",PublicRes.GetInt(dr["Fbanktype"]));
+                labFbanktype.Text = Transfer.returnDicStr("BANK_TYPE", PublicRes.GetInt(dr["Fbanktype"]));
 
 				
 				labFamt.Text = PublicRes.GetString(dr["FamtName"]);
