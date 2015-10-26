@@ -13,6 +13,7 @@ using CFT.CSOMS.COMMLIB;
 using Tencent.DotNet.Common.UI;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using CFT.CSOMS.BLL.WechatPay;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
@@ -186,7 +187,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                     this.Label2_Type.Text = "";
                 }
                 else {
-                    this.Label2_Type.Text = classLibrary.setConfig.convertMoney_type(s_curtype);//tu.u_CurType;				   //"代金券";
+                    this.Label2_Type.Text = Transfer.convertMoney_type(s_curtype);//tu.u_CurType;				   //"代金券";
                 }
 
                 this.Label3_LeftAcc.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fbalance"));//tu.u_Balance;				   //"3000";
@@ -216,9 +217,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                     }
                 }
                 else {
-                    this.Label12_Fstate.Text = classLibrary.setConfig.accountState(PublicRes.objectToString(ds.Tables[0],"Fstate"));
+                    this.Label12_Fstate.Text = Transfer.accountState(PublicRes.objectToString(ds.Tables[0], "Fstate"));
                 }
-                this.Label13_Fuser_type.Text = classLibrary.setConfig.convertFuser_type(PublicRes.objectToString(ds.Tables[0],"Fuser_type"));
+                this.Label13_Fuser_type.Text = Transfer.convertFuser_type(PublicRes.objectToString(ds.Tables[0], "Fuser_type"));
 
                 // 2012/5/2 因为需要Q_USER_INFO获取准确的用户真实姓名而改动
                 /*
@@ -280,7 +281,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 
                 this.lbInnerID.Text = PublicRes.objectToString(ds.Tables[0],"fuid");
                 this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Ffetch"));
-                this.lbLeftPay.Text = classLibrary.setConfig.convertBPAY(PublicRes.objectToString(ds.Tables[0],"Fbpay_state"));
+                this.lbLeftPay.Text = Transfer.convertBPAY(PublicRes.objectToString(ds.Tables[0], "Fbpay_state"));
                 this.lbSave.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fsave"));
 
                 string fuid = PublicRes.objectToString(ds.Tables[0],"fuid");
@@ -571,7 +572,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
                 Session["QQID"] = ds.Tables[0].Rows[0]["Fqqid"].ToString();
 
-                this.Label2_Type.Text = classLibrary.setConfig.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());//tu.u_CurType;				   //"代金券";
+                this.Label2_Type.Text = Transfer.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());//tu.u_CurType;				   //"代金券";
                 this.Label3_LeftAcc.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fbalance"].ToString());//tu.u_Balance;				   //"3000";
                 //this.Label4_Freeze.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fcon"].ToString());                  //"1000";
                 this.Label5_YestodayLeft.Text = ds.Tables[0].Rows[0]["Fyday_balance"].ToString();		   //"10";
@@ -582,8 +583,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 this.Label9_LastSaveDate.Text = ds.Tables[0].Rows[0]["Fsave_time"].ToString();				//"2005-03-01";
                 this.Label10_Drawing.Text = ds.Tables[0].Rows[0]["Ffetch_time"].ToString();              //"2005-04-15";
                 this.Label11_Remark.Text = ds.Tables[0].Rows[0]["Fmemo"].ToString();					//"这个家伙很懒，什么都没有留下！";
-                this.Label12_Fstate.Text = classLibrary.setConfig.accountState(ds.Tables[0].Rows[0]["Fstate"].ToString());
-                this.Label13_Fuser_type.Text = classLibrary.setConfig.convertFuser_type(ds.Tables[0].Rows[0]["Fuser_type"].ToString());
+                this.Label12_Fstate.Text = Transfer.accountState(ds.Tables[0].Rows[0]["Fstate"].ToString());
+                this.Label13_Fuser_type.Text = Transfer.convertFuser_type(ds.Tables[0].Rows[0]["Fuser_type"].ToString());
 
                 string s_fz_amt = PublicRes.objectToString(ds.Tables[0], "Ffz_amt"); //分账冻结金额
                 string s_cron = PublicRes.objectToString(ds.Tables[0], "Fcon");
@@ -620,7 +621,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 //				pbp.BindDropDownList(pm.QueryDicAccName(),ddlAttid,out Msg);
                 this.Label18_Attid.Text = CheckBasicInfo(nAttid);
                 this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Ffetch"].ToString().Trim());
-                this.lbLeftPay.Text = classLibrary.setConfig.convertBPAY(ds.Tables[0].Rows[0]["Fbpay_state"].ToString().Trim());
+                this.lbLeftPay.Text = Transfer.convertBPAY(ds.Tables[0].Rows[0]["Fbpay_state"].ToString().Trim());
                 this.lbSave.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fsave"].ToString().Trim());
 
                 string fuid = ds.Tables[0].Rows[0]["fuid"].ToString().Trim();

@@ -132,10 +132,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 Response.Redirect("../login.aspx?wh=1"); //重新登陆
             }
 
-            Query_Service.Query_Service myService = new Query_Service.Query_Service();
-            myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-
-            DataSet ds = myService.GetUserInfo(this.TX_QQID.Text.Trim(), istr, imax);
+            DataSet ds = new AccountService().GetUserInfo(this.TX_QQID.Text.Trim(), istr, imax);
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
             {
                 throw new Exception("数据库无此记录");
@@ -199,9 +196,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             //获得用户帐户信息
             string userType = null;
             string Msg = null;
+            string userType_str = null;
             string qqid = this.TX_QQID.Text.Trim();
-            Finance_ManageService.Finance_Manage fm = new Finance_ManageService.Finance_Manage();
-            bool exeSign = fm.getUserType(qqid, out userType, out Msg);
+
+            bool exeSign = new AccountService().GetUserType(qqid, out userType, out userType_str, out Msg);
 
             if (exeSign == false)
             {

@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using Tencent.DotNet.Common.UI;
 using CFT.CSOMS.BLL.RefundModule;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 {
@@ -128,10 +129,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 lbBankListID.Text = dr["FbankListid"].ToString();
                 lbIdentity.Text = dr["Fidentity"].ToString();
                 lbInitBank.Text = dr["FbankAccNoOld"].ToString();
-                lbInitBankName.Text =classLibrary.setConfig.convertbankType(dr["FbankTypeOld"].ToString());
+                lbInitBankName.Text = Transfer.convertbankType(dr["FbankTypeOld"].ToString());
                 lbMail.Text = dr["FUserEmail"].ToString();
                 lbNewBank.Text = dr["FbankAccNo"].ToString();
-                lbNewBankType.Text = classLibrary.setConfig.convertbankType(dr["FbankType"].ToString());
+                lbNewBankType.Text = Transfer.convertbankType(dr["FbankType"].ToString());
                 lbUser.Text = dr["FtrueName"].ToString();
                 lbReason.Text = dr["Fkfremark"].ToString();
                 lbCreateTime.Text = dr["FcreateTime"].ToString();

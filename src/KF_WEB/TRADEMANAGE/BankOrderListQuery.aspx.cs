@@ -20,6 +20,7 @@ using System.IO;
 using System.Configuration;
 using System.Collections.Generic;
 using System.Text;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -413,7 +414,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     DataSet buss_ds = new DataSet();
                     foreach (DataRow row in ds.Tables[0].Rows)
                     {
-                        row["Fbuy_bank_type_str"] = classLibrary.setConfig.convertbankType(ds.Tables[0].Rows[0]["Fbuy_bank_type"].ToString());
+                        row["Fbuy_bank_type_str"] = Transfer.convertbankType(ds.Tables[0].Rows[0]["Fbuy_bank_type"].ToString());
                       //  row["Flstate_str"] = classLibrary.setConfig.convertTradeState(ds.Tables[0].Rows[0]["Flstate"].ToString());
                         string spid = ds.Tables[0].Rows[0]["Flistid"].ToString().Substring(0, 10);//商户号为财付通订单号前十位
                         buss_ds = myService.GetPayBusinessList("", spid.Trim(), "", "");

@@ -15,6 +15,7 @@ using CFT.CSOMS.BLL.WechatPay;
 using Tencent.DotNet.Common.UI;
 using CFT.CSOMS.BLL.CFTAccountModule;
 using System.Configuration;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
@@ -185,8 +186,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 {
                     lb_c4.Text = " ß∞‹     ß∞‹‘≠“Ú£∫" + dt.Rows[0]["Ffetch_memo"].ToString(); ;
                 }
-                
-                lb_c5.Text = setConfig.convertbankType(dt.Rows[0]["Fbank_type"].ToString());
+
+                lb_c5.Text = Transfer.convertbankType(dt.Rows[0]["Fbank_type"].ToString());
                 lb_c6.Text = dt.Rows[0]["Fcard_id"].ToString();
                 lb_c7.Text = dt.Rows[0]["Fcard_name"].ToString();
                 lb_c8.Text = dt.Rows[0]["Fopenid"].ToString();

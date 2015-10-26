@@ -5,6 +5,7 @@ using System.Web.UI.WebControls;
 using Tencent.DotNet.Common.UI;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using System.Collections;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 {
@@ -150,7 +151,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                 foreach (DataRow dr in ds.Tables[0].Rows) {
 
-                    dr["Fprize_name"] = setConfig.returnDicStr("FPrizeType", dr["FPrizeType"].ToString());
+                    dr["Fprize_name"] = Transfer.returnDicStr("FPrizeType", dr["FPrizeType"].ToString());
                 }
                 classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "FState", "Fstate_str", ht1);
 

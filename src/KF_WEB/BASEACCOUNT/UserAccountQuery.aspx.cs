@@ -4,6 +4,7 @@ using System.Web.UI.WebControls;
 using Tencent.DotNet.Common.UI;
 using System.Web.Services.Protocols;
 using System.Web;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
@@ -113,7 +114,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string Modify_Time = e.Item.Cells[12].Text.Trim();
             Session["QQID"] = this.TextBox1_QQID.Text.Trim();
             string Memo = e.Item.Cells[10].Text.Trim().Replace("&nbsp;", "");
-            string banktype = classLibrary.setConfig.convertbankType(e.Item.Cells[9].Text.Trim());
+            string banktype = Transfer.convertbankType(e.Item.Cells[9].Text.Trim());
             string Compayname = e.Item.Cells[16].Text.Trim().Replace("&nbsp;", ""); ;
             string AccCreate = e.Item.Cells[11].Text.Trim();
 
@@ -256,7 +257,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			string Modify_Time=DGData.SelectedItem.Cells[12].Text.Trim();
 			Session["QQID"] = this.TextBox1_QQID.Text.Trim(); 
 			string Memo= DGData.SelectedItem.Cells[10].Text.Trim().Replace("&nbsp;","");
-			string banktype=classLibrary.setConfig.convertbankType(DGData.SelectedItem.Cells[9].Text.Trim());
+            string banktype = Transfer.convertbankType(DGData.SelectedItem.Cells[9].Text.Trim());
 			string Compayname =  DGData.SelectedItem.Cells[16].Text.Trim().Replace("&nbsp;","");;
 			string AccCreate=DGData.SelectedItem.Cells[11].Text.Trim();
 		

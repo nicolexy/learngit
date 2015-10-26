@@ -19,6 +19,7 @@ using System.Web.Mail;
 using System.IO;
 using System.Configuration;
 using System.Collections.Generic;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -404,7 +405,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     DataSet dsCard = new DataSet();
                     foreach (DataRow row in ds.Tables[0].Rows)
                     {
-                        row["Fbuy_bank_type_str"] = classLibrary.setConfig.convertbankType(ds.Tables[0].Rows[0]["Fbuy_bank_type"].ToString());
+                        row["Fbuy_bank_type_str"] = Transfer.convertbankType(ds.Tables[0].Rows[0]["Fbuy_bank_type"].ToString());
                         string serialno = PublicRes.objectToString(ds.Tables[0], "Fbuy_bankid");//支付绑定序列号
                         string qqid = ds.Tables[0].Rows[0]["Fbuyid"].ToString();//买家账户号码
                         string uid = ds.Tables[0].Rows[0]["Fbuy_uid"].ToString();//买家内部帐号

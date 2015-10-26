@@ -16,6 +16,7 @@ using System.Web.Services.Protocols;
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using CFT.CSOMS.BLL.UserAppealModule;
+using CFT.CSOMS.BLL.CFTAccountModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 {
@@ -64,12 +65,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 		}
 		#endregion
 
-		/*public void ChangePage(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
-		{
-			pager.CurrentPageIndex = e.NewPageIndex;
-			BindData(e.NewPageIndex);
-		}*/
-
 		private void ValidateDate()
 		{
 			
@@ -110,45 +105,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 		}
 
         private void BindData()
-		{
+        {
             string s_cftno = cftNo.Text.Trim();
 
-            lb_c1.Text = s_cftno;
-
-			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
+            lb_c1.Text = s_cftno;   
             DataSet ds = null;
-            
+
             //1.查询会员
-            ds = qs.QueryCFTMember(s_cftno);
+            ds = new VIPService().QueryCFTMember(s_cftno);
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count != 1)
             {
                 //会员不存在
                 lb_c2.Text = "否";
             }
-            else {
+            else
+            {
                 DataRow row = ds.Tables[0].Rows[0];
                 //lb_c1.Text = row["Fuin"].ToString();
                 lb_c2.Text = "是";//是否为QQ会员
                 lb_c3.Text = row["Fvip_exp_date"].ToString();//会员过期时间
             }
-            
-            //2.查询实名认证
-            //ds = qs.GetUserAuthenState(s_cftno, "", 0);
-            //if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count != 1)
-            //{
-            //    lb_c4.Text = "否";//是否实名认证
-            //}
-            //else {
-            //    DataRow row = ds.Tables[0].Rows[0];
-            //    if (row["queryType"].ToString() == "2")
-            //    {
-            //        lb_c4.Text = "是";
-            //    }
-            //    else {
-            //        lb_c4.Text = "否";
-            //    }
-            //}
+
 
             //2.查询实名认证
             bool stateMsg = false;
@@ -160,39 +137,42 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             else
             {
                 lb_c4.Text = "否";
-            }             
-            
+            }
+
             //3.免费流量
-            ds = qs.GetFreeFlowInfo(s_cftno);
-            if (ds != null && ds.Tables.Count>0)
+            ds = new VIPService().GetFreeFlowInfo(s_cftno);
+            if (ds != null && ds.Tables.Count > 0)
             {
                 DataTable dt = ds.Tables[0];
                 lb_c6.Text = classLibrary.setConfig.FenToYuan(dt.Rows[0]["free_amount"].ToString());//免费流量
             }
-			
+
             //4.白名单、大额用户
-            ds = qs.GetUserTypeInfo(s_cftno,3,1,0,1,1); //1转账白名单
+            ds = new AccountService().GetUserTypeInfo(s_cftno, 3, 1, 0, 1, 1); //1转账白名单
             if (ds != null && ds.Tables.Count > 0)
             {
                 DataTable dt = ds.Tables[0];
                 string ys = dt.Rows[0]["eip_user"].ToString();
-                if (ys == "Y") {
+                if (ys == "Y")
+                {
                     lb_c5.Text = "是";
                 }
                 else if (ys == "N")
                 {
                     lb_c5.Text = "否";
                 }
-                else {
+                else
+                {
                     lb_c5.Text = "";//是否为白名单
                 }
-                
+
             }
-            else {
+            else
+            {
                 lb_c5.Text = "否";
             }
 
-            ds = qs.GetUserTypeInfo(s_cftno, 5, 1, 0, 1, 1); //0提现大额用户
+            ds = new AccountService().GetUserTypeInfo(s_cftno, 5, 1, 0, 1, 1); //0提现大额用户
             if (ds != null && ds.Tables.Count > 0)
             {
                 DataTable dt = ds.Tables[0];
@@ -215,7 +195,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             {
                 lb_c7.Text = "否";
             }
-		}
+        }
 
         private void clearDetailTB() {
             lb_c1.Text = "";

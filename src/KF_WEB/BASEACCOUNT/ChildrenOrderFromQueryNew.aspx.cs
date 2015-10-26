@@ -15,6 +15,7 @@ using System.Web.Services.Protocols;
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using System.Web.Services;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -84,21 +85,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				this.LB_Fbank_backid.Text = ds.Tables[0].Rows[0]["Fbank_backid"].ToString();
 				this.LB_Fbank_listid.Text = ds.Tables[0].Rows[0]["Fbank_listid"].ToString();
 				this.LB_Fspid.Text = ds.Tables[0].Rows[0]["Fspid"].ToString().Trim();
-				this.LB_Fcurtype.Text = classLibrary.setConfig.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());
+                this.LB_Fcurtype.Text = Transfer.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());
 				this.DropDownList2_tradeState.SelectedValue = ds.Tables[0].Rows[0]["Fstate"].ToString();
-				this.LB_Flstate.Text = classLibrary.setConfig.convertTradeState(ds.Tables[0].Rows[0]["Flstate"].ToString());
+                this.LB_Flstate.Text = Transfer.convertTradeState(ds.Tables[0].Rows[0]["Flstate"].ToString());
 				this.LB_Fcreate_time.Text = ds.Tables[0].Rows[0]["Fcreate_time"].ToString();
 				this.LB_Fip.Text = ds.Tables[0].Rows[0]["Fip"].ToString();
 				this.LB_FMemo.Text = ds.Tables[0].Rows[0]["Fmemo"].ToString();
 				this.LB_Fexplain.Text = ds.Tables[0].Rows[0]["Fexplain"].ToString();
 				this.LB_Fcatch_desc.Text = ds.Tables[0].Rows[0]["Fcatch_desc"].ToString();
-				this.LB_Fpay_type.Text = classLibrary.setConfig.cPay_type(ds.Tables[0].Rows[0]["Fpay_type"].ToString());
+                this.LB_Fpay_type.Text = Transfer.cPay_type(ds.Tables[0].Rows[0]["Fpay_type"].ToString());
 				this.LB_Fchannel_id.Text = ChannelNo(ds.Tables[0].Rows[0]["Fchannel_id"].ToString());
 				this.LB_Fmediuid.Text = ds.Tables[0].Rows[0]["Fmediuid"].ToString();
 				this.LB_Fmedinum.Text =  MoneyTransfer.FenToYuan(PublicRes.GetString(ds.Tables[0].Rows[0]["Fmedinum"]));
 				this.LB_Fmodify_time.Text = ds.Tables[0].Rows[0]["Fmodify_time"].ToString();
-				this.lbTradeType.Text  = classLibrary.setConfig.convertPayType(ds.Tables[0].Rows[0]["Ftrade_type"].ToString().Trim());
-				this.lbAdjustFlag.Text = classLibrary.setConfig.convertAdjustSign(ds.Tables[0].Rows[0]["Fadjust_flag"].ToString().Trim());
+                this.lbTradeType.Text = Transfer.convertPayType(ds.Tables[0].Rows[0]["Ftrade_type"].ToString().Trim());
+                this.lbAdjustFlag.Text = Transfer.convertAdjustSign(ds.Tables[0].Rows[0]["Fadjust_flag"].ToString().Trim());
 				this.LB_Flistid.Text = ds.Tables[0].Rows[0]["Flistid"].ToString();
 
 				LB_Fchargeuid.Text = PublicRes.GetString(ds.Tables[0].Rows[0]["Fchargeuid"]);
