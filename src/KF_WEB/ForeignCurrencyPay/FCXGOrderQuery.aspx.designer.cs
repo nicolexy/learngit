@@ -202,13 +202,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay {
         protected global::System.Web.UI.WebControls.Label lb_create_time;
         
         /// <summary>
-        /// lb_price_curtype control.
+        /// lb_price_curtype_str control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lb_price_curtype;
+        protected global::System.Web.UI.WebControls.Label lb_price_curtype_str;
         
         /// <summary>
         /// lb_create_time_spid control.
