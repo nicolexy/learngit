@@ -174,7 +174,7 @@
                              <asp:BoundColumn DataField="Fbank_type_str" HeaderText="银行类型">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
-                          <asp:BoundColumn DataField="Fchannel_idStr" HeaderText="渠道号">
+                          <asp:BoundColumn DataField="Fchannel_idStr" HeaderText="支付渠道">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
                          <asp:BoundColumn DataField="FstateStr" HeaderText="交易状态">
@@ -208,7 +208,7 @@
             <td valign="top">
                 <asp:DataGrid ID="dgUserFundSummary" runat="server" Width="1100px" ItemStyle-HorizontalAlign="Center"
                     HeaderStyle-HorizontalAlign="Center" HorizontalAlign="Center" PageSize="5" AutoGenerateColumns="False"
-                    GridLines="Horizontal" CellPadding="1" BackColor="White" BorderWidth="1px" BorderStyle="None"
+                    GridLines="Horizontal" CellPadding="1" BackColor="White" BorderWidth="1px" BorderStyle="None" OnItemCommand="dgUserFundSummary_ItemCommand"
                     BorderColor="#E7E7FF">
                     <FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
                     <SelectedItemStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#738A9C"></SelectedItemStyle>
@@ -328,9 +328,6 @@
                         <asp:BoundColumn DataField="Fprofit_str" HeaderText="收益金额">
                             <HeaderStyle Width="80px"></HeaderStyle>
                         </asp:BoundColumn>
-                        <asp:BoundColumn DataField="EstimateFprofit" HeaderText="预估收益">
-                            <HeaderStyle Width="80px"></HeaderStyle>
-                        </asp:BoundColumn>
                          <asp:BoundColumn DataField="fund_value" HeaderText="单位净值">
                             <HeaderStyle Width="80px"></HeaderStyle>
                         </asp:BoundColumn>
@@ -341,6 +338,9 @@
                             <HeaderStyle Width="80px"></HeaderStyle>
                         </asp:BoundColumn>
                           <asp:BoundColumn DataField="mark_value" HeaderText="市值">
+                            <HeaderStyle Width="80px"></HeaderStyle>
+                        </asp:BoundColumn>
+                        <asp:BoundColumn DataField="EstimateFprofit" HeaderText="预估收益">
                             <HeaderStyle Width="80px"></HeaderStyle>
                         </asp:BoundColumn>
                     </Columns>
@@ -466,6 +466,9 @@
                         </asp:BoundColumn>
                           <asp:BoundColumn DataField="Fcard_no" HeaderText="银行卡尾号">
                             <HeaderStyle Width="200px"></HeaderStyle>
+                        </asp:BoundColumn>     
+                        <asp:BoundColumn DataField="Fchannel_str" HeaderText="支付渠道">
+                            <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
                           <asp:BoundColumn DataField="Fbank_type_str" HeaderText="银行类型">
                             <HeaderStyle Width="200px"></HeaderStyle>
@@ -512,6 +515,12 @@
                         </asp:BoundColumn>
                         <asp:BoundColumn DataField="Fstart_total_fee_str" HeaderText="总金额（本金）">
                             <HeaderStyle Width="150px"></HeaderStyle>
+                        </asp:BoundColumn>        
+                        <asp:BoundColumn DataField="Fstart_date" HeaderText="犹豫期开始时间">
+                            <HeaderStyle Width="150px"></HeaderStyle>
+                        </asp:BoundColumn>
+                         <asp:BoundColumn DataField="Fbook_stop_date" HeaderText="犹豫结束日期">
+                            <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
                          <asp:BoundColumn DataField="Fcurrent_total_fee_str" HeaderText="当前总金额">
                             <HeaderStyle Width="200px"></HeaderStyle>
@@ -537,7 +546,7 @@
                         <asp:BoundColumn DataField="Fpay_type_str" HeaderText="支付类型">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
-                         <asp:BoundColumn DataField="Fchannel_id_str" HeaderText="渠道信息">
+                         <asp:BoundColumn DataField="Fchannel_id_str" HeaderText="支付渠道">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundColumn>
                         <asp:BoundColumn DataField="Fend_sell_type_str" HeaderText="到期操作">
