@@ -47,7 +47,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                     lb_phone.Text = row["phone"] as string;
                     lb_spid.Text = row["spid"] as string;
                     lb_address.Text = row["address"] as string;
-                    lb_mer_type.Text = row["mer_type"] as string;
+                    lb_mer_type.Text = "全行业";   //row["mer_type"] as string;   //目前没有对应的字典, 先写死
                     lb_boss_name.Text = row["boss_name"] as string;
 
                     lb_country.Text = row["country"] as string;
