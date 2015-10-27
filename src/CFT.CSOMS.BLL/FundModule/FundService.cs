@@ -406,6 +406,9 @@ namespace CFT.CSOMS.BLL.FundModule
                              case "4":
                                  dr["Fuser_end_type_str"] = "指定申购金额，余下全额赎回";
                                  break;
+                             case "5":
+                                 dr["Fuser_end_type_str"] = "自动延期，延期后可随时赎回";
+                                 break;
                              case "99":
                                  dr["Fuser_end_type_str"] = "客服强赎";
                                  break;
