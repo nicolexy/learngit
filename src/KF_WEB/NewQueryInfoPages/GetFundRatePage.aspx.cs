@@ -476,6 +476,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (profits != null && profits.Rows.Count > 0)
                 {
                     string fund_code = ViewState["fundCode"].ToString();
+                    ExhibitionDataGridColumns(DataGrid_QueryResult, true, null);    //显示所有字段 查询用户余额收益情况明细
+                    //根据基金来控制展示字段
+                    if (fundBLLService.isSpecialFund(fund_code, spId)) //易方达沪深300基金
+                    {
+                        ExhibitionDataGridColumns(DataGrid_QueryResult, false, 3, 4, 5);
+                    }
+                    else
+                    {
+                        ExhibitionDataGridColumns(DataGrid_QueryResult, false, 7, 8, 9, 10);
+                    }
+
+                    DataGrid_QueryResult.Columns[11].Visible = (string)ViewState["close_flag"] == "1"; //半封闭才展示预估收益
+
                     this.DataGrid_QueryResult.DataSource = profits.DefaultView;
                     this.DataGrid_QueryResult.DataBind();
                 }
@@ -776,11 +789,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     this.tableBankRollList.Visible = true;
                     this.tableBankRollListNotChildren.Visible = true;
 
-                    ExhibitionDataGridColumns(DataGrid_QueryResult, true, null);    //显示所有字段 查询用户余额收益情况明细
                     ExhibitionDataGridColumns(dgCloseFundRoll, true, null);         //显示所有字段 查询交易明细
                     if (close_flag == "3") //半封闭
                     {
-                        ExhibitionDataGridColumns(DataGrid_QueryResult, false, 7, 8, 9, 10);
                         ExhibitionDataGridColumns(dgCloseFundRoll, false, 0, 6, 7, 8, 9, 16);
 
                         this.tableCloseFundRoll.Visible = true;
@@ -788,7 +799,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     }
                     else if (close_flag == "1") //不封闭
                     {
-                        ExhibitionDataGridColumns(DataGrid_QueryResult, false, 3, 4, 5, 11);
                         ExhibitionDataGridColumns(dgCloseFundRoll, false, 4, 5);
                     }
 
@@ -799,7 +809,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + HttpUtility.JavaScriptStringEncode(eSys.Message));
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + HttpUtility.JavaScriptStringEncode(eSys.ToString()));
             }
         }
 

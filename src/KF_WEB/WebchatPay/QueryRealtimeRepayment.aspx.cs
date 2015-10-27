@@ -34,7 +34,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
 
             var bll = new WechatPayService();
-            var dt = bll.QueryRealtimeRepayment(listid, date, 1);
+            var dt = bll.QueryRealtimeRepayment(listid, date, 2);
             if (dt != null && dt.Rows.Count > 0)
             {
                 var row = dt.Rows[0];
