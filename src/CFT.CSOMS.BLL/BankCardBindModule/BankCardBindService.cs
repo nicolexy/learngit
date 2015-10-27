@@ -40,7 +40,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         public bool LogOnUserCheckYDT(string qqid, string Fcurtype)
         {
             //调用快捷支付-一点通业务中查询函数来确定是否开通一点通
-            DataSet ds = GetBankCardBindList(qqid, "", "", "", "", "", "", "", "", "", int.Parse(Fcurtype), true, 2, "", 0, 5);
+            DataSet ds = GetBankCardBindList_New(qqid, "", "", "", "", "", "", "", "", 2, "", "", 1, "", 0, 5);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 return true;
