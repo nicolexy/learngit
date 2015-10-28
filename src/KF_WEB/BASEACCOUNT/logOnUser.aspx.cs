@@ -52,7 +52,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 
 				//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"CancelAccount")) Response.Redirect("../login.aspx?wh=1");
 
-                if (!ClassLib.ValidateRight("CancelAccount", this)) Response.Redirect("../login.aspx?wh=1");
+                if (!ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
 			}
 			catch
 			{

@@ -46,7 +46,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 //int operid = Int32.Parse(Session["OperID"].ToString());
 
                 //if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"CFTUserAppeal")) Response.Redirect("../login.aspx?wh=1");
-                if (!ClassLib.ValidateRight("UpdateAccountQQ", this)) Response.Redirect("../login.aspx?wh=1");
+                if (!ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
             }
             catch
             {

@@ -40,7 +40,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 				//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"CFTUserAppeal")) Response.Redirect("../login.aspx?wh=1");
 
-				if(!classLibrary.ClassLib.ValidateRight("CFTUserAppeal",this)) Response.Redirect("../login.aspx?wh=1");
+                if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
 			}
 			catch
 			{
@@ -98,7 +98,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			{
 				string strszkey = Session["SzKey"].ToString().Trim();
 				int ioperid = Int32.Parse(Session["OperID"].ToString());
-				int iserviceid = Common.AllUserRight.GetServiceID("CFTUserAppeal") ;
+                int iserviceid = Common.AllUserRight.GetServiceID("InfoCenter");
 				string struserdata = Session["uid"].ToString().Trim();
 				string content = struserdata + "执行了[自助申诉查询]操作,操作对象[" + classLibrary.setConfig.replaceMStr(tbFuin.Text.Trim()) + "]时间:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
@@ -107,7 +107,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				string log = SensitivePowerOperaLib.MakeLog("get",struserdata,"[自助申诉查询]",
 					tbFuin.Text.Trim(),"","","99","99","","1",pager.PageSize.ToString());
 
-				if(!SensitivePowerOperaLib.WriteOperationRecord("CFTUserAppeal",log,this))
+                if (!SensitivePowerOperaLib.WriteOperationRecord("InfoCenter", log, this))
 				{
 					
 				}
