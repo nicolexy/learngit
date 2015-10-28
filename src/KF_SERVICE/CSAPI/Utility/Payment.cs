@@ -568,4 +568,119 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
 
         #endregion
     }
+
+    public class WechatApi
+    {
+        public WechatApi()
+        { 
+        
+        }
+
+        public class WechatReceviceHB
+        {
+            //查询详情时需要Listid，SendListId
+            [XmlElement("create_time")]
+            public string CreateTime { get; set; }
+            [XmlElement("title")]
+            public string Title { get; set; }
+            [XmlElement("amount_text")]
+            public string Amount_text { get; set; }
+            [XmlElement("listid")]
+            public string Listid { get; set; }
+            [XmlElement("send_listid")]
+            public string SendListId { get; set; }
+        }
+
+        public class WechatSendHB
+        {
+            //查询详情时需要Listid
+            [XmlElement("createTime")]
+            public string CreateTime { get; set; }
+            [XmlElement("totalAmount_text")]
+            public string TotalAmount_text { get; set; }
+            [XmlElement("state")]
+            public string State { get; set; }
+            [XmlElement("state_text")]
+            public string State_text { get; set; }
+            [XmlElement("summary")]
+            public string Summary { get; set; }
+            [XmlElement("refund")]
+            public string Refund { get; set; }
+            [XmlElement("listid")]
+            public string Listid { get; set; }
+        }
+
+        public class WechatHBDetail
+        {
+            [XmlElement("send_listid")]
+            public string SendListId { get; set; }
+            [XmlElement("pay_listid")]
+            public string PayListid { get; set; }
+            [XmlElement("create_time")]
+            public string CreateTime { get; set; }
+            [XmlElement("receive_name")]
+            public string ReceiveName { get; set; }
+            [XmlElement("sendOpenid_text")]
+            public string SendOpenid_text { get; set; }
+            [XmlElement("receiveOpenid_text")]
+            public string ReceiveOpenid_text { get; set; }
+            [XmlElement("amount_text")]
+            public string Amount_text { get; set; }
+            [XmlElement("wishing")]
+            public string Wishing { get; set; }
+        }
+
+        public class WechatAAAcount
+        {
+            [XmlElement("aaUin")]
+            public string aaUin { get; set; }
+            [XmlElement("accUin")]
+            public string accUin { get; set; }
+            [XmlElement("balance")]
+            public string balance { get; set; }
+            [XmlElement("create_time")]
+            public string Fcreate_time { get; set; }
+            [XmlElement("reason")]
+            public string Freason { get; set; }
+            [XmlElement("total_paid_num")]
+            public string Ftotal_paid_num { get; set; }
+            [XmlElement("plan_paid_num")]
+            public string Fplan_paid_num { get; set; }
+            [XmlElement("total_paid_amount_text")]
+            public string Ftotal_paid_amount_text { get; set; }
+            [XmlElement("state")]
+            public string Flstate { get;set; }
+            [XmlElement("status_text")]
+            public string Fstatus_text { get; set; }
+            [XmlElement("aa_collection_no")]
+            public string Faa_collection_no { get; set; }
+        }
+
+        public class WechatAADetail
+        {
+            [XmlElement("memo")]
+            public string Fmemo { get; set; }
+            [XmlElement("num_text")]
+            public string Fnum_text { get; set; }
+            [XmlElement("pay_nickname")]
+            public string Fpay_nickname { get; set; }
+            [XmlElement("receive_name")]
+            public string receive_name { get; set; }
+            [XmlElement("pay_openid")]
+            public string Fpay_openid { get; set; }
+            [XmlElement("pay_aaopenid")]
+            public string Fpay_aaopenid { get; set; }
+            [XmlElement("receive_openid")]
+            public string Freceive_openid { get; set; }
+            [XmlElement("receive_aaopenid")]
+            public string receive_aaopenid { get; set; }
+            [XmlElement("state")]
+            public string Fstate { get; set; }
+            [XmlElement("state_text")]
+            public string Fstate_text { get; set; }
+            [XmlElement("pay_memo")]
+            public string Fpay_memo { get; set; }
+        }
+
+    }
 }

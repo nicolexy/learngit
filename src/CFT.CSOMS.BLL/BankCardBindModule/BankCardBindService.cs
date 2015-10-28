@@ -40,7 +40,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         public bool LogOnUserCheckYDT(string qqid, string Fcurtype)
         {
             //调用快捷支付-一点通业务中查询函数来确定是否开通一点通
-            DataSet ds = GetBankCardBindList_New(qqid, "", "", "", "", "", "", "", "", 2, "", "", 1, "", 0, 5);
+            DataSet ds = GetBankCardBindList_New(qqid, "", "", "", "", "", "", "", "", "", int.Parse(Fcurtype), true, 2, "", 0, 5);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 return true;
@@ -476,6 +476,202 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             }
             return table;
         }
+
+
+        /// <summary>
+        /// 查询一点通业务和快捷支付业务;暂时保留，用于注销查询是否开通一点通  darrenran  2015.10.28
+        /// </summary
+        public DataSet GetBankCardBindList_New(string u_QQID, string Fbank_type, string bankID, string uid, string creType, string creID,
+           string protocolno, string phoneno, string strBeginDate, string strEndDate, int queryType, bool isShowAboutDetail,
+           int bindStatue, string bind_serialno, int limStart, int limCount)
+        {
+            MySqlAccess da = null;
+            try
+            {
+                string filter = "(1=1)";
+                string fuid = "";
+                if (u_QQID != null && u_QQID.Trim() != "")
+                {
+                    fuid = PublicRes.ConvertToFuid(u_QQID);
+
+                    if (fuid == null || fuid.Trim() == "")
+                    {
+                        throw new Exception("输入的QQ号码有误！");
+                    }
+
+                    filter += " and fuid=" + fuid;
+                }
+
+                if (uid.Trim() != "" && fuid.Trim() == "")
+                {
+                    fuid = uid;
+                    filter += " and fuid=" + uid;
+                }
+
+                //string bankID_Encode = PublicRes.BankIDEncode_ForBankCardUnbind(bankID);
+                string bankID_Encode = PublicRes.EncryptZerosPadding(bankID);
+
+                DataSet ds_findUID = null;
+
+                if (fuid == "")
+                {
+                    // 如果fuid为空则查询c2c_db.t_bind_relation
+                    string sql_findUID = "select fuid from c2c_db.t_bind_relation where ";
+                    string sql_findUID_filter = " (1=1) ";
+                    int sql_findUID_filter_startLen = sql_findUID_filter.Length;
+
+                    if (Fbank_type.Trim() != "")
+                    {
+                        sql_findUID_filter += " And Fbank_type=" + Fbank_type;
+                    }
+
+                    if (bankID != "")
+                    {
+                        sql_findUID_filter += " And (Fbank_id='" + bankID + "' or Fbank_id='" + bankID_Encode + "') ";
+                    }
+
+                    if (creType != "")
+                    {
+                        sql_findUID_filter += " And Fcre_type=" + creType;
+                    }
+
+                    if (creID != "")
+                    {
+                        sql_findUID_filter += " And Fcre_id='" + creID + "' ";
+                    }
+
+                    if (protocolno != "")
+                    {
+                        sql_findUID_filter += " And ( Fprotocol_no='" + protocolno + "' or Fbank_id='" + protocolno + "')";
+                    }
+
+                    if (phoneno != "")
+                    {
+                        sql_findUID_filter += " And Fmobilephone='" + phoneno + "' ";
+                    }
+
+                    if (sql_findUID_filter.Length == sql_findUID_filter_startLen)
+                    {
+                        //throw new Exception("请输入必须的查询条件");
+                        return null;
+                    }
+
+                    sql_findUID += sql_findUID_filter;
+
+                    MySqlAccess da_findUID = new MySqlAccess(PublicRes.GetConnString("HT"));
+                    da_findUID.OpenConn();
+                    ds_findUID = da_findUID.dsGetTotalData(sql_findUID);
+                    //DataSet ds_findUID = da_findUID.dsGetTableByRange(sql_findUID,0,1);
+
+                    if (ds_findUID == null || ds_findUID.Tables.Count == 0 || ds_findUID.Tables[0].Rows.Count == 0)
+                    {
+                        return null;
+                    }
+
+                    // 这里的实现需要和产品沟通，因为一个银行卡号，证件号绑定不止一个uid
+
+                    filter += " and fuid in (";
+                    for (int i = 0; i < ds_findUID.Tables[0].Rows.Count; i++)
+                    {
+                        fuid = ds_findUID.Tables[0].Rows[i]["fuid"].ToString();
+                        if (fuid == null || fuid.Trim() == "")
+                            return null;
+                        filter += fuid + ",";
+                    }
+
+                    filter = filter.Substring(0, filter.Length - 1) + ") ";
+                }
+
+                if (!isShowAboutDetail)
+                {
+                    if (Fbank_type != "")
+                    {
+                        filter += " and Fbank_type=" + Fbank_type;
+                    }
+
+                    if (bankID != null && bankID.Trim() != "")
+                    {
+                        filter += " and (Fbank_id='" + bankID + "' or Fbank_id='" + bankID_Encode + "') ";
+                    }
+
+                    if (creType != null && creType.Trim() != "")
+                    {
+                        filter += " and Fcre_type='" + creType + "' ";
+                    }
+
+                    if (creID.Trim() != "")
+                    {
+                        filter += " and Fcre_id='" + creID + "' ";
+                    }
+
+                    if (protocolno.Trim() != "")
+                    {
+                        filter += " and Fprotocol_no='" + protocolno + "' ";
+                    }
+
+                    if (phoneno != null && phoneno.Trim() != "")
+                    {
+                        filter += " and Fmobilephone='" + phoneno + "' ";
+                    }
+
+                    if (bind_serialno != null && bind_serialno.Trim() != "")//序列号
+                    {
+                        filter += " and Fbind_serialno='" + bind_serialno + "' ";
+                    }
+                }
+
+                if (strBeginDate != null && strBeginDate.Trim() != "")
+                {
+                    filter += " and Fcreate_time>='" + strBeginDate + "' ";
+                }
+
+                if (strEndDate != null && strEndDate.Trim() != "")
+                {
+                    filter += " and Fcreate_time<='" + strEndDate + "' ";
+                }
+
+
+                if (queryType == 1)
+                {
+                    // 一点通
+                    filter += " and ( (Fbind_type >=1 and Fbind_type<=9) or (Fbind_type >=20 and Fbind_type<=29) or (Fbind_type >=100 and Fbind_type<=119)) ";
+                }
+                else if (queryType == 2)
+                {
+                    // 快捷支付
+                    filter += " and Fbind_type >=10 and Fbind_type<=19 ";
+                }
+
+                if (bindStatue != 99)
+                {
+                    filter += " and Fbank_status=" + bindStatue;
+                }
+
+                //filter += " limit " + limStart + "," + limCount;
+
+                da = new MySqlAccess(PublicRes.GetConnString("BD"));
+                da.OpenConn();
+                // 有一个专门是Fprotocol_no分表的数据表，所以跟据条件判断查哪个表，因为功能目前暂缓，暂不做
+                // 2012/5/29 新增查询证件号码项
+                string Sql = "select 1 as FBDIndex , Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
+                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from " + PublicRes.GetTName("t_user_bind", fuid) + " where " + filter;
+                //加查临时表
+                string Sql2 = "select 2 as FBDIndex , Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
+                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from c2c_db.t_user_bind_tmp where " + filter;
+                Sql = Sql + " union all " + Sql2 + " limit " + limStart + "," + limCount;
+                return da.dsGetTotalData(Sql);
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                if (da != null)
+                    da.Dispose();
+            }
+        }
+
               
     }
 }

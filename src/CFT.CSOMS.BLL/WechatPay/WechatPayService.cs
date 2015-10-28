@@ -7,6 +7,8 @@ using CFT.CSOMS.DAL.WechatPay;
 using CFT.CSOMS.COMMLIB;
 using System.Collections;
 using CFT.CSOMS.DAL.CFTAccount;
+using CFT.CSOMS.DAL.Infrastructure;
+using TENCENT.OSS.CFT.KF.DataAccess;
 
 namespace CFT.CSOMS.BLL.WechatPay
 {
@@ -178,7 +180,43 @@ namespace CFT.CSOMS.BLL.WechatPay
                 new string[]  {"limit",limit.ToString()},              
                 new string[]  {"offset",offset.ToString()}
             };
-            return new TradePayData().QueryWechatHB(parameter, "QueryUserSendList");
+
+            DataSet ds = new TradePayData().QueryWechatHB(parameter, "QueryUserSendList");
+
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                ds.Tables[0].Columns.Add("Summary", typeof(string));
+                ds.Tables[0].Columns.Add("State_text", typeof(string));
+                ds.Tables[0].Columns.Add("Refund", typeof(string));
+                ds.Tables[0].Columns.Add("TotalAmount_text", typeof(string));
+
+                foreach (DataRow item in ds.Tables[0].Rows)
+                {
+                    item["Summary"] = string.Format("{0}/{1},总计{2}元",
+                                                    item["ReceivedNum"].ToString(),
+                                                    item["TotalNum"].ToString(),
+                                                    MoneyTransfer.FenToYuan(item["ReceivedAmount"].ToString()));
+
+                    double refundAmount = double.Parse(item["TotalAmount"].ToString()) - double.Parse(item["ReceivedAmount"].ToString());
+
+                    item["Refund"] = MoneyTransfer.FenToYuan(refundAmount).ToString() + "元";
+                    item["TotalAmount_text"] = MoneyTransfer.FenToYuan(item["TotalAmount"].ToString());
+
+                    switch (item["State"].ToString().Trim())
+                    {
+                        case "PREPAY": item["State_text"] = "等待支付"; break;              //1
+                        case "PAYOK": item["State_text"] = "支付完成"; break;               //2
+                        case "PARTRECEIVE": item["State_text"] = "部分领取"; break;         //3
+                        case "ALLRECEIVE": item["State_text"] = "全部领取"; break;          //4
+                        case "OVERTIMEREFUNDED": item["State_text"] = "过期退回"; break;    //5
+                        case "EXCEPTIONREFUNDED": item["State_text"] = "异常退款"; break;   //6
+                        case "REFUNDING": item["State_text"] = "退款中"; break;             //7
+                        default: item["State_text"] = "未知" + item["State"].ToString(); break;
+                    }
+                }
+            }
+
+            return ds;
         }
 
         /// <summary>
@@ -198,7 +236,21 @@ namespace CFT.CSOMS.BLL.WechatPay
                 new string[]  {"limit",limit.ToString()}, 
                 new string[]  {"offset",offset.ToString()}
             };
-            return new TradePayData().QueryWechatHB(parameter, "QueryUserReceiveList");
+
+            DataSet ds = new TradePayData().QueryWechatHB(parameter, "QueryUserReceiveList");
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                ds.Tables[0].Columns.Add("Amount_text", typeof(string));
+                ds.Tables[0].Columns.Add("Title", typeof(string));
+
+                foreach (DataRow item in ds.Tables[0].Rows)
+                {
+                    item["Amount_text"] = MoneyTransfer.FenToYuan(item["Amount"].ToString());
+                    item["Title"] = string.Format("{0}发的红包", item["SendName"].ToString());
+                }
+            }
+
+            return ds;
         }
 
         /// <summary>
@@ -235,7 +287,7 @@ namespace CFT.CSOMS.BLL.WechatPay
             return new TradePayData().QueryWechatHB(parameter, "QueryReceiveById");
         }
 
-        
+
         /// <summary>
         /// 查询实时还款详情
         /// </summary>
@@ -260,9 +312,82 @@ namespace CFT.CSOMS.BLL.WechatPay
                 var row = dt.Rows[0];
                 row["Fret_code"] = CommUtil.URLDecode(row["Fret_code"] as string);
                 CFT.CSOMS.COMMLIB.CommUtil.DbtypeToPageContent(dt, "Fstatus", "Fstatus_str", dicFstatus);
-                
+
             }
             return dt;
         }
+
+        /// <summary>
+        /// 获取微信用户的参与的AA交易记录
+        /// </summary>
+        /// <param name="aaUIN"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public DataSet GetAATradeList(string aaUIN, int startIndex, int count)
+        {
+            DataSet dsAACollections = new TradePayData().GetAATradeList(aaUIN, startIndex, count);
+
+            if (dsAACollections != null && dsAACollections.Tables.Count > 0 && dsAACollections.Tables[0].Rows.Count > 0)
+            {
+                dsAACollections.Tables[0].Columns.Add("Ftotal_paid_amount_text", typeof(string));
+                dsAACollections.Tables[0].Columns.Add("Fstatus_text", typeof(string));
+
+                foreach (DataRow item in dsAACollections.Tables[0].Rows)
+                {
+                    var totalPaidAmountText = MoneyTransfer.FenToYuan(item["Ftotal_paid_amount"].ToString());
+                    switch (item["Ftype"].ToString())
+                    {
+                        case "1":
+                            item["Ftotal_paid_amount_text"] = string.Format("+{0}", totalPaidAmountText);
+                            break;
+                        case "2":
+                            item["Ftotal_paid_amount_text"] = string.Format("-{0}", totalPaidAmountText);
+                            break;
+                        default:
+                            item["Ftotal_paid_amount_text"] = string.Format("未知{0}", totalPaidAmountText);
+                            break;
+                    }
+
+                    switch (item["Flstate"].ToString())
+                    {
+
+                        case "1":
+                            item["Fstatus_text"] = "正常";
+                            break;
+                        case "2":
+                            item["Fstatus_text"] = "作废";
+                            break;
+                        case "3":
+                            item["Fstatus_text"] = "关闭";
+                            break;
+                        default:
+                            item["Fstatus_text"] = "未知" + item["Flstate"].ToString();
+                            break;
+                    }
+                }
+            }
+
+            return dsAACollections;
+        }
+
+        /// <summary>
+        /// 获取指定的AA收单分单记录明细
+        /// </summary>
+        public DataSet GetAATradeDetailsSingleYear(string aaCollectionNo, DateTime createTime, int startIndex, int count)
+        {
+            return new TradePayData().GetAATradeDetailsSingleYear(aaCollectionNo, createTime, startIndex, count);
+        }
+
+        /// <summary>
+        /// 获取指定的AA收款总单信息
+        /// </summary>
+        /// <param name="aaCollectionNo"></param>
+        /// <returns></returns>
+        public DataSet QueryAATotalTradeInfo(string aaCollectionNo)
+        {
+            return new TradePayData().QueryAATotalTradeInfo(aaCollectionNo);
+        }
+
     }
 }

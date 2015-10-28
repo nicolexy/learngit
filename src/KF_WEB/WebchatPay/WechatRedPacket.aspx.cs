@@ -102,19 +102,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 //if (ip == "::1")
                 //    ip = "127.0.0.1";
                 DateTime beginTime = (DateTime)ViewState["beginTime"];
-                DateTime endTime =(DateTime)ViewState["endTime"];
+                DateTime endTime = (DateTime)ViewState["endTime"];
                 var dsReceiveList = new WechatPayService().QueryUserReceiveList(hbUin, beginTime, endTime, start, max);
 
-                if (dsReceiveList != null && dsReceiveList.Tables.Count > 0)
+                if (dsReceiveList != null && dsReceiveList.Tables.Count > 0 && dsReceiveList.Tables[0].Rows.Count > 0)
                 {
-                    dsReceiveList.Tables[0].Columns.Add("Amount_text", typeof(string));
-                    dsReceiveList.Tables[0].Columns.Add("Title", typeof(string));
-
-                    foreach (DataRow item in dsReceiveList.Tables[0].Rows)
-                    {
-                        item["Amount_text"] = classLibrary.setConfig.FenToYuan(item["Amount"].ToString());
-                        item["Title"] = string.Format("{0}发的红包", item["SendName"].ToString());
-                    }
                     gvReceiveList.DataSource = dsReceiveList.Tables[0].DefaultView;
                 }
                 else
@@ -150,38 +142,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 DateTime endTime = (DateTime)ViewState["endTime"];
                 var dsSendList = new WechatPayService().QueryUserSendList(hbUin, beginTime, endTime, start, max);
 
-
-                if (dsSendList != null && dsSendList.Tables.Count > 0)
+                if (dsSendList != null && dsSendList.Tables.Count > 0 || dsSendList.Tables[0].Rows.Count > 0)
                 {
-                    dsSendList.Tables[0].Columns.Add("Summary", typeof(string));
-                    dsSendList.Tables[0].Columns.Add("State_text", typeof(string));
-                    dsSendList.Tables[0].Columns.Add("Refund", typeof(string));
-                    dsSendList.Tables[0].Columns.Add("TotalAmount_text", typeof(string));
-
-                    foreach (DataRow item in dsSendList.Tables[0].Rows)
-                    {
-                        item["Summary"] = string.Format("{0}/{1},总计{2}元",
-                                                        item["ReceivedNum"].ToString(),
-                                                        item["TotalNum"].ToString(),
-                                                        classLibrary.setConfig.FenToYuan(item["ReceivedAmount"].ToString()));
-
-                        double refundAmount = double.Parse(item["TotalAmount"].ToString()) - double.Parse(item["ReceivedAmount"].ToString());
-
-                        item["Refund"] = classLibrary.setConfig.FenToYuan(refundAmount);
-                        item["TotalAmount_text"] = classLibrary.setConfig.FenToYuan(item["TotalAmount"].ToString());
-
-                        switch (item["State"].ToString().Trim())
-                        {
-                            case "PREPAY": item["State_text"] = "等待支付"; break;              //1
-                            case "PAYOK": item["State_text"] = "支付完成"; break;               //2
-                            case "PARTRECEIVE": item["State_text"] = "部分领取"; break;         //3
-                            case "ALLRECEIVE": item["State_text"] = "全部领取"; break;          //4
-                            case "OVERTIMEREFUNDED": item["State_text"] = "过期退回"; break;    //5
-                            case "EXCEPTIONREFUNDED": item["State_text"] = "异常退款"; break;   //6
-                            case "REFUNDING": item["State_text"] = "退款中"; break;             //7
-                            default: item["State_text"] = "未知" + item["State"].ToString(); break;
-                        }
-                    }
                     gvSendList.DataSource = dsSendList.Tables[0].DefaultView;
                 }
                 else
