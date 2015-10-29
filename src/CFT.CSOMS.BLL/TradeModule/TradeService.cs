@@ -787,7 +787,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                     if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
                     {
 
-                        ds = GetBankRollList(u_QQID, u_BeginTime, u_EndTime, istr, imax, ref ref_param);
+                        ds = GetBankRollList(u_QQID, "", u_BeginTime, u_EndTime, istr, imax, ref ref_param);
 
                         if (ds != null && ds.Tables.Count != 0 && ds.Tables[0].Rows.Count != 0)
                         {
@@ -1118,10 +1118,11 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             return (new TradeData()).QueryBusCardPrepaid(beginDate, endDate, PageSize, uin, listid, cardid, out errMsg);
         }
-        public DataSet GetBankRollList(string u_QQID, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax, ref  string ref_param)
+        public DataSet GetBankRollList(string u_QQID, string fuid, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax, ref  string ref_param)
         {
-            return (new TradeData()).GetBankRollList(u_QQID, u_BeginTime, u_EndTime, istr, imax, ref  ref_param);
+            return (new TradeData()).GetBankRollList(u_QQID, fuid, u_BeginTime, u_EndTime, istr, imax, ref  ref_param);
         }
+
         public DataSet GetFundCardListDetail(string flistid, string fsupplylist, string fcarrdid, int offset, int limit)
         {
             DataSet ds = new TradeData().GetFundCardListDetail(flistid, fsupplylist, fcarrdid, offset, limit);

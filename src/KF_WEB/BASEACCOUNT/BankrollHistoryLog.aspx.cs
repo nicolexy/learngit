@@ -112,6 +112,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             else if (this.InternalID.Checked)
             {
+                Session["fuid"] = id;  //注销帐号查询资金流水
                 var qs = new Query_Service.Query_Service();
                 return qs.Uid2QQ(id);
             }
