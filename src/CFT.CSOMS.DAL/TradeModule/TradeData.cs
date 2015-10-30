@@ -809,84 +809,69 @@ namespace CFT.CSOMS.DAL.TradeModule
         }
 
         /// <summary>
-        /// 查询微信支付转账和微信支付红包支付未完成交易数据
+        /// 查询 转账是否可以注销  
         /// </summary>
-        /// <param name="pay_openid"></param>
-        /// <returns></returns>
-        public int QueryWXUnfinishedTrade(string WeChatName)
+        /// <param name="open_id"></param>
+        /// <returns>true 可以注销</returns>
+        public bool QueryWXUnfinishedTrade(string WeChatName)
         {
-            string wxUIN = WeChatHelper.GetUINFromWeChatName(WeChatName);
-            string wxHBUIN = WeChatHelper.GetHBUINFromWeChatName(WeChatName);
-
-            int num = 0;
-            string relayIP = Apollo.Common.Configuration.AppSettings.Get<string>("Relay_IP", "172.27.31.177");
-            int relayPort = Apollo.Common.Configuration.AppSettings.Get<int>("Relay_PORT", 22000);
-            string RequestType = "100222";//转账的
-            string open_id = wxUIN.Trim();
-            string RequestText = "pay_openid=" + open_id;
-            try
+            string acctid = WeChatHelper.GetUINFromWeChatName(WeChatName.Trim()).Replace("@wx.tenpay.com", "");
+            System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+            var url = Apollo.Common.Configuration.AppSettings.Get<string>("CancellationUnfinishedQueryCGI", "http://10.229.141.17:11903/cgi-bin/wxtf/canunregtransfer?f=json");
+            var req = jss.Serialize(new
             {
-                string answer = RelayAccessFactory.RelayInvoke(RequestText, RequestType, true, false, relayIP, relayPort, "");
-                answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
-                string Msg;
-                DataSet ds = CommQuery.ParseRelayStr(answer, out Msg, true);
-                if (Msg != "")
-                {
-                    LogHelper.LogError(Msg);
-                    throw new Exception(Msg);
-                }
-                if (ds.Tables[0].Columns.Contains("num"))
-                {
-                    num = int.Parse(ds.Tables[0].Rows[0]["num"].ToString());
-                    return num;
-                }
-                else
-                {
-                    LogHelper.LogError("查询微信转账条目返回结果不正确!");
-                    throw new Exception("查询微信转账条目返回结果不正确!");
-                }
-            }
-            catch (System.Exception ex)
+                acctid = acctid
+            });
+            string msg = "";
+            var answer = commRes.GetFromCGIPost(url, null, req,out msg);
+            if (msg != "")
             {
-                LogHelper.LogError("查询微信转账条目异常:" + ex.Message);
-                throw new Exception("查询微信转账条目异常:" + ex.Message);
+                throw new Exception("调用CGI出错:" + msg);
             }
+            if (string.IsNullOrEmpty(answer))
+            {
+                throw new Exception("CGI返回值为空");
+            }
+            var obj = (jss.DeserializeObject(answer) as Dictionary<string, object>)["result"] as Dictionary<string, object>;
+            if ((int)obj["retcode"] != 0)
+            {
+                throw new Exception("转账是否可以注销失败:" + answer);
+            }
+            return (int)obj["flag"] == 0;  //4、flag转账标记，0表示可以注销，1表示不可以注销
         }
-        public int QueryWXUnfinishedHB(string WeChatName)
-        {
-            string wxHBOpenID = WeChatHelper.GetHBOpenIdFromWeChatName(WeChatName);
-            int num = 0;
-            string relayIP = Apollo.Common.Configuration.AppSettings.Get<string>("RelayWXHB_IP", "10.198.17.219");
-            int relayPort = Apollo.Common.Configuration.AppSettings.Get<int>("RelayWXHB_Port", 22001);
-            string RequestText = "uin=" + wxHBOpenID;
-            string Msg = "";
-            try
-            {
-                string stranswer = RelayAccessFactory.RelayInvoke(RequestText, "100038", false, false, relayIP, relayPort, "");
-                stranswer = System.Web.HttpUtility.UrlDecode(stranswer, System.Text.Encoding.GetEncoding("GB2312"));
-                DataSet ds = CommQuery.ParseRelayStr(stranswer, out Msg, true);
-                if (Msg != "")
-                {
-                    LogHelper.LogError(Msg);
-                    throw new Exception(Msg);
-                }
-                if (ds.Tables[0].Columns.Contains("num"))
-                {
-                    num = int.Parse(ds.Tables[0].Rows[0]["num"].ToString());
-                }
-                else
-                {
-                    LogHelper.LogError("微信红包未完成交易查询返回结果有误!");
-                    throw new Exception("微信红包未完成交易查询返回结果有误!");
-                }
-                return num;
-            }
-            catch (System.Exception ex)
-            {
-                LogHelper.LogError("微信红包在途条目查询失败:" + ex.Message);
-                throw new Exception("微信红包在途条目查询失败:" + ex.Message);
-            }
 
+        /// <summary>
+        /// 查询 红包是否可以注销
+        /// </summary>
+        /// <param name="WeChatName"></param>
+        /// <returns>true 可以注销</returns>
+        public bool QueryWXUnfinishedHB(string WeChatName)
+        {
+            string acctid = WeChatHelper.GetUINFromWeChatName(WeChatName.Trim()).Replace("@wx.tenpay.com", "");
+            System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+            var url = Apollo.Common.Configuration.AppSettings.Get<string>("CancellationHBQueryCGI", "http://10.229.141.17:11903/cgi-bin/wxhb/canunreghb?f=json");
+            var req = jss.Serialize(new
+            {
+                acctid = acctid
+            });
+
+            string msg = "";
+
+            var answer = commRes.GetFromCGIPost(url, null, req, out msg);
+            if (msg != "")
+            {
+                throw new Exception("调用CGI出错:" + msg);
+            }
+            if (string.IsNullOrEmpty(answer))
+            {
+                throw new Exception("CGI返回值为空");
+            }
+            var obj = (jss.DeserializeObject(answer) as Dictionary<string, object>)["result"] as Dictionary<string,object>;
+            if ((int)obj["retcode"] != 0)
+            {
+                throw new Exception("转账是否可以注销失败:" + answer);
+            }
+            return (int)obj["flag"] == 0;  //2、flag转账标记，0表示可以注销，1表示不可以注销
         }
 
         public DataSet GetUnfinishedMobileQHB(string uin)

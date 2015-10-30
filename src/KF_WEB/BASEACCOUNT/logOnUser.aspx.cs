@@ -277,26 +277,20 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     #region 微信特有判断
                     try
                     {
-                        int WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(TextBox2_WX.Text);
-                        if (WXUnfinishedTrade > 0)
+                        var WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(TextBox2_WX.Text);
+                        if (!WXUnfinishedTrade)
                         {
-                            LogHelper.LogInfo("此账号有未完成微信支付转账，禁止注销!");
+                            LogHelper.LogInfo(TextBox2_WX.Text + "此账号有未完成微信支付转账，禁止注销!");
                             WebUtils.ShowMessage(this.Page, "此账号有未完成微信支付转账，禁止注销!");
                             return;
                         }
 
-                        var endDate = DateTime.Today.AddDays(+1);
-                        var startDate = endDate.AddDays(-15);
-                        var openid = wxHBUIN.Replace("@hb.tenpay.com", "");
-                        if (!string.IsNullOrEmpty(openid))
+                        var HasUnfinishedHB = (new TradeService()).QueryWXUnfinishedHB(TextBox2_WX.Text);
+                        if (!HasUnfinishedHB)
                         {
-                            var HasUnfinishedHB = (new TradeService()).QueryWXHasUnfinishedHB(openid, startDate, endDate);
-                            if (HasUnfinishedHB)
-                            {
-                                LogHelper.LogInfo("此账号有未完成微信红包，禁止注销!");
-                                WebUtils.ShowMessage(this.Page, "此账号有未完成微信红包，禁止注销!");
-                                return;
-                            }
+                            LogHelper.LogInfo(TextBox2_WX.Text + "此账号有未完成微信红包，禁止注销!");
+                            WebUtils.ShowMessage(this.Page, "此账号有未完成微信红包，禁止注销!");
+                            return;
                         }
                     }
                     catch (System.Exception ex)
