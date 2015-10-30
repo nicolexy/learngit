@@ -89,7 +89,14 @@
 								</asp:BoundColumn>
 							</Columns>
 							<PagerStyle ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>
-						</asp:datagrid></TD>
+						</asp:datagrid>
+                        <webdiyer:AspNetPager ID="BalanceRollPager"  runat="server" HorizontalAlign="right"
+                    NumericButtonCount="5" PagingButtonSpacing="0" ShowInputBox="always" CssClass="mypager"
+                    SubmitButtonText="×ªµ½" NumericButtonTextFormatString="[{0}]" AlwaysShow="True" PageSize="5"
+                    OnPageChanged="BalanceRollPager_PageChanged">
+                </webdiyer:AspNetPager>
+
+					</TD>
 				</TR>
                 
 			</table>

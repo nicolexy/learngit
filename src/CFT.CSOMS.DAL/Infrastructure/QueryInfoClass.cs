@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CFT.CSOMS.DAL.TradeModule;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -1783,7 +1784,8 @@ namespace CFT.CSOMS.DAL.Infrastructure
 
             //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
             ICEAccess ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("AP"));
+            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("AP"));
+            SettleData settledata = new SettleData();
             try
             {
                 string errMsg = "";
@@ -1817,13 +1819,14 @@ namespace CFT.CSOMS.DAL.Infrastructure
 
                 ice.CloseConn();
 
-                da.OpenConn();
-                string sql = "select * from app_platform.t_account_freeze where Fuid = '" + fuid + "'";
-                DataTable dt2 = da.GetTable(sql);
-                if (dt2 != null && dt2.Rows.Count > 0)
-                {
-                    fz_amt = dt2.Rows[0]["Famount"].ToString();
-                }
+                //da.OpenConn();
+                //string sql = "select * from app_platform.t_account_freeze where Fuid = '" + fuid + "'";
+                //DataTable dt2 = da.GetTable(sql);
+                //if (dt2 != null && dt2.Rows.Count > 0)
+                //{
+                //    fz_amt = dt2.Rows[0]["Famount"].ToString();
+                //}
+                fz_amt = settledata.getAmount(fuid, "uid");
 
                 //用dt里的一条记录组合出select语句。
                 string strtmp = " select ";
@@ -1838,7 +1841,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
             finally
             {
                 ice.Dispose();
-                da.Dispose();
+                //da.Dispose();
             }
         }
 

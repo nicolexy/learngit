@@ -18,6 +18,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 {
@@ -35,7 +36,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
                 int operid = Int32.Parse(Session["OperID"].ToString());
-
+                BalanceRollPager.RecordCount = 10000;
+                BalanceRollPager.CurrentPageIndex = 1;
 				if(!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
             }
             catch
@@ -52,7 +54,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
                 if (spid == "")
                     throw new Exception("商户号不能为空！");
 
-                BindInfo(spid);
+                BindInfo(spid, 0, 10);
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
@@ -65,16 +67,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
             }
         }
 
-        private void BindInfo(string spid)
+        private void BindInfo(string spid, int offset, int limit)
         {
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            DataSet ds;
-            ds = qs.QuerySettleRuleList(spid);
-
-            if (ds != null && ds.Tables.Count > 0)
+            SettleService settleService = new SettleService();
+            DataTable dt = settleService.QuerySettleRuleList(spid, offset, limit);
+            if (dt != null)
             {
-                DataTable dt = ds.Tables[0];
-
                 dt.Columns.Add("Fcharge_method_str", typeof(string)); //收费方式
                 dt.Columns.Add("Fstate_str", typeof(string)); //记录状态
                 dt.Columns.Add("Fsettle_type_str", typeof(string)); //业务类型
@@ -89,20 +87,33 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
                 ht3.Add("0", "默认");
                 ht3.Add("1", "委托代扣");
 
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Fcharge_method", "Fcharge_method_str", ht1);
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Fstate", "Fstate_str", ht2);
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Fsettle_type", "Fsettle_type_str", ht3);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Fcharge_method", "Fcharge_method_str", ht1);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Fstate", "Fstate_str", ht2);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Fsettle_type", "Fsettle_type_str", ht3);
 
                 this.DataGrid1.DataSource = dt.DefaultView;
                 this.DataGrid1.DataBind();
             }
-            else 
+            else
             {
                 throw new Exception("没有找到记录！");
             }
-            
         }
 
+        protected void BalanceRollPager_PageChanged(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
+        {
+            try
+            {
+                this.BalanceRollPager.CurrentPageIndex = e.NewPageIndex;
+
+                BindInfo(this.txtSpid.Text.Trim(), e.NewPageIndex,10);
+               
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this, string.Format("翻页异常:{0}", PublicRes.GetErrorMsg(ex.Message)));
+            }
+        }
 		#region Web 窗体设计器生成的代码
 		override protected void OnInit(EventArgs e)
 		{

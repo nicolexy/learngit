@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="Infrastructure\PublicResTest.cs" />
     <Compile Include="SysManageModuleTest\SysManageDataTest.cs" />
+    <Compile Include="SysManageModuleTest\SettleTest.cs" />
     <Compile Include="Util\Tool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TradeDataTest.cs" />

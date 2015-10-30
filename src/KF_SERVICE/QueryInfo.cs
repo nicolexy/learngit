@@ -23,6 +23,7 @@ using System.Threading;
 using System.IO;
 using System.Xml;
 using System.Text.RegularExpressions;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Service
 {
@@ -806,7 +807,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             string fz_amt = ""; //分账冻结金额 yinhuang 2014/1/8
 
             ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("AP"));
+            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("AP"));
             try
             {
                 string errMsg = "";
@@ -861,13 +862,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 ice.CloseConn();
 
-                da.OpenConn();
-                string sql = "select * from app_platform.t_account_freeze where Fuid = '" + fuid + "'";
-                DataTable dt2 = da.GetTable(sql);
-                if (dt2 != null && dt2.Rows.Count > 0)
-                {
-                    fz_amt = dt2.Rows[0]["Famount"].ToString();
-                }
+                //da.OpenConn();
+                //string sql = "select * from app_platform.t_account_freeze where Fuid = '" + fuid + "'";
+                //DataTable dt2 = da.GetTable(sql);
+                //if (dt2 != null && dt2.Rows.Count > 0)
+                //{
+                //    fz_amt = dt2.Rows[0]["Famount"].ToString();
+                //}
+
+                fz_amt = new SettleService().getAmount(fuid, "uid");
+
 
                 //用dt里的一条记录组合出select语句。
                 string strtmp = " select ";
@@ -882,7 +886,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             finally
             {
                 ice.Dispose();
-                da.Dispose();
+                //da.Dispose();
             }
         }
 

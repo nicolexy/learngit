@@ -18,6 +18,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -153,15 +154,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
         private void BindInfo(string listid)
         {
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            DataSet ds;
-            ds = qs.GetSettleListAppend(listid);
+            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            //DataSet ds;
+            //ds = qs.GetSettleListAppend(listid);
 
-            if(ds != null && ds.Tables.Count >0 && ds.Tables[0].Rows.Count > 0 )
+            SettleService service = new SettleService();
+            DataTable dt = service.GetSettleListAppend(listid);
+            if (dt != null && dt.Rows.Count > 0)
             {
-                DataRow dr = ds.Tables[0].Rows[0];	
+                DataRow dr = dt.Rows[0];
                 //settleDetail.NavigateUrl = "SettleInfoDetail.aspx?listid=" +  PublicRes.GetString(dr["Flistid"]);
-			
+
                 Flistid.Text = PublicRes.GetString(dr["Flistid"]);
                 //隐藏订单号 yinhuang
                 string spid = dr["Flistid"].ToString().Substring(0, 10);
@@ -170,10 +173,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     //不在白名单
                     Fcoding.Text = classLibrary.setConfig.ConvertID(PublicRes.GetString(dr["Fcoding"]), 0, 4);
                 }
-                else {
+                else
+                {
                     Fcoding.Text = PublicRes.GetString(dr["Fcoding"]);
                 }
-                
+
                 Fpnr.Text = PublicRes.GetString(dr["Fpnr"]);
                 Fcontact.Text = PublicRes.GetString(dr["Fcontact"]);
                 Fpri_spid.Text = PublicRes.GetString(dr["Fpri_spid"]);

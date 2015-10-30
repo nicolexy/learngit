@@ -18,6 +18,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -173,17 +174,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             int start = max * (index-1);
 
 
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            DataSet ds;
-            ds = qs.GetAirAdjustList(int.Parse(ViewState["queryType"].ToString()), 
-                                        ViewState["Flistid"].ToString(), 
-                                        ViewState["Fspid"].ToString(),
-                                        ViewState["begindate"].ToString(),
-                                        ViewState["enddate"].ToString(),
-                                        start,
-                                        max);
+            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            //DataSet ds;
+            //ds = qs.GetAirAdjustList(int.Parse(ViewState["queryType"].ToString()), 
+            //                            ViewState["Flistid"].ToString(), 
+            //                            ViewState["Fspid"].ToString(),
+            //                            ViewState["begindate"].ToString(),
+            //                            ViewState["enddate"].ToString(),
+            //                            start,
+            //                            max);
+            SettleService service = new SettleService();
+            DataTable dt = service.GetAirAdjustList(int.Parse(ViewState["queryType"].ToString()),
+                                       ViewState["Flistid"].ToString(),
+                                      ViewState["Fspid"].ToString(),
+                                     ViewState["begindate"].ToString(),
+                                     ViewState["enddate"].ToString(),
+                                      start,
+                                     max);
 
-            DataTable dt = ds.Tables[0];
+ 
             dt.Columns.Add("listid",typeof(string));
             dt.Columns.Add("spListid",typeof(string));
             dt.Columns.Add("TimeStr",typeof(string));
