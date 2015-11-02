@@ -18,6 +18,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 {
@@ -82,14 +83,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 
         private void BindInfo(string szListid, string orderid, string spid, string adjust_time)
         {
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            DataSet ds;
-            ds = qs.QueryAdjustList(szListid, orderid,spid,adjust_time);
+            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            //DataSet ds;
+            //ds = qs.QueryAdjustList(szListid, orderid,spid,adjust_time);
+            SettleService service = new SettleService();
+            DataTable dt = service.QueryAdjustList(szListid, orderid, spid, adjust_time);
 
-            if (ds != null && ds.Tables.Count > 0)
+            if (dt != null  )
             {
-                DataTable dt = ds.Tables[0];
-
                 dt.Columns.Add("Fnum_str", typeof(string)); //调帐金额
                 dt.Columns.Add("Ftype_str", typeof(string));//调帐类型
                 dt.Columns.Add("Fstatus_str", typeof(string)); //调帐状态
@@ -104,10 +105,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
                 ht2.Add("4", "处理成功");
                 ht2.Add("5", "处理失败");
 
-                classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fnum", "Fnum_str");
+                classLibrary.setConfig.FenToYuan_Table(dt, "Fnum", "Fnum_str");
 
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Ftype", "Ftype_str", ht1);
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Fstatus", "Fstatus_str", ht2);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Ftype", "Ftype_str", ht1);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Fstatus", "Fstatus_str", ht2);
 
                 this.DataGrid1.DataSource = dt.DefaultView;
                 this.DataGrid1.DataBind();

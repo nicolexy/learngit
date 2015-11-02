@@ -18,6 +18,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -123,11 +124,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             LabelListId.Text = listid;
             labelRefundId.Text = refund_id;
 
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            DataSet ds;
-            ds = qs.GetSettleRefundListDetail(refund_id, listid);
-            
-            DataTable dt = ds.Tables[0];
+            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            //DataSet ds;
+            //ds = qs.GetSettleRefundListDetail(refund_id, listid);
+            SettleService service = new SettleService();
+
+             DataTable dt = service.GetSettleRefundListDetail(refund_id, listid);
+             if (dt == null) throw new Exception("没有查到数据");
+ 
             
             dt.Columns.Add("uin",typeof(string));
             dt.Columns.Add("status",typeof(string));
