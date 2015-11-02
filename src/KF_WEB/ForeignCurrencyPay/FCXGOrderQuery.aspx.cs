@@ -103,7 +103,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             lb_buy_uin.Text = row["buy_uin"] as string;
             lb_sp_acno.Text = row["sp_acno"] as string;
             lb_price_str.Text = row["price_str"] as string;
-            lb_price_curtype.Text = row["price_curtype"] as string;
+            lb_price_curtype_str.Text = row["price_curtype_str"] as string;
         }
     }
 }

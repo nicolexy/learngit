@@ -134,15 +134,15 @@ namespace CFT.CSOMS.DAL.TradeModule
                 "|start_time:" + start_time.ToString("yyyy-MM-dd") +
                 "|end_time:" + end_time.ToString("yyyy-MM-dd");
 
-            var configReqids = Apollo.Common.Configuration.AppSettings.Get<string>("BeforeCancelTradeQueryReqIds", "2014:415,2015:414");
-            var dic = configReqids.ToDictionary(',', ':');
-            if (!dic.ContainsKey(year))
-            {
-                throw new Exception("注销前历史库交易查询失败 未配置:" + year + "这个年份的reqid ");
-            }
+            //var configReqids = Apollo.Common.Configuration.AppSettings.Get<string>("BeforeCancelTradeQueryReqIds", "2014:415,2015:414");
+            //var dic = configReqids.ToDictionary(',', ':');
+            //if (!dic.ContainsKey(year))
+            //{
+            //    throw new Exception("注销前历史库交易查询失败 未配置:" + year + "这个年份的reqid ");
+            //}
 
-            var reqid = dic[year];
-            var ds = new PublicRes().QueryCommRelay8020(reqid, fields, 0, 20);
+           // var reqid = dic[year];
+            var ds = new PublicRes().QueryCommRelay8020("415", fields, 0, 20);
             if (ds != null && ds.Tables.Count != 0 && ds.Tables[0].Rows.Count != 0)
             {
                 var dt = ds.Tables[0];
