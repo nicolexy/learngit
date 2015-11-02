@@ -183,7 +183,7 @@
                     </td>
                     <th>卖家标价的币种：</th>
                     <td>
-                        <asp:Label ID="lb_price_curtype" runat="server" />
+                        <asp:Label ID="lb_price_curtype_str" runat="server" />
                     </td>
                 </tr>
                 <tr>

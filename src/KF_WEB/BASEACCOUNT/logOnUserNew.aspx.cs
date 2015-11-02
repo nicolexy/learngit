@@ -45,7 +45,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
             {
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
-                if (!ClassLib.ValidateRight("CancelAccount", this))
+                if (!ClassLib.ValidateRight("InfoCenter", this))
                     Response.Redirect("../login.aspx?wh=1");
             }
             catch

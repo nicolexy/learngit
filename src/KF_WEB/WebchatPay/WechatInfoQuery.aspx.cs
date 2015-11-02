@@ -155,13 +155,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             {
                 //使用微信查询
                 isWechat = true;
-                ds = myService.GetUserAccountFromWechat(Session["QQID"].ToString(), istr, imax);
-                //ds = myService.GetUserAccount(Session["QQID"].ToString(),1, istr, imax);
+                ds = myService.GetUserAccountFromWechat(Session["QQID"].ToString(), istr, imax);              
             }
             else { 
               //使用账号查询
-                isWechat = false;
-              //ds = myService.GetUserAccount(Session["QQID"].ToString(), 1, istr, imax); 
+                isWechat = false;            
                 throw new Exception("请选择查询条件");
             }
                       
@@ -220,18 +218,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                     this.Label12_Fstate.Text = Transfer.accountState(PublicRes.objectToString(ds.Tables[0], "Fstate"));
                 }
                 this.Label13_Fuser_type.Text = Transfer.convertFuser_type(PublicRes.objectToString(ds.Tables[0], "Fuser_type"));
-
-                // 2012/5/2 因为需要Q_USER_INFO获取准确的用户真实姓名而改动
-                /*
-                try
-                {
-                    this.Label14_Ftruename.Text = PublicRes.objectToString(ds.Tables[0].Rows[0]["UserRealName2"]);
-                }
-                catch
-                {
-                    this.Label14_Ftruename.Text = PublicRes.objectToString(ds.Tables[0].Rows[0]["Ftruename"]);
-                }
-                */
+           
                 //将上面取姓名的逻辑修改 yinhuang 2013/7/30
                 string str_truename = PublicRes.objectToString(ds.Tables[0],"UserRealName2");
                 if (str_truename == "") {
@@ -364,140 +351,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
 
             SetButtonVisible(); //furion 20050902
-
-            //try
-            //{
-            //    string inmsg = "uin=" + Session["QQID"].ToString();
-            //    inmsg += "&query_str=level|value|vipflag|subid|exp_date";
-
-            //    string reply;
-            //    short sresult;
-            //    string msg = "";
-
-            //    if (TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.middleInvoke("vip_query_svc", inmsg, false, out reply, out sresult, out msg))
-            //    {
-            //        if (sresult != 0)
-            //        {
-            //            throw new Exception("vip_query_svc接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply);
-            //        }
-            //        else
-            //        {
-            //            if (reply.IndexOf("result=0") > -1)
-            //            {
-            //                //"channel=1&exp_date=20121212&last_tran_time=1323087894&level=1&res_info=query%20db%20success&result=0&subid=1&uin=19751515&value=4460&vipflag=2"
-
-            //                string[] paramlist = reply.Split('&');
-
-            //                foreach (string param in paramlist)
-            //                {
-            //                    if (param.StartsWith("value"))
-            //                    {
-            //                        this.vip_value.Text = getCgiString(param.Replace("value=", ""));
-            //                    }
-            //                    else if (param.StartsWith("vipflag"))
-            //                    {
-            //                        string vipflag = getCgiString(param.Replace("vipflag=", ""));
-            //                        if (vipflag == "0")
-            //                            this.vip_flag.Text = "非会员";
-            //                        else if (vipflag == "1")
-            //                            this.vip_flag.Text = "普通会员";
-            //                        else if (vipflag == "2")
-            //                            this.vip_flag.Text = "VIP会员";
-            //                        else if (vipflag == "4")
-            //                            this.vip_flag.Text = "连续1个月不做任务的普通会员（同非会员）";
-            //                        else
-            //                            this.vip_flag.Text = "Unknown";
-            //                    }
-            //                    else if (param.StartsWith("level"))
-            //                    {
-            //                        this.vip_level.Text = getCgiString(param.Replace("level=", ""));
-            //                    }
-            //                    else if (param.StartsWith("subid"))
-            //                    {
-            //                        string subid = getCgiString(param.Replace("subid=", ""));
-            //                        if (subid == "0")
-            //                            this.vip_channel.Text = "无支付方式";
-            //                        else if (subid == "1")
-            //                            this.vip_channel.Text = "手机支付";
-            //                        else if (subid == "2")
-            //                            this.vip_channel.Text = "个人帐户支付";
-            //                        else if (subid == "3")
-            //                            this.vip_channel.Text = "Vnet支付";
-            //                        else if (subid == "4")
-            //                            this.vip_channel.Text = "PHS小灵通支付";
-            //                        else if (subid == "5")
-            //                            this.vip_channel.Text = "银行支付";
-            //                        else if (subid == "100")
-            //                            this.vip_channel.Text = "Q币卡支付";
-            //                        else if (subid == "101")
-            //                            this.vip_channel.Text = "声讯支付";
-            //                        else if (subid == "102")
-            //                            this.vip_channel.Text = "ESALES支付";
-            //                        else if (subid == "103")
-            //                            this.vip_channel.Text = "他人赠送";
-            //                        else if (subid == "104")
-            //                            this.vip_channel.Text = "索要";
-            //                        else if (subid == "105")
-            //                            this.vip_channel.Text = "公司活动赠送";
-            //                        else if (subid == "106")
-            //                            this.vip_channel.Text = "免费（用于公免）";
-            //                        else if (subid == "107")
-            //                            this.vip_channel.Text = "电信卡";
-            //                        else if (subid == "108")
-            //                            this.vip_channel.Text = "缴费卡支付";
-            //                        else if (subid == "109")
-            //                            this.vip_channel.Text = "积分";
-            //                        else if (subid == "110")
-            //                            this.vip_channel.Text = "广州收费易";
-            //                        else if (subid == "111")
-            //                            this.vip_channel.Text = "Q点";
-            //                        else if (subid == "112")
-            //                            this.vip_channel.Text = "EPAY";
-            //                        else if (subid == "113")
-            //                            this.vip_channel.Text = "MPAY";
-            //                        else if (subid == "114")
-            //                            this.vip_channel.Text = "声讯预付费（活动接口）";
-            //                        else if (subid == "115")
-            //                            this.vip_channel.Text = "PPW_PAIPAI 拍拍渠道";
-            //                        else if (subid == "116")
-            //                            this.vip_channel.Text = "赠送索回";
-            //                        else if (subid == "117")
-            //                            this.vip_channel.Text = "声讯预付费  2006.10,移动联通";
-            //                        else if (subid == "118")
-            //                            this.vip_channel.Text = "Q币不足Q点支付";
-            //                        else if (subid == "119")
-            //                            this.vip_channel.Text = "Q点不足Q币支付";
-            //                        else if (subid == "120")
-            //                            this.vip_channel.Text = "移动do分离";
-            //                        else if (subid == "121")
-            //                            this.vip_channel.Text = "tenpay";
-            //                        else if (subid == "122")
-            //                            this.vip_channel.Text = "手机声讯渠道";
-            //                        else if (subid == "123")
-            //                            this.vip_channel.Text = "统一帐户渠道";
-            //                        else
-            //                            this.vip_channel.Text = "Unknown";
-            //                    }
-            //                    else if (param.StartsWith("exp_date"))
-            //                    {
-            //                        this.vip_exp_date.Text = getCgiString(param.Replace("exp_date=", ""));
-            //                    }
-            //                }
-            //            }
-            //            else
-            //            {
-            //                throw new Exception("vip_query_svc接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply);
-            //            }
-            //        }
-            //    }
-            //    else
-            //    {
-            //        throw new Exception("vip_query_svc接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply);
-            //    }
-            //}
-            //catch
-            //{ }
-
+      
             try
             {
                 string uin = Session["QQID"].ToString();
@@ -553,15 +407,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             ds = myService.GetUserAccountCancel(this.TextBox1_InputQQ.Text.Trim(), 1, istr, imax);
 
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
-            {
-                ////也有可能是快速交易用户
-                ////furion 新加一个函数，判断是否为快速交易用户，fsign=2并且无t_user表。
-                //if (myService.IsFastPayUser(Session["QQID"].ToString()))
-                //{
-                //    this.Label14_Ftruename.Text = "快速交易用户";
-                //    this.Label12_Fstate.Text = "";
-                //}
-                //else
+            {             
                     throw new Exception("数据库无此记录");
             }
             else
@@ -711,139 +557,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 return;
             }
 
-            //try
-            //{
-            //    string inmsg = "uin=" + Session["QQID"].ToString();
-            //    inmsg += "&query_str=level|value|vipflag|subid|exp_date";
-
-            //    string reply;
-            //    short sresult;
-            //    string msg = "";
-
-            //    if (TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.middleInvoke("vip_query_svc", inmsg, false, out reply, out sresult, out msg))
-            //    {
-            //        if (sresult != 0)
-            //        {
-            //            throw new Exception("vip_query_svc接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply);
-            //        }
-            //        else
-            //        {
-            //            if (reply.IndexOf("result=0") > -1)
-            //            {
-            //                //"channel=1&exp_date=20121212&last_tran_time=1323087894&level=1&res_info=query%20db%20success&result=0&subid=1&uin=19751515&value=4460&vipflag=2"
-
-            //                string[] paramlist = reply.Split('&');
-
-            //                foreach (string param in paramlist)
-            //                {
-            //                    if (param.StartsWith("value"))
-            //                    {
-            //                        this.vip_value.Text = getCgiString(param.Replace("value=", ""));
-            //                    }
-            //                    else if (param.StartsWith("vipflag"))
-            //                    {
-            //                        string vipflag = getCgiString(param.Replace("vipflag=", ""));
-            //                        if (vipflag == "0")
-            //                            this.vip_flag.Text = "非会员";
-            //                        else if (vipflag == "1")
-            //                            this.vip_flag.Text = "普通会员";
-            //                        else if (vipflag == "2")
-            //                            this.vip_flag.Text = "VIP会员";
-            //                        else if (vipflag == "4")
-            //                            this.vip_flag.Text = "连续1个月不做任务的普通会员（同非会员）";
-            //                        else
-            //                            this.vip_flag.Text = "Unknown";
-            //                    }
-            //                    else if (param.StartsWith("level"))
-            //                    {
-            //                        this.vip_level.Text = getCgiString(param.Replace("level=", ""));
-            //                    }
-            //                    else if (param.StartsWith("subid"))
-            //                    {
-            //                        string subid = getCgiString(param.Replace("subid=", ""));
-            //                        if (subid == "0")
-            //                            this.vip_channel.Text = "无支付方式";
-            //                        else if (subid == "1")
-            //                            this.vip_channel.Text = "手机支付";
-            //                        else if (subid == "2")
-            //                            this.vip_channel.Text = "个人帐户支付";
-            //                        else if (subid == "3")
-            //                            this.vip_channel.Text = "Vnet支付";
-            //                        else if (subid == "4")
-            //                            this.vip_channel.Text = "PHS小灵通支付";
-            //                        else if (subid == "5")
-            //                            this.vip_channel.Text = "银行支付";
-            //                        else if (subid == "100")
-            //                            this.vip_channel.Text = "Q币卡支付";
-            //                        else if (subid == "101")
-            //                            this.vip_channel.Text = "声讯支付";
-            //                        else if (subid == "102")
-            //                            this.vip_channel.Text = "ESALES支付";
-            //                        else if (subid == "103")
-            //                            this.vip_channel.Text = "他人赠送";
-            //                        else if (subid == "104")
-            //                            this.vip_channel.Text = "索要";
-            //                        else if (subid == "105")
-            //                            this.vip_channel.Text = "公司活动赠送";
-            //                        else if (subid == "106")
-            //                            this.vip_channel.Text = "免费（用于公免）";
-            //                        else if (subid == "107")
-            //                            this.vip_channel.Text = "电信卡";
-            //                        else if (subid == "108")
-            //                            this.vip_channel.Text = "缴费卡支付";
-            //                        else if (subid == "109")
-            //                            this.vip_channel.Text = "积分";
-            //                        else if (subid == "110")
-            //                            this.vip_channel.Text = "广州收费易";
-            //                        else if (subid == "111")
-            //                            this.vip_channel.Text = "Q点";
-            //                        else if (subid == "112")
-            //                            this.vip_channel.Text = "EPAY";
-            //                        else if (subid == "113")
-            //                            this.vip_channel.Text = "MPAY";
-            //                        else if (subid == "114")
-            //                            this.vip_channel.Text = "声讯预付费（活动接口）";
-            //                        else if (subid == "115")
-            //                            this.vip_channel.Text = "PPW_PAIPAI 拍拍渠道";
-            //                        else if (subid == "116")
-            //                            this.vip_channel.Text = "赠送索回";
-            //                        else if (subid == "117")
-            //                            this.vip_channel.Text = "声讯预付费  2006.10,移动联通";
-            //                        else if (subid == "118")
-            //                            this.vip_channel.Text = "Q币不足Q点支付";
-            //                        else if (subid == "119")
-            //                            this.vip_channel.Text = "Q点不足Q币支付";
-            //                        else if (subid == "120")
-            //                            this.vip_channel.Text = "移动do分离";
-            //                        else if (subid == "121")
-            //                            this.vip_channel.Text = "tenpay";
-            //                        else if (subid == "122")
-            //                            this.vip_channel.Text = "手机声讯渠道";
-            //                        else if (subid == "123")
-            //                            this.vip_channel.Text = "统一帐户渠道";
-            //                        else
-            //                            this.vip_channel.Text = "Unknown";
-            //                    }
-            //                    else if (param.StartsWith("exp_date"))
-            //                    {
-            //                        this.vip_exp_date.Text = getCgiString(param.Replace("exp_date=", ""));
-            //                    }
-            //                }
-            //            }
-            //            else
-            //            {
-            //                throw new Exception("vip_query_svc接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply);
-            //            }
-            //        }
-            //    }
-            //    else
-            //    {
-            //        throw new Exception("vip_query_svc接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply);
-            //    }
-            //}
-            //catch
-            //{ }
-
+        
             try
             {
                 string uin = Session["QQID"].ToString();

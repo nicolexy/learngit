@@ -112,6 +112,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             else if (this.InternalID.Checked)
             {
+                Session["fuid"] = id;  //注销帐号查询资金流水
                 var qs = new Query_Service.Query_Service();
                 return qs.Uid2QQ(id);
             }
@@ -279,10 +280,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 		private void BindData(int istr,int imax)
 		{
-			Query_Service.Query_Service myService = new Query_Service.Query_Service();
-			myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
+			//Query_Service.Query_Service myService = new Query_Service.Query_Service();
+			//myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 
-			DataSet ds = myService.GetUserAccount(Session["QQID"].ToString(),1,istr,imax);	
+			DataSet ds = new AccountService().GetUserAccount(Session["QQID"].ToString(),1,istr,imax);	
 
 			if(ds == null || ds.Tables.Count<1 || ds.Tables[0].Rows.Count<1) 
 			{
@@ -333,7 +334,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 			if(Label1_Acc.Text != "")
 			{
-				string testuid = myService.QQ2Uid(Label1_Acc.Text);
+                string testuid = new AccountService().QQ2Uid(Label1_Acc.Text);
 
 				if(testuid != null)
 				{
@@ -342,7 +343,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					if(testuid.Trim() == fuid)
 					{
 						//再判断是否是已激活 furion 20070226
-						string trueuid = myService.QQ2UidX(Label1_Acc.Text);
+                        string trueuid = new AccountService().QQ2UidX(Label1_Acc.Text);
 
 						if(trueuid != null)
 							labQQstate.Text = "已关联";
@@ -358,7 +359,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 			if(labEmail.Text != "")
 			{
-				string testuid = myService.QQ2Uid(labEmail.Text);
+                string testuid = new AccountService().QQ2Uid(labEmail.Text);
 
 				if(testuid != null)
 				{
@@ -367,7 +368,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					if(testuid.Trim() == fuid)
 					{
 						//再判断是否是已激活 furion 20070226
-						string trueuid = myService.QQ2UidX(labEmail.Text);
+                        string trueuid = new AccountService().QQ2UidX(labEmail.Text);
 
 						if(trueuid != null)
 							labEmailState.Text = "已关联";
@@ -383,7 +384,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 			if(labMobile.Text != "")
 			{
-				string testuid = myService.QQ2Uid(labMobile.Text);
+                string testuid = new AccountService().QQ2Uid(labMobile.Text);
 
 				if(testuid != null)
 				{
@@ -392,7 +393,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					if(testuid.Trim() == fuid)
 					{
 						//再判断是否是已激活 furion 20070226
-						string trueuid = myService.QQ2UidX(labMobile.Text);
+                        string trueuid = new AccountService().QQ2UidX(labMobile.Text);
 
 						if(trueuid != null)
 							labMobileState.Text = "已关联";

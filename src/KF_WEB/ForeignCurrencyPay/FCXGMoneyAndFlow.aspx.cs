@@ -149,10 +149,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                 WebUtils.ShowMessage(this.Page, "未找到记录");
             }
 
-            if (!dt.Columns.Contains("card_type"))  //  接口未发布修正版的时候  保证不报错,  接口修正后 删除
-            {
-                dt.Columns.Add("card_type");
-            }
+            //if (!dt.Columns.Contains("card_type"))  //  接口未发布修正版的时候  保证不报错,  接口修正后 删除
+            //{
+            //    dt.Columns.Add("card_type");
+            //}
             dg_trade.DataSource = dt;
             dg_trade.DataBind();
         }

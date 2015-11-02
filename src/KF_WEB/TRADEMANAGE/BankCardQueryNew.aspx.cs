@@ -15,12 +15,13 @@ using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using System.IO;
-using CFT.CSOMS.BLL.WechatPay; 
+using CFT.CSOMS.BLL.WechatPay;
+using System.Collections.Generic;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
-    
+
     /// <summary>
     /// BankCardQueryNew 的摘要说明。
     /// </summary>
@@ -41,7 +42,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         }
         protected void Page_Load(object sender, System.EventArgs e)
         {
-            
+
             try
             {
                 Label1.Text = Session["uid"].ToString();
@@ -57,7 +58,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
 
             if (!IsPostBack)
-            {              
+            {
                 TextBoxDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
                 RequestBankInfo();
                 Table2.Visible = false;
@@ -69,6 +70,46 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             Response.Write("<script language=javascript>alert('" + msg + "')</script>");
         }
 
+        /// <summary>
+        /// 多音字排序
+        /// </summary>
+        class PolyphoneIComparer : IComparer
+        {
+            /// <summary>
+            /// 多音字 用同音字  进行比较
+            /// </summary>
+            static IDictionary<string, string> PolyphoneDic = new Dictionary<string, string>()
+            {
+                { "重庆" , "崇庆" }
+            };
+
+
+            public int Compare(object x, object y)
+            {
+                var xx = x as string;
+                var yy = y as string;
+
+                PolyphoneHandle(ref xx);
+                PolyphoneHandle(ref yy);
+                return string.Compare(xx, yy);
+            }
+
+            private void PolyphoneHandle(ref string zw)
+            {
+                if (!string.IsNullOrEmpty(zw))
+                {
+                    foreach (var item in PolyphoneDic.Keys)
+                    {
+                        if (zw.StartsWith(item))
+                        {
+                            zw = PolyphoneDic[item];
+                            return;
+                        }
+                    }
+                }
+
+            }
+        }
         private void RequestBankInfo()
         {
 
@@ -76,7 +117,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             {
                 Hashtable ht = new FastPayService().RequestBankInfo();
                 ArrayList akeys = new ArrayList(ht.Keys);
-                akeys.Sort();
+                akeys.Sort(new PolyphoneIComparer());
                 foreach (string k in akeys)
                 {
                     DropOldBankType.Items.Add(new System.Web.UI.WebControls.ListItem(k.ToString(), ht[k].ToString()));
@@ -84,7 +125,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("请求RequestBankInfo出错：原因{0}",ex.Message.ToString());
+                log.ErrorFormat("请求RequestBankInfo出错：原因{0}", ex.Message.ToString());
             }
 
         }
@@ -104,8 +145,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch (Exception err)
             {
-                 ShowMsg(err.Message);
-                 return;
+                ShowMsg(err.Message);
+                return;
             }
 
             try
@@ -132,8 +173,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
         private void ValidateDate()
         {
-            
-            
+
+
             DateTime Date;
 
             try
@@ -149,7 +190,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             ViewState["fpay_acc"] = this.txtBankCardID.Text.Trim();
             ViewState["bank_type"] = DropOldBankType.SelectedItem.Value;
             ViewState["bank_name"] = DropOldBankType.SelectedItem.Text;
-            
+
 
             if (ViewState["fpay_acc"].ToString() == "")
             {
@@ -163,9 +204,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             try
             {
                 int max = pager.PageSize;
-           //     int start = max * (index - 1) + 1;
+                //     int start = max * (index - 1) + 1;
                 int start = max * (index - 1);
-              //  Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                //  Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
                 // DataSet ds = qs.Getfbank_orderList(ViewState["fpay_acc"].ToString(), ViewState["Date"].ToString(), start, max);
                 DataSet ds = new FastPayService().QueryBankCardNewList(ViewState["fpay_acc"].ToString(), ViewState["Date"].ToString(), ViewState["bank_type"].ToString(), int.Parse(this.ddlBizType.SelectedValue), start, max);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -182,12 +223,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             {
                 string errStr = PublicRes.GetErrorMsg(eSys.Message.ToString());
 
-                log.ErrorFormat("卡号={0}, 日期={1}, 银行名称={2}, 银行类型={3} ,出错原因={4}",ViewState["fpay_acc"].ToString(),ViewState["Date"].ToString(),
+                log.ErrorFormat("卡号={0}, 日期={1}, 银行名称={2}, 银行类型={3} ,出错原因={4}", ViewState["fpay_acc"].ToString(), ViewState["Date"].ToString(),
                     ViewState["bank_name"].ToString(), ViewState["bank_type"].ToString(), eSys.Message.ToString());
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + errStr);
 
             }
-          
+
         }
 
         private void DataToGrid(DataSet ds)
@@ -231,7 +272,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     int nMax = 50;
                     if (iRows > nMax)
                     {
-                        string strTips = string.Format("批量处理最多处理{0}条数据",nMax);
+                        string strTips = string.Format("批量处理最多处理{0}条数据", nMax);
                         throw new Exception(strTips);
                     }
                     for (int i = 0; i < iRows; i++)
@@ -240,14 +281,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                         string r2 = res_dt.Rows[i][1].ToString();
                         string r3 = res_dt.Rows[i][2].ToString();
                         ListItem item = DropOldBankType.Items.FindByText(r3.Trim());
-                        
+
                         if (item == null || string.IsNullOrEmpty(item.Value))
                         {
-                            string strTips = string.Format("卡号:{0}对应银行名：{1} 找不到银行类型值。",r1,r3);
+                            string strTips = string.Format("卡号:{0}对应银行名：{1} 找不到银行类型值。", r1, r3);
                             ShowMsg(strTips);
                             return;
                         }
-                        
+
                         try
                         {
                             string date = null;
@@ -263,7 +304,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                                 return;
                             }
 
-                            
+
                             //加分页标记，若为-1不分页
                             DataSet tmpDs = new FastPayService().QueryBankCardNewList(r1, date, item.Value, 10100, -1, -1);
                             if (tmpDs != null && tmpDs.Tables.Count > 0 && tmpDs.Tables[0].Rows.Count > 0)
@@ -331,7 +372,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             catch (Exception eSys)
             {
                 log.ErrorFormat("请求btnBatchQuery出错：原因{0}", eSys.Message.ToString());
-               // ShowMsg(eSys.Message.ToString());
+                // ShowMsg(eSys.Message.ToString());
             }
         }
     }

@@ -1776,7 +1776,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string fz_amt = ""; //分账冻结金额 yinhuang 2014/1/8
 
                 ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
-                MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("AP"));
+                //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("AP"));
                 try
                 {
                     string errMsg = "";
@@ -1811,14 +1811,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                     ice.CloseConn();
 
-                    da.OpenConn();
-                    string sql = "select * from app_platform.t_account_freeze where Fuin = '" + u_QQID + "'";
-                    DataTable dt2 = da.GetTable(sql);
-                    if (dt2 != null && dt2.Rows.Count > 0)
-                    {
-                        fz_amt = dt2.Rows[0]["Famount"].ToString();
-                    }
-
+                    //da.OpenConn();
+                    //string sql = "select * from app_platform.t_account_freeze where Fuin = '" + u_QQID + "'";
+                    //DataTable dt2 = da.GetTable(sql);
+                    //if (dt2 != null && dt2.Rows.Count > 0)
+                    //{
+                    //    fz_amt = dt2.Rows[0]["Famount"].ToString();
+                    //}
+                    fz_amt = new SettleService().getAmount(fuid, "uid");
                     dt.Columns.Add("Femail", typeof(System.String));
                     dt.Columns.Add("Fmobile", typeof(System.String));
                     dt.Columns.Add("Att_id", typeof(System.String));
@@ -1838,7 +1838,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 finally
                 {
                     ice.Dispose();
-                    da.Dispose();
+                    //da.Dispose();
                 }
             }
             catch (Exception e)
@@ -8260,7 +8260,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.actionType = "自助申诉查询函数";
                 rl.ID = fuin;
                 rl.sign = 1;
-                rl.strRightCode = "CFTUserAppeal";
+                rl.strRightCode = "InfoCenter";
                 rl.type = "查询";
  
                 PublicRes.SetRightAndLog(myHeader, rl);
@@ -8371,7 +8371,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.actionType = "自助申诉查询函数";
                 rl.ID = fuin;
                 rl.sign = 1;
-                rl.strRightCode = "CFTUserAppeal";
+                rl.strRightCode = "InfoCenter";
                 rl.type = "查询";
                 PublicRes.SetRightAndLog(myHeader, rl);
                 if (!rl.CheckRight())

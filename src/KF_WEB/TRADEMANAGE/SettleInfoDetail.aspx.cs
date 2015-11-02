@@ -18,6 +18,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -137,14 +138,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         }
         private void BindInfo(string szListid)
         {
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            DataSet ds;
-            ds = qs.GetSettleInfoListDetail(szListid);
+            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            //DataSet ds;
+            //ds = qs.GetSettleInfoListDetail(szListid);
 
-            if (ds != null && ds.Tables.Count > 0)
+            SettleService service = new SettleService();
+            DataTable  dt = service.GetSettleInfoListDetail(szListid);
+
+            if (dt != null  )
             {
-                DataTable dt = ds.Tables[0];
-
                 dt.Columns.Add("uin", typeof(string));
                 dt.Columns.Add("role", typeof(string));
                 dt.Columns.Add("status", typeof(string));

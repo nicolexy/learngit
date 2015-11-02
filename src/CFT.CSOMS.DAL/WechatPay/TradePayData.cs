@@ -13,6 +13,7 @@ using System.Collections;
 using CFT.CSOMS.DAL.WechatPay.Entity.MmpayHongBaoModel;
 using Google.ProtocolBuffers;
 using SunLibraryEX;
+using TENCENT.OSS.CFT.KF.DataAccess;
 
 namespace CFT.CSOMS.DAL.WechatPay
 {
@@ -248,5 +249,84 @@ namespace CFT.CSOMS.DAL.WechatPay
             }
             return ds;
         }
+
+        /// <summary>
+        /// 获取微信用户的参与的AA交易记录
+        /// </summary>
+        public DataSet GetAATradeList(string aaUIN, int startIndex, int count)
+        {
+            var aaUId = PublicRes.ConvertToFuid(aaUIN);
+
+            if (aaUId == null)
+                throw new Exception(string.Format("AA财付通帐号{0}查询不到对应的UID", aaUIN));
+
+            var tableName = string.Format("wx_aa_collection_{0}.t_aa_record_{1}", aaUId.Substring(aaUId.Length - 2), aaUId.Substring(aaUId.Length - 3, 1));
+
+            string strSql = string.Format(@"select * from {0} where Fuid='{1}' order by Fcreate_time desc limit {2},{3}", tableName, aaUId, startIndex, count);
+
+            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("WXAA"));
+            DataSet ds = new DataSet();
+            try
+            {
+                da.OpenConn();
+                ds = da.dsGetTotalData(strSql);
+                return ds;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("service发生错误,请联系管理员！" + e.Message);
+            }
+        }
+
+        /// <summary>
+        /// 获取指定的AA收单分单记录明细
+        /// </summary>
+        public DataSet GetAATradeDetailsSingleYear(string aaCollectionNo, DateTime createTime, int startIndex, int count)
+        {
+            var tableName = string.Format("wx_aa_collection.t_pay_list_{0}", createTime.ToString("yyyy"));
+            //var nextYearTableName = string.Format("wx_aa_collection.t_pay_list_{0}", createTime.AddYears(1).ToString("yyyy"));
+
+            string strSql = string.Format(@"select * from {0} where Faa_collection_no='{1}' order by Fcreate_time desc limit {2},{3}", tableName, aaCollectionNo, startIndex, count);
+
+            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("WXAA"));
+            DataSet ds = new DataSet();
+            try
+            {
+                da.OpenConn();
+                ds = da.dsGetTotalData(strSql);
+                return ds;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("service发生错误,请联系管理员！" + e.Message);
+            }
+        }
+
+        /// <summary>
+        /// 获取指定的AA收款总单信息
+        /// </summary>
+        /// <param name="aaCollectionNo"></param>
+        /// <returns></returns>
+        public DataSet QueryAATotalTradeInfo(string aaCollectionNo)
+        {
+            var tableName = string.Format("wx_aa_collection_{0}.t_collection_list_{1}", aaCollectionNo.Substring(aaCollectionNo.Length - 2), aaCollectionNo.Substring(aaCollectionNo.Length - 3, 1));
+            //var nextYearTableName = string.Format("wx_aa_collection.t_pay_list_{0}", createTime.AddYears(1).ToString("yyyy"));
+
+            string strSql = string.Format(@"select * from {0} where Faa_collection_no='{1}' limit 1", tableName, aaCollectionNo);
+
+            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("WXAA"));
+            DataSet ds = new DataSet();
+            try
+            {
+                da.OpenConn();
+                ds = da.dsGetTotalData(strSql);
+                return ds;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("service发生错误,请联系管理员！" + e.Message);
+            }
+        }
+
     }
 }

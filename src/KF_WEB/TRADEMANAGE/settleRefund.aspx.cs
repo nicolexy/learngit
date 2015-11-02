@@ -18,6 +18,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
+using CFT.CSOMS.BLL.TradeModule;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.settleRefund
@@ -156,12 +157,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.settleRefund
             int max = pager.PageSize;
             int start = max * (index-1);
 
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            DataSet ds;
-            ds = qs.GetSettleRefundList(ViewState["Flistid"].ToString(), int.Parse(ViewState["query_type"].ToString()), start, max);
-            
-            DataTable dt = ds.Tables[0];
+            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            //DataSet ds;
+            //ds = qs.GetSettleRefundList(ViewState["Flistid"].ToString(), int.Parse(ViewState["query_type"].ToString()), start, max);
 
+            SettleService service = new SettleService();
+
+            DataTable dt = service.GetSettleRefundList(ViewState["Flistid"].ToString(), int.Parse(ViewState["query_type"].ToString()), start, max);
+            if (dt == null) throw new Exception("没有查到数据");
             
             dt.Columns.Add("listid",typeof(string));
             dt.Columns.Add("refund_id",typeof(string));

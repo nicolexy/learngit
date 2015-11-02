@@ -19,6 +19,7 @@ using System.Collections;
 using CFT.Apollo.Common;
 using SunLibraryEX;
 using CFT.Apollo.Common.Configuration;
+using CFT.CSOMS.DAL.TradeModule;
 
 namespace CFT.CSOMS.DAL.CFTAccount
 {
@@ -1531,7 +1532,8 @@ namespace CFT.CSOMS.DAL.CFTAccount
 
                 //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
                 ICEAccess ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
-                MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("AP"));
+                //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("AP"));
+                SettleData settledata = new SettleData();
                 try
                 {
                     string errMsg = "";
@@ -1566,13 +1568,15 @@ namespace CFT.CSOMS.DAL.CFTAccount
 
                     ice.CloseConn();
 
-                    da.OpenConn();
-                    string sql = "select * from app_platform.t_account_freeze where Fuin = '" + u_QQID + "'";
-                    DataTable dt2 = da.GetTable(sql);
-                    if (dt2 != null && dt2.Rows.Count > 0)
-                    {
-                        fz_amt = dt2.Rows[0]["Famount"].ToString();
-                    }
+                    //da.OpenConn();
+                    //string sql = "select * from app_platform.t_account_freeze where Fuin = '" + u_QQID + "'";
+                    //DataTable dt2 = da.GetTable(sql);
+                    //if (dt2 != null && dt2.Rows.Count > 0)
+                    //{
+                    //    fz_amt = dt2.Rows[0]["Famount"].ToString();
+                    //}
+
+                    fz_amt = settledata.getAmount(u_QQID, "uin");
 
                     dt.Columns.Add("Femail", typeof(System.String));
                     dt.Columns.Add("Fmobile", typeof(System.String));
@@ -1594,7 +1598,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 finally
                 {
                     ice.Dispose();
-                    da.Dispose();
+                    //da.Dispose();
                 }
             }
             catch (Exception ex)

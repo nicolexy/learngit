@@ -44,6 +44,11 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             return new AccountData().SynUserName(aaUin, oldName, newName, wxUin);
         }
 
+        public bool IsFastPayUser(string qqid) 
+        {
+            return new AccountData().IsFastPayUser(qqid);
+        }
+
         public DataSet GetUserAccount(string u_QQID, int fcurtype, int istr, int imax)
         {
             return new AccountData().GetUserAccount(u_QQID, fcurtype, istr, imax);

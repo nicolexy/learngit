@@ -18,6 +18,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
+using CFT.CSOMS.BLL.TradeModule;
 
 
 
@@ -189,14 +190,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 					throw new Exception("请输入对方帐号！");
 				}
 
-				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-				DataSet ds = qs.GetTrustLimitList(u_ID,auid);
+                //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                //DataSet ds = qs.GetTrustLimitList(u_ID,auid);
 
-				if(ds != null && ds.Tables.Count >0 && ds.Tables[0].Rows.Count>0)
+                SettleService service = new SettleService();
+                DataTable dt = service.GetTrustLimitList(u_ID, auid);
+
+				if(dt != null  && dt.Rows.Count>0)
 				{
 					try
 					{
-						int Ftrust_rule = int.Parse(ds.Tables[0].Rows[0]["Ftrust_rule"].ToString().Trim());
+						int Ftrust_rule = int.Parse(dt.Rows[0]["Ftrust_rule"].ToString().Trim());
 						string Ftrust_ruleStr = Convert.ToString((long)Ftrust_rule,2);
 						//最后一位为退款权限
 						if(Ftrust_ruleStr.EndsWith("1"))

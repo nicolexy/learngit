@@ -18,6 +18,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 {
@@ -70,13 +71,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 
         private void BindInfo(string szListid, string reqid)
         {
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            DataSet ds;
-            ds = qs.GetSettleReqList(szListid,reqid);
-
-            if (ds != null && ds.Tables.Count > 0)
+            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            //DataSet ds;
+            //ds = qs.GetSettleReqList(szListid,reqid);
+            SettleService service = new SettleService();
+            DataTable dt = service.GetSettleReqList(szListid, reqid);
+            if (dt != null )
             {
-                DataTable dt = ds.Tables[0];
                 ViewState["g_dt"] = dt;
 
                 dt.Columns.Add("Ftotal_fee_str", typeof(string)); //支付金额
@@ -94,12 +95,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
                 ht3.Add("1", "正常");
                 ht3.Add("2", "作废");
 
-                classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Ftotal_fee", "Ftotal_fee_str");
-                classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fsettle_fee", "Fsettle_fee_str");
+                classLibrary.setConfig.FenToYuan_Table(dt, "Ftotal_fee", "Ftotal_fee_str");
+                classLibrary.setConfig.FenToYuan_Table(dt, "Fsettle_fee", "Fsettle_fee_str");
 
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Fstate", "Fstate_str", ht1);
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Fcurtype", "Fcurtype_str", ht2);
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Flstate", "Flstate_str", ht3);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Fstate", "Fstate_str", ht1);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Fcurtype", "Fcurtype_str", ht2);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Flstate", "Flstate_str", ht3);
 
                 this.DataGrid1.DataSource = dt.DefaultView;
                 this.DataGrid1.DataBind();

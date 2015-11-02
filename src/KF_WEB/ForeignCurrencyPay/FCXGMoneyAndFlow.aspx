@@ -106,7 +106,7 @@
                     <%--<asp:BoundColumn HeaderText="交易单状态" DataField="list_state_str" />--%>
                     <asp:BoundColumn HeaderText="交易状态" DataField="trade_state_str" />
                     <%--<asp:BoundColumn HeaderText="用户MD账号" DataField="" />--%>
-                    <asp:BoundColumn HeaderText="卡类型" DataField="card_type" />
+                    <%--<asp:BoundColumn HeaderText="卡类型" DataField="card_type" />--%>
                     <asp:BoundColumn HeaderText="币种" DataField="price_curtype_str" />
                     <asp:BoundColumn HeaderText="应支付金额" DataField="bank_paynum_str" />
                     <asp:BoundColumn HeaderText="实际支付金额" DataField="bank_paynum_str" />

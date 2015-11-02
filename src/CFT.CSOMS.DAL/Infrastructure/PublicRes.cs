@@ -1601,7 +1601,14 @@ namespace CFT.CSOMS.DAL.Infrastructure
 
             return tmp;
         }
+     
+        public static double FenToYuan(double inum)
+        {
+            double yuan = (double)(inum) / 100;
+            yuan = Math.Round(yuan, 2);
 
+            return yuan;
+        }
        
 }
 

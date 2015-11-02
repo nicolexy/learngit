@@ -188,6 +188,7 @@ namespace CFT.CSOMS.COMMLIB
             }
         }
 
+
         /// <summary>
         /// 通过微信号获取AAopenid
         /// </summary>

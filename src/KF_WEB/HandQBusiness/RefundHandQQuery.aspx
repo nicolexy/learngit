@@ -41,19 +41,19 @@
                 <td>
                     &nbsp;&nbsp;&nbsp;
                     开始日期：                   
-                    <asp:TextBox ID="textBoxBeginDate" runat="server" Width="130px" onClick="WdatePicker()"  CssClass="Wdate"></asp:TextBox>
+                    <asp:TextBox ID="textBoxBeginDate" runat="server" Width="150px" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  CssClass="Wdate"></asp:TextBox>
                    
                     结束日期：
-                        <asp:TextBox ID="textBoxEndDate" runat="server" Width="130px" onClick="WdatePicker()"  CssClass="Wdate"></asp:TextBox>   
+                        <asp:TextBox ID="textBoxEndDate" runat="server" Width="150px" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  CssClass="Wdate"></asp:TextBox>   
                      <asp:Button ID="btnQuery" runat="server" Width="80px" Text="查 询" OnClick="btnQuery_Click">
                     </asp:Button>             
                 </td>
             </tr>
-             <tr>
+            <%-- <tr>
                 <td colspan="5" align="center">
                     <font color="red">时间跨度只支持按自然月查询，不支持跨月查询</font>
                 </td>
-            </tr>
+            </tr>--%>
         </table>
         <br />
         <table border="1" cellspacing="0" cellpadding="0" width="1000">

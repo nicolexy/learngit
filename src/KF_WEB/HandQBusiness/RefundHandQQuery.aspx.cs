@@ -17,12 +17,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
         {
             if (!IsPostBack)
             {
-                textBoxBeginDate.Text = DateTime.Now.ToString("yyyy-MM-01 00:00:00");
+                textBoxBeginDate.Text = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
                 textBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
                 this.DatagridList.Visible = false;
                 divInfo.Visible = false;
             }
-           
+
         }
 
         protected void btnQuery_Click(object sender, EventArgs e)
@@ -53,22 +53,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
         {
             if (string.IsNullOrEmpty(txtInput.Text))
             {
-                showMsg("输入不能为空");
-                return;
+                throw new Exception("输入不能为空");
             }
 
-            string type=ddlType.SelectedValue;
+            string type = ddlType.SelectedValue;
             if (type == "1" || type == "2")
             {
                 DateTime begindate;
                 DateTime enddate;
 
-                try
-                {
-                    begindate = DateTime.Parse(textBoxBeginDate.Text);
-                    enddate = DateTime.Parse(textBoxEndDate.Text);
-                }
-                catch
+                if (!DateTime.TryParse(textBoxBeginDate.Text, out begindate) || !DateTime.TryParse(textBoxEndDate.Text, out enddate))
                 {
                     throw new Exception("日期输入有误！");
                 }
@@ -78,14 +72,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                     throw new Exception("终止日期小于起始日期，请重新输入！");
                 }
 
-                if (begindate.Month!= enddate.Month)
+                if (enddate.Month != begindate.Month)
                 {
-                    throw new Exception("时间跨度只支持按自然月查询，不支持跨月查询！");
+                    throw new Exception("不允许跨月查询");
                 }
-                ViewState["begindate"] =begindate.ToString("yyyy-MM-dd 00:00:00");
-                ViewState["enddate"] = enddate.ToString("yyyy-MM-dd 23:59:59");
-            }
 
+                var a = (enddate - begindate);
+                if ((enddate - begindate).TotalDays > 2)
+                {
+                    throw new Exception("查询日期时间跨度不能大于2天");
+                }
+                ViewState["begindate"] = begindate.ToString("yyyy-MM-dd HH:mm:ss");
+                ViewState["enddate"] = enddate.ToString("yyyy-MM-dd HH:mm:ss");
+            }
         }
 
         private void BindData(int index)
@@ -98,14 +97,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                 int start = max * (index - 1);
 
                 DataSet ds = new HandQService().RefundHandQQuery(txtInput.Text.Trim(), ddlType.SelectedValue,
-                    ViewState["begindate"].ToString(), ViewState["enddate"].ToString(),start,max);
+                    ViewState["begindate"].ToString(), ViewState["enddate"].ToString(), start, max);
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     DatagridList.DataSource = ds.Tables[0].DefaultView;
                     DatagridList.DataBind();
                     this.DatagridList.Visible = true;
-                  
+
                 }
                 else
                 {
@@ -120,7 +119,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
             }
         }
 
-        public void BindDetail(string acc,string type)
+        public void BindDetail(string acc, string type)
         {
             try
             {
@@ -157,13 +156,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
                 {
                     var commandArgs = e.CommandArgument.ToString();
 
-                    if (commandArgs=="")
+                    if (commandArgs == "")
                     {
                         throw new Exception("详情参数错误");
                     }
-                    BindDetail(commandArgs,"4");
+                    BindDetail(commandArgs, "4");
                 }
-                
+
             }
             catch (Exception eSys)
             {
@@ -171,7 +170,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
             }
         }
 
-        public void Clear(){
+        public void Clear()
+        {
             this.lbopenid.Text = "";
             this.lbcard_id.Text = "";
             this.lbwx_fetch_no.Text = "";

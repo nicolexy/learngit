@@ -1,3 +1,4 @@
+using CFT.CSOMS.BLL.TradeModule;
 using System;
 using System.Collections;
 using System.Data;
@@ -55,13 +56,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 
         private void BindInfo(string merge_listid, string listid)
         {
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            DataSet ds;
-            ds = qs.QuerySubOrderList(merge_listid, listid);
-
-            if (ds != null && ds.Tables.Count > 0)
+            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            //DataSet ds;
+            //ds = qs.QuerySubOrderList(merge_listid, listid);
+            SettleService service = new SettleService();
+            DataTable dt = service.QuerySubOrderList(merge_listid, listid, 0, 20);
+            if (dt != null)
             {
-                DataTable dt = ds.Tables[0];
                 ViewState["g_dt"] = dt;
 
                 dt.Columns.Add("Ftype_str", typeof(string)); //业务类型
@@ -86,7 +87,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
                 dt.Columns.Add("Fbuy_bank_type_str", typeof(string)); //买家开户行
                 dt.Columns.Add("Fsale_bank_type_str", typeof(string)); //卖家开户行
 
-                foreach (DataRow dr in ds.Tables[0].Rows) 
+                foreach (DataRow dr in dt.Rows) 
                 {
                     dr["Fbuy_bank_type_str"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fbuy_bank_type"].ToString());
                     dr["Fsale_bank_type_str"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fsale_bank_type"].ToString());
@@ -94,7 +95,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
                 
                 Hashtable ht1 = new Hashtable();
                 ht1.Add("1", "补差支付");
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Ftype", "Ftype_str", ht1);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Ftype", "Ftype_str", ht1);
                 ht1.Clear();
 
                 ht1.Add("1", "银行卡支付");
@@ -103,28 +104,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
                 ht1.Add("4", "信用卡支付");
                 ht1.Add("5", "委托代扣");
                 ht1.Add("6", "混合支付");
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Fpay_type", "Fpay_type_str", ht1);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Fpay_type", "Fpay_type_str", ht1);
                 ht1.Clear();
 
                 ht1.Add("1", "RMB");
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Fcurtype", "Fcurtype_str", ht1);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Fcurtype", "Fcurtype_str", ht1);
                 ht1.Clear();
 
                 ht1.Add("1", "等待买家支付");
                 ht1.Add("2", "支付成功/等待卖家发货");
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Ftrade_state", "Ftrade_state_str", ht1);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Ftrade_state", "Ftrade_state_str", ht1);
                 ht1.Clear();
 
                 ht1.Add("0", "初始状态");
                 ht1.Add("1", "退款请求");
                 ht1.Add("2", "退款成功");
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Frefund_state", "Frefund_state_str", ht1);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Frefund_state", "Frefund_state_str", ht1);
                 ht1.Clear();
 
                 ht1.Add("1", "锁定");
                 ht1.Add("2", "正常");
                 ht1.Add("3", "作废");
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Flstate", "Flstate_str", ht1);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Flstate", "Flstate_str", ht1);
                 ht1.Clear();
 
                 ht1.Add("1", "财付通");
@@ -132,19 +133,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
                 ht1.Add("3", "客服端小钱包");
                 ht1.Add("4", "手机支付");
                 ht1.Add("5", "第三方");
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Fchannel_id", "Fchannel_id_str", ht1);
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Fchannel_id", "Fchannel_id_str", ht1);
                 ht1.Clear();
 
-                classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fprice", "Fprice_str");
-                classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fcarriage", "Fcarriage_str");
-                classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fpaynum", "Fpaynum_str");
-                classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Ffact", "Ffact_str");
-                classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fprocedure", "Fprocedure_str");
-                classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fcash", "Fcash_str");
-                classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Ftoken", "Ftoken_str");
-                classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Ffee3", "Ffee3_str");
-                classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fpaybuy", "Fpaybuy_str");
-                classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fpaysale", "Fpaysale_str");
+                classLibrary.setConfig.FenToYuan_Table(dt, "Fprice", "Fprice_str");
+                classLibrary.setConfig.FenToYuan_Table(dt, "Fcarriage", "Fcarriage_str");
+                classLibrary.setConfig.FenToYuan_Table(dt, "Fpaynum", "Fpaynum_str");
+                classLibrary.setConfig.FenToYuan_Table(dt, "Ffact", "Ffact_str");
+                classLibrary.setConfig.FenToYuan_Table(dt, "Fprocedure", "Fprocedure_str");
+                classLibrary.setConfig.FenToYuan_Table(dt, "Fcash", "Fcash_str");
+                classLibrary.setConfig.FenToYuan_Table(dt, "Ftoken", "Ftoken_str");
+                classLibrary.setConfig.FenToYuan_Table(dt, "Ffee3", "Ffee3_str");
+                classLibrary.setConfig.FenToYuan_Table(dt, "Fpaybuy", "Fpaybuy_str");
+                classLibrary.setConfig.FenToYuan_Table(dt, "Fpaysale", "Fpaysale_str");
 
                 
                 this.DataGrid1.DataSource = dt.DefaultView;

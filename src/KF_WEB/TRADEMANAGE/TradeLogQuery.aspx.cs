@@ -406,7 +406,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             ht.Add("5", "第三方");
             ht.Add("6", "ivr");
             ht.Add("7", "平台专用账户");
-            ht.Add("8", "基金基础代扣");
+            ht.Add("8", "委托代扣"); //ht.Add("8", "基金基础代扣");
             ht.Add("9", "微支付");
             ht.Add("100", "手机客户端（手机充值卡充值财付通）");
             ht.Add("101", "手机财付通HTMl5支付中心（手机充值卡充值财付通）");

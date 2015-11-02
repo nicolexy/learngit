@@ -561,7 +561,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 
 			return temp;
 		}
-
 		//ºÏ≤È»®œﬁ
 		//		public static void checkPromission(string id)
 		//		{

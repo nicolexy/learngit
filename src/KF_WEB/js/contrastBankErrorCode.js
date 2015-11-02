@@ -198,11 +198,11 @@
                "BankName": "中信银行",
                "ErrorCodes":
                [
-                   ["00000", "交易成功"],
-                   ["00003", "卡号错误"],
+                   ["0301500000", "交易成功"],
+                   ["0301500003", "卡号错误"],
                    ["00007", ""],
                    ["00022", ""],
-                   ["000N2", "户名错误"]
+                   ["03015000N2", "户名错误"]
                ]
            }
            //6、光大银行(3021)错误码
@@ -347,6 +347,7 @@
        ],
         fn: {}
     };
+
     bankErrorCode.fn.getBank = function (backType) {
         var banks = bankErrorCode.bankErrorCodes;
         for (var i = 0; i < banks.length; i++) {

@@ -256,27 +256,43 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             {
                 try
                 {
-                    int WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(wx_id);
-                    if (WXUnfinishedTrade > 0)
+                    var WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(wx_id);
+                    if (!WXUnfinishedTrade)
                     {
-                        LogHelper.LogInfo("此账号有未完成微信支付转账，禁止注销!");
+                        LogHelper.LogInfo(wx_id + "此账号有未完成微信支付转账，禁止注销!");
                         ret_msg = "此账号有未完成微信支付转账，禁止注销!";
                         return false;
                     }
 
-                    var endDate = DateTime.Today.AddDays(+1);
-                    var startDate = endDate.AddDays(-15);
-                    var openid = query_id.Replace("@hb.tenpay.com", "");
-                    if (!string.IsNullOrEmpty(openid))
+                    var HasUnfinishedHB = (new TradeService()).QueryWXUnfinishedHB(wx_id);
+                    if (!HasUnfinishedHB)
                     {
-                        var HasUnfinishedHB = (new TradeService()).QueryWXHasUnfinishedHB(openid, startDate, endDate);
-                        if (HasUnfinishedHB)
-                        {
-                            LogHelper.LogInfo("此账号有未完成微信红包，禁止注销!");
-                            ret_msg = "此账号有未完成微信红包，禁止注销!";
-                            return false;
-                        }
+                        LogHelper.LogInfo(wx_id + "此账号有未完成微信红包，禁止注销!");
+                        ret_msg = "此账号有未完成微信红包，禁止注销!";
+                        return false;
                     }
+
+                    //int WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(wx_id);
+                    //if (WXUnfinishedTrade > 0)
+                    //{
+                    //    LogHelper.LogInfo("此账号有未完成微信支付转账，禁止注销!");
+                    //    ret_msg = "此账号有未完成微信支付转账，禁止注销!";
+                    //    return false;
+                    //}
+
+                    //var endDate = DateTime.Today.AddDays(+1);
+                    //var startDate = endDate.AddDays(-15);
+                    //var openid = query_id.Replace("@hb.tenpay.com", "");
+                    //if (!string.IsNullOrEmpty(openid))
+                    //{
+                    //    var HasUnfinishedHB = (new TradeService()).QueryWXHasUnfinishedHB(openid, startDate, endDate);
+                    //    if (HasUnfinishedHB)
+                    //    {
+                    //        LogHelper.LogInfo("此账号有未完成微信红包，禁止注销!");
+                    //        ret_msg = "此账号有未完成微信红包，禁止注销!";
+                    //        return false;
+                    //    }
+                    //}
 
                 }
                 catch (System.Exception ex)

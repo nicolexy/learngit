@@ -4,6 +4,7 @@ using System.Web.Services.Protocols;
 using Tencent.DotNet.Common.UI;
 using TENCENT.OSS.CFT.KF.Common;
 using System.Drawing;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 {
@@ -101,13 +102,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
         
         private void BindInfo(string spid)
         {
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            DataSet ds;
-            ds = qs.QuerySpControl(spid);
-
-            if(ds != null && ds.Tables.Count >0 && ds.Tables[0].Rows.Count > 0 )
+            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            //DataSet ds;
+            //ds = qs.QuerySpControl(spid);
+            SettleService service = new SettleService();
+            DataTable dt = service.QuerySpControl(spid);
+            if(dt != null&&  dt.Rows.Count > 0 )
             {
-                DataRow dr = ds.Tables[0].Rows[0];
+                DataRow dr = dt.Rows[0];
 
                 lbSpid.Text = PublicRes.GetString(dr["Fspid"]);
 

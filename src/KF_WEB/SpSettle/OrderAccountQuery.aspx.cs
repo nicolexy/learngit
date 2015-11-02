@@ -1,3 +1,4 @@
+using CFT.CSOMS.BLL.TradeModule;
 using System;
 using System.Collections;
 using System.Data;
@@ -53,22 +54,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 
         private void BindInfo(string spid, string suin)
         {
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            DataSet ds;
-            ds = qs.QueryTrueLimtList(spid, suin);
+            SettleService service = new SettleService();
+            DataTable dt = service.QueryTrueLimtList(spid, suin);
 
-            if (ds != null && ds.Tables.Count > 0)
+            if (dt != null  )
             {
-                DataTable dt = ds.Tables[0];
-
                 dt.Columns.Add("Flstate_str", typeof(string)); //×´Ì¬
 
                 Hashtable ht1 = new Hashtable();
                 ht1.Add("1", "Õý³£");
                 ht1.Add("2", "×÷·Ï");
 
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Flstate", "Flstate_str", ht1);
-
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Flstate", "Flstate_str", ht1);
 
                 this.DataGrid1.DataSource = dt.DefaultView;
                 this.DataGrid1.DataBind();

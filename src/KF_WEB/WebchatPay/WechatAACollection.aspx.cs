@@ -5,6 +5,7 @@ using System.Web.Services.Protocols;
 using System.Web.UI.WebControls;
 using CFT.CSOMS.COMMLIB;
 using Tencent.DotNet.Common.UI;
+using CFT.CSOMS.BLL.WechatPay;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
@@ -72,53 +73,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         private void BindAACollections(string uin, int pageIndex, int pageSize)
         {
 
-            var qs = new Query_Service.Query_Service();
-                        
-            var dsAACollections = qs.GetAATradeList(uin, pageIndex*pageSize, pageSize);
+            var dsAACollections = new WechatPayService().GetAATradeList(uin, pageIndex * pageSize, pageSize);
 
             this.aaCollectionPager.RecordCount = 1000;
 
-            if (dsAACollections != null && dsAACollections.Tables.Count > 0)
+            if (dsAACollections != null && dsAACollections.Tables.Count > 0 && dsAACollections.Tables[0].Rows.Count > 0)
             {
-                dsAACollections.Tables[0].Columns.Add("Ftotal_paid_amount_text", typeof(string));
-                dsAACollections.Tables[0].Columns.Add("Fstatus_text", typeof(string));
-
-                foreach (DataRow item in dsAACollections.Tables[0].Rows)
-                {
-                    var totalPaidAmountText = classLibrary.setConfig.FenToYuan(item["Ftotal_paid_amount"].ToString());
-                    switch (item["Ftype"].ToString())
-                    {
-                        case "1":
-                            item["Ftotal_paid_amount_text"] = string.Format("+{0}", totalPaidAmountText);
-                            break;
-                        case "2":
-                            item["Ftotal_paid_amount_text"] = string.Format("-{0}", totalPaidAmountText);
-                            break;
-                        default:
-                            item["Ftotal_paid_amount_text"] = string.Format("未知{0}", totalPaidAmountText);
-                            break;
-                    }
-                    
-                    
-
-                    switch (item["Flstate"].ToString())
-                    {
-
-                        case "1":
-                            item["Fstatus_text"] = "正常";
-                            break;
-                        case "2":
-                            item["Fstatus_text"] = "作废";
-                            break;
-                        case "3":
-                            item["Fstatus_text"] = "关闭";
-                            break;
-                        default:
-                            item["Fstatus_text"] = "未知" + item["Flstate"].ToString();
-                            break;
-                    }
-                }
-
                 gvAACollections.DataSource = dsAACollections.Tables[0].DefaultView;
                 gvAACollections.DataBind();
             }
@@ -200,8 +160,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         {
             this.aaCollectionDetails.RecordCount = 1000;
 
-            var qs = new Query_Service.Query_Service();
-            var ds = qs.GetAATradeDetailsSingleYear(collectionNo, createTime, pageIndex * pageSize, pageSize);
+            var ds = new WechatPayService().GetAATradeDetailsSingleYear(collectionNo, createTime, pageIndex * pageSize, pageSize);
 
             if (ds != null && ds.Tables.Count > 0)
             {
@@ -218,7 +177,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 else
                 {
                     //查询收款方AA财付通账号，发起收款的人的aaopenid放在总单里面wx_aa_collection_00.t_collection_list_0
-                    var dsAATotalTrade = qs.QueryAATotalTradeInfo(collectionNo);
+                    var dsAATotalTrade = new WechatPayService().QueryAATotalTradeInfo(collectionNo);
                     string receive_aaopenid = "";
                     string receive_name = "";
                     if (dsAATotalTrade != null && dsAATotalTrade.Tables.Count > 0 && dsAATotalTrade.Tables[0].Rows.Count > 0)

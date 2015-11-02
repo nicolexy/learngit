@@ -18,6 +18,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 {
@@ -68,14 +69,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 
         private void BindInfo(string sz_listid, string sub_listid)
         {
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            DataSet ds;
-            ds = qs.QueryRelationOrderList(sz_listid, sub_listid);
+            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+            //DataSet ds;
+            //ds = qs.QueryRelationOrderList(sz_listid, sub_listid);
 
-            if (ds != null && ds.Tables.Count > 0)
+            SettleService service = new SettleService();
+            DataTable dt = service.QueryRelationOrderList(sz_listid, sub_listid);
+            if (dt != null)
             {
-                DataTable dt = ds.Tables[0];
-
                 dt.Columns.Add("Ftotal_fee_str", typeof(string)); //原单支付金额
                 dt.Columns.Add("Fsub_total_fee_str", typeof(string)); //补差金额
                 dt.Columns.Add("Fstate_str", typeof(string)); //交易状态
@@ -84,20 +85,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
                 ht1.Add("1", "补差成功");
                 ht1.Add("2", "补差失败");
 
-                classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Ftotal_fee", "Ftotal_fee_str");
-                classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fsub_total_fee", "Fsub_total_fee_str");
+                classLibrary.setConfig.FenToYuan_Table(dt, "Ftotal_fee", "Ftotal_fee_str");
+                classLibrary.setConfig.FenToYuan_Table(dt, "Fsub_total_fee", "Fsub_total_fee_str");
 
-                classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Fstate", "Fstate_str", ht1);
-
+                classLibrary.setConfig.DbtypeToPageContent(dt, "Fstate", "Fstate_str", ht1);
 
                 this.DataGrid1.DataSource = dt.DefaultView;
                 this.DataGrid1.DataBind();
             }
-            else 
+            else
             {
                 throw new Exception("没有找到记录！");
             }
-            
+
         }
 
 		#region Web 窗体设计器生成的代码

@@ -39,7 +39,7 @@
 </head>
 <body>
     <form id="Form1" method="post" runat="server">
-        <table id="table1" border="1" cellspacing="1" cellpadding="1" width="900" runat="server" style="margin:10px;">
+        <table id="table1" border="1" cellspacing="1" cellpadding="1" width="900" runat="server" style="margin: 10px;">
             <tr>
                 <td width="60%">
                     <img src="../IMAGES/Page/post.gif" width="20" height="16" alt="" /><label class="style3">实时还款查询</label></td>
@@ -57,6 +57,11 @@
                 </td>
                 <td>
                     <asp:Button ID="btn_Query" runat="server" Text="查询" OnClick="btn_Query_Click" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <p style="line-height:2em">功能说明：支持微信、手Q、主站的发起的兴业、宁波、民生、平安、中信、光大、浦发、农业银行的实时还款结果查询</p>
                 </td>
             </tr>
             <tr align="center">

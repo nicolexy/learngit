@@ -65,6 +65,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
 
                 string selectStr = Request.QueryString["qqid"] != null ? Request.QueryString["qqid"].ToString() : Session["QQID"].ToString();
+                string fuid = Session["fuid"].ToString();
 
                 int fcurtype = 1;
                 if (Request.QueryString["currtype"] != null)
@@ -85,7 +86,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     //KF人员反映有很多金额为0的空数据，这里过滤下
 
                     string ref_param = ViewState["ref_param"] == null ? "" : ViewState["ref_param"].ToString();
-                    this.DS_Bankroll = new TradeService().GetBankRollList(selectStr, beginTime, endTime, istr, imax, ref  ref_param);
+
+                    if (!string.IsNullOrEmpty(fuid))
+                        this.DS_Bankroll = new TradeService().GetBankRollList("", fuid, beginTime, endTime, istr, imax, ref  ref_param);  //注销账户通过qqid无法查到fuid,直接通过fuid查询。
+                    else
+                        this.DS_Bankroll = new TradeService().GetBankRollList(selectStr, "", beginTime, endTime, istr, imax, ref  ref_param);
+
                     ViewState["ref_param"] = ref_param;
 
 
