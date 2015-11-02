@@ -1170,13 +1170,14 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
         }
 
-        public DataSet GetBankRollList(string u_QQID, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax, ref string ref_param)
+        public DataSet GetBankRollList(string u_QQID,string fuid, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax, ref string ref_param)
         {
             try
             {
                 var serverIp = System.Configuration.ConfigurationManager.AppSettings["BankRollQueryIP"].ToString();
                 var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["BankRollQueryPort"].ToString());
-                string fuid = PublicRes.ConvertToFuid(u_QQID);
+                if (!string.IsNullOrEmpty(u_QQID) && string.IsNullOrEmpty(fuid))
+                    fuid = PublicRes.ConvertToFuid(u_QQID);
                 if (istr % imax == 1) istr -= 1;
 
                 string requestText = "s_time=" + ICEAccess.ICEEncode(u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -1252,7 +1253,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             {
                 throw new ArgumentOutOfRangeException("queryType");
             }
-            var ip = Apollo.Common.Configuration.AppSettings.Get<string>("TransferQuery_RelayIP", "10.12.23.14");
+            var ip = Apollo.Common.Configuration.AppSettings.Get<string>("TransferQuery_RelayIP", "10.128.129.212");
             var port = Apollo.Common.Configuration.AppSettings.Get<int>("TransferQuery_RelayPort", 22000);
             var answer = RelayAccessFactory.RelayInvoke(req, "101247", false, false, ip, port);
             string msg = "";
