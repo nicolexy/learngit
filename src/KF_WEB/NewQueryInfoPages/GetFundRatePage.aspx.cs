@@ -486,9 +486,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     {
                         ExhibitionDataGridColumns(DataGrid_QueryResult, false, 7, 8, 9, 10);
                     }
-
-                    DataGrid_QueryResult.Columns[11].Visible = (string)ViewState["close_flag"] == "1"; //半封闭才展示预估收益
-
+                    DataGrid_QueryResult.Columns[11].Visible = (string)ViewState["close_flag"] == "3"; //半封闭才展示预估收益
                     this.DataGrid_QueryResult.DataSource = profits.DefaultView;
                     this.DataGrid_QueryResult.DataBind();
                 }
@@ -773,7 +771,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 this.bankRollListNotChildrenPager.RecordCount = 1000;
                 this.CloseFundRollPager.RecordCount = 1000;
                 FetchInputDetail();
-                var close_flag = ViewState["close_flag"].ToString(); ;
+                var close_flag = ViewState["close_flag"].ToString();
+                DataGrid_QueryResult.Columns[11].Visible = false; //半封闭才展示预估收益
                 if (close_flag == "2")//封闭即定期
                 {
                     this.tableCloseFundRoll.Visible = true;

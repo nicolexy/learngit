@@ -58,7 +58,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
 
 			//if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "CFTUserAppeal"))
-			if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("CFTUserAppeal",this))
+            if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
 			{
 				menuControl.AddSubMenu("自助申诉查询","BaseAccount/CFTUserAppeal.aspx") ;
 			}
@@ -73,13 +73,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 			}
 
 			//if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "CancelAccount"))
-			if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("CancelAccount",this))
+            if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
 			{
 				menuControl.AddSubMenu("帐户销户记录","BaseAccount/logOnUser.aspx") ;
 			}
 
 			//if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "UpdateAccountQQ"))
-			if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("UpdateAccountQQ",this))
+            if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
 			{
 				menuControl.AddSubMenu("帐户QQ修改","BaseAccount/ChangeQQOld.aspx") ;
 			}

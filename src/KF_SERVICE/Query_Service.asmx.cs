@@ -8260,7 +8260,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.actionType = "自助申诉查询函数";
                 rl.ID = fuin;
                 rl.sign = 1;
-                rl.strRightCode = "CFTUserAppeal";
+                rl.strRightCode = "InfoCenter";
                 rl.type = "查询";
  
                 PublicRes.SetRightAndLog(myHeader, rl);
@@ -8371,7 +8371,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.actionType = "自助申诉查询函数";
                 rl.ID = fuin;
                 rl.sign = 1;
-                rl.strRightCode = "CFTUserAppeal";
+                rl.strRightCode = "InfoCenter";
                 rl.type = "查询";
                 PublicRes.SetRightAndLog(myHeader, rl);
                 if (!rl.CheckRight())
