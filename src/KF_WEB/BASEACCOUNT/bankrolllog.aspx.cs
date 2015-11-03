@@ -65,7 +65,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
 
                 string selectStr = Request.QueryString["qqid"] != null ? Request.QueryString["qqid"].ToString() : Session["QQID"].ToString();
-                string fuid = Session["fuid"].ToString();
+                string fuid = Session["fuid"] as String;
 
                 int fcurtype = 1;
                 if (Request.QueryString["currtype"] != null)
