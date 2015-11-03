@@ -746,6 +746,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         string getQQID()
         {
+            Session["fuid"] = "";
             if (string.IsNullOrEmpty(this.TextBox1_InputQQ.Text))
             {
                 throw new Exception("请输入要查询的账号");

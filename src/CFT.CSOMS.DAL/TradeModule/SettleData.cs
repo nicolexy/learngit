@@ -341,7 +341,7 @@ namespace CFT.CSOMS.DAL.TradeModule
 
             if (!string.IsNullOrEmpty(reqid))
             {
-                requestText += "|request_id:reqid";
+                requestText += "|request_id:" + reqid;
             }
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "1407", ip, port);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -657,7 +657,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             else
             {
-                requestText += "|draw_id='" + Flistid;
+                requestText += "|draw_id:" + Flistid;
             }
             
 
