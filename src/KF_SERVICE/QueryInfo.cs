@@ -10176,7 +10176,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         //yinhuang 2014/02/13 分库分表
         public CFTUserAppealClass(string fuin, string u_BeginTime, string u_EndTime, int fstate, int ftype, string QQType,
-            string pickUser, string fid, string szReason, string orderType, string table)
+            string pickUser, string fid, string szReason, string orderType,string freeze_channel, string table)
         {
             string strWhere = " where 1=1 ";
 
@@ -10208,6 +10208,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     strWhere += " and FState='" + fstate + "'  ";
                 }
+            }
+
+            if ((ftype == 8 || ftype == 19) && freeze_channel != "0") //0 查询所有
+            {
+                strWhere += " and Ffreeze_channel='" + freeze_channel + "'  ";
             }
 
             if (ftype != 99)
@@ -10259,7 +10264,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 orderStr = "order by FSubmitTime desc";
             }
 
-            fstrSql = "select Fid,FType,Fuin,FSubmitTime,FState,FCheckTime,Fpicktime,FCheckInfo,FCheckUser,FComment,Femail,FPickUser,Fsuptime from " + table + " "
+            fstrSql = "select Fid,FType,Fuin,FSubmitTime,FState,FCheckTime,Fpicktime,FCheckInfo,FCheckUser,FComment,Femail,FPickUser,Fsuptime,Ffreeze_channel from " + table + " "
                 + strWhere + orderStr;
 
             fstrSql_count = "select count(1) from "+ table+" " + strWhere;

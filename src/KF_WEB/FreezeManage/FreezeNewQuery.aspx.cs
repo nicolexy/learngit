@@ -156,7 +156,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
                 ds = qs.GetFreezeList_New(uin, beginDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"), int.Parse(this.ddlType.SelectedValue),
                   state, this.tbx_listNo.Text.Trim(), this.tbx_people.Text.Trim(), this.tbx_reason.Text.Trim(),
-                  (index - 1) * this.pager.PageSize, this.pager.PageSize, this.ddl_queryOrderType.SelectedValue, out allRecordCount);
+                  (index - 1) * this.pager.PageSize, this.pager.PageSize, this.ddl_queryOrderType.SelectedValue, ddl_channel.SelectedValue, out allRecordCount);
 
                 
 				this.lb_count.Text = allRecordCount.ToString();
@@ -175,6 +175,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 				ds.Tables[0].Columns.Add("DiaryUrl",typeof(string));
 				ds.Tables[0].Columns.Add("handleStateName",typeof(string));
 				ds.Tables[0].Columns.Add("handleUserName",typeof(string));
+                ds.Tables[0].Columns.Add("channel_str", typeof(string));
 
 				for(int i=0;i<ds.Tables[0].Rows.Count;i++)
 				{
@@ -293,7 +294,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                         stateName = string.Format(stateName, "申诉类型不对：" + dr["Fstate"].ToString());
                     }
                     #endregion
-					
+
+                    #region 冻结渠道 
+                    string Ffreeze_channel = (dr["channel_str"] = dr["Ffreeze_channel"]).ToString();
+                    foreach (ListItem item in ddl_channel.Items)
+                    {
+                        if (item.Value == Ffreeze_channel)
+                        {
+                            dr["channel_str"] = item.Text;
+                            continue;
+                        }
+                    } 
+                    #endregion
+                
+                    
 				}
 
 				ds.AcceptChanges();
@@ -507,11 +521,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
             {
                 this.ddl_orderState.Visible = true;
                 this.ddl_orderStateSpecial.Visible = false;
+                channel_title.Visible = this.ddl_channel.Visible = true;
+                DataGrid_QueryResult.Columns[3].Visible = true;
             }
             else if (ftype == 11)
             {
                 this.ddl_orderState.Visible = false;
                 this.ddl_orderStateSpecial.Visible = true;
+                channel_title.Visible = this.ddl_channel.Visible = false;
+                DataGrid_QueryResult.Columns[3].Visible = false;
             }
         }
 
