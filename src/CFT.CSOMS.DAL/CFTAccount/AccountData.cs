@@ -137,13 +137,13 @@ namespace CFT.CSOMS.DAL.CFTAccount
             }
 
         }
-       
+
         public static string ConvertToFuid(string uin)
         {
             try
             {
                 if (string.IsNullOrEmpty(uin))
-                    throw new ArgumentNullException("uin");
+                    return null;
 
                 string errMsg = "";
                 string strSql = "uin=" + uin;
@@ -157,7 +157,8 @@ namespace CFT.CSOMS.DAL.CFTAccount
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("查询Fuid异常:{0}", ex.Message));
+                log4net.LogManager.GetLogger((string.Format("查询Fuid异常:{0}", ex.Message)));
+                return null;
             }
         }
 
