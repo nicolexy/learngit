@@ -697,128 +697,40 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             iFramePath = "../BaseAccount/TradeLog.aspx";
         }
 
-        string getQQID()
+        private string GetQueryType()
         {
             if (string.IsNullOrEmpty(this.TextBox1_InputQQ.Text))
             {
                 throw new Exception("请输入要查询的账号");
             }
-            var id = this.TextBox1_InputQQ.Text.Trim();
             if (this.WeChatCft.Checked)
             {
-                return id;
+                return "WeChatCft";
             }
             else if (this.WeChatUid.Checked)
             {
-                var qs = new Query_Service.Query_Service();
-                return qs.Uid2QQ(id);
+                return "WeChatUid";
             }
-            else if (this.WeChatQQ.Checked || this.WeChatMobile.Checked || this.WeChatEmail.Checked)
+            else if (this.WeChatQQ.Checked)
             {
-                string queryType = string.Empty;
-                if (this.WeChatQQ.Checked)
-                {
-                    queryType = "QQ";
-                }
-                else if (this.WeChatMobile.Checked)
-                {
-                    queryType = "Mobile";
-                }
-                else if (this.WeChatEmail.Checked)
-                {
-                    queryType = "Email";
-                }
-
-                string openID = string.Empty, errorMessage = string.Empty;
-                int errorCode = 0;
-                var IPList = ConfigurationManager.AppSettings["WeChat"].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-
-                for (int j = 0; j < IPList.Length; j++)
-                {
-                    if (getOpenIDFromWeChat(queryType, id, out openID, out errorCode, out errorMessage, IPList[j]))
-                    {
-                        break;
-                    }
-                }
-                if (errorCode == 0)
-                {
-                    return openID + "@wx.tenpay.com";
-                }
-                else if (errorCode == 1)
-                {
-                    throw new Exception("没有此用户");
-                }
-                else
-                {
-                    throw new Exception(errorCode + errorMessage);
-                }
+                return "WeChatQQ";
+            }
+            else if (this.WeChatMobile.Checked)
+            {
+                return "WeChatMobile";
+            }
+            else if (this.WeChatEmail.Checked)
+            {
+                return "WeChatEmail";
             }
             else if (this.WeChatId.Checked)
             {
-                return WeChatHelper.GetUINFromWeChatName(id);
+                return "WeChatId";
             }
 
-            return id;
+            return null;
         }
-
-        //通过微信绑定的QQ、手机或邮箱信息查询其openID，对应的财付通账号便是openID@wx.tenpay.com
-        bool getOpenIDFromWeChat(string queryType, string ID, out string openID, out int errorCode, out string errorMessage, string IP)
-        {
-            openID = errorMessage = string.Empty;
-            errorCode = 0;
-            try
-            {
-                string parameterString = "<Request>{0}<AppId>wx482cac0d58846383</AppId></Request>";
-                string IDstring = string.Empty;
-                string API;
-                if (queryType == "QQ")
-                {
-                    IDstring = string.Format("<QQ>{0}</QQ>", ID);
-                    API = "ConvertQQToOuterAcctId";
-                }
-                else if (queryType == "Mobile")
-                {
-                    IDstring = string.Format("<Mobile>{0}</Mobile>", ID);
-                    API = "ConvertMobileToOuterAcctId";
-                }
-                else if (queryType == "Email")
-                {
-                    IDstring = string.Format("<Email>{0}</Email>", ID);
-                    API = "ConvertEmailToOuterAcctId";
-                }
-                else
-                {
-                    errorCode = -1;
-                    errorMessage = "查询类型不正确";
-                    return false;
-                }
-                parameterString = string.Format(parameterString, IDstring);
-                var data = Encoding.Default.GetBytes(parameterString);
-                var request = (HttpWebRequest)WebRequest.Create(string.Format("http://{0}:12137/cgi-bin/{1}?f=xml&appname=wx_tenpay", IP, API));
-                request.Method = "POST";
-                request.ContentType = "text/xml;charset=UTF-8";
-                var parameter = request.GetRequestStream();
-                parameter.Write(data, 0, data.Length);
-                var response = (HttpWebResponse)request.GetResponse();
-                var myResponseStream = response.GetResponseStream();
-                var myStreamReader = new StreamReader(myResponseStream, Encoding.GetEncoding("utf-8"));
-                var resultXml = new XmlDocument();
-                resultXml.LoadXml(myStreamReader.ReadToEnd());
-                myStreamReader.Close();
-                myResponseStream.Close();
-                var responseNode = resultXml.SelectSingleNode("Response");
-                errorCode = Convert.ToInt32(responseNode.SelectSingleNode("error").SelectSingleNode("code").InnerText);
-                errorMessage = responseNode.SelectSingleNode("error").SelectSingleNode("message").InnerText;
-                openID = responseNode.SelectSingleNode("result").SelectSingleNode("OuterAcctId").InnerText;
-                return true;
-            }
-            catch (Exception e)
-            {
-                errorMessage = e.Message;
-                return false;
-            }
-        }
-
+     
         private void clickEvent()
         {
             if (Session["uid"] == null)
@@ -838,7 +750,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 this.LkBT_Refund.ForeColor = Color.Black;
                 this.LkBT_Refund_Sale.ForeColor = Color.Black;
 
-                Session["QQID"] = getQQID();
+                string queryType = GetQueryType();
+
+                Session["QQID"] = AccountService.GetQQID(queryType, this.TextBox1_InputQQ.Text);                
+                //Session["QQID"] = getQQID();
 
                 iFrameHeight = "230";   //iFame显示区域的高度
 

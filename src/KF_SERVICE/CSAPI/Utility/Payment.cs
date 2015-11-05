@@ -629,58 +629,6 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
             [XmlElement("wishing")]
             public string Wishing { get; set; }
         }
-
-        public class WechatAAAcount
-        {
-            [XmlElement("aaUin")]
-            public string aaUin { get; set; }
-            [XmlElement("accUin")]
-            public string accUin { get; set; }
-            [XmlElement("balance")]
-            public string balance { get; set; }
-            [XmlElement("create_time")]
-            public string Fcreate_time { get; set; }
-            [XmlElement("reason")]
-            public string Freason { get; set; }
-            [XmlElement("total_paid_num")]
-            public string Ftotal_paid_num { get; set; }
-            [XmlElement("plan_paid_num")]
-            public string Fplan_paid_num { get; set; }
-            [XmlElement("total_paid_amount_text")]
-            public string Ftotal_paid_amount_text { get; set; }
-            [XmlElement("state")]
-            public string Flstate { get;set; }
-            [XmlElement("status_text")]
-            public string Fstatus_text { get; set; }
-            [XmlElement("aa_collection_no")]
-            public string Faa_collection_no { get; set; }
-        }
-
-        public class WechatAADetail
-        {
-            [XmlElement("memo")]
-            public string Fmemo { get; set; }
-            [XmlElement("num_text")]
-            public string Fnum_text { get; set; }
-            [XmlElement("pay_nickname")]
-            public string Fpay_nickname { get; set; }
-            [XmlElement("receive_name")]
-            public string receive_name { get; set; }
-            [XmlElement("pay_openid")]
-            public string Fpay_openid { get; set; }
-            [XmlElement("pay_aaopenid")]
-            public string Fpay_aaopenid { get; set; }
-            [XmlElement("receive_openid")]
-            public string Freceive_openid { get; set; }
-            [XmlElement("receive_aaopenid")]
-            public string receive_aaopenid { get; set; }
-            [XmlElement("state")]
-            public string Fstate { get; set; }
-            [XmlElement("state_text")]
-            public string Fstate_text { get; set; }
-            [XmlElement("pay_memo")]
-            public string Fpay_memo { get; set; }
-        }
-
+    
     }
 }

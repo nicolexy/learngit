@@ -174,28 +174,16 @@ namespace CFT.CSOMS.BLL.UserAppealModule
             }
         }
 
-        //根据财付通帐号uin查询用户基本信息
-        public DataTable GetAppealUserInfo(string qqid)
+        /// <summary>
+        /// 自助申诉查询-根据财付通帐号uin查询用户基本信息
+        /// </summary>
+        /// <param name="qqid"></param>
+        /// <returns></returns>
+        public DataSet GetAppealUserInfo(string qqid)
         {
             try
             {
-                DataSet ds =new UserAppealData().GetAppealUserInfo(qqid);
-                if (ds != null && ds.Tables.Count > 0)
-                {
-                    ds.Tables[0].Columns.Add("FBalanceStr", typeof(String));//总金额
-                    ds.Tables[0].Columns.Add("FconStr", typeof(String));//冻结金额
-                    ds.Tables[0].Columns.Add("Fcre_type_str", typeof(String));//证件类型
-                    if (ds.Tables[0].Rows.Count > 0)
-                    {
-                        string creid = ds.Tables[0].Rows[0]["Fcreid"].ToString();
-                        ds.Tables[0].Rows[0]["Fcre_type_str"] =PublicRes.GetCreType(ds.Tables[0].Rows[0]["Fcre_type"].ToString());
-                    }
-                    COMMLIB.CommUtil.FenToYuan_Table(ds.Tables[0], "FBalance", "FBalanceStr");
-                    COMMLIB.CommUtil.FenToYuan_Table(ds.Tables[0], "Fcon", "FconStr");
-                    return ds.Tables[0];
-                }
-                else
-                    return null;
+                return new UserAppealData().GetAppealUserInfo(qqid);
             }
             catch (Exception ex)
             {

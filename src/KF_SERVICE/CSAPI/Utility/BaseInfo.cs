@@ -266,6 +266,10 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
 
         public class PersonalInfo
         {
+            [XmlElement("aa_uin")]          //微信AA财付通帐号
+            public string Faa_uin { get; set; }
+            [XmlElement("acc_uin")]         //微信支付财付通帐号
+            public string Facc_uin { get; set; }
             [XmlElement("qqid")]
             public string Fqqid { get; set; }
             [XmlElement("qqid_state")]

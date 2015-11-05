@@ -201,7 +201,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                     #endregion
 
                     #region 查询账户基本信息
-                    DataSet dsuser = qs.GetAppealUserInfo(dr2["Fuin"].ToString());
+                    DataSet dsuser = new UserAppealService().GetAppealUserInfo(dr2["Fuin"].ToString());
                     if (dsuser == null || dsuser.Tables.Count == 0 || dsuser.Tables[0].Rows.Count == 0)
                     {
                         //return;
