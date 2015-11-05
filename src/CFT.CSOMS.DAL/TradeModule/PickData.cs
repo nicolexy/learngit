@@ -273,29 +273,49 @@ namespace CFT.CSOMS.DAL.TradeModule
 //#if DEBUG
 //                   Fuid = strID;
 //#endif
-                    string fields = "uid:{0}|begintime:{1}|endtime:{2}";
-                    fields = string.Format(fields, Fuid, dtBegin.ToString("yyyy-MM-dd"), dtEnd.ToString("yyyy-MM-dd"));
-                    DataSet ds1 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);
-                    DataSet ds2 = new PublicRes().QueryCommRelay8020("2424", fields, offset, limit);
+                    string format = "uid:{0}|begintime:{1}|endtime:" + dtEnd.ToString("yyyy-MM-dd");
+                    var fields = string.Format(format, Fuid, dtBegin.ToString("yyyy-MM-dd"));
+                    DataSet temp1 = new PublicRes().QueryCommRelay8020("2424", fields, offset, limit);  //历史库
+                    DataSet temp2 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);  //查询开始日期当月 - 分库表
+                    ds = PublicRes.ToOneDataset(temp1, temp2);
 
-                    ds = PublicRes.ToOneDataset(ds1, ds2);
-
-                    DataSet ds3 = new DataSet();
-                    fields = "uid:{0}|begintime:{1}|endtime:{2}";
-                    dtBegin = dtBegin.Day > 15 ? dtBegin.AddMonths(1) : dtBegin.AddMonths(-1);
-                    if (dtBegin > dtEnd)
+                    if (dtBegin.Month != dtEnd.Month || dtBegin.Year != dtEnd.Year) //如果跨月
                     {
-                        dtEnd = dtBegin;
+                        var sDate = dtBegin.AddDays(1 - dtBegin.Day);
+                        for (int i = 0; i < 12; i++) // 不允许 查询跨度大于一年;
+                        {
+                            sDate = sDate.AddMonths(1);
+                            if (sDate > dtEnd) 
+                                break;
+                            fields = string.Format(format, Fuid, sDate.ToString("yyyy-MM-dd"));
+                            var temp3 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);
+                            ds = PublicRes.ToOneDataset(ds, temp3);
+                        }
                     }
-                    fields = string.Format(fields, Fuid, dtBegin.ToString("yyyy-MM-01"), dtEnd.ToString("yyyy-MM-dd"));
-                    ds3 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);
-                    ds = PublicRes.ToOneDataset(ds, ds3);
 
-                    //引用查询 [交易查询-提现记录查询（新）]
-                    DataSet dstemp = new PublicRes().QueryCommRelay8020("2416", fields, offset, limit);
-                    ds = PublicRes.ToOneDataset(ds, dstemp);
-                    dstemp = new PublicRes().QueryCommRelay8020("2417", fields, offset, limit);
-                    ds = PublicRes.ToOneDataset(ds, dstemp);
+                    //string fields = "uid:{0}|begintime:{1}|endtime:{2}";
+                    //fields = string.Format(fields, Fuid, dtBegin.ToString("yyyy-MM-dd"), dtEnd.ToString("yyyy-MM-dd"));
+                    //DataSet ds1 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);  //分库表
+                    //DataSet ds2 = new PublicRes().QueryCommRelay8020("2424", fields, offset, limit);  //历史库
+
+                    //ds = PublicRes.ToOneDataset(ds1, ds2);
+
+                    //DataSet ds3 = new DataSet();
+                    //fields = "uid:{0}|begintime:{1}|endtime:{2}";
+                    //dtBegin = dtBegin.Day > 15 ? dtBegin.AddMonths(1) : dtBegin.AddMonths(-1);
+                    //if (dtBegin > dtEnd)
+                    //{
+                    //    dtEnd = dtBegin;
+                    //}
+                    //fields = string.Format(fields, Fuid, dtBegin.ToString("yyyy-MM-01"), dtEnd.ToString("yyyy-MM-dd"));
+                    //ds3 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);
+                    //ds = PublicRes.ToOneDataset(ds, ds3);
+
+                    ////引用查询 [交易查询-提现记录查询（新）]
+                    //DataSet dstemp = new PublicRes().QueryCommRelay8020("2416", fields, offset, limit); //历史库
+                    //ds = PublicRes.ToOneDataset(ds, dstemp);
+                    //dstemp = new PublicRes().QueryCommRelay8020("2417", fields, offset, limit); //当前库
+                    //ds = PublicRes.ToOneDataset(ds, dstemp);
 
                     if (ds != null && ds.Tables.Count > 0) 
                     {
