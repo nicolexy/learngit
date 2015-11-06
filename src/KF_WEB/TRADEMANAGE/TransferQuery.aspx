@@ -88,7 +88,7 @@
                         <tr>
                             <td>本次交易总金额：</td>
                             <td>
-                                <asp:Label ID="lab_Ftotalnum" runat="server" />
+                                <asp:Label ID="lab_Ftotalnum_str" runat="server" />
                             </td>
                             <td>业务侧重入检查标记</td>
                             <td>

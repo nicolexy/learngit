@@ -60,7 +60,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     //lab_Fsequence_no_only.Text = row["Fsequence_no"] as string;
                     lab_Fsource_time_stamp.Text = row["Fsource_time_stamp"] as string;
                     lab_Fsubtrans_no.Text = row["Fsubtrans_no"] as string;
-                    lab_Ftotalnum.Text = row["Ftotalnum"] as string;
+                    lab_Ftotalnum_str.Text = row["Ftotalnum_str"] as string;
                     lab_Ftrans_no.Text = row["Ftrans_no"] as string;
                     lab_Ftrans_time.Text = row["Ftrans_time"] as string;
 
