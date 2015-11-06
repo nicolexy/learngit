@@ -116,11 +116,11 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 		protected void btLogOn_Click(object sender, System.EventArgs e)  //暂不开放注销功能
 		{
             // qs1.ClosedBalancePaid(this.TextBox1_QQID.Text.Trim());//测试用关闭余额支付功能，为了查询及打开
-			string qqid   = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceSqlStr(this.TextBox1_QQID.Text);
-            string wxid = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceSqlStr(this.TextBox2_WX.Text);
-			string reason = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceSqlStr(this.txtReason.Text);
+			string qqid   = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceSqlStr(this.TextBox1_QQID.Text).Trim();
+            string wxid = this.TextBox2_WX.Text.Trim();
+			string reason = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceSqlStr(this.txtReason.Text).Trim();
             bool emailCheck = EmailCheckBox.Checked;
-            string emailAddr = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceSqlStr(this.txtEmail.Text);
+            string emailAddr = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceSqlStr(this.txtEmail.Text).Trim();
 
             int wxFlag = 0;//是否是微信账号
             if (string.IsNullOrEmpty(TextBox1_QQID.Text) && string.IsNullOrEmpty(TextBox2_WX.Text))
@@ -146,8 +146,8 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     return;
                 }
                 wxFlag = 1;
-                wxUIN = WeChatHelper.GetUINFromWeChatName(TextBox2_WX.Text);
-                wxHBUIN = WeChatHelper.GetHBUINFromWeChatName(TextBox2_WX.Text);
+                wxUIN = WeChatHelper.GetUINFromWeChatName(wxid);
+                wxHBUIN = WeChatHelper.GetHBUINFromWeChatName(wxid);
                 qqid = wxUIN;
             }
             else if (TextBox1_QQID.Text != txbConfirmQ.Text)
@@ -277,18 +277,18 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     #region 微信特有判断
                     try
                     {
-                        var WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(TextBox2_WX.Text);
+                        var WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(wxid);
                         if (!WXUnfinishedTrade)
                         {
-                            LogHelper.LogInfo(TextBox2_WX.Text + "此账号有未完成微信支付转账，禁止注销!");
+                            LogHelper.LogInfo(wxid + "此账号有未完成微信支付转账，禁止注销!");
                             WebUtils.ShowMessage(this.Page, "此账号有未完成微信支付转账，禁止注销!");
                             return;
                         }
 
-                        var HasUnfinishedHB = (new TradeService()).QueryWXUnfinishedHB(TextBox2_WX.Text);
+                        var HasUnfinishedHB = (new TradeService()).QueryWXUnfinishedHB(wxid);
                         if (!HasUnfinishedHB)
                         {
-                            LogHelper.LogInfo(TextBox2_WX.Text + "此账号有未完成微信红包，禁止注销!");
+                            LogHelper.LogInfo(wxid + "此账号有未完成微信红包，禁止注销!");
                             WebUtils.ShowMessage(this.Page, "此账号有未完成微信红包，禁止注销!");
                             return;
                         }
