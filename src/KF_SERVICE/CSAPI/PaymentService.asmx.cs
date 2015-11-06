@@ -15,6 +15,7 @@ using System.Net;
 using System.Data;
 using CFT.CSOMS.COMMLIB;
 using TENCENT.OSS.CFT.KF.Common;
+using CFT.CSOMS.Service.CSAPI.BaseInfo;
 
 namespace CFT.CSOMS.Service.CSAPI
 {
@@ -891,6 +892,44 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         /// <summary>
+        /// 获取微信支付账号的账号信息
+        /// </summary>
+        [WebMethod]
+        public void GetUserAccountFromWechat()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "type", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+                //"WeChatId"-微信帐号,"WeChatQQ"-微信绑定QQ,"WeChatMobile"-微信绑定手机,"WeChatEmail"-微信绑定邮箱,"WeChatUid"-微信内部ID,"WeChatCft"-微信财付通帐号，"WeChatAA"-微信AA收款账户
+                string type = paramsHt.ContainsKey("type") ? paramsHt["type"].ToString() : "";
+
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserAccountFromWechat(qqid, type);
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<BaseInfoC.PersonalInfo> list = APIUtil.ConvertTo<BaseInfoC.PersonalInfo>(infos.Tables[0]);
+                APIUtil.Print<BaseInfoC.PersonalInfo>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetUserAccountFromWechat").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetUserAccountFromWechat").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        /// <summary>
         /// 查询微信账户CKV
         /// </summary>
         [WebMethod]
@@ -1134,7 +1173,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                     var sendOpenid = detail_dt.Rows[0]["SendOpenid"].ToString();
                     string send_openid_tmp = GetWxNoByOpenId(sendOpenid);   // string.Format("{0}@wx.tenpay.com", WeChatHelper.GetAcctIdFromOpenId(sendOpenid));
-
+                  
                     foreach (DataRow item in detail_dt.Rows)
                     {
                         item["Amount_text"] = MoneyTransfer.FenToYuan(item["Amount"].ToString());
@@ -1160,170 +1199,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
        
         #endregion
-
-        #region 微信AA收款
-
-        /// <summary>
-        /// 微信AA收款用户信息及交易记录查询
-        /// </summary>
-        [WebMethod]
-        public void GetWechatAAUserAccount()
-        {
-            try
-            {
-                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
-
-                //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "wechatName", "offset", "limit", "token");
-                //验证token
-                APIUtil.ValidateToken(paramsHt);
-
-                string wechatName = paramsHt.ContainsKey("wechatName") ? paramsHt["wechatName"].ToString() : "";
-                int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
-                int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
-
-                if (offset < 0)
-                    offset = 0;
-                if (limit < 0 || limit > 50)
-                    limit = 50;
-
-                string aaUin = CFT.CSOMS.COMMLIB.WeChatHelper.GetAAUINFromWeChatName(wechatName);
-                string accUin = CFT.CSOMS.COMMLIB.WeChatHelper.GetUINFromWeChatName(wechatName);
-                string balance = "";
-                DataSet ds = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserAccount(aaUin, 1, 0, 20);
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                {
-                    balance = MoneyTransfer.FenToYuan(ds.Tables[0].Rows[0]["Fbalance"].ToString());
-                }
-
-                var infos = new CFT.CSOMS.BLL.WechatPay.WechatPayService().GetAATradeList(aaUin, offset, limit);
-
-                if (infos != null && infos.Tables.Count > 0 && infos.Tables[0].Rows.Count > 0)
-                {
-                    infos.Tables[0].Columns.Add("aaUin", typeof(string));
-                    infos.Tables[0].Columns.Add("accUin", typeof(string));
-                    infos.Tables[0].Columns.Add("balance", typeof(string));
-
-                    foreach (DataRow dr in infos.Tables[0].Rows)
-                    {
-                        dr["aaUin"] = aaUin;
-                        dr["accUin"] = accUin;
-                        dr["balance"] = balance;
-                    }
-                }
-
-                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
-                {
-                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
-                }
-                List<WechatApi.WechatAAAcount> list = APIUtil.ConvertTo<WechatApi.WechatAAAcount>(infos.Tables[0]);
-                APIUtil.Print<WechatApi.WechatAAAcount>(list);
-            }
-            catch (ServiceException se)
-            {
-                SunLibrary.LoggerFactory.Get("GetWechatAAUserAccount").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
-                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
-            }
-            catch (Exception ex)
-            {
-                SunLibrary.LoggerFactory.Get("GetWechatAAUserAccount").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
-                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
-            }
-        }
-
-        /// <summary>
-        /// 微信AA收款明细
-        /// </summary>
-        [WebMethod]
-        public void GetWechatAAAcountDetail()
-        {
-            try
-            {
-                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
-
-                //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "aa_collection_no", "create_time", "offset", "limit", "token");
-                //验证token
-                APIUtil.ValidateToken(paramsHt);
-
-                string aa_collection_no = paramsHt["aa_collection_no"].ToString();
-                DateTime create_time = APIUtil.StrToDate(paramsHt["create_time"].ToString());
-                int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
-                int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
-
-                if (offset < 0)
-                    offset = 0;
-                if (limit < 0 || limit > 50)
-                    limit = 50;
-
-                var infos = new CFT.CSOMS.BLL.WechatPay.WechatPayService().GetAATradeDetailsSingleYear(aa_collection_no, create_time, offset, limit);
-
-                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
-                {
-                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
-                }
-                if (infos != null && infos.Tables.Count > 0 && infos.Tables[0].Rows.Count > 0)
-                {
-                    infos.Tables[0].Columns.Add("Fnum_text", typeof(string));
-                    infos.Tables[0].Columns.Add("Fstate_text", typeof(string));
-                    infos.Tables[0].Columns.Add("receive_aaopenid", typeof(string));
-                    infos.Tables[0].Columns.Add("receive_name", typeof(string));
-
-                    //查询收款方AA财付通账号，发起收款的人的aaopenid放在总单里面wx_aa_collection_00.t_collection_list_0
-                    var dsAATotalTrade = new CFT.CSOMS.BLL.WechatPay.WechatPayService().QueryAATotalTradeInfo(aa_collection_no);
-                    string receive_aaopenid = "";
-                    string receive_name = "";
-                    if (dsAATotalTrade != null && dsAATotalTrade.Tables.Count > 0 && dsAATotalTrade.Tables[0].Rows.Count > 0)
-                    {
-                        receive_aaopenid = dsAATotalTrade.Tables[0].Rows[0]["Fopenid"].ToString();
-                        receive_name = dsAATotalTrade.Tables[0].Rows[0]["Fname"].ToString();
-                    }
-
-                    foreach (DataRow item in infos.Tables[0].Rows)
-                    {
-                        item["receive_aaopenid"] = receive_aaopenid;
-                        item["receive_name"] = receive_name;
-                        item["Fnum_text"] = MoneyTransfer.FenToYuan(item["Fnum"].ToString());
-
-                        switch (item["Fstate"].ToString())
-                        {
-
-                            case "1":
-                                item["Fstate_text"] = "等待支付";
-                                break;
-                            case "2":
-                                item["Fstate_text"] = "支付完成";
-                                break;
-                            case "3":
-                                item["Fstate_text"] = "B2C转账完成";
-                                break;
-                            case "4":
-                                item["Fstate_text"] = "退款";
-                                break;
-                            default:
-                                item["Fstate_text"] = "未知" + item["Fstate"].ToString();
-                                break;
-                        }
-                    }
-                }
-
-                List<WechatApi.WechatAADetail> list = APIUtil.ConvertTo<WechatApi.WechatAADetail>(infos.Tables[0]);
-                APIUtil.Print<WechatApi.WechatAADetail>(list);
-            }
-            catch (ServiceException se)
-            {
-                SunLibrary.LoggerFactory.Get("GetWechatAAAcountDetail").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
-                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
-            }
-            catch (Exception ex)
-            {
-                SunLibrary.LoggerFactory.Get("GetWechatAAAcountDetail").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
-                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
-            }
-        }
-
-        #endregion
-
+     
         #region 手Q支付
 
         /// <summary>

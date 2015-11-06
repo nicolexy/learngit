@@ -28,7 +28,7 @@ using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
-    public partial class InfoCenter : System.Web.UI.Page
+    public partial class InfoCenter : PageBase//System.Web.UI.Page
     {
         public string iFramePath;  //设置iFrame的路径
         public string iFrameHeight;  //设置iFrame(用户交易记录)显示区域的高度
@@ -759,8 +759,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             else if (this.InternalID.Checked)
             {
                 Session["fuid"] = id;  //注销帐号查询资金流水
-                var qs = new Query_Service.Query_Service();
-                return qs.Uid2QQ(id);
+
+                return new AccountService().Uid2QQ(id);              
             }
 
             return id;

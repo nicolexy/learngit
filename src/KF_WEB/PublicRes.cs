@@ -1124,9 +1124,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             }
         }
 
-        public static void GetDllDownList(DropDownList dll, Dictionary<string, string> dic)
+        public static void GetDllDownList(DropDownList dll, Dictionary<string, string> dic,string defVal,string defKey)
         {
-            dll.Items.Add(new ListItem("È«²¿", ""));
+            dll.Items.Add(new ListItem(defVal, defKey));
             foreach (var item in dic)
             {
                 dll.Items.Add(new ListItem(item.Value, item.Key));

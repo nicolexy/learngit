@@ -5879,7 +5879,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod(Description = "风控解冻审核的查询NEW")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetFreezeList_New(string qqid, string szBeginDate, string szEndDate, int ftype, int iStatue,
-            string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType, out int AllRecordCount)
+            string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType, string freeze_channel, out int AllRecordCount)
         {
             RightAndLog rl = new RightAndLog();
             try
@@ -5900,54 +5900,35 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 rl.UserID = myHeader.UserName;
                 rl.UserIP = myHeader.UserIP;
         
-                AllRecordCount = 0;
-                DataSet ds = null;
+               // AllRecordCount = 0;
+                //DataSet ds = null;
 
                 #region 查询申诉记录列表
                 DateTime sdate = DateTime.Parse(szBeginDate);
                 DateTime edate = DateTime.Parse(szEndDate);
-                string table1 = "";
-                string table2 = "";
-                if (sdate.Month != edate.Month)
+
+                Func<DateTime, DateTime, Tuple<DataSet, int>> QueryDBHendle = (s, e) =>
+                {
+                    string table = string.Format("db_appeal_{0}.t_tenpay_appeal_trans_{1}", sdate.Year.ToString(), sdate.Month.ToString("d2"));
+                    CFTUserAppealClass cuser = new CFTUserAppealClass(qqid, s.ToString("yyyy-MM-dd"), e.ToString("yyyy-MM-dd"), iStatue, ftype, "", szFreezeUser, szListID, szFreezeReason, orderType, freeze_channel, table);
+                    var ds1 = cuser.GetResultX(iPageStart, iPageMax, "fkdj");
+                    var count = cuser.GetCount("fkdj");
+                    return new Tuple<DataSet, int>(ds1, count);
+                };
+
+                var tuple1 = QueryDBHendle(sdate, edate);       // 开始日期      - 结束日期    : 只查询开始日记当月记录
+                DataSet ds = tuple1.Item1;
+                AllRecordCount = tuple1.Item2;
+
+                if (sdate.Month != edate.Month) //如果跨月 就查询一下结束日期那个库表
                 {
                     //如果月份不一致，需要查询2个表 例如：20140110--20140210 则查20140110-20140131;20140201-20140210两个时间段
-                    //DateTime qedate = sdate.AddDays(1 - sdate.Day).AddMonths(1).AddDays(-1); //当月最后一天
 
-                    //结束日期暂时为当前日期后一天，因为查询使用的是between yinhuang
-                    DateTime qedate = DateTime.Now.AddDays(1);
-
-                    int i_m = sdate.Month;
-                    string s_m = "";
-                    if (i_m < 10)
-                    {
-                        s_m = "0" + i_m;
-                    }
-                    else
-                    {
-                        s_m = i_m.ToString();
-                    }
-                    string table = "db_appeal_" + sdate.Year.ToString() + ".t_tenpay_appeal_trans_" + s_m;                
-                    CFTUserAppealClass cuser = new CFTUserAppealClass(qqid, szBeginDate, qedate.ToString("yyyy-MM-dd"), iStatue, ftype, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
-                    ds = cuser.GetResultX(iPageStart, iPageMax, "fkdj");
-                    int count1 = cuser.GetCount("fkdj");
-
-                    DateTime qsdate = edate.AddDays(1 - edate.Day);//当月第一天
-                    i_m = edate.Month;
-                    s_m = "";
-                    if (i_m < 10)
-                    {
-                        s_m = "0" + i_m;
-                    }
-                    else
-                    {
-                        s_m = i_m.ToString();
-                    }
-                    table = "db_appeal_" + edate.Year.ToString() + ".t_tenpay_appeal_trans_" + s_m;
-                    CFTUserAppealClass cuser2 = new CFTUserAppealClass(qqid, qsdate.ToString("yyyy-MM-dd"), szEndDate, iStatue, ftype, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
-                    DataSet ds2 = cuser2.GetResultX(iPageStart, iPageMax, "fkdj");
-                    int count2 = cuser2.GetCount("fkdj");
-                    AllRecordCount = count1 + count2;
-
+                    DateTime e_sdate = edate.AddDays(1 - edate.Day);    //  结束日期一号
+                    var tuple2 = QueryDBHendle(e_sdate, edate);         //  结束日期一号 - 结束日期
+                    AllRecordCount += tuple2.Item2;
+                   
+                    var ds2 = tuple2.Item1;
                     if (ds2 != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0)
                     {
                         if (ds != null && ds.Tables.Count > 0)
@@ -5963,23 +5944,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                             ds.Tables.Add(ds2.Tables[0].Copy());
                         }
                     }
-                }
-                else
-                {
-                    int i_m = sdate.Month;
-                    string s_m = "";
-                    if (i_m < 10)
-                    {
-                        s_m = "0" + i_m;
-                    }
-                    else
-                    {
-                        s_m = i_m.ToString();
-                    }
-                    string table = "db_appeal_" + sdate.Year.ToString() + ".t_tenpay_appeal_trans_" + s_m;
-                    CFTUserAppealClass cuser = new CFTUserAppealClass(qqid, szBeginDate, szEndDate, iStatue, ftype, "", szFreezeUser, szListID, szFreezeReason, orderType, table);
-                    ds = cuser.GetResultX(iPageStart, iPageMax, "fkdj");
-                    AllRecordCount = cuser.GetCount("fkdj");
                 }
                 #endregion
 
@@ -10090,64 +10054,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
 
         }
-
-        [WebMethod(Description = "自助申诉查询详细函数")]
-        public DataSet GetAppealUserInfo(string qqid)
-        {
-            //已更改 furion V30_FURION核心查询需改动 查询核心走接口.
-            ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZW"));
-            try
-            {
-                string uid = PublicRes.ConvertToFuid(qqid);
-                if (uid == null || uid.Trim() == "")
-                {
-                    throw new LogicException("找不到此用户");
-                }
-
-                // TODO: 1客户信息资料外移 
-                da.OpenConn();
-                ice.OpenConn();
-                string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + uid + "&");
-                strwhere += ICEAccess.URLEncode("fcurtype=1&");
-
-                string strResp = "";
-                DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, uid, strwhere, out strResp);
-                if (dt == null || dt.Rows.Count == 0)
-                    throw new LogicException("调用ICE查询T_user无记录" + strResp);
-
-                string Fbalance = dt.Rows[0]["Fbalance"].ToString();
-                string Fcon = dt.Rows[0]["Fcon"].ToString();
-                string Ftruename = dt.Rows[0]["Ftruename"].ToString();
-                string Fcompany_name = dt.Rows[0]["Fcompany_name"].ToString();
-                string Fuser_type = dt.Rows[0]["Fuser_type"].ToString();
-                string Fqqid = dt.Rows[0]["Fqqid"].ToString();
-                string errMsg = "";
-                string strSql = "uid=" + uid;
-                DataTable dtuserinfo = CommQuery.GetTableFromICE(strSql, CommQuery.QUERY_USERINFO, out errMsg);
-
-                if (dtuserinfo == null || dtuserinfo.Rows.Count != 1)
-                    throw new LogicException("调用ICE查询t_user_info出错" + errMsg);
-
-                string Femail = dtuserinfo.Rows[0]["Femail"].ToString();
-                string Fcre_type = dtuserinfo.Rows[0]["Fcre_type"].ToString();
-                string Fcreid = dtuserinfo.Rows[0]["Fcreid"].ToString();
-                strSql = "uid=" + uid + "&curtype=1";
-                string Fbankid = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_BANKUSER, "Fbankid", out errMsg);
-
-                strSql = @"select '" + Fqqid + "' as Fqqid,'" + Ftruename + "' as Ftruename,'" + Fcompany_name + "' as Fcompany_name,'"
-                    + Fbalance + "' as Fbalance,'" + Fcon + "' as Fcon,'" + Fuser_type + "' as Fuser_type,'" + Femail
-                    + "' as Femail,'" + Fcre_type + "' as Fcre_type,'" + Fcreid + "' as Fcreid,'" + Fbankid + "' as Fbankid";
-
-                return da.dsGetTotalData(strSql);              
-            }
-            finally
-            {
-                da.Dispose();
-                ice.Dispose();
-            }
-        }
-
+      
         [WebMethod(Description = "修改QQ查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetChangeQQList(string userid, string qq, int iPageStart, int iPageMax)

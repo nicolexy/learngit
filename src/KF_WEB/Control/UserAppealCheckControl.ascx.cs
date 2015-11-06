@@ -201,7 +201,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 			try
 			{
 				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-				DataSet dsuser =  qs.GetAppealUserInfo(dr["Fuin"].ToString());
+				DataSet dsuser =  new UserAppealService().GetAppealUserInfo(dr["Fuin"].ToString());
 				if(dsuser == null || dsuser.Tables.Count == 0 || dsuser.Tables[0].Rows.Count != 1)
 				{
 					labFQQid.Text = "读取数据有误" ;
@@ -227,26 +227,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 						labFtruename.Text = PublicRes.GetString(druser["Fcompany_name"]);
 					}
 
-                    qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-                    //2.查询实名认证
-                    DataSet dsA = qs.GetUserAuthenState(druser["Fqqid"].ToString(), "", 0);
-                    //if (dsA == null || dsA.Tables.Count < 1 || dsA.Tables[0].Rows.Count != 1)
-                    //{
-                    //    lbauthenState.Text = "否";//是否实名认证
-                    //}
-                    //else
-                    //{
-                    //    DataRow row = dsA.Tables[0].Rows[0];
-                    //    if (row["queryType"].ToString() == "2")
-                    //    {
-                    //        lbauthenState.Text = "是";
-                    //    }
-                    //    else
-                    //    {
-                    //        lbauthenState.Text = "否";
-                    //    }
-                    //}
-
+                   
                     //2.查询实名认证
                     bool stateMsg = false;
                     DataSet authenState = new UserAppealService().GetUserAuthenState(druser["Fqqid"].ToString(), "", 0, out stateMsg);

@@ -94,6 +94,7 @@
     <Compile Include="RemitModule\RemitService.cs" />
     <Compile Include="SPOA\MerchantService.cs" />
     <Compile Include="SPOA\SPOAService.cs" />
+    <Compile Include="SysManageModule\BankClassifyService.cs" />
     <Compile Include="SysManageModule\SysManageService.cs" />
     <Compile Include="TradeModule\PickService.cs" />
     <Compile Include="TradeModule\SettleService.cs" />

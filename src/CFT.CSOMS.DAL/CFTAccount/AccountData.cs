@@ -280,7 +280,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
         }
 
         //返回用户的帐户类型
-        public bool getUserType(string qqid, out string userType, out string Msg)
+        public bool GetUserType(string qqid, out string userType, out string Msg)
         {
             userType = null;
             Msg = null;
@@ -631,7 +631,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
         /// <param name="queryTypeTemp"></param>
         /// <param name="queryString"></param>
         /// <returns></returns>
-        public static string getQQID(string queryTypeTemp, string queryString)
+        public static string GetQQID(string queryTypeTemp, string queryString)
         {
             if (string.IsNullOrEmpty(queryString))
             {

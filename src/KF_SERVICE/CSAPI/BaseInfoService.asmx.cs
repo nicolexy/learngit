@@ -13,6 +13,7 @@ using System.Collections;
 using CFT.CSOMS.Service.CSAPI.BaseInfo;
 using System.Collections.Specialized;
 using System.Data;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace CFT.CSOMS.Service.CSAPI
 {
@@ -86,24 +87,35 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().GetAppealUserInfo(paramsHt["uin"].ToString());
 
-                if (infos == null || infos.Rows.Count == 0)
+                if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
                 }
+                if (infos != null && infos.Tables.Count > 0 && infos.Tables[0].Rows.Count > 0)
+                {
+                    infos.Tables[0].Columns.Add("FBalanceStr", typeof(String));//总金额
+                    infos.Tables[0].Columns.Add("FconStr", typeof(String));//冻结金额
+                    infos.Tables[0].Columns.Add("Fcre_type_str", typeof(String));//证件类型
+                    if (infos.Tables[0].Rows.Count > 0)
+                    {
+                        string creid = infos.Tables[0].Rows[0]["Fcreid"].ToString();
+                        infos.Tables[0].Rows[0]["Fcre_type_str"] = Transfer.GetCreType(infos.Tables[0].Rows[0]["Fcre_type"].ToString());
+                    }
+                    COMMLIB.CommUtil.FenToYuan_Table(infos.Tables[0], "FBalance", "FBalanceStr");
+                    COMMLIB.CommUtil.FenToYuan_Table(infos.Tables[0], "Fcon", "FconStr");                    
+                }
 
-                List<BaseInfoC.UserInfoBasic> list = APIUtil.ConvertTo<BaseInfoC.UserInfoBasic>(infos);
-
-                // var ret = new ResultParse<BaseInfoC.UserInfoBasic>().ReturnToObject(list);
+                List<BaseInfoC.UserInfoBasic> list = APIUtil.ConvertTo<BaseInfoC.UserInfoBasic>(infos.Tables[0]);
                 APIUtil.Print<BaseInfoC.UserInfoBasic>(list);
             }
             catch (ServiceException se)
             {
-                SunLibrary.LoggerFactory.Get("GetUserAuthenState").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                SunLibrary.LoggerFactory.Get("GetAppealUserInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
                 APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
             }
             catch (Exception ex)
             {
-                SunLibrary.LoggerFactory.Get("GetUserAuthenState").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                SunLibrary.LoggerFactory.Get("GetAppealUserInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
@@ -1088,7 +1100,7 @@ namespace CFT.CSOMS.Service.CSAPI
         /// 获取个人账户信息
         /// </summary>
         [WebMethod]
-        public void GetPersonalInfo()
+        public void GetUserAccount()
         {
             try
             {
@@ -1099,10 +1111,10 @@ namespace CFT.CSOMS.Service.CSAPI
                 APIUtil.ValidateToken(paramsHt);
 
                 string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
-                //"Uin"-C账号,"Uid"-内部账号,"WeChatId"-微信帐号,"WeChatQQ"-微信绑定QQ,"WeChatMobile"-微信绑定手机,"WeChatEmail"-微信绑定邮箱,"WeChatUid"-微信内部ID,"WeChatCft"-微信财付通帐号
-                string type = paramsHt.ContainsKey("type") ? paramsHt["type"].ToString() : "";  
+                //"Uin"-C账号,"Uid"-内部账号
+                string type = paramsHt.ContainsKey("type") ? paramsHt["type"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetPersonalInfo(qqid, type);
+                var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserAccount(qqid, type);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
@@ -1112,12 +1124,12 @@ namespace CFT.CSOMS.Service.CSAPI
             }
             catch (ServiceException se)
             {
-                SunLibrary.LoggerFactory.Get("GetPersonalInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                SunLibrary.LoggerFactory.Get("GetUserAccount").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
                 APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
             }
             catch (Exception ex)
             {
-                SunLibrary.LoggerFactory.Get("GetPersonalInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                SunLibrary.LoggerFactory.Get("GetUserAccount").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
@@ -2065,79 +2077,6 @@ namespace CFT.CSOMS.Service.CSAPI
             catch (Exception ex)
             {
                 SunLibrary.LoggerFactory.Get("GetDeleteQueryInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
-                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
-            }
-        }
-
-        /// <summary>
-        /// 删除个人证书
-        /// </summary>
-        //暂时不提供API给外部系统
-        public void DeleteUserCrt()
-        {
-            try
-            {
-                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
-                //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "token");
-                //验证token
-                APIUtil.ValidateToken(paramsHt);
-
-                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
-
-                new CFT.CSOMS.BLL.CRTModule.CRTService().DeleteUserCrt(qqid);
-
-                Record record = new Record();
-                record.RetValue = "true";
-                List<Record> list = new List<Record>();
-                list.Add(record);
-                APIUtil.Print<Record>(list);
-            }
-            catch (ServiceException se)
-            {
-                SunLibrary.LoggerFactory.Get("DeleteUserCrt").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
-                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
-            }
-            catch (Exception ex)
-            {
-                SunLibrary.LoggerFactory.Get("DeleteUserCrt").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
-                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
-            }
-        }
-
-        /// <summary>
-        /// 关闭证书服务
-        /// </summary>
-        //暂时不提供API给外部系统
-        public void DeleteCrtService()
-        {
-            try
-            {
-                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
-                //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "ip", "token");
-                //验证token
-                APIUtil.ValidateToken(paramsHt);
-
-                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
-                string ip = paramsHt.ContainsKey("ip") ? paramsHt["ip"].ToString() : "";
-
-                new CFT.CSOMS.BLL.CRTModule.CRTService().DeleteCrtService(qqid, ip);
-
-                Record record = new Record();
-                record.RetValue = "true";
-                List<Record> list = new List<Record>();
-                list.Add(record);
-                APIUtil.Print<Record>(list);
-            }
-            catch (ServiceException se)
-            {
-                SunLibrary.LoggerFactory.Get("DeleteCrtService").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
-                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
-            }
-            catch (Exception ex)
-            {
-                SunLibrary.LoggerFactory.Get("DeleteCrtService").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }

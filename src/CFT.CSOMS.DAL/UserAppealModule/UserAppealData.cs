@@ -290,49 +290,68 @@ namespace CFT.CSOMS.DAL.UserAppealModule
         }
 
         /// <summary>
-        /// 根据财付通帐号uin查询用户基本信息
+        /// 自助申诉查询-根据财付通帐号uin查询用户基本信息
         /// </summary>
         /// <param name="qqid"></param>
         /// <returns></returns>
         public DataSet GetAppealUserInfo(string qqid)
         {
+            //已更改 furion V30_FURION核心查询需改动 查询核心走接口.
+            string ServerIP = System.Configuration.ConfigurationManager.AppSettings["ICEServerIP"];
+            int Port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["ICEPort"]);
+            ICEAccess ice = new ICEAccess(ServerIP, Port);
+
+            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZW"));
             try
             {
-                string uid = AccountData.ConvertToFuid(qqid);
+                string uid = PublicRes.ConvertToFuid(qqid);
                 if (uid == null || uid.Trim() == "")
                 {
                     throw new LogicException("找不到此用户");
                 }
 
-                DataTable dt = new LCTBalance().QuerySubAccountInfo(qqid, 1);
+                // TODO: 1客户信息资料外移 
+                da.OpenConn();
+                ice.OpenConn();
+                string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + uid + "&");
+                strwhere += ICEAccess.URLEncode("fcurtype=1&");
+
+                string strResp = "";
+                DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, uid, strwhere, out strResp);
+                if (dt == null || dt.Rows.Count == 0)
+                    throw new LogicException("调用ICE查询T_user无记录" + strResp);
+
                 string Fbalance = dt.Rows[0]["Fbalance"].ToString();
                 string Fcon = dt.Rows[0]["Fcon"].ToString();
                 string Ftruename = dt.Rows[0]["Ftruename"].ToString();
                 string Fcompany_name = dt.Rows[0]["Fcompany_name"].ToString();
                 string Fuser_type = dt.Rows[0]["Fuser_type"].ToString();
                 string Fqqid = dt.Rows[0]["Fqqid"].ToString();
+                string errMsg = "";
+                string strSql = "uid=" + uid;
+                DataTable dtuserinfo = CommQuery.GetTableFromICE(strSql, CommQuery.QUERY_USERINFO, out errMsg);
 
-                DataTable dtuserinfo = new AccountData().GetUserInfoBase(uid);
+                if (dtuserinfo == null || dtuserinfo.Rows.Count != 1)
+                    throw new LogicException("调用ICE查询t_user_info出错" + errMsg);
 
                 string Femail = dtuserinfo.Rows[0]["Femail"].ToString();
                 string Fcre_type = dtuserinfo.Rows[0]["Fcre_type"].ToString();
                 string Fcreid = dtuserinfo.Rows[0]["Fcreid"].ToString();
+                strSql = "uid=" + uid + "&curtype=1";
+                string Fbankid = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_BANKUSER, "Fbankid", out errMsg);
 
-                string Fbankid = new AccountData().GetUserBankId(uid);
+                strSql = @"select '" + Fqqid + "' as Fqqid,'" + Ftruename + "' as Ftruename,'" + Fcompany_name + "' as Fcompany_name,'"
+                    + Fbalance + "' as Fbalance,'" + Fcon + "' as Fcon,'" + Fuser_type + "' as Fuser_type,'" + Femail
+                    + "' as Femail,'" + Fcre_type + "' as Fcre_type,'" + Fcreid + "' as Fcreid,'" + Fbankid + "' as Fbankid";
 
-                using (var da = MySQLAccessFactory.GetMySQLAccess("ZW_DB"))
-                {
-                    da.OpenConn();
-                    string strSql = @"select '" + Fqqid + "' as Fqqid,'" + Ftruename + "' as Ftruename,'" + Fcompany_name + "' as Fcompany_name,'"
-                        + Fbalance + "' as Fbalance,'" + Fcon + "' as Fcon,'" + Fuser_type + "' as Fuser_type,'" + Femail
-                        + "' as Femail,'" + Fcre_type + "' as Fcre_type,'" + Fcreid + "' as Fcreid,'" + Fbankid + "' as Fbankid";
-                    return da.dsGetTotalData(strSql);
-                }
+                return da.dsGetTotalData(strSql);
             }
-            catch (Exception ex)
+            finally
             {
-                throw new Exception(ex.Message);
+                da.Dispose();
+                ice.Dispose();
             }
+      
         }
 
 

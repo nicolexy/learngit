@@ -160,6 +160,84 @@ namespace CFT.CSOMS.BLL.TransferMeaning
             return "";
         }
 
+        /// <summary>
+        /// 证件类型转义
+        /// </summary>
+        /// <param name="creid"></param>
+        /// <returns></returns>
+        public static string GetCreType(string creid)
+        {
+
+            if (creid == null || creid.Trim() == "")
+                return "未指定类型";
+
+            int icreid = 0;
+            try
+            {
+                icreid = Int32.Parse(creid);
+            }
+            catch
+            {
+                return "不正确类型" + creid;
+            }
+
+            if (icreid >= 1 && icreid <= 11)
+            {
+                if (icreid == 1)
+                {
+                    return "身份证";
+                }
+                else if (icreid == 2)
+                {
+                    return "护照";
+                }
+                else if (icreid == 3)
+                {
+                    return "军官证";
+                }
+                else if (icreid == 4)
+                {
+                    return "士兵证";
+                }
+                else if (icreid == 5)
+                {
+                    return "回乡证";
+                }
+                else if (icreid == 6)
+                {
+                    return "临时身份证";
+                }
+                else if (icreid == 7)
+                {
+                    return "户口簿";
+                }
+                else if (icreid == 8)
+                {
+                    return "警官证";
+                }
+                else if (icreid == 9)
+                {
+                    return "台胞证";
+                }
+                else if (icreid == 10)
+                {
+                    return "营业执照";
+                }
+                else if (icreid == 11)
+                {
+                    return "其它证件";
+                }
+                else
+                {
+                    return "不正确类型" + creid;
+                }
+            }
+            else
+            {
+                return "不正确类型" + creid;
+            }
+        }
+
         public static string returnDicStr(string type, string sType)
         {
             try

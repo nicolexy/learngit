@@ -251,6 +251,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 SysManage1.AddSubMenu("系统公告管理", "SysManage/SysBulletinManage.aspx");
                 SysManage1.AddSubMenu("常见问题维护", "SysManage/QuestionManage.aspx");
                 SysManage1.AddSubMenu("银行接口维护管理", "SysManage/BankInterfaceManage.aspx");
+                SysManage1.AddSubMenu("银行分类信息管理", "SysManage/BankClassifyManage.aspx");
 
                 BankBillManage1.AddSubMenu("汇总退单数据", "TradeManage/RefundMain.aspx");
                 BankBillManage1.AddSubMenu("退单汇总查询", "RefundManage/RefundTotalQuery.aspx");

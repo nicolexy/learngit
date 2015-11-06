@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using System.IO;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using Tencent.DotNet.Common.UI;
+using CFT.CSOMS.BLL.UserAppealModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 {
@@ -178,7 +179,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 					this.table_bPics.Style.Add("display","none");
 				}
 
-				DataSet dsuser =  qs.GetAppealUserInfo(dr2["Fuin"].ToString());
+				DataSet dsuser =  new UserAppealService().GetAppealUserInfo(dr2["Fuin"].ToString());
 
 				if(dsuser == null || dsuser.Tables.Count == 0 || dsuser.Tables[0].Rows.Count == 0)
 				{

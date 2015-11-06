@@ -13,6 +13,7 @@ using Tencent.DotNet.OSS.Web.UI;
 using System.Configuration;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using CFT.CSOMS.BLL.TradeModule;
+using System.Collections.Generic;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -153,16 +154,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         string Fbalance = classLibrary.setConfig.FenToYuan(dr["Fbalance"].ToString());
                         dr["FpaynumStr"] = Fpaynum;
                         dr["FbalanceStr"] = Fbalance;
+
+                        var fmemo = dr["Fmemo"] as string;  //乱码Bug问题
+                        var list= new List<string> { "1000039701", "1000030901", "1000030601", "1000040101", " 1000035801", "1000035001", "1000040901", "1000037301" }; //这几个商户备注的是utf-8 类型的字符集
+                        if (!string.IsNullOrEmpty(fmemo) && list.Contains((string)dr["Ffromid"]))
+                        {
+                            var buff = System.Text.Encoding.GetEncoding("gb2312").GetBytes(fmemo);
+                            dr["Fmemo"] = System.Text.Encoding.UTF8.GetString(buff);
+                        }
+
                         for (int i = 0; i < CoverPickFuid.Length; i++)
                         {
                             if (CoverPickFuid[i].ToString() == dr["Fuid"].ToString())
                             {
-                                var fmemo = dr["Fmemo"] as string;  //乱码Bug问题
-                                if (!string.IsNullOrEmpty(fmemo))
-                                {
-                                    var buff = System.Text.Encoding.Default.GetBytes(fmemo);
-                                    dr["Fmemo"] = System.Text.Encoding.UTF8.GetString(buff);
-                                }
                                 try
                                 {                                  
                                     int PointIndex = Fpaynum.IndexOf(".");

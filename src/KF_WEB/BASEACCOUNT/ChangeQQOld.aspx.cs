@@ -91,16 +91,13 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
         {
             string qq = ViewState["qq"].ToString();
             string userid = ViewState["userid"].ToString();
-            Query_Service qs = new Query_Service();
-            Finance_Header fh = setConfig.setFH(this);
-            qs.Finance_HeaderValue = fh;
-
+           
             if (ViewState["newIndex"] != null)
                 istr = Int32.Parse(ViewState["newIndex"].ToString());
             else
                 istr = 0;
 
-            DataSet ds = qs.GetChangeQQList(userid, qq, istr * pageSize + 1, pageSize);
+            DataSet ds = new AccountOperate().GetChangeQQList(userid, qq, istr * pageSize + 1, pageSize);
 
             if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
             {

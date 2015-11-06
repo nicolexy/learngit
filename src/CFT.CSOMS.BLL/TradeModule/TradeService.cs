@@ -1209,10 +1209,12 @@ namespace CFT.CSOMS.BLL.TradeModule
            {
                var dt = ds.Tables[0];
                dt.Columns.Add("Flist_type_str", typeof(string));
+               dt.Columns.Add("Ftotalnum_str", typeof(string));
                foreach (DataRow row in dt.Rows)
                {
                    string fts = row["Flist_type"] as string;
                    row["Flist_type_str"] = dic_listType.ContainsKey(fts) ? dic_listType[fts] : "未知";
+                   row["Ftotalnum_str"] = MoneyTransfer.FenToYuan((string)row["Ftotalnum"]);
                }
            }
            return ds;
