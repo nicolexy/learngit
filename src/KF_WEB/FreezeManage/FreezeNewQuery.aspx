@@ -138,7 +138,7 @@
                 <td>
                     <label style="vertical-align: middle; width: 80px; height: 20px">
                         冻结原因：</label><asp:TextBox ID="tbx_reason" runat="server" Width="140px"></asp:TextBox>
-                    <asp:Label runat="server" ID="channel_title">冻结渠道：</asp:Label>
+             <%--       <asp:Label runat="server" ID="channel_title">冻结渠道：</asp:Label>
                     <asp:DropDownList ID="ddl_channel" runat="server">
                         <asp:ListItem Value="0">所有</asp:ListItem>
                         <asp:ListItem Value="1">风控冻结</asp:ListItem>
@@ -147,7 +147,7 @@
                         <asp:ListItem Value="4">商户冻结</asp:ListItem>
                         <asp:ListItem Value="5">BG接口冻结</asp:ListItem>
                         <asp:ListItem Value="6">涉嫌可以交易冻结</asp:ListItem>
-                    </asp:DropDownList>
+                    </asp:DropDownList>--%>
                 </td>
                 <td colspan="2">
                     <label style="vertical-align: middle">
@@ -191,9 +191,9 @@
                             <asp:BoundColumn DataField="FreezeReason" HeaderText="冻结原因">
                                 <HeaderStyle HorizontalAlign="Center" CssClass="wd260"></HeaderStyle>
                             </asp:BoundColumn>
-                            <asp:BoundColumn DataField="channel_str" HeaderText="冻结渠道">
+                          <%--  <asp:BoundColumn DataField="channel_str" HeaderText="冻结渠道">
                                 <HeaderStyle HorizontalAlign="Center" Width="120px"></HeaderStyle>
-                            </asp:BoundColumn>
+                            </asp:BoundColumn>--%>
                             <asp:BoundColumn DataField="FsubmitTime" HeaderText="提交时间">
                                 <HeaderStyle HorizontalAlign="Center" Width="120px"></HeaderStyle>
                             </asp:BoundColumn>

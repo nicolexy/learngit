@@ -10210,10 +10210,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
             }
 
-            if ((ftype == 8 || ftype == 19) && freeze_channel != "0") //0 查询所有
-            {
-                strWhere += " and Ffreeze_channel='" + freeze_channel + "'  ";
-            }
+            //先注释渠道查询的功能
+            //if ((ftype == 8 || ftype == 19) && freeze_channel != "0") //0 查询所有
+            //{
+            //    strWhere += " and Ffreeze_channel='" + freeze_channel + "'  ";
+            //}
 
             if (ftype != 99)
             {

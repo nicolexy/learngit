@@ -5909,7 +5909,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 Func<DateTime, DateTime, Tuple<DataSet, int>> QueryDBHendle = (s, e) =>
                 {
-                    string table = string.Format("db_appeal_{0}.t_tenpay_appeal_trans_{1}", sdate.Year.ToString(), sdate.Month.ToString("d2"));
+                    string table = string.Format("db_appeal_{0}.t_tenpay_appeal_trans_{1}", s.Year.ToString(), s.Month.ToString("d2"));
                     CFTUserAppealClass cuser = new CFTUserAppealClass(qqid, s.ToString("yyyy-MM-dd"), e.ToString("yyyy-MM-dd"), iStatue, ftype, "", szFreezeUser, szListID, szFreezeReason, orderType, freeze_channel, table);
                     var ds1 = cuser.GetResultX(iPageStart, iPageMax, "fkdj");
                     var count = cuser.GetCount("fkdj");

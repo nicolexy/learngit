@@ -156,7 +156,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
                 ds = qs.GetFreezeList_New(uin, beginDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"), int.Parse(this.ddlType.SelectedValue),
                   state, this.tbx_listNo.Text.Trim(), this.tbx_people.Text.Trim(), this.tbx_reason.Text.Trim(),
-                  (index - 1) * this.pager.PageSize, this.pager.PageSize, this.ddl_queryOrderType.SelectedValue, ddl_channel.SelectedValue, out allRecordCount);
+                  (index - 1) * this.pager.PageSize, this.pager.PageSize, this.ddl_queryOrderType.SelectedValue, "ddl_channel.SelectedValue", out allRecordCount);
 
                 
 				this.lb_count.Text = allRecordCount.ToString();
@@ -296,15 +296,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                     #endregion
 
                     #region ¶³½áÇþµÀ 
-                    string Ffreeze_channel = (dr["channel_str"] = dr["Ffreeze_channel"]).ToString();
-                    foreach (ListItem item in ddl_channel.Items)
-                    {
-                        if (item.Value == Ffreeze_channel)
-                        {
-                            dr["channel_str"] = item.Text;
-                            continue;
-                        }
-                    } 
+                    //string Ffreeze_channel = (dr["channel_str"] = dr["Ffreeze_channel"]).ToString();
+                    //foreach (ListItem item in ddl_channel.Items)
+                    //{
+                    //    if (item.Value == Ffreeze_channel)
+                    //    {
+                    //        dr["channel_str"] = item.Text;
+                    //        continue;
+                    //    }
+                    //} 
                     #endregion
                 
                     
@@ -521,15 +521,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
             {
                 this.ddl_orderState.Visible = true;
                 this.ddl_orderStateSpecial.Visible = false;
-                channel_title.Visible = this.ddl_channel.Visible = true;
-                DataGrid_QueryResult.Columns[3].Visible = true;
+                //channel_title.Visible = this.ddl_channel.Visible = true;
+                //DataGrid_QueryResult.Columns[3].Visible = true;
             }
             else if (ftype == 11)
             {
                 this.ddl_orderState.Visible = false;
                 this.ddl_orderStateSpecial.Visible = true;
-                channel_title.Visible = this.ddl_channel.Visible = false;
-                DataGrid_QueryResult.Columns[3].Visible = false;
+                //channel_title.Visible = this.ddl_channel.Visible = false;
+                //DataGrid_QueryResult.Columns[3].Visible = false;
             }
         }
 
