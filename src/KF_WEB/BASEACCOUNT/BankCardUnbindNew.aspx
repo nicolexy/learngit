@@ -172,7 +172,7 @@
 									<asp:BoundColumn DataField="Fuin" HeaderText="财付通账号">
 										<HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
 									</asp:BoundColumn>
-									<asp:BoundColumn DataField="Fbank_type" HeaderText="银行类型">
+									<asp:BoundColumn DataField="bank_Name" HeaderText="银行类型">
 										<HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
 									</asp:BoundColumn>
                                     <asp:BoundColumn DataField="Fxyzf_typeStr" HeaderText="微信信用卡">
