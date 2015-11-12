@@ -141,6 +141,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     return "BG接口冻结";
                 case "6":
                     return "涉嫌可疑交易冻结";
+                case "7":
+                    return "ivr自助冻结";
+                case "8":
+                    return "公众号自助冻结";
                 default:
                     return "无冻结渠道";
             }
