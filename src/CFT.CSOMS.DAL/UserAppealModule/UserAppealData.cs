@@ -493,6 +493,76 @@ namespace CFT.CSOMS.DAL.UserAppealModule
         }
 
         /// <summary>
+        /// 查询统计风控冻结处理日志
+        /// </summary>
+        public DataSet GetStatisticsFreezeDiary(string handleUser, string handleResult,DateTime sdate, DateTime edate, int offset, int limit)
+        {
+            var sql = new System.Text.StringBuilder("SELECT FHandleUser, FHandleType, count(FHandleType)as Count FROM c2c_fmdb.t_Freeze_Detail ");
+
+            sql.AppendFormat("WHERE FCreateDate BETWEEN '{0}' and '{1}' ", sdate.ToString("yyyy-MM-dd"), edate.ToString("yyyy-MM-dd"));
+
+            if (!string.IsNullOrEmpty(handleUser))
+            {
+                sql.AppendFormat("and FHandleUser='{0}' ", handleUser);
+            }
+            if (!string.IsNullOrEmpty(handleResult))
+            {
+                sql.AppendFormat("and handleResult='{0}' ", handleResult);
+            }
+
+            //if (handleType != null && handleType.Length > 0)
+            //{
+            //    sql.AppendFormat("and FHandleType in({0}) ", string.Join<int>(",", handleType));
+            //}
+
+            sql.Append("GROUP BY FHandleUser,FHandleType ");
+            sql.AppendFormat("LIMIT {0},{1} ", offset.ToString(), limit.ToString());
+
+            MySqlAccess da = null;
+            try
+            {
+                da = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
+                da.OpenConn();
+                var ds = da.dsGetTotalData(sql.ToString());
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogInfo("GetFreezeDiary: 日志查询失败: " + ex.Message);
+                return null;
+            }
+            finally
+            {
+                da.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// 查询统计自助申诉和自助域名日志
+        /// operationType: appeal | domain
+        /// </summary>
+        public DataSet GetKFTotalQueryList(string handleUser, string operationType, DateTime sdate, DateTime edate, int offset, int limit)
+        {
+            using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("CFT")))
+            {
+                da.OpenConn();
+                var Sql = new System.Text.StringBuilder(
+                             "SELECT User,sum(SuccessNum) as SuccessNumSum,sum(FailNum) as FailNumSum,sum(DeleteNum) as DeleteNumSum,sum(OtherNum) as OtherNumSum," +
+                             "sum(UserClassSuccessNum) as UserClassSuccessNumSum,sum(UserClassFailNum) as UserClassFailNumSum,sum(UserClassOtherNum) as UserClassOtherNumSum " +
+                             "FROM db_appeal.t_tenpay_appeal_kf_total "
+                             );
+                Sql.AppendFormat("WHERE OperationType = '{0}' and operationday between '{1}' and '{2}' ", operationType, sdate.ToString("yyyy-MM-dd"), edate.ToString("yyyy-MM-dd"));
+                if (!string.IsNullOrEmpty(handleUser))
+                {
+                    Sql.Append("and User='" + handleUser + "' ");
+                }
+                Sql.Append("GROUP BY User ");
+                Sql.AppendFormat("LIMIT {0},{1} ", offset.ToString(), limit.ToString());
+                return da.dsGetTotalData(Sql.ToString());
+            }
+        }
+
+        /// <summary>
         /// 创建风控冻结处理日志NEW
         /// </summary>
         public bool CreateFreezeDiary(string ffreezeListID, int handleType, string handleUser, string handleResult
