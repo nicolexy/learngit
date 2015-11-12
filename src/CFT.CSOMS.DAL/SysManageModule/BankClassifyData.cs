@@ -45,7 +45,7 @@ namespace CFT.CSOMS.DAL.SysManageModule
             req += "&offset=" + offset + "&limit=" + limit;
 
             string answer = RelayAccessFactory.RelayInvoke(req, "101478", false, false, ip, port);
-
+            
             string strMsg = null;
             ds = CommQuery.ParseRelayPageRowNum(answer, out strMsg, out totalNum);
 
