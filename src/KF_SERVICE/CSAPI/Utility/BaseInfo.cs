@@ -266,6 +266,12 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
 
         public class PersonalInfo
         {
+            [XmlElement("att_id")]
+            public string Att_id { get; set; }
+            [XmlElement("att_id_str")]
+            public string Att_id_str { get; set; }
+            [XmlElement("pro_att")]
+            public string Fpro_att { get; set; }   
             [XmlElement("aa_uin")]          //微信AA财付通帐号
             public string Faa_uin { get; set; }
             [XmlElement("acc_uin")]         //微信支付财付通帐号
@@ -330,9 +336,7 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             [XmlElement("save_time")]   //最近存款日期
             public string Fsave_time { get; set; }
             [XmlElement("login_ip")]
-            public string Flogin_ip { get; set; }
-            [XmlElement("pro_att")]
-            public string Fpro_att { get; set; }
+            public string Flogin_ip { get; set; }          
         }
 
         public class VIPInfo

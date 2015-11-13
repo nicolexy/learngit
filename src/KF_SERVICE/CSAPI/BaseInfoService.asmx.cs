@@ -384,7 +384,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
         // 特殊申诉处理-通过
         [WebMethod]
-        public void ComfirmAppealSpecial()
+        public void ConfirmAppealSpecial()
         {
             try
             {
@@ -413,12 +413,12 @@ namespace CFT.CSOMS.Service.CSAPI
             }
             catch (ServiceException se)
             {
-                SunLibrary.LoggerFactory.Get("ComfirmAppealSpecial").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                SunLibrary.LoggerFactory.Get("ConfirmAppealSpecial").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
                 APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
             }
             catch (Exception ex)
             {
-                SunLibrary.LoggerFactory.Get("ComfirmAppealSpecial").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                SunLibrary.LoggerFactory.Get("ConfirmAppealSpecial").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }

@@ -118,7 +118,7 @@ namespace CSAPI
                 {
                     //根据银行返回定单号查询交易记录
                     DateTime list_time = APIUtil.StrToDate(paramsHt["list_time"].ToString());
-                    var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(tradeid, 1, list_time, DateTime.Now, DateTime.Now, 1, 2);
+                    var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(tradeid, 1, list_time, DateTime.Now, DateTime.Now, 1, 2, "");
                     if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
                     {
                         throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
@@ -128,7 +128,7 @@ namespace CSAPI
                 }
                 else//根据订单号查询交易记录
                 {
-                    var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(tradeid, 4, DateTime.Now, DateTime.Now, DateTime.Now, 1, 2);
+                    var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(tradeid, 4, DateTime.Now, DateTime.Now, DateTime.Now, 1, 2, "");
                     if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
                     {
                         throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
@@ -165,6 +165,7 @@ namespace CSAPI
 
                 string id = paramsHt.ContainsKey("id") ? paramsHt["id"].ToString() : "";
                 int type = APIUtil.StringToInt(paramsHt["type"].ToString());
+                string uid = paramsHt.ContainsKey("uid") ? paramsHt["uid"].ToString() : "";
                 DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
                 DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
                 int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
@@ -186,7 +187,7 @@ namespace CSAPI
                     limit = 50;
                 }
 
-                var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(id, type, DateTime.Now, begin_time, end_time, offset, limit);
+                var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(id, type, DateTime.Now, begin_time, end_time, offset, limit,uid);
                 if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);

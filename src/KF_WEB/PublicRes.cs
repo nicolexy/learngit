@@ -764,64 +764,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             }
             return newdt;
         }
-
-        //通过微信绑定的QQ、手机或邮箱信息查询其openID，对应的财付通账号便是openID@wx.tenpay.com
-        public static bool getOpenIDFromWeChat(string queryType, string ID, out string openID, out int errorCode, out string errorMessage, string IP)
-        {
-            openID = errorMessage = string.Empty;
-            errorCode = 0;
-            try
-            {
-                string parameterString = "<Request>{0}<AppId>wx482cac0d58846383</AppId></Request>";
-                string IDstring = string.Empty;
-                string API;
-                if (queryType == "QQ")
-                {
-                    IDstring = string.Format("<QQ>{0}</QQ>", ID);
-                    API = "ConvertQQToOuterAcctId";
-                }
-                else if (queryType == "Mobile")
-                {
-                    IDstring = string.Format("<Mobile>{0}</Mobile>", ID);
-                    API = "ConvertMobileToOuterAcctId";
-                }
-                else if (queryType == "Email")
-                {
-                    IDstring = string.Format("<Email>{0}</Email>", ID);
-                    API = "ConvertEmailToOuterAcctId";
-                }
-                else
-                {
-                    errorCode = -1;
-                    errorMessage = "查询类型不正确";
-                    return false;
-                }
-                parameterString = string.Format(parameterString, IDstring);
-                var data = Encoding.Default.GetBytes(parameterString);
-                var request = (HttpWebRequest)WebRequest.Create(string.Format("http://{0}:12137/cgi-bin/{1}?f=xml&appname=wx_tenpay", IP, API));
-                request.Method = "POST";
-                request.ContentType = "text/xml;charset=UTF-8";
-                var parameter = request.GetRequestStream();
-                parameter.Write(data, 0, data.Length);
-                var response = (HttpWebResponse)request.GetResponse();
-                var myResponseStream = response.GetResponseStream();
-                var myStreamReader = new StreamReader(myResponseStream, Encoding.GetEncoding("utf-8"));
-                var resultXml = new XmlDocument();
-                resultXml.LoadXml(myStreamReader.ReadToEnd());
-                myStreamReader.Close();
-                myResponseStream.Close();
-                var responseNode = resultXml.SelectSingleNode("Response");
-                errorCode = Convert.ToInt32(responseNode.SelectSingleNode("error").SelectSingleNode("code").InnerText);
-                errorMessage = responseNode.SelectSingleNode("error").SelectSingleNode("message").InnerText;
-                openID = responseNode.SelectSingleNode("result").SelectSingleNode("OuterAcctId").InnerText;
-                return true;
-            }
-            catch (Exception e)
-            {
-                errorMessage = e.Message;
-                return false;
-            }
-        }
+     
         //产生银行公告ID
         public static int NewStaticNo = 10; //初始值 当达到99后，则循环，从10开始
         public static bool NewStaticNoManageSign = true;
