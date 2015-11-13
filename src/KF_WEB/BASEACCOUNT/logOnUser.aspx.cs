@@ -129,6 +129,12 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 ValidateID.Text = "请输入手Q账号或下方微信号";
                 return;
             }
+            if (!string.IsNullOrEmpty(TextBox1_QQID.Text) && TextBox1_QQID.Text.Contains("@wx.tenpay.com"))
+            {
+                ValidateID.ForeColor = Color.Red;
+                ValidateID.Text = "微信支付帐号请输入微信号注销!";
+                return;
+            }
             if (!string.IsNullOrEmpty(TextBox1_QQID.Text) && !string.IsNullOrEmpty(TextBox2_WX.Text))
             {
                 ValidateID.ForeColor = Color.Red;

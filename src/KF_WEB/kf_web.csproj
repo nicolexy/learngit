@@ -5060,7 +5060,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>18923</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://www.kfcftest.com</IISUrl>
+          <IISUrl></IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
