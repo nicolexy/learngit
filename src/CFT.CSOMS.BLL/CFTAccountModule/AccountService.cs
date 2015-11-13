@@ -58,7 +58,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         {
             return new AccountData().GetUserTypeInfo(cftNo, product_type, business_type, sub_business_type, cur_type, userType);
         }
-
+      
         //查询用户资料表
         public DataSet GetUserInfo(string u_QQID, int istr, int imax)
         {
@@ -281,6 +281,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                     ds.Tables[0].Columns.Add("Femial_state", typeof(string));     //邮箱关联状态
                     ds.Tables[0].Columns.Add("Fmobile_state", typeof(string));    //手机关联状态
                     ds.Tables[0].Columns.Add("Fbpay_state_str", typeof(string));  //余额支付状态
+                    ds.Tables[0].Columns.Add("Att_id_str", typeof(string));       //产品属性
 
                     #region 转换字段
                     foreach (DataRow dr in ds.Tables[0].Rows)
@@ -322,6 +323,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                         if (dr["Att_id"].ToString() != "")
                         {
                             tempAtt = int.Parse(dr["Att_id"].ToString());
+                            dr["Att_id_str"] = tempAtt;
                         }
                         if (tempAtt != 0)
                         {
@@ -490,20 +492,17 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
 
                 else
                 {
-                    if (QQID != null)
-                    {
-                        ds = GetUserAccountFromWechat(QQID, 1, 1);
+                    ds = GetUserAccountFromWechat(QQID, 1, 1);
 
-                        if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
+                    if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
+                    {
+                        if (new AccountData().IsFastPayUser(QQID))
                         {
-                            if (new AccountData().IsFastPayUser(QQID))
-                            {
-                                ds.Tables[0].Rows[0]["Fname_str"] = "快速交易用户";
-                                ds.Tables[0].Rows[0]["Fuser_type_str"] = "";
-                            }
-                            else
-                                return null;
+                            ds.Tables[0].Rows[0]["Fname_str"] = "快速交易用户";
+                            ds.Tables[0].Rows[0]["Fuser_type_str"] = "";
                         }
+                        else
+                            return null;
                     }
                 }
 
@@ -526,6 +525,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                     ds.Tables[0].Columns.Add("Femial_state", typeof(string));     //邮箱关联状态
                     ds.Tables[0].Columns.Add("Fmobile_state", typeof(string));    //手机关联状态
                     ds.Tables[0].Columns.Add("Fbpay_state_str", typeof(string));  //余额支付状态
+                    ds.Tables[0].Columns.Add("Att_id_str", typeof(string));       //产品属性
 
                     #region 转换字段
                     foreach (DataRow dr in ds.Tables[0].Rows)
@@ -579,6 +579,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                         if (dr["Att_id"].ToString() != "")
                         {
                             tempAtt = int.Parse(dr["Att_id"].ToString());
+                            dr["Att_id_str"] = tempAtt;
                         }
                         if (tempAtt != 0)
                         {

@@ -384,7 +384,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
         // 特殊申诉处理-通过
         [WebMethod]
-        public void ComfirmAppealSpecial()
+        public void ConfirmAppealSpecial()
         {
             try
             {
@@ -413,12 +413,12 @@ namespace CFT.CSOMS.Service.CSAPI
             }
             catch (ServiceException se)
             {
-                SunLibrary.LoggerFactory.Get("ComfirmAppealSpecial").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                SunLibrary.LoggerFactory.Get("ConfirmAppealSpecial").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
                 APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
             }
             catch (Exception ex)
             {
-                SunLibrary.LoggerFactory.Get("ComfirmAppealSpecial").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                SunLibrary.LoggerFactory.Get("ConfirmAppealSpecial").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
@@ -863,6 +863,63 @@ namespace CFT.CSOMS.Service.CSAPI
             }
         }
 
+        #endregion
+
+        #region 审核数据
+        [WebMethod]
+        public void GetCheckStatistics()
+        {
+            try
+            {
+
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+
+                //必填参数验证
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "check_type", "sdate", "edate", "offset", "limit", "token");
+                //token验证
+                APIUtil.ValidateToken(paramsHt);
+
+                string check_type = paramsHt["check_type"];
+                string op_name = paramsHt.TryGetValue("op_name", out op_name) ? op_name : "";
+                var sdate = APIUtil.StrToDate(paramsHt["sdate"]);
+                var edate = APIUtil.StrToDate(paramsHt["edate"]);
+                var offset = APIUtil.StringToInt(paramsHt["offset"]);
+                var limit = APIUtil.StringToInt(paramsHt["limit"]);
+
+                DataSet result = null;
+                if (check_type == "SpecialAppeal")
+                {
+                    result = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().GetStatisticsFreezeDiary(op_name, "", sdate, edate, offset, limit);
+                }
+
+                if (check_type == "SelfAppeal")
+                {
+                    result = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().GetKFTotalQueryList(op_name, "appeal", sdate, edate, offset, limit);
+                }
+
+                if (check_type == "SPEditAppeal")
+                {
+                    result = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().GetKFTotalQueryList(op_name, "domain", sdate, edate, offset, limit);
+                }
+
+                if (result == null || result.Tables.Count <= 0 || result.Tables[0].Rows.Count <= 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+
+                APIUtil.Print4DataTable(result.Tables[0], null, paramsHt);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetUserAuthenState").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetUserAuthenState").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        } 
         #endregion
 
         #region 证件号码清理

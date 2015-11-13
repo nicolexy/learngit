@@ -11,6 +11,9 @@
 		<style type="text/css">@import url( ../STYLES/ossstyle.css ); UNKNOWN { COLOR: #000000 }
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
+		    .table_line {
+		    display:inline-block;
+            }
 		</style>
 		<script language="javascript">
 					function openModeBegin()
@@ -40,12 +43,22 @@
 					<td style="WIDTH: 635px" colspan="2"><label style="WIDTH: 80px; HEIGHT: 20px; VERTICAL-ALIGN: middle">结单人员：</label><asp:textbox id="tbx_freezeHandleUserID" Width="240px" Runat="server"></asp:textbox></td>
 				</tr>
 				<tr>
-					<td style="WIDTH: 635px" colspan="2">状态： <span style="MARGIN:0px 0px 0px 30px">
-							<asp:CheckBox Runat="server" ID="cbx_unHandle" Text="未处理" /></span> <span style="MARGIN:0px 0px 0px 30px">
+					<td style="WIDTH: 635px" colspan="2">状态：
+                        <asp:CheckBoxList ID="CheckBoxList1" runat="server" RepeatDirection="Horizontal" CssClass="table_line" >
+                            <%--<asp:ListItem Value="0">未处理</asp:ListItem>--%>
+                            <asp:ListItem Value="8">挂起</asp:ListItem>
+                            <asp:ListItem Value="1">通过</asp:ListItem>
+                            <asp:ListItem Value="2">拒绝</asp:ListItem>
+                            <asp:ListItem Value="7">删除</asp:ListItem>
+                            <asp:ListItem Value="11">补充资料</asp:ListItem>
+                            <asp:ListItem Value="100">补充处理结果</asp:ListItem>
+                        </asp:CheckBoxList>
+                       
+						<%--	<asp:CheckBox Runat="server" ID="cbx_unHandle" Text="未处理" /></span> <span style="MARGIN:0px 0px 0px 30px">
 							<asp:CheckBox Runat="server" ID="cbx_hangUP" Text="挂起" /></span> <span style="MARGIN:0px 0px 0px 30px">
 							<asp:CheckBox Runat="server" ID="cbx_fin1" Text="结单（已解冻）" /></span> <span style="MARGIN:0px 0px 0px 30px">
 							<asp:CheckBox Runat="server" ID="cbx_fin2" Text="结单（未解冻）" /></span> <span style="MARGIN:0px 0px 0px 30px">
-							<asp:CheckBox Runat="server" ID="cbx_del" Text="作废单" /></span>
+							<asp:CheckBox Runat="server" ID="cbx_del" Text="作废单" />--%>
 					</td>
 				</tr>
 				<tr>
@@ -88,16 +101,19 @@
 								<asp:BoundColumn DataField="handUp_Num" HeaderText="挂起">
 									<HeaderStyle Width="120px"></HeaderStyle>
 								</asp:BoundColumn>
-								<asp:BoundColumn DataField="Fin1_Num" HeaderText="结单（已解冻）">
+								<asp:BoundColumn DataField="Fin1_Num" HeaderText="通过">
 									<HeaderStyle Width="160px" HorizontalAlign="Center"></HeaderStyle>
 								</asp:BoundColumn>
-								<asp:BoundColumn DataField="Fin2_Num" HeaderText="结单（未解冻）">
+								<asp:BoundColumn DataField="Fin2_Num" HeaderText="拒绝">
 									<HeaderStyle Width="160px" HorizontalAlign="Center"></HeaderStyle>
 								</asp:BoundColumn>
-								<asp:BoundColumn DataField="AddRecordNum" HeaderText="附加处理结果">
+								<asp:BoundColumn DataField="AddRecordNum" HeaderText="补充处理结果">
 									<HeaderStyle Width="160px" HorizontalAlign="Center"></HeaderStyle>
 								</asp:BoundColumn>
-								<asp:BoundColumn DataField="Discard_Num" HeaderText="作废">
+								<asp:BoundColumn DataField="Discard_Num" HeaderText="删除">
+									<HeaderStyle Width="75px" HorizontalAlign="Center"></HeaderStyle>
+								</asp:BoundColumn>
+                                <asp:BoundColumn DataField="adddatanumsum" HeaderText="补充资料">
 									<HeaderStyle Width="75px" HorizontalAlign="Center"></HeaderStyle>
 								</asp:BoundColumn>
 								<asp:BoundColumn DataField="TotalNum" HeaderText="总计">

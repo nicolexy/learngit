@@ -586,6 +586,110 @@ namespace CFT.CSOMS.BLL.UserAppealModule
             return ds;
         }
 
+        /// <summary>
+        /// 查询统计风控冻结处理日志
+        /// </summary>
+        public DataSet GetStatisticsFreezeDiary(string handleUser, string handleResult, DateTime sdate, DateTime edate, int offset, int limit)
+        {
+            var ds = new UserAppealData().GetStatisticsFreezeDiary(handleUser, handleResult, sdate, edate, offset, limit);
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                var dt = ds.Tables[0];
+                if (dt.Rows.Count > 0)
+                {
+                    var dic = new System.Collections.Generic.Dictionary<int, string>()
+                    {
+                        { 1 ,"successnumsum"},     //通过
+                        { 2 ,"failnumsum"},        //拒绝
+                        { 7 ,"deletenumsum"},      //删除
+                        { 8 ,"putupnumsum"},       //挂起
+                        { 11 ,"adddatanumsum"},    //补充资料
+                        { 100 ,"addrecordnumsum"}, //补充处理结果
+                    };
+                    try
+                    {
+                        #region 转换table 的显示格式
+                        var result = new DataTable();
+                        result.Columns.Add("successnumsum", typeof(int)).DefaultValue = 0;
+                        result.Columns.Add("failnumsum", typeof(int)).DefaultValue = 0;
+                        result.Columns.Add("deletenumsum", typeof(int)).DefaultValue = 0;
+                        result.Columns.Add("putupnumsum", typeof(int)).DefaultValue = 0;
+                        result.Columns.Add("adddatanumsum", typeof(int)).DefaultValue = 0;
+                        result.Columns.Add("addrecordnumsum", typeof(int)).DefaultValue = 0;
+                        result.Columns.Add("user", typeof(string));
+                        result.Columns.Add("totalnum", typeof(int)).DefaultValue = 0;
+                        result.Columns.Add("othernumsum", typeof(int)).DefaultValue = 0;
+
+                        var rows = dt.Select("", "Fhandleuser asc");   //按名字排序
+                        DataRow resRow = null;
+                        var totalnum = 0;
+
+                        foreach (DataRow item in rows)
+                        {
+                            if (resRow == null || resRow["user"].ToString() != item["Fhandleuser"].ToString().Trim())   //如果不相等  进入下一个人的统计
+                            {
+                                if (resRow != null)
+                                {
+                                    resRow["totalnum"] = totalnum;
+                                    result.Rows.Add(resRow);
+                                }
+
+                                totalnum = 0;
+                                resRow = result.NewRow();
+                                resRow["user"] = item["Fhandleuser"].ToString().Trim();
+                            }
+
+                            var fHandleType = Convert.ToInt32(item["FHandleType"]);
+                            var typeName = dic.ContainsKey(fHandleType) ? dic[fHandleType] : "othernumsum";
+
+                            resRow[typeName] = item["Count"];
+                            totalnum += Convert.ToInt32(item["Count"]);
+                        }
+                        resRow["totalnum"] = totalnum;
+                        result.Rows.Add(resRow);
+
+                        ds.Tables.Clear();
+                        ds.Tables.Add(result);
+                        #endregion
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("转换DataTable的格式失败" + ex.Message);
+                    }
+                }            
+            }
+            return ds;
+        }
+
+        /// <summary>
+        /// 查询统计自助申诉和自助域名日志
+        /// operationType: appeal | domain
+        /// </summary>
+        public DataSet GetKFTotalQueryList(string handleUser, string operationType, DateTime sdate, DateTime edate,int offset, int limit)
+        {
+            var ds = new UserAppealData().GetKFTotalQueryList(handleUser, operationType, sdate, edate, offset, limit);
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                var dt = ds.Tables[0];
+                if (dt.Rows.Count > 0)
+                {
+                    dt.Columns.Add("totalnum", typeof(int)).DefaultValue = 0;
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        item["totalnum"] = 
+                            Convert.ToInt32(item["SuccessNumSum"]) +
+                            Convert.ToInt32(item["FailNumSum"]) +
+                            Convert.ToInt32(item["DeleteNumSum"]) +
+                            Convert.ToInt32(item["OtherNumSum"]) +
+                            Convert.ToInt32(item["UserClassSuccessNumSum"]) +
+                            Convert.ToInt32(item["UserClassFailNumSum"]) +
+                            Convert.ToInt32(item["UserClassOtherNumSum"]);
+                    }
+                }
+            }
+            return ds;
+        }
+
         public DataSet GetSpecialAppealList(string uin, string BeginDate, string EndDate, int ftype, int iStatue,
            string szListID, string szFreezeUser, string szFreezeReason, int iPageStart, int iPageMax, string orderType)
         {
@@ -929,5 +1033,6 @@ namespace CFT.CSOMS.BLL.UserAppealModule
             }
         }
     
+
     }
 }

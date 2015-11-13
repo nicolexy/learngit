@@ -1155,7 +1155,19 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
         }
 
-        public DataSet GetBankRollList(string u_QQID,string fuid, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax, ref string ref_param)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="u_QQID">财富通账户</param>
+        /// <param name="fuid">内部id</param>
+        /// <param name="u_BeginTime">起始时间</param>
+        /// <param name="u_EndTime">结束时间</param>
+        /// <param name="ftype">明细状态例如：ftype=3|4 冻结和解冻的</param>
+        /// <param name="istr">offset</param>
+        /// <param name="imax">limit</param>
+        /// <param name="ref_param">上次调用返回参数</param>
+        /// <returns></returns>
+        public DataSet GetBankRollList(string u_QQID, string fuid, DateTime u_BeginTime, DateTime u_EndTime, string ftype, int istr, int imax, ref string ref_param)
         {
             try
             {
@@ -1163,14 +1175,16 @@ namespace CFT.CSOMS.DAL.TradeModule
                 var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["BankRollQueryPort"].ToString());
                 if (!string.IsNullOrEmpty(u_QQID) && string.IsNullOrEmpty(fuid))
                     fuid = PublicRes.ConvertToFuid(u_QQID);
+                    //fuid = "295191000";
                 if (istr % imax == 1) istr -= 1;
 
-                string requestText = "s_time=" + ICEAccess.ICEEncode(u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"));
-                requestText += "&e_time=" + ICEAccess.ICEEncode(u_EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
-                requestText += "&uid=" + fuid;
-                requestText += "&offset=" + istr;
-                requestText += "&limit=" + imax;
-                requestText += "&ref_param=" + ref_param;
+                string requestText = "s_time=" + ICEAccess.ICEEncode(u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"))
+                + "&e_time=" + ICEAccess.ICEEncode(u_EndTime.ToString("yyyy-MM-dd HH:mm:ss"))
+                + "&uid=" + fuid
+                + "&ftype=" + ftype
+                + "&offset=" + istr
+                + "&limit=" + imax
+                + "&ref_param=" + ref_param;
                 string answer = RelayAccessFactory.RelayInvoke(requestText, "101215", false, false, serverIp, serverPort, "");
                 DataSet ds = CommQuery.ParseRelayPageRowNum2(answer, out ref_param);
                 return ds;
@@ -1180,6 +1194,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                 throw e;
             }
         }
+
         //手机充值卡记录查询详细函数
         public DataSet GetFundCardListDetail(string flistid, string fsupplylist, string fcarrdid, int offset, int limit)
         {

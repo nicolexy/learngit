@@ -327,7 +327,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 WebUtils.ShowMessage(this.Page, ex.Message);
             }
         }
-    
+
         private void BindData_New(int index)
         {
             this.pager.CurrentPageIndex = index;
@@ -401,7 +401,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString().Replace("'", "`"));
+                string message = eSys.Message;
+                string frozen = "res_info_origin=user is frozen";
+                string notcomplete = "res_info_origin=userinfo is not complete";
+                if (message.Contains(frozen))
+                {
+                    WebUtils.ShowMessage(this.Page, "冻结账户请使用其他条件查询!");
+                }
+                else if (message.Contains(notcomplete))
+                {
+                    WebUtils.ShowMessage(this.Page, "简化注册账户请使用其他条件查询!");
+                }
+                else
+                {
+                    WebUtils.ShowMessage(this.Page, "读取数据失败！" + HttpUtility.JavaScriptStringEncode(eSys.Message.ToString()));
+                }
             }
         }
 

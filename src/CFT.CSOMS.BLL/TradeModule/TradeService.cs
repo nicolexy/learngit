@@ -65,7 +65,7 @@ namespace CFT.CSOMS.BLL.TradeModule
         /// <param name="istr"></param>
         /// <param name="imax"></param>
         /// <returns></returns>
-        public DataSet GetTradeList(string tradeid, int typeid, DateTime listTime, DateTime beginTime, DateTime endTime, int istr, int imax)
+        public DataSet GetTradeList(string tradeid, int typeid, DateTime listTime, DateTime beginTime, DateTime endTime, int istr, int imax,string uid)
         {
             try
             {
@@ -82,7 +82,15 @@ namespace CFT.CSOMS.BLL.TradeModule
                 }
 
                 //TODO:有个makelog的方法不是主需求
-                DataSet ds = new TradeData().GetTradeList(tradeid, typeid, beginTime, endTime, istr, imax);
+                DataSet ds = new DataSet();
+                if (typeid >= 0)
+                {
+                    ds = new TradeData().GetTradeList(tradeid, typeid, beginTime, endTime, istr, imax);
+                }
+                else
+                {
+                    ds = new TradeService().GetListidFromUserOrder(tradeid, uid, 0, 1, typeid);
+                }
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
@@ -798,7 +806,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                     if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
                     {
 
-                        ds = GetBankRollList(u_QQID, "", u_BeginTime, u_EndTime, istr, imax, ref ref_param);
+                        ds = GetBankRollList(u_QQID, "", u_BeginTime, u_EndTime,"", istr, imax, ref ref_param);
 
                         if (ds != null && ds.Tables.Count != 0 && ds.Tables[0].Rows.Count != 0)
                         {
@@ -1129,9 +1137,9 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             return (new TradeData()).QueryBusCardPrepaid(beginDate, endDate, PageSize, uin, listid, cardid, out errMsg);
         }
-        public DataSet GetBankRollList(string u_QQID, string fuid, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax, ref  string ref_param)
+        public DataSet GetBankRollList(string u_QQID, string fuid, DateTime u_BeginTime, DateTime u_EndTime,string ftype, int istr, int imax, ref  string ref_param)
         {
-            return (new TradeData()).GetBankRollList(u_QQID, fuid, u_BeginTime, u_EndTime, istr, imax, ref  ref_param);
+            return (new TradeData()).GetBankRollList(u_QQID, fuid, u_BeginTime, u_EndTime ,ftype, istr, imax, ref ref_param);
         }
 
         public DataSet GetFundCardListDetail(string flistid, string fsupplylist, string fcarrdid, int offset, int limit)

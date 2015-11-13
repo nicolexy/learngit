@@ -406,6 +406,13 @@
     <Compile Include="BaseAccount\FetchListIntercept.aspx.designer.cs">
       <DependentUpon>FetchListIntercept.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\FreezeFinQuery2.aspx.cs">
+      <DependentUpon>FreezeFinQuery2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\FreezeFinQuery2.aspx.designer.cs">
+      <DependentUpon>FreezeFinQuery2.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\GatherLog.aspx.cs">
       <DependentUpon>GatherLog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2938,6 +2945,7 @@
     <Content Include="BaseAccount\ClearMobileNumber.aspx" />
     <Content Include="BaseAccount\FCXGFreezeLog.aspx" />
     <Content Include="BaseAccount\FetchListIntercept.aspx" />
+    <Content Include="BaseAccount\FreezeFinQuery2.aspx" />
     <Content Include="BaseAccount\GatherLog.aspx" />
     <Content Include="BaseAccount\logOnUserNew.aspx" />
     <Content Include="BaseAccount\ModifyContactInfo.aspx">
@@ -5052,7 +5060,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>18923</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://www.kfcftest.com</IISUrl>
+          <IISUrl></IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

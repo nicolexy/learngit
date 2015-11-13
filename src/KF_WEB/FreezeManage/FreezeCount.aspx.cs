@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
+using System.Linq;
 using System.Data;
 using System.Drawing;
 using System.Web;
@@ -66,6 +67,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 			public int Fin2Num;
 			public int DiscardNum;
 			public int AddRecordNum;
+            public int adddatanumsum;
 			public int totalNum;
 		}
 
@@ -76,7 +78,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 			DateTime endDate;
 			string handleUserID = "";
 			string handleResult = "";
-			string handleType = "";
+            string handleType =string.Join(",", CheckBoxList1.Items.Cast<ListItem>().Where(u=>u.Selected).Select(u=>u.Value).ToArray());
 
 			try
 			{
@@ -97,40 +99,40 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 			handleUserID = this.tbx_freezeHandleUserID.Text.Trim();
 
-			if(this.cbx_unHandle.Checked)
-			{
-				handleType += "0,";
-			}
+            //if(this.cbx_unHandle.Checked)
+            //{
+            //    handleType += "0,";
+            //}
 
-			if(this.cbx_hangUP.Checked)
-			{
-				handleType += "8,";
-			}
+            //if(this.cbx_hangUP.Checked)
+            //{
+            //    handleType += "8,";
+            //}
 
-			if(this.cbx_fin1.Checked)
-			{
-				handleType += "1,";
-			}
+            //if(this.cbx_fin1.Checked)
+            //{
+            //    handleType += "1,";
+            //}
 
-			if(this.cbx_fin2.Checked)
-			{
-				handleType += "2,";
-			}
+            //if(this.cbx_fin2.Checked)
+            //{
+            //    handleType += "2,";
+            //}
 
-			if(this.cbx_del.Checked)
-			{
-				handleType += "7,";
-			}
+            //if(this.cbx_del.Checked)
+            //{
+            //    handleType += "7,";
+            //}
 
-			if(handleType.Length > 1)
-			{
-				// 去掉末尾的，
-				handleType = handleType.Substring(0,handleType.Length - 1);
-			}
-			else
-			{
-				handleType = "";
-			}
+            //if(handleType.Length > 1)
+            //{
+            //    // 去掉末尾的，
+            //    handleType = handleType.Substring(0,handleType.Length - 1);
+            //}
+            //else
+            //{
+            //    handleType = "";
+            //}
 
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
@@ -153,6 +155,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 			ds2.Tables[0].Columns.Add("Fin1_Num",typeof(string));
 			ds2.Tables[0].Columns.Add("Fin2_Num",typeof(string));
 			ds2.Tables[0].Columns.Add("AddRecordNum",typeof(string));
+            ds2.Tables[0].Columns.Add("adddatanumsum", typeof(string));
 			ds2.Tables[0].Columns.Add("Discard_Num",typeof(string));
 			ds2.Tables[0].Columns.Add("TotalNum",typeof(string));
 
@@ -178,23 +181,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 					data = (DataStruct)arValues[arKeys.IndexOf(handleUser)];
 				}
 
-				switch(iType)
-				{
-					case 0:
-					{ data.unHandleNum ++;break; }
-					case 1:
-					{ data.Fin1Num++; break; }
-					case 2:
-					{ data.Fin2Num++; break; }
-					case 7:
-					{ data.DiscardNum++; break; }
-					case 8:
-					{ data.hangUpNum++; break; }
-					case 100:
-					{ data.AddRecordNum++;break; }
-					default:
-					{ break; }
-				}
+                switch (iType)
+                {
+                    case 0:
+                        { data.unHandleNum++; break; }
+                    case 1:
+                        { data.Fin1Num++; break; }
+                    case 2:
+                        { data.Fin2Num++; break; }
+                    case 7:
+                        { data.DiscardNum++; break; }
+                    case 8:
+                        { data.hangUpNum++; break; }
+                    case 11:
+                        { data.adddatanumsum++; break; }
+                    case 100:
+                        { data.AddRecordNum++; break; }
+                    default:
+                        { break; }
+                }
 				data.totalNum++;
 			}
 
@@ -203,7 +208,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 				DataStruct data = (DataStruct)arValues[i];
 
 				ds2.Tables[0].Rows.Add(new object[]{ data.handleUserName,data.unHandleNum.ToString(),data.hangUpNum.ToString(),
-				data.Fin1Num.ToString(),data.Fin2Num.ToString(),data.AddRecordNum.ToString(),data.DiscardNum.ToString(),data.totalNum.ToString()});
+				data.Fin1Num.ToString(),data.Fin2Num.ToString(),data.AddRecordNum.ToString(),data.adddatanumsum.ToString(),data.DiscardNum.ToString(),data.totalNum.ToString()});
 			}
 
 			this.DataGrid_QueryResult.DataSource = ds2;

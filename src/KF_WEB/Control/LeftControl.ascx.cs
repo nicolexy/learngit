@@ -524,6 +524,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             RiskConManage1.AddSubMenu("冻结操作查询", "BaseAccount/FreezeList.aspx");
             
             RiskConManage1.AddSubMenu("冻结资金记录", "BaseAccount/FreezeFinQuery.aspx");
+            RiskConManage1.AddSubMenu("冻结资金查询(新）", "BaseAccount/FreezeFinQuery2.aspx");
             RiskConManage1.AddSubMenu("提现冻结资金查询", "BaseAccount/CashOutFreezeQuery.aspx");
 
             //CFTUserAppeal

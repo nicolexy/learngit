@@ -102,6 +102,8 @@
                             <asp:ListItem Value="4">商户冻结</asp:ListItem>
                             <asp:ListItem Value="5">BG接口冻结</asp:ListItem>
                             <asp:ListItem Value="6">涉嫌可疑交易冻结</asp:ListItem>
+                            <asp:ListItem Value="7">ivr自助冻结</asp:ListItem>
+                            <asp:ListItem Value="8">公众号自助冻结</asp:ListItem>
                         </asp:DropDownList>
                         <span style="margin-left: 20px;">
                             <asp:Button ID="btn_query" runat="server" Text="查询" OnClick="btn_query_Click" /></span></span>
