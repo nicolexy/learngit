@@ -69,7 +69,7 @@
             
             
             $('#txt_bankname').bind("input propertychange", function () {
-                valChange();
+                //valChange();
             });
 
             $(document).keydown(function (event) {
@@ -145,8 +145,8 @@
                     </tr>
                     <tr>
                         <td align="left">
-                            <asp:DropDownList ID="ddl_bankname" Visible="false" runat="server"></asp:DropDownList>
-                            <div style="display: inline-block;position:relative;">
+                            开户行名：<asp:DropDownList ID="ddl_bankname" runat="server"></asp:DropDownList>
+                            <div style="display: none;position:relative;">
                                 <span>开户行名：</span>
                                 <input type="text" class="select_input" id="txt_bankname" autocomplete="off" runat="server" />
                                 <input type="hidden" id="txt_bankcode" runat="server" />
@@ -162,11 +162,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>批量导入文件：<asp:FileUpload ID="File1" runat="server" Width="255px" /></td>
+                        <td>批量导入文件：<asp:FileUpload ID="File1" runat="server" Width="255px" />&nbsp;
+                            <asp:Button ID="btn_input_excel" runat="server" Width="80px" Text="导入Excel" OnClick="btn_input_excel_Click"></asp:Button>
+                        </td>
                         <td>
                             <a href="/Template/Excel/BankClassifyTemplate.xls" target="_blank">下载模版</a>
-                            <asp:Button ID="btn_input_excel" runat="server" Width="80px" Text="导入Excel" OnClick="btn_input_excel_Click"></asp:Button>
-
                         </td>
                         <td colspan="2" style="text-align:center;">
                             <asp:Button ID="btn_query" runat="server" Width="80px" Text="查 询" OnClick="btn_query_Click"></asp:Button>

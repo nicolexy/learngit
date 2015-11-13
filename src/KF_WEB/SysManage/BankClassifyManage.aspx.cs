@@ -30,6 +30,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 {
                     if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
                     {
+                        DataView dv = ds.Tables[0].DefaultView;
+                        dv.Sort = "bank_name ASC";
+                        ds.Tables.RemoveAt(0);
+                        ds.Tables.Add(dv.ToTable());
                         this.ddl_bankname.DataSource = ds.Tables[0];
                         this.ddl_au_bankname.DataSource = ds.Tables[0];
                     }
@@ -110,8 +114,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 
         protected void refurbish_binddata()
         {
-            //string bank_code = ddl_bankname.SelectedValue;
-            string bank_code = this.txt_bankcode.Value;
+            string bank_code = ddl_bankname.SelectedValue;
+            //string bank_code = this.txt_bankcode.Value;
             int business_type = Convert.ToInt32(ddl_busi_type.SelectedValue);
             if (!string.IsNullOrEmpty(bank_code) || business_type > 0)
                 BindData(pager.CurrentPageIndex);
@@ -130,8 +134,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 
         private void BindData(int index)
         {
-            string bank_code = this.txt_bankcode.Value;
-            //string bank_code = ddl_bankname.SelectedValue;
+            //string bank_code = this.txt_bankcode.Value;
+            string bank_code = ddl_bankname.SelectedValue;
             int business_type = Convert.ToInt32(ddl_busi_type.SelectedValue);
             int use_status = Convert.ToInt32(ddl_use_status.SelectedValue);
             if (string.IsNullOrEmpty(bank_code) && business_type <= 0)
