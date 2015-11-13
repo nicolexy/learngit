@@ -89,9 +89,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     string ref_param = ViewState["ref_param"] == null ? "" : ViewState["ref_param"].ToString();
 
                     if (!string.IsNullOrEmpty(fuid))
-                        this.DS_Bankroll = new TradeService().GetBankRollList("", fuid, beginTime, endTime, istr, imax, ref  ref_param);  //注销账户通过qqid无法查到fuid,直接通过fuid查询。
+                        this.DS_Bankroll = new TradeService().GetBankRollList("", fuid, beginTime, endTime,"", istr, imax, ref  ref_param);  //注销账户通过qqid无法查到fuid,直接通过fuid查询。
                     else
-                        this.DS_Bankroll = new TradeService().GetBankRollList(selectStr, "", beginTime, endTime, istr, imax, ref  ref_param);
+                        this.DS_Bankroll = new TradeService().GetBankRollList(selectStr, "", beginTime, endTime,"", istr, imax, ref  ref_param);
 
                     ViewState["ref_param"] = ref_param;
 
