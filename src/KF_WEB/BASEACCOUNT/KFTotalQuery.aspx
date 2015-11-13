@@ -48,7 +48,7 @@
 					<TD align="right" style="WIDTH: 83px"><asp:label id="Label4" runat="server">操作类型</asp:label></TD>
 					<TD><asp:DropDownList ID="ddlOperationType" Runat="server" Width="175px">
 							<asp:ListItem Value="appeal">自助申诉</asp:ListItem>
-							<asp:ListItem Value="domain">自助域名</asp:ListItem>
+							<asp:ListItem Value="domain">商户资料修改</asp:ListItem>
 						</asp:DropDownList></TD>
 				</TR>
 				<TR>
