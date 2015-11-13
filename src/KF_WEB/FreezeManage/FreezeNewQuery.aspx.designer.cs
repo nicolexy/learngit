@@ -193,24 +193,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         protected global::System.Web.UI.WebControls.TextBox tbx_reason;
         
         /// <summary>
-        /// channel_title control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label channel_title;
-        
-        /// <summary>
-        /// ddl_channel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddl_channel;
-        
-        /// <summary>
         /// lb_count control.
         /// </summary>
         /// <remarks>
