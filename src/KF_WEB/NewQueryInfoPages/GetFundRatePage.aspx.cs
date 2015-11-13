@@ -104,32 +104,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             {
                 throw new Exception("微信财付通账号不能为空！");
             }
-
-            Session["QQID"] = getQQID();
+            string queryType = GetQueryType();
+            Session["QQID"] = AccountService.GetQQID(queryType, this.TextBox1_InputQQ.Text);
             uin = Session["QQID"].ToString();
 
             string tradeId = fundBLLService.GetTradeIdByUIN(uin);
             if (string.IsNullOrEmpty(tradeId))
                 throw new Exception("查询不到用户的TradeId，请确认当前用户是否有注册基金账户");
             ViewState["uin"] = uin;
-            ViewState["tradeId"] = tradeId;
-            //    fundSPId = this.ddl_companyName.SelectedValue;
-
-            //try
-            //{
-            //    if (this.tbx_beginDate.Text.Trim() != "")
-            //        beginDate = DateTime.Parse(this.tbx_beginDate.Text);
-
-            //    if (this.tbx_endDate.Text.Trim() != "")
-            //        endDate = DateTime.Parse(this.tbx_endDate.Text);
-            //}
-            //catch
-            //{
-            //    WebUtils.ShowMessage(this, "日期格式不正确");
-            //}
-
-            //redirectionType = int.Parse(ddlDirection.SelectedItem.Value);
-            //memo = ddlMemo.SelectedItem.Value;
+            ViewState["tradeId"] = tradeId;          
         }
 
         private void BindAllData()
@@ -212,93 +195,40 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
         }
 
-        string getQQID()
+        private string GetQueryType()
         {
             if (string.IsNullOrEmpty(this.TextBox1_InputQQ.Text))
             {
                 throw new Exception("请输入要查询的账号");
             }
-            var id = this.TextBox1_InputQQ.Text.Trim();
             if (this.WeChatCft.Checked)
             {
-                return id;
+                return "WeChatCft";
             }
             else if (this.WeChatUid.Checked)
             {
-                var qs = new Query_Service.Query_Service();
-                return qs.Uid2QQ(id);
+                return "WeChatUid";
             }
-            else if (this.WeChatQQ.Checked || this.WeChatMobile.Checked || this.WeChatEmail.Checked)
+            else if (this.WeChatQQ.Checked)
             {
-                string queryType = string.Empty;
-                if (this.WeChatQQ.Checked)
-                {
-                    queryType = "QQ";
-                }
-                else if (this.WeChatMobile.Checked)
-                {
-                    queryType = "Mobile";
-                }
-                else if (this.WeChatEmail.Checked)
-                {
-                    queryType = "Email";
-                }
-
-                string openID = string.Empty, errorMessage = string.Empty;
-                int errorCode = 0;
-                var IPList = ConfigurationManager.AppSettings["WeChat"].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-
-                for (int j = 0; j < IPList.Length; j++)
-                {
-                    if (PublicRes.getOpenIDFromWeChat(queryType, id, out openID, out errorCode, out errorMessage, IPList[j]))
-                    {
-                        break;
-                    }
-                }
-                if (errorCode == 0)
-                {
-                    return openID + "@wx.tenpay.com";
-                }
-                else if (errorCode == 1)
-                {
-                    throw new Exception("没有此用户");
-                }
-                else
-                {
-                    throw new Exception(errorCode + errorMessage);
-                }
+                return "WeChatQQ";
+            }
+            else if (this.WeChatMobile.Checked)
+            {
+                return "WeChatMobile";
+            }
+            else if (this.WeChatEmail.Checked)
+            {
+                return "WeChatEmail";
             }
             else if (this.WeChatId.Checked)
             {
-                return WeChatHelper.GetUINFromWeChatName(id);
+                return "WeChatId";
             }
 
-            return id;
-        }
-
-        //private void BindFundsList()
-        //{
-        //    try
-        //    {
-        //        var fundCorLists = FundService.GetAllFundInfo();
-
-        //        if (fundCorLists.Count < 1)
-        //            throw new Exception("未拉取到基金公司记录表");
-
-        //        //this.ddl_companyName.DataSource = fundCorLists;
-        //        //this.ddl_companyName.DataTextField = "Name";
-        //        //this.ddl_companyName.DataValueField = "SPId";
-        //        //this.ddl_companyName.DataBind();
-        //        //插入空选项
-        //        //this.ddl_companyName.Items.Insert(0, new ListItem("全部", string.Empty));
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        WebUtils.ShowMessage(this, "基金公司列表拉取失败:" + HttpUtility.JavaScriptStringEncode(ex.Message));
-        //    }
-        //}
-
+            return null;
+        }  
+           
         private void BindBasicAccountInfo(string qqId)
         {
             //理财通账户冻结或解冻操作

@@ -65,7 +65,7 @@ namespace CFT.CSOMS.BLL.TradeModule
         /// <param name="istr"></param>
         /// <param name="imax"></param>
         /// <returns></returns>
-        public DataSet GetTradeList(string tradeid, int typeid, DateTime listTime, DateTime beginTime, DateTime endTime, int istr, int imax)
+        public DataSet GetTradeList(string tradeid, int typeid, DateTime listTime, DateTime beginTime, DateTime endTime, int istr, int imax,string uid)
         {
             try
             {
@@ -82,7 +82,15 @@ namespace CFT.CSOMS.BLL.TradeModule
                 }
 
                 //TODO:有个makelog的方法不是主需求
-                DataSet ds = new TradeData().GetTradeList(tradeid, typeid, beginTime, endTime, istr, imax);
+                DataSet ds = new DataSet();
+                if (typeid >= 0)
+                {
+                    ds = new TradeData().GetTradeList(tradeid, typeid, beginTime, endTime, istr, imax);
+                }
+                else
+                {
+                    ds = new TradeService().GetListidFromUserOrder(tradeid, uid, 0, 1, typeid);
+                }
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {

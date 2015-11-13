@@ -354,70 +354,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 this.showQueryDate.Visible = false;
             }
         }
-
-        //string getQQID()
-        //{
-        //    if (string.IsNullOrEmpty(this.cftNo.Text))
-        //    {
-        //        throw new Exception("请输入要查询的账号");
-        //    }
-        //    var id = this.cftNo.Text.Trim();
-        //    if (this.dd_queryType.SelectedValue == "8")
-        //    {
-        //        return id;
-        //    }
-        //    else if (this.dd_queryType.SelectedValue == "7")
-        //    {
-        //        var qs = new Query_Service.Query_Service();
-        //        return qs.Uid2QQ(id);
-        //    }
-        //    else if (this.dd_queryType.SelectedValue == "4" || this.dd_queryType.SelectedValue == "5" || this.dd_queryType.SelectedValue == "6")
-        //    {
-        //        string queryType = string.Empty;
-        //        if (this.dd_queryType.SelectedValue == "4")
-        //        {
-        //            queryType = "QQ";
-        //        }
-        //        else if (this.dd_queryType.SelectedValue == "5")
-        //        {
-        //            queryType = "Mobile";
-        //        }
-        //        else if (this.dd_queryType.SelectedValue == "6")
-        //        {
-        //            queryType = "Email";
-        //        }
-
-        //        string openID = string.Empty, errorMessage = string.Empty;
-        //        int errorCode = 0;
-        //        var IPList = ConfigurationManager.AppSettings["WeChat"].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-
-        //        for (int j = 0; j < IPList.Length; j++)
-        //        {
-        //            if (PublicRes.getOpenIDFromWeChat(queryType, id, out openID, out errorCode, out errorMessage, IPList[j]))
-        //            {
-        //                break;
-        //            }
-        //        }
-        //        if (errorCode == 0)
-        //        {
-        //            return openID + "@wx.tenpay.com";
-        //        }
-        //        else if (errorCode == 1)
-        //        {
-        //            throw new Exception("没有此用户");
-        //        }
-        //        else
-        //        {
-        //            throw new Exception(errorCode + errorMessage);
-        //        }
-        //    }
-        //    //else if (this.WeChatId.Checked)
-        //    //{
-        //    //    return WeChatHelper.GetUINFromWeChatName(id);
-        //    //}
-
-        //    return id;
-        //}
+      
     }
 	
 }

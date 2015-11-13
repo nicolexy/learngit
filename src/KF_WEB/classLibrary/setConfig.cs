@@ -217,6 +217,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			else if(type == "GetPayList")  //用户交易单
 			{
 				ds = myService.GetPayList(selectStr,i,beginTime,endTime,istr,imax);
+                log4net.LogManager.GetLogger(string.Format("记录交易单日志：selectStr = {0} ,i = {1},beginTime = {2},endTime = {3},istr = {4},imax = {5}", selectStr, i, beginTime, endTime, istr, imax));//查一个问题，下个版本删除该日志，darrenran
 			}
 			else if( type == "Bankroll")  //资金流水记录
 			{
