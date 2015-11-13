@@ -460,8 +460,8 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
         public DataSet GetBankCardBindList_New(string fuin, string Fbank_type, string bankID, string uid, string creID, string protocolno, string phoneno,
             string strBeginDate,string strEndDate, int bindStatue, string bind_serialno, string Operator,int bind_type,string cre_type, int limStart, int limCount)
         {
-            var serverIp = System.Configuration.ConfigurationManager.AppSettings["BankCardIP"].ToString();
-            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["BankCardPort"].ToString());
+            string serverIp = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("BankCardIP", "10.123.6.29");
+            int serverPort = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("BankCardPort", 443);
             try
             {
 
