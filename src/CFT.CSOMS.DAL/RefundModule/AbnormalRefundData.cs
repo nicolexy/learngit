@@ -758,25 +758,33 @@ namespace CFT.CSOMS.DAL.RefundModule
         /// <param name="accType">账户类型</param>
         /// <param name="start"></param>
         /// <param name="max"></param>
+        /// <param name="count">记录总数 ref -1 时查询记录数并返回 否则不返回</param>
         /// <returns></returns>
         public DataSet QueryPaymenAbnormal(string sTime, 
             string eTime, string batchID, string packageID, string listid, string type,
             string product, string business_type, string notityStatus, string notityResult, string bankType, string errorType,
-            string accType, int start, int max)
+            string accType, int start, int max, ref int count)
         {
             string tbName = "c2c_zwdb.t_abnormal_roll_" + DateTime.Parse(sTime).ToString("yyyyMM");
-            StringBuilder Sql = new StringBuilder("select Ftype,Fabnormal_time,FBatchID,FPackageID,Flistid,Fproduct,Fbusiness_type,Fbank_type,Ferror_type,Faccount_type,Fspid,Fnotify_type,Fnotify_result,Fnotify_status,Fnotify_history from "
-                +tbName);
-
+            StringBuilder Sql = new StringBuilder("select Ftype,Fabnormal_time,FBatchID,FPackageID,Flistid,Fproduct,Fbusiness_type,Fbank_type,Ferror_type,Faccount_type,Fspid,Fnotify_type,Fnotify_result,Fnotify_status,Fnotify_history ");
+            Sql.AppendFormat(" from {0}", tbName);
             StringBuilder whereStr = WhereStrAbnRefund(sTime, eTime, batchID, packageID, listid, type, product, business_type, notityStatus, notityResult, bankType, errorType, accType);
-            whereStr.Append(" limit " + start + "," + max);
+
             Sql.Append(whereStr);
+            Sql.Append(" order by Fabnormal_time desc");
+            Sql.Append(" limit " + start + "," + max);
 
             using (var da = MySQLAccessFactory.GetMySQLAccess("PaymenAbnormal"))
             {
                 da.OpenConn();
 
                 DataSet ds = da.dsGetTotalData(Sql.ToString());
+
+                if (count == -1)
+                {
+                    var countsql = string.Format("SELECT count(1) FROM {0} {1} ", tbName, whereStr.ToString());
+                    count =int.Parse(da.GetOneResult(countsql));
+                }
 
                 return ds;
             }
@@ -843,6 +851,7 @@ namespace CFT.CSOMS.DAL.RefundModule
                 dicCondition["listid"], dicCondition["type"], dicCondition["product"],
                 dicCondition["business_type"], dicCondition["notityStatus"], dicCondition["notityResult"],
                 dicCondition["bankType"], dicCondition["errorType"], dicCondition["accType"]);
+            whereStr.Append(" order by Fabnormal_time desc");
             whereStr.Append(" limit 50");
 
             Sql.Append(whereStr);
@@ -897,10 +906,9 @@ namespace CFT.CSOMS.DAL.RefundModule
             }
             if (!string.IsNullOrEmpty(accType))
             {
-                whereStr.Append(" and Faccount_type ='" + accType + "'");
+                whereStr.Append(" and Faccount_type ='" + accType + "' ");
             }
-            whereStr.Append(" order by Fabnormal_time desc ");
-           
+
             return whereStr;
         }
 

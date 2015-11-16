@@ -265,6 +265,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage {
         protected global::System.Web.UI.WebControls.DataGrid DataGrid1;
         
         /// <summary>
+        /// lb_conut control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lb_conut;
+        
+        /// <summary>
         /// pager control.
         /// </summary>
         /// <remarks>
