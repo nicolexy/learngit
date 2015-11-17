@@ -88,7 +88,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                   
                   if (!IsPostBack)
                   {
-                      BindData();                 
+                      BindData();    
                   }
                   
               }
@@ -134,7 +134,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 lbNewBank.Text = dr["FbankAccNo"].ToString();
                 lbNewBankType.Text = Transfer.convertbankType(dr["FbankType"].ToString());
                 lbUser.Text = dr["FtrueName"].ToString();
-                lbReason.Text = dr["Fkfremark"].ToString();
+                txt_Reason.Text = dr["Fkfremark"].ToString();
                 lbCreateTime.Text = dr["FcreateTime"].ToString();
 
                 kfOperator.Text = "";
@@ -594,6 +594,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 btnRefuse.Enabled   = true;
                 btnCW.Enabled       = true;
                 //btnInvalid.Enabled  = true;
+                txt_Reason.Width = 480;
+                txt_Reason.Enabled = true;
+                Button1.Visible = true;
             }
             else
             {
@@ -601,6 +604,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 btnRefuse.Enabled   = false;
                 btnCW.Enabled       = false;
                 //btnInvalid.Enabled  = false;
+                txt_Reason.Width = 560;
+                txt_Reason.Enabled = false;
+                Button1.Visible = false;
             }
 
         }
@@ -608,6 +614,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
         protected void OnDropDownList_SelectedIndexChanged(object sender, EventArgs e)
         {          
             lbWriteReason.Text = dropReasonList.SelectedItem.Text;   
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var foldId = ViewState["foldId"].ToString();
+                string strMsg = "";
+                var result = new RefundService().UpdateRefundData(new string[] { foldId }, null, null, null, null, null, txt_Reason.Text, null, null, null, null, null, null, -1, -1, null, null, -1, out strMsg);
+                if (result)
+                {
+                    WebUtils.ShowMessage(this.Page, "修改成功！");
+                }
+                else
+                {
+                    WebUtils.ShowMessage(this.Page, "修改失败" + strMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this.Page, PublicRes.GetErrorMsg("修改出错" + ex.Message));
+            }
         }
 
         /*

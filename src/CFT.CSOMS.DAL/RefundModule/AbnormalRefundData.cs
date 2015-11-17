@@ -58,113 +58,144 @@ namespace CFT.CSOMS.DAL.RefundModule
         private string GetOutputFields()
         {
             string strOut = "select FpayListid,FCardType,FbankListid,FbankName,FbankType,FcreateTime,FtrueName,FmodifyTime,FReturnAmt,FAmt,FbankAccNo,";
-            strOut += " FbankTypeOld,FoldId,FrefundType,FUserEmail,FReturnstate,Fstate,FBuyBanktype,FcheckID,FuserFlag,FSPID ";
+            strOut += " FbankTypeOld,FoldId,FrefundType,FUserEmail,FReturnstate,Fstate,FBuyBanktype,FcheckID,FuserFlag,FSPID,fbuyid,FUserTEL ";
             return strOut;
         }
-        public DataSet RequestRefundData(string strUid, string strBank, string strFSPID, string strBeginDate, string strEndDate, int iCheck, int iTrade,string strOldID,string strOperater,string strMin,string strMax) 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strUid"></param>
+        /// <param name="strBank"></param>
+        /// <param name="strFSPID"></param>
+        /// <param name="strBeginDate"></param>
+        /// <param name="strEndDate"></param>
+        /// <param name="iCheck"></param>
+        /// <param name="iTrade">退款状态</param>
+        /// <param name="strOldID"></param>
+        /// <param name="strOperater"></param>
+        /// <param name="strMin"></param>
+        /// <param name="strMax"></param>      
+        /// <param name="payScene">支付场景 0:全部 1:微信 2:非微信</param>
+        /// <param name="payChannel">支付渠道 0:全部 1:快捷 2:非快捷</param>
+        /// <returns></returns>
+        public DataSet RequestRefundData(string strUid, string strBank, string strFSPID, string strBeginDate, string strEndDate, int iCheck, int iTrade, string strOldID, string strOperater, string strMin, string strMax, int payScene, Tuple<int, List<string>> payChannel) 
         {
-            StringBuilder Sql = new StringBuilder(GetOutputFields()+" from c2c_zwdb.t_refund_KF where 1 = 1");
-            bool bState = false;
-           
+            var term = new StringBuilder();
             if(!string.IsNullOrEmpty(strUid))
             {
-                bState = true;
-                Sql.Append(" and FpayListid ='"+strUid+"'");
+                term.AppendFormat(" and FpayListid ='{0}'", strUid);
             }
             if (!string.IsNullOrEmpty(strBank))
             {
-                bState = true;
-                Sql.Append(" and FbankListid ='" + strBank + "'");
+                term.AppendFormat(" and FbankListid ='{0}'", strBank);
             }
             if (!string.IsNullOrEmpty(strFSPID))
-            {
-                bState = true;
-                
+            {               
                 string[] arySpID = strFSPID.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-                if (arySpID.Length < 1)
+                if (arySpID.Length > 0)
                 {
-                    bState = false;
-                }
-                for (int i=0;i<arySpID.Length;++i)
-                {
-                    if (i == 0)
-                    {
-                        Sql.Append(" and( ");
-                    }
-                    else
-                    {
-                        Sql.Append(" or");
-                    }
-
-                    Sql.Append(" FSPID ='" + arySpID[i] + "'");
-                }
-                if (bState)
-                {
-                    Sql.Append(" )");
-                }
-                
+                    var inParam = string.Join("','", arySpID);
+                    term.AppendFormat(" and FSPID in ('{0}')", inParam);
+                }              
             }
             if (!string.IsNullOrEmpty(strBeginDate))
             {
-                bState = true;
-                Sql.Append(" and FcreateTime >= '" +strBeginDate+ "' ");               
+                term.AppendFormat(" and FcreateTime >= '{0}'", strBeginDate);
             }
             if (!string.IsNullOrEmpty(strEndDate))
             {
-                bState = true;
-                Sql.Append(" and FcreateTime <= '" +strEndDate+ "' ");
+                term.AppendFormat(" and FcreateTime <= '{0}'", strEndDate);
             }
             if (iCheck != -1)
             {
-                bState = true;
-                Sql.Append(" and Fstate =" + iCheck);
-            }
-            if ( iTrade != 0)
-            {
-                bState = true;
-                Sql.Append(" and FReturnstate =" + iTrade);
+                term.AppendFormat(" and Fstate ={0}", iCheck.ToString());
             }
             /////string strOldID,string strOperater,string strMin,string strMax
             if (!string.IsNullOrEmpty(strOldID))
             {
-                bState = true;
-                Sql.Append(" and FoldId = '" + strOldID + "' ");
+                term.AppendFormat(" and FoldId = '{0}'", strOldID);
             }
             if (!string.IsNullOrEmpty(strOperater))
             {
-                bState = true;
-                Sql.Append(" and FStandby1 like '" + strOperater + "%' ");
+                term.AppendFormat(" and FStandby1 like '{0}%'", strOperater);
             }
             if (!string.IsNullOrEmpty(strMin))
             {
-                bState = true;
-                Sql.Append(" and FReturnAmt >='" + strMin +"'");
+                term.AppendFormat(" and FReturnAmt >='{0}'", strMin);
             }
             if (!string.IsNullOrEmpty(strMax))
             {
-                bState = true;
-                Sql.Append(" and FReturnAmt <='" + strMax + "'");
+                term.AppendFormat(" and FReturnAmt <='{0}'", strMax);
             }
-            /////
-            if (!bState)
+            if (payScene!=0)
             {
-                //strOut = "查询条件为空，请输入任意查询条件！";
-                return null;
+                var isNot = payScene == 1 ? "" : "not";
+                term.AppendFormat(" and Fbuyid {0} like '%@wx.tenpay.com'", isNot);
             }
-            using (var da = MySQLAccessFactory.GetMySQLAccess("RefundDB"))
+            if (payChannel.Item1 != 0)
             {
-                da.OpenConn();
-                
-                DataSet ds = da.dsGetTotalData(Sql.ToString());
+                var inParam =string.Join(",", payChannel.Item2);
+                var isNot = payChannel.Item1 == 1 ? "" : "not";
+                term.AppendFormat(" and Fbuyid {0} in('{1}')", isNot, inParam);
+            }
+            DataSet ds = null;
+            if (term.Length > 0)
+            {
+                term.Remove(0, 4);  //去掉开始的" and"
+                var querySQL = GetOutputFields() + " FROM c2c_zwdb.t_refund_KF WHERE" + term.ToString();
+                using (var da = MySQLAccessFactory.GetMySQLAccess("RefundDB"))
+                {
+                    da.OpenConn();
+                    ds = da.dsGetTotalData(querySQL);
+                }
 
-                return ds;
+                #region 退款状态 查询 特殊处理
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    var kf_dt = ds.Tables[0];
+                    kf_dt.Columns.Add("TotalDB_Fstate",typeof(short));
+
+                    var foldIds = kf_dt.AsEnumerable().Select(u => (string)u["FoldId"]).ToArray();  //获取 FoldId 的集合 去主表(t_refund_total) 查找 退款状态(fstate)
+                    var foldIdParam = string.Join("','", foldIds);
+                    var totalQuerySQL = string.Format("SELECT FoldId,Fstate as TotalDB_Fstate FROM c2c_zwdb.t_refund_total WHERE FoldId IN('{0}')", foldIdParam);
+
+                    if (iTrade != 0)  // 如果查询条件中加入了 退款状态查询
+                    {
+                        totalQuerySQL += " and fstate =" + iTrade.ToString();
+                    }
+
+                    using (var totalda = MySQLAccessFactory.GetMySQLAccess("ZWTK"))
+                    {
+                        totalda.OpenConn();
+                        DataSet totalds = totalda.dsGetTotalData(totalQuerySQL);
+
+                        if (totalds != null && totalds.Tables.Count > 0 && totalds.Tables[0].Rows.Count > 0)
+                        {
+                            for (int i = 0; i < kf_dt.Rows.Count; i++)
+                            {
+                                var totalInfo = totalds.Tables[0].Select("FoldId = '" + (string)kf_dt.Rows[i]["FoldId"] + "'").FirstOrDefault();
+                                if (totalInfo != null)
+                                {
+                                    kf_dt.Rows[i]["TotalDB_Fstate"] = totalInfo["TotalDB_Fstate"];
+                                }
+                                else if (iTrade != 0)
+                                {
+                                    kf_dt.Rows.RemoveAt(i--);
+                                }
+                            }
+                        }
+                    }
+                } 
+                #endregion
             }
-            return null;
+
+            //strOut = "查询条件为空，请输入任意查询条件！";
+            return ds;
         }
 
         public bool UpdateRefundData(string[] strOldId, string strIdentity, string strBankAccNoOld, string strUserEmail, string strNewBankAccNo,string strBankUserName,
             string strReason, string strImgCommitment, string strImgIdentity, string strImgBankWater, string strImgCancellation, string strBankName,string strOperater,
-            int nOldBankType, int nNewBankType, int nUserFalg, int nCardType, int nState, out string outMsg)
+            int nOldBankType, int nNewBankType, int? nUserFalg, int? nCardType, int nState, out string outMsg)
         {
             outMsg = "";
             try
@@ -231,7 +262,15 @@ namespace CFT.CSOMS.DAL.RefundModule
                 {                 
                     strSql += "Fstate= " + nState + ",";
                 }
-                strSql += "FuserFlag=" + nUserFalg + "," +"FcurType = 1"+","+"FCardType="+nCardType+",";
+                if (nUserFalg != null)
+                {
+                    strSql += "FuserFlag=" + nUserFalg + ",";
+                }
+                if (nCardType != null)
+                {
+                    strSql += "FCardType=" + nCardType + ",";
+                }
+                strSql += "FcurType = 1" + ",";
                 strSql += "FmodifyTime='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'  where";
                 for (int i=0; i< strOldId.Length;++i)
                 {
