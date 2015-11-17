@@ -56,10 +56,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 			//if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "InfoCenter"))
 			if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this))
 			{
-				//this.menuControl1.AddSubMenu("风控解冻审核","FreezeManage/FreezeQuery.aspx");
-				//this.menuControl1.AddSubMenu("报表统计输出","FreezeManage/FreezeCount.aspx");
-				//this.menuControl1.AddSubMenu("快捷回复管理页面","FreezeManage/FastReplyManagePage.aspx");
-				//this.menuControl1.AddSubMenu("测试的页面","NewQueryInfoPages/TestPage.aspx");
+				
 			}
 		}
 	}

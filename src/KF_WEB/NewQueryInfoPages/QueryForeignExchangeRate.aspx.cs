@@ -175,9 +175,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
             int max = pager.PageSize;
             int start = max * (index - 1);
-
-            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            //DataSet ds = qs.GetExchangeRateList(fore_Type, issu_bank, s_begindate, s_enddate,start,max);
+        
             DataSet ds =new ForeignCardService().GetExchangeRateList(fore_Type, issu_bank, s_begindate, s_enddate, start, max);
 
 			if(ds != null && ds.Tables.Count >0)

@@ -31,18 +31,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			//验证权限
 
 			string szkey = Session["SzKey"].ToString();
-			//int operid = Int32.Parse(Session["OperID"].ToString());
-			
-			//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
-
 			if(!classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
-
-			/*
-			if (Session["uid"] == null || AllUserRight.GetOneRightState("fetchPwd",Session["key"].ToString()) == false)
-			{
-				Response.Redirect("../login.aspx?wh=1");
-			}
-			*/
 
 			BindData();
 		}
@@ -71,9 +60,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			accPath = Request.QueryString["accPath"].ToString().Trim();
 			infoPath= Request.QueryString["infoPath"].ToString().Trim();
 
-			//oldIdCardPath = Request.QueryString["oldIdCardPath"].ToString().Trim();
-			//newIdCardPath = Request.QueryString["newIdCardPath"].ToString().Trim();
-
 			fetchNo = Request.QueryString["fetchNo"].ToString().Trim();
 			commTime= Request.QueryString["commTime"].ToString().Trim();
 			
@@ -85,15 +71,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			this.lbFetchNo.Text = fetchNo;
 
             string requestUrl = System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString();
-            //this.imageUInfo.ImageUrl = "../" + infoPath;//"basicInfo.jpg";
-            //this.imgAccInfo.ImageUrl = "../" + accPath;//"accInfo.jpg";
+
             this.imageUInfo.ImageUrl = requestUrl + "/" + infoPath;//"basicInfo.jpg";
             this.imgAccInfo.ImageUrl = requestUrl + "/" + accPath;//"accInfo.jpg";
            
-
-			//this.imgOldCardID.ImageUrl =  "../" + oldIdCardPath;//"shenfen.gif";
-			//this.imgNewCardID.ImageUrl =  "../" + newIdCardPath;//"main_card01.gif";
-
 			this.lbHandleID.Text   = Session["uid"].ToString();
 			this.lbCommitTime.Text = commTime;
 			this.lbTime.Text       = commTime;
@@ -128,12 +109,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			{
 				//提交审批
 				Check_WebService.Check_Service  cs = new Check_WebService.Check_Service();
-//				Check_WebService.Finance_Header fh = new Check_WebService.Finance_Header();
 
 				TENCENT.OSS.CFT.KF.KF_Web.Check_WebService.Finance_Header fh = classLibrary.setConfig.setFH_CheckService(this);
-
-//				fh.UserName = Session["uid"].ToString();
-//				fh.UserIP   = Request.UserHostAddress;
 
 				cs.Finance_HeaderValue = fh;
 

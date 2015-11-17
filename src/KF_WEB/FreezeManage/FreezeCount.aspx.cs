@@ -99,41 +99,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 			handleUserID = this.tbx_freezeHandleUserID.Text.Trim();
 
-            //if(this.cbx_unHandle.Checked)
-            //{
-            //    handleType += "0,";
-            //}
-
-            //if(this.cbx_hangUP.Checked)
-            //{
-            //    handleType += "8,";
-            //}
-
-            //if(this.cbx_fin1.Checked)
-            //{
-            //    handleType += "1,";
-            //}
-
-            //if(this.cbx_fin2.Checked)
-            //{
-            //    handleType += "2,";
-            //}
-
-            //if(this.cbx_del.Checked)
-            //{
-            //    handleType += "7,";
-            //}
-
-            //if(handleType.Length > 1)
-            //{
-            //    // È¥µôÄ©Î²µÄ£¬
-            //    handleType = handleType.Substring(0,handleType.Length - 1);
-            //}
-            //else
-            //{
-            //    handleType = "";
-            //}
-
+           
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
 			DataSet ds = qs.GetFreezeDiary("","",handleType,handleUserID,handleResult,"",beginDate.ToString("yyyy-MM-dd")

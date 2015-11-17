@@ -294,19 +294,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             this.lb_c11.Text = "";
             this.lb_c12.Text = "";
         }
-
-        //private void Clear2()
-        //{
-        //    this.lb_failAllMoney.Text = "";
-        //    this.lb_failNum.Text = "";
-
-        //    this.lb_successAllMoney.Text = "";
-        //    this.lb_successNum.Text = "";
-
-        //    this.lb_handlingAllMoney.Text = "";
-        //    this.lb_handlingNum.Text = "";
-
-        //}
-      
+    
     }
 }

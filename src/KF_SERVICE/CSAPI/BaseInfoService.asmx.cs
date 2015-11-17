@@ -911,12 +911,12 @@ namespace CFT.CSOMS.Service.CSAPI
             }
             catch (ServiceException se)
             {
-                SunLibrary.LoggerFactory.Get("GetUserAuthenState").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                SunLibrary.LoggerFactory.Get("GetCheckStatistics").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
                 APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
             }
             catch (Exception ex)
             {
-                SunLibrary.LoggerFactory.Get("GetUserAuthenState").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                SunLibrary.LoggerFactory.Get("GetCheckStatistics").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         } 

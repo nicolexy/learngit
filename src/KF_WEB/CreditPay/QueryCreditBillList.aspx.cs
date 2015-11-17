@@ -82,22 +82,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreidtPay
 
 		private void ValidateDate()
 		{
-			/*
-            DateTime begindate;
-
-			try
-			{
-                string s_date = TextBoxBeginDate.Text;
-                if (s_date != null && s_date != "")
-                {
-                    begindate = DateTime.Parse(s_date);
-                }
-			}
-			catch
-			{
-				throw new Exception("日期输入有误！");
-			}
-            */
+			
             string ccftno = cftNo.Text.ToString();
            
             if (ccftno == "" )
@@ -149,15 +134,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreidtPay
 
         private void BindData(int index)
 		{
-            /*
-            string s_stime = TextBoxBeginDate.Text;
-            string s_begindate = "";
-            if (s_stime != null && s_stime != "")
-            {
-                DateTime begindate = DateTime.Parse(s_stime);
-                s_begindate = begindate.ToString("yyyy-MM");
-            }
-            */
+         
             DataGrid2.DataSource = null;
             DataGrid2.DataBind();
 

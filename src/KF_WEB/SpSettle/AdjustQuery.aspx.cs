@@ -83,9 +83,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 
         private void BindInfo(string szListid, string orderid, string spid, string adjust_time)
         {
-            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            //DataSet ds;
-            //ds = qs.QueryAdjustList(szListid, orderid,spid,adjust_time);
             SettleService service = new SettleService();
             DataTable dt = service.QueryAdjustList(szListid, orderid, spid, adjust_time);
 

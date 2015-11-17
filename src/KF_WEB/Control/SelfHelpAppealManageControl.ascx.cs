@@ -50,35 +50,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 			string szkey = Session["SzKey"].ToString();
 			int operid = Int32.Parse(Session["OperID"].ToString());
 
-			//if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "InfoCenter"))
 			if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this))
 			{
 				menuControl.AddSubMenu("客服统计查询","BaseAccount/KFTotalQuery.aspx") ;
 			}
 
-
-			//if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "CFTUserAppeal"))
             if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
 			{
 				menuControl.AddSubMenu("自助申诉查询","BaseAccount/CFTUserAppeal.aspx") ;
 			}
 
-
-			//if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "CFTUserPick"))
 			if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("CFTUserPick",this))
 			{
-				//menuControl.AddSubMenu("自助申诉处理","BaseAccount/CFTUserPick.aspx") ; 页面已废除
-				//menuControl.AddSubMenu("实名认证处理","BaseAccount/UserClass.aspx") ; 页面已废除
 				menuControl.AddSubMenu("申诉处理(新)","BaseAccount/UserAppeal.aspx") ;
 			}
 
-			//if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "CancelAccount"))
             if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
 			{
 				menuControl.AddSubMenu("帐户销户记录","BaseAccount/logOnUser.aspx") ;
 			}
 
-			//if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "UpdateAccountQQ"))
             if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
 			{
 				menuControl.AddSubMenu("帐户QQ修改","BaseAccount/ChangeQQOld.aspx") ;

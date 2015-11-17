@@ -27,13 +27,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 		{
 			// 在此处放置用户代码以初始化页面
 			if(!IsPostBack)
-			{
-                //this.tbx_beginDate.Text = DateTime.Now.AddDays(-6).ToString("yyyy-MM-dd HH:mm:ss");
-                //this.tbx_endDate.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
-                //this.ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-                //this.ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
-
+			{       
 				ddl_service_code.Items.Clear();
                 ddl_service_code.Items.Add(new ListItem("所有类型", "9999999"));
 				foreach(DictionaryEntry de in TENCENT.OSS.C2C.Finance.Common.CommLib.getData.htService_code)
@@ -78,21 +72,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
 			ViewState["spid"] = tbx_spid.Text.Trim();
 			ViewState["code"] = ddl_service_code.SelectedValue.Trim();
-
-            //DateTime sTime, eTime;
-            //try
-            //{
-            //    sTime = DateTime.Parse(this.tbx_beginDate.Text);
-            //    eTime = DateTime.Parse(this.tbx_endDate.Text);
-
-            //    ViewState["strSTime"] = sTime.ToString("yyyy-MM-dd HH:mm:ss");
-            //    ViewState["strETime"] = eTime.ToString("yyyy-MM-dd HH:mm:ss");
-            //}
-            //catch
-            //{
-            //    WebUtils.ShowMessage(this, "日期格式不正确");
-            //    return;
-            //}
+        
             this.pager.RecordCount = 1000;
 			BindData(1);
 		}
@@ -103,9 +83,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             {
                 string spid = ViewState["spid"].ToString();
                 string code = ViewState["code"].ToString();
-
-                //string strSTime = ViewState["strSTime"].ToString();
-                //string strETime = ViewState["strETime"].ToString();
 
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
                 qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
@@ -145,9 +122,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 {
                     string spid = e.Item.Cells[2].Text;
                     string codeid = e.Item.Cells[4].Text;
-                    //string strSTime = ViewState["strSTime"].ToString();
-                    //string strETime = ViewState["strETime"].ToString();
-
+  
                     Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
                     qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 

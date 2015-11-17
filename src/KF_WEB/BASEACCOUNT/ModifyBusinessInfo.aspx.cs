@@ -163,9 +163,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
-                //int operid = Int32.Parse(Session["OperID"].ToString());
-
-                //if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
 
                 if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
 
@@ -369,17 +366,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 try
                 {
-                    //if(this.txtAddress.Text.Trim() == "")
-                    //{
-                    //	throw new Exception("ÇëÊäÈëÐÂÍøÖ·!");
-                    //}
                     if (this.txtEmail.Text.Trim() == "")
                     {
                         throw new Exception("ÇëÊäÈëÐÂÓÊÏä!");
                     }
 
                     CheckData();
-                    //	Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+
                     new SPOAService().SubmitBusinessInfo(Session["uid"].ToString(), this.txtFspid.Text.Trim(), this.lblFspName.Text.Trim(), this.txtFspName.Text.Trim(),
                         this.lblEmail.Text.Trim(), this.txtEmail.Text.Trim(), this.lblAddress.Text.Trim(), this.txtAddress.Text.Trim(),
                         this.tbReasonText.Text.Trim(), fileArr);

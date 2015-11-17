@@ -414,15 +414,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 {
                     this.cbForbid.Checked = false;
                     tcTextId.Visible = true;
-                }
-                //if (bankbulletin.Falwaysworkstate.Trim() == "1")
-                //    this.InterfaceLong.SelectedValue = "1";
-                //else
-                //    this.InterfaceLong.SelectedValue = "0";
-              
-                //DropDownListShow();//根据radio显示时间
-
-               
+                }                            
 
             }
             catch (SoapException eSoap) //捕获soap类异常
@@ -712,11 +704,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 else if (sysid == "24")
                     busineType = "3";
                 bankbulletin.Fbusinetype = busineType;
-                //if (this.InterfaceLong.SelectedValue == "1")//校验时间格式
-                //{
-                //    checkEverydayTime(tbalwtime.Text.Trim());
-                //}
-                //bankbulletin.Falwtime = tbalwtime.Text.Trim();
+              
 
                 bankbulletin.Ftctext = TextTCMainText.Text.Trim();
 
@@ -815,11 +803,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                     bankbulletin.Isaffectinterface = "1";
                 else
                     bankbulletin.Isaffectinterface = "0";
-                //if (this.InterfaceLong.SelectedValue == "1")//校验时间格式
-                //{
-                //    checkEverydayTime(tbalwtime.Text.Trim());
-                //}
-                //bankbulletin.Falwtime = tbalwtime.Text.Trim();
+               
                 bankbulletin.Ftctext = TextTCMainText.Text.Trim();
 
                 //判断数据库是否存在重复时间段的公告
@@ -983,27 +967,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             }
         }
 
-        //protected void InterfaceLong_SelectedIndexChanged(object sender, System.EventArgs e)
-        //{
-        //    if (!InterfaceOpen.Checked)
-        //        DropDownListShow();
-        //}
-
-        //private void DropDownListShow()
-        //{
-        //    if (this.InterfaceLong.SelectedValue == "1")
-        //    {
-        //        this.alwtime.Visible = true;
-        //        this.StartTime.Visible = false;
-        //        this.EndTime.Visible = false;
-        //    }
-        //    else
-        //    {
-        //        this.alwtime.Visible = false;
-        //        this.StartTime.Visible = true;
-        //        this.EndTime.Visible = true;
-        //    }
-        //}
+     
 
         private static Check_WebService.Param[] ToParamArray(string[,] param)
         {

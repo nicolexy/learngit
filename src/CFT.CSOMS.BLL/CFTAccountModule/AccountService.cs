@@ -280,8 +280,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                     ds.Tables[0].Columns.Add("Fqqid_state", typeof(string));      //qq关联状态
                     ds.Tables[0].Columns.Add("Femial_state", typeof(string));     //邮箱关联状态
                     ds.Tables[0].Columns.Add("Fmobile_state", typeof(string));    //手机关联状态
-                    ds.Tables[0].Columns.Add("Fbpay_state_str", typeof(string));  //余额支付状态
-                    ds.Tables[0].Columns.Add("Att_id_str", typeof(string));       //产品属性
+                    ds.Tables[0].Columns.Add("Fbpay_state_str", typeof(string));  //余额支付状态                  
 
                     #region 转换字段
                     foreach (DataRow dr in ds.Tables[0].Rows)
@@ -322,8 +321,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                         int tempAtt = 0;
                         if (dr["Att_id"].ToString() != "")
                         {
-                            tempAtt = int.Parse(dr["Att_id"].ToString());
-                            dr["Att_id_str"] = tempAtt;
+                            tempAtt = int.Parse(dr["Att_id"].ToString());                           
                         }
                         if (tempAtt != 0)
                         {
@@ -525,7 +523,6 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                     ds.Tables[0].Columns.Add("Femial_state", typeof(string));     //邮箱关联状态
                     ds.Tables[0].Columns.Add("Fmobile_state", typeof(string));    //手机关联状态
                     ds.Tables[0].Columns.Add("Fbpay_state_str", typeof(string));  //余额支付状态
-                    ds.Tables[0].Columns.Add("Att_id_str", typeof(string));       //产品属性
 
                     #region 转换字段
                     foreach (DataRow dr in ds.Tables[0].Rows)
@@ -579,7 +576,6 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                         if (dr["Att_id"].ToString() != "")
                         {
                             tempAtt = int.Parse(dr["Att_id"].ToString());
-                            dr["Att_id_str"] = tempAtt;
                         }
                         if (tempAtt != 0)
                         {

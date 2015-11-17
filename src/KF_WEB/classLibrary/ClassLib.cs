@@ -32,58 +32,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 		}
 
 
-		/*
-		public static bool ValidateRight(string powerName,UserControl control)
-		{
-			try
-			{
-				if(getData.IsNewSensitivePowerMode)
-				{
-					return SensitivePowerOperaLib.CheckAuth(powerName,control);
-				}
-				else
-				{
-					return AllUserRight.ValidRight(control.Session["SzKey"].ToString(),int.Parse(control.Session["OperID"].ToString()),
-						PublicRes.GROUPID,powerName);	
-				}
-			}
-			catch (System.Exception ex)
-			{
-				return false;
-			}
-		}
-		*/
-
-
-
 		public static bool WriteOpLog(string opTargetQQID,string opPowerName,string log,Page page)
 		{
 			
 
 			throw new Exception("未完成的代码");
 		}
-
-
-
-		/*
-		private static bool ValidateRight(string userName,string sessionKey,string url,string ip,string sessionID
-			,string powerName,int OperaID,Page page)
-		{
-			if(getData.IsNewSensitivePowerMode)
-			{
-				int iindex = (int)ht[powerName.Trim().ToUpper()];
-
-				int iRightID = rights[iindex].RightID;
-
-				return SensitivePowerOperaLib.CheckAuth(iRightID,userName,sessionKey,url,ip,sessionID,page);
-			}
-			else
-			{
-				return AllUserRight.ValidRight(sessionKey,OperaID,PublicRes.GROUPID,powerName);
-			}
-		}
-		*/
-
 
 
 		/// <summary>

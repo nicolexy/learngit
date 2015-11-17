@@ -345,19 +345,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             string notityStatus = ddlNotityStatus.SelectedValue;
             this.btSendWX.Visible = true;
             this.btSendMES.Visible = true;
-            //this.btSendQQ.Visible = true;
-            //this.btSendEmail.Visible = true;
-            //this.btSendTips.Visible = true;
-            //this.btSendWallet.Visible = true;
+      
             //待发送、发送中及所有状态不允许发送通知
             if (hide || string.IsNullOrEmpty(notityStatus) || notityStatus == "1" || notityStatus == "2")
             {
                 this.btSendWX.Visible = false;
                 this.btSendMES.Visible = false;
-                //this.btSendQQ.Visible = false;
-                //this.btSendEmail.Visible = false;
-                //this.btSendTips.Visible = false;
-                //this.btSendWallet.Visible = false;
+         
             }
         }
 

@@ -71,9 +71,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 
         private void BindInfo(string szListid, string reqid)
         {
-            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            //DataSet ds;
-            //ds = qs.GetSettleReqList(szListid,reqid);
+         
             SettleService service = new SettleService();
             DataTable dt = service.GetSettleReqList(szListid, reqid);
             if (dt != null )

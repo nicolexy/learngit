@@ -215,8 +215,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             int max = pager.PageSize;
             int start = max * (index - 1);
 
-			//Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            //DataSet ds = qs.QueryWebchatPayActivity(cft_no, s_begindate, s_enddate, act_id, start, max);
             DataSet ds = null;
             if (act_id == "wxzfact")
             {

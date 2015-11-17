@@ -66,7 +66,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				querytype = 1;
 
 			string selectStr = Session["QQID"].ToString();
-			//this.dataSet1 = classLibrary.setConfig.returnDataSet(selectStr,beginTime,endTime,0,"Refund",istr,imax,Session["uid"].ToString(),Request.UserHostAddress);
+
 			this.dataSet1 = classLibrary.setConfig.returnDataSet(selectStr,1,beginTime,endTime,querytype,"Refund",istr,imax,Session["uid"].ToString(),Request.UserHostAddress);
 			
 			int total;

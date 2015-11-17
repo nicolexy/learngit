@@ -87,12 +87,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 						WebUtils.ShowMessage(this,"日期跨度不能大于3个月");
 						return;
 					}
-
-                    //if(this.tbx_spid.Text.Trim() == "")
-                    //{
-                    //    WebUtils.ShowMessage(this,"查询商户号不能为空");
-                    //    return;
-                    //}
+                  
 				}
 				catch
 				{
@@ -101,8 +96,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 				}
 
 				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-				//qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
 
 				qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 
@@ -232,8 +225,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 }
 
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-                //qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
 
                 qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 

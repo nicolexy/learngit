@@ -35,19 +35,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 			}
 
             if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
-
-			/*
-				if(Session["OperID"] != null)
-					this.lb_operatorID.Text = Session["OperID"].ToString();
 			
-				//string szkey = Session["SzKey"].ToString();
-				int operid = Int32.Parse(Session["OperID"].ToString());
-
-				// 目前该页面不需要权限
-				//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
-			
-			*/
-			// 在此处放置用户代码以初始化页面
 		}
 
 		#region Web 窗体设计器生成的代码
@@ -94,11 +82,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
 				if(bankID != null && bankID.Trim() != "")
 					bankType = classLibrary.getData.GetBankCodeFromBankName(this.ddl_bankType.SelectedValue);
-				
-				Query_Service.Query_Service qs = new Query_Service.Query_Service();
-				//qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
-				qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-				//DataSet ds = qs.GetUserAuthenState(acc,bankID,bankType);
+								
                 bool stateMsg = false;
                 DataSet ds = new UserAppealService().GetUserAuthenState(acc, bankID, bankType, out stateMsg);
 

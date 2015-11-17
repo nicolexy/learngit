@@ -87,7 +87,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
 			Query_Service.Query_Service queryService = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
-			//queryService.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
 
 			queryService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 
@@ -185,8 +184,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 		private void DataGrid_QueryResult_ItemCommand(object source, DataGridCommandEventArgs e)
 		{
 			Query_Service.Query_Service queryService = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-			//queryService.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
 
 			queryService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 

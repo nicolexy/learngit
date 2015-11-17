@@ -189,25 +189,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         }
 
 		private void QueryByOrder(string order, string sqlCondition)
-		{
-            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            //DataSet ds = qs.QueryForeignCardInfoByOrder(order, sqlCondition);
+		{           
             DataSet ds = fcs.QueryForeignCardInfoByOrder(sqlCondition);
 			dataBind(ds);
 		}
 
 		void QueryByMerchant(string merchant, string sqlCondition,int start,int max)
 		{
-            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            //DataSet ds = qs.QueryForeignCardInfoByMerchant(merchant, sqlCondition);
             DataSet ds = fcs.QueryForeignCardInfoByMerchant(merchant, sqlCondition, start, max);
 			dataBind(ds);
 		}
 
         void QueryByBankOrder(string year, string sqlCondition, int start, int max)
 		{
-            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            //DataSet ds = qs.QueryForeignCardInfoByBankOrder(year, sqlCondition);
             DataSet ds = fcs.QueryForeignCardInfoByBankOrder(sqlCondition, start, max);
 			dataBind(ds);
 		}

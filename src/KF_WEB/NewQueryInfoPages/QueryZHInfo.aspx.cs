@@ -76,12 +76,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 		}
 		#endregion
 
-		/*public void ChangePage(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
-		{
-			pager.CurrentPageIndex = e.NewPageIndex;
-			BindData(e.NewPageIndex);
-		}*/
-
+	
 		private void ValidateDate()
 		{
 			DateTime begindate;
@@ -179,25 +174,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 }
                 lb_c4.Text = s_status;
 
-                //status = dt.Rows[0]["otp_status"].ToString();//状态
-                //s_status = "";
-                //if (status == "0")
-                //{
-                //    s_status = "初始化";
-                //}
-                //else if (status == "1")
-                //{
-                //    s_status = "已签协议";
-                //}
-                //else if (status == "2")
-                //{
-                //    s_status = "解除协议";
-                //}
-                //else if (status == "3")
-                //{
-                //    s_status = "冻结";
-                //}
-
+           
                 //lb_c11.Text = s_status;//无安全码绿色通道
                 lb_c12.Text = single_limit;//单笔设置支付限额
                 //lb_c13.Text = no_opt_limit;//无安全码商家单笔最大限额

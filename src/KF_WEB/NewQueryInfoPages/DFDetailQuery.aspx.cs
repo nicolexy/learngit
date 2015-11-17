@@ -105,12 +105,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                 ListItem li = new ListItem(k.ToString(),htTurn[k].ToString());
                 ddl.Items.Add(li);
-            }
-            //foreach(DictionaryEntry de in ht)
-            //{
-            //    ListItem li = new ListItem(de.Value.ToString(), de.Key.ToString());
-            //    ddl.Items.Add(li);
-            //}
+            }          
         }
 
         private int GetCount()
@@ -133,8 +128,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
 
             Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-            //qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
 
             qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
             string strSTime = ViewState["strSTime"].ToString();
@@ -426,8 +419,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         private void BindDataOutExcel()
         {
             Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-            //qs.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
 
             qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 

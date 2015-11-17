@@ -630,58 +630,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 
 		public static bool DeleteFreezeFastReply(System.Web.UI.Page page,int index)
 		{
-			return UpdateFreezeFastReply(page,"",index);
-			/*
-			try
-			{
-				if(strFastReplayList == null)
-				{
-					GetFreezeFastReplay(page);
-				}
-
-				string path = page.Server.MapPath(page.Request.ApplicationPath) + "\\" + FILE_NAME;
-				fs = new FileStream(path,FileMode.Create);
-
-				if(strFastReplayList[index] != null && strFastReplayList[index].Trim() != "")
-				{
-					strFastReplayList[index] = "";
-
-					//foreach(string str in strFastReplayList)
-					for(int i=0;i<strCount;i++)
-					{
-						if(strFastReplayList[i] != null && strFastReplayList[i].Trim() != "" && i!=index)
-						{
-							string str = new string(strFastReplayList[i].ToCharArray());
-							str += "\n";
-							byte[] buff = System.Text.Encoding.UTF8.GetBytes(str.ToCharArray(),0,str.Length);
-							fs.Write(buff,0,buff.Length);
-						}
-					}
-
-					fs.Flush();
-				}
-
-				fs.Close();
-
-				strFastReplayList = null;
-				GetFreezeFastReplay(page);
-
-				return true;
-			}
-			catch(Exception ex)
-			{
-				string str = ex.Message;
-				return false;
-			}
-			finally
-			{
-				if(fs != null)
-				{
-					fs.Close();
-					fs=null;
-				}
-			}
-			*/
+			return UpdateFreezeFastReply(page,"",index);		
 		}
 
 
