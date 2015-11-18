@@ -171,7 +171,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             {
                 #region ±£´æ²ÎÊý
                 string delayReason = PublicRes.GetString(tbDelayReason.Text.Trim());
-                string toAccTime = DateTime.Parse(PublicRes.GetString(tbToAccTime.Text.Trim())).ToString("yyyy-MM-dd hh:mm:ss");
+                string toAccTime = DateTime.Parse(PublicRes.GetString(tbToAccTime.Text.Trim())).ToString("yyyy-MM-dd HH:mm:ss");
                 string batchID = tbBatchID.Text.Trim();
                 string packageID = tbPackageID.Text.Trim();
                 string listid = tblistid.Text.Trim();
