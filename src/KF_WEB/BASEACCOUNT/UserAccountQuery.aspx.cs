@@ -12,15 +12,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// UserAccountQuery1 的摘要说明。
 	/// </summary>
-	public partial class UserAccountQuery1 : System.Web.UI.Page
+	public partial class UserAccountQuery1 : PageBase
 	{
-		
-		protected System.Web.UI.WebControls.TextBox TextBox1;
-		protected System.Web.UI.HtmlControls.HtmlTable Table1;
-
-		//private static bool bankUpOrDown;
-		public string iFrameBank,iFramePath;
-	
+        public string dProv, dCity;
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			// 在此处放置用户代码以初始化页面
@@ -125,12 +119,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 case "DETAIL": //显示明细
                     showEdit();
-                    
-                    iFrameBank = "148";
-                    iFramePath = HttpUtility.HtmlEncode(string.Format(
-                        "UserBankAccountQuery.aspx?iprov={0}&icity={1}&state={2}&bankid={3}&trueName={4}&LastIP={5}&BankName={6}&Modify_Time={7}&Memo={8}&BankType={9}&compayname={10}&accCreate={11}",
-                        iprov, icity, state, bankid, trueName, LastIP, BankName, Modify_Time, Memo, banktype, Compayname, AccCreate));
-				         
+                    ShowDETAIL(iprov, icity, state, bankid, trueName, LastIP, BankName, Modify_Time, Memo, banktype, Compayname, AccCreate);
                     break;
                 case "CHANGE": //解冻
                     freezeCard(s_curtype,s_banktype, s_cardtail);
@@ -244,33 +233,80 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			showList();
 		}
 
-		protected void DGData_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			showEdit();
-			string iprov = DGData.SelectedItem.Cells[5].Text.Trim();
-			string icity = DGData.SelectedItem.Cells[6].Text.Trim();
-			string state  = DGData.SelectedItem.Cells[2].Text.Trim();
-			string bankid =DGData.SelectedItem.Cells[7].Text.Trim();
-			string trueName= DGData.SelectedItem.Cells[15].Text.Trim();
-			string LastIP   = DGData.SelectedItem.Cells[8].Text.Trim();
-			string BankName=DGData.SelectedItem.Cells[0].Text.Trim();
-			string Modify_Time=DGData.SelectedItem.Cells[12].Text.Trim();
-			Session["QQID"] = this.TextBox1_QQID.Text.Trim(); 
-			string Memo= DGData.SelectedItem.Cells[10].Text.Trim().Replace("&nbsp;","");
-            string banktype = Transfer.convertbankType(DGData.SelectedItem.Cells[9].Text.Trim());
-			string Compayname =  DGData.SelectedItem.Cells[16].Text.Trim().Replace("&nbsp;","");;
-			string AccCreate=DGData.SelectedItem.Cells[11].Text.Trim();
-		
-			iFrameBank = "148";
-            iFramePath = HttpUtility.HtmlEncode(string.Format(
-                        "UserBankAccountQuery.aspx?iprov={0}&icity={1}&state={2}&bankid={3}&trueName={4}&LastIP={5}&BankName={6}&Modify_Time={7}&Memo={8}&BankType={9}&compayname={10}&accCreate={11}",
-                        iprov, icity, state, bankid, trueName, LastIP, BankName, Modify_Time, Memo, banktype, Compayname, AccCreate));
-		}
-
 		protected void btBack_Click(object sender, System.EventArgs e)
 		{
 			showList();
 			//			Response.Redirect("./UserBankInfoQuery.aspx");
 		}
+
+        protected void lkb_acc_Click(object sender, System.EventArgs e)
+        {
+            if (Label1_State.Text.Trim() == "正常")
+            {
+
+                Response.Write("<script language=javascript>window.parent.location='freezeBankAcc.aspx?id=true&uid=" + this.Label3_QQID.Text.Trim() + "'</script>");
+            }
+            else if (Label1_State.Text.Trim() == "冻结")
+            {
+                Response.Write("<script language=javascript>window.parent.location='freezeBankAcc.aspx?id=false&uid=" + this.Label3_QQID.Text.Trim() + "'</script>");
+            }
+
+        }
+
+        protected void ShowDETAIL(string iprov, string icity, string state, string bankid, string trueName, string LastIP, 
+            string BankName, string Modify_Time, string Memo, string banktype, string Compayname, string AccCreate)
+        {
+            try
+            {
+                Session["uid"].ToString();
+            }
+            catch
+            {
+                WebUtils.ShowMessage(this.Page, "超时，请重新登陆。");
+            }
+
+            try
+            {
+                dProv = iprov;
+                dCity = icity;
+                this.Label1_State.Text = state;
+                this.Label2_BankID.Text = bankid;
+                this.Label4_TrueName.Text = trueName;
+                this.Label6_LastIP.Text = LastIP;
+                this.Label8_BankName.Text = BankName;
+                this.Label11_Modify_Time.Text = Modify_Time;
+                this.Label12_Memo.Text = Memo;
+                this.Label13_BankType.Text = banktype;
+                this.lbCompay.Text = Compayname;
+                this.lbAccCreate.Text = AccCreate;
+                
+                if (Label1_State.Text.Trim() == "正常")
+                {
+                    this.lkb_acc.Text = "冻结";  //如果帐户为正常，可以进行冻结操作
+                }
+                else if (Label1_State.Text.Trim() == "冻结")
+                {
+                    this.lkb_acc.Text = "解冻";   //如果帐户为冻结，则可以进行解冻操作
+                }
+                this.Label3_QQID.Text = Session["QQID"].ToString().Trim();
+            }
+            catch
+            {
+
+                WebUtils.ShowMessage(this.Page, "数据库无记录！");
+
+                this.Label1_State.Text = "";
+                this.Label2_BankID.Text = "";
+                this.Label3_QQID.Text = "";
+                this.Label4_TrueName.Text = "";
+
+                this.Label6_LastIP.Text = "";
+                this.Label8_BankName.Text = "";
+
+                this.Label11_Modify_Time.Text = "";
+                this.Label12_Memo.Text = "";
+                this.Label13_BankType.Text = "";
+            }
+        }
 	}
 }
