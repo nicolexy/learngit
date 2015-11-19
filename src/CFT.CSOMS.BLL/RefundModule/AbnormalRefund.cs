@@ -148,11 +148,42 @@ namespace CFT.CSOMS.BLL.RefundModule
             return -1;
 
         }
-        public DataSet RequestRefundData(string strUid, string strBank, string strFSPID, string strBeginDate, string strEndDate, int iCheck, int iTrade,string strOldID,string strOperater,string strMin,string strMax) 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strUid"></param>
+        /// <param name="strBank"></param>
+        /// <param name="strFSPID"></param>
+        /// <param name="strBeginDate"></param>
+        /// <param name="strEndDate"></param>
+        /// <param name="iCheck"></param>
+        /// <param name="iTrade"></param>
+        /// <param name="strOldID"></param>
+        /// <param name="strOperater"></param>
+        /// <param name="strMin"></param>
+        /// <param name="strMax"></param>
+        /// <param name="payScene">支付场景 0:全部 1:微信 2:非微信</param>
+        /// <param name="payChannel">支付渠道 0:全部 1:快捷 2:非快捷</param>
+        /// <returns></returns>
+        public DataSet RequestRefundData(string strUid, string strBank, string strFSPID, string strBeginDate, string strEndDate, int iCheck, int iTrade, string strOldID, string strOperater, string strMin, string strMax, int payScene,int payChannel) 
         {
             try
             {
-                return new AbnormalRefundData().RequestRefundData(strUid, strBank, strFSPID, strBeginDate, strEndDate, iCheck, iTrade, strOldID, strOperater, strMin, strMax);
+                var quickPayChannel = new Tuple<int, List<string>>(payChannel, new List<string>());
+                if (payChannel != 0)
+                {
+                    var quickPayDic = CFT.CSOMS.BLL.TransferMeaning.Transfer.GetAllValueByType("BANK_TYPE");
+                    foreach (DictionaryEntry item in quickPayDic)
+                    {
+                        if (((string)item.Value).Contains("快捷"))    //查找出所有的 快捷银行类型
+                        {
+                            quickPayChannel.Item2.Add(item.Key as string);
+                        }
+                    }
+                }
+
+                return new AbnormalRefundData().RequestRefundData(strUid, strBank, strFSPID, strBeginDate, strEndDate, iCheck, iTrade, strOldID, strOperater, strMin, strMax, payScene, quickPayChannel);
             }
             catch (Exception ex)
             {
@@ -169,7 +200,7 @@ namespace CFT.CSOMS.BLL.RefundModule
 
         public bool UpdateRefundData(string[] strOldId, string strIdentity, string strBankAccNoOld, string strUserEmail, string strNewBankAccNo, string strBankUserName,
             string strReason, string strImgCommitment, string strImgIdentity, string strImgBankWater, string strImgCancellation, string strBankName, string strOperater, int nInitBankID, int nNewBankID,
-            int nUserFalg, int nCardType, int nState, out string outMsg)
+            int? nUserFalg, int? nCardType, int nState, out string outMsg)
         {
             try
             {

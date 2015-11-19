@@ -129,6 +129,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             int iCheck = int.Parse(checkStateListID.SelectedItem.Value);
             //tradeListID.SelectedValue == tradeListID.SelectedItem.Value
             int iTrade = int.Parse(tradeListID.SelectedItem.Value);
+            int payScene = int.Parse(ddDoneID.SelectedValue);
+            int payChannel = int.Parse(ddPayID.SelectedValue);
 
             if (string.IsNullOrEmpty(strUid)        &&
                 string.IsNullOrEmpty(strBank)       &&
@@ -146,13 +148,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 return;
             }
 
-            DataSet ds = new RefundService().RequestRefundData(strUid, strBank, strFSPID, strBeginDate, strEndDate, iCheck, iTrade,strOldID,strOperater,strMin,strMax);
+            DataSet ds = new RefundService().RequestRefundData(strUid, strBank, strFSPID, strBeginDate, strEndDate, iCheck, iTrade, strOldID, strOperater, strMin, strMax, payScene,payChannel);
+            lb_RefundCountAll.Text="0";
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 ds.Tables[0].Columns.Add("FstateEx", typeof(System.String));
                 ds.Tables[0].Columns.Add("FbankTypeName", typeof(System.String));
                 ds.Tables[0].Columns.Add("FAmtEx", typeof(System.String));  //交易金额转元
                 ds.Tables[0].Columns.Add("FReturnAmtEx", typeof(System.String));//退款金额转元
+                ds.Tables[0].Columns.Add("TotalDB_Fstate_str", typeof(System.String));
+
+                var dic = new Dictionary<int, string>()
+                {
+                    { 0, "初始状态" },
+                    { 1, "退单流程中" },
+                    { 2, "退单成功" },
+                    { 3, "退单失败" },
+                    { 4, "退单状态未定" },
+                    { 5, "手工退单中" },
+                    { 6, "申请手工处理" },
+                    { 7, "申请转入代发" },
+                    { 8, "挂异常处理中" },
+                };
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     dr["FstateEx"] = m_nCheckState[int.Parse(dr["Fstate"].ToString())];
@@ -164,10 +181,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     {
                         dr["FbankTypeName"] = Transfer.convertbankType(dr["FBuyBanktype"].ToString());
                     }
+                    dr["TotalDB_Fstate_str"] = dic.ContainsKey((short)dr["TotalDB_Fstate"]) ? dic[(short)dr["TotalDB_Fstate"]] : "其他";
+
                     dr["FAmtEx"] = RefundPublicFun.FenToYuan(dr["FAmt"].ToString());
                     dr["FReturnAmtEx"] = RefundPublicFun.FenToYuan(dr["FReturnAmt"].ToString());
                 }
-
+                lb_RefundCountAll.Text = ds.Tables[0].Rows.Count.ToString();
                 if (bState)
                 {
                     StringWriter sw = new StringWriter();
@@ -176,14 +195,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     {
                         excelHeader += "\t" + gridInfor.Columns[i].HeaderText;
                     }
+                    excelHeader += "\t商户号\t买家财付通账号\t手机号";
                     sw.WriteLine(excelHeader);
 
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        sw.WriteLine("=\"" + dr["FpayListid"].ToString() + "\"\t=\"" + dr["FReturnstate"].ToString() + "\"\t=\"" + dr["FAmtEx"]
-                            + "\"\t" + dr["FReturnAmtEx"] + "\t=\"" + dr["FcreateTime"] + "\"\t=\""
-                            + dr["FUserEmail"] + "\"\t=\"" + dr["FbankListid"] + "\"\t=\"" +
-                            dr["FstateEx"] + "\"\t=\"" + dr["FbankTypeName"] + "\"");
+                        sw.WriteLine(
+                            "=\"" + dr["FpayListid"].ToString() + 
+                            "\"\t=\"" + dr["FReturnstate"].ToString() + 
+                            "\"\t=\"" + dr["FAmtEx"] + 
+                            "\"\t" + dr["FReturnAmtEx"] + 
+                            "\t=\"" + dr["FcreateTime"] + 
+                            "\"\t=\"" + dr["FUserEmail"] + 
+                            "\"\t=\"" + dr["FbankListid"] + 
+                            "\"\t=\"" + dr["FstateEx"] +
+                            "\"\t=\"" + dr["TotalDB_Fstate_str"] +
+                            "\"\t=\"" + dr["FbankTypeName"] +
+                            "\"\t=\"" + dr["FSPID"] +
+                            "\"\t=\"" + dr["fbuyid"] +
+                            "\"\t=\"" + dr["FUserTEL"] + 
+                            "\""
+                            );
 
                     }
                     sw.Close();

@@ -139,13 +139,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage {
         protected global::System.Web.UI.WebControls.Label lbInitBank;
         
         /// <summary>
-        /// lbReason control.
+        /// txt_Reason control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbReason;
+        protected global::System.Web.UI.WebControls.TextBox txt_Reason;
+        
+        /// <summary>
+        /// Button1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button1;
         
         /// <summary>
         /// lPhone control.
@@ -254,24 +263,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCW;
-        
-        /// <summary>
-        /// btnInvalid control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnInvalid;
-        
-        /// <summary>
-        /// btnInitID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnInitID;
         
         /// <summary>
         /// kfOperator control.
