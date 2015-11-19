@@ -166,9 +166,14 @@
 						</asp:datagrid></TD>
 				</TR>
 				<TR>
-					<TD height="25"><webdiyer:aspnetpager id="pager" runat="server" NumericButtonTextFormatString="[{0}]" SubmitButtonText="转到" PageSize="10"
-							OnPageChanged="ChangePage" HorizontalAlign="right" CssClass="mypager" ShowInputBox="always" PagingButtonSpacing="0"
-							ShowCustomInfoSection="left" NumericButtonCount="5" AlwaysShow="True"></webdiyer:aspnetpager></TD>
+					<TD height="25">
+                        <div style="position:relative;">
+                            <span style="color:red;position:absolute;right:250px">共计:<span id="lb_conut" runat="server">0</span></span>
+                            <webdiyer:aspnetpager id="pager" runat="server" NumericButtonTextFormatString="[{0}]" SubmitButtonText="转到" PageSize="10"
+							    OnPageChanged="ChangePage" HorizontalAlign="right" CssClass="mypager" ShowInputBox="always" PagingButtonSpacing="0"
+							    ShowCustomInfoSection="left" NumericButtonCount="5" AlwaysShow="True"></webdiyer:aspnetpager>
+                        </div>
+					</TD>
 				</TR>
                 <TR>
                 <td height="40px">

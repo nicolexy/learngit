@@ -45,7 +45,7 @@ namespace CFT.CSOMS.BLL.RefundModule
             SubTypePay.Add("53", "财付通主站普通提现");
             // SubTypePay.Add("54", "财付通主站快速提现");
             SubTypePay.Add("55", "财付通主站实时提现");
-            SubTypePay.Add("56", "财付通想银行卡付款");
+            SubTypePay.Add("56", "财付通向银行卡付款");
             SubTypePay.Add("58", "QQ钱包提现）");
 
 
@@ -360,7 +360,7 @@ namespace CFT.CSOMS.BLL.RefundModule
 
         public DataSet QueryPaymenAbnormal(string sTime,string eTime, string batchID, string packageID,
             string listid, string type, string subTypePay, string notityStatus, string notityResult, string bankType, string errorType,
-            string accType, int start, int max)
+            string accType, int start, int max,ref int count)
         {
             if (string.IsNullOrEmpty(sTime) || string.IsNullOrEmpty(eTime))
             {
@@ -382,7 +382,7 @@ namespace CFT.CSOMS.BLL.RefundModule
             }
 
            DataSet ds=  new AbnormalRefundData().QueryPaymenAbnormal(sTime,eTime, batchID, packageID,
-                listid, type,product, business_type, notityStatus,  notityResult,bankType, errorType,accType, start, max);
+                listid, type, product, business_type, notityStatus, notityResult, bankType, errorType, accType, start, max, ref count);
            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
            {
                ds.Tables[0].Columns.Add("Ftype_str", typeof(String));
