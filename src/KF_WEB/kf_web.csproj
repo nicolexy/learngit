@@ -902,6 +902,13 @@
     <Compile Include="Control\commonDataSet.ascx.designer.cs">
       <DependentUpon>commonDataSet.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Control\HKWalletPay.ascx.cs">
+      <DependentUpon>HKWalletPay.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Control\HKWalletPay.ascx.designer.cs">
+      <DependentUpon>HKWalletPay.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Control\HandQBusiness.ascx.cs">
       <DependentUpon>HandQBusiness.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3094,6 +3101,7 @@
     <Content Include="Control\commonDataSet.ascx">
       <SubType>UserControl</SubType>
     </Content>
+    <Content Include="Control\HKWalletPay.ascx" />
     <Content Include="Control\HandQBusiness.ascx" />
     <Content Include="Control\AccountOperateControl.ascx">
       <SubType>UserControl</SubType>
@@ -5056,11 +5064,12 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>18923</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl></IISUrl>
+          <IISUrl>
+          </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

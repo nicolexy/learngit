@@ -353,6 +353,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 HandQBusiness.AddSubMenu("手Q红包查询", "HandQBusiness/FindHandQRedPacket.aspx");
                 HandQBusiness.AddSubMenu("手Q还款查询", "HandQBusiness/RefundHandQQuery.aspx");
 
+                //HK钱包支付
+                HKWalletPay.AddSubMenu("帐号查询", "ForeignCurrencyPay/FCXGAccountQuery.aspx");
+                HKWalletPay.AddSubMenu("绑卡查询", "ForeignCurrencyPay/FCXGBindCardQuery.aspx");
+                HKWalletPay.AddSubMenu("账户资金和流水查询", "ForeignCurrencyPay/FCXGMoneyAndFlow.aspx");
+                HKWalletPay.AddSubMenu("订单查询", "ForeignCurrencyPay/FCXGOrderQuery.aspx");
+                HKWalletPay.AddSubMenu("冻结解冻查询", "BaseAccount/FCXGFreezeLog.aspx");
+                HKWalletPay.AddSubMenu("商户查询", "ForeignCurrencyPay/FCXGSPQuery.aspx");
+
                 //活动合作
                 ActivityCooperation1.AddSubMenu("打折密码", "NewQueryInfoPages/QueryDiscountCode.aspx");
                 ActivityCooperation1.AddSubMenu("用户参加的活动", "NewQueryInfoPages/QueryUserJoinActivity.aspx");
@@ -538,12 +546,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             accountOperate1.AddSubMenu("帐户QQ修改", "BaseAccount/ChangeQQOld.aspx");
             accountOperate1.AddSubMenu("提现单拦截", "BaseAccount/FetchListIntercept.aspx");
 
-            ForeignCurrencyPay1.AddSubMenu("外币帐号查询", "ForeignCurrencyPay/FCXGAccountQuery.aspx");
-            ForeignCurrencyPay1.AddSubMenu("绑卡查询", "ForeignCurrencyPay/FCXGBindCardQuery.aspx");
-            ForeignCurrencyPay1.AddSubMenu("账户资金和流水查询", "ForeignCurrencyPay/FCXGMoneyAndFlow.aspx");
-            ForeignCurrencyPay1.AddSubMenu("订单查询(新)", "ForeignCurrencyPay/FCXGOrderQuery.aspx");
-            ForeignCurrencyPay1.AddSubMenu("香港钱包冻结操作查询", "BaseAccount/FCXGFreezeLog.aspx");
-            ForeignCurrencyPay1.AddSubMenu("外币商户查询", "ForeignCurrencyPay/FCXGSPQuery.aspx");
             ForeignCurrencyPay1.AddSubMenu("订单查询", "ForeignCurrencyPay/FCOrderQuery.aspx");
             ForeignCurrencyPay1.AddSubMenu("退款查询", "ForeignCurrencyPay/FCRefundQuery.aspx");
             ForeignCurrencyPay1.AddSubMenu("拒付查询", "ForeignCurrencyPay/FCRefusePayQuery.aspx");

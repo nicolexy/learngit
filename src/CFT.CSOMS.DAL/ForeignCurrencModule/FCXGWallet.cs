@@ -245,6 +245,27 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
             }
         }
 
+
+
+        /// <summary>
+        ///  通过银行订单号查询卡信息
+        /// </summary>
+        /// <param name="bank_type">银行类型</param>
+        /// <param name="bill_no">银行订单号</param>
+        /// <returns></returns>
+        public DataTable QueryCardType(string bank_type, string bill_no)
+        {
+            try
+            {
+                var req = "bank_type=" + bank_type + "&bill_no=" + bill_no + "&biz_type=10100";
+                var result = RelayAccessFactory.RelayInvoke(req, "101610", true, false, ip, port, "utf-8");
+                return ParseRelayOneRow(result, "通过银行订单号查询卡信息");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("通过银行卡号出错:" + ex.Message);
+            }
+        }
         #endregion
 
         #region 四、账户资金和流水查询（新增）
