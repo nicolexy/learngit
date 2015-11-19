@@ -142,7 +142,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 return;
             }
             string wxUIN = "";
-            string wxHBUIN = "";
+            //string wxHBUIN = "";
             if (string.IsNullOrEmpty(TextBox1_QQID.Text))
             {
                 if (TextBox2_WX.Text != txbConfirmQ.Text)
@@ -153,7 +153,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 }
                 wxFlag = 1;
                 wxUIN = WeChatHelper.GetUINFromWeChatName(wxid);
-                wxHBUIN = WeChatHelper.GetHBUINFromWeChatName(wxid);
+                //wxHBUIN = WeChatHelper.GetHBUINFromWeChatName(wxid);
                 qqid = wxUIN;
             }
             else if (TextBox1_QQID.Text != txbConfirmQ.Text)
@@ -221,6 +221,42 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     WebUtils.ShowMessage(this.Page, "备注字数不得超过255个字符");
                     return;
                 }
+
+                var BalanceInfo = ViewState["BalanceInfo"] as Tuple<string, long>;
+                ViewState["BalanceInfo"] = null;
+                long balance = 0;//就是金额
+                if (BalanceInfo == null || BalanceInfo.Item1 != fqqid)
+                {
+                    //下面的流程
+                    // 1:判断金额大于阀值,发起一个审批
+                    //2:金额小于时,插入logonhistory表,调用接口注销,如果有邮箱,向邮箱发送邮件,反馈信息给一线人员.
+
+                    DataSet ds1 = qs.GetChildrenInfo(fqqid, "1");//主帐户余额
+                    if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
+                    {
+                        balance += long.Parse(ds1.Tables[0].Rows[0]["Fbalance"].ToString().Trim());
+                    }
+                    ds1 = qs.GetChildrenInfo(fqqid, "80");//游戏子帐户
+                    if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
+                    {
+                        balance += long.Parse(ds1.Tables[0].Rows[0]["Fbalance"].ToString().Trim());
+                    }
+                    ds1 = qs.GetChildrenInfo(fqqid, "82");//直通车子帐户
+                    if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
+                    {
+                        balance += long.Parse(ds1.Tables[0].Rows[0]["Fbalance"].ToString().Trim());
+                    }
+                    ViewState["BalanceInfo"] = BalanceInfo = new Tuple<string, long>(fqqid, balance);
+
+                    var yuan = MoneyTransfer.FenToYuan(balance);
+                    Response.Write("<script type='text/javascript'>window.onload=function(){ confirm(' 该账户余额：" + yuan + "元 \\r\\n 一旦注销成功无法恢复，请确认是否继续注销？') && document.getElementById('btLogOn').click();}</script>");
+                    return;
+                }
+                else
+                {
+                    balance = BalanceInfo.Item2;
+                }
+
                 //手Q用户转账中、退款中、未完成的订单禁止注销和批量注销
                 if (Regex.IsMatch(qqid, @"^[1-9]\d*$"))
                 {
@@ -319,28 +355,6 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     WebUtils.ShowMessage(this.Page, "开通了一点通");
                     return;
                 }
-
-                //下面的流程
-               // 1:判断金额大于阀值,发起一个审批
-               //2:金额小于时,插入logonhistory表,调用接口注销,如果有邮箱,向邮箱发送邮件,反馈信息给一线人员.
-
-				long balance=0;//就是金额
-				
-				DataSet ds1 = qs.GetChildrenInfo(fqqid,"1");//主帐户余额
-				if(ds1!=null && ds1.Tables.Count>0 && ds1.Tables[0].Rows.Count>0)
-				{
-					balance+=long.Parse(ds1.Tables[0].Rows[0]["Fbalance"].ToString().Trim());
-				}
-				ds1 = qs.GetChildrenInfo(fqqid,"80");//游戏子帐户
-				if(ds1!=null && ds1.Tables.Count>0 && ds1.Tables[0].Rows.Count>0)
-				{
-					balance+=long.Parse(ds1.Tables[0].Rows[0]["Fbalance"].ToString().Trim());
-				}
-				ds1 = qs.GetChildrenInfo(fqqid,"82");//直通车子帐户
-				if(ds1!=null && ds1.Tables.Count>0 && ds1.Tables[0].Rows.Count>0)
-				{
-					balance+=long.Parse(ds1.Tables[0].Rows[0]["Fbalance"].ToString().Trim());
-				}
 
                 //这部分逻辑先注释掉：
                 //当用户没有关于余额支付的功能时（没有打开也没有关闭时）zw_prodatt_query_service返回错误
