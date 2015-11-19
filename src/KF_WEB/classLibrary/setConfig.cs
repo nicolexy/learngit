@@ -255,21 +255,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 		//存在溢出问题
 		public static string FenToYuan(string fen)
 		{
-			//			if (fen == "")
-			//			{
-			//				fen = "0";
-			//			}
-			//			
-			//			//float yuan = (float)(Int64.Parse(fen))/100;
-			//			double yuan = (double)(Int64.Parse(fen))/100;
-			//			yuan = Math.Round(yuan,2);
-			//
-			//			string tmp = yuan.ToString();
-			//			int iindex = tmp.IndexOf(".");
-			//			if(iindex == -1) tmp += ".00";
-			//			if(iindex == tmp.Length - 2) tmp += "0";
-			//			return tmp + "元";
-
 			//rayguo 06.04.16 支持粗体的分元转换
 			bool strong = false;
 			if (fen.IndexOf("<B>") !=-1 || fen.IndexOf("<b>") !=-1)
@@ -418,31 +403,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			ar[0] = "Fmemo";
 			ar[1] = "Fvalue";
 
-			/*
-			string strCmd = "SELECT Fvalue,Fmemo FROM c2c_db.t_dic where Ftype ='" + type + "'";  //查询数据字典
-			
-			//MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ywb_V30"));
-			MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZLB"));
-			try
-			{
-				da.OpenConn();
-				al = da.drReturn(strCmd,ar);
-			}
-			catch (Exception e)
-			{
-				throw new Exception(e.Message.ToString());
-			}
-			finally
-			{
-				da.Dispose();
-			}
-			
-			foreach(ArrayList pal in al)
-			{
-				ddl.Items.Add(new ListItem(pal[0].ToString(),pal[1].ToString()));
-			}
-			*/
-
 			string Msg = "";
 			DataSet ds =  QueryDicInfoByType(type,out Msg);
 
@@ -535,101 +495,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 
 		public static string GetDicValue(string atype, string avalue)
 		{
-			/*
-			string strCmd = "SELECT Fmemo FROM c2c_db.t_dic where Ftype ='" + atype + "' and FValue='" + avalue + "'";  //查询数据字典
-			
-			//MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ywb_V30"));
-			MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZLB"));
-			try
-			{
-				da.OpenConn();
-				string tmp = da.GetOneResult(strCmd);
-				return tmp;
-			}
-			catch (Exception)
-			{
-				throw new Exception("在数据字典中找不到指定的值！");
-			}
-			finally
-			{
-				da.Dispose();
-			}
-			*/
-
 			string Msg;
 			string strSql = "type=" + atype + "&value=" + avalue;	
 			string temp = CommQuery.GetOneResultFromICE(strSql,CommQuery.QUERY_DIC,"Fmemo",out Msg);
 
 			return temp;
 		}
-		//检查权限
-		//		public static void checkPromission(string id)
-		//		{
-		//			try
-		//			{
-		//				string uid = Session["uid"].ToString();
-		//				string pwd = Session["pwd"].ToString();
-		//
-		//				PublicRes.CheckUserRight(uid,pwd,id);
-		//			}
-		//			catch  //如果没有登陆或者没有权限就跳出
-		//			{
-		//				Response.Redirect("../login.aspx?wh=1");
-		//			}
-		//		}
 
-		//**********************************************************************************************
-		//  一下为数据字典的转换函数
-		//**********************************************************************************************
-
-
-		//		public static void returnDicStr1(string type,string sType)
-		//		{
-		//			ArrayList al = queryDic(type);
-		//
-		//			foreach(ArrayList p in al)
-		//			{
-		//				string ptype = p[1].ToString().Trim();
-		//				string pmemo = p[0].ToString().Trim();
-		//			}
-		//		}
 		//获取数据字典
 		public static void queryDic(string type)
 		{
-			/*
-			ArrayList al;
-			string [] ar = new string[2];
-			Hashtable ht = new Hashtable();
-			ar[0] = "Fmemo";
-			ar[1] = "Fvalue";
-
-			string strCmd = "SELECT Fvalue,Fmemo FROM c2c_db.t_dic where Ftype ='" + type + "' order by FValue";  //查询数据字典
-			
-			//MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ywb_V30"));
-			MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZLB"));
-			try
-			{
-				da.OpenConn();
-				al = da.drReturn(strCmd,ar);
-				Hashtable myht = new Hashtable();
-
-				foreach(ArrayList p in al)
-				{
-					myht.Add(p[1].ToString(),p[0].ToString());
-				}
-
-				HttpContext.Current.Application[type] = myht;
-			}
-			catch (Exception e)
-			{
-				throw new Exception(e.Message.ToString());
-			}
-			finally
-			{
-				da.Dispose();
-			}
-			*/
-
 			string Msg;
 			DataSet ds =  QueryDicInfoByType(type,out Msg);
 

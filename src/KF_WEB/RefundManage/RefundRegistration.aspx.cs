@@ -56,11 +56,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 this.operaterName.Text = Session["uid"].ToString();
                 if (!IsPostBack)
                 {
- 
-                   // ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-                    //ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
-                    //textBoxBeginDate.Text = DateTime.Now.AddMonths(-3).ToString("yyyy年MM月dd日");
-                    //textBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
 
                     if (Session["uid"].ToString() == RefundPublicFun.OPERATOR.Trim())
                     {
@@ -129,6 +124,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             int iCheck = int.Parse(checkStateListID.SelectedItem.Value);
             //tradeListID.SelectedValue == tradeListID.SelectedItem.Value
             int iTrade = int.Parse(tradeListID.SelectedItem.Value);
+            int payScene = int.Parse(ddDoneID.SelectedValue);
+            int payChannel = int.Parse(ddPayID.SelectedValue);
 
             if (string.IsNullOrEmpty(strUid)        &&
                 string.IsNullOrEmpty(strBank)       &&
@@ -146,13 +143,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 return;
             }
 
-            DataSet ds = new RefundService().RequestRefundData(strUid, strBank, strFSPID, strBeginDate, strEndDate, iCheck, iTrade,strOldID,strOperater,strMin,strMax);
+            DataSet ds = new RefundService().RequestRefundData(strUid, strBank, strFSPID, strBeginDate, strEndDate, iCheck, iTrade, strOldID, strOperater, strMin, strMax, payScene,payChannel);
+            lb_RefundCountAll.Text="0";
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 ds.Tables[0].Columns.Add("FstateEx", typeof(System.String));
                 ds.Tables[0].Columns.Add("FbankTypeName", typeof(System.String));
                 ds.Tables[0].Columns.Add("FAmtEx", typeof(System.String));  //交易金额转元
                 ds.Tables[0].Columns.Add("FReturnAmtEx", typeof(System.String));//退款金额转元
+                ds.Tables[0].Columns.Add("TotalDB_Fstate_str", typeof(System.String));
+
+                var dic = new Dictionary<int, string>()
+                {
+                    { 0, "初始状态" },
+                    { 1, "退单流程中" },
+                    { 2, "退单成功" },
+                    { 3, "退单失败" },
+                    { 4, "退单状态未定" },
+                    { 5, "手工退单中" },
+                    { 6, "申请手工处理" },
+                    { 7, "申请转入代发" },
+                    { 8, "挂异常处理中" },
+                };
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     dr["FstateEx"] = m_nCheckState[int.Parse(dr["Fstate"].ToString())];
@@ -164,10 +176,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     {
                         dr["FbankTypeName"] = Transfer.convertbankType(dr["FBuyBanktype"].ToString());
                     }
+                    dr["TotalDB_Fstate_str"] = dic.ContainsKey((short)dr["TotalDB_Fstate"]) ? dic[(short)dr["TotalDB_Fstate"]] : "其他";
+
                     dr["FAmtEx"] = RefundPublicFun.FenToYuan(dr["FAmt"].ToString());
                     dr["FReturnAmtEx"] = RefundPublicFun.FenToYuan(dr["FReturnAmt"].ToString());
                 }
-
+                lb_RefundCountAll.Text = ds.Tables[0].Rows.Count.ToString();
                 if (bState)
                 {
                     StringWriter sw = new StringWriter();
@@ -176,14 +190,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     {
                         excelHeader += "\t" + gridInfor.Columns[i].HeaderText;
                     }
+                    excelHeader += "\t商户号\t买家财付通账号\t手机号";
                     sw.WriteLine(excelHeader);
 
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        sw.WriteLine("=\"" + dr["FpayListid"].ToString() + "\"\t=\"" + dr["FReturnstate"].ToString() + "\"\t=\"" + dr["FAmtEx"]
-                            + "\"\t" + dr["FReturnAmtEx"] + "\t=\"" + dr["FcreateTime"] + "\"\t=\""
-                            + dr["FUserEmail"] + "\"\t=\"" + dr["FbankListid"] + "\"\t=\"" +
-                            dr["FstateEx"] + "\"\t=\"" + dr["FbankTypeName"] + "\"");
+                        sw.WriteLine(
+                            "=\"" + dr["FpayListid"].ToString() + 
+                            "\"\t=\"" + dr["FReturnstate"].ToString() + 
+                            "\"\t=\"" + dr["FAmtEx"] + 
+                            "\"\t" + dr["FReturnAmtEx"] + 
+                            "\t=\"" + dr["FcreateTime"] + 
+                            "\"\t=\"" + dr["FUserEmail"] + 
+                            "\"\t=\"" + dr["FbankListid"] + 
+                            "\"\t=\"" + dr["FstateEx"] +
+                            "\"\t=\"" + dr["TotalDB_Fstate_str"] +
+                            "\"\t=\"" + dr["FbankTypeName"] +
+                            "\"\t=\"" + dr["FSPID"] +
+                            "\"\t=\"" + dr["fbuyid"] +
+                            "\"\t=\"" + dr["FUserTEL"] + 
+                            "\""
+                            );
 
                     }
                     sw.Close();
@@ -267,17 +294,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     strOldId += gridInfor.DataKeys[i].Values["FoldId"].ToString();
                     strCreateTime += gridInfor.DataKeys[i].Values["FcreateTime"].ToString();
 
-
-
-                    /*
-                     asp.net中打开新窗口的多种方法(转载)
-                    1.Response.Redirect("XXX.aspx",true)——直接转向新的页面，原窗口被代替;
-                    2. Response.Write("<script>window.open(XXX.aspx','_blank')</script>")——原窗口保留，另外新增一个新页面;
-                    3.Response.Write("<script>window.location=XXX.aspx'</script>")——打开新的页面，原窗口被代替;
-                    4.Server.Transfer("XXX.aspx")——打开新的页面;
-                    5.Response.Write("<script>window.showModelessDialog(XXX.aspx')</script>")——原窗口保留，以对话框形式打开新                   
-                    */
-
                 }
             }
             Response.Write("<script>window.open('AddInformation.aspx?uinID=" + strUinID + "&refundType=" + strRefundType + "&bankListId=" + strPayListid + "&oldId=" + strOldId +"&time=" + strCreateTime + "','_blank')</script>");
@@ -298,54 +314,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
         }
         protected void OnCheckBox_CheckedSelect(object sender, System.EventArgs e)
         {
-            /*
-            Button btn = (Button)form1.FindControl("btnInputID");
-            if (btn == null)
-            {
-                return;
-            }
-            btn.Enabled = false;
-            CheckBox curCheckBox = (CheckBox)sender;
-            DataControlFieldCell curCel = (DataControlFieldCell)curCheckBox.Parent;      
-            GridViewRow curRow = (GridViewRow)curCel.Parent;
-            if (curRow == null)
-            {
-                return;
-            }
-            if (!curCheckBox.Checked)
-            {
-                curRow.BackColor = gridInfor.RowStyle.BackColor;
-                return;
-            }
-            curRow.BackColor = System.Drawing.Color.Green;
-            for (int i = 0; i < gridInfor.Rows.Count; i++)
-            {
-                CheckBox cb = (CheckBox)gridInfor.Rows[i].FindControl("checkbox");
-                if (cb.ClientID != curCheckBox.ClientID)
-                {
-                    cb.Checked = false;
-                    DataControlFieldCell cel = (DataControlFieldCell)cb.Parent;
-                    GridViewRow row = (GridViewRow)cel.Parent;
-                    row.BackColor = gridInfor.RowStyle.BackColor;
-                }
-                else
-                {
-                    //仅当等待客服处理、已通知用户的状态下允许提交资料
-                    string strText = gridInfor.Rows[i].Cells[7].Text;
-                    if (strText == m_nCheckState[0] || strText == m_nCheckState[1])
-                    {
-                        btn.Enabled = true;
-                    }
-                }
-            }*/
+          
            
         }
         //通知
         protected void OnBtnClickNotice_Click(object sender, System.EventArgs e)
         {
-            //string strParam = ((Button)sender).CommandArgument.ToString();  
-            //Response.Redirect("NoticeUserByEmail.aspx");
-            //FpayListid
+           
             string strParam = ((Button)sender).CommandArgument.ToString();
             string[] arrParam = strParam.Split(',');
             Response.Write("<script>window.open('NoticeUserByEmail.aspx?truename=" + arrParam[0]+"&paybanklist="+arrParam[1] +"&oldid="+arrParam[2]+ "','_blank')</script>");
@@ -356,10 +331,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
         {
             string strParam = ((Button)sender).CommandArgument.ToString();       
             string[] arrParam = strParam.Split(',');
-            /*"FpayListid,FCardType,FbankListid,FbankName,FbankType,FcreateTime,FtrueName,FmodifyTime,FReturnAmt,FAmt,FbankAccNo,FbankTypeOld"
-            string strURL = "NoticeBankByEmail.aspx?newBankName=" +arrParam[0]+ "&newBankAccNo="+arrParam[1]+"&trueName="+arrParam[2]+"&returnDate="+arrParam[3]
-                + "&bankType=" + arrParam[4] + "&createTime=" + arrParam[5] + "&bankListID=" + arrParam[6] + "&returnAmt=" + arrParam[7] + "&amt=" + arrParam[8];
-            Response.Redirect(strURL);*/
+            
             if (arrParam.Length < 0 || arrParam.Length > 9)
             {
                 WebUtils.ShowMessage(this.Page, "通知银行详情取参长度不对！");
@@ -381,40 +353,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 WebUtils.ShowMessage(this.Page, "特殊退款作详情取参长度不对！");
                 return;
             }
-            /*string strURL = "RefundDetails.aspx?foldId=" + arrParam[0];
-            Response.Redirect(strURL);*/
-
+         
             Response.Write("<script>window.open('RefundDetails.aspx?foldId=" + arrParam[0] + "','_blank')</script>");
 
-
         }
-        /*
-        //作废
-        protected void OnLinkBtnObsolete_Click(object sender, System.EventArgs e)
-        {
-
-            try
-            {
-                string strParam = ((LinkButton)sender).CommandArgument.ToString();
-                string[] arrParam = strParam.Split(',');
-                if (arrParam.Length < 1)
-                {
-                    WebUtils.ShowMessage(this.Page, "特殊退款作废项取参长度不对！");
-                    return;
-                }
-                if (!string.IsNullOrEmpty(arrParam[0]))
-                {
-                    new RefundService().SetRefundCheckState(7,arrParam[0]);
-                    BindData();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
-        }*/
+      
 
         protected void gridInfor_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
@@ -461,9 +404,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             {
                 btnSelID.Text = "全选";
             }
-
-
-
         }
 
         
@@ -500,39 +440,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             WebUtils.ShowMessage(this.Page, "转财务处理成功。");
         }
 
-        //OnBtnYonghua_Click
-       /*     if (!string.IsNullOrEmpty(tbActor.Text))
-            {
-                Session["uid"] = tbActor.Text;
-                RefundPublicFun.operatorName = tbActor.Text; 
-            }
-        }
-        private void showMsg(string msg)
-        {
-            Response.Write("<script language=javascript>alert('" + msg + "')</script>");
-        }
-
-       
-        protected void btnAddActor_Click(object sender, EventArgs e)
-        {
-            string strlevel = ddaddlevelid.SelectedItem.Value;
-            if (string.IsNullOrEmpty(tbuserlistid.Text))
-            {
-                showMsg("请输入设置权限的角色名");
-                return;
-            }
-            var refund = new RefundService();
-            //Session["uid"].ToString()
-            if (!refund.SetKFCheckUserInfo(tbuserlistid.Text, strlevel,"yonghualiu", 1))
-            {
-                showMsg("设置权限的角色名没有成功");
-            }
-        }
-
-        protected void btnDelActor_Click(object sender, EventArgs e)
-        {
-
-        }
-        */
+      
     }
 }

@@ -202,25 +202,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
 
 		private void DataGrid_QueryResult_ItemCommand(object source, DataGridCommandEventArgs e)
-		{
-			/*  目前未查明QUERY_BANKROLL_LISTID_2和QUERY_USER_BANKROLL_FULL查询的结果不相同的原因，所以使用另外的方法代替查询详细信息
-			Query_Service.Query_Service query = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-
-			query.Finance_HeaderValue = setConfig.setFH(Session["OperID"].ToString(),Request.UserHostAddress);
-
-			//DataSet ds = query.GetChargeInfo(this.dd_queryType.SelectedValue,e.Item.Cells[3].Text.Trim(),"","",e.Item.Cells[1].Text.Trim(),0,1);
-			
-			DataSet ds = query.GetChargeInfo(this.dd_queryType.SelectedValue,this.tbx_1.Text.Trim(),"","",e.Item.Cells[1].Text.Trim(),0,1);
-
-			if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-			{
-				WebUtils.ShowMessage(this,"查询结果为空");
-				return;
-			}
-
-			BindDetail(ds);
-			*/
-
+		{		
 			BindDetail(e.Item.ItemIndex);
 		}
 	}

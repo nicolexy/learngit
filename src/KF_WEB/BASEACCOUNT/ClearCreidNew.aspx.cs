@@ -36,9 +36,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             try
             {
                 if (string.IsNullOrEmpty(creid))
-                    throw new Exception("请输入证件号码");
-                if (creid.Length != 18)
-                    throw new Exception("请输入合法的证件号码");
+                    throw new Exception("请输入证件号码");               
             }
             catch (Exception ex)
             {
@@ -51,15 +49,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 var dt = new CertificateService().GetClearCreidLog(creid);
                 this.DataGrid1.DataSource = dt;
                 this.DataGrid1.DataBind();          
-            }
-            catch (SoapException eSoap)//捕获Soap类异常
-            {
-                this.DataGrid1.DataSource = null;
-                this.DataGrid1.DataBind();
-                string err = PublicRes.GetErrorMsg(eSoap.Message);
-                WebUtils.ShowMessage(this.Page, "调用服务出错" );     //不展示失败细节，将细节记录到日志中 darrenran
-                log4net.LogManager.GetLogger("调用服务出错" + err);
-            }
+            }           
             catch (Exception ex)
             {
                 this.DataGrid1.DataSource = null;

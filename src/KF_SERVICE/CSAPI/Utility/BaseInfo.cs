@@ -268,8 +268,6 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
         {
             [XmlElement("att_id")]
             public string Att_id { get; set; }
-            [XmlElement("att_id_str")]
-            public string Att_id_str { get; set; }
             [XmlElement("pro_att")]
             public string Fpro_att { get; set; }   
             [XmlElement("aa_uin")]          //微信AA财付通帐号

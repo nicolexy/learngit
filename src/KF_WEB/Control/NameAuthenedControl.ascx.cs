@@ -74,9 +74,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
 			menuControl.AddSubMenu("实名处理查询","BaseAccount/UserClassQuery.aspx");
 
-            //menuControl.AddSubMenu("认证状态查询",spkfurl + "cgi-bin/authen_state.cgi" 
-            //    + "?szkey=" + szkey + "&" + strsessionid + "&loginname=" + loginname
-            //    + "&ip=" + ip + "&md5=" + md5value);
 
 			menuControl.AddSubMenu("证件状态查询",spkfurl + "cgi-bin/authen_id_query.cgi" 
 				+ "?szkey=" + szkey + "&" + strsessionid + "&loginname=" + loginname
@@ -85,10 +82,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 			menuControl.AddSubMenu("认证状态查询-new","NewQueryInfoPages/QueryAuthenInfoPage.aspx");
 
 			menuControl.AddSubMenu("证件状态查询-new","NewQueryInfoPages/QueryAuthenStateInfoPage.aspx");
-
-            //menuControl.AddSubMenu("授权关系查询",spkfurl + "cgi-bin/authen_relation.cgi" 
-            //    + "?szkey=" + szkey + "&" + strsessionid + "&loginname=" + loginname
-            //    + "&ip=" + ip + "&md5=" + md5value);
 
             menuControl.AddSubMenu("免费流量查询", "NewQueryInfoPages/QueryFreeFlow.aspx");
             menuControl.AddSubMenu("微信实名认证查询", "WebchatPay/QueryWechatRealNameAuthen.aspx");

@@ -391,91 +391,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 DKManageControl1.AddSubMenu("批量文件调整", "NewQueryInfoPages/DKAdjust.aspx?querytype=fileselect");
                 //DKManageControl1.AddSubMenu("调整状态查询", "NewQueryInfoPages/DK_QueryAdjust.aspx");
             }
-            /*
-			if(classLibrary.ClassLib.ValidateRight("DrawAndApprove",this))
-			{
-				AccountOperaManage1.AddSubMenu("自助商户领单","BaseAccount/SelfQuery.aspx") ;
-				AccountOperaManage1.AddSubMenu("自助商户审核","BaseAccount/SelfQueryApprove.aspx") ;
-				AccountOperaManage1.AddSubMenu("商户申请修改资料审核","BaseAccount/DomainApprove.aspx") ;
-				AccountOperaManage1.AddSubMenu("商户营改增审核","BaseAccount/ValueAddedTaxApprove.aspx") ;
-				AccountOperaManage1.AddSubMenu("商户营改增查询","BaseAccount/ValueAddedTaxQuery.aspx") ;
-			}
-
-			if(classLibrary.ClassLib.ValidateRight("TradeLogQuery",this))
-			{
-				BankBillManage1.AddSubMenu("汇总付款数据","BaseAccount/batPay.aspx") ;
-
-				MediumTradeManage1.AddSubMenu("中介订单查询","TradeManage/OrderQuery.aspx") ;
-
-				tradeManage1.AddSubMenu("交易记录查询","TradeManage/TradeLogQuery.aspx") ;
-			}
-
-			if(classLibrary.ClassLib.ValidateRight("FundQuery",this))
-			{
-				BankBillManage1.AddSubMenu("订单实时调帐","TradeManage/RealtimeOrder.aspx") ;
-
-				tradeManage1.AddSubMenu("充值记录查询","TradeManage/FundQuery.aspx") ;
-			}
-
-			if(classLibrary.ClassLib.ValidateRight("UserBankInfoQuery",this))
-			{
-				baseAccount1.AddSubMenu("银行账号信息","BaseAccount/UserBankInfoQuery.aspx") ;
-			}
-
-			if(classLibrary.ClassLib.ValidateRight("ChangeUserInfo",this))
-			{
-				baseAccount1.AddSubMenu("个人信息","BaseAccount/ChangeUserInfo.aspx") ;
-				MicroPay1.AddSubMenu("子帐户查询","BaseAccount/ChildrenQuery.aspx");
-				MicroPay1.AddSubMenu("子帐户订单查询","BaseAccount/ChildrenOrderFromQuery.aspx");
-				MicroPay1.AddSubMenu("子帐户订单查询(新)","BaseAccount/ChildrenOrderFromQueryNew.aspx");
-                MicroPay1.AddSubMenu("历史订单查询", "BaseAccount/ChildrenHistoryOrderQuery.aspx");
-			}
-
-			if(classLibrary.ClassLib.ValidateRight("UserReport",this))
-			{
-				baseAccount1.AddSubMenu("意见投诉查询","BaseAccount/userReport.aspx") ;
-			}
-
-			if(classLibrary.ClassLib.ValidateRight("HistoryModify",this))
-			{
-				baseAccount1.AddSubMenu("信息修改历史","BaseAccount/historyModify.aspx") ;
-			}
-            */
+           
             if (classLibrary.ClassLib.ValidateRight("InfoCenter", this) || TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("DeleteCrt", this))
             {
                 RiskConManage1.AddSubMenu("个人证书管理", "Trademanage/CrtQuery.aspx");
             }
 
-            //if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("FreezeList",this))
-            //{
-            //	RiskConManage1.AddSubMenu("财付盾查询","BaseAccount/CFDQuery.aspx") ;
-            //    RiskConManage1.AddSubMenu("手机令牌", "Trademanage/MobileTokenQuery.aspx");
-            //	RiskConManage1.AddSubMenu("冻结操作查询","BaseAccount/FreezeList.aspx") ;
-            //	RiskConManage1.AddSubMenu("冻结资金记录","BaseAccount/FreezeFinQuery.aspx");
-
-            //}
-
-            //if(classLibrary.ClassLib.ValidateRight("CFTUserAppeal",this))
-            //{
-            //	SelfHelpAppealManage1.AddSubMenu("自助申诉查询","BaseAccount/CFTUserAppeal.aspx") ;
-            //}
-
+     
 
             if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("CFTUserPick", this))
             {
                 SelfHelpAppealManage1.AddSubMenu("申诉处理(新)", "BaseAccount/UserAppeal.aspx");
             }
 
-            //if(classLibrary.ClassLib.ValidateRight("CancelAccount",this))
-            //{
-            //	SelfHelpAppealManage1.AddSubMenu("帐户销户记录","BaseAccount/logOnUser.aspx") ;
-            //}
-
-            //if(classLibrary.ClassLib.ValidateRight("UpdateAccountQQ",this))
-            //{
-            //	SelfHelpAppealManage1.AddSubMenu("帐户QQ修改","BaseAccount/ChangeQQOld.aspx") ;
-            //}
-
+           
             //yinhuang处理加载菜单要验证权限问题
             //DKAdjust
             DKManageControl1.AddSubMenu("调整状态查询", "NewQueryInfoPages/DK_QueryAdjust.aspx");

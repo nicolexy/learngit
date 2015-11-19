@@ -583,15 +583,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 int max = pager.PageSize;
                 int start = max * (pageIndex - 1);
 
-                //if (string.IsNullOrEmpty(spId))
-                //   throw new Exception(string.Format("无法同时查询所有基金的流水信息，请选择指定的基金"));
-
-                //var fundInfo = FundService.GetAllFundInfo().Where(i => i.SPId == spId);
-
-                //if (fundInfo.Count() < 1)
-                //    throw new Exception(string.Format("找不到{0}对应的基金信息", spId));
-
-                //  DataTable bankRollList = fundBLLService.GetFundRollList(qqId, beginDate, endDate, curtype, start, max, redirectionType);
                 //更换成与API接口一致
                 string fund_code = ViewState["fundCode"].ToString();
                 DataTable bankRollList = fundBLLService.BindBankRollListNotChildren(qqId, curtype, beginDate, endDate, start, max, redirectionType, spId, fund_code);
@@ -760,19 +751,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             redirectionType = int.Parse(ddlDirection.SelectedItem.Value);
             memo = ddlMemo.SelectedItem.Value;
         }
-        //private void BindAllDetailData()
-        //{
-        //    try
-        //    {
-        //        BindProfitList(ViewState["tradeId"].ToString(), ViewState["fundSPId"].ToString(), beginDate, endDate);
-        //    }
-        //    catch (Exception eSys)
-        //    {
-        //        WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString());
-        //    }
-        //    BindBankRollList(ViewState["uin"].ToString(), ViewState["fundSPId"].ToString(), ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType, memo);
-        //    BindBankRollListNotChildren(ViewState["uin"].ToString(), ViewState["fundSPId"].ToString(), ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType);
-        //}
+        
 
         //查询 - 交易明细
         private void BindCloseFundRoll(string tradeId, string fundCode, DateTime beginDate, DateTime endDate, int pageIndex = 1)

@@ -182,7 +182,8 @@
                         <asp:BoundField HeaderText="邮箱地址"     DataField="FUserEmail"   ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
                         <asp:BoundField HeaderText="银行订单号"   DataField="FbankListid"  ReadOnly="True" ShowHeader="False"><HeaderStyle  Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
                         <asp:BoundField HeaderText="审批状态"     DataField="FstateEx"     ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
-                        <asp:BoundField HeaderText="银行类型"     DataField="FbankTypeName" ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >                                           
+                        <asp:BoundField HeaderText="退款状态"     DataField="TotalDB_Fstate_str"     ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
+                         <asp:BoundField HeaderText="银行类型"     DataField="FbankTypeName" ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >                                           
                              <asp:TemplateField HeaderText = "操作" >
                               <ItemTemplate>                                                           
                                         <asp:CheckBox ID="checkbox" runat="server" Text ="" OnCheckedChanged = "OnCheckBox_CheckedSelect"   AutoPostBack = "true" /> &nbsp;                                          
@@ -197,6 +198,10 @@
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
+                    <span style="float:right; right:20px;">
+                        记录总数:
+                        <asp:Label runat="server" id="lb_RefundCountAll" Text="0" />
+                    </span>
                 </td>
              </tr>
           </table>

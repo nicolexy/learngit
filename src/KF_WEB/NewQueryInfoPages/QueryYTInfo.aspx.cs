@@ -76,12 +76,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 		}
 		#endregion
 
-		/*public void ChangePage(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
-		{
-			pager.CurrentPageIndex = e.NewPageIndex;
-			BindData(e.NewPageIndex);
-		}*/
-
+	
 		private void ValidateDate()
 		{
 			DateTime begindate;

@@ -195,9 +195,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         this.txtPhone.Enabled = false;
                         this.txtMobile.Enabled = false;
                         this.txtQQNo.Enabled = false;
-                        //this.txtEmail.Enabled = false;
-                        //this.txtComAddr.Enabled = false;
-                        //this.txtPosCode.Enabled = false;
+
 
                         ViewState["KeyID"] = e.Item.Cells[0].Text;
                         ViewState["TableFlag"] = e.Item.Cells[1].Text;
@@ -343,9 +341,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             try
             {
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                //DataSet ds = qs.GetPayBusinessInfo(ViewState["KeyID"].ToString());
 
-                //DataSet ds = new SPOAService().GetSpInfo(" and ApplyCpInfoID=" + ViewState["KeyID"].ToString(), 2, 0);
                 DataSet ds = new SPOAService().GetSpInfo("", ViewState["KeyID"].ToString(), "", "", "", "", 2, 0);
 
                 if (ds.Tables[0].Rows.Count == 1)

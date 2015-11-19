@@ -128,29 +128,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                         + "&batchid=" + dr["Fubatch_id"].ToString() + "&state=h" + "&sDate=" + dr["Fcreate_time"] + "&eDate=" + dr["Fmodify_time"];
                 }
 
-                //DataSet ds2 = qs.CountBatchInfo_DF(strSTime, strETime, this.tbx_spid.Text, this.tbx_spBatchID.Text, ddl_state.SelectedValue);
-
-                //if (ds2 != null && ds2.Tables.Count != 0 && ds2.Tables[0].Rows.Count != 0)
-                //{
-                //    DataRow dr2 = ds2.Tables[0].Rows[0];
-
-                //    this.pager.RecordCount = int.Parse(dr2[0].ToString());
-
-                //    this.lb_failAllMoney.Text = setConfig.FenToYuan(dr2[4].ToString());
-                //    this.lb_failNum.Text = dr2[3].ToString();
-
-                //    this.lb_successAllMoney.Text = setConfig.FenToYuan(dr2[2].ToString());
-                //    this.lb_successNum.Text = dr2[1].ToString();
-
-                //    this.lb_handlingMoney.Text = setConfig.FenToYuan(dr2[6].ToString());
-                //    this.lb_handlingNum.Text = dr2[5].ToString(); ;
-                //}
-                //else
-                //{
-                //    WebUtils.ShowMessage(this, "统计失败");
-                //    //return;
-                //}
-
+             
                 double sTotalMoney = 0, fTotalMoney = 0, hTotalMoney = 0;
                 long sTotalNums = 0, fTotalNums = 0, hTotalNums = 0;
                 //需求查询出全部结果

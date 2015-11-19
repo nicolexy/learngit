@@ -99,9 +99,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 					BatchID = ViewState["BatchID"].ToString();
 					WorkType = ViewState["WorkType"].ToString();
 				}
-
-				//				BatchPay_Service.BatchPay_Service bs = new TENCENT.OSS.C2C.Finance.Finance_Web.BatchPay_Service.BatchPay_Service();
-				//				bs.RefreshBatchInfo_RefundOther(BatchID);
+			
 			}
 			catch
 			{
@@ -196,70 +194,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 
 		private void CreatePayTask(string BatchID)
 		{
-			/*
-			try
-			{
-				BatchPay_Service.BatchPay_Service bs = new TENCENT.OSS.CFT.KF.KF_Web.BatchPay_Service.BatchPay_Service();
-				
-				fh.UserIP = Request.UserHostAddress;
-				fh.UserName = Session["uid"].ToString();
-				fh.UserPassword = "";
-				fh.SzKey = Session["SzKey"].ToString();
-				fh.RightString = Session["key"].ToString();
-				fh.OperID = Int32.Parse(Session["OperID"].ToString());
-				bs.Finance_HeaderValue = fh;
-
-				//0->batchid;
 			
-				string[] parm=new string[1];
-				parm[0]=BatchID;
-				
-				bs.StartDoTask("批次号："+BatchID+"生成退款授权书操作","refundotherfilecreate",parm);
-				WebUtils.ShowMessage(this.Page,"后台已经开始执行生成退款授权书操作，请稍候刷新查看结果！" );
-
-			}
-			catch(Exception err)
-			{
-				WebUtils.ShowMessage(this.Page,"生成退款授权书操作！" + PublicRes.GetErrorMsg(err.Message));
-				return;
-			}
-			*/
 		}
 		private void CreateReturnTask(string strBatchID)
 		{
-			//点击按钮前的判断。
-			/*
-			try
-			{  
-				string outmsg = "";
-				BatchPay_Service.BatchPay_Service bs = new TENCENT.OSS.C2C.Finance.Finance_Web.BatchPay_Service.BatchPay_Service();
-
-				BatchPay_Service.Finance_Header fh = new TENCENT.OSS.C2C.Finance.Finance_Web.BatchPay_Service.Finance_Header();
-				fh.UserIP = Request.UserHostAddress;
-				fh.UserName = Session["uid"].ToString();
-				fh.UserPassword = "";
-				fh.SzKey = Session["SzKey"].ToString();
-				fh.RightString = Session["key"].ToString();
-				fh.OperID = Int32.Parse(Session["OperID"].ToString());
-				bs.Finance_HeaderValue = fh;
-
-				//回导核心。 
-				//只需要处理商户退单类型的成功部份。
-				if(!bs.ReturnRefundState(strBatchID,out outmsg))
-				{
-					labErrmsg.Text = outmsg;
-				}
-				else
-				{
-					btnMain.Visible = false;
-					logweb.Alert(this.Page,outmsg);
-				}
-			}
-			catch(Exception err)
-			{
-				labErrmsg.Text = err.Message;
-			}
-			*/
+			
 		}
 
 		private void ShowButton(int iResult)
@@ -305,14 +244,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 						}
 						else if(status == 98) //取消掉完成功能.
 						{
-							//							labMain.Text = WorkType;
-							//
-							//							//取消任务单完成功能,多出一个预览和发送功能.
-							//							btCancel.Visible = true;
-							//							btCancel.Text = "授权书任务单取消";
-							//
-							//							tbCancelReason.Text = "授权书任务单生成中断";
-							//							tbCancelReason.Visible = true;
+							
 						}
 					}                        
 						break;
@@ -425,108 +357,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 
 		private void btFinish_Click(object sender, System.EventArgs e)
 		{
-			//			string outmsg = "";
-			//			BatchPay_Service.BatchPay_Service bs = new TENCENT.OSS.C2C.Finance.Finance_Web.BatchPay_Service.BatchPay_Service();
-			//
-			//			BatchPay_Service.Finance_Header fh = new TENCENT.OSS.C2C.Finance.Finance_Web.BatchPay_Service.Finance_Header();
-			//			fh.UserIP = Request.UserHostAddress;
-			//			fh.UserName = Session["uid"].ToString();
-			//			fh.UserPassword = "";
-			//			fh.SzKey = Session["SzKey"].ToString();
-			//			fh.RightString = Session["key"].ToString();
-			//			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-			//			bs.Finance_HeaderValue = fh;
-			//			//导入完成或任务单完成
-			//			if(labMain.Text == "input1")
-			//			{
-			//				//第一次上传完成	
-			//				if(bs.BankIO_InputFirstFinish(BatchID, out outmsg))
-			//				{
-			//					string url = "";
-			//					BankDataCommon.InsertHandleRecord(BatchID,enmBankDataPhase.PAYDATA_FIRST_UPLOAD,Session["uid"].ToString()
-			//						//,BatchID,url,"第一次上传完成");
-			//						,BatchID,url,"退款结果上传完成");
-			//					//BankDataCommon.SendNextMail(BatchID,Session["uid"].ToString(),enmBankDataPhase.PAYDATA_FIRST_UPLOAD);
-			//				}
-			//				else
-			//				{
-			//					logweb.Alert(this.Page,outmsg);
-			//				}
-			//			}
-			//			else if(labMain.Text == "input2")
-			//			{
-			//				if(bs.BankIO_InputSecondFinish(BatchID, out outmsg))
-			//				{
-			//					string url = "";
-			//					BankDataCommon.InsertHandleRecord(BatchID,enmBankDataPhase.PAYDATA_SECOND_UPLOAD,Session["uid"].ToString()
-			//						//,BatchID,url,"第二次上传完成");
-			//						,BatchID,url,"退款结果上传完成");
-			//					//BankDataCommon.SendNextMail(BatchID,Session["uid"].ToString(),enmBankDataPhase.PAYDATA_SECOND_UPLOAD);
-			//				}
-			//				else
-			//				{
-			//					logweb.Alert(this.Page,outmsg);
-			//
-			//				}					
-			//			}
-			//			else if(WorkType == "task")
-			//			{
-			//				
-			//			}
+			
 
 		}
 
-		/*
-		private void btCancel_Click(object sender, System.EventArgs e)
-		{
-			string outmsg = "";
-			BatchPay_Service.BatchPay_Service bs = new TENCENT.OSS.CFT.KF.KF_Web.BatchPay_Service.BatchPay_Service();
-
-			BatchPay_Service.Finance_Header fh = new TENCENT.OSS.C2C.Finance.Finance_Web.BatchPay_Service.Finance_Header();
-			fh.UserIP = Request.UserHostAddress;
-			fh.UserName = Session["uid"].ToString();
-			fh.UserPassword = "";
-			fh.SzKey = Session["SzKey"].ToString();
-			fh.RightString = Session["key"].ToString();
-			fh.OperID = Int32.Parse(Session["OperID"].ToString());
-			bs.Finance_HeaderValue = fh;
-
-			//任务单收回或上传作废
-			if(WorkType == "task")
-			{
-				//任务单收回.
-				string reason = tbCancelReason.Text.Trim();
-				if(ViewState["FStatus"]!=null)
-				{
-					int refundPath=3;
-					int cancelType=0;
-					if(ViewState["FStatus"].ToString()=="9")
-					{
-						cancelType=1;
-					}
-					else if(ViewState["FStatus"].ToString()=="98")
-					{
-						cancelType=2;
-					}
-					if(!bs.RefundOther_PayTaskCancel(BatchID, reason,refundPath, cancelType,out outmsg))
-					{
-					
-						logweb.Alert(this.Page,outmsg);
-					}
-					else
-					{	
-						logweb.Alert(this.Page,"作废成功，请重新刷新页面！");
-
-					}
-				}
-				else
-				{
-					logweb.Alert(this.Page,"请重新刷新页面！再提起取消操作");
-					
-				}
-			}
-		}
-		*/
+		
 
 	}
 }

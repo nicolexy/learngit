@@ -162,11 +162,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             try
             {
                 int rid = e.Item.ItemIndex;
-                //int curr_page = pager.CurrentPageIndex;
-                //if (curr_page > 1)
-                //{
-                //    rid = this.pager.PageSize * curr_page + rid;
-                //}
+            
                 GetDetail(rid);
             }
             catch (Exception eSys)
@@ -299,15 +295,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 {
                     yt_no = s_ytno;
                 }
-                /*else if (s_cftno != null && s_cftno != "")
-                {
-                    DataSet ht = qs.GetYTInfoList(s_cftno, "", "");
-                    if (ht != null && ht.Tables.Count > 0)
-                    {
-                        yt_no = ht.Tables[0].Rows[0]["card_id"].ToString();
-                    }
-                }*/
-                //查询运通账号end
+         
 
                 //通过uid获得真实姓名
                 string qqid = "";
@@ -356,10 +344,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Fstatus", "Fstatus_str", ht1);
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fcharge_amt_rmb", "Fcharge_amt_rmb_str");
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Ftransaction_amt", "Ftransaction_amt_str");
-
-                //classLibrary.setConfig.setDefaultValue(ds.Tables[0], "Fcft_uin_str", qqid);
-                //classLibrary.setConfig.setDefaultValue(ds.Tables[0], "Freal_name", true_name);
-                //classLibrary.setConfig.setDefaultValue(ds.Tables[0], "Fyt_no", yt_no);
 
                 DataGrid1.DataSource = ds.Tables[0].DefaultView;
                 DataGrid1.DataBind();

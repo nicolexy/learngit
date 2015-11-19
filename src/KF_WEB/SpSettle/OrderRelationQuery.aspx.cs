@@ -69,10 +69,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 
         private void BindInfo(string sz_listid, string sub_listid)
         {
-            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            //DataSet ds;
-            //ds = qs.QueryRelationOrderList(sz_listid, sub_listid);
-
+           
             SettleService service = new SettleService();
             DataTable dt = service.QueryRelationOrderList(sz_listid, sub_listid);
             if (dt != null)

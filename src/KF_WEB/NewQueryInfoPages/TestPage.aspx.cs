@@ -45,44 +45,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 			catch
 			{
 				WebUtils.ShowMessage(this,"test is null");
-			}
-
-			//string str = SensitivePowerOperaLib.Echo("this is a test");
-
-//			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-//	
-//			qs.Finance_HeaderValue = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.setFH(Session["uid"].ToString(),Request.UserHostAddress);
-
-			//qs.GetCepspServiceInfo("2000000501","20000005010001101");
-
-			//DataSet ds = qs.GetSPOrder("2000000000","2000000000201008300442241714");
-
-//			
-//			if(!SensitivePowerOperaLib.CheckSession("",this))
-//			{
-//				
-//			}
-//
-//			SensitivePowerOperaLib.CheckAuth(0,this);
-			
+			}	
 
 			if(!IsPostBack)
 			{
-				/*
-				string [] strList = getData.GetFreezeFastReplay(this,false);
-
-				if(strList != null)
-				{
-					this.ddl_1.Items.Clear();
-					foreach(string str in strList)
-					{
-						if(str != null && str.Trim() != "")
-						{
-							this.ddl_1.Items.Add(str);
-						}
-					}
-				}
-				*/
+			
 			}
 			this.ddl_1.SelectedIndexChanged += new EventHandler(ddl_1_SelectedIndexChanged);
 		}

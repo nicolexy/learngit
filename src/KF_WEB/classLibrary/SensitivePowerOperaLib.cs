@@ -139,32 +139,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 		}
 
 
-		/*
-		public static Result CheckSession(string userName,string sessionKey,string ticket,string url,string ip,string sessionID)
-		{
-			SensitivePowerSystem_Service.auth authService = new TENCENT.OSS.CFT.KF.KF_Web.SensitivePowerSystem_Service.auth();
-
-			SensitivePowerSystem_Service.Request rq = new TENCENT.OSS.CFT.KF.KF_Web.SensitivePowerSystem_Service.Request();
-
-			rq.system_id = 62;		// 固定的值
-			rq.user_name = userName;
-			rq.auth_cm_com_session_key = sessionKey;
-			rq.auth_cm_com_ticket = ticket;
-			rq.user_url = url;
-			rq.user_ip = ip;
-			rq.local_session_id = sessionID;
-
-			return authService.CheckSession(rq);
-		}
-		*/
-
-
 		public static bool CheckSession(string ticket,Page page)
 		{
 			string loginName = "",szKey = "";
-
-			//if(page.Session["OperID"] != null)
-				//loginName = page.Session["OperID"].ToString();
 
 			if(page.Page.Session["uid"] != null)
 				loginName = page.Page.Session["uid"].ToString();
@@ -175,14 +152,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			return CheckSession(ticket,page.Page.Request.Url.ToString(),page.Page.Request.UserHostAddress,page.Page.Session.SessionID,loginName,szKey,page);
 		}
 
-
-
 		public static bool CheckSession(string ticket,UserControl page)
 		{
 			string loginName = "",szKey = "";
-
-			//if(page.Session["OperID"] != null)
-				//loginName = page.Session["OperID"].ToString();
 
 			if(page.Session["uid"] != null)
 				loginName = page.Session["uid"].ToString();
@@ -193,42 +165,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			return CheckSession(ticket,page.Request.Url.ToString(),page.Request.UserHostAddress,page.Session.SessionID,loginName,szKey,page);
 		}
 
-
-
-
 		private static bool CheckSession(string ticket,string url,string ip,string sessionID,string loginName,string szKey,Page page)
 		{
 			if(!IsOpenSensitiveCheck())
 				return true;
 
-			/*
-
-			SensitivePowerSystem_Service.auth authService = new TENCENT.OSS.CFT.KF.KF_Web.SensitivePowerSystem_Service.auth();
-
-			SensitivePowerSystem_Service.Request rq = new TENCENT.OSS.CFT.KF.KF_Web.SensitivePowerSystem_Service.Request();
-
-			rq.system_id = 62;		// 固定的值
-			rq.system_idSpecified = true;
-			rq.auth_cm_com_ticket = ticket;
-			rq.auth_cm_com_session_key = szKey;
-			rq.user_url = url;
-			rq.user_ip = ip;
-			rq.user_name = loginName;
-			rq.local_session_id = sessionID;
-
-			Result ret = authService.CheckSession(rq);
-			
-			*/
-
 			SensitiveVerifyService.Result ret = Common.AllUserRight.CheckSession(ticket,url,ip,sessionID,loginName,szKey);
 
 			if(CheckSPReturnResult(ret,page))
-			{
-				/*
-				if(page.Session["OperID"] == null)
-					page.Session["OperID"] = ret.user_name;
-					*/
-
+			{	
 				// 新敏感权限系统没有OperaID的获取了，应该如何和旧系统兼容？
 				if(page.Page.Session["OperID"] == null)
 					page.Page.Session["OperID"] = "0";
@@ -247,28 +192,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			}
 		}
 
-
 		private static bool CheckSession(string ticket,string url,string ip,string sessionID,string loginName,string szKey,UserControl page)
 		{
 			if(!IsOpenSensitiveCheck())
 				return true;
-
-			/*
-			SensitivePowerSystem_Service.auth authService = new TENCENT.OSS.CFT.KF.KF_Web.SensitivePowerSystem_Service.auth();
-
-			SensitivePowerSystem_Service.Request rq = new TENCENT.OSS.CFT.KF.KF_Web.SensitivePowerSystem_Service.Request();
-
-			rq.system_id = 62;		// 固定的值
-			rq.system_idSpecified = true;
-			rq.auth_cm_com_ticket = ticket;
-			rq.auth_cm_com_session_key = szKey;
-			rq.user_url = url;
-			rq.user_ip = ip;
-			rq.user_name = loginName;
-			rq.local_session_id = sessionID;
-
-			Result ret = authService.CheckSession(rq);
-			*/
 
 			SensitiveVerifyService.Result ret = Common.AllUserRight.CheckSession(ticket,url,ip,sessionID,loginName,szKey);
 
@@ -291,9 +218,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 				return false;
 			}
 		}
-
-		
-		
+	
 		public static bool CheckAuth(string opName,UserControl control)
 		{
 			// 敏感权限文档上写每个页面都需要调用checkSession，所以在CheckAuth里边调用checkSession
@@ -307,7 +232,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			return CheckAuth(opName,control.Page.Session["uid"].ToString(),control.Page.Session["SzKey"].ToString(),
 				control.Page.Request.Url.ToString(),control.Page.Request.UserHostAddress,control.Page.Session.SessionID,control);
 		}
-
 
 		public static bool CheckAuth(string opName,Page page)
 		{
@@ -323,67 +247,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 				page.Request.UserHostAddress,page.Session.SessionID,page);
 		}
 
-		
-
 		private static bool CheckAuth(string opName,string userName,string sessionKey,string url,string ip,string sessionID,Page page)
 		{
 			if(!IsOpenSensitiveCheck())
 				return true;
 
-			/*
-			SensitivePowerSystem_Service.auth authService = new TENCENT.OSS.CFT.KF.KF_Web.SensitivePowerSystem_Service.auth();
-
-			SensitivePowerSystem_Service.Request rq = new TENCENT.OSS.CFT.KF.KF_Web.SensitivePowerSystem_Service.Request();
-
-			rq.system_id = 62;		// 固定的值
-			rq.system_idSpecified = true;
-			rq.operation_id = opID;
-			rq.operation_idSpecified = true;
-			rq.user_name = userName;
-			rq.auth_cm_com_session_key = sessionKey;
-			rq.user_url = url;
-			rq.user_ip = ip;
-			rq.local_session_id = sessionID;
-			
-
-			SensitiveVerifyService.Result retResult = authService.CheckAuth(rq);
-			*/
-
 			SensitiveVerifyService.Result retResult = AllUserRight.CheckAuth(opName,userName,sessionKey,url,ip,sessionID);
 
 			return CheckSPReturnResult(retResult,page);
 		}
-
-
 
 		private static bool CheckAuth(string opName,string userName,string sessionKey,string url,string ip,string sessionID,UserControl page)
 		{
 			if(!IsOpenSensitiveCheck())
 				return true;
 
-			/*
-			SensitivePowerSystem_Service.auth authService = new TENCENT.OSS.CFT.KF.KF_Web.SensitivePowerSystem_Service.auth();
-
-			SensitivePowerSystem_Service.Request rq = new TENCENT.OSS.CFT.KF.KF_Web.SensitivePowerSystem_Service.Request();
-
-			rq.system_id = 62;		// 固定的值
-			rq.system_idSpecified = true;
-			rq.operation_id = opID;
-			rq.operation_idSpecified = true;
-			rq.user_name = userName;
-			rq.auth_cm_com_session_key = sessionKey;
-			rq.user_url = url;
-			rq.user_ip = ip;
-			rq.local_session_id = sessionID;
-
-			Result retResult = authService.CheckAuth(rq);
-			*/
-
 			SensitiveVerifyService.Result retResult = AllUserRight.CheckAuth(opName,userName,sessionKey,url,ip,sessionID);
 
 			return CheckSPReturnResult(retResult,page);
 		}
-
 
 		public static string MakeLog(string opType,string targetQQID,string editDesc,params string[] strParams)
 		{
@@ -402,8 +284,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			return log;
 		}
 
-
-
 		public static bool WriteOperationRecord(string opPowerName,string log,Page page)
 		{
 			if(IsOutOfTime(page))
@@ -413,55 +293,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 				page.Page.Request.UserHostAddress,page.Page.Session.SessionID,log,page);
 		}
 
-
-
-		/*
-		public static bool WriteOperationRecord(int opPowerID,string log,TemplateControl page)
-		{
-			if(IsOutOfTime(page))
-				page.Page.Response.Redirect("../login.aspx?wh=1");
-
-			return WriteOperationRecord(opPowerID,page.Page.Session["uid"].ToString(),page.Page.Session["SzKey"].ToString(),page.Page.Request.Url.ToString(),
-				page.Page.Request.UserHostAddress,page.Page.Session.SessionID,log,page);
-		}
-		*/
-		
-
-
-		
 		private static bool WriteOperationRecord(string opName,string userName,string sessionKey,string url,string ip,string sessionID
 			,string log,Page page)
 		{
 			if(!IsOpenSensitiveCheck())
 				return true;
 
-			/*
-			SensitivePowerSystem_Service.auth authService = new TENCENT.OSS.CFT.KF.KF_Web.SensitivePowerSystem_Service.auth();
-
-			SensitivePowerSystem_Service.Request rq = new TENCENT.OSS.CFT.KF.KF_Web.SensitivePowerSystem_Service.Request();
-
-			rq.system_id = 62;		// 固定的值
-			rq.system_idSpecified = true;
-			rq.operation_id = opID;
-			rq.operation_idSpecified = true;
-			rq.user_name = userName;
-			rq.auth_cm_com_session_key = sessionKey;
-			rq.user_url = url;
-			rq.user_ip = ip;
-			rq.local_session_id = sessionID;
-			byte[] byteArr = new byte[log.Length];
-			System.Text.Encoding.UTF8.GetBytes(log,0,log.Length,byteArr,0);
-			rq.operation_log = System.Text.Encoding.UTF8.GetString(byteArr);
-
-			SensitiveVerifyService.Result ret = authService.WriteOperationRecord(rq);
-			*/
-
 			SensitiveVerifyService.Result ret = AllUserRight.WriteLog(opName,userName,sessionKey,url,ip,sessionID,log);
 
 			return CheckSPReturnResult(ret,page);
 		}
-
-
 
 		public static bool LogOut(Page page)
 		{
@@ -471,9 +312,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			return LogOut(page.Page.Session["uid"].ToString(),page.Page.Session["SzKey"].ToString(),page.Page.Request.Url.ToString(),
 				page.Page.Request.UserHostAddress,page.Page.Session.SessionID,page);
 		}
-
-
-
 
 		private static bool LogOut(string userName,string sessionKey,string url,string ip,string sessionID,Page page)
 		{
@@ -497,9 +335,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			return CheckSPReturnResult(ret,page);
 		}
 
-
-
-
 		public static string Echo(string echoStr)
 		{
 			SensitiveVerifyService.auth authService = new SensitiveVerifyService.auth();
@@ -508,8 +343,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 
 			return strResult;
 		}
-
-
 
 		public static int GetPowerID(string powerName)
 		{
@@ -621,11 +454,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 
 		#endregion
 
-
-
 	}
-
-
-	
 
 }

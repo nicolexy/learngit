@@ -23,24 +23,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RemitCheck
 	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			//			try
-			//			{
-			//				string sr = Session["key"].ToString();
-			//				if (!AllUserRight.GetOneRightState("AgentFeeManage",sr)) Response.Redirect("../login.aspx?wh=1");
-			//
-			//			}
-			//			catch
-			//			{
-			//				Response.Redirect("../login.aspx?wh=1");
-			//			}
-
+			
 			try
 			{
-				//Label1.Text = Session["uid"].ToString();
 				string szkey = Session["SzKey"].ToString();
 				int operid = Int32.Parse(Session["OperID"].ToString());
-
-				//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
+			
 				if(!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
 			}
 			catch

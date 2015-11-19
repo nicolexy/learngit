@@ -46,11 +46,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			{
 				string sr = Session["SzKey"].ToString();
                 this.Label1.Text = Session["uid"].ToString();
-                //if (!AllUserRight.GetOneRightState("right_220",sr))
-                //{
-                //    Response.Redirect("../login.aspx?wh=1");
-                //    return;
-                //}
+                
                 if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
 				
 			}

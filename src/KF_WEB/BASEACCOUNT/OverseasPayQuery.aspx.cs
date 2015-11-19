@@ -30,11 +30,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			{
 				Label1.Text = Session["uid"].ToString();
 				string szkey = Session["SzKey"].ToString();
-				//int operid = Int32.Parse(Session["OperID"].ToString());
-
-		//		if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"OverseasPayQuery")) Response.Redirect("../login.aspx?wh=1");
-
-				// if(!classLibrary.ClassLib.ValidateRight("OverseasPayQuery",this)) Response.Redirect("../login.aspx?wh=1");
 			}
 			catch
 			{

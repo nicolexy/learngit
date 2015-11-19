@@ -434,16 +434,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
             if (ftype == 8 || ftype == 19)
             {
                 this.ddl_orderState.Visible = true;
-                this.ddl_orderStateSpecial.Visible = false;
-                //channel_title.Visible = this.ddl_channel.Visible = true;
-                //DataGrid_QueryResult.Columns[3].Visible = true;
+                this.ddl_orderStateSpecial.Visible = false;     
             }
             else if (ftype == 11)
             {
                 this.ddl_orderState.Visible = false;
                 this.ddl_orderStateSpecial.Visible = true;
-                //channel_title.Visible = this.ddl_channel.Visible = false;
-                //DataGrid_QueryResult.Columns[3].Visible = false;
             }
         }
 

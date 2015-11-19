@@ -102,9 +102,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
         
         private void BindInfo(string spid)
         {
-            //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            //DataSet ds;
-            //ds = qs.QuerySpControl(spid);
+           
             SettleService service = new SettleService();
             DataTable dt = service.QuerySpControl(spid);
             if(dt != null&&  dt.Rows.Count > 0 )

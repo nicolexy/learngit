@@ -115,9 +115,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 
 			try
 			{
+                ViewState["recordCount"] = -1;
 				Table2.Visible = true;
-                pager.RecordCount = 5000;//GetCount(); 
 				BindData(1);
+                var count = (int)ViewState["recordCount"];
+                pager.RecordCount = count;
+                lb_conut.InnerText = count.ToString();
 			}
 			catch(Exception eSys)
             {
@@ -149,8 +152,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 			int max = pager.PageSize;
 			int start = max * (index-1);
 
+            var count = (int)ViewState["recordCount"];
             DataSet ds = new RefundService().QueryPaymenAbnormal(sTime, eTime, batchID, packageID,
-                listid, type, subTypePay, notityStatus, notityResult, bankType, errorType, accType, start, max);
+                listid, type, subTypePay, notityStatus, notityResult, bankType, errorType, accType, start, max , ref count);
+
+            ViewState["recordCount"] = count;
+
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 ds.Tables[0].Columns.Add("Fbank_type_str", typeof(String));
@@ -338,19 +345,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             string notityStatus = ddlNotityStatus.SelectedValue;
             this.btSendWX.Visible = true;
             this.btSendMES.Visible = true;
-            //this.btSendQQ.Visible = true;
-            //this.btSendEmail.Visible = true;
-            //this.btSendTips.Visible = true;
-            //this.btSendWallet.Visible = true;
+      
             //待发送、发送中及所有状态不允许发送通知
             if (hide || string.IsNullOrEmpty(notityStatus) || notityStatus == "1" || notityStatus == "2")
             {
                 this.btSendWX.Visible = false;
                 this.btSendMES.Visible = false;
-                //this.btSendQQ.Visible = false;
-                //this.btSendEmail.Visible = false;
-                //this.btSendTips.Visible = false;
-                //this.btSendWallet.Visible = false;
+         
             }
         }
 

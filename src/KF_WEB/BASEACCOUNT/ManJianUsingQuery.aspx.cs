@@ -182,11 +182,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     int pageSize = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["pageSize"].ToString());
                     int istr = 1 + pageSize * (pageIndex - 1);   //1表示第一页
                     int imax = pageSize;
-                    #region old
-                    //Query_Service.Query_Service myService = new Query_Service.Query_Service();
-                    //myService.Finance_HeaderValue = classLibrary.setConfig.setFH(Session["uid"].ToString(), Request.UserHostAddress);
-                    //DS_TradeLog = myService.GetManJianUsingList(selectStr, i, beginTime, endTime, banktype, istr, imax);
-                    #endregion
+
                     DS_TradeLog = new TradeService().GetManJianUsingList(selectStr, i, beginTime, endTime, banktype, istr, imax);
                     int total;
                     if (DS_TradeLog != null && DS_TradeLog.Tables.Count != 0 && DS_TradeLog.Tables[0].Rows.Count != 0)

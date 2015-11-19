@@ -197,19 +197,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
                 
                 lb_c7.Text = dr["baseline_total_str"].ToString();  //总额度
 
-                /*
-                if (!(dr["activate_date"] is DBNull)) 
-                {
-                    if (dr["activate_date"].ToString() != "" && !(dr["activate_date"].ToString().StartsWith("0000-00")))
-                    {
-                        lb_c8.Text = "已激活";
-                    }
-                    else 
-                    {
-                        lb_c8.Text = "未激活";//是否激活
-                    }
-                }
-                */
+              
                 if (!(dr["activeFlag"] is DBNull)) 
                 {
                     string s = dr["activeFlag"].ToString();

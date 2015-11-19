@@ -149,13 +149,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 						return;
 					}
 					
-					/*
-					if(this.tbx_spid.Text.Trim() == "")
-					{
-						WebUtils.ShowMessage(this,"查询商户号不能为空");
-						return;
-					}
-					*/
+					
 				}
 				catch
 				{
@@ -209,79 +203,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 					dr["transId_url"] = "../TradeManage/TradeLogQuery.aspx?id=" + dr["Ftransaction_id"].ToString();
 				}
 
-
-                //if(needUpdateCount)
-                //{
-                //    if(this.ddl_state.SelectedValue == "0")
-                //    {
-                //        DataSet ds2 = qs.CountDKInfo(this.txb_transaction_id.Text, this.ddlBankType.SelectedValue, this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
-                //            this.tbx_spid.Text,this.tbx_spListID.Text,this.tbx_spBatchID.Text,"0");
-
-                //        this.pager.RecordCount = int.Parse(ds2.Tables[0].Rows[0]["totalRecordCount"].ToString());
-
-                //        ds2 = qs.CountDKInfo(this.txb_transaction_id.Text, this.ddlBankType.SelectedValue, this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
-                //            this.tbx_spid.Text,this.tbx_spListID.Text,this.tbx_spBatchID.Text,"1");
-
-                //        this.lb_successAllMoney.Text = setConfig.FenToYuan(ds2.Tables[0].Rows[0]["totalPayNum"].ToString());
-                //        this.lb_successNum.Text = ds2.Tables[0].Rows[0]["totalRecordCount"].ToString();
-
-                //        ds2 = qs.CountDKInfo(this.txb_transaction_id.Text, this.ddlBankType.SelectedValue, this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
-                //            this.tbx_spid.Text,this.tbx_spListID.Text,this.tbx_spBatchID.Text,"2");
-
-                //        this.lb_failAllMoney.Text = setConfig.FenToYuan(ds2.Tables[0].Rows[0]["totalPayNum"].ToString());
-                //        this.lb_failNum.Text = ds2.Tables[0].Rows[0]["totalRecordCount"].ToString();
-
-                //        ds2 = qs.CountDKInfo(this.txb_transaction_id.Text, this.ddlBankType.SelectedValue, this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
-                //            this.tbx_spid.Text,this.tbx_spListID.Text,this.tbx_spBatchID.Text,"3");
-
-                //        this.lb_handlingAllMoney.Text = setConfig.FenToYuan(ds2.Tables[0].Rows[0]["totalPayNum"].ToString());
-                //        this.lb_handlingNum.Text = ds2.Tables[0].Rows[0]["totalRecordCount"].ToString();
-                //    }
-                //    else
-                //    {
-                //        DataSet ds2 = qs.CountDKInfo(this.txb_transaction_id.Text, this.ddlBankType.SelectedValue, this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
-                //            this.tbx_spid.Text,this.tbx_spListID.Text,this.tbx_spBatchID.Text,this.ddl_state.SelectedValue);	
-
-                //        switch(this.ddl_state.SelectedValue)
-                //        {
-                //            case "1":
-                //            {
-                //                this.pager.RecordCount = int.Parse(ds2.Tables[0].Rows[0]["totalRecordCount"].ToString());
-                //                this.lb_successAllMoney.Text = setConfig.FenToYuan(ds2.Tables[0].Rows[0]["totalPayNum"].ToString());
-                //                this.lb_successNum.Text = ds2.Tables[0].Rows[0]["totalRecordCount"].ToString();
-                //                this.lb_failAllMoney.Text = "0";
-                //                this.lb_failNum.Text = "0";
-                //                this.lb_handlingAllMoney.Text = "0";
-                //                this.lb_handlingNum.Text = "0";
-                //                break;
-                //            }
-                //            case "2":
-                //            {
-                //                this.pager.RecordCount = int.Parse(ds2.Tables[0].Rows[0]["totalRecordCount"].ToString());
-                //                this.lb_failAllMoney.Text = setConfig.FenToYuan(ds2.Tables[0].Rows[0]["totalPayNum"].ToString());
-                //                this.lb_failNum.Text = ds2.Tables[0].Rows[0]["totalRecordCount"].ToString();
-                //                this.lb_successAllMoney.Text = "0";
-                //                this.lb_successNum.Text = "0";
-                //                this.lb_handlingAllMoney.Text = "0";
-                //                this.lb_handlingNum.Text = "0";
-                //                break;
-                //            }
-                //            case "3":
-                //            {
-                //                this.pager.RecordCount = int.Parse(ds2.Tables[0].Rows[0]["totalRecordCount"].ToString());
-                //                this.lb_handlingAllMoney.Text = setConfig.FenToYuan(ds2.Tables[0].Rows[0]["totalPayNum"].ToString());
-                //                this.lb_handlingNum.Text = ds2.Tables[0].Rows[0]["totalRecordCount"].ToString();
-                //                this.lb_failAllMoney.Text = "0";
-                //                this.lb_failNum.Text = "0";
-                //                this.lb_successAllMoney.Text = "0";
-                //                this.lb_successNum.Text = "0";
-                //                break;
-                //            }
-                //        }
-                //    }
-                //}
-
-
+              
                 this.lb_failAllMoney.Text = setConfig.FenToYuan(fTotalMoney).ToString();
 				this.lb_failNum.Text = fTotalNums.ToString();
 
@@ -291,10 +213,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 this.lb_handlingAllMoney.Text = setConfig.FenToYuan(hTotalMoney).ToString();
 				this.lb_handlingNum.Text = hTotalNums.ToString();
 
-				this.DataGrid_QueryResult.DataSource = ds;
-                //DataView dv = ds.Tables[0].DefaultView;
-                //dv.Sort = "Fcreate_time, Funame  DESC";
-                //this.DataGrid_QueryResult.DataSource = dv;
+				this.DataGrid_QueryResult.DataSource = ds;    
 				this.DataGrid_QueryResult.DataBind();
 			}
 			catch(Exception ex)
@@ -328,73 +247,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
             }
 
-            //ddl.Items.Add(new ListItem("工商银行","1002"));
-            //ddl.Items.Add(new ListItem("建设银行","1003"));
-            //ddl.Items.Add(new ListItem("农业银行","1005"));
-            //ddl.Items.Add(new ListItem("浦发银行","1004"));
-            //ddl.Items.Add(new ListItem("深圳平安银行","1010"));
-            //ddl.Items.Add(new ListItem("交通银行","1020"));
-            //ddl.Items.Add(new ListItem("广东发展银行","1027"));
         }
 
-        //public void GetAllBankList(DropDownList ddl)
-        //{
-        //    try
-        //    {
-        //        ddl.Items.Clear();
-        //        string[] bankName = new string[30];
-        //        bankName[0] = "招商银行";
-        //        bankName[1] = "中国工商银行";
-        //        bankName[2] = "中国建设银行";
-        //        bankName[3] = "上海浦东发展银行";
-        //        bankName[4] = "中国农业银行";
-        //        bankName[5] = "中国民生银行";
-        //        bankName[6] = "深圳发展银行";
-        //        bankName[7] = "广州商业银行";
-        //        bankName[8] = "中国银行";
-        //        bankName[9] = "中国邮政储蓄银行";
-        //        bankName[10] = "中信银行";
-        //        bankName[11] = "深圳发展银行";
-        //        bankName[12] = "兴业银行";
-        //        bankName[13] = "平安银行";
-        //        bankName[14] = "中国交通银行";
-        //        bankName[15] = "中信实业银行";
-        //        bankName[16] = "中国光大银行";
-        //        bankName[17] = "中国银行借记卡";
-        //        bankName[18] = "广东发展银行";
-        //        bankName[19] = "中国银行信用卡";
-        //        bankName[20] = "广州农商银行";
-        //        bankName[21] = "其他银行";
-
-        //        System.Web.Caching.Cache objCache = System.Web.HttpRuntime.Cache;
-        //        string bankStr = "BANK_TYPE";
-        //        Hashtable ht = new Hashtable();
-        //        if (objCache[bankStr] == null)
-        //            TENCENT.OSS.C2C.Finance.BankLib.BankIO.queryDic(bankStr);
-        //        ht = (Hashtable)objCache[bankStr];
-        //        if (ht != null)
-        //        {
-        //            this.ddlBankType.Items.Add(new ListItem("全部", ""));
-        //            ArrayList akeys = new ArrayList(ht.Keys);
-        //            for (int i = 0; i < bankName.Length; i++)
-        //            {
-        //                foreach (string k in akeys)
-        //                {
-
-        //                    if (ht[k].Equals(bankName[i]))
-        //                    {
-        //                        this.ddlBankType.Items.Add(new ListItem(ht[k].ToString(), k.ToString()));
-        //                    }
-        //                }
-        //            }
-                   
-        //        }
-        //    } catch (Exception e) //没有从数据字典中读到memo
-        //    {
-        //        this.ddlBankType.Items.Add(new ListItem("全部", ""));
-        //    }
-        //}
-
+      
 		protected void btn_serach_Click(object sender, System.EventArgs e)
 		{
 			BindData(1,true);
@@ -597,10 +452,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 				string batchid = "";
 				if(fs.DK_BatchSelect(newal,Session["uid"].ToString(), out batchid, out msg))
 				{
-//					string url = "DKAdjust.aspx?querytype=adjust&batchid=" + batchid;
-//					string str = "window.showModalDialog(\""+url+"\" , \"批量调整\")";
-//					Response.Write("<script language='javascript'>" + str + "</script>");
-
 					//创建成功，跳转到发起审批页面。
 					Response.Redirect("DKAdjust.aspx?querytype=adjust&batchid=" + batchid);
 					

@@ -32,10 +32,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             DateTime endDate;
             if (DateTime.TryParse(this.tbx_beginDate.Text.Trim(), out beginDate) && DateTime.TryParse(this.tbx_endDate.Text.Trim(), out endDate))
             {
-                //if (DateTime.Now.Year != beginDate.Year || DateTime.Now.Year != endDate.Year || DateTime.Now.Month != beginDate.Month || DateTime.Now.Month != endDate.Month)
-                //{
-                //    ShowMsg("只能查询当月数据！"); return;
-                //}
+               
             }
             else
             {
@@ -84,16 +81,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 //20130923 lxl 去掉流水状态
               //  ds.Tables[0].Columns.Add("state", typeof(string));
                 foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    //var state = row["Fstate"].ToString();
-                    //if (InternetBankDictionary.TradeState.ContainsKey(state))
-                    //{
-                    //    row["state"] = InternetBankDictionary.TradeState[state];
-                    //}
-                    //else 
-                    //{
-                    //    row["state"] = state;
-                    //}
+                {                  
                     var payChannel = row["Fpay_channel"].ToString();
                     if (InternetBankDictionary.PayChannel.ContainsKey(payChannel))
                     {

@@ -159,21 +159,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 		}
 
         private void DataGrid1_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
-        {
-            
+        {       
             int rid = e.Item.ItemIndex;
-            //int curr_page = pager.CurrentPageIndex;
-            //if (curr_page > 1) {
-             //   rid = this.pager.PageSize * curr_page + rid;
-            //}
-            GetDetail(rid);
-           /*
-            switch (e.CommandName) 
-            {
-                case "DETAIL": //详情
-                    GetDetail(1);
-                    break;
-            }*/
+       
+            GetDetail(rid);    
         }
 
         private void GetDetail(int rid) 
@@ -307,15 +296,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 {
                     yt_no = s_ytno;
                 }
-                /*else if (s_cftno != null && s_cftno != "")
-                {//通过财付通账号查询运通号
-                    DataSet ht = qs.GetYTInfoList(s_cftno, "", "");
-                    if (ht != null && ht.Tables.Count > 0)
-                    {
-                        yt_no = ht.Tables[0].Rows[0]["card_id"].ToString();
-                    }
-                }*/
-                //查询运通账号end
+                
 
                 //通过uid获得真实姓名
                 string qqid = "";
@@ -367,11 +348,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Frecon_amt", "Frecon_amt_str");
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "FPay", "FPay_str");
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "CurrFreeMoney", "CurrFreeMoney_str");
-
-                //classLibrary.setConfig.setDefaultValue(ds.Tables[0], "Fcft_uin_str", qqid);
-                //classLibrary.setConfig.setDefaultValue(ds.Tables[0], "Freal_name", s_cftno);
-                //classLibrary.setConfig.setDefaultValue(ds.Tables[0], "Fyt_no", yt_no);
-
+     
                 DataGrid1.DataSource = ds.Tables[0].DefaultView;
                 DataGrid1.DataBind();
             }

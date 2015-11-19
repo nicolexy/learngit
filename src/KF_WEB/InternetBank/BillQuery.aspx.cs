@@ -27,10 +27,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             DateTime endDate;
             if (DateTime.TryParse(this.tbx_beginDate.Text.Trim(), out beginDate) && DateTime.TryParse(this.tbx_endDate.Text.Trim(), out endDate))
             {
-                //if (DateTime.Now.Year != beginDate.Year || DateTime.Now.Year != endDate.Year || DateTime.Now.Month != beginDate.Month || DateTime.Now.Month != endDate.Month)
-                //{
-                //    ShowMsg("只能查询当月数据！"); return;
-                //}
+              
             }
             else
             {

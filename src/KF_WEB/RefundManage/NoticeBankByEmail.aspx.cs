@@ -54,46 +54,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 {
                     if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
                     this.pager.RecordCount = 1000;
-                    this.pagerContacts.RecordCount = 1000;
-
-                   /*   strNewBankName       = Request.QueryString["newBankName"].ToString();
-                    strNewBankAccNo      = Request.QueryString["newBankAccNo"].ToString();
-                     strUserName          = Request.QueryString["trueName"].ToString();
-                     strReturnDate        = Request.QueryString["returnDate"].ToString();
-                     strOldBankName       = Request.QueryString["bankType"].ToString();
-                     strListTime          = Request.QueryString["createTime"].ToString();
-                     strBankListId        = Request.QueryString["bankListID"].ToString();
-                     strReturnAmt         = Request.QueryString["returnAmt"].ToString();
-                     strAmt               = Request.QueryString["amt"].ToString();
-                    // string strURL = "NoticeBankByEmail.aspx?newBankName=" +arrParam[0]+ "&newBankAccNo="+arrParam[1]+"&trueName="+arrParam[2]+"&returnDate="+arrParam[3]
-               // + "&bankType=" + arrParam[4] + "&createTime=" + arrParam[5] + "&bankListID=" + arrParam[6] + "&returnAmt=" + arrParam[7] + "&amt=" + arrParam[8];
-                    string strHtml = "<html><head><title></title></head><body>";
-                          strHtml +="<p>您好！</p>";
-                          strHtml +="<p>以下历史订单，由于用户支付卡状态不正常，导致退款失败。</p>";
-                          strHtml +="<p>现已向用户取得新账户，请帮忙核实：</p>";
-                    strHtml +="<p>1：该笔订单对应的原卡号，并查询新卡号信息是否正确。</p>";
-                    strHtml +="<p>2：新旧卡号是否为同一人，身份证是否相同，谢谢!</p>";
-                    strHtml +="<p>  新开户卡号："+ strNewBankAccNo+"</p>";
-                    strHtml +="<p>  开户银行："+ strNewBankName+"</p>";   
-                    strHtml +="<p>  开户名称："+ strUserName+"</p>"; 
-                    strHtml +="<table><tr bgColor='#cccccc'><th>退款日期</th><th>银行</th><th>订单日期</th><th>银行订单号</th><th>退款金额</th><th>交易金额</th></tr>";
-                    strHtml += "<tr><td>strReturnDate</td><td>strUserName</td><td>strListTime</td><td>strBankListId</td><td>strReturnAmt</td><td>strAmt</td></tr>";
-                    strHtml +="</table></body></html>";
-                 
-
-                    string strHtml = "您好！\n\r";
-                    strHtml += "以下历史订单，由于用户支付卡状态不正常，导致退款失败。\n\r";
-                    strHtml += "现已向用户取得新账户，请帮忙核实：\n\r";
-                    strHtml += "1：该笔订单对应的原卡号，并查询新卡号信息是否正确。\n\r";
-                    strHtml += "2：新旧卡号是否为同一人，身份证是否相同，谢谢!\n\r";
-                    strHtml += "  新开户卡号：" + strNewBankAccNo + "\n\r";
-                    strHtml += "  开户银行：" + strNewBankName + "\n\r";
-                    strHtml += "  开户名称：" + strUserName + "\n\r";
-                    strHtml += "退款日期\t 银行 \t 订单日期 \t\t 银行订单号 \t 退款金额 \t 交易金额\n\r";
-                    strHtml += strReturnDate+"\t"+strUserName+"\t"+strListTime+"\t\t"+strBankListId+"\t"+strReturnAmt+"\t"+strAmt+"\n\r";
-                    
-                    this.tbmaintext.Text = strHtml;
-                    this.tbdate.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); */
+                    this.pagerContacts.RecordCount = 1000;              
                 }
 			}
 			catch
@@ -171,10 +132,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 
         protected void btnContacts_Click(object sender, System.EventArgs e)
         {
-           /* if (string.IsNullOrEmpty(this.tbmaintext.Text.Trim()) || string.IsNullOrEmpty(this.tbdate.Text.Trim()))
-            {
-                WebUtils.ShowMessage(this.Page, "请输入邮件正文及日期！"); return;
-            }*/
+
             BindDataGroup(1);
             this.btnSendMail.Visible = true;
         }

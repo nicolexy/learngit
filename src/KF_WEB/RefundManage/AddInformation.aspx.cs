@@ -194,30 +194,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
         }
 		private bool CheckOldName(string qqid,string oldName)
 		{
-			/*string Msg = null;
-			bool exeSign;
-
-			//调用service
-			try
-			{
-				Finance_ManageService.Finance_Manage fs = new TENCENT.OSS.CFT.KF.KF_Web.Finance_ManageService.Finance_Manage();
-				exeSign = fs.CheckOldName(qqid,oldName,out Msg);
-				//判断执行结果
-				if (exeSign == false)
-				{
-					WebUtils.ShowMessage(this.Page,Msg);
-					return false;
-				}
-				else
-				{
-					return true;
-				}	
-			}
-			catch(Exception e)
-			{
-				WebUtils.ShowMessage(this.Page,e.Message.ToString().Replace("'","’"));
-				return false;
-			}*/
+			
             return true;
 			
 		}
@@ -235,12 +212,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 
                 ddlCardType.SelectedIndex = 0;
             }
- 
-
         }
-
-
 	}
-	
 	
 }
