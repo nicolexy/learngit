@@ -16,17 +16,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
     {
 
         private int m_nState = 1;
-       private  string[] m_nCheckState = 
-       {
-                "等待客服处理",       
-                "已通知用户",
-                "收集用户卡号，等待客服审批",
-                "等待BG审核",
-                "等待风控审核",
-                "等待财务处理",
-                "财务处理完成",
-                "无法处理,转向财务",
-            
+        Dictionary<int, string> dic_m_nCheckState = new Dictionary<int, string>()
+        {
+            { -2 , "挂起"},
+            { 0 , "等待客服处理"},
+            { 1 , "已通知用户"},
+            { 2 , "收集用户卡号，等待客服审批"},
+            { 3 , "等待BG审核"},
+            { 4 , "等待风控审核"},
+            { 5 , "等待财务处理"},
+            { 6 , "财务处理完成"},
+            { 7 , "无法处理,转向财务"},
         };
 
         private string[] m_nAryRefundType = 
@@ -56,7 +56,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 this.operaterName.Text = Session["uid"].ToString();
                 if (!IsPostBack)
                 {
-
                     if (Session["uid"].ToString() == RefundPublicFun.OPERATOR.Trim())
                     {
                         SetRighBtnState(true);
@@ -147,6 +146,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             lb_RefundCountAll.Text="0";
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
+                ViewState["CacheData"] = ds;
                 ds.Tables[0].Columns.Add("FstateEx", typeof(System.String));
                 ds.Tables[0].Columns.Add("FbankTypeName", typeof(System.String));
                 ds.Tables[0].Columns.Add("FAmtEx", typeof(System.String));  //交易金额转元
@@ -167,7 +167,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 };
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    dr["FstateEx"] = m_nCheckState[int.Parse(dr["Fstate"].ToString())];
+                    dr["FstateEx"] = dic_m_nCheckState[int.Parse(dr["Fstate"].ToString())];
                     if (string.IsNullOrEmpty(dr["FBuyBanktype"].ToString()))
                     {
                         dr["FbankTypeName"] = "未知银行类型";
@@ -176,17 +176,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     {
                         dr["FbankTypeName"] = Transfer.convertbankType(dr["FBuyBanktype"].ToString());
                     }
-                    dr["TotalDB_Fstate_str"] = dic.ContainsKey((short)dr["TotalDB_Fstate"]) ? dic[(short)dr["TotalDB_Fstate"]] : "其他";
+                    var TotalDB_Fstate = (int)dr["TotalDB_Fstate"];
+                    dr["TotalDB_Fstate_str"] = dic.ContainsKey(TotalDB_Fstate) ? dic[TotalDB_Fstate] : "其他";
 
                     dr["FAmtEx"] = RefundPublicFun.FenToYuan(dr["FAmt"].ToString());
                     dr["FReturnAmtEx"] = RefundPublicFun.FenToYuan(dr["FReturnAmt"].ToString());
                 }
                 lb_RefundCountAll.Text = ds.Tables[0].Rows.Count.ToString();
+                pager.RecordCount = ds.Tables[0].Rows.Count;
                 if (bState)
                 {
                     StringWriter sw = new StringWriter();
                     string excelHeader = gridInfor.Columns[0].HeaderText;
-                    for (int i = 1; i < gridInfor.Columns.Count - 1; i++)
+                    for (int i = 1; i < gridInfor.Columns.Count - 2; i++)
                     {
                         excelHeader += "\t" + gridInfor.Columns[i].HeaderText;
                     }
@@ -197,13 +199,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     {
                         sw.WriteLine(
                             "=\"" + dr["FpayListid"].ToString() + 
-                            "\"\t=\"" + dr["FReturnstate"].ToString() + 
+                            //"\"\t=\"" + dr["FReturnstate"].ToString() + 
                             "\"\t=\"" + dr["FAmtEx"] + 
                             "\"\t" + dr["FReturnAmtEx"] + 
                             "\t=\"" + dr["FcreateTime"] + 
                             "\"\t=\"" + dr["FUserEmail"] + 
                             "\"\t=\"" + dr["FbankListid"] + 
                             "\"\t=\"" + dr["FstateEx"] +
+                            "\"\t=\"" + dr["TotalDB_FCreateMemo"] +
                             "\"\t=\"" + dr["TotalDB_Fstate_str"] +
                             "\"\t=\"" + dr["FbankTypeName"] +
                             "\"\t=\"" + dr["FSPID"] +
@@ -252,11 +255,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             string strRefundType = null;
             string strOldId = null;
             string strCreateTime = null;
+            string strBankType = null;
             for (int i = 0; i < gridInfor.Rows.Count; i++)
             {
                 CheckBox ckBox = (CheckBox)gridInfor.Rows[i].FindControl("checkbox");
                 int nState = int.Parse(gridInfor.DataKeys[i].Values["Fstate"].ToString());
-                if (nState >= 2)
+                if (nState >= 2 && nState != -2)
                 {
                     //已发启审批的单，不能直接转财务处理
                     continue;
@@ -270,6 +274,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                         strPayListid += "|";
                         strRefundType += "|";
                         strCreateTime += "|";
+                        strBankType += "|";
                     }      
                     strUinID += gridInfor.DataKeys[i].Values["FpayListid"].ToString();
 
@@ -293,10 +298,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     strPayListid += gridInfor.DataKeys[i].Values["FbankListid"].ToString();
                     strOldId += gridInfor.DataKeys[i].Values["FoldId"].ToString();
                     strCreateTime += gridInfor.DataKeys[i].Values["FcreateTime"].ToString();
-
+                    strBankType += gridInfor.DataKeys[i].Values["FbankType"].ToString();
                 }
             }
-            Response.Write("<script>window.open('AddInformation.aspx?uinID=" + strUinID + "&refundType=" + strRefundType + "&bankListId=" + strPayListid + "&oldId=" + strOldId +"&time=" + strCreateTime + "','_blank')</script>");
+            Response.Write("<script>window.open('AddInformation.aspx?uinID=" + strUinID + "&refundType=" + strRefundType + "&bankListId=" + strPayListid + "&oldId=" + strOldId + "&time=" + strCreateTime + "&bankType=" + strBankType + "','_blank')</script>");
             return;
 
 
@@ -312,11 +317,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
         {
             BindData(true);
         }
-        protected void OnCheckBox_CheckedSelect(object sender, System.EventArgs e)
-        {
-          
-           
-        }
+
         //通知
         protected void OnBtnClickNotice_Click(object sender, System.EventArgs e)
         {
@@ -359,11 +360,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
         }
       
 
-        protected void gridInfor_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            gridInfor.PageIndex = e.NewPageIndex;
-            BindData();
-        }
+        //protected void gridInfor_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        //{
+        //    gridInfor.PageIndex = e.NewPageIndex;
+        //    BindData();
+        //}
 
         private void SetRighBtnState(bool state =false)
         {
@@ -440,6 +441,57 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             WebUtils.ShowMessage(this.Page, "转财务处理成功。");
         }
 
-      
+        protected void ChangePage(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
+        {
+            try
+            {
+                if (gridInfor.PageCount < e.NewPageIndex)
+                {
+                    WebUtils.ShowMessage(this.Page, "没有找到数据");
+                    return;
+                }
+                pager.CurrentPageIndex = e.NewPageIndex;
+                gridInfor.PageIndex = e.NewPageIndex - 1;
+                var ds = ViewState["CacheData"] as DataSet;
+                gridInfor.DataSource = ds.Tables[0];
+                gridInfor.DataBind();
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this.Page, "异常:" + PublicRes.GetErrorMsg(ex.Message));
+            }
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            string strOldID = null;
+            for (int i = 0; i < gridInfor.Rows.Count; i++)
+            {
+                CheckBox ckBox = (CheckBox)gridInfor.Rows[i].FindControl("checkbox");
+                if (ckBox.Checked)
+                {
+                    if (i != 0)
+                    {
+                        strOldID += "|";
+                    }
+                    strOldID += gridInfor.DataKeys[i].Values["FoldId"].ToString();
+                    int nState = int.Parse(gridInfor.DataKeys[i].Values["Fstate"].ToString());
+                    if (nState != 0)
+                    {
+                        WebUtils.ShowMessage(this.Page, "操作失败，请检查审批状态！");
+                        return;
+                    }
+                    try
+                    {
+                        new RefundService().SetRefundCheckState(-2, strOldID);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.Message);
+                    }
+                }
+            }
+            WebUtils.ShowMessage(this.Page, "挂起成功。");
+        }
     }
 }
