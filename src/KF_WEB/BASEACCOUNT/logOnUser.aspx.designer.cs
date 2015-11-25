@@ -76,15 +76,6 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator2;
         
         /// <summary>
-        /// labelConfirm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelConfirm;
-        
-        /// <summary>
         /// txtReason control.
         /// </summary>
         /// <remarks>

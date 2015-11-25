@@ -125,19 +125,16 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
             int wxFlag = 0;//是否是微信账号
             if (string.IsNullOrEmpty(TextBox1_QQID.Text) && string.IsNullOrEmpty(TextBox2_WX.Text))
             {
-                ValidateID.ForeColor = Color.Red;
                 ValidateID.Text = "请输入手Q账号或下方微信号";
                 return;
             }
             if (!string.IsNullOrEmpty(TextBox1_QQID.Text) && TextBox1_QQID.Text.Contains("@wx.tenpay.com"))
             {
-                ValidateID.ForeColor = Color.Red;
                 ValidateID.Text = "微信支付帐号请输入微信号注销!";
                 return;
             }
             if (!string.IsNullOrEmpty(TextBox1_QQID.Text) && !string.IsNullOrEmpty(TextBox2_WX.Text))
             {
-                ValidateID.ForeColor = Color.Red;
                 ValidateID.Text = "不能同时输入手Q账号和微信账号!!!";
                 return;
             }
@@ -147,7 +144,6 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
             {
                 if (TextBox2_WX.Text != txbConfirmQ.Text)
                 {
-                    ValidateID.ForeColor = Color.Red;
                     ValidateID.Text = "两次输入的账号不相同，请重新输入!!!";
                     return;
                 }
@@ -158,7 +154,6 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
             }
             else if (TextBox1_QQID.Text != txbConfirmQ.Text)
             {
-                ValidateID.ForeColor = Color.Red;
                 ValidateID.Text = "两次输入的账号不相同，请重新输入!!!";
                 return;
             }
@@ -167,8 +162,6 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 WebUtils.ShowMessage(this.Page, "请输入正确格式的用户邮箱地址");
                 return;
             }
-
-			string memo   = "[注销QQ号码:" + qqid + "]注销原因:" + reason;
 
 			string Msg = "";
 
@@ -182,195 +175,201 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 					return;
 				}
 
-				Check_Service cs = new Check_Service();
-				TENCENT.OSS.CFT.KF.KF_Web.Check_WebService.Finance_Header fh = setConfig.setFH_CheckService(this);
-				cs.Finance_HeaderValue = fh;
-
-				Param[] myParams = new Param[4];
-
-				string fqqid = this.txbConfirmQ.Text.Trim();
-                if (wxFlag == 1)
-                {
-                    fqqid = wxUIN;
-                }
-				myParams[0] = new Param();
-				myParams[0].ParamName = "fqqid";
-				myParams[0].ParamValue = fqqid;
-
-				myParams[1] = new Param();
-				myParams[1].ParamName = "Memo";
-				myParams[1].ParamValue = memo;
-
-				myParams[2] = new Param();
-				myParams[2].ParamName = "returnUrl";
-				myParams[2].ParamValue = "/BaseAccount/InfoCenter.aspx?id=" + qqid;
-
-				myParams[3] = new Param();
-				myParams[3].ParamName = "fuser";
-				myParams[3].ParamValue = Session["uid"].ToString();
-
-				string mainID     = DateTime.Now.ToString("yyyyMMdd") + qqid;
-				string checkType  = "logonUser";
-
-                Query_Service qs = new Query_Service();
-                TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Finance_Header fh2 = setConfig.setFH(this);
-                qs.Finance_HeaderValue = fh2;
-
                 if (255 < reason.Length)
                 {
                     WebUtils.ShowMessage(this.Page, "备注字数不得超过255个字符");
                     return;
                 }
 
-                var BalanceInfo = ViewState["BalanceInfo"] as Tuple<string, long>;
-                ViewState["BalanceInfo"] = null;
+				Check_Service cs = new Check_Service();
+				TENCENT.OSS.CFT.KF.KF_Web.Check_WebService.Finance_Header fh = setConfig.setFH_CheckService(this);
+				cs.Finance_HeaderValue = fh;
+
+                Query_Service qs = new Query_Service();
+                TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Finance_Header fh2 = setConfig.setFH(this);
+                qs.Finance_HeaderValue = fh2;
+
+
                 long balance = 0;//就是金额
-                if (BalanceInfo == null || BalanceInfo.Item1 != fqqid)
+                if (ViewState["Cached" + qqid] == null)
                 {
+                    //手Q用户转账中、退款中、未完成的订单禁止注销和批量注销
+                    if (Regex.IsMatch(qqid, @"^[1-9]\d*$"))
+                    {
+                        #region 手Q特有判断
+                        DataSet dsHandQ = new TradeService().QueryPaymentParty("", "1,2,12,4", "3", qqid);
+                        if (dsHandQ != null && dsHandQ.Tables.Count > 0 && dsHandQ.Tables[0].Rows.Count > 0 && dsHandQ.Tables[0].Rows[0]["result"].ToString() != "97420006")
+                        {
+                            WebUtils.ShowMessage(this.Page, "手Q用户转账中、退款中、未完成的订单禁止注销和批量注销");
+                            return;
+                        }
+
+                        #region 红包
+                        try
+                        {
+                            DataSet dsMobileQHB = new TradeService().GetUnfinishedMobileQHB(qqid);
+                            if (dsMobileQHB.Tables[0].Columns.Contains("row_num"))
+                            {
+                                if (dsMobileQHB != null && dsMobileQHB.Tables.Count > 0 && dsMobileQHB.Tables[0].Rows.Count > 0 && int.Parse(dsMobileQHB.Tables[0].Rows[0]["row_num"].ToString()) > 0)
+                                {
+                                    WebUtils.ShowMessage(this.Page, "该账户存在未完成的手Q红包交易，禁止注销和批量注销");
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                WebUtils.ShowMessage(this.Page, "查询是否有未完成手Q红包交易失败!");
+                                return;
+                            }
+                        }
+                        catch (System.Exception ex)
+                        {
+                            LogHelper.LogError("查询手Q红包未完成交易失败" + ex.Message, "LogOnUser");
+                            WebUtils.ShowMessage(this.Page, "查询手Q红包未完成交易失败" + ex.Message);
+                            return;
+                        }
+                        #endregion
+
+                        #region 微粒贷
+                        try
+                        {
+                            if (new TradeService().HasUnfinishedWeiLibDai(qqid))
+                            {
+                                WebUtils.ShowMessage(this.Page, "存在未完成的微粒贷欠款,禁止注销和批量注销");
+                                return;
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            WebUtils.ShowMessage(this.Page, "微粒贷查询,出错");
+                            return;
+                        }
+                        #endregion
+
+                        #endregion
+                    }
+
+                    //有微信支付、转账、红包未完成的禁止注销和批量注销
+                    if (wxFlag == 1)
+                    {
+                        #region 微信特有判断
+                        try
+                        {
+                            var WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(wxid);
+                            if (!WXUnfinishedTrade)
+                            {
+                                LogHelper.LogInfo(wxid + "此账号有未完成微信支付转账，禁止注销!");
+                                WebUtils.ShowMessage(this.Page, "此账号有未完成微信支付转账，禁止注销!");
+                                return;
+                            }
+
+                            var HasUnfinishedHB = (new TradeService()).QueryWXUnfinishedHB(wxid);
+                            if (!HasUnfinishedHB)
+                            {
+                                LogHelper.LogInfo(wxid + "此账号有未完成微信红包，禁止注销!");
+                                WebUtils.ShowMessage(this.Page, "此账号有未完成微信红包，禁止注销!");
+                                return;
+                            }
+                        }
+                        catch (System.Exception ex)
+                        {
+                            LogHelper.LogError("销户操作查询微信支付在途条目出错" + ex.Message);
+                            WebUtils.ShowMessage(this.Page, "销户操作查询微信支付在途条目出错" + ex.Message);
+                            return;
+                        }
+                        #endregion
+                    }
+
+                    //是否有未完成的交易单
+                    if (qs.LogOnUsercheckOrder(qqid, "1"))
+                    {
+                        WebUtils.ShowMessage(this.Page, "有未完成的交易单");
+                        return;
+                    }
+
+                    if (qs.LogOnUserCheckYDT(qqid, "1"))//是否开通一点通
+                    {
+                        WebUtils.ShowMessage(this.Page, "开通了一点通");
+                        return;
+                    }
+
+                    #region 金额判断
+                    //这部分逻辑先注释掉：
+                    //当用户没有关于余额支付的功能时（没有打开也没有关闭时）zw_prodatt_query_service返回错误
+                    //线上打开余额支付也掉不通，可能是策略问题
+                    //string ip = fh2.UserIP;
+                    //bool isOpen = balaceService.BalancePaidOrNotQuery(fqqid, ip);//查询余额支付功能关闭与否
+                    //if (balance <= 200000 && !isOpen)//如余额支付功能已闭且余额小于2000元以下自动调接口打开余额支付的功能
+                    //{
+                    //    balaceService.OpenBalancePaid(qqid,ip);
+                    //}
+                    //if (balance > 200000 && !isOpen)//因为该情况不打开余额支付，就不能注销，为了系统性能速度
+                    //{
+                    //    WebUtils.ShowMessage(this.Page, "余额大于2000元，且余额支付为关闭状态，不能销户！");
+                    //    return;
+                    //}
+
                     //下面的流程
                     // 1:判断金额大于阀值,发起一个审批
                     //2:金额小于时,插入logonhistory表,调用接口注销,如果有邮箱,向邮箱发送邮件,反馈信息给一线人员.
 
-                    DataSet ds1 = qs.GetChildrenInfo(fqqid, "1");//主帐户余额
-                    if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
-                    {
-                        balance += long.Parse(ds1.Tables[0].Rows[0]["Fbalance"].ToString().Trim());
-                    }
-                    ds1 = qs.GetChildrenInfo(fqqid, "80");//游戏子帐户
-                    if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
-                    {
-                        balance += long.Parse(ds1.Tables[0].Rows[0]["Fbalance"].ToString().Trim());
-                    }
-                    ds1 = qs.GetChildrenInfo(fqqid, "82");//直通车子帐户
-                    if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
-                    {
-                        balance += long.Parse(ds1.Tables[0].Rows[0]["Fbalance"].ToString().Trim());
-                    }
-                    ViewState["BalanceInfo"] = BalanceInfo = new Tuple<string, long>(fqqid, balance);
 
+                    var ds = qs.GetUserAccountCancel(qqid, 1, 1, 1);
+                    if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                    {
+                        string s_fz_amt = PublicRes.objectToString(ds.Tables[0], "Ffz_amt"); //分账冻结金额
+                        string s_cron = PublicRes.objectToString(ds.Tables[0], "Fcon");
+
+                        var freezeMoney = 0L;
+                        if (s_fz_amt != "")
+                        {
+                            freezeMoney += long.Parse(s_fz_amt);
+                        }
+
+                        if (s_cron != "")
+                        {
+                            freezeMoney += long.Parse(s_cron);
+                        }
+
+                        if (freezeMoney > 0)
+                        {
+                            WebUtils.ShowMessage(this.Page, "账户有冻结资金不支持注销！");
+                            return;
+                        }
+
+                    }
+
+
+                    DataSet ds1 = qs.GetChildrenInfo(qqid, "1");//主帐户余额
+                    if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
+                    {
+                        balance += long.Parse(ds1.Tables[0].Rows[0]["Fbalance"].ToString().Trim());
+                    }
+                    ds1 = qs.GetChildrenInfo(qqid, "80");//游戏子帐户
+                    if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
+                    {
+                        balance += long.Parse(ds1.Tables[0].Rows[0]["Fbalance"].ToString().Trim());
+                    }
+                    ds1 = qs.GetChildrenInfo(qqid, "82");//直通车子帐户
+                    if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
+                    {
+                        balance += long.Parse(ds1.Tables[0].Rows[0]["Fbalance"].ToString().Trim());
+                    } 
+                    #endregion
+
+                    ViewState["Cached" + qqid] = balance;
                     var yuan = MoneyTransfer.FenToYuan(balance);
                     Response.Write("<script type='text/javascript'>window.onload=function(){ confirm(' 该账户余额：" + yuan + "元 \\r\\n 一旦注销成功无法恢复，请确认是否继续注销？') && document.getElementById('btLogOn').click();}</script>");
                     return;
                 }
-                else
-                {
-                    balance = BalanceInfo.Item2;
-                }
 
-                //手Q用户转账中、退款中、未完成的订单禁止注销和批量注销
-                if (Regex.IsMatch(qqid, @"^[1-9]\d*$"))
-                {
-                    #region 手Q特有判断
-                    DataSet dsHandQ = new TradeService().QueryPaymentParty("", "1,2,12,4", "3", qqid);
-                    if (dsHandQ != null && dsHandQ.Tables.Count > 0 && dsHandQ.Tables[0].Rows.Count > 0 && dsHandQ.Tables[0].Rows[0]["result"].ToString() != "97420006")
-                    {
-                        WebUtils.ShowMessage(this.Page, "手Q用户转账中、退款中、未完成的订单禁止注销和批量注销");
-                        return;
-                    }
+                balance = Convert.ToInt64(ViewState["Cached" + qqid]);
+                ViewState["Cached" + qqid] = null;
 
-                    #region 红包
-                    try
-                    {
-                        DataSet dsMobileQHB = new TradeService().GetUnfinishedMobileQHB(qqid);
-                        if (dsMobileQHB.Tables[0].Columns.Contains("row_num"))
-                        {
-                            if (dsMobileQHB != null && dsMobileQHB.Tables.Count > 0 && dsMobileQHB.Tables[0].Rows.Count > 0 && int.Parse(dsMobileQHB.Tables[0].Rows[0]["row_num"].ToString()) > 0)
-                            {
-                                WebUtils.ShowMessage(this.Page, "该账户存在未完成的手Q红包交易，禁止注销和批量注销");
-                                return;
-                            }
-                        }
-                        else
-                        {
-                            WebUtils.ShowMessage(this.Page, "查询是否有未完成手Q红包交易失败!");
-                            return;
-                        }
-                    }
-                    catch (System.Exception ex)
-                    {
-                        LogHelper.LogError("查询手Q红包未完成交易失败" + ex.Message, "LogOnUser");
-                        WebUtils.ShowMessage(this.Page, "查询手Q红包未完成交易失败" + ex.Message);
-                        return;
-                    }  
-                    #endregion
+                #region 注销操作
 
-                    #region 微粒贷
-                    try
-                    {
-                        if (new TradeService().HasUnfinishedWeiLibDai(qqid))
-                        {
-                            WebUtils.ShowMessage(this.Page, "存在未完成的微粒贷欠款,禁止注销和批量注销");
-                            return;
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        WebUtils.ShowMessage(this.Page, "微粒贷查询,出错");
-                        return;
-                    } 
-                    #endregion
-    
-                    #endregion
-                }
-
-                //有微信支付、转账、红包未完成的禁止注销和批量注销
-                if (wxFlag == 1)
-                {
-                    #region 微信特有判断
-                    try
-                    {
-                        var WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(wxid);
-                        if (!WXUnfinishedTrade)
-                        {
-                            LogHelper.LogInfo(wxid + "此账号有未完成微信支付转账，禁止注销!");
-                            WebUtils.ShowMessage(this.Page, "此账号有未完成微信支付转账，禁止注销!");
-                            return;
-                        }
-
-                        var HasUnfinishedHB = (new TradeService()).QueryWXUnfinishedHB(wxid);
-                        if (!HasUnfinishedHB)
-                        {
-                            LogHelper.LogInfo(wxid + "此账号有未完成微信红包，禁止注销!");
-                            WebUtils.ShowMessage(this.Page, "此账号有未完成微信红包，禁止注销!");
-                            return;
-                        }
-                    }
-                    catch (System.Exception ex)
-                    {
-                        LogHelper.LogError("销户操作查询微信支付在途条目出错" + ex.Message);
-                        WebUtils.ShowMessage(this.Page, "销户操作查询微信支付在途条目出错" + ex.Message);
-                        return;
-                    } 
-                    #endregion
-                }
-                //是否有未完成的交易单
-                if (qs.LogOnUsercheckOrder(fqqid, "1"))
-                {
-                    WebUtils.ShowMessage(this.Page, "有未完成的交易单");
-                    return;
-                }
-               
-                if (qs.LogOnUserCheckYDT(fqqid, "1"))//是否开通一点通
-                {
-                    WebUtils.ShowMessage(this.Page, "开通了一点通");
-                    return;
-                }
-
-                //这部分逻辑先注释掉：
-                //当用户没有关于余额支付的功能时（没有打开也没有关闭时）zw_prodatt_query_service返回错误
-                //线上打开余额支付也掉不通，可能是策略问题
-                //string ip = fh2.UserIP;
-                //bool isOpen = balaceService.BalancePaidOrNotQuery(fqqid, ip);//查询余额支付功能关闭与否
-                //if (balance <= 200000 && !isOpen)//如余额支付功能已闭且余额小于2000元以下自动调接口打开余额支付的功能
-                //{
-                //    balaceService.OpenBalancePaid(qqid,ip);
-                //}
-                //if (balance > 200000 && !isOpen)//因为该情况不打开余额支付，就不能注销，为了系统性能速度
-                //{
-                //    WebUtils.ShowMessage(this.Page, "余额大于2000元，且余额支付为关闭状态，不能销户！");
-                //    return;
-                //}
-
+                string mainID = DateTime.Now.ToString("yyyyMMdd") + qqid;
+                string checkType = "logonUser";
                 if (balance < 10 * 10 * 200)//系统自动注销
                 {
                     if (!qs.LogOnUserDeleteUser(qqid, reason, Label1.Text, "", out Msg))
@@ -381,17 +380,38 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     //系统自动注销成功给用户发邮件
                     if (emailCheck)
                     {
-                     SendEmail(emailAddr,qqid,"系统自动销户");
+                        SendEmail(emailAddr, qqid, "系统自动销户");
                     }
                     WebUtils.ShowMessage(this.Page, "系统自动销户成功！");
                     return;
                 }
                 else
                 {
+                    string memo = "[注销QQ号码:" + qqid + "]注销原因:" + reason;
+                    Param[] myParams = new Param[4];
+
+                    myParams[0] = new Param();
+                    myParams[0].ParamName = "fqqid";
+                    myParams[0].ParamValue = qqid;
+
+                    myParams[1] = new Param();
+                    myParams[1].ParamName = "Memo";
+                    myParams[1].ParamValue = memo;
+
+                    myParams[2] = new Param();
+                    myParams[2].ParamName = "returnUrl";
+                    myParams[2].ParamValue = "/BaseAccount/InfoCenter.aspx?id=" + qqid;
+
+                    myParams[3] = new Param();
+                    myParams[3].ParamName = "fuser";
+                    myParams[3].ParamValue = Session["uid"].ToString();
+
                     cs.StartCheck(mainID, checkType, memo, MoneyTransfer.FenToYuan(balance.ToString()), myParams);
                     WebUtils.ShowMessage(this.Page, "销户申请提请成功！");
                     return;
-                }
+                } 
+
+                #endregion
 			}
 			catch(SoapException eSoap) //捕获soap类异常
 			{
