@@ -12,6 +12,7 @@ using System.Web.UI.HtmlControls;
 using Tencent.DotNet.Common.UI;
 using CFT.CSOMS.BLL.RefundModule;
 using CFT.CSOMS.BLL.TransferMeaning;
+using CFT.CSOMS.BLL.CFTAccountModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 {
@@ -263,10 +264,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     myService.Finance_HeaderValue.SessionID, myService.Finance_HeaderValue.SzKey, myService.Finance_HeaderValue.OperID, myService.Finance_HeaderValue.RightString);  
                 if (!string.IsNullOrEmpty(strUid))
                 {
-                    log.InfoFormat("求个人信息不为空：操作者：{0} ", Session["uid"].ToString());                 
-  
+                    log.InfoFormat("求个人信息不为空：操作者：{0} ", Session["uid"].ToString());
 
-                    DataSet tmpds = myService.GetUserInfo(strUid.Trim(), 1, 1);
+
+                    DataSet tmpds = new AccountService().GetUserInfo(strUid.Trim(), 1, 1);
                     if (tmpds == null || tmpds.Tables.Count < 1 || tmpds.Tables[0].Rows.Count < 1)
                     {
                         msg += string.Format("根据财付通帐号：{0} 求个人信息为空:", strUid);

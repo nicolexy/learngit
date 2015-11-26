@@ -15,6 +15,7 @@ using Tencent.DotNet.OSS.Web.UI;
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using TENCENT.OSS.CFT.KF.Common;
+using CFT.CSOMS.BLL.CFTAccountModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -107,7 +108,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 
 
-			DataSet ds = myService.GetUserInfo(this.TX_QQID.Text.Trim(),istr,imax);
+			DataSet ds = new AccountService().GetUserInfo(this.TX_QQID.Text.Trim(),istr,imax);
 			if(ds == null || ds.Tables.Count<1 || ds.Tables[0].Rows.Count<1) 
 			{
 				throw new Exception("数据库无此记录");					

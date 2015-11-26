@@ -152,50 +152,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
             ViewState["newIndex"] = e.NewPageIndex - 1;
             BindData();
         }
-
-
-        //原帐号理财通账户余额和基金份额不为0时不允许修改转换
-        bool isHasBalance(string qq)
-        {
-            string uin = qq; //"1563686969"
-            try
-            {
-                double totalBalance = 0;
-                DataTable summaryTable = new FundService().GetUserFundSummary(uin);
-                foreach (DataRow item in summaryTable.Rows)
-                {
-                    totalBalance += Convert.ToDouble(item["balance"].ToString());
-                }
-                if (totalBalance > 0)
-                {
-                    return true;
-                }
-            }
-            catch
-            {
-            }
-
-            try
-            {
-                double LCTBalance = 0;
-                //理财通余额，币种89,统计收益总和，和余额总和
-                DataTable subAccountInfoTable = new LCTBalanceService().QuerySubAccountInfo(uin, 89);
-                if (subAccountInfoTable != null && subAccountInfoTable.Rows.Count > 0)
-                {
-                    LCTBalance = Convert.ToDouble(subAccountInfoTable.Rows[0]["Fbalance"].ToString());
-                }
-                if (LCTBalance > 0)
-                {
-                    return true;
-                }
-            }
-            catch
-            {
-            }
-            return false;
-        }
-
-
+    
         protected void btnChangeQQ_Click(object sender, System.EventArgs e)
         {
             if (OldQQ.Text.Trim() == "")
@@ -210,28 +167,13 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 return;
             }
 
-            if (isHasBalance(OldQQ.Text.Trim()))
+            string outMsg="";
+            if (!new AccountOperate().ChangeQQState(OldQQ.Text.Trim(),out outMsg))
             {
-                WebUtils.ShowMessage(this.Page, "原帐号理财通账户余额和基金份额不为0时不允许修改转换！");
+                WebUtils.ShowMessage(this.Page, outMsg);
                 return;
             }
-
-            #region 微粒贷
-            try
-            {
-                if (new TradeService().HasUnfinishedWeiLibDai(OldQQ.Text.Trim()))
-                {
-                    WebUtils.ShowMessage(this.Page, "存在未完成的微粒贷欠款,禁止修改账号");
-                    return;
-                }
-            }
-            catch (Exception)
-            {
-                WebUtils.ShowMessage(this.Page, "微粒贷查询,出错");
-                return;
-            }
-            #endregion
-
+           
             //发起审批。
             //在这里变成了一个提起审批的流程，而不再是直接审批。
             TENCENT.OSS.CFT.KF.KF_Web.Check_WebService.Param[] myParams = new TENCENT.OSS.CFT.KF.KF_Web.Check_WebService.Param[3];
