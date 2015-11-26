@@ -136,7 +136,7 @@ namespace CFT.CSOMS.DAL.RefundModule
             {
                 var inParam =string.Join(",", payChannel.Item2);
                 var isNot = payChannel.Item1 == 1 ? "" : "not";
-                term.AppendFormat(" and Fbuyid {0} in('{1}')", isNot, inParam);
+                term.AppendFormat(" and FBuyBanktype {0} in({1})", isNot, inParam);
             }
             DataSet ds = null;
             if (term.Length > 0)
@@ -153,11 +153,12 @@ namespace CFT.CSOMS.DAL.RefundModule
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     var kf_dt = ds.Tables[0];
-                    kf_dt.Columns.Add("TotalDB_Fstate",typeof(short));
+                    kf_dt.Columns.Add(new DataColumn("TotalDB_Fstate", typeof(int)) { DefaultValue = -1 });
+                    kf_dt.Columns.Add("TotalDB_FCreateMemo", typeof(string));
 
                     var foldIds = kf_dt.AsEnumerable().Select(u => (string)u["FoldId"]).ToArray();  //获取 FoldId 的集合 去主表(t_refund_total) 查找 退款状态(fstate)
                     var foldIdParam = string.Join("','", foldIds);
-                    var totalQuerySQL = string.Format("SELECT FoldId,Fstate as TotalDB_Fstate FROM c2c_zwdb.t_refund_total WHERE FoldId IN('{0}')", foldIdParam);
+                    var totalQuerySQL = string.Format("SELECT FoldId,Fstate as TotalDB_Fstate,FCreateMemo as TotalDB_FCreateMemo FROM c2c_zwdb.t_refund_total WHERE FoldId IN('{0}')", foldIdParam);
 
                     if (iTrade != 0)  // 如果查询条件中加入了 退款状态查询
                     {
@@ -177,6 +178,7 @@ namespace CFT.CSOMS.DAL.RefundModule
                                 if (totalInfo != null)
                                 {
                                     kf_dt.Rows[i]["TotalDB_Fstate"] = totalInfo["TotalDB_Fstate"];
+                                    kf_dt.Rows[i]["TotalDB_FCreateMemo"] = totalInfo["TotalDB_FCreateMemo"];
                                 }
                                 else if (iTrade != 0)
                                 {

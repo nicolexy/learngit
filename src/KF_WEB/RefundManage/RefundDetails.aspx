@@ -235,6 +235,19 @@
 												</td>
 											</tr>
                                             <tr bgColor="#cccccc">
+												<td colSpan="6" height="25">
+                                                    <div style="padding:4px;">
+												        <asp:Repeater runat="server" ID="RelatedOrder">
+                                                            <ItemTemplate>
+                                                                <div>
+                                                                    <a href="#">999999999999999999999999</a>
+                                                                </div>
+                                                            </ItemTemplate>
+												        </asp:Repeater>
+                                                    </div>
+												</td>
+											</tr>
+                                            <tr bgColor="#cccccc">
                                                 <td  height="25">
                                                     <div class="style5" align="left">后台资料</div>
                                                 </td>

@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RefundRegistration.aspx.cs" Inherits="TENCENT.OSS.CFT.KF.KF_Web.RefundManage.RefundRegistration" %>
-
+<%@ Register TagPrefix="webdiyer" Namespace="Wuqi.Webdiyer" Assembly="AspNetPager" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -124,6 +124,7 @@
                         <asp:Label id="Label4" runat="server">审核状态:</asp:Label>&nbsp;&nbsp;
                         <asp:DropDownList ID="checkStateListID" runat="server" Height="20px"  Width="200px" >
                         <asp:ListItem Value="-1" Selected="True">全部</asp:ListItem>
+                        <asp:ListItem Value="-2">挂起</asp:ListItem>     
                         <asp:ListItem Value="0">等待客服处理</asp:ListItem>
 						<asp:ListItem Value="1">已通知用户</asp:ListItem>
 						<asp:ListItem Value="2">收集用户卡号，等待客服审批</asp:ListItem>						
@@ -131,7 +132,7 @@
 						<asp:ListItem Value="4">BG通过等待风控审核</asp:ListItem>						
 						<asp:ListItem Value="5">风控通过，等待财务处理</asp:ListItem>
                         <asp:ListItem Value="6">财务处理完成</asp:ListItem>
-                        <asp:ListItem Value="7">无法处理直接拒绝</asp:ListItem>                  
+                        <asp:ListItem Value="7">无法处理直接拒绝</asp:ListItem>                
                         </asp:DropDownList>
                     </td>
                    <td>    
@@ -155,7 +156,9 @@
                 <tr>
                        <td nowrap><asp:Button ID="btnInputID" runat="server" Text="客服补填资料" onclick="OnBtnInputInfor_Click" /></td>
                         <td nowrap><asp:Button ID="btnReceiveID" runat="server" Text="银行收件人名单管理"  onclick="OnBtnReceiveManager_Click" /></td>
-                        <td nowrap><asp:Button ID="btnExecl" runat="server" Text="导出execl" onclick="OnBtnExecl_Click" /></td>
+                        <td nowrap><asp:Button ID="btnExecl" runat="server" Text="导出execl" onclick="OnBtnExecl_Click" />
+                            <asp:Button ID="Button1" runat="server" Text="挂起" OnClick="Button1_Click" />
+                       </td>
                         <td nowrap><asp:Button ID="btnCaiID" runat="server" Text="转财务处理" onclick="OnBtnCaiWu_Click" /></td>
                 </tr>
                
@@ -166,27 +169,29 @@
                 <td vAlign="top">
                 <br><asp:GridView ID="gridInfor" runat="server" AutoGenerateColumns = "False" 
                         headerstyle-horizontalalign="center" horizontalalign="Center" PageSize="10"
-                        AllowPaging ="True" AllowSorting = "True" onpageindexchanging="gridInfor_PageIndexChanging" 
+                        AllowPaging ="True" AllowSorting = "True"
                         GridLines="Horizontal" CellPadding="3" BorderStyle="None" DataKeyNames = "FpayListid,FCardType,FbankListid,FbankName,FbankType,FcreateTime,FtrueName,FmodifyTime,FReturnAmt,FAmt,FbankAccNo,FbankTypeOld,FoldId,FrefundType,Fstate"
                         BorderWidth="1px">
+                        <PagerSettings Visible="False" />
                         <PagerStyle BorderColor="#66FF66" Font-Names="宋体"  Font-Size="24px" />  
                         <FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
                         <HeaderStyle Font-Bold="True" HorizontalAlign="Center" ForeColor="#F7F7F7" BackColor="#4A3C8C"></HeaderStyle>
                     <Columns>            
                          
                         <asp:BoundField HeaderText="财付通订单号" DataField="FpayListid"   ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="150px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
-                        <asp:BoundField HeaderText="交易状态"     DataField="FReturnstate" ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
+                        <%--<asp:BoundField HeaderText="交易状态"     DataField="FReturnstate" ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >--%>
                         <asp:BoundField HeaderText="交易金额"     DataField="FAmtEx"       ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
                         <asp:BoundField HeaderText="退款金额"     DataField="FReturnAmtEx" ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
                         <asp:BoundField HeaderText="创建时间"     DataField="FcreateTime"   ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
                         <asp:BoundField HeaderText="邮箱地址"     DataField="FUserEmail"   ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
                         <asp:BoundField HeaderText="银行订单号"   DataField="FbankListid"  ReadOnly="True" ShowHeader="False"><HeaderStyle  Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
                         <asp:BoundField HeaderText="审批状态"     DataField="FstateEx"     ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
+                        <asp:BoundField HeaderText="数据来源"     DataField="TotalDB_FCreateMemo"     ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
                         <asp:BoundField HeaderText="退款状态"     DataField="TotalDB_Fstate_str"     ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
-                         <asp:BoundField HeaderText="银行类型"     DataField="FbankTypeName" ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >                                           
+                        <asp:BoundField HeaderText="银行类型"     DataField="FbankTypeName" ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >                                           
                              <asp:TemplateField HeaderText = "操作" >
                               <ItemTemplate>                                                           
-                                        <asp:CheckBox ID="checkbox" runat="server" Text ="" OnCheckedChanged = "OnCheckBox_CheckedSelect"   AutoPostBack = "true" /> &nbsp;                                          
+                                        <asp:CheckBox ID="checkbox" runat="server" Text ="" /> &nbsp;                                          
                                         <asp:Button ID = "btnNotice" runat = "server"  Text = "通知" OnClick = "OnBtnClickNotice_Click"  Width = "50px" 
                                         CommandArgument='<%# Eval("FuserFlag")+","+Eval("FpayListid")+","+Eval("FoldId") %>'  >     
                                         </asp:Button>&nbsp;&nbsp; 
@@ -196,8 +201,12 @@
                                         <asp:LinkButton ID="linkDetail" runat="server" CommandName="detail"  CommandArgument ='<%# Eval("FoldId") %>' OnClick = "OnLinkBtnDetail_Click" Width = "40px">详情</asp:LinkButton>                                                                          
                              </ItemTemplate>
                         </asp:TemplateField>
+                        <asp:BoundField HeaderText="银行类型(存放值的不参加显示)"  DataField="FbankType" Visible="false"></asp:BoundField >                                           
                     </Columns>
                 </asp:GridView>
+                    <webdiyer:aspnetpager id="pager" runat="server" AlwaysShow="True" NumericButtonCount="5" ShowCustomInfoSection="left" PageSize="10"
+								PagingButtonSpacing="0" ShowInputBox="always" CssClass="mypager" HorizontalAlign="right" OnPageChanged="ChangePage"
+								SubmitButtonText="转到" NumericButtonTextFormatString="[{0}]"></webdiyer:aspnetpager>
                     <span style="float:right; right:20px;">
                         记录总数:
                         <asp:Label runat="server" id="lb_RefundCountAll" Text="0" />
