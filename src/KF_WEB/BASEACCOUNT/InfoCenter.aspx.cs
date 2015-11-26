@@ -136,41 +136,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             this.Label19_OpenOrNot.Text = "";
         }
 
-        private string CheckBasicInfo(int nAttid)
-        {
-            //从数据字典中读取数据，绑定到web页
-            DataSet ds = PermitPara.QueryDicAccName();
-            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-            {
-                return "";
-            }
-            DataTable dt = ds.Tables[0];
-            foreach (DataRow dr in dt.Rows)
-            {
-                if (nAttid == int.Parse(dr["Value"].ToString().Trim()))
-                {
-                    return dr["Text"].ToString().Trim();
-                }
-            }
-            return "";
-        }
-
         private void BindData(int istr, int imax)
         {
-            Query_Service.Query_Service myService = new Query_Service.Query_Service();
-            myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
             DataSet ds = new DataSet();
             //判断是用微信查还是账号查 yinhuang 2013/7/30  2014/1/23 把微信查询的移到微信支付
             bool isWechat = false;
             try
             {
-                ds = myService.GetUserAccount(Session["QQID"].ToString(), 1, istr, imax);
+                ds = new AccountService().GetUserAccount(Session["QQID"].ToString(), 1, istr, imax);
 
                 if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
                 {
                     //也有可能是快速交易用户
                     //furion 新加一个函数，判断是否为快速交易用户，fsign=2并且无t_user表。
-                    if (myService.IsFastPayUser(Session["QQID"].ToString()))
+                    if (new AccountService().IsFastPayUser(Session["QQID"].ToString()))
                     {
                         this.Label14_Ftruename.Text = "快速交易用户";
                         this.Label12_Fstate.Text = "";
@@ -257,7 +236,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                     try
                     {
-                        string ip = myService.Finance_HeaderValue.UserIP;
+                        string ip = Request.UserHostAddress;
                         bool isOpen = balaceService.BalancePaidOrNotQuery(Session["QQID"].ToString(), ip);//查询余额支付功能关闭与否
                         if (isOpen)
                             this.Label19_OpenOrNot.Text = "打开";
@@ -283,7 +262,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     }
                     if (nAttid != 0)
                     {
-                        this.Label18_Attid.Text = CheckBasicInfo(nAttid);
+                        this.Label18_Attid.Text = Transfer.convertProAttType(nAttid); 
                     }
                     else
                     {
@@ -299,14 +278,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                     if (Label1_Acc.Text != "")
                     {
-                        string testuid = myService.QQ2Uid(Label1_Acc.Text);
+                        string testuid = new AccountService().QQ2Uid(Label1_Acc.Text);
                         if (testuid != null)
                         {
                             labQQstate.Text = "注册未关联";
                             if (testuid.Trim() == fuid)
                             {
                                 //再判断是否是已激活 furion 20070226
-                                string trueuid = myService.QQ2UidX(Label1_Acc.Text);
+                                string trueuid = new AccountService().QQ2UidX(Label1_Acc.Text);
                                 if (trueuid != null)
                                     labQQstate.Text = "已关联";
                                 else
@@ -321,14 +300,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                     if (labEmail.Text != "")
                     {
-                        string testuid = myService.QQ2Uid(labEmail.Text);
+                        string testuid = new AccountService().QQ2Uid(labEmail.Text);
                         if (testuid != null)
                         {
                             labEmailState.Text = "注册未关联";
                             if (testuid.Trim() == fuid)
                             {
                                 //再判断是否是已激活 furion 20070226
-                                string trueuid = myService.QQ2UidX(labEmail.Text);
+                                string trueuid = new AccountService().QQ2UidX(labEmail.Text);
                                 if (trueuid != null)
                                     labEmailState.Text = "已关联";
                                 else
@@ -343,14 +322,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                     if (labMobile.Text != "")
                     {
-                        string testuid = myService.QQ2Uid(labMobile.Text);
+                        string testuid = new AccountService().QQ2Uid(labMobile.Text);
                         if (testuid != null)
                         {
                             labMobileState.Text = "注册未关联";
                             if (testuid.Trim() == fuid)
                             {
                                 //再判断是否是已激活 furion 20070226
-                                string trueuid = myService.QQ2UidX(labMobile.Text);
+                                string trueuid = new AccountService().QQ2UidX(labMobile.Text);
                                 if (trueuid != null)
                                     labMobileState.Text = "已关联";
                                 else
@@ -410,7 +389,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             try
             {
                 //增加删除认证的操作日志
-                DataSet dsdgList = myService.GetUserClassDeleteList(this.TextBox1_InputQQ.Text.Trim());
+                DataSet dsdgList = new AuthenInfoService().GetUserClassDeleteList(this.TextBox1_InputQQ.Text.Trim());
                 if (dsdgList != null && dsdgList.Tables.Count > 0 && dsdgList.Tables[0].Rows.Count > 0)
                 {
                     this.dgList.Visible = true;
@@ -448,10 +427,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         //注销账号信息查询
         private void BindDataCancel(int istr, int imax)
         {
-            Query_Service.Query_Service myService = new Query_Service.Query_Service();
-            myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
+
             DataSet ds = new DataSet();
-            ds = myService.GetUserAccountCancel(this.TextBox1_InputQQ.Text.Trim(), 1, istr, imax);
+            ds = new AccountService().GetUserAccountCancel(this.TextBox1_InputQQ.Text.Trim(), 1, istr, imax);
 
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
             {
@@ -506,7 +484,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 try
                 {
-                    string ip = myService.Finance_HeaderValue.UserIP;
+                    string ip = Request.UserHostAddress;
                     bool isOpen = balaceService.BalancePaidOrNotQuery(Session["QQID"].ToString(), ip);//查询余额支付功能关闭与否
                     if (isOpen)
                         this.Label19_OpenOrNot.Text = "打开";
@@ -525,7 +503,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 //2006-10-18 edwinyang 增加产品属性
                 int nAttid = int.Parse(ds.Tables[0].Rows[0]["Att_id"].ToString());
                 //				pbp.BindDropDownList(pm.QueryDicAccName(),ddlAttid,out Msg);
-                this.Label18_Attid.Text = CheckBasicInfo(nAttid);
+                this.Label18_Attid.Text = Transfer.convertProAttType(nAttid);
                 this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Ffetch"].ToString().Trim());
                 this.lbLeftPay.Text = Transfer.convertBPAY(ds.Tables[0].Rows[0]["Fbpay_state"].ToString().Trim());
                 this.lbSave.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fsave"].ToString().Trim());
@@ -534,14 +512,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 if (Label1_Acc.Text != "")
                 {
-                    string testuid = myService.QQ2Uid(Label1_Acc.Text);
+                    string testuid = new AccountService().QQ2Uid(Label1_Acc.Text);
                     if (testuid != null)
                     {
                         labQQstate.Text = "注册未关联";
                         if (testuid.Trim() == fuid)
                         {
                             //再判断是否是已激活 furion 20070226
-                            string trueuid = myService.QQ2UidX(Label1_Acc.Text);
+                            string trueuid = new AccountService().QQ2UidX(Label1_Acc.Text);
                             if (trueuid != null)
                                 labQQstate.Text = "已关联";
                             else
@@ -556,14 +534,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 if (labEmail.Text != "")
                 {
-                    string testuid = myService.QQ2Uid(labEmail.Text);
+                    string testuid = new AccountService().QQ2Uid(labEmail.Text);
                     if (testuid != null)
                     {
                         labEmailState.Text = "注册未关联";
                         if (testuid.Trim() == fuid)
                         {
                             //再判断是否是已激活 furion 20070226
-                            string trueuid = myService.QQ2UidX(labEmail.Text);
+                            string trueuid = new AccountService().QQ2UidX(labEmail.Text);
                             if (trueuid != null)
                                 labEmailState.Text = "已关联";
                             else
@@ -578,14 +556,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 if (labMobile.Text != "")
                 {
-                    string testuid = myService.QQ2Uid(labMobile.Text);
+                    string testuid = new AccountService().QQ2Uid(labMobile.Text);
                     if (testuid != null)
                     {
                         labMobileState.Text = "注册未关联";
                         if (testuid.Trim() == fuid)
                         {
                             //再判断是否是已激活 furion 20070226
-                            string trueuid = myService.QQ2UidX(labMobile.Text);
+                            string trueuid = new AccountService().QQ2UidX(labMobile.Text);
                             if (trueuid != null)
                                 labMobileState.Text = "已关联";
                             else
@@ -638,7 +616,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             try
             {
                 //增加删除认证的操作日志
-                DataSet dsdgList = myService.GetUserClassDeleteList(this.TextBox1_InputQQ.Text.Trim());
+                DataSet dsdgList = new AuthenInfoService().GetUserClassDeleteList(this.TextBox1_InputQQ.Text.Trim());
                 if (dsdgList != null && dsdgList.Tables.Count > 0 && dsdgList.Tables[0].Rows.Count > 0)
                 {
                     this.dgList.Visible = true;
@@ -760,12 +738,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 Session["fuid"] = id;  //注销帐号查询资金流水
 
-                return new AccountService().Uid2QQ(id);              
+                return new AccountService().Uid2QQ(id);
             }
 
             return id;
         }
-       
+
         private void clickEvent()
         {
             if (Session["uid"] == null)
@@ -890,9 +868,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 //2通过uin查绑定姓名GetBankCardBindList_2
                 string true_name = "";
-                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-                DataSet ds = qs.GetUserAccount(uin, 1, 1, 1);
+
+                DataSet ds = new AccountService().GetUserAccount(uin, 1, 1, 1);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     true_name = ds.Tables[0].Rows[0]["Ftruename"].ToString();
@@ -1164,7 +1141,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 myService.Finance_HeaderValue = fh;
                 string msg = "";
                 string qqid = Session["QQID"].ToString().Trim();
-                if (myService.DelAuthen(qqid, out msg))
+                string username = fh.UserName;
+                if (new AuthenInfoService().DelAuthen(qqid, username, out msg))
                 {
                     WebUtils.ShowMessage(this.Page, "执行成功！");
                 }

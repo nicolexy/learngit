@@ -15,6 +15,7 @@ using TENCENT.OSS.CFT.KF.KF_Web;
 using System.Web.Services.Protocols;
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
+using CFT.CSOMS.BLL.CFTAccountModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 {
@@ -317,7 +318,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     if (qqid != null && qqid != "")
                     {
 
-                        ds_u = qs.GetUserInfo(qqid, 1, 1);
+                        ds_u = new AccountService().GetUserInfo(qqid, 1, 1);
                     }
                     string true_name = "";
                     if (ds_u != null && ds_u.Tables.Count > 0)

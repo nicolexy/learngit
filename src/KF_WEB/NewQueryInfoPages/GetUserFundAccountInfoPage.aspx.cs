@@ -13,6 +13,7 @@ using Tencent.DotNet.Common.UI;
 
 using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using System.Web.Services.Protocols;
+using CFT.CSOMS.BLL.CFTAccountModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 {
@@ -131,9 +132,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             string qqid = qs.Uid2QQ(ds.Tables[0].Rows[0]["Fuid"].ToString());
             DataSet ds1 = null;
             if(qqid!=null)
-                ds1 = qs.GetUserAccount(qqid, 2, 1, 1);
+                ds1 = new AccountService().GetUserAccount(qqid, 2, 1, 1);
             else
-                ds1 = qs.GetUserAccountCancel(ds.Tables[0].Rows[0]["Fuid"].ToString(), 2, 1, 1);//已注销的账户查不出对应的QQ号
+                ds1 = new AccountService().GetUserAccountCancel(ds.Tables[0].Rows[0]["Fuid"].ToString(), 2, 1, 1);//已注销的账户查不出对应的QQ号
             if (ds1 == null || ds1.Tables.Count < 1 || ds1.Tables[0].Rows.Count < 1)
             {
                 this.lb_c15.Text = "";
@@ -195,9 +196,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             string qqid = qs.Uid2QQ(this.lb_c2.Text);
             DataSet ds1 = null;
             if (qqid != null)
-                ds1 = qs.GetUserAccount(qqid, 2, 1, 1);
+                ds1 = new AccountService().GetUserAccount(qqid, 2, 1, 1);
             else
-                ds1 = qs.GetUserAccountCancel(this.lb_c2.Text, 2, 1, 1);//已注销的账户查不出对应的QQ号
+                ds1 = new AccountService().GetUserAccountCancel(this.lb_c2.Text, 2, 1, 1);//已注销的账户查不出对应的QQ号
             if (ds1 == null || ds1.Tables.Count < 1 || ds1.Tables[0].Rows.Count < 1)
             {
                 this.lb_c15.Text = "";

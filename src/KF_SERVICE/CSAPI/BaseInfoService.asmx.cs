@@ -1522,6 +1522,44 @@ namespace CFT.CSOMS.Service.CSAPI
             }
         }
 
+        /// <summary>
+        /// 查询QQ是否可以修改
+        /// </summary>
+        [WebMethod]
+        public void ChangeQQState()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "old_qqid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string old_qqid = paramsHt["old_qqid"].ToString();
+                string outMsg = "";
+
+                bool state = new CFT.CSOMS.BLL.CFTAccountModule.AccountOperate().ChangeQQState(old_qqid, out outMsg);
+
+                RecordNew record = new RecordNew();
+                record.RetValue = state.ToString().ToLower();
+                record.RetMemo = outMsg;
+                List<RecordNew> list = new List<RecordNew>();
+                list.Add(record);
+                APIUtil.Print<RecordNew>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("ChangeQQState").ErrorFormat("return_code{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("ChangeQQState").ErrorFormat("return_code{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
         //修改QQ的日志记录
         [WebMethod]
         public void ChangeQQHistoryLog()
