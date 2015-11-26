@@ -197,7 +197,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     if (Regex.IsMatch(qqid, @"^[1-9]\d*$"))
                     {
                         #region 手Q特有判断
-                        DataSet dsHandQ = new TradeService().QueryPaymentParty("", "1,2,12,4", "3", qqid);
+                        DataSet dsHandQ = new TradeService().QueryPaymentParty("", "1,2,12,4,6,7", "3", qqid);
                         if (dsHandQ != null && dsHandQ.Tables.Count > 0 && dsHandQ.Tables[0].Rows.Count > 0 && dsHandQ.Tables[0].Rows[0]["result"].ToString() != "97420006")
                         {
                             WebUtils.ShowMessage(this.Page, "手Q用户转账中、退款中、未完成的订单禁止注销和批量注销");
