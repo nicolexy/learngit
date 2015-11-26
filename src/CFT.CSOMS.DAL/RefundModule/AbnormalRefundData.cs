@@ -8,6 +8,7 @@ using TENCENT.OSS.CFT.KF.DataAccess;
 using CFT.CSOMS.DAL.Infrastructure;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using System.Collections;
+using System.Threading;
 
 namespace CFT.CSOMS.DAL.RefundModule
 {
@@ -827,6 +828,32 @@ namespace CFT.CSOMS.DAL.RefundModule
 
                 return ds;
             }
+        }
+
+
+        /// <summary>
+        /// 付款延迟异常数据查询
+        /// </summary>
+        /// <param name="flistid">业务单号</param>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public DataTable GetPaymenAbnormalByFListId(string flistid, DateTime time)
+        {
+            DataTable dt = null;
+
+            string tbName = "c2c_zwdb.t_abnormal_roll_" ;
+            string sqlStr = @"
+            select FBatchID,Flistid from {0} where Flistid = '{1}'";
+            using (var da = MySQLAccessFactory.GetMySQLAccess("PaymenAbnormal"))
+            {
+                da.OpenConn();
+                dt = da.GetTable(string.Format(sqlStr, tbName + time.ToString("yyyyMM"), flistid));
+                if (dt == null || dt.Rows.Count == 0)
+                {
+                    dt = da.GetTable(string.Format(sqlStr, tbName + time.AddMonths(1).ToString("yyyyMM"), flistid));
+                }
+            }
+            return dt;
         }
 
       

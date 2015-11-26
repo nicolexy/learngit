@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Collections;
 using CFT.CSOMS.Service.CSAPI.Language;
 using System.Collections.Specialized;
+using System.Threading;
 
 namespace CFT.CSOMS.Service.CSAPI.Utility
 {
@@ -239,6 +240,30 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             try
             {
                 DateTime date = DateTime.Parse(strDate);
+
+                return date;
+            }
+            catch
+            {
+                throw new ServiceException(ERR_DATE, ErroMessage.MESSAGE_ERROFROMDATE);
+            }
+        }
+
+        /// <summary>
+        /// yyyyMMdd 格式
+        /// </summary>
+        /// <param name="strDate"></param>
+        /// <returns></returns>
+        public static DateTime StrToDateTime(string strDate)
+        {
+            if (string.IsNullOrEmpty(strDate))
+            {
+                throw new ServiceException(ERR_DATE, ErroMessage.MESSAGE_ERROFROMDATE);
+            }
+
+            try
+            {
+                DateTime date = DateTime.ParseExact(strDate, "yyyyMMdd", Thread.CurrentThread.CurrentCulture);
 
                 return date;
             }

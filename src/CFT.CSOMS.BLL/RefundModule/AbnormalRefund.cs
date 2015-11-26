@@ -7,6 +7,7 @@ using CFT.CSOMS.DAL.RefundModule;
 using CFT.CSOMS.COMMLIB;
 using System.Collections;
 using CFT.Apollo.Logging;
+using CFT.CSOMS.DAL.Infrastructure;
 
 
 namespace CFT.CSOMS.BLL.RefundModule
@@ -412,6 +413,11 @@ namespace CFT.CSOMS.BLL.RefundModule
            }
 
              return ds;
+        }
+
+        public DataTable GetPaymenAbnormalByFListId(string flistid, DateTime time)
+        {
+            return new AbnormalRefundData().GetPaymenAbnormalByFListId(flistid,time);
         }
 
         public static void UpdatePaymenAbnormal(string query, Dictionary<string, string> dicCondition, Dictionary<string, string> dicData, ArrayList listids = null)

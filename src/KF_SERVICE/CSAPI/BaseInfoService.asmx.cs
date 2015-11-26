@@ -14,6 +14,8 @@ using CFT.CSOMS.Service.CSAPI.BaseInfo;
 using System.Collections.Specialized;
 using System.Data;
 using CFT.CSOMS.BLL.TransferMeaning;
+using CFT.CSOMS.BLL.RefundModule;
+using System.Threading;
 
 namespace CFT.CSOMS.Service.CSAPI
 {
@@ -2353,5 +2355,39 @@ namespace CFT.CSOMS.Service.CSAPI
 
         #endregion
 
+        /// <summary>
+        /// 付款延迟异常查询 根据业务单号进行查询
+        /// </summary>
+        [WebMethod]
+        public void GetPaymenAbnormal()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+                string listId = paramsHt.ContainsKey("listid") ? paramsHt["listid"].ToString() : "";
+                DateTime time = APIUtil.StrToDateTime(listId.Substring(3, 8));
+
+                DataTable dt = new RefundService().GetPaymenAbnormalByFListId(listId, time);
+                if (dt == null || dt.Rows.Count <= 0)
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+
+                List<BaseInfoC.PaymentAbnormal> list = APIUtil.ConvertTo<BaseInfoC.PaymentAbnormal>(dt);
+                APIUtil.Print<BaseInfoC.PaymentAbnormal>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetPaymenAbnormal").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetPaymenAbnormal").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
     }
 }
