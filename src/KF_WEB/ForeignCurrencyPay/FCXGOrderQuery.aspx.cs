@@ -61,7 +61,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                     WebUtils.ShowMessage(this.Page, "(商户订单号、商户编号)组合查询 / MD订单号 / 银行卡号,以上至少一项有值"); return;
                 }
 
-                if (dt == null) WebUtils.ShowMessage(this.Page, "没有找到数据");
+                if (dt == null)
+                {
+                    WebUtils.ShowMessage(this.Page, "没有找到数据");
+                }
+                else
+                {
+                    dt.Columns.Add("card_tail");
+                    dt.Columns.Add("card_type");
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        var bank_type = (string)row["bank_type"];
+                        var rec_banklist = (string)row["rec_banklist"];
+                        var craddt = bll.QueryCardType(bank_type, rec_banklist);
+                        if (craddt != null && craddt.Rows.Count > 0)
+                        {
+                            var cradrow = craddt.Rows[0];
+                            row["card_tail"] = (string)cradrow["card_tail"];
+                            row["card_type"] = (string)cradrow["card_type"];
+                        }
+                    }
+                }
+
                 ViewState["cacheOrderDataTable"] = dt;
             }
             catch (Exception ex)
@@ -104,6 +125,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             lb_sp_acno.Text = row["sp_acno"] as string;
             lb_price_str.Text = row["price_str"] as string;
             lb_price_curtype_str.Text = row["price_curtype_str"] as string;
+
+            lb_card_tail.Text = row["card_tail"] as string;
+            lb_card_type.Text = row["card_type"] as string;
         }
     }
 }

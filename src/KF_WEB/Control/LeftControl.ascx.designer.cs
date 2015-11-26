@@ -22,6 +22,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control {
         protected global::TENCENT.OSS.CFT.KF.KF_Web.Control.HandQBusiness HandQBusiness;
         
         /// <summary>
+        /// HKWalletPay control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::TENCENT.OSS.CFT.KF.KF_Web.Control.HKWalletPay HKWalletPay;
+        
+        /// <summary>
         /// InternetBank control.
         /// </summary>
         /// <remarks>

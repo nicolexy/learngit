@@ -114,6 +114,7 @@
                     <asp:BoundColumn HeaderText="MD订单号" DataField="listid" />
                     <asp:BoundColumn HeaderText="交易时间" DataField="acc_time" />
                     <asp:BoundColumn HeaderText="交易金额" DataField="paynum_str" />
+                    <asp:BoundColumn HeaderText="卡类型" DataField="card_type" />
                     <asp:BoundColumn HeaderText="交易类型" DataField="trade_type_str" />
                     <asp:BoundColumn HeaderText="交易状态" DataField="trade_state_str" />
                     <asp:BoundColumn HeaderText="是否退款" DataField="IsRefund" />
@@ -163,7 +164,17 @@
                     </td>
                     <th>卡号：</th>
                     <td>
-                        <asp:Label ID="Label8" runat="server" />
+                        <asp:Label ID="lb_card_tail" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                      
+                    </td>
+                    <th>卡类型：</th>
+                    <td>
+                        <asp:Label ID="lb_card_type" runat="server" />
                     </td>
                 </tr>
                 <tr>

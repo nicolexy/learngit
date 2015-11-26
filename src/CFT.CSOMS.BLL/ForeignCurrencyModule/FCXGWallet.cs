@@ -257,7 +257,7 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
                 row["trade_type_str"] = GetDictionaryTryValue(DicTradeType, row["trade_type"], "其他");
                 row["trade_state_str"] = GetDictionaryTryValue(DicTradeState, row["trade_state"], "其他");
                 row["card_curtype_str"] = GetDictionaryTryValue(DicCardType, row["card_curtype"], "其他");
-                row["refund_state_str"] = (string)row["refund_state"] == "0" ? "初始状态" : "退款成功"; // 9 : 卖家同意退款,交易结束  0 : 初始状态
+                row["refund_state_str"] = (string)row["refund_state"] == "0" ? "退款成功":"退款中"; 
                 row["appeal_sign_str"] = GetDictionaryTryValue(DicAppealSign, row["appeal_sign"], "其他");
                 row["IsRefund"] = ((string)row["trade_state"]) == "7" ? "是" : "否";
                 row["IsRefuse"] = ((string)row["appeal_sign"]) == "2" ? "是" : "否";
@@ -307,6 +307,16 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
             return null;
         }
 
+        /// <summary>
+        ///  通过银行订单号查询卡信息
+        /// </summary>
+        /// <param name="bank_type">银行类型</param>
+        /// <param name="bill_no">银行订单号</param>
+        /// <returns></returns>
+        public DataTable QueryCardType(string bank_type, string bill_no)
+        {
+            return dal.QueryCardType(bank_type, bill_no);
+        }
         #endregion
 
         #region 四、账户资金和流水查询（新增）
