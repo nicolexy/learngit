@@ -46,7 +46,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 string strPayListid = Request.QueryString["bankListId"].ToString();
                 string strOldId = Request.QueryString["oldId"].ToString();
                 string strCreateTime = Request.QueryString["time"].ToString();
+                string strBankType = Request.QueryString["bankType"];
                 string[] aryUinID = strUinID.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] arrBankType = strBankType.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                if (arrBankType.Length > 0)
+                {
+                    if (arrBankType.Length == 1 && arrBankType[0] == "0")
+                    {
+                        DropOldBankType.Enabled = false;
+                    }
+                    DropOldBankType.SelectedValue = arrBankType[0];
+                }
 
                 if (aryUinID.Length == 1)
                 {

@@ -18,6 +18,7 @@ using System.Net;
 using System.IO;
 using System.Text;
 using CFT.CSOMS.BLL.UserAppealModule;
+using CFT.CSOMS.BLL.CFTAccountModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -793,7 +794,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					{
 						System.Security.Cryptography.MD5CryptoServiceProvider md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
 						string account = labFQQid.Text.Trim();
-						string internalID = qs.QQ2Uid(account);
+                        string internalID = new AccountService().QQ2Uid(account);
 						string ID = new_cre_id.Text.Trim();
 						string IDType = cre_type.Text.Trim();
 						string realName = new_name.Text.Trim();

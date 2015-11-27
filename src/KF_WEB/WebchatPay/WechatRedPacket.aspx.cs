@@ -6,6 +6,7 @@ using System.Web.UI.WebControls;
 using CFT.CSOMS.BLL.WechatPay;
 using CFT.CSOMS.COMMLIB;
 using Tencent.DotNet.Common.UI;
+using CFT.CSOMS.BLL.CFTAccountModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
@@ -79,7 +80,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
             var qs = new Query_Service.Query_Service();
             qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-            var ds = qs.GetUserAccount(hbUin, 1, 0, 20);
+            var ds = new AccountService().GetUserAccount(hbUin, 1, 0, 20);
 
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {

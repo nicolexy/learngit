@@ -35,28 +35,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                 outMsg = "请输入旧帐号！";
                 return false;
             }
-            if (isHasBalance(old_qqid))
-            {
-                outMsg = "原帐号理财通账户余额和基金份额不为0时不允许修改转换！";
-                return false;
-            }
-
-            #region 微粒贷
-            try
-            {
-                if (new TradeService().HasUnfinishedWeiLibDai(old_qqid.Trim()))
-                {
-                    outMsg = "存在未完成的微粒贷欠款,禁止修改账号";
-                    return false;
-                }
-            }
-            catch (Exception)
-            {
-                outMsg = "微粒贷查询,出错";
-                return false;
-            }
-            #endregion
-
+           
             //发起审批。
             //在这里变成了一个提起审批的流程，而不再是直接审批。
             Param[] myParams = new Param[3];
@@ -99,6 +78,35 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             {
                 throw new Exception("Service处理失败！");
             }
+        }
+
+        //判断是否符合修改QQ条件
+        public bool ChangeQQState(string old_qqid, out string outMsg)
+        {
+            outMsg = "";
+            if (isHasBalance(old_qqid.Trim()))
+            {
+                outMsg = "原帐号理财通账户余额和基金份额不为0时不允许修改转换！";
+                return false;
+            }
+
+            #region 微粒贷
+            try
+            {
+                if (new TradeService().HasUnfinishedWeiLibDai(old_qqid.Trim()))
+                {
+                    outMsg = "存在未完成的微粒贷欠款,禁止修改账号";
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                outMsg = "微粒贷查询,出错";
+                return false;
+            }
+            #endregion
+
+            return true;
         }
 
         //原帐号理财通账户余额和基金份额不为0时不允许修改转换

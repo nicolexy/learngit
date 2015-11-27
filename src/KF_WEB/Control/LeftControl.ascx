@@ -32,6 +32,7 @@
 <%@ Register TagPrefix="uc1" TagName="ForeignCardPay" Src="ForeignCardPay.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="PNRQuery" Src="PNRQueryControl.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="HandQBusiness" Src="HandQBusiness.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="HKWalletPay" Src="HKWalletPay.ascx" %>
 
 <script language="javascript" type="text/javascript" src="scripts/jquery-1.11.3.min.js"></script>
 <script language="javascript" type="text/javascript" src="scripts/local.js"></script>
@@ -114,6 +115,7 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
                         <uc1:ForeignCurrencyPay ID="ForeignCurrencyPay1" runat="server" /><!--外币支付-->
                         <uc1:ForeignCardPay ID="ForeignCardPay1" runat="server" /><!--外卡支付-->
                         <uc1:HandQBusiness ID="HandQBusiness" runat="server" /><!--手Q业务-->
+                        <uc1:HKWalletPay runat="server" ID="HKWalletPay" /> <!--HK钱包支付-->
                   </td>
                 </tr>
                 <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('tradeManagement')">
