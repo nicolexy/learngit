@@ -57,6 +57,22 @@ namespace CFT.CSOMS.BLL.FundModule
                 return false;
             }
         }
+
+        /// <summary>
+        /// 是否保险
+        /// </summary>
+        /// <param name="fund_code"></param>
+        /// <param name="spid"></param>
+        /// <returns></returns>
+        public bool isInsurance(string fund_code, string spid)
+        {
+            var GuangDadic = new Dictionary<string, string>()
+            {
+                { "1269516501" , "9000003" }, //光大永明光明财富2号A款年金保险（投资连结型）
+                { "1269516701" , "9000004" }, //光大永明光明财富2号B款年金保险（投资连结型）
+            };
+            return GuangDadic.ContainsKey(spid) && GuangDadic[spid] == fund_code;
+        }
       
         public DataTable GetFundTradeLog(string qqid,int istr, int imax)
         {
@@ -510,6 +526,7 @@ namespace CFT.CSOMS.BLL.FundModule
                     COMMLIB.CommUtil.FenToYuan_Table(profits, "Fvalid_money", "Fvalid_money_str");
                     COMMLIB.CommUtil.FenToYuan_Table(profits, "Fprofit", "Fprofit_str");
 
+                    var fundall=FundService.GetAllFundInfo();
                     foreach (DataRow dr in profits.Rows)
                     {
                         dr["Fpur_typeName"] = "分红";
@@ -535,11 +552,11 @@ namespace CFT.CSOMS.BLL.FundModule
                         try
                         {
                             //基金公司名
-                            dr["Fspname"] = FundService.GetAllFundInfo().Where(i => i.SPId == dr["Fspid"].ToString()).First().SPName;
+                            dr["Fspname"] = fundall.Where(i => i.SPId == dr["Fspid"].ToString()).First().SPName;
                         }
                         catch (Exception ex)
                         {
-                            throw new Exception("查询spid:" + dr["Fspid"].ToString() + "的基金公司名异常！");
+                            throw new Exception("查询spid:" + dr["Fspid"].ToString() + "的基金公司名异常！" + ex.Message);
                         }
 
                         if (isSpecialFund(fund_code, spId)) //易方达沪深300基金
