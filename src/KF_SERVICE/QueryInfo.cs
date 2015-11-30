@@ -5820,7 +5820,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 if (rAmount <= Ffact && rAmount > 0)
                 {
                     //退款金额<=订单金额
-                    strSql = "insert into c2c_fmdb.t_refund_info(Forder_id,Fcoding,Famount,Ftrade_state,Fbuy_acc,Ftrade_desc,Frefund_type,Frefund_state,Fmemo,Fsubmit_user,Frecycle_user,Fsam_no,Fsubmit_refund,Frefund_amount,Fcreate_time,Fmodify_time) values('{0}','{1}','{2}',{3},'{4}','{5}',{6},{7},'{8}','{9}','{10}','{11}',{12},{13},now(),now())";
+                    strSql = @"
+                    insert into c2c_fmdb.t_refund_info
+                        (Forder_id,Fcoding,Famount,Ftrade_state,Fbuy_acc,Ftrade_desc,Frefund_type,Frefund_state,Fmemo,Fsubmit_user,Frecycle_user,Fsam_no,Fsubmit_refund,Frefund_amount,Fcreate_time,Fmodify_time) 
+                    values
+                        ('{0}','{1}','{2}',{3},'{4}','{5}',{6},{7},'{8}','{9}','{10}','{11}',{12},{13},now(),now())";
                     strSql = String.Format(strSql, FOrderId, FCoding, FAmount, FTrade_state, FBuy_acc, FTrade_desc, FRefund_type, FRefund_state, FMemo, FSubmit_user, FRecycle_user, FSam_no, FSubmit_refund, FRefund_amount);
 
                     da.ExecSqlNum(strSql);
