@@ -54,10 +54,10 @@
 				<asp:datagrid id=DG_Bankroll runat="server" DataSource="<%# DS_Bankroll %>" DataMember="Table1" AutoGenerateColumns="False">
 					<HeaderStyle BackColor="#EEEEEE"></HeaderStyle>
 					<Columns>
-						<asp:BoundColumn Visible="False" DataField="FBKid" HeaderText="流水ID">
+				<%--		<asp:BoundColumn Visible="False" DataField="FBKid" HeaderText="流水ID">
 							<HeaderStyle Wrap="False"></HeaderStyle>
 							<ItemStyle Wrap="False"></ItemStyle>
-						</asp:BoundColumn>
+						</asp:BoundColumn>--%>
 						<asp:TemplateColumn HeaderText="单据ID号">
 							<HeaderStyle Wrap="False"></HeaderStyle>
 							<ItemStyle Wrap="False"></ItemStyle>

@@ -152,7 +152,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 ds.Tables[0].Columns.Add("FAmtEx", typeof(System.String));  //交易金额转元
                 ds.Tables[0].Columns.Add("FReturnAmtEx", typeof(System.String));//退款金额转元
                 ds.Tables[0].Columns.Add("TotalDB_Fstate_str", typeof(System.String));
-
+                ds.Tables[0].Columns.Add("FrefundType_str", typeof(System.String));
                 var dic = new Dictionary<int, string>()
                 {
                     { 0, "初始状态" },
@@ -164,6 +164,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     { 6, "申请手工处理" },
                     { 7, "申请转入代发" },
                     { 8, "挂异常处理中" },
+                };
+
+                var dicDataSource = new Dictionary<Int16, string>()
+                {
+                    { 1 ,"商户退单"},
+                    { 2 ,"对帐结果退单"},
+                    { 3 ,"手工退单"},
+                    { 4 ,"对帐异常退单"},
+                    { 5 ,"赔付退单"},
+                    { 9 ,"充值单退款"},
+                    { 11 ,"拍拍退单"}
                 };
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
@@ -178,6 +189,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     }
                     var TotalDB_Fstate = (int)dr["TotalDB_Fstate"];
                     dr["TotalDB_Fstate_str"] = dic.ContainsKey(TotalDB_Fstate) ? dic[TotalDB_Fstate] : "其他";
+                    var FrefundType = (Int16)dr["FrefundType"];
+                    dr["FrefundType_str"] = dicDataSource.ContainsKey(FrefundType) ? dicDataSource[FrefundType] : "其他";
 
                     dr["FAmtEx"] = RefundPublicFun.FenToYuan(dr["FAmt"].ToString());
                     dr["FReturnAmtEx"] = RefundPublicFun.FenToYuan(dr["FReturnAmt"].ToString());
@@ -226,6 +239,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 }
                 else
                 {
+                    ViewState["DsCached"] = ds.Tables[0];
                     gridInfor.DataSource = ds.Tables[0].DefaultView;
                     gridInfor.DataBind();
                 }
@@ -275,8 +289,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                         strRefundType += "|";
                         strCreateTime += "|";
                         strBankType += "|";
-                    }      
-                    strUinID += gridInfor.DataKeys[i].Values["FpayListid"].ToString();
+                    }     
+                    var FpayListid=gridInfor.DataKeys[i].Values["FpayListid"].ToString();
+                    strUinID += FpayListid;
 
                     if (!string.IsNullOrEmpty(gridInfor.DataKeys[i].Values["FrefundType"].ToString()))
                     {
@@ -298,7 +313,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     strPayListid += gridInfor.DataKeys[i].Values["FbankListid"].ToString();
                     strOldId += gridInfor.DataKeys[i].Values["FoldId"].ToString();
                     strCreateTime += gridInfor.DataKeys[i].Values["FcreateTime"].ToString();
-                    strBankType += gridInfor.DataKeys[i].Values["FbankType"].ToString();
+                    var dt = ViewState["DsCached"] as DataTable;
+                    strBankType += dt.Select("FpayListid = '" + FpayListid + "'")[0]["Fbuybanktype"];
                 }
             }
             Response.Write("<script>window.open('AddInformation.aspx?uinID=" + strUinID + "&refundType=" + strRefundType + "&bankListId=" + strPayListid + "&oldId=" + strOldId + "&time=" + strCreateTime + "&bankType=" + strBankType + "','_blank')</script>");
