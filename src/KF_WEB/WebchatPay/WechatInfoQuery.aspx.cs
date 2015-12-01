@@ -125,6 +125,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
         }
 
+        private string CheckBasicInfo(int nAttid)
+        {
+            //从数据字典中读取数据，绑定到web页
+            DataSet ds = PermitPara.QueryDicAccName();
+            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+            {
+                return "";
+            }
+            DataTable dt = ds.Tables[0];
+            foreach (DataRow dr in dt.Rows)
+            {
+                if (nAttid == int.Parse(dr["Value"].ToString().Trim()))
+                {
+                    return dr["Text"].ToString().Trim();
+                }
+            }
+            return "";
+        }
+
         private void BindData(int istr, int imax)
         {
             Query_Service.Query_Service myService = new Query_Service.Query_Service();
@@ -136,21 +155,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             {
                 //使用微信查询
                 isWechat = true;
-                ds = myService.GetUserAccountFromWechat(Session["QQID"].ToString(), istr, imax);
-                log4net.LogManager.GetLogger("微信用户查询获取QQID： {0}",Session["QQID"].ToString());
+                ds = myService.GetUserAccountFromWechat(Session["QQID"].ToString(), istr, imax);              
             }
-            else
-            {
-                //使用账号查询
-                isWechat = false;
+            else { 
+              //使用账号查询
+                isWechat = false;            
                 throw new Exception("请选择查询条件");
             }
-
+                      
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
             {
                 //也有可能是快速交易用户
                 //furion 新加一个函数，判断是否为快速交易用户，fsign=2并且无t_user表。
-                if (new AccountService().IsFastPayUser(Session["QQID"].ToString()))
+                if (myService.IsFastPayUser(Session["QQID"].ToString()))
                 {
                     this.Label14_Ftruename.Text = "快速交易用户";
                     this.Label12_Fstate.Text = "";
@@ -167,59 +184,53 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 {
                     this.Label2_Type.Text = "";
                 }
-                else
-                {
+                else {
                     this.Label2_Type.Text = Transfer.convertMoney_type(s_curtype);//tu.u_CurType;				   //"代金券";
                 }
 
-                this.Label3_LeftAcc.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fbalance"));//tu.u_Balance;				   //"3000";
+                this.Label3_LeftAcc.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fbalance"));//tu.u_Balance;				   //"3000";
                 //this.Label4_Freeze.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fcon"));                  //"1000";
-                this.Label5_YestodayLeft.Text = PublicRes.objectToString(ds.Tables[0], "Fyday_balance");		   //"10";
-                this.lblLoginTime.Text = PublicRes.objectToString(ds.Tables[0], "Fcreate_time");
-                this.Label6_LastModify.Text = PublicRes.objectToString(ds.Tables[0], "Fmodify_time");		   //"2005-05-01";
-                this.Label7_SingleMax.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fquota"));		   //"2000";
-                this.Label8_PerDayLmt.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fquota_pay"));			//"5000";
-                this.Label9_LastSaveDate.Text = PublicRes.objectToString(ds.Tables[0], "Fsave_time");				//"2005-03-01";
-                this.Label10_Drawing.Text = PublicRes.objectToString(ds.Tables[0], "Ffetch_time");              //"2005-04-15";
-                this.Label11_Remark.Text = PublicRes.objectToString(ds.Tables[0], "Fmemo");					//"这个家伙很懒，什么都没有留下！";
-
+                this.Label5_YestodayLeft.Text = PublicRes.objectToString(ds.Tables[0],"Fyday_balance");		   //"10";
+                this.lblLoginTime.Text = PublicRes.objectToString(ds.Tables[0],"Fcreate_time");
+                this.Label6_LastModify.Text = PublicRes.objectToString(ds.Tables[0],"Fmodify_time");		   //"2005-05-01";
+                this.Label7_SingleMax.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fquota"));		   //"2000";
+                this.Label8_PerDayLmt.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fquota_pay"));			//"5000";
+                this.Label9_LastSaveDate.Text = PublicRes.objectToString(ds.Tables[0],"Fsave_time");				//"2005-03-01";
+                this.Label10_Drawing.Text = PublicRes.objectToString(ds.Tables[0],"Ffetch_time");              //"2005-04-15";
+                this.Label11_Remark.Text = PublicRes.objectToString(ds.Tables[0],"Fmemo");					//"这个家伙很懒，什么都没有留下！";
+                
                 //微信查询的state判断有所不同 yinhuang
                 if (isWechat)
                 {
-                    string str_state = PublicRes.objectToString(ds.Tables[0], "Fstate");
-                    if (str_state == "1")
-                    {
+                    string str_state = PublicRes.objectToString(ds.Tables[0],"Fstate");
+                    if (str_state == "1") {
                         this.Label12_Fstate.Text = "正常";
                     }
                     else if (str_state == "2")
                     {
                         this.Label12_Fstate.Text = "冻结";
                     }
-                    else
-                    {
+                    else {
                         this.Label12_Fstate.Text = "";
                     }
                 }
-                else
-                {
+                else {
                     this.Label12_Fstate.Text = Transfer.accountState(PublicRes.objectToString(ds.Tables[0], "Fstate"));
                 }
                 this.Label13_Fuser_type.Text = Transfer.convertFuser_type(PublicRes.objectToString(ds.Tables[0], "Fuser_type"));
-
+           
                 //将上面取姓名的逻辑修改 yinhuang 2013/7/30
-                string str_truename = PublicRes.objectToString(ds.Tables[0], "UserRealName2");
-                if (str_truename == "")
-                {
-                    str_truename = PublicRes.objectToString(ds.Tables[0], "Ftruename");
+                string str_truename = PublicRes.objectToString(ds.Tables[0],"UserRealName2");
+                if (str_truename == "") {
+                    str_truename = PublicRes.objectToString(ds.Tables[0],"Ftruename");
                 }
                 this.Label14_Ftruename.Text = str_truename;
 
                 string s_fz_amt = PublicRes.objectToString(ds.Tables[0], "Ffz_amt"); //分账冻结金额
-                string s_balance = PublicRes.objectToString(ds.Tables[0], "Fbalance");
-                string s_cron = PublicRes.objectToString(ds.Tables[0], "Fcon");
-                long l_balance = 0, l_cron = 0, l_fzamt = 0;
-                if (s_balance != "")
-                {
+                string s_balance = PublicRes.objectToString(ds.Tables[0],"Fbalance");
+                string s_cron = PublicRes.objectToString(ds.Tables[0],"Fcon");
+                long l_balance = 0,l_cron=0,l_fzamt=0;
+                if (s_balance != "") {
                     l_balance = long.Parse(s_balance);
                 }
                 if (s_cron != "")
@@ -234,45 +245,43 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 this.Label4_Freeze.Text = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(l_fzamt + l_cron).ToString("f2") + "元";   //classLibrary.setConfig.FenToYuan(l_fzamt + l_cron);//冻结金额=分账冻结金额+冻结金额
                 //this.Label15_Useable.Text = classLibrary.setConfig.FenToYuan((long.Parse(ds.Tables[0].Rows[0]["Fbalance"].ToString()) - long.Parse(ds.Tables[0].Rows[0]["Fcon"].ToString())).ToString());  //帐户余额减去冻结余额= 可用余额
                 this.Label15_Useable.Text = classLibrary.setConfig.FenToYuan(l_balance - l_cron);  //帐户余额减去冻结余额= 可用余额
-                this.Label16_Fapay.Text = PublicRes.objectToString(ds.Tables[0], "Fapay");
-                this.Label17_Flogin_ip.Text = PublicRes.objectToString(ds.Tables[0], "Flogin_ip");
+                this.Label16_Fapay.Text = PublicRes.objectToString(ds.Tables[0],"Fapay");
+                this.Label17_Flogin_ip.Text = PublicRes.objectToString(ds.Tables[0],"Flogin_ip");
 
                 //furion 20061116 email登录修改
-                this.labEmail.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Femail"));
-                this.labMobile.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile"));
+                this.labEmail.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0],"Femail"));
+                this.labMobile.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0],"Fmobile"));
                 //2006-10-18 edwinyang 增加产品属性
                 int nAttid = 0;
                 //				pbp.BindDropDownList(pm.QueryDicAccName(),ddlAttid,out Msg);
-                string s_attid = PublicRes.objectToString(ds.Tables[0], "Att_id");
-                if (s_attid != "")
-                {
+                string s_attid = PublicRes.objectToString(ds.Tables[0],"Att_id");
+                if (s_attid != "") {
                     nAttid = int.Parse(s_attid);
                 }
                 if (nAttid != 0)
                 {
-                    this.Label18_Attid.Text = Transfer.convertProAttType(nAttid);
+                    this.Label18_Attid.Text = CheckBasicInfo(nAttid);
                 }
-                else
-                {
+                else {
                     this.Label18_Attid.Text = "";
                 }
-
-                this.lbInnerID.Text = PublicRes.objectToString(ds.Tables[0], "fuid");
-                this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Ffetch"));
+                
+                this.lbInnerID.Text = PublicRes.objectToString(ds.Tables[0],"fuid");
+                this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Ffetch"));
                 this.lbLeftPay.Text = Transfer.convertBPAY(PublicRes.objectToString(ds.Tables[0], "Fbpay_state"));
-                this.lbSave.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fsave"));
+                this.lbSave.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fsave"));
 
-                string fuid = PublicRes.objectToString(ds.Tables[0], "fuid");
+                string fuid = PublicRes.objectToString(ds.Tables[0],"fuid");
                 if (Label1_Acc.Text != "")
                 {
-                    string testuid = new AccountService().QQ2Uid(Label1_Acc.Text);
+                    string testuid = myService.QQ2Uid(Label1_Acc.Text);
                     if (testuid != null)
                     {
                         labQQstate.Text = "注册未关联";
                         if (testuid.Trim() == fuid)
                         {
                             //再判断是否是已激活 furion 20070226
-                            string trueuid = new AccountService().QQ2UidX(Label1_Acc.Text);
+                            string trueuid = myService.QQ2UidX(Label1_Acc.Text);
                             if (trueuid != null)
                                 labQQstate.Text = "已关联";
                             else
@@ -287,14 +296,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
                 if (labEmail.Text != "")
                 {
-                    string testuid = new AccountService().QQ2Uid(labEmail.Text);
+                    string testuid = myService.QQ2Uid(labEmail.Text);
                     if (testuid != null)
                     {
                         labEmailState.Text = "注册未关联";
                         if (testuid.Trim() == fuid)
                         {
                             //再判断是否是已激活 furion 20070226
-                            string trueuid = new AccountService().QQ2UidX(labEmail.Text);
+                            string trueuid = myService.QQ2UidX(labEmail.Text);
                             if (trueuid != null)
                                 labEmailState.Text = "已关联";
                             else
@@ -309,14 +318,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
                 if (labMobile.Text != "")
                 {
-                    string testuid = new AccountService().QQ2Uid(labMobile.Text);
+                    string testuid = myService.QQ2Uid(labMobile.Text);
                     if (testuid != null)
                     {
                         labMobileState.Text = "注册未关联";
                         if (testuid.Trim() == fuid)
                         {
                             //再判断是否是已激活 furion 20070226
-                            string trueuid = new AccountService().QQ2UidX(labMobile.Text);
+                            string trueuid = myService.QQ2UidX(labMobile.Text);
                             if (trueuid != null)
                                 labMobileState.Text = "已关联";
                             else
@@ -342,7 +351,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
 
             SetButtonVisible(); //furion 20050902
-
+      
             try
             {
                 string uin = Session["QQID"].ToString();
@@ -364,7 +373,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             try
             {
                 //增加删除认证的操作日志
-                DataSet dsdgList = new AuthenInfoService().GetUserClassDeleteList(this.TextBox1_InputQQ.Text.Trim());
+                DataSet dsdgList = myService.GetUserClassDeleteList(this.TextBox1_InputQQ.Text.Trim());
                 if (dsdgList != null && dsdgList.Tables.Count > 0 && dsdgList.Tables[0].Rows.Count > 0)
                 {
                     this.dgList.Visible = true;
@@ -395,11 +404,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             Query_Service.Query_Service myService = new Query_Service.Query_Service();
             myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
             DataSet ds = new DataSet();
-            ds = new AccountService().GetUserAccountCancel(this.TextBox1_InputQQ.Text.Trim(), 1, istr, imax);
+            ds = myService.GetUserAccountCancel(this.TextBox1_InputQQ.Text.Trim(), 1, istr, imax);
 
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
-            {
-                throw new Exception("数据库无此记录");
+            {             
+                    throw new Exception("数据库无此记录");
             }
             else
             {
@@ -456,7 +465,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 //2006-10-18 edwinyang 增加产品属性
                 int nAttid = int.Parse(ds.Tables[0].Rows[0]["Att_id"].ToString());
                 //				pbp.BindDropDownList(pm.QueryDicAccName(),ddlAttid,out Msg);
-                this.Label18_Attid.Text = Transfer.convertProAttType(nAttid);
+                this.Label18_Attid.Text = CheckBasicInfo(nAttid);
                 this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Ffetch"].ToString().Trim());
                 this.lbLeftPay.Text = Transfer.convertBPAY(ds.Tables[0].Rows[0]["Fbpay_state"].ToString().Trim());
                 this.lbSave.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fsave"].ToString().Trim());
@@ -465,14 +474,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
                 if (Label1_Acc.Text != "")
                 {
-                    string testuid = new AccountService().QQ2Uid(Label1_Acc.Text);
+                    string testuid = myService.QQ2Uid(Label1_Acc.Text);
                     if (testuid != null)
                     {
                         labQQstate.Text = "注册未关联";
                         if (testuid.Trim() == fuid)
                         {
                             //再判断是否是已激活 furion 20070226
-                            string trueuid = new AccountService().QQ2UidX(Label1_Acc.Text);
+                            string trueuid = myService.QQ2UidX(Label1_Acc.Text);
                             if (trueuid != null)
                                 labQQstate.Text = "已关联";
                             else
@@ -487,14 +496,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
                 if (labEmail.Text != "")
                 {
-                    string testuid = new AccountService().QQ2Uid(labEmail.Text);
+                    string testuid = myService.QQ2Uid(labEmail.Text);
                     if (testuid != null)
                     {
                         labEmailState.Text = "注册未关联";
                         if (testuid.Trim() == fuid)
                         {
                             //再判断是否是已激活 furion 20070226
-                            string trueuid = new AccountService().QQ2UidX(labEmail.Text);
+                            string trueuid = myService.QQ2UidX(labEmail.Text);
                             if (trueuid != null)
                                 labEmailState.Text = "已关联";
                             else
@@ -509,14 +518,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
                 if (labMobile.Text != "")
                 {
-                    string testuid = new AccountService().QQ2Uid(labMobile.Text);
+                    string testuid = myService.QQ2Uid(labMobile.Text);
                     if (testuid != null)
                     {
                         labMobileState.Text = "注册未关联";
                         if (testuid.Trim() == fuid)
                         {
                             //再判断是否是已激活 furion 20070226
-                            string trueuid = new AccountService().QQ2UidX(labMobile.Text);
+                            string trueuid = myService.QQ2UidX(labMobile.Text);
                             if (trueuid != null)
                                 labMobileState.Text = "已关联";
                             else
@@ -543,17 +552,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
             SetButtonVisible(); //furion 20050902
 
-            if (Session["QQID"] == null && Session["QQID"] == "")
+            if (Session["QQID"]==null&&Session["QQID"]=="")
             {
                 return;
             }
 
-
+        
             try
             {
                 string uin = Session["QQID"].ToString();
                 AccountService acc = new AccountService();
-                DataTable dt = new VIPService().QueryVipInfo(uin.Trim());
+                DataTable dt =new VIPService().QueryVipInfo(uin.Trim());
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     this.vip_value.Text = dt.Rows[0]["value"].ToString();
@@ -570,7 +579,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             try
             {
                 //增加删除认证的操作日志
-                DataSet dsdgList = new AuthenInfoService().GetUserClassDeleteList(this.TextBox1_InputQQ.Text.Trim());
+                DataSet dsdgList = myService.GetUserClassDeleteList(this.TextBox1_InputQQ.Text.Trim());
                 if (dsdgList != null && dsdgList.Tables.Count > 0 && dsdgList.Tables[0].Rows.Count > 0)
                 {
                     this.dgList.Visible = true;
@@ -597,13 +606,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
         protected void BindCKVValue(string uid)
         {
-            var dic = new AuthenService().WXOperateCKVCGI(1, uid);
+            var dic = new AuthenService().WXOperateCKVCGI(1,uid);
             if (dic == null)
             {
                 WebUtils.ShowMessage(this.Page, "CKV查询出错");
                 return;
             }
-            CKV_WXRemainder.Text = classLibrary.setConfig.FenToYuan(dic["balance"]);
+            CKV_WXRemainder.Text =classLibrary.setConfig.FenToYuan(dic["balance"]);
             CKV_freeze.Text = classLibrary.setConfig.FenToYuan(dic["con"]);
         }
 
@@ -721,7 +730,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
             return null;
         }
-
+     
         private void clickEvent()
         {
             if (Session["uid"] == null)
@@ -743,7 +752,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
                 string queryType = GetQueryType();
 
-                Session["QQID"] = AccountService.GetQQID(queryType, this.TextBox1_InputQQ.Text);
+                Session["QQID"] = AccountService.GetQQID(queryType, this.TextBox1_InputQQ.Text);                
                 //Session["QQID"] = getQQID();
 
                 iFrameHeight = "230";   //iFame显示区域的高度
@@ -759,16 +768,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                     ViewState["iswechat"] = "false";
                     throw new Exception("请选择查询条件");
                 }
-
-                if (Session["QQID"] == null)//echo,如果查询条件为内部id，且对应QQ为空（此时有可能是注销的账户）
+                
+                if (Session["QQID"]==null)//echo,如果查询条件为内部id，且对应QQ为空（此时有可能是注销的账户）
                 {
                     BindDataCancel(1, 1);   //查询注销账户信息
                 }
-                else
+                else 
                 {
                     if (!(Session["QQID"] == null))
                     {
-                        BindData(1, 1);           //绑定数据
+                    BindData(1, 1);           //绑定数据
                     }
                 }
                 setIframePath();        //设置路径	
@@ -1070,8 +1079,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 myService.Finance_HeaderValue = fh;
                 string msg = "";
                 string qqid = Session["QQID"].ToString().Trim();
-                string username = fh.UserName;
-                if (new AuthenInfoService().DelAuthen(qqid, username, out msg))
+                if (myService.DelAuthen(qqid, out msg))
                 {
                     WebUtils.ShowMessage(this.Page, "执行成功！");
                 }
@@ -1120,7 +1128,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             {
                 WebUtils.ShowMessage(this.Page, "同步:" + classLibrary.setConfig.replaceMStr(ex.Message));
             }
-
+  
         }
     }
 
