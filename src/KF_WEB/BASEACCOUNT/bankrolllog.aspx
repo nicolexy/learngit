@@ -210,10 +210,10 @@
 				<!-- listID --><asp:datagrid id=Datagrid1 runat="server" DataSource="<%# DS_Bankroll %>" DataMember="Table1" AutoGenerateColumns="False">
 					<HeaderStyle BackColor="#EEEEEE"></HeaderStyle>
 					<Columns>
-						<asp:BoundColumn Visible="False" DataField="FBKid" HeaderText="流水ID">
+		<%--				<asp:BoundColumn Visible="False" DataField="FBKid" HeaderText="流水ID">
 							<HeaderStyle Wrap="False"></HeaderStyle>
 							<ItemStyle Wrap="False"></ItemStyle>
-						</asp:BoundColumn>
+						</asp:BoundColumn>--%>
 						<asp:TemplateColumn Visible="False" HeaderText="交易单ID号">
 							<ItemTemplate>
 								<asp:Label runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.FListid") %>' ID="Label6" NAME="Label6">
