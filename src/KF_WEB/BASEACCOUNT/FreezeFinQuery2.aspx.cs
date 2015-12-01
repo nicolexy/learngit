@@ -135,7 +135,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             var index = ((DataGrid)sender).SelectedIndex;
             var row = dt.Rows[index];
             lb_Fapplyid.InnerText = row["Fapplyid"] as string;
-            lb_Fbkid.InnerText = row["Fbkid"] as string;
+            //lb_Fbkid.InnerText = row["Fbkid"] as string;
             lb_Flistid.InnerText = row["Flistid"] as string;
             lb_Fqqid.InnerText = row["Fqqid"] as string;
             lb_Fsubject.InnerText = row["Fsubject_str"] as string;
