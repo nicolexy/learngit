@@ -184,15 +184,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
         protected global::System.Web.UI.WebControls.Label lb_c1;
         
         /// <summary>
-        /// lb_c2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lb_c2;
-        
-        /// <summary>
         /// lb_c19 control.
         /// </summary>
         /// <remarks>

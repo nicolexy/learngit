@@ -186,7 +186,7 @@
                         <asp:BoundField HeaderText="邮箱地址"     DataField="FUserEmail"   ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
                         <asp:BoundField HeaderText="银行订单号"   DataField="FbankListid"  ReadOnly="True" ShowHeader="False"><HeaderStyle  Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
                         <asp:BoundField HeaderText="审批状态"     DataField="FstateEx"     ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
-                        <asp:BoundField HeaderText="数据来源"     DataField="TotalDB_FCreateMemo"     ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
+                        <asp:BoundField HeaderText="数据来源"     DataField="FrefundType_str"     ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
                         <asp:BoundField HeaderText="退款状态"     DataField="TotalDB_Fstate_str"     ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >
                         <asp:BoundField HeaderText="银行类型"     DataField="FbankTypeName" ReadOnly="True" ShowHeader="False" ><HeaderStyle Width="100px"></HeaderStyle><ItemStyle HorizontalAlign="Center"/></asp:BoundField >                                           
                              <asp:TemplateField HeaderText = "操作" >
@@ -201,7 +201,7 @@
                                         <asp:LinkButton ID="linkDetail" runat="server" CommandName="detail"  CommandArgument ='<%# Eval("FoldId") %>' OnClick = "OnLinkBtnDetail_Click" Width = "40px">详情</asp:LinkButton>                                                                          
                              </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:BoundField HeaderText="银行类型(存放值的不参加显示)"  DataField="FbankType" Visible="false"></asp:BoundField >                                           
+                        <%--<asp:BoundField HeaderText="银行类型(存放值的不参加显示)"  DataField="Fbuybanktype" Visible="false"></asp:BoundField>--%>                                        
                     </Columns>
                 </asp:GridView>
                     <webdiyer:aspnetpager id="pager" runat="server" AlwaysShow="True" NumericButtonCount="5" ShowCustomInfoSection="left" PageSize="10"

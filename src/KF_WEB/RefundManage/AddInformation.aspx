@@ -76,7 +76,7 @@
 					<td colSpan="2" class="style6">&nbsp;						
                         
                         <asp:DropDownList ID="DropOldBankType" runat="server" Width = "250px"  borderwidth = "2px" BorderStyle = "Ridge" >
-                        <asp:ListItem Value="1001" Selected="True">招商银行</asp:ListItem>
+<%--                        <asp:ListItem Value="1001" Selected="True">招商银行</asp:ListItem>
                         <asp:ListItem Value="1027">广东发展银行</asp:ListItem>
                         <asp:ListItem Value="1026">中国银行</asp:ListItem>
                         <asp:ListItem Value="1022">中国光大银行</asp:ListItem>
@@ -95,7 +95,7 @@
                         <asp:ListItem Value="3019">交通银行信用卡</asp:ListItem>
                         <asp:ListItem Value="3022">建设银行信用卡</asp:ListItem>                        
                         <asp:ListItem Value="3018">广发银行信用卡</asp:ListItem>
-                        <asp:ListItem Value="3027">中国银行信用卡</asp:ListItem>                                                                                     
+                        <asp:ListItem Value="3027">中国银行信用卡</asp:ListItem>      --%>                                                                               
                         </asp:DropDownList>
 		            </td>
 				</tr>

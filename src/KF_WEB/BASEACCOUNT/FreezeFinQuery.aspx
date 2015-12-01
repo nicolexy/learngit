@@ -95,9 +95,9 @@
 				</tr>
 				<TR>
 					<TD style="WIDTH: 225px" bgColor="#eeeeee" height="18" width="195"><font face="宋体">&nbsp;&nbsp;冻结单号:</font></TD>
-					<TD bgColor="#ffffff" height="19" width="236"><font face="宋体">&nbsp;<asp:label id="lb_c1" runat="server"></asp:label></font></TD>
-					<TD style="WIDTH: 229px; HEIGHT: 19px" bgColor="#eeeeee" height="19" width="229"><FONT style="BACKGROUND-COLOR: #eeeeee" face="宋体">&nbsp;&nbsp;流水号:</FONT></TD>
-					<TD style="HEIGHT: 19px" bgColor="#ffffff" height="19" width="225"><font face="宋体">&nbsp;<asp:label id="lb_c2" runat="server"></asp:label></font></TD>
+					<TD colspan="3" bgColor="#ffffff" height="19" width="236"><font face="宋体">&nbsp;<asp:label id="lb_c1" runat="server"></asp:label></font></TD>
+					<%--<TD style="WIDTH: 229px; HEIGHT: 19px" bgColor="#eeeeee" height="19" width="229"><FONT style="BACKGROUND-COLOR: #eeeeee" face="宋体">&nbsp;&nbsp;流水号:</FONT></TD>
+					<TD style="HEIGHT: 19px" bgColor="#ffffff" height="19" width="225"><font face="宋体">&nbsp;<asp:label id="lb_c2" runat="server"></asp:label></font></TD>--%>
 				</TR>
 				<tr>
 					<TD style="WIDTH: 225px" bgColor="#eeeeee" height="18" width="195"><font face="宋体">&nbsp;&nbsp;用户帐号:</font></TD>

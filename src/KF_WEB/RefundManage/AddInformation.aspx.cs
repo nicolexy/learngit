@@ -13,6 +13,7 @@ using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using TENCENT.OSS.C2C.Finance.Common;
 using TENCENT.OSS.CFT.KF.Common;
+using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 {
@@ -49,6 +50,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 string strBankType = Request.QueryString["bankType"];
                 string[] aryUinID = strUinID.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                 string[] arrBankType = strBankType.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+
+                DropOldBankType.DataValueField = "key";
+                DropOldBankType.DataTextField = "value";
+                DropOldBankType.DataSource = Transfer.GetAllValueByType("BANK_TYPE");
+                DropOldBankType.DataBind();
                 if (arrBankType.Length > 0)
                 {
                     if (arrBankType.Length == 1 && arrBankType[0] == "0")

@@ -184,7 +184,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			DataSet ds = qs.QueryUserFreezeRecord("","",this.tbx_payAccount.Text,0,strFlistID,0,1);
 
 			this.lb_c1.Text = ds.Tables[0].Rows[0]["Flistid"].ToString();
-			this.lb_c2.Text = ds.Tables[0].Rows[0]["Fbkid"].ToString();
+            //this.lb_c2.Text = ds.Tables[0].Rows[0]["Fbkid"].ToString();
 			this.lb_c3.Text = ds.Tables[0].Rows[0]["Ftrue_name"].ToString();
 			this.lb_c4.Text = ds.Tables[0].Rows[0]["strFreason"].ToString();
 			this.lb_c5.Text = ds.Tables[0].Rows[0]["Fpaynum"].ToString();

@@ -118,13 +118,13 @@
                 </caption>
                 <tr>
                     <th>订单号/交易单号：</th>
-                    <td>
+                    <td colspan="3">
                         <label runat="server" id="lb_Fapplyid" />
                     </td>
-                    <th>流水号：</th>
+                   <%-- <th>流水号：</th>
                     <td>
                         <label runat="server" id="lb_Fbkid" />
-                    </td>
+                    </td>--%>
                 </tr>
                 <tr>
                     <th>冻结单号：</th>
