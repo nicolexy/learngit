@@ -314,7 +314,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     //2:金额小于时,插入logonhistory表,调用接口注销,如果有邮箱,向邮箱发送邮件,反馈信息给一线人员.
 
 
-                    var ds = qs.GetUserAccountCancel(qqid, 1, 1, 1);
+                    var ds = qs.GetUserAccount(qqid, 1, 1, 1);
                     if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                     {
                         string s_fz_amt = PublicRes.objectToString(ds.Tables[0], "Ffz_amt"); //分账冻结金额
