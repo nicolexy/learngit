@@ -636,7 +636,13 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strWhere"></param>
+        /// <param name="strCmd"></param>
+        /// <param name="errMsg"></param>
+        /// <returns></returns>
         public static DataSet GetDataSetFromICE(string strWhere, string strCmd, out string errMsg)
         {
             return GetDataSetFromICE(strWhere, strCmd, false, "ex_common_query_service", out errMsg);
@@ -725,7 +731,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                         DataTable dt = new DataTable();
                         dsresult.Tables.Add(dt);
 
-                        string firstrow = ht["row1"].ToString().Trim();
+                        string firstrow = ((!ht.ContainsKey("row" + irowcount)) ? ht["row0"].ToString() : ht["row1"].ToString()).Trim();
 
                         firstrow = URLDecode(firstrow);
 
@@ -751,42 +757,50 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                             dt.Columns.Add(fieldsplit[0]);
                         }
-
-                        for (int i = 1; i <= irowcount; i++)
+                        if (irowcount > 0)
                         {
-                            string onerow = ht["row" + i].ToString().Trim();
-                            onerow = URLDecode(onerow);
-                            string[] strsplit_detail = onerow.Split('&');
-
-                            DataRow drfield = dt.NewRow();
-                            drfield.BeginEdit();
-
-                            foreach (string stmp in strsplit_detail)
+                            int start_idx = 1;
+                            if (!ht.ContainsKey("row" + irowcount))
                             {
-                                if (stmp == null || stmp.Trim() == "")
-                                    continue;
-
-                                string[] fieldsplit = stmp.Split('=');
-
-                                if (fieldsplit.Length != 2)
-                                    continue;
-
-                                //drfield[fieldsplit[0]] = URLDecode(fieldsplit[1].Trim());
-                                drfield[fieldsplit[0]] = IceDecode(fieldsplit[1].Trim());
-
-                                /*
-                                string strtmp = fieldsplit[1].Trim();
-                                byte[] srcbuff = Encoding.UTF8.GetBytes(strtmp);
-                                byte[] desbuff = Encoding.Convert(Encoding.UTF8,Encoding.GetEncoding("gb2312"),srcbuff);
-                                strtmp = Encoding.GetEncoding("gb2312").GetString(desbuff);
-
-                                drfield[fieldsplit[0]] = strtmp;
-                                */
+                                start_idx = 0;
+                                irowcount--;
                             }
+                            for (int i = start_idx; i <= irowcount; i++)
+                            {
+                                string onerow = ht["row" + i].ToString().Trim();
+                                onerow = URLDecode(onerow);
+                                string[] strsplit_detail = onerow.Split('&');
 
-                            drfield.EndEdit();
-                            dt.Rows.Add(drfield);
+                                DataRow drfield = dt.NewRow();
+                                drfield.BeginEdit();
 
+                                foreach (string stmp in strsplit_detail)
+                                {
+                                    if (stmp == null || stmp.Trim() == "")
+                                        continue;
+
+                                    string[] fieldsplit = stmp.Split('=');
+
+                                    if (fieldsplit.Length != 2)
+                                        continue;
+
+                                    //drfield[fieldsplit[0]] = URLDecode(fieldsplit[1].Trim());
+                                    drfield[fieldsplit[0]] = IceDecode(fieldsplit[1].Trim());
+
+                                    /*
+                                    string strtmp = fieldsplit[1].Trim();
+                                    byte[] srcbuff = Encoding.UTF8.GetBytes(strtmp);
+                                    byte[] desbuff = Encoding.Convert(Encoding.UTF8,Encoding.GetEncoding("gb2312"),srcbuff);
+                                    strtmp = Encoding.GetEncoding("gb2312").GetString(desbuff);
+
+                                    drfield[fieldsplit[0]] = strtmp;
+                                    */
+                                }
+
+                                drfield.EndEdit();
+                                dt.Rows.Add(drfield);
+
+                            }
                         }
 
                     }
@@ -1301,7 +1315,14 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
         }
 
-        //加密
+        /// <summary>
+        /// 实际为Relay方式调用
+        /// </summary>
+        /// <param name="strWhere"></param>
+        /// <param name="strCmd"></param>
+        /// <param name="servicename"></param>
+        /// <param name="errMsg"></param>
+        /// <returns></returns>
         public static DataSet GetXmlToDataSetFromICE(string strWhere, string strCmd, string servicename, out string errMsg)
         {
             DataSet dsresult = null;
@@ -1315,6 +1336,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
             string sInmsg = "CMD=" + strCmd + "&" + strWhere;
 
+            //加密
             if (commRes.middleInvoke(servicename, sInmsg, true, out sReply, out iResult, out sMsg))
             {
                 if (iResult == 0)
@@ -1409,7 +1431,15 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
         }
 
-        //不加密
+        /// <summary>
+        /// 实际为Relay方式调用  配置在c2c_zwdb.t_relay_config
+        /// </summary>
+        /// <param name="strWhere"></param>
+        /// <param name="strCmd"></param>
+        /// <param name="servicename"></param>
+        /// <param name="errMsg"></param>
+        /// <param name="iskey">是否加密请求串</param>
+        /// <returns></returns>
         public static DataSet GetXmlToDataSetFromICE(string strWhere, string strCmd, string servicename, out string errMsg, bool iskey)
         {
             DataSet dsresult = null;

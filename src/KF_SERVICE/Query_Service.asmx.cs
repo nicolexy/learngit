@@ -28,7 +28,10 @@ using CFT.CSOMS.BLL.FreezeModule;
 using CFT.CSOMS.COMMLIB;
 using SunLibrary;
 using CFT.CSOMS.BLL.TradeModule;
+using CFT.CSOMS.BLL.Infrastructure;
+using CFT.CSOMS.BLL.ForeignCardModule;
 using CFT.CSOMS.BLL.CFTAccountModule;
+using CFT.CSOMS.BLL.CheckModoule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Service
 {
@@ -83,29 +86,32 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             if (fuid == null)
                 fuid = "0";
 
-            ICEAccess ice = null;
-            if (Fcurtype != "1")
-            {
-                ice = new ICEAccess(PublicRes.ICEServerIP3, PublicRes.ICEPort3);
-            }
-            else
-            {
-                ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
-            }
+            //ICEAccess ice = null;
+            //if (Fcurtype != "1")
+            //{
+            //    ice = new ICEAccess(PublicRes.ICEServerIP3, PublicRes.ICEPort3);
+            //}
+            //else
+            //{
+            //    ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+            //}
 
             try
             {
-                ice.OpenConn();
-                string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                strwhere += ICEAccess.URLEncode("fcurtype=" + Fcurtype + "&");
-                string strResp = "";
-
-                DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-
+                //ice.OpenConn();
+                //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                //strwhere += ICEAccess.URLEncode("fcurtype=" + Fcurtype + "&");
+                //string setID = PublicResService.GetSetIDByQQID(u_QQID);
+                //string strResp = "";
+                //DataTable dt = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                //if (dt == null || dt.Rows.Count == 0)
+                //    return null;
+                //ice.CloseConn();
+                string errMsg = "";
+                DataTable dt = AccountService.GetAccountInfo(fuid, Fcurtype, out errMsg);
                 if (dt == null || dt.Rows.Count == 0)
                     return null;
 
-                ice.CloseConn();
                 DataSet ds = new DataSet();
                 ds.Tables.Add(dt);
                 return ds;
@@ -116,7 +122,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             finally
             {
-                ice.Dispose();
+                //ice.Dispose();
             }
 
         }
@@ -594,21 +600,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             if (fuid == null)
                 throw new LogicException("查询fuid无记录" + strResp);
 
-            ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP3, PublicRes.ICEPort3);
+            //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP3, PublicRes.ICEPort3);
             try
             {
-                ice.OpenConn();
-                string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                strwhere += ICEAccess.URLEncode("fcurtype=" + Fcurtype + "&");
-                string strUpdate = "data=" + ICEAccess.URLEncode("fstate=" + ICEAccess.URLEncode(UpdateFstate));
-                strUpdate += ICEAccess.URLEncode("&fmodify_time=" + PublicRes.strNowTimeStander);
-
-                if (ice.InvokeQuery_Exec(YWSourceType.用户资源, YWCommandCode.修改用户信息, fuid, strwhere + "&" + strUpdate, out strResp) != 0)
-                {
-                    throw new Exception("修改用户信息时出错！" + strResp);
-                }
-
-                ice.CloseConn();
+                //ice.OpenConn();
+                //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                //strwhere += ICEAccess.URLEncode("fcurtype=" + Fcurtype + "&");
+                //string strUpdate = "data=" + ICEAccess.URLEncode("fstate=" + ICEAccess.URLEncode(UpdateFstate));
+                //strUpdate += ICEAccess.URLEncode("&fmodify_time=" + PublicRes.strNowTimeStander);
+                //string setID = PublicResService.GetSetIDByQQID(u_QQID);
+                //if (ice.InvokeQuery_Exec_SetID(YWSourceType.用户资源, YWCommandCode.修改用户信息, fuid, setID, strwhere + "&" + strUpdate, out strResp) != 0)
+                //{
+                //    throw new Exception("修改用户信息时出错！" + strResp);
+                //}
+                //ice.CloseConn();
+                FinishCheckService.Freeze_User(fuid,Fcurtype, UpdateFstate, u_QQID);
             }
             catch (Exception ex)
             {
@@ -616,7 +622,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             finally
             {
-                ice.Dispose();
+                //ice.Dispose();
             }
         }
 
@@ -1775,7 +1781,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string ftrueName = "";
                 string fz_amt = ""; //分账冻结金额 yinhuang 2014/1/8
 
-                ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+                //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
                 //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("AP"));
                 try
                 {
@@ -1800,16 +1806,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         }
                     }
 
-                    ice.OpenConn();
-                    string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                    strwhere += ICEAccess.URLEncode("fcurtype=" + fcurtype + "&");
-
-                    string strResp = "";
-                    DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
+                    //ice.OpenConn();
+                    //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                    //strwhere += ICEAccess.URLEncode("fcurtype=" + fcurtype + "&");
+                    //string setID = PublicResService.GetSetIDByQQID(u_QQID);
+                    //string strResp = "";
+                    //DataTable dt = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                    //if (dt == null || dt.Rows.Count == 0)
+                    //    throw new LogicException("调用ICE查询T_user无记录" + strResp);
+                    //ice.CloseConn();
+                    DataTable dt = AccountService.GetAccountInfo(fuid, fcurtype.ToString(), out errMsg);
                     if (dt == null || dt.Rows.Count == 0)
-                        throw new LogicException("调用ICE查询T_user无记录" + strResp);
-
-                    ice.CloseConn();
+                        throw new Exception("调用Relay查询T_user无记录：" + errMsg);
 
                     //da.OpenConn();
                     //string sql = "select * from app_platform.t_account_freeze where Fuin = '" + u_QQID + "'";
@@ -1837,7 +1845,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
                 finally
                 {
-                    ice.Dispose();
+                    //ice.Dispose();
                     //da.Dispose();
                 }
             }
@@ -1874,13 +1882,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 var task= System.Threading.Tasks.Task<DataTable>.Factory.StartNew(() =>
                 {
                     //使用新线程查询另一个接口   加速页面响应
-                    using (ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort))
-                    {
-                        ice.OpenConn();
-                        string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&") + ICEAccess.URLEncode("fcurtype=" + 1 + "&");  
-                        string strResp = "";
-                        return ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-                    }  
+                    //using (ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort))
+                    //{
+                    //    ice.OpenConn();
+                    //    string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&") + ICEAccess.URLEncode("fcurtype=" + 1 + "&");
+                    //    string setID = PublicResService.GetSetIDByQQID(u_QQID);
+                    //    string strResp = "";
+                    //    return ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                    //}
+                    string errOut = "";
+                    return AccountService.GetAccountInfo(fuid, "1", out errOut);
                 });
                 var ds=CommQuery.GetDataSetFromICE(strReq, CommQuery.QUERY_USERINFO, out errMsg);
                 DataTable dt1 = task.Result;
@@ -2649,6 +2660,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetBankRollList(string u_QQID, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
         {
+            DataSet ds = null;
             if (myHeader == null)
             {
                 throw new Exception("不正确的调用方法！");
@@ -2666,45 +2678,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //idtype 0买家，1卖家
                 sign = 1;
                 string fuid = PublicRes.ConvertToFuid(u_QQID);
-                DataSet ds;
 
                 int start = istr - 1;
                 if (start < 0) start = 0;
 
-                string strWhere = "start_time=" + ICEAccess.ICEEncode(u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"));
-                strWhere += "&end_time=" + ICEAccess.ICEEncode(u_EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
-                strWhere += "&uid=" + fuid;
-                strWhere += "&curtype=" + fcurtype;
-                strWhere += "&lim_start=" + start;
-                strWhere += "&lim_count=" + imax;
-
-                string errMsg;
-
-                if (!CommQuery.GetDataFromICE(strWhere, CommQuery.个人资金流水, out errMsg, out ds))
-                {
-                    throw new LogicException(errMsg);
-                }
-
-                if (ds == null)
-                    return null;
-
-                return ds;
+                ds = new ForeignCardService().GetForeignCardRollList(fuid, fcurtype, 
+                    u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"), u_EndTime.ToString("yyyy-MM-dd HH:mm:ss"), start, imax);
             }
             catch (Exception e)
             {
                 sign = 0;
-                throw;
-                return null;
+                throw new Exception("service发生错误,请联系管理员！" + e.Message);
             }
             finally
             {
                 PublicRes.writeSysLog(strUserID, strIP, "query", actionType, sign, u_QQID, "用户");
             }
+            return ds;
         }
 
         [WebMethod(Description = "查询用户帐户流水表_WithListID")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        public DataSet GetBankRollList_withID(DateTime u_BeginTime, DateTime u_EndTime, string ListID, int istr, int imax)
+        public DataSet GetBankRollList_withID(string spUid,int bankType, DateTime u_BeginTime, DateTime u_EndTime, string ListID, int istr, int imax)
         {
             if (myHeader == null)
             {
@@ -2727,16 +2722,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     return null;
 
                 string onerow = cuser.alTables[0].ToString().Replace("UID=", "");
-                string strWhere = "uid=" + onerow;
-                strWhere += "&listid=" + ListID;
 
                 DataSet ds;
                 string errMsg;
 
-                if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_个人, out errMsg, out ds))
-                {
-                    throw new LogicException(errMsg);
-                }
+                string service_name_user = "qry_user_bankroll_c";   //个人
+                string service_name_sp = "qry_sp_bankroll_c";       //商户
+                string service_name_bank = "qry_bank_bankroll_c";   //银行
+
+                string strWhere = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                strWhere += "&sp_id=2000000000";
+                strWhere += "&transaction_id=" + ListID;
+                strWhere += "&uid=" + onerow.Replace("UID=", "");
+                ds = CommQuery.GetDataSetFromICE(strWhere, CommQuery.交易单资金流水_个人, false, service_name_user, out errMsg);
+
+                //string strWhere = "uid=" + onerow;
+                //strWhere += "&listid=" + ListID;
+                //if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_个人, out errMsg, out ds))
+                //{
+                //    throw new LogicException(errMsg);
+                //}
 
                 bool havefirstds = true;
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0] == null || ds.Tables[0].Columns.Count == 0)
@@ -2754,23 +2759,34 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     onerow = cuser.alTables[i].ToString();
                     if (onerow.StartsWith("UID="))
                     {
-                        strWhere = "uid=" + onerow.Replace("UID=", "");
-                        strWhere += "&listid=" + ListID;
+                        strWhere = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                        strWhere += "&sp_id=2000000000";
+                        strWhere += "&transaction_id=" + ListID;
+                        strWhere += "&uid=" + onerow.Replace("UID=", "");
+                        newds = CommQuery.GetDataSetFromICE(strWhere, CommQuery.交易单资金流水_个人, false, service_name_user, out errMsg);
 
-                        if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_个人, out errMsg, out newds))
-                        {
-                            throw new LogicException(errMsg);
-                        }
+                        //strWhere = "uid=" + onerow.Replace("UID=", "");
+                        //strWhere += "&listid=" + ListID;
+                        //if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_个人, out errMsg, out newds))
+                        //{
+                        //    throw new LogicException(errMsg);
+                        //}
                     }
                     else
                     {
-                        strWhere = "start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
-                        strWhere += "&listid=" + ListID;
+                        strWhere = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                        strWhere += "&sp_id=2000000000";
+                        strWhere += "&transaction_id=" + ListID;
+                        strWhere += "&sp_uid=" + spUid;
+                        strWhere += "&start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
+                        newds = CommQuery.GetDataSetFromICE(strWhere, CommQuery.交易单资金流水_商户, false, service_name_sp, out errMsg);
 
-                        if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_商户, out errMsg, out newds))
-                        {
-                            throw new LogicException(errMsg);
-                        }
+                        //strWhere = "start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
+                        //strWhere += "&listid=" + ListID;
+                        //if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_商户, out errMsg, out newds))
+                        //{
+                        //    throw new LogicException(errMsg);
+                        //}
                     }
 
                     //把这次得到的表内容合并入ds中。
@@ -2804,13 +2820,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                     else
                     {
-                        strWhere = "start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
-                        strWhere += "&listid=" + ListID;
+                        strWhere = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                        strWhere += "&sp_id=2000000000";
+                        strWhere += "&transaction_id=" + ListID;
+                        strWhere += "&bank_type=" + bankType;
+                        strWhere += "&start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
+                        newds = CommQuery.GetDataSetFromICE(strWhere, CommQuery.交易单资金流水_银行, false, service_name_bank, out errMsg);
 
-                        if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_银行, out errMsg, out newds))
-                        {
-                            throw new LogicException(errMsg);
-                        }
+                        //strWhere = "start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
+                        //strWhere += "&listid=" + ListID;
+                        //if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_银行, out errMsg, out newds))
+                        //{
+                        //    throw new LogicException(errMsg);
+                        //}
                     }
 
                     //把这次得到的表内容合并入ds中。
@@ -5801,10 +5823,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 long Appeal_FreezeMoney = long.Parse(System.Configuration.ConfigurationManager.AppSettings["Appeal_FreezeMoney"]);
 
-                ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+                //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
                 try
                 {
-                    ice.OpenConn();
+                    //ice.OpenConn();
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         try
@@ -5826,12 +5848,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                             dr["Fuincolor"] = "";
                             string fuid = PublicRes.ConvertToFuid(dr["Fuin"].ToString());
-                            string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                            strwhere += ICEAccess.URLEncode("fcurtype=1&");
-                            string strResp = "";
-
-                            DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-
+                            //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                            //strwhere += ICEAccess.URLEncode("fcurtype=1&");
+                            //string setID = PublicResService.GetSetIDByQQID(qqid);
+                            //string strResp = "";
+                            //DataTable dtuser = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                            string errMsg = "";
+                            DataTable dtuser = AccountService.GetAccountInfo(fuid, "1", out errMsg);
                             if (dtuser == null || dtuser.Rows.Count == 0)
                             {
                                 continue;
@@ -5849,11 +5872,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                             continue;
                         }
                     }
-                    ice.CloseConn();
+                    //ice.CloseConn();
                 }
                 finally
                 {
-                    ice.Dispose();
+                    //ice.Dispose();
                 }
 
                 return ds;
@@ -5957,10 +5980,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 long Appeal_FreezeMoney = long.Parse(System.Configuration.ConfigurationManager.AppSettings["Appeal_FreezeMoney"]);
 
-                ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+                //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
                 try
                 {
-                    ice.OpenConn();
+                    //ice.OpenConn();
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         try
@@ -5988,12 +6011,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                             #region 添加大额标记
                             dr["Fuincolor"] = "";
                             string fuid = PublicRes.ConvertToFuid(dr["Fuin"].ToString());
-                            string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                            strwhere += ICEAccess.URLEncode("fcurtype=1&");
-                            string strResp = "";
-
-                            DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-
+                            //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                            //strwhere += ICEAccess.URLEncode("fcurtype=1&");
+                            //string setID = PublicResService.GetSetIDByQQID(qqid);
+                            //string strResp = "";
+                            //DataTable dtuser = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                            string errMsg = "";
+                            DataTable dtuser = AccountService.GetAccountInfo(fuid, "1", out errMsg);
                             if (dtuser == null || dtuser.Rows.Count == 0)
                             {
                                 continue;
@@ -6012,11 +6036,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                             continue;
                         }
                     }
-                    ice.CloseConn();
+                    //ice.CloseConn();
                 }
                 finally
                 {
-                    ice.Dispose();
+                    //ice.Dispose();
                 }
 
                 return ds;
@@ -8253,10 +8277,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     ds.Tables[0].Columns.Add("Fuincolor", typeof(String));
                     ds.Tables[0].Columns.Add("balance", typeof(String));//金额 echo 20140909
 
-                    ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+                    //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
                     try
                     {
-                        ice.OpenConn();
+                        //ice.OpenConn();
                         foreach (DataRow dr in ds.Tables[0].Rows)
                         {
                             try
@@ -8264,13 +8288,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 dr["Fuincolor"] = "";
                                 string fuid = PublicRes.ConvertToFuid(dr["Fuin"].ToString());
 
-                                string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                                strwhere += ICEAccess.URLEncode("fcurtype=1&");
-
-                                string strResp = "";
-
-                                DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-
+                                //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                                //strwhere += ICEAccess.URLEncode("fcurtype=1&");
+                                //string setID = PublicResService.GetSetIDByQQID(dr["Fuin"].ToString());
+                                //string strResp = "";
+                                //DataTable dtuser = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                                string errMsg = "";
+                                DataTable dtuser = AccountService.GetAccountInfo(fuid, "1", out errMsg);
                                 if (dtuser == null || dtuser.Rows.Count == 0)
                                 {
                                     dr["balance"] = "0";
@@ -8290,12 +8314,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 continue;
                             }
                         }
-
-                        ice.CloseConn();
+                        //ice.CloseConn();
                     }
                     finally
                     {
-                        ice.Dispose();
+                        //ice.Dispose();
                     }
                 }
 
@@ -8443,10 +8466,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     dsAll.Tables[0].Columns.Add("Fuincolor", typeof(String));
                     dsAll.Tables[0].Columns.Add("balance", typeof(String));//金额 echo 20140909
 
-                    ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+                    //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
                     try
                     {
-                        ice.OpenConn();
+                        //ice.OpenConn();
 
                         foreach (DataRow dr in dsAll.Tables[0].Rows)
                         {
@@ -8455,13 +8478,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 dr["Fuincolor"] = "";
                                 string fuid = PublicRes.ConvertToFuid(dr["Fuin"].ToString());
 
-                                string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                                strwhere += ICEAccess.URLEncode("fcurtype=1&");
-
-                                string strResp = "";
-
-                                DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-
+                                //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                                //strwhere += ICEAccess.URLEncode("fcurtype=1&");
+                                //string setID = PublicResService.GetSetIDByQQID(dr["Fuin"].ToString());
+                                //string strResp = "";
+                                //DataTable dtuser = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                                string errMsg = "";
+                                DataTable dtuser = AccountService.GetAccountInfo(fuid, "1", out errMsg);
                                 if (dtuser == null || dtuser.Rows.Count == 0)
                                 {
                                     dr["balance"] = "0";
@@ -8481,12 +8504,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 continue;
                             }
                         }
-
-                        ice.CloseConn();
+                        //ice.CloseConn();
                     }
                     finally
                     {
-                        ice.Dispose();
+                        //ice.Dispose();
                     }
                 }
                 return dsAll;
@@ -8629,17 +8651,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 if (!ivrflag)
                                 {
                                     //判断余额.
-                                    ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+                                    //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
                                     try
                                     {
-                                        ice.OpenConn();
-                                        string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                                        strwhere += ICEAccess.URLEncode("fcurtype=1&");
-                                        string strResp = "";
+                                        //ice.OpenConn();
+                                        //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                                        //strwhere += ICEAccess.URLEncode("fcurtype=1&");
+                                        //string setID = PublicResService.GetSetIDByQQID(fuid);
+                                        //string strResp = "";
+                                        //DataTable dtuser = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                                        //ice.CloseConn();
 
-                                        DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-
-                                        ice.CloseConn();
+                                        DataTable dtuser = AccountService.GetAccountInfo(fuid, "1", out errMsg);
 
                                         if (dtuser == null || dtuser.Rows.Count == 0)
                                         {
@@ -8656,7 +8679,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                     }
                                     finally
                                     {
-                                        ice.Dispose();
+                                        //ice.Dispose();
                                     }
                                 }
                                 //判断通过后,插入数据.先不取姓名和金额值,那两个是预留字段.								
@@ -8777,18 +8800,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 if (!ivrflag)
                                 {
                                     //判断余额.
-                                    ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+                                    //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
                                     try
                                     {
-                                        ice.OpenConn();
-                                        string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                                        strwhere += ICEAccess.URLEncode("fcurtype=1&");
+                                        //ice.OpenConn();
+                                        //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                                        //strwhere += ICEAccess.URLEncode("fcurtype=1&");
+                                        //string setID = PublicResService.GetSetIDByQQID(fuid);
+                                        //string strResp = "";
+                                        //DataTable dtuser = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                                        //ice.CloseConn();
 
-                                        string strResp = "";
-
-                                        DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-
-                                        ice.CloseConn();
+                                        DataTable dtuser = AccountService.GetAccountInfo(fuid, "1", out errMsg);
 
                                         if (dtuser == null || dtuser.Rows.Count == 0)
                                         {
@@ -8805,7 +8828,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                     }
                                     finally
                                     {
-                                        ice.Dispose();
+                                        //ice.Dispose();
                                     }
                                 }
                                 //判断通过后,插入数据.先不取姓名和金额值,那两个是预留字段.								
@@ -8980,18 +9003,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 if (!ivrflag)
                                 {
                                     //判断余额.
-                                    ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+                                    //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
                                     try
                                     {
-                                        ice.OpenConn();
-                                        string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                                        strwhere += ICEAccess.URLEncode("fcurtype=1&");
-
-                                        string strResp = "";
-
-                                        DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-
-                                        ice.CloseConn();
+                                        //ice.OpenConn();
+                                        //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                                        //strwhere += ICEAccess.URLEncode("fcurtype=1&");
+                                        //string setID = PublicResService.GetSetIDByQQID(fuid);
+                                        //string strResp = "";
+                                        //DataTable dtuser = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                                        //ice.CloseConn();
+                                        DataTable dtuser = AccountService.GetAccountInfo(fuid, "1", out errMsg);
 
                                         if (dtuser == null || dtuser.Rows.Count == 0)
                                         {
@@ -9008,7 +9030,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                     }
                                     finally
                                     {
-                                        ice.Dispose();
+                                        //ice.Dispose();
                                     }
                                 }
                                 //判断通过后,插入数据.先不取姓名和金额值,那两个是预留字段.								
@@ -10054,7 +10076,69 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
 
         }
-      
+
+        [WebMethod(Description = "自助申诉查询详细函数")]
+        public DataSet GetAppealUserInfo(string qqid)
+        {
+            //已更改 furion V30_FURION核心查询需改动 查询核心走接口.
+            //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZW"));
+            try
+            {
+                string uid = PublicRes.ConvertToFuid(qqid);
+                if (uid == null || uid.Trim() == "")
+                {
+                    throw new LogicException("找不到此用户");
+                }
+
+                // TODO: 1客户信息资料外移 
+                da.OpenConn();
+
+                //ice.OpenConn();
+                //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + uid + "&");
+                //strwhere += ICEAccess.URLEncode("fcurtype=1&");
+                //string setID = PublicResService.GetSetIDByQQID(qqid);
+                //string strResp = "";
+                //DataTable dt = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, uid, setID, strwhere, out strResp);
+                //if (dt == null || dt.Rows.Count == 0)
+                //    throw new LogicException("调用ICE查询T_user无记录" + strResp);
+                string errMsg = "";
+                DataTable dt = AccountService.GetAccountInfo(uid, "1", out errMsg);
+                if (dt == null || dt.Rows.Count == 0)
+                    throw new Exception("调用Relay查询T_user无记录：" + errMsg);
+
+                string Fbalance = dt.Rows[0]["Fbalance"].ToString();
+                string Fcon = dt.Rows[0]["Fcon"].ToString();
+                string Ftruename = dt.Rows[0]["Ftruename"].ToString();
+                string Fcompany_name = dt.Rows[0]["Fcompany_name"].ToString();
+                string Fuser_type = dt.Rows[0]["Fuser_type"].ToString();
+                string Fqqid = dt.Rows[0]["Fqqid"].ToString();
+                
+                string strSql = "uid=" + uid;
+                DataTable dtuserinfo = CommQuery.GetTableFromICE(strSql, CommQuery.QUERY_USERINFO, out errMsg);
+
+                if (dtuserinfo == null || dtuserinfo.Rows.Count != 1)
+                    throw new LogicException("调用FINANCE_UI_QUERY_USERINFO出错" + errMsg);
+
+                string Femail = dtuserinfo.Rows[0]["Femail"].ToString();
+                string Fcre_type = dtuserinfo.Rows[0]["Fcre_type"].ToString();
+                string Fcreid = dtuserinfo.Rows[0]["Fcreid"].ToString();
+                strSql = "uid=" + uid + "&curtype=1";
+                string Fbankid = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_BANKUSER, "Fbankid", out errMsg);
+
+                strSql = @"select '" + Fqqid + "' as Fqqid,'" + Ftruename + "' as Ftruename,'" + Fcompany_name + "' as Fcompany_name,'"
+                    + Fbalance + "' as Fbalance,'" + Fcon + "' as Fcon,'" + Fuser_type + "' as Fuser_type,'" + Femail
+                    + "' as Femail,'" + Fcre_type + "' as Fcre_type,'" + Fcreid + "' as Fcreid,'" + Fbankid + "' as Fbankid";
+
+                return da.dsGetTotalData(strSql);              
+            }
+            finally
+            {
+                da.Dispose();
+                //ice.Dispose();
+            }
+        }
+
         [WebMethod(Description = "修改QQ查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
         public DataSet GetChangeQQList(string userid, string qq, int iPageStart, int iPageMax)
@@ -11665,13 +11749,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 string errMsg = "";
 
-                string strWhere = "start_time=" + Starttime.ToString("yyyy-MM-dd");
-                strWhere += "&listid=" + Flistid;
+                string service_name_sp = "qry_sp_bankroll_c";       //商户
+                string strWhere = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                strWhere += "&sp_id=2000000000";
+                strWhere += "&transaction_id=" + Flistid;
+                strWhere += "&sp_uid=" + Fuid;
+                strWhere += "&start_time=" + Starttime.ToString("yyyy-MM-dd");
+                ds1 = CommQuery.GetDataSetFromICE(strWhere, CommQuery.交易单资金流水_商户, false, service_name_sp, out errMsg);
 
-                if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_商户, out errMsg, out ds1))
-                {
-                    throw new Exception(errMsg);
-                }
+                //string strWhere = "start_time=" + Starttime.ToString("yyyy-MM-dd");
+                //strWhere += "&listid=" + Flistid;
+                //if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_商户, out errMsg, out ds1))
+                //{
+                //    throw new Exception(errMsg);
+                //}
    
                 if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
                 {
@@ -11684,15 +11775,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 while (NewStart <= NewEnd)
                 {
-                    strWhere = "start_time=" + NewStart.ToString("yyyy-MM-dd");
-                    strWhere += "&listid=" + Flistid;
-
+                    strWhere = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                    strWhere += "&sp_id=2000000000";
+                    strWhere += "&transaction_id=" + Flistid;
+                    strWhere += "&sp_uid=" + Fuid;
+                    strWhere += "&start_time=" + NewStart.ToString("yyyy-MM-dd");
                     NewStart = NewStart.AddMonths(1);
+                    ds2 = CommQuery.GetDataSetFromICE(strWhere, CommQuery.交易单资金流水_商户, false, service_name_sp, out errMsg);
 
-                    if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_商户, out errMsg, out ds2))
-                    {
-                        throw new Exception(errMsg);
-                    }
+                    //strWhere = "start_time=" + NewStart.ToString("yyyy-MM-dd");
+                    //strWhere += "&listid=" + Flistid;
+                    //NewStart = NewStart.AddMonths(1);
+                    //if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_商户, out errMsg, out ds2))
+                    //{
+                    //    throw new Exception(errMsg);
+                    //}
 
                     //把这次得到的表内容合并入ds中。
                     if (ds2 == null || ds2.Tables.Count == 0 || ds2.Tables[0] == null || ds2.Tables[0].Rows.Count == 0)
@@ -11722,13 +11819,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 for (int i = 0; i < dsFuid.Tables[0].Rows.Count; i++)
                 {
-                    strWhere = "start_time=" + DateTime.Parse(dsFuid.Tables[0].Rows[i]["Fcreate_time"].ToString()).ToString("yyyy_MM-dd");
-                    strWhere += "&listid=" + dsFuid.Tables[0].Rows[i]["Flistid"].ToString();
+                    strWhere = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                    strWhere += "&sp_id=2000000000";
+                    strWhere += "&transaction_id=" + dsFuid.Tables[0].Rows[i]["Flistid"].ToString();
+                    strWhere += "&sp_uid=" + Fuid;
+                    strWhere += "&start_time=" + DateTime.Parse(dsFuid.Tables[0].Rows[i]["Fcreate_time"].ToString()).ToString("yyyy_MM-dd");
+                    NewStart = NewStart.AddMonths(1);
+                    ds3 = CommQuery.GetDataSetFromICE(strWhere, CommQuery.交易单资金流水_商户, false, service_name_sp, out errMsg);
 
-                    if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_商户, out errMsg, out ds3))
-                    {
-                        throw new Exception(errMsg);
-                    }
+                    //strWhere = "start_time=" + DateTime.Parse(dsFuid.Tables[0].Rows[i]["Fcreate_time"].ToString()).ToString("yyyy_MM-dd");
+                    //strWhere += "&listid=" + dsFuid.Tables[0].Rows[i]["Flistid"].ToString();
+                    //if (!CommQuery.GetDataFromICE(strWhere, CommQuery.交易单资金流水_商户, out errMsg, out ds3))
+                    //{
+                    //    throw new Exception(errMsg);
+                    //}
 
                     //把这次得到的表内容合并入ds中。
                     if (ds3 == null || ds3.Tables.Count == 0 || ds3.Tables[0] == null || ds3.Tables[0].Rows.Count == 0)
@@ -19334,10 +19438,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     ds.Tables[0].Columns.Add("Fuincolor", typeof(String));
                     ds.Tables[0].Columns.Add("balance", typeof(String));//金额 echo 20140909
 
-                    ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+                    //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
                     try
                     {
-                        ice.OpenConn();
+                        //ice.OpenConn();
 
                         foreach (DataRow dr in ds.Tables[0].Rows)
                         {
@@ -19346,13 +19450,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                                 dr["Fuincolor"] = "";
                                 string fuid = PublicRes.ConvertToFuid(dr["Fqqid"].ToString());
 
-                                string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                                strwhere += ICEAccess.URLEncode("fcurtype=1&");
-
-                                string strResp = "";
-
-                                DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-
+                                //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                                //strwhere += ICEAccess.URLEncode("fcurtype=1&");
+                                //string setID = PublicResService.GetSetIDByQQID(dr["Fqqid"].ToString());
+                                //string strResp = "";
+                                //DataTable dtuser = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                                string errMsg = "";
+                                DataTable dtuser = AccountService.GetAccountInfo(fuid, "1", out errMsg);
                                 if (dtuser == null || dtuser.Rows.Count == 0)
                                 {
                                     dr["balance"] = "0";
@@ -19373,11 +19477,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                             }
                         }
 
-                        ice.CloseConn();
+                        //ice.CloseConn();
                     }
                     finally
                     {
-                        ice.Dispose();
+                        //ice.Dispose();
                     }
                 }
 
@@ -22039,20 +22143,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             Msg = "";
 
-            ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+            //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
             try
             {
                 string fuid = PublicRes.ConvertToFuid(qqid);
 
-                string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                strwhere += ICEAccess.URLEncode("fcurtype=" + curtype + "&");
-
-                string strResp = "";
-
-                ice.OpenConn();
-
-                DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-
+                //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                //strwhere += ICEAccess.URLEncode("fcurtype=" + curtype + "&");
+                //string setID = PublicResService.GetSetIDByQQID(qqid);
+                //string strResp = "";
+                //ice.OpenConn();
+                //DataTable dtuser = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                string errMsg = "";
+                DataTable dtuser = AccountService.GetAccountInfo(fuid, curtype.ToString(), out errMsg);
                 if (dtuser == null || dtuser.Rows.Count == 0)
                 {
                     Msg = "查询不到用户信息";
@@ -22061,7 +22164,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 long lbalance = long.Parse(dtuser.Rows[0]["fbalance"].ToString());
 
-                ice.CloseConn();
+                //ice.CloseConn();
 
                 return lbalance;
             }
@@ -22072,7 +22175,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             finally
             {
-                ice.Dispose();
+                //ice.Dispose();
             }
 
         }
@@ -22082,20 +22185,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         {
             Msg = "";
 
-            ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+            //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
             try
             {
-
-                string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                strwhere += ICEAccess.URLEncode("fcurtype=" + curtype + "&");
-
-                string strResp = "";
-
-                ice.OpenConn();
-
-                DataTable dtuser = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
-
-                if (dtuser == null || dtuser.Rows.Count == 0)
+                //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                //strwhere += ICEAccess.URLEncode("fcurtype=" + curtype + "&");
+                //string setID = PublicResService.GetSetIDByQQID(fuid);
+                //string strResp = "";
+                //ice.OpenConn();
+                //DataTable dtuser = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                string errMsg = "";
+                DataTable dtuser = AccountService.GetAccountInfo(fuid, curtype.ToString(), out errMsg);
                 {
                     Msg = "查询不到用户信息";
                     return -1;
@@ -22103,7 +22203,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 long lbalance = long.Parse(dtuser.Rows[0]["fbalance"].ToString());
 
-                ice.CloseConn();
+                //ice.CloseConn();
 
                 return lbalance;
             }
@@ -22114,7 +22214,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             finally
             {
-                ice.Dispose();
+                //ice.Dispose();
             }
 
         }
@@ -24711,31 +24811,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
 
             //furion V30_FURION改动 20090310
-            ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+            //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
             try
             {
                 //furion 20061116 email登录修改。
-                string strID = PublicRes.ConvertToFuid(qqid);  //先转换成fuid
+                string fuid = PublicRes.ConvertToFuid(qqid);  //先转换成fuid
               
                 // TODO1: 客户信息资料外移
               
-                ice.OpenConn();
-                string strwhere = "where=" + ICEAccess.URLEncode("fcurtype=1&");
-                strwhere += ICEAccess.URLEncode("fuid=" + strID + "&");
+                //ice.OpenConn();
+                //string strwhere = "where=" + ICEAccess.URLEncode("fcurtype=1&");
+                //strwhere += ICEAccess.URLEncode("fuid=" + strID + "&");
+                //string strUpdate = "data=" + ICEAccess.URLEncode("fuser_type=" + userType);
+                //strUpdate += ICEAccess.ICEEncode("&fmodify_time=" + PublicRes.strNowTimeStander);
+                //string setID = PublicResService.GetSetIDByQQID(qqid);
+                //string strResp = "";
+                ////3.0接口测试需要 furion 20090708
+                //if (ice.InvokeQuery_Exec_SetID(YWSourceType.用户资源, YWCommandCode.修改用户信息, strID, setID, strwhere + "&" + strUpdate, out strResp) != 0)
+                //{
+                //    throw new Exception("修改个人账户类型出错！" + strResp);
+                //}
 
-                string strUpdate = "data=" + ICEAccess.URLEncode("fuser_type=" + userType);
-                strUpdate += ICEAccess.ICEEncode("&fmodify_time=" + PublicRes.strNowTimeStander);
+                FinishCheckService.Update_User_Type(fuid, userType, qqid);
 
-                string strResp = "";
-
-                //3.0接口测试需要 furion 20090708
-                if (ice.InvokeQuery_Exec(YWSourceType.用户资源, YWCommandCode.修改用户信息, strID, strwhere + "&" + strUpdate, out strResp) != 0)
-                {
-                    throw new Exception("修改个人账户类型出错！" + strResp);
-                }
-
-
-                string strSql = "uid=" + strID;
+                string strSql = "uid=" + fuid;
                 strSql += "&modify_time=" + PublicRes.strNowTimeStander;
                 strSql += "&user_type=" + userType;
 
@@ -24757,14 +24856,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
-                ice.CloseConn();
+                //ice.CloseConn();
                 Msg = "修改帐户类型失败！[" + e.Message.ToString().Replace("'", "’") + "]";
                 SunLibrary.LoggerFactory.Get("Query_Service").Info("modifyUserType:" + Msg);
                 return false;
             }
             finally
             {
-                ice.Dispose();
+                //ice.Dispose();
             }
         }
 

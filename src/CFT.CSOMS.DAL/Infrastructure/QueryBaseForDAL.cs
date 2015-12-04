@@ -8,6 +8,7 @@ using System.IO;
 using CFT.CSOMS.DAL.Infrastructure;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using CommLib;
+using CFT.Apollo.Logging;
 
 namespace CFT.CSOMS.DAL.Infrastructure
 {
@@ -780,6 +781,9 @@ namespace CFT.CSOMS.DAL.Infrastructure
         //按交易单查询资金流水专用，返回需要查询的库表名称。
         public ArrayList alTables;
 
+        public string spUid;
+        public int bankType;
+
       
         /// <summary>
         /// 返回需要查的表就可以，因为SQL一样。
@@ -824,6 +828,16 @@ namespace CFT.CSOMS.DAL.Infrastructure
             //			ar[27]= "Freceive_time"; //打款给卖家时间
             //			ar[28]= "Fmodify_time";  //最后修改时间
 
+            spUid = ar[2];  //spid
+            try
+            {
+                bankType = Convert.ToInt32(ar[8]);  //fbuy_bank_type
+            }
+            catch (Exception ex)
+            {
+                bankType = -1;
+                LogHelper.LogInfo(ex.Message + ex.StackTrace);
+            }
             //确定（中介）账户流水表的表名
             string timeStr = null;
             string timeStr2 = null;

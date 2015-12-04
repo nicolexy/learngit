@@ -68,6 +68,7 @@
     <Compile Include="CheckModoule\CheckService.cs" />
     <Compile Include="CheckModoule\Check_Class.cs" />
     <Compile Include="CheckModoule\FinishCheck.cs" />
+    <Compile Include="CheckModoule\FinishCheckService.cs" />
     <Compile Include="CreditModule\TencentCreditService.cs" />
     <Compile Include="CRTModule\CRTService.cs" />
     <Compile Include="ForeignCurrencyModule\FCUserTradeQuery.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="FundModule\ControlFundService.cs" />
     <Compile Include="FundModule\LCTBalanceService.cs" />
     <Compile Include="HandQModule\HandQService.cs" />
+    <Compile Include="Infrastructure\PublicResService.cs" />
     <Compile Include="InternationalityPayModule\QueryWeiXinMircoPay.cs" />
     <Compile Include="InternetBank\InternetBankService.cs" />
     <Compile Include="LifeFeePaymentModule\LifeFeePaymentService.cs" />

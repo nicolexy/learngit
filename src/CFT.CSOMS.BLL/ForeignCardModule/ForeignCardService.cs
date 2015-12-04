@@ -87,6 +87,22 @@ namespace CFT.CSOMS.BLL.ForeignCardModule
                 throw new Exception("查询外卡商户流水(C账户)异常：" + ex.Message);
             }
         }
+
+        /// <summary>
+        /// 个人资金流水
+        /// </summary>
+        /// <param name="fuid">用户内部uid</param>
+        /// <param name="fcurtype">币种代码</param>
+        /// <param name="s_time"></param>
+        /// <param name="e_time"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public DataSet GetForeignCardRollList(string fuid, int fcurtype, string s_time, string e_time, int offset, int limit)
+        {
+            return new PayManageData().GetForeignCardRollList(fuid, fcurtype, s_time, e_time, offset, limit);
+        }
+
         public DataSet QueryForeignCardInfoByOrder(string fields)
         {
             return new PayManageData().QueryForeignCardInfoByOrder(fields);

@@ -135,29 +135,30 @@ namespace CFT.CSOMS.DAL.ForeignCardModule
         /// <returns></returns>
         public DataSet GetForeignCardRollList(string fuid, int fcurtype, string s_time, string e_time, int offset, int limit)
         {
+            DataSet ds = null;
             string errMsg = "";
             try
             {
-                string strWhere = "start_time=" + s_time;
-                strWhere += "&end_time=" + e_time;
-                strWhere += "&uid=" + fuid;
-                strWhere += "&curtype=" + fcurtype;
-                strWhere += "&lim_start=" + offset;
-                strWhere += "&lim_count=" + limit;
+                string service_name = "qry_bankroll_list_service";
+                string req = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.NewStaticNoManage();
+                req += "&sp_id=2000000000";
+                req += "&uid=" + fuid;
+                req += "&curtype=" + fcurtype;
+                req += "&s_time=" + s_time;
+                req += "&e_time=" + e_time;
+                req += "&offset=" + offset;
+                req += "&limit=" + limit;
 
-                DataSet ds = new DataSet();
-                if (!CommQuery.GetDataFromICE(strWhere, CommQuery.个人资金流水, out errMsg, out ds))
-                {
+                ds = CommQuery.GetDataSetFromICE(req, CommQuery.个人资金流水, false, service_name, out errMsg);
+
+                if (!string.IsNullOrEmpty(errMsg))
                     throw new Exception(errMsg);
-                }
-                if (ds == null)
-                    return null;
-                return ds;
             }
             catch (Exception err)
             {
                 throw new Exception("查询外卡商户（C账户）流水失败！" + err.Message);
             }
+            return ds;
         }
 
         /// <summary>

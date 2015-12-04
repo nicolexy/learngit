@@ -49,6 +49,17 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             return new AccountData().IsFastPayUser(qqid);
         }
 
+        /// <summary>
+        /// YWCommandCode.查询用户信息 调核心转Relay
+        /// </summary>
+        /// <param name="fuid"></param>
+        /// <param name="fcurtype"></param>
+        /// <returns></returns>
+        public static DataTable GetAccountInfo(string fuid, string fcurtype,out string errMsg)
+        {
+            return AccountData.GetAccountInfo(fuid, fcurtype, out errMsg);
+        }
+
         public DataSet GetUserAccount(string u_QQID, int fcurtype, int istr, int imax)
         {
             return new AccountData().GetUserAccount(u_QQID, fcurtype, istr, imax);

@@ -116,6 +116,7 @@ namespace CFT.CSOMS.BLL.TradeModule
 
                     TransferMeaning.Transfer.GetColumnValueFromDic(ds.Tables[0], "Fpay_type", "Fpay_type_str", "PAY_TYPE");//支付类型
 
+                    #region Fappeal_sign、Fmedi_sign、Fchannel_id
                     string strtmp = ds.Tables[0].Rows[0]["Fappeal_sign"].ToString();
                     if (strtmp == "1")
                     {
@@ -239,6 +240,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                     {
                         ds.Tables[0].Rows[0]["Fchannel_id_str"] = "数平SDK";
                     }
+                    #endregion
 
                     if (!ds.Tables[0].Columns.Contains("Fbuy_bankid"))//支付绑定序列号
                     {

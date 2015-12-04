@@ -24,6 +24,9 @@ using System.IO;
 using System.Xml;
 using System.Text.RegularExpressions;
 using CFT.CSOMS.BLL.TradeModule;
+using CFT.CSOMS.BLL.Infrastructure;
+using CFT.CSOMS.BLL.CFTAccountModule;
+using CFT.CSOMS.BLL.CheckModoule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Service
 {
@@ -806,7 +809,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             string ftrueName = "";
             string fz_amt = ""; //分账冻结金额 yinhuang 2014/1/8
 
-            ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+            //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
             //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("AP"));
             try
             {
@@ -832,35 +835,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                 }
 
-                ice.OpenConn();
-                string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                strwhere += ICEAccess.URLEncode("fcurtype="+fcurtype+"&");
-
-                string strResp = "";
-                DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
+                //ice.OpenConn();
+                //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                //strwhere += ICEAccess.URLEncode("fcurtype="+fcurtype+"&");
+                //string strResp = "";
+                //DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
+                //if (dt == null || dt.Rows.Count == 0)
+                //    throw new LogicException("调用ICE查询T_user无记录" + strResp);
+                //ice.CloseConn();
+                DataTable dt = AccountService.GetAccountInfo(fuid, fcurtype.ToString(), out errMsg);
                 if (dt == null || dt.Rows.Count == 0)
-                    throw new LogicException("调用ICE查询T_user无记录" + strResp);
-
-                // 2012/5/2 因为需要Q_USER_INFO获取准确的用户真实姓名而改动
-                //取消多次取t_user_info
-                /*
-                dt.Columns.Add("UserRealName2", typeof(string));
-
-                try
-                {
-                    Q_USER_INFO cuser = new Q_USER_INFO(fuid);
-                    DataSet ds2 = cuser.GetResultX(1, 1, "ZW");
-
-                    if (ds2 != null && ds2.Tables.Count != 0 && ds2.Tables[0].Rows.Count != 0)
-                    {
-                        dt.Rows[0]["UserRealName2"] = ds2.Tables[0].Rows[0]["Ftruename"].ToString();
-                    }
-                }
-                catch
-                { }
-                */
-
-                ice.CloseConn();
+                    throw new Exception("调用Relay查询T_user无记录：" + errMsg);
 
                 //da.OpenConn();
                 //string sql = "select * from app_platform.t_account_freeze where Fuid = '" + fuid + "'";
@@ -885,7 +870,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             finally
             {
-                ice.Dispose();
+                //ice.Dispose();
                 //da.Dispose();
             }
         }
@@ -901,25 +886,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
             // TODO: 1客户信息资料外移
 
-            //MySqlAccess da_zl = new MySqlAccess(PublicRes.GetConnString("ZL"));
-
-            ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+            //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
             string femail = "";
             string fmobile = "";
             try
             {
-                /*
-                da_zl.OpenConn();
-
-                string strSql = "select Femail from " + PublicRes.GetTName("t_user_info",fuid) + " where fuid=" + fuid;
-				
-                femail = QueryInfo.GetString(da_zl.GetOneResult(strSql));
-
-                strSql = "select Fmobile from " + PublicRes.GetTName("t_user_info",fuid) + " where fuid=" + fuid;
-				
-                fmobile = QueryInfo.GetString(da_zl.GetOneResult(strSql));
-                */
-
                 string errMsg = "";
                 string strSql = "uid=" + fuid;
                 femail = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_USERINFO, "Femail", out errMsg);
@@ -933,24 +904,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //da_zl.Dispose();
             }
 
-            /*
-            string FlagTable = PublicRes.GetTName("t_user",fuid);
-            fstrSql = "Select *,'" + femail +"' as Femail,'" + fmobile + "' as Fmobile from " + FlagTable + "  where fuid='" + fuid + "' and Fcurtype='" + Fcurtype + "'";
-
-            if(FlagTable.IndexOf("t_user") >= 0)
-                FlagForTable = "USER";
-                */
-
-            ice.OpenConn();
-            string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-            strwhere += ICEAccess.URLEncode("fcurtype=" + Fcurtype + "&");
-
-            string strResp = "";
-            DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
+            //ice.OpenConn();
+            //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+            //strwhere += ICEAccess.URLEncode("fcurtype=" + Fcurtype + "&");
+            //string strResp = "";
+            //DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
+            //if (dt == null || dt.Rows.Count == 0)
+            //    throw new LogicException("调用ICE查询T_user无记录" + strResp);
+            //ice.CloseConn();
+            string errOut = "";
+            DataTable dt = AccountService.GetAccountInfo(fuid, Fcurtype, out errOut);
             if (dt == null || dt.Rows.Count == 0)
-                throw new LogicException("调用ICE查询T_user无记录" + strResp);
-
-            ice.CloseConn();
+                throw new Exception("调用Relay查询T_user无记录：" + errOut);
 
             //用dt里的一条记录组合出select语句。
             string strtmp = " select ";
@@ -8065,8 +8030,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             new_name = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.replaceSqlStr(new_name);
 
             //已更改  furion V30_FURION核心查询需改动 修改调用核心
-            //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("YW"));
-            //MySqlAccess da_zl = new MySqlAccess(PublicRes.GetConnString("ZL"));
             try
             {
                 string uid = PublicRes.ConvertToFuid(qqid);
@@ -8074,39 +8037,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 // TODO: 1客户信息资料外移
                 if (uid != null && uid.Trim() != "")
                 {
-                    /*
-                    string strCmd1 = "update " + PublicRes.GetTName("t_user_info",uid) + " SET Ftruename = '" + new_name  
-                        + "',Fip='" + userip + "',Fmodify_time='" + nowtime + "' where fuid =" + uid ;
-                    string strCmd2 = "update " + PublicRes.GetTName("t_user",uid)      + " SET Ftruename = '" + new_name  
-                        + "',Flogin_ip='" + userip + "',Fmodify_time='" + nowtime + "' where fuid =" + uid ;
-                    string strCmd3 = "update " + PublicRes.GetTName("t_bank_user",uid) + " SET Ftruename = '" + new_name  
-                        + "',Flogin_ip='" + userip + "',Fmodify_time='" + nowtime + "' where fuid =" + uid ;
-			
-                    if(iscompany)
-                    {
-                        strCmd1 = "update " + PublicRes.GetTName("t_user_info",uid) + " SET Fcompany_name='" + new_name  
-                            + "',Fip='" + userip + "',Fmodify_time='" + nowtime + "' where fuid =" + uid ;
-                        strCmd2 = "update " + PublicRes.GetTName("t_user",uid)      + " SET Fcompany_name='" + new_name  
-                            + "',Flogin_ip='" + userip + "',Fmodify_time='" + nowtime + "' where fuid =" + uid ;
-                        strCmd3 = "update " + PublicRes.GetTName("t_bank_user",uid) + " SET Fcompany_name='" + new_name  
-                            + "',Flogin_ip='" + userip + "',Fmodify_time='" + nowtime + "' where fuid =" + uid ; 
-                    }
-
-                    ArrayList al = new ArrayList();
-			
-                    al.Add(strCmd1);
-                    //al.Add(strCmd2);
-                    al.Add(strCmd3);
-
-                    //da.OpenConn();
-                    da_zl.OpenConn();
-
-                    //if(da.ExecSqls_Trans(al))
-                    //if(da.ExecSqlNum(strCmd2) == 1 && da_zl.ExecSqls_Trans(al))
-                    if( da_zl.ExecSqls_Trans(al))
-                    {
-                    */
-
                     string strsetname = "&truename=" + new_name;
                     if (iscompany)
                         strsetname = "&company_name=" + new_name;
@@ -8124,33 +8054,36 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         return false;
 
 
-                    ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
+                    //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
                     try
                     {
-                        ice.OpenConn();
-                        string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + uid + "&");
-                        strwhere += ICEAccess.URLEncode("fcurtype=" + 1 + "&");
+                        //ice.OpenConn();
+                        //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + uid + "&");
+                        //strwhere += ICEAccess.URLEncode("fcurtype=" + 1 + "&");
+                        //string strUpdate = "data=" + ICEAccess.URLEncode("fip=" + userip);
+                        //if (iscompany)
+                        //{
+                        //    strUpdate += ICEAccess.URLEncode("&fcompany_name=" + ICEAccess.URLEncode(new_name));
+                        //}
+                        //else
+                        //{
+                        //    strUpdate += ICEAccess.URLEncode("&ftruename=" + ICEAccess.URLEncode(new_name));
+                        //}
+                        //strUpdate += ICEAccess.URLEncode("&fmodify_time=" + PublicRes.strNowTimeStander);
+                        //string setID = PublicResService.GetSetIDByQQID(qqid);
+                        //string strResp = "";
+                        ////3.0接口测试需要 furion 20090708
+                        //if (ice.InvokeQuery_Exec_SetID(YWSourceType.用户资源, YWCommandCode.修改用户信息, uid, setID, strwhere + "&" + strUpdate, out strResp) != 0)
+                        //{
+                        //    throw new Exception("修改用户信息时出错！" + strResp);
+                        //}
 
-                        string strUpdate = "data=" + ICEAccess.URLEncode("fip=" + userip);
+                        string companyName = string.Empty, trueName = string.Empty;
                         if (iscompany)
-                        {
-                            strUpdate += ICEAccess.URLEncode("&fcompany_name=" + ICEAccess.URLEncode(new_name));
-                        }
+                            companyName = new_name;
                         else
-                        {
-                            strUpdate += ICEAccess.URLEncode("&ftruename=" + ICEAccess.URLEncode(new_name));
-                        }
-
-                        strUpdate += ICEAccess.URLEncode("&fmodify_time=" + PublicRes.strNowTimeStander);
-
-                        string strResp = "";
-                        //3.0接口测试需要 furion 20090708
-                        if (ice.InvokeQuery_Exec(YWSourceType.用户资源, YWCommandCode.修改用户信息, uid, strwhere + "&" + strUpdate, out strResp) != 0)
-                        {
-                            throw new Exception("修改用户信息时出错！" + strResp);
-                        }
-
-                        return true;
+                            trueName = new_name;
+                        return FinishCheckService.Update_UserName(uid, userip, companyName, trueName, qqid);
                     }
                     catch (Exception err)
                     {
@@ -8159,7 +8092,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     }
                     finally
                     {
-                        ice.Dispose();
+                        //ice.Dispose();
                     }
                 }
                 else

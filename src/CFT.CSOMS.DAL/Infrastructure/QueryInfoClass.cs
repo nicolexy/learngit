@@ -1,4 +1,5 @@
 ﻿using CFT.CSOMS.DAL.TradeModule;
+using CFT.CSOMS.DAL.CFTAccount;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -1782,8 +1783,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
             string ftrueName = "";
             string fz_amt = ""; //分账冻结金额 
 
-            //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
-            ICEAccess ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
+            //ICEAccess ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
             //MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("AP"));
             SettleData settledata = new SettleData();
             try
@@ -1808,16 +1808,19 @@ namespace CFT.CSOMS.DAL.Infrastructure
                     }
                 }
 
-                ice.OpenConn();
-                string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-                strwhere += ICEAccess.URLEncode("fcurtype=" + fcurtype + "&");
+                //ice.OpenConn();
+                //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+                //strwhere += ICEAccess.URLEncode("fcurtype=" + fcurtype + "&");
+                //string setID = PublicRes.GetSetIDByQQID(fuid);
+                //string strResp = "";
+                //DataTable dt = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+                //if (dt == null || dt.Rows.Count == 0)
+                //    throw new LogicException("调用ICE查询T_user无记录" + strResp);
+                //ice.CloseConn();
 
-                string strResp = "";
-                DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
+                DataTable dt = AccountData.GetAccountInfo(fuid, fcurtype.ToString(),out errMsg);
                 if (dt == null || dt.Rows.Count == 0)
-                    throw new LogicException("调用ICE查询T_user无记录" + strResp);
-
-                ice.CloseConn();
+                    throw new Exception("调用Relay查询T_user无记录：" + errMsg);
 
                 //da.OpenConn();
                 //string sql = "select * from app_platform.t_account_freeze where Fuid = '" + fuid + "'";
@@ -1840,7 +1843,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
             }
             finally
             {
-                ice.Dispose();
+                //ice.Dispose();
                 //da.Dispose();
             }
         }
@@ -1856,10 +1859,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
 
             // TODO: 1客户信息资料外移
 
-            //MySqlAccess da_zl = new MySqlAccess(PublicRes.GetConnString("ZL"));
-
-            //ICEAccess ice = new ICEAccess(PublicRes.ICEServerIP, PublicRes.ICEPort);
-            ICEAccess ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
+            //ICEAccess ice = ICEAccessFactory.GetICEAccess("ICEConnectionString");
             string femail = "";
             string fmobile = "";
             try
@@ -1877,16 +1877,19 @@ namespace CFT.CSOMS.DAL.Infrastructure
                 //da_zl.Dispose();
             }
 
-            ice.OpenConn();
-            string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
-            strwhere += ICEAccess.URLEncode("fcurtype=" + Fcurtype + "&");
-
-            string strResp = "";
-            DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, strwhere, out strResp);
+            //ice.OpenConn();
+            //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + fuid + "&");
+            //strwhere += ICEAccess.URLEncode("fcurtype=" + Fcurtype + "&");
+            //string setID = PublicRes.GetSetIDByQQID(strID);
+            //string strResp = "";
+            //DataTable dt = ice.InvokeQuery_GetDataTable_SetID(YWSourceType.用户资源, YWCommandCode.查询用户信息, fuid, setID, strwhere, out strResp);
+            //if (dt == null || dt.Rows.Count == 0)
+            //    throw new LogicException("调用ICE查询T_user无记录" + strResp);
+            //ice.CloseConn();
+            string errOut = "";
+            DataTable dt = AccountData.GetAccountInfo(fuid, Fcurtype, out errOut);
             if (dt == null || dt.Rows.Count == 0)
-                throw new LogicException("调用ICE查询T_user无记录" + strResp);
-
-            ice.CloseConn();
+                throw new Exception("调用Relay查询T_user无记录：" + errOut);
 
             //用dt里的一条记录组合出select语句。
             string strtmp = " select ";
