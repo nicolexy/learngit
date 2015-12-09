@@ -1521,20 +1521,32 @@ namespace CFT.CSOMS.DAL.CFTAccount
         /// <returns></returns>
         public static DataTable GetAccountInfo(string fuid, string fcurtype, out string errMsg)
         {
-            DataTable dt = null;
+            DataTable dt = new DataTable();
             string req = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
             req += "&curtype=" + fcurtype;
             req += "&uid=" + fuid;
             DataSet userDs = CommQuery.GetDSForServiceFromICE(req, "qry_user_balance_slave_c", false, out errMsg);
-            if (userDs == null || userDs.Tables.Count == 0 || userDs.Tables[0] == null || userDs.Tables[0].Columns.Count == 0)
+            if (userDs != null && userDs.Tables.Count > 0 && userDs.Tables[0] != null && userDs.Tables[0].Columns.Count > 0)
             {
-                dt = userDs.Tables[0];
+                dt = userDs.Tables[0].Copy();
+                #region 
+                dt.Columns["uid"].ColumnName = "Fuid";
+                dt.Columns["curtype"].ColumnName = "Fcurtype";
+                dt.Columns["balance"].ColumnName = "Fbalance";
+                dt.Columns["con"].ColumnName = "Fcon";
+                dt.Columns["state"].ColumnName = "Fstate";
+                dt.Columns["standby1"].ColumnName = "Fstandby1";
+                dt.Columns["standby2"].ColumnName = "Fstandby2";
+                dt.Columns["modify_time"].ColumnName = "Fmodify_time";
+                dt.Columns["user_type"].ColumnName = "Fuser_type";
+                dt.Columns["qqid"].ColumnName = "Fqqid";
+                dt.Columns["truename"].ColumnName = "Ftruename";
+                dt.Columns["company_name"].ColumnName = "Fcompany_name";
+                dt.Columns["login_ip"].ColumnName = "Flogin_ip";
+                dt.Columns["memo"].ColumnName = "Fmemo";
+                dt.Columns["create_time"].ColumnName = "Fcreate_time";
+                #endregion
             }
-            //else
-            //{
-            //    throw new Exception("调用Relay查询T_user无记录：" + errMsg);
-            //}
-
             return dt;
         }
 
@@ -1593,7 +1605,10 @@ namespace CFT.CSOMS.DAL.CFTAccount
                     //ice.CloseConn();
                     DataTable dt = GetAccountInfo(fuid, fcurtype.ToString(), out errMsg);
                     if (dt == null || dt.Rows.Count == 0)
+                    {
+                        LogHelper.LogInfo("调用Relay查询T_user无记录：" + errMsg);
                         throw new Exception("调用Relay查询T_user无记录：" + errMsg);
+                    }
 
                     //da.OpenConn();
                     //string sql = "select * from app_platform.t_account_freeze where Fuin = '" + u_QQID + "'";
