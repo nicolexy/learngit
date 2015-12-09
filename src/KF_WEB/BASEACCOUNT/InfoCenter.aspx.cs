@@ -358,10 +358,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
-                LogHelper.LogInfo("出现异常：" + ex.Message);
-                LogHelper.LogInfo("异常堆栈信息：" + new System.Diagnostics.StackTrace().GetFrames().ToString());
-                LogHelper.LogInfo("异常方法信息：" + ex.TargetSite.ToString());
-                LogHelper.LogInfo("异常对象信息：" + ex.Source.ToString());
+                LogHelper.LogInfo("出现异常：" + ex.Message + "异常堆栈信息：" + ex.StackTrace);
             }
 
             try
@@ -380,10 +377,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
-                LogHelper.LogInfo("出现异常：" + ex.Message);
-                LogHelper.LogInfo("异常堆栈信息：" + new System.Diagnostics.StackTrace().GetFrames().ToString());
-                LogHelper.LogInfo("异常方法信息：" + ex.TargetSite.ToString());
-                LogHelper.LogInfo("异常对象信息：" + ex.Source.ToString());
+                LogHelper.LogInfo("出现异常：" + ex.Message + "异常堆栈信息：" + ex.StackTrace);
             }
 
             try
@@ -401,10 +395,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
-                LogHelper.LogInfo("出现异常：" + ex.Message);
-                LogHelper.LogInfo("异常堆栈信息：" + new System.Diagnostics.StackTrace().GetFrames().ToString());
-                LogHelper.LogInfo("异常方法信息：" + ex.TargetSite.ToString());
-                LogHelper.LogInfo("异常对象信息：" + ex.Source.ToString());
+                LogHelper.LogInfo("出现异常：" + ex.Message + "异常堆栈信息：" + ex.StackTrace);
             }
 
             try
@@ -416,10 +407,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
-                LogHelper.LogInfo("出现异常：" + ex.Message);
-                LogHelper.LogInfo("异常堆栈信息：" + new System.Diagnostics.StackTrace().GetFrames().ToString());
-                LogHelper.LogInfo("异常方法信息：" + ex.TargetSite.ToString());
-                LogHelper.LogInfo("异常对象信息：" + ex.Source.ToString());
+                LogHelper.LogInfo("出现异常：" + ex.Message + "异常堆栈信息：" + ex.StackTrace);
             }
 
         }
