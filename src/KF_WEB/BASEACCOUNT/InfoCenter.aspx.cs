@@ -113,6 +113,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             this.Label2_Type.Text = "";
             this.Label3_LeftAcc.Text = "";
             this.Label4_Freeze.Text = "";
+            this.lb_Freeze_amt.Text = "";
             this.Label5_YestodayLeft.Text = "";
             this.Label6_LastModify.Text = "";
             this.Label7_SingleMax.Text = "";
@@ -229,8 +230,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     {
                         l_fzamt = long.Parse(s_fz_amt);
                     }
-
-                    this.Label4_Freeze.Text = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(l_fzamt + l_cron).ToString("f2") + "元";   //classLibrary.setConfig.FenToYuan(l_fzamt + l_cron);//冻结金额=分账冻结金额+冻结金额
+                    this.lb_Freeze_amt.Text = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(l_fzamt).ToString("f2") + "元"; 
+                    this.Label4_Freeze.Text = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(l_cron).ToString("f2") + "元";  
+                    //classLibrary.setConfig.FenToYuan(l_fzamt + l_cron);//冻结金额=分账冻结金额+冻结金额
                     //this.Label15_Useable.Text = classLibrary.setConfig.FenToYuan((long.Parse(ds.Tables[0].Rows[0]["Fbalance"].ToString()) - long.Parse(ds.Tables[0].Rows[0]["Fcon"].ToString())).ToString());  //帐户余额减去冻结余额= 可用余额
                     this.Label15_Useable.Text = classLibrary.setConfig.FenToYuan(l_balance - l_cron);  //帐户余额减去冻结余额= 可用余额
 
@@ -457,7 +459,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     l_cron = long.Parse(s_cron);
                 }
 
-                this.Label4_Freeze.Text = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(l_fzamt + l_cron).ToString("f2") + "元";// classLibrary.setConfig.FenToYuan(l_fzamt + l_cron);//冻结金额=分账冻结金额+冻结金额
+                this.lb_Freeze_amt.Text = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(l_fzamt).ToString("f2") + "元";
+                this.Label4_Freeze.Text = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(l_cron).ToString("f2") + "元";  
+                //this.Label4_Freeze.Text = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(l_fzamt + l_cron).ToString("f2") + "元";// classLibrary.setConfig.FenToYuan(l_fzamt + l_cron);//冻结金额=分账冻结金额+冻结金额
 
                 // 2012/5/2 因为需要Q_USER_INFO获取准确的用户真实姓名而改动
                 try
@@ -1011,26 +1015,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
         }
 
-        private void LinkButton2_Click(object sender, System.EventArgs e)
-        {
-            try
-            {
-                if ((this.Label1_Acc.Text != "") && (this.Label4_Freeze.Text.Trim() != "0"))
-                {
-                    Response.Redirect("LeftAccountFreeze.aspx?id=false&qq=" + Session["QQID"].ToString().Trim() + "&moy=" + this.Label4_Freeze.Text.Trim()); //参数：1 解冻 2 QQID 3 冻结金额
-                    iFrameHeight = "230";   //iFame显示区域的高度
-                    setIframePath();        //设置路径
-                }
-                else
-                {
-                    WebUtils.ShowMessage(this.Page, "非法访问！");
-                }
-            }
-            catch (Exception emsg)
-            {
-                classLibrary.setConfig.exceptionMessage(emsg.Message);
-            }
-        }
+        //private void LinkButton2_Click(object sender, System.EventArgs e)
+        //{
+        //    try
+        //    {
+        //        if ((this.Label1_Acc.Text != "") && (this.Label4_Freeze.Text.Trim() != "0"))
+        //        {
+        //            Response.Redirect("LeftAccountFreeze.aspx?id=false&qq=" + Session["QQID"].ToString().Trim() + "&moy=" + this.Label4_Freeze.Text.Trim()); //参数：1 解冻 2 QQID 3 冻结金额
+        //            iFrameHeight = "230";   //iFame显示区域的高度
+        //            setIframePath();        //设置路径
+        //        }
+        //        else
+        //        {
+        //            WebUtils.ShowMessage(this.Page, "非法访问！");
+        //        }
+        //    }
+        //    catch (Exception emsg)
+        //    {
+        //        classLibrary.setConfig.exceptionMessage(emsg.Message);
+        //    }
+        //}
 
         private void ImageButton1_Click(object sender, System.Web.UI.ImageClickEventArgs e)
         {

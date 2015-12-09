@@ -62,9 +62,9 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             return settleData.QuerySubOrderList(mergeListid, listid, offset, limit);
         }
-        public DataTable GetAirFreeze(string Spid, string QQid, string startDate, string EndDate, int offset, int limit)
+        public DataTable GetAirFreeze(string Spid, string QQid, string startDate, string EndDate, string order_type, int offset, int limit)
         {
-            return settleData.GetAirFreeze(Spid, QQid, startDate, EndDate, offset, limit);
+            return settleData.GetAirFreeze(Spid, QQid, startDate, EndDate, order_type, offset, limit);
         }
 
         public DataTable GetSettleListAppend(string szListid)

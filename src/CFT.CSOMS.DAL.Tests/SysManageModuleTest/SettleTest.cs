@@ -14,7 +14,7 @@ namespace CFT.CSOMS.DAL.Tests.SysManageModuleTest
         public void GetAirFreeze_140()
         {
             SettleData data = new SettleData();
-            DataTable dt = data.GetAirFreeze("2000000501", "280320495", "2009-10-1", "2012-10-1", 0, 10);
+            DataTable dt = data.GetAirFreeze("2000000501", "280320495", "2009-10-1", "2012-10-1", "1", 0, 10);
         }
 
         [TestMethod]
