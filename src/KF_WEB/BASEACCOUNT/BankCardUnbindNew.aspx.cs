@@ -58,7 +58,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     AddAllBankType();
 
                     this.pager.RecordCount = 1000;
-                    this.pager.PageSize = 10;
+                    this.pager.PageSize = 5;
                 }
 
                 this.pager.PageChanged += new Wuqi.Webdiyer.PageChangedEventHandler(pager_PageChanged);
@@ -313,8 +313,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             try
             {
-                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                qs.SynchronBankCardBind(this.lblFbankType.Text, this.lblFcard_tail_db.Text, this.lblFbank_id.Text);
+                var infos = new BankCardBindService().SyncBankCardBind(this.lblFbankType.Text, this.lblFcard_tail_db.Text, this.lblFbank_id.Text, Session["uid"].ToString());
+
+                //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                //qs.SynchronBankCardBind(this.lblFbankType.Text, this.lblFcard_tail_db.Text, this.lblFbank_id.Text);
                 WebUtils.ShowMessage(this.Page, "同步成功");
             }
             catch (SoapException eSoap) //捕获soap类异常

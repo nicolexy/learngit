@@ -460,8 +460,8 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
         public DataSet GetBankCardBindList_New(string fuin, string Fbank_type, string bankID, string uid, string creID, string protocolno, string phoneno,
             string strBeginDate,string strEndDate, int bindStatue, string bind_serialno, string Operator,int bind_type,string cre_type, int limStart, int limCount)
         {
-            string serverIp = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("BankCardIP", "10.123.6.29");
-            int serverPort = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("BankCardPort", 443);
+            string serverIp = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("BankCardIP", "10.123.9.169");
+            int serverPort = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("BankCardPort", 22000);
             try
             {
 
@@ -506,9 +506,9 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
         /// <param name="cardTail"></param>
         /// <param name="bankId"></param>
         /// <returns></returns>
-        public bool SyncBankCardBind(string bankType, string cardTail, string bankId)
+        public bool SyncBankCardBind(string bankType, string cardTail, string bankId,string uid="")
         {
-            MySqlAccess da = MySQLAccessFactory.GetMySQLAccess("BD");
+            //MySqlAccess da = MySQLAccessFactory.GetMySQLAccess("BD");
             try
             {
                 if (string.IsNullOrEmpty(cardTail))
@@ -523,14 +523,27 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
                 //对bankid解密
                 string bankID_Encode = PublicRes.BankIDEncode_ForBankCardUnbind(bankId);
 
-                da.OpenConn();
+                //da.OpenConn();
 
                 string bankID_md5 = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(bankID_Encode, "md5").ToLower();
 
-                string table = "c2c_db_" + cardTail.Substring(cardTail.Length - 2, 2) + ".t_card_bind_relation_" + cardTail.Substring(cardTail.Length - 3, 1);
-                string sql = "select Fuin from " + table + " where Fcard_id='" + bankID_md5 + "' and Flstate=1";
-                DataSet ds = da.dsGetTotalData(sql);
-                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                //string table = "c2c_db_" + cardTail.Substring(cardTail.Length - 2, 2) + ".t_card_bind_relation_" + cardTail.Substring(cardTail.Length - 3, 1);
+                //string sql = "select Fuin from " + table + " where Fcard_id='" + bankID_md5 + "' and Flstate=1";
+                //DataSet ds = da.dsGetTotalData(sql);
+
+                
+                string serverIp = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("BankCardIP", "10.123.9.169");
+                int serverPort = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("BankCardPort", 22000);
+                if (string.IsNullOrEmpty(uid)) 
+                {
+                    uid = "2000000501";
+                }
+
+                string reqString = "operator=" + uid + "&query_type=1&bank_id=" + bankID_md5 + "&card_tail=" + cardTail + "&bank_type=" + bankType;
+                string res = RelayAccessFactory.RelayInvoke(reqString, "101140", true, false, serverIp, serverPort, "");
+                //need2bank=1是对应卡关系表数量为0 
+                //need2bank=2是对应卡关系表数量大于0
+                if (res.Contains("need2bank=1"))
                 {
                     //前置机解绑
                     string Msg = "";
@@ -564,7 +577,7 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
             }
             finally
             {
-                da.Dispose();
+               // da.Dispose();
             }
             return false;
         }
