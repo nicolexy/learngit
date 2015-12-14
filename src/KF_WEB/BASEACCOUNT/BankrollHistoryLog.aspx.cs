@@ -291,47 +291,47 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				throw new Exception("数据库无此记录");					
 			}	
 
-			this.Label1_Acc.Text			= ds.Tables[0].Rows[0]["Fqqid"].ToString();
-            this.Label2_Type.Text           = Transfer.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());//tu.u_CurType;				   //"代金券";
-			this.Label3_LeftAcc.Text		= classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fbalance"].ToString());//tu.u_Balance;				   //"3000";
-			this.Label4_Freeze.Text			= classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fcon"].ToString());                  //"1000";
-			this.Label5_YestodayLeft.Text	= ds.Tables[0].Rows[0]["Fyday_balance"].ToString();		   //"10";
-			this.lblLoginTime.Text          = ds.Tables[0].Rows[0]["Fcreate_time"].ToString();
-			this.Label6_LastModify.Text		= ds.Tables[0].Rows[0]["Fmodify_time"].ToString();		   //"2005-05-01";
-			this.Label7_SingleMax.Text		= classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fquota"].ToString());		   //"2000";
-			this.Label8_PerDayLmt.Text		= classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fquota_pay"].ToString());			//"5000";
-			this.Label9_LastSaveDate.Text   = ds.Tables[0].Rows[0]["Fsave_time"].ToString();				//"2005-03-01";
-			this.Label10_Drawing.Text		= ds.Tables[0].Rows[0]["Ffetch_time"].ToString();              //"2005-04-15";
-			this.Label11_Remark.Text		= ds.Tables[0].Rows[0]["Fmemo"].ToString();					//"这个家伙很懒，什么都没有留下！";
-            this.Label12_Fstate.Text        = Transfer.accountState(ds.Tables[0].Rows[0]["Fstate"].ToString());
-            this.Label13_Fuser_type.Text    = Transfer.convertFuser_type(ds.Tables[0].Rows[0]["Fuser_type"].ToString());
+			this.Label1_Acc.Text			= PublicRes.objectToString(ds.Tables[0], "Fqqid");
+            this.Label2_Type.Text           = Transfer.convertMoney_type(PublicRes.objectToString(ds.Tables[0], "Fcurtype"));//tu.u_CurType;				   //"代金券";
+			this.Label3_LeftAcc.Text		= classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fbalance"));//tu.u_Balance;				   //"3000";
+			this.Label4_Freeze.Text			= classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fcon"));                  //"1000";
+            this.Label5_YestodayLeft.Text = PublicRes.objectToString(ds.Tables[0], "Fyday_balance"); 		   //"10";
+			this.lblLoginTime.Text          = PublicRes.objectToString(ds.Tables[0],"Fcreate_time");
+			this.Label6_LastModify.Text		= PublicRes.objectToString(ds.Tables[0],"Fmodify_time");		   //"2005-05-01";
+			this.Label7_SingleMax.Text		= classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fquota"));		   //"2000";
+			this.Label8_PerDayLmt.Text		= classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fquota_pay"));			//"5000";
+			this.Label9_LastSaveDate.Text   = PublicRes.objectToString(ds.Tables[0],"Fsave_time");				//"2005-03-01";
+			this.Label10_Drawing.Text		= PublicRes.objectToString(ds.Tables[0],"Ffetch_time");              //"2005-04-15";
+			this.Label11_Remark.Text		= PublicRes.objectToString(ds.Tables[0],"Fmemo");					//"这个家伙很懒，什么都没有留下！";
+            this.Label12_Fstate.Text        = Transfer.accountState(PublicRes.objectToString(ds.Tables[0],"Fstate"));
+            this.Label13_Fuser_type.Text    = Transfer.convertFuser_type(PublicRes.objectToString(ds.Tables[0],"Fuser_type"));
 			
 			try
 			{
 				// 改动trueName的值为userInfo表的trueName
-				this.Label14_Ftruename.Text     = ds.Tables[0].Rows[0]["UserRealName2"].ToString();
+				this.Label14_Ftruename.Text     = PublicRes.objectToString(ds.Tables[0],"UserRealName2");
 			}
 			catch
 			{
-				this.Label14_Ftruename.Text     = ds.Tables[0].Rows[0]["Ftruename"].ToString();
+				this.Label14_Ftruename.Text     = PublicRes.objectToString(ds.Tables[0],"Ftruename");
 			}
 			
-			this.Label15_Useable.Text       = classLibrary.setConfig.FenToYuan((long.Parse(ds.Tables[0].Rows[0]["Fbalance"].ToString())-long.Parse(ds.Tables[0].Rows[0]["Fcon"].ToString())).ToString());  //帐户余额减去冻结余额= 可用余额
-			this.Label16_Fapay.Text         = ds.Tables[0].Rows[0]["Fapay"].ToString();
-			this.Label17_Flogin_ip.Text     = ds.Tables[0].Rows[0]["Flogin_ip"].ToString();
+			this.Label15_Useable.Text       = classLibrary.setConfig.FenToYuan((long.Parse(PublicRes.objectToString(ds.Tables[0],"Fbalance"))-long.Parse(PublicRes.objectToString(ds.Tables[0],"Fcon"))).ToString());  //帐户余额减去冻结余额= 可用余额
+			this.Label16_Fapay.Text         = PublicRes.objectToString(ds.Tables[0],"Fapay");
+			this.Label17_Flogin_ip.Text     = PublicRes.objectToString(ds.Tables[0],"Flogin_ip");
 
 			//furion 20061116 email登录修改
-			this.labEmail.Text = PublicRes.GetString(ds.Tables[0].Rows[0]["Femail"]);
-			this.labMobile.Text = PublicRes.GetString(ds.Tables[0].Rows[0]["Fmobile"]);
+			this.labEmail.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0],"Femail"));
+            this.labMobile.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile"));
 
 			//2006-10-18 edwinyang 增加产品属性
-			int nAttid =  int.Parse(ds.Tables[0].Rows[0]["Fatt_id"].ToString());
+			int nAttid =  int.Parse(PublicRes.objectToString(ds.Tables[0],"Fatt_id"));
 			this.Label18_Attid.Text			 = CheckBasicInfo(nAttid);
-			this.lbInnerID.Text             = ds.Tables[0].Rows[0]["fuid"].ToString().Trim();
-			this.lbFetchMoney.Text          = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Ffetch"].ToString().Trim());
-            this.lbLeftPay.Text             = Transfer.convertBPAY(ds.Tables[0].Rows[0]["Fbpay_state"].ToString().Trim());
-			this.lbSave.Text                = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fsave"].ToString().Trim());
-			string fuid = ds.Tables[0].Rows[0]["fuid"].ToString().Trim();
+			this.lbInnerID.Text             = PublicRes.objectToString(ds.Tables[0],"fuid").Trim();
+			this.lbFetchMoney.Text          = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Ffetch").Trim());
+            this.lbLeftPay.Text             = Transfer.convertBPAY(PublicRes.objectToString(ds.Tables[0],"Fbpay_state").Trim());
+			this.lbSave.Text                = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fsave").Trim());
+			string fuid = PublicRes.objectToString(ds.Tables[0],"fuid").Trim();
 
 			if(Label1_Acc.Text != "")
 			{
