@@ -325,7 +325,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             this.labMobile.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile"));
 
 			//2006-10-18 edwinyang 增加产品属性
-			int nAttid =  int.Parse(PublicRes.objectToString(ds.Tables[0],"Fatt_id"));
+            int nAttid = int.Parse(PublicRes.objectToString(ds.Tables[0], "Att_id"));
 			this.Label18_Attid.Text			 = CheckBasicInfo(nAttid);
 			this.lbInnerID.Text             = PublicRes.objectToString(ds.Tables[0],"fuid").Trim();
 			this.lbFetchMoney.Text          = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Ffetch").Trim());
