@@ -1560,9 +1560,35 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 {
                     dt = userDs.Tables[0].Copy();
                     #region
-                    dt.Columns["Fbalance_" + fcurtype].ColumnName = "Fbalance";
-                    dt.Columns["Fcon_" + fcurtype].ColumnName = "Fcon";
-                    dt.Columns["Fstate_" + fcurtype].ColumnName = "Fstate";
+                    if (dt.Columns.Contains("Fbalance_" + fcurtype))
+                    {
+                        dt.Columns["Fbalance_" + fcurtype].ColumnName = "Fbalance";
+                    }
+                    else
+                    {
+                        dt.Columns.Add("Fbalance", typeof(String));
+                        dt.Rows[0]["Fbalance"] = "0";
+                    }
+
+                    if (dt.Columns.Contains("Fcon_" + fcurtype))
+                    {
+                        dt.Columns["Fcon_" + fcurtype].ColumnName = "Fcon";
+                    }
+                    else
+                    {
+                        dt.Columns.Add("Fcon", typeof(String));
+                        dt.Rows[0]["Fcon"] = "0";
+                    }
+
+                    if (dt.Columns.Contains("Fstate_" + fcurtype))
+                    {
+                        dt.Columns["Fstate_" + fcurtype].ColumnName = "Fstate";
+                    }
+                    else
+                    {
+                        dt.Columns.Add("Fstate", typeof(String));
+                        dt.Rows[0]["Fstate"] = "0";
+                    }
                     #endregion
                 }
             }

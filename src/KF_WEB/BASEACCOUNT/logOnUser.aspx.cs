@@ -416,14 +416,14 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 			catch(SoapException eSoap) //捕获soap类异常
 			{
 				string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-				WebUtils.ShowMessage(this.Page,"销户操作申请失败：" + errStr);
+                WebUtils.ShowMessage(this.Page, "销户操作申请失败：" + errStr + "，StackTrace：" + eSoap.StackTrace);
 				return;
 			}
 			catch(Exception err)
 			{
 				//Msg += "销户操作申请异常！" + Common.CommLib.commRes.replaceHtmlStr(err.Message);
 				Msg += "销户操作申请异常！" + TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceHtmlStr(err.Message);
-				WebUtils.ShowMessage(this.Page,Msg);
+                WebUtils.ShowMessage(this.Page, Msg + "，StackTrace：" + err.StackTrace);
 				return;
 			}
 
