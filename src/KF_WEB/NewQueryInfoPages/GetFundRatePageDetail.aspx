@@ -138,7 +138,7 @@
                     <TD align="right"><asp:label id="Label20" runat="server">理财通账号：</asp:label></TD>
                      <TD><asp:label id="tb_UNCuin" runat="server"></asp:label></TD>
                      <TD align="right"><asp:label id="Label24" runat="server">赎回类型：</asp:label></TD>
-                     <TD><asp:label id="tb_UNCredem_type" runat="server">t+0</asp:label></TD>
+                     <TD><asp:label id="tb_UNCredem_type" data-value="1" runat="server">t+0</asp:label></TD>
 				</TR>
                  <TR>
                     <TD align="right"><asp:label id="Label26" runat="server">基金公司商户号：</asp:label></TD>
@@ -228,7 +228,8 @@
 			</TABLE>
             <TABLE id="fRate_table" runat="server" style=" " cellSpacing="1" cellPadding="1" width="800" visible="false"
 				border="1">
-                <tr><th colspan="4">指数基金额强赎</th></tr>
+                <tr><th colspan="4">
+                    <asp:Label ID="Label27" runat="server" Text="指数基金额强赎"></asp:Label></th></tr>
                  <TR>
                     <TD align="right">理财通账号：</TD>
                      <TD><asp:label id="fRate_uin" runat="server"></asp:label></TD>
