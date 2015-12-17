@@ -135,7 +135,7 @@
                     <tr>
                         <td style="height: 3px" width="20%" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="3">
-                            EMAIL’À∫≈:
+                            Œ¢–≈∫≈:
                         </td>
                         <td style="height: 3px" bgcolor="#ffffff" height="3">
                             &nbsp;<span class="style2">
@@ -489,5 +489,6 @@
         </tr>
     </table>
     </form>
+    <span style="display:none" id="TempErrlog" runat="server">¡Ÿ ±º«¬º¥ÌŒÛ....</span>
 </body>
 </html>

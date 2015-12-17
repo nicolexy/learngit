@@ -782,6 +782,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 this.LkBT_PaymentLog.Visible = true;
                 this.LkBT_Refund.Visible = true;
                 this.LkBT_Refund_Sale.Visible = true;
+
+                if (Label1_Acc.Text.Length > 0 && Label1_Acc.Text.EndsWith("@wx.tenpay.com"))
+                {
+                    try
+                    {
+                        var ticket = Session["oa_ticket"] as string;
+                        if (string.IsNullOrEmpty(ticket))
+                        {
+                            TempErrlog.InnerText = "ticket为空 不可获取";
+                        }
+                        var openid = Label1_Acc.Text.Substring(0, Label1_Acc.Text.Length - 14);
+                        labEmail.Text = WeChatHelper.GetUserNameFromOpenid(openid, ticket);
+                    }
+                    catch (Exception ex)
+                    {
+                        //开发阶段   用这个方式 记录一下 异常
+                        TempErrlog.InnerText = ex.ToString();
+                    }
+                }
             }
             catch (SoapException er) //捕获soap类
             {
