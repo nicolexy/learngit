@@ -90,6 +90,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                 dt.Columns.Add("bind_status_str", typeof(string));
                 dt.Columns.Add("bind_flag_str", typeof(string));
                 dt.Columns.Add("xyzf_type_Str", typeof(string));//信用支付类型
+                dt.Columns.Add("bank_type_str", typeof(string));
 
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -160,6 +161,8 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                     else
                         dr["bind_flag_str"] = "Unknown";
 
+
+                    dr["bank_type_str"] = Transfer.convertbankType(dr["fbank_type"].ToString());
                 }
                 return ds;
             }

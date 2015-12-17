@@ -493,9 +493,7 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
             [XmlElement("refund")]
             public string refund { get; set; }
             [XmlElement("channel_text")]
-            public string channel_text { get; set; }
-            [XmlElement("wishing")]
-            public string wishing { get; set; }
+            public string channel_text { get; set; }       
         }
 
         public class RecvRedPacketInfo
@@ -505,9 +503,7 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
             [XmlElement("create_time")]
             public string create_time { get; set; }
             [XmlElement("amount_text")]
-            public string amount_text { get; set; }
-            [XmlElement("wishing")]
-            public string wishing { get; set; }
+            public string amount_text { get; set; }      
             [XmlElement("title")]
             public string Title { get; set; }
             [XmlElement("recv_listid")]
