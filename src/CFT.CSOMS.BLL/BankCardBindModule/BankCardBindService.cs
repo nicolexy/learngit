@@ -401,14 +401,14 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         /// <param name="cardTail"></param>
         /// <param name="bankId"></param>
         /// <returns></returns>
-        public DataTable SyncBankCardBind(string bankType, string cardTail, string bankId)
+        public DataTable SyncBankCardBind(string bankType, string cardTail, string bankId, string uid = "")
         {
             DataTable table = new DataTable();
             table.Columns.Add("ret_value", System.Type.GetType("System.String"));
             try
             {
                 DataRow dr = table.NewRow();
-                bool ret = new BankcardbindData().SyncBankCardBind(bankType, cardTail, bankId);
+                bool ret = new BankcardbindData().SyncBankCardBind(bankType, cardTail, bankId, uid);
                 dr["ret_value"] = ret ? "true" : "false";
                 table.Rows.Add(dr);
             }
