@@ -8258,7 +8258,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
 
                 CFTUserAppealClass cuser = new CFTUserAppealClass(fuin, u_BeginTime, u_EndTime, fstate, ftype, QQType, dotype, SortType);
-                DataSet ds = cuser.GetResultX(iPageStart, iPageMax, "CFTB");
+                DataSet ds = cuser.GetResultX(iPageStart, iPageMax, "CFT"); //CFTB 切换成 主库表
 
                 long Appeal_BigMoney = long.Parse(System.Configuration.ConfigurationManager.AppSettings["Appeal_BigMoney"]);
 
@@ -8367,7 +8367,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
 
                 CFTUserAppealClass cuser = new CFTUserAppealClass(fuin, u_BeginTime, u_EndTime, fstate, ftype, QQType, dotype, SortType);
-                DataSet ds = cuser.GetResultX("CFTB");
+                DataSet ds = cuser.GetResultX("CFT"); //CFTB 切换成 主库表
 
                 //为了自助申诉查询功能添加
                 if (u_EndTime == "" && u_BeginTime == "")
@@ -9269,7 +9269,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 CFTUserAppealClass cuser = new CFTUserAppealClass(fuin, u_BeginTime, u_EndTime, fstate, ftype, QQType, dotype, SortType);
-                return cuser.GetCount("CFTB");
+                return cuser.GetCount("CFT"); //CFTB 切换成 主库表
             }
             catch (Exception e)
             {
@@ -9285,7 +9285,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 int Count = 0;
                 CFTUserAppealClass cuser = new CFTUserAppealClass(fuin, u_BeginTime, u_EndTime, fstate, ftype, QQType, dotype, SortType);
-                Count = cuser.GetCount("CFTB");
+                Count = cuser.GetCount("CFT"); //CFTB 切换成 主库表
 
                 DateTime date = DateTime.Parse(u_BeginTime);
                 int yearEnd = DateTime.Parse(u_EndTime).Year;
