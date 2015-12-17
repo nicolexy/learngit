@@ -36,8 +36,10 @@
 					<TD  colspan="2">
                         <asp:label id="Label2" runat="server">订单时间：</asp:label>
                         <input type="text" id="txt_start_time" runat="server" value="" onclick="WdatePicker()" />
+                        <img onclick="txt_start_time.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" alt="选择日期" />
                         至
-                         <input type="text" id="txt_end_time" runat="server" value="" onclick="WdatePicker()" />
+                        <input type="text" id="txt_end_time" runat="server" value="" onclick="WdatePicker()" />
+                        <img onclick="txt_end_time.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" alt="选择日期" />
                         <span style="color:red">注意:如果输入订单时间后,将会直接查询历史库表(默认查询当前库表)</span>
 					</TD>
 				</TR>

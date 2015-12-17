@@ -48,14 +48,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 Response.Redirect("../login.aspx?wh=1");
             }
 
-               
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-            ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
-
             if(!IsPostBack)
             {
-                TextBoxBeginDate.Text = new DateTime(DateTime.Today.Year,DateTime.Today.Month,1).ToString("yyyy年MM月dd日");
-                TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                TextBoxBeginDate.Value = DateTime.Today.AddDays(0 - DateTime.Today.Day).ToString("yyyy-MM-dd");
+                TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
             }
 
         }
@@ -66,8 +62,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             DateTime enddate;
             try
             {
-                begindate = DateTime.Parse(TextBoxBeginDate.Text);
-                enddate = DateTime.Parse(TextBoxEndDate.Text);
+                begindate = DateTime.Parse(TextBoxBeginDate.Value);
+                enddate = DateTime.Parse(TextBoxEndDate.Value);
                 ViewState["begindate"] = begindate;
                 ViewState["enddate"] = enddate;
             }
@@ -157,7 +153,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             //DataSet ds;
             //ds = qs.GetAirFreeze(this.txtFspid.Text.Trim(), this.txtqqid.Text.Trim(), ViewState["begindate"].ToString(), ViewState["enddate"].ToString(), start,max);
             SettleService service = new SettleService();
-            DataTable dt = service.GetAirFreeze(this.txtFspid.Text.Trim(), this.txtqqid.Text.Trim(), ViewState["begindate"].ToString(), ViewState["enddate"].ToString(), start, max);
+            var type = sel_type.Value;
+            DataTable dt = service.GetAirFreeze(this.txtFspid.Text.Trim(), this.txtqqid.Text.Trim(), ViewState["begindate"].ToString(), ViewState["enddate"].ToString(), type, start, max);
  
             dt.Columns.Add("listid",typeof(string));
             dt.Columns.Add("spListid",typeof(string));

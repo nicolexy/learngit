@@ -19,21 +19,7 @@ BODY {
 	BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif)
 }
 		</style>
-		<script language="javascript">
-
-					function openModeBegin()
-					{
-						var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-						if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue;
-					}
-
-					function openModeEnd()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxEndDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.TextBoxEndDate.value=returnValue;
-					}
-
-		</script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -44,15 +30,30 @@ BODY {
 				</TR>
 				<tr>
 					<TD align="right" rowSpan="2"></TD>
-					<TD><FONT face="宋体">&nbsp;&nbsp;&nbsp; </FONT>
-						<asp:label id="Label3" runat="server">开始日期</asp:label><asp:textbox id="TextBoxBeginDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
-					<TD><asp:label id="Label4" runat="server">结束日期</asp:label><asp:textbox id="TextBoxEndDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonEndDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>&nbsp;&nbsp;&nbsp;注:不允许跨月查询</TD>
+					<TD>
+                        <FONT face="宋体">&nbsp;&nbsp;&nbsp; </FONT>
+						<asp:label id="Label3" runat="server">开始日期</asp:label>
+                        <input type="text" runat="server" id="TextBoxBeginDate" onclick="WdatePicker()" />
+                        <img onclick="TextBoxBeginDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" alt="选择日期" />
+					</TD>
+					<TD>
+                        <asp:label id="Label4" runat="server">结束日期</asp:label>
+                        <input type="text" runat="server" id="TextBoxEndDate" onclick="WdatePicker()" />
+                        <img onclick="TextBoxEndDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" alt="选择日期" />&nbsp;&nbsp;&nbsp;注:不允许跨月查询
+					</TD>
 				</tr>
 				<tr>
 					<td><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </FONT>
 						<asp:label id="Label5" runat="server">商户号</asp:label><asp:textbox id="txtFspid" Runat="server"></asp:textbox></td>
 					<td><FONT face="宋体">&nbsp;&nbsp;&nbsp; </FONT>
-						<asp:label id="Label2" runat="server">帐号</asp:label><asp:textbox id="txtqqid" Runat="server"></asp:textbox></td>
+						<asp:label id="Label2" runat="server">帐号</asp:label><asp:textbox id="txtqqid" Runat="server"></asp:textbox>
+                        <span style="margin-left:20px;">类型</span>
+                        <select id="sel_type" runat="server">
+                            <option value="">所有</option>
+                            <option value="1">冻结</option>
+                            <option value="2">解冻</option>
+                        </select>
+					</td>
 				</tr>
 				<tr>
 					<TD align="center" colSpan="4"><asp:button id="btnQuery" runat="server" Width="80px" Text="查 询" onclick="btnQuery_Click"></asp:button></TD>

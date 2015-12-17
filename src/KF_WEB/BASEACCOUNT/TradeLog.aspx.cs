@@ -115,6 +115,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                     if (DS_TradeLog != null && DS_TradeLog.Tables.Count != 0 && DS_TradeLog.Tables[0].Rows.Count != 0)
                     {
+                        var dv = DS_TradeLog.Tables[0].DefaultView;
+                        dv.Sort = "Fcreate_time DESC";
+                        DS_TradeLog.Tables.RemoveAt(0);
+                        DS_TradeLog.Tables.Add(dv.ToTable());
+
                         foreach (DataRow row in DS_TradeLog.Tables[0].Rows)
                         {
                             bool isC2C = false;

@@ -220,8 +220,11 @@
                         </td>
                         <td style="height: 15px" bgcolor="#ffffff" height="15">
                             &nbsp;
-                            <asp:Label ID="Label4_Freeze" runat="server" Width="180px"></asp:Label><font style="background-color: #ffffff"
-                                face="宋体"></font>
+                            <asp:Label ID="Label4_Freeze" runat="server" Width="120px"></asp:Label>
+                            <span style="margin-left:20px;">
+                                <span>分账冻结金额:</span>
+                                <asp:Label ID="lb_Freeze_amt" runat="server" Width="120px">0</asp:Label>
+                            </span>
                         </td>
                     </tr>
                     <tr>

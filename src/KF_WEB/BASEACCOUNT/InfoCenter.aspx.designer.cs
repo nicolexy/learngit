@@ -229,6 +229,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
         protected global::System.Web.UI.WebControls.Label Label4_Freeze;
         
         /// <summary>
+        /// lb_Freeze_amt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_Freeze_amt;
+        
+        /// <summary>
         /// Label5_YestodayLeft control.
         /// </summary>
         /// <remarks>

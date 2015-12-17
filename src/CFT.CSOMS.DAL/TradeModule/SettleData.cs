@@ -470,8 +470,18 @@ namespace CFT.CSOMS.DAL.TradeModule
             return dt;
         }
 
-        //冻结解冻
-        public DataTable GetAirFreeze(string Spid, string QQid, string startDate, string EndDate, int offset, int limit) 
+        /// <summary>
+        /// 冻结解冻
+        /// </summary>
+        /// <param name="Spid"></param>
+        /// <param name="QQid"></param>
+        /// <param name="startDate"></param>
+        /// <param name="EndDate"></param>
+        /// <param name="order_type">类型</param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public DataTable GetAirFreeze(string Spid, string QQid, string startDate, string EndDate, string order_type, int offset, int limit) 
         {
             //    string sql = "select * from app_platform.t_freeze_roll where Fcreate_time>='" + szBeginDate + "' and Fcreate_time<='" + szEndDate + "'";
             //    sql += " and Fspid='" + szSpid + "'";
@@ -492,6 +502,10 @@ namespace CFT.CSOMS.DAL.TradeModule
             if (!string.IsNullOrEmpty(QQid))
             {
                 requestText += "|uin:" + QQid;
+            }
+            if (!string.IsNullOrEmpty(order_type))
+            {
+                requestText += "|order_type:" + order_type;
             }
             
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "1407", ip, port);
