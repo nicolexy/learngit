@@ -82,7 +82,7 @@ namespace CFT.CSOMS.BLL.HandQModule
                                        item["total_num"].ToString(),
                                        MoneyTransfer.FenToYuan(item["recv_amount"].ToString()));
                     item["amount_text"] = MoneyTransfer.FenToYuan(item["total_amount"].ToString());
-                    item["Title"] = string.Format("{0}发出的红包", item["send_name"].ToString());
+                    item["Title"] = "发出的红包";//string.Format("{0}发出的红包", item["send_name"].ToString());
                     item["refund"] = MoneyTransfer.FenToYuan((int.Parse(item["total_amount"].ToString()) - int.Parse(item["recv_amount"].ToString())).ToString());
                     //去掉前二位，听说是路由产生的
                     string strSendList = item["send_listid"].ToString();
