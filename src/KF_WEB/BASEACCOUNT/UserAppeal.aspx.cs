@@ -14,6 +14,7 @@ using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using System.Web.Services.Protocols;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
+using CFT.Apollo.Logging;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -139,7 +140,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				ValidateDate();
 			}
 			catch(Exception err)
-			{
+            {
+                LogHelper.LogError("出现异常：" + err.ToString(), "UserAppeal");
 				WebUtils.ShowMessage(this.Page,err.Message);
 				return;
 			}
@@ -151,12 +153,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				BindData(1);
 			}
 			catch(SoapException eSoap) //捕获soap类异常
-			{
+            {
+                LogHelper.LogError("调用服务出错：" + eSoap.ToString(), "UserAppeal");
 				string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
 				WebUtils.ShowMessage(this.Page,"调用服务出错：" + errStr);
 			}
 			catch(Exception eSys)
-			{
+            {
+                LogHelper.LogError("读取数据失败：" + eSys.ToString(), "UserAppeal");
 				WebUtils.ShowMessage(this.Page,"读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
 			}
 		}
@@ -341,6 +345,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception err)
             {
+                LogHelper.LogError("获取提交参数异常：" + err.ToString(), "UserAppeal");
                 WebUtils.ShowMessage(this.Page, err.Message);
                 return;
             }
@@ -415,7 +420,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				}
 			}
 			catch(Exception err)
-			{
+            {
+                LogHelper.LogError("获取信息异常：" + err.ToString(), "UserAppeal");
 				WebUtils.ShowMessage(this.Page,err.Message);
 				return;
 			}

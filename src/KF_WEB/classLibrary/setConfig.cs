@@ -58,6 +58,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 
 		public static Query_Service.Finance_Header setFH(TemplateControl page)  //设置soap头信息
 		{
+            if (page.Page.Session["uid"] == null)
+            {
+                throw new ArgumentNullException("Session[uid]", " 登录状态过期，请重新登录。");
+            }
 			Query_Service.Finance_Header fh = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Finance_Header();
 
 			fh.SrcUrl = page.Page.Request.Url.ToString();
@@ -73,6 +77,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 
 		public static FQuery_Service.Finance_Header FsetFH(TemplateControl page)  //设置soap头信息
 		{
+            if (page.Page.Session["uid"] == null)
+            {
+                throw new ArgumentNullException("Session[uid]", " 登录状态过期，请重新登录。");
+            }
+
 			FQuery_Service.Finance_Header Ffh = new TENCENT.OSS.CFT.KF.KF_Web.FQuery_Service.Finance_Header();
 
 			Ffh.UserIP = page.Page.Request.UserHostAddress;
@@ -85,6 +94,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 		}
         public static FINANCE_RefundSERVICE.Finance_Header FsetRefundFH(TemplateControl page)  //设置soap头信息
         {
+            if (page.Page.Session["uid"] == null)
+            {
+                throw new ArgumentNullException("Session[uid]", " 登录状态过期，请重新登录。");
+            }
+
             FINANCE_RefundSERVICE.Finance_Header Ffh = new FINANCE_RefundSERVICE.Finance_Header();
 
             Ffh.UserIP = page.Page.Request.UserHostAddress;
@@ -110,7 +124,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 
 
 		public static Finance_ManageService.Finance_Header setFH_Finance(TemplateControl page)
-		{
+        {
+            if (page.Page.Session["uid"] == null)
+            {
+                throw new ArgumentNullException("Session[uid]", " 登录状态过期，请重新登录。");
+            }
+
 			Finance_ManageService.Finance_Header fh = new Finance_ManageService.Finance_Header();
 
 			fh.SrcUrl = page.Page.Request.Url.ToString();
@@ -152,7 +171,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 
 
 		public static Check_WebService.Finance_Header setFH_CheckService(TemplateControl page)
-		{
+        {
+            if (page.Page.Session["uid"] == null)
+            {
+                throw new ArgumentNullException("Session[uid]", " 登录状态过期，请重新登录。");
+            }
+
 			Check_WebService.Finance_Header fh = new Check_WebService.Finance_Header();
 
 			fh.SrcUrl = page.Page.Request.Url.ToString();

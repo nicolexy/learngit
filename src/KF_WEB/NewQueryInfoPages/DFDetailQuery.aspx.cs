@@ -15,6 +15,7 @@ using TENCENT.OSS.C2C.Finance.BankLib;
 using System.IO;
 using System.Text;
 using System.Web.Services.Protocols;
+using CFT.Apollo.Logging;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 {
@@ -123,21 +124,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
+                LogHelper.LogError("获取请求参数异常：" + ex.ToString(), "DFDetailQuery");
                 WebUtils.ShowMessage(this, ex.Message);
                 return;
             }
-
+            
+            try
+            {
             Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
             qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
             string strSTime = ViewState["strSTime"].ToString();
             string strETime = ViewState["strETime"].ToString();
-            try
-            {
+
+                //添加数据执行时长监控
+            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
+
                 DataSet ds = qs.QueryDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text,strSTime,
                     strETime, this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, this.ddl_state.SelectedValue,
                     txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue,
                     (pageIndex - 1) * this.pager.PageSize + 1, this.pager.PageSize);
+
+                stopwatch.Stop();
+                LogHelper.LogInfo(string.Format("BindData(int pageIndex, bool needUpdateCount) => TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service.QueryDFInfo()，获取数据耗时：{0}", stopwatch.Elapsed), "DFDetailQuery");
 
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                 {
@@ -160,38 +170,63 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 {
                     if (this.ddl_state.SelectedValue == "0")
                     {
+                        //TODO
+                        //需要减少请求查询次数，能一次获取数据就一次返回。可以将多次请求表数据，保存到DataSet集合中，
+                        //或可以将数据获取，再linq分类查询。
+                        //v_swuzhang
+
+                        stopwatch.Restart();
                         DataSet ds2 = qs.CountDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
                             this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, "0", 
                             txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue);
 
+                        stopwatch.Stop();
+                        LogHelper.LogInfo(string.Format("BindData(int pageIndex, bool needUpdateCount) => TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service.CountDFInfo()-->ddl_state=0，获取数据耗时：{0}", stopwatch.Elapsed), "DFDetailQuery");
+
                         this.pager.RecordCount = int.Parse(ds2.Tables[0].Rows[0]["totalRecordCount"].ToString());
 
+                        stopwatch.Restart();
                         ds2 = qs.CountDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
                             this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, "1",
                             txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue);
 
+                        stopwatch.Stop();
+                        LogHelper.LogInfo(string.Format("BindData(int pageIndex, bool needUpdateCount) => TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service.CountDFInfo()-->ddl_state=1，获取数据耗时：{0}", stopwatch.Elapsed), "DFDetailQuery");
+
                         this.lb_successAllMoney.Text = setConfig.FenToYuan(ds2.Tables[0].Rows[0]["totalPayNum"].ToString());
                         this.lb_successNum.Text = ds2.Tables[0].Rows[0]["totalRecordCount"].ToString();
 
+                        stopwatch.Restart();
                         ds2 = qs.CountDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
                             this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, "2",
                             txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue);
+                        
+                        stopwatch.Stop();
+                        LogHelper.LogInfo(string.Format("BindData(int pageIndex, bool needUpdateCount) => TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service.CountDFInfo()-->ddl_state=2，获取数据耗时：{0}", stopwatch.Elapsed), "DFDetailQuery");
 
                         this.lb_failAllMoney.Text = setConfig.FenToYuan(ds2.Tables[0].Rows[0]["totalPayNum"].ToString());
                         this.lb_failNum.Text = ds2.Tables[0].Rows[0]["totalRecordCount"].ToString();
-
+                        
+                        stopwatch.Restart();
                         ds2 = qs.CountDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
                             this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, "3",
                             txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue);
+                        
+                        stopwatch.Stop();
+                        LogHelper.LogInfo(string.Format("BindData(int pageIndex, bool needUpdateCount) => TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service.CountDFInfo()-->ddl_state=3，获取数据耗时：{0}", stopwatch.Elapsed), "DFDetailQuery");
 
                         this.lb_handlingAllMoney.Text = setConfig.FenToYuan(ds2.Tables[0].Rows[0]["totalPayNum"].ToString());
                         this.lb_handlingNum.Text = ds2.Tables[0].Rows[0]["totalRecordCount"].ToString();
                     }
                     else
                     {
+                        stopwatch.Restart();
                         DataSet ds2 = qs.CountDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
                             this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, this.ddl_state.SelectedValue,
                             txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue);
+                        
+                        stopwatch.Stop();
+                        LogHelper.LogInfo(string.Format("BindData(int pageIndex, bool needUpdateCount) => TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service.CountDFInfo()-->ddl_state={1}，获取数据耗时：{0}", stopwatch.Elapsed, this.ddl_state.SelectedValue), "DFDetailQuery");
 
                         switch (this.ddl_state.SelectedValue)
                         {
@@ -237,6 +272,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
+                LogHelper.LogError("出现异常：" + ex.ToString(), "DFDetailQuery");
                 WebUtils.ShowMessage(this, PublicRes.GetErrorMsg(ex.Message));
             }
         }
@@ -353,6 +389,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
+                LogHelper.LogError("出现异常：" + ex.ToString(), "DFDetailQuery");
                 WebUtils.ShowMessage(this, PublicRes.GetErrorMsg(ex.Message));
                 return null;
             }
@@ -430,8 +467,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     strSTime = DateTime.Parse(this.tbx_beginDate.Text).ToString("yyyy-MM-dd HH:mm:ss");
                     strETime = DateTime.Parse(this.tbx_endDate.Text).ToString("yyyy-MM-dd HH:mm:ss");
                 }
-                catch
+                catch (Exception ex)
                 {
+                    LogHelper.LogError("出现异常：" + ex.ToString(), "DFDetailQuery");
                     WebUtils.ShowMessage(this, "日期格式不正确");
                     return;
                 }
@@ -481,11 +519,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
+                LogHelper.LogError("出现异常：" + eSoap.ToString(), "DFDetailQuery");
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message);
                 WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
             }
             catch (Exception ex)
             {
+                LogHelper.LogError("出现异常：" + ex.ToString(), "DFDetailQuery");
                 WebUtils.ShowMessage(this, ex.Message);
             }
         }

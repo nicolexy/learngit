@@ -742,6 +742,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages {
         protected global::System.Web.UI.HtmlControls.HtmlTable fRate_table;
         
         /// <summary>
+        /// Label27 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label27;
+        
+        /// <summary>
         /// fRate_uin control.
         /// </summary>
         /// <remarks>

@@ -135,7 +135,7 @@
                     <tr>
                         <td style="height: 3px" width="20%" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="3">
-                            EMAIL账号:
+                            微信号:
                         </td>
                         <td style="height: 3px" bgcolor="#ffffff" height="3">
                             &nbsp;<span class="style2">
@@ -220,8 +220,11 @@
                         </td>
                         <td style="height: 15px" bgcolor="#ffffff" height="15">
                             &nbsp;
-                            <asp:Label ID="Label4_Freeze" runat="server" Width="180px"></asp:Label><font style="background-color: #ffffff"
-                                face="宋体"></font>
+                            <asp:Label ID="Label4_Freeze" runat="server" Width="120px"></asp:Label>
+                            <span style="margin-left:20px;">
+                                <span>分账冻结金额:</span>
+                                <asp:Label ID="lb_Freeze_amt" runat="server" Width="120px">0</asp:Label>
+                            </span>
                         </td>
                     </tr>
                     <tr>
@@ -489,5 +492,6 @@
         </tr>
     </table>
     </form>
+    <span style="display:none" id="TempErrlog" runat="server">临时记录错误....</span>
 </body>
 </html>

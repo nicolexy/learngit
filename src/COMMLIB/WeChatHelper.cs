@@ -8,6 +8,7 @@ using System.Xml;
 using System.Configuration;
 using SunLibrary;
 using CFT.Apollo.CommunicationFramework;
+using TENCENT.OSS.C2C.Finance.Common.CommLib;
 
 
 namespace CFT.CSOMS.COMMLIB
@@ -332,6 +333,76 @@ namespace CFT.CSOMS.COMMLIB
             catch (Exception ex)
             {
                 throw new Exception(string.Format("通过微信api转换openid到财付通帐号acctId异常:{0}", ex.Message));
+            }
+        }
+
+        /// <summary>
+        /// 通过Openid,获取微信号
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <param name="oaticket"></param>
+        /// <returns></returns>
+        public static string GetUserNameFromOpenid(string openId, string oaticket)
+        {
+            var msg = "";
+            try
+            {
+                var url = Apollo.Common.Configuration.AppSettings.Get<string>("QueryWXUserNameCGI", "http://10.229.141.17:11903/cgi-bin/wxuser/queryuserinfo") + "?f=json";
+                System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+                var reqObj = new
+                {
+                    openid = openId,
+                    oaticket = oaticket
+                };
+                var req = jss.Serialize(reqObj);
+                var result = commRes.GetFromCGIPost(url, "", req, out msg); //@"{""result"":{""retcode"":0,""retmsg"":""ok"",""username"":""cat""}}";
+                var obj = (jss.DeserializeObject(result) as Dictionary<string, object>)["result"];
+                var dic = obj as Dictionary<string, object>;
+                if ((int)dic["retcode"] == 0)
+                {
+                    return (string)dic["username"];
+                }
+                throw new Exception(result);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogError("通过Openid,获取微信号 出现异常" + ex.ToString());
+                throw new Exception(string.Format("通过Openid,获取微信号 出现异常 {0}", ex.Message));
+            }
+        }
+        /// <summary>
+        ///  通过acctid 获取微信号
+        /// </summary>
+        /// <param name="acctid"></param>
+        /// <param name="oaticket"></param>
+        /// <returns></returns>
+        public static string GetUserNameFromAcctid(string acctid, string oaticket)
+        {
+            var msg = "";
+            try
+            {
+                var url = Apollo.Common.Configuration.AppSettings.Get<string>("QueryWXUserNameCGI", "http://10.229.141.17:11903/cgi-bin/wxuser/queryuserinfo") + "?f=json";
+                System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+                var reqObj = new
+                {
+                    acctid = acctid,
+                    oaticket = oaticket          
+                };
+   
+                var req = jss.Serialize(reqObj);
+                var result = commRes.GetFromCGIPost(url, "", req, out msg);
+                var obj = (jss.DeserializeObject(result) as Dictionary<string, object>)["result"];
+                var dic = obj as Dictionary<string, object>;
+                if ((int)dic["retcode"] == 0)
+                {
+                    return (string)dic["username"];
+                }
+                throw new Exception(result);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogError("通过acctid 获取微信号 出现异常" + ex.ToString());
+                throw new Exception(string.Format("通过acctid 获取微信号 出现异常 {0}", ex.Message));
             }
         }
     }

@@ -93,7 +93,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 			}
 			catch(Exception ex)
 			{
-				log4net.ILog log = log4net.LogManager.GetLogger("SendMail发送内部邮件异常");
+                log4net.ILog log = log4net.LogManager.GetLogger("SendMail发送内部邮件异常" + ex.Message + ", stacktrace" + ex.StackTrace);
 				if(log.IsErrorEnabled) log.Error(ex.Message);
                 throw new Exception("CommSendMail发送内部邮件异常"+ex.Message);
 			}

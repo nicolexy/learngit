@@ -591,6 +591,53 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             public string Fmemo { get; set; }
         }
 
+        /// <summary>
+        /// 付款延迟异常数据
+        /// </summary>
+        public class PaymentAbnormal
+        {
+            /// <summary>
+            /// 批次号
+            /// </summary>
+            [XmlElement("FBatchID")]
+            public string FBatchID { get; set; }
+            /// <summary>
+            /// 业务单号
+            /// </summary>
+            [XmlElement("Flistid")]
+            public string Flistid { get; set; }
+            ///// <summary>
+            ///// 业务类型
+            ///// </summary>
+            //[XmlElement("Ftype_str")]
+            //public string Ftype_str { get; set; }
+            ///// <summary>
+            ///// 子业务类型
+            ///// </summary>
+            //[XmlElement("subType_str")]
+            //public string subType_str { get; set; }
+            ///// <summary>
+            ///// 银行类型
+            ///// </summary>
+            //[XmlElement("Fbank_type_str")]
+            //public string Fbank_type_str { get; set; }
+            ///// <summary>
+            ///// 错误类型
+            ///// </summary>
+            //[XmlElement("Ferror_type_str")]
+            //public string Ferror_type_str { get; set; }
+            ///// <summary>
+            ///// 最新通知状态
+            ///// </summary>
+            //[XmlElement("Fnotify_status_str")]
+            //public string Fnotify_status_str { get; set; }
+            ///// <summary>
+            ///// 异常时间
+            ///// </summary>
+            //[XmlElement("Fabnormal_time")]
+            //public string Fabnormal_time { get; set; }
+        }
+
         #endregion
     }
 

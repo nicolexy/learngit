@@ -21,6 +21,7 @@ using System.Configuration;
 using CFT.CSOMS.COMMLIB;
 using CFT.CSOMS.BLL.CFTAccountModule;
 using CFT.Apollo.Logging;
+using System.Collections.Generic;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
@@ -694,12 +695,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 FetchInputDetail();
                 var close_flag = ViewState["close_flag"].ToString();
                 DataGrid_QueryResult.Columns[11].Visible = false; //半封闭才展示预估收益
+
+                var fundCode = ViewState["fundCode"].ToString();
+                var fundSPId = ViewState["fundSPId"].ToString();
                 if (close_flag == "2")//封闭即定期
                 {
                     this.tableCloseFundRoll.Visible = true;
                     this.tableBankRollList.Visible = true;
-                    BindCloseFundRoll(ViewState["tradeId"].ToString(), ViewState["fundCode"].ToString(), beginDate, endDate, 1);
-                    BindBankRollList(ViewState["uin"].ToString(), ViewState["fundSPId"].ToString(), ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType, memo);
+                    BindCloseFundRoll(ViewState["tradeId"].ToString(), fundCode, beginDate, endDate, 1);
+                    BindBankRollList(ViewState["uin"].ToString(), fundSPId, ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType, memo);
                 }
                 else
                 {
@@ -712,19 +716,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     ExhibitionDataGridColumns(dgCloseFundRoll, true, null);         //显示所有字段 查询交易明细
                     if (close_flag == "3") //半封闭
                     {
-                        ExhibitionDataGridColumns(dgCloseFundRoll, false, 0, 6, 7, 8, 9, 16);
+                        var hideList = new List<int>() { 0, 6, 7, 8, 9 ,16};
+                        FundService fundBLLService = new FundService();
+                        if (fundBLLService.isInsurance(fundCode, fundSPId)) // 这几个 特殊处理 可以进行强赎
+                        {
+                            hideList.Remove(16);
+                        }
+                        ExhibitionDataGridColumns(dgCloseFundRoll, false, hideList.ToArray());
 
                         this.tableCloseFundRoll.Visible = true;
-                        BindCloseFundRoll(ViewState["tradeId"].ToString(), ViewState["fundCode"].ToString(), beginDate, endDate, 1);
+                        BindCloseFundRoll(ViewState["tradeId"].ToString(), fundCode, beginDate, endDate, 1);
                     }
                     else if (close_flag == "1") //不封闭
                     {
                         ExhibitionDataGridColumns(dgCloseFundRoll, false, 4, 5);
                     }
 
-                    BindProfitList(ViewState["tradeId"].ToString(), ViewState["fundSPId"].ToString(), beginDate, endDate);
-                    BindBankRollList(ViewState["uin"].ToString(), ViewState["fundSPId"].ToString(), ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType, memo);
-                    BindBankRollListNotChildren(ViewState["uin"].ToString(), ViewState["fundSPId"].ToString(), ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType);
+                    BindProfitList(ViewState["tradeId"].ToString(), fundSPId, beginDate, endDate);
+                    BindBankRollList(ViewState["uin"].ToString(), fundSPId, ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType, memo);
+                    BindBankRollListNotChildren(ViewState["uin"].ToString(), fundSPId, ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType);
                 }
             }
             catch (Exception eSys)
@@ -813,9 +823,32 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             if (e.Item.ItemIndex > -1)
             {
                 var row = (DataRowView)e.Item.DataItem;
-                if (row["Fstate_str"] == "待执行")
+                if (row["Fstate_str"].ToString() == "待执行")
                 {
-                    var CloseFundApply_btn = e.Item.FindControl("CloseFundApplyButton");
+                    LinkButton CloseFundApply_btn = (LinkButton)e.Item.FindControl("CloseFundApplyButton");
+                    string url="";
+                    var fundCode = ViewState["fundCode"].ToString();
+                    var fundSPId = ViewState["fundSPId"].ToString();
+
+                    FundService fundBLLService = new FundService();
+                    if (fundBLLService.isInsurance(fundCode, fundSPId)) // 光大使用指数基金  接口
+                    {
+                        url = "GetFundRatePageDetail.aspx?opertype=1&close_flag=3&uin=" + ViewState["uin"].ToString()
+                            + "&spid=" + fundSPId
+                            + "&fund_code=" + fundCode
+                            + "&total_fee=" + row["Fstart_total_fee"].ToString()
+                            + "&bind_serialno=" + ViewState["bind_serialno"].ToString()
+                            + "&card_tail=" + ViewState["card_tail"].ToString()
+                            + "&mobile=" + ViewState["mobile"].ToString()
+                            + "&bank_type=" + ViewState["bank_type"].ToString()
+                            + "&close_id=" + ViewState["FDate"].ToString();
+                    }
+                    else 
+                    {
+                        url = (string)row["URL"];
+                    }
+                    CloseFundApply_btn.Attributes.Add("href", url);
+
                     var AlterEndStrategy_btn = e.Item.FindControl("AlterEndStrategy");
                     CloseFundApply_btn.Visible = true;
                     AlterEndStrategy_btn.Visible = true;

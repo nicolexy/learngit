@@ -73,9 +73,6 @@
                             <asp:BoundField DataField="amount_text" HeaderText="金额">
                                 <HeaderStyle Width="80px"></HeaderStyle> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField> 
-                            <asp:BoundField DataField="wishing" HeaderText="祝福语">
-                                <HeaderStyle Width="110px"></HeaderStyle> <ItemStyle  HorizontalAlign="Center"/>
-                            </asp:BoundField>
                            <asp:BoundField DataField="recv_listid" HeaderText="订单号">
                                 <HeaderStyle Width="110px"></HeaderStyle> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
@@ -127,9 +124,6 @@
                             <asp:BoundField DataField="send_uin" HeaderText="发送方财付通帐号">
                             <HeaderStyle Width="100px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="send_name" HeaderText="发送方昵称">
-                            <HeaderStyle Width="80px" /> <ItemStyle  HorizontalAlign="Center"/>
-                            </asp:BoundField>
                             <asp:BoundField DataField="recv_uin" HeaderText="接收方财付通帐号">
                             <HeaderStyle Width="100px" /> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
@@ -141,8 +135,6 @@
                             </asp:BoundField>
                             <asp:BoundField DataField="channel_text" HeaderText="红包类型">
                                 <HeaderStyle Width="80px"></HeaderStyle> <ItemStyle  HorizontalAlign="Center"/>
-                            </asp:BoundField>
-                            <asp:BoundField DataField="answer" HeaderText="祝福语"> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
 
                         </Columns>
@@ -176,7 +168,6 @@
                         <Columns>
                             <asp:BoundField DataField="create_time" HeaderText="日期">
                             <HeaderStyle HorizontalAlign="Center" Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
-                                <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
                             <asp:BoundField DataField="Title" HeaderText="红包主题" >
                             <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
@@ -199,15 +190,13 @@
                             <asp:BoundField DataField="channel_text" HeaderText="红包类型">
                                 <HeaderStyle Width="80px"></HeaderStyle> <ItemStyle  HorizontalAlign="Center"/>
                             </asp:BoundField>
-                            <asp:BoundField DataField="wishing" HeaderText="祝福语" >
-                            <HeaderStyle Width="250px" /><ItemStyle  HorizontalAlign="Center"/>
-                            </asp:BoundField>
                             <asp:TemplateField HeaderText="详情" ShowHeader="False">
-                                 <HeaderStyle Width="200px" /><ItemStyle  HorizontalAlign="Center"/>
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lbtnView2" runat="server" CausesValidation="False" CommandArgument='<%#string.Format("{0},{1}",((System.Data.DataRowView)Container.DataItem)["send_listid"].ToString(), ((System.Data.DataRowView)Container.DataItem)["create_time"].ToString())%>'
                                         CommandName="ViewDetail" Text="详情"></asp:LinkButton>
                                 </ItemTemplate>
+                                 <HeaderStyle Width="200px" />
+                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                         </Columns>
                         <FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
