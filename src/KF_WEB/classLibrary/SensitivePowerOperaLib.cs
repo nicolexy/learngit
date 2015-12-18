@@ -89,7 +89,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 
 				//HandleSPResult(page,"您没有敏感登录状态或需要更高级别的敏感登录状态。" + result.status_info,true,result.login_url);
 
-				page.Page.Response.Redirect(result.login_url);
+                //page.Page.Response.Redirect(result.login_url);
+                page.Page.Response.Write("<script>window.parent.location.href = '" + result.login_url + "';</script>");
+
 
 				return false;
 			}

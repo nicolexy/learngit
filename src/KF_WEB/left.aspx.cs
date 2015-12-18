@@ -41,9 +41,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 			// 在此处放置用户代码以初始化页面
 
 			try
-
-			{
-				Session["uid"].ToString();
+            {
+                //检测未登录状态跳转到登录页面
+                if (Session["uid"] == null)
+                {
+                    Response.Write("<script>window.parent.location.href = 'login.aspx';</script>");
+                    Response.End();
+                }
 			}
 
 			catch  //Session为空，则跳转
