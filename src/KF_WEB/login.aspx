@@ -12,7 +12,8 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 	</HEAD>
 	<body>
-		<form id="Form1" method="post" runat="server">
+        <h4 style="text-align:center;">加载中……</h4>
+		<form id="Form1" method="post" runat="server" style="display:none;">
 			<DIV align="center"><STRONG><FONT face="黑体" size="5"></FONT></STRONG>&nbsp;</DIV>
 			<br>
 			<br>

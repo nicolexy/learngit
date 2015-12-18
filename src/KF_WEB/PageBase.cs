@@ -17,17 +17,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
         protected void PageBase_Error(object sender, System.EventArgs e)
         {
-            string errMsg = string.Empty, 
-                ip = string.Empty, 
+            string errMsg = GetRequestError(HttpContext.Current);
+
+            HttpContext.Current.Response.Write(errMsg);
+            Server.ClearError();
+        }
+
+        /// <summary>
+        /// 获取请求错误详细参数信息
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
+        public static string GetRequestError(HttpContext httpContext)
+        {
+            string errMsg = string.Empty,
+                ip = string.Empty,
                 browser = string.Empty,
                 rget = string.Empty,
                 rpost = string.Empty;
 
-            ip = HttpContext.Current.Request.UserHostAddress;
+            ip = httpContext.Request.UserHostAddress;
             if (!string.IsNullOrEmpty(ip))
                 ip = "IP[" + ip + "]";
 
-            NameValueCollection headers = HttpContext.Current.Request.Headers;
+            NameValueCollection headers = httpContext.Request.Headers;
             if (headers != null && headers.Count > 0)
             {
                 browser = "BROWSER[";
@@ -44,14 +57,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 }
             }
 
-            string method = HttpContext.Current.Request.HttpMethod;
+            string method = httpContext.Request.HttpMethod;
             if (method.ToLower() == "get")
                 rget = GetGetInput();
             else if (method.ToLower() == "post")
                 rpost = GetPostInput();
 
-
-            Exception currentError = HttpContext.Current.Server.GetLastError();
+            Exception currentError = httpContext.Server.GetLastError();
             errMsg = string.Format(
                 @"<h1>系统错误：</h1><hr/>
                     系统发生错误，请与联系管理员。<br/>
@@ -62,10 +74,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                     <br/>{4}
                     <br/>{5}
                     <br/>{6}",
-                Request.Url.ToString(), currentError.Message.ToString(), currentError.StackTrace, ip, browser, rget, rpost);
+                httpContext.Request.Url.ToString(), currentError.Message.ToString(), currentError.StackTrace, ip, browser, rget, rpost);
 
-            HttpContext.Current.Response.Write(errMsg);
-            Server.ClearError();
+            return errMsg;
         }
 
         /// <summary>
