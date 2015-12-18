@@ -85,6 +85,67 @@ namespace CFT.CSOMS.DAL.RefundModule
             return ds;
         }
 
+        /// <summary>
+        /// 获取提交财务退款数据
+        /// "交易状态"(支付成功/等待卖家发货)
+        /// "提交退款"(未提交、失效)
+        /// </summary>
+        /// <param name="stime"></param>
+        /// <param name="etime"></param>
+        /// <param name="iPageStart"></param>
+        /// <param name="iPageMax"></param>
+        /// <returns></returns>
+        public DataSet GetExportRefundData(string stime, string etime, int iPageStart, int iPageMax)
+        {
+            DataSet ds = null;
+
+            string strSql = string.Format(@"
+            select * from  c2c_fmdb.t_refund_info 
+                where Fcreate_time>='{0}' and Fcreate_time<='{1}' and (Fsubmit_refund=2 or Fsubmit_refund=3) and Ftrade_state=2 
+            limit {2},{3}",
+            stime, etime, iPageStart, iPageMax);
+
+            using (var da = MySQLAccessFactory.GetMySQLAccess("RefundRegister"))
+            {
+                da.OpenConn();
+
+                ds = da.dsGetTotalData(strSql);
+            }
+            return ds;
+        }
+        /// <summary>
+        /// 获取总数
+        /// "交易状态"(支付成功/等待卖家发货)
+        /// "提交退款"(未提交、失效)
+        /// </summary>
+        /// <param name="stime"></param>
+        /// <param name="etime"></param>
+        /// <returns></returns>
+        public int GetExportRefundCount(string stime, string etime)
+        {
+            //Fsubmit_refund：提交退款状态 为 2、3
+            //Ftrade_state：交易状态 为 2
+            string strSql = string.Format(@"
+            select count(*) from  c2c_fmdb.t_refund_info 
+                where Fcreate_time>='{0}' and Fcreate_time<='{1}' and (Fsubmit_refund=2 or Fsubmit_refund=3) and Ftrade_state=2", 
+            stime, etime);
+            
+            string ret = null;
+            using (var da = MySQLAccessFactory.GetMySQLAccess("RefundRegister"))
+            {
+                da.OpenConn();
+
+                ret = da.GetOneResult(strSql);
+            }
+            int count = 0;
+            if (!string.IsNullOrEmpty(ret))
+            {
+                count = Int32.Parse(ret);
+            }
+
+            return count;
+        }
+
         public int QueryRefundRegisterCount(string coding, string orderId, string stime, string etime, int refundType, int refundState, string tradeState, int refund_id, string submit_user)
         {
             StringBuilder Sql = new StringBuilder("select count(*) from  c2c_fmdb.t_refund_info where 1=1 ");

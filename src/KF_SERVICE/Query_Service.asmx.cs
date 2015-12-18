@@ -3884,7 +3884,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             try
             {
                 da.OpenConn();
-                string sql = string.Format("update c2c_fmdb.t_refund_info set Fsubmit_refund={0},Fmodify_time=now() where Fid={1}", refundState, fid);
+                string sql = string.Format(@"
+                update c2c_fmdb.t_refund_info set Fsubmit_refund={0},Fmodify_time=now() where Fid in ({1})",
+                refundState, fid);
                 da.ExecSqlNum(sql);
             }
             catch (Exception err)
