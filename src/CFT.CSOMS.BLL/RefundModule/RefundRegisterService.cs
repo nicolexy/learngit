@@ -148,13 +148,10 @@ namespace CFT.CSOMS.BLL.RefundModule
                         {
                             string state = obj.ToString().Trim();
                             dr["Ftrade_state_new"] = state;
-                            if (!string.IsNullOrEmpty(tradeState) && tradeState != "0")
+                            if (state == "2")
                             {
-                                if (state == "2")
-                                {
-                                    //如果状态相同，表示是需要查询的记录
-                                    res_dt.ImportRow(dr);
-                                }
+                                //如果状态相同，表示是需要查询的记录
+                                res_dt.ImportRow(dr);
                             }
                         }
                     }
