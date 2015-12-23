@@ -115,6 +115,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             this.Label17_Flogin_ip.Text = "";
             this.Label18_Attid.Text = "";
             this.labEmail.Text = "";
+            this.lb_wxName.Text = "";
             this.labMobile.Text = "";
             this.labQQstate.Text = "";
             this.labEmailState.Text = "";
@@ -792,6 +793,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 this.LkBT_PaymentLog.Visible = true;
                 this.LkBT_Refund.Visible = true;
                 this.LkBT_Refund_Sale.Visible = true;
+
+                if (Label1_Acc.Text.Length > 0 && Label1_Acc.Text.EndsWith("@wx.tenpay.com"))
+                {
+                    try
+                    {
+                        var ticket = Session["oa_ticket"] as string;
+                        if (string.IsNullOrEmpty(ticket))
+                        {
+                            TempErrlog.InnerText = "ticket为空 不可获取";
+                        }
+                        else
+                        {
+                            var openid = Label1_Acc.Text.Substring(0, Label1_Acc.Text.Length - 14);
+                            labEmail.Text = WeChatHelper.GetUserNameFromOpenid(openid, ticket);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        //开发阶段   用这个方式 记录一下 异常
+                        TempErrlog.InnerText = ex.ToString();
+                    }
+                }
             }
             catch (SoapException er) //捕获soap类
             {
