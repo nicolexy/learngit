@@ -136,10 +136,10 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         /// <param name="begin"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public DataSet QueryTurnover(string account, string order, string begin, string end)
-        {
-            return new AccountData().QueryTurnover(account, order, begin, end);
-        }
+        //public DataSet QueryTurnover(string account, string order, string begin, string end)
+        //{
+        //    return new AccountData().QueryTurnover(account, order, begin, end);
+        //}
 
         public DataSet GetFreeFlowInfo(string cftNo)
         {

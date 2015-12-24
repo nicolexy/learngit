@@ -908,33 +908,33 @@ namespace CFT.CSOMS.DAL.CFTAccount
             }
         }
 
-        //财付值流水查询
-        public DataSet QueryTurnover(string account, string order, string begin, string end)
-        {
-            string[] dbInfo = GetDbInfo(account);
-            string strSql = string.Format(@"select * from cft_vip_acc_{0}.t_vipuser_acc_{1}  where Fuin='{2}' and 
-							FCommit_time between '{3}' and '{4}'", dbInfo[0], dbInfo[1], account, begin, end);
-            if (order != null && order != "")
-            {
-                strSql = string.Format("{0} and FOrig_req like '%{1}%'", strSql, order);
-            }
-            strSql += " order by FCommit_time";
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("PropertyTurnover"));//财付值交易流水
-            DataSet ds = new DataSet();
-            try
-            {
-                da.OpenConn();
-                ds = da.dsGetTotalData(strSql);
+        //财付值流水查询 v_yqyqguo 2015-12-24 下架
+//        public DataSet QueryTurnover(string account, string order, string begin, string end)
+//        {
+//            string[] dbInfo = GetDbInfo(account);
+//            string strSql = string.Format(@"select * from cft_vip_acc_{0}.t_vipuser_acc_{1}  where Fuin='{2}' and 
+//							FCommit_time between '{3}' and '{4}'", dbInfo[0], dbInfo[1], account, begin, end);
+//            if (order != null && order != "")
+//            {
+//                strSql = string.Format("{0} and FOrig_req like '%{1}%'", strSql, order);
+//            }
+//            strSql += " order by FCommit_time";
+//            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("PropertyTurnover"));//财付值交易流水
+//            DataSet ds = new DataSet();
+//            try
+//            {
+//                da.OpenConn();
+//                ds = da.dsGetTotalData(strSql);
 
-                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                    return null;
-                return ds;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！" + e.Message);
-            }
-        }
+//                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+//                    return null;
+//                return ds;
+//            }
+//            catch (Exception e)
+//            {
+//                throw new Exception("service发生错误,请联系管理员！" + e.Message);
+//            }
+//        }
 
         /// <summary>
         /// 数组第一位是数据库，第二位是表，第三位是主机

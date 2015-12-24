@@ -21893,33 +21893,33 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
 
-        [WebMethod(Description = "财付值流水查询")]
-        public DataSet QueryTurnover(string account, string order, string begin, string end)
-        {
-            string[] dbInfo = GetDbInfo(account);
-            string strSql = string.Format(@"select * from cft_vip_acc_{0}.t_vipuser_acc_{1}  where Fuin='{2}' and 
-							FCommit_time between '{3}' and '{4}'", dbInfo[0], dbInfo[1], account, begin, end);
-            if (order != null && order != "")
-            {
-                strSql = string.Format("{0} and FOrig_req like '%{1}%'", strSql, order);
-            }
-            strSql += " order by FCommit_time";
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("PropertyTurnover"));//财付值交易流水
-            DataSet ds = new DataSet();
-            try
-            {
-                da.OpenConn();
-                ds = da.dsGetTotalData(strSql);
+//        [WebMethod(Description = "财付值流水查询")]
+//        public DataSet QueryTurnover(string account, string order, string begin, string end)
+//        {
+//            string[] dbInfo = GetDbInfo(account);
+//            string strSql = string.Format(@"select * from cft_vip_acc_{0}.t_vipuser_acc_{1}  where Fuin='{2}' and 
+//							FCommit_time between '{3}' and '{4}'", dbInfo[0], dbInfo[1], account, begin, end);
+//            if (order != null && order != "")
+//            {
+//                strSql = string.Format("{0} and FOrig_req like '%{1}%'", strSql, order);
+//            }
+//            strSql += " order by FCommit_time";
+//            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("PropertyTurnover"));//财付值交易流水
+//            DataSet ds = new DataSet();
+//            try
+//            {
+//                da.OpenConn();
+//                ds = da.dsGetTotalData(strSql);
 
-                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                    return null;
-                return ds;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！" + e.Message);
-            }
-        }
+//                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+//                    return null;
+//                return ds;
+//            }
+//            catch (Exception e)
+//            {
+//                throw new Exception("service发生错误,请联系管理员！" + e.Message);
+//            }
+//        }
 
 
         /// <summary>
@@ -21974,87 +21974,87 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             return (Convert.ToInt32(c[0]) - Convert.ToInt32('0')) % 10;
         }
 
+        //v_yqyqguo 2015-12-24 下架
+        //[WebMethod(Description = "财付通会员银行卡绑定信息查询")]
+        //public DataSet QueryBankCardBind(string account)
+        //{
+        //    int length = account.Length;
+        //    string dbIndex = account.Substring(length - 3, 1);
+        //    string tblIndex = account.Substring(length - 2, 2);
+        //    string strSql = string.Format(@"select * from db_vipbind_{0}.t_vipbind_info_{1} where Fuin = '{2}'", dbIndex, tblIndex, account);
+        //    MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("CardBind"));
+        //    DataSet ds = new DataSet();
+        //    try
+        //    {
+        //        da.OpenConn();
+        //        ds = da.dsGetTotalData(strSql);
+        //        if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+        //            return null;
+        //        return ds;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception("service发生错误,请联系管理员！" + e.Message);
+        //    }
+        //    finally
+        //    {
+        //        da.Dispose();
+        //    }
+        //}
 
-        [WebMethod(Description = "财付通会员银行卡绑定信息查询")]
-        public DataSet QueryBankCardBind(string account)
-        {
-            int length = account.Length;
-            string dbIndex = account.Substring(length - 3, 1);
-            string tblIndex = account.Substring(length - 2, 2);
-            string strSql = string.Format(@"select * from db_vipbind_{0}.t_vipbind_info_{1} where Fuin = '{2}'", dbIndex, tblIndex, account);
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("CardBind"));
-            DataSet ds = new DataSet();
-            try
-            {
-                da.OpenConn();
-                ds = da.dsGetTotalData(strSql);
-                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                    return null;
-                return ds;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！" + e.Message);
-            }
-            finally
-            {
-                da.Dispose();
-            }
-        }
-
-
-        [WebMethod(Description = "财付通会员银行卡交易信息查询")]
-        public DataSet QueryBankCardTransaction(string account)
-        {
-            int length = account.Length;
-            string dbIndex = account.Substring(length - 3, 1);
-            string tblIndex = account.Substring(length - 2, 2);
-            string strSql = string.Format(@"select * from db_vipbind_card_{0}.t_vip_trans_{1} where Fpayuin = '{2}'", dbIndex, tblIndex, account);
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("CardBind"));
-            DataSet ds = new DataSet();
-            try
-            {
-                da.OpenConn();
-                ds = da.dsGetTotalData(strSql);
-                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                    return null;
-                return ds;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！" + e.Message);
-            }
-        }
+        //5015-12-24 下架 v_yqyqguo
+        //[WebMethod(Description = "财付通会员银行卡交易信息查询")]
+        //public DataSet QueryBankCardTransaction(string account)
+        //{
+        //    int length = account.Length;
+        //    string dbIndex = account.Substring(length - 3, 1);
+        //    string tblIndex = account.Substring(length - 2, 2);
+        //    string strSql = string.Format(@"select * from db_vipbind_card_{0}.t_vip_trans_{1} where Fpayuin = '{2}'", dbIndex, tblIndex, account);
+        //    MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("CardBind"));
+        //    DataSet ds = new DataSet();
+        //    try
+        //    {
+        //        da.OpenConn();
+        //        ds = da.dsGetTotalData(strSql);
+        //        if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+        //            return null;
+        //        return ds;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception("service发生错误,请联系管理员！" + e.Message);
+        //    }
+        //}
 
 
         /// <summary>
-        /// 按银行卡号后3位分库分表
+        /// 按银行卡号后3位分库分表 5015-12-24 下架 v_yqyqguo
         /// </summary>
         /// <param name="cardNumber"></param>
         /// <returns></returns>
-        [WebMethod(Description = "财付通会员银行卡信息查询")]
-        public DataSet QueryBankCardInfo(string cardNumber)
-        {
-            int length = cardNumber.Length;
-            string dbIndex = cardNumber.Substring(length - 3, 1);
-            string tblIndex = cardNumber.Substring(length - 2, 2);
-            string strSql = string.Format(@"select * from db_vipcard_{0}.t_bank_info_{1} where Fbank_id = '{2}'", dbIndex, tblIndex, cardNumber);
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("CardBind"));
-            DataSet ds = new DataSet();
-            try
-            {
-                da.OpenConn();
-                ds = da.dsGetTotalData(strSql);
-                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                    return null;
-                ds.Tables[0].TableName = cardNumber + DateTime.Now.Millisecond;
-                return ds;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！" + e.Message);
-            }
-        }
+        //[WebMethod(Description = "财付通会员银行卡信息查询")]
+        //public DataSet QueryBankCardInfo(string cardNumber)
+        //{
+        //    int length = cardNumber.Length;
+        //    string dbIndex = cardNumber.Substring(length - 3, 1);
+        //    string tblIndex = cardNumber.Substring(length - 2, 2);
+        //    string strSql = string.Format(@"select * from db_vipcard_{0}.t_bank_info_{1} where Fbank_id = '{2}'", dbIndex, tblIndex, cardNumber);
+        //    MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("CardBind"));
+        //    DataSet ds = new DataSet();
+        //    try
+        //    {
+        //        da.OpenConn();
+        //        ds = da.dsGetTotalData(strSql);
+        //        if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+        //            return null;
+        //        ds.Tables[0].TableName = cardNumber + DateTime.Now.Millisecond;
+        //        return ds;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception("service发生错误,请联系管理员！" + e.Message);
+        //    }
+        //}
 
 
         [WebMethod(Description = "财付通外卡支付查询，按订单号")]
@@ -23629,173 +23629,174 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        [WebMethod(Description = "图标管理查询")]
-        public DataSet QueryIconInfo(string account)
-        {
-            string uin = QueryInfo.GetDbNum(account);//计算QQ、email、手机号对应的uin数字字符串
-            int length = uin.Length;
-            if (length < 3)
-            {
-                uin = "00000";
-                length = uin.Length;
-            }
-            string dbIndex = uin.Substring(length - 2, 2);
-            string tblIndex = uin.Substring(length - 3, 1);
-            string strSql = string.Format(@"select Fvipflag, Fvalue from  c2c_db_{0}.t_user_rank_{1} where Fuin = '{2}'", dbIndex, tblIndex, account);
-            // MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("t_user_rank", account.Substring(account.Length - 2)));
-            MySqlAccess da = null;
-            int DBNode = QueryInfo.GetDBNode(uin);//计算分器
-            if (DBNode == 0)
-                da = new MySqlAccess(PublicRes.GetConnString("ICONINFO1"));
-            if (DBNode == 1)
-                da = new MySqlAccess(PublicRes.GetConnString("ICONINFO2"));
-            if (DBNode == 2)
-                da = new MySqlAccess(PublicRes.GetConnString("ICONINFO3"));
+        //2015-12-24 下架 v_yqyqguo
+        //[WebMethod(Description = "图标管理查询")]
+        //public DataSet QueryIconInfo(string account)
+        //{
+        //    string uin = QueryInfo.GetDbNum(account);//计算QQ、email、手机号对应的uin数字字符串
+        //    int length = uin.Length;
+        //    if (length < 3)
+        //    {
+        //        uin = "00000";
+        //        length = uin.Length;
+        //    }
+        //    string dbIndex = uin.Substring(length - 2, 2);
+        //    string tblIndex = uin.Substring(length - 3, 1);
+        //    string strSql = string.Format(@"select Fvipflag, Fvalue from  c2c_db_{0}.t_user_rank_{1} where Fuin = '{2}'", dbIndex, tblIndex, account);
+        //    // MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("t_user_rank", account.Substring(account.Length - 2)));
+        //    MySqlAccess da = null;
+        //    int DBNode = QueryInfo.GetDBNode(uin);//计算分器
+        //    if (DBNode == 0)
+        //        da = new MySqlAccess(PublicRes.GetConnString("ICONINFO1"));
+        //    if (DBNode == 1)
+        //        da = new MySqlAccess(PublicRes.GetConnString("ICONINFO2"));
+        //    if (DBNode == 2)
+        //        da = new MySqlAccess(PublicRes.GetConnString("ICONINFO3"));
 
-            DataSet ds = new DataSet();
-            try
-            {
-                da.OpenConn();
-                ds = da.dsGetTotalData(strSql);
-                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                    return null;
-                return ds;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("service发生错误,请联系管理员！" + e.Message);
-            }
-            finally
-            {
-                da.Dispose();
-            }
-        }
+        //    DataSet ds = new DataSet();
+        //    try
+        //    {
+        //        da.OpenConn();
+        //        ds = da.dsGetTotalData(strSql);
+        //        if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+        //            return null;
+        //        return ds;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception("service发生错误,请联系管理员！" + e.Message);
+        //    }
+        //    finally
+        //    {
+        //        da.Dispose();
+        //    }
+        //}
+        //2015-12-24 下架 v_yqyqguo
+        //[WebMethod(Description = "刷新图标")]
+        //[SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
+        //public void RefreshIcon(string account)
+        //{
+        //    string inmsg = "uin=" + account;
 
-        [WebMethod(Description = "刷新图标")]
-        [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        public void RefreshIcon(string account)
-        {
-            string inmsg = "uin=" + account;
+        //    var parameters = System.Text.Encoding.Default.GetBytes(inmsg);
+        //    var length = new byte[4];
+        //    //  length = BitConverter.GetBytes(parameters.Length);
+        //    length = UDP.GetByteFromInt(parameters.Length + 4);
+        //    List<byte> bufferIn = new List<byte>();
+        //    bufferIn.AddRange(length);
+        //    bufferIn.AddRange(parameters);
+        //    string ip = ConfigurationManager.AppSettings["RefreshIcon_IP"];
+        //    string port = ConfigurationManager.AppSettings["RefreshIcon_PORT"];
+        //    TcpClient tcpClient = new TcpClient();
+        //    IPAddress ipAddress = IPAddress.Parse(ip);
+        //    IPEndPoint ipPort = new IPEndPoint(ipAddress, Int32.Parse(port));
+        //    tcpClient.Connect(ipPort);
+        //    NetworkStream stream = tcpClient.GetStream();
+        //    stream.Write(bufferIn.ToArray(), 0, bufferIn.ToArray().Length);
+        //    byte[] bufferOut = new byte[1024];
+        //    stream.Read(bufferOut, 0, 1024);
+        //    byte[] bufferLen = new byte[4];
+        //    Array.Copy(bufferOut, 0, bufferLen, 0, 4);
+        //    // int c = BitConverter.ToInt32(bufferLen, 0);
+        //    int c = UDP.GetIntFromByte(bufferLen);
+        //    c = c - 4;
+        //    byte[] cont = new byte[c];
+        //    Array.Copy(bufferOut, 4, cont, 0, c);
+        //    string answer = Encoding.Default.GetString(cont);
+        //    string[] strlist1 = answer.Split('&');
+        //    if (strlist1.Length == 0)
+        //    {
+        //        throw new LogicException("返回结果有误：" + answer);
+        //    }
+        //    Hashtable ht = new Hashtable(strlist1.Length);
+        //    foreach (string strtmp in strlist1)
+        //    {
+        //        string[] strlist2 = strtmp.Split('=');
+        //        if (strlist2.Length != 2)
+        //        {
+        //            continue;
+        //        }
+        //        ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
+        //    }
 
-            var parameters = System.Text.Encoding.Default.GetBytes(inmsg);
-            var length = new byte[4];
-            //  length = BitConverter.GetBytes(parameters.Length);
-            length = UDP.GetByteFromInt(parameters.Length + 4);
-            List<byte> bufferIn = new List<byte>();
-            bufferIn.AddRange(length);
-            bufferIn.AddRange(parameters);
-            string ip = ConfigurationManager.AppSettings["RefreshIcon_IP"];
-            string port = ConfigurationManager.AppSettings["RefreshIcon_PORT"];
-            TcpClient tcpClient = new TcpClient();
-            IPAddress ipAddress = IPAddress.Parse(ip);
-            IPEndPoint ipPort = new IPEndPoint(ipAddress, Int32.Parse(port));
-            tcpClient.Connect(ipPort);
-            NetworkStream stream = tcpClient.GetStream();
-            stream.Write(bufferIn.ToArray(), 0, bufferIn.ToArray().Length);
-            byte[] bufferOut = new byte[1024];
-            stream.Read(bufferOut, 0, 1024);
-            byte[] bufferLen = new byte[4];
-            Array.Copy(bufferOut, 0, bufferLen, 0, 4);
-            // int c = BitConverter.ToInt32(bufferLen, 0);
-            int c = UDP.GetIntFromByte(bufferLen);
-            c = c - 4;
-            byte[] cont = new byte[c];
-            Array.Copy(bufferOut, 4, cont, 0, c);
-            string answer = Encoding.Default.GetString(cont);
-            string[] strlist1 = answer.Split('&');
-            if (strlist1.Length == 0)
-            {
-                throw new LogicException("返回结果有误：" + answer);
-            }
-            Hashtable ht = new Hashtable(strlist1.Length);
-            foreach (string strtmp in strlist1)
-            {
-                string[] strlist2 = strtmp.Split('=');
-                if (strlist2.Length != 2)
-                {
-                    continue;
-                }
-                ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
-            }
+        //    if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
+        //    {
+        //        throw new LogicException("返回结果有误：" + answer);
+        //    }
+        //}
+        //2015-12-24 下架 v_yqyqguo
+        //[WebMethod(Description = "熄灭图标")]
+        //[SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
+        //public void ExtinguishIcon(string account)
+        //{
+        //    try
+        //    {
+        //        if (myHeader == null)
+        //        {
+        //            throw new LogicException("不正确的调用方法！");
+        //        }
+        //        var parameters = Encoding.Default.GetBytes("serviceid=setuserlevel&servicetype=62&uin=" + account + "&value=0&clientip=" + myHeader.UserIP + "&serverip=" + myHeader.UserIP + "&src_app=cft_vip\r\n");
+        //        string msg = "";
+        //        string IP = ConfigurationManager.AppSettings["ExtinguishIcon_IP"];
+        //        string PORT = ConfigurationManager.AppSettings["ExtinguishIcon_PORT"];
+        //        string answer = UDP.GetTCPReplyString(parameters, IP, Int32.Parse(PORT), out msg);
+        //        Hashtable paramsHt = new Hashtable();
+        //        if (answer != "")
+        //        {
+        //            paramsHt = UDP.tcpParameters(answer);
 
-            if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
-            {
-                throw new LogicException("返回结果有误：" + answer);
-            }
-        }
+        //            if (!paramsHt.Contains("retcode") || paramsHt["retcode"].ToString().Trim() != "0" || !paramsHt.Contains("oidbresult") || paramsHt["oidbresult"].ToString().Trim() != "0")
+        //            {
+        //                throw new LogicException("设置等级接口返回结果有误：" + answer);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            throw new Exception(msg);
+        //        }
 
-        [WebMethod(Description = "熄灭图标")]
-        [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        public void ExtinguishIcon(string account)
-        {
-            try
-            {
-                if (myHeader == null)
-                {
-                    throw new LogicException("不正确的调用方法！");
-                }
-                var parameters = Encoding.Default.GetBytes("serviceid=setuserlevel&servicetype=62&uin=" + account + "&value=0&clientip=" + myHeader.UserIP + "&serverip=" + myHeader.UserIP + "&src_app=cft_vip\r\n");
-                string msg = "";
-                string IP = ConfigurationManager.AppSettings["ExtinguishIcon_IP"];
-                string PORT = ConfigurationManager.AppSettings["ExtinguishIcon_PORT"];
-                string answer = UDP.GetTCPReplyString(parameters, IP, Int32.Parse(PORT), out msg);
-                Hashtable paramsHt = new Hashtable();
-                if (answer != "")
-                {
-                    paramsHt = UDP.tcpParameters(answer);
+        //        parameters = Encoding.Default.GetBytes("serviceid=setrichflag2&servicetype=76&uin=" + account + "&value=0&clientip=" + myHeader.UserIP + "&serverip=" + myHeader.UserIP + "&src_app=cft_vip\r\n");
+        //        msg = "";
+        //        answer = UDP.GetTCPReplyString(parameters, IP, Int32.Parse(PORT), out msg);
+        //        paramsHt.Clear();
+        //        if (answer != "")
+        //        {
+        //            paramsHt = UDP.tcpParameters(answer);
 
-                    if (!paramsHt.Contains("retcode") || paramsHt["retcode"].ToString().Trim() != "0" || !paramsHt.Contains("oidbresult") || paramsHt["oidbresult"].ToString().Trim() != "0")
-                    {
-                        throw new LogicException("设置等级接口返回结果有误：" + answer);
-                    }
-                }
-                else
-                {
-                    throw new Exception(msg);
-                }
+        //            if (!paramsHt.Contains("retcode") || paramsHt["retcode"].ToString().Trim() != "0" || !paramsHt.Contains("oidbresult") || paramsHt["oidbresult"].ToString().Trim() != "0")
+        //            {
+        //                throw new LogicException("设置普通会员图标接口返回结果有误：" + answer);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            throw new Exception(msg);
+        //        }
 
-                parameters = Encoding.Default.GetBytes("serviceid=setrichflag2&servicetype=76&uin=" + account + "&value=0&clientip=" + myHeader.UserIP + "&serverip=" + myHeader.UserIP + "&src_app=cft_vip\r\n");
-                msg = "";
-                answer = UDP.GetTCPReplyString(parameters, IP, Int32.Parse(PORT), out msg);
-                paramsHt.Clear();
-                if (answer != "")
-                {
-                    paramsHt = UDP.tcpParameters(answer);
+        //        parameters = Encoding.Default.GetBytes("serviceid=setrichflag3&servicetype=65&uin=" + account + "&value=0&clientip=" + myHeader.UserIP + "&serverip=" + myHeader.UserIP + "&src_app=cft_vip\r\n");
+        //        msg = "";
+        //        answer = UDP.GetTCPReplyString(parameters, IP, Int32.Parse(PORT), out msg);
+        //        paramsHt.Clear();
+        //        if (answer != "")
+        //        {
+        //            paramsHt = UDP.tcpParameters(answer);
 
-                    if (!paramsHt.Contains("retcode") || paramsHt["retcode"].ToString().Trim() != "0" || !paramsHt.Contains("oidbresult") || paramsHt["oidbresult"].ToString().Trim() != "0")
-                    {
-                        throw new LogicException("设置普通会员图标接口返回结果有误：" + answer);
-                    }
-                }
-                else
-                {
-                    throw new Exception(msg);
-                }
+        //            if (!paramsHt.Contains("retcode") || paramsHt["retcode"].ToString().Trim() != "0" || !paramsHt.Contains("oidbresult") || paramsHt["oidbresult"].ToString().Trim() != "0")
+        //            {
+        //                throw new LogicException("设置超级会员图标接口返回结果有误：" + answer);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            throw new Exception(msg);
+        //        }
 
-                parameters = Encoding.Default.GetBytes("serviceid=setrichflag3&servicetype=65&uin=" + account + "&value=0&clientip=" + myHeader.UserIP + "&serverip=" + myHeader.UserIP + "&src_app=cft_vip\r\n");
-                msg = "";
-                answer = UDP.GetTCPReplyString(parameters, IP, Int32.Parse(PORT), out msg);
-                paramsHt.Clear();
-                if (answer != "")
-                {
-                    paramsHt = UDP.tcpParameters(answer);
-
-                    if (!paramsHt.Contains("retcode") || paramsHt["retcode"].ToString().Trim() != "0" || !paramsHt.Contains("oidbresult") || paramsHt["oidbresult"].ToString().Trim() != "0")
-                    {
-                        throw new LogicException("设置超级会员图标接口返回结果有误：" + answer);
-                    }
-                }
-                else
-                {
-                    throw new Exception(msg);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
 
 
         [WebMethod(Description = "自动充值签约查询")]
