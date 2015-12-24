@@ -44,15 +44,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
 			if(!this.IsPostBack)
 			{
-				this.tbx_beginDate.Text = DateTime.Now.AddDays(-1).ToString("yyyy年MM月dd日");
-				this.tbx_endDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+				this.tbx_beginDate.Value = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
+                this.tbx_endDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 				this.pager.RecordCount = GetCount();
 				this.pager.PageSize = 10;
 			}
-
-		
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			this.ButtonEndDate.Attributes.Add("onclick","openModeEnd()");
 
 			this.pager.PageChanged += new Wuqi.Webdiyer.PageChangedEventHandler(pager_PageChanged);
 			this.DataGrid_QueryResult.ItemCommand +=new DataGridCommandEventHandler(DataGrid_QueryResult_ItemCommand);
@@ -80,11 +76,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
 			try
 			{
-				if(this.tbx_beginDate.Text.Trim() != "")
-					beginDateStr = DateTime.Parse(this.tbx_beginDate.Text).ToString("yyyy-MM-dd");
+                if (this.tbx_beginDate.Value.Trim() != "")
+                    beginDateStr = DateTime.Parse(this.tbx_beginDate.Value).ToString("yyyy-MM-dd");
 
-				if(this.tbx_endDate.Text.Trim() != "")
-					endDateStr = DateTime.Parse(this.tbx_endDate.Text).ToString("yyyy-MM-dd");
+                if (this.tbx_endDate.Value.Trim() != "")
+                    endDateStr = DateTime.Parse(this.tbx_endDate.Value).ToString("yyyy-MM-dd");
 			}
 			catch	
 			{

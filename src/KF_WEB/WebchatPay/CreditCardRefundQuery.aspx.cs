@@ -27,9 +27,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
     {
         protected void Page_Load(object sender, System.EventArgs e)
         {
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-            ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
-
             try
             {
                 Label1.Text = Session["uid"].ToString();
@@ -37,8 +34,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
                 if (!IsPostBack)
                 {
-                    TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
-                    TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                    TextBoxBeginDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
+                    TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
                 }
 
             }
@@ -80,8 +77,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         private void ValidateDate()
         {
             DateTime begindate=new DateTime(), enddate=new DateTime();
-            string s_date = TextBoxBeginDate.Text;
-            string e_date = TextBoxEndDate.Text;
+            string s_date = TextBoxBeginDate.Value;
+            string e_date = TextBoxEndDate.Value;
             try
             {
                 if (s_date != null && s_date != "")
@@ -246,13 +243,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
             else
             {
-                string s_stime = TextBoxBeginDate.Text;
+                string s_stime = TextBoxBeginDate.Value;
                 if (!string.IsNullOrEmpty(s_stime))
                 {
                     DateTime begindate = DateTime.Parse(s_stime);
                     s_begindate = begindate.ToString("yyyy-MM-dd 00:00:00");
                 }
-                string s_etime = TextBoxEndDate.Text;
+                string s_etime = TextBoxEndDate.Value;
                 if (!string.IsNullOrEmpty(s_etime))
                 {
                     DateTime enddate = DateTime.Parse(s_etime);

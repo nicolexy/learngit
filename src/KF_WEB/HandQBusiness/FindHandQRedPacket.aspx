@@ -213,15 +213,5 @@
         </table>
     </div>
     </form>
-    <script language="javascript">
-        function openModeBegin() {
-            var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", formMain.TextBoxBeginDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-            if (returnValue != null) formMain.TextBoxBeginDate.value = returnValue;
-        }
-        function openModeEnd() {
-            var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", formMain.TextBoxEndDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-            if (returnValue != null) formMain.TextBoxEndDate.value = returnValue;
-        }
-		</script>
 </body>
 </html>

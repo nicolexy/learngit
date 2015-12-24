@@ -25,13 +25,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 			if(!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
 
-			this.btnBeginDate.Attributes.Add("onclick","openModeBegin()");
-			this.btnEndDate.Attributes.Add("onclick","openModeEnd()");
-
 			if(!IsPostBack)
 			{
-				this.tbx_beginDate.Text = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd 00:00:00");
-                this.tbx_endDate.Text = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd 00:00:00");
+				this.tbx_beginDate.Value = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd 00:00:00");
+                this.tbx_endDate.Value = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd 00:00:00");
 			}
             pager.PageSize = 10;
 			pager.PageChanged += new Wuqi.Webdiyer.PageChangedEventHandler(pager_PageChanged);
@@ -69,8 +66,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 			try
 			{
-                beginDate = DateTime.Parse(this.tbx_beginDate.Text);
-				endDate = DateTime.Parse(this.tbx_endDate.Text);
+                beginDate = DateTime.Parse(this.tbx_beginDate.Value);
+                endDate = DateTime.Parse(this.tbx_endDate.Value);
 
 				if(beginDate.CompareTo(endDate) > 0)
 				{

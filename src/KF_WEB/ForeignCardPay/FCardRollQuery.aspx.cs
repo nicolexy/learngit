@@ -31,9 +31,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCardPay
         protected ForeignCardService FCBLLService = new ForeignCardService();
         protected void Page_Load(object sender, System.EventArgs e)
         {
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-            ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
-
             try
             {
                 Label1.Text = Session["uid"].ToString();
@@ -88,8 +85,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCardPay
         private void ValidateDate()
         {
             DateTime begindate = new DateTime(), enddate = new DateTime();
-            string s_date = TextBoxBeginDate.Text;
-            string e_date = TextBoxEndDate.Text;
+            string s_date = TextBoxBeginDate.Value;
+            string e_date = TextBoxEndDate.Value;
             try
             {
                 if (s_date != null && s_date != "")
@@ -154,14 +151,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCardPay
                 this.pager.CurrentPageIndex = index;
                 int max = pager.PageSize;
                 int start = max * (index - 1);
-                string s_stime = TextBoxBeginDate.Text;
+                string s_stime = TextBoxBeginDate.Value;
                 string s_begindate = "";
                 if (s_stime != null && s_stime != "")
                 {
                     DateTime begindate = DateTime.Parse(s_stime);
                     s_begindate = begindate.ToString("yyyy-MM-dd 00:00:00");
                 }
-                string s_etime = TextBoxEndDate.Text;
+                string s_etime = TextBoxEndDate.Value;
                 string s_enddate = "";
                 if (s_etime != null && s_etime != "")
                 {

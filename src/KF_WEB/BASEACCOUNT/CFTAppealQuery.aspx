@@ -14,20 +14,8 @@
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
 		<script src="../SCRIPTS/Local.js"></script>
+          <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 		<script language="javascript">
-
-					function openModeBegin()
-					{
-						var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-						if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue;
-					}
-
-					function openModeEnd()
-					{
-				    	var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxEndDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-				    	if(returnValue != null) Form1.TextBoxEndDate.value=returnValue;
-					}
-					
 					function Show()
 					{
 					    var TextBoxBeginDate = document.getElementById("TextBoxBeginDate");
@@ -80,9 +68,15 @@
 				</TR>
 				<TR>
 					<TD align="right"><asp:label id="Label2" runat="server">开始日期</asp:label></TD>
-					<TD><asp:textbox id="TextBoxBeginDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD>
+                        <input type="text" runat="server" id="TextBoxBeginDate" onclick="WdatePicker()" />
+                        <img onclick="TextBoxBeginDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+					</TD>
 					<TD align="right"><asp:label id="Label3" runat="server">结束日期</asp:label></TD>
-					<TD><asp:textbox id="TextBoxEndDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonEndDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD>
+                        <input type="text" runat="server" id="TextBoxEndDate" onclick="WdatePicker()" />
+                        <img onclick="TextBoxEndDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+					</TD>
 				</TR>
 				<TR>
 					<TD style="WIDTH: 83px" align="right"><asp:RadioButton ID="rbtnFuin" Runat="server" Text="申诉处理人" GroupName="rbtnGroup" onclick="Show();"></asp:RadioButton></TD>

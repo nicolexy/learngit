@@ -67,9 +67,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 this.pager.PageChanged += new Wuqi.Webdiyer.PageChangedEventHandler(pager_PageChanged);
                 this.pager1.PageChanged += new Wuqi.Webdiyer.PageChangedEventHandler(pager1_PageChanged);
                 this.Datagrid1.ItemCommand += new DataGridCommandEventHandler(Datagrid1_ItemCommand);
-
-                this.ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-                this.ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
             }
             catch
             {
@@ -421,8 +418,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     queryType = 2;
                 }
 
-                string beginDateStr = this.tbx_beginDate.Text.Trim();
-                string endDateStr = this.tbx_endDate.Text.Trim();
+                string beginDateStr = this.tbx_beginDate.Value.Trim();
+                string endDateStr = this.tbx_endDate.Value.Trim();
 
                 try
                 {
@@ -524,8 +521,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     queryType = 2;
                 }
 
-                string beginDateStr = this.tbx_beginDate.Text.Trim();
-                string endDateStr = this.tbx_endDate.Text.Trim();
+                string beginDateStr = this.tbx_beginDate.Value.Trim();
+                string endDateStr = this.tbx_endDate.Value.Trim();
 
                 try
                 {

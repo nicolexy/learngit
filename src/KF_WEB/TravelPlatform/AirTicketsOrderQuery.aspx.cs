@@ -31,8 +31,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
         public bool HideDivDisplay = false;
         protected void Page_Load(object sender, System.EventArgs e)
         {
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-            ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
             try
             {
                 Label1.Text = Session["uid"].ToString();
@@ -42,8 +40,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
 
                 if (!IsPostBack)
                 {
-                    TextBoxBeginDate.Text = DateTime.Now.AddDays(-30).ToString("yyyy年MM月dd日");
-                    TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                    TextBoxBeginDate.Value = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd");
+                    TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
                 }
             }
             catch
@@ -128,8 +126,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
             DateTime enddate;
             try
             {
-                begindate = DateTime.Parse(TextBoxBeginDate.Text);
-                enddate = DateTime.Parse(TextBoxEndDate.Text);
+                begindate = DateTime.Parse(TextBoxBeginDate.Value);
+                enddate = DateTime.Parse(TextBoxEndDate.Value);
                 if (begindate.CompareTo(enddate) > 0)
                 {
                     WebUtils.ShowMessage(this.Page, "终止日期小于起始日期，请重新输入！");
@@ -166,8 +164,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
             AirTickets bll = new AirTickets();
             try
             {
-                var start_time = DateTime.Parse(TextBoxBeginDate.Text); //订购开始时间
-                var end_time = DateTime.Parse(TextBoxEndDate.Text);     //订购结束时间
+                var start_time = DateTime.Parse(TextBoxBeginDate.Value); //订购开始时间
+                var end_time = DateTime.Parse(TextBoxEndDate.Value);     //订购结束时间
                 var trade_type = this.ddlState.SelectedValue;           //订单状态     
                 var uin = this.TextUin.Text.Trim();
                 var wd = bll.GetKeyWordAndType(out queryType, TextSppreno, TextTicketno, TextTransaction_id, TextPassenger_name, TextCert_id, TextMobile, TextInsur_no, TextName);

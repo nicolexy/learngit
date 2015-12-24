@@ -26,13 +26,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
 			if(!IsPostBack)
 			{
-				this.tbx_beginDate.Text = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd HH:mm:ss");
-				this.tbx_endDate.Text = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
+				this.tbx_beginDate.Value = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd HH:mm:ss");
+				this.tbx_endDate.Value = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
 
-				this.ButtonBeginDate.Attributes.Add("onclick","openModeBegin()");
-				this.ButtonEndDate.Attributes.Add("onclick","openModeEnd()");
-
-				
 				this.pager.PageSize = 10;
 				this.pager.RecordCount = GetCount();
 
@@ -86,8 +82,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 				string strSTime,strETime;
 				try
 				{
-					sTime = DateTime.Parse(this.tbx_beginDate.Text);
-					eTime = DateTime.Parse(this.tbx_endDate.Text);
+					sTime = DateTime.Parse(this.tbx_beginDate.Value);
+                    eTime = DateTime.Parse(this.tbx_endDate.Value);
 
 					strSTime = sTime.ToString("yyyy-MM-dd HH:mm:ss");
 					strETime = eTime.ToString("yyyy-MM-dd HH:mm:ss");

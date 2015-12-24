@@ -11,14 +11,7 @@
 		<style type="text/css">@import url( ../STYLES/ossstyle.css ); .style4 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
-		<script language="javascript">
-					function openModeBegin()
-					{
-					    var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-				   	    if(returnValue != null)
-				   	        Form1.TextBoxBeginDate.value=returnValue;
-					}
-					
+		<script language="javascript">					
 					function  CheckData()
 					{
 					    var tbUserName = document.getElementById("tbUserName");

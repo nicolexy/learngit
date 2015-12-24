@@ -26,8 +26,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
 	/// </summary>
     public partial class FCAInfoQuery : System.Web.UI.Page
 	{
-        public DateTime qbegindate, qenddate;
-
         protected void Page_Load(object sender, System.EventArgs e)
 		{
 			try

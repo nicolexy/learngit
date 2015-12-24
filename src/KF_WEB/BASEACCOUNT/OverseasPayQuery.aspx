@@ -13,29 +13,7 @@
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
-		<script language="javascript">
-
-					function openModeBegin()
-
-					{
-
-						var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-
-						if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue;
-
-					}
-
-					function openModeEnd()
-
-					{
-
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxEndDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-
-					if(returnValue != null) Form1.TextBoxEndDate.value=returnValue;
-
-					}
-
-		</script>
+    <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -52,8 +30,14 @@
 				</TR>
 				<TR>
 					<TD align="right" rowSpan="2"><asp:radiobutton id="rbtOtherQuery" GroupName="GroupQuery" Runat="server" Text=""></asp:radiobutton></TD>
-					<TD><asp:label id="Label3" runat="server">开始日期</asp:label><asp:textbox id="TextBoxBeginDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
-					<TD><asp:label id="Label4" runat="server">结束日期</asp:label><asp:textbox id="TextBoxEndDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonEndDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>&nbsp;&nbsp;&nbsp;注:不允许跨月查询</TD>
+					<TD><asp:label id="Label3" runat="server">开始日期</asp:label>
+                        <input type="text" runat="server" id="TextBoxBeginDate" onclick="WdatePicker()" />
+                        <img onclick="TextBoxBeginDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+					</TD>
+					<TD><asp:label id="Label4" runat="server">结束日期</asp:label>
+                        <input type="text" runat="server" id="TextBoxEndDate" onclick="WdatePicker()" />
+                        <img onclick="TextBoxEndDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+                        &nbsp;&nbsp;&nbsp;注:不允许跨月查询</TD>
 				</TR>
 				<TR>
 					<td colSpan="4"><asp:label id="Label2" runat="server">订单号</asp:label><asp:textbox id="txtOrder_no" runat="server"></asp:textbox><asp:label id="Label6" runat="server">网关产生的交易号</asp:label><asp:textbox id="txtTransactionid" runat="server"></asp:textbox><asp:label id="Label7" runat="server">收货QQ号</asp:label><asp:textbox id="txtShipcontent" runat="server"></asp:textbox><asp:label id="Label29" runat="server">支付方式</asp:label><asp:dropdownlist id="ddlpaychannel" Runat="server">

@@ -60,18 +60,7 @@
         }
     </style>
     <script src="../SCRIPTS/Local.js"></script>
-    <script language="javascript">
-        function openModeBegin() {
-            var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxBeginDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-            if (returnValue != null) Form1.TextBoxBeginDate.value = returnValue;
-        }
-    </script>
-    <script language="javascript">
-        function openModeEnd() {
-            var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxEndDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-            if (returnValue != null) Form1.TextBoxEndDate.value = returnValue;
-        }
-    </script>
+    <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body ms_positioning="GridLayout">
     <form id="Form1" method="post" runat="server">
@@ -129,9 +118,12 @@
             <tr>
                 <td align="right">
                     <asp:Label ID="Label32" runat="server">订购日期：</asp:Label></td>
-                <td align="left">&nbsp; &nbsp;<asp:TextBox ID="TextBoxBeginDate" runat="server"></asp:TextBox><asp:ImageButton ID="ButtonBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:ImageButton>
-                    到
-                       <asp:TextBox ID="TextBoxEndDate" runat="server"></asp:TextBox><asp:ImageButton ID="ButtonEndDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:ImageButton>
+                <td align="left">&nbsp; &nbsp;
+	                    <input type="text" runat="server" id="TextBoxBeginDate" onclick="WdatePicker()" />
+                        <img onclick="TextBoxBeginDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+                        到
+                        <input type="text" runat="server" id="TextBoxEndDate" onclick="WdatePicker()" />
+                        <img onclick="TextBoxEndDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<asp:Label ID="Label33" runat="server">订单状态：</asp:Label>
                     <asp:DropDownList ID="ddlState" runat="server" Width="152px">
                         <asp:ListItem Value="all" Selected="True">全部订单</asp:ListItem>

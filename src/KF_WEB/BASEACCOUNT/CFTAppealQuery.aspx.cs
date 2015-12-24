@@ -36,10 +36,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         protected void Page_Load(object sender, System.EventArgs e)
         {
-            // 在此处放置用户代码以初始化页面
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-            ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
-
             try
             {
                 Label1.Text = Session["uid"].ToString();
@@ -56,8 +52,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             if (!IsPostBack)
             {
-                TextBoxBeginDate.Text = DateTime.Now.AddMonths(-1).ToString("yyyy年MM月dd日");
-                TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                TextBoxBeginDate.Value = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
+                TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
                 Table2.Visible = false;
 
                 if (Request.QueryString["user"] != null)
@@ -74,12 +70,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 if (Request.QueryString["begin"] != null)
                 {
-                    TextBoxBeginDate.Text = DateTime.Parse(Request.QueryString["begin"].Trim()).ToString("yyyy年MM月dd日");
+                    TextBoxBeginDate.Value = DateTime.Parse(Request.QueryString["begin"].Trim()).ToString("yyyy-MM-dd");
                 }
 
                 if (Request.QueryString["end"] != null)
                 {
-                    TextBoxEndDate.Text = DateTime.Parse(Request.QueryString["end"].Trim()).ToString("yyyy年MM月dd日");
+                    TextBoxEndDate.Value = DateTime.Parse(Request.QueryString["end"].Trim()).ToString("yyyy-MM-dd");
                     Button2_Click(null, null);
                 }
 
@@ -89,20 +85,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             if (rbtnFuin.Checked)
             {
                 txtQQ.Enabled = false;
-                TextBoxBeginDate.Enabled = true;
-                ButtonBeginDate.Enabled = true;
-                TextBoxEndDate.Enabled = true;
-                ButtonEndDate.Enabled = true;
+                TextBoxBeginDate.Disabled = false;
+                //ButtonBeginDate.Enabled = true;
+                TextBoxEndDate.Disabled = false;
+                //ButtonEndDate.Enabled = true;
                 tbFuin.Enabled = true;
                 ddlState.Enabled = true;
             }
             else
             {
                 txtQQ.Enabled = true;
-                TextBoxBeginDate.Enabled = false;
-                ButtonBeginDate.Enabled = false;
-                TextBoxEndDate.Enabled = false;
-                ButtonEndDate.Enabled = false;
+                TextBoxBeginDate.Disabled = true;
+                //ButtonBeginDate.Enabled = false;
+                TextBoxEndDate.Disabled = true;
+                //ButtonEndDate.Enabled = false;
                 tbFuin.Enabled = false;
                 ddlState.Enabled = false;
             }
@@ -149,8 +145,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 try
                 {
-                    begindate = DateTime.Parse(TextBoxBeginDate.Text);
-                    enddate = DateTime.Parse(TextBoxEndDate.Text);
+                    begindate = DateTime.Parse(TextBoxBeginDate.Value);
+                    enddate = DateTime.Parse(TextBoxEndDate.Value);
                 }
                 catch
                 {

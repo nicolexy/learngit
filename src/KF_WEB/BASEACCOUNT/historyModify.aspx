@@ -12,20 +12,7 @@
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
-		<script language="javascript">
-					function openModeBegin()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue;
-					}
-		</script>
-		<script language="javascript">
-					function openModeEnd()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxEndDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.TextBoxEndDate.value=returnValue;
-					}
-		</script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body>
 		<form id="Form1" method="post" runat="server">
@@ -52,10 +39,16 @@
 									<TR bgColor="lightgrey">
 										<TD style="HEIGHT: 24px"><FONT face="宋体"></FONT><FONT face="宋体"></FONT><FONT face="宋体"></FONT></TD>
 										<TD style="HEIGHT: 24px" colSpan="2"><FONT face="宋体">&nbsp; 起始日期
-												<asp:textbox id="TextBoxBeginDate" runat="server" Width="122px">2005-05-01</asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>&nbsp;&nbsp;&nbsp;&nbsp; 
-												结束日期
-												<asp:textbox id="TextBoxEndDate" runat="server" Width="122px"></asp:textbox><asp:imagebutton id="ButtonEndDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></FONT></TD>
-										<TD style="HEIGHT: 24px"><FONT face="宋体">&nbsp;&nbsp; </FONT>
+                                                <input type="text" runat="server" id="TextBoxBeginDate" onclick="WdatePicker()" />
+                                                <img onclick="TextBoxBeginDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+                                            &nbsp;&nbsp;&nbsp;&nbsp; 
+												
+                                            结束日期
+												
+										        <input type="text" runat="server" id="TextBoxEndDate" onclick="WdatePicker()" />
+                                                <img onclick="TextBoxEndDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+                                        </FONT></TD>
+                                        <TD style="HEIGHT: 24px"><FONT face="宋体">&nbsp;&nbsp; </FONT>
 										</TD>
 									</TR>
 									<TR bgColor="#eeeeee">

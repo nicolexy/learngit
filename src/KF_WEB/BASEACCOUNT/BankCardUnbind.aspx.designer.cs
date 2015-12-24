@@ -262,16 +262,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_beginDate;
-        
-        /// <summary>
-        /// ButtonBeginDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ButtonBeginDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText tbx_beginDate;
         
         /// <summary>
         /// Label24 control.
@@ -289,16 +280,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_endDate;
-        
-        /// <summary>
-        /// ButtonEndDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ButtonEndDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText tbx_endDate;
         
         /// <summary>
         /// LABEL4 control.

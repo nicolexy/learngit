@@ -40,10 +40,6 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
         protected BalaceService balaceService = new BalaceService();
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			// 在此处放置用户代码以初始化页面
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
-
 			try
 			{
 				Label1.Text = Session["uid"].ToString();
@@ -62,7 +58,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 			if (!Page.IsPostBack)
 			{
 				BindHistoryInfo("","",DateTime.Parse("1970-01-01 00:00:00"),DateTime.Now,0,10);
-				this.TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+				this.TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 			}
 
 		}
@@ -447,17 +443,17 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
         protected void btQuery_Click(object sender, System.EventArgs e)
         {
             DateTime bgTime, edTime;
-            if (!DateTime.TryParse(this.TextBoxBeginDate.Text, out bgTime))
+            if (!DateTime.TryParse(this.TextBoxBeginDate.Value, out bgTime))
             {
                 WebUtils.ShowMessage(this.Page, "起始日期格式不正确!默认为1970年1月1日");
-                this.TextBoxBeginDate.Text = "1970-01-01";
+                this.TextBoxBeginDate.Value = "1970-01-01";
                 bgTime = new DateTime(1970, 1, 1);
             }
 
-            if (!DateTime.TryParse(this.TextBoxEndDate.Text, out edTime))
+            if (!DateTime.TryParse(this.TextBoxEndDate.Value, out edTime))
             {
                 WebUtils.ShowMessage(this.Page, "结束日期格式不正确!默认为当天");
-                this.TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                this.TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
                 edTime = DateTime.Today;
             }
 

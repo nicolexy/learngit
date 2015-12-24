@@ -25,16 +25,7 @@
         }
     </style>
     <script src="../SCRIPTS/Local.js"></script>
-    <script language="javascript">
-        function openModeBegin() {
-            var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbx_beginDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-            if (returnValue != null) Form1.tbx_beginDate.value = returnValue;
-        }
-        function openModeEnd() {
-            var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbx_endDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-            if (returnValue != null) Form1.tbx_endDate.value = returnValue;
-        }
-    </script>
+    <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body ms_positioning="GridLayout">
     <form id="Form1" method="post" runat="server" style="font-family: 宋体">
@@ -53,18 +44,16 @@
                         开始日期:</label>
                 </td>
                 <td>
-                    <asp:TextBox runat="server" ID="tbx_beginDate" Width="120"></asp:TextBox>
-                    <asp:ImageButton ID="btnBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif"
-                        CausesValidation="False"></asp:ImageButton>
+                    <input type="text" runat="server" id="tbx_beginDate" onclick="WdatePicker()" />
+                    <img onclick="tbx_beginDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
                 </td>
                 <td width="100">
                     <label>
                         结束日期:</label>
                 </td>
                 <td>
-                    <asp:TextBox runat="server" ID="tbx_endDate" Width="120"></asp:TextBox>
-                    <asp:ImageButton ID="btnEndDate" runat="server" ImageUrl="../Images/Public/edit.gif"
-                        CausesValidation="False"></asp:ImageButton>
+                    <input type="text" runat="server" id="tbx_endDate" onclick="WdatePicker()" />
+                    <img onclick="tbx_endDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
                 </td>
             </tr>
             <tr>

@@ -39,8 +39,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     if (!classLibrary.ClassLib.ValidateRight("DrawAndApprove", this)) Response.Redirect("../login.aspx?wh=1");
 
                     ViewState["uid"] = Session["uid"].ToString();
-					ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-					ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
 					this.PanelDetail.Visible = false;
 				}
 			}
@@ -126,16 +124,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             int notInCount = topCount * (index - 1);
 
             DateTime? ApplyTimeStart = null;
-            if (!string.IsNullOrEmpty(TextBoxBeginDate.Text))
+            if (!string.IsNullOrEmpty(TextBoxBeginDate.Value))
             {
-                string strBeginTime = Convert.ToDateTime(TextBoxBeginDate.Text.Trim()).ToString("yyyy-MM-dd 00:00:00");
+                string strBeginTime = Convert.ToDateTime(TextBoxBeginDate.Value.Trim()).ToString("yyyy-MM-dd 00:00:00");
                 ApplyTimeStart = Convert.ToDateTime(strBeginTime);
             }
 
             DateTime? ApplyTimeEnd = null;
-            if (!string.IsNullOrEmpty(TextBoxEndDate.Text))
+            if (!string.IsNullOrEmpty(TextBoxEndDate.Value))
             {
-                string strEndTime = Convert.ToDateTime(TextBoxEndDate.Text.Trim()).ToString("yyyy-MM-dd 23:59:59");
+                string strEndTime = Convert.ToDateTime(TextBoxEndDate.Value.Trim()).ToString("yyyy-MM-dd 23:59:59");
                 ApplyTimeEnd = Convert.ToDateTime(strEndTime);
             }
            
@@ -261,17 +259,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 filterNew += " and CompanyName.Contains('" + this.txtCompanyName.Text.Trim() + "') ";
             }
 
-            if (this.TextBoxBeginDate.Text.Trim() != "")
+            if (this.TextBoxBeginDate.Value.Trim() != "")
             {
-                filter += " and b.ApplyTime >='" + Convert.ToDateTime(this.TextBoxBeginDate.Text.Trim()).ToString("yyyy-MM-dd 00:00:00") + "' ";
-                DateTime d1 = Convert.ToDateTime(TextBoxBeginDate.Text.Trim());
+                filter += " and b.ApplyTime >='" + Convert.ToDateTime(this.TextBoxBeginDate.Value.Trim()).ToString("yyyy-MM-dd 00:00:00") + "' ";
+                DateTime d1 = Convert.ToDateTime(TextBoxBeginDate.Value.Trim());
                 filterNew += " and ApplyTime >=DateTime(" + d1.Year + "," + d1.Month + "," + d1.Day + ",00,00,00)";
             }
 
-            if (this.TextBoxEndDate.Text.Trim() != "")
+            if (this.TextBoxEndDate.Value.Trim() != "")
             {
-                filter += " and b.ApplyTime <='" + Convert.ToDateTime(this.TextBoxEndDate.Text.Trim()).ToString("yyyy-MM-dd 23:59:59") + "' ";
-                DateTime d1 = Convert.ToDateTime(TextBoxEndDate.Text.Trim());
+                filter += " and b.ApplyTime <='" + Convert.ToDateTime(this.TextBoxEndDate.Value.Trim()).ToString("yyyy-MM-dd 23:59:59") + "' ";
+                DateTime d1 = Convert.ToDateTime(TextBoxEndDate.Value.Trim());
                 filterNew += " and ApplyTime <=DateTime(" + d1.Year + "," + d1.Month + "," + d1.Day + ",23,59,59)";
             }
 

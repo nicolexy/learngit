@@ -13,22 +13,7 @@
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
 		<script src="../SCRIPTS/Local.js"></script>
-		<script language="javascript">
-			function openModeBegin()
-			{
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.txtBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-				if(returnValue != null) Form1.txtBeginDate.value=returnValue;
-			}
-			
-			function openModeEnd()
-			{
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.txtEndDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-				if(returnValue != null)
-				{
-				    Form1.txtEndDate.value=returnValue;
-				}
-			}
-		</script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body id="bodyid" runat="server">
 		<form id="Form1" method="post" runat="server">
@@ -40,9 +25,15 @@
 				</TR>
 				<tr>
 					<TD align="right"><asp:label id="Label2" runat="server">开始日期</asp:label></TD>
-					<TD><asp:textbox id="txtBeginDate" runat="server"></asp:textbox><asp:imagebutton id="btnBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD>
+                        <input type="text" runat="server" id="txtBeginDate" onclick="WdatePicker()" />
+                        <img onclick="txtBeginDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+					</TD>
 					<TD align="right"><asp:label id="Label5" runat="server">结束日期</asp:label></TD>
-					<TD><asp:textbox id="txtEndDate" runat="server"></asp:textbox><asp:imagebutton id="btnEndDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD>
+                        <input type="text" runat="server" id="txtEndDate" onclick="WdatePicker()" />
+                        <img onclick="txtEndDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+					</TD>
 				</tr>
 				<TR>
 					<TD align="right"><asp:label id="Label3" runat="server">商户号</asp:label></TD>
