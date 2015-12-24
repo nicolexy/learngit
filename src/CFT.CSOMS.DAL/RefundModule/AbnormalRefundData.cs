@@ -9,6 +9,7 @@ using CFT.CSOMS.DAL.Infrastructure;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using System.Collections;
 using System.Threading;
+using CFT.Apollo.Logging;
 
 namespace CFT.CSOMS.DAL.RefundModule
 {
@@ -849,7 +850,14 @@ namespace CFT.CSOMS.DAL.RefundModule
             using (var da = MySQLAccessFactory.GetMySQLAccess("PaymenAbnormal"))
             {
                 da.OpenConn();
-                dt = da.GetTable(string.Format(sqlStr, tbName + time.ToString("yyyyMM"), flistid));
+                try
+                {
+                    dt = da.GetTable(string.Format(sqlStr, tbName + time.ToString("yyyyMM"), flistid));
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.LogInfo(ex.Message + ex.StackTrace);
+                }
                 if (dt == null || dt.Rows.Count == 0)
                 {
                     dt = da.GetTable(string.Format(sqlStr, tbName + time.AddMonths(1).ToString("yyyyMM"), flistid));

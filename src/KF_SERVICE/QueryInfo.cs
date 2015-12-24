@@ -27,6 +27,7 @@ using CFT.CSOMS.BLL.TradeModule;
 using CFT.CSOMS.BLL.Infrastructure;
 using CFT.CSOMS.BLL.CFTAccountModule;
 using CFT.CSOMS.BLL.CheckModoule;
+using SunLibrary;
 
 namespace TENCENT.OSS.CFT.KF.KF_Service
 {
@@ -1803,6 +1804,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         //按交易单查询资金流水专用，返回需要查询的库表名称。
         public ArrayList alTables;
 
+        public string spUid;
+        public int bankType;
+
         //该函数未被调用
         public Q_BANKROLL_LIST(string strID, DateTime dtBegin, DateTime dtEnd, int istr, int imax)
         {
@@ -1861,6 +1865,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             //			ar[26]= "Fpay_time";   //买家付款时间（本地）
             //			ar[27]= "Freceive_time"; //打款给卖家时间
             //			ar[28]= "Fmodify_time";  //最后修改时间
+
+            spUid = ar[2];  //spid
+            try
+            {
+                bankType = Convert.ToInt32(ar[8]);  //fbuy_bank_type
+            }
+            catch (Exception ex)
+            {
+                bankType = -1;
+                LogHelper.LogInfo(ex.Message + ex.StackTrace);
+            }
 
             //确定（中介）账户流水表的表名
             string timeStr = null;

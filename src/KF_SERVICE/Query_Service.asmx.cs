@@ -2699,7 +2699,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         [WebMethod(Description = "查询用户帐户流水表_WithListID")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        public DataSet GetBankRollList_withID(string spUid,int bankType, DateTime u_BeginTime, DateTime u_EndTime, string ListID, int istr, int imax)
+        public DataSet GetBankRollList_withID(DateTime u_BeginTime, DateTime u_EndTime, string ListID, int istr, int imax)
         {
             if (myHeader == null)
             {
@@ -2725,7 +2725,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 DataSet ds;
                 string errMsg;
-
+                
                 string service_name_user = "qry_user_bankroll_c";   //个人
                 string service_name_sp = "qry_sp_bankroll_c";       //商户
                 string service_name_bank = "qry_bank_bankroll_c";   //银行
@@ -2777,7 +2777,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         strWhere = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
                         strWhere += "&sp_id=2000000000";
                         strWhere += "&transaction_id=" + ListID;
-                        strWhere += "&sp_uid=" + spUid;
+                        strWhere += "&sp_uid=" + cuser.spUid;
                         strWhere += "&start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
                         newds = CommQuery.GetDataSetFromICE(strWhere, CommQuery.交易单资金流水_商户, false, service_name_sp, out errMsg);
 
@@ -2823,7 +2823,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         strWhere = "MSG_NO=" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
                         strWhere += "&sp_id=2000000000";
                         strWhere += "&transaction_id=" + ListID;
-                        strWhere += "&bank_type=" + bankType;
+                        strWhere += "&bank_type=" + cuser.bankType;
                         strWhere += "&start_time=" + onerow.Replace("TME=", "").Substring(0, 10);
                         newds = CommQuery.GetDataSetFromICE(strWhere, CommQuery.交易单资金流水_银行, false, service_name_bank, out errMsg);
 
