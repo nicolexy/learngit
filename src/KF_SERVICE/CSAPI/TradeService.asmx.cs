@@ -454,7 +454,7 @@ namespace CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "spid", "offset", "limit", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "offset", "limit", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
