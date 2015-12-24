@@ -12,17 +12,6 @@
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
-		<script language="javascript">
-					function openModeBegin()
-					{
-						var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-						if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue;
-		            }
-		            function openModeEnd() {
-		                var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxEndDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		                if (returnValue != null) Form1.TextBoxEndDate.value = returnValue;
-		            }
-		</script>
         <script>
             function CheckEmail() {
                 var txtEmail = document.getElementById("txtEmail");

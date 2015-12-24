@@ -26,10 +26,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-
-			this.ButtonBeginDate.Attributes.Add("onclick","openModeBegin()");
-			this.ButtonEndDate.Attributes.Add("onclick","openModeEnd()");
-
 			try
 			{
 				this.lb_operatorID.Text = Session["uid"].ToString(); 
@@ -47,8 +43,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 			if(!IsPostBack)
 			{
-				this.tbx_beginDate.Text = DateTime.Now.AddYears(-1).ToString("yyyy年MM月dd日");
-				this.tbx_endDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+				this.tbx_beginDate.Value = DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd");
+                this.tbx_endDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 
 				this.tb_detail.Visible = false;
 			}
@@ -115,8 +111,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             try
             {
-                beginDate = DateTime.Parse(this.tbx_beginDate.Text);
-                endDate = DateTime.Parse(this.tbx_endDate.Text);
+                beginDate = DateTime.Parse(this.tbx_beginDate.Value);
+                endDate = DateTime.Parse(this.tbx_endDate.Value);
 
                 if (beginDate.CompareTo(endDate) > 0)
                 {

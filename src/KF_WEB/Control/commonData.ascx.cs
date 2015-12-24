@@ -48,15 +48,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 			
 			string strbe = this.TextBoxBeginDate.ClientID;
 			string stred = this.TextBoxEndDate.ClientID;
-
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin(" + strbe + ")"); 
-			ButtonEndDate.Attributes.Add("onclick", "openModeEnd(" + stred + ")"); 
-
 			ClientSubmitBind(this.txbCustom,this.btQuery);
 
 			if (!Page.IsPostBack)
 			{
-				this.TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+				this.TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 
 				if (!bindaData())
 				{
@@ -94,8 +90,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
   
 			try
 			{
-				bgDate = DateTime.Parse(this.TextBoxBeginDate.Text.Trim());
-				edDate = DateTime.Parse(this.TextBoxEndDate.Text.Trim());
+				bgDate = DateTime.Parse(this.TextBoxBeginDate.Value.Trim());
+				edDate = DateTime.Parse(this.TextBoxEndDate.Value.Trim());
 			}
 			catch
 			{

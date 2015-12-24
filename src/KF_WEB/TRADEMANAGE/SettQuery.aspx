@@ -13,16 +13,7 @@
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
 		<script src="../SCRIPTS/Local.js"></script>
-		<script language="javascript">
-			function openModeBegin()
-			{
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.txtSettDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-				if(returnValue != null)
-				{
-				    Form1.txtSettDate.value=returnValue;
-				}
-			}
-		</script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body id="bodyid" runat="server">
 		<form id="Form1" method="post" runat="server">
@@ -42,7 +33,10 @@
 					<TD align="right"><asp:label id="Label4" runat="server">收费实例号</asp:label></TD>
 					<TD><asp:textbox id="TextBoxFeeNo" runat="server"></asp:textbox></TD>
 					<TD align="right"><asp:checkbox id="CheckBoxDate" runat="server" Text="上次结算日期" Font-Bold="True"></asp:checkbox></TD>
-					<TD><asp:textbox id="txtSettDate" runat="server"></asp:textbox><asp:imagebutton id="btnSettDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton></TD>
+					<TD>
+                        <input type="text" runat="server" id="txtSettDate" onclick="WdatePicker()" />
+                        <img onclick="txtSettDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+					</TD>
 				</TR>
 				<TR>
 					<td></td>

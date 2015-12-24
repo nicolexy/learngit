@@ -2799,6 +2799,27 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="WebchatPay\CustomsApplicationQuery.aspx.cs">
+      <DependentUpon>CustomsApplicationQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebchatPay\CustomsApplicationQuery.aspx.designer.cs">
+      <DependentUpon>CustomsApplicationQuery.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebchatPay\CustomsBatchRedeclare.aspx.cs">
+      <DependentUpon>CustomsBatchRedeclare.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebchatPay\CustomsBatchRedeclare.aspx.designer.cs">
+      <DependentUpon>CustomsBatchRedeclare.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebchatPay\CustomsPushingQuery.aspx.cs">
+      <DependentUpon>CustomsPushingQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebchatPay\CustomsPushingQuery.aspx.designer.cs">
+      <DependentUpon>CustomsPushingQuery.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WebchatPay\QueryRealtimeRepayment.aspx.cs">
       <DependentUpon>QueryRealtimeRepayment.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3885,6 +3906,9 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="WebchatPay\CustomsApplicationQuery.aspx" />
+    <Content Include="WebchatPay\CustomsBatchRedeclare.aspx" />
+    <Content Include="WebchatPay\CustomsPushingQuery.aspx" />
     <Content Include="WebchatPay\QueryRealtimeRepayment.aspx" />
     <Content Include="WebchatPay\QueryWechatRealNameAuthen.aspx" />
     <Content Include="WebchatPay\WechatMerchantTrans.aspx" />
@@ -5066,7 +5090,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>18923</DevelopmentServerPort>
+          <DevelopmentServerPort>45222</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

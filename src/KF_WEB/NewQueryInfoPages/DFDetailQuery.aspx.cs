@@ -28,11 +28,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
             if (!IsPostBack)
             {
-                this.tbx_beginDate.Text = DateTime.Now.AddDays(-6).ToString("yyyy-MM-dd HH:mm:ss");
-                this.tbx_endDate.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
-                this.ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-                this.ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
+                this.tbx_beginDate.Value = DateTime.Now.AddDays(-6).ToString("yyyy-MM-dd HH:mm:ss");
+                this.tbx_endDate.Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                 //银行下拉列表
                 GetAllBankList(ddlBankType);
@@ -50,10 +47,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                         this.tbx_spBatchID.Text = Request.QueryString["batchid"].Trim();
 
                     if (Request.QueryString["sDate"] != "")
-                        this.tbx_beginDate.Text = Request.QueryString["sDate"];
+                        this.tbx_beginDate.Value = Request.QueryString["sDate"];
 
                     if (Request.QueryString["eDate"] != "")
-                        this.tbx_endDate.Text = Request.QueryString["eDate"];
+                        this.tbx_endDate.Value = Request.QueryString["eDate"];
 
                     if (Request.QueryString["state"] != null)
                     {
@@ -63,8 +60,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                             //代付批量成功到单笔查询，单笔查询中成功的状态包含成功、退票两种状态
                            // 而且因为退票时间长，所以不能根据时间来查询。
-                            this.tbx_beginDate.Text = "";
-                            this.tbx_endDate.Text = "";
+                            this.tbx_beginDate.Value = "";
+                            this.tbx_endDate.Value = "";
                         }
                         else if (Request.QueryString["state"] == "f")
                         {
@@ -289,14 +286,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             DateTime sTime, eTime;
             ViewState["strSTime"] = "";
             ViewState["strETime"] = "";
-            string begin = this.tbx_beginDate.Text.Trim();
-            string end = this.tbx_endDate.Text.Trim();
+            string begin = this.tbx_beginDate.Value.Trim();
+            string end = this.tbx_endDate.Value.Trim();
             try
             {
                 if ((!string.IsNullOrEmpty(begin)) && (!string.IsNullOrEmpty(end)))
                 {
-                    sTime = DateTime.Parse(this.tbx_beginDate.Text);
-                    eTime = DateTime.Parse(this.tbx_endDate.Text);
+                    sTime = DateTime.Parse(this.tbx_beginDate.Value);
+                    eTime = DateTime.Parse(this.tbx_endDate.Value);
 
                     ViewState["strSTime"] = sTime.ToString("yyyy-MM-dd HH:mm:ss");
                     ViewState["strETime"] = eTime.ToString("yyyy-MM-dd HH:mm:ss");
@@ -464,8 +461,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 string strSTime, strETime;
                 try
                 {
-                    strSTime = DateTime.Parse(this.tbx_beginDate.Text).ToString("yyyy-MM-dd HH:mm:ss");
-                    strETime = DateTime.Parse(this.tbx_endDate.Text).ToString("yyyy-MM-dd HH:mm:ss");
+                    strSTime = DateTime.Parse(this.tbx_beginDate.Value).ToString("yyyy-MM-dd HH:mm:ss");
+                    strETime = DateTime.Parse(this.tbx_endDate.Value).ToString("yyyy-MM-dd HH:mm:ss");
                 }
                 catch (Exception ex)
                 {

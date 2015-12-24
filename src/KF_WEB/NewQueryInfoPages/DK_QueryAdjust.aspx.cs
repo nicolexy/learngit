@@ -22,15 +22,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 		{
             try
             {
-                ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-                ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
-
                 if (!Page.IsPostBack)
                 {
                     if (!classLibrary.ClassLib.ValidateRight("DKAdjust", this)) Response.Redirect("../login.aspx?wh=1");
                     
-                    this.TextBoxBeginDate.Text = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
-                    this.TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                    this.TextBoxBeginDate.Value = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
+                    this.TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 
                     classLibrary.setConfig.GetAllBankList(ddlbanktype);
                     ddlbanktype.Items.Insert(0, new ListItem("所有银行", "0000"));
@@ -66,8 +63,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 		{
 			//本版本增加审批，文件夹，新页面，ICE配置，数据库。
 			//按参数查询数据。
-			string starttime = DateTime.Parse(TextBoxBeginDate.Text.Trim()).ToString("yyyy-MM-dd 00:00:00");
-			string endtime = DateTime.Parse(TextBoxEndDate.Text.Trim()).ToString("yyyy-MM-dd 23:59:59");
+            string starttime = DateTime.Parse(TextBoxBeginDate.Value.Trim()).ToString("yyyy-MM-dd 00:00:00");
+            string endtime = DateTime.Parse(TextBoxEndDate.Value.Trim()).ToString("yyyy-MM-dd 23:59:59");
 			string banktype = ddlbanktype.SelectedValue;
 			string spid = txbMerchant.Text.Trim();
 			string coding = txbOrder.Text.Trim();

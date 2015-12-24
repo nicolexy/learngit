@@ -16,21 +16,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
         {
             if (!IsPostBack)
             {
-                DateTime d1 = Convert.ToDateTime(DateTime.Today.AddMonths(-1).ToString("yyyy年MM月01日"));
+                DateTime d1 = DateTime.Today.AddDays(1 - DateTime.Today.Day).AddMonths(-1);
                 //DateTime now = DateTime.Now;
                 //DateTime d1 = new DateTime(now.Year, now.Month, 1);
-                this.tbx_beginDate.Text = d1.ToString("yyyy年MM月dd日");
-                this.tbx_endDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                this.tbx_beginDate.Value = d1.ToString("yyyy-MM-dd");
+                this.tbx_endDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
             }
-            this.btnBeginDate.Attributes.Add("onclick", "openModeBegin()");
-            this.btnEndDate.Attributes.Add("onclick", "openModeEnd()");
         }
 
         protected void btn_query_Click(object sender, EventArgs e)
         {
             DateTime beginDate;
             DateTime endDate;
-            if (DateTime.TryParse(this.tbx_beginDate.Text.Trim(), out beginDate) && DateTime.TryParse(this.tbx_endDate.Text.Trim(), out endDate))
+            if (DateTime.TryParse(this.tbx_beginDate.Value.Trim(), out beginDate) && DateTime.TryParse(this.tbx_endDate.Value.Trim(), out endDate))
             {
                
             }
@@ -39,10 +37,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 ShowMsg("日期格式不正确！");
                 return;
             }
-            if (this.tbx_beginDate.Text.Trim() != "" && this.tbx_endDate.Text.Trim() != "")
+            if (this.tbx_beginDate.Value.Trim() != "" && this.tbx_endDate.Value.Trim() != "")
             {
-                beginDate = DateTime.Parse(this.tbx_beginDate.Text);//.ToString("yyyy-MM-dd");
-                endDate = DateTime.Parse(this.tbx_endDate.Text);//.ToString("yyyy-MM-dd");
+                beginDate = DateTime.Parse(this.tbx_beginDate.Value);//.ToString("yyyy-MM-dd");
+                endDate = DateTime.Parse(this.tbx_endDate.Value);//.ToString("yyyy-MM-dd");
 
             }
             var qq = txtQQ.Text.Trim();

@@ -34,8 +34,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         protected void Page_Load(object sender, System.EventArgs e)
         {
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-            ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
             try
             {
                 Label1.Text = Session["uid"].ToString();
@@ -54,8 +52,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 ViewState["user"] = user;
                 DateTime now = DateTime.Now;
                 DateTime d1 = new DateTime(now.Year, now.Month, 1);
-                TextBoxBeginDate.Text = d1.ToString("yyyy年MM月dd日");
-                TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                TextBoxBeginDate.Value = d1.ToString("yyyy-MM-dd");
+                TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
                 BindBankType(ddlBankType);
             }
         }
@@ -75,8 +73,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             DateTime enddate;
             try
             {
-                begindate = DateTime.Parse(TextBoxBeginDate.Text);
-                enddate = DateTime.Parse(TextBoxEndDate.Text);
+                begindate = DateTime.Parse(TextBoxBeginDate.Value);
+                enddate = DateTime.Parse(TextBoxEndDate.Value);
                 ViewState["begindate"] = DateTime.Parse(begindate.ToString("yyyy-MM-dd 00:00:00"));
                 ViewState["enddate"] = DateTime.Parse(enddate.ToString("yyyy-MM-dd 23:59:59"));
                 ViewState["banktype"] = ddlBankType.SelectedValue;

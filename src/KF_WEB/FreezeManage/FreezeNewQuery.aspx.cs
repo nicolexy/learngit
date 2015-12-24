@@ -34,10 +34,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 			// 在此处放置用户代码以初始化页面
 
 			if(!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
-
-			this.btnBeginDate.Attributes.Add("onclick","openModeBegin()");
-			this.btnEndDate.Attributes.Add("onclick","openModeEnd()");
-
 			if(!IsPostBack)
 			{
                 DateTime dt = DateTime.Now;
@@ -48,14 +44,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                 DateTime grayDate = DateTime.Parse("2014-06-05");
                 if (dt.CompareTo(grayDate) < 0)
                 {
-                    this.tbx_beginDate.Text = grayDate.ToString("yyyy-MM-dd 00:00:00");
+                    this.tbx_beginDate.Value = grayDate.ToString("yyyy-MM-dd 00:00:00");
                 }
                 else 
                 {
-                    this.tbx_beginDate.Text = dt.ToString("yyyy-MM-dd 00:00:00");
+                    this.tbx_beginDate.Value = dt.ToString("yyyy-MM-dd 00:00:00");
                 }
 
-                this.tbx_endDate.Text = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd 00:00:00");
+                this.tbx_endDate.Value = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd 00:00:00");
 			}
 
 			//this.pager.RecordCount = this.GetRecordCount();
@@ -110,8 +106,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
                     uin = AccountService.GetQQID(queryType, this.tbx_payAccount.Text);
                 }
 
-                beginDate = DateTime.Parse(this.tbx_beginDate.Text);
-				endDate = DateTime.Parse(this.tbx_endDate.Text);
+                beginDate = DateTime.Parse(this.tbx_beginDate.Value);
+				endDate = DateTime.Parse(this.tbx_endDate.Value);
 
 				if(beginDate.CompareTo(endDate) > 0)
 				{

@@ -28,9 +28,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			btnBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			btnEndDate.Attributes.Add("onclick", "openModeEnd()"); 
-
 			try
 			{
 				this.Label1.Text = Session["uid"].ToString();
@@ -47,8 +44,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			if(!IsPostBack)
 			{
-				txtBeginDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
-				txtEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+				txtBeginDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
+				txtEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 			}
 		}
 
@@ -59,8 +56,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			try
 			{
-				begindate = DateTime.Parse(txtBeginDate.Text);
-				enddate = DateTime.Parse(txtEndDate.Text);
+                begindate = DateTime.Parse(txtBeginDate.Value);
+                enddate = DateTime.Parse(txtEndDate.Value);
 			}
 			catch
 			{

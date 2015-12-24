@@ -33,17 +33,8 @@
 			opacity: 0.5;
         }
 		</style>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 		<script language="javascript">
-					function openModeBegin()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.tbx_beginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.tbx_beginDate.value=returnValue;
-					}
-					function openModeEnd()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.tbx_endDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.tbx_endDate.value=returnValue;
-					}
 					function Init() {
 					    watermark("watermark_wrap", "<%=uid%>");
 					}

@@ -16,8 +16,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	{
         protected void Page_Load(object sender, System.EventArgs e)
 		{
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-
 			try
 			{
 				Label1.Text = Session["uid"].ToString();
@@ -25,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                 if (!IsPostBack)
                 {
-                    TextBoxBeginDate.Text = DateTime.Now.ToString("yyyyƒÍMM‘¬dd»’");
+                    TextBoxBeginDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
                     setConfig.GetActivityList(ddlActId);
                 }
                  
@@ -68,7 +66,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
             try
             {
-                string s_date = TextBoxBeginDate.Text;
+                string s_date = TextBoxBeginDate.Value;
                 if (s_date != null && s_date != "")
                 {
                     begindate = DateTime.Parse(s_date);
@@ -116,7 +114,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         private void BindData(int index)
 		{
-            string s_stime = TextBoxBeginDate.Text;
+            string s_stime = TextBoxBeginDate.Value;
             string s_begindate = "";
             if (s_stime != null && s_stime != "")
             {

@@ -15,7 +15,6 @@
 <%@ Register TagPrefix="uc1" TagName="MicroPay" Src="MicroPayControl.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="NameAuthened" Src="NameAuthenedControl.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="SelfHelpAppealManage" Src="SelfHelpAppealManageControl.ascx" %>
-<%@ Register TagPrefix="uc1" TagName="VIPAccountManage" Src="VIPAccountManageControl.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="SpecialManageControl" Src="SpecialManageControl.ascx" %>
 <%@ Control Language="c#" AutoEventWireup="True" Codebehind="LeftControl.ascx.cs" Inherits="TENCENT.OSS.CFT.KF.KF_Web.Control.LeftControl" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
 <%@ Register TagPrefix="uc1" TagName="DKManageControl" Src="DKManageControl.ascx" %>
@@ -93,7 +92,7 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
                     <td >
                         <uc1:BaseAccount id="baseAccount1" runat="server"></uc1:BaseAccount> <!--账户管理-->
                          <uc1:AccountOperate id="accountOperate1" runat="server"></uc1:AccountOperate> <!--账户操作-->
-			            <uc1:VIPAccountManage id="VIPAccountManage" runat="server"></uc1:VIPAccountManage><!--会员帐号-->
+			      
 			            <uc1:SelfHelpAppealManage id="SelfHelpAppealManage1" runat="server"></uc1:SelfHelpAppealManage><!--自助申诉-->
 			            <uc1:NameAuthened id="NameAuthened1" runat="server"></uc1:NameAuthened><!--实名认证-->
 			            <uc1:TokenCoin ID="TokenCoin1" runat="server" /><!--财付券管理-->

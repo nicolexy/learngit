@@ -26,11 +26,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
        
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			// 在此处放置用户代码以初始化页面
-			// 在此处放置用户代码以初始化页面
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
-
 			try
 			{
 				Label1.Text = Session["uid"].ToString();
@@ -55,8 +50,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 if (!(bool.Parse(ViewState["CFTUserPick"].ToString()) || bool.Parse(ViewState["CFTUserPickQuer"].ToString())))
                     Response.Redirect("../login.aspx?wh=1");
 
-				TextBoxBeginDate.Text = DateTime.Now.AddDays(-3).ToString("yyyy年MM月dd日");
-				TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+				TextBoxBeginDate.Value = DateTime.Now.AddDays(-3).ToString("yyyy-MM-dd");
+                TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 				DropDownListShow();
 
 				Table2.Visible = false;				
@@ -97,8 +92,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 			try
 			{
-				begindate = DateTime.Parse(TextBoxBeginDate.Text);
-				enddate = DateTime.Parse(TextBoxEndDate.Text);
+                begindate = DateTime.Parse(TextBoxBeginDate.Value);
+                enddate = DateTime.Parse(TextBoxEndDate.Value);
 			}
 			catch
 			{
@@ -358,8 +353,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 				try
 				{
-					begindate = DateTime.Parse(TextBoxBeginDate.Text);
-					enddate = DateTime.Parse(TextBoxEndDate.Text);
+                    begindate = DateTime.Parse(TextBoxBeginDate.Value);
+                    enddate = DateTime.Parse(TextBoxEndDate.Value);
 				}
 				catch
 				{

@@ -36,8 +36,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
-                ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-                ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
                 //int operid = Int32.Parse(Session["OperID"].ToString());
 
                 //if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
@@ -51,8 +49,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             if (!IsPostBack)
             {
-                TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy年MM月dd日 00:00:00");
-                TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日 23:59:59");
+                TextBoxBeginDate.Value = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
+                TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
 
             }
 
@@ -83,8 +81,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             string UinListId = txtUinListId.Text.Trim();
             string BankListId = txtBankListId.Text.Trim();
-            string begindate = TextBoxBeginDate.Text.Trim();
-            string enddate = TextBoxEndDate.Text.Trim();
+            string begindate = TextBoxBeginDate.Value.Trim();
+            string enddate = TextBoxEndDate.Value.Trim();
             bind(UinListId, BankListId, begindate, enddate);
 
         }
@@ -148,8 +146,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             DateTime dtnewendate = dtnewcsdate.AddDays(-1);
             if (enddate.CompareTo(dtnewcsdate) >= 0 && begindate.CompareTo(dtnewcsdate) < 0)
             {
-                string nenddate = dtnewendate.ToString("yyyy年MM月dd日 23:59:59");
-                TextBoxEndDate.Text = nenddate;
+                string nenddate = dtnewendate.ToString("yyyy-MM-dd 23:59:59");
+                TextBoxEndDate.Value = nenddate;
                 throw new Exception("请以" + newczdate + "为开始日期或以" + nenddate + "结束日期!");
             }
 

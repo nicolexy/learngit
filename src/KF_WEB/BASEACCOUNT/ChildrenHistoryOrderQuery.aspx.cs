@@ -28,9 +28,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         protected void Page_Load(object sender, System.EventArgs e)
 		{
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-            ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
-
 			try
 			{
 				Label1.Text = Session["uid"].ToString();
@@ -44,23 +41,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     if (sbegindate != null && sbegindate != "")
                     {
                         qbegindate = DateTime.Parse(sbegindate);
-                        TextBoxBeginDate.Text = qbegindate.ToString("yyyy年MM月dd日");
+                        TextBoxBeginDate.Value = qbegindate.ToString("yyyy-MM-dd");
                     }
                     else
                     {
                         qbegindate = DateTime.Now.AddDays(-30);
-                        TextBoxBeginDate.Text = qbegindate.ToString("yyyy年MM月dd日");
+                        TextBoxBeginDate.Value = qbegindate.ToString("yyyy-MM-dd");
                     }
                     string senddate = Request.QueryString["qenddate"];
                     if (senddate != null && senddate != "")
                     {
                         qenddate = DateTime.Parse(senddate);
-                        TextBoxEndDate.Text = qenddate.ToString("yyyy年MM月dd日");
+                        TextBoxEndDate.Value = qenddate.ToString("yyyy-MM-dd");
                     }
                     else
                     {
                         qenddate = DateTime.Now;
-                        TextBoxEndDate.Text = qenddate.ToString("yyyy年MM月dd日");
+                        TextBoxEndDate.Value = qenddate.ToString("yyyy-MM-dd");
                     }
                 }
                  
@@ -104,8 +101,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 			try
 			{
-                begindate = DateTime.Parse(TextBoxBeginDate.Text);
-                enddate = DateTime.Parse(TextBoxEndDate.Text);
+                begindate = DateTime.Parse(TextBoxBeginDate.Value);
+                enddate = DateTime.Parse(TextBoxEndDate.Value);
 			}
 			catch
 			{
@@ -158,9 +155,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         private void BindData(int index)
 		{
-            string s_stime = TextBoxBeginDate.Text;
+            string s_stime = TextBoxBeginDate.Value;
             DateTime begindate = DateTime.Parse(s_stime);
-            string s_etime = TextBoxEndDate.Text;
+            string s_etime = TextBoxEndDate.Value;
             DateTime enddate = DateTime.Parse(s_etime);
 
             string cft_no = tbCft.Text.ToString().Trim();

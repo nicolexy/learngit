@@ -23,11 +23,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.VIPAccount
         {
             if (!IsPostBack)
             {
-                this.tbx_beginDate.Text = DateTime.Now.AddDays(-1).ToString("yyyy年MM月dd日");
-                this.tbx_endDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                this.tbx_beginDate.Value = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
+                this.tbx_endDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
             }
-            this.btnBeginDate.Attributes.Add("onclick", "openModeBegin()");
-            this.btnEndDate.Attributes.Add("onclick", "openModeEnd()");
             totalValue.Text = "0";
         }
 
@@ -37,10 +35,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.VIPAccount
 
             try
             {
-                if (this.tbx_beginDate.Text.Trim() != "" && this.tbx_endDate.Text.Trim() != "")
+                if (this.tbx_beginDate.Value.Trim() != "" && this.tbx_endDate.Value.Trim() != "")
                 {
-                    strBeginDate = DateTime.Parse(this.tbx_beginDate.Text).ToString("yyyy-MM-dd");
-                    strEndDate = DateTime.Parse(this.tbx_endDate.Text).AddDays(1).ToString("yyyy-MM-dd");
+                    strBeginDate = DateTime.Parse(this.tbx_beginDate.Value).ToString("yyyy-MM-dd");
+                    strEndDate = DateTime.Parse(this.tbx_endDate.Value).AddDays(1).ToString("yyyy-MM-dd");
                 }
             }
             catch

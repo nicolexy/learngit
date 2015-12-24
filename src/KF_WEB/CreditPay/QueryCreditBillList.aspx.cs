@@ -23,12 +23,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreidtPay
 	/// </summary>
     public partial class QueryCreditBillList : System.Web.UI.Page
 	{
-        //public DateTime qbegindate;
-
         protected void Page_Load(object sender, System.EventArgs e)
 		{
-            //ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-
 			try
 			{
 				Label1.Text = Session["uid"].ToString();

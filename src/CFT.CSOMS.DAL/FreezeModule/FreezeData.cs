@@ -43,7 +43,9 @@ namespace CFT.CSOMS.DAL.FreezeModule
             args.accid = accid;
             args.topcolor = "";
             //冻结，补充资料都是这个链接
-            string url = "http://kf.qq.com/touch/weixin/payment_unfreeze_app.html?ADTAG=veda.weixinpay.mp&tj_src=mp";
+            //string url = "http://kf.qq.com/touch/weixin/payment_unfreeze_app.html?ADTAG=veda.weixinpay.mp&tj_src=mp";
+            //2015-12-21 v_yqyqguo 改成新的链接
+            string url = "https://kf.qq.com/touch/scene_wss.html?scene_id=kf402";
             args.navtourl = System.Web.HttpUtility.UrlEncode(url);
 
             args.templateid = templateid; //冻结，解冻，补填模板ID

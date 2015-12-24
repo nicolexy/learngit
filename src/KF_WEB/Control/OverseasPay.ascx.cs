@@ -52,6 +52,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 		
 			menuControl.AddSubMenu("国际支付查询","BaseAccount/OverseasPayQuery.aspx") ;
             menuControl.AddSubMenu("境外收单退款", "BaseAccount/OverseasReturnQuery.aspx");
+            menuControl.AddSubMenu("海关推单查询", "WebchatPay/CustomsPushingQuery.aspx");
+            menuControl.AddSubMenu("商户海关申请查询", "WebchatPay/CustomsApplicationQuery.aspx");
+            menuControl.AddSubMenu("海关重推", "WebchatPay/CustomsBatchRedeclare.aspx");
 		}
 
 		public void AddSubMenu(string menuName,string url)

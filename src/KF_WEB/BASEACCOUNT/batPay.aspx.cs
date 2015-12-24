@@ -27,8 +27,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         protected void Page_Load(object sender, System.EventArgs e)
         {
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-
             try
             {
                 Label1.Text = Session["uid"].ToString();
@@ -52,14 +50,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
                 catch
                 {
-                    WeekIndex = DateTime.Now.AddDays(-1).ToString("yyyyƒÍMM‘¬dd»’");
+                    WeekIndex = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
                 }
 
-                TextBoxBeginDate.Text = WeekIndex;
+                TextBoxBeginDate.Value = WeekIndex;
             }
             else
             {
-                WeekIndex = TextBoxBeginDate.Text.Trim();
+                WeekIndex = TextBoxBeginDate.Value.Trim();
             }
 
             try
