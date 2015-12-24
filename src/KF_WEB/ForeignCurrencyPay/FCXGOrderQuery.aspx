@@ -87,7 +87,7 @@
                     </td>
                     <td>查询日期：
                      <input type="text" runat="server" id="txt_cardQuery_date" onclick="WdatePicker()" />
-                        <img onclick="txt_cardQuery_date.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" alt="选择日期" /></td>
+                        <img onclick="txt_cardQuery_date.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" style="width: 16px; height: 22px; cursor: pointer" alt="选择日期" /></td>
                 </tr>
                 <tr>
                     <td>MD订单号：

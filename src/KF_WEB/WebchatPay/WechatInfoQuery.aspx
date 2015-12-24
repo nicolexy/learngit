@@ -138,11 +138,13 @@
                     <tr>
                         <td style="height: 3px" width="20%" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="3">
-                            EMAIL账号:
+                            微信号:
                         </td>
                         <td style="height: 3px" bgcolor="#ffffff" height="3">
                             &nbsp;<span class="style2">
-                                <asp:Label ID="labEmail" runat="server">at126@126.com</asp:Label></span>
+                                <asp:Label ID="labEmail" runat="server" Visible="false">at126@126.com</asp:Label><%--这个labEmail保留是为了兼容以前的代码实现--%>
+                                <asp:Label id="lb_wxName" runat="server" Text="微信号"/>
+                                  </span>
                         </td>
                         <td style="height: 8px" width="11%" background="../IMAGES/Page/bg_bl.gif" bgcolor="#e4e5f7"
                             height="8">
@@ -516,5 +518,6 @@
         </tr>
     </table>
     </form>
+     <span style="display:none" id="TempErrlog" runat="server">临时记录错误....</span>
 </body>
 </html>
