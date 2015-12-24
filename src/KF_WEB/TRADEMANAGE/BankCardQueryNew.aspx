@@ -39,12 +39,6 @@
             height: 41px;
         }
     </style>
-    <script language="javascript" type="text/javascript" language="javascript">
-        function openMode() {
-            var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-            if (returnValue != null) Form1.TextBoxDate.value = returnValue;
-        }
-    </script>
     <script src="../Scripts/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
 </head>
 <body>

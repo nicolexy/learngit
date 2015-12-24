@@ -27,9 +27,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         protected void Page_Load(object sender, System.EventArgs e)
 		{
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-            ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
-
             this.ddlActId.SelectedIndexChanged += new EventHandler(ddlActIdSelectedIndexChanged);
 
 			try
@@ -39,8 +36,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                 if (!IsPostBack)
                 {
-                    TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
-                    TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                    TextBoxBeginDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
+                    TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
                     
                     //setConfig.GetActivityList(ddlActId, true);
                 }
@@ -134,12 +131,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
             try
             {
-                string s_date = TextBoxBeginDate.Text;
+                string s_date = TextBoxBeginDate.Value;
                 if (s_date != null && s_date != "")
                 {
                     begindate = DateTime.Parse(s_date);
                 }
-                string e_date = TextBoxEndDate.Text;
+                string e_date = TextBoxEndDate.Value;
                 if (e_date != null && e_date != "")
                 {
                     enddate = DateTime.Parse(e_date);
@@ -191,8 +188,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         private void BindData(int index)
 		{
-            
-            string s_stime = TextBoxBeginDate.Text;
+
+            string s_stime = TextBoxBeginDate.Value;
             string s_begindate = "";
             string xykTime = "";
             if (s_stime != null && s_stime != "")
@@ -201,7 +198,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 s_begindate = begindate.ToString("yyyy-MM-dd 00:00:00");
                 xykTime = begindate.ToString("yyyy-MM-01 00:00:00");
             }
-            string s_etime = TextBoxEndDate.Text;
+            string s_etime = TextBoxEndDate.Value;
             string s_enddate = "";
             if (s_etime != null && s_etime != "")
             {
@@ -377,7 +374,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         private void BindSendData(int index)
         {
-            string s_stime = TextBoxBeginDate.Text;
+            string s_stime = TextBoxBeginDate.Value;
             string s_begindate = "";
             if (s_stime != null && s_stime != "")
             {
@@ -409,7 +406,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         private void BindReceiveData(int index)
         {
-            string s_stime = TextBoxBeginDate.Text;
+            string s_stime = TextBoxBeginDate.Value;
             string s_begindate = "";
             if (s_stime != null && s_stime != "")
             {

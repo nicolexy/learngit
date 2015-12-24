@@ -43,7 +43,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 
 			if(!IsPostBack)
 			{
-				TextBoxDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+				TextBoxDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 
                 PublicRes.GetDropdownlist(RefundService.SubTypePay, ddlSubTypePay);
                 PublicRes.GetDropdownlist(RefundService.typeht, ddltype);
@@ -58,7 +58,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 				Table2.Visible = false;				
 			}
 
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
 		}
 
 		#region Web 窗体设计器生成的代码
@@ -87,7 +86,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 
 			try
 			{
-				date = DateTime.Parse(TextBoxDate.Text);
+				date = DateTime.Parse(TextBoxDate.Value);
 			}
 			catch
 			{

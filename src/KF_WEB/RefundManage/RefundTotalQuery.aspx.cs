@@ -40,16 +40,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             {
                 Response.Redirect("../login.aspx?wh=1");
             }
-		
-
-			
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
 
 			if(!IsPostBack)
 			{	
-				TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
-				TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+				TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+				TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 				Table2.Visible = false;		
 				BindBankType(ddlrefund_bank);
 

@@ -35,9 +35,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     Response.Redirect("../login.aspx?wh=1");
                 }
 
-				this.tbx_beginDate.Text = DateTime.Now.ToString("yyyyƒÍMM‘¬dd»’");
+				this.tbx_beginDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 			}
-			this.btnBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
 		}
 
 

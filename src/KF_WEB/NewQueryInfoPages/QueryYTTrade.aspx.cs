@@ -29,9 +29,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         protected void Page_Load(object sender, System.EventArgs e)
 		{
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-            ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
-
 			try
 			{
 				Label1.Text = Session["uid"].ToString();
@@ -43,23 +40,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     if (sbegindate != null && sbegindate != "")
                     {
                         qbegindate = DateTime.Parse(sbegindate);
-                        TextBoxBeginDate.Text = qbegindate.ToString("yyyy年MM月dd日");
+                        TextBoxBeginDate.Value = qbegindate.ToString("yyyy-MM-dd");
                     }
                     else
                     {
                         qbegindate = DateTime.Now;
-                        TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                        TextBoxBeginDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
                     }
                     string senddate = Request.QueryString["qenddate"];
                     if (senddate != null && senddate != "")
                     {
                         qenddate = DateTime.Parse(senddate);
-                        TextBoxEndDate.Text = qenddate.ToString("yyyy年MM月dd日");
+                        TextBoxEndDate.Value = qenddate.ToString("yyyy-MM-dd");
                     }
                     else
                     {
                         qenddate = DateTime.Now;
-                        TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                        TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
                     }
                 }
                  
@@ -104,12 +101,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
             try
             {
-                string s_date = TextBoxBeginDate.Text;
+                string s_date = TextBoxBeginDate.Value;
                 if (s_date != null && s_date != "")
                 {
                     begindate = DateTime.Parse(s_date);
                 }
-                string e_date = TextBoxEndDate.Text;
+                string e_date = TextBoxEndDate.Value;
                 if (e_date != null && e_date != "")
                 {
                     enddate = DateTime.Parse(e_date);
@@ -225,14 +222,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         private void BindData(int index)
 		{
-            string s_stime = TextBoxBeginDate.Text;
+            string s_stime = TextBoxBeginDate.Value;
             string s_begindate = "";
             if (s_stime != null && s_stime != "")
             {
                 DateTime begindate = DateTime.Parse(s_stime);
                 s_begindate = begindate.ToString("yyyy-MM-dd 00:00:00");
             }
-            string s_etime = TextBoxEndDate.Text;
+            string s_etime = TextBoxEndDate.Value;
             string s_enddate = "";
             if (s_etime != null && s_etime != "")
             {

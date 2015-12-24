@@ -12,19 +12,8 @@
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
 		<script src="../SCRIPTS/Local.js"></script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 		<script language="javascript">
-					function openModeBegin()
-					{
-						var tbx_beginDate = document.getElementById("tbx_beginDate");
-						var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",tbx_beginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-						if(returnValue != null) tbx_beginDate.value=returnValue;
-					}
-					function openModeEnd()
-					{
-						var tbx_endDate = document.getElementById("tbx_endDate");
-						var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",tbx_endDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-						if(returnValue != null) tbx_endDate.value=returnValue;
-					}
 					function cancel()
 					{
 						window.parent.cancel();
@@ -38,16 +27,14 @@
 			</div>
 			<div style="PADDING-LEFT: 80px; PADDING-TOP: 15px">
 				<span>生效时间: </span>
-				<asp:TextBox Runat="server" ID="tbx_beginDate" Width="120" ReadOnly="True"></asp:TextBox>
-				<asp:imagebutton id="btnBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton>
+				<asp:TextBox Runat="server" ID="tbx_beginDate" Width="120" ReadOnly="True"  onclick="WdatePicker()" CssClass="Wdate"></asp:TextBox>
 			</div>
 			<div style="PADDING-LEFT: 80px; PADDING-TOP: 5px">
 				<span>失效时间: </span>
-				<asp:TextBox Runat="server" ID="tbx_endDate" Width="120" ReadOnly="True"></asp:TextBox>
-				<asp:imagebutton id="btnEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton>
+				<asp:TextBox Runat="server" ID="tbx_endDate" Width="120" ReadOnly="True"  onclick="WdatePicker()" CssClass="Wdate"></asp:TextBox>
 			</div>
 			<div style="PADDING-LEFT: 100px; PADDING-TOP: 25px">
-				<input type="button" runat="server" id="modifyBtn" style="WIDTH: 80px" value="提交" onserverclick="modifyBtn_Click" /></asp:button><input style="WIDTH: 80px" onclick="cancel();" value="取消" type="button">
+				<input type="button" runat="server" id="modifyBtn" style="WIDTH: 80px" value="提交" onserverclick="modifyBtn_Click" /><input style="WIDTH: 80px" onclick="cancel();" value="取消" type="button">
 			</div>
 		</form>
 	</body>

@@ -11,13 +11,7 @@
 		<style type="text/css">@import url( ../STYLES/ossstyle.css ); .style2 { FONT-WEIGHT: bold; COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
-		<script language="javascript">
-					function openModeBegin()
-					{
-						var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-						if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue;
-					}
-		</script>
+    <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -32,7 +26,9 @@
 							<TABLE id="Table2" cellSpacing="1" cellPadding="1" width="100%" border="1">
 								<TR>
 									<TD><asp:label id="Label2" runat="server">选择日期</asp:label></TD>
-									<TD><asp:textbox id="TextBoxBeginDate" runat="server" Width="100px" BorderStyle="Groove"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+									<TD>
+                                        <asp:textbox id="TextBoxBeginDate" runat="server" Width="100px" BorderStyle="Groove"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
+                                        </TD>
 									<TD><asp:label id="Label1" runat="server">退款银行</asp:label></TD>
 									<TD><asp:dropdownlist id="ddlBankType" runat="server"></asp:dropdownlist></TD>
 								</TR>

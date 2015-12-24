@@ -28,11 +28,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
 			if(!IsPostBack)
 			{
-				this.tbx_beginDate.Text = DateTime.Now.AddDays(-6).ToString("yyyy-MM-dd HH:mm:ss");
-				this.tbx_endDate.Text = DateTime.Now.AddDays(0).ToString("yyyy-MM-dd HH:mm:ss");
-
-				this.ButtonBeginDate.Attributes.Add("onclick","openModeBegin()");
-				this.ButtonEndDate.Attributes.Add("onclick","openModeEnd()");
+				this.tbx_beginDate.Value = DateTime.Now.AddDays(-6).ToString("yyyy-MM-dd HH:mm:ss");
+                this.tbx_endDate.Value = DateTime.Now.AddDays(0).ToString("yyyy-MM-dd HH:mm:ss");
 
                 GetAllBankList(ddlBankType);//获取银行渠道下拉列表
 
@@ -72,10 +69,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 					}
 
 					if(Request.QueryString["sDate"] != "")
-						this.tbx_beginDate.Text = Request.QueryString["sDate"];
+                        this.tbx_beginDate.Value = Request.QueryString["sDate"];
 
 					if(Request.QueryString["eDate"] != "")
-						this.tbx_endDate.Text = Request.QueryString["eDate"];
+                        this.tbx_endDate.Value = Request.QueryString["eDate"];
 
 					BindData(1,true);
 				}
@@ -137,8 +134,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 				string strSTime,strETime;
 				try
 				{
-					sTime = DateTime.Parse(this.tbx_beginDate.Text);
-					eTime = DateTime.Parse(this.tbx_endDate.Text);
+                    sTime = DateTime.Parse(this.tbx_beginDate.Value);
+                    eTime = DateTime.Parse(this.tbx_endDate.Value);
 
 					strSTime = sTime.ToString("yyyy-MM-dd HH:mm:ss");
 					strETime = eTime.ToString("yyyy-MM-dd HH:mm:ss");
@@ -334,8 +331,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
 			try
 			{
-				strSTime = DateTime.Parse(this.tbx_beginDate.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-				strETime = DateTime.Parse(this.tbx_endDate.Text.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                strSTime = DateTime.Parse(this.tbx_beginDate.Value.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                strETime = DateTime.Parse(this.tbx_endDate.Value.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
 			}
 			catch
 			{
@@ -489,8 +486,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 string strSTime, strETime;
                 try
                 {
-                    sTime = DateTime.Parse(this.tbx_beginDate.Text);
-                    eTime = DateTime.Parse(this.tbx_endDate.Text);
+                    sTime = DateTime.Parse(this.tbx_beginDate.Value);
+                    eTime = DateTime.Parse(this.tbx_endDate.Value);
 
                     strSTime = sTime.ToString("yyyy-MM-dd HH:mm:ss");
                     strETime = eTime.ToString("yyyy-MM-dd HH:mm:ss");

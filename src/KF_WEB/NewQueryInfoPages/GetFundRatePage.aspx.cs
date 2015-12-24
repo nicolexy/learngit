@@ -66,9 +66,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 queryService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 
                 // 在此处放置用户代码以初始化页面
-                //ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-                //ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
-
                 if (IsPostBack)
                 {
                     //FetchInput(); TODO:无法合理中断异常,分散到个事件中

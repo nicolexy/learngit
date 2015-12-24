@@ -35,9 +35,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
  
 				// if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "InfoCenter")) Response.Redirect("../login.aspx?wh=1");
 				if(!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
-
-				btnBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-				btnEndDate.Attributes.Add("onclick", "openModeEnd()");
 			}
 			catch  //如果没有登陆或者没有权限就跳出
 			{
@@ -62,11 +59,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				{
 					try
 					{
-						this.txtBeginDate.Text = Request.QueryString["predate"].Trim();
+						this.txtBeginDate.Value = Request.QueryString["predate"].Trim();
 						if (Request.QueryString["nextdate"] == "")
-							this.txtEndDate.Text = this.txtBeginDate.Text;
+                            this.txtEndDate.Value = this.txtBeginDate.Value;
 						else
-							this.txtEndDate.Text = Request.QueryString["predate"].Trim();
+                            this.txtEndDate.Value = Request.QueryString["predate"].Trim();
 					}
 					catch
 					{
@@ -84,8 +81,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			try
 			{
-				begindate = DateTime.Parse(txtBeginDate.Text);
-				enddate = DateTime.Parse(txtEndDate.Text);
+                begindate = DateTime.Parse(txtBeginDate.Value);
+                enddate = DateTime.Parse(txtEndDate.Value);
 
 				if(begindate>enddate)
 				{

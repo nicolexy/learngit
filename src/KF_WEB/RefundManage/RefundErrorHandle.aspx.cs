@@ -24,9 +24,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
-			
 			if (!IsPostBack)
 			{
 				try
@@ -43,8 +40,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 					Response.Redirect("../login.aspx?wh=1");
 				} 
 
-				TextBoxBeginDate.Text = DateTime.Now.AddDays(-30).ToString("yyyy年MM月dd日");
-				TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+				TextBoxBeginDate.Value = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd");
+                TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 
 				BindBankType(ddlrefund_bank);
 
@@ -54,10 +51,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 				if(requestStr1 != null && requestStr2 != null && requestStr1.Trim() != "" && requestStr2.Trim() != "")
 				{
 					ViewState["batchid"] = Request.QueryString["batchid"].Trim();
-					TextBoxBeginDate.Text = "2010年01月01日";
+                    TextBoxBeginDate.Value = "2010-01-01";
 					string batchid=Request.QueryString["batchid"];
 					DateTime endDate=Convert.ToDateTime("20"+ batchid.Substring(0,2)+"-"+batchid.Substring(2,2)+"-"+batchid.Substring(4,2)).AddDays(10);
-					TextBoxEndDate.Text =endDate.ToString("yyyy年MM月dd日");
+                    TextBoxEndDate.Value = endDate.ToString("yyyy-MM-dd");
 					ddlorder_type.SelectedIndex=4;
 					tbrefund_order.Text=batchid;
 					Table4.Visible=false;
@@ -107,8 +104,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 			
 			try
 			{
-				begindate = DateTime.Parse(TextBoxBeginDate.Text);
-				enddate = DateTime.Parse(TextBoxEndDate.Text);
+                begindate = DateTime.Parse(TextBoxBeginDate.Value);
+                enddate = DateTime.Parse(TextBoxEndDate.Value);
 			}
 			catch
 			{
@@ -206,7 +203,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 				{
 					dr.BeginEdit();
 
-					dr["FUrl"] = "oldID="+dr["Foldid"].ToString()+"&beginTime=" + this.TextBoxBeginDate.Text + "&endTime=" + this.TextBoxEndDate.Text + "&State=" + this.ddlState.SelectedValue
+                    dr["FUrl"] = "oldID=" + dr["Foldid"].ToString() + "&beginTime=" + this.TextBoxBeginDate.Value + "&endTime=" + this.TextBoxEndDate.Value + "&State=" + this.ddlState.SelectedValue
 						+"&refundType="+this.ddlrefund_type.SelectedValue+"&RefundPath="+this.ddlrefund_path.SelectedValue
 						+"&refundBank="+this.ddlrefund_bank.SelectedValue+"&handleType="+this.ddlhandle_type.SelectedValue
 						+"&errorType="+this.ddlerror_type.SelectedValue+"&fromMain="+ViewState["fromMain"].ToString();
@@ -233,12 +230,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 		{
 			if(Request.QueryString["beginTime"]!=null)
 			{
-				this.TextBoxBeginDate.Text=Request.QueryString["beginTime"].ToString();
+                this.TextBoxBeginDate.Value = Request.QueryString["beginTime"].ToString();
 			}
 
 			if(Request.QueryString["endTime"]!=null)
 			{
-				this.TextBoxEndDate.Text=Request.QueryString["endTime"].ToString();
+                this.TextBoxEndDate.Value = Request.QueryString["endTime"].ToString();
 			}
 
 			if(Request.QueryString["State"]!=null)

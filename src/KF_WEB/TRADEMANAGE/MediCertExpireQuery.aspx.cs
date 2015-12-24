@@ -30,8 +30,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         protected MerchantService merService = new MerchantService();
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-            ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
 			try
 			{
 				Label1.Text = Session["uid"].ToString();

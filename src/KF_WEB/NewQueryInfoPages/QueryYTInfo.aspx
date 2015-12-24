@@ -12,12 +12,8 @@
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 		<script language="javascript">
-					function openModeBegin()
-					{
-						var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-						if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue;
-		}
 		function showRadioClick() 
         {
             var detailTB_id = document.getElementById("detailTB");
@@ -66,8 +62,10 @@
 					<asp:label id="Label3" runat="server">运通账号：</asp:label>
                     <asp:textbox id="ytNo" style="WIDTH: 180px;" runat="server"></asp:textbox>
                     <asp:label id="Label5" runat="server">有效期：</asp:label>
-                    <asp:textbox id="TextBoxBeginDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton>
-                    <asp:button id="btnQuery" runat="server" Width="80px" Text="查 询" onclick="btnQuery_Click"></asp:button>
+                   
+                    <input type="text" runat="server" id="TextBoxBeginDate" onclick="WdatePicker()" />
+                    <img onclick="TextBoxBeginDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+                        <asp:button id="btnQuery" runat="server" Width="80px" Text="查 询" onclick="btnQuery_Click"></asp:button>
                     </TD>
 				</TR>
                 

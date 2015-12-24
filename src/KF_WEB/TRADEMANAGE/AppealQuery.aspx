@@ -12,39 +12,14 @@
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
-		<script language="javascript">
-			function openModeBegin()
-			{
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.txtRequestDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-				if(returnValue != null) Form1.txtRequestDate.value=returnValue;
-			}
-			
-			function openModeEnd()
-			{
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.txtRequestDate1.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-				if(returnValue != null) Form1.txtRequestDate1.value=returnValue;
-			}
-			
-			function openModeModifyBegin()
-			{
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.txtRequestUpdDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-				if(returnValue != null) Form1.txtRequestUpdDate.value=returnValue;
-			}
-			
-			function openModeModifyEnd()
-			{
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.txtRequestUpdDate1.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-				if(returnValue != null) Form1.txtRequestUpdDate1.value=returnValue;
-			}
-		</script>
+<script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
 			<asp:panel id="PanelList" Runat="server">
 				<TABLE border="1" cellSpacing="1" cellPadding="1" width="1000">
 					<TR>
-						<TD style="WIDTH: 100%" bgColor="#e4e5f7" colSpan="5"><FONT face="宋体"><FONT color="red"><IMG src="../IMAGES/Page/post.gif" width="20" height="16">&nbsp;&nbsp;投诉列表</FONT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							</FONT>操作员代码: </FONT><SPAN class="style3">
+						<TD style="WIDTH: 100%" bgColor="#e4e5f7" colSpan="5"><FONT face="宋体"><FONT color="red"><IMG src="../IMAGES/Page/post.gif" width="20" height="16">&nbsp;&nbsp;投诉列表</FONT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT>操作员代码: </FONT><SPAN class="style3">
 								<asp:label id="Label1" runat="server" ForeColor="Red" Width="73px"></asp:label></SPAN></TD>
 					</TR>
 					<TR>
@@ -101,25 +76,25 @@
 						<TD align="right">
 							<asp:label id="Label8" runat="server">投诉发生日期</asp:label></TD>
 						<TD>
-							<asp:textbox id="txtRequestDate" runat="server" Width="200px"></asp:textbox>
-							<asp:imagebutton id="BeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton></TD>
+							<asp:textbox id="txtRequestDate" runat="server" Width="200px"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
+							</TD>
 						<TD align="right">
 							<asp:label id="Label9" runat="server">到日期</asp:label></TD>
 						<TD>
-							<asp:textbox id="txtRequestDate1" runat="server" Width="200px"></asp:textbox>
-							<asp:imagebutton id="EndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton></TD>
+							<asp:textbox id="txtRequestDate1" runat="server" Width="200px" onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
+						</TD>
 					</TR>
 					<TR>
 						<TD align="right">
 							<asp:label id="Label10" runat="server">投诉更新日期</asp:label></TD>
 						<TD>
-							<asp:textbox id="txtRequestUpdDate" runat="server" Width="200px"></asp:textbox>
-							<asp:imagebutton id="ModifyBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton></TD>
+							<asp:textbox id="txtRequestUpdDate" runat="server" Width="200px" onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
+						</TD>
 						<TD align="right">
 							<asp:label id="Label11" runat="server">到日期</asp:label></TD>
 						<TD>
-							<asp:textbox id="txtRequestUpdDate1" runat="server" Width="200px"></asp:textbox>
-							<asp:imagebutton id="ModifyEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton></TD>
+							<asp:textbox id="txtRequestUpdDate1" runat="server" Width="200px"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
+						</TD>
 					</TR>
 					<TR>
 						<TD align="right">

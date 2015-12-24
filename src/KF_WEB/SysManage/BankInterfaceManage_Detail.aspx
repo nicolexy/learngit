@@ -12,68 +12,8 @@
 	.style5 { FONT-WEIGHT: bold; COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
-        <script language="javascript">
-            function openBankModeBegin() {
-                var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbStartTime.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-                if (returnValue != null) Form1.tbStartTime.value = returnValue + " 00:00:00";
-            }
-		</script>
-		<script language="javascript">
-		    function openBankModeEnd() {
-		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbEndTime.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		        if (returnValue != null) Form1.tbEndTime.value = returnValue + " 00:00:00";
-		    }
-		</script>
-         <script language="javascript">
-             function openBankModeBegin1() {
-                 var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbStartTime1.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-                 if (returnValue != null) Form1.tbStartTime1.value = returnValue + " 00:00:00";
-             }
-		</script>
-		<script language="javascript">
-		    function openBankModeEnd1() {
-		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbEndTime1.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		        if (returnValue != null) Form1.tbEndTime1.value = returnValue + " 00:00:00";
-		    }
-		</script>
-         <script language="javascript">
-             function openBankModeBegin2() {
-                 var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbStartTime2.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-                 if (returnValue != null) Form1.tbStartTime2.value = returnValue + " 00:00:00";
-             }
-		</script>
-		<script language="javascript">
-		    function openBankModeEnd2() {
-		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbEndTime2.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		        if (returnValue != null) Form1.tbEndTime2.value = returnValue + " 00:00:00";
-		    }
-		</script>
-         <script language="javascript">
-             function openBankModeBegin3() {
-                 var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbStartTime3.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-                 if (returnValue != null) Form1.tbStartTime3.value = returnValue + " 00:00:00";
-             }
-		</script>
-		<script language="javascript">
-		    function openBankModeEnd3() {
-		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbEndTime3.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		        if (returnValue != null) Form1.tbEndTime3.value = returnValue + " 00:00:00";
-		    }
-		</script>
-         <script language="javascript">
-             function openBankModeBegin4() {
-                 var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbStartTime4.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-                 if (returnValue != null) Form1.tbStartTime4.value = returnValue + " 00:00:00";
-             }
-		</script>
-		<script language="javascript">
-		    function openBankModeEnd4() {
-		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbEndTime4.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		        if (returnValue != null) Form1.tbEndTime4.value = returnValue + " 00:00:00";
-		    }
-		</script>
 
-	
+	<script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -161,11 +101,12 @@
 				</TR>
 				<TR id="StartTime" runat="server">
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp; 开始时间</FONT></TD>
-					<TD align="left"><asp:textbox id="tbStartTime" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="iStartTime" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD align="left"><asp:textbox id="tbStartTime" runat="server" Width="300px"  onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" CssClass="Wdate"></asp:textbox></TD>
 				</TR>
 				<TR id="EndTime" runat="server">
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp; 结束时间</FONT></TD>
-					<TD align="left"><asp:textbox id="tbEndTime" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="iEndTime" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>
+					<TD align="left">
+                        <asp:textbox id="tbEndTime" runat="server" Width="300px" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" CssClass="Wdate"></asp:textbox>
 						<asp:TextBox id="tbcreateuserInterface" runat="server" Width="128px" Visible="False"></asp:TextBox>
                         <asp:TextBox id="tbarea" runat="server" Width="128px" Visible="False"></asp:TextBox>
                         <asp:TextBox id="tbcity" runat="server" Width="128px" Visible="False"></asp:TextBox>
@@ -176,35 +117,35 @@
 				</TR>
                 <TR id="StartTime1" runat="server" visible="false">
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp; 开始时间1</FONT></TD>
-					<TD align="left"><asp:textbox id="tbStartTime1" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="iStartTime1" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD align="left"><asp:textbox id="tbStartTime1" runat="server" Width="300px"  onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" CssClass="Wdate"></asp:textbox></TD>
 				</TR>
 				<TR id="EndTime1" runat="server" visible="false">
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp; 结束时间1</FONT></TD>
-					<TD align="left"><asp:textbox id="tbEndTime1" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="iEndTime1" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD align="left"><asp:textbox id="tbEndTime1" runat="server" Width="300px"  onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" CssClass="Wdate"></asp:textbox></TD>
 				</TR>
                 <TR id="StartTime2" runat="server" visible="false">
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp; 开始时间2</FONT></TD>
-					<TD align="left"><asp:textbox id="tbStartTime2" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="iStartTime2" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD align="left"><asp:textbox id="tbStartTime2" runat="server" Width="300px"  onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" CssClass="Wdate"></asp:textbox></TD>
 				</TR>
 				<TR id="EndTime2" runat="server" visible="false">
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp; 结束时间2</FONT></TD>
-					<TD align="left"><asp:textbox id="tbEndTime2" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="iEndTime2" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD align="left"><asp:textbox id="tbEndTime2" runat="server" Width="300px" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" CssClass="Wdate"></asp:textbox></TD>
 				</TR>
                 <TR id="StartTime3" runat="server" visible="false">
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp; 开始时间3</FONT></TD>
-					<TD align="left"><asp:textbox id="tbStartTime3" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="iStartTime3" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD align="left"><asp:textbox id="tbStartTime3" runat="server" Width="300px" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" CssClass="Wdate"></asp:textbox></TD>
 				</TR>
 				<TR id="EndTime3" runat="server" visible="false">
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp; 结束时间3</FONT></TD>
-					<TD align="left"><asp:textbox id="tbEndTime3" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="iEndTime3" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD align="left"><asp:textbox id="tbEndTime3" runat="server" Width="300px" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" CssClass="Wdate"></asp:textbox></TD>
 				</TR>
                 <TR id="StartTime4" runat="server" visible="false">
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp; 开始时间4</FONT></TD>
-					<TD align="left"><asp:textbox id="tbStartTime4" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="iStartTime4" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD align="left"><asp:textbox id="tbStartTime4" runat="server" Width="300px" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" CssClass="Wdate"></asp:textbox></TD>
 				</TR>
 				<TR id="EndTime4" runat="server" visible="false">
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp; 结束时间4</FONT></TD>
-					<TD align="left"><asp:textbox id="tbEndTime4" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="iEndTime4" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>
+					<TD align="left"><asp:textbox id="tbEndTime4" runat="server" Width="300px" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" CssClass="Wdate"></asp:textbox>
                         </TD>
 				</TR>
               <%--  <TR id="alwtime" runat="server">

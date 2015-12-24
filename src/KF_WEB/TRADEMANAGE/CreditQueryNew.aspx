@@ -13,23 +13,8 @@
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
 		<script src="../SCRIPTS/Local.js"></script>
-		<script language="javascript">
-			function openModeBegin()
-			{
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-
-				if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue;
-			}
-
-			function openModeEnd()
-			{
-
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxEndDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-
-				if(returnValue != null) Form1.TextBoxEndDate.value=returnValue;
-
-			}
-			
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
+		<script language="javascript">			
 			function CheckDate()
 			{
 				var ddlDate = document.getElementById('ddlDate');
@@ -92,7 +77,8 @@
 							<asp:dropdownlist id="ddlDate" runat="server">
 								<asp:ListItem Value="1">最近三个月</asp:ListItem>
 								<asp:ListItem Value="0">指定日期</asp:ListItem>
-							</asp:dropdownlist><asp:label id="Label2" runat="server">开始日期</asp:label><asp:textbox id="TextBoxBeginDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton><asp:label id="Label5" runat="server">结束日期</asp:label><asp:textbox id="TextBoxEndDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton>
+							</asp:dropdownlist><asp:label id="Label2" runat="server">开始日期</asp:label>
+                            <asp:textbox id="TextBoxBeginDate" runat="server"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox><asp:label id="Label5" runat="server">结束日期</asp:label><asp:textbox id="TextBoxEndDate" runat="server"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
 						</div>
 					</TD>
 				</TR>

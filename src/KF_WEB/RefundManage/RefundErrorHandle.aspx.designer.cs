@@ -64,16 +64,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBoxBeginDate;
-        
-        /// <summary>
-        /// ButtonBeginDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ButtonBeginDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText TextBoxBeginDate;
         
         /// <summary>
         /// Label3 control.
@@ -91,16 +82,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBoxEndDate;
-        
-        /// <summary>
-        /// ButtonEndDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ButtonEndDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText TextBoxEndDate;
         
         /// <summary>
         /// Label9 control.

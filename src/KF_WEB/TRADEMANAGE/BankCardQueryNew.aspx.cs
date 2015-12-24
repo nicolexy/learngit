@@ -59,7 +59,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             if (!IsPostBack)
             {
-                TextBoxDate.Text = DateTime.Now.ToString("yyyyƒÍMM‘¬dd»’");
+                TextBoxDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 RequestBankInfo();
                 Table2.Visible = false;
             }

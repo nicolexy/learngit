@@ -12,54 +12,7 @@
 	.style5 { FONT-WEIGHT: bold; COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
-		<script language="javascript">
-		    function openModeBegin() {
-		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbIssueTime.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		        if (returnValue != null) Form1.tbIssueTime.value = returnValue;
-		    }
-		</script>
-		<script language="javascript">
-		    function openModeEnd() {
-		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbLastTime.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		        if (returnValue != null) Form1.tbLastTime.value = returnValue;
-		    }
-		</script>
-		<script language="javascript">
-		    function openBankModeBegin() {
-		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbstarttime.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		        if (returnValue != null) Form1.tbstarttime.value = returnValue + " 00:00:00";
-		    }
-		</script>
-		<script language="javascript">
-		    function openBankModeEnd() {
-		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbendtime.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		        if (returnValue != null) Form1.tbendtime.value = returnValue + " 23:59:59";
-		    }
-		</script>
-        <script language="javascript">
-            function openBankInterfaceModeBegin() {
-                var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbInterfaceStartTime.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-                if (returnValue != null) Form1.tbInterfaceStartTime.value = returnValue + " 00:00:00";
-            }
-		</script>
-		<script language="javascript">
-		    function openBankInterfaceModeEnd() {
-		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbInterfaceEndTime.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		        if (returnValue != null) Form1.tbInterfaceEndTime.value = returnValue + " 00:00:00";
-		    }
-		</script>
-		<script language="javascript">
-		    function openUCModeBegin() {
-		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tb_ucstarttime.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		        if (returnValue != null) Form1.tb_ucstarttime.value = returnValue + " 00:00:00";
-		    }
-		</script>
-		<script language="javascript">
-		    function openUCModeEnd() {
-		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tb_ucendtime.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		        if (returnValue != null) Form1.tb_ucendtime.value = returnValue + " 23:59:59";
-		    }
-		</script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -70,7 +23,10 @@
 				</TR>
 				<TR>
 					<TD align="left" width="15%"><asp:label id="Label2" runat="server">发布时间：</asp:label></TD>
-					<TD align="left"><asp:textbox id="tbIssueTime" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton><asp:requiredfieldvalidator id="RequiredFieldValidator1" runat="server" ErrorMessage="请输入" ControlToValidate="tbIssueTime"></asp:requiredfieldvalidator></TD>
+					<TD align="left">
+                        <asp:textbox id="tbIssueTime" runat="server" Width="300px"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
+                        <asp:requiredfieldvalidator id="RequiredFieldValidator1" runat="server" ErrorMessage="请输入" ControlToValidate="tbIssueTime"></asp:requiredfieldvalidator>
+					</TD>
 				</TR>
 				<TR>
 					<TD align="left" width="15%"><asp:label id="Label1" runat="server">标题：</asp:label></TD>
@@ -96,7 +52,9 @@
 				</TR>
 				<TR>
 					<TD align="left" width="15%"><asp:label id="Label5" runat="server">到期时间：</asp:label></TD>
-					<TD align="left"><asp:textbox id="tbLastTime" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="ButtonEndDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD align="left">
+                        <asp:textbox id="tbLastTime" runat="server" Width="300px" onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
+                    </TD>
 				</TR>
 				<TR>
 					<TD align="left" width="15%"><asp:label id="Label6" runat="server">发布人：</asp:label></TD>
@@ -135,11 +93,14 @@
 				</TR>
 				<TR>
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp;&nbsp;开始时间</FONT></TD>
-					<TD align="left"><asp:textbox id="tbstarttime" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="ibstarttime" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD align="left">
+                        <asp:textbox id="tbstarttime" runat="server" Width="300px"  onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" CssClass="Wdate"></asp:textbox>
+					</TD>
 				</TR>
 				<TR>
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp; 结束时间</FONT></TD>
-					<TD align="left"><asp:textbox id="tbendtime" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="ibendtime" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>
+					<TD align="left">
+                        <asp:textbox id="tbendtime" runat="server" Width="300px"  onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" CssClass="Wdate"></asp:textbox>
 						<asp:TextBox id="tbcreateuser" runat="server" Width="128px" Visible="False"></asp:TextBox></TD>
 				</TR>
 				<TR>
@@ -167,11 +128,15 @@
 				</TR>
 				<TR>
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp;&nbsp;开始时间</FONT></TD>
-					<TD align="left"><asp:textbox id="tb_ucstarttime" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="ib_ucstarttime" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD align="left">
+                        <asp:textbox id="tb_ucstarttime" runat="server" Width="300px" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" CssClass="Wdate"></asp:textbox>
+                    </TD>
 				</TR>
 				<TR>
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp; 结束时间</FONT></TD>
-					<TD align="left"><asp:textbox id="tb_ucendtime" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="ib_ucendtime" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD align="left">
+                        <asp:textbox id="tb_ucendtime" runat="server" Width="300px" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" CssClass="Wdate"></asp:textbox>
+                    </TD>
 				</TR>
 				<TR>
 					<TD align="center" colSpan="2">&nbsp;&nbsp;&nbsp;
@@ -218,11 +183,14 @@
 				</TR>
 				<TR id="StartTime" runat="server">
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp;&nbsp;开始时间</FONT></TD>
-					<TD align="left" colSpan="2"><asp:textbox id="tbInterfaceStartTime" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="iInterfaceStartTime" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD align="left" colSpan="2">
+                        <asp:textbox id="tbInterfaceStartTime" runat="server" Width="300px" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" CssClass="Wdate"></asp:textbox>
+                    </TD>
 				</TR>
 				<TR id="EndTime" runat="server">
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp; 结束时间</FONT></TD>
-					<TD align="left" colSpan="2"><asp:textbox id="tbInterfaceEndTime" runat="server" Width="300px"></asp:textbox><asp:imagebutton id="iInterfaceEndTime" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>
+					<TD align="left" colSpan="2">
+                        <asp:textbox id="tbInterfaceEndTime" runat="server" Width="300px" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" CssClass="Wdate"></asp:textbox>
 						<asp:TextBox id="tbcreateuserInterface" runat="server" Width="128px" Visible="False"></asp:TextBox>
                         <asp:TextBox id="tbarea" runat="server" Width="128px" Visible="False"></asp:TextBox>
                         <asp:TextBox id="tbcity" runat="server" Width="128px" Visible="False"></asp:TextBox>

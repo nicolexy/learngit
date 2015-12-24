@@ -103,15 +103,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         protected global::System.Web.UI.WebControls.TextBox TextBoxStartCreatedTime;
         
         /// <summary>
-        /// BtnStartCreatedTime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnStartCreatedTime;
-        
-        /// <summary>
         /// TextBoxEndCreatedTime control.
         /// </summary>
         /// <remarks>
@@ -119,15 +110,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBoxEndCreatedTime;
-        
-        /// <summary>
-        /// BtnEndCreatedTime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnEndCreatedTime;
         
         /// <summary>
         /// Label32 control.
@@ -148,15 +130,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         protected global::System.Web.UI.WebControls.TextBox TextBoxStartArchiveDay;
         
         /// <summary>
-        /// BtnStartArchiveDay control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnStartArchiveDay;
-        
-        /// <summary>
         /// TextBoxEndArchiveDay control.
         /// </summary>
         /// <remarks>
@@ -164,15 +137,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBoxEndArchiveDay;
-        
-        /// <summary>
-        /// BtnEndArchiveDay control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnEndArchiveDay;
         
         /// <summary>
         /// Label21 control.
@@ -193,15 +157,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         protected global::System.Web.UI.WebControls.TextBox TextBoxStartBeginDate;
         
         /// <summary>
-        /// BtnStartBeginDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnStartBeginDate;
-        
-        /// <summary>
         /// TextBoxEndBeginDate control.
         /// </summary>
         /// <remarks>
@@ -209,15 +164,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBoxEndBeginDate;
-        
-        /// <summary>
-        /// BtnEndBeginDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnEndBeginDate;
         
         /// <summary>
         /// Label24 control.
@@ -238,15 +184,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         protected global::System.Web.UI.WebControls.TextBox TextBoxStartEndDate;
         
         /// <summary>
-        /// BtnStartEndDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnStartEndDate;
-        
-        /// <summary>
         /// TextBoxEndEndDate control.
         /// </summary>
         /// <remarks>
@@ -254,15 +191,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBoxEndEndDate;
-        
-        /// <summary>
-        /// BtnEndEndDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnEndEndDate;
         
         /// <summary>
         /// btnSearch control.

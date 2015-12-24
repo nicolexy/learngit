@@ -13,20 +13,7 @@
 	.style5 { COLOR: #000000 }
 	.style6 { COLOR: #ff0000 }
 		</style>
-		<script language="javascript">
-					function openModeBegin()
-					{
-						var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-						if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue;
-					}
-		</script>
-		<script language="javascript">
-					function openModeEnd()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxEndDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.TextBoxEndDate.value=returnValue;
-					}
-		</script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -81,15 +68,15 @@
 					<TD style="WIDTH: 91px" align="right">
 						<asp:label id="Label2" runat="server">开始日期</asp:label></TD>
 					<TD style="WIDTH: 290px">
-						<asp:textbox id="TextBoxBeginDate" runat="server" Width="100px" BorderStyle="Groove"></asp:textbox>
-						<asp:imagebutton id="ButtonBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton><FONT face="宋体">&nbsp;
+						<asp:textbox id="TextBoxBeginDate" runat="server" Width="100px" BorderStyle="Groove"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
+						<FONT face="宋体">&nbsp;
 						</FONT>
 					</TD>
 					<TD align="right">
 						<asp:label id="Label3" runat="server">结束日期</asp:label></TD>
 					<TD>
-						<asp:textbox id="TextBoxEndDate" runat="server" Width="100px" BorderStyle="Groove"></asp:textbox>
-						<asp:imagebutton id="ButtonEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton></TD>
+						<asp:textbox id="TextBoxEndDate" runat="server" Width="100px" BorderStyle="Groove"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
+						</TD>
 				</TR>
 				<TR>
 					<TD style="WIDTH: 91px; HEIGHT: 25px" align="right">

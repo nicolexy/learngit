@@ -29,8 +29,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
         protected void Page_Load(object sender, System.EventArgs e)
         {
-            ButtonDate.Attributes.Add("onclick", "openMode()");
-
             try
             {
                 Label1.Text = Session["uid"].ToString();
@@ -47,7 +45,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             if (!IsPostBack)
             {              
-                TextBoxDate.Text = DateTime.Now.ToString("yyyyƒÍMM‘¬dd»’");
+                TextBoxDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 Table2.Visible = false;
             }
         }

@@ -35,16 +35,7 @@
             color: #ff0000;
         }
     </style>
-    <script language="javascript" type="text/javascript" language="javascript">
-        function openModeBegin() {
-            var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxBeginDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-            if (returnValue != null) Form1.TextBoxBeginDate.value = returnValue;
-        }
-        function openModeEnd() {
-            var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxEndDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-            if (returnValue != null) Form1.TextBoxEndDate.value = returnValue;
-        }
-    </script>
+    <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
     <form id="Form1" method="post" runat="server">
@@ -83,17 +74,13 @@
             </td>
             <td>
                 <font face="宋体">
-                    <asp:TextBox ID="TextBoxBeginDate" runat="server"></asp:TextBox><asp:ImageButton
-                        ID="ButtonBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif">
-                    </asp:ImageButton></font>
+                    <asp:TextBox ID="TextBoxBeginDate" runat="server"  onclick="WdatePicker()" CssClass="Wdate"></asp:TextBox></font>
             </td>
             <td align="right">
                 <asp:Label ID="Label3" runat="server">结束日期</asp:Label>
             </td>
             <td>
-                <asp:TextBox ID="TextBoxEndDate" runat="server"></asp:TextBox><asp:ImageButton ID="ButtonEndDate"
-                    runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif">
-                </asp:ImageButton>
+                <asp:TextBox ID="TextBoxEndDate" runat="server"  onclick="WdatePicker()" CssClass="Wdate"></asp:TextBox>
             </td>
         </tr>
         <tr>

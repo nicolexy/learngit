@@ -36,8 +36,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     if (!IsPostBack)
                     {
                         var today = DateTime.Today;
-                        txt_fromtime.Text = today.ToString("yyyy年MM月dd日");
-                        txt_totime.Text = today.ToString("yyyy年MM月dd日");
+                        txt_fromtime.Text = today.ToString("yyyy-MM-dd");
+                        txt_totime.Text = today.ToString("yyyy-MM-dd");
                         DropDownListTrade_State.Items.Add(new ListItem("全部", ""));
                         foreach (var item in PayState)
                         {

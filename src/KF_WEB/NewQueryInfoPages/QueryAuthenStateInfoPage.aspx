@@ -13,13 +13,6 @@
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 	</style>
 		<script src="../SCRIPTS/Local.js"></script>
-		<script language="javascript">
-					function openModeDate()
-					{
-					    var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbx_cerDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-					    if (returnValue != null) Form1.tbx_cerDate.value = returnValue;
-					}
-		</script>
 </HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form style="FONT-FAMILY: ËÎÌו" id="Form1" method="post" runat="server">

@@ -31,7 +31,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
             // 在此处放置用户代码以初始化页面
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
             try
             {
                 Label1.Text = Session["uid"].ToString();
@@ -57,7 +56,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
                 {
                     throw new Exception("请输入查询条件！");
                 }
-                string adjust_time = TextBoxBeginDate.Text.Trim();
+                string adjust_time = TextBoxBeginDate.Value.Trim();
                 if (spid != "" && adjust_time == "") 
                 {
                     throw new Exception("请选择调帐日期！");
