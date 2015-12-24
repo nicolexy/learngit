@@ -388,6 +388,70 @@ namespace CFT.CSOMS.BLL.WechatPay
         {
             return new TradePayData().QueryAATotalTradeInfo(aaCollectionNo);
         }
+        /// <summary>
+        /// 查询申报流水
+        /// </summary>
+        /// <param name="partner">商户号</param>
+        /// <param name="customs">海关编号</param>
+        /// <param name="transaction_id">支付单号</param>
+        /// <param name="out_trade_no">商户订单号</param>
+        /// <param name="sub_order_no">子商户订单号</param>
+        /// <param name="sub_order_id">子支付单号</param>
+        /// <returns></returns>
+        public DataSet QueryDeclareDogInfo(string partner,string transaction_id,string out_trade_no,string sub_order_no,string sub_order_id ) 
+        {
+            if (string.IsNullOrEmpty(partner.Trim())) 
+            {
+                throw new Exception("商户号不能为空！");
+            }
+            if (string.IsNullOrEmpty(transaction_id.Trim()) &&
+                string.IsNullOrEmpty(out_trade_no.Trim()) &&
+                string.IsNullOrEmpty(sub_order_no.Trim()) &&
+                string.IsNullOrEmpty(sub_order_id.Trim()))
+            {
+                throw new Exception("支付单号,商户订单号,子商户订单号,子支付单号不能同时为空！");
+            }
+
+            DataSet ds= new TradePayData().QueryDeclareDogInfo(partner, transaction_id, out_trade_no, sub_order_no, sub_order_id);
+
+            DataTable dtF = ds.Tables[0];
+            DataTable dtS = ds.Tables[1];
+
+            dtS.Columns.Add("number", typeof(string));
+            dtS.Columns.Add("state_str",typeof(string));
+            dtS.Columns.Add("modify_time_str", typeof(string));
+
+            int i = 1;
+            foreach (DataRow dr in dtS.Rows)
+            {
+                dr["number"] = i.ToString();
+                i++;
+
+                string state = dr["state"].ToString();
+                dr["state_str"] = state == "1" ? "待申报" :
+                                  state == "3" ? "申报中" :
+                                  state == "4" ? "申报成功" :
+                                  state == "5" ? "申报失败" : state;
+                if (dtF != null && dtF.Rows.Count > 0)
+                {
+                    dr["modify_time_str"] = string.Format("{0:0000-00-00 00:00:00}", Convert.ToInt64(dr["modify_time"].ToString()));
+                }
+                
+            }
+            return ds; 
+        }
+        public DataSet QueryMerchantCustom(string partner)
+        {
+            if (string.IsNullOrEmpty(partner.Trim())) 
+            {
+                throw new Exception("商户号不能为空！");
+            }
+            return new TradePayData().QueryMerchantCustom(partner);
+        }
+        public DataTable CustomsRedeclare(string requesttext)
+        {
+            return new TradePayData().CustomsRedeclare(requesttext);
+        }
 
     }
 }

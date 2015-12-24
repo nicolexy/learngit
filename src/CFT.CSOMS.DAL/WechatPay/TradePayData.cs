@@ -328,5 +328,181 @@ namespace CFT.CSOMS.DAL.WechatPay
             }
         }
 
+        /// <summary>
+        /// 查询申报流水
+        /// </summary>
+        /// <param name="partner">商户号</param>
+        /// <param name="transaction_id">支付单号</param>
+        /// <param name="out_trade_no">商户订单号</param>
+        /// <param name="sub_order_no">子商户订单号</param>
+        /// <param name="sub_order_id">子支付单号</param>
+        /// <returns></returns>
+        public DataSet QueryDeclareDogInfo(string partner, string transaction_id, string out_trade_no, string sub_order_no, string sub_order_id)
+        {
+            string ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("CustomsIP", "10.123.6.29");
+            int port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("CustomsPort", 443);
+
+            string requestText = "partner=" + partner;
+
+            if (!string.IsNullOrEmpty(transaction_id))
+            {
+                requestText += "&transaction_id=" + transaction_id;
+            }
+            if (!string.IsNullOrEmpty(out_trade_no))
+            {
+                requestText += "&out_trade_no=" + out_trade_no;
+            }
+            if (!string.IsNullOrEmpty(sub_order_no))
+            {
+                requestText += "&sub_order_no=" + sub_order_no;
+            }
+            if (!string.IsNullOrEmpty(sub_order_id))
+            {
+                requestText += "&sub_order_id=" + sub_order_id;
+            }
+
+            requestText = string.Format(requestText, partner, transaction_id, out_trade_no, sub_order_no, sub_order_id);
+            string answer = RelayAccessFactory.RelayInvoke(requestText, "101658", true, false, ip, port, "");
+            // string answer = "result=0&res_info=ok&partner=1234567890&out_trade_no=45678901&transaction_id=12343531231231&count=1&mch_customs_no_0=4401962010&customs_0=1&state_0=1&modify_time_0=20151208132419&business_type_0=1&explanation_0=";
+            DataSet ds = new DataSet();
+            DataTable dt1 = new DataTable();
+            DataTable dt2 = new DataTable();
+
+            if (answer.Contains("result=0&res_info=ok"))
+            {
+                dt1 = Getdata(answer, "partner,out_trade_no,transaction_id,count");
+                dt2 = Getdata(answer, "mch_customs_no,customs,state,explanation,modify_time,sub_order_no,sub_order_id,fee_type,order_fee,duty,transport_fee,product_fee,business_type", true);
+                ds.Tables.Add(dt1);
+                ds.Tables.Add(dt2);
+            }
+            else
+            {
+                throw new Exception("请求串:" + requestText + "; 返回串:" + answer);
+            }
+            return ds;
+        }
+       /// <summary>
+        /// 查询海关配置
+       /// </summary>
+       /// <param name="partner"></param>
+       /// <returns></returns>
+        public DataSet QueryMerchantCustom(string partner)
+        {
+            string ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("CustomsIP", "10.123.6.29");
+            int port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("CustomsPort", 443);
+
+            string requestText = "partner=" + partner;
+            string answer = RelayAccessFactory.RelayInvoke(requestText, "101659", true, false, ip, port, "");
+            string msg;
+            DataTable dt1 = Getdata(answer);
+            DataTable dt2 = new DataTable();
+            if (dt1 != null && dt1.Rows.Count > 0)
+            {
+                string partner_customs_conf = dt1.Rows[0]["partner_customs_conf"].ToString();
+                dt2 = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.ToDataTable(partner_customs_conf);
+            }
+            return new DataSet() { Tables = { dt1, dt2 } };
+
+            // requestText = "partner=1234567890&customs=1&customs_company_code=4401962010&total_num=2&transaction_id_0=12343531231231&out_trade_no_0=423&redeclare_reason_0=no reason&transaction_id_1=1213&out_trade_no_1=423&redeclare_reason_1=no reason";
+            // answer = RelayAccessFactory.RelayInvoke(requestText, "101660", true, false, ip, port, "");
+            //var ds = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.ParseRelayStringToDataTable(result, out msg, false);
+            // return null;
+
+        }
+        /// <summary>
+        /// 重推
+        /// </summary>
+        /// <param name="requesttext"></param>
+        /// <returns></returns>
+        public DataTable CustomsRedeclare(string requesttext)
+        {
+            DataTable dt = null;
+
+            string ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("CustomsIP", "10.123.6.29");
+            int port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("CustomsPort", 443);
+
+            string answer = RelayAccessFactory.RelayInvoke(requesttext, "101660", true, false, ip, port, "");
+            if (answer.Contains("result=0&res_info=ok"))
+            {
+                dt = Getdata(answer, "transaction_id,out_trade_no,fail_info", true);
+            }
+            else
+            {
+                throw new Exception("请求串:" + requesttext + ";返回串：" + answer);
+            }
+
+            return dt;
+        }
+
+        /// <summary>
+        /// 解析result=0&res_info=ok&partner=1234567890&out_trade_no=45678901&transaction_id=12343531231231&count=1&mch_customs_no_0=4401962010&customs_0=1&state_0=1&modify_time_0=20151208132419&business_type_0=1&explanation_0=
+        /// </summary>
+        /// <param name="answer"></param>
+        /// <param name="cols"></param>
+        /// <param name="multiRows"></param>
+        /// <returns></returns>
+        private DataTable Getdata(string answer, string cols = "", bool multiRows = false)
+        {
+            Hashtable ht = new Hashtable();
+            foreach (string item in answer.Split('&'))
+            {
+                string[] _item = item.Split('=');
+                ht.Add(_item[0], _item[1]);
+            }
+            DataTable dt = new DataTable();
+
+            if (string.IsNullOrEmpty(cols))
+            {
+                foreach (DictionaryEntry item in ht)
+                {
+                    dt.Columns.Add(item.Key.ToString(), typeof(string));
+                }
+                DataRow dr = dt.NewRow();
+                foreach (DictionaryEntry item in ht)
+                {
+                    dr[item.Key.ToString()] = item.Value.ToString();
+                }
+                dt.Rows.Add(dr);
+                return dt;
+            }
+            else
+            {
+                foreach (string item in cols.Split(','))
+                {
+                    dt.Columns.Add(item, typeof(string));
+                }
+
+                if (!multiRows)
+                {
+                    DataRow drF = dt.NewRow();
+                    foreach (string item in cols.Split(','))
+                    {
+                        if (ht.Contains(item))
+                        {
+                            drF[item] = ht[item].ToString().Trim();
+                        }
+                    }
+                    dt.Rows.Add(drF);
+                }
+                else
+                {
+                    int count = ht.Contains("count") ? Convert.ToInt32(ht["count"].ToString().Trim()) : Convert.ToInt32(ht["fail_num"].ToString().Trim());
+                    for (int i = 0; i < count; i++)
+                    {
+                        DataRow dr = dt.NewRow();
+                        foreach (string item in cols.Split(','))
+                        {
+                            if (ht.Contains(item + "_" + i))
+                            {
+                                dr[item] = ht[item + "_" + i].ToString();
+                            }
+                        }
+                        dt.Rows.Add(dr);
+                    }
+                }
+                return dt;
+            }
+        }
+
     }
 }
