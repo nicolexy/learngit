@@ -33,7 +33,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
         protected MicroPay MicroPay1;
         protected NameAuthenedControl NameAuthened1;
         protected SelfHelpAppealManageControl SelfHelpAppealManage1;
-        protected VIPAccountManageControl VIPAccountManage;
+        //protected VIPAccountManageControl VIPAccountManage;
         protected FreezeManageControl FreezeManage1;
         protected SpecialManageControl SpecialManageControl1;
         protected DKManageControl DKManageControl1;
@@ -95,7 +95,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                     ForeignCurrencyAccount1.Visible = true;
                     NameAuthened1.Visible = true;
                     SelfHelpAppealManage1.Visible = true;
-                    VIPAccountManage.Visible = true;
+                    //VIPAccountManage.Visible = true;
 
                     DKManageControl1.Visible = true;
                     DFManageControl1.Visible = true;
@@ -249,7 +249,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
 
                 SysManage1.AddSubMenu("系统公告管理", "SysManage/SysBulletinManage.aspx");
-                SysManage1.AddSubMenu("常见问题维护", "SysManage/QuestionManage.aspx");
+                //SysManage1.AddSubMenu("常见问题维护", "SysManage/QuestionManage.aspx");
                 SysManage1.AddSubMenu("银行接口维护管理", "SysManage/BankInterfaceManage.aspx");
                 SysManage1.AddSubMenu("银行分类信息管理", "SysManage/BankClassifyManage.aspx");
 
@@ -327,10 +327,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 tradeManage1.AddSubMenu("用户手机充值记录查询", "TradeManage/MobileRechargeQuery.aspx");
                 tradeManage1.AddSubMenu("银行订单号查询", "TradeManage/BankBillNoQuery.aspx");
 
-				VIPAccountManage.AddSubMenu("财付值流水","VIPAccount/PropertyTurnover.aspx");
-                VIPAccountManage.AddSubMenu("银行卡查询", "VIPAccount/QueryBankCard.aspx");
+                //VIPAccountManage.AddSubMenu("财付值流水","VIPAccount/PropertyTurnover.aspx");
+                //VIPAccountManage.AddSubMenu("银行卡查询", "VIPAccount/QueryBankCard.aspx");
               //  VIPAccountManage.AddSubMenu("财付值流水", "VIPAccount/PropertyTurnover.aspx");
-                VIPAccountManage.AddSubMenu("图标管理", "VIPAccount/IconManagement.aspx");
+                //VIPAccountManage.AddSubMenu("图标管理", "VIPAccount/IconManagement.aspx");
 
                 OverseasPay1.AddSubMenu("外卡交易查询", "NewQueryInfoPages/QueryForeignCard.aspx");
                 OverseasPay1.AddSubMenu("运通账号信息查询", "NewQueryInfoPages/QueryYTInfo.aspx");
@@ -497,7 +497,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             tradeManage1.AddSubMenu("注销前交易查询", "TradeManage/BeforeCancelTradeQuery.aspx");
             tradeManage1.AddSubMenu("中介订单查询", "TradeManage/OrderQuery.aspx");
 
-            FastPay1.AddSubMenu("快捷额度查询", "FastPay/FastPayLimitQuery.aspx");
+            //FastPay1.AddSubMenu("快捷额度查询", "FastPay/FastPayLimitQuery.aspx");
 
 
         }
