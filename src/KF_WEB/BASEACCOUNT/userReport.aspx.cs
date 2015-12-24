@@ -35,12 +35,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 			pageSize = Int32.Parse(ddlPageSize.SelectedValue);
 
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
-
 			if (!Page.IsPostBack)
 			{
-			    this.TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+			    this.TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 				
 				if (!bindaData())
 				{
@@ -83,8 +80,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
   
 			try
 			{
-				bgDate = DateTime.Parse(this.TextBoxBeginDate.Text.Trim());
-				edDate = DateTime.Parse(this.TextBoxEndDate.Text.Trim());
+                bgDate = DateTime.Parse(this.TextBoxBeginDate.Value.Trim());
+                edDate = DateTime.Parse(this.TextBoxEndDate.Value.Trim());
 			}
 			catch
 			{

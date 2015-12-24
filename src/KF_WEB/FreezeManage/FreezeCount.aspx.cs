@@ -29,12 +29,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 			if(!IsPostBack)
 			{
-				this.tbx_beginDate.Text = DateTime.Now.AddMonths(-1).AddDays(1).ToString("yyyy-MM-dd");
-				this.tbx_endDate.Text = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+				this.tbx_beginDate.Value = DateTime.Now.AddMonths(-1).AddDays(1).ToString("yyyy-MM-dd");
+                this.tbx_endDate.Value = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
 			}
-
-			this.btnBeginDate.Attributes.Add("onclick","openModeBegin()");
-			this.btnEndDate.Attributes.Add("onclick","openModeEnd()");
 		}
 
 		#region Web 窗体设计器生成的代码
@@ -82,8 +79,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 
 			try
 			{
-				beginDate = DateTime.Parse(this.tbx_beginDate.Text);
-				endDate = DateTime.Parse(this.tbx_endDate.Text);
+                beginDate = DateTime.Parse(this.tbx_beginDate.Value);
+                endDate = DateTime.Parse(this.tbx_endDate.Value);
 			}
 			catch
 			{

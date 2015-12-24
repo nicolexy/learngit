@@ -25,16 +25,7 @@
             BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif);
         }
     </style>
-    <script language="javascript">
-        function openModeBegin() {
-            var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxBeginDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-            if (returnValue != null) Form1.TextBoxBeginDate.value = returnValue;
-        }
-        function openModeEnd() {
-            var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxEndDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-            if (returnValue != null) Form1.TextBoxEndDate.value = returnValue;
-        }
-    </script>
+    <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
     <script>
         function CheckEmail() {
             var txtEmail = document.getElementById("txtEmail");
@@ -66,8 +57,11 @@
                 <td align="right">
                     <asp:Label ID="Label5" runat="server">查询时间：</asp:Label></td>
                 <td>
-                    <asp:TextBox ID="TextBoxBeginDate" runat="server"></asp:TextBox><asp:ImageButton ID="ButtonBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:ImageButton>
-                    到<asp:TextBox ID="TextBoxEndDate" runat="server"></asp:TextBox><asp:ImageButton ID="ButtonEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:ImageButton>
+                    <input type="text" runat="server" id="TextBoxBeginDate" onclick="WdatePicker()" />
+                    <img onclick="TextBoxBeginDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+                    到
+                    <input type="text" runat="server" id="TextBoxEndDate" onclick="WdatePicker()" />
+                    <img onclick="TextBoxEndDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
                     <font color="red">*</font></td>
                 <td align="center">
                     <asp:Button ID="btnQuery" runat="server" Width="80px" Text="查 询" OnClick="btnQuery_Click"></asp:Button>

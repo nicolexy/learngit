@@ -13,16 +13,7 @@
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
-		<script language="javascript">
-		    function openModeBegin() {
-		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbx_beginDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		        if (returnValue != null) Form1.tbx_beginDate.value = returnValue;
-		    }
-		    function openModeEnd() {
-		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbx_endDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		        if (returnValue != null) Form1.tbx_endDate.value = returnValue;
-		    }
-		</script>
+    <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -45,8 +36,12 @@
 							<asp:ListItem Value="6">受理完成</asp:ListItem>
 							<asp:ListItem Value="7">已取消付款</asp:ListItem>
 						</asp:DropDownList>
-						<span>查询时间段：</span><asp:TextBox Runat="server" ID="tbx_beginDate"></asp:TextBox><asp:imagebutton id="ButtonBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton>
-						<span>到：</span><asp:TextBox Runat="server" ID="tbx_endDate"></asp:TextBox><asp:imagebutton id="ButtonEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton>
+						<span>查询时间段：</span>
+                        <input type="text" runat="server" id="tbx_beginDate" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                        <img onclick="tbx_beginDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+						<span>到：</span>
+                        <input type="text" runat="server" id="tbx_endDate" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                        <img onclick="tbx_endDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
 					</td>
 				</tr>
 				<tr>

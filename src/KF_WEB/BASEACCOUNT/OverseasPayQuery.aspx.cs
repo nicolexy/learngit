@@ -35,15 +35,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			{
 				Response.Redirect("../login.aspx?wh=1");
 			}
-
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
-
 			if(!IsPostBack)
 			{
 				this.rbtOtherQuery.Checked = true;
-				TextBoxBeginDate.Text = new DateTime(DateTime.Today.Year,DateTime.Today.Month,1).ToString("yyyy年MM月dd日");
-				TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+				TextBoxBeginDate.Value = new DateTime(DateTime.Today.Year,DateTime.Today.Month,1).ToString("yyyy-MM-dd");
+                TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 			}
 		}
 
@@ -91,8 +87,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				DateTime enddate;
 				try
 				{
-					begindate = DateTime.Parse(TextBoxBeginDate.Text);
-					enddate = DateTime.Parse(TextBoxEndDate.Text);
+                    begindate = DateTime.Parse(TextBoxBeginDate.Value);
+                    enddate = DateTime.Parse(TextBoxEndDate.Value);
 				}
 				catch
 				{
@@ -147,9 +143,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			{
 				ExtQueryConditions ConditionsObj = new ExtQueryConditions();
 
-				ConditionsObj.yearMonth = Convert.ToDateTime(this.TextBoxBeginDate.Text).ToString("yyyyMM");
-				ConditionsObj.beginDate = Convert.ToDateTime(this.TextBoxBeginDate.Text).ToString("yyyyMMdd");
-				ConditionsObj.endDate = Convert.ToDateTime(this.TextBoxEndDate.Text).ToString("yyyyMMdd");
+                ConditionsObj.yearMonth = Convert.ToDateTime(this.TextBoxBeginDate.Value).ToString("yyyyMM");
+                ConditionsObj.beginDate = Convert.ToDateTime(this.TextBoxBeginDate.Value).ToString("yyyyMMdd");
+                ConditionsObj.endDate = Convert.ToDateTime(this.TextBoxEndDate.Value).ToString("yyyyMMdd");
 				if(this.txtOrder_no.Text.Trim() != "")
 					ConditionsObj.order_no = this.txtOrder_no.Text.Trim();
 				if(this.txtTransactionid.Text.Trim() != "")

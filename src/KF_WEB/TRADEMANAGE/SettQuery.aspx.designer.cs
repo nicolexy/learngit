@@ -109,16 +109,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSettDate;
-        
-        /// <summary>
-        /// btnSettDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton btnSettDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtSettDate;
         
         /// <summary>
         /// ListUseTag control.

@@ -35,8 +35,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			btnSettDate.Attributes.Add("onclick", "openModeBegin()"); 
-
 			try
 			{
 
@@ -55,7 +53,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			if(!IsPostBack)
 			{
-				txtSettDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+				txtSettDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 
 				EnumFillList(typeof(SettUseTag),false,"全部",ListUseTag);
 
@@ -86,8 +84,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             if (CheckBoxDate.Checked)
             { 
-                filter += " AND (FPreDate='" + SunLibrary.DataAccess.DataProvider.DateFormat(Convert.ToDateTime(this.txtSettDate.Text)) + "')";
-                wx_filter += " AND (a.Faccount_date='" + SunLibrary.DataAccess.DataProvider.DateFormat(Convert.ToDateTime(this.txtSettDate.Text)) + "')"; 
+                filter += " AND (FPreDate='" + SunLibrary.DataAccess.DataProvider.DateFormat(Convert.ToDateTime(this.txtSettDate.Value)) + "')";
+                wx_filter += " AND (a.Faccount_date='" + SunLibrary.DataAccess.DataProvider.DateFormat(Convert.ToDateTime(this.txtSettDate.Value)) + "')"; 
             }
             if (ListUseTag.SelectedIndex > 0)
             {

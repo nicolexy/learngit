@@ -21,13 +21,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
 				Label1.Text = Session["uid"].ToString();
 				string szkey = Session["SzKey"].ToString();
 
-                ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-                ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
-
                 if (!IsPostBack)
                 {
-                    TextBoxBeginDate.Text = DateTime.Now.AddMonths(-1).ToString("yyyy年MM月dd日");
-                    TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                    TextBoxBeginDate.Value = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
+                    TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
                 }
                  
 			}
@@ -70,8 +67,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
             DateTime begindate, enddate;
             try
             {
-                string s_date = TextBoxBeginDate.Text;
-                string e_date = TextBoxEndDate.Text;
+                string s_date = TextBoxBeginDate.Value;
+                string e_date = TextBoxEndDate.Value;
                 
                 begindate = DateTime.Parse(s_date);
                 enddate = DateTime.Parse(e_date);
@@ -124,14 +121,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
 		{
             string cft_no = cftNo.Text.ToString();
 
-            string s_stime = TextBoxBeginDate.Text;
+            string s_stime = TextBoxBeginDate.Value;
             string s_begindate = "";
             if (s_stime != null && s_stime != "")
             {
                 DateTime begindate = DateTime.Parse(s_stime);
                 s_begindate = begindate.ToString("yyyyMMdd");
             }
-            string s_etime = TextBoxEndDate.Text;
+            string s_etime = TextBoxEndDate.Value;
             string s_enddate = "";
             if (s_etime != null && s_etime != "")
             {

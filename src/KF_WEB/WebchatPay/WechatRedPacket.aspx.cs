@@ -19,8 +19,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         {
             if (!IsPostBack)
             {
-                TextBoxBeginDate.Text = DateTime.Now.AddMonths(-1).ToString("yyyy年MM月dd日");
-                TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                TextBoxBeginDate.Value = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
+                TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
             }
         }
 
@@ -41,8 +41,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 }
                 try
                 {
-                    beginTime = DateTime.Parse(TextBoxBeginDate.Text.Trim());
-                    endTime = DateTime.Parse(TextBoxEndDate.Text.Trim()).AddDays(1).AddSeconds(-1); // 得到当天的最后一个时刻 23:59:59
+                    beginTime = DateTime.Parse(TextBoxBeginDate.Value.Trim());
+                    endTime = DateTime.Parse(TextBoxEndDate.Value.Trim()).AddDays(1).AddSeconds(-1); // 得到当天的最后一个时刻 23:59:59
                 }
                 catch
                 {

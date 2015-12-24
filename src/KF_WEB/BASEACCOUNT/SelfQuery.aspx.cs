@@ -37,9 +37,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 				//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"DrawAndApprove")) Response.Redirect("../login.aspx?wh=1");
 
-				ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-				ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
-
 				if(!IsPostBack)
 				{
                     if (!classLibrary.ClassLib.ValidateRight("DrawAndApprove", this)) Response.Redirect("../login.aspx?wh=1");
@@ -159,16 +156,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string WWWAdress = (boxWWWAddress.Text.Trim() == "") ? "" : boxWWWAddress.Text.Trim();
             string Appid = (txtAppid.Text.Trim() == "") ? "" : txtAppid.Text.Trim();
             DateTime? ApplyTimeStart = null;
-            if (!string.IsNullOrEmpty(TextBoxBeginDate.Text))
+            if (!string.IsNullOrEmpty(TextBoxBeginDate.Value))
             {
-                string strBeginTime = Convert.ToDateTime(TextBoxBeginDate.Text.Trim()).ToString("yyyy-MM-dd 00:00:00");
+                string strBeginTime = Convert.ToDateTime(TextBoxBeginDate.Value.Trim()).ToString("yyyy-MM-dd 00:00:00");
                 ApplyTimeStart = Convert.ToDateTime(strBeginTime);
             }
 
             DateTime? ApplyTimeEnd = null;
-            if (!string.IsNullOrEmpty(TextBoxEndDate.Text))
+            if (!string.IsNullOrEmpty(TextBoxEndDate.Value))
             {
-                string strEndTime = Convert.ToDateTime(TextBoxEndDate.Text.Trim()).ToString("yyyy-MM-dd 23:59:59");
+                string strEndTime = Convert.ToDateTime(TextBoxEndDate.Value.Trim()).ToString("yyyy-MM-dd 23:59:59");
                 ApplyTimeEnd = Convert.ToDateTime(strEndTime);
             }
 
@@ -203,16 +200,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string WWWAdress = (boxWWWAddress.Text.Trim() == "") ? "" : boxWWWAddress.Text.Trim();
             string Appid = (txtAppid.Text.Trim() == "") ? "": txtAppid.Text.Trim();
             DateTime? ApplyTimeStart = null;
-            if (!string.IsNullOrEmpty(TextBoxBeginDate.Text))
+            if (!string.IsNullOrEmpty(TextBoxBeginDate.Value))
             {
-                string strBeginTime = Convert.ToDateTime(TextBoxBeginDate.Text.Trim()).ToString("yyyy-MM-dd 00:00:00");
+                string strBeginTime = Convert.ToDateTime(TextBoxBeginDate.Value.Trim()).ToString("yyyy-MM-dd 00:00:00");
                 ApplyTimeStart = Convert.ToDateTime(strBeginTime);
             }
 
             DateTime? ApplyTimeEnd = null;
-            if (!string.IsNullOrEmpty(TextBoxEndDate.Text))
+            if (!string.IsNullOrEmpty(TextBoxEndDate.Value))
             {
-                string strEndTime = Convert.ToDateTime(TextBoxEndDate.Text.Trim()).ToString("yyyy-MM-dd 23:59:59");
+                string strEndTime = Convert.ToDateTime(TextBoxEndDate.Value.Trim()).ToString("yyyy-MM-dd 23:59:59");
                 ApplyTimeEnd = Convert.ToDateTime(strEndTime);
             }
             
@@ -271,19 +268,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 filterNew += " and appid='" + txtAppid.Text.Trim() + "' ";
             }
 
-			if(TextBoxBeginDate.Text.Trim() != "")
+            if (TextBoxBeginDate.Value.Trim() != "")
 			{
-				filter += " and ApplyTime >='" + Convert.ToDateTime(TextBoxBeginDate.Text.Trim()).ToString("yyyy-MM-dd 00:00:00") + "' ";
+                filter += " and ApplyTime >='" + Convert.ToDateTime(TextBoxBeginDate.Value.Trim()).ToString("yyyy-MM-dd 00:00:00") + "' ";
                 //filterNew += " and ApplyTime.Value.ToString() >='" + Convert.ToDateTime(TextBoxBeginDate.Text.Trim()).ToString("yyyy-MM-dd 00:00:00") + "' ";
-                DateTime d1 = Convert.ToDateTime(TextBoxBeginDate.Text.Trim());
+                DateTime d1 = Convert.ToDateTime(TextBoxBeginDate.Value.Trim());
                 filterNew += " and ApplyTime >=DateTime("+d1.Year+","+d1.Month+","+d1.Day+",00,00,00)";
 			}
 
-			if(TextBoxEndDate.Text.Trim() != "")
+            if (TextBoxEndDate.Value.Trim() != "")
 			{
-				filter += " and ApplyTime <='" + Convert.ToDateTime(TextBoxEndDate.Text.Trim()).ToString("yyyy-MM-dd 23:59:59") + "' ";
+                filter += " and ApplyTime <='" + Convert.ToDateTime(TextBoxEndDate.Value.Trim()).ToString("yyyy-MM-dd 23:59:59") + "' ";
                 //filterNew += " and ApplyTime.Value.ToString() <='" + Convert.ToDateTime(TextBoxEndDate.Text.Trim()).ToString("yyyy-MM-dd 23:59:59") + "' ";
-                DateTime d1 = Convert.ToDateTime(TextBoxEndDate.Text.Trim());
+                DateTime d1 = Convert.ToDateTime(TextBoxEndDate.Value.Trim());
                 filterNew += " and ApplyTime <=DateTime(" + d1.Year + "," + d1.Month + "," + d1.Day + ",23,59,59)";
 			}
 
@@ -361,16 +358,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 temp.Add("WWWAdress like (" + boxWWWAddress.Text.Trim() + ")");
             }
 
-            if (TextBoxBeginDate.Text.Trim() != "")
+            if (TextBoxBeginDate.Value.Trim() != "")
             {
-                filter += " and ApplyTime >='" + Convert.ToDateTime(TextBoxBeginDate.Text.Trim()).ToString("yyyy-MM-dd 00:00:00") + "' ";
-                temp.Add("ApplyTime >= (" + Convert.ToDateTime(TextBoxBeginDate.Text.Trim()).ToString("yyyy-MM-dd 00:00:00") + ")");
+                filter += " and ApplyTime >='" + Convert.ToDateTime(TextBoxBeginDate.Value.Trim()).ToString("yyyy-MM-dd 00:00:00") + "' ";
+                temp.Add("ApplyTime >= (" + Convert.ToDateTime(TextBoxBeginDate.Value.Trim()).ToString("yyyy-MM-dd 00:00:00") + ")");
             }
 
-            if (TextBoxEndDate.Text.Trim() != "")
+            if (TextBoxEndDate.Value.Trim() != "")
             {
-                filter += " and ApplyTime <='" + Convert.ToDateTime(TextBoxEndDate.Text.Trim()).ToString("yyyy-MM-dd 23:59:59") + "' ";
-                temp.Add("ApplyTime <= (" + Convert.ToDateTime(TextBoxEndDate.Text.Trim()).ToString("yyyy-MM-dd 23:59:59") + ")");
+                filter += " and ApplyTime <='" + Convert.ToDateTime(TextBoxEndDate.Value.Trim()).ToString("yyyy-MM-dd 23:59:59") + "' ";
+                temp.Add("ApplyTime <= (" + Convert.ToDateTime(TextBoxEndDate.Value.Trim()).ToString("yyyy-MM-dd 23:59:59") + ")");
             }
 
             if (tbBankName.Text.Trim() != "")

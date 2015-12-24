@@ -82,16 +82,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_beginDate;
-        
-        /// <summary>
-        /// btnBeginDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton btnBeginDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText tbx_beginDate;
         
         /// <summary>
         /// tbx_endDate control.
@@ -100,16 +91,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_endDate;
-        
-        /// <summary>
-        /// btnEndDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton btnEndDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText tbx_endDate;
         
         /// <summary>
         /// btn_query control.

@@ -34,16 +34,6 @@
         }
 		</style>
 		<script language="javascript">
-					function openModeBegin()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.tbx_beginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.tbx_beginDate.value=returnValue;
-					}
-					function openModeEnd()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.tbx_endDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.tbx_endDate.value=returnValue;
-					}
                     //身份证正面
 					function cbxSfzz()
 					{

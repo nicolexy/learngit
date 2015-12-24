@@ -15,18 +15,7 @@
 		    display:inline-block;
             }
 		</style>
-		<script language="javascript">
-					function openModeBegin()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.tbx_beginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.tbx_beginDate.value=returnValue;
-					}
-					function openModeEnd()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.tbx_endDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.tbx_endDate.value=returnValue;
-					}
-		</script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -67,11 +56,12 @@
 							<asp:ListItem Value="进单时间" Selected="True" />
 							<asp:ListItem Value="最后修改时间" />
 						</asp:DropDownList>
-						&nbsp;&nbsp;&nbsp;从&nbsp;&nbsp;&nbsp;
-						<asp:TextBox runat="server" ID="tbx_beginDate"></asp:TextBox><asp:imagebutton id="btnBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>
-						&nbsp;&nbsp;&nbsp;到&nbsp;&nbsp;&nbsp;
-						<asp:TextBox Runat="server" ID="tbx_endDate"></asp:TextBox><asp:imagebutton id="btnEndDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>
-						<label>&nbsp;&nbsp;&nbsp;(日期跨度为：1个月)</label>
+                        <input type="text" runat="server" id="tbx_beginDate" onclick="WdatePicker()" />
+                        <img onclick="tbx_beginDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+                        到
+                        <input type="text" runat="server" id="tbx_endDate" onclick="WdatePicker()" />
+                        <img onclick="tbx_endDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+                        <label>&nbsp;&nbsp;&nbsp;(日期跨度为：1个月)</label>
 					</td>
 				</tr>
 				<tr>

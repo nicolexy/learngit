@@ -13,21 +13,7 @@
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
 		<script src="../SCRIPTS/Local.js"></script>
-		<script language="javascript">
-		function openModeBegin()
-		{
-			var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-
-			if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue;
-		}
-		
-		function openModeEnd()
-		{
-			var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxEndDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-
-			if(returnValue != null) Form1.TextBoxEndDate.value=returnValue;
-		}
-		</script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -50,9 +36,15 @@
 				</TR>
 				<TR>
 					<TD style="WIDTH: 96px; HEIGHT: 25px" align="right">提交时间段</TD>
-					<TD style="WIDTH: 180px; HEIGHT: 25px"><asp:textbox id="TextBoxBeginDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD style="WIDTH: 180px; HEIGHT: 25px">
+                        <input type="text" runat="server" id="TextBoxBeginDate" onclick="WdatePicker()" />
+                        <img onclick="TextBoxBeginDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+					</TD>
 					<TD style="WIDTH: 96px; HEIGHT: 25px" align="right">至</TD>
-					<TD style="WIDTH: 180px; HEIGHT: 25px"><asp:textbox id="TextBoxEndDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonEndDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+					<TD style="WIDTH: 180px; HEIGHT: 25px">
+                        <input type="text" runat="server" id="TextBoxEndDate" onclick="WdatePicker()" />
+                        <img onclick="TextBoxEndDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+					</TD>
 					<TD style="WIDTH: 100px; HEIGHT: 27px" align="right">审核状态：</TD>
 					<TD style="WIDTH: 163px; HEIGHT: 27px"><asp:dropdownlist id="ddlState" runat="server">
 							<asp:ListItem Value="">全部</asp:ListItem>

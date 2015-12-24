@@ -13,20 +13,7 @@
 	.style4 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
-		<script language="javascript">
-					function openModeBegin()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue;
-					}
-		</script>
-		<script language="javascript">
-					function openModeEnd()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxEndDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.TextBoxEndDate.value=returnValue;
-					}
-		</script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body>
 		<form id="Form1" method="post" runat="server">
@@ -149,14 +136,18 @@
 									<TD style="WIDTH: 128px; HEIGHT: 33px" bgColor="#ffffff" height="33">
 										<P align="center"><FONT face="宋体">开始日期</FONT></P>
 									</TD>
-									<TD style="WIDTH: 299px; HEIGHT: 33px" bgColor="#ffffff" height="33"><FONT face="宋体">
-											<asp:textbox id="TextBoxBeginDate" runat="server" BorderStyle="Groove">2006-01-01</asp:textbox>
-											<asp:ImageButton id="ButtonBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:ImageButton></FONT>
+									<TD style="WIDTH: 299px; HEIGHT: 33px" bgColor="#ffffff" height="33">
+                                        <FONT face="宋体">
+                                            <input type="text" runat="server" id="TextBoxBeginDate" onclick="WdatePicker()" />
+                                            <img onclick="TextBoxBeginDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+									    </FONT>
 									</TD>
 									<TD style="WIDTH: 139px; HEIGHT: 33px" bgColor="#ffffff" height="33"><FONT face="宋体">结束日期</FONT></TD>
-									<TD colspan="2" style="HEIGHT: 33px" bgColor="#ffffff" height="33"><FONT face="宋体">
-											<asp:textbox id="TextBoxEndDate" runat="server" BorderStyle="Groove"></asp:textbox>
-											<asp:ImageButton id="ButtonEndDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:ImageButton></FONT></TD>
+									<TD colspan="2" style="HEIGHT: 33px" bgColor="#ffffff" height="33">
+                                        <FONT face="宋体">
+                                            <input type="text" runat="server" id="TextBoxEndDate" onclick="WdatePicker()" />
+                                            <img onclick="TextBoxEndDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+                                        </FONT></TD>
 								</TR>
 								<TR>
 									<TD style="WIDTH: 128px; HEIGHT: 1px" bgColor="#ffffff" height="1">
