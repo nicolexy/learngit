@@ -12,19 +12,7 @@
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
-		<script language="javascript">
-			function openModeBegin()
-			{
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.txtRequestDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-				if(returnValue != null) Form1.txtRequestDate.value=returnValue;
-			}
-			
-			function openModeEnd()
-			{
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.txtRequestDate1.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-				if(returnValue != null) Form1.txtRequestDate1.value=returnValue;
-			}
-		</script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -55,13 +43,14 @@
 						<TD align="right">
 							<asp:label id="Label8" runat="server">投诉开始日期</asp:label></TD>
 						<TD>
-							<asp:textbox id="txtRequestDate" runat="server" Width="200px"></asp:textbox>
-							<asp:imagebutton id="BeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+							<asp:textbox id="txtRequestDate" runat="server" Width="200px" onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
+						
+						</TD>
 						<TD align="right">
 							<asp:label id="Label9" runat="server">到日期</asp:label></TD>
 						<TD>
-							<asp:textbox id="txtRequestDate1" runat="server" Width="200px"></asp:textbox>
-							<asp:imagebutton id="EndDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+							<asp:textbox id="txtRequestDate1" runat="server" Width="200px"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
+							</TD>
 					</TR>
 					<TR>
 						<TD colSpan="4" align="center">

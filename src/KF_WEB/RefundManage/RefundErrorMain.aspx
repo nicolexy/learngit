@@ -10,19 +10,7 @@
 		<style type="text/css">@import url( ../STYLES/ossstyle.css ); .style4 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
-		<script language="javascript">
-					function openModeBegin()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue;
-					}
-					
-					function openModeEnd()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxEndDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.TextBoxEndDate.value=returnValue;
-					}
-		</script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body background="../IMAGES/Page/bg01.gif" MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -81,8 +69,10 @@
 						<td style="HEIGHT: 48px" height="25" colSpan="2" align="center"><FONT face="宋体"></FONT></td>
 					</tr>
 					<TR>
-						<TD height="25" align="center"><asp:label id="Label2" runat="server">开始日期</asp:label><asp:textbox id="TextBoxBeginDate" runat="server" Width="100px" BorderWidth="1px" BorderColor="Gray"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>&nbsp;&nbsp;
-							<asp:label id="Label3" runat="server">结束日期</asp:label><asp:textbox id="TextBoxEndDate" runat="server" Width="100px"></asp:textbox><asp:imagebutton style="Z-INDEX: 0" id="ButtonEndDate" runat="server" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>&nbsp;&nbsp;
+						<TD height="25" align="center"><asp:label id="Label2" runat="server">开始日期</asp:label>
+                            <asp:textbox id="TextBoxBeginDate" runat="server" Width="100px" BorderWidth="1px" BorderColor="Gray"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>&nbsp;&nbsp;
+							<asp:label id="Label3" runat="server">结束日期</asp:label>
+                            <asp:textbox id="TextBoxEndDate" runat="server" Width="100px"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>&nbsp;&nbsp;
 							<asp:label id="Label4" runat="server">操作状态</asp:label><asp:dropdownlist id="ddlState" runat="server" Width="115px">
 								<asp:ListItem Value="9999">所有状态</asp:ListItem>
 								<asp:ListItem Value="1">申请再次网银退款</asp:ListItem>

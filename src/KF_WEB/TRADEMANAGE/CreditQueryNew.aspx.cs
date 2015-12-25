@@ -31,8 +31,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         PickService pickservice = new PickService();
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
 			this.ddlDate.Attributes.Add("onclick", "CheckDate()");
 			this.rbtFlistid.Attributes.Add("onclick", "CheckType()");
 			this.rbtFspid.Attributes.Add("onclick", "CheckType()");
@@ -60,17 +58,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			{
 				this.TextBoxBeginDate.Enabled = true;
 				this.TextBoxEndDate.Enabled = true;
-				this.ButtonBeginDate.Enabled = true;
-				this.ButtonEndDate.Enabled = true;
 			}
 			else
 			{
-				TextBoxBeginDate.Text = DateTime.Now.AddMonths(-3).ToString("yyyy年MM月dd日");
-				TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+				TextBoxBeginDate.Text = DateTime.Now.AddMonths(-3).ToString("yyyy-MM-dd");
+				TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 				this.TextBoxBeginDate.Enabled = false;
 				this.TextBoxEndDate.Enabled = false;
-				this.ButtonBeginDate.Enabled = false;
-				this.ButtonEndDate.Enabled = false;
 			}
 
 			if(this.rbtFspid.Checked)

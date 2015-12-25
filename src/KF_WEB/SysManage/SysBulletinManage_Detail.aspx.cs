@@ -50,17 +50,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 			}
 			if(!IsPostBack)
 			{
-                ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-                ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
-                ibstarttime.Attributes.Add("onclick", "openBankModeBegin()");
-                ibendtime.Attributes.Add("onclick", "openBankModeEnd()");
-                iInterfaceStartTime.Attributes.Add("onclick", "openBankInterfaceModeBegin()");
-                iInterfaceEndTime.Attributes.Add("onclick", "openBankInterfaceModeEnd()");
                 this.btadd.Attributes.Add("onclick", "return confirm(\"你确认要进行新增操作申请吗？\");");
                 this.btupdate.Attributes.Add("onclick", "return confirm(\"你确认要进行修改操作申请吗？\");");
-
-                ib_ucstarttime.Attributes.Add("onclick", "openUCModeBegin()");
-                ib_ucendtime.Attributes.Add("onclick", "openUCModeEnd()");
                 this.bt_ucupdate.Attributes.Add("onclick", "return confirm(\"你确认要进行修改操作申请吗？\");");
 
                 sysid = Request.QueryString["sysid"].Trim();
@@ -74,10 +65,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                     if (sysid == "8")
                     {
 						tbstarttime.Enabled=true;
-						ibstarttime.Visible=true;
-						tbendtime.Enabled=true;
-						ibendtime.Visible=true;
-
                         this.Table1.Visible = false;
                         this.Table2.Visible = true;
                         Table3.Visible = false;
@@ -129,9 +116,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                     else if (sysid == "21"||sysid == "22"||sysid == "23"||sysid == "24")
                     {
                         tbInterfaceStartTime.Enabled = true;
-                        iInterfaceStartTime.Visible = true;
                         tbInterfaceEndTime.Enabled = true;
-                        iInterfaceEndTime.Visible = true;
 
                         this.Table1.Visible = false;
                         this.Table2.Visible = false;
@@ -336,10 +321,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 			{
 				//绑定开始
 				tbTitle.Text = sc.FTitle;
-				tbIssueTime.Text = DateTime.Parse(sc.FissueTime).ToString("yyyy年MM月dd日");
+				tbIssueTime.Text = DateTime.Parse(sc.FissueTime).ToString("yyyy-MM-dd");
 
 				if(sc.FLastTime != "")
-					tbLastTime.Text = DateTime.Parse(sc.FLastTime).ToString("yyyy年MM月dd日");
+					tbLastTime.Text = DateTime.Parse(sc.FLastTime).ToString("yyyy-MM-dd");
 
 				tbUrl.Text = sc.FUrl;
 				tbUserID.Text = sc.FuserId;
@@ -922,17 +907,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             if (InterfaceOpen.Checked)
 			{
                 tbInterfaceStartTime.Enabled = false;
-                iInterfaceStartTime.Visible = false;
                 tbInterfaceEndTime.Enabled = false;
-                iInterfaceEndTime.Visible = false;
                 //tbalwtime.Enabled = false;
 			}
 			else
 			{
                 tbInterfaceStartTime.Enabled = true;
-                iInterfaceStartTime.Visible = true;
                 tbInterfaceEndTime.Enabled = true;
-                iInterfaceEndTime.Visible = true;
                 //tbalwtime.Enabled= true;
 			}
 		}
@@ -954,16 +935,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             if (cbopen.Checked)
             {
                 tbstarttime.Enabled = false;
-                ibstarttime.Visible = false;
                 tbendtime.Enabled = false;
-                ibendtime.Visible = false;
             }
             else
             {
                 tbstarttime.Enabled = true;
-                ibstarttime.Visible = true;
                 tbendtime.Enabled = true;
-                ibendtime.Visible = true;
             }
         }
 

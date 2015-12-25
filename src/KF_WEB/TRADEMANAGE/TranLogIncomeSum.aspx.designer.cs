@@ -55,16 +55,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBeginDate;
-        
-        /// <summary>
-        /// btnBeginDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton btnBeginDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtBeginDate;
         
         /// <summary>
         /// lblEndDate control.
@@ -82,16 +73,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEndDate;
-        
-        /// <summary>
-        /// btnEndDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton btnEndDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtEndDate;
         
         /// <summary>
         /// DropDownListChannel control.

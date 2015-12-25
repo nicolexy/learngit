@@ -36,12 +36,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				string szkey = Session["SzKey"].ToString();
 				int operid = Int32.Parse(Session["OperID"].ToString());
 
-				this.BeginDate.Attributes.Add("onclick","openModeBegin()");
-				this.EndDate.Attributes.Add("onclick","openModeEnd()");
-
-				this.ModifyBeginDate.Attributes.Add("onclick","openModeModifyBegin()");
-				this.ModifyEndDate.Attributes.Add("onclick","openModeModifyEnd()");
-
 				if(!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this))
 					Response.Redirect("../login.aspx?wh=1");
 

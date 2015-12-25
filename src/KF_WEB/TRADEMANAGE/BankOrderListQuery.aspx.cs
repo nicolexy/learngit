@@ -37,8 +37,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             {
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
-                ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-                ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
                 //int operid = Int32.Parse(Session["OperID"].ToString());
 
                 //if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
@@ -52,8 +50,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             if (!IsPostBack)
             {
-                TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy年MM月dd日 00:00:00");
-                TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日 23:59:59");
+                TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
+                TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
             }
 
         }

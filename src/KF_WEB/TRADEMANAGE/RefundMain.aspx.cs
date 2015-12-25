@@ -36,11 +36,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 //if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
                 if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
 
-                ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-
                 if (!IsPostBack)
                 {
-                    WeekIndex = DateTime.Today.AddDays(-1).ToString("yyyyƒÍMM‘¬dd»’");
+                    WeekIndex = DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd");
                     TextBoxBeginDate.Text = WeekIndex;
                 }
                 else

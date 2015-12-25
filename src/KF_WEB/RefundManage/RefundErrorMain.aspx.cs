@@ -27,9 +27,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
-
 			// 在此处放置用户代码以初始化页面
 			if (!IsPostBack)
 			{           
@@ -42,15 +39,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 				{
 					try
 					{
-						WeekIndex = DateTime.Parse(PublicRes.strNowTime).AddDays(-1).ToString("yyyy年MM月dd日");	
+						WeekIndex = DateTime.Parse(PublicRes.strNowTime).AddDays(-1).ToString("yyyy-MM-dd");	
 					}
 					catch
 					{
-						WeekIndex = DateTime.Now.AddDays(-1).ToString("yyyy年MM月dd日");
+						WeekIndex = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
 					}
 
 					if(WeekIndex == null || WeekIndex.Trim() == "")
-						WeekIndex = DateTime.Now.AddDays(-1).ToString("yyyy年MM月dd日");
+						WeekIndex = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
 				} 
    
 				ViewState["WorkType"] = WorkType;
@@ -164,7 +161,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 			}
 			else
 			{
-				this.TextBoxBeginDate.Text=System.DateTime.Now.AddDays(-1).ToString("yyyy年MM月dd日");
+				this.TextBoxBeginDate.Text=System.DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
 			}
 
 			if(Request.QueryString["EndDate"]!=null)
@@ -173,7 +170,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 			}
 			else
 			{
-				this.TextBoxEndDate.Text=System.DateTime.Now.AddDays(-1).ToString("yyyy年MM月dd日");
+				this.TextBoxEndDate.Text=System.DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
 			}
 
 			if(Request.QueryString["BankType"]!=null)

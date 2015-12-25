@@ -12,12 +12,7 @@
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
-        <script language="javascript">
-            function openModeBegin() {
-                var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxBeginDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-                if (returnValue != null) Form1.TextBoxBeginDate.value = returnValue;
-            }
-		</script>
+     <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -54,8 +49,10 @@
 								<TD style="WIDTH: 289px">商户号:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									<asp:textbox id="txtSpid" runat="server" Width="160px"></asp:textbox></TD>
                                 <TD style="WIDTH: 289px">调帐时间:&nbsp;
-                                <asp:textbox id="TextBoxBeginDate" runat="server"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton></TD>
-								<TD><FONT face="宋体">&nbsp;<asp:button id="Button_qry" runat="server" Text="查询" onclick="Button_qry_Click"></asp:button></FONT></TD>
+								<input type="text" runat="server" id="TextBoxBeginDate" onclick="WdatePicker()" />
+                                <img onclick="TextBoxBeginDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+                                </TD>
+                                <TD><FONT face="宋体">&nbsp;<asp:button id="Button_qry" runat="server" Text="查询" onclick="Button_qry_Click"></asp:button></FONT></TD>
 							</TR>
 						</TABLE>
 					</TD>

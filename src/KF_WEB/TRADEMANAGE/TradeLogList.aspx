@@ -25,30 +25,7 @@ TD {
 	COLOR: #ff0000
 }
 		</style>
-		<script language="javascript">
-
-					function openModeBegin()
-
-					{
-
-						var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.txDateBegin.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-
-						if(returnValue != null)
-						    Form1.txDateBegin.value=returnValue;
-
-					}
-
-					function openModeEnd()
-
-					{
-
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.txDateEnd.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-
-					if(returnValue != null)
-					    Form1.txDateEnd.value=returnValue;
-
-					}
-					
+		<script language="javascript">				
 					function IsShowState()
 					{
 					    var ListState_0 = document.getElementById("ListState_0");

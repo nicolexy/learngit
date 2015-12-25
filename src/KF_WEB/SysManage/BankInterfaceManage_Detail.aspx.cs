@@ -52,16 +52,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 {
                     nTime = 0;
                     #region onclick添加
-                    iStartTime.Attributes.Add("onclick", "openBankModeBegin()");
-                    iEndTime.Attributes.Add("onclick", "openBankModeEnd()");
-                    iStartTime1.Attributes.Add("onclick", "openBankModeBegin1()");
-                    iEndTime1.Attributes.Add("onclick", "openBankModeEnd1()");
-                    iStartTime2.Attributes.Add("onclick", "openBankModeBegin2()");
-                    iEndTime2.Attributes.Add("onclick", "openBankModeEnd2()");
-                    iStartTime3.Attributes.Add("onclick", "openBankModeBegin3()");
-                    iEndTime3.Attributes.Add("onclick", "openBankModeEnd3()");
-                    iStartTime4.Attributes.Add("onclick", "openBankModeBegin4()");
-                    iEndTime4.Attributes.Add("onclick", "openBankModeEnd4()");
                     this.btInterfaceAdd.Attributes.Add("onclick", "return confirm(\"你确认要进行新增操作申请吗？\");");
                     this.btInterfaceUpdate.Attributes.Add("onclick", "return confirm(\"你确认要进行修改操作申请吗？\");");
                     # endregion
@@ -73,9 +63,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                     {
                         #region 初始化页面和参数
                         tbStartTime.Enabled = true;
-                        iStartTime.Visible = true;
                         tbEndTime.Enabled = true;
-                        iEndTime.Visible = true;
 
                         //银行下拉列表
                         //setConfig.GetAllBankListFromDic(ddlQueryBankTypeInterface);
@@ -593,9 +581,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             if (InterfaceOpen.Checked)
 			{
                 tbStartTime.Enabled = false;
-                iStartTime.Visible = false;
                 tbEndTime.Enabled = false;
-                iEndTime.Visible = false;
                 this.TRTimeSet.Visible = false;
                 this.StartTime1.Visible = false;
                 this.EndTime1.Visible = false;
@@ -610,9 +596,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 			else
 			{
                 tbStartTime.Enabled = true;
-                iStartTime.Visible = true;
                 tbEndTime.Enabled = true;
-                iEndTime.Visible = true;
                 this.TRTimeSet.Visible = true;
 			}
 		}

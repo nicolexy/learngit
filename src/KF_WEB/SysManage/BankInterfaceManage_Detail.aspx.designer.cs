@@ -175,15 +175,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         protected global::System.Web.UI.WebControls.TextBox tbStartTime;
         
         /// <summary>
-        /// iStartTime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton iStartTime;
-        
-        /// <summary>
         /// EndTime control.
         /// </summary>
         /// <remarks>
@@ -200,15 +191,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbEndTime;
-        
-        /// <summary>
-        /// iEndTime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton iEndTime;
         
         /// <summary>
         /// tbcreateuserInterface control.
@@ -283,15 +265,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         protected global::System.Web.UI.WebControls.TextBox tbStartTime1;
         
         /// <summary>
-        /// iStartTime1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton iStartTime1;
-        
-        /// <summary>
         /// EndTime1 control.
         /// </summary>
         /// <remarks>
@@ -308,15 +281,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbEndTime1;
-        
-        /// <summary>
-        /// iEndTime1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton iEndTime1;
         
         /// <summary>
         /// StartTime2 control.
@@ -337,15 +301,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         protected global::System.Web.UI.WebControls.TextBox tbStartTime2;
         
         /// <summary>
-        /// iStartTime2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton iStartTime2;
-        
-        /// <summary>
         /// EndTime2 control.
         /// </summary>
         /// <remarks>
@@ -362,15 +317,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbEndTime2;
-        
-        /// <summary>
-        /// iEndTime2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton iEndTime2;
         
         /// <summary>
         /// StartTime3 control.
@@ -391,15 +337,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         protected global::System.Web.UI.WebControls.TextBox tbStartTime3;
         
         /// <summary>
-        /// iStartTime3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton iStartTime3;
-        
-        /// <summary>
         /// EndTime3 control.
         /// </summary>
         /// <remarks>
@@ -416,15 +353,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbEndTime3;
-        
-        /// <summary>
-        /// iEndTime3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton iEndTime3;
         
         /// <summary>
         /// StartTime4 control.
@@ -445,15 +373,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         protected global::System.Web.UI.WebControls.TextBox tbStartTime4;
         
         /// <summary>
-        /// iStartTime4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton iStartTime4;
-        
-        /// <summary>
         /// EndTime4 control.
         /// </summary>
         /// <remarks>
@@ -470,15 +389,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbEndTime4;
-        
-        /// <summary>
-        /// iEndTime4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton iEndTime4;
         
         /// <summary>
         /// btInterfaceAdd control.

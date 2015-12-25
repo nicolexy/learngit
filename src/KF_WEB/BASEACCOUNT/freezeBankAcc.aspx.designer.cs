@@ -166,15 +166,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
         protected global::System.Web.UI.WebControls.TextBox tbx_FreezeEndDate;
         
         /// <summary>
-        /// ibtn_FreezeEndDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ibtn_FreezeEndDate;
-        
-        /// <summary>
         /// labReason control.
         /// </summary>
         /// <remarks>

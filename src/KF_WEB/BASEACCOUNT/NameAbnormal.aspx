@@ -13,13 +13,7 @@
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 	</style>
 		<script src="../SCRIPTS/Local.js"></script>
-		<script language="javascript">
-					function openModeDate()
-					{
-					    var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.tbx_cerDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-					    if (returnValue != null) Form1.tbx_cerDate.value = returnValue;
-					}
-		</script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 </HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form style="FONT-FAMILY: 宋体" id="Form1" method="post" runat="server">
@@ -114,7 +108,8 @@
 				</TR>
                   <TR>
                     <TD align="right"><asp:label id="Label15" runat="server">身份证有效期至：</asp:label></TD>
-                   <td><asp:textbox id="tbx_cerDate" Width="120" Runat="server"></asp:textbox>&nbsp;<SPAN class="style5"><Font color="red">*</Font></SPAN><asp:imagebutton id="btnDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></td>
+                   <td>
+                       <asp:textbox id="tbx_cerDate" Width="120" Runat="server"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>&nbsp;<SPAN class="style5"><Font color="red">*</Font></SPAN></td>
                   </TR>
                  <TR>
                      <TD align="right"><asp:label id="Label17" runat="server">常用联系地址：</asp:label></TD>

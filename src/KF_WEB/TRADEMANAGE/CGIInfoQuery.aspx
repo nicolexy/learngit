@@ -25,18 +25,7 @@
 		    }
 		</style>
 		<script src="../SCRIPTS/Local.js"></script>
-        <script language="javascript">
-            function openModeStartTime() {
-                var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxStartTime.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-                if (returnValue != null) Form1.TextBoxStartTime.value = returnValue;
-            }
-		</script>
-		<script language="javascript">
-		    function openModeEndTime() {
-		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxEndTime.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		        if (returnValue != null) Form1.TextBoxEndTime.value = returnValue;
-		    }
-		</script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -48,12 +37,12 @@
 				</TR>
                 <TR>
                     <TD align="right"><asp:label id="Label36" runat="server">开始时间：</asp:label></TD>
-				    <TD><asp:textbox id="TextBoxStartTime" runat="server"></asp:textbox><asp:imagebutton id="BtnStartTime" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>
+				    <TD><asp:textbox id="TextBoxStartTime" runat="server" onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
                         
 				    </TD>
                     <TD align="right"><asp:label id="Label32" runat="server">结束时间：</asp:label></TD>
 					 <TD>
-                         <asp:textbox id="TextBoxEndTime" runat="server"></asp:textbox><asp:imagebutton id="BtnEndTime" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>
+                         <asp:textbox id="TextBoxEndTime" runat="server" onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
 				    </TD>
 				</TR>
                 	<TR>

@@ -12,13 +12,7 @@
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
-		<script language="javascript">
-					function openModeBegin()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue;
-					}
-		</script>
+    <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -59,7 +53,9 @@
 					</TD>
 				</TR>
 				<TR>
-					<TD align="center" height="25" rowSpan="1"><asp:label id="Label2" runat="server">选择日期</asp:label><asp:textbox id="TextBoxBeginDate" runat="server" BorderWidth="1px" BorderColor="Gray"></asp:textbox><asp:imagebutton id="ButtonBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton></TD>
+					<TD align="center" height="25" rowSpan="1"><asp:label id="Label2" runat="server">选择日期</asp:label>
+                        <asp:textbox id="TextBoxBeginDate" runat="server" BorderWidth="1px" BorderColor="Gray"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
+                    </TD>
 					<TD>
 						<asp:Label id="Label3" runat="server">选择批次</asp:Label>
 						<asp:TextBox id="txBatchOrder" runat="server" Width="111px">1</asp:TextBox>

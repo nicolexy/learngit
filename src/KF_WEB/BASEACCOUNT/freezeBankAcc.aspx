@@ -10,13 +10,7 @@
 		<style type="text/css">@import url( ../STYLES/ossstyle.css ); .style2 { COLOR: #ff0000; FONT-WEIGHT: bold }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
-		<script language="javascript">
-					function openModeEnd()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.tbx_FreezeEndDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.tbx_FreezeEndDate.value=returnValue;
-					}
-		</script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -90,8 +84,7 @@
 										<asp:CheckBox Runat="server" ID="cbx_showEndDate" Text="添加冻结到期日期"></asp:CheckBox>
 									</div>
 									<div id="div_endDate" runat="server">
-										<asp:textbox id="tbx_FreezeEndDate" runat="server" Width="192px"></asp:textbox>
-										<asp:imagebutton id="ibtn_FreezeEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False" />
+										<asp:textbox id="tbx_FreezeEndDate" runat="server" Width="192px" onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
 									</div>
 								</TD>
 							</TR>

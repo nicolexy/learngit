@@ -12,6 +12,7 @@
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 		<script src="../SCRIPTS/Local.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
@@ -37,12 +38,12 @@
                     <TD>&nbsp;&nbsp;<asp:label id="Label4" runat="server">银行订单号</asp:label>
 					<asp:textbox id="txtBankListId" runat="server"></asp:textbox>
                   　　　 <asp:label id="Label3" runat="server">开始日期</asp:label>
-						<asp:textbox id="TextBoxBeginDate" runat="server" Width="152px" BorderStyle="Groove"></asp:textbox>
-						<asp:imagebutton id="ButtonBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton><FONT face="宋体">&nbsp;
+						<asp:textbox id="TextBoxBeginDate" runat="server" Width="152px" BorderStyle="Groove"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
+						<FONT face="宋体">&nbsp;
 						</FONT>
 						<asp:label id="Label5" runat="server">结束日期</asp:label>
-						<asp:textbox id="TextBoxEndDate" runat="server" Width="152px" BorderStyle="Groove"></asp:textbox>
-						<asp:imagebutton id="ButtonEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton>
+						<asp:textbox id="TextBoxEndDate" runat="server" Width="152px" BorderStyle="Groove"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
+						
               
                    </TD>
                    <TD Width="30%">

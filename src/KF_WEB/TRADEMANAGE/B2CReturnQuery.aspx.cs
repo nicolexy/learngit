@@ -29,9 +29,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			// 在此处放置用户代码以初始化页面
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
-
 			try
 			{
 				this.Label_uid.Text = Session["uid"].ToString();
@@ -48,8 +45,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			if(!IsPostBack)
 			{
-				TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
-				TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+				TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+				TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 				Table2.Visible = false;
 				BindBankType(ddlBankType);
 			}

@@ -51,8 +51,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     setConfig.GetAllDownListDic(ddlStatus, "PNRStatus");
                     ddlStatus.SelectedValue = "";
 
-                    this.txtstartTime.Text = DateTime.Now.AddMinutes(-10).ToString("yyyy年MM月dd日 HH:mm:ss");
-                    this.txtendTime.Text = DateTime.Now.ToString("yyyy年MM月dd日 HH:mm:ss");
+                    this.txtstartTime.Text = DateTime.Now.AddMinutes(-10).ToString("yyyy-MM-dd HH:mm:ss");
+                    this.txtendTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 				}
 			}
 			catch

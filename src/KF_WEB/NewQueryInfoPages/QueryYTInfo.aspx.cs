@@ -26,7 +26,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	{
         protected void Page_Load(object sender, System.EventArgs e)
 		{
-            ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
             //radioListOrder.Attributes.Add("onclick", "showRadioClick()"); 
 
 			try
@@ -36,7 +35,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                 if (!IsPostBack)
                 {
-                    TextBoxBeginDate.Text = "";
+                    TextBoxBeginDate.Value = "";
                 }
 
                 if (this.rbYtno.Checked)
@@ -84,7 +83,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
 			try
 			{
-                string s_date = TextBoxBeginDate.Text;
+                string s_date = TextBoxBeginDate.Value;
                 if (s_date != null && s_date != "") {
                     begindate = DateTime.Parse(s_date);
                 }
@@ -132,7 +131,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         private void BindData()
 		{
-            string s_time = TextBoxBeginDate.Text;
+            string s_time = TextBoxBeginDate.Value;
             string s_begindate = "";
             if (s_time != null && s_time != "") {
                 DateTime begindate = DateTime.Parse(s_time);

@@ -25,13 +25,7 @@ TD {
 }
 </style>
 
-<script language=javascript>
-					function openModeBegin()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.TextBoxBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.TextBoxBeginDate.value=returnValue;
-					}
-		</script>
+<script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 </HEAD>
 <body background=../IMAGES/Page/bg01.gif 
 MS_POSITIONING="GridLayout">
@@ -71,7 +65,9 @@ align=center border=1>
 												<PagerStyle HorizontalAlign="Right" ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>
 											</asp:datagrid></TD></TR></TABLE></FONT></TD></TR>
   <TR>
-    <TD align=center height=25 rowSpan=1><asp:label id=Label2 runat="server">选择日期</asp:label><asp:textbox id=TextBoxBeginDate runat="server" BorderColor="Gray" BorderWidth="1px"></asp:textbox><asp:imagebutton id=ButtonBeginDate runat="server" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></TD>
+    <TD align=center height=25 rowSpan=1><asp:label id=Label2 runat="server">选择日期</asp:label>
+        <asp:textbox id=TextBoxBeginDate runat="server" BorderColor="Gray" BorderWidth="1px"  onclick="WdatePicker()" CssClass="Wdate" />
+    </TD>
     <td><asp:button id=Button1 runat="server" Text="取得最新状态"></asp:button></TD></TR></TABLE></FONT></FORM>
 	</body>
 </HTML>

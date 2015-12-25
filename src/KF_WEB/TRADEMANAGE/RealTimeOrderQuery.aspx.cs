@@ -47,11 +47,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			if(!IsPostBack)
 			{
-				ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-				ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
-
-				TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
-				TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+	
+				TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+				TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
 				classLibrary.setConfig.GetAllBankList(ddlBankType);
 				ddlBankType.Items.Insert(0,new ListItem("所有银行","0000"));

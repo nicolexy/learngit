@@ -27,12 +27,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 			// 在此处放置用户代码以初始化页面
 			if(!IsPostBack)
 			{
-				this.tbx_beginDate.Text = DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd HH:mm:ss");
-				this.tbx_endDate.Text = DateTime.Now.AddDays(0).ToString("yyyy-MM-dd HH:mm:ss");
-
-				this.ButtonBeginDate.Attributes.Add("onclick","openModeBegin()");
-				this.ButtonEndDate.Attributes.Add("onclick","openModeEnd()");
-
+				this.tbx_beginDate.Value = DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd HH:mm:ss");
+                this.tbx_endDate.Value = DateTime.Now.AddDays(0).ToString("yyyy-MM-dd HH:mm:ss");
 				this.pager.PageSize = 10;
 				this.pager.RecordCount = GetCount();
 			}
@@ -76,8 +72,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 			{
 				try
 				{
-					sTime = DateTime.Parse(this.tbx_beginDate.Text.Trim());
-					eTime = DateTime.Parse(this.tbx_endDate.Text.Trim());
+                    sTime = DateTime.Parse(this.tbx_beginDate.Value.Trim());
+                    eTime = DateTime.Parse(this.tbx_endDate.Value.Trim());
 
 					strSTime = sTime.ToString("yyyy-MM-dd HH:mm:ss");
 					strETime = eTime.ToString("yyyy-MM-dd HH:mm:ss");
@@ -211,8 +207,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             {
                 try
                 {
-                    sTime = DateTime.Parse(this.tbx_beginDate.Text.Trim());
-                    eTime = DateTime.Parse(this.tbx_endDate.Text.Trim());
+                    sTime = DateTime.Parse(this.tbx_beginDate.Value.Trim());
+                    eTime = DateTime.Parse(this.tbx_endDate.Value.Trim());
 
                     strSTime = sTime.ToString("yyyy-MM-dd HH:mm:ss");
                     strETime = eTime.ToString("yyyy-MM-dd HH:mm:ss");

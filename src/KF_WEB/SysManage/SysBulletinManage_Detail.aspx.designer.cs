@@ -58,15 +58,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         protected global::System.Web.UI.WebControls.TextBox tbIssueTime;
         
         /// <summary>
-        /// ButtonBeginDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ButtonBeginDate;
-        
-        /// <summary>
         /// RequiredFieldValidator1 control.
         /// </summary>
         /// <remarks>
@@ -200,15 +191,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbLastTime;
-        
-        /// <summary>
-        /// ButtonEndDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ButtonEndDate;
         
         /// <summary>
         /// Label6 control.
@@ -346,15 +328,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         protected global::System.Web.UI.WebControls.TextBox tbstarttime;
         
         /// <summary>
-        /// ibstarttime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ibstarttime;
-        
-        /// <summary>
         /// tbendtime control.
         /// </summary>
         /// <remarks>
@@ -362,15 +335,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbendtime;
-        
-        /// <summary>
-        /// ibendtime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ibendtime;
         
         /// <summary>
         /// tbcreateuser control.
@@ -481,15 +445,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         protected global::System.Web.UI.WebControls.TextBox tb_ucstarttime;
         
         /// <summary>
-        /// ib_ucstarttime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ib_ucstarttime;
-        
-        /// <summary>
         /// tb_ucendtime control.
         /// </summary>
         /// <remarks>
@@ -497,15 +452,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tb_ucendtime;
-        
-        /// <summary>
-        /// ib_ucendtime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ib_ucendtime;
         
         /// <summary>
         /// bt_ucupdate control.
@@ -652,15 +598,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         protected global::System.Web.UI.WebControls.TextBox tbInterfaceStartTime;
         
         /// <summary>
-        /// iInterfaceStartTime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton iInterfaceStartTime;
-        
-        /// <summary>
         /// EndTime control.
         /// </summary>
         /// <remarks>
@@ -677,15 +614,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbInterfaceEndTime;
-        
-        /// <summary>
-        /// iInterfaceEndTime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton iInterfaceEndTime;
         
         /// <summary>
         /// tbcreateuserInterface control.
