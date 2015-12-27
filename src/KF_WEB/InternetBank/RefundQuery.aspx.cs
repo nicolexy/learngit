@@ -779,20 +779,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 #region 更新提交状态为 (1 = 已提交)   的委托
                 Action<List<string>> updateState = fidArr =>
                 {
-                    int fidCount = 0;
+                    int fidCount = 100;
                     string fids = string.Empty;
-                    foreach (string row in fidArr)
+                    int updNum = fidArr.Count % fidCount == 0 ? fidArr.Count / fidCount : (fidArr.Count / fidCount) + 1;
+                    for (int i = 0; i < updNum; i++)
                     {
-                        if (fidCount < 100)
+                        for (int j = i * fidCount; j < fidArr.Count; j++)
                         {
-                            fids += row + ",";
-                            fidCount++;
+                            fids += fidArr[j] + ",";
                         }
-                        else
-                        {
-                            fidCount = 0;
-                            qs.UpdateSubmitRefundState(fids.TrimEnd(','), 1);
-                        }
+                        qs.UpdateSubmitRefundState(fids.TrimEnd(','), 1);
+                        fids = string.Empty;
                     }
                 }; 
                 #endregion
@@ -872,19 +869,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
                                     foreach (DataRow row in dt.Rows)
                                     {
-                                        amount += long.Parse(row["Frefund_amount"].ToString());
                                         var tradeType = row["FTrade_Type"].ToString();
                                         if (tradeType == "2" || tradeType == "3")  //数据导入后订单的状态可能在其他地方发生改变，需再次判断
                                         {
+                                            amount += long.Parse(row["Frefund_amount"].ToString());
                                             fidList.Add(row["Fid"].ToString());
+
+                                            cmd.CommandText = string.Format(@"
+                                            INSERT INTO [sheet1$] 
+                                                (交易单号,退款金额（元）,退款备注) 
+                                            VALUES
+                                            ('{0}','{1}','{2}')",
+                                            row["Forder_id"].ToString(), MoneyTransfer.FenToYuan(row["Frefund_amount"].ToString()), row["Fbuy_acc"].ToString());
+                                            cmd.ExecuteNonQuery();
                                         }
-                                        cmd.CommandText = string.Format(@"
-                                        INSERT INTO [sheet1$] 
-                                            (交易单号,退款金额（元）,退款备注) 
-                                        VALUES
-                                        ('{0}','{1}','{2}')",
-                                        row["Forder_id"].ToString(), MoneyTransfer.FenToYuan(row["Frefund_amount"].ToString()), row["Fbuy_acc"].ToString());
-                                        cmd.ExecuteNonQuery();
                                     }
                                     conn.Close();
                                 }
@@ -911,7 +909,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                                 emailMsg.Append("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:1310px;line-height:22px; margin-left:10px; table-layout:fixed;\" align='left' ID='Table1'><tr><td style='width:1300px;'>");
 
                                 var msg = "<p style='padding:10px 0;margin:0;'> 亲爱的财务同事：<br>&nbsp;&nbsp;&nbsp;&nbsp;以下为本期网银退款数据，共计{0}笔，{1}。请协助办理批量退款处理。谢谢！</p>";
-                                emailMsg.AppendFormat(msg, count, classLibrary.setConfig.FenToYuan(amount));
+                                emailMsg.AppendFormat(msg, fidList.Count, classLibrary.setConfig.FenToYuan(amount));
 
                                 emailMsg.Append("</table></p></td></tr><tr><td height=\"15\"></td></tr></table></body></html>");
 

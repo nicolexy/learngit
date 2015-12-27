@@ -805,7 +805,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "查询错误：" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "查询错误：" + eSys.Message.ToString() + ", stacktrace" + eSys.StackTrace);
             }
         }
 
@@ -884,7 +884,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
-                WebUtils.ShowMessage(this.Page, "同步姓名错误：" + ex.Message);
+                WebUtils.ShowMessage(this.Page, "同步姓名错误：" + ex.Message + ", stacktrace" + ex.StackTrace);
             }
         }
 
@@ -1009,9 +1009,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     WebUtils.ShowMessage(this.Page, "非法访问！");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                WebUtils.ShowMessage(this.Page, "冻结失败。请重试或者联系管理员");
+                WebUtils.ShowMessage(this.Page, "冻结失败。请重试或者联系管理员" + ex.Message + ", stacktrace" + ex.StackTrace);
             }
         }
 
@@ -1145,7 +1145,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception err)
             {
-                WebUtils.ShowMessage(this.Page, "调用Service失败！" + classLibrary.setConfig.replaceMStr(err.Message));
+                WebUtils.ShowMessage(this.Page, "调用Service失败！" + classLibrary.setConfig.replaceMStr(err.Message) + ", stacktrace" + err.StackTrace);
             }
         }
 

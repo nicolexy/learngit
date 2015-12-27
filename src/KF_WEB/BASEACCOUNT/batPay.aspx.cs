@@ -80,7 +80,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据时出错:" + ex.Message);
+                WebUtils.ShowMessage(this.Page, "读取数据时出错:" + ex.Message + ", stacktrace" + ex.StackTrace);
                 return;
             }
             try
@@ -92,7 +92,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
-                WebUtils.ShowMessage(this.Page, "展示数据时出错:" + ex.Message);
+                WebUtils.ShowMessage(this.Page, "展示数据时出错:" + ex.Message + ", stacktrace" + ex.StackTrace);
                 return;
             }
         }

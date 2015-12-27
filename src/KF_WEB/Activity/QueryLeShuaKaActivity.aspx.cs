@@ -109,11 +109,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Activity
 			catch(SoapException eSoap) //捕获soap类异常
 			{
 				string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-				WebUtils.ShowMessage(this.Page,"调用服务出错：" + errStr);
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr + ", stacktrace" + eSoap.StackTrace);
 			}
 			catch(Exception eSys)
 			{
-				WebUtils.ShowMessage(this.Page,"读取数据失败！" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString() + ", stacktrace" + eSys.StackTrace);
 			}
 		}
 

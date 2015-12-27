@@ -86,11 +86,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				catch(SoapException eSoap) //²¶»ñsoapÀà
 				{
 					string str = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-					WebUtils.ShowMessage(this.Page,"²éÑ¯´íÎó£¬ÏêÏ¸£º"+ str);
+                    WebUtils.ShowMessage(this.Page, "²éÑ¯´íÎó£¬ÏêÏ¸£º" + str + ", stacktrace" + eSoap.StackTrace);
 				}
 				catch(Exception e)
 				{
-					Response.Write("<font color=red>²éÑ¯´íÎó£¬ÏêÏ¸£º" + e.Message + "</font>");
+                    Response.Write("<font color=red>²éÑ¯´íÎó£¬ÏêÏ¸£º" + e.Message + ", stacktrace" + e.StackTrace + "</font>");
 				}		
 			}		
 		}
