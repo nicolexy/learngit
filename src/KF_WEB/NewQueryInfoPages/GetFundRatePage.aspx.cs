@@ -463,7 +463,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                throw new Exception("获取账户流水异常", ex);
+                WebUtils.ShowMessage(this, string.Format("获取用户资金流水情况:{0}", PublicRes.GetErrorMsg(ex.ToString())));
             }
         }
 
@@ -549,27 +549,37 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         //不封闭基金客服强赎按钮
         public void dgBankRollList_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)
         {
-            var row = ((DataRowView)e.Item.DataItem).Row;  //当前行
-            object obj = e.Item.Cells[8].FindControl("UnCloseFundApplyButton");
-            int index = this.bankRollListPager.CurrentPageIndex;
-            string type = e.Item.Cells[2].Text.Trim();//存取
-            string fund_code = ViewState["fundCode"].ToString();
-            string spid = ViewState["fundSPId"].ToString();
-            if (obj != null)
+            try
             {
-                LinkButton lb = (LinkButton)obj;
-                if (index == 1 && e.Item.ItemIndex == 0 && type != "冻结" &&
-                    ViewState["close_flag"].ToString() == "1" && decimal.Parse(row["Fbalance"].ToString()) > 0)//第一页，第一行流水记录才能赎回，且存取状态不能为冻结 且为非定期基金
+                if (e.Item.ItemIndex >= 0)
                 {
-                    if (DateTime.Now.Hour >= 9 && DateTime.Now.Hour <= 15)//强赎发起时间工作日9：00－15：00，其它时间无法发起强赎，按钮灰色
+                    var row = ((DataRowView)e.Item.DataItem).Row;  //当前行
+                    object obj = e.Item.Cells[8].FindControl("UnCloseFundApplyButton");
+                    int index = this.bankRollListPager.CurrentPageIndex;
+                    string type = e.Item.Cells[2].Text.Trim();//存取
+                    string fund_code = ViewState["fundCode"].ToString();
+                    string spid = ViewState["fundSPId"].ToString();
+                    if (obj != null)
                     {
-                        lb.Visible = true;
-                    }
-                    if (fundBLLService.isSpecialFund(fund_code, spid)) //指数基金
-                    {
-                        lb.Text = "强赎";
+                        LinkButton lb = (LinkButton)obj;
+                        if (index == 1 && e.Item.ItemIndex == 0 && type != "冻结" &&
+                            ViewState["close_flag"].ToString() == "1" && decimal.Parse(row["Fbalance"].ToString()) > 0)//第一页，第一行流水记录才能赎回，且存取状态不能为冻结 且为非定期基金
+                        {
+                            if (DateTime.Now.Hour >= 9 && DateTime.Now.Hour <= 15)//强赎发起时间工作日9：00－15：00，其它时间无法发起强赎，按钮灰色
+                            {
+                                lb.Visible = true;
+                            }
+                            if (fundBLLService.isSpecialFund(fund_code, spid)) //指数基金
+                            {
+                                lb.Text = "强赎";
+                            }
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this, string.Format("dgBankRollList_ItemDataBound 异常{0}", PublicRes.GetErrorMsg(ex.ToString())));
             }
         }
 
@@ -610,7 +620,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                throw new Exception("获取用户交易流水异常", ex);
+                WebUtils.ShowMessage(this, string.Format("获取用户交易流水异常:{0}", PublicRes.GetErrorMsg(ex.ToString())));
             }
         }
 
@@ -810,7 +820,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                throw new Exception("查询交易明细:出现错误", ex);
+                WebUtils.ShowMessage(this, string.Format("查询交易明细:出现错误:{0}", PublicRes.GetErrorMsg(ex.ToString())));
             }
         }
 
@@ -907,7 +917,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("查询理财通余额流水异常：{0}", PublicRes.GetErrorMsg(ex.ToString())));
+                WebUtils.ShowMessage(this, string.Format("查询理财通余额流水异常:{0}", PublicRes.GetErrorMsg(ex.ToString())));
             }
 
         }

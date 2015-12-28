@@ -2750,7 +2750,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
             //添加列
             //string rowName = string.Format("row{0}",1);
-            string strRow = CommQuery.IceDecode(ds.Tables[0].Rows[0]["row1"].ToString());
+            string strRow = ds.Tables[0].Rows[0]["row1"].ToString();
             string[] strlist1 = strRow.Split('&'); //result=0&xx1=1&xx2=2
 
             if (strlist1.Length == 0)
@@ -2768,7 +2768,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 if (fieldsplit.Length != 2)
                     continue;
 
-                dt.Columns.Add(fieldsplit[0]);
+                dt.Columns.Add(CommQuery.IceDecode(fieldsplit[0]));
             }
 
 
