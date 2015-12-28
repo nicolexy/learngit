@@ -26,18 +26,19 @@ using CFT.CSOMS.BLL.TradeModule;
 using CFT.CSOMS.BLL.FundModule;
 using System.Linq;
 using System.Collections.Generic;
-
+using commLib.Entity;
+using CFT.Apollo.Common.Configuration;
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 {
-	/// <summary>
+    /// <summary>
     /// QueryYTTrade 的摘要说明。
-	/// </summary>
+    /// </summary>
     public partial class GetFundRatePageDetail : System.Web.UI.Page
-	{
+    {
         CheckService checkService = new CheckService();
         //static Hashtable images;
         protected void Page_Load(object sender, System.EventArgs e)
-		{
+        {
 
             try
             {
@@ -172,25 +173,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
         }
 
-		#region Web 窗体设计器生成的代码
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// 设计器支持所需的方法 - 不要使用代码编辑器修改
-		/// 此方法的内容。
-		/// </summary>
-		private void InitializeComponent()
-		{
-		}
-		#endregion
-        
+        #region Web 窗体设计器生成的代码
+        override protected void OnInit(EventArgs e)
+        {
+            //
+            // CODEGEN: 该调用是 ASP.NET Web 窗体设计器所必需的。
+            //
+            InitializeComponent();
+            base.OnInit(e);
+        }
+
+        /// <summary>
+        /// 设计器支持所需的方法 - 不要使用代码编辑器修改
+        /// 此方法的内容。
+        /// </summary>
+        private void InitializeComponent()
+        {
+        }
+        #endregion
+
         //封闭 产生申请单
         public void btnCreateApplyClose_Click(object sender, System.EventArgs e)
         {
@@ -200,7 +201,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 {
                     throw new Exception("截止日期为空！");
                 }
-                    upImage(FileClose);
+                upImage(FileClose);
 
                 tb_Cuin.Text = ViewState["uin"].ToString();
                 tb_Cspid.Text = ViewState["spid"].ToString();
@@ -212,8 +213,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (ip == "::1")
                     ip = "127.0.0.1";
                 tb_Cclient_ip.Text = ip;
+
                 this.ImageC.ImageUrl = ViewState["kfPath"].ToString();//为了提交申请时在客服系统能看图片，此时浏览图片取的是客服系统保存的图片。
-                ViewState["ImageCUrl"] = System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString() + ViewState["alPath"].ToString();
+                ViewState["ImageCUrl"] = ViewState["alPath"]; //fileResult.url; //System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString() + ViewState["alPath"].ToString();
 
 
                 this.tableCloseApply.Visible = true;
@@ -263,7 +265,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                              + "|end_date:" + tb_Cend_date.Text.Trim();
                 SunLibrary.LoggerFactory.Get("GetFundRatePageDetail").Info(memo);
                 PublicRes.CreateCheckService(this).StartCheck(objid, "CloseRedemFundType", memo, "0", pa);
-              //  WebUtils.ShowMessage(this.Page, "已提交，请等待审批！");
+                //  WebUtils.ShowMessage(this.Page, "已提交，请等待审批！");
                 this.ShowMsg("已提交，请等待审批！");
 
             }
@@ -285,25 +287,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             try
             {
                 DataTable dt = checkService.GetCheckInfo(objid, "CloseRedemFundType");
-               if (dt != null && dt.Rows.Count != 0)
-               {
-                   tb_Cuin.Text = dt.Rows[0]["uin"].ToString();
-                   tb_Cspid.Text = dt.Rows[0]["spid"].ToString();
-                   tb_Cfund_code.Text = dt.Rows[0]["fund_code"].ToString();
-                   tb_Ctotal_fee.Text = dt.Rows[0]["total_fee"].ToString();
-                   tb_Cend_date.Text = dt.Rows[0]["end_date"].ToString();
-                   tb_Cend_dateHand.Text = dt.Rows[0]["end_date_hand"].ToString();
-                   tb_Cclient_ip.Text = dt.Rows[0]["client_ip"].ToString();
-                   this.ImageC.ImageUrl = dt.Rows[0]["ImageUrl"].ToString();
-                  this.tableCloseApply.Visible = true;
-                  this.tableUNCloseApply.Visible = false;
-                  this.ButtonSubmitClose.Visible = false;
-               }
-               else
-               {
-                   WebUtils.ShowMessage(this.Page, "查询出错！");
-                   return;
-               }
+                if (dt != null && dt.Rows.Count != 0)
+                {
+                    tb_Cuin.Text = dt.Rows[0]["uin"].ToString();
+                    tb_Cspid.Text = dt.Rows[0]["spid"].ToString();
+                    tb_Cfund_code.Text = dt.Rows[0]["fund_code"].ToString();
+                    tb_Ctotal_fee.Text = dt.Rows[0]["total_fee"].ToString();
+                    tb_Cend_date.Text = dt.Rows[0]["end_date"].ToString();
+                    tb_Cend_dateHand.Text = dt.Rows[0]["end_date_hand"].ToString();
+                    tb_Cclient_ip.Text = dt.Rows[0]["client_ip"].ToString();
+                    this.ImageC.ImageUrl = dt.Rows[0]["ImageUrl"].ToString();
+                    this.tableCloseApply.Visible = true;
+                    this.tableUNCloseApply.Visible = false;
+                    this.ButtonSubmitClose.Visible = false;
+                }
+                else
+                {
+                    WebUtils.ShowMessage(this.Page, "查询出错！");
+                    return;
+                }
             }
             catch (Exception eSys)
             {
@@ -312,7 +314,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
         }
 
-      
+
         //不封闭 产生申请单
         public void CreateApplyUNClose()
         {
@@ -357,7 +359,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 string objid = System.DateTime.Now.ToString("yyyyMMddHHmmss");
                 string ReturnUrl = "http://kf.cf.com/NewQueryInfoPages/GetFundRatePageDetail.aspx?close_flag=1&objid=" + objid + "&opertype=0";
 
-        //        string bankID_Encode = CommUtil.EncryptZerosPadding(tb_UNCbank_id_new.Text.Trim());
+                //        string bankID_Encode = CommUtil.EncryptZerosPadding(tb_UNCbank_id_new.Text.Trim());
                 string[,] param = new string[,] {  { "close_flag", ViewState["close_flag"].ToString() },
                                 { "uin", ViewState["uin"].ToString() }, 
                                 { "spid", ViewState["spid"].ToString() },
@@ -436,7 +438,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 string memo = "LCTFund:true"
                              + "|uin:" + ViewState["uin"].ToString()
                              + "|total_fee:" + ViewState["total_fee"].ToString()
-                             //+ "|fund_code:" + ViewState["fund_code"].ToString()
+                    //+ "|fund_code:" + ViewState["fund_code"].ToString()
                              + "|bind_serialno:" + ViewState["bind_serialno"].ToString()
                              + "|bank_type:" + ViewState["bank_type"].ToString()
                              + "|card_tail:" + ViewState["card_tail"].ToString()
@@ -448,13 +450,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 {
                     PublicRes.CreateCheckService(this).StartCheck(objid, "LCTBalanceRedeem", memo, levelVelue, pa);
                 }
-                catch (Exception err) 
+                catch (Exception err)
                 {
                     if (err.Message.Contains("该财付通账号已经有待审批的理财通余额强赎"))
                     {
                         this.ShowMsg("该财付通账号已经有待审批的理财通余额强赎！");
                     }
-                    else 
+                    else
                     {
                         throw err;
                     }
@@ -482,16 +484,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         {
             try
             {
-                string imgUrlLCT = "";
                 try
                 {
-                    imgUrlLCT = PublicRes.upImage(FileLCT, "RedemptionFund");
+                    upImage(FileLCT);
                 }
-                catch 
+                catch
                 {
-                    imgUrlLCT = "";
                 }
-
                 lblLCT_uin.Text = ViewState["uin"].ToString();
                 lblLCT_total_fee.Text = ViewState["total_fee"].ToString();
                 //lblLCT_fund_code.Text = ViewState["fund_code"].ToString();
@@ -503,8 +502,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (ip == "::1")
                     ip = "127.0.0.1";
                 lblLCTclient_ip.Text = ip;
-                this.imgLCT.ImageUrl = "/" + imgUrlLCT;//为了提交申请时在客服系统能看图片，此时浏览图片取的是客服系统保存的图片。
-                ViewState["imgUrlLCT"] = System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString() + "/" + imgUrlLCT;
+                this.imgLCT.ImageUrl = ViewState["kfPath"].ToString();
+                ViewState["imgUrlLCT"] = ViewState["alPath"];
                 //#if Debug
                 //ViewState["imgUrlLCT"] = "/" + imgUrlLCT;
                 //#endif
@@ -520,7 +519,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         /// 理财通余额强赎账务系统查看
         /// </summary>
         /// <param name="objid"></param>
-        private void bindLCTFundApply(string objid) 
+        private void bindLCTFundApply(string objid)
         {
             try
             {
@@ -563,7 +562,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     tb_UNCuin.Text = dt.Rows[0]["uin"].ToString();
                     tb_UNCspid.Text = dt.Rows[0]["spid"].ToString();
                     tb_UNCfund_code.Text = dt.Rows[0]["fund_code"].ToString();
-                    tb_UNCtotal_fee.Text =  MoneyTransfer.FenToYuan(dt.Rows[0]["total_fee"].ToString());
+                    tb_UNCtotal_fee.Text = MoneyTransfer.FenToYuan(dt.Rows[0]["total_fee"].ToString());
                     tb_UNCbind_serialno.Text = dt.Rows[0]["bind_serialno"].ToString();
                     tb_UNCcard_tail.Text = dt.Rows[0]["card_tail"].ToString();
                     tb_UNmobile.Text = dt.Rows[0]["mobile"].ToString();
@@ -591,15 +590,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             {
                 //上传需要的图片，并返回对应服务器上的地址
                 //存放文件
-               // string s1 = File1.Value;
-                string s1 = file.Value;
-                if (s1 == "")
+                // string s1 = File1.Value;
+                if (file.Value == "")
                 {
                     throw new Exception("请上传图片");
                 }
-                string szTypeName = s1.Substring(s1.Length - 4, 4);
-                string alPath;
-                HtmlInputFile inputFile = file;
+                string szTypeName = Path.GetExtension(file.Value);
                 string upStr = null;
 
 
@@ -608,25 +604,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     throw new Exception("上传的文件不正确，必须为jpg,gif,bmp");
                 }
 
-                if (inputFile.Value != "")
-                {
-                    string fileName = "s1" + DateTime.Now.ToString("yyyyMMddHHmmss") + szTypeName; //
-                 //   upStr = "uploadfile/RedemptionFund";//System.Configuration.ConfigurationManager.AppSettings["uploadPath"].ToString();
-                    upStr = "uploadfile/" + System.DateTime.Now.ToString("yyyyMMdd") + "/CSOMS/RedemptionFund";//System.Configuration.ConfigurationManager.AppSettings["uploadPath"].ToString();
-                    string targetPath = Server.MapPath(Request.ApplicationPath) + "\\" + upStr;
-                    PublicRes.CreateDirectory(targetPath);
+                string fileName = "s1" + DateTime.Now.ToString("yyyyMMddHHmmss") + szTypeName;
+                upStr = "uploadfile/" + DateTime.Now.ToString("yyyyMMdd") + "/CSOMS/RedemptionFund";
 
-                    string path = Server.MapPath(Request.ApplicationPath) + "\\" + upStr + "\\" + fileName;
-                    inputFile.PostedFile.SaveAs(path);
-                    ViewState["kfPath"] = path;
-                    //alPath.Add(upStr+ "/" +fileName);	
-                    alPath =  "/" + upStr + "/" + fileName;
-                    ViewState["alPath"] = alPath;
+                string targetPath = Path.Combine(Server.MapPath(Request.ApplicationPath), upStr.Replace("/", "\\"));
+                PublicRes.CreateDirectory(targetPath);
+
+                file.PostedFile.SaveAs(Path.Combine(targetPath, fileName));
+
+                if (AppSettings.Get<bool>("FPSenabled", false))
+                {
+                    //前期 先保留 老的  图片存储方式
+                    var result = commLib.FPSFileHelper.UploadFile(file.PostedFile.InputStream, "RedemptionFund/" + fileName);
+                    ViewState["alPath"] = ViewState["kfPath"] = result.url;
                 }
                 else
                 {
-                    throw new Exception("请上传正确的图片");
+                    ViewState["kfPath"] = "/" + upStr + "/" + fileName;
+                    ViewState["alPath"] = System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString() + ViewState["kfPath"].ToString();
                 }
+
             }
             catch (Exception eStr)
             {
@@ -693,7 +690,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     param = tempAll;
                     checktype = "InsuranceBalance";
                 }
-                
+
                 Check_WebService.Param[] pa = PublicRes.ToParamArray(param);
                 PublicRes.CreateCheckService(this).StartCheck(objid, checktype, memo, "0", pa);
                 this.ShowMsg("已提交，请等待审批！");
@@ -714,7 +711,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         public void CreateFRateApply()
         {
             fRate_table.Visible = true;
-            fRate_uin.Text =ViewState["uin"] as string;
+            fRate_uin.Text = ViewState["uin"] as string;
             fRate_spid.Text = ViewState["spid"] as string;
             fRate_fund_code.Text = ViewState["fund_code"] as string;
             fRate_total_fee.Text = ViewState["total_fee"] as string;
@@ -764,7 +761,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             try
             {
                 title.InnerText = "封闭基金到期策略修改";
-                Func<string,string> GetQS= (key)=>
+                Func<string, string> GetQS = (key) =>
                 {
                     var v = (Request.QueryString[key] ?? "").Trim();
                     if (v == "")
@@ -778,9 +775,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 var Trade_id = GetQS("trade_id");
                 var Fund_code = GetQS("fund_code");
                 var Close_listid = GetQS("close_listid");
-                var user_end_type =GetQS("user_end_type");
-                var end_sell_type =GetQS("end_sell_type");
-                var fund_name = setConfig.convertBase64(GetQS("fund_name").Replace("%3D", "=")); 
+                var user_end_type = GetQS("user_end_type");
+                var end_sell_type = GetQS("end_sell_type");
+                var fund_name = setConfig.convertBase64(GetQS("fund_name").Replace("%3D", "="));
                 //var client_ip = Request.UserHostAddress.ToString();
                 //if (client_ip == "::1") client_ip = "127.0.0.1";
 
@@ -819,7 +816,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 {
                     ShowMsg("修改成功");
                 }
-                else 
+                else
                 {
                     WebUtils.ShowMessage(this.Page, "修改失败: ");
                 }

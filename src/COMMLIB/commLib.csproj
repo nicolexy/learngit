@@ -140,6 +140,8 @@
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
@@ -171,6 +173,8 @@
     <Compile Include="DbConnectionString.cs" />
     <Compile Include="DbNameAnalysis.cs" />
     <Compile Include="Entity\QueryWeiXinMircoPay.cs" />
+    <Compile Include="Entity\UploadFileModel.cs" />
+    <Compile Include="FPSFileHelper.cs" />
     <Compile Include="GenID.cs">
       <SubType>Code</SubType>
     </Compile>
