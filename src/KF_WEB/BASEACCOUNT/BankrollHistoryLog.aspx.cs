@@ -95,7 +95,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			}
 			catch(Exception ex)
 			{
-				WebUtils.ShowMessage(this.Page,"≤È—Ø¥ÌŒÛ£∫"+ ex.Message);
+                WebUtils.ShowMessage(this.Page, "≤È—Ø¥ÌŒÛ£∫" + ex.Message + ", stacktrace" + ex.StackTrace);
 			}
 		}
         

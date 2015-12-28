@@ -114,7 +114,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Activity
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" +  PublicRes.GetErrorMsg(eSys.Message.ToString()));
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()) + ", stacktrace" + eSys.StackTrace);
             }
         }
 
@@ -220,7 +220,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Activity
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" +  PublicRes.GetErrorMsg(eSys.Message.ToString()));
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()) + ", stacktrace" + eSys.StackTrace);
             }
        
         }

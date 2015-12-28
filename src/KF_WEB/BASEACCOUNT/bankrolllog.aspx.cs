@@ -37,7 +37,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
                 catch (Exception err)
                 {
-                    WebUtils.ShowMessage(this.Page, "操作超时！请重新查询。" + PublicRes.GetErrorMsg(err.Message));
+                    WebUtils.ShowMessage(this.Page, "操作超时！请重新查询。" + PublicRes.GetErrorMsg(err.Message) + ", stacktrace" + err.StackTrace);
                 }
             }
         }
@@ -184,7 +184,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception("金额Fpaynum：" + dr["Fnum"].ToString() + "金额Fbalance：" + dr["Fbalance"].ToString() + "转换有问题" + ex.Message);
+                        throw new Exception("金额Fpaynum：" + dr["Fnum"].ToString() + "金额Fbalance：" + dr["Fbalance"].ToString() + "转换有问题" + ex.Message + ", stacktrace" + ex.StackTrace);
                     }
                 }
             } 

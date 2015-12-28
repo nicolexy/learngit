@@ -349,12 +349,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             catch (SoapException er) //捕获soap类
             {
                 string str = PublicRes.GetErrorMsg(er.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "更新失败：" + str);
+                WebUtils.ShowMessage(this.Page, "更新失败：" + str + ", stacktrace" + er.StackTrace);
                 throw new Exception("更新失败：" + str);
             }
             catch (Exception errStr)
             {
-                throw new Exception("失败！" + errStr);
+                throw new Exception("失败！" + errStr + ", stacktrace" + errStr.StackTrace);
             }
 
         }
@@ -409,12 +409,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 setInfoNull(); //如果失败，清空数据
                 string str = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                WebUtils.ShowMessage(this.Page, str);
+                WebUtils.ShowMessage(this.Page, str + ", stacktrace" + eSoap.StackTrace);
             }
             catch (Exception emsg)
             {
                 string str = PublicRes.GetErrorMsg(emsg.Message.ToString());
-                WebUtils.ShowMessage(this.Page, str);
+                WebUtils.ShowMessage(this.Page, str + ", stacktrace" + emsg.StackTrace);
             }
         }
 
@@ -515,11 +515,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             catch (SoapException eSoap)
             {
                 string str = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "更新失败:" + str);
+                WebUtils.ShowMessage(this.Page, "更新失败:" + str + ", stacktrace" + eSoap.StackTrace);
             }
             catch (Exception er)
             {
-                WebUtils.ShowMessage(this.Page, er.Message.ToString().Replace("'", "’"));
+                WebUtils.ShowMessage(this.Page, er.Message.ToString().Replace("'", "’") + ", stacktrace" + er.StackTrace);
             }
             //BindInfo();
         }
@@ -635,11 +635,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             catch (SoapException eSoap) //捕获soap类异常
             {
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr + ", stacktrace" + eSoap.StackTrace);
             }
             catch (Exception er)
             {
-                WebUtils.ShowMessage(this.Page, "资料修改异常！ 详细原因：" + er.Message.ToString().Replace("'", "’"));
+                WebUtils.ShowMessage(this.Page, "资料修改异常！ 详细原因：" + er.Message.ToString().Replace("'", "’") + ", stacktrace" + er.StackTrace);
             }
         }
 
