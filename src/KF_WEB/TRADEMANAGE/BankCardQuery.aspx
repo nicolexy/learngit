@@ -26,12 +26,7 @@
             background-image: url(../IMAGES/Page/bg01.gif);
         }
     </style>
-    <script language="javascript" type="text/javascript" language="javascript">
-        function openMode() {
-            var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-            if (returnValue != null) Form1.TextBoxDate.value = returnValue;
-        }
-    </script>
+    <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
     <form id="Form1" method="post" runat="server">
@@ -67,9 +62,7 @@
 						</asp:dropdownlist>
                </TD>
             <td>
-                <asp:Label ID="Label2" runat="server">日期</asp:Label><asp:TextBox ID="TextBoxDate"
-                    runat="server"></asp:TextBox><asp:ImageButton ID="ButtonDate" runat="server" CausesValidation="False"
-                        ImageUrl="../Images/Public/edit.gif"></asp:ImageButton>
+                <asp:Label ID="Label2" runat="server">日期</asp:Label><asp:TextBox ID="TextBoxDate" runat="server" onclick="WdatePicker()" CssClass="Wdate"></asp:TextBox>
             </td>
         </tr>
         <tr>

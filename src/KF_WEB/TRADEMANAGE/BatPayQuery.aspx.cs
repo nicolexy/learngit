@@ -39,12 +39,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				Response.Redirect("../login.aspx?wh=1");
 			}
 
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-
 			if (!IsPostBack)
 			{            
 				this.txBatchOrder.Text = "1";
-				this.TextBoxBeginDate.Text = DateTime.Now.ToString("yyyyƒÍMM‘¬dd»’");
+				this.TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 			}
 
 			InitGrid();

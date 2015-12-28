@@ -25,9 +25,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
-			
 			try
 			{
 				Label1.Text = Session["uid"].ToString();
@@ -45,8 +42,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 			if(!IsPostBack)
 			{
 				btnSuspend.Attributes["onClick"]= "return confirm('确定要执行退款撤销操作吗？');";
-				TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
-				TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+				TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+				TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 				Table2.Visible = false;		
 			
 				BindBankType(ddlBankType);

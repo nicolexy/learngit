@@ -32,15 +32,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 		{
 			try
 			{
-                BtnStartCreatedTime.Attributes.Add("onclick", "openModeStartCreatedTime()");
-                BtnEndCreatedTime.Attributes.Add("onclick", "openModeEndCreatedTime()");
-                BtnStartArchiveDay.Attributes.Add("onclick", "openModeStartArchiveDay()");
-                BtnEndArchiveDay.Attributes.Add("onclick", "openModeEndArchiveDay()");
-                BtnStartBeginDate.Attributes.Add("onclick", "openModeStartBeginDate()");
-                BtnEndBeginDate.Attributes.Add("onclick", "openModeEndBeginDate()");
-                BtnStartEndDate.Attributes.Add("onclick", "openModeStartEndDate()");
-                BtnEndEndDate.Attributes.Add("onclick", "openModeEndEndDate()");
-
 				Label1.Text = Session["uid"].ToString();
 				string szkey = Session["SzKey"].ToString();
 
@@ -49,8 +40,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 				if(!IsPostBack)
 				{
-                    TextBoxStartCreatedTime.Text = DateTime.Now.AddDays(-60).ToString("yyyy年MM月dd日");
-                    TextBoxEndCreatedTime.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                    TextBoxStartCreatedTime.Text = DateTime.Now.AddDays(-60).ToString("yyyy-MM-dd");
+                    TextBoxEndCreatedTime.Text = DateTime.Now.ToString("yyyy-MM-dd");
                     TextBoxStartArchiveDay.Text = "";
                     TextBoxEndArchiveDay.Text = "";
                     TextBoxStartBeginDate.Text = "";

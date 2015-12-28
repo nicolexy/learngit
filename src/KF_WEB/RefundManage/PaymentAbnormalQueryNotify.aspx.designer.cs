@@ -46,16 +46,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBoxDate;
-        
-        /// <summary>
-        /// ButtonBeginDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ButtonBeginDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText TextBoxDate;
         
         /// <summary>
         /// Label5 control.

@@ -103,7 +103,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()) + ", stacktrace" + eSys.StackTrace);
                 return;
             }
         }
@@ -216,16 +216,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         catch (LogicException lex)
                         {
                             string errStr = PublicRes.GetErrorMsg(lex.Message.ToString());
-                            throw new Exception(begin + "至" + end + "时间段根据给定银行单号" + BankListId + "查询交易单号出错" + errStr);
+                            throw new Exception(begin + "至" + end + "时间段根据给定银行单号" + BankListId + "查询交易单号出错" + errStr + ", stacktrace" + lex.StackTrace);
                         }
                         catch (SoapException eSoap) //捕获soap类异常
                         {
                             string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                            throw new Exception(begin + "至" + end + "时间段根据给定银行单号查询交易单号" + BankListId + "调用服务出错：" + eSoap);
+                            throw new Exception(begin + "至" + end + "时间段根据给定银行单号查询交易单号" + BankListId + "调用服务出错：" + eSoap + ", stacktrace" + eSoap.StackTrace);
                         }
                         catch (Exception eSys)
                         {
-                            throw new Exception(begin + "至" + end + "时间段根据给定银行单号查询交易单号" + BankListId + "读取数据失败！" + eSys);
+                            throw new Exception(begin + "至" + end + "时间段根据给定银行单号查询交易单号" + BankListId + "读取数据失败！" + eSys + ", stacktrace" + eSys.StackTrace);
                         }
                         // iType = 1;现在是交易单号，一样的查询
                         iType = 4;
@@ -240,7 +240,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception es)
             {
-                throw new Exception("查询出错:" + es.Message.ToString());
+                throw new Exception("查询出错:" + es.Message.ToString() + ", stacktrace" + es.StackTrace);
             }
         }
         private List<String> BindDataListId(int index, bool isold)
@@ -431,12 +431,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             catch (SoapException eSoap) //捕获soap类异常
             {
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                throw new Exception("调用服务出错：" + errStr);
+                throw new Exception("调用服务出错：" + errStr + ", stacktrace" + eSoap.StackTrace);
             }
             catch (Exception eSys)
             {
                 //WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
-                throw new Exception("读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
+                throw new Exception("读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()) + ", stacktrace" + eSys.StackTrace);
             }
         }
 
@@ -493,12 +493,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             catch (SoapException eSoap) //捕获soap类异常
             {
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr + ", stacktrace" + eSoap.StackTrace);
                 return null;
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()) + ", stacktrace" + eSys.StackTrace);
                 return null;
             }
         }
@@ -534,7 +534,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString())); return;
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()) + ", stacktrace" + eSys.StackTrace); return;
             }
         }
 
@@ -571,7 +571,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "导出数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString())); return;
+                WebUtils.ShowMessage(this.Page, "导出数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()) + ", stacktrace" + eSys.StackTrace); return;
             }
         }
 

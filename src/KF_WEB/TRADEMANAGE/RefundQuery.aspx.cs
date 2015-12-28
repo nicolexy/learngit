@@ -26,8 +26,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-
 			if(Session["uid"] == null)
 				Response.Redirect("../login.aspx?wh=1");
 

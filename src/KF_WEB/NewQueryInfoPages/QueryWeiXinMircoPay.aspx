@@ -53,15 +53,7 @@
                     text-align: right;
                 }
     </style>
-    <script language="javascript" type="text/javascript">
-        function openModeCalendar(id) {
-            var txtBox = document.getElementById(id)
-            var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", txtBox.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-            if (returnValue != null) {
-                txtBox.value = returnValue;
-            }
-        }
-    </script>
+    <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
     <form id="Form1" method="post" runat="server">
@@ -108,11 +100,9 @@
                             <ul class="search_ul">
                                 <li><span>商户号：</span>
                                     <span>日期从</span>
-                                    <asp:TextBox ID="txt_fromtime" runat="server"></asp:TextBox>
-                                    <a href="#" style="color: red" onclick="openModeCalendar('txt_fromtime')">*选择</a>
+                                    <asp:TextBox ID="txt_fromtime" runat="server" onclick="WdatePicker()" CssClass="Wdate"></asp:TextBox>
                                     <span style="margin: auto 10px">到</span>
-                                    <asp:TextBox ID="txt_totime" runat="server"></asp:TextBox>
-                                    <a href="#" style="color: red" onclick="openModeCalendar('txt_totime')">*选择</a>
+                                    <asp:TextBox ID="txt_totime" runat="server" onclick="WdatePicker()" CssClass="Wdate"></asp:TextBox>
                                 </li>
                                 <li><span>交易状态：</span>
                                     <asp:DropDownList ID="DropDownListTrade_State" runat="server"></asp:DropDownList></li>

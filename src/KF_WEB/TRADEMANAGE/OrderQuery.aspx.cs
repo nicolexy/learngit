@@ -46,11 +46,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             if (!IsPostBack)
             {
-                ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()");
-                ButtonEndDate.Attributes.Add("onclick", "openModeEnd()");
-
-                TextBoxBeginDate.Text = DateTime.Now.AddDays(-5).ToString("yyyy年MM月dd日");
-                TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                TextBoxBeginDate.Text = DateTime.Now.AddDays(-5).ToString("yyyy-MM-dd");
+                TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
                 classLibrary.setConfig.GetAllTypeList(ddlStateType, "PAY_STATE");
                 ddlStateType.Items.Insert(0, new ListItem("所有状态", "99"));

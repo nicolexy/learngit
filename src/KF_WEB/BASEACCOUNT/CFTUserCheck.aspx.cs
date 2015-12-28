@@ -95,11 +95,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				catch(SoapException eSoap) //捕获soap类异常
 				{
 					string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
-					WebUtils.ShowMessage(this.Page,"调用服务出错：" + errStr);
+                    WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr + ", stacktrace" + eSoap.StackTrace);
 				}
 				catch(Exception eSys)
 				{
-					WebUtils.ShowMessage(this.Page,"读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
+                    WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()) + ", stacktrace" + eSys.StackTrace);
 				}
 			}
 		}
@@ -351,7 +351,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				}
 				catch(Exception err)
 				{
-					labFQQid.Text = "读取数据有误：" + PublicRes.GetErrorMsg(err.Message);
+                    labFQQid.Text = "读取数据有误：" + PublicRes.GetErrorMsg(err.Message) + ", stacktrace" + err.StackTrace;
 					btOK.Visible = false;
 					btSetRealName.Visible = false;
 				}
@@ -540,7 +540,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				}
 				catch(Exception err)
 				{
-					labFQQid.Text = "读取数据有误：" + PublicRes.GetErrorMsg(err.Message);
+                    labFQQid.Text = "读取数据有误：" + PublicRes.GetErrorMsg(err.Message) + ", stacktrace" + err.StackTrace;
 					btOK.Visible = false;
 					btSetRealName.Visible = false;
 				}
@@ -646,7 +646,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				}
 				catch(Exception err)
 				{
-					labFQQid.Text = "读取数据有误：" + PublicRes.GetErrorMsg(err.Message) + Msg;
+                    labFQQid.Text = "读取数据有误：" + PublicRes.GetErrorMsg(err.Message) + Msg + ", stacktrace" + err.StackTrace;
 					btOK.Visible = false;
 					btSetRealName.Visible = false;
 				}
@@ -731,7 +731,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			}
 			catch(Exception err)
 			{
-				WebUtils.ShowMessage(this.Page,"通过失败:" + PublicRes.GetErrorMsg(err.Message + msg));
+                WebUtils.ShowMessage(this.Page, "通过失败:" + PublicRes.GetErrorMsg(err.Message + msg) + ", stacktrace" + err.StackTrace);
 			}
 			finally
 			{
@@ -827,7 +827,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			}
 			catch(Exception err)
 			{
-				WebUtils.ShowMessage(this.Page,"通过失败:" + PublicRes.GetErrorMsg(err.Message + msg));
+                WebUtils.ShowMessage(this.Page, "通过失败:" + PublicRes.GetErrorMsg(err.Message + msg) + ", stacktrace" + err.StackTrace);
 			}
 		}
 
@@ -957,7 +957,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			}
 			catch(Exception err)
 			{
-				WebUtils.ShowMessage(this.Page,"拒绝失败:" + PublicRes.GetErrorMsg(err.Message+msg));
+                WebUtils.ShowMessage(this.Page, "拒绝失败:" + PublicRes.GetErrorMsg(err.Message + msg) + ", stacktrace" + err.StackTrace);
 			}
 			finally
 			{
@@ -1033,7 +1033,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			}
 			catch(Exception err)
 			{
-				WebUtils.ShowMessage(this.Page,"拒绝失败:" + PublicRes.GetErrorMsg(err.Message+msg));
+                WebUtils.ShowMessage(this.Page, "拒绝失败:" + PublicRes.GetErrorMsg(err.Message + msg) + ", stacktrace" + err.StackTrace);
 			}
 			finally
 			{

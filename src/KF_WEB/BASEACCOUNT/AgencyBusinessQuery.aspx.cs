@@ -99,12 +99,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 this.dgList.Visible = false;
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message);
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr + ", stacktrace" + eSoap.StackTrace);
             }
             catch (Exception eSys)
             {
                 this.dgList.Visible = false;
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message);
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message + ", stacktrace" + eSys.StackTrace);
             }
         }
 
@@ -178,7 +178,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception(ex.Message);
+                    throw new Exception(ex.Message + ", stacktrace" + ex.StackTrace);
                 }
             }
         }

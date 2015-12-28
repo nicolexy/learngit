@@ -34,9 +34,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 {
                     Response.Redirect("../login.aspx?wh=1");
                 }
-                this.tbx_cerDate.Text = DateTime.Now.ToString("yyyyƒÍMM‘¬dd»’");
+                this.tbx_cerDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
             }
-            this.btnDate.Attributes.Add("onclick", "openModeDate()"); 
 		}
 
 

@@ -48,7 +48,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             catch (Exception ex)
             {
                 string errStr = PublicRes.GetErrorMsg(ex.Message);
-                WebUtils.ShowMessage(this.Page, "查询异常：" + errStr);
+                WebUtils.ShowMessage(this.Page, "查询异常：" + errStr + ", stacktrace" + ex.StackTrace);
             }
         }
     }

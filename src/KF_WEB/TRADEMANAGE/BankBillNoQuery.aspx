@@ -13,13 +13,7 @@
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 	</style>
 		<script src="../SCRIPTS/Local.js"></script>
-		<script language="javascript">
-					function openModeBegin()
-					{
-					var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.tbx_beginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-					if(returnValue != null) Form1.tbx_beginDate.value=returnValue;
-					}
-		</script>
+<script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 </HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form style="FONT-FAMILY: 宋体" id="Form1" method="post" runat="server">
@@ -36,7 +30,7 @@
 						<td><asp:textbox id="tbx_acc" Width="250px" Runat="server"></asp:textbox></td>
                         <td width="100"><label>日期:</label>
 						</td>
-						<td><asp:textbox id="tbx_beginDate" Width="120" Runat="server"></asp:textbox><asp:imagebutton id="btnBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton></td>
+						<td><asp:textbox id="tbx_beginDate" Width="120" Runat="server"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox></td>
 					</tr>
                     <tr>
 						<td width="80"><label>银行类型:</label>

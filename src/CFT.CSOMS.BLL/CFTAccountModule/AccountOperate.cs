@@ -228,7 +228,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             //手Q用户转账中、退款中、未完成的订单禁止注销和批量注销
             if (Regex.IsMatch(query_id, @"^[1-9]\d*$"))
             {
-                DataSet dsHandQ = new TradeService().QueryPaymentParty("", "1,2,12,4", "3", query_id);
+                DataSet dsHandQ = new TradeService().QueryPaymentParty("", "1,2,12,4,6,7", "3", query_id);
                 if (dsHandQ != null && dsHandQ.Tables.Count > 0 && dsHandQ.Tables[0].Rows.Count > 0 && dsHandQ.Tables[0].Rows[0]["result"].ToString() != "97420006")
                 {
                     ret_msg = "手Q用户转账中、退款中、未完成的订单禁止注销和批量注销";

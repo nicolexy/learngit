@@ -23,11 +23,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 		{
 			if(!IsPostBack)
 			{
-				this.tbx_beginDate.Text = DateTime.Now.AddDays(-1).ToString("yyyy年MM月dd日");
-				this.tbx_endDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+				this.tbx_beginDate.Text = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
+				this.tbx_endDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 			}
-			this.btnBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			this.btnEndDate.Attributes.Add("onclick","openModeEnd()");
 		}
 
 

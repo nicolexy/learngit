@@ -19,15 +19,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			if(!classLibrary.ClassLib.ValidateRight("MobileConfig",this)) Response.Redirect("../login.aspx?wh=1");
-			this.btnBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			this.btnEndDate.Attributes.Add("onclick","openModeEnd()");
 			if(!Page.IsPostBack)
 			{
 				Session["supplierID"] = Request["id"];
 				string startTime =  Request["startTime"];
 				string endTime = Request["endTime"];
-				this.tbx_beginDate.Text = DateTime.Parse(startTime).ToString("yyyy年MM月dd日");
-				this.tbx_endDate.Text = DateTime.Parse(endTime).ToString("yyyy年MM月dd日");
+				this.tbx_beginDate.Text = DateTime.Parse(startTime).ToString("yyyy-MM-dd");
+				this.tbx_endDate.Text = DateTime.Parse(endTime).ToString("yyyy-MM-dd");
 			}
 		}
 

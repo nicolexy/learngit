@@ -12,23 +12,7 @@
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
 		<script src="../SCRIPTS/Local.js"></script>
-		<script language="javascript">
-			function openModeBegin()
-			{
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.txtBeginDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-
-				if(returnValue != null)
-				    Form1.txtBeginDate.value=returnValue;
-			}
-			function openModeEnd()
-			{
-				var returnValue=window.showModalDialog("../Control/CalendarForm2.aspx",Form1.txtEndDate.value,'dialogWidth:375px;DialogHeight=260px;status:no');
-
-				if(returnValue != null)
-				    Form1.txtEndDate.value=returnValue;
-			}
-
-		</script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body id="bodyid" runat="server">
 		<form id="Form1" method="post" runat="server">
@@ -38,8 +22,15 @@
 					<td align="center"><asp:label id="Label9" runat="server" CssClass="title_info">交易汇总数据</asp:label></td>
 				</tr>
 				<TR>
-					<td><asp:label id="lblBeginDate" runat="server">开始日期</asp:label><asp:textbox id="txtBeginDate" runat="server"></asp:textbox><asp:imagebutton id="btnBeginDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton>&nbsp;
-						<asp:label id="lblEndDate" runat="server">结束日期</asp:label><asp:textbox id="txtEndDate" runat="server"></asp:textbox><asp:imagebutton id="btnEndDate" runat="server" ImageUrl="../Images/Public/edit.gif" CausesValidation="False"></asp:imagebutton><STRONG></STRONG>&nbsp;&nbsp;渠道
+					<td>
+                        <asp:label id="lblBeginDate" runat="server">开始日期</asp:label>
+                        <input type="text" runat="server" id="txtBeginDate" onclick="WdatePicker()" />
+                        <img onclick="txtBeginDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+						<asp:label id="lblEndDate" runat="server">结束日期</asp:label>
+                        <input type="text" runat="server" id="txtEndDate" onclick="WdatePicker()" />
+                        <img onclick="txtEndDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+
+                        <STRONG></STRONG>&nbsp;&nbsp;渠道
 						<asp:dropdownlist id="DropDownListChannel" runat="server" AutoPostBack="True"></asp:dropdownlist>&nbsp;&nbsp;商户号
 						<asp:TextBox id="TextBoxSpid" runat="server"></asp:TextBox>&nbsp;
 						<asp:Button ID="btnSearch" Runat="server" Text="查询" onclick="btnSearch_Click"></asp:Button></td>

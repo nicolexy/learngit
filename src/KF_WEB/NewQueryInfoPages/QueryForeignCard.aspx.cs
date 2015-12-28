@@ -21,13 +21,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	    ForeignCardService fcs=new ForeignCardService();
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
-
 			if (!Page.IsPostBack)
 			{
-				this.TextBoxBeginDate.Text = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
-				this.TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+				this.TextBoxBeginDate.Value = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
+                this.TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 			}
 		}
 
@@ -56,10 +53,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                 try
                 {
-                    if (this.TextBoxBeginDate.Text.Trim() != "" && this.TextBoxEndDate.Text.Trim() != "")
+                    if (this.TextBoxBeginDate.Value.Trim() != "" && this.TextBoxEndDate.Value.Trim() != "")
                     {
-                        DateTime start = DateTime.Parse(this.TextBoxBeginDate.Text);
-                        DateTime end = DateTime.Parse(this.TextBoxEndDate.Text);
+                        DateTime start = DateTime.Parse(this.TextBoxBeginDate.Value);
+                        DateTime end = DateTime.Parse(this.TextBoxEndDate.Value);
                         if (start.Year != end.Year)
                         {
                             throw new Exception("请不要跨年查询！");

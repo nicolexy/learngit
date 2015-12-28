@@ -30,9 +30,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         protected void Page_Load(object sender, System.EventArgs e)
 		{
 			// 在此处放置用户代码以初始化页面
-			ButtonBeginDate.Attributes.Add("onclick", "openModeBegin()"); 
-			ButtonEndDate.Attributes.Add("onclick", "openModeEnd()"); 
-
 			try
 			{
 				Label1.Text = Session["uid"].ToString();
@@ -55,23 +52,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     if (sbegindate != null && sbegindate != "")
                     {
                         qbegindate = DateTime.Parse(sbegindate);
-                        TextBoxBeginDate.Text = qbegindate.ToString("yyyy年MM月dd日");
+                        TextBoxBeginDate.Text = qbegindate.ToString("yyyy-MM-dd");
                     }
                     else
                     {
                         qbegindate = Convert.ToDateTime("2013-05-28");
-                        TextBoxBeginDate.Text = qbegindate.ToString("yyyy年MM月dd日");
+                        TextBoxBeginDate.Text = qbegindate.ToString("yyyy-MM-dd");
                     }
                     string senddate = Request.QueryString["enddate"];
                     if (senddate != null && senddate != "")
                     {
                         qenddate = DateTime.Parse(senddate);
-                        TextBoxEndDate.Text = qenddate.ToString("yyyy年MM月dd日");
+                        TextBoxEndDate.Text = qenddate.ToString("yyyy-MM-dd");
                     }
                     else
                     {
                         qenddate = DateTime.Now;
-                        TextBoxEndDate.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                        TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
                     }
 
                     ViewState["qbegindate"] = qbegindate;

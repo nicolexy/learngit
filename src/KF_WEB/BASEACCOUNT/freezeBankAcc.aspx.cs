@@ -36,7 +36,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			//furion 20050906 不修改以前的任何功能，只加入自已新的东西。
 			// 在此处放置用户代码以初始化页面
 
-			this.ibtn_FreezeEndDate.Attributes.Add("OnClick","openModeEnd()");
 			this.cbx_showEndDate.CheckedChanged += new EventHandler(cbx_showEndDate_CheckedChanged);
 
 			try

@@ -210,7 +210,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
             catch (Exception err)
             {
                 PublicRes.writeSysLog(Session["uid"].ToString(), Request.UserHostAddress, "changeqq", "修改帐号提请审批", 0, OldQQ.Text.Trim(), "");
-                WebUtils.ShowMessage(this.Page, "提请审批失败，错误原因：" + PublicRes.GetErrorMsg(err.Message) + "。");
+                WebUtils.ShowMessage(this.Page, "提请审批失败，错误原因：" + PublicRes.GetErrorMsg(err.Message) + "。" + ", stacktrace" + err.StackTrace);
             }
         }
     }

@@ -25,57 +25,7 @@
 		    }
 		</style>
 		<script src="../SCRIPTS/Local.js"></script>
-        <script language="javascript">
-            function openModeStartCreatedTime() {
-                var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxStartCreatedTime.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-                if (returnValue != null) Form1.TextBoxStartCreatedTime.value = returnValue;
-            }
-		</script>
-		<script language="javascript">
-		    function openModeEndCreatedTime() {
-		        var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxEndCreatedTime.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-		        if (returnValue != null) Form1.TextBoxEndCreatedTime.value = returnValue;
-		    }
-		</script>
-
-        <script language="javascript">
-            function openModeStartArchiveDay() {
-                var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxStartArchiveDay.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-                if (returnValue != null) Form1.TextBoxStartArchiveDay.value = returnValue;
-            }
-		</script>
-        <script language="javascript">
-            function openModeEndArchiveDay() {
-                var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxEndArchiveDay.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-                if (returnValue != null) Form1.TextBoxEndArchiveDay.value = returnValue;
-            }
-		</script>
-
-        <script language="javascript">
-            function openModeStartBeginDate() {
-                var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxStartBeginDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-                if (returnValue != null) Form1.TextBoxStartBeginDate.value = returnValue;
-            }
-		</script>
-        <script language="javascript">
-            function openModeEndBeginDate() {
-                var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxEndBeginDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-                if (returnValue != null) Form1.TextBoxEndBeginDate.value = returnValue;
-            }
-		</script>
-
-        <script language="javascript">
-            function openModeStartEndDate() {
-                var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxStartEndDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-                if (returnValue != null) Form1.TextBoxStartEndDate.value = returnValue;
-            }
-		</script>
-        <script language="javascript">
-            function openModeEndEndDate() {
-                var returnValue = window.showModalDialog("../Control/CalendarForm2.aspx", Form1.TextBoxEndEndDate.value, 'dialogWidth:375px;DialogHeight=260px;status:no');
-                if (returnValue != null) Form1.TextBoxEndEndDate.value = returnValue;
-            }
-		</script>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -98,26 +48,22 @@
 				
                 <TR>
                     <TD align="right"><asp:label id="Label36" runat="server">合同创建时间：</asp:label></TD>
-				    <TD><asp:textbox id="TextBoxStartCreatedTime" runat="server"></asp:textbox><asp:imagebutton id="BtnStartCreatedTime" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>
-                        至
-                        <asp:textbox id="TextBoxEndCreatedTime" runat="server"></asp:textbox><asp:imagebutton id="BtnEndCreatedTime" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>
+				    <TD><asp:textbox id="TextBoxStartCreatedTime" runat="server" onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>至
+                        <asp:textbox id="TextBoxEndCreatedTime" runat="server" onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
 				    </TD>
                     <TD align="right"><asp:label id="Label32" runat="server">合同归档时间：</asp:label></TD>
-					 <TD><asp:textbox id="TextBoxStartArchiveDay" runat="server"></asp:textbox><asp:imagebutton id="BtnStartArchiveDay" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>
-                        至
-                        <asp:textbox id="TextBoxEndArchiveDay" runat="server"></asp:textbox><asp:imagebutton id="BtnEndArchiveDay" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>
+					 <TD><asp:textbox id="TextBoxStartArchiveDay" runat="server" onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>至
+                        <asp:textbox id="TextBoxEndArchiveDay" runat="server" onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
 				    </TD>
 				</TR>
                 <TR>
 					<TD align="right"><asp:label id="Label21" runat="server">有效期起：</asp:label></TD>
-					 <TD><asp:textbox id="TextBoxStartBeginDate" runat="server"></asp:textbox><asp:imagebutton id="BtnStartBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>
-                        至
-                        <asp:textbox id="TextBoxEndBeginDate" runat="server"></asp:textbox><asp:imagebutton id="BtnEndBeginDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>
+					 <TD><asp:textbox id="TextBoxStartBeginDate" runat="server" onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>至
+                        <asp:textbox id="TextBoxEndBeginDate" runat="server" onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
 				    </TD>
 					<TD align="right"><asp:label id="Label24" runat="server">有效期止：</asp:label></TD>
-					 <TD><asp:textbox id="TextBoxStartEndDate" runat="server"></asp:textbox><asp:imagebutton id="BtnStartEndDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>
-                        至
-                        <asp:textbox id="TextBoxEndEndDate" runat="server"></asp:textbox><asp:imagebutton id="BtnEndEndDate" runat="server" CausesValidation="False" ImageUrl="../Images/Public/edit.gif"></asp:imagebutton>
+					 <TD><asp:textbox id="TextBoxStartEndDate" runat="server" onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>至
+                        <asp:textbox id="TextBoxEndEndDate" runat="server" onclick="WdatePicker()" CssClass="Wdate"></asp:textbox>
 				    </TD>
 				</TR>
                 <TR>

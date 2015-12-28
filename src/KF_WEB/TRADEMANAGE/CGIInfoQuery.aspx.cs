@@ -32,9 +32,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 		{
 			try
 			{
-                BtnStartTime.Attributes.Add("onclick", "openModeStartTime()");
-                BtnEndTime.Attributes.Add("onclick", "openModeEndTime()");
-
 				Label1.Text = Session["uid"].ToString();
 				string szkey = Session["SzKey"].ToString();
 
@@ -43,8 +40,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 				if(!IsPostBack)
 				{
-                    TextBoxStartTime.Text = DateTime.Now.AddDays(-60).ToString("yyyy年MM月dd日");
-                    TextBoxEndTime.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+                    TextBoxStartTime.Text = DateTime.Now.AddDays(-60).ToString("yyyy-MM-dd");
+                    TextBoxEndTime.Text = DateTime.Now.ToString("yyyy-MM-dd");
                     this.cgiTR.Visible = false;
 				}
 			}
