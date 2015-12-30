@@ -247,7 +247,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 ht2.Add("3", "ʧЧ");
 
 
-                //classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0], "Ftrade_state_new", "Ftrade_state_str", "PAY_STATE");
+                classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0], "Ftrade_state_new", "Ftrade_state_str", "PAY_STATE");
 
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Famount", "Famount_str");
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Frefund_amount", "Frefund_amountStr");
