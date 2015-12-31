@@ -9,6 +9,8 @@ using System.Collections;
 using CFT.CSOMS.DAL.CFTAccount;
 using CFT.CSOMS.DAL.Infrastructure;
 using TENCENT.OSS.CFT.KF.DataAccess;
+using BankLib;
+using System.Web;
 
 namespace CFT.CSOMS.BLL.WechatPay
 {
@@ -398,9 +400,9 @@ namespace CFT.CSOMS.BLL.WechatPay
         /// <param name="sub_order_no">子商户订单号</param>
         /// <param name="sub_order_id">子支付单号</param>
         /// <returns></returns>
-        public DataSet QueryDeclareDogInfo(string partner,string transaction_id,string out_trade_no,string sub_order_no,string sub_order_id ) 
+        public DataSet QueryDeclareDogInfo(string partner, string transaction_id, string out_trade_no, string sub_order_no, string sub_order_id)
         {
-            if (string.IsNullOrEmpty(partner.Trim())) 
+            if (string.IsNullOrEmpty(partner.Trim()))
             {
                 throw new Exception("商户号不能为空！");
             }
@@ -412,46 +414,102 @@ namespace CFT.CSOMS.BLL.WechatPay
                 throw new Exception("支付单号,商户订单号,子商户订单号,子支付单号不能同时为空！");
             }
 
-            DataSet ds= new TradePayData().QueryDeclareDogInfo(partner, transaction_id, out_trade_no, sub_order_no, sub_order_id);
-
-            DataTable dtF = ds.Tables[0];
-            DataTable dtS = ds.Tables[1];
-
-            dtS.Columns.Add("number", typeof(string));
-            dtS.Columns.Add("state_str",typeof(string));
-            dtS.Columns.Add("modify_time_str", typeof(string));
-
-            int i = 1;
-            foreach (DataRow dr in dtS.Rows)
+            DataSet ds = new TradePayData().QueryDeclareDogInfo(partner, transaction_id, out_trade_no, sub_order_no, sub_order_id);
+            if (ds != null && ds.Tables.Count != 0)
             {
-                dr["number"] = i.ToString();
-                i++;
+                DataTable dtF = ds.Tables[0];
+                DataTable dtS = ds.Tables[1];
 
-                string state = dr["state"].ToString();
-                dr["state_str"] = state == "1" ? "待申报" :
-                                  state == "3" ? "申报中" :
-                                  state == "4" ? "申报成功" :
-                                  state == "5" ? "申报失败" : state;
-                if (dtF != null && dtF.Rows.Count > 0)
+                dtS.Columns.Add("number", typeof(string));
+                dtS.Columns.Add("state_str", typeof(string));
+                dtS.Columns.Add("modify_time_str", typeof(string));
+                dtS.Columns.Add("customs_str", typeof(string));
+                dtS.Columns.Add("order_fee_str", typeof(string));
+                dtS.Columns.Add("product_fee_str", typeof(string));
+                dtS.Columns.Add("transport_fee_str", typeof(string));
+                dtS.Columns.Add("duty_str", typeof(string));
+
+                int i = 1;
+                foreach (DataRow dr in dtS.Rows)
                 {
+                    dr["number"] = i.ToString();
+                    i++;
+                    string state = dr["state"].ToString();
+                    dr["state_str"] = state == "1" ? "待申报" :
+                                      state == "3" ? "申报中" :
+                                      state == "4" ? "申报成功" :
+                                      state == "5" ? "申报失败" : state;
                     dr["modify_time_str"] = string.Format("{0:0000-00-00 00:00:00}", Convert.ToInt64(dr["modify_time"].ToString()));
+                    dr["customs_str"] = Transferred(dr["customs"].ToString().Trim(), "海关编码");
+                    dr["order_fee_str"] = MoneyTransfer.FenToYuan(dr["order_fee"].ToString().Trim());
+                    dr["product_fee_str"] = MoneyTransfer.FenToYuan(dr["product_fee"].ToString().Trim());
+                    dr["transport_fee_str"] = MoneyTransfer.FenToYuan(dr["transport_fee"].ToString().Trim());
+                    dr["duty_str"] = MoneyTransfer.FenToYuan(dr["duty"].ToString().Trim());
                 }
-                
             }
-            return ds; 
+            return ds;
         }
         public DataSet QueryMerchantCustom(string partner)
         {
-            if (string.IsNullOrEmpty(partner.Trim())) 
+            if (string.IsNullOrEmpty(partner.Trim()))
             {
                 throw new Exception("商户号不能为空！");
             }
-            return new TradePayData().QueryMerchantCustom(partner);
+            DataSet ds = new TradePayData().QueryMerchantCustom(partner);
+            if (ds != null && ds.Tables.Count != 0&&ds.Tables[0].Rows.Count>0)
+            {
+                ds.Tables[0].Columns.Add("merchant_type_str", typeof(string));
+                ds.Tables[0].Rows[0]["contact_email"] = BankIOX.DecryptNoPadding(HttpUtility.UrlDecode(ds.Tables[0].Rows[0]["contact_email"].ToString(), Encoding.GetEncoding("gbk")));
+                ds.Tables[0].Rows[0]["contact_name"] = BankIOX.DecryptNoPadding(HttpUtility.UrlDecode(ds.Tables[0].Rows[0]["contact_name"].ToString(), Encoding.GetEncoding("gbk")));
+                ds.Tables[0].Rows[0]["contact_phone"] = BankIOX.DecryptNoPadding(HttpUtility.UrlDecode(ds.Tables[0].Rows[0]["contact_phone"].ToString(), Encoding.GetEncoding("gbk")));
+                ds.Tables[0].Rows[0]["merchant_type_str"] = Transferred(ds.Tables[0].Rows[0]["merchant_type"].ToString().Trim(), "商户类型");
+
+                DataTable dtS = ds.Tables[1];
+                dtS.Columns.Add("custom_id_str", typeof(string));
+                foreach (DataRow dr in dtS.Rows)
+                {
+                    dr["custom_id_str"] = Transferred(dr["custom_id"].ToString().Trim(), "海关编码");
+                }
+            }
+            return ds;
         }
         public DataTable CustomsRedeclare(string requesttext)
         {
             return new TradePayData().CustomsRedeclare(requesttext);
         }
+        /// <summary>
+        /// 海关编码和商户类型转义
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private string Transferred(string id, string type)
+        {
+            if (type == "海关编码")
+            {
+                return id == "1" ? "广州" :
+                 id == "2" ? "杭州" :
+                 id == "3" ? "宁波" :
+                 id == "4" ? "深圳" :
+                 id == "5" ? "郑州（保税物流中心）" :
+                 id == "6" ? "重庆" :
+                 id == "7" ? "西安" :
+                 id == "8" ? "上海" :
+                 id == "9" ? "郑州（综保区）" :
+                   "未知:" + id;
 
+            }
+            else if (type == "商户类型")
+            {
+                return id == "1" ? "境内商户" :
+                        id == "2" ? "境外商户" :
+                        id == "4" ? "微信支付商户" :
+                        "未知:" + id;
+            }
+            else
+            {
+                return "";
+            }
+        }
     }
 }

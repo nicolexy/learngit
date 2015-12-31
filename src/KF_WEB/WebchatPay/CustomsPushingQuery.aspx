@@ -125,7 +125,7 @@
                 <asp:BoundField DataField="sub_order_no" HeaderText="商户子订单号">
                     <HeaderStyle></HeaderStyle>
                 </asp:BoundField>
-                <asp:BoundField DataField="customs" HeaderText="推送海关编码">
+                <asp:BoundField DataField="customs_str" HeaderText="推送海关编码">
                     <HeaderStyle></HeaderStyle>
                 </asp:BoundField>
                   <asp:BoundField DataField="mch_customs_no" HeaderText="商户海关备案号">
@@ -137,19 +137,19 @@
                 <asp:BoundField DataField="explanation" HeaderText="失败原因">
                     <HeaderStyle></HeaderStyle>
                 </asp:BoundField>
-                 <asp:BoundField DataField="order_fee" HeaderText="子订单金额">
+                 <asp:BoundField DataField="order_fee_str" HeaderText="子订单金额">
                     <HeaderStyle></HeaderStyle>
                 </asp:BoundField>
                 <asp:BoundField DataField="fee_type" HeaderText="币种">
                     <HeaderStyle></HeaderStyle>
                 </asp:BoundField>
-                <asp:BoundField DataField="product_fee" HeaderText="商品金额">
+                <asp:BoundField DataField="product_fee_str" HeaderText="商品金额">
                     <HeaderStyle></HeaderStyle>
                 </asp:BoundField>
-                 <asp:BoundField DataField="duty" HeaderText="关税">
+                 <asp:BoundField DataField="duty_str" HeaderText="关税">
                     <HeaderStyle></HeaderStyle>
                 </asp:BoundField>
-                 <asp:BoundField DataField="transport_fee" HeaderText="运费">
+                 <asp:BoundField DataField="transport_fee_str" HeaderText="运费">
                     <HeaderStyle></HeaderStyle>
                 </asp:BoundField>
             </Columns>

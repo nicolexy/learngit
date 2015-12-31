@@ -90,7 +90,7 @@
               <%--  <asp:BoundField DataField="number" HeaderText="序号">
                     <HeaderStyle Width="150px" HorizontalAlign="center"></HeaderStyle>
                 </asp:BoundField>--%>
-               <asp:BoundField DataField="custom_id" HeaderText="发送海关">
+               <asp:BoundField DataField="custom_id_str" HeaderText="发送海关">
                     <HeaderStyle Width="150px" HorizontalAlign="center"></HeaderStyle>
                 </asp:BoundField>
                 <asp:BoundField DataField="customs_company_code" HeaderText="备案号">

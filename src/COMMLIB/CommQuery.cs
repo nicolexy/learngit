@@ -2180,7 +2180,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static DataTable ToDataTable(string json)
+        public static DataTable JSONToDataTable(string json)
         {
             DataTable dataTable = new DataTable();  //实例化
             DataTable result;

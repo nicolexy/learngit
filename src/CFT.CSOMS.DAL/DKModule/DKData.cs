@@ -13,8 +13,8 @@ namespace CFT.CSOMS.DAL.DKModule
     {
         public DataTable GetDKBankList()
         {
-            var ip = Apollo.Common.Configuration.AppSettings.Get<string>("DKRelay_IP", "10.123.6.291");
-            var port = Apollo.Common.Configuration.AppSettings.Get<int>("DKRelay_Port", 356001);
+            var ip = Apollo.Common.Configuration.AppSettings.Get<string>("Relay_IP", "10.123.6.291");
+            var port = Apollo.Common.Configuration.AppSettings.Get<int>("Relay_PORT", 356001);
             string requestString = "banktype_filter_rule=1&biz_type=1";
             string answer = RelayAccessFactory.RelayInvoke(requestString, "6891", false, false, ip, port, "");
             string msg;
@@ -39,7 +39,7 @@ namespace CFT.CSOMS.DAL.DKModule
                 bankaccno = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(bankaccno, "md5").ToLower();
                 string roleid = bank_sname + bankaccno + "@cep.tenpay.com";
                 roleid = PublicRes.ConvertToFuid(roleid);
-                roleid = "2000000501";
+                //roleid = "2000000501";
                 string strSql = " select Fservice_code,'" + bank_sname + "' as Fbanktype,'" + bankaccno + "' as Fbankaccno, ";
 
                 strSql += "sum(case Fdimension when 1 then Fonce_data else 0 end)/100 as Fonce_data,";//单笔限额

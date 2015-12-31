@@ -45,7 +45,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         {
             try
             {
-                Upload();
+                //Upload();
+                Thread thread = new Thread(Upload);
+                thread.Start();
                 lblmessage.Visible = true;
             }
             catch (Exception ex)
@@ -152,9 +154,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
                 try
                 {
-#if DEBUG
-                    uid = "v_yqyqguo";
-#endif
+//#if DEBUG
+//                    uid = "v_yqyqguo";
+//#endif
                     //重推总数
                     int total = dt != null ? dt.Rows.Count : 0;
                     //失败数量
