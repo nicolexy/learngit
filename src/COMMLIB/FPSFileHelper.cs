@@ -1,5 +1,6 @@
 ﻿using CFT.Apollo.Common.Configuration;
 using commLib.Entity;
+using SunLibrary;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +16,7 @@ namespace commLib
     /// </summary>
     public class FPSFileHelper
     {
-        private readonly static string appId = AppSettings.Get<string>("FPSAppid", "cfttest");
+        private readonly static string appId = AppSettings.Get<string>("FPSAppid", "csoms");
         private readonly static string Uploadurl = AppSettings.Get<string>("FPSUploadFileURL", "http://fps.zw.cf.com");
         /// <summary>
         /// 上传文件到fps文件服务器
@@ -29,30 +30,41 @@ namespace commLib
             UploadFileModel fileModel = null;
 
             using (var client = new HttpClient())
-            using (var content = new MultipartFormDataContent())
             {
-                upOutTime = upOutTime <= 0 ? 60 : upOutTime;
-                //设置请求超时时长：1小时
-                client.Timeout = TimeSpan.FromMinutes(upOutTime);
-                client.BaseAddress = new Uri(Uploadurl);
-                content.Add(new StringContent(filepathname), "filepathname");
-
-                using (var fileContent1 = new StreamContent(file))
+                var content = new MultipartFormDataContent();
+                try
                 {
-                    fileContent1.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                    content.Add(fileContent1, "filedata", filepathname);       //添加上传数据
+                    upOutTime = upOutTime <= 0 ? 60 : upOutTime;
+                    //设置请求超时时长：1小时
+                    client.Timeout = TimeSpan.FromMinutes(upOutTime);
+                    client.BaseAddress = new Uri(Uploadurl);
 
-                    //上传文件
-                    var result = client.PostAsync("/file/" + appId, content).Result;
-                  
-                    var retData = result.Content.ReadAsStringAsync();
-                    //json 转为 UploadFileModel对象
-                    System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
-                    fileModel = jss.Deserialize<UploadFileModel>(retData.Result);
-                    if (fileModel.errcode == 0)
+                    content.Add(new StringContent(filepathname), "filepathname");
+                    using (var fileContent1 = new StreamContent(file))
                     {
-                        fileModel.url = Uploadurl + "/" + fileModel.fileurl;
+                        fileContent1.Headers.Add("Content-Disposition", "form-data; name=\"filedata\"; filename=\"" + Path.GetFileName(filepathname) + "\"");
+                        content.Add(fileContent1);       //添加上传数据
+
+                        //上传文件
+                        var result = client.PostAsync("/file/" + appId, content).Result;
+                        var retData = result.Content.ReadAsStringAsync();
+                        //json 转为 UploadFileModel对象
+                        System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+                        fileModel = jss.Deserialize<UploadFileModel>(retData.Result);
+                        if (fileModel.errcode == 0)
+                        {
+                            fileModel.url = Uploadurl + "/" + fileModel.fileurl;
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.LogInfo(string.Format("FPS文件上传失败:{0} ,异常:{1}", filepathname, ex.ToString()), "FPSFileHelper");
+                    throw;
+                }
+                finally
+                {
+                    content.Dispose();
                 }
             }
 
