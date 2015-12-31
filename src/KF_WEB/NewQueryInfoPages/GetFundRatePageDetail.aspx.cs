@@ -222,7 +222,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "Éú³ÉÉêÇëµ¥Ê§°Ü£¡" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "Éú³ÉÉêÇëµ¥Ê§°Ü£¡" + PublicRes.GetErrorMsg(eSys.ToString()));
                 return;
             }
         }
@@ -276,7 +276,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "Ìá½»ÉêÇëµ¥Ê§°Ü£º" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "Ìá½»ÉêÇëµ¥Ê§°Ü£º" + PublicRes.GetErrorMsg(eSys.ToString()));
                 return;
             }
         }
@@ -309,7 +309,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "ÉêÇëµ¥²éÑ¯Ê§°Ü£¡" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "ÉêÇëµ¥²éÑ¯Ê§°Ü£¡" + PublicRes.GetErrorMsg(eSys.ToString()));
                 return;
             }
         }
@@ -342,7 +342,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "Éú³ÉÉêÇëµ¥Ê§°Ü£¡" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "Éú³ÉÉêÇëµ¥Ê§°Ü£¡" + PublicRes.GetErrorMsg(eSys.ToString()));
                 return;
             }
         }
@@ -398,7 +398,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "Ìá½»ÉêÇëµ¥Ê§°Ü£º" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "Ìá½»ÉêÇëµ¥Ê§°Ü£º" + PublicRes.GetErrorMsg(eSys.ToString()));
                 return;
             }
         }
@@ -471,7 +471,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "Ìá½»ÉêÇëµ¥Ê§°Ü£º" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "Ìá½»ÉêÇëµ¥Ê§°Ü£º" + PublicRes.GetErrorMsg(eSys.ToString()));
                 return;
             }
         }
@@ -484,13 +484,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         {
             try
             {
-                try
-                {
-                    upImage(FileLCT);
-                }
-                catch
-                {
-                }
+                upImage(FileLCT);
                 lblLCT_uin.Text = ViewState["uin"].ToString();
                 lblLCT_total_fee.Text = ViewState["total_fee"].ToString();
                 //lblLCT_fund_code.Text = ViewState["fund_code"].ToString();
@@ -511,7 +505,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "Éú³ÉÉêÇëµ¥Ê§°Ü£¡" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "Éú³ÉÉêÇëµ¥Ê§°Ü£¡" + PublicRes.GetErrorMsg(eSys.ToString()));
                 return;
             }
         }
@@ -546,7 +540,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "ÉêÇëµ¥²éÑ¯Ê§°Ü£¡" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "ÉêÇëµ¥²éÑ¯Ê§°Ü£¡" + PublicRes.GetErrorMsg(eSys.ToString()));
                 return;
             }
         }
@@ -580,7 +574,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "ÉêÇëµ¥²éÑ¯Ê§°Ü£¡" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "ÉêÇëµ¥²éÑ¯Ê§°Ü£¡" + PublicRes.GetErrorMsg(eSys.ToString()));
                 return;
             }
         }
@@ -627,8 +621,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception eStr)
             {
-                string errMsg = "ÉÏ´«ÎÄ¼þÊ§°Ü£¡" + eStr.Message.ToString().Replace("'", "¡¯");
-                throw new Exception(errMsg);
+                throw new Exception("ÉÏ´«ÎÄ¼þÊ§°Ü£¡", eStr);
             }
         }
 
@@ -702,7 +695,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "Ìá½»ÉêÇëµ¥Ê§°Ü£º" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "Ìá½»ÉêÇëµ¥Ê§°Ü£º" + PublicRes.GetErrorMsg(eSys.ToString()));
                 return;
             }
         }
@@ -750,7 +743,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception eSys)
             {
-                WebUtils.ShowMessage(this.Page, "ÉêÇëµ¥²éÑ¯Ê§°Ü£¡" + eSys.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "ÉêÇëµ¥²éÑ¯Ê§°Ü£¡" + PublicRes.GetErrorMsg(eSys.ToString()));
                 return;
             }
         }
@@ -792,7 +785,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                ShowMsg(PublicRes.GetErrorMsg(ex.Message));
+                ShowMsg(PublicRes.GetErrorMsg(ex.ToString()));
             }
         }
 
@@ -823,7 +816,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
-                WebUtils.ShowMessage(this.Page, "ÐÞ¸Ä³ö´í: " + PublicRes.GetErrorMsg(ex.Message));
+                WebUtils.ShowMessage(this.Page, "ÐÞ¸Ä³ö´í: " + PublicRes.GetErrorMsg(ex.ToString()));
             }
         }
     }
