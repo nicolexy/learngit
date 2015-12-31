@@ -14,6 +14,7 @@ using CFT.CSOMS.DAL.WechatPay.Entity.MmpayHongBaoModel;
 using Google.ProtocolBuffers;
 using SunLibraryEX;
 using TENCENT.OSS.CFT.KF.DataAccess;
+using BankLib;
 
 namespace CFT.CSOMS.DAL.WechatPay
 {
@@ -393,13 +394,20 @@ namespace CFT.CSOMS.DAL.WechatPay
 
             string requestText = "partner=" + partner;
             string answer = RelayAccessFactory.RelayInvoke(requestText, "101659", true, false, ip, port, "");
+//#if DEBUG
+//            answer = "result=0&res_info=ok&partner=1234567890&merchant_type=0&partner_customs_conf=[{\"custom_id\":\"1\",\"customs_company_code\":\"TEST\",\"customs_company_name\":\"测试（ 空格 ）士大夫啊 的啊\"}]&sp_name=&contact_name=X9g00J7um0k%3d&contact_email=OlrL-1xBYqJrMoQ8pkq8xYLkRdY4xl_J&contact_phone=APOBWa-bAUJA7C7-OyrHww%3d%3d";
+//#endif
+            if (!answer.Contains("result=0&res_info=ok"))
+            {
+                throw new Exception("请求串:" + requestText + ";返回串:" + answer);
+            }
             string msg;
             DataTable dt1 = Getdata(answer);
             DataTable dt2 = new DataTable();
             if (dt1 != null && dt1.Rows.Count > 0)
             {
                 string partner_customs_conf = dt1.Rows[0]["partner_customs_conf"].ToString();
-                dt2 = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.ToDataTable(partner_customs_conf);
+                dt2 = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.JSONToDataTable(partner_customs_conf);
             }
             return new DataSet() { Tables = { dt1, dt2 } };
 
@@ -421,7 +429,7 @@ namespace CFT.CSOMS.DAL.WechatPay
             string ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("CustomsIP", "10.123.6.29");
             int port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("CustomsPort", 443);
 
-            string answer = RelayAccessFactory.RelayInvoke(requesttext, "101660", true, false, ip, port, "");
+            string answer = RelayAccessFactory.RelayInvoke(requesttext, "101725", true, false, ip, port, "");
             if (answer.Contains("result=0&res_info=ok"))
             {
                 dt = Getdata(answer, "transaction_id,out_trade_no,fail_info", true);
@@ -503,6 +511,51 @@ namespace CFT.CSOMS.DAL.WechatPay
                 return dt;
             }
         }
+        /// <summary>
+        /// 解析result=0&res_info=ok&partner=1234567890&out_trade_no=45678901&transaction_id=12343531231231&count=1&mch_customs_no_0=4401962010&customs_0=1&state_0=1&modify_time_0=20151208132419&business_type_0=1&explanation_0=
+        /// </summary>
+        /// <param name="answer"></param>
+        /// <returns></returns>
+        private DataTable Getdata2(string answer)
+        {
+            Hashtable ht = new Hashtable();
+            foreach (string item in answer.Split('&'))
+            {
+                string[] _item = item.Split('=');
+                ht.Add(_item[0], _item[1]);
+            }
+            DataTable dt = new DataTable();
 
+            foreach (DictionaryEntry item in ht)
+            {
+                if (item.Key.ToString().EndsWith("_0"))
+                {
+                    dt.Columns.Add(item.Key.ToString().Replace("_0", ""), typeof(string));
+                }
+            }
+
+            int i = 0;
+            while (true)
+            {
+                bool endwhile = true;
+                DataRow dr = dt.NewRow();
+                foreach (DataColumn dc in dt.Columns)
+                {
+                    string colName = dc.ColumnName;
+                    if (ht.Contains(colName + "_" + i))
+                    {
+                        dr[colName] = ht[colName + "_" + i].ToString();
+                        endwhile = false;
+                    }
+                }
+                if (endwhile)
+                {
+                    break;
+                }
+                dt.Rows.Add(dr);
+                i++;
+            }
+            return dt;
+        }
     }
 }

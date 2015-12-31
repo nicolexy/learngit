@@ -94,10 +94,12 @@ namespace CFT.CSOMS.DAL.TradeModule
             string fields = "listid:{0}|begintime:{1}|endtime:{2}";
 
             fields = string.Format(fields, listid, u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"), u_EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
-            DataSet ds1 = new PublicRes().QueryCommRelay8020("2416", fields, 0, 1);
-            ds = PublicRes.ToOneDataset(ds, ds1);
-            DataSet ds2 = new PublicRes().QueryCommRelay8020("2417", fields, 0, 1);
-            ds = PublicRes.ToOneDataset(ds, ds2);
+
+            //2416:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$
+            //2427:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(spider)
+            //2417:查询库表c2c_db.t_tcpay_list 
+            ds = multi_query(fields, new string[] { "2416", "2427", "2417" }, 0, 1);
+            
 
            //加查上月或者下月的表
             DataSet ds3 = new DataSet();
@@ -108,10 +110,12 @@ namespace CFT.CSOMS.DAL.TradeModule
                 u_EndTime = u_BeginTime;
             }
             fields = string.Format(fields, listid, u_BeginTime.ToString("yyyy-MM-01"), u_EndTime.ToString("yyyy-MM-dd"));
-            ds3 = new PublicRes().QueryCommRelay8020("2416", fields, 0, 1);
+            //2416:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$
+            //2427:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(spider)
+            ds3 = multi_query(fields, new string[] { "2416", "2427" }, 0, 1); //new PublicRes().QueryCommRelay8020("2416", fields, 0, 1);
             ds = PublicRes.ToOneDataset(ds, ds3);
             return ds;
-        }
+       }
 
 
        private DataSet PickQueryClass(string u_ID, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, string sorttype, int idtype, string cashtype, bool isSecret, int offset, int limit)
@@ -190,7 +194,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                 fields = fields.Substring(1, fields.Length - 1);
             }
 
-            DataSet dstemp = new PublicRes().QueryCommRelay8020("2416", fields, offset, limit);
+            DataSet dstemp = multi_query(fields, new string[] { "2416", "2427" },offset, limit); // new PublicRes().QueryCommRelay8020("2416", fields, offset, limit);
             ds = PublicRes.ToOneDataset(ds, dstemp);
             dstemp = new PublicRes().QueryCommRelay8020("2417", fields, offset, limit);
             ds = PublicRes.ToOneDataset(ds, dstemp);
@@ -210,12 +214,14 @@ namespace CFT.CSOMS.DAL.TradeModule
              string fields = "Fuid:{0}|begindate:{1}|enddate:{2}";
              fields = string.Format(fields, Fuid, begindate.ToString("yyyy-MM-dd 00:00:00"), enddate.ToString("yyyy-MM-dd 23:59:59"));
 
-             DataSet ds1 = new PublicRes().QueryCommRelay8020("2418", fields, offset, limit);
-             DataSet ds2 = new PublicRes().QueryCommRelay8020("2419", fields, offset, limit);
-             DataSet ds = PublicRes.ToOneDataset(ds1, ds2);
+             //DataSet ds1 = new PublicRes().QueryCommRelay8020("2418", fields, offset, limit);
+             //DataSet ds2 = new PublicRes().QueryCommRelay8020("2419", fields, offset, limit);
+             //DataSet ds = PublicRes.ToOneDataset(ds1, ds2);
+             DataSet ds = multi_query(fields, new string[] { "2418", "2428", "2419" }, offset, limit);
+
 
              //加查上月或者下月的表
-             DataSet ds3 = new DataSet();
+             DataSet ds2 = new DataSet();
              fields = "Fuid:{0}|begindate:{1}|enddate:{2}";
              begindate = begindate.Day > 15 ? begindate.AddMonths(1) : begindate.AddMonths(-1);
              if (begindate > enddate)
@@ -223,8 +229,9 @@ namespace CFT.CSOMS.DAL.TradeModule
                  enddate = begindate;
              }
              fields = string.Format(fields, Fuid, begindate.ToString("yyyy-MM-01"), enddate.ToString("yyyy-MM-dd"));
-             ds3 = new PublicRes().QueryCommRelay8020("2418", fields, offset, limit);
-             ds = PublicRes.ToOneDataset(ds, ds3);
+             //ds3 = new PublicRes().QueryCommRelay8020("2418", fields, offset, limit);
+             ds2 = multi_query(fields, new string[] { "2418", "2428"}, offset, limit);
+             ds = PublicRes.ToOneDataset(ds, ds2);
              return ds;
          }
         //信用卡还款根据还款交易号查询
@@ -237,7 +244,8 @@ namespace CFT.CSOMS.DAL.TradeModule
             DateTime date = GetPayListTableFromID(Flistid);
             fields = "listid:{0}|date:{1}";
             fields = string.Format(fields, Flistid, date.ToString("yyyy-MM-dd"));
-            DataSet ds2 = new PublicRes().QueryCommRelay8020("2421", fields, offset, limit);
+            //DataSet ds2 = new PublicRes().QueryCommRelay8020("2421", fields, offset, limit);
+            DataSet ds2 = multi_query(fields, new string[] { "2421", "2429" }, offset, limit);
             ds = PublicRes.ToOneDataset(ds, ds2);
 
             //加查上月或者下月的表
@@ -245,7 +253,8 @@ namespace CFT.CSOMS.DAL.TradeModule
             fields = "listid:{0}|date:{1}";
             date = date.Day > 15 ? date.AddMonths(1) : date.AddMonths(-1);
             fields = string.Format(fields, Flistid, date.ToString("yyyy-MM-dd"));
-            ds3 = new PublicRes().QueryCommRelay8020("2421", fields, offset, limit);
+            //ds3 = new PublicRes().QueryCommRelay8020("2421", fields, offset, limit);
+            ds3 = multi_query(fields, new string[] { "2421", "2429"}, offset, limit);
             ds = PublicRes.ToOneDataset(ds, ds3);
             return ds;
         }
@@ -275,10 +284,10 @@ namespace CFT.CSOMS.DAL.TradeModule
 //#endif
                     string format = "uid:{0}|begintime:{1}|endtime:" + dtEnd.ToString("yyyy-MM-dd");
                     var fields = string.Format(format, Fuid, dtBegin.ToString("yyyy-MM-dd"));
-                    DataSet temp1 = new PublicRes().QueryCommRelay8020("2424", fields, offset, limit);  //历史库
-                    DataSet temp2 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);  //查询开始日期当月 - 分库表
-                    ds = PublicRes.ToOneDataset(temp1, temp2);
-
+                    //DataSet temp1 = new PublicRes().QueryCommRelay8020("2424", fields, offset, limit);  //历史库
+                    //DataSet temp2 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);  //查询开始日期当月 - 分库表
+                    //ds = PublicRes.ToOneDataset(temp1, temp2);
+                    ds = multi_query(fields, new string[] { "2423", "2430", "2424" }, offset, limit);
                     if (dtBegin.Month != dtEnd.Month || dtBegin.Year != dtEnd.Year) //如果跨月
                     {
                         var sDate = dtBegin.AddDays(1 - dtBegin.Day);
@@ -288,7 +297,8 @@ namespace CFT.CSOMS.DAL.TradeModule
                             if (sDate > dtEnd) 
                                 break;
                             fields = string.Format(format, Fuid, sDate.ToString("yyyy-MM-dd"));
-                            var temp3 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);
+                            //var temp3 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);
+                            var temp3 = multi_query(fields, new string[] { "2423", "2430" }, offset, limit);
                             ds = PublicRes.ToOneDataset(ds, temp3);
                         }
                     }
@@ -363,6 +373,31 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             return tmp.ToString().Trim();
         }
+
+            /// <summary>
+       ///提现记录加查spider
+       /// </summary>
+       /// <param name="fields"></param>
+       /// <returns></returns>
+        private DataSet multi_query(string fields, string[] reqids, int offset = 0, int limit = 1)
+        {
+            string msg = "";
+            DataSet ds = new DataSet();
+            foreach (string reqid in reqids)
+            {
+                try
+                {
+                    DataSet dstemp = new PublicRes().QueryCommRelay8020(reqid, fields, offset, limit);
+                    ds = PublicRes.ToOneDataset(ds, dstemp);
+                }
+                catch (Exception e)
+                {
+                    msg = e.Message;
+                }
+            }
+            return ds;
+        }
+
         private DateTime GetPayListTableFromID(string listid)
         {
             //1、3位系统ID+YYYYMMDD+10位流水号；

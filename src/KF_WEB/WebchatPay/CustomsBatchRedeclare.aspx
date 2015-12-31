@@ -37,7 +37,7 @@
             <tr>
                 <td>请上传重推文件：<asp:FileUpload runat="server" ID="fileUpload" />
                     <asp:Button ID="btnUpload" runat="server" Width="80px" Text="上传" OnClick="btnUpload_Click" ></asp:Button>
-                    <a href="/Template/Excel/海关重推模板.xls">点击下载文件模板</a>
+                    <a href="/Template/Excel/CustomsTemplate.xls">点击下载文件模板</a>
                 </td>
             </tr>
             <tr>

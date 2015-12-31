@@ -14705,7 +14705,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     throw new Exception(msg);
                 }
-                if (ds != null && ds.Tables.Count > 0)
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Columns.Contains("need2bank"))
                 {
                     DataTable dt = ds.Tables[0];
 
@@ -15682,7 +15682,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
-                throw new Exception("service发生错误,请联系管理员！");
+                throw e;
                 return 0;
             }
         }
@@ -15697,7 +15697,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
-                throw new Exception("service发生错误,请联系管理员！");
+                throw e;
             }
         }
 
