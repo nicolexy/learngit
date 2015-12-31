@@ -57,13 +57,13 @@
 						</asp:dropdownlist></TD>
 				</TR>
 				<TR>
-					<TD align="right"><asp:label id="Label8" runat="server">帐号类型</asp:label></TD>
+					<%--<TD align="right"><asp:label id="Label8" runat="server">帐号类型</asp:label></TD>
 					<TD><asp:dropdownlist id="ddlQQType" runat="server" Width="152px">
 							<asp:ListItem Value="">所有类型</asp:ListItem>
 							<asp:ListItem Value="0">非会员</asp:ListItem>
 							<asp:ListItem Value="1">普通会员</asp:ListItem>
 							<asp:ListItem Value="2">VIP会员</asp:ListItem>
-						</asp:dropdownlist></TD>
+						</asp:dropdownlist></TD>--%>
 					<td align="right">
 						<asp:label id="Label9" runat="server">处理类别</asp:label></td>
 					<td>

@@ -363,24 +363,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 LogHelper.LogInfo("出现异常：" + ex.Message + "异常堆栈信息：" + ex.StackTrace);
             }
 
-            try
-            {
-                string uin = Session["QQID"].ToString();
-                AccountService acc = new AccountService();
-                DataTable dt = new VIPService().QueryVipInfo(uin.Trim());
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    this.vip_value.Text = dt.Rows[0]["value"].ToString();
-                    this.vip_flag.Text = dt.Rows[0]["vipflag_str"].ToString();
-                    this.vip_level.Text = dt.Rows[0]["level"].ToString();
-                    this.vip_channel.Text = dt.Rows[0]["subid_str"].ToString();
-                    this.vip_exp_date.Text = dt.Rows[0]["exp_date"].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.LogInfo("出现异常：" + ex.Message + "异常堆栈信息：" + ex.StackTrace);
-            }
+            //try
+            //{
+                //TAPD: 客服系统新需求363-财付通会员查询删除  ID：57321229
+                //string uin = Session["QQID"].ToString();
+                //AccountService acc = new AccountService();
+                //DataTable dt = new VIPService().QueryVipInfo(uin.Trim());
+                //if (dt != null && dt.Rows.Count > 0)
+                //{
+                //    this.vip_value.Text = dt.Rows[0]["value"].ToString();
+                //    this.vip_flag.Text = dt.Rows[0]["vipflag_str"].ToString();
+                //    this.vip_level.Text = dt.Rows[0]["level"].ToString();
+                //    this.vip_channel.Text = dt.Rows[0]["subid_str"].ToString();
+                //    this.vip_exp_date.Text = dt.Rows[0]["exp_date"].ToString();
+                //}
+            //}
+            //catch (Exception ex)
+            //{
+            //    LogHelper.LogInfo("出现异常：" + ex.Message + "异常堆栈信息：" + ex.StackTrace);
+            //}
 
             try
             {
@@ -589,17 +590,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             try
             {
-                string uin = Session["QQID"].ToString();
-                AccountService acc = new AccountService();
-                DataTable dt = new VIPService().QueryVipInfo(uin.Trim());
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    this.vip_value.Text = dt.Rows[0]["value"].ToString();
-                    this.vip_flag.Text = dt.Rows[0]["vipflag_str"].ToString();
-                    this.vip_level.Text = dt.Rows[0]["level"].ToString();
-                    this.vip_channel.Text = dt.Rows[0]["subid_str"].ToString();
-                    this.vip_exp_date.Text = dt.Rows[0]["exp_date"].ToString();
-                }
+                //TAPD: 客服系统新需求363-财付通会员查询删除  ID：57321229
+                //string uin = Session["QQID"].ToString();
+                //AccountService acc = new AccountService();
+
+                //DataTable dt = new VIPService().QueryVipInfo(uin.Trim());
+                //if (dt != null && dt.Rows.Count > 0)
+                //{
+                //    this.vip_value.Text = dt.Rows[0]["value"].ToString();
+                //    this.vip_flag.Text = dt.Rows[0]["vipflag_str"].ToString();
+                //    this.vip_level.Text = dt.Rows[0]["level"].ToString();
+                //    this.vip_channel.Text = dt.Rows[0]["subid_str"].ToString();
+                //    this.vip_exp_date.Text = dt.Rows[0]["exp_date"].ToString();
+                //}
             }
             catch
             {
