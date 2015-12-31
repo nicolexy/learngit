@@ -353,23 +353,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
             SetButtonVisible(); //furion 20050902
       
-            try
-            {
-                string uin = Session["QQID"].ToString();
-                AccountService acc = new AccountService();
-                DataTable dt = new VIPService().QueryVipInfo(uin.Trim());
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    this.vip_value.Text = dt.Rows[0]["value"].ToString();
-                    this.vip_flag.Text = dt.Rows[0]["vipflag_str"].ToString();
-                    this.vip_level.Text = dt.Rows[0]["level"].ToString();
-                    this.vip_channel.Text = dt.Rows[0]["subid_str"].ToString();
-                    this.vip_exp_date.Text = dt.Rows[0]["exp_date"].ToString();
-                }
-            }
-            catch
-            {
-            }
+            //try
+            //{
+            //    string uin = Session["QQID"].ToString();
+            //    AccountService acc = new AccountService();
+            //    DataTable dt = new VIPService().QueryVipInfo(uin.Trim());
+            //    if (dt != null && dt.Rows.Count > 0)
+            //    {
+            //        this.vip_value.Text = dt.Rows[0]["value"].ToString();
+            //        this.vip_flag.Text = dt.Rows[0]["vipflag_str"].ToString();
+            //        this.vip_level.Text = dt.Rows[0]["level"].ToString();
+            //        this.vip_channel.Text = dt.Rows[0]["subid_str"].ToString();
+            //        this.vip_exp_date.Text = dt.Rows[0]["exp_date"].ToString();
+            //    }
+            //}
+            //catch
+            //{
+            //}
 
             try
             {
@@ -559,23 +559,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
 
         
-            try
-            {
-                string uin = Session["QQID"].ToString();
-                AccountService acc = new AccountService();
-                DataTable dt =new VIPService().QueryVipInfo(uin.Trim());
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    this.vip_value.Text = dt.Rows[0]["value"].ToString();
-                    this.vip_flag.Text = dt.Rows[0]["vipflag_str"].ToString();
-                    this.vip_level.Text = dt.Rows[0]["level"].ToString();
-                    this.vip_channel.Text = dt.Rows[0]["subid_str"].ToString();
-                    this.vip_exp_date.Text = dt.Rows[0]["exp_date"].ToString();
-                }
-            }
-            catch
-            {
-            }
+            //try
+            //{
+            //    string uin = Session["QQID"].ToString();
+            //    AccountService acc = new AccountService();
+            //    DataTable dt =new VIPService().QueryVipInfo(uin.Trim());
+            //    if (dt != null && dt.Rows.Count > 0)
+            //    {
+            //        this.vip_value.Text = dt.Rows[0]["value"].ToString();
+            //        this.vip_flag.Text = dt.Rows[0]["vipflag_str"].ToString();
+            //        this.vip_level.Text = dt.Rows[0]["level"].ToString();
+            //        this.vip_channel.Text = dt.Rows[0]["subid_str"].ToString();
+            //        this.vip_exp_date.Text = dt.Rows[0]["exp_date"].ToString();
+            //    }
+            //}
+            //catch
+            //{
+            //}
 
             try
             {

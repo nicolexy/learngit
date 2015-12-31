@@ -120,7 +120,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			ViewState["enddate"] = DateTime.Parse(enddate.ToString("yyyy-MM-dd 23:59:59"));
 
 			ViewState["ftype"] = ddlType.SelectedValue;
-			ViewState["QQType"] = ddlQQType.SelectedValue;
+            ViewState["QQType"] = "";// ddlQQType.SelectedValue;
             ViewState["SortType"] = ddlSortType.SelectedValue;//排序
             
 
@@ -411,7 +411,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 						throw new Exception("该申诉状态不允许领单");
 					}
 					Response.Write("<script>window.open('UserAppealCheck.aspx?BeginDate=" + begindate.ToString("yyyy-MM-dd") + "&EndDate=" + enddate.ToString("yyyy-MM-dd") + "&fstate=" +
-                        ddlState.SelectedValue + "&ftype=" + ddlType.SelectedValue + "&qqtype=" + ddlQQType.SelectedValue + "&Count=" + TicketsCount.ToString() + "&SortType=" + SortType + "&dotype=" + DDL_DoType.SelectedValue + "','_blank','');</script>");
+                        ddlState.SelectedValue + "&ftype=" + ddlType.SelectedValue + "&qqtype=&Count=" + TicketsCount.ToString() + "&SortType=" + SortType + "&dotype=" + DDL_DoType.SelectedValue + "','_blank','');</script>");
 				}
 			}
 			catch(Exception err)

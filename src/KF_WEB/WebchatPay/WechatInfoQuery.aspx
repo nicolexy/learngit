@@ -377,7 +377,7 @@
                             <asp:Label ID="Label18_Attid" runat="server">BB</asp:Label>
                         </td>
                     </tr>
-                    <tr>
+                    <%--<tr>
                         <td style="height: 14px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="14">
                             <font face="宋体">&nbsp;财富值:</font>
@@ -394,8 +394,8 @@
                             <font face="宋体">&nbsp;</font>
                             <asp:Label ID="vip_flag" runat="server"></asp:Label>
                         </td>
-                    </tr>
-                    <tr>
+                    </tr>--%>
+                    <%--<tr>
                         <td style="height: 14px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="14">
                             <font face="宋体">&nbsp;会员等级:</font>
@@ -412,16 +412,16 @@
                             <font face="宋体">&nbsp;</font>
                             <asp:Label ID="vip_channel" runat="server"></asp:Label>
                         </td>
-                    </tr>
+                    </tr>--%>
                     <tr>
-                        <td style="height: 14px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
+                        <%--<td style="height: 14px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="14">
                             <font face="宋体">&nbsp;会员关闭时间:</font>
                         </td>
                         <td style="height: 14px" bgcolor="#ffffff" height="14" colspan="2">
                             <font face="宋体">&nbsp;</font>
                             <asp:Label ID="vip_exp_date" runat="server"></asp:Label>
-                        </td>
+                        </td>--%>
                         <td style="height: 14px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="14">
                             <font face="宋体">&nbsp;实名认证:</font>
@@ -430,6 +430,8 @@
                             <font face="宋体">&nbsp;</font>
                             <asp:Label ID="labUserClassInfo" runat="server"></asp:Label>
                         </td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee" height="10">
