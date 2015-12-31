@@ -3262,6 +3262,83 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             return dsresult;
         }
 
+
+        /// <summary>
+        /// 格式：result=0&res_info=ok&total_num=n&paramOne_0=&paramTwo_0=&paramOne_1=&paramTwo_1=...&paramOne_n=&paramTwo_n=
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="errMsg"></param>
+        /// <returns></returns>
+        public static DataTable ParseRelayPageMethod2(string str, out string errMsg)
+        {
+            DataTable dt = new DataTable();
+            Hashtable ht = null;
+            errMsg = "";
+
+            if (str != null && str != "")
+            {
+                string[] strlist1 = str.Split('&'); //result=0&xx1=1&xx2=2
+
+                if (strlist1.Length == 0)
+                {
+                    dt = null;
+                    errMsg = "调用失败,返回结果有误" + str;
+                    return null;
+                }
+
+                ht = new Hashtable(strlist1.Length);
+
+                foreach (string strtmp in strlist1)
+                {
+                    string[] strlist2 = strtmp.Split('=');
+                    if (strlist2.Length != 2)
+                    {
+                        continue;
+                    }
+                    if (!ht.Contains(strlist2[0].Trim()))
+                    {
+                        ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
+                    }
+                }
+
+                if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
+                {
+                    dt = null;
+                    errMsg = "调用失败,返回结果有误" + str;
+                    return null;
+                }
+
+               
+                int totalNum = Int32.Parse(ht["total_num"].ToString().Trim());
+                foreach (string s in ht.Keys)
+                {
+                    if (s.EndsWith("_1"))
+                    {
+                        dt.Columns.Add(s.Replace("_1", ""),typeof(string));
+                    }
+                }
+                for (int i = 0; i < totalNum; i++)
+                {
+                    DataRow drfield = dt.NewRow();
+                    drfield.BeginEdit();
+                    foreach (string s in ht.Keys)
+                    {
+                        if (s.EndsWith("_" + i.ToString()))
+                        {
+                            string fiedlName = s.Replace("_" + i.ToString(), "");
+                            if (dt.Columns.Contains(fiedlName))
+                            {
+                                drfield[fiedlName] = IceDecode(ht[s].ToString().Trim());
+                            }
+                        }
+                    }
+                    drfield.EndEdit();
+                    dt.Rows.Add(drfield);
+                }
+            }
+            return dt;
+        }
+
         /// <summary>
         /// 把字符串解析成DataTable - result=0&=ok&row_num=n&row_info=n&paramOne_0=&paramTwo_0=&paramOne_1=&paramTwo_1=...&paramOne_n=&paramTwo_n=
         /// result=0&res_info=ok&row_num=4&row_info=
