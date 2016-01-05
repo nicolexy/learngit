@@ -35,7 +35,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
             catch (Exception ex) 
             {
-                WebUtils.ShowMessage(this.Page, HttpUtility.JavaScriptStringEncode(ex.Message));
+                WebUtils.ShowMessage(this.Page, "调用服务出错！" + HttpUtility.JavaScriptStringEncode(ex.Message));
             }
         }
         private void Bind(string partner)
@@ -44,7 +44,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             DataTable dt1 = ds.Tables[0];
             txt_partner.Text = dt1.Rows[0]["partner"].ToString();
             txt_sp_name.Text = dt1.Rows[0]["sp_name"].ToString();
-            txt_merchant_type.Text = dt1.Rows[0]["merchant_type"].ToString();
+            txt_merchant_type.Text = dt1.Rows[0]["merchant_type_str"].ToString();
             txt_contact_email.Text = dt1.Rows[0]["contact_email"].ToString();
             txt_contact_name.Text = dt1.Rows[0]["contact_name"].ToString();
             txt_contact_phone.Text = dt1.Rows[0]["contact_phone"].ToString();

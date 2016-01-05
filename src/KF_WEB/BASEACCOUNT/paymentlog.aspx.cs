@@ -68,7 +68,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     DS_Payment.Tables.RemoveAt(0);
                     DS_Payment.Tables.Add(dv.ToTable());
 
-					total = Int32.Parse(DS_Payment.Tables[0].Rows[0]["total"].ToString());
+                    total = 10000;
 				}
 				else
 					total = 0;
