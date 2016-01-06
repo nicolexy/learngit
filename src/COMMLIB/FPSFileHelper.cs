@@ -17,7 +17,7 @@ namespace commLib
     public class FPSFileHelper
     {
         private readonly static string appId = AppSettings.Get<string>("FPSAppid", "csoms");
-        private readonly static string Uploadurl = AppSettings.Get<string>("FPSUploadFileURL", "http://fps.zw.cf.com");
+        public readonly static string Uploadurl = AppSettings.Get<string>("FPSUploadFileURL", "http://fps.zw.cf.com");
         /// <summary>
         /// 上传文件到fps文件服务器
         /// </summary>
