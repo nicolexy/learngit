@@ -21,6 +21,7 @@ namespace commLib.Entity
         public string fileid { get; set; }
         public string fileurl { get; set; }
         public string filemd5 { get; set; }
+        public string filepathname { get; set; }
 
         [System.Web.Script.Serialization.ScriptIgnore]
         public string url { get; set; }
