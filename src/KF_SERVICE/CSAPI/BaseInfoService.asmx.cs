@@ -1194,41 +1194,41 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         /// <summary>
-        /// 会员信息
+        ///会员信息查询下线，darrenran 2016-01-06
         /// </summary>
-        [WebMethod]
-        public void QueryVipInfo()
-        {
-            try
-            {
-                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
-                //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "token");
-                //验证token
-                APIUtil.ValidateToken(paramsHt);
+        //[WebMethod]
+        //public void QueryVipInfo()
+        //{
+        //    try
+        //    {
+        //        Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+        //        //验证必填参数
+        //        APIUtil.ValidateParamsNew(paramsHt, "appid", "qqid", "token");
+        //        //验证token
+        //        APIUtil.ValidateToken(paramsHt);
 
-                string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
+        //        string qqid = paramsHt.ContainsKey("qqid") ? paramsHt["qqid"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.CFTAccountModule.VIPService().QueryVipInfo(qqid);
-                if (infos == null || infos.Rows.Count <= 0)
-                {
-                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
-                }
+        //        var infos = new CFT.CSOMS.BLL.CFTAccountModule.VIPService().QueryVipInfo(qqid);
+        //        if (infos == null || infos.Rows.Count <= 0)
+        //        {
+        //            throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+        //        }
 
-                List<BaseInfoC.VIPInfo> list = APIUtil.ConvertTo<BaseInfoC.VIPInfo>(infos);
-                APIUtil.Print<BaseInfoC.VIPInfo>(list);
-            }
-            catch (ServiceException se)
-            {
-                SunLibrary.LoggerFactory.Get("QueryVipInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
-                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
-            }
-            catch (Exception ex)
-            {
-                SunLibrary.LoggerFactory.Get("QueryVipInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
-                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
-            }
-        }
+        //        List<BaseInfoC.VIPInfo> list = APIUtil.ConvertTo<BaseInfoC.VIPInfo>(infos);
+        //        APIUtil.Print<BaseInfoC.VIPInfo>(list);
+        //    }
+        //    catch (ServiceException se)
+        //    {
+        //        SunLibrary.LoggerFactory.Get("QueryVipInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+        //        APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        SunLibrary.LoggerFactory.Get("QueryVipInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+        //        APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+        //    }
+        //}
 
         /// <summary>
         /// 删除认证的操作日志
@@ -1632,16 +1632,10 @@ namespace CFT.CSOMS.Service.CSAPI
                 if (paramsHt.ContainsKey("end_time"))
                 {
                     end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
+                    end_time = end_time.AddDays(1);
                 }
                 int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
                 int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
-
-                //限制数据过多
-                int days= (end_time - begin_time).Days;
-                if (days > 366)
-                {
-                    end_time = begin_time.AddDays(366);
-                }
 
                 if (offset < 0)
                 {
@@ -1921,38 +1915,38 @@ namespace CFT.CSOMS.Service.CSAPI
 
         #region 冻结类
 
-        [WebMethod]
-        public void GetCashOutFreezeListId()
-        {
-            try
-            {
-                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
-                //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "uid", "token");
-                //验证token
-                APIUtil.ValidateToken(paramsHt);
+        //[WebMethod]
+        //public void GetCashOutFreezeListId()
+        //{
+        //    try
+        //    {
+        //        Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+        //        //验证必填参数
+        //        APIUtil.ValidateParamsNew(paramsHt, "appid", "uid", "token");
+        //        //验证token
+        //        APIUtil.ValidateToken(paramsHt);
 
-                string uid = paramsHt.ContainsKey("uid") ? paramsHt["uid"].ToString() : "";
+        //        string uid = paramsHt.ContainsKey("uid") ? paramsHt["uid"].ToString() : "";
 
-                var infos = new CFT.CSOMS.BLL.FreezeModule.FreezeService().GetCashOutFreezeListId(uid);
+        //        var infos = new CFT.CSOMS.BLL.FreezeModule.FreezeService().GetCashOutFreezeListId(uid);
 
-                Record record = new Record();
-                record.RetValue = infos.ToString();
-                List<Record> list = new List<Record>();
-                list.Add(record);
-                APIUtil.Print<Record>(list);
-            }
-            catch (ServiceException se)
-            {
-                SunLibrary.LoggerFactory.Get("GetCashOutFreezeListId").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
-                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
-            }
-            catch (Exception ex)
-            {
-                SunLibrary.LoggerFactory.Get("GetCashOutFreezeListId").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
-                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
-            }
-        }
+        //        Record record = new Record();
+        //        record.RetValue = infos.ToString();
+        //        List<Record> list = new List<Record>();
+        //        list.Add(record);
+        //        APIUtil.Print<Record>(list);
+        //    }
+        //    catch (ServiceException se)
+        //    {
+        //        SunLibrary.LoggerFactory.Get("GetCashOutFreezeListId").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+        //        APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        SunLibrary.LoggerFactory.Get("GetCashOutFreezeListId").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+        //        APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+        //    }
+        //}
 
         /// <summary>
         /// 用户冻结记录查询

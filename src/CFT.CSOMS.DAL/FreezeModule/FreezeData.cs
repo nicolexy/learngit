@@ -191,28 +191,28 @@ namespace CFT.CSOMS.DAL.FreezeModule
             }
         }
 
-        public string GetCashOutFreezeListId(string Uid)
-        {
-            if (string.IsNullOrEmpty(Uid))
-            {
-                throw new ArgumentNullException("必填参数：内部ID为空！");
-            }
+        //public string GetCashOutFreezeListId(string Uid)
+        //{
+        //    if (string.IsNullOrEmpty(Uid))
+        //    {
+        //        throw new ArgumentNullException("必填参数：内部ID为空！");
+        //    }
 
-            var listId = string.Empty;
-            var dbNum = Uid.Substring(Uid.Length - 2, 2);
-            var tableNum = Uid.Substring(Uid.Length - 3, 1);
-            var sql = string.Format(@"SELECT Flistid FROM c2c_db_{0}.t_tcpay_list_{1} WHERE Fuid='{2}' AND Fstate=1 LIMIT 1", dbNum, tableNum, Uid);
-            using (var da = MySQLAccessFactory.GetMySQLAccess("CashOutFreeze"))
-            {
-                da.OpenConn();
-                var dt = da.GetTable(sql);
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    listId = dt.Rows[0][0].ToString();
-                }
-            }
-            return listId;
-        }
+        //    var listId = string.Empty;
+        //    var dbNum = Uid.Substring(Uid.Length - 2, 2);
+        //    var tableNum = Uid.Substring(Uid.Length - 3, 1);
+        //    var sql = string.Format(@"SELECT Flistid FROM c2c_db_{0}.t_tcpay_list_{1} WHERE Fuid='{2}' AND Fstate=1 LIMIT 1", dbNum, tableNum, Uid);
+        //    using (var da = MySQLAccessFactory.GetMySQLAccess("CashOutFreeze"))
+        //    {
+        //        da.OpenConn();
+        //        var dt = da.GetTable(sql);
+        //        if (dt != null && dt.Rows.Count > 0)
+        //        {
+        //            listId = dt.Rows[0][0].ToString();
+        //        }
+        //    }
+        //    return listId;
+        //}
 
         public DataSet GetFreezeListDetail(string tdeid)
         {

@@ -168,15 +168,9 @@ namespace CSAPI
                 string uid = paramsHt.ContainsKey("uid") ? paramsHt["uid"].ToString() : "";
                 DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
                 DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
+                end_time = end_time.AddDays(1);
                 int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
                 int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
-
-                int days = (end_time - begin_time).Days;
-                if (days > 184)
-                {
-                    end_time = begin_time.AddDays(184);
-                }
-                end_time.AddDays(1);
 
                 if (offset < 0)
                 {
@@ -225,13 +219,6 @@ namespace CSAPI
                 int type = APIUtil.StringToInt(paramsHt["type"].ToString());
                 DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
                 DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
-                //将查询时间跨度设置在3个月以内,最长3个月92天
-                TimeSpan ts = end_time - begin_time;
-                int days = ts.Days;
-                if (days > 92)
-                {
-                    end_time = begin_time.AddDays(92);
-                }
                 end_time = end_time.AddDays(1);
                 int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
                 int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
@@ -285,13 +272,6 @@ namespace CSAPI
                 int cur_type = APIUtil.StringToInt(paramsHt["cur_type"].ToString());
                 DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
                 DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
-                //将查询时间跨度设置在3个月以内,最长3个月92天
-                TimeSpan ts = end_time - begin_time;
-                int days = ts.Days;
-                if (days > 92)
-                {
-                    end_time = begin_time.AddDays(92);
-                }
                 end_time = end_time.AddDays(1);
                 int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
                 int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
@@ -343,15 +323,9 @@ namespace CSAPI
                 int type = APIUtil.StringToInt(paramsHt["type"].ToString());
                 DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
                 DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
-                //将查询时间跨度设置在一个月之内,月初查询到月底
-                end_time.AddDays(1);    //需要加一天,不然当天的记录查询不到
-                int month = end_time.Month - begin_time.Month;
-                if (month != 0)
-                {
-                    DateTime tmpDate = new DateTime(begin_time.Year, begin_time.Month, 1);
-                    end_time = tmpDate.AddMonths(1).AddDays(-1);
-                }
-               
+
+                begin_time = DateTime.Parse(begin_time.ToString("yyyy-MM-dd 00:00:00"));
+                end_time = DateTime.Parse(end_time.ToString("yyyy-MM-dd 23:59:59"));
                 int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
                 int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
 
@@ -402,13 +376,6 @@ namespace CSAPI
                 int type = APIUtil.StringToInt(paramsHt["type"].ToString());
                 DateTime begin_time = APIUtil.StrToDate(paramsHt["begin_time"].ToString());
                 DateTime end_time = APIUtil.StrToDate(paramsHt["end_time"].ToString());
-                //将查询时间跨度设置在半年以内,最长半年184天
-                TimeSpan ts = end_time - begin_time;
-                int days = ts.Days;
-                if (days > 184)
-                {
-                    end_time = begin_time.AddDays(184);
-                }
                 end_time = end_time.AddDays(1);
                 int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
                 int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());

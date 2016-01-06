@@ -260,7 +260,6 @@
     </Compile>
     <Compile Include="BaseAccount\CashOutFreezeQuery.aspx.cs">
       <DependentUpon>CashOutFreezeQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\CashOutFreezeQuery.aspx.designer.cs">
       <DependentUpon>CashOutFreezeQuery.aspx</DependentUpon>
