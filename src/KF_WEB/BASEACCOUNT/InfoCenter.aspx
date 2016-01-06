@@ -396,25 +396,28 @@
                             <font face="宋体">&nbsp;</font>
                             <asp:Label ID="vip_exp_date" runat="server"></asp:Label>
                         </td>--%>
+
+                        
+                        <td background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee" height="10">
+                            &nbsp;备注:
+                        </td>
+                        <td bgcolor="#ffffff" height="10" colspan="2">
+                            &nbsp;
+                            <asp:Label ID="Label11_Remark" runat="server">这个家伙很懒，什么都没有留下来。</asp:Label>
+                        </td>
+                        
                         <td style="height: 14px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="14">
                             <font face="宋体">&nbsp;实名认证:</font>
                         </td>
-                        <td style="height: 14px" bgcolor="#ffffff" height="14">
+                        <td style="height: 14px" bgcolor="#ffffff" height="14" colspan="3">
                             <font face="宋体">&nbsp;</font>
                             <asp:Label ID="labUserClassInfo" runat="server"></asp:Label>
                         </td>
-                        <td></td>
-                        <td></td>
+                        
                     </tr>
                     <tr>
-                        <td background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee" height="10">
-                            &nbsp;备注:
-                        </td>
-                        <td bgcolor="#ffffff" height="10" colspan="3">
-                            &nbsp;
-                            <asp:Label ID="Label11_Remark" runat="server">这个家伙很懒，什么都没有留下来。</asp:Label>
-                        </td>
+                        <td  style="height: 14px" bgcolor="#ffffff" height="14" colspan="4"></td>
                         <td style="height: 16px" bgcolor="#ffffff" height="16">
                             <font face="宋体">
                                 <asp:Button ID="btnDelClass" runat="server" Text="删除认证" Visible="False" OnClick="btnDelClass_Click">
