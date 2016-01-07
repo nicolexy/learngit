@@ -20,10 +20,10 @@ namespace CFT.CSOMS.BLL.FreezeModule
             return new FreezeData().SyncCreid(uin, oldCredId, newCredId, creType, optUser, ip);
         }
 
-        public string GetCashOutFreezeListId(string Uid)
-        {
-            return (new FreezeData()).GetCashOutFreezeListId(Uid);
-        }
+        //public string GetCashOutFreezeListId(string Uid)
+        //{
+        //    return (new FreezeData()).GetCashOutFreezeListId(Uid);
+        //}
 
         /// <summary>
         /// 更新冻结备注函数

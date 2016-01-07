@@ -795,40 +795,41 @@ namespace CFT.CSOMS.DAL.CFTAccount
             return ds;
         }
 
-        public DataSet QueryVipInfo(string uin)
-        {
+        //会员信息查询下线，darrenran 2016-01-06
+        //public DataSet QueryVipInfo(string uin)
+        //{
 
-            if (string.IsNullOrEmpty(uin.Trim()))
-                throw new ArgumentNullException("uin");
-            string inmsg = "uin=" + uin.Trim();
-            inmsg += "&query_str=level|value|vipflag|subid|exp_date";
-            string vipQuer_ip = ConfigurationManager.AppSettings["vipQuer_IP"];
-            string vipQuer_port = ConfigurationManager.AppSettings["vipQuer_PORT"];
+        //    if (string.IsNullOrEmpty(uin.Trim()))
+        //        throw new ArgumentNullException("uin");
+        //    string inmsg = "uin=" + uin.Trim();
+        //    inmsg += "&query_str=level|value|vipflag|subid|exp_date";
+        //    string vipQuer_ip = ConfigurationManager.AppSettings["vipQuer_IP"];
+        //    string vipQuer_port = ConfigurationManager.AppSettings["vipQuer_PORT"];
 
-            string Msg = "";
-            string errMsg = "";
+        //    string Msg = "";
+        //    string errMsg = "";
 
-            string answer = commRes.GetFromRelayHead4(inmsg, vipQuer_ip, vipQuer_port, out Msg);
+        //    string answer = commRes.GetFromRelayHead4(inmsg, vipQuer_ip, vipQuer_port, out Msg);
 
-            if (answer == "")
-            {
-                return null;
-            }
-            if (Msg != "")
-            {
-                throw new Exception(Msg);
-            }
+        //    if (answer == "")
+        //    {
+        //        return null;
+        //    }
+        //    if (Msg != "")
+        //    {
+        //        throw new Exception(Msg);
+        //    }
 
-            answer = PublicRes.getCgiStringUtil(answer);
-            //解析relay str
-            DataSet ds = CommQuery.ParseRelayStr(answer, out errMsg);
-            if (errMsg != "")
-            {
-                throw new Exception(errMsg);
-            }
-            return ds;
+        //    answer = PublicRes.getCgiStringUtil(answer);
+        //    //解析relay str
+        //    DataSet ds = CommQuery.ParseRelayStr(answer, out errMsg);
+        //    if (errMsg != "")
+        //    {
+        //        throw new Exception(errMsg);
+        //    }
+        //    return ds;
 
-        }
+        //}
 
         /// <summary>
         /// 免费流量信息查询
