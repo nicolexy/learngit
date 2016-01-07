@@ -71,7 +71,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                 }
                 else if (sign == "unfreeze")
                 {
-                    result = bll.LockUser(uin, 1, channel, uid, trueName, contact, reason, "", ip);
+                    //解冻按钮设置：针对冻结渠道为：用户冻结的，方可点击冻结按钮，其他渠道点击提示：非用户冻结，不支持客服查询系统操作解冻。
+                    if (channel == "3")
+                    {
+                        result = bll.LockUser(uin, 1, channel, uid, trueName, contact, reason, "", ip);
+                    }
+                    else 
+                    {
+                        throw new Exception("非用户冻结，不支持客服查询系统操作解冻!");
+                    }
                 }
                 if (result)
                 {

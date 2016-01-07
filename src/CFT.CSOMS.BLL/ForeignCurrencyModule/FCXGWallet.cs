@@ -116,9 +116,9 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
         /// </summary>
         /// <param name="uid">用户香港钱包账号</param>
         /// <returns></returns>
-        public DataTable QueryUserInfo(string uid)
+        public DataTable QueryUserInfo(string uid, string client_ip)
         {
-            var dt = dal.QueryUserInfo(uid);
+            var dt = dal.QueryUserInfo(uid, client_ip);
             if (dt != null && dt.Rows.Count > 0)
             {
                 var columns = new string[] { "lstate_str", "user_type_str", "state_str" };
@@ -329,9 +329,9 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
         /// <param name="limit"></param>
         /// <param name="client_ip">IP</param>
         /// <returns></returns>
-        public DataTable QueryTradeInfo(string uid, int offset, int limit, string client_ip)
+        public DataTable QueryTradeInfo(string uid,string stime,string etime, int offset, int limit, string client_ip)
         {
-            var preTable = dal.QueryTradeInfo(uid, "101", offset, limit, HandlerIp(client_ip));
+            var preTable = dal.QueryTradeInfo(uid, "101", stime, etime, offset, limit, HandlerIp(client_ip));
             if (preTable != null && preTable.Rows.Count > 0)
             {
                 DataTable resultdt = null;
@@ -357,9 +357,9 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
         /// <param name="limit"></param>
         /// <param name="client_ip">IP</param>
         /// <returns></returns>
-        public DataTable QueryRefundInfo(string uid, int offset, int limit, string client_ip)
+        public DataTable QueryRefundInfo(string uid,string stime,string etime, int offset, int limit, string client_ip)
         {
-            var preTable = dal.QueryTradeInfo(uid, "102", offset, limit, HandlerIp(client_ip));
+            var preTable = dal.QueryTradeInfo(uid, "102", stime, etime, offset, limit, HandlerIp(client_ip));
             if (preTable != null && preTable.Rows.Count > 0)
             {
                 DataTable resultdt = null;
@@ -383,6 +383,70 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
                 return resultdt;
             }
             return null;
+        }
+
+        /// <summary>
+        /// 体现单查询
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="stime"></param>
+        /// <param name="etime"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <param name="client_ip"></param>
+        /// <returns></returns>
+        public DataTable QueryFetchInfo(string uid, string stime, string etime, int offset, int limit, string client_ip)
+        {
+            DataTable dt = dal.QueryFetchInfo(uid, stime, etime, offset, limit, client_ip);
+            if (dt != null)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    string fetch_type = row["fetch_type"].ToString();
+                    row["fetch_type"] = fetch_type == "1" ? "结算入账提现" :
+                                        fetch_type == "2" ? "商户提现" :
+                                        fetch_type == "3" ? "用户提现" :
+                                        fetch_type == "4" ? "退款提现" :
+                                        fetch_type == "50" ? "拒付提现" : "未知:" + fetch_type;
+
+                    string fetch_state = row["fetch_state"].ToString();
+                    row["fetch_state"] = fetch_state == "1" ? "初始状态(未冻结)" :
+                                         fetch_state == "2" ? "等待付款(未汇总)" :
+                                         fetch_state == "3" ? "审核中" :
+                                         fetch_state == "4" ? "付款中" :
+                                         fetch_state == "5" ? "付款成功" :
+                                         fetch_state == "6" ? "付款失败" :
+                                         fetch_state == "7" ? "付款作废" :
+                                         fetch_state == "8" ? "已退票" :
+                                         "未知:" + fetch_state;
+                    row["num"] = MoneyTransfer.FenToYuan(row["num"].ToString(), "HKD");
+                    row["charge"] = MoneyTransfer.FenToYuan(row["charge"].ToString(), "HKD");
+                }
+            }
+            return dt;
+        }
+
+        public DataTable QueryBankrollList(string uid, string stime, string etime, int offset, int limit, string client_ip)
+        {
+            DataTable dt = dal.QueryBankrollList(uid, stime, etime, offset, limit, client_ip);
+
+            if (dt != null) 
+            {
+                foreach (DataRow row in dt.Rows) 
+                {
+                    string type = row["type"].ToString();
+                    row["type"] = type == "1" ? "入" :
+                                    type == "2" ? "出" :
+                                    type == "3" ? "冻结" :
+                                    type == "4" ? "解冻" : "未知:" + type;
+
+                    row["paynum"] = MoneyTransfer.FenToYuan(row["paynum"].ToString(), "HKD");
+                    row["balance"] = MoneyTransfer.FenToYuan(row["balance"].ToString(), "HKD");
+                    row["con"] = MoneyTransfer.FenToYuan(row["con"].ToString(), "HKD");
+                    row["connum"] = MoneyTransfer.FenToYuan(row["connum"].ToString(), "HKD");
+                }
+            }
+            return dt;
         }
         #endregion
 
