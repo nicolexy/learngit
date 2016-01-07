@@ -7,17 +7,30 @@ using System.Web.UI.WebControls;
 using Tencent.DotNet.Common.UI;
 using CFT.CSOMS.BLL.ForeignCurrencyModule;
 using CFT.CSOMS.COMMLIB;
+using System.Data;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
 {
     public partial class FCXGMoneyAndFlow : System.Web.UI.Page
     {
         string operatorID;
+        FCXGWallet bll = new FCXGWallet();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 this.lb_operatorID.Text = operatorID = Session["uid"] as string;
+
+                DateTime Etime = DateTime.Now;
+                DateTime Stime = Etime.AddDays(-31);
+
+                if (Etime.Year - Stime.Year > 0) 
+                {
+                    Stime = Convert.ToDateTime(Etime.Year + "-01-01");
+                }
+                this.txtStime.Text = Stime.ToString("yyyy-MM-dd");
+                this.txtEtime.Text = Etime.ToString("yyyy-MM-dd");
+
                 if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
                 {
                     Response.Redirect("../login.aspx?wh=1");
@@ -29,7 +42,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
         protected void Button1_Click(object sender, EventArgs e)
         {
             #region 清空数据
-            DataGrid[] dgs = { dg_refund, dg_trade };
+            DataGrid[] dgs = { dg_refund, dg_trade,dg_BankrollList,dg_fetch};
             foreach (var item in dgs)
             {
                 item.DataSource = null;
@@ -37,6 +50,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             }
             pager.Visible = false;
             ViewState.Remove("query_uid");
+            ViewState.Remove("query_uin");
+            ViewState["client_ip"] = Request.UserHostAddress == "::1" ? "127.0.0.1" : Request.UserHostAddress;
+
             #endregion
             try
             {
@@ -53,11 +69,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                         string uin = input;  //香港钱包 uin
                         if (checkWeChatId.Checked)
                         {
-                            uin = WeChatHelper.GetFCXGOpenIdFromWeChatName(input, Request.UserHostAddress) + "@wx.hkg";
+                            uin = WeChatHelper.GetFCXGOpenIdFromWeChatName(input, ViewState["client_ip"].ToString()) + "@wx.hkg";
                         }
+                         ViewState["query_uin"] = uin;
                         query_uid = new FCXGWallet().QueryUserId(uin);
                     }
                     ViewState["query_uid"] = query_uid;
+
+                    DateTime dts=Convert.ToDateTime(txtStime.Text);
+                    DateTime dte = Convert.ToDateTime(txtEtime.Text);
+                    TimeSpan d3 = dte.Subtract(dts);
+                    if (d3.Days < 0) 
+                    {
+                        throw new Exception("结束时间必须大于开始时间！");
+                    }
+                    if (d3.Days > 31)
+                    {
+                        throw new Exception("时间间隔不能超过31天！");
+                    }
+                    if (dte.Year - dts.Year != 0)
+                    {
+                        throw new Exception("不能跨年查询！");
+                    }
+
+                    ViewState["stime"] = dts.ToString("yyyy-MM-dd");
+                    ViewState["etime"] = dte.ToString("yyyy-MM-dd");
                 }
                 else
                 {
@@ -75,9 +111,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
         {
             try
             {
-                dg_refund.DataSource = dg_trade.DataSource = null;
-                dg_refund.DataBind();
-                dg_trade.DataBind();
+                DataGrid[] dgs = { dg_refund, dg_trade, dg_BankrollList, dg_fetch };
+                foreach (var item in dgs)
+                {
+                    item.DataSource = null;
+                    item.DataBind();
+                }
+
                 LinkButton btn = sender as LinkButton;
                 string type = "";
                 if (btn != null)
@@ -91,7 +131,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                 {
                     type = (string)ViewState["btn_CurType"];
                 }
-                LinkButton[] btns = { btn_refund, btn_trade };
+                LinkButton[] btns = { btn_refund, btn_trade, btn_BankrollList, btn_Fetch };
                 foreach (var item in btns)
                 {
                     if (item.ID == type)
@@ -108,6 +148,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                     {
                         case "btn_trade": TradeHandler(query_uid, skip, pager.PageSize); break;
                         case "btn_refund": RefundHandler(query_uid, skip, pager.PageSize); break;
+                        case "btn_BankrollList": BankrollListHandler(query_uid,skip, pager.PageSize); break;
+                        case "btn_Fetch": FetchHandler(query_uid, skip, pager.PageSize); ; break;
+
+                            
                         default: WebUtils.ShowMessage(this.Page, "查询出错:" + type + "不存在"); break;
                     }
                     pager.Visible = true;
@@ -130,7 +174,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
         protected void RefundHandler(string query_uid, int offset, int limit)
         {
             var bll = new FCXGWallet();
-            var dt = bll.QueryRefundInfo(query_uid, offset, limit, Request.UserHostAddress);
+            var dt = bll.QueryRefundInfo(query_uid, ViewState["stime"].ToString(), ViewState["etime"].ToString(), offset, limit, ViewState["client_ip"].ToString());
             if (dt == null || dt.Rows.Count < 1)
             {
                 WebUtils.ShowMessage(this.Page, "未找到记录");
@@ -143,7 +187,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
         protected void TradeHandler(string query_uid, int offset, int limit)
         {
             var bll = new FCXGWallet();
-            var dt = bll.QueryTradeInfo(query_uid, offset, limit, Request.UserHostAddress);
+            var dt = bll.QueryTradeInfo(query_uid, ViewState["stime"].ToString(), ViewState["etime"].ToString(), offset, limit, ViewState["client_ip"].ToString());
             if (dt == null || dt.Rows.Count < 1)
             {
                 WebUtils.ShowMessage(this.Page, "未找到记录");
@@ -155,6 +199,44 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             //}
             dg_trade.DataSource = dt;
             dg_trade.DataBind();
+        }
+        
+        protected void FetchHandler(string query_uid, int offset, int limit)
+        {
+           
+
+            var dt = bll.QueryFetchInfo(query_uid, ViewState["stime"].ToString(), ViewState["etime"].ToString(), offset, limit, ViewState["client_ip"].ToString()); 
+            if (dt == null || dt.Rows.Count < 1)
+            {
+                WebUtils.ShowMessage(this.Page, "未找到记录");
+            }
+
+            //if (!dt.Columns.Contains("card_type"))  //  接口未发布修正版的时候  保证不报错,  接口修正后 删除
+            //{
+            //    dt.Columns.Add("card_type");
+            //}
+
+            dg_fetch.DataSource = dt;
+            dg_fetch.DataBind();
+        }
+
+        protected void BankrollListHandler(string uin, int offset, int limit)
+        {
+            var bll = new FCXGWallet();
+
+            var dt = bll.QueryBankrollList(uin, ViewState["stime"].ToString(), ViewState["etime"].ToString(), offset, limit, ViewState["client_ip"].ToString());
+            if (dt == null || dt.Rows.Count < 1)
+            {
+                WebUtils.ShowMessage(this.Page, "未找到记录");
+            }
+
+            //if (!dt.Columns.Contains("card_type"))  //  接口未发布修正版的时候  保证不报错,  接口修正后 删除
+            //{
+            //    dt.Columns.Add("card_type");
+            //}
+
+            dg_BankrollList.DataSource = dt;
+            dg_BankrollList.DataBind();
         }
     }
 }

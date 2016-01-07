@@ -3392,6 +3392,66 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
 
         /// <summary>
+        /// 解析result=0&res_info=ok&partner=1234567890&out_trade_no=45678901&transaction_id=12343531231231&count=1&mch_customs_no_0=4401962010&customs_0=1&state_0=1&modify_time_0=20151208132419&business_type_0=1&explanation_0=
+        /// </summary>
+        /// <param name="answer"></param>
+        /// <returns></returns>
+        public static DataTable ParseRelayStringToDataTable1(string answer,string coding)
+        {
+            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding(coding));
+
+            if (!answer.Contains("result=0"))
+            {
+                throw new Exception("请求失败[" + answer + "]");
+            }
+            if (answer.Contains("row_info="))
+            {
+                answer = answer.Replace("row_info=", "");
+            }
+            Hashtable ht = new Hashtable();
+            foreach (string item in answer.Split('&'))
+            {
+                string[] _item = item.Split('=');
+                if (_item.Count() > 1)
+                {
+                    ht.Add(_item[0], _item[1]);
+                }
+            }
+            DataTable dt = new DataTable();
+
+            foreach (DictionaryEntry item in ht)
+            {
+                if (item.Key.ToString().EndsWith("_0"))
+                {
+                    dt.Columns.Add(item.Key.ToString().Replace("_0", ""), typeof(string));
+                }
+            }
+
+            int i = 0;
+            while (true)
+            {
+                bool endwhile = true;
+                DataRow dr = dt.NewRow();
+                foreach (DataColumn dc in dt.Columns)
+                {
+                    string colName = dc.ColumnName;
+                    if (ht.Contains(colName + "_" + i))
+                    {
+                        dr[colName] = ht[colName + "_" + i].ToString();
+                        endwhile = false;
+                    }
+                }
+                if (endwhile)
+                {
+                    break;
+                }
+                dt.Rows.Add(dr);
+                i++;
+            }
+            return dt;
+        }
+
+        /// <summary>
         /// 格式字符串解析 result=0&row0=&row1=&row_num=...格式字符串解析
         /// </summary>
         /// <param name="str"></param>

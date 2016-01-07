@@ -102,15 +102,15 @@
                     <tr>
                         <th>总账户余额：</th>
                         <td>
-                            <asp:Label runat="server" ID="Label3" /></td>
-                        <th>红包账户余额：</th>
+                            <asp:Label runat="server" ID="lbl_total" /></td>
+                        <th>冻结余额：</th>
                         <td>
-                            <asp:Label runat="server" ID="Label5" /></td>
+                            <asp:Label runat="server" ID="lbl_freeze" /></td>
                     </tr>
                     <tr>
-                        <th>转账账户余额：</th>
+                        <th>可用余额：</th>
                         <td>
-                            <asp:Label runat="server" ID="Label4" /></td>
+                            <asp:Label runat="server" ID="lbl_balance" /></td>
                         <th>注册时间：</th>
                         <td>
                             <asp:Label runat="server" ID="lb_create_time" /></td>
@@ -133,8 +133,8 @@
                         </td>
                         <th>密码操作：</th>
                         <td>
-                            <a id="btn_quick_reset" runat="server" target="_blank">重置密码</a>
-                            <asp:LinkButton ID="btn_reset_log" runat="server" OnClick="QueryLog_Click">重置记录查询</asp:LinkButton>
+                            <asp:LinkButton ID="btn_pwd_reset" runat="server" OnClick="btn_pwd_reset_Click">快速重置密码</asp:LinkButton>
+                            &nbsp;<asp:LinkButton ID="btn_reset_log" runat="server" OnClick="QueryLog_Click">重置记录查询</asp:LinkButton>
                         </td>
                     </tr>
                 </table>
