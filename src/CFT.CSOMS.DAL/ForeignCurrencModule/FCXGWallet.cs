@@ -33,9 +33,9 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
 
             //查询账户余额
             string reqText = "uid={0}&client_ip={1}&cur_type=344&acc_type=2&MSG_NO={2}";
-            reqText = string.Format(reqText, uid, client_ip, "107831" + DateTime.Now.ToString("yyyyMMddHHmmss"));
-            result = RelayAccessFactory.RelayInvoke(reqText, "107831", false, false, ip, port, "utf-8");
-            //result=0&res_info=ok&uid=600000347&cur_type=344&balance=997700&MSG_NO=10783120160104190031
+            reqText = string.Format(reqText, uid, client_ip, "101741" + DateTime.Now.ToString("yyyyMMddHHmmss"));
+            result = RelayAccessFactory.RelayInvoke(reqText, "101741", false, false, ip, port, "utf-8");
+            //result=0&res_info=ok&uid=600000347&cur_type=344&balance=997700&MSG_NO=10174120160104190031
 
             DataTable dt_userbalance = ParseRelayOneRow(result, "查询账户余额");
 
@@ -335,9 +335,9 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
             try
             {
                 string reqText = "begin_time={0}&end_time={1}&client_ip={2}&limit={3}&offset={4}&uid={5}&MSG_NO={6}";
-               //reqText = "begin_time=2015-06-01&client_ip=127.0.0.1&end_time=2015-12-10&limit=2&offset=0&uid=600000212&MSG_NO=108197";
-                reqText = string.Format(reqText, stime, etime, client_ip, limit, offset, uid, "108197" + DateTime.Now.ToString("yyyyMMddHHmmss"));
-                string result = RelayAccessFactory.RelayInvoke(reqText, "108197", true, false, ip, port);
+                //reqText = "begin_time=2015-06-01&client_ip=127.0.0.1&end_time=2015-12-10&limit=2&offset=0&uid=600000212&MSG_NO=101771";
+                reqText = string.Format(reqText, stime, etime, client_ip, limit, offset, uid, "101771" + DateTime.Now.ToString("yyyyMMddHHmmss"));
+                string result = RelayAccessFactory.RelayInvoke(reqText, "101771", true, false, ip, port);
 //#if DEBUG
 //                result = "result=0&res_info=ok&row_num=2&row_info=listid_0%3d1030033000000000201505130301789324%26fetch_type_0%3d3%26subject_0%3d14%26num_0%3d100%26charge_0%3d0%26bank_acno_0%3d%26fetch_state_0%3d2%26user_uin_0%3d085e9858ed8ed3aa9a95e4252@wx.tenpay.com%26memo_0%3d%26bank_name_0%3d????%26acc_name_0%3dtest test%26card_bankid_0%3d552037******2578%26pay_time_0%3d0000-00-00 00:00:00%26acc_time_0%3d2015-05-13 11:51:24%26create_time_0%3d2015-06-01 10:00:00%26modify_time_0%3d2015-06-02 10:00:00%26curtype_0%3d344%26listid_1%3d1030033000000000201505130301789325%26fetch_type_1%3d3%26subject_1%3d14%26num_1%3d100%26charge_1%3d0%26bank_acno_1%3d%26fetch_state_1%3d2%26user_uin_1%3d085e9858ed8ed3aa9a95e4252@wx.tenpay.com%26memo_1%3d%26bank_name_1%3d????%26acc_name_1%3dtest test%26card_bankid_1%3d552037******2578%26pay_time_1%3d0000-00-00 00:00:00%26acc_time_1%3d2015-05-13 11:51:24%26create_time_1%3d2015-06-01 10:00:00%26modify_time_1%3d2015-06-02 10:00:00%26curtype_1%3d344";
 //#endif
