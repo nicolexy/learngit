@@ -298,9 +298,9 @@ namespace CFT.CSOMS.DAL.UserAppealModule
         public DataSet GetAppealUserInfo(string qqid)
         {
             //已更改 furion V30_FURION核心查询需改动 查询核心走接口.
-            string ServerIP = System.Configuration.ConfigurationManager.AppSettings["ICEServerIP"];
-            int Port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["ICEPort"]);
-            ICEAccess ice = new ICEAccess(ServerIP, Port);
+            //string ServerIP = System.Configuration.ConfigurationManager.AppSettings["ICEServerIP"];
+            //int Port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["ICEPort"]);
+            //ICEAccess ice = new ICEAccess(ServerIP, Port);
 
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZW"));
             try
@@ -313,14 +313,18 @@ namespace CFT.CSOMS.DAL.UserAppealModule
 
                 // TODO: 1客户信息资料外移 
                 da.OpenConn();
-                ice.OpenConn();
-                string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + uid + "&");
-                strwhere += ICEAccess.URLEncode("fcurtype=1&");
+                //ice.OpenConn();
+                //string strwhere = "where=" + ICEAccess.URLEncode("fuid=" + uid + "&");
+                //strwhere += ICEAccess.URLEncode("fcurtype=1&");
+                //string strResp = "";
+                //DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, uid, strwhere, out strResp);
+                //if (dt == null || dt.Rows.Count == 0)
+                //    throw new LogicException("调用ICE查询T_user无记录" + strResp);
 
-                string strResp = "";
-                DataTable dt = ice.InvokeQuery_GetDataTable(YWSourceType.用户资源, YWCommandCode.查询用户信息, uid, strwhere, out strResp);
+                string errMsg = "";
+                DataTable dt = AccountData.GetAccountInfo(uid, "1", out errMsg);
                 if (dt == null || dt.Rows.Count == 0)
-                    throw new LogicException("调用ICE查询T_user无记录" + strResp);
+                    throw new Exception("调用Relay查询T_user无记录：" + errMsg);
 
                 string Fbalance = dt.Rows[0]["Fbalance"].ToString();
                 string Fcon = dt.Rows[0]["Fcon"].ToString();
@@ -328,7 +332,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                 string Fcompany_name = dt.Rows[0]["Fcompany_name"].ToString();
                 string Fuser_type = dt.Rows[0]["Fuser_type"].ToString();
                 string Fqqid = dt.Rows[0]["Fqqid"].ToString();
-                string errMsg = "";
+                //string errMsg = "";
                 string strSql = "uid=" + uid;
                 DataTable dtuserinfo = CommQuery.GetTableFromICE(strSql, CommQuery.QUERY_USERINFO, out errMsg);
 
@@ -350,7 +354,7 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             finally
             {
                 da.Dispose();
-                ice.Dispose();
+                //ice.Dispose();
             }
       
         }
