@@ -17,15 +17,15 @@ namespace KF_Test
         /// <summary>
         /// 会员信息查询接口测试
         /// </summary>
-        [TestMethod]
-        public void TestQueryVipInfo()
-        {
-            string uin = "19751515";
-            AccountService mer = new AccountService();
-            DataTable dt = new VIPService().QueryVipInfo(uin);
-            Assert.AreEqual("0", dt.Rows[0]["result"].ToString());
+        //[TestMethod]
+        //public void TestQueryVipInfo()
+        //{
+        //    string uin = "19751515";
+        //    AccountService mer = new AccountService();
+        //    DataTable dt = new VIPService().QueryVipInfo(uin);
+        //    Assert.AreEqual("0", dt.Rows[0]["result"].ToString());
 
-        }
+        //}
 
         [TestMethod]
         public void TestDecrypt3DES()

@@ -121,31 +121,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay {
         protected global::System.Web.UI.WebControls.Label lb_mobile;
         
         /// <summary>
-        /// Label3 control.
+        /// lbl_total control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label3;
+        protected global::System.Web.UI.WebControls.Label lbl_total;
         
         /// <summary>
-        /// Label5 control.
+        /// lbl_freeze control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label5;
+        protected global::System.Web.UI.WebControls.Label lbl_freeze;
         
         /// <summary>
-        /// Label4 control.
+        /// lbl_balance control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label4;
+        protected global::System.Web.UI.WebControls.Label lbl_balance;
         
         /// <summary>
         /// lb_create_time control.
@@ -193,13 +193,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor btn_freeze;
         
         /// <summary>
-        /// btn_quick_reset control.
+        /// btn_pwd_reset control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor btn_quick_reset;
+        protected global::System.Web.UI.WebControls.LinkButton btn_pwd_reset;
         
         /// <summary>
         /// btn_reset_log control.

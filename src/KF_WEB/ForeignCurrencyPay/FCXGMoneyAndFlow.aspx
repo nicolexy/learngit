@@ -74,6 +74,11 @@
                         <asp:RadioButton ID="checkWeChatId" runat="server" GroupName="chekedType" Text="WeChat ID" />
                         <asp:RadioButton ID="checkUin" runat="server" GroupName="chekedType" Text="钱包账户" />
                         <asp:RadioButton ID="checkUId" runat="server" GroupName="chekedType" Text="内部ID" Checked="true" />
+                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <label>开始时间</label>
+                        <asp:TextBox ID="txtStime" runat="server" class="Wdate" onclick="WdatePicker()"></asp:TextBox>
+                         <label>结束时间</label>
+                        <asp:TextBox ID="txtEtime" runat="server" class="Wdate" onclick="WdatePicker()"></asp:TextBox>
                     </td>
                 </tr>
                 <tr>
@@ -91,6 +96,10 @@
                 <asp:LinkButton ID="btn_trade" runat="server" OnClick="SwitchHandler">交易单</asp:LinkButton>
                 &nbsp;
                 <asp:LinkButton ID="btn_refund" runat="server" OnClick="SwitchHandler">退款单</asp:LinkButton>
+                 &nbsp;
+                <asp:LinkButton ID="btn_BankrollList" runat="server" OnClick="SwitchHandler">资金流水</asp:LinkButton>
+                 &nbsp;
+                <asp:LinkButton ID="btn_Fetch" runat="server" OnClick="SwitchHandler">提现</asp:LinkButton>
                 <hr />
             </div>
             <asp:DataGrid ID="dg_trade" runat="server" AutoGenerateColumns="False" CssClass="tab_dg" Caption="交易单">
@@ -126,7 +135,50 @@
                     <asp:BoundColumn HeaderText=" 退款状态" DataField="refund_state_str" />
                 </Columns>
             </asp:DataGrid>
+              <asp:DataGrid ID="dg_fetch" runat="server" AutoGenerateColumns="False" CssClass="tab_dg" Caption="提现">
+                <HeaderStyle Font-Bold="True" Height="25px" />
+                      <Columns>
+                          <asp:BoundColumn HeaderText=" 账户帐号" DataField="user_uin" />
+                          <asp:BoundColumn HeaderText=" 提现单号" DataField="listid" />
+                          <asp:BoundColumn HeaderText=" 业务类型" DataField="fetch_type" />
+                          <asp:BoundColumn HeaderText=" 科目" DataField="subject" />
+                          <asp:BoundColumn HeaderText=" 提现金额" DataField="num" />
+                          <asp:BoundColumn HeaderText=" 手续费" DataField="charge" />
+                          <asp:BoundColumn HeaderText=" 出款账户银行ID" DataField="bank_acno" />
+                          <asp:BoundColumn HeaderText=" 提现时间" DataField="create_time" />
+                          <asp:BoundColumn HeaderText=" 付款时间" DataField="pay_time" />
+                          <asp:BoundColumn HeaderText=" 回导时间" DataField="acc_time" />
+                          <asp:BoundColumn HeaderText=" 开户名称" DataField="acc_name" />
+                          <asp:BoundColumn HeaderText=" 银行账号" DataField="card_bankid" />
+                         <%-- <asp:BoundColumn HeaderText=" 开户银行" DataField="" />--%>
+                          <asp:BoundColumn HeaderText=" 提现状态" DataField="fetch_state" />
+                          <asp:BoundColumn HeaderText=" 修改时间" DataField="modify_time" />
+                      <%--    <asp:BoundColumn HeaderText=" 失败原因" DataField="" />--%>
+                          <asp:BoundColumn HeaderText=" 退票原因" DataField="memo" />
+                          <%--<asp:BoundColumn HeaderText=" 备注/说明" DataField="memo" />--%>
+                </Columns>
+            </asp:DataGrid>
+              <asp:DataGrid ID="dg_BankrollList" runat="server" AutoGenerateColumns="False" CssClass="tab_dg" Caption="资金流水">
+                <HeaderStyle Font-Bold="True" Height="25px" />
+                      <Columns>
+                         <%-- <asp:BoundColumn HeaderText="用户账户" DataField="uin" />--%>
+                           <asp:BoundColumn HeaderText="流水ID号" DataField="bkid" />
+                           <asp:BoundColumn HeaderText="订单号" DataField="listid" />
+                           <asp:BoundColumn HeaderText="交易时间" DataField="trade_time" />
+                           <asp:BoundColumn HeaderText="交易类型" DataField="type" />
+                           <asp:BoundColumn HeaderText="类别/科目" DataField="subject" />
+                           <asp:BoundColumn HeaderText="金额" DataField="paynum" />
+                           <asp:BoundColumn HeaderText="账户余额" DataField="balance" />
+                           <asp:BoundColumn HeaderText="冻结金额" DataField="connum" />
+                          <asp:BoundColumn HeaderText="冻结余额" DataField="con" />
+                          <asp:BoundColumn HeaderText="对方账号" DataField="vs_info" />
+                          <asp:BoundColumn HeaderText="备注/说明" DataField="memo" />
+                           <asp:BoundColumn HeaderText="修改时间" DataField="modify_time" />
+                        
+                </Columns>
+            </asp:DataGrid>
             <webdiyer:AspNetPager ID="pager" runat="server" NumericButtonTextFormatString="[{0}]" SubmitButtonText="转到" HorizontalAlign="right" CssClass="mypager" ShowInputBox="always" PagingButtonSpacing="0" PageSize="10" ShowCustomInfoSection="left" NumericButtonCount="5" AlwaysShow="True" OnPageChanged="pager_PageChanged" Visible="false"></webdiyer:AspNetPager>
+                
         </div>
     </form>
 </body>

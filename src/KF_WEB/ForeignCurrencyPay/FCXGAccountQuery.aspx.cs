@@ -52,8 +52,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                     }
                     queryuid = bll.QueryUserId(uin);
                 }
-
-                var dt_user = bll.QueryUserInfo(queryuid);
+                string ip = this.Page.Request.UserHostAddress.ToString();
+                if (ip == "::1")
+                    ip = "127.0.0.1";
+                var dt_user = bll.QueryUserInfo(queryuid, ip);
 
                 if (dt_user != null && dt_user.Rows.Count > 0)
                 {
@@ -84,16 +86,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                     #endregion
 
                     #region 重置按钮
-
-                    if (true) //后期加入账户总余额判断  账户总余额>30港币   展示 申诉
+                    string total = string.IsNullOrEmpty(lbl_total.Text) ? "0" : lbl_total.Text;
+                    if (Convert.ToDecimal(total) < 30) //后期加入账户总余额判断  账户总余额>30港币   展示 申诉
                     {
-                        btn_quick_reset.HRef = string.Format("FCXGDialogReset.aspx?sign=quick_reset&uin={0}", uin);
-                        btn_quick_reset.InnerText = "快速重置密码";
+                        btn_pwd_reset.Text = "快速重置密码";
                     }
                     else
                     {
-                        btn_quick_reset.HRef = string.Format("FCXGDialogReset.aspx?sign=appeal_reset&uin={0}", uin);
-                        btn_quick_reset.InnerText = "申诉重置密码";
+                        btn_pwd_reset.Text = "特殊找回密码";
                     }
                     #endregion
                 }
@@ -185,6 +185,34 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             SetValue(lb_user_type_str, "user_type_str");
             SetValue(lb_create_time, "create_time");
             SetValue(lb_lstate_str, "lstate_str");
+
+            SetValue(lb_lstate_str, "lstate_str");
+            SetValue(lbl_balance, "balance");
+            lbl_freeze.Text="0.00";
+            lbl_total.Text = (Convert.ToDecimal(lbl_balance.Text) + Convert.ToDecimal(lbl_freeze.Text)).ToString();
         }
+        /// <summary>
+        /// 重置密码
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btn_pwd_reset_Click(object sender, EventArgs e)
+        {
+
+            if (!classLibrary.ClassLib.ValidateRight("FCXGAccountPassWordReset", this))
+            {
+                Response.Redirect("../login.aspx?wh=1");
+            }
+
+            if (btn_pwd_reset.Text == "快速重置密码") //后期加入账户总余额判断  账户总余额>30港币   展示 申诉
+            {
+                Response.Redirect(string.Format("FCXGDialogReset.aspx?sign=quick_reset&uin={0}", ViewState["queryUin"].ToString()));
+            }
+            else
+            {
+                Response.Redirect(string.Format("FCXGDialogReset.aspx?sign=appeal_reset&uin={0}", ViewState["queryUin"].ToString()));
+            }
+        }
+
     }
 }

@@ -211,7 +211,7 @@ namespace TENCENT.OSS.CFT.KF.Common
 
 
                 rights[80] = new OneRight("BankClassifyInfo", 80, "银行分类信息");
-				
+                rights[86] = new OneRight("FCXGAccountPassWordReset", 86, "外币账户重置密码");
                 rights[23] = new OneRight("InfoCenter", 23, "基础信息管理");
                 rights[24] = new OneRight("PayManagement", 24, "支付管理 ");
                 rights[25] = new OneRight("TradeManagement", 25, "交易管理");

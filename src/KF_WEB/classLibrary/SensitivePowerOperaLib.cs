@@ -90,9 +90,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 				//HandleSPResult(page,"您没有敏感登录状态或需要更高级别的敏感登录状态。" + result.status_info,true,result.login_url);
 
                 //page.Page.Response.Redirect(result.login_url);
-                page.Page.Response.Write("<script>window.parent.location.href = '" + result.login_url + "';</script>");
 
+               // page.Page.Response.Write("<script>window.parent.location.href = '" + result.login_url + "';</script>");
 
+                var script = "<script type='text/javascript'>"+
+                                 "var win = window.parent.window || window;" +
+                                 "win.location.href = '" + result.login_url + "';" +
+                             "</script>";
+                page.Page.Response.Write(script);
+                page.Page.Response.Cookies.Clear(); // 清空Cookie;
+                page.Page.Session.Clear();          // 清空Session;
+               
 				return false;
 			}
 			else if(result.status >= 300 && result.status <= 399)
@@ -255,7 +263,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 				return true;
 
 			SensitiveVerifyService.Result retResult = AllUserRight.CheckAuth(opName,userName,sessionKey,url,ip,sessionID);
-
 			return CheckSPReturnResult(retResult,page);
 		}
 
@@ -379,7 +386,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 
 
                 rights[80] = new OneRight("BankClassifyInfo", 80, "银行分类信息");
-				
+                rights[86] = new OneRight("FCXGAccountPassWordReset", 86, "外币账户重置密码");
                 rights[23] = new OneRight("InfoCenter", 23, "基础信息管理");
                 rights[24] = new OneRight("PayManagement", 24, "支付管理 ");
                 rights[25] = new OneRight("TradeManagement", 25, "交易管理");

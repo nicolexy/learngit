@@ -364,15 +364,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
         protected global::System.Web.UI.WebControls.Label Label18_Attid;
         
         /// <summary>
-        /// labUserClassInfo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labUserClassInfo;
-        
-        /// <summary>
         /// Label11_Remark control.
         /// </summary>
         /// <remarks>
@@ -380,6 +371,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label11_Remark;
+        
+        /// <summary>
+        /// labUserClassInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labUserClassInfo;
         
         /// <summary>
         /// btnDelClass control.
