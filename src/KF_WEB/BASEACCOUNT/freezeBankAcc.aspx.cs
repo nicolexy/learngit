@@ -317,7 +317,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                                 //为不影响线上，暂不处理异常
                                 new FreezeService().SendWechatMsg(reqsource, accid, templateid, cont1, cont2, cont3, msgtype);
                             }
-                            catch {
+                            catch (Exception ef)
+                            {
+                                LogHelper.LogError("发微信冻结消息[new FreezeService().SendWechatMsg]异常：" + ef.ToString());
                                 WebUtils.ShowMessage(this.Page, accid + "发微信冻结消息异常");
                             }
                         }
@@ -461,8 +463,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					}
 
                     if (Request.QueryString["type"] == null)
-                    { 
-                        fm.freezeAccount(uid, 2); 
+                    {
+                        fm.freezeAccount(uid, 2);
                     }
                     else
                     {
@@ -472,18 +474,47 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                             uname = ViewState["tuserName"].ToString();
                         }
 
+                        bool refreeze = false;
+
                         if (ViewState["iswechat"].ToString() == "true")
                         {
                             //微信处理流程
                             //fm.FreezePerAccountWechat(uid, 2);
-                            fm.UnFreezePerAccountWechat_New(uid, uname);
+                            refreeze = fm.UnFreezePerAccountWechat_New(uid, uname);
                         }
                         else
                         {
                             //解冻 2 ui_unfreeze_user_service
-                            fm.freezePerAccount(uid, 2, uname, "");
+                            refreeze = fm.freezePerAccount(uid, 2, uname, "");
+                        }
+
+                        if (refreeze)
+                        {
+                            //解冻成功，发送微信消息
+                            //发微信解冻消息
+                            if (uid.IndexOf("@wx.tenpay.com") > 0)
+                            {
+                                string reqsource = "bus_kf_unfreeze";//客服解冻
+                                string accid = uid.Substring(0, uid.IndexOf("@wx.tenpay.com"));
+                                string templateid = "DeNkYEfSBW7mVQET6QHwnilGWvG8cLssLSyRH0CSDk0";
+                                string cont1 = "你的微信支付账户已排除了安全风险并由保护模式切换至正常模式。";
+                                string cont2 = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                                string cont3 = "请点击详情查看微信支付安全保障介绍";
+                                string msgtype = "unfreeze";
+                                try
+                                {
+                                    new FreezeService().SendWechatMsg(reqsource, accid, templateid, cont1, cont2, cont3, msgtype);
+                                }
+                                catch(Exception ef)
+                                {
+                                    LogHelper.LogError("发微信解冻消息[new FreezeService().SendWechatMsg]异常：" + ef.ToString());
+
+                                    WebUtils.ShowMessage(this.Page, accid + "发微信冻结消息异常");
+                                }
+                            }
                         }
                     }
+
 
 					if(ViewState["fid"] != null && ViewState["fid"].ToString() != "")  //如果不是数据异常,为空说明是QQ简化注册的,不用走这
 					{
