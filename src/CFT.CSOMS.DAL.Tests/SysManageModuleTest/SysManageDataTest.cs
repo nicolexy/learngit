@@ -159,7 +159,7 @@ namespace CFT.CSOMS.DAL.Tests
         { 
             FundProfit service = new FundProfit();
             DateTime dte = DateTime.Now;
-            DataTable dt = service.QueryFundProfitRate("200000070", "234234", "2014-5-5");
+            DataTable dt = service.QueryFundProfitRate("200000070", "234234");
         }
 
          [TestMethod]

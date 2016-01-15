@@ -671,6 +671,9 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
             if (strCmd == "query_order_service")//走query_order_service去的单独去查询查询andrewguo 20120525
             {
+                //2016-1-14 v_yqyqguo 添加路由参数
+                var dic= strWhere.ToDictionary();
+                strWhere = strWhere + "&route_transid=" + dic["listid"] + "&route_type=transid";
                 return GetDataSetFromICE_OrderServer(strWhere, strCmd, isrealtime, out errMsg);
             }
 
