@@ -9,10 +9,10 @@ namespace CFT.CSOMS.BLL.TradeModule
 {
     public class PickService
     {
-        public DataSet GetPickList(string u_ID, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, int idtype, string sorttype, string cashtype,
+        public DataSet GetPickList(int idtype, string u_ID, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, string sorttype, string cashtype,
             int iPageStart, int iPageMax)
         {
-            return new PickData().GetPickList(u_ID, u_BeginTime, u_EndTime, fstate, fnum, banktype, idtype, sorttype, cashtype, iPageStart, iPageMax);
+            return new PickData().GetPickList(u_ID, idtype, u_BeginTime, u_EndTime, fstate, fnum, banktype, sorttype, cashtype, iPageStart, iPageMax);
         }
 
         public DataTable GetFetchListIntercept(string fetchListid)
@@ -38,19 +38,63 @@ namespace CFT.CSOMS.BLL.TradeModule
             return (new PickData()).AddFetchListIntercept(fetchListid, opera);
         }
 
-        public DataSet GetPickListDetail(string listid, DateTime u_BeginTime, DateTime u_EndTime)
+        public DataTable GetPickListDetail(string listid)
         {
-            return new PickData().GetPickListDetail(listid, u_BeginTime, u_EndTime);
+            DataSet ds = new PickData().QueryPickByListid(listid);
+            return (ds == null || ds.Tables.Count == 0) ? null : ds.Tables[0];
         }
 
         public DataSet GetCreditQueryListForFaid(string QQOrEmail, DateTime begindate, DateTime enddate, int istart, int imax)
         {
-            return new PickData().GetCreditQueryListForFaid(QQOrEmail, begindate, enddate, istart, imax);
+            DataTable dt = new PickData().GetCreditQueryListForFaid(QQOrEmail, begindate, enddate, istart, imax);
+            DataTable dt_new = null;
+            if (dt != null)
+            {
+                dt_new = new DataTable();
+                dt_new.Columns.Add("Fbank_type", typeof(string));
+                dt_new.Columns.Add("Flistid", typeof(string));
+                dt_new.Columns.Add("Fsign", typeof(string));
+                dt_new.Columns.Add("Fbank_name", typeof(string));
+                dt_new.Columns.Add("creditcard_id", typeof(string));
+                dt_new.Columns.Add("Fnum", typeof(string));
+                dt_new.Columns.Add("Fpay_front_time", typeof(string));
+                foreach (DataRow item in dt.Rows)
+                {
+                    DataRow dr = dt_new.NewRow();
+                    dr["Fbank_type"] = item["bank_type"].ToString();
+                    dr["Flistid"] = item["draw_id"].ToString();
+                    dr["Fsign"] = item["state"].ToString();
+                    dr["Fbank_name"] = item["bank_name"].ToString();
+                    dr["creditcard_id"] = item["creditcard_id"].ToString();
+                    dr["Fnum"] = item["amount"].ToString();
+                    dr["Fpay_front_time"] = item["create_time"].ToString();
+                    dt_new.Rows.Add(dr);
+                }
+            }
+            return new DataSet() { Tables = { dt_new } };
         }
 
         public DataSet GetCreditQueryList(string Flistid, int istart, int imax)
         {
-            return new PickData().GetCreditQueryList(Flistid, istart, imax);
+            DataSet ds = new PickData().QueryPickByListid(Flistid);
+            DataTable dt = (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0) ? ds.Tables[0] : null;
+            if (dt != null) 
+            {
+                dt.Columns.Add("creditcard_id", typeof(string));
+                foreach(DataRow dr in dt.Rows)
+                {
+                    string Fabankid = dr["Fabankid"].ToString();
+                    try
+                    {
+                        dr["creditcard_id"] = Fabankid.Substring(Fabankid.Length - 4, 4);
+                    }
+                    catch 
+                    {
+                        continue;
+                    }
+                }
+            }
+            return ds;
         }
 
         public DataSet GetQuerySettlementTodayList(string Fspid)
@@ -61,7 +105,7 @@ namespace CFT.CSOMS.BLL.TradeModule
         public DataSet GetTCBankPAYList(string strID, int iIDType, DateTime dtBegin, DateTime dtEnd, int istr, int imax)
         {
             //DataSet ds = new PickData().GetTCBankPAYList(strID, iIDType, dtBegin, dtEnd, istr, imax);
-            DataSet ds = new PickData().GetPickList(strID, dtBegin, dtEnd, 0, 0, "0000", iIDType, "0", "0000", istr, imax);
+            DataSet ds = new PickData().GetPickList(strID, iIDType, dtBegin, dtEnd, 0, 0, "0000", "0", "0000", istr, imax);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 ds.Tables[0].Columns.Add("Fstate_str", typeof(string));

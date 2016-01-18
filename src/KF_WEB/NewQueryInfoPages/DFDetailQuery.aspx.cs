@@ -134,17 +134,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             string strSTime = ViewState["strSTime"].ToString();
             string strETime = ViewState["strETime"].ToString();
 
-                //添加数据执行时长监控
-            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
-            stopwatch.Start();
 
                 DataSet ds = qs.QueryDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text,strSTime,
                     strETime, this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, this.ddl_state.SelectedValue,
                     txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue,
                     (pageIndex - 1) * this.pager.PageSize + 1, this.pager.PageSize);
 
-                stopwatch.Stop();
-                LogHelper.LogInfo(string.Format("BindData(int pageIndex, bool needUpdateCount) => TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service.QueryDFInfo()，获取数据耗时：{0}", stopwatch.Elapsed), "DFDetailQuery");
 
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                 {
@@ -172,58 +167,43 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                         //或可以将数据获取，再linq分类查询。
                         //v_swuzhang
 
-                        stopwatch.Restart();
                         DataSet ds2 = qs.CountDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
                             this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, "0", 
                             txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue);
 
-                        stopwatch.Stop();
-                        LogHelper.LogInfo(string.Format("BindData(int pageIndex, bool needUpdateCount) => TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service.CountDFInfo()-->ddl_state=0，获取数据耗时：{0}", stopwatch.Elapsed), "DFDetailQuery");
 
                         this.pager.RecordCount = int.Parse(ds2.Tables[0].Rows[0]["totalRecordCount"].ToString());
 
-                        stopwatch.Restart();
                         ds2 = qs.CountDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
                             this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, "1",
                             txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue);
 
-                        stopwatch.Stop();
-                        LogHelper.LogInfo(string.Format("BindData(int pageIndex, bool needUpdateCount) => TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service.CountDFInfo()-->ddl_state=1，获取数据耗时：{0}", stopwatch.Elapsed), "DFDetailQuery");
 
                         this.lb_successAllMoney.Text = setConfig.FenToYuan(ds2.Tables[0].Rows[0]["totalPayNum"].ToString());
                         this.lb_successNum.Text = ds2.Tables[0].Rows[0]["totalRecordCount"].ToString();
 
-                        stopwatch.Restart();
                         ds2 = qs.CountDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
                             this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, "2",
                             txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue);
                         
-                        stopwatch.Stop();
-                        LogHelper.LogInfo(string.Format("BindData(int pageIndex, bool needUpdateCount) => TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service.CountDFInfo()-->ddl_state=2，获取数据耗时：{0}", stopwatch.Elapsed), "DFDetailQuery");
 
                         this.lb_failAllMoney.Text = setConfig.FenToYuan(ds2.Tables[0].Rows[0]["totalPayNum"].ToString());
                         this.lb_failNum.Text = ds2.Tables[0].Rows[0]["totalRecordCount"].ToString();
                         
-                        stopwatch.Restart();
                         ds2 = qs.CountDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
                             this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, "3",
                             txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue);
                         
-                        stopwatch.Stop();
-                        LogHelper.LogInfo(string.Format("BindData(int pageIndex, bool needUpdateCount) => TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service.CountDFInfo()-->ddl_state=3，获取数据耗时：{0}", stopwatch.Elapsed), "DFDetailQuery");
 
                         this.lb_handlingAllMoney.Text = setConfig.FenToYuan(ds2.Tables[0].Rows[0]["totalPayNum"].ToString());
                         this.lb_handlingNum.Text = ds2.Tables[0].Rows[0]["totalRecordCount"].ToString();
                     }
                     else
                     {
-                        stopwatch.Restart();
                         DataSet ds2 = qs.CountDFInfo(this.tbx_bankID.Text, this.tbx_userName.Text, strSTime, strETime,
                             this.tbx_spid.Text, this.tbx_spListID.Text, this.tbx_spBatchID.Text, this.ddl_state.SelectedValue,
                             txb_transaction_id.Text.Trim(), ddlBankType.SelectedValue, ddl_service_code.SelectedValue);
                         
-                        stopwatch.Stop();
-                        LogHelper.LogInfo(string.Format("BindData(int pageIndex, bool needUpdateCount) => TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service.CountDFInfo()-->ddl_state={1}，获取数据耗时：{0}", stopwatch.Elapsed, this.ddl_state.SelectedValue), "DFDetailQuery");
 
                         switch (this.ddl_state.SelectedValue)
                         {

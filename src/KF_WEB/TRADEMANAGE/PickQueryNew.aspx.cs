@@ -203,8 +203,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			int max = pager.PageSize;
 			int start = max * (index-1) + 1;
-      
-            DataSet ds = pickservice.GetPickList(u_ID, begindate, enddate, fstate, fnum, banktype, idtype, sorttype, cash_type, start, max);
+
+            DataSet ds = pickservice.GetPickList(idtype, u_ID, begindate, enddate, fstate, fnum, banktype, sorttype, cash_type, start, max);
 			if(ds != null && ds.Tables.Count >0 && ds.Tables[0].Rows.Count > 0)
 			{
 				ds.Tables[0].Columns.Add("FNewNumFlag",typeof(String));
@@ -228,13 +228,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     else {
                         dr["Fsign_str"] = "·ñ";
                     }
-                    dr["Fabank_type_str"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fabank_type"].ToString());
-                    dr["Fbank_type_str"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fbank_type"].ToString());
+                    //dr["Fabank_type_str"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fabank_type"].ToString());
+                    //dr["Fbank_type_str"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fbank_type"].ToString());
                    
 				}
 
 				ds.Tables[0].Columns.Add("FStateName",typeof(String));
-				classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0],"Fsign","FStateName","TCLIST_SIGN");
+                //classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0],"Fsign","FStateName","TCLIST_SIGN");
 
 				DataGrid1.DataSource = ds.Tables[0].DefaultView;
 				DataGrid1.DataBind();
