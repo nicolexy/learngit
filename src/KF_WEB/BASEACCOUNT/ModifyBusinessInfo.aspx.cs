@@ -20,6 +20,7 @@ using System.IO;
 using System.Xml;
 using CFT.CSOMS.BLL.SPOA;
 using System.Collections.Generic;
+using CFT.Apollo.Logging;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
@@ -192,6 +193,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
+                LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",btnSearch_Click，捕获soap类异常，异常:" + eSoap.ToString());
                 this.Table1.Visible = false;
                 this.dgList.Visible = false;
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message);
@@ -199,6 +201,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception eSys)
             {
+                LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",btnSearch_Click，异常:" + eSys.ToString());
                 this.Table1.Visible = false;
                 this.dgList.Visible = false;
                 WebUtils.ShowMessage(this.Page, eSys.Message);
@@ -237,11 +240,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
                 catch (SoapException eSoap) //捕获soap类异常
                 {
+                    LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",btnBankCardCheck_Click，捕获soap类异常，异常:" + eSoap.ToString());
                     string errStr = PublicRes.GetErrorMsg(eSoap.Message);
                     WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
                 }
                 catch (Exception eSys)
                 {
+                    LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",btnBankCardCheck_Click，异常:" + eSys.ToString());
                     WebUtils.ShowMessage(this.Page, eSys.Message);
                 }
             }
@@ -269,12 +274,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
+                LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",btnHisSearch_Click，捕获soap类异常，异常:" + eSoap.ToString());
                 this.dgList.Visible = false;
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message);
                 WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
             }
             catch (Exception eSys)
             {
+                LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",btnHisSearch_Click，异常:" + eSys.ToString());
                 this.dgList.Visible = false;
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message);
             }
@@ -359,6 +366,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception err)
             {
+                LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",btnSave_Click，异常:" + err.ToString());
                 WebUtils.ShowMessage(this.Page, err.Message);
                 return;
             }
@@ -380,12 +388,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
                 catch (SoapException eSoap)
                 {
+                    LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",btnSave_Click，调用服务出错-1，异常:" + eSoap.ToString());
                     string errStr = PublicRes.GetErrorMsg(eSoap.Message);
                     WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
                 }
                 catch (Exception eSys)
                 {
-                    WebUtils.ShowMessage(this.Page, "调用服务出错：" + eSys.Message);
+                    LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",btnSave_Click，调用服务出错-2，异常:" + eSys.ToString());
+                    WebUtils.ShowMessage(this.Page, "调用服务出错：" + eSys.Message.Replace("'", "‘"));
                 }
             }
             if (this.lblContactMobile.Text.Trim() != this.txtContactMobile.Text.Trim())
@@ -409,11 +419,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
                 catch (SoapException eSoap)
                 {
+                    LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",btnSave_Click，修改联系人手机出错-1，异常:" + eSoap.ToString());
                     string errStr = PublicRes.GetErrorMsg(eSoap.Message);
                     WebUtils.ShowMessage(this.Page, "修改联系人手机出错：" + errStr);
                 }
                 catch (Exception eSys)
                 {
+                    LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",btnSave_Click，修改联系人手机出错-2，异常:" + eSys.ToString());
                     WebUtils.ShowMessage(this.Page, "修改联系人手机出错：" + eSys.Message);
                 }
             }
@@ -503,11 +515,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (SoapException eSoap)
             {
+                LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",btnSendEmail_Click，捕获soap类异常，异常:" + eSoap.ToString());
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message);
                 WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
             }
             catch (Exception eSys)
             {
+                LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",btnSendEmail_Click，异常:" + eSys.ToString());
                 WebUtils.ShowMessage(this.Page, eSys.Message);
             }
         }
@@ -524,6 +538,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception err)
             {
+                LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",SendEmailForKey，异常:" + err.ToString());
                 throw new Exception(err.Message);
             }
         }
@@ -543,6 +558,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception err)
             {
+                LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",btnSendEmailAgain_Click，重发商户通知邮件失败:" + err.ToString());
                 WebUtils.ShowMessage(this.Page, "重发商户通知邮件失败：" + PublicRes.GetErrorMsg(err.Message.ToString()));
             }
         }
@@ -562,6 +578,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception err)
             {
+                LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",btnSendCertificateAgain_Click，重发证书失败:" + err.ToString());
                 WebUtils.ShowMessage(this.Page, "重发证书失败：" + PublicRes.GetErrorMsg(err.Message.ToString()));
             }
         }
@@ -616,6 +633,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception eStr)
             {
+                LogHelper.LogError("请求页面：" + Request.Url.AbsoluteUri + ",upImage，上传文件异常:" + eStr.ToString());
                 string errMsg = "上传文件失败！" + PublicRes.GetErrorMsg(eStr.Message.ToString());
                 throw new Exception(errMsg);
             }
