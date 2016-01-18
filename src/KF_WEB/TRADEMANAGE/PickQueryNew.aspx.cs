@@ -237,13 +237,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     else {
                         dr["Fsign_str"] = "·ñ";
                     }
-                    //dr["Fabank_type_str"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fabank_type"].ToString());
-                    //dr["Fbank_type_str"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fbank_type"].ToString());
+                    dr["Fabank_type_str"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fabank_type"].ToString());
+                    dr["Fbank_type_str"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fbank_type"].ToString());
                    
 				}
 
 				ds.Tables[0].Columns.Add("FStateName",typeof(String));
-                //classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0],"Fsign","FStateName","TCLIST_SIGN");
+                classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0],"Fsign","FStateName","TCLIST_SIGN");
 
 				DataGrid1.DataSource = ds.Tables[0].DefaultView;
 				DataGrid1.DataBind();

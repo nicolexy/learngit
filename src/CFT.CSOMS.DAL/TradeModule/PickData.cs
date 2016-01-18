@@ -26,7 +26,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         public DataSet GetPickList(string u_ID, int idtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, string sorttype, string cashtype,
             int offset, int limit)
         {
-            string stime = u_EndTime.ToString("yyyy-MM-dd");
+            string stime = u_BeginTime.ToString("yyyy-MM-dd");
             string etime = u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
             if (idtype == 0)
             {
@@ -106,11 +106,11 @@ namespace CFT.CSOMS.DAL.TradeModule
             string fields = "uid:" + uid + "|cur_type:1";
             if (!string.IsNullOrEmpty(stime))
             {
-                fields = "|s_time:" + stime;
+                fields += "|s_time:" + stime;
             }
             if (!string.IsNullOrEmpty(etime))
             {
-                fields = "|e_time:" + etime;
+                fields += "|e_time:" + etime;
             }
             if (fstate != 0)
             {
@@ -150,11 +150,8 @@ namespace CFT.CSOMS.DAL.TradeModule
         private DataSet QueryPickByAbankid(string abankid, string stime, string etime, int fstate, float fnum, string banktype, string sorttype, string cashtype,
             int offset, int limit)
         {
-
             if (offset % limit == 1) offset -= 1;
-            if (offset % limit == 1) offset -= 1;
-            string fields = "";
-            fields += "|abankid:" + abankid;
+            string fields = "abankid:" + abankid + "|begintime:" + stime + "|endtime:" + etime;
 
             if (fstate != 0)
             {
@@ -190,11 +187,6 @@ namespace CFT.CSOMS.DAL.TradeModule
                 {
                     fields += "|desc:Fnum";
                 }
-            }
-            fields += "|begintime:" + stime + "|endtime:" + etime;
-            if (fields.StartsWith("|"))
-            {
-                fields = fields.Substring(1, fields.Length - 1);
             }
 
             //2416:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$
