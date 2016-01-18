@@ -13,34 +13,202 @@ using System.Configuration;
 using CFT.Apollo.Logging;
 using CFT.CSOMS.COMMLIB;
 using System.Xml;
+using System.Collections;
+using SunLibraryEX;
 
 namespace CFT.CSOMS.DAL.TradeModule
 {
     public class PickData
     {
+        string serverIp = System.Configuration.ConfigurationManager.AppSettings["Relay_IP"].ToString();
+        int serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["Relay_PORT"].ToString());
         //提现记录查询
-        public DataSet GetPickList(string u_ID, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, int idtype, string sorttype, string cashtype,
-            int iPageStart, int iPageMax)
+        public DataSet GetPickList(string u_ID, int idtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, string sorttype, string cashtype,
+            int offset, int limit)
         {
-            try
+            string stime = u_EndTime.ToString("yyyy-MM-dd");
+            string etime = u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
+            if (idtype == 0)
             {
-                DataSet ds = null;
-                ds = PickQueryClass(u_ID, u_BeginTime, u_EndTime, fstate, fnum, banktype, sorttype, idtype, cashtype, false, iPageStart, iPageMax);
+                //按uid查询
+                string uid = PublicRes.ConvertToFuid(u_ID);
+                return QueryPickByUid(uid, stime, etime, fstate, banktype, cashtype, offset, limit);
+            }
+            else if (idtype == 1)
+            {
+                //按银行账号查询
+                string bankID = BankLib.BankIOX.GetCreditEncode(u_ID, BankLib.BankIOX.fxykconn);
+                DataSet ds = QueryPickByAbankid(bankID, stime, etime, fstate, fnum, banktype, sorttype, cashtype, offset, limit);
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                 {
-                    if (idtype == 1)
-                    {
-                        ds = PickQueryClass(u_ID, u_BeginTime, u_EndTime, fstate, fnum, banktype, sorttype, idtype, cashtype, true, iPageStart, iPageMax);
-                    }
+                    bankID = u_ID;
+                    ds = QueryPickByAbankid(bankID, stime, etime, fstate, fnum, banktype, sorttype, cashtype, offset, limit);
                 }
                 return ds;
             }
-            catch (Exception err)
+            else if (idtype == 2)
             {
-                throw new Exception("处理失败！" + err.Message);
+                //按提现单号查询
+                return QueryPickByListid(u_ID);
+            }
+            else
+            {
+                throw new Exception("你输入的查询类型错误！");
             }
         }
+        /// <summary>
+        /// 按提记录按单号查询
+        /// </summary>
+        /// <returns></returns>
+        public DataSet QueryPickByListid(string listid)
+        {
+            //listid=101201509246269862740
+            string requestString = "transaction_id={0}&MSG_NO={1}";
+            requestString = string.Format(requestString, listid, "101779" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.NewStaticNoManage());
 
+            string answer = RelayAccessFactory.RelayInvoke(requestString, "101779", false, false, serverIp, serverPort);
+            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("utf-8"));
+            if (!answer.Contains("result=0&res_info=ok"))
+            {
+                throw new Exception("按提现单号查询报错:" + answer);
+            }
+            answer = answer.Replace("result=0&res_info=ok&row_num=1&row0=", "");
+            var list = StringEx.ToDictionary(answer, '&', '=');
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Flistid", typeof(string));
+            foreach (var item in list)
+            {
+                dt.Columns.Add("F" + item.Key, typeof(string));
+            }
+            DataRow dr = dt.NewRow();
+            dr["Flistid"] = list["transaction_id"];
+            foreach (var item in list)
+            {
+                dr["F" + item.Key] = item.Value;
+            }
+            dt.Rows.Add(dr);
+            return new DataSet() { Tables = { dt } };
+        }
+
+
+        /// <summary>
+        /// 按提记录按uid查询
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="stime"></param>
+        /// <param name="etime"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        private DataSet QueryPickByUid(string uid, string stime, string etime, int fstate, string banktype, string cashtype, int offset, int limit)
+        {
+            if (offset % limit == 1) offset -= 1;
+            string fields = "uid:" + uid + "|cur_type:1";
+            if (!string.IsNullOrEmpty(stime))
+            {
+                fields = "|s_time:" + stime;
+            }
+            if (!string.IsNullOrEmpty(etime))
+            {
+                fields = "|e_time:" + etime;
+            }
+            if (fstate != 0)
+            {
+                fields += "|sign:" + fstate.ToString();
+            }
+            if (banktype != "0000")
+            {
+                fields += "|bank_type:" + banktype;
+            }
+            if (cashtype != "0000")
+            {
+                fields += "|bankid_list:" + cashtype;
+            }
+
+            fields = string.Format(fields, uid, stime, etime);
+            //#if DEBUG
+            //            fields = "uid:295169794|cur_type:1";
+            //#endif
+            DataSet ds = new PublicRes().QueryCommRelay8020("409", fields, offset, limit);
+
+            return ds;
+        }
+        /// <summary>
+        /// 按提记录按银行卡号查询
+        /// </summary>
+        /// <param name="abankid"></param>
+        /// <param name="stime"></param>
+        /// <param name="etime"></param>
+        /// <param name="fstate"></param>
+        /// <param name="fnum"></param>
+        /// <param name="banktype"></param>
+        /// <param name="sorttype"></param>
+        /// <param name="cashtype"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        private DataSet QueryPickByAbankid(string abankid, string stime, string etime, int fstate, float fnum, string banktype, string sorttype, string cashtype,
+            int offset, int limit)
+        {
+
+            if (offset % limit == 1) offset -= 1;
+            if (offset % limit == 1) offset -= 1;
+            string fields = "";
+            fields += "|abankid:" + abankid;
+
+            if (fstate != 0)
+            {
+                fields += "|sign:" + fstate.ToString();
+            }
+            long num = (long)Math.Round(fnum * 100, 0);
+
+            fields += "|num:" + num.ToString();
+
+            if (banktype != "0000")
+            {
+                fields += "|banktype:" + banktype;
+            }
+            if (cashtype != "0000")
+            {
+                fields += "|bankid:" + cashtype;
+            }
+            if (sorttype != null && sorttype.Trim() != "")
+            {
+                if (sorttype.Trim() == "1")
+                {
+                    fields += "|asc:Fpay_front_time_acc";
+                }
+                else if (sorttype.Trim() == "2")
+                {
+                    fields += "|desc:Fpay_front_time_acc";
+                }
+                else if (sorttype.Trim() == "3")
+                {
+                    fields += "|asc:Fnum";
+                }
+                else if (sorttype.Trim() == "4")
+                {
+                    fields += "|desc:Fnum";
+                }
+            }
+            fields += "|begintime:" + stime + "|endtime:" + etime;
+            if (fields.StartsWith("|"))
+            {
+                fields = fields.Substring(1, fields.Length - 1);
+            }
+
+            //2416:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$
+            //2427:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(spider)
+            //2417:查询库表c2c_db.t_tcpay_list 
+            //2431:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(SET2)
+            Hashtable param = new Hashtable();
+            param.Add("2416", fields);
+            param.Add("2417", fields);
+            param.Add("2427", fields);
+            param.Add("2431", fields);
+            DataSet ds = multi_query(param, offset, limit);
+            return ds;
+        }
         /// <summary>
         /// 查询提现拦截记录
         /// </summary>
@@ -87,177 +255,41 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
         }
 
-       public  DataSet GetPickListDetail(string listid, DateTime u_BeginTime, DateTime u_EndTime)
-        {
-            DataSet ds = new DataSet();
-            u_BeginTime = GetPayListTableFromID(listid);
-            string fields = "listid:{0}|begintime:{1}|endtime:{2}";
-
-            fields = string.Format(fields, listid, u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"), u_EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
-
-            //2416:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$
-            //2427:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(spider)
-            //2417:查询库表c2c_db.t_tcpay_list 
-            ds = multi_query(fields, new string[] { "2416", "2427", "2417" }, 0, 1);
-            
-
-           //加查上月或者下月的表
-            DataSet ds3 = new DataSet();
-            fields = "listid:{0}|begintime:{1}|endtime:{2}";
-            u_BeginTime = u_BeginTime.Day > 15 ? u_BeginTime.AddMonths(1) : u_BeginTime.AddMonths(-1);
-            if (u_BeginTime > u_EndTime)
-            {
-                u_EndTime = u_BeginTime;
-            }
-            fields = string.Format(fields, listid, u_BeginTime.ToString("yyyy-MM-01"), u_EndTime.ToString("yyyy-MM-dd"));
-            //2416:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$
-            //2427:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(spider)
-            ds3 = multi_query(fields, new string[] { "2416", "2427" }, 0, 1); //new PublicRes().QueryCommRelay8020("2416", fields, 0, 1);
-            ds = PublicRes.ToOneDataset(ds, ds3);
-            return ds;
-       }
-
-
-       private DataSet PickQueryClass(string u_ID, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, string sorttype, int idtype, string cashtype, bool isSecret, int offset, int limit)
-        {
-            if (offset % limit == 1) offset -= 1;
-            string fields = "";
-            DataSet ds = new DataSet();
-            if (u_ID != null && u_ID.Trim() != "")
-            {
-                if (idtype == 0)
-                {
-                    string uid = PublicRes.ConvertToFuid(u_ID);
-                    fields += "|uid:" + uid;
-                }
-                else if (idtype == 1)
-                {
-                    if (isSecret)
-                    {
-                        string bankID = BankLib.BankIOX.GetCreditEncode(u_ID, BankLib.BankIOX.fxykconn);
-                        fields += "|abankid:" + bankID;
-                    }
-                    else
-                    {
-                        fields += "|abankid:" + u_ID;
-                    }
-                }
-                else if (idtype == 2)
-                {
-                    fields += "|listid:" + u_ID;
-                }
-            }
-
-            if (fstate != 0)
-            {
-                fields += "|sign:" + fstate.ToString();
-            }
-
-            long num = (long)Math.Round(fnum * 100, 0);
-
-            fields += "|num:" + num.ToString();
-
-            if (banktype != "0000")
-            {
-                fields += "|banktype:" + banktype;
-            }
-            if (cashtype != "0000")
-            {
-                fields += "|bankid:" + cashtype;
-            }
-
-            string test = u_BeginTime.ToString("yyyy-MM-dd");
-
-
-            if (sorttype != null && sorttype.Trim() != "")
-            {
-                if (sorttype.Trim() == "1")
-                {
-                    fields += "|asc:Fpay_front_time_acc";
-                }
-                else if (sorttype.Trim() == "2")
-                {
-                    fields += "|desc:Fpay_front_time_acc";
-                }
-                else if (sorttype.Trim() == "3")
-                {
-                    fields += "|asc:Fnum";
-                }
-                else if (sorttype.Trim() == "4")
-                {
-                    fields += "|desc:Fnum";
-                }
-            }
-            fields += "|begintime:" + u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss") + "|endtime:" + u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
-            if (fields.StartsWith("|"))
-            {
-                fields = fields.Substring(1, fields.Length - 1);
-            }
-
-            DataSet dstemp = multi_query(fields, new string[] { "2416", "2427" },offset, limit); // new PublicRes().QueryCommRelay8020("2416", fields, offset, limit);
-            ds = PublicRes.ToOneDataset(ds, dstemp);
-            dstemp = new PublicRes().QueryCommRelay8020("2417", fields, offset, limit);
-            ds = PublicRes.ToOneDataset(ds, dstemp);
-
-            return ds;
-            //fstrSql_count = "select 10000";//" select count(*) from ( " + strGroup + ") a ";
-        }
+   
         //信用卡还款按财付通号查询
-         public DataSet GetCreditQueryListForFaid(string QQOrEmail, DateTime begindate, DateTime enddate, int offset, int limit)
-         {
-             if (offset % limit == 1) offset -= 1;
-
-             string Fuid = PublicRes.ConvertToFuid(QQOrEmail);
-//#if DEBUG
-//             Fuid = QQOrEmail;
-//#endif
-             string fields = "Fuid:{0}|begindate:{1}|enddate:{2}";
-             fields = string.Format(fields, Fuid, begindate.ToString("yyyy-MM-dd 00:00:00"), enddate.ToString("yyyy-MM-dd 23:59:59"));
-
-             //DataSet ds1 = new PublicRes().QueryCommRelay8020("2418", fields, offset, limit);
-             //DataSet ds2 = new PublicRes().QueryCommRelay8020("2419", fields, offset, limit);
-             //DataSet ds = PublicRes.ToOneDataset(ds1, ds2);
-             DataSet ds = multi_query(fields, new string[] { "2418", "2428", "2419" }, offset, limit);
-
-
-             //加查上月或者下月的表
-             DataSet ds2 = new DataSet();
-             fields = "Fuid:{0}|begindate:{1}|enddate:{2}";
-             begindate = begindate.Day > 15 ? begindate.AddMonths(1) : begindate.AddMonths(-1);
-             if (begindate > enddate)
-             {
-                 enddate = begindate;
-             }
-             fields = string.Format(fields, Fuid, begindate.ToString("yyyy-MM-01"), enddate.ToString("yyyy-MM-dd"));
-             //ds3 = new PublicRes().QueryCommRelay8020("2418", fields, offset, limit);
-             ds2 = multi_query(fields, new string[] { "2418", "2428"}, offset, limit);
-             ds = PublicRes.ToOneDataset(ds, ds2);
-             return ds;
-         }
-        //信用卡还款根据还款交易号查询
-        public DataSet GetCreditQueryList(string Flistid, int offset, int limit)
+        public DataTable  GetCreditQueryListForFaid(string QQOrEmail, DateTime begindate, DateTime enddate, int offset, int limit)
         {
-            if (offset % limit == 1) offset -= 1;
-            string fields = "listid:{0}";
-            fields = string.Format(fields, Flistid);
-            DataSet ds = new PublicRes().QueryCommRelay8020("2420", fields, offset, limit);
-            DateTime date = GetPayListTableFromID(Flistid);
-            fields = "listid:{0}|date:{1}";
-            fields = string.Format(fields, Flistid, date.ToString("yyyy-MM-dd"));
-            //DataSet ds2 = new PublicRes().QueryCommRelay8020("2421", fields, offset, limit);
-            DataSet ds2 = multi_query(fields, new string[] { "2421", "2429" }, offset, limit);
-            ds = PublicRes.ToOneDataset(ds, ds2);
 
-            //加查上月或者下月的表
-            DataSet ds3 = new DataSet();
-            fields = "listid:{0}|date:{1}";
-            date = date.Day > 15 ? date.AddMonths(1) : date.AddMonths(-1);
-            fields = string.Format(fields, Flistid, date.ToString("yyyy-MM-dd"));
-            //ds3 = new PublicRes().QueryCommRelay8020("2421", fields, offset, limit);
-            ds3 = multi_query(fields, new string[] { "2421", "2429"}, offset, limit);
-            ds = PublicRes.ToOneDataset(ds, ds3);
-            return ds;
+        //     select Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time from c2c_db.t_tcpay_list_$YYYY$$MM$  \
+        //WHERE Fuid= '$Fuid$' \
+        //AND Fpay_front_time_acc &gt;='$begindate$' \
+        //AND Fpay_front_time_acc &lt;='$enddate$' \
+        //AND Fbankid IN (5,8,36,37) \
+        //AND Fmodify_time &gt;= '$begindate$'\
+        //AND Fmodify_time &lt;= '$enddate$' \
+        //AND Fbank_type !=  2033 \
+        //ORDER BY Fpay_front_time DESC \
+
+            if (offset % limit == 1) offset -= 1;
+            Hashtable param = new Hashtable();
+
+            string Fuid = PublicRes.ConvertToFuid(QQOrEmail);
+//#if DEBUG
+//            Fuid = "295169794";
+//#endif
+            string stime = begindate.ToString("yyyy-MM-dd 00:00:00");
+            string etime=enddate.ToString("yyyy-MM-dd 23:59:59");
+
+
+            string fields = "uid:{0}|stime:{1}|futuretime:{2}|ftime:{3}";
+            fields = string.Format(fields, Fuid, stime, etime, etime);
+ 
+
+            param.Add("104", fields);
+            DataSet ds = multi_query(param, offset, limit);
+            return ds != null && ds.Tables.Count > 0 ? ds.Tables[0] : null;
         }
+    
         //结算查询 商户今天结算记录 c2c_db_00.t_tranlog_0 不存在
         public DataSet GetQuerySettlementTodayList(string Fspid) 
         {
@@ -267,94 +299,6 @@ namespace CFT.CSOMS.DAL.TradeModule
             return ds;
         }
 
-        public DataSet GetTCBankPAYList(string strID, int iIDType, DateTime dtBegin, DateTime dtEnd, int offset, int limit)
-        {
-            if (offset % limit == 1) offset -= 1;
-            DataSet ds = new DataSet();
-            try
-            {
-                string f_strID = ""; ;
-                f_strID = strID;
-                string fstrSql = "";
-                if (iIDType == 0)
-                {
-                    string Fuid = PublicRes.ConvertToFuid(strID);
-//#if DEBUG
-//                   Fuid = strID;
-//#endif
-                    string format = "uid:{0}|begintime:{1}|endtime:" + dtEnd.ToString("yyyy-MM-dd");
-                    var fields = string.Format(format, Fuid, dtBegin.ToString("yyyy-MM-dd"));
-                    //DataSet temp1 = new PublicRes().QueryCommRelay8020("2424", fields, offset, limit);  //历史库
-                    //DataSet temp2 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);  //查询开始日期当月 - 分库表
-                    //ds = PublicRes.ToOneDataset(temp1, temp2);
-                    ds = multi_query(fields, new string[] { "2423", "2430", "2424" }, offset, limit);
-                    if (dtBegin.Month != dtEnd.Month || dtBegin.Year != dtEnd.Year) //如果跨月
-                    {
-                        var sDate = dtBegin.AddDays(1 - dtBegin.Day);
-                        for (int i = 0; i < 12; i++) // 不允许 查询跨度大于一年;
-                        {
-                            sDate = sDate.AddMonths(1);
-                            if (sDate > dtEnd) 
-                                break;
-                            fields = string.Format(format, Fuid, sDate.ToString("yyyy-MM-dd"));
-                            //var temp3 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);
-                            var temp3 = multi_query(fields, new string[] { "2423", "2430" }, offset, limit);
-                            ds = PublicRes.ToOneDataset(ds, temp3);
-                        }
-                    }
-
-                    //string fields = "uid:{0}|begintime:{1}|endtime:{2}";
-                    //fields = string.Format(fields, Fuid, dtBegin.ToString("yyyy-MM-dd"), dtEnd.ToString("yyyy-MM-dd"));
-                    //DataSet ds1 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);  //分库表
-                    //DataSet ds2 = new PublicRes().QueryCommRelay8020("2424", fields, offset, limit);  //历史库
-
-                    //ds = PublicRes.ToOneDataset(ds1, ds2);
-
-                    //DataSet ds3 = new DataSet();
-                    //fields = "uid:{0}|begintime:{1}|endtime:{2}";
-                    //dtBegin = dtBegin.Day > 15 ? dtBegin.AddMonths(1) : dtBegin.AddMonths(-1);
-                    //if (dtBegin > dtEnd)
-                    //{
-                    //    dtEnd = dtBegin;
-                    //}
-                    //fields = string.Format(fields, Fuid, dtBegin.ToString("yyyy-MM-01"), dtEnd.ToString("yyyy-MM-dd"));
-                    //ds3 = new PublicRes().QueryCommRelay8020("2423", fields, offset, limit);
-                    //ds = PublicRes.ToOneDataset(ds, ds3);
-
-                    ////引用查询 [交易查询-提现记录查询（新）]
-                    //DataSet dstemp = new PublicRes().QueryCommRelay8020("2416", fields, offset, limit); //历史库
-                    //ds = PublicRes.ToOneDataset(ds, dstemp);
-                    //dstemp = new PublicRes().QueryCommRelay8020("2417", fields, offset, limit); //当前库
-                    //ds = PublicRes.ToOneDataset(ds, dstemp);
-
-                    if (ds != null && ds.Tables.Count > 0) 
-                    {
-                        ds.Tables[0].Columns.Add("total", typeof(string));
-                        foreach (DataRow dr in ds.Tables[0].Rows) 
-                        {
-                            dr["total"] = "10000";
-                        }
-                    }
-                }
-                else
-                {
-                    string currtable = "";
-                    string othertable = "";
-                    CFT.CSOMS.DAL.Infrastructure.PickQueryClass.GetPayListTableFromID(f_strID, out currtable, out othertable);
-
-                    fstrSql = "Select " + CFT.CSOMS.DAL.Infrastructure.PickQueryClass.GetTcPayListOldFields() + " from c2c_db.t_tcpay_list where flistid = '" + f_strID + "' or flistid = (select frlistid from c2c_db.t_refund_list where flistid ='" + f_strID + "'and flstate <> 3) ";
-                    fstrSql += " union all Select " + CFT.CSOMS.DAL.Infrastructure.PickQueryClass.GetTcPayListNewFields() + " from " + currtable + " where flistid = '" + f_strID + "' or flistid = (select frlistid from c2c_db.t_refund_list where flistid ='" + f_strID + "'and flstate <> 3) ";
-                    fstrSql += " union all Select " + CFT.CSOMS.DAL.Infrastructure.PickQueryClass.GetTcPayListNewFields() + " from " + othertable + " where flistid = '" + f_strID + "' or flistid = (select frlistid from c2c_db.t_refund_list where flistid ='" + f_strID + "'and flstate <> 3) ";
-                    fstrSql += " Order by fpay_front_time DESC";
-                    ds = QueryInfo.GetTable(fstrSql, offset, limit);
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            return ds;
-        }
         public string TdeToID(string tdeid)  //传入付款单ID
         {
             string tmp = "";
@@ -379,25 +323,22 @@ namespace CFT.CSOMS.DAL.TradeModule
        /// </summary>
        /// <param name="fields"></param>
        /// <returns></returns>
-        private DataSet multi_query(string fields, string[] reqids, int offset = 0, int limit = 1)
+        private DataSet multi_query(Hashtable param, int offset = 0, int limit = 1)
         {
             string msg = "";
             DataSet ds = new DataSet();
-            foreach (string reqid in reqids)
+
+            foreach (DictionaryEntry de in param)
             {
                 try
                 {
-                    DataSet dstemp = new PublicRes().QueryCommRelay8020(reqid, fields, offset, limit);
+                    DataSet dstemp = new PublicRes().QueryCommRelay8020(de.Key.ToString(), de.Value.ToString(), offset, limit);
                     ds = PublicRes.ToOneDataset(ds, dstemp);
                 }
-                catch (Exception e)
-                {
-                    msg = e.Message;
-                }
+                catch { }
             }
             return ds;
         }
-
         private DateTime GetPayListTableFromID(string listid)
         {
             //1、3位系统ID+YYYYMMDD+10位流水号；

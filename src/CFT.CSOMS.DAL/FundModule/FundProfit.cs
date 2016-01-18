@@ -12,7 +12,8 @@ namespace CFT.CSOMS.DAL.FundModule
     public class FundProfit
     {
         //查询指数型基金（目前只有易方达沪深300基金）的每日单位净值和日涨跌字段
-        public DataTable QueryFundProfitRate(string spid, string fund_code, string date)
+        //2016-1-14 v_yqyqguo 指数型基金查询最近有值记录
+        public DataTable QueryFundProfitRate(string spid, string fund_code)
         {
             //if (string.IsNullOrEmpty(spid))
             //    throw new ArgumentNullException("spid");
@@ -33,8 +34,8 @@ namespace CFT.CSOMS.DAL.FundModule
             DataTable dt = null;
             var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
-            string requestText = "reqid=667&flag=2&offset=0&limit=10&fields=spid:{0}|fund_code:{1}|date:{2}";
-            requestText = string.Format(requestText, spid, fund_code, date);
+            string requestText = "reqid=667&flag=2&offset=0&limit=1&fields=spid:{0}|fund_code:{1}";
+            requestText = string.Format(requestText, spid, fund_code);
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {

@@ -303,8 +303,8 @@ namespace CFT.CSOMS.BLL.FundModule
                     dateTime = dateTime.AddDays(-1);
                     weekDay = Convert.ToInt16(dateTime.DayOfWeek).ToString();
                 }
-                string date = dateTime.ToString("yyyMMdd");
-                var fundProfit = new FundProfit().QueryFundProfitRate(spid, fund_code, date);
+                //string date = dateTime.ToString("yyyMMdd");
+                var fundProfit = new FundProfit().QueryFundProfitRate(spid, fund_code);
                 decimal F1day_profit_rate = 0.0M;
 
                 if (fundProfit != null && fundProfit.Rows.Count > 0)
@@ -566,7 +566,7 @@ namespace CFT.CSOMS.BLL.FundModule
                             dr["fund_balance"] = dr["Fvalid_money_str"].ToString();
                             try
                             {
-                                var fundProfit = new FundProfit().QueryFundProfitRate(spId, fund_code, dr["Fday"].ToString());
+                                var fundProfit = new FundProfit().QueryFundProfitRate(spId, fund_code);
 
                                 if (fundProfit != null && fundProfit.Rows.Count > 0)
                                 {

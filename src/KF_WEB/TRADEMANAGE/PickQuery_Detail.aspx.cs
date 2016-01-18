@@ -117,13 +117,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				}
 
 			}
-            DataSet ds = new DataSet();
              
-            ds = pickservice.GetPickListDetail(listid, u_beginTime, u_endTime);
+            DataTable dt = pickservice.GetPickListDetail(listid);
 
-			if(ds != null && ds.Tables.Count >0 && ds.Tables[0].Rows.Count > 0 )
+			if(dt != null && dt.Rows.Count > 0 )
 			{
-				DataRow dr = ds.Tables[0].Rows[0];
+				DataRow dr = dt.Rows[0];
 				labFListID.Text = PublicRes.GetString(dr["FListID"]);
 
 				long itmp = long.Parse(PublicRes.GetString(dr["FNum"]));
