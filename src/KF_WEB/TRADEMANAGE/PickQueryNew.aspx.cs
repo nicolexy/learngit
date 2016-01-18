@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// PickQuery 的摘要说明。
 	/// </summary>
-	public partial class PickQueryNew : System.Web.UI.Page
+    public partial class PickQueryNew : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		public string  begintime = DateTime.Now.ToString("yyyy-MM-dd");
 		public string endtime = DateTime.Now.ToString("yyyy-MM-dd");
@@ -76,14 +76,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 		private void InitializeComponent()
 		{    
 			this.pager.PageChanged += new Wuqi.Webdiyer.PageChangedEventHandler(this.ChangePage);
-
 		}
 		#endregion
 
 		public void ChangePage(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
 		{
-			pager.CurrentPageIndex = e.NewPageIndex;
-			BindData(e.NewPageIndex);
+            try
+            {
+                pager.CurrentPageIndex = e.NewPageIndex;
+                BindData(e.NewPageIndex);
+            }
+            catch (Exception ef) {
+                LogError("TradeManage.PickQueryNew", "public void ChangePage(object src, Wuqi.Webdiyer.PageChangedEventArgs e)", ef);
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + ef.Message);
+            }
 		}
 
 		private void ValidateDate()
@@ -127,7 +133,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				float tmp = float.Parse(tbFNum.Text.Trim());
 			}
 			catch
-			{
+            {
 				throw new Exception("请输入正确的金额！");
 			}
 
@@ -157,7 +163,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				ValidateDate();
 			}
 			catch(Exception err)
-			{
+            {
+                LogError("TradeManage.PickQueryNew", "protected void Button2_Click(object sender, System.EventArgs e)", err);
 				WebUtils.ShowMessage(this.Page,err.Message);
 				return;
 			}
@@ -169,12 +176,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				BindData(1);
 			}
 			catch(SoapException eSoap) //捕获soap类异常
-			{
+            {
+                LogError("TradeManage.PickQueryNew", "protected void Button2_Click(object sender, System.EventArgs e),捕获soap类异常:", eSoap);
 				string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
 				WebUtils.ShowMessage(this.Page,"调用服务出错：" + errStr);
 			}
 			catch(Exception eSys)
-			{
+            {
+                LogError("TradeManage.PickQueryNew", "protected void Button2_Click(object sender, System.EventArgs e),读取数据失败:", eSys);
 				WebUtils.ShowMessage(this.Page,"读取数据失败！" + eSys.Message.ToString());
 			}
 		}
@@ -241,7 +250,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			}
 			else
 			{
-				throw new LogicException("没有找到记录！");
+                throw new Exception("没有找到记录！");
 			}
 		}
 	}

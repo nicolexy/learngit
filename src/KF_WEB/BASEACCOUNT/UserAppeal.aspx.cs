@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
     /// UserAppeal 的摘要说明。
 	/// </summary>
-	public partial class UserAppeal : System.Web.UI.Page
+	public partial class UserAppeal : PageBase
 	{
        
 		protected void Page_Load(object sender, System.EventArgs e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CFT.Apollo.Logging;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -13,14 +14,47 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             base.OnInit(e);
             //this.Load += new System.EventHandler(PageBase_Load);
             this.Error += new System.EventHandler(PageBase_Error);
+
+            try
+            {
+                if (Session["uid"] == null)
+                {
+                    Response.Write("<script>window.parent.location.href = '../login.aspx';</script>");
+                    Response.End();
+                }
+            }
+            catch  //Session为空，则跳转
+            {
+                Response.Write("超时，请重新<a herf = '../login.aspx' target = 'parent'> 登录</a>！");
+            }
         }
 
         protected void PageBase_Error(object sender, System.EventArgs e)
         {
             string errMsg = GetRequestError(HttpContext.Current);
 
-            HttpContext.Current.Response.Write(errMsg);
+            LogHelper.LogError(errMsg);
+
+            //HttpContext.Current.Response.Write(errMsg);
             Server.ClearError();
+
+        }
+
+        /// <summary>
+        /// 异常日志记录
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="errMsg"></param>
+        /// <param name="ex"></param>
+        public void LogError(string strKey, string errMsg, Exception ex)
+        {
+            string errVal = "请求页面：" + Request.Url.AbsoluteUri + ", 错误标识：" + strKey + ", 描述信息：" + errMsg;
+
+            if (ex!=null) {
+                errVal += ", 异常详情：" + ex.ToString();
+            }
+
+            LogHelper.LogError(errVal);
         }
 
         /// <summary>

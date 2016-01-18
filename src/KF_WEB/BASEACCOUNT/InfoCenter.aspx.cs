@@ -245,8 +245,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         else
                             this.Label19_OpenOrNot.Text = "已关闭";
                     }
-                    catch
-                    { }
+                    catch(Exception ex)
+                    {
+                        LogError("InfoCenter.private void BindData(int istr, int imax).balaceService.BalancePaidOrNotQuery", "获取数据信息异常", ex);
+                    }
 
                     this.Label16_Fapay.Text = PublicRes.objectToString(ds.Tables[0], "Fapay");
                     this.Label17_Flogin_ip.Text = PublicRes.objectToString(ds.Tables[0], "Flogin_ip");
@@ -360,7 +362,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
-                LogHelper.LogInfo("出现异常：" + ex.Message + "异常堆栈信息：" + ex.StackTrace);
+                LogHelper.LogError("出现异常：" + ex.Message + "异常堆栈信息：" + ex.StackTrace);
             }
 
             //try
@@ -398,7 +400,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
-                LogHelper.LogInfo("出现异常：" + ex.Message + "异常堆栈信息：" + ex.StackTrace);
+                LogHelper.LogError("出现异常：" + ex.Message + "异常堆栈信息：" + ex.StackTrace);
             }
 
             try
@@ -410,7 +412,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
-                LogHelper.LogInfo("出现异常：" + ex.Message + "异常堆栈信息：" + ex.StackTrace);
+                LogHelper.LogError("出现异常：" + ex.Message + "异常堆栈信息：" + ex.StackTrace);
             }
 
         }
@@ -484,8 +486,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     else
                         this.Label19_OpenOrNot.Text = "已关闭";
                 }
-                catch
-                { }
+                catch (Exception ex)
+                {
+                    LogError("BaseAccount.InfoCenter", " private void BindDataCancel(int istr, int imax)", ex);
+                }
 
                 this.Label16_Fapay.Text = ds.Tables[0].Rows[0]["Fapay"].ToString();
                 this.Label17_Flogin_ip.Text = ds.Tables[0].Rows[0]["Flogin_ip"].ToString();
@@ -621,8 +625,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 else
                     this.dgList.Visible = false;
             }
-            catch
-            { }
+            catch(Exception ex)
+            {
+                LogError("BaseAccount.InfoCenter", " private void BindDataCancel(int istr, int imax)", ex);
+            }
 
             try
             {
@@ -631,8 +637,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 labUserClassInfo.Text = msg;
             }
-            catch
-            { }
+            catch (Exception ex)
+            {
+                LogError("BaseAccount.InfoCenter", " private void BindDataCancel(int istr, int imax)", ex);
+            }
 
         }
 
@@ -792,6 +800,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (SoapException er) //捕获soap类
             {
+                LogError("BaseAccount.InfoCenter", " private void clickEvent(),捕获soap异常：", er);
                 this.LKBT_TradeLog.Visible = false;
                 this.LKBT_TradeLog_Sale.Visible = false;
                 this.LKBT_TradeLog_Unfinished.Visible = false;
@@ -808,6 +817,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception eSys)
             {
+                LogError("BaseAccount.InfoCenter", " private void clickEvent()", eSys);
                 WebUtils.ShowMessage(this.Page, "查询错误：" + eSys.Message.ToString() + ", stacktrace" + eSys.StackTrace);
             }
         }
@@ -887,6 +897,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
+                LogError("BaseAccount.InfoCenter", "public void SyncUserNameClick(object sender, System.EventArgs e)", ex);
                 WebUtils.ShowMessage(this.Page, "同步姓名错误：" + ex.Message + ", stacktrace" + ex.StackTrace);
             }
         }
@@ -1148,14 +1159,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception err)
             {
+                LogError("BaseAccount.InfoCenter", " protected void btnDelClass_Click(object sender, System.EventArgs e)", err);
                 WebUtils.ShowMessage(this.Page, "调用Service失败！" + classLibrary.setConfig.replaceMStr(err.Message) + ", stacktrace" + err.StackTrace);
             }
         }
 
         public void dgList_PageIndexChanged(object source, System.Web.UI.WebControls.DataGridPageChangedEventArgs e)
         {
+            try{
             this.dgList.CurrentPageIndex = e.NewPageIndex;
             BindData(1, 1);
+            }
+            catch (Exception ef)
+            {
+                LogError("TradeManage.PickQueryNew", "public void dgList_PageIndexChanged(object source, System.Web.UI.WebControls.DataGridPageChangedEventArgs e)", ef);
+                WebUtils.ShowMessage(this.Page, "调用服务出错：" + ef.Message);
+            }
         }
 
         protected void LkBT_mediOrder_Click(object sender, EventArgs e)
