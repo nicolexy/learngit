@@ -1117,6 +1117,256 @@ namespace CFT.CSOMS.BLL.FundModule
            return new FundProfit().AlterEndStrategy(Trade_id, Fund_code, Close_listid, user_end_type, end_sell_type, client_ip);
         }
 
+        #region 理财通定投和定赎
+        public DataTable Get_DT_fundBuyPlan(string uid, int offset, int limit)
+        {
+            FundInfoData data = new FundInfoData();
+            DataTable dt = data.Get_DT_fundBuyPlan(uid, offset, limit);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                dt.Columns.Add("Ffund_name", typeof(string));
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Ffund_name"] = GetFundName(dr["Fspid"].ToString());
+                    dr["Ftotal_plan_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_plan_fee"].ToString());
+                    dr["Fplan_fee"] = MoneyTransfer.FenToYuan(dr["Fplan_fee"].ToString());
+                    dr["Ftotal_buy_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_buy_fee"].ToString());
+                    string Fstate = dr["Fstate"].ToString();
+                    dr["Fstate"] = Fstate == "0" ? "初始，未签约代扣协议" :
+                                    Fstate == "1" ? "定投中" :
+                                    Fstate == "2" ? "终止" :
+                                    Fstate == "3" ? "解约中（用户终止或者更换基金导致）" :
+                                    Fstate == "4" ? "解约中(连续扣款失败导致)" :
+                                    Fstate == "5" ? "重新签约中" : "未知：" + Fstate;
+
+                    string Fcease_reason = dr["Fcease_reason"].ToString();
+                    dr["Fcease_reason"] = Fcease_reason == "1" ? "用户终止" :
+                                  Fcease_reason == "2" ? "到期终止" :
+                                  Fcease_reason == "3" ? "连续扣款失败终止" :
+                                  "未知：" + Fcease_reason;
+
+                    string Flstate = dr["Flstate"].ToString();
+                    dr["Flstate"] = Flstate == "1" ? "有效" :
+                                  Flstate == "2" ? "无效" :
+                                  "未知：" + Flstate;
+                }
+            }
+            return dt;
+        }
+
+        public DataTable Get_DT_fundBuyPlanByPlanid(string uid, string plan_id)
+        {
+            FundInfoData data = new FundInfoData();
+            DataTable dt = data.Get_DT_fundBuyPlanByPlanid(uid, plan_id);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Fplan_first_fee"] = MoneyTransfer.FenToYuan(dr["Fplan_first_fee"].ToString());
+                    dr["Ftotal_profit"] = MoneyTransfer.FenToYuan(dr["Ftotal_profit"].ToString());
+                    dr["Fprofit"] = MoneyTransfer.FenToYuan(dr["Fprofit"].ToString());
+                    string Fcease_reason = dr["Fcease_reason"].ToString();
+                    dr["Fcease_reason"] = Fcease_reason == "1" ? "用户终止" :
+                                 Fcease_reason == "2" ? "到期终止" :
+                                 Fcease_reason == "3" ? "连续扣款失败终止" :
+                                 "未知：" + Fcease_reason;
+                }
+            }
+            return dt;
+        }
+
+        public DataTable Get_DT_PlanBuyOrder(string uid, string plan_id, int offset, int limit)
+        {
+            FundInfoData data = new FundInfoData();
+            DataTable dt = data.Get_DT_PlanBuyOrder(uid, plan_id, offset, limit);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                dt.Columns.Add("Ffund_name", typeof(string));
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Ffund_name"] = GetFundName(dr["Fspid"].ToString());
+                    dr["Ftotal_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_fee"].ToString());
+                    string Fstate = dr["Fstate"].ToString();
+                    dr["Fstate"] = Fstate == "0" ? "初始单,用户未确认" :
+                                   Fstate == "1" ? "用户已确认,等待扣款" :
+                                   Fstate == "2" ? "用户主动取消" :
+                                   Fstate == "5" ? "扣款成功" :
+                                   Fstate == "4" ? "当次扣款失败,等待重试" :
+                                   Fstate == "10" ? "最终失败" :
+                                   Fstate == "8" ? "转入退款" :
+                                   "未知:" + Fstate;
+                    string Flstate = dr["Flstate"].ToString();
+                    dr["Flstate"] = Flstate == "1" ? "有效" :
+                                Flstate == "2" ? "无效" :
+                                "未知:" + Flstate;
+                }
+            }
+            return dt;
+        }
+
+        public DataTable Get_HFD_FundFetchPlan(string uin, int offset, int limit)
+        {
+            FundInfoData data = new FundInfoData();
+            DataTable dt = data.Get_HFD_FundFetchPlan(uin, offset, limit);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                dt.Columns.Add("Ffund_name", typeof(string));
+                dt.Columns.Add("Ffund_name_list", typeof(string));
+                dt.Columns.Add("Ffund_name_list1", typeof(string));
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Ffund_name"] = GetFundName(dr["Fspid"].ToString());
+                    string Ffund_name_list = GetFundNameList(dr["Fspid_list"].ToString());
+                    dr["Ffund_name_list"] = Ffund_name_list;
+                    dr["Ffund_name_list1"] = Ffund_name_list.Length > 10 ? (Ffund_name_list.Substring(0, 10) + "...") : Ffund_name_list;
+
+                    dr["Ftotal_plan_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_plan_fee"].ToString());
+                    dr["Fplan_fee"] = MoneyTransfer.FenToYuan(dr["Fplan_fee"].ToString());
+                    dr["Ftotal_fetch_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_fetch_fee"].ToString());
+                    string Flstate = dr["Flstate"].ToString();
+                    dr["Flstate"] = Flstate == "1" ? "有效" :
+                                    Flstate == "2" ? "无效" :
+                                    "未知:" + Flstate;
+                    string Fstate = dr["Fstate"].ToString();
+                    dr["Fstate"] = Fstate == "1" ? "生效" :
+                                    Fstate == "2" ? "终止" :
+                                    "未知:" + Fstate;
+
+                    //string Fcease_reason = dr["Fcease_reason"].ToString();
+                    //dr["Fcease_reason"] = Fcease_reason == "0" ? "没有终止" :
+                    //                Fcease_reason == "1" ? "用户终止" :
+                    //                Fcease_reason == "2" ? "到期终止" :
+                    //                Fcease_reason == "3" ? "连续多期提现失败终止" :
+                    //                "未知:" + Fcease_reason;
+
+                    string Fbussi_type = dr["Fbussi_type"].ToString();
+                    dr["Fbussi_type"] =  Fbussi_type == "1" ? "借记卡类还款（房贷）" :
+                                        Fbussi_type == "2" ? "信用卡类还款" :
+                                        "未知:" + Fbussi_type;
+
+                    //string Fchannel_id = dr["Fchannel_id"].ToString();
+                    //dr["Fchannel_id"] = Fchannel_id == "1" ? "财付通网站" :
+                    //                    Fchannel_id == "2" ? "微信" :
+                    //                    Fchannel_id == "3" ? "手Q" :
+                    //                    "未知:" + Fchannel_id;
+                    
+                }
+            }
+            return dt;
+        }
+        public DataTable Get_HFD_FundFetchPlanByPlanid(string uin, string plan_id)
+        {
+            FundInfoData data = new FundInfoData();
+            DataTable dt = data.Get_HFD_FundFetchPlanByPlanid(uin, plan_id);
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                //dt.Columns.Add("Ffund_name", typeof(string));
+                //dt.Columns.Add("Ffund_name_list", typeof(string));
+                //dt.Columns.Add("Ffund_name_list1", typeof(string));
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Ftotal_fetch_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_fetch_fee"].ToString());
+                    string Flstate = dr["Flstate"].ToString();
+                    dr["Flstate"] = Flstate == "1" ? "有效" :
+                                   Flstate == "2" ? "无效" :
+                                   "未知:" + Flstate;
+                    string Fbussi_type = dr["Fbussi_type"].ToString();
+                    dr["Fbussi_type"] = Fbussi_type == "1" ? "借记卡类还款（房贷）" :
+                                       Fbussi_type == "2" ? "信用卡类还款" :
+                                       "未知:" + Fbussi_type;
+                }
+            }
+            return dt;
+        }
+        public DataTable Get_HFD_PlanFetchOrder(string uin, string plan_id, int offset, int limit)
+        {
+            FundInfoData data = new FundInfoData();
+            DataTable dt = data.Get_HFD_PlanFetchOrder(uin, plan_id, offset, limit);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                dt.Columns.Add("Ffund_name", typeof(string));
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Ffund_name"] = GetFundName(dr["Fspid"].ToString());
+                    dr["Ftotal_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_fee"].ToString());
+                    dr["Ftotal_transfer_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_transfer_fee"].ToString());
+
+                    string Fbussi_type = dr["Fbussi_type"].ToString();
+                    dr["Fbussi_type"] = Fbussi_type == "1" ? "借记卡类还款（房贷）" :
+                                       Fbussi_type == "2" ? "信用卡类还款" :
+                                       "未知:" + Fbussi_type;
+
+                    string Fstate = dr["Fstate"].ToString();
+                    dr["Fstate"] = Fstate == "0" ? "待转换完成" :
+                                     Fstate == "1" ? "待赎回" :
+                                     Fstate == "2" ? "待提现" :
+                                     Fstate == "3" ? "赎回成功且提现请求提现成功" :
+                                     Fstate == "4" ? "提现成功" :
+                                     Fstate == "5" ? "提现失败回理财通余额" :
+                                     Fstate == "8" ? "还款失败" :
+                                      "未知:" + Fstate;
+                    string Flstate = dr["Flstate"].ToString();
+                    dr["Flstate"] = Flstate == "1" ? "有效" :
+                                   Flstate == "2" ? "无效" :
+                                   "未知:" + Flstate;
+
+                    string Ffail_reason = dr["Ffail_reason"].ToString();
+                    dr["Ffail_reason"] = Ffail_reason == "0" ? "没有失败" :
+                                            Ffail_reason == "1" ? "份额不足" :
+                                            Ffail_reason == "2" ? "提现失败" :
+                                            "未知:" + Ffail_reason;
+                }
+            }
+            return dt;
+        }
+        #endregion
+        /// <summary>
+        /// 理财通预约买入
+        /// </summary>
+        /// <param name="trade_id"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public DataTable GetLCTReserveOrder(string trade_id, string listid, int offset, int limit)
+        {
+            FundInfoData data = new FundInfoData();
+            DataTable dt = data.GetLCTReserveOrder(trade_id, listid, offset, limit);
+            //获取基金名称
+            
+            dt.Columns.Add("Freserve_fund_name", typeof(string));
+            dt.Columns.Add("Ffrom_fund_name", typeof(string));
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                dr["Freserve_fund_name"] = GetFundName(dr["Freserve_spid"].ToString());
+                dr["Ffrom_fund_name"] = GetFundName(dr["Ffrom_spid"].ToString());
+
+                dr["Ftotal_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_fee"].ToString());
+                string state = dr["Fstate"].ToString();
+                dr["Fstate"] = LCTReserveOrder_State.ContainsKey(state) ? LCTReserveOrder_State[state] : "未知:" + state;
+                string Fcancel_reason = dr["Fcancel_reason"].ToString();
+                dr["Fcancel_reason"] = Fcancel_reason == "1" ? "用户取消预约" :
+                                       Fcancel_reason == "2" ? "过期自动取消预约" : "未知:" + Fcancel_reason;
+            }
+            return dt;
+        }
+
+        public Dictionary<string, string> LCTReserveOrder_State = new Dictionary<string, string>()
+        {
+             {"0","初始状态"},
+             {"1","待冻结货币基金"},
+             {"2","冻结成功"},
+             {"3","待用户确认(如需用户确认)"},
+             {"4","确认成功待转换"},
+             {"5","转换成功（最终状态）"},
+             {"6","取消预约"},
+             {"7","解冻成功（最终状态）"}
+         };
+           
+        
         /// <summary>
         /// 理财通支付渠道字符串 解析
         /// </summary>
@@ -1142,6 +1392,62 @@ namespace CFT.CSOMS.BLL.FundModule
                 return code.Trim();
             }
             return Fchannel_id;
+        }
+
+        public string GetFundName(string Spid)
+        {
+            try
+            {
+                var FundInfoBySpidTable = new FundInfoData().QueryFundInfoBySpid(Spid);//查Fcurtype及基金名称
+
+                if (FundInfoBySpidTable != null && FundInfoBySpidTable.Rows.Count > 0)
+                {
+                    return FundInfoBySpidTable.Rows[0]["Ffund_name"].ToString();
+                }
+                else
+                {
+                    return Spid;
+                }
+            }
+            catch
+            {
+                return Spid;
+            }
+        }
+        private string GetFundNameList(string spidlist)
+        {
+            string Fund_Namelist = "";
+            string[] spids = spidlist.Split(',');
+            foreach (string item in spids)
+            {
+                if (!string.IsNullOrEmpty(item))
+                {
+                    var FundInfoBySpidTable = new FundInfoData().QueryFundInfoBySpid(item);//查Fcurtype及基金名称
+                    if (FundInfoBySpidTable != null && FundInfoBySpidTable.Rows.Count > 0)
+                    {
+                        if (Fund_Namelist == "")
+                        {
+                            Fund_Namelist = FundInfoBySpidTable.Rows[0]["Ffund_name"].ToString();
+                        }
+                        else
+                        {
+                            Fund_Namelist += "," + FundInfoBySpidTable.Rows[0]["Ffund_name"].ToString();
+                        }
+                    }
+                    else 
+                    {
+                        if (Fund_Namelist == "")
+                        {
+                            Fund_Namelist = item;
+                        }
+                        else
+                        {
+                            Fund_Namelist += "," + item;
+                        }
+                    }
+                }
+            }
+            return Fund_Namelist;
         }
     }
 }
