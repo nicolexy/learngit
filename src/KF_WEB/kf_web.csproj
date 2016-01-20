@@ -2819,6 +2819,20 @@
     <Compile Include="WebchatPay\CustomsPushingQuery.aspx.designer.cs">
       <DependentUpon>CustomsPushingQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="WebchatPay\FundFixedInvestment.aspx.cs">
+      <DependentUpon>FundFixedInvestment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebchatPay\FundFixedInvestment.aspx.designer.cs">
+      <DependentUpon>FundFixedInvestment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebchatPay\LCTReserveOrder.aspx.cs">
+      <DependentUpon>LCTReserveOrder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebchatPay\LCTReserveOrder.aspx.designer.cs">
+      <DependentUpon>LCTReserveOrder.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WebchatPay\QueryRealtimeRepayment.aspx.cs">
       <DependentUpon>QueryRealtimeRepayment.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3908,6 +3922,8 @@
     <Content Include="WebchatPay\CustomsApplicationQuery.aspx" />
     <Content Include="WebchatPay\CustomsBatchRedeclare.aspx" />
     <Content Include="WebchatPay\CustomsPushingQuery.aspx" />
+    <Content Include="WebchatPay\FundFixedInvestment.aspx" />
+    <Content Include="WebchatPay\LCTReserveOrder.aspx" />
     <Content Include="WebchatPay\QueryRealtimeRepayment.aspx" />
     <Content Include="WebchatPay\QueryWechatRealNameAuthen.aspx" />
     <Content Include="WebchatPay\WechatMerchantTrans.aspx" />

@@ -32,7 +32,10 @@ namespace CFT.CSOMS.DAL.TradeModule
             {
                 //按uid查询
                 string uid = PublicRes.ConvertToFuid(u_ID);
-                return QueryPickByUid(uid, stime, etime, fstate, banktype, cashtype, offset, limit);
+//#if DEBUG
+//                uid = "295169794";
+//#endif
+                return QueryPickByUid(uid, stime, etime, fstate, fnum, banktype, sorttype, cashtype, offset, limit);
             }
             else if (idtype == 1)
             {
@@ -100,37 +103,94 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// <param name="offset"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        private DataSet QueryPickByUid(string uid, string stime, string etime, int fstate, string banktype, string cashtype, int offset, int limit)
+        private DataSet QueryPickByUid(string uid, string stime, string etime, int fstate, float fnum, string banktype, string sorttype, string cashtype,
+            int offset, int limit)
         {
+            //if (offset % limit == 1) offset -= 1;
+            //string fields = "uid:" + uid + "|cur_type:1";
+            //if (!string.IsNullOrEmpty(stime))
+            //{
+            //    fields += "|s_time:" + stime;
+            //}
+            //if (!string.IsNullOrEmpty(etime))
+            //{
+            //    fields += "|e_time:" + etime;
+            //}
+            //if (fstate != 0)
+            //{
+            //    fields += "|sign:" + fstate.ToString();
+            //}
+            //if (banktype != "0000")
+            //{
+            //    fields += "|bank_type:" + banktype;
+            //}
+            //if (cashtype != "0000")
+            //{
+            //    fields += "|bankid_list:" + cashtype;
+            //}
+
+            //fields = string.Format(fields, uid, stime, etime);
+            ////#if DEBUG
+            ////            fields = "uid:295169794|cur_type:1";
+            ////#endif
+            //DataSet ds = new PublicRes().QueryCommRelay8020("409", fields, offset, limit);
+
+            //return ds;
+
+
             if (offset % limit == 1) offset -= 1;
-            string fields = "uid:" + uid + "|cur_type:1";
-            if (!string.IsNullOrEmpty(stime))
-            {
-                fields += "|s_time:" + stime;
-            }
-            if (!string.IsNullOrEmpty(etime))
-            {
-                fields += "|e_time:" + etime;
-            }
+            string fields = "uid:" + uid + "|begintime:" + stime + "|endtime:" + etime;
+
             if (fstate != 0)
             {
                 fields += "|sign:" + fstate.ToString();
             }
+            long num = (long)Math.Round(fnum * 100, 0);
+
+            fields += "|num:" + num.ToString();
+
             if (banktype != "0000")
             {
-                fields += "|bank_type:" + banktype;
+                fields += "|banktype:" + banktype;
             }
             if (cashtype != "0000")
             {
-                fields += "|bankid_list:" + cashtype;
+                fields += "|bankid:" + cashtype;
+            }
+            if (sorttype != null && sorttype.Trim() != "")
+            {
+                if (sorttype.Trim() == "1")
+                {
+                    fields += "|asc:Fpay_front_time_acc";
+                }
+                else if (sorttype.Trim() == "2")
+                {
+                    fields += "|desc:Fpay_front_time_acc";
+                }
+                else if (sorttype.Trim() == "3")
+                {
+                    fields += "|asc:Fnum";
+                }
+                else if (sorttype.Trim() == "4")
+                {
+                    fields += "|desc:Fnum";
+                }
+                else
+                {
+                    fields += "|desc:Fpay_front_time_acc";
+                }
             }
 
-            fields = string.Format(fields, uid, stime, etime);
-            //#if DEBUG
-            //            fields = "uid:295169794|cur_type:1";
-            //#endif
-            DataSet ds = new PublicRes().QueryCommRelay8020("409", fields, offset, limit);
-
+            //2416:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$
+            //2427:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(spider)
+            //2417:查询库表c2c_db.t_tcpay_list 
+            //2431:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(SET2)
+            Hashtable param = new Hashtable();
+            param.Add("2416", fields);
+            param.Add("2417", fields);
+            param.Add("2427", fields);
+            param.Add("2431", fields);
+            DataSet ds = multi_query(param, offset, limit);
             return ds;
         }
         /// <summary>
@@ -186,6 +246,10 @@ namespace CFT.CSOMS.DAL.TradeModule
                 else if (sorttype.Trim() == "4")
                 {
                     fields += "|desc:Fnum";
+                }
+                else 
+                {
+                    fields += "|desc:Fpay_front_time_acc";
                 }
             }
 
@@ -249,39 +313,82 @@ namespace CFT.CSOMS.DAL.TradeModule
 
    
         //信用卡还款按财付通号查询
-        public DataTable  GetCreditQueryListForFaid(string QQOrEmail, DateTime begindate, DateTime enddate, int offset, int limit)
+        public DataSet GetCreditQueryListForFaid(string QQOrEmail, DateTime begindate, DateTime enddate, int offset, int limit)
         {
-
-        //     select Fbank_type,Flistid,Fsign,Fbank_name,RIGHT(Fabankid,4) AS creditcard_id,Fnum,Fpay_front_time from c2c_db.t_tcpay_list_$YYYY$$MM$  \
-        //WHERE Fuid= '$Fuid$' \
-        //AND Fpay_front_time_acc &gt;='$begindate$' \
-        //AND Fpay_front_time_acc &lt;='$enddate$' \
-        //AND Fbankid IN (5,8,36,37) \
-        //AND Fmodify_time &gt;= '$begindate$'\
-        //AND Fmodify_time &lt;= '$enddate$' \
-        //AND Fbank_type !=  2033 \
-        //ORDER BY Fpay_front_time DESC \
-
+            //2418:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$
+            //2419:查询库表c2c_db.t_tcpay_list
+            //2428:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(spider)
+            //2432:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(set2)
             if (offset % limit == 1) offset -= 1;
-            Hashtable param = new Hashtable();
 
             string Fuid = PublicRes.ConvertToFuid(QQOrEmail);
-//#if DEBUG
-//            Fuid = "295169794";
-//#endif
-            string stime = begindate.ToString("yyyy-MM-dd 00:00:00");
-            string etime=enddate.ToString("yyyy-MM-dd 23:59:59");
+            //#if DEBUG
+            //             Fuid = QQOrEmail;
+            //#endif
+            string fields = "Fuid:{0}|begindate:{1}|enddate:{2}";
+            fields = string.Format(fields, Fuid, begindate.ToString("yyyy-MM-dd 00:00:00"), enddate.ToString("yyyy-MM-dd 23:59:59"));
 
-
-            string fields = "uid:{0}|stime:{1}|futuretime:{2}|ftime:{3}";
-            fields = string.Format(fields, Fuid, stime, etime, etime);
- 
-
-            param.Add("104", fields);
+            Hashtable param = new Hashtable();
+            param.Add("2418", fields);
+            param.Add("2419", fields);
+            param.Add("2428", fields);
+            param.Add("2432", fields);
             DataSet ds = multi_query(param, offset, limit);
-            return ds != null && ds.Tables.Count > 0 ? ds.Tables[0] : null;
+            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+            {
+                //加查上月或者下月的表
+                DataSet ds2 = new DataSet();
+                fields = "Fuid:{0}|begindate:{1}|enddate:{2}";
+                begindate = begindate.Day > 15 ? begindate.AddMonths(1) : begindate.AddMonths(-1);
+                if (begindate > enddate)
+                {
+                    enddate = begindate;
+                }
+                fields = string.Format(fields, Fuid, begindate.ToString("yyyy-MM-01"), enddate.ToString("yyyy-MM-dd"));
+                param.Clear();
+                param.Add("2418", fields);
+                param.Add("2428", fields);
+                param.Add("2432", fields);
+                ds = multi_query(param, offset, limit);
+            }
+            return ds;
         }
-    
+        //信用卡还款根据还款交易号查询
+        public DataSet GetCreditQueryList(string Flistid, int offset, int limit)
+        {
+            //2420:查询库表c2c_db.t_tcpay_list
+            //2421:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$
+            //2429:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(spider)
+            //2433:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(set2)
+            if (offset % limit == 1) offset -= 1;
+            Hashtable param = new Hashtable();
+            string fields = "listid:{0}";
+            fields = string.Format(fields, Flistid);
+            param.Add("2420", fields);
+
+            DateTime date = GetPayListTableFromID(Flistid);
+            fields = "listid:{0}|date:{1}";
+            fields = string.Format(fields, Flistid, date.ToString("yyyy-MM-dd"));
+            param.Add("2421", fields);
+            param.Add("2429", fields);
+            param.Add("2433", fields);
+            DataSet ds = multi_query(param, offset, limit);
+
+            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+            {
+                //加查上月或者下月的表
+                fields = "listid:{0}|date:{1}";
+                date = date.Day > 15 ? date.AddMonths(1) : date.AddMonths(-1);
+                fields = string.Format(fields, Flistid, date.ToString("yyyy-MM-dd"));
+
+                param.Clear();
+                param.Add("2421", fields);
+                param.Add("2429", fields);
+                param.Add("2433", fields);
+                ds = multi_query(param, offset, limit);
+            }
+            return ds;
+        }
         //结算查询 商户今天结算记录 c2c_db_00.t_tranlog_0 不存在
         public DataSet GetQuerySettlementTodayList(string Fspid) 
         {
@@ -336,22 +443,50 @@ namespace CFT.CSOMS.DAL.TradeModule
             //1、3位系统ID+YYYYMMDD+10位流水号；
             //2、3位系统ID+10位商户号+YYYYMMDD+7位序列号
 
-            string strdate = "";
-            if (listid.Length == 21)
-            {
-                strdate = listid.Substring(3, 4) + "-" + listid.Substring(7, 2) + "-" + listid.Substring(9, 2);
-            }
-            else if (listid.Length == 28)
-            {
-                strdate = listid.Substring(13, 4) + "-" + listid.Substring(17, 2) + "-" + listid.Substring(19, 2);
-            }
+            //string strdate = "";
+            //if (listid.Length == 21)
+            //{
+            //    strdate = listid.Substring(3, 4) + "-" + listid.Substring(7, 2) + "-" + listid.Substring(9, 2);
+            //}
+            //else if (listid.Length == 28)
+            //{
+            //    strdate = listid.Substring(13, 4) + "-" + listid.Substring(17, 2) + "-" + listid.Substring(19, 2);
+            //}
 
-            DateTime dt = DateTime.Now;
+            //DateTime dt = DateTime.Now;
+            //try
+            //{
+            //    dt = DateTime.Parse(strdate);
+            //}
+            //catch
+            //{
+            //    dt = DateTime.Now;
+            //}
+            //return dt;
+
+
+
+            string strdate = "";
+            if (listid.Length == 21)//3位业务编码 + 8位日期 + 10位序列号
+            {
+                //strdate = listid.Substring(3,4) + "-" + listid.Substring(7,2) + "-" + listid.Substring(9,2);
+                strdate = "20" + listid.Substring(5, 2) + "-" + listid.Substring(7, 2) + "-" + listid.Substring(9, 2);
+            }
+            else if (listid.Length == 28)//3位业务编码 + 10位商户号+8位日期+7位序列号
+            {
+                //strdate = listid.Substring(13,4) + "-" + listid.Substring(17,2) + "-" + listid.Substring(19,2);
+                strdate = "20" + listid.Substring(15, 2) + "-" + listid.Substring(17, 2) + "-" + listid.Substring(19, 2);
+            }
+            else if (listid.Length == 26)//3位业务编码+2位机器所在IDC标识+3位机器编号+2位提现单SET标识+6位日期+10位序列号
+            {
+                strdate = "20" + listid.Substring(10, 2) + "-" + listid.Substring(12, 2) + "-" + listid.Substring(14, 2);
+            }
+            DateTime dt;
             try
             {
                 dt = DateTime.Parse(strdate);
             }
-            catch
+            catch (System.Exception ex)
             {
                 dt = DateTime.Now;
             }

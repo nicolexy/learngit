@@ -24,6 +24,9 @@ using CFT.CSOMS.BLL.SPOA;
 using CFT.CSOMS.BLL.CFTAccountModule;
 using CFT.CSOMS.BLL.WechatPay;
 using CFT.CSOMS.BLL.TradeModule;
+using CFT.CSOMS.BLL.FundModule;
+using BankLib;
+using CFT.CSOMS.BLL.ForeignCurrencyModule;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web
@@ -36,6 +39,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
+        
+            string Uid = "527123677";
+               var dbNum = Uid.Substring(Uid.Length - 2, 2);
+              var tableNum = Uid.Substring(Uid.Length - 3, 1);
+ 
             //string ref_param = ViewState["ref_param"] == null ? "" : ViewState["ref_param"].ToString();
             //DataSet ds = new TradeService().GetBankRollList("272906037", DateTime.Now.AddDays(-1000), DateTime.Now, 0, 10, ref ref_param);
             //ViewState["ref_param"] = ref_param;

@@ -67,7 +67,8 @@
                         <Columns>
                             <asp:BoundField HeaderText="时间" DataField="Fcreate_time"/>
                             <asp:BoundField HeaderText="财付通订单号" DataField="Ftransaction_id"/>
-                            <asp:BoundField HeaderText="QQ" DataField="Fuin"/>
+                            <asp:BoundField HeaderText="支付QQ" DataField="Fpayuin"/>
+                            <asp:BoundField HeaderText="嘀卡QQ" DataField="Fuin"/>
                             <asp:BoundField HeaderText="卡类型" DataField="Fcity_code"/>
                             <asp:BoundField HeaderText="卡面号" DataField="Fcard_face_no"/>
                             <asp:BoundField HeaderText="充值金额" DataField="Ftotal_fee"/>

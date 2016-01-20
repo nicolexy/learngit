@@ -46,37 +46,12 @@ namespace CFT.CSOMS.BLL.TradeModule
 
         public DataSet GetCreditQueryListForFaid(string QQOrEmail, DateTime begindate, DateTime enddate, int istart, int imax)
         {
-            DataTable dt = new PickData().GetCreditQueryListForFaid(QQOrEmail, begindate, enddate, istart, imax);
-            DataTable dt_new = null;
-            if (dt != null)
-            {
-                dt_new = new DataTable();
-                dt_new.Columns.Add("Fbank_type", typeof(string));
-                dt_new.Columns.Add("Flistid", typeof(string));
-                dt_new.Columns.Add("Fsign", typeof(string));
-                dt_new.Columns.Add("Fbank_name", typeof(string));
-                dt_new.Columns.Add("creditcard_id", typeof(string));
-                dt_new.Columns.Add("Fnum", typeof(string));
-                dt_new.Columns.Add("Fpay_front_time", typeof(string));
-                foreach (DataRow item in dt.Rows)
-                {
-                    DataRow dr = dt_new.NewRow();
-                    dr["Fbank_type"] = item["bank_type"].ToString();
-                    dr["Flistid"] = item["draw_id"].ToString();
-                    dr["Fsign"] = item["state"].ToString();
-                    dr["Fbank_name"] = item["bank_name"].ToString();
-                    dr["creditcard_id"] = item["creditcard_id"].ToString();
-                    dr["Fnum"] = item["amount"].ToString();
-                    dr["Fpay_front_time"] = item["create_time"].ToString();
-                    dt_new.Rows.Add(dr);
-                }
-            }
-            return new DataSet() { Tables = { dt_new } };
+            return new PickData().GetCreditQueryListForFaid(QQOrEmail, begindate, enddate, istart, imax);
         }
 
         public DataSet GetCreditQueryList(string Flistid, int istart, int imax)
         {
-            DataSet ds = new PickData().QueryPickByListid(Flistid);
+            DataSet ds = new PickData().GetCreditQueryList(Flistid, istart, imax);
             DataTable dt = (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0) ? ds.Tables[0] : null;
             if (dt != null) 
             {
