@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
 
 
 namespace CFT.CSOMS.DAL.FundModule
 {
-    using TENCENT.OSS.CFT.KF.DataAccess;
     using CFT.CSOMS.DAL.Infrastructure;
+    using TENCENT.OSS.CFT.KF.Common;
 
     public class FundInfoData
     {
+        string serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
+        int serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
         public DataTable QueryAllFundInfo()
         {
             //using (var da = MySQLAccessFactory.GetMySQLAccess("Fund"))
@@ -27,8 +26,6 @@ namespace CFT.CSOMS.DAL.FundModule
 
             //spid不是查询条件，没有意义；
             DataTable dt = null;
-            var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
-            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
             string requestText = "reqid=658&flag=2&offset=0&limit=20&fields=spid:1234567890";
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             if (ds != null && ds.Tables.Count > 0)
@@ -55,8 +52,6 @@ namespace CFT.CSOMS.DAL.FundModule
             //}
 
             DataTable dt = null;
-            var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
-            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
             string requestText = "reqid=659&flag=1&fields=spid:" + spid;
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -114,8 +109,6 @@ namespace CFT.CSOMS.DAL.FundModule
 
            // listid可以唯一标识，不需要新增spid的判断
             DataTable dt = null;
-            var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
-            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
             string requestText = "reqid=665&flag=1&fields=listid:" + listid;
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -148,8 +141,6 @@ namespace CFT.CSOMS.DAL.FundModule
             if (string.IsNullOrEmpty(fundCode))
                 throw new ArgumentNullException("fundCode");
             DataTable dt = null;
-            var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
-            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
             string requestText = "reqid=681&flag=2&offset={0}&limit={1}&fields=trade_id:{2}|fund_code:{3}|begin_time:{4}|end_time:{5}";
             requestText = string.Format(requestText, currentPageIndex, pageSize, tradeId, fundCode, beginDateStr, endDateStr);
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
@@ -171,8 +162,6 @@ namespace CFT.CSOMS.DAL.FundModule
             if (string.IsNullOrEmpty(fundCode))
                 throw new ArgumentNullException("fundCode");
             DataTable dt = null;
-            var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
-            var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
             string requestText = "reqid=684&flag=2&offset={0}&limit={1}&fields=trade_id:{2}";
             requestText = string.Format(requestText, currentPageIndex, pageSize, tradeId);
             if (!string.IsNullOrEmpty(fundCode))
@@ -198,5 +187,138 @@ namespace CFT.CSOMS.DAL.FundModule
 
         }
 
+        #region 定投
+        
+        //定投计划表
+        public DataTable Get_DT_fundBuyPlan(string uid, int offset, int limit)
+        {
+            string requestText = "reqid=712&flag=2&offset={0}&limit={1}&fields=uid:{2}";
+            requestText = string.Format(requestText, offset, limit, uid);
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            DataTable dt = null;
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+            }
+            else 
+            {
+                throw new LogicException("查询数据为空");
+            }
+            return dt;
+
+        }
+        //定投计划表 单个
+        public DataTable Get_DT_fundBuyPlanByPlanid(string uid, string plan_id)
+        {
+            string requestText = "reqid=714&flag=1&fields=uid:{0}|plan_id:{1}";
+            requestText = string.Format(requestText, uid, plan_id);
+
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            DataTable dt = null;
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+            }
+            else
+            {
+                throw new LogicException("查询数据为空");
+            }
+            return dt;
+        }
+        /// 定投交易单
+        public DataTable Get_DT_PlanBuyOrder(string uid, string plan_id, int offset, int limit)
+        {
+            string requestText = "reqid=713&flag=2&offset={0}&limit={1}&fields=uid:{2}|plan_id:{3}";
+            requestText = string.Format(requestText, offset, limit, uid, plan_id);
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            DataTable dt = null;
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+            }
+            else
+            {
+                throw new LogicException("查询数据为空");
+            }
+            return dt;
+        }
+        #endregion
+
+        #region 定赎
+        public DataTable Get_HFD_FundFetchPlan(string uin, int offset, int limit)
+        {
+            string requestText = "reqid=717&flag=2&offset={0}&limit={1}&fields=uin:{2}";
+            requestText = string.Format(requestText, offset, limit, uin);
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            DataTable dt = null;
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+            }
+            else
+            {
+                throw new LogicException("查询数据为空");
+            }
+            return dt;
+        }
+
+        public DataTable Get_HFD_FundFetchPlanByPlanid(string uin, string plan_id)
+        {
+            string requestText = "reqid=715&flag=1&fields=uin:{0}|plan_id:{1}";
+            requestText = string.Format(requestText, uin, plan_id);
+             
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            DataTable dt = null;
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+            }
+            else
+            {
+                throw new LogicException("查询数据为空");
+            }
+            return dt;
+        }
+
+        public DataTable Get_HFD_PlanFetchOrder(string uin, string plan_id, int offset, int limit)
+        {
+            string requestText = "reqid=718&flag=2&offset={0}&limit={1}&fields=uin:{2}|plan_id:" + plan_id;
+            requestText = string.Format(requestText, offset, limit, uin);
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            DataTable dt = null;
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+            }
+            else
+            {
+                throw new LogicException("查询数据为空");
+            }
+            return dt;
+        }
+        #endregion
+
+        //预约买入
+        public DataTable GetLCTReserveOrder(string trade_id,string listid, int offset, int limit)
+        {
+            //20151102870920001000
+            string requestText = "reqid=710&flag=2&offset={0}&limit={1}&fields=trade_id:{2}";
+            requestText = string.Format(requestText, offset, limit, trade_id);
+            if (!string.IsNullOrEmpty(listid)) 
+            {
+                requestText += "|listid:" + listid;
+            }
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            DataTable dt = null;
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+            }
+            else
+            {
+                throw new LogicException("查询数据为空");
+            }
+            return dt;
+        }
     }
 }

@@ -392,6 +392,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 WebchatPayControl1.AddSubMenu("理财通增值券", "WebchatPay/AddedValueTicketQuery.aspx");
                 WebchatPayControl1.AddSubMenu("合约机查询", "WebchatPay/QueryContractMachine.aspx");
                 WebchatPayControl1.AddSubMenu("实时还款查询", "WebchatPay/QueryRealtimeRepayment.aspx");
+                WebchatPayControl1.AddSubMenu("理财通定投定赎", "WebchatPay/FundFixedInvestment.aspx");
+                WebchatPayControl1.AddSubMenu("理财通预约买入", "WebchatPay/LCTReserveOrder.aspx");
             }
 
             if (classLibrary.ClassLib.ValidateRight("DKAdjust", this))
