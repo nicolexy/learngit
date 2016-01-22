@@ -4598,11 +4598,14 @@ namespace CFT.CSOMS.DAL.UserAppealModule
         //绑定或更换手机前，发风控验证
         public bool VerifyMobile(string uid, string uin, string old_mobile, string new_mobile, string client_ip, string certno)
         {
+            string IP=string.Empty;
+            string PORT=string.Empty;
+            string Data=string.Empty;
             try
             {
               //  string hdId = CommUtil.GetHardDiskId();取不到用户的所以传空
               //  string mac = CommUtil.GetNetworkMAC();
-                string Data = "purchaser_uid=" + uid + "&purchaser_id=" + uin + "&old_mobile=" + old_mobile 
+                 Data = "purchaser_uid=" + uid + "&purchaser_id=" + uin + "&old_mobile=" + old_mobile 
                     + "&new_mobile=" + new_mobile + "&client_ip=" + client_ip +
                     "&cookie=&change_way=2&diskid=&macaddr=&certno=" + certno + "&crt_state=0";
                 Data = HttpUtility.UrlEncode(Data, System.Text.Encoding.GetEncoding("GB2312"));
@@ -4613,8 +4616,8 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                 System.Text.Encoding GB2312 = System.Text.Encoding.GetEncoding("GB2312");
                 byte[] sendBytes = GB2312.GetBytes(Data);
 
-                string IP = ConfigurationManager.AppSettings["FK_UDP_IP"].ToString();
-                string PORT = ConfigurationManager.AppSettings["FK_UDP_PORT"].ToString();
+                 IP = ConfigurationManager.AppSettings["FK_UDP_IP"].ToString();
+                 PORT = ConfigurationManager.AppSettings["FK_UDP_PORT"].ToString();
                 byte[] answer =UDP.GetUDPReply(sendBytes, IP, Int32.Parse(PORT));
                 string answerStr = Encoding.Default.GetString(answer);//  result=0  验证通过。允许修改
 
@@ -4626,8 +4629,9 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                 }
                 return true;
             }
-            catch
+            catch(Exception ef)
             {
+                LogHelper.LogError(string.Format("UserAppealData public bool VerifyMobile(string uid, string uin, string old_mobile, string new_mobile, string client_ip, string certno),UDP.IP=>{0},PORT=>{1}.发送数据：{2}.异常：{3}",IP,PORT,Data,ef.ToString()));
                 return false;
             }
 
@@ -4636,11 +4640,14 @@ namespace CFT.CSOMS.DAL.UserAppealModule
         //绑定或更换手机后，发风控通知
         public void SendMobile(string uid, string uin, string old_mobile, string new_mobile, string client_ip, string certno)
         {
+            string IP=string.Empty;
+            string PORT=string.Empty;
+            string Data=string.Empty;
             try
             {
                // string hdId = CommUtil.GetHardDiskId();
               //  string mac = CommUtil.GetNetworkMAC();
-                string Data = "purchaser_uid=" + uid + "&purchaser_id=" + uin + "&old_mobile=" + old_mobile 
+                 Data = "purchaser_uid=" + uid + "&purchaser_id=" + uin + "&old_mobile=" + old_mobile 
                     + "&new_mobile=" + new_mobile + "&client_ip=" + client_ip 
                     + "&cookie=&change_way=2&diskid=&macaddr=&certno=" + certno;
                 Data = HttpUtility.UrlEncode(Data, System.Text.Encoding.GetEncoding("GB2312"));
@@ -4651,13 +4658,13 @@ namespace CFT.CSOMS.DAL.UserAppealModule
                 System.Text.Encoding GB2312 = System.Text.Encoding.GetEncoding("GB2312");
                 byte[] sendBytes = GB2312.GetBytes(Data);
 
-                string IP = ConfigurationManager.AppSettings["FK_UDP_IP"].ToString();
-                string PORT = ConfigurationManager.AppSettings["FK_UDP_PORT"].ToString();
+                 IP = ConfigurationManager.AppSettings["FK_UDP_IP"].ToString();
+                 PORT = ConfigurationManager.AppSettings["FK_UDP_PORT"].ToString();
                 TENCENT.OSS.CFT.KF.Common.UDP.GetUDPReplyNoReturn(sendBytes, IP, Int32.Parse(PORT));
             }
-            catch
+            catch(Exception ef)
             {
-
+                LogHelper.LogError(string.Format("UserAppealData  public void SendMobile(string uid, string uin, string old_mobile, string new_mobile, string client_ip, string certno),UDP.IP=>{0},PORT=>{1}.发送数据：{2}.异常：{3}",IP,PORT,Data,ef.ToString()));
             }
 
         }
@@ -4729,6 +4736,8 @@ namespace CFT.CSOMS.DAL.UserAppealModule
             }
             catch (Exception err)
             {
+                 LogHelper.LogError(string.Format("UserAppealData  private bool GetNewPwd(string qqid, int clear_pps, string userip, string nowtime, string question1, string answer1, bool IsNew, out string msg),.异常：{0}",err.ToString()));
+
                 msg = err.Message;
                 return false;
             }

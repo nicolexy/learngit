@@ -13,7 +13,7 @@ namespace TENCENT.OSS.CFT.KF.Common
 
 		public static string FenToYuan(string strfen)
 		{
-			if (strfen == "")
+			if (string.IsNullOrEmpty(strfen))
 			{
 				strfen = "0";
 			}
@@ -39,7 +39,7 @@ namespace TENCENT.OSS.CFT.KF.Common
 
 		public static string YuanToFen(string stryuan)
 		{
-			if (stryuan == "")
+			if (string.IsNullOrEmpty(stryuan))
 			{
 				stryuan = "0";
 			}

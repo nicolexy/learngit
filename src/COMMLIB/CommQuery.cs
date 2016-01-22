@@ -3626,6 +3626,35 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             return dsresult;
         }
 
+        /// <summary>
+        /// 格式字符串解析 result=0&res_info=｛json_data｝;
+        /// 获取 指定参数开始至字符串结束 所有的字符串信息
+        /// </summary>
+        /// <param name="answer">操作字符串；</param>
+        /// <param name="coding">编码格式</param>
+        /// <param name="pkey">获取指定起始参数的key</param>
+        /// <returns>返回字符串信息</returns>
+        public static string GetRelayParams(string answer, string coding,string pkey)
+        {
+            string resInfo = string.Empty;
+
+            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding(coding));
+
+            if (!answer.Contains("result=0"))
+            {
+                throw new Exception("请求失败,返回信息：" + answer );
+            }
+
+            pkey = pkey + "=";
+            if (answer.Contains(pkey))
+            {
+                //这种写法可避免json数据中包含有& 或 = 字符时，用字符切割出现问题
+                resInfo = answer.Substring(answer.IndexOf(pkey) + pkey.Length);
+            }
+
+            return resInfo;
+        }
+
         /// <summary> 
         /// 清除xml中的不合法字符 
         /// </summary> 

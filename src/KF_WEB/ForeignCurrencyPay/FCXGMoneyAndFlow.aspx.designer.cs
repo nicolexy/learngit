@@ -130,6 +130,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay {
         protected global::System.Web.UI.WebControls.LinkButton btn_Fetch;
         
         /// <summary>
+        /// btn_getPackage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btn_getPackage;
+        
+        /// <summary>
+        /// btn_SendPackage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btn_SendPackage;
+        
+        /// <summary>
         /// dg_trade control.
         /// </summary>
         /// <remarks>
@@ -164,6 +182,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DataGrid dg_BankrollList;
+        
+        /// <summary>
+        /// dg_GetPackageList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DataGrid dg_GetPackageList;
+        
+        /// <summary>
+        /// dg_SendPackageList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DataGrid dg_SendPackageList;
         
         /// <summary>
         /// pager control.

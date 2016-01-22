@@ -7,6 +7,7 @@ using CFT.CSOMS.COMMLIB;
 using System.Collections;
 using CFT.CSOMS.DAL.Infrastructure;
 using TENCENT.OSS.C2C.Finance.BankLib;
+using commLib.Entity;
 
 namespace CFT.CSOMS.BLL.ForeignCurrencyModule
 {
@@ -489,6 +490,36 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
             }
             return dt;
         }
+
+        /// <summary>
+        /// HK钱包支付---收红包记录查询
+        /// </summary>
+        public List<HKWalletReceivePackageModel> QueryReceivePackageList(string uid, string stime, string etime, int offset, int limit, string client_ip)
+        {
+            return dal.QueryReceivePackageList(uid, stime, etime, offset, limit, client_ip);
+        }
+
+        /// <summary>
+        /// HK钱包支付---发红包记录查询
+        /// </summary>
+        public List<HKWalletSendPackageModel> QuerySendPackageList(string uid, string stime, string etime, int offset, int limit, string client_ip)
+        {
+            return dal.QuerySendPackageList(uid, stime, etime, offset, limit, client_ip);
+        }
+
+        /// <summary>
+        /// HK钱包支付---红包详情查询
+        /// </summary>
+        /// <param name="typeid">1,根据发红包单号来查询 2.根据收红包单号来查询 </param>
+        /// <param name="listid">发红包单号/收红包单号</param>
+        /// <param name="qry_time">收红包或发红包时的时间  以YYYY-MM-DD格式  Type=2时必传</param>
+        /// <param name="client_ip"></param>
+        /// <returns></returns>
+        public HKWalletDetailItem QueryHKPackageDetail(int typeid, string listid, string qry_time, string client_ip)
+        {
+            return dal.QueryHKPackageDetail(typeid,  listid,  qry_time,  client_ip);
+        }
+
         #endregion
 
         #region 六、外币商户查询(新增)
