@@ -111,20 +111,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             lb_c1.Text = s_cftno;   
             DataSet ds = null;
 
-            //1.查询会员
-            ds = new VIPService().QueryCFTMember(s_cftno);
-            if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count != 1)
-            {
-                //会员不存在
-                lb_c2.Text = "否";
-            }
-            else
-            {
-                DataRow row = ds.Tables[0].Rows[0];
-                //lb_c1.Text = row["Fuin"].ToString();
-                lb_c2.Text = "是";//是否为QQ会员
-                lb_c3.Text = row["Fvip_exp_date"].ToString();//会员过期时间
-            }
+            //vip项目专用DB业务下线
+            //会员账号基本信息查询接口取消 
+            //public DataSet QueryCFTMember(string account)
+            //20150122 v_swuzhang
+            ////1.查询会员
+            //ds = new VIPService().QueryCFTMember(s_cftno);
+            //if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count != 1)
+            //{
+            //    //会员不存在
+            //    lb_c2.Text = "否";
+            //}
+            //else
+            //{
+            //    DataRow row = ds.Tables[0].Rows[0];
+            //    //lb_c1.Text = row["Fuin"].ToString();
+            //    lb_c2.Text = "是";//是否为QQ会员
+            //    lb_c3.Text = row["Fvip_exp_date"].ToString();//会员过期时间
+            //}
 
 
             //2.查询实名认证
@@ -199,8 +203,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         private void clearDetailTB() {
             lb_c1.Text = "";
-            lb_c2.Text = "";
-            lb_c3.Text = "";
+            //lb_c2.Text = "";
+            //lb_c3.Text = "";
             lb_c4.Text = "";
             lb_c5.Text = "";
             lb_c6.Text = "";
