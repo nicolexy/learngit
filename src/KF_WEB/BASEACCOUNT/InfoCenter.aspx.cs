@@ -634,8 +634,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 string msg = "";
                 int state = GetUserClassInfo(Session["QQID"].ToString(), out msg);
+                if (state > 0)
+                {
+                    labUserClassInfo.Text = msg;
+                }
+                else {
+                    labUserClassInfo.Text = string.Empty;
 
-                labUserClassInfo.Text = msg;
+                    LogHelper.LogError(string.Format("BaseAccount.InfoCenter,  GetUserClassInfo  获取用户[QQID={0}]认证信息失败：{1}" ,Session["QQID"].ToString(), msg));
+                }
             }
             catch (Exception ex)
             {

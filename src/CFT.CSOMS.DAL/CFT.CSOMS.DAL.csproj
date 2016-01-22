@@ -56,6 +56,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CFT.Apollo.log4net.1.0.0.15\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\KF_WEB\bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -84,6 +88,7 @@
     <Compile Include="DKModule\DKData.cs" />
     <Compile Include="ForeignCardModule\FCUserTradeQuery.cs" />
     <Compile Include="ForeignCurrencModule\FCXGWallet.cs" />
+    <Compile Include="ForeignCurrencModule\HKWalletReceivePackageModel.cs" />
     <Compile Include="FundModule\ControlFundData.cs" />
     <Compile Include="FundModule\LCTBalance.cs" />
     <Compile Include="HandQModule\HandQDAL.cs" />

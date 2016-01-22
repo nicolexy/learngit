@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using SunLibraryEX;
+using CFT.CSOMS.DAL.WechatPay.Entity;
+using commLib.Entity;
 
 namespace CFT.CSOMS.DAL.ForeignCurrencModule
 {
@@ -15,6 +17,16 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
     {
         string ip = Apollo.Common.Configuration.AppSettings.Get<string>("FCXGWallet_IP", "10.12.62.107");//10.12.189.88 新:10.12.62.107  线上10.192.100.115
         int port = Apollo.Common.Configuration.AppSettings.Get<int>("FCXGWallet_Port", 22000);
+
+        /// <summary>
+        /// 香港红包Relay 新接口请求IP
+        /// </summary>
+        string IP_RedPacket = Apollo.Common.Configuration.AppSettings.Get<string>("FCXGWallet_IP_ForRedPacket", "10.12.62.107");//10.12.189.88 新:10.12.62.107  线上10.192.100.115
+        /// <summary>
+        /// 香港红包Relay 新接口请求端口
+        /// </summary>
+        int Port_RedPacket = Apollo.Common.Configuration.AppSettings.Get<int>("FCXGWallet_Port_ForRedPacket", 22000);
+
 
         #region 一、外币帐号查询
 
@@ -290,6 +302,7 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
 
         #region 四、账户资金和流水查询（新增）
 
+
         /// <summary>
         /// 交易单和退款单查询
         /// </summary>
@@ -299,7 +312,7 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
         /// <param name="limit"></param>
         /// <param name="client_ip">IP</param>
         /// <returns></returns>
-        public DataTable QueryTradeInfo(string uid, string list_type,string stime,string etime, int offset, int limit, string client_ip)
+        public DataTable QueryTradeInfo(string uid, string list_type, string stime, string etime, int offset, int limit, string client_ip)
         {
             try
             {
@@ -320,6 +333,7 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
                 throw new Exception("交易单和退款单查询:" + ex.Message);
             }
         }
+
         /// <summary>
         /// 提现
         /// </summary>
@@ -384,7 +398,110 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
                 throw new Exception("资金流水:" + ex.Message);
             }
         }
-         
+
+        /// <summary>
+        /// HK钱包支付---收红包记录查询
+        /// </summary>
+        public List<HKWalletReceivePackageModel> QueryReceivePackageList(string uid, string stime, string etime, int offset, int limit, string client_ip)
+        {
+            try
+            {
+                var req =
+                    "openid=" + uid +
+                    "&begin_time=" + stime +
+                    "&end_time=" + etime +
+                    "&offset=" + offset.ToString() +
+                    "&limit=" + limit.ToString();
+
+                var result = RelayAccessFactory.RelayInvoke(req, "101788", true, false, IP_RedPacket,Port_RedPacket, "gb2312");
+
+                var retDataList = new List<HKWalletReceivePackageModel>();
+
+                var resultJson = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.GetRelayParams(result, "gb2312", "res_info");
+
+                var resultModel = Newtonsoft.Json.JsonConvert.DeserializeObject<HKWalletrecvModel<HKWalletReceivePackageModel>>(resultJson);
+                if (resultModel != null && resultModel.ret_num> 0)
+                {
+                    var recvData = resultModel.recv_hb_list;
+                    retDataList = (recvData != null && recvData.Count > 0) ? recvData : null;
+                }
+
+                return retDataList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(" HK钱包支付,收红包记录查询,异常:" + ex);
+            }
+        }
+
+        /// <summary>
+        /// HK钱包支付---发红包记录查询
+        /// </summary>
+        public List<HKWalletSendPackageModel> QuerySendPackageList(string uid, string stime, string etime, int offset, int limit, string client_ip)
+        {
+            try
+            {
+                var req =
+                    "openid=" + uid +
+                    "&begin_time=" + stime +
+                    "&end_time=" + etime +
+                    "&offset=" + offset.ToString() +
+                    "&limit=" + limit.ToString();
+
+                var result = RelayAccessFactory.RelayInvoke(req, "101787", true, false, IP_RedPacket, Port_RedPacket, "gb2312");
+
+                var retDataList = new List<HKWalletSendPackageModel>();
+
+                var resultJson = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.GetRelayParams(result, "gb2312", "res_info");
+
+                var resultModel = Newtonsoft.Json.JsonConvert.DeserializeObject<HKWalletSendModel<HKWalletSendPackageModel>>(resultJson);
+                if (resultModel != null && resultModel.ret_num > 0)
+                {
+                    var recvData = resultModel.send_hb_list;
+                    retDataList = (recvData != null && recvData.Count > 0) ? recvData : null;
+                }
+
+                return retDataList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("HK钱包支付,发红包记录查询,异常:" + ex);
+            }
+        }
+
+        /// <summary>
+        /// HK钱包支付---红包详情查询
+        /// </summary>
+        /// <param name="typeid">1,根据发红包单号来查询 2.根据收红包单号来查询 </param>
+        /// <param name="listid">发红包单号/收红包单号</param>
+        /// <param name="qry_time">收红包或发红包时的时间  以YYYY-MM-DD格式  Type=2时必传</param>
+        /// <param name="client_ip"></param>
+        /// <returns></returns>
+        public HKWalletDetailItem QueryHKPackageDetail(int typeid, string listid, string qry_time, string client_ip)
+        {
+            try
+            {
+                var req =
+                    "type=" + typeid +
+                    "&listid=" + listid;
+                if (typeid == 2) {
+                    req += "&qry_time=" + qry_time;
+                }
+
+                var result = RelayAccessFactory.RelayInvoke(req, "101786", true, false, IP_RedPacket, Port_RedPacket, "gb2312");
+                
+                var retDataList = new HKWalletDetailItem();
+
+                var resultJson = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.GetRelayParams(result, "gb2312", "res_info");
+                retDataList = Newtonsoft.Json.JsonConvert.DeserializeObject<HKWalletDetailItem>(resultJson);
+
+                return retDataList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("HK钱包支付---红包详情查询,异常:" + ex);
+            }
+        } 
 
         #endregion
 
@@ -583,5 +700,6 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
             return srcEncoding.GetString(tobuff);
         }
         #endregion
+
     }
 }

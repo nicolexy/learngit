@@ -196,13 +196,15 @@ namespace TENCENT.OSS.CFT.KF.Common
         /// </summary>
         public static bool SendUDP(byte[] sendBytes,string ServerIP, int ServerPort)
         {
-            UdpClient udpClient = new UdpClient();
+            using (UdpClient udpClient = new UdpClient())
+            {
 
-            IPAddress ipAddress = IPAddress.Parse(ServerIP);
-            IPEndPoint ipLocalEndPoint = new IPEndPoint(ipAddress, ServerPort);
- 			
-            int isend =udpClient.Send(sendBytes, sendBytes.Length,ipLocalEndPoint);
-            return isend == sendBytes.Length;
+                IPAddress ipAddress = IPAddress.Parse(ServerIP);
+                IPEndPoint ipLocalEndPoint = new IPEndPoint(ipAddress, ServerPort);
+
+                int isend = udpClient.Send(sendBytes, sendBytes.Length, ipLocalEndPoint);
+                return isend == sendBytes.Length;
+            }
         }
 
         /// <summary>
@@ -311,31 +313,33 @@ namespace TENCENT.OSS.CFT.KF.Common
         {
             flag = false;
 
-            UdpClient udpClient = new UdpClient();
-            try
+            using (UdpClient udpClient = new UdpClient())
             {
-                udpClient.Client.SendTimeout = Apollo.Common.Configuration.AppSettings.Get<int>("UDPSendTime", 5000);
-                udpClient.Client.ReceiveTimeout = Apollo.Common.Configuration.AppSettings.Get<int>("UDPReceiveTime", 5000);
-                IPAddress ipAddress = IPAddress.Parse(fServerIP);
-                IPEndPoint ipLocalEndPoint = new IPEndPoint(ipAddress, fServerPort);
+                try
+                {
+                    udpClient.Client.SendTimeout = Apollo.Common.Configuration.AppSettings.Get<int>("UDPSendTime", 5000);
+                    udpClient.Client.ReceiveTimeout = Apollo.Common.Configuration.AppSettings.Get<int>("UDPReceiveTime", 5000);
+                    IPAddress ipAddress = IPAddress.Parse(fServerIP);
+                    IPEndPoint ipLocalEndPoint = new IPEndPoint(ipAddress, fServerPort);
 
-                udpClient.Connect(ipLocalEndPoint); 
-                int isend =udpClient.Send(fsendBytes, fsendBytes.Length);   
+                    udpClient.Connect(ipLocalEndPoint);
+                    int isend = udpClient.Send(fsendBytes, fsendBytes.Length);
 
-               
-                IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                ReceiveByte = udpClient.Receive(ref RemoteIpEndPoint);
 
-                flag = true;
+                    IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                    ReceiveByte = udpClient.Receive(ref RemoteIpEndPoint);
+
+                    flag = true;
+                }
+                catch (Exception ex)
+                {
+                    Apollo.Logging.LogHelper.LogInfo(string.Format("UDP.RunThread IP=>{0},PORT=>{1}  error:{2}", fServerIP, fServerPort, ex.ToString()));
+
+                    udpClient.Close();
+
+                    flag = false;
+                }
             }
-            catch(Exception ex)
-            {
-                Apollo.Logging.LogHelper.LogInfo("UDP.RunThread error:" + ex);
-
-                udpClient.Close();
-
-                flag = false;
-            }            
         }
 
 		//无返回值的
@@ -343,17 +347,19 @@ namespace TENCENT.OSS.CFT.KF.Common
 		{
 			try
 			{
-				UdpClient udpClient = new UdpClient();
+                using (UdpClient udpClient = new UdpClient())
+                {
+                    IPAddress ipAddress = IPAddress.Parse(fServerIP);
+                    IPEndPoint ipLocalEndPoint = new IPEndPoint(ipAddress, fServerPort);
 
-				IPAddress ipAddress = IPAddress.Parse(fServerIP);
-				IPEndPoint ipLocalEndPoint = new IPEndPoint(ipAddress, fServerPort);
-
-				udpClient.Connect(ipLocalEndPoint); 
-				udpClient.Send(fsendBytes, fsendBytes.Length);   
-				IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                    udpClient.Connect(ipLocalEndPoint);
+                    udpClient.Send(fsendBytes, fsendBytes.Length);
+                    IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                }
 			}
-			catch
-			{
+            catch (Exception ex)
+            {
+                Apollo.Logging.LogHelper.LogInfo(string.Format("UDP.RunThreadNotReturn IP=>{0},PORT=>{1}  error:{2}", fServerIP, fServerPort, ex.ToString()));
 			}            
 		}
 
