@@ -12,6 +12,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
     public partial class FCXGDialogFreezeOrUnfreeze : System.Web.UI.Page
     {
         string uid, sign;
+        Dictionary<string, string> dicunfreeze_channel = new Dictionary<string, string>()
+        {
+            {"1","风控冻结"}, 
+            {"2","拍拍冻结"},
+            {"3","用户冻结"},
+            {"4","商户冻结"},
+            {"5","BG接口冻结"},
+            {"6","涉嫌可疑交易冻结"}
+                          
+        };
+        Dictionary<string, string> dicfreeze_channel = new Dictionary<string, string>()
+        {
+            {"1","风控冻结"}, 
+            {"3","用户冻结"},                        
+        };
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -105,11 +120,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
         {
             if (sign == "freeze")
             {
+                foreach (string key in dicfreeze_channel.Keys)
+                {
+                    ListItem item = new ListItem( dicfreeze_channel[key],key);
+                    list_channel.Items.Add(item);
+                }
+
                 lb_title.InnerText = Button1.Text = pageTitle.Text = "冻结账户";
                 lb_reason.InnerText = "冻结原因";
             }
             else if (sign == "unfreeze")
             {
+                foreach (string key in dicunfreeze_channel.Keys)
+                {
+                    ListItem item = new ListItem( dicunfreeze_channel[key],key);
+                    list_channel.Items.Add(item);
+                }
+
                 lb_title.InnerText = Button1.Text = pageTitle.Text = "解冻账户";
                 lb_reason.InnerText = "解冻原因";
                 txt_contact.Enabled = false;

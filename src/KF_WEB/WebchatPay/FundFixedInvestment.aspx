@@ -5,7 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>理财通定投定赎查询</title>
+    <title>生活化理财</title>
     <style type="text/css">
         caption {
             text-align: left;
@@ -48,7 +48,7 @@
         <table border="1" cellspacing="1" cellpadding="1" width="1200">
             <tr>
                 <td style="width: 100%" bgcolor="#e4e5f7" colspan="2"><font color="red">
-                    <img src="../images/page/post.gif" width="20" height="16">理财通定投定赎预约买入查询</font>
+                    <img src="../images/page/post.gif" width="20" height="16">生活化理财</font>
                 </td>
             </tr>
             <tr>

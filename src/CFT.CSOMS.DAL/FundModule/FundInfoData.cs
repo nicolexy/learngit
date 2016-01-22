@@ -299,14 +299,22 @@ namespace CFT.CSOMS.DAL.FundModule
         #endregion
 
         //预约买入
-        public DataTable GetLCTReserveOrder(string trade_id,string listid, int offset, int limit)
+        public DataTable GetLCTReserveOrder(string trade_id, string listid, string stime, string etime, int offset, int limit)
         {
             //20151102870920001000
             string requestText = "reqid=710&flag=2&offset={0}&limit={1}&fields=trade_id:{2}";
             requestText = string.Format(requestText, offset, limit, trade_id);
-            if (!string.IsNullOrEmpty(listid)) 
+            if (!string.IsNullOrEmpty(listid))
             {
                 requestText += "|listid:" + listid;
+            }
+            if (!string.IsNullOrEmpty(stime))
+            {
+                requestText += "|reserve_begin_time:" + stime;
+            }
+            if (!string.IsNullOrEmpty(etime))
+            {
+                requestText += "|reserve_end_time:" + etime;
             }
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             DataTable dt = null;

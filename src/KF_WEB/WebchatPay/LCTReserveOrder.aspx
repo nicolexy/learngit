@@ -19,6 +19,7 @@
     </style>
     <link type="text/css" rel="Stylesheet" href="../STYLES/ossstyle.css" />
     <link rel="Stylesheet" href="../Styles/ossstyle.css" />
+    <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
     <form id="formMain" runat="server">
@@ -42,7 +43,13 @@
 
             </tr>
             <tr>
-                <td style="width: 50%"></td>
+                <td style="width: 50%">
+                        <label>开始时间:</label>
+                        <asp:TextBox ID="txtStime" runat="server" class="Wdate" onclick="WdatePicker()"></asp:TextBox>
+                            &nbsp;&nbsp;
+                         <label>结束时间:</label>
+                        <asp:TextBox ID="txtEtime" runat="server" class="Wdate" onclick="WdatePicker()"></asp:TextBox>
+                </td>
                 <td align="center">
                     <asp:Button ID="btnQuery" runat="server" Width="80px" Text="查 询" OnClick="btnQuery_Click"></asp:Button></td>
             </tr>

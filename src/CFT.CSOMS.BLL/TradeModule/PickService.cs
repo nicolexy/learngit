@@ -40,7 +40,7 @@ namespace CFT.CSOMS.BLL.TradeModule
 
         public DataTable GetPickListDetail(string listid)
         {
-            DataSet ds = new PickData().QueryPickByListid(listid);
+            DataSet ds = new PickData().QueryPickByListid(listid, null, null, 0, 0, "0000", "0000");
             return (ds == null || ds.Tables.Count == 0) ? null : ds.Tables[0];
         }
 

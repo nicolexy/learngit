@@ -100,6 +100,10 @@
                 <asp:LinkButton ID="btn_BankrollList" runat="server" OnClick="SwitchHandler">资金流水</asp:LinkButton>
                  &nbsp;
                 <asp:LinkButton ID="btn_Fetch" runat="server" OnClick="SwitchHandler">提现</asp:LinkButton>
+                 &nbsp;
+                <asp:LinkButton ID="btn_getPackage" runat="server" OnClick="SwitchHandler">收红包</asp:LinkButton>
+                 &nbsp;
+                <asp:LinkButton ID="btn_SendPackage" runat="server" OnClick="SwitchHandler">发红包</asp:LinkButton>
                 <hr />
             </div>
             <asp:DataGrid ID="dg_trade" runat="server" AutoGenerateColumns="False" CssClass="tab_dg" Caption="交易单">
@@ -175,6 +179,143 @@
                           <asp:BoundColumn HeaderText="备注/说明" DataField="memo" />
                            <asp:BoundColumn HeaderText="修改时间" DataField="modify_time" />
                         
+                </Columns>
+            </asp:DataGrid>
+              <asp:DataGrid ID="dg_GetPackageList" runat="server" AutoGenerateColumns="False" CssClass="tab_dg" Caption="收红包">
+                <HeaderStyle Font-Bold="True" Height="25px" />
+                      <Columns>
+						    <asp:TemplateColumn HeaderText="红包种类">
+							    <HeaderStyle Wrap="False"></HeaderStyle>
+							    <ItemStyle Wrap="False"></ItemStyle>
+							    <ItemTemplate>
+								    <asp:Label runat="server" Text='<%# HKWalletPackageType(DataBinder.Eval(Container, "DataItem.hb_type").ToString()) %>' ID="Labelhb_type" NAME="Labelhb_type">
+								    </asp:Label>
+							    </ItemTemplate>
+						    </asp:TemplateColumn>
+
+                           <asp:BoundColumn HeaderText="发红包昵称" DataField="send_name" />
+                           <asp:BoundColumn HeaderText="发红包账户" DataField="send_account" />
+                            <asp:TemplateColumn HeaderText="发红包订单">
+                                <HeaderStyle Wrap="False"></HeaderStyle>
+                                <ItemStyle Wrap="False"></ItemStyle>
+                                <ItemTemplate>
+                                    <asp:HyperLink ID="HyperLink1" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.send_listid") %>'
+                                        NavigateUrl='<%# DataBinder.Eval(Container, "DataItem.send_listid", "../ForeignCurrencyPay/FCXGHKWalletDetail.aspx?typeid=1&listid=") + DataBinder.Eval(Container, "DataItem.send_listid")+"&qrytime="+ GetDateString(DataBinder.Eval(Container, "DataItem.pay_time")) %>'>
+                                    </asp:HyperLink>
+                                </ItemTemplate>
+                            </asp:TemplateColumn>
+                           <asp:BoundColumn HeaderText="发红包时间" DataField="pay_time" />
+						    <asp:TemplateColumn HeaderText="总金额">
+							    <HeaderStyle Wrap="False"></HeaderStyle>
+							    <ItemStyle Wrap="False"></ItemStyle>
+							    <ItemTemplate>
+								    <asp:Label runat="server" Text='<%# ConvertFenToYuan(DataBinder.Eval(Container, "DataItem.total_amount").ToString()) %>' ID="Label11" NAME="Label11">
+								    </asp:Label>
+							    </ItemTemplate>
+						    </asp:TemplateColumn>
+
+                            <asp:TemplateColumn HeaderText="收红包订单">
+                                <HeaderStyle Wrap="False"></HeaderStyle>
+                                <ItemStyle Wrap="False"></ItemStyle>
+                                <ItemTemplate>
+                                    <asp:HyperLink ID="HyperLink2" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.recv_listid") %>'
+                                        NavigateUrl='<%# DataBinder.Eval(Container, "DataItem.recv_listid", "../ForeignCurrencyPay/FCXGHKWalletDetail.aspx?typeid=2&listid=") + DataBinder.Eval(Container, "DataItem.recv_listid")+"&qrytime="+ GetDateString(DataBinder.Eval(Container, "DataItem.recv_time")) %>'>
+                                    </asp:HyperLink>
+                                </ItemTemplate>
+                            </asp:TemplateColumn>
+                           <asp:BoundColumn HeaderText="收红包时间" DataField="recv_time" />
+                          <asp:BoundColumn HeaderText="入账时间" DataField="account_time" />
+
+                           <asp:TemplateColumn HeaderText="领取金额">
+							    <HeaderStyle Wrap="False"></HeaderStyle>
+							    <ItemStyle Wrap="False"></ItemStyle>
+							    <ItemTemplate>
+								    <asp:Label runat="server" Text='<%# ConvertFenToYuan(DataBinder.Eval(Container, "DataItem.recv_amount").ToString()) %>' ID="Label11" NAME="Label11">
+								    </asp:Label>
+							    </ItemTemplate>
+						    </asp:TemplateColumn>
+
+
+                </Columns>
+            </asp:DataGrid>
+              <asp:DataGrid ID="dg_SendPackageList" runat="server" AutoGenerateColumns="False" CssClass="tab_dg" Caption="发红包">
+                <HeaderStyle Font-Bold="True" Height="25px" />
+                      <Columns>
+						    <asp:TemplateColumn HeaderText="红包种类">
+							    <HeaderStyle Wrap="False"></HeaderStyle>
+							    <ItemStyle Wrap="False"></ItemStyle>
+							    <ItemTemplate>
+								    <asp:Label runat="server" Text='<%# HKWalletPackageType(DataBinder.Eval(Container, "DataItem.hb_type").ToString()) %>' ID="Labelhb_type" NAME="Labelhb_type">
+								    </asp:Label>
+							    </ItemTemplate>
+						    </asp:TemplateColumn>
+                           <asp:BoundColumn HeaderText="发红包昵称" DataField="send_name" />
+                          <asp:TemplateColumn HeaderText="发红包订单">
+                                <HeaderStyle Wrap="False"></HeaderStyle>
+                                <ItemStyle Wrap="False"></ItemStyle>
+                                <ItemTemplate>
+                                    <asp:HyperLink ID="HyperLink3" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.send_listid") %>'
+                                        NavigateUrl='<%# DataBinder.Eval(Container, "DataItem.send_listid", "../ForeignCurrencyPay/FCXGHKWalletDetail.aspx?typeid=1&listid=") + DataBinder.Eval(Container, "DataItem.send_listid")+"&qrytime="+ GetDateString(DataBinder.Eval(Container, "DataItem.pay_time")) %>'>
+                                    </asp:HyperLink>
+                                </ItemTemplate>
+                            </asp:TemplateColumn>
+                           <asp:BoundColumn HeaderText="创建时间" DataField="create_time" />
+                           <asp:BoundColumn HeaderText="支付时间" DataField="pay_time" />
+                           <asp:BoundColumn HeaderText="支付状态"  HeaderStyle-Width="60" DataField="pay_state" />
+
+						    <asp:TemplateColumn HeaderText="支付方式">
+							    <HeaderStyle Wrap="False"></HeaderStyle>
+							    <ItemStyle Wrap="False"></ItemStyle>
+							    <ItemTemplate>
+								    <asp:Label runat="server" Text='<%# HKWalletGetPayMeansType(DataBinder.Eval(Container, "DataItem.pay_means")) %>' ID="Labelpay_means" NAME="Labelpay_means">
+								    </asp:Label>
+							    </ItemTemplate>
+						    </asp:TemplateColumn>
+
+                           <asp:BoundColumn HeaderText="卡类型" HeaderStyle-Width="40"  DataField="card_type" />
+                          <asp:BoundColumn HeaderText="卡号后四位"  HeaderStyle-Width="65"  DataField="card_num" />
+
+                           <asp:TemplateColumn HeaderText="总金额">
+							    <HeaderStyle Wrap="False"></HeaderStyle>
+							    <ItemStyle Wrap="False"></ItemStyle>
+							    <ItemTemplate>
+								    <asp:Label runat="server" Text='<%# ConvertFenToYuan(DataBinder.Eval(Container, "DataItem.total_amount").ToString()) %>' ID="Label11" NAME="Label11">
+								    </asp:Label>
+							    </ItemTemplate>
+						    </asp:TemplateColumn>
+
+                          <asp:BoundColumn HeaderText="总个数" HeaderStyle-Width="40"  DataField="total_num" />
+                          
+                           <asp:TemplateColumn HeaderText="已领取金额">
+							    <HeaderStyle Wrap="False"></HeaderStyle>
+							    <ItemStyle Wrap="False"></ItemStyle>
+							    <ItemTemplate>
+								    <asp:Label runat="server" Text='<%# ConvertFenToYuan(DataBinder.Eval(Container, "DataItem.recv_amount").ToString()) %>' ID="Label11" NAME="Label11">
+								    </asp:Label>
+							    </ItemTemplate>
+						    </asp:TemplateColumn>
+
+                          <asp:BoundColumn HeaderText="已领取个数"  HeaderStyle-Width="65"  DataField="received_num" />
+                          
+                           <asp:TemplateColumn HeaderText="退款金额">
+							    <HeaderStyle Wrap="False"></HeaderStyle>
+							    <ItemStyle Wrap="False"></ItemStyle>
+							    <ItemTemplate>
+								    <asp:Label runat="server" Text='<%# ConvertFenToYuan(DataBinder.Eval(Container, "DataItem.refund_amount").ToString()) %>' ID="Label11" NAME="Label11">
+								    </asp:Label>
+							    </ItemTemplate>
+						    </asp:TemplateColumn>
+
+                          <asp:BoundColumn HeaderText="退款时间" DataField="refund_time" />
+                          
+                           <asp:TemplateColumn HeaderText="手续费金额">
+							    <HeaderStyle Wrap="False"></HeaderStyle>
+							    <ItemStyle Wrap="False"></ItemStyle>
+							    <ItemTemplate>
+								    <asp:Label runat="server" Text='<%# ConvertFenToYuan(DataBinder.Eval(Container, "DataItem.fee_amount").ToString()) %>' ID="Label11" NAME="Label11">
+								    </asp:Label>
+							    </ItemTemplate>
+						    </asp:TemplateColumn>
                 </Columns>
             </asp:DataGrid>
             <webdiyer:AspNetPager ID="pager" runat="server" NumericButtonTextFormatString="[{0}]" SubmitButtonText="转到" HorizontalAlign="right" CssClass="mypager" ShowInputBox="always" PagingButtonSpacing="0" PageSize="10" ShowCustomInfoSection="left" NumericButtonCount="5" AlwaysShow="True" OnPageChanged="pager_PageChanged" Visible="false"></webdiyer:AspNetPager>

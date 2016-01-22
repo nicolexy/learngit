@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using SunLibraryEX;
+using CFT.CSOMS.DAL.WechatPay.Entity;
+using commLib.Entity;
 
 namespace CFT.CSOMS.DAL.ForeignCurrencModule
 {
@@ -15,6 +17,16 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
     {
         string ip = Apollo.Common.Configuration.AppSettings.Get<string>("FCXGWallet_IP", "10.12.62.107");//10.12.189.88 新:10.12.62.107  线上10.192.100.115
         int port = Apollo.Common.Configuration.AppSettings.Get<int>("FCXGWallet_Port", 22000);
+
+        /// <summary>
+        /// 香港红包Relay 新接口请求IP
+        /// </summary>
+        string IP_RedPacket = Apollo.Common.Configuration.AppSettings.Get<string>("FCXGWallet_IP_ForRedPacket", "10.12.62.107");//10.12.189.88 新:10.12.62.107  线上10.192.100.115
+        /// <summary>
+        /// 香港红包Relay 新接口请求端口
+        /// </summary>
+        int Port_RedPacket = Apollo.Common.Configuration.AppSettings.Get<int>("FCXGWallet_Port_ForRedPacket", 22000);
+
 
         #region 一、外币帐号查询
 
@@ -28,24 +40,33 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
             //uid = "600000347";
             string req = "CMD=QUERY_USERINFO&uid=" + uid;
             string result = RelayAccessFactory.RelayInvoke(req, "8514", false, false, ip, port, "utf-8");
-            //result=0&address=&area=&city=&company_name=&country=&cre_id=&cre_type=0&create_time=2015-10-22 17:50:38&email=&gender=0&lstate=2&memo=&mobile=&modify_time=2016-01-04 14:07:32&openid=&phone=&postal_code=&state=3&true_name=&uid=600000347&uin=o5PXlsm0qtXfIA2bLkoMoeXHT51c@wx.hkg&user_type=2&MSG_NO=10014519827780000000042
+//#if DEBUG
+//            result = "result=0&address=&area=&city=&company_name=&country=&cre_id=&cre_type=0&create_time=2015-10-22 17:50:38&email=&gender=0&lstate=2&memo=&mobile=&modify_time=2016-01-04 14:07:32&openid=&phone=&postal_code=&state=3&true_name=&uid=600000347&uin=o5PXlsm0qtXfIA2bLkoMoeXHT51c@wx.hkg&user_type=2&MSG_NO=10014519827780000000042";
+//#endif           
             DataTable dt = ParseRelayOneRow(result, "查询账户基本信息");
-
-            //查询账户余额
-            string reqText = "uid={0}&client_ip={1}&cur_type=344&acc_type=2&MSG_NO={2}";
-            reqText = string.Format(reqText, uid, client_ip, "101741" + DateTime.Now.ToString("yyyyMMddHHmmss"));
-            result = RelayAccessFactory.RelayInvoke(reqText, "101741", false, false, ip, port, "utf-8");
-            //result=0&res_info=ok&uid=600000347&cur_type=344&balance=997700&MSG_NO=10174120160104190031
-
-            DataTable dt_userbalance = ParseRelayOneRow(result, "查询账户余额");
 
             if (dt != null && dt.Rows.Count > 0)
             {
                 dt.Columns.Add("balance", typeof(string));//用户余额
-                string balance = (dt_userbalance != null && dt_userbalance.Rows.Count > 0) ? dt_userbalance.Rows[0]["balance"].ToString() : "0";
-                //港币分转元
-                balance = MoneyTransfer.FenToYuan(balance, "HKD");
-                dt.Rows[0]["balance"] = balance;
+                //查询账户余额
+                try
+                {
+                    string reqText = "uid={0}&client_ip={1}&cur_type=344&acc_type=2&MSG_NO={2}";
+                    reqText = string.Format(reqText, uid, client_ip, "101741" + DateTime.Now.ToString("yyyyMMddHHmmss"));
+                    result = RelayAccessFactory.RelayInvoke(reqText, "101741", false, false, ip, port, "utf-8");
+                    //result=0&res_info=ok&uid=600000347&cur_type=344&balance=997700&MSG_NO=10174120160104190031
+
+                    DataTable dt_userbalance = ParseRelayOneRow(result, "查询账户余额");
+                    string balance = (dt_userbalance != null && dt_userbalance.Rows.Count > 0) ? dt_userbalance.Rows[0]["balance"].ToString() : "0";
+                    //港币分转元
+                    balance = MoneyTransfer.FenToYuan(balance, "HKD");
+                    dt.Rows[0]["balance"] = balance;
+                }
+                catch 
+                {
+                    //异常吃掉，有问题看日志；
+                    dt.Rows[0]["balance"] = "0";
+                }
             }
             return dt;
         }
@@ -290,6 +311,7 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
 
         #region 四、账户资金和流水查询（新增）
 
+
         /// <summary>
         /// 交易单和退款单查询
         /// </summary>
@@ -299,7 +321,7 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
         /// <param name="limit"></param>
         /// <param name="client_ip">IP</param>
         /// <returns></returns>
-        public DataTable QueryTradeInfo(string uid, string list_type,string stime,string etime, int offset, int limit, string client_ip)
+        public DataTable QueryTradeInfo(string uid, string list_type, string stime, string etime, int offset, int limit, string client_ip)
         {
             try
             {
@@ -320,6 +342,7 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
                 throw new Exception("交易单和退款单查询:" + ex.Message);
             }
         }
+
         /// <summary>
         /// 提现
         /// </summary>
@@ -340,6 +363,7 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
                 string result = RelayAccessFactory.RelayInvoke(reqText, "101771", true, false, ip, port);
 //#if DEBUG
 //                result = "result=0&res_info=ok&row_num=2&row_info=listid_0%3d1030033000000000201505130301789324%26fetch_type_0%3d3%26subject_0%3d14%26num_0%3d100%26charge_0%3d0%26bank_acno_0%3d%26fetch_state_0%3d2%26user_uin_0%3d085e9858ed8ed3aa9a95e4252@wx.tenpay.com%26memo_0%3d%26bank_name_0%3d????%26acc_name_0%3dtest test%26card_bankid_0%3d552037******2578%26pay_time_0%3d0000-00-00 00:00:00%26acc_time_0%3d2015-05-13 11:51:24%26create_time_0%3d2015-06-01 10:00:00%26modify_time_0%3d2015-06-02 10:00:00%26curtype_0%3d344%26listid_1%3d1030033000000000201505130301789325%26fetch_type_1%3d3%26subject_1%3d14%26num_1%3d100%26charge_1%3d0%26bank_acno_1%3d%26fetch_state_1%3d2%26user_uin_1%3d085e9858ed8ed3aa9a95e4252@wx.tenpay.com%26memo_1%3d%26bank_name_1%3d????%26acc_name_1%3dtest test%26card_bankid_1%3d552037******2578%26pay_time_1%3d0000-00-00 00:00:00%26acc_time_1%3d2015-05-13 11:51:24%26create_time_1%3d2015-06-01 10:00:00%26modify_time_1%3d2015-06-02 10:00:00%26curtype_1%3d344";
+//                result = "result=0&res_info=ok&row_num=7&row_info=listid_0%3d1030033000000000201601190809756815%26fetch_type_0%3d3%26subject_0%3d14%26num_0%3d1%26charge_0%3d0%26bank_acno_0%3d%26fetch_state_0%3d4%26user_uin_0%3do5PXlsgKtAaiZF070QuOM7Iuq3WY%2540wx.hkg%26memo_0%3dwithdraw%26bank_name_0%3d%25E4%25B8%25AD%25E5%259C%258B%25E9%258A%2580%25E8%25A1%258C%25EF%25BC%2588%25E9%25A6%2599%25E6%25B8%25AF%25EF%25BC%2589%26acc_name_0%3dTAOLI+HONG%26card_bankid_0%3d897103*0172%26pay_time_0%3d0000-00-00+00%253A00%253A00%26acc_time_0%3d2016-01-19+15%253A32%253A28%26create_time_0%3d2016-01-19+15%253A32%253A28%26modify_time_0%3d2016-01-20+09%253A33%253A45%26curtype_0%3d344%26listid_1%3d1030033000000000201601130788328940%26fetch_type_1%3d3%26subject_1%3d14%26num_1%3d1%26charge_1%3d0%26bank_acno_1%3d%26fetch_state_1%3d4%26user_uin_1%3do5PXlsgKtAaiZF070QuOM7Iuq3WY%2540wx.hkg%26memo_1%3dwithdraw%26bank_name_1%3d%25E4%25B8%25AD%25E5%259C%258B%25E9%258A%2580%25E8%25A1%258C%25EF%25BC%2588%25E9%25A6%2599%25E6%25B8%25AF%25EF%25BC%2589%26acc_name_1%3dTAOLI+HONG%26card_bankid_1%3d897103*0172%26pay_time_1%3d0000-00-00+00%253A00%253A00%26acc_time_1%3d2016-01-13+15%253A06%253A32%26create_time_1%3d2016-01-13+15%253A06%253A32%26modify_time_1%3d2016-01-14+10%253A20%253A52%26curtype_1%3d344%26listid_2%3d1030023000000101201601110000591197%26fetch_type_2%3d4%26subject_2%3d14%26num_2%3d100%26charge_2%3d0%26bank_acno_2%3d000000004504%26fetch_state_2%3d5%26user_uin_2%3do5PXlsgKtAaiZF070QuOM7Iuq3WY%2540wx.hkg%26memo_2%3dMD+HongBao+Refund%26bank_name_2%3d%26acc_name_2%3d%26card_bankid_2%3d%26pay_time_2%3d2016-01-11+17%253A00%253A01%26acc_time_2%3d2016-01-11+17%253A00%253A01%26create_time_2%3d2016-01-11+17%253A00%253A01%26modify_time_2%3d2016-01-11+17%253A00%253A01%26curtype_2%3d344%26listid_3%3d1030033000000000201601110781654922%26fetch_type_3%3d3%26subject_3%3d14%26num_3%3d1%26charge_3%3d0%26bank_acno_3%3d000103444505%26fetch_state_3%3d6%26user_uin_3%3do5PXlsgKtAaiZF070QuOM7Iuq3WY%2540wx.hkg%26memo_3%3d%26bank_name_3%3d%25E4%25B8%25AD%25E5%259C%258B%25E9%258A%2580%25E8%25A1%258C%25EF%25BC%2588%25E9%25A6%2599%25E6%25B8%25AF%25EF%25BC%2589%26acc_name_3%3dTAOLI+HONG%26card_bankid_3%3d897103*0172%26pay_time_3%3d2016-01-14+10%253A20%253A52%26acc_time_3%3d2016-01-14+10%253A20%253A52%26create_time_3%3d2016-01-11+14%253A23%253A14%26modify_time_3%3d2016-01-14+10%253A20%253A52%26curtype_3%3d344%26listid_4%3d1030033000000000201601080774173416%26fetch_type_4%3d3%26subject_4%3d14%26num_4%3d100%26charge_4%3d0%26bank_acno_4%3d000103444504%26fetch_state_4%3d6%26user_uin_4%3do5PXlsgKtAaiZF070QuOM7Iuq3WY%2540wx.hkg%26memo_4%3d%26bank_name_4%3d%25E4%25B8%25AD%25E5%259C%258B%25E9%258A%2580%25E8%25A1%258C%25EF%25BC%2588%25E9%25A6%2599%25E6%25B8%25AF%25EF%25BC%2589%26acc_name_4%3dTAOLI+HONG%26card_bankid_4%3d897103*0172%26pay_time_4%3d2016-01-12+11%253A04%253A01%26acc_time_4%3d2016-01-12+11%253A04%253A01%26create_time_4%3d2016-01-08+20%253A06%253A28%26modify_time_4%3d2016-01-12+11%253A04%253A01%26curtype_4%3d344%26listid_5%3d1030033000000000201601080773798145%26fetch_type_5%3d3%26subject_5%3d14%26num_5%3d100%26charge_5%3d0%26bank_acno_5%3d000103444504%26fetch_state_5%3d6%26user_uin_5%3do5PXlsgKtAaiZF070QuOM7Iuq3WY%2540wx.hkg%26memo_5%3d%26bank_name_5%3d%25E4%25B8%25AD%25E5%259C%258B%25E9%258A%2580%25E8%25A1%258C%25EF%25BC%2588%25E9%25A6%2599%25E6%25B8%25AF%25EF%25BC%2589%26acc_name_5%3dTAOLI+HONG%26card_bankid_5%3d897103*0172%26pay_time_5%3d2016-01-12+11%253A04%253A01%26acc_time_5%3d2016-01-12+11%253A04%253A01%26create_time_5%3d2016-01-08+18%253A11%253A27%26modify_time_5%3d2016-01-12+11%253A04%253A01%26curtype_5%3d344%26listid_6%3d1030033000000000201601080773492441%26fetch_type_6%3d3%26subject_6%3d14%26num_6%3d100%26charge_6%3d0%26bank_acno_6%3d000103444504%26fetch_state_6%3d6%26user_uin_6%3do5PXlsgKtAaiZF070QuOM7Iuq3WY%2540wx.hkg%26memo_6%3d%26bank_name_6%3d%25E4%25B8%25AD%25E5%259C%258B%25E9%258A%2580%25E8%25A1%258C%25EF%25BC%2588%25E9%25A6%2599%25E6%25B8%25AF%25EF%25BC%2589%26acc_name_6%3dTAOLI+HONG%26card_bankid_6%3d897103*0172%26pay_time_6%3d2016-01-12+11%253A04%253A01%26acc_time_6%3d2016-01-12+11%253A04%253A01%26create_time_6%3d2016-01-08+17%253A14%253A38%26modify_time_6%3d2016-01-12+11%253A04%253A01%26curtype_6%3d344";
 //#endif
                 return TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.ParseRelayStringToDataTable1(result, "utf-8");//GB2312
             }
@@ -371,7 +395,9 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
                 string uin = dtuser.Rows[0]["uin"].ToString();
 
                 string reqText = "begin_time={0}&end_time={1}&client_ip={2}&limit={3}&offset={4}&uin={5}&MSG_NO={6}";
-                //reqText = "begin_time=2015-06-01&client_ip=127.0.0.1&end_time=2015-12-10&limit=2&offset=0&uin=o5PXlsm0qtXfIA2bLkoMoeXHT51c@wx.hkg&MSG_NO=101109123456";
+//#if DEBUG
+//                reqText = "begin_time=2015-06-01&client_ip=127.0.0.1&end_time=2015-12-10&limit=2&offset=0&uin=o5PXlsm0qtXfIA2bLkoMoeXHT51c@wx.hkg&MSG_NO=101109123456";
+//#endif
                 reqText = string.Format(reqText, stime, etime, client_ip, limit, offset, uin, "101109" + DateTime.Now.ToString("yyyyMMddHHmmss"));
                 string result = RelayAccessFactory.RelayInvoke(reqText, "101109", true, false, ip, port);
 //#if DEBUG
@@ -384,7 +410,110 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
                 throw new Exception("资金流水:" + ex.Message);
             }
         }
-         
+
+        /// <summary>
+        /// HK钱包支付---收红包记录查询
+        /// </summary>
+        public List<HKWalletReceivePackageModel> QueryReceivePackageList(string uid, string stime, string etime, int offset, int limit, string client_ip)
+        {
+            try
+            {
+                var req =
+                    "openid=" + uid +
+                    "&begin_time=" + stime +
+                    "&end_time=" + etime +
+                    "&offset=" + offset.ToString() +
+                    "&limit=" + limit.ToString();
+
+                var result = RelayAccessFactory.RelayInvoke(req, "101788", true, false, IP_RedPacket,Port_RedPacket, "gb2312");
+
+                var retDataList = new List<HKWalletReceivePackageModel>();
+
+                var resultJson = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.GetRelayParams(result, "gb2312", "res_info");
+
+                var resultModel = Newtonsoft.Json.JsonConvert.DeserializeObject<HKWalletrecvModel<HKWalletReceivePackageModel>>(resultJson);
+                if (resultModel != null && resultModel.ret_num> 0)
+                {
+                    var recvData = resultModel.recv_hb_list;
+                    retDataList = (recvData != null && recvData.Count > 0) ? recvData : null;
+                }
+
+                return retDataList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(" HK钱包支付,收红包记录查询,异常:" + ex);
+            }
+        }
+
+        /// <summary>
+        /// HK钱包支付---发红包记录查询
+        /// </summary>
+        public List<HKWalletSendPackageModel> QuerySendPackageList(string uid, string stime, string etime, int offset, int limit, string client_ip)
+        {
+            try
+            {
+                var req =
+                    "openid=" + uid +
+                    "&begin_time=" + stime +
+                    "&end_time=" + etime +
+                    "&offset=" + offset.ToString() +
+                    "&limit=" + limit.ToString();
+
+                var result = RelayAccessFactory.RelayInvoke(req, "101787", true, false, IP_RedPacket, Port_RedPacket, "gb2312");
+
+                var retDataList = new List<HKWalletSendPackageModel>();
+
+                var resultJson = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.GetRelayParams(result, "gb2312", "res_info");
+
+                var resultModel = Newtonsoft.Json.JsonConvert.DeserializeObject<HKWalletSendModel<HKWalletSendPackageModel>>(resultJson);
+                if (resultModel != null && resultModel.ret_num > 0)
+                {
+                    var recvData = resultModel.send_hb_list;
+                    retDataList = (recvData != null && recvData.Count > 0) ? recvData : null;
+                }
+
+                return retDataList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("HK钱包支付,发红包记录查询,异常:" + ex);
+            }
+        }
+
+        /// <summary>
+        /// HK钱包支付---红包详情查询
+        /// </summary>
+        /// <param name="typeid">1,根据发红包单号来查询 2.根据收红包单号来查询 </param>
+        /// <param name="listid">发红包单号/收红包单号</param>
+        /// <param name="qry_time">收红包或发红包时的时间  以YYYY-MM-DD格式  Type=2时必传</param>
+        /// <param name="client_ip"></param>
+        /// <returns></returns>
+        public HKWalletDetailItem QueryHKPackageDetail(int typeid, string listid, string qry_time, string client_ip)
+        {
+            try
+            {
+                var req =
+                    "type=" + typeid +
+                    "&listid=" + listid;
+                if (typeid == 2) {
+                    req += "&qry_time=" + qry_time;
+                }
+
+                var result = RelayAccessFactory.RelayInvoke(req, "101786", true, false, IP_RedPacket, Port_RedPacket, "gb2312");
+                
+                var retDataList = new HKWalletDetailItem();
+
+                var resultJson = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.GetRelayParams(result, "gb2312", "res_info");
+                retDataList = Newtonsoft.Json.JsonConvert.DeserializeObject<HKWalletDetailItem>(resultJson);
+
+                return retDataList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("HK钱包支付---红包详情查询,异常:" + ex);
+            }
+        } 
 
         #endregion
 
@@ -583,5 +712,6 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
             return srcEncoding.GetString(tobuff);
         }
         #endregion
+
     }
 }

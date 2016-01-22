@@ -7,6 +7,7 @@ using CFT.CSOMS.COMMLIB;
 using System.Collections;
 using CFT.CSOMS.DAL.Infrastructure;
 using TENCENT.OSS.C2C.Finance.BankLib;
+using commLib.Entity;
 
 namespace CFT.CSOMS.BLL.ForeignCurrencyModule
 {
@@ -249,7 +250,7 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
                 var row = dt.Rows[0];
                 row["price_str"] = MoneyTransfer.FenToYuan((string)row["price"]);
                 row["paynum_str"] = MoneyTransfer.FenToYuan((string)row["paynum"]);
-                row["total_payout_str"] = MoneyTransfer.FenToYuan((string)row["total_payout"]);
+                //row["total_payout_str"] = MoneyTransfer.FenToYuan((string)row["total_payout"]);
                 row["bank_paynum_str"] = MoneyTransfer.FenToYuan((string)row["bank_paynum"]);
                 row["MDList"] = listid;
                 row["bank_curtype_str"] = GetDictionaryTryValue(CurType, row["bank_curtype"], "其他");
@@ -257,7 +258,11 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
                 row["trade_type_str"] = GetDictionaryTryValue(DicTradeType, row["trade_type"], "其他");
                 row["trade_state_str"] = GetDictionaryTryValue(DicTradeState, row["trade_state"], "其他");
                 row["card_curtype_str"] = GetDictionaryTryValue(DicCardType, row["card_curtype"], "其他");
-                row["refund_state_str"] = (string)row["refund_state"] == "0" ? "退款成功":"退款中"; 
+                // v_yqyqguo 2016-1-21 更改 退款状态为0初始状态的时候即为未退款，页面退款状态请展示为空.
+                //row["refund_state_str"] = (string)row["refund_state"] == "0" ? "退款成功":"退款中"; 
+                row["refund_state_str"] = (string)row["refund_state"] == "0" ? "" : "退款成功";
+                row["total_payout_str"] = (string)row["refund_state"] == "0" ? "" : MoneyTransfer.FenToYuan((string)row["total_payout"]); 
+
                 row["appeal_sign_str"] = GetDictionaryTryValue(DicAppealSign, row["appeal_sign"], "其他");
                 row["IsRefund"] = ((string)row["trade_state"]) == "7" ? "是" : "否";
                 row["IsRefuse"] = ((string)row["appeal_sign"]) == "2" ? "是" : "否";
@@ -419,6 +424,25 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
                                          fetch_state == "7" ? "付款作废" :
                                          fetch_state == "8" ? "已退票" :
                                          "未知:" + fetch_state;
+
+                    string subject = row["subject"].ToString();
+                    row["subject"] = subject == "1" ? "充值支付（中介收货款）" :
+                                        subject == "2" ? "充值支付" :
+                                        subject == "3" ? "买家确认" :
+                                        subject == "4" ? "买家确认（自动提现）" :
+                                        subject == "5" ? "退款" :
+                                        subject == "6" ? "退款（退卖家货款）" :
+                                        subject == "7" ? "充值支付（余额支付）" :
+                                        subject == "8" ? "买家确认（卖家收货款）" :
+                                        subject == "9" ? "快速交易" :
+                                        subject == "10" ? "余额支付" :
+                                        subject == "11" ? "充值" :
+                                        subject == "12" ? "充值转帐" :
+                                        subject == "13" ? "转帐" :
+                                        subject == "14" ? "提现" :
+                                        subject == "15" ? "回导" :
+                                        "未知:" + subject;
+
                     row["num"] = MoneyTransfer.FenToYuan(row["num"].ToString(), "HKD");
                     row["charge"] = MoneyTransfer.FenToYuan(row["charge"].ToString(), "HKD");
                 }
@@ -440,6 +464,24 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
                                     type == "3" ? "冻结" :
                                     type == "4" ? "解冻" : "未知:" + type;
 
+                    string subject = row["subject"].ToString();
+                    row["subject"] = subject == "1" ? "充值支付（中介收货款）" :
+                                        subject == "2" ? "充值支付" :
+                                        subject == "3" ? "买家确认" :
+                                        subject == "4" ? "买家确认（自动提现）" :
+                                        subject == "5" ? "退款" :
+                                        subject == "6" ? "退款（退卖家货款）" :
+                                        subject == "7" ? "充值支付（余额支付）" :
+                                        subject == "8" ? "买家确认（卖家收货款）" :
+                                        subject == "9" ? "快速交易" :
+                                        subject == "10" ? "余额支付" :
+                                        subject == "11" ? "充值" :
+                                        subject == "12" ? "充值转帐" :
+                                        subject == "13" ? "转帐" :
+                                        subject == "14" ? "提现" :
+                                        subject == "15" ? "回导" :
+                                        "未知:" + subject;
+
                     row["paynum"] = MoneyTransfer.FenToYuan(row["paynum"].ToString(), "HKD");
                     row["balance"] = MoneyTransfer.FenToYuan(row["balance"].ToString(), "HKD");
                     row["con"] = MoneyTransfer.FenToYuan(row["con"].ToString(), "HKD");
@@ -448,6 +490,36 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
             }
             return dt;
         }
+
+        /// <summary>
+        /// HK钱包支付---收红包记录查询
+        /// </summary>
+        public List<HKWalletReceivePackageModel> QueryReceivePackageList(string uid, string stime, string etime, int offset, int limit, string client_ip)
+        {
+            return dal.QueryReceivePackageList(uid, stime, etime, offset, limit, client_ip);
+        }
+
+        /// <summary>
+        /// HK钱包支付---发红包记录查询
+        /// </summary>
+        public List<HKWalletSendPackageModel> QuerySendPackageList(string uid, string stime, string etime, int offset, int limit, string client_ip)
+        {
+            return dal.QuerySendPackageList(uid, stime, etime, offset, limit, client_ip);
+        }
+
+        /// <summary>
+        /// HK钱包支付---红包详情查询
+        /// </summary>
+        /// <param name="typeid">1,根据发红包单号来查询 2.根据收红包单号来查询 </param>
+        /// <param name="listid">发红包单号/收红包单号</param>
+        /// <param name="qry_time">收红包或发红包时的时间  以YYYY-MM-DD格式  Type=2时必传</param>
+        /// <param name="client_ip"></param>
+        /// <returns></returns>
+        public HKWalletDetailItem QueryHKPackageDetail(int typeid, string listid, string qry_time, string client_ip)
+        {
+            return dal.QueryHKPackageDetail(typeid,  listid,  qry_time,  client_ip);
+        }
+
         #endregion
 
         #region 六、外币商户查询(新增)

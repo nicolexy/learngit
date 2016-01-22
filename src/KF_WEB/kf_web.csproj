@@ -1338,6 +1338,13 @@
     <Compile Include="ForeignCurrencyPay\FCUserTradeQuery.aspx.designer.cs">
       <DependentUpon>FCUserTradeQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGHKWalletDetail.aspx.cs">
+      <DependentUpon>FCXGHKWalletDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\FCXGHKWalletDetail.aspx.designer.cs">
+      <DependentUpon>FCXGHKWalletDetail.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FreezeManage\FastReplyManagePage.aspx.cs">
       <DependentUpon>FastReplyManagePage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3245,6 +3252,9 @@
     <Content Include="ForeignCurrencyPay\FCRollQuery.aspx" />
     <Content Include="ForeignCurrencyPay\FCOrderQuery.aspx" />
     <Content Include="ForeignCurrencyPay\FCUserTradeQuery.aspx" />
+    <Content Include="ForeignCurrencyPay\FCXGHKWalletDetail.aspx">
+      <SubType>Form</SubType>
+    </Content>
     <Content Include="FreezeManage\FastReplyManagePage.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -4409,6 +4419,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ForeignCurrencyPay\FCOrderQuery.aspx.resx">
       <DependentUpon>FCOrderQuery.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ForeignCurrencyPay\FCXGHKWalletDetail.aspx.resx">
+      <DependentUpon>FCXGHKWalletDetail.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FreezeManage\FastReplyManagePage.aspx.resx">
       <DependentUpon>FastReplyManagePage.aspx.cs</DependentUpon>

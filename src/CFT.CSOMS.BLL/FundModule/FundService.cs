@@ -1149,6 +1149,12 @@ namespace CFT.CSOMS.BLL.FundModule
                     dr["Flstate"] = Flstate == "1" ? "有效" :
                                   Flstate == "2" ? "无效" :
                                   "未知：" + Flstate;
+
+                    string Ftype = dr["Ftype"].ToString();
+                    dr["Ftype"] = Ftype == "1" ? "按月" :
+                                  Ftype == "2" ? "按天" :
+                                  "未知：" + Ftype;
+
                 }
             }
             return dt;
@@ -1250,6 +1256,16 @@ namespace CFT.CSOMS.BLL.FundModule
                     //                    Fchannel_id == "2" ? "微信" :
                     //                    Fchannel_id == "3" ? "手Q" :
                     //                    "未知:" + Fchannel_id;
+
+                    string Ftype = dr["Ftype"].ToString();
+                    dr["Ftype"] = Ftype == "1" ? "按月" :
+                                  "未知：" + Ftype;
+
+                    string Ffetch_order_type = dr["Ffetch_order_type"].ToString();
+                    dr["Ffetch_order_type"] = Ffetch_order_type == "1" ? "智能还款" :
+                                                Ffetch_order_type == "2" ? "半智能还款" :
+                                                Ffetch_order_type == "3" ? "非智能还款" :
+                                                "未知：" + Ffetch_order_type;
                     
                 }
             }
@@ -1330,10 +1346,10 @@ namespace CFT.CSOMS.BLL.FundModule
         /// <param name="offset"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public DataTable GetLCTReserveOrder(string trade_id, string listid, int offset, int limit)
+        public DataTable GetLCTReserveOrder(string trade_id, string listid, string stime, string etime, int offset, int limit)
         {
             FundInfoData data = new FundInfoData();
-            DataTable dt = data.GetLCTReserveOrder(trade_id, listid, offset, limit);
+            DataTable dt = data.GetLCTReserveOrder(trade_id, listid, stime, etime, offset, limit);
             //获取基金名称
             
             dt.Columns.Add("Freserve_fund_name", typeof(string));
@@ -1348,8 +1364,15 @@ namespace CFT.CSOMS.BLL.FundModule
                 string state = dr["Fstate"].ToString();
                 dr["Fstate"] = LCTReserveOrder_State.ContainsKey(state) ? LCTReserveOrder_State[state] : "未知:" + state;
                 string Fcancel_reason = dr["Fcancel_reason"].ToString();
-                dr["Fcancel_reason"] = Fcancel_reason == "1" ? "用户取消预约" :
-                                       Fcancel_reason == "2" ? "过期自动取消预约" : "未知:" + Fcancel_reason;
+                dr["Fcancel_reason"] = Fcancel_reason == "0" ? "0" :
+                                       Fcancel_reason == "1" ? "用户取消预约" :
+                                       Fcancel_reason == "2" ? "过期自动取消预约" : 
+                                       "未知:" + Fcancel_reason;
+
+                string Freserve_type = dr["Freserve_type"].ToString();
+                dr["Freserve_type"] = Freserve_type == "1" ? "新买入货币基金" :
+                                       Freserve_type == "2" ? "已有基金冻结" :
+                                       "未知:" + Freserve_type;                
             }
             return dt;
         }
