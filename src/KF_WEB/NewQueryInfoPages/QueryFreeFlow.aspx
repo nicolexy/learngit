@@ -35,12 +35,12 @@
 				<TR>
 					<TD><FONT face="宋体">&nbsp;账号：</FONT>&nbsp;&nbsp;<asp:label id="lb_c1" runat="server"></asp:label></TD>
 				</TR>
-                <TR>
+               <%-- <TR>
 					<TD><FONT face="宋体">&nbsp;是否为QQ会员：</FONT>&nbsp;&nbsp;<asp:label id="lb_c2" runat="server"></asp:label></FONT></TD>
 				</TR>
                 <TR>
 					<TD><FONT face="宋体">&nbsp;会员过期时间：</FONT>&nbsp;&nbsp;<asp:label id="lb_c3" runat="server"></asp:label></FONT></TD>
-				</TR>
+				</TR>--%>
                 <TR>
 					<TD><FONT face="宋体">&nbsp;是否为实名认证用户：</FONT>&nbsp;&nbsp;<asp:label id="lb_c4" runat="server"></asp:label></FONT></TD>
 				</TR>
