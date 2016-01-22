@@ -386,14 +386,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 WebchatPayControl1.AddSubMenu("AA收款帐号", "WebchatPay/WechatAACollection.aspx");
                 WebchatPayControl1.AddSubMenu("理财通查询", "NewQueryInfoPages/GetFundRatePage.aspx");
                 WebchatPayControl1.AddSubMenu("理财通安全卡", "WebchatPay/SafeCardManage.aspx");
+                WebchatPayControl1.AddSubMenu("生活化理财", "WebchatPay/FundFixedInvestment.aspx");
+                WebchatPayControl1.AddSubMenu("理财通预约买入", "WebchatPay/LCTReserveOrder.aspx");
                 WebchatPayControl1.AddSubMenu("微信红包查询", "WebchatPay/WechatRedPacket.aspx");
                 WebchatPayControl1.AddSubMenu("小额刷卡", "WebchatPay/SmallCreditCardQuery.aspx");
                 WebchatPayControl1.AddSubMenu("微信信用卡还款", "WebchatPay/CreditCardRefundQuery.aspx");
                 WebchatPayControl1.AddSubMenu("理财通增值券", "WebchatPay/AddedValueTicketQuery.aspx");
                 WebchatPayControl1.AddSubMenu("合约机查询", "WebchatPay/QueryContractMachine.aspx");
                 WebchatPayControl1.AddSubMenu("实时还款查询", "WebchatPay/QueryRealtimeRepayment.aspx");
-                WebchatPayControl1.AddSubMenu("理财通定投定赎", "WebchatPay/FundFixedInvestment.aspx");
-                WebchatPayControl1.AddSubMenu("理财通预约买入", "WebchatPay/LCTReserveOrder.aspx");
             }
 
             if (classLibrary.ClassLib.ValidateRight("DKAdjust", this))

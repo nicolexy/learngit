@@ -22,6 +22,7 @@ namespace CFT.CSOMS.DAL.TradeModule
     {
         string serverIp = System.Configuration.ConfigurationManager.AppSettings["Relay_IP"].ToString();
         int serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["Relay_PORT"].ToString());
+        int PickRecordKeepTime = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("PickRecordKeepTime", 3);
         //提现记录查询
         public DataSet GetPickList(string u_ID, int idtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, string sorttype, string cashtype,
             int offset, int limit)
@@ -52,7 +53,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             else if (idtype == 2)
             {
                 //按提现单号查询
-                return QueryPickByListid(u_ID);
+                return QueryPickByListid(u_ID, stime, etime, fstate, fnum, banktype, cashtype);
             }
             else
             {
@@ -63,34 +64,64 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// 按提记录按单号查询
         /// </summary>
         /// <returns></returns>
-        public DataSet QueryPickByListid(string listid)
+        public DataSet QueryPickByListid(string listid, string stime, string etime, int fstate, float fnum, string banktype, string cashtype)
         {
-            //listid=101201509246269862740
-            string requestString = "transaction_id={0}&MSG_NO={1}";
-            requestString = string.Format(requestString, listid, "101779" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + PublicRes.NewStaticNoManage());
+            if (string.IsNullOrEmpty(stime))
+            {
+                //如果日期为空，使用提现单号解析的日期，这个日期一般比Fpay_front_time_acc 大两天左右，
+                //Fpay_front_time_acc为提现单生成的日期
+                //数据库分表以提现单号解析的日期为准。
+                //如果根据Fpay_front_time_acc和listid查询提现单，Fpay_front_time_acc的开始时间应该为listid的时间，结束时间应该在下一月底。
 
-            string answer = RelayAccessFactory.RelayInvoke(requestString, "101779", false, false, serverIp, serverPort);
-            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("utf-8"));
-            if (!answer.Contains("result=0&res_info=ok"))
-            {
-                throw new Exception("按提现单号查询报错:" + answer);
+                DateTime DateStart = GetPayListTableFromID(listid);
+                DateTime DateEnd = DateStart.AddDays(-DateStart.Day).AddMonths(2);
+                stime = DateStart.ToString("yyyy-MM-dd");
+                etime = DateEnd.ToString("yyyy-MM-dd");
             }
-            answer = answer.Replace("result=0&res_info=ok&row_num=1&row0=", "");
-            var list = StringEx.ToDictionary(answer, '&', '=');
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Flistid", typeof(string));
-            foreach (var item in list)
+
+            string fields = "listid:" + listid + "|begintime:" + stime + "|endtime:" + etime;
+            if (fstate != 0)
             {
-                dt.Columns.Add("F" + item.Key, typeof(string));
+                fields += "|sign:" + fstate.ToString();
             }
-            DataRow dr = dt.NewRow();
-            dr["Flistid"] = list["transaction_id"];
-            foreach (var item in list)
+            long num = (long)Math.Round(fnum * 100, 0);
+
+            fields += "|num:" + num.ToString();
+
+            if (banktype != "0000")
             {
-                dr["F" + item.Key] = item.Value;
+                fields += "|banktype:" + banktype;
             }
-            dt.Rows.Add(dr);
-            return new DataSet() { Tables = { dt } };
+            if (cashtype != "0000")
+            {
+                fields += "|bankid:" + cashtype;
+            }
+
+            //2416:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$
+            //2427:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(spider)
+            //2417:查询库表c2c_db.t_tcpay_list 
+            //2431:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(SET2)
+
+
+            Hashtable param = new Hashtable();
+            DateTime Datestime = Convert.ToDateTime(stime);
+            if (Datestime > DateTime.Now.AddDays(-PickRecordKeepTime * 30))
+            {
+                param.Add("2416", fields);
+                param.Add("2417", fields);
+                param.Add("2431", fields);
+                param.Add("2427", fields);
+            }
+            else
+            {
+                param.Add("2427", fields);
+                param.Add("2416", fields);
+                param.Add("2417", fields);
+                param.Add("2431", fields);
+
+            }
+            DataSet ds = multi_query(param, 0, 1, false);
+            return ds;
         }
 
 
@@ -106,38 +137,6 @@ namespace CFT.CSOMS.DAL.TradeModule
         private DataSet QueryPickByUid(string uid, string stime, string etime, int fstate, float fnum, string banktype, string sorttype, string cashtype,
             int offset, int limit)
         {
-            //if (offset % limit == 1) offset -= 1;
-            //string fields = "uid:" + uid + "|cur_type:1";
-            //if (!string.IsNullOrEmpty(stime))
-            //{
-            //    fields += "|s_time:" + stime;
-            //}
-            //if (!string.IsNullOrEmpty(etime))
-            //{
-            //    fields += "|e_time:" + etime;
-            //}
-            //if (fstate != 0)
-            //{
-            //    fields += "|sign:" + fstate.ToString();
-            //}
-            //if (banktype != "0000")
-            //{
-            //    fields += "|bank_type:" + banktype;
-            //}
-            //if (cashtype != "0000")
-            //{
-            //    fields += "|bankid_list:" + cashtype;
-            //}
-
-            //fields = string.Format(fields, uid, stime, etime);
-            ////#if DEBUG
-            ////            fields = "uid:295169794|cur_type:1";
-            ////#endif
-            //DataSet ds = new PublicRes().QueryCommRelay8020("409", fields, offset, limit);
-
-            //return ds;
-
-
             if (offset % limit == 1) offset -= 1;
             string fields = "uid:" + uid + "|begintime:" + stime + "|endtime:" + etime;
 
@@ -185,12 +184,35 @@ namespace CFT.CSOMS.DAL.TradeModule
             //2427:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(spider)
             //2417:查询库表c2c_db.t_tcpay_list 
             //2431:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(SET2)
+            DataSet ds = new DataSet();
             Hashtable param = new Hashtable();
-            param.Add("2416", fields);
-            param.Add("2417", fields);
-            param.Add("2427", fields);
-            param.Add("2431", fields);
-            DataSet ds = multi_query(param, offset, limit);
+            DateTime Datestime = Convert.ToDateTime(stime);
+            if (Datestime > DateTime.Now.AddDays(-PickRecordKeepTime * 30))
+            {
+                param.Add("2416", fields);
+                param.Add("2417", fields);
+                param.Add("2431", fields);
+                ds = multi_query(param, offset, limit);
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                {
+                    param.Clear();
+                    param.Add("2427", fields);
+                    ds = multi_query(param, offset, limit);
+                }
+            }
+            else
+            {
+                param.Add("2427", fields);
+                ds = multi_query(param, offset, limit);
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                {
+                    param.Clear();
+                    param.Add("2416", fields);
+                    param.Add("2417", fields);
+                    param.Add("2431", fields);
+                    ds = multi_query(param, offset, limit);
+                }
+            }
             return ds;
         }
         /// <summary>
@@ -257,12 +279,35 @@ namespace CFT.CSOMS.DAL.TradeModule
             //2427:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(spider)
             //2417:查询库表c2c_db.t_tcpay_list 
             //2431:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(SET2)
+            DataSet ds = new DataSet();
             Hashtable param = new Hashtable();
-            param.Add("2416", fields);
-            param.Add("2417", fields);
-            param.Add("2427", fields);
-            param.Add("2431", fields);
-            DataSet ds = multi_query(param, offset, limit);
+            DateTime Datestime = Convert.ToDateTime(stime);
+            if (Datestime > DateTime.Now.AddDays(-PickRecordKeepTime * 30))
+            {
+                param.Add("2416", fields);
+                param.Add("2417", fields);
+                param.Add("2431", fields);
+                ds = multi_query(param, offset, limit);
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                {
+                    param.Clear();
+                    param.Add("2427", fields);
+                    ds = multi_query(param, offset, limit);
+                }
+            }
+            else
+            {
+                param.Add("2427", fields);
+                ds = multi_query(param, offset, limit);
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                {
+                    param.Clear();
+                    param.Add("2416", fields);
+                    param.Add("2417", fields);
+                    param.Add("2431", fields);
+                    ds = multi_query(param, offset, limit);
+                }
+            }
             return ds;
         }
         /// <summary>
@@ -422,7 +467,7 @@ namespace CFT.CSOMS.DAL.TradeModule
        /// </summary>
        /// <param name="fields"></param>
        /// <returns></returns>
-        private DataSet multi_query(Hashtable param, int offset = 0, int limit = 1)
+        private DataSet multi_query(Hashtable param, int offset = 0, int limit = 1, bool SelectAll = true)
         {
             string msg = "";
             DataSet ds = new DataSet();
@@ -433,6 +478,17 @@ namespace CFT.CSOMS.DAL.TradeModule
                 {
                     DataSet dstemp = new PublicRes().QueryCommRelay8020(de.Key.ToString(), de.Value.ToString(), offset, limit);
                     ds = PublicRes.ToOneDataset(ds, dstemp);
+                    if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0) 
+                    {
+                        if (SelectAll == true)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }            
                 }
                 catch { }
             }
@@ -440,32 +496,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         }
         private DateTime GetPayListTableFromID(string listid)
         {
-            //1、3位系统ID+YYYYMMDD+10位流水号；
-            //2、3位系统ID+10位商户号+YYYYMMDD+7位序列号
-
-            //string strdate = "";
-            //if (listid.Length == 21)
-            //{
-            //    strdate = listid.Substring(3, 4) + "-" + listid.Substring(7, 2) + "-" + listid.Substring(9, 2);
-            //}
-            //else if (listid.Length == 28)
-            //{
-            //    strdate = listid.Substring(13, 4) + "-" + listid.Substring(17, 2) + "-" + listid.Substring(19, 2);
-            //}
-
-            //DateTime dt = DateTime.Now;
-            //try
-            //{
-            //    dt = DateTime.Parse(strdate);
-            //}
-            //catch
-            //{
-            //    dt = DateTime.Now;
-            //}
-            //return dt;
-
-
-
+  
             string strdate = "";
             if (listid.Length == 21)//3位业务编码 + 8位日期 + 10位序列号
             {
