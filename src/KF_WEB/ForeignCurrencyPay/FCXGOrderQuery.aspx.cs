@@ -73,22 +73,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                     {
                         var bank_type = (string)row["bank_type"];
                         var rec_banklist = (string)row["rec_banklist"];
-                        var craddt = bll.QueryCardType(bank_type, rec_banklist);
-                        if (craddt != null && craddt.Rows.Count > 0)
+                        if (!string.IsNullOrEmpty(rec_banklist))
                         {
-                            var cradrow = craddt.Rows[0];
-                            row["card_tail"] = (string)cradrow["card_tail"];
-                            row["card_type"] = (string)cradrow["card_type"];
+                            var craddt = bll.QueryCardType(bank_type, rec_banklist);
+                            if (craddt != null && craddt.Rows.Count > 0)
+                            {
+                                var cradrow = craddt.Rows[0];
+                                row["card_tail"] = (string)cradrow["card_tail"];
+                                row["card_type"] = (string)cradrow["card_type"];
+                            }
                         }
                     }
                 }
-
-                ViewState["cacheOrderDataTable"] = dt;
+               
             }
             catch (Exception ex)
             {
                 WebUtils.ShowMessage(this.Page, "查询订单出现异常:" + PublicRes.GetErrorMsg(ex.Message));
             }
+            ViewState["cacheOrderDataTable"] = dt;
             dg_OrderInfo.DataSource = dt;
             dg_OrderInfo.DataBind();
         }

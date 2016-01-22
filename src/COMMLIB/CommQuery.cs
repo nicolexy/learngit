@@ -3399,9 +3399,9 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         /// </summary>
         /// <param name="answer"></param>
         /// <returns></returns>
-        public static DataTable ParseRelayStringToDataTable1(string answer,string coding)
+        public static DataTable ParseRelayStringToDataTable1(string answer, string coding)
         {
-            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding(coding));
+            answer = answer.Replace("%25", "%").Replace("%26", "&").Replace("%3D", "=").Replace("%3d", "=");
 
             if (!answer.Contains("result=0"))
             {
@@ -3411,25 +3411,15 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             {
                 answer = answer.Replace("row_info=", "");
             }
-            Hashtable ht = new Hashtable();
-            foreach (string item in answer.Split('&'))
-            {
-                string[] _item = item.Split('=');
-                if (_item.Count() > 1)
-                {
-                    ht.Add(_item[0], _item[1]);
-                }
-            }
+            Dictionary<string, string> ht = answer.ToDictionary();
             DataTable dt = new DataTable();
-
-            foreach (DictionaryEntry item in ht)
+            foreach (string item in ht.Keys)
             {
-                if (item.Key.ToString().EndsWith("_0"))
+                if (item.EndsWith("_0"))
                 {
-                    dt.Columns.Add(item.Key.ToString().Replace("_0", ""), typeof(string));
+                    dt.Columns.Add(item.Replace("_0", ""), typeof(string));
                 }
             }
-
             int i = 0;
             while (true)
             {
@@ -3438,9 +3428,9 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 foreach (DataColumn dc in dt.Columns)
                 {
                     string colName = dc.ColumnName;
-                    if (ht.Contains(colName + "_" + i))
+                    if (ht.ContainsKey(colName + "_" + i))
                     {
-                        dr[colName] = ht[colName + "_" + i].ToString();
+                        dr[colName] = System.Web.HttpUtility.UrlDecode(ht[colName + "_" + i].ToString(), System.Text.Encoding.GetEncoding(coding));
                         endwhile = false;
                     }
                 }
