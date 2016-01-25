@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using CFT.CSOMS.DAL.Infrastructure;
 using CFT.Apollo.CommunicationFramework;
+using TENCENT.OSS.CFT.KF.Common;
 
 
 namespace CFT.CSOMS.DAL.HandQModule
@@ -114,6 +115,59 @@ namespace CFT.CSOMS.DAL.HandQModule
                return ds.Tables[0].Rows[0]["creditcode_list"].ToString();
            else
                throw new Exception("通过明文卡号获取加密X类型异常");
+       }
+       /// <summary>
+       /// 手Q转账单 转出
+       /// </summary>
+       /// <param name="uin"></param>
+       /// <param name="offset"></param>
+       /// <param name="limit"></param>
+       /// <returns></returns>
+       public DataTable HandQPayerTrans(string uin,int offset,int limit) 
+       {
+           string ip = Apollo.Common.Configuration.AppSettings.Get<string>("RefundHandQIP", "10.128.160.10");
+           int port = Apollo.Common.Configuration.AppSettings.Get<int>("RefundHandQPORT", 22000);
+
+           string requestText = "reqid=5602&flag=2&offset={0}&limit={1}&fields=uin:{2}";
+           requestText = string.Format(requestText, offset, limit, uin);
+
+           DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "4006", ip, port);
+           if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+           {
+               return ds.Tables[0];
+           }
+           else
+           {
+               throw new LogicException("查询数据为空!");
+           }
+          
+       }
+
+       /// <summary>
+       /// 手Q转账单 转入
+       /// </summary>
+       /// <param name="uin"></param>
+       /// <param name="offset"></param>
+       /// <param name="limit"></param>
+       /// <returns></returns>
+       public DataTable HandQSellerTrans(string uin, int offset, int limit)
+       {
+           string ip = Apollo.Common.Configuration.AppSettings.Get<string>("RefundHandQIP", "10.128.160.10");
+           int port = Apollo.Common.Configuration.AppSettings.Get<int>("RefundHandQPORT", 22000);
+
+           string requestText = "reqid=5601&flag=2&offset={0}&limit={1}&fields=uin:{2}";
+           requestText = string.Format(requestText, offset, limit, uin);
+
+           DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "4006", ip, port);
+           if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+           {
+               return ds.Tables[0];
+           }
+           else
+           {
+               throw new LogicException("查询数据为空!");
+           }
+
        }
     }
 }

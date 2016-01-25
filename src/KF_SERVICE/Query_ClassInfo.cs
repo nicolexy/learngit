@@ -74,11 +74,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public void GetInfoFromDB(DataRow dr)
         {
             IsNew = false;
+            //fspid,Fbalance,FCurType ²»´æÔÚ v_yqyqguo 2016-01-25
             fuid = QueryInfo.GetString(dr["fuid"]);
             fqqid = QueryInfo.GetString(dr["fqqid"]);
             Fuser_type = QueryInfo.GetInt(dr["Fuser_type"]);
-            fspid = QueryInfo.GetString(dr["fspid"]);
-            Fbalance = QueryInfo.GetInt(dr["Fbalance"]);
+            //fspid = QueryInfo.GetString(dr["fspid"]);
+            //Fbalance = QueryInfo.GetInt(dr["Fbalance"]);
             Ftruename = QueryInfo.GetString(dr["Ftruename"]);
             Fcompany_name = QueryInfo.GetString(dr["Fcompany_name"]);
             FSex = QueryInfo.GetInt(dr["FSex"]);
@@ -93,7 +94,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             FCity = QueryInfo.GetString(dr["FCity"]);
             Faddress = QueryInfo.GetString(dr["Faddress"]);
             Fmemo = QueryInfo.GetString(dr["Fmemo"]);
-            Fcurtype = QueryInfo.GetString(dr["FCurType"]);
+            //Fcurtype = QueryInfo.GetString(dr["FCurType"]);
             Fatt_id = QueryInfo.GetString(dr["Fatt_id"]);
             fmer_key = QueryInfo.GetString(dr["fmer_key"]);
         }
