@@ -856,7 +856,7 @@ namespace CFT.CSOMS.DAL.RefundModule
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.LogInfo(ex.Message + ex.StackTrace);
+                    LogHelper.LogError("CFT.CSOMS.DAL.RefundModule.AbnormalRefundData  public DataTable GetPaymenAbnormalByFListId(string flistid, DateTime time),异常：" + ex.ToString());
                 }
                 if (dt == null || dt.Rows.Count == 0)
                 {
