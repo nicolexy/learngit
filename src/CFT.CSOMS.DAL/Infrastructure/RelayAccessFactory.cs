@@ -55,7 +55,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
         /// <returns></returns>
         public static string RelayInvoke(string requestString, string serviceCode, bool encrypt = false, bool invisible = false, string relayIP = "", int relayPort = 0, string coding = "", string relayDefaultSPId = "")
         {
-            LogHelper.LogInfo(relayIP +"  "+ relayPort);
+            LogHelper.LogInfo("CFT.CSOMS.DAL.Infrastructure.RelayAccessFactory    public static string RelayInvoke(string requestString, string serviceCode, bool encrypt = false, bool invisible = false, string relayIP, int relayPort = 0, string coding, string relayDefaultSPId) ，relayIP="+relayIP +","+ relayPort);
             try
             {
                 if(encrypt)
@@ -75,7 +75,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
             } 
             catch (Exception err)
             {
-                string error = "调用relay服务前失败" + err.Message;
+                string error = "调用relay服务前失败:" + err;
                 LogHelper.LogInfo(error);
                 throw new Exception(error);
             }
