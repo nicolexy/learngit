@@ -2239,17 +2239,21 @@ namespace CFT.CSOMS.Service.CSAPI
                 string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
 
                 string isVip = "", vip_exp_date = "", authenState = "", freeFlow = "", isBig = "", isTX = "";
+
+                //查询该信息数据库下线，取消查询
+                //tapd：57400249 
+                //v_swuzhang
                 //是否为VIP会员
-                var VipInfos = new CFT.CSOMS.BLL.CFTAccountModule.VIPService().QueryCFTMember(uin);
-                if (VipInfos == null || VipInfos.Tables.Count < 1 || VipInfos.Tables[0].Rows.Count != 1)
-                {
-                    isVip = "否";
-                }
-                else
-                {
-                    isVip = "是";
-                    vip_exp_date = VipInfos.Tables[0].Rows[0]["Fvip_exp_date"].ToString();
-                }
+                //var VipInfos = new CFT.CSOMS.BLL.CFTAccountModule.VIPService().QueryCFTMember(uin);
+                //if (VipInfos == null || VipInfos.Tables.Count < 1 || VipInfos.Tables[0].Rows.Count != 1)
+                //{
+                //    isVip = "否";
+                //}
+                //else
+                //{
+                //    isVip = "是";
+                //    vip_exp_date = VipInfos.Tables[0].Rows[0]["Fvip_exp_date"].ToString();
+                //}
 
                 //实名认证
                 bool stateMsg = false;
@@ -2337,7 +2341,7 @@ namespace CFT.CSOMS.Service.CSAPI
             }
             catch (Exception ex)
             {
-                SunLibrary.LoggerFactory.Get("GetFreeFlowInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                SunLibrary.LoggerFactory.Get("GetFreeFlowInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex);
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
