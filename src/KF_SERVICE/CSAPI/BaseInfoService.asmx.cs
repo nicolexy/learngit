@@ -2417,7 +2417,7 @@ namespace CFT.CSOMS.Service.CSAPI
             }
             catch (Exception ex)
             {
-                SunLibrary.LoggerFactory.Get("GetPaymenAbnormal").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                SunLibrary.LoggerFactory.Get("GetPaymenAbnormal").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.ToString());
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
