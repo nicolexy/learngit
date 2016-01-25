@@ -490,7 +490,9 @@ namespace CFT.CSOMS.DAL.TradeModule
                         }
                     }            
                 }
-                catch { }
+                catch(Exception ef) {
+                    LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.PickData   private DataSet multi_query(Hashtable param, int offset = 0, int limit = 1, bool SelectAll = true),异常："+ef.ToString());
+                }
             }
             return ds;
         }

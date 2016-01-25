@@ -341,6 +341,7 @@ namespace CSAPI
                 var infos = new CFT.CSOMS.BLL.TradeModule.PickService().GetTCBankPAYList(ID, type, begin_time, end_time, offset, limit);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
+                    SunLibrary.LoggerFactory.Get("GetTCBankPAYList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, "查询数据为空。");
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
                 }
                 List<Trade.TXRollList> list = APIUtil.ConvertTo<Trade.TXRollList>(infos.Tables[0]);
@@ -353,7 +354,7 @@ namespace CSAPI
             }
             catch (Exception ex)
             {
-                SunLibrary.LoggerFactory.Get("GetTCBankPAYList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                SunLibrary.LoggerFactory.Get("GetTCBankPAYList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.ToString());
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }

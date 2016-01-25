@@ -207,7 +207,7 @@ namespace CFT.CSOMS.DAL.Tests
          {
              //reqid=623&flag=2&offset=0&limit=10&fields=trade_id:|begin_time:2010-01-10|end_time:2015-10-01|spid:2000000507
              FundInfoData dd = new FundInfoData();
-             dd.test();
+             //dd.test();
              SafeCard service = new SafeCard();
              DateTime dte = DateTime.Now;
              DataTable dt = service.GetFundTradeLog("1563686969", 0, 10);
