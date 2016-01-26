@@ -8,6 +8,7 @@ using CFT.CSOMS.DAL.Infrastructure;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using System.Collections;
 using CFT.Apollo.Logging;
+using System.Xml;
 
 namespace CFT.CSOMS.DAL.WechatPay
 {
@@ -245,6 +246,95 @@ namespace CFT.CSOMS.DAL.WechatPay
 
                 return dt;
             }
+        }
+
+        /// <summary>
+        /// 微信订单查询接口
+        /// </summary>
+        /// <param name="type">类型 1 --- 根据微信订单号查询2 ---  根据商户号和商户订单号查询</param>
+        /// <param name="wx_trans_id">微信订单号， 当type=1时 必传</param>
+        /// <param name="mch_code">商户号， 当type=2时必传</param>
+        /// <param name="out_trade_no">商户订单号， 当type=2时必传</param>
+        /// <returns></returns>
+        public DataTable QueryTradeOrder(int type, string wx_trans_id, string mch_code, string out_trade_no) 
+        {
+            var ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("WeChatAppId_Ip", "10.198.132.188");   //微信转发机VIP
+            var port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("WeChatAppId_Port", 22000);
+            string parameterString;
+     
+            switch (type)
+            {
+                case 1:
+                    parameterString = string.Format("<root><type>1</type><wx_trans_id>{0}</wx_trans_id></root>", wx_trans_id);
+                    break;
+                case 2:
+                    parameterString = string.Format("<root><type>2</type><mch_code>{0}</mch_code><out_trade_no>{1}</out_trade_no></root>", mch_code, out_trade_no);
+                    break;
+                default: throw new Exception("type参数 错误");
+            }
+            var req = "wechat_xml_text=" + parameterString;
+            var relay_result = RelayAccessFactory.RelayInvoke(req, "101090", false, false, ip, port);
+            var relay_dic = SunLibraryEX.StringEx.ToDictionary(relay_result);
+            if (relay_dic["result"] != "0")
+            {
+                throw new Exception("relay转发l5,异常 [" + relay_result + "]");
+            }
+            var result = System.Web.HttpUtility.UrlDecode(relay_dic["res_info"]);
+
+            var resultXml = new XmlDocument();
+            resultXml.LoadXml(result);
+            var responseNode = resultXml.SelectSingleNode("Response");
+            var errorCode = responseNode.SelectSingleNode("error").SelectSingleNode("code").InnerText;
+            var errorMessage = responseNode.SelectSingleNode("error").SelectSingleNode("message").InnerText;
+            if (errorCode != "0")
+            {
+                throw new Exception("接口返回异常:" + errorMessage);
+            }
+
+            var x_result = responseNode.SelectSingleNode("result");
+            var dt = new DataTable();
+            dt.Columns.Add("wx_trans_id");
+            dt.Columns.Add("trade_no");
+            dt.Columns.Add("pay_time");
+            dt.Columns.Add("payment_amount");
+            dt.Columns.Add("mask");
+            dt.Columns.Add("portfolio_status");
+            dt.Columns.Add("out_trade_no");
+           
+            var r_wx_trans_id = x_result.SelectSingleNode("wx_trans_id").FirstChild.InnerText;
+            var r_out_trade_no = x_result.SelectSingleNode("out_trade_no").FirstChild.InnerText;
+            var portfolio = x_result.SelectSingleNode("payment_portfolio");
+            var items = portfolio.SelectNodes("item");
+
+            foreach (XmlNode item in items)
+            {
+                var row = dt.NewRow();
+                foreach (DataColumn column in dt.Columns)
+                {
+                    if (column.ColumnName == "wx_trans_id")
+                    {
+                        row[column.ColumnName] = r_wx_trans_id;
+                    }
+                    else if (column.ColumnName == "trade_no" && item.FirstChild != null)
+                    {
+                        row[column.ColumnName] = item.FirstChild.InnerText;
+                    }
+                    else if (column.ColumnName == "out_trade_no")
+                    {
+                        row[column.ColumnName] = r_out_trade_no;
+                    }
+                    else
+                    {
+                        var item_x = item.SelectSingleNode(column.ColumnName);
+                        if (item_x != null)
+                        {
+                            row[column.ColumnName] = item_x.InnerText;
+                        }
+                    }
+                }
+                dt.Rows.Add(row);
+            }
+            return dt;
         }
 
         public string CreditEncode(string creditId) 
