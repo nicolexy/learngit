@@ -130,6 +130,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         protected global::Wuqi.Webdiyer.AspNetPager pager;
         
         /// <summary>
+        /// lb_uin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_uin;
+        
+        /// <summary>
+        /// lb_wx_trans_id control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_wx_trans_id;
+        
+        /// <summary>
         /// lb_c1 control.
         /// </summary>
         /// <remarks>
@@ -229,12 +247,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         protected global::System.Web.UI.WebControls.Label lb_c11;
         
         /// <summary>
-        /// lb_c12 control.
+        /// lb_Fstandby2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lb_c12;
+        protected global::System.Web.UI.WebControls.Label lb_Fstandby2;
+        
+        /// <summary>
+        /// lb_trade_id control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_trade_id;
+        
+        /// <summary>
+        /// Label3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label3;
     }
 }

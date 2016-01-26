@@ -89,6 +89,19 @@ namespace CFT.CSOMS.BLL.WechatPay
         }
 
         /// <summary>
+        /// 微信订单查询接口
+        /// </summary>
+        /// <param name="type">类型 1 --- 根据微信订单号查询2 ---  根据商户号和商户订单号查询</param>
+        /// <param name="wx_trans_id">微信订单号， 当type=1时 必传</param>
+        /// <param name="mch_code">商户号， 当type=2时必传</param>
+        /// <param name="out_trade_no">商户订单号， 当type=2时必传</param>
+        /// <returns></returns>
+        public DataTable QueryTradeOrder(int type, string wx_trans_id, string mch_code, string out_trade_no)
+        {
+            return new CreditCardRefund().QueryTradeOrder(type, wx_trans_id, mch_code, out_trade_no);
+        }
+
+        /// <summary>
         /// 加密信用卡卡号
         /// </summary>
         /// <param name="creditId">卡号ID，多个卡号用|分割</param>
