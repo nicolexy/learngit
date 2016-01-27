@@ -247,7 +247,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     }
                     catch(Exception ex)
                     {
-                        LogError("InfoCenter.private void BindData(int istr, int imax).balaceService.BalancePaidOrNotQuery", "获取数据信息异常", ex);
+                        LogHelper.LogError("查询余额支付功能关闭与否失败：qqid=" + this.TextBox1_InputQQ.Text.Trim() + "异常信息：" + ex.ToString());
                     }
 
                     this.Label16_Fapay.Text = PublicRes.objectToString(ds.Tables[0], "Fapay");
@@ -362,7 +362,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
-                LogHelper.LogError("出现异常：" + ex.Message + "异常堆栈信息：" + ex.StackTrace);
+                LogHelper.LogError("出现异常：qqid=" + this.TextBox1_InputQQ.Text.Trim() + "异常信息：" + ex.ToString());
             }
 
             //try
@@ -400,7 +400,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
-                LogHelper.LogError("出现异常：" + ex.Message + "异常堆栈信息：" + ex.StackTrace);
+                LogHelper.LogError("增加删除认证的操作日志失败：qqid=" + this.TextBox1_InputQQ.Text.Trim() + "异常信息：" + ex.ToString());
             }
 
             try
@@ -412,7 +412,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
-                LogHelper.LogError("出现异常：" + ex.Message + "异常堆栈信息：" + ex.StackTrace);
+                LogHelper.LogError("查询一下用户认证信息失败：qqid=" + this.TextBox1_InputQQ.Text.Trim() + "异常信息：" + ex.ToString());
             }
 
         }
@@ -807,25 +807,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (SoapException er) //捕获soap类
             {
-                LogError("BaseAccount.InfoCenter", " private void clickEvent(),捕获soap异常：", er);
-                this.LKBT_TradeLog.Visible = false;
-                this.LKBT_TradeLog_Sale.Visible = false;
-                this.LKBT_TradeLog_Unfinished.Visible = false;
-                this.LKBT_TradeLog_Sale_Unfinished.Visible = false;
-                this.LkBT_PaymentLog.Visible = false;
-                this.LKBT_bankrollLog.Visible = false;
-                this.LKBT_GatheringLog.Visible = false;
-                this.LkBT_PaymentLog.Visible = false;
-                this.LkBT_Refund.Visible = false;
-                this.LkBT_Refund_Sale.Visible = false;
-                setLableText_Null();
-                string str = PublicRes.GetErrorMsg(er.Message.ToString());
-                WebUtils.ShowMessage(this.Page, "查询错误：" + str);
+                LogHelper.LogError("private void clickEvent(),捕获soap异常：qqid=" + this.TextBox1_InputQQ.Text.Trim() + "异常信息：" + er.ToString());
+                //this.LKBT_TradeLog.Visible = false;
+                //this.LKBT_TradeLog_Sale.Visible = false;
+                //this.LKBT_TradeLog_Unfinished.Visible = false;
+                //this.LKBT_TradeLog_Sale_Unfinished.Visible = false;
+                //this.LkBT_PaymentLog.Visible = false;
+                //this.LKBT_bankrollLog.Visible = false;
+                //this.LKBT_GatheringLog.Visible = false;
+                //this.LkBT_PaymentLog.Visible = false;
+                //this.LkBT_Refund.Visible = false;
+                //this.LkBT_Refund_Sale.Visible = false;
+                //setLableText_Null();
+                //string str = PublicRes.GetErrorMsg(er.Message.ToString());
+                WebUtils.ShowMessage(this.Page, "查询错误：" + HttpUtility.JavaScriptStringEncode(er.ToString()));
             }
             catch (Exception eSys)
             {
-                LogError("BaseAccount.InfoCenter", " private void clickEvent()", eSys);
-                WebUtils.ShowMessage(this.Page, "查询错误：" + eSys.Message.ToString() + ", stacktrace" + eSys.StackTrace);
+                LogHelper.LogError("private void clickEvent()异常,qqid=" + this.TextBox1_InputQQ.Text.Trim() + "异常信息：" + eSys.ToString());
+                WebUtils.ShowMessage(this.Page, "查询错误：" + HttpUtility.JavaScriptStringEncode(eSys.ToString()));
             }
         }
 

@@ -36,10 +36,16 @@ namespace CFT.CSOMS.DAL.DKModule
             try
             {
                 da.OpenConn();
-                bankaccno = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(bankaccno, "md5").ToLower();
-                string roleid = bank_sname + bankaccno + "@cep.tenpay.com";
-                roleid = PublicRes.ConvertToFuid(roleid);
-                //roleid = "2000000501";
+                string md5_bankaccno = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(bankaccno, "md5").ToLower();
+                string uin = bank_sname + md5_bankaccno + "@cep.tenpay.com";
+                string roleid = PublicRes.ConvertToFuid(uin);
+                if (string.IsNullOrEmpty(roleid)) 
+                {
+                    throw new Exception("uin转uid失败:" + uin);
+                }
+//#if DEBUG
+//                roleid = "2000000501";
+//#endif
                 string strSql = " select Fservice_code,'" + bank_sname + "' as Fbanktype,'" + bankaccno + "' as Fbankaccno, ";
 
                 strSql += "sum(case Fdimension when 1 then Fonce_data else 0 end)/100 as Fonce_data,";//单笔限额

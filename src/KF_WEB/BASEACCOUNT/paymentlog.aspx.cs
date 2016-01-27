@@ -88,7 +88,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				this.DS_Payment = classLibrary.setConfig.returnDataSet(selectStrSession,1,beginTime,endTime,1,"PayList",istr,imax,Session["uid"].ToString(),Request.UserHostAddress);
 			}
 
-			if(DS_Payment != null && DS_Payment.Tables.Count != 0)
+            if (DS_Payment != null && DS_Payment.Tables.Count != 0 && DS_Payment.Tables[0].Rows.Count > 0)
 			{
                 DataView dv = DS_Payment.Tables[0].DefaultView;
                 dv.Sort = "Fpay_front_time DESC";
@@ -126,8 +126,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 						throw new Exception("金额：" + dr["Fnum"].ToString() + "转换有问题" + ex.Message);
 					}
 				}
+                Page.DataBind();
 			}
-			Page.DataBind();
+			
 		}
 
 		public void ChangePage(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
