@@ -251,7 +251,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			else if (type == "PayList")  //付款记录
 			{
 				//ds = myService.GetTCBankPAYList(selectStr,i,beginTime,endTime,istr,imax);
-                  ds = new PickService().GetTCBankPAYList(selectStr, i, beginTime, endTime, istr, imax);//2424,2425
+                DateTime beginTime_Temp = beginTime;
+                DataSet ds_Temp = new DataSet();
+                while (beginTime_Temp < endTime)
+                {
+                    ds_Temp = new PickService().GetTCBankPAYList(selectStr, i, beginTime_Temp, endTime, istr, imax);//2424,2425
+                    ds = PublicRes.ToOneDataset(ds, ds_Temp);
+                    beginTime_Temp = beginTime_Temp.AddMonths(1);
+                    beginTime_Temp = DateTime.Parse(beginTime_Temp.Year + "-" + beginTime_Temp.Month + "-01");
+                }
+
 			}
 			else if (type  == "Gather")  // 收款记录
 			{
@@ -757,38 +766,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
         //v_yqyqguo 20151223  代扣支持的银行
         public static void GetAllBankList_DK(System.Web.UI.WebControls.DropDownList ddl)
         {
-            //GetAllTypeList(ddl,"BANK_TYPE");
-
             ddl.Items.Clear();
-            Query_Service.Query_Service myService = new Query_Service.Query_Service();
-            Query_Service.Finance_Header fh = setFH(HttpContext.Current.Session["uid"].ToString(), HttpContext.Current.Request.UserHostAddress);
-
-            myService.Finance_HeaderValue = fh;
-
-            // 这个操作不需要CheckRight，所以可以使用旧的setFH
-            System.Data.DataSet ds = myService.GetBankByType("ALL", "");
-            DataTable dtAll = null;
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                dtAll = ds.Tables[0];
-            }
             DataTable dtDKBankList = new DKService().GetDKBankList();
-            if (dtDKBankList != null && dtDKBankList.Rows.Count > 0)
-            {
-                foreach (DataRow dr in dtDKBankList.Rows)
-                {
-                    DataRow[] dr_All = dtAll == null ? null : dtAll.Select(" Fbank_type='" + dr["Fbank_type"].ToString() + "'");
-                    if (dr_All.Length > 0)
-                    {
-                        dr["Fbank_name"] = dr_All[0]["Fbank_name"].ToString().Trim();
-                    }
-                    else
-                    {
-                        dr["Fbank_name"] = dr["Fbank_sname"].ToString().Trim();
-                    }
-                }
-
-            }
+            classLibrary.setConfig.GetColumnValueFromDic(dtDKBankList, "Fbank_type", "Fbank_name", "BANK_TYPE");
             ddl.DataTextField = "Fbank_name";
             ddl.DataValueField = "Fbank_sname";
             ddl.DataSource = dtDKBankList;
