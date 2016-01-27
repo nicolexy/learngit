@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// freezeBankAcc 的摘要说明。
 	/// </summary>
-	public partial class freezeBankAcc : System.Web.UI.Page
+	public partial class freezeBankAcc : PageBase
 	{
 
 		private string sign;
@@ -292,8 +292,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         
 						qs.CreateNewFreeze(fi);
 					}
-					catch
-					{
+					catch(Exception ex)
+                    {
+                        LogError("ENCENT.OSS.CFT.KF.KF_Web.BaseAccount.freezeBankAcc", "protected void BT_F_Or_Not_Click(object sender, System.EventArgs e),创建冻结工单时失败:", ex);
 						WebUtils.ShowMessage(this.Page,"创建冻结工单时失败！");
 					//	return;
 					}
@@ -527,8 +528,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 							fi.FHandleResult = classLibrary.setConfig.replaceMStr(fi.FHandleResult);
 							qs.UpdateFreezeInfo(fi);
 						}
-						catch
-						{
+						catch(Exception ex)
+                        {
+                            LogError("ENCENT.OSS.CFT.KF.KF_Web.BaseAccount.freezeBankAcc", "protected void BT_F_Or_Not_Click(object sender, System.EventArgs e),处理冻结工单时失败:", ex);
 							WebUtils.ShowMessage(this.Page,"处理冻结工单时失败！");
 						//	return;
 						}
@@ -547,6 +549,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
                 catch (Exception err)
                 {
+                    LogError("ENCENT.OSS.CFT.KF.KF_Web.BaseAccount.freezeBankAcc", "protected void BT_F_Or_Not_Click(object sender, System.EventArgs e),操作理财通账户状态失败:", err);
                     string errStr = PublicRes.GetErrorMsg(err.Message.ToString());
                     WebUtils.ShowMessage(this.Page, "操作理财通账户状态失败！" + errStr);
                     return;
@@ -556,12 +559,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				this.BT_F_Or_Not.Visible = false;
 			}
 			catch(SoapException er) //捕获soap类
-			{
+            {
+                LogError("ENCENT.OSS.CFT.KF.KF_Web.BaseAccount.freezeBankAcc", "protected void BT_F_Or_Not_Click(object sender, System.EventArgs e),查询错误SoapException:", er);
 				string str = PublicRes.GetErrorMsg(er.Message.ToString());
 				WebUtils.ShowMessage(this.Page,"查询错误："+ str);
 			}
 			catch(Exception eSys)
-			{
+            {
+                LogError("ENCENT.OSS.CFT.KF.KF_Web.BaseAccount.freezeBankAcc", "protected void BT_F_Or_Not_Click(object sender, System.EventArgs e),end error:", eSys);
 				WebUtils.ShowMessage(this.Page,"操作失败！请重试："+ eSys.Message.ToString());
 			}	
 		}

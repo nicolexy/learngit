@@ -35,7 +35,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// logOnUser 的摘要说明。
 	/// </summary>
-	public partial class logOnUser : System.Web.UI.Page
+	public partial class logOnUser : PageBase
 	{
         protected BalaceService balaceService = new BalaceService();
 		protected void Page_Load(object sender, System.EventArgs e)
@@ -97,7 +97,8 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 				return true;
 			}
 			catch(Exception e)
-			{
+            {
+                LogError("BaseAccount.logOnUser.public bool BindHistoryInfo(string qqid,string handid,DateTime bgDateTime,DateTime edDateTime,int pageIndex,int pageSize)", "获取数据信息异常", e);
 				WebUtils.ShowMessage(this.Page,Msg + e.Message);
 				return false;
 			}
@@ -269,7 +270,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                         }
                         catch (System.Exception ex)
                         {
-                            LogHelper.LogError("销户操作查询微信支付在途条目出错" + ex.Message);
+                            LogError("BaseAccount.logOnUser.protected void btLogOn_Click(object sender, System.EventArgs e) ", "销户操作查询微信支付在途条目出错:", ex);
                             WebUtils.ShowMessage(this.Page, "销户操作查询微信支付在途条目出错" + ex.Message);
                             return;
                         }
@@ -410,20 +411,22 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 #endregion
 			}
 			catch(SoapException eSoap) //捕获soap类异常
-			{
+            {
+                LogError("BaseAccount.logOnUser.protected void btLogOn_Click(object sender, System.EventArgs e) ", "销户操作申请失败,SoapException:", eSoap);
 				string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
                 WebUtils.ShowMessage(this.Page, "销户操作申请失败：" + errStr + "，StackTrace：" + eSoap.StackTrace);
 				return;
 			}
 			catch(Exception err)
-			{
+            {
+                LogError("BaseAccount.logOnUser.protected void btLogOn_Click(object sender, System.EventArgs e) ", "销户操作申请异常:", err);
 				//Msg += "销户操作申请异常！" + Common.CommLib.commRes.replaceHtmlStr(err.Message);
 				Msg += "销户操作申请异常！" + TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceHtmlStr(err.Message);
                 WebUtils.ShowMessage(this.Page, Msg + "，StackTrace：" + err.StackTrace);
 				return;
 			}
 
-			this.btLogOn.Enabled = false;
+            this.btLogOn.Enabled = false;
 		}
 
         private bool SendEmail(string email, string qqid,string subject)
@@ -436,6 +439,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
             }
             catch (Exception err)
             {
+                LogError("BaseAccount.logOnUser.private bool SendEmail(string email, string qqid,string subject) ", "给用户发邮件出错:", err);
                 throw new Exception("给用户发邮件出错："+err.Message);
             }
         }
@@ -500,6 +504,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
             }
             catch (Exception err)
             {
+                LogError("BaseAccount.logOnUser.protected void btQuery_Click(object sender, System.EventArgs e) ", "查询信息异常:", err);
                 WebUtils.ShowMessage(this.Page, err.Message);
                 return;
             }

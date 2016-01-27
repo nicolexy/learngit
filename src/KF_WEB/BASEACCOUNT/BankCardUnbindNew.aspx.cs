@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// BankCardUnbind 的摘要说明。
     /// </summary>
-    public partial class BankCardUnbindNew : System.Web.UI.Page
+    public partial class BankCardUnbindNew : PageBase
     {
         protected Wuqi.Webdiyer.AspNetPager Aspnetpager1;
 
@@ -63,8 +63,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 this.pager.PageChanged += new Wuqi.Webdiyer.PageChangedEventHandler(pager_PageChanged);
             }
-            catch
+            catch(Exception ex)
             {
+                LogError("BaseAccount.BankCardUnbindNew", "protected void Page_Load(object sender, System.EventArgs e)", ex);
                 Response.Redirect("../login.aspx?wh=1");
             }
         }
@@ -242,6 +243,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
                 catch (Exception ex)
                 {
+                    LogError("BaseAccount.BankCardUnbindNew", "private void ShowEdit()", ex);
                     WebUtils.ShowMessage(this, ex.Message + ", stacktrace" + ex.StackTrace);
 
                 }
@@ -292,11 +294,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
+                LogError("BaseAccount.BankCardUnbindNew", "protected void btnUnbind_Click(object sender, System.EventArgs e).SoapException调用服务出错:", eSoap);
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message);
                 WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr + ", stacktrace" + eSoap.StackTrace);
             }
             catch (Exception ex)
             {
+                LogError("BaseAccount.BankCardUnbindNew", "protected void btnUnbind_Click(object sender, System.EventArgs e).异常:", ex);
                 WebUtils.ShowMessage(this.Page, ex.Message + ", stacktrace" + ex.StackTrace);
             }
         }
@@ -319,11 +323,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
+                LogError("BaseAccount.BankCardUnbindNew", "protected void btnSynchron_Click(object sender, System.EventArgs e).SoapException调用服务出错:", eSoap);
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message);
                 WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr + ", stacktrace" + eSoap.StackTrace);
             }
             catch (Exception ex)
             {
+                LogError("BaseAccount.BankCardUnbindNew", "protected void btnSynchron_Click(object sender, System.EventArgs e).同步异常:", ex);
                 WebUtils.ShowMessage(this.Page, ex.Message + ", stacktrace" + ex.StackTrace);
             }
         }
@@ -396,11 +402,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
+                LogError("BaseAccount.BankCardUnbindNew", "private void BindData_New(int index).SoapException异常:", eSoap);
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
                 WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr + ", stacktrace" + eSoap.StackTrace);
             }
             catch (Exception eSys)
             {
+                LogError("BaseAccount.BankCardUnbindNew", "private void BindData_New(int index).SoapException异常:", eSys);
                 string message = eSys.Message;
                 string frozen = "res_info_origin=user is frozen";
                 string notcomplete = "res_info_origin=userinfo is not complete";

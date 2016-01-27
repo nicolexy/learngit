@@ -15,7 +15,8 @@ using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.KF_Web;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 using System.IO;
-using CFT.CSOMS.BLL.WechatPay; 
+using CFT.CSOMS.BLL.WechatPay;
+using CFT.Apollo.Logging; 
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
@@ -24,7 +25,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
     /// <summary>
     /// BankCardQuery 的摘要说明。
     /// </summary>
-    public partial class BankCardQuery : System.Web.UI.Page
+    public partial class BankCardQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
 
         protected void Page_Load(object sender, System.EventArgs e)
@@ -40,7 +41,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch
             {
-                Response.Redirect("../login.aspx?wh=1");
+                Response.Write("<script>window.parent.location.href = '../login.aspx?wh=1';</script>");
             }
 
             if (!IsPostBack)
@@ -77,11 +78,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
+                LogHelper.LogError("TradeManage.BankCardQuery  protected void btnSearch_Click(object sender, System.EventArgs e)，获取数据异常，SoapException异常：" + eSoap.ToString());
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
                 WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
             }
             catch (Exception eSys)
             {
+                LogHelper.LogError("TradeManage.BankCardQuery  protected void btnSearch_Click(object sender, System.EventArgs e)，获取数据异常：" + eSys.ToString());
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString());
             }
         }
@@ -132,6 +135,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch (Exception eSys)
             {
+                LogHelper.LogError("TradeManage.BankCardQuery  private void BindData(int index)，获取数据异常：" + eSys.ToString());
                 string errStr = PublicRes.GetErrorMsg(eSys.Message.ToString());
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + errStr);
 
@@ -263,6 +267,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             catch (Exception eSys)
             {
 
+                LogHelper.LogError("TradeManage.BankCardQuery  public void btnBatchQuery(object sender, System.EventArgs e)，读取数据异常：" + eSys.ToString());
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString());
 
             }

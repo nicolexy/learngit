@@ -28,7 +28,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 	/// <summary>
 	/// SysBulletinManage 的摘要说明。
 	/// </summary>
-    public partial class BankInterfaceManage : System.Web.UI.Page
+    public partial class BankInterfaceManage : PageBase
 	{
         SysManageService bll = new SysManageService();
         Dictionary<string, string> BankInterfaceName = SysManageService.BankInterfaceName;
@@ -118,6 +118,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             }
             catch (Exception ex)
             {
+                LogError("SysManage.BankInterfaceManage", "private void BindData(int index)", ex);
                 WebUtils.ShowMessage(this.Page, ex.Message);
                 return;
             }
@@ -182,6 +183,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             }
             catch (Exception eSys)
             {
+                LogError("SysManage.BankInterfaceManage", "private void BindData(int index)  读取数据异常:", eSys);
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
         }
@@ -317,7 +319,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                     {
                         string errOne = id + "|";
                         outStr += errOne;
-                        LogHelper.LogInfo(errOne + "公告开启申请审批异常：" + err);
+
+                        LogError("SysManage.BankInterfaceManage", " protected void btOpen_Click(object sender, System.EventArgs e)id=" + outStr + ",公告开启申请审批异常:", err);
                     }
                 }
                 #endregion
@@ -335,6 +338,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             }
             catch (Exception err)
             {
+                LogError("SysManage.BankInterfaceManage", " protected void btOpen_Click(object sender, System.EventArgs e)开启申请异常:", err);
                 string errStr = PublicRes.GetErrorMsg(err.Message.ToString());
                 WebUtils.ShowMessage(this.Page, "开启申请异常：" + errStr);
             }
@@ -391,6 +395,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             }
             catch (Exception err)
             {
+                LogError("SysManage.BankInterfaceManage", "protected void btCancel_Click(object sender, System.EventArgs e)  作废申请异常:", err);
                 string errStr = PublicRes.GetErrorMsg(err.Message.ToString());
                 WebUtils.ShowMessage(this.Page, "作废申请异常：" + errStr);
             }

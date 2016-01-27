@@ -525,7 +525,7 @@ namespace CFT.CSOMS.BLL.WechatPay
             }
             catch (Exception ex)
             {
-                throw new Exception("查询限额统计异常：" + ex.Message);
+                throw new Exception("查询限额统计异常：" + ex);
             }
         }
 

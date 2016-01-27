@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
     /// <summary>
     /// TradeLogQuery 的摘要说明。
     /// </summary>
-    public partial class TradeLogQuery : System.Web.UI.Page
+    public partial class TradeLogQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         public string iFramePath_Gathering;
         public string iFramePath_PaymentLog;
@@ -529,8 +529,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch (Exception ex)
             {
-                log4net.ILog tmpLog = log4net.LogManager.GetLogger("增加退款类型");
-                tmpLog.ErrorFormat("增加退款类型：出错：{0} ", ex.Message);
+                LogError("TradeManage.TradeLogQuery", "private void BindTradeInfo(int iType)增加退款类型：出错", ex);               
             }
 
             //yinhuang 2013.8.12
@@ -552,9 +551,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 //担心接口还未上线，导致客服现有功能使用不了，暂时这样处理
                 wx_dt = new WechatPayService().QueryWxTrans(ds.Tables[0].Rows[0]["Flistid"].ToString()); //查询微信转账业务
             }
-            catch 
+            catch (Exception ex)
             {
-
+                LogError("TradeManage.TradeLogQuery", "private void BindTradeInfo(int iType)查询微信转账业务出错", ex);
             }
             if (wx_dt != null && wx_dt.Rows.Count > 0)
             {
@@ -745,6 +744,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch (Exception e)
             {
+                LogError("TradeManage.TradeLogQuery", " private void BindPaymentInfo(), 异常：", e);
                 //WebUtils.ShowMessage(this.Page, "查询用户转账单记录失败:" + e.Message.ToString());
             }
         }

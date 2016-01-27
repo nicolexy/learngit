@@ -73,7 +73,7 @@ namespace TENCENT.OSS.C2C.Finance.BankLib
 			}
 			catch(Exception err)
 			{
-				throw new Exception("获取银行名称失败：" + err.Message);
+				throw new Exception("获取银行名称失败：" + err);
 			}
 
 		}
@@ -141,7 +141,7 @@ namespace TENCENT.OSS.C2C.Finance.BankLib
 			}
 			catch (Exception e)
 			{
-				throw new Exception("查询银行字典信息失败："+e.Message.ToString());
+				throw new Exception("查询银行字典信息失败："+e.ToString());
 			}
 
 		
@@ -211,7 +211,7 @@ namespace TENCENT.OSS.C2C.Finance.BankLib
 			catch(Exception ex)
 			{
 				log4net.ILog log = log4net.LogManager.GetLogger("查询字典表信息异常");
-				if(log.IsErrorEnabled) log.Error(ex.Message);
+				if(log.IsErrorEnabled) log.Error(ex.ToString());
 				return null;
 			}
 		}
