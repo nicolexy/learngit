@@ -30,7 +30,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
     /// <summary>
     /// GetFundRatePage 的摘要说明。
     /// </summary>
-    public partial class GetFundRatePage : System.Web.UI.Page
+    public partial class GetFundRatePage : PageBase
     {
         protected System.Web.UI.WebControls.Label rtnList;
         protected System.Web.UI.WebControls.Label lb_2;
@@ -421,10 +421,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
+                LogError("NewQueryInfoPages.GetFundRatePage", " private void BindProfitList(string tradeId, string spId, DateTime beginDate, DateTime endDate, int pageIndex = 1).查询基金收益记录异常SoapException：", eSoap);
                 WebUtils.ShowMessage(this.Page, "查询基金收益记录异常：" + HttpUtility.JavaScriptStringEncode(eSoap.ToString()));
             }
             catch (Exception eSys)
             {
+                LogError("NewQueryInfoPages.GetFundRatePage", " private void BindProfitList(string tradeId, string spId, DateTime beginDate, DateTime endDate, int pageIndex = 1).查询基金收益记录异常：", eSys);
                 WebUtils.ShowMessage(this.Page, "查询基金收益记录异常:" + HttpUtility.JavaScriptStringEncode(eSys.ToString()));
             }
 
@@ -463,6 +465,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
+                LogError("NewQueryInfoPages.GetFundRatePage", "private void BindBankRollList(string qqId, string spId, string curtype, DateTime beginDate, DateTime endDate, int pageIndex = 1, int redirectionType = 0, string memo) .获取用户资金流水情况异常：", ex);
+
                 WebUtils.ShowMessage(this, string.Format("获取用户资金流水情况:{0}", PublicRes.GetErrorMsg(ex.ToString())));
             }
         }
@@ -517,9 +521,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                             }
 
                         }
-                        catch
+                        catch(Exception ex)
                         {
-                            LogHelper.LogInfo("Get Bind bank card error!");
+                            LogError("NewQueryInfoPages.GetFundRatePage", "private void BindBankRollList(string qqId, string spId, string curtype, DateTime beginDate, DateTime endDate, int pageIndex = 1, int redirectionType = 0, string memo) .Get Bind bank card error：", ex);
                         }
 
                         dr["URL"] = "GetFundRatePageDetail.aspx?opertype=1&close_flag=1&uin=" + ViewState["uin"].ToString()
@@ -579,6 +583,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
+                LogError("NewQueryInfoPages.GetFundRatePage", "public void dgBankRollList_ItemDataBound(object sender, System.Web.UI.WebControls.DataGridItemEventArgs e)：", ex);
                 WebUtils.ShowMessage(this, string.Format("dgBankRollList_ItemDataBound 异常{0}", PublicRes.GetErrorMsg(ex.ToString())));
             }
         }
@@ -620,6 +625,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
+                LogError("NewQueryInfoPages.GetFundRatePage", "private void BindBankRollListNotChildren(string qqId, string spId, string curtype, DateTime beginDate, DateTime endDate, int pageIndex = 1, int redirectionType = 0),获取用户交易流水异常：", ex);
                 WebUtils.ShowMessage(this, string.Format("获取用户交易流水异常:{0}", PublicRes.GetErrorMsg(ex.ToString())));
             }
         }
@@ -634,6 +640,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
+                LogError("NewQueryInfoPages.GetFundRatePage", "protected void bankRollListPager_PageChanged(object src, Wuqi.Webdiyer.PageChangedEventArgs e),翻页异常：", ex);
                 WebUtils.ShowMessage(this, string.Format("翻页异常:{0}", PublicRes.GetErrorMsg(ex.ToString())));
             }
         }
@@ -820,6 +827,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
+                LogError("NewQueryInfoPages.GetFundRatePage", " private void BindCloseFundRoll(string tradeId, string fundCode, DateTime beginDate, DateTime endDate, int pageIndex = 1),查询交易明细:出现错误：", ex);
                 WebUtils.ShowMessage(this, string.Format("查询交易明细:出现错误:{0}", PublicRes.GetErrorMsg(ex.ToString())));
             }
         }
@@ -875,6 +883,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
+                LogError("NewQueryInfoPages.GetFundRatePage", " protected void CloseFundRollPager_PageChanged(object src, Wuqi.Webdiyer.PageChangedEventArgs e),翻页异常：", ex);
                 WebUtils.ShowMessage(this, string.Format("翻页异常:{0}", PublicRes.GetErrorMsg(ex.ToString())));
             }
         }
@@ -917,6 +926,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             }
             catch (Exception ex)
             {
+                LogError("NewQueryInfoPages.GetFundRatePage", "private void BindLCTBalanceRollList(string tradeId, int index = 1),查询理财通余额流水异常：", ex);
                 WebUtils.ShowMessage(this, string.Format("查询理财通余额流水异常:{0}", PublicRes.GetErrorMsg(ex.ToString())));
             }
 

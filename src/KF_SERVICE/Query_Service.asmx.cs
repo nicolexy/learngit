@@ -118,6 +118,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception ex)
             {
+                LogHelper.LogError("得到子帐户详细信息  public DataSet GetChildrenInfo(string u_QQID, string Fcurtype)" + ex.ToString());
                 throw new Exception(ex.Message);
             }
             finally
@@ -154,6 +155,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
+                LogHelper.LogError("判断是否存在未完成交易  public bool LogOnUsercheckOrder(string u_QQID, string Fcurtype)" + err.ToString());
                 throw new Exception(err.Message);
             }        
         }
@@ -228,6 +230,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
+                LogHelper.LogError("系统自动执行注销结果 public bool LogOnUserDeleteUser(string qqid, string reason, string user, string userIP, out string Msg)" + err.ToString());
                 throw new Exception(err.Message);
             }
 
@@ -448,6 +451,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
+                LogHelper.LogError("子帐户资金流水查询函数 public DataSet GetChildrenBankRollList(string u_QQID, DateTime u_BeginTime, DateTime u_EndTime, string Fcurtype, int istr, int imax, int Ftype, string Fmemo)" + err.ToString());
                 throw new Exception(err.Message);
             }
         }
@@ -553,7 +557,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("获取账户流水异常:{0}", ex.Message));
+                LogHelper.LogError("子帐户资金流水查询函数(整合了页面逻辑)  public DataSet GetChildrenBankRollListEx(string qqId, DateTime beginTime, DateTime endTime, string spId, int pageIndex, int pageMax, int fType, string fMemo)" + ex.ToString());
+                throw new Exception(string.Format("获取账户流水异常:{0}", ex));
             }
             return null;
         }
@@ -583,7 +588,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception ex)
             {
-                throw new Exception("后台查询失败:" + ex.Message);
+                LogHelper.LogError("子帐户交易单查询函数   public DataSet GetChildrenFlistList(string Flistid, string Fcurtype)" + ex.ToString());
+
+                throw new Exception("后台查询失败:" + ex);
             }
             finally
             {
@@ -618,6 +625,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception ex)
             {
+                LogHelper.LogError("子帐户冻结或解冻函数  public void ChildrenFreezeOrUnfreeze(string u_QQID, string Fcurtype, string UpdateFstate)" + ex.ToString());
                 throw new Exception(ex.Message);
             }
             finally
@@ -667,6 +675,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
+                LogHelper.LogError("获取系统公告数据   public DataSet GetSysBulletin(string listtype, out string msg)" + err.ToString());
                 msg = err.Message;
                 return null;
             }
@@ -760,6 +769,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
+                LogHelper.LogError("获取银行接口数据   public DataSet GetSysBankInterface(string busineType, string banktype, out string msg)" + err.ToString());
                 msg = err.Message;
                 return null;
             }
@@ -792,6 +802,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception ex)
             {
+                LogHelper.LogError("查询银行接口信息ById   public T_BANKBULLETIN_TYPE_ALL QueryBankInterfaceById(string fid, out string msg)" + ex.ToString());
                 msg = ex.Message;
                 return null;
             }
@@ -1274,6 +1285,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
+                LogHelper.LogError("银行公告查询 利用接口查询   public DataSet QueryBankBulletin(int businesstype, int op_support_flag, int banktype, string bulletin_id, int limit, int offset)" + e.ToString());
                 throw new Exception("Service处理失败！" + e.Message);
             }
         }
@@ -1325,6 +1337,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception ex)
             {
+                LogHelper.LogError("将接口返回公告信息转换成公告类  public T_BANKBULLETIN_INFO TurnBankBulletinClass(DataSet ds)" + ex.ToString());
                 throw new Exception("公告信息转换成公告类Service处理失败！" + ex.Message);
                 return null;
             }
@@ -1709,6 +1722,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception ex)
             {
+                LogHelper.LogError("通过类型查询返回字段表信息  public static DataSet QueryDicInfoByType(string type, out string Msg)" + ex.ToString());
                 return null;
             }
         }
@@ -1740,6 +1754,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
+                LogHelper.LogError("是否为快速交易用户判断函数  public bool IsFastPayUser(string qqid)" + e.ToString());
                 return false;
             }
         }
@@ -1851,6 +1866,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
+                LogHelper.LogError("查询用户帐户表  public DataSet GetUserAccount(string u_QQID, int fcurtype, int istr, int imax)" + e.ToString());
                 sign = 0;
                 return null;
             }
@@ -1912,6 +1928,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
+                LogHelper.LogError("通过微信查询用户帐户表  public DataSet GetUserAccountFromWechat(string u_QQID, int istr, int imax)" + e.ToString());
                 sign = 0;
                 return null;
             }
@@ -1948,6 +1965,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
+                LogHelper.LogError("查询注销用户帐户表  public DataSet GetUserAccountCancel(string fuid, int fcurtype, int istr, int imax)" + e.ToString());
                 sign = 0;
                 return null;
             }
@@ -1966,6 +1984,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
+                LogHelper.LogError("查询用户帐户表核心库  public DataSet GetUserAccountMain(string u_QQID, int istr, int imax)" + e.ToString());
                 return null;
             }
         }
@@ -2041,6 +2060,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
+                LogHelper.LogError("查询所有商户帐户信息  public System.Data.DataSet GetUserMedInfoList()" + err.ToString());
                 rl.sign = 0;
                 rl.ErrorMsg = PublicRes.replaceMStr(err.Message);
                 throw new LogicException("Service处理失败！");
@@ -2062,6 +2082,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception ex)
             {
+                LogHelper.LogError("查询商户帐户信息  public T_USER_MED GetUserMedInfo(string SPID, int istr, int imax)" + ex.ToString());
                 throw new Exception("Service处理失败！" + PublicRes.replaceMStr(ex.Message));
             }
         }
@@ -2106,6 +2127,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
+                LogHelper.LogError("查询用户资料表  public DataSet GetUserInfo(string u_QQID, int istr, int imax)" + e.ToString());
                 sign = 0;
                 throw new Exception("该用户不存在！");
                 return null;
@@ -2140,6 +2162,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
+                LogHelper.LogError("查询用户绑定银行帐户表  public DataSet GetUserBankAccount(string u_QQID, int istr, int imax)" + e.ToString());
                 sign = 0;
                 throw new Exception("用户绑定银行帐户不存在！");
                 return null;
@@ -2186,6 +2209,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
+                LogHelper.LogError("批量查询用户绑定银行帐户表  public DataSet GetBatchUserBankAccount(string u_QQID)" + e.ToString());
                 throw new Exception("此用户不存在");
                 return null;
             }
@@ -3174,7 +3198,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
-                throw new Exception("service发生错误,请联系管理员！" + e.Message);
+                LogHelper.LogError("public DataSet GetFundListDetail_New(string listid, string fbank_list, string fbank_type, DateTime u_BeginTime, DateTime u_EndTime, out string mesgg):" + e);
+                throw new Exception("service发生错误,请联系管理员！" + e);
                 return null;
             }
         }
@@ -3209,6 +3234,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
+                LogHelper.LogError("public DataSet GetRefund(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax):" + e);
+
                 sign = 0;
                 throw new Exception("service发生错误,请联系管理员！");
                 return null;
@@ -3244,6 +3271,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
+                LogHelper.LogError("public DataSet GetPayListByType(string u_BuyID, DateTime u_BeginTime, DateTime u_EndTime, int U_Type, int istr, int imax):" + e);
                 sign = 0;
                 throw new Exception("service发生错误,请联系管理员！");
                 return null;
@@ -3266,8 +3294,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 string listID = CommQuery.GetOneResultFromICE(strCmd, CommQuery.QUERY_TCBANKROLL_DAY, "Flistid", out errMsg);
                 return listID;
             }
-            catch
+            catch(Exception ef)
             {
+                LogHelper.LogError(" public string returnListID(string sFbankAcc, string sDateTime) :" + ef);
                 throw new Exception("根据银行订单号和日期查询交易单失败！");
             }
         }
@@ -3391,15 +3420,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (LogicException err)
             {
+                LogHelper.LogError(" public DataSet GetFundList(string u_ID, string u_QueryType, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,float fnum, float fnumMax, string banktype, string sorttype, bool isHistory, int iPageStart, int iPageMax) :" + err);
+             
                 rl.sign = 0;
                 rl.ErrorMsg = PublicRes.replaceMStr(err.Message + " " + msg);
                 throw;
             }
             catch (Exception err)
             {
+                LogHelper.LogError(" public DataSet GetFundList(string u_ID, string u_QueryType, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,float fnum, float fnumMax, string banktype, string sorttype, bool isHistory, int iPageStart, int iPageMax) :" + err);
                 rl.sign = 0;
                 rl.ErrorMsg = PublicRes.replaceMStr(err.Message + " " + msg);
-                throw new LogicException("Service处理失败！" + err.Message + " " + msg);
+                throw new LogicException("Service处理失败！" + err + " " + msg);
             }
             finally
             {
@@ -3418,6 +3450,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
+                LogHelper.LogError(" public int GetFundListCount(string u_ID, string u_QueryType, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime,int fstate, float fnum, float fnumMax, string banktype, bool isHistory) :" + e);
+
                 throw new Exception("service发生错误,请联系管理员！");
                 return 0;
             }
@@ -3444,7 +3478,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
-                throw new Exception("service发生错误,请联系管理员！" + e.Message);
+                throw new Exception("service发生错误,请联系管理员！" + e);
                 return null;
             }
         }
@@ -3498,7 +3532,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
-                throw new Exception("service发生错误,请联系管理员！" + e.Message);
+                throw new Exception("service发生错误,请联系管理员！" + e);
                 return null;
             }
         }
@@ -3530,7 +3564,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
-                throw new Exception("service发生错误,请联系管理员！" + e.Message);
+                throw new Exception("service发生错误,请联系管理员！" + e);
                 return null;
             }
         }
@@ -3562,7 +3596,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
-                throw new LogicException("Service处理失败！");
+                throw new LogicException("Service处理失败！异常："+err);
                 return 0;
             }
         }
@@ -3593,6 +3627,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
+                LogHelper.LogError("public bool ChangeComplainBuss(ComplainBussClass cbs, out string msg):" + err.ToString());
                 msg = err.Message;
                 return false;
             }
@@ -3608,6 +3643,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
+                LogHelper.LogError("public ComplainBussClass GetComplainBussDetail(string bussid, out string msg):" + err);
                 msg = err.Message;
                 return null;
             }

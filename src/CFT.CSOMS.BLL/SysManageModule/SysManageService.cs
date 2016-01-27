@@ -132,7 +132,7 @@ namespace CFT.CSOMS.BLL.SysManageModule
             }
             catch (Exception ex)
             {
-                throw new Exception("公告信息转换成公告类处理失败！" + ex.Message);
+                throw new Exception("公告信息转换成公告类处理失败！" + ex);
             }
         }
 
@@ -159,7 +159,7 @@ namespace CFT.CSOMS.BLL.SysManageModule
             }
             catch (Exception ex)
             {
-               throw new Exception(ex.Message);
+               throw;
             }
 
         }

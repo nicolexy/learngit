@@ -141,7 +141,7 @@ namespace CFT.CSOMS.COMMLIB
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("通过微信api转换微信号到财付通帐号异常:{0}", ex.Message));
+                throw new Exception(string.Format("通过微信api转换微信号到财付通帐号异常:{0}", ex.ToString()));
             }
 
         }

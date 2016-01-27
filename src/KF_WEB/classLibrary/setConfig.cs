@@ -557,7 +557,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			}
 			catch (Exception e)
 			{
-				throw new Exception(e.Message.ToString());
+				throw e;
 			}
 
 			//°ó¶¨Êý¾Ý×Öµä

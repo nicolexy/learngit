@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// FundQuery 的摘要说明。
 	/// </summary>
-	public partial class FundQuery : System.Web.UI.Page
+    public partial class FundQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 
 		public string  begintime = DateTime.Now.ToString("yyyy-MM-dd");
@@ -153,16 +153,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			}
 			catch(LogicException lex)
 			{
-				
+                LogError("TradeManage.FundQuery", "private void clickEvent(string ID),LogicException:", lex);
 				WebUtils.ShowMessage(this.Page,PublicRes.GetErrorMsg(lex.Message.ToString()));
 			}
 			catch(SoapException eSoap) //捕获soap类异常
-			{
+            {
+                LogError("TradeManage.FundQuery", "private void clickEvent(string ID),SoapException:", eSoap);
 				string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
 				WebUtils.ShowMessage(this.Page,"调用服务出错：" + errStr);
 			}
 			catch(Exception eSys)
-			{
+            {
+                LogError("TradeManage.FundQuery", "private void clickEvent(string ID),Exception:", eSys);
 				WebUtils.ShowMessage(this.Page,"读取数据失败！" + classLibrary.setConfig.replaceHtmlStr(eSys.Message) );
 			}
 		}
@@ -308,6 +310,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch (Exception err)
             {
+                LogError("TradeManage.FundQuery", "private void clickEvent(string ID)", err);
                 WebUtils.ShowMessage(this.Page, err.Message);
                 return;
             }
@@ -323,16 +326,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch (LogicException lex)
             {
+                LogError("TradeManage.FundQuery", "private void clickEvent(string ID),LogicException:", lex);
                 string errStr = PublicRes.GetErrorMsg(lex.Message.ToString());
                 WebUtils.ShowMessage(this.Page, errStr);
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
+                LogError("TradeManage.FundQuery", "private void clickEvent(string ID),SoapException:", eSoap);
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
                 WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
             }
             catch (Exception eSys)
             {
+                LogError("TradeManage.FundQuery", "private void clickEvent(string ID),Exception:", eSys);
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + classLibrary.setConfig.replaceHtmlStr(eSys.Message));
             }
 		}
