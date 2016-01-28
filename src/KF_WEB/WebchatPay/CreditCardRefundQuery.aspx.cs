@@ -149,18 +149,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
         private void DataGrid1_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
         {
-            string fetch_no = e.Item.Cells[10].Text;
-            string wx_no = e.Item.Cells[11].Text;
-            string uin = e.Item.Cells[1].Text;
+            string fetch_no = e.Item.Cells[9].Text;
+            string wx_no = e.Item.Cells[10].Text;
             //int curr_page = pager.CurrentPageIndex;
             //if (curr_page > 1)
             //{
             //    rid = this.pager.PageSize * curr_page + rid;
             //}
-            GetDetail(wx_no,fetch_no,uin);
+            GetDetail(wx_no,fetch_no);
         }
 
-        private void GetDetail(string wx_no, string fetch_no,string uin)
+        private void GetDetail(string wx_no, string fetch_no)
         {
             //需要注意分页情况
             clearDT();
@@ -196,7 +195,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 try
                 {
                     lb_Fstandby2.Text = MoneyTransfer.FenToYuan(dt.Rows[0]["Fstandby2"].ToString());
-                    lb_uin.Text = uin;
 
                     var wxOrderdt = new WechatPayService().QueryTradeOrder(2, null, dt.Rows[0]["Fsp_id"].ToString(), fetch_no);
                     if (wxOrderdt != null)
@@ -315,7 +313,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 ds.Tables[0].Columns.Add("Fcard_id_str", typeof(string));
                 ds.Tables[0].Columns.Add("Frefund_state_str", typeof(string));
                 ds.Tables[0].Columns.Add("Fticket_str", typeof(string));
-                ds.Tables[0].Columns.Add("uin", typeof(string));
 
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
@@ -340,17 +337,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                     else
                     {
                         dr["Fticket_str"] = "否";
-                    }
-
-                    try
-                    {
-                        var accid = WeChatHelper.GetAcctIdFromOpenId(dr["Fopenid"].ToString());
-                        dr["uin"] = accid + "@wx.tenpay.com";
-                    }
-                    catch (Exception ex)
-                    {
-                        dr["uin"] = ex.Message;
-                    }             
+                    }           
                 }
 
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fnum", "Fnum_str");

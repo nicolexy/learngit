@@ -130,13 +130,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         protected global::Wuqi.Webdiyer.AspNetPager pager;
         
         /// <summary>
-        /// lb_uin control.
+        /// lb_trade_id control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lb_uin;
+        protected global::System.Web.UI.WebControls.Label lb_trade_id;
         
         /// <summary>
         /// lb_wx_trans_id control.
@@ -254,23 +254,5 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lb_Fstandby2;
-        
-        /// <summary>
-        /// lb_trade_id control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lb_trade_id;
-        
-        /// <summary>
-        /// Label3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label3;
     }
 }
