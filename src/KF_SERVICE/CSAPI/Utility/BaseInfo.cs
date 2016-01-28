@@ -638,6 +638,15 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             //public string Fabnormal_time { get; set; }
         }
 
+        public class FreezeThaw
+        {
+            [XmlElement("flag")]
+            public int flag { get; set; }
+            [XmlElement("info")]
+            public string info { get; set; }
+
+        }
+
         #endregion
     }
 
