@@ -16,6 +16,7 @@ using System.Data;
 using CFT.CSOMS.BLL.TransferMeaning;
 using CFT.CSOMS.BLL.RefundModule;
 using System.Threading;
+using CFT.CSOMS.BLL.FreezeModule;
 
 namespace CFT.CSOMS.Service.CSAPI
 {
@@ -2422,6 +2423,122 @@ namespace CFT.CSOMS.Service.CSAPI
             catch (Exception ex)
             {
                 SunLibrary.LoggerFactory.Get("GetPaymenAbnormal").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.ToString());
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
+        [WebMethod]
+        public void AccountFreeze()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "account", "channel", "executor", "executorip", "username", "contact", "reason", "appid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string account = paramsHt.ContainsKey("account") ? paramsHt["account"].ToString() : "";
+                string channel = paramsHt.ContainsKey("channel") ? paramsHt["channel"].ToString() : "";
+                string executor = paramsHt.ContainsKey("executor") ? paramsHt["executor"].ToString() : "";
+                string executorip = paramsHt.ContainsKey("executorip") ? paramsHt["executorip"].ToString() : "";
+                string userName = paramsHt.ContainsKey("username") ? paramsHt["username"].ToString() : "";
+                string contact = paramsHt.ContainsKey("contact") ? paramsHt["contact"].ToString() : "";
+                string reason = paramsHt.ContainsKey("reason") ? paramsHt["reason"].ToString() : "";
+
+                SunLibrary.LogHelper.LogError(string.Format("AccountFreeze 参数：[{0}，{1}，{2}，{3}，{4}，{5}，{6}]", 
+                    account, channel, executor, executorip, userName, contact, reason));
+
+                bool exeSign = false;
+                TENCENT.OSS.CFT.KF.KF_Service.Finance_Manage fm = new TENCENT.OSS.CFT.KF.KF_Service.Finance_Manage();
+                fm.myHeader = new TENCENT.OSS.CFT.KF.KF_Service.Finance_Header();
+                fm.myHeader.UserName = executor;
+                fm.myHeader.UserIP = executorip;
+                if (account.Contains("@wx.tenpay.com")) 
+                {
+                    //微信处理流程
+                    exeSign = fm.FreezePerAccountWechat_New(account, executor, channel);
+                }
+                else
+                {
+                    //冻结 1 ui_freeze_user_service
+                    exeSign = fm.freezePerAccount(account, 1, executor, channel);
+                }
+
+                //furion 20050906 要先加入工单，不成功不进行下面的工作。
+                TENCENT.OSS.CFT.KF.KF_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Service.Query_Service();
+                qs.myHeader = new TENCENT.OSS.CFT.KF.KF_Service.Finance_Header();
+                qs.myHeader.UserName = executor;
+                qs.myHeader.UserIP = executorip;
+
+                try
+                {
+                    TENCENT.OSS.CFT.KF.KF_Service.FreezeInfo fi = new TENCENT.OSS.CFT.KF.KF_Service.FreezeInfo();
+                    fi.FFreezeID = account;
+                    fi.FFreezeType = 1;
+                    fi.username = userName;
+                    fi.contact = contact;
+                    fi.FFreezeReason = reason;
+                    fi.FFreezeChannel = channel;
+                    fi.strFreezeEndDate = "";
+
+                    fi.username = TENCENT.OSS.CFT.KF.KF_Service.PublicRes.replaceMStr(fi.username);
+                    fi.contact = TENCENT.OSS.CFT.KF.KF_Service.PublicRes.replaceMStr(fi.contact);
+                    fi.FFreezeReason = TENCENT.OSS.CFT.KF.KF_Service.PublicRes.replaceMStr(fi.FFreezeReason);
+
+                    qs.CreateNewFreeze(fi);
+                }
+                catch (Exception ex)
+                {
+                    SunLibrary.LogHelper.LogError("创建冻结工单时失败:" + ex.ToString());
+                }
+
+                List<BaseInfoC.FreezeThaw> list = new List<BaseInfoC.FreezeThaw>();
+                if (exeSign) //冻结成功
+                {
+                    if (account.IndexOf("@wx.tenpay.com") > 0) //发送微信消息
+                    {
+                        string reqsource = "bus_kf_freeze";
+                        string accid = account.Substring(0, account.IndexOf("@wx.tenpay.com"));
+                        string templateid = "Td2l1120f5TCN9Ap2R3yWLhVS7yy41U379MZudwmiH0";
+                        string cont1 = "你的微信支付账户已成功开启保护模式，账户暂不可用。";
+                        string cont2 = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                        string cont3 = "请点击详情恢复至正常模式";
+                        string msgtype = "freeze";
+                        try
+                        {
+                            //为不影响线上，暂不处理异常
+                            new FreezeService().SendWechatMsg(reqsource, accid, templateid, cont1, cont2, cont3, msgtype);
+                        }
+                        catch (Exception ex)
+                        {
+                            SunLibrary.LogHelper.LogError("发微信冻结消息[new FreezeService().SendWechatMsg]异常：" + ex.ToString());
+                        }
+                    }
+
+                    BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();
+                    freeze.flag = 0;
+                    freeze.info = "冻结成功。";
+                    list.Add(freeze);
+                }
+                else
+                {
+                    //失败
+                    BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();
+                    freeze.flag = 1;
+                    freeze.info = "冻结失败。";
+                    list.Add(freeze);
+                }                
+                APIUtil.Print<BaseInfoC.FreezeThaw>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("AccountFreeze").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("AccountFreeze").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.ToString());
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
