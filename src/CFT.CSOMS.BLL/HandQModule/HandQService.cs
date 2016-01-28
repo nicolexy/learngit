@@ -6,6 +6,7 @@ using System.Text;
 using CFT.CSOMS.DAL.HandQModule;
 using System.Collections;
 using TENCENT.OSS.C2C.Finance.BankLib;
+using TENCENT.OSS.CFT.KF.Common;
 
 namespace CFT.CSOMS.BLL.HandQModule
 {
@@ -264,6 +265,51 @@ namespace CFT.CSOMS.BLL.HandQModule
             }
             return ds;
         }
-
+        public DataTable HandQPayerTrans(string uin, int offset, int limit)
+        {
+            if (string.IsNullOrEmpty(uin))
+            {
+                throw new LogicException("请输入财付通账号！");
+            }
+            DataTable dt = new HandQDAL().HandQPayerTrans(uin, offset, limit);
+            foreach (DataRow dr in dt.Rows)
+            {
+                dr["Ftotal_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_fee"].ToString());
+                string Fstate = dr["Fstate"].ToString();
+                dr["Fstate"] = Fstate == "1" ? "下单" :
+                        Fstate == "2" ? "支付成功" :
+                        Fstate == "3" ? "付款成功" :
+                        Fstate == "4" ? "退款申请中" :
+                        Fstate == "5" ? "已退款" :
+                        Fstate == "6" ? "转入转账" :
+                        Fstate == "7" ? "转入退款" :
+                        Fstate == "12" ? "充值成功" :
+                        "未知:" + Fstate;
+            }
+            return dt;
+        }
+        public DataTable HandQSellerTrans(string uin, int offset, int limit)
+        {
+            if (string.IsNullOrEmpty(uin))
+            {
+                throw new LogicException("请输入财付通账号！");
+            }
+            DataTable dt = new HandQDAL().HandQSellerTrans(uin, offset, limit);
+            foreach (DataRow dr in dt.Rows)
+            {
+                dr["Ftotal_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_fee"].ToString());
+                string Fstate = dr["Fstate"].ToString();
+                dr["Fstate"] = Fstate == "1" ? "下单" :
+                        Fstate == "2" ? "支付成功" :
+                        Fstate == "3" ? "付款成功" :
+                        Fstate == "4" ? "退款申请中" :
+                        Fstate == "5" ? "已退款" :
+                        Fstate == "6" ? "转入转账" :
+                        Fstate == "7" ? "转入退款" :
+                        Fstate == "12" ? "充值成功" :
+                        "未知:" + Fstate;
+            }
+            return dt;
+        }
     }
 }

@@ -316,7 +316,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                     catch (Exception ex)
                     {
                         log4net.ILog tmpLog = log4net.LogManager.GetLogger("查询退款类型");
-                        tmpLog.ErrorFormat("查询退款类型：出错：{0} ", ex.Message);
+                        tmpLog.ErrorFormat("查询退款类型：出错：{0} ", ex);
                     }
 
 
@@ -328,7 +328,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                     catch (Exception ex)
                     {
                         log4net.ILog tmpLog = log4net.LogManager.GetLogger("查询微信转账业务");
-                        tmpLog.ErrorFormat("查询微信转账业务：出错：{0} ", ex.Message);
+                        tmpLog.ErrorFormat("查询微信转账业务：出错：{0} ", ex);
                     }
                     if (wx_dt != null && wx_dt.Rows.Count > 0)
                     {
@@ -459,7 +459,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                     catch (Exception ex)
                     {
                         log4net.ILog tmpLog = log4net.LogManager.GetLogger("调用接口：查询用户转账单记录失败！");
-                        tmpLog.ErrorFormat("查询用户转账单记录失败：出错：{0} ", ex.Message);
+                        tmpLog.ErrorFormat("查询用户转账单记录失败：出错：{0} ", ex);
                     }
 
                     return ds;
@@ -475,7 +475,7 @@ namespace CFT.CSOMS.BLL.TradeModule
             catch (Exception ex)
             {
                 log4net.ILog tmpLog = log4net.LogManager.GetLogger("查询交易记录");
-                tmpLog.ErrorFormat("查询交易记录：出错：{0} ", ex.Message);
+                tmpLog.ErrorFormat("查询交易记录：出错：{0} ", ex);
                 return null;
             }
 
@@ -588,7 +588,7 @@ namespace CFT.CSOMS.BLL.TradeModule
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                throw;
                 //return null;
             }
         }
@@ -781,7 +781,7 @@ namespace CFT.CSOMS.BLL.TradeModule
             }
             catch (Exception ex)
             {
-                log4net.LogManager.GetLogger("查询腾讯收款记录表失败!: " + ex.Message);
+                log4net.LogManager.GetLogger("查询腾讯收款记录表失败!: " + ex);
                 return null;
             }
         }
@@ -898,7 +898,7 @@ namespace CFT.CSOMS.BLL.TradeModule
             }
             catch (Exception ex)
             {
-                log4net.LogManager.GetLogger("查询用户帐户流水失败!: " + ex.Message);
+                log4net.LogManager.GetLogger("查询用户帐户流水失败!: " + ex);
                 return null;
             }
         }
@@ -941,7 +941,7 @@ namespace CFT.CSOMS.BLL.TradeModule
             }
             catch (Exception ex)
             {
-                log4net.LogManager.GetLogger("查询退款单失败: " + ex.Message);
+                log4net.LogManager.GetLogger("查询退款单失败: " + ex);
                 return null;
             }
         }
@@ -1107,7 +1107,7 @@ namespace CFT.CSOMS.BLL.TradeModule
             }
             catch (Exception ex)
             {
-                log4net.LogManager.GetLogger("子帐户资金流水查询失败: " + ex.Message);
+                log4net.LogManager.GetLogger("子帐户资金流水查询失败: " + ex);
                 return null;
             }
         }

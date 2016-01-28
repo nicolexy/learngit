@@ -17,7 +17,7 @@ using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
-    public partial class WechatInfoQuery : System.Web.UI.Page
+    public partial class WechatInfoQuery : PageBase
     {
         public string iFramePath;  //设置iFrame的路径
         public string iFrameHeight;  //设置iFrame(用户交易记录)显示区域的高度
@@ -384,8 +384,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 else
                     this.dgList.Visible = false;
             }
-            catch
-            { }
+            catch(Exception ex)
+            {
+                LogError("WebchatPay.WechatInfoQuery", "private void BindData(int istr, int imax).GetUserClassDeleteList", ex);
+            }
 
             try
             {
@@ -394,8 +396,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
                 labUserClassInfo.Text = msg;
             }
-            catch
-            { }
+            catch (Exception ex)
+            {
+                LogError("WebchatPay.WechatInfoQuery", "private void BindData(int istr, int imax).GetUserClassInfo()", ex);
+            }
 
         }
 
@@ -590,8 +594,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 else
                     this.dgList.Visible = false;
             }
-            catch
-            { }
+            catch(Exception ex)
+            {
+                LogError("WebchatPay.WechatInfoQuery", "private void BindDataCancel(int istr, int imax).GetUserClassDeleteList()", ex);
+            }
 
             try
             {
@@ -600,8 +606,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
                 labUserClassInfo.Text = msg;
             }
-            catch
-            { }
+            catch (Exception ex)
+            {
+                LogError("WebchatPay.WechatInfoQuery", "private void BindDataCancel(int istr, int imax).GetUserClassInfo()", ex);
+            }
 
         }
 
@@ -818,6 +826,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
             catch (SoapException er) //捕获soap类
             {
+                LogError("WebchatPay.WechatInfoQuery", " private void clickEvent().SoapException:", er);
                 this.LKBT_TradeLog.Visible = false;
                 this.LKBT_TradeLog_Sale.Visible = false;
                 this.LKBT_TradeLog_Unfinished.Visible = false;
@@ -834,6 +843,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
             catch (Exception eSys)
             {
+                LogError("WebchatPay.WechatInfoQuery", " private void clickEvent().Exception:", eSys);
                 WebUtils.ShowMessage(this.Page, "查询错误：" + eSys.Message.ToString());
             }
         }
@@ -1113,6 +1123,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
             catch (Exception err)
             {
+                LogError("WebchatPay.WechatInfoQuery", "protected void btnDelClass_Click(object sender, System.EventArgs e).删除认证异常：", err);
                 WebUtils.ShowMessage(this.Page, "调用Service失败！" + classLibrary.setConfig.replaceMStr(err.Message));
             }
         }
@@ -1149,6 +1160,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
             catch (Exception ex)
             {
+                LogError("WebchatPay.WechatInfoQuery", "protected void CKV_Btn_synchro_Click(object sender, EventArgs e).同步异常：", ex);
                 WebUtils.ShowMessage(this.Page, "同步:" + classLibrary.setConfig.replaceMStr(ex.Message));
             }
   

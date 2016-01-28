@@ -25,7 +25,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// CFTUserCheck 的摘要说明。
 	/// </summary>
-	public partial class CFTUserCheck : System.Web.UI.Page
+	public partial class CFTUserCheck : PageBase
 	{
 
         public string uid;
@@ -539,7 +539,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					}
 				}
 				catch(Exception err)
-				{
+                {
+                    LogError("BaseAccount.CFTUserCheck", "private void BindInfoFIDDBTB(string fid,string db,string tb)，读取数据有误：", err);
                     labFQQid.Text = "读取数据有误：" + PublicRes.GetErrorMsg(err.Message) + ", stacktrace" + err.StackTrace;
 					btOK.Visible = false;
 					btSetRealName.Visible = false;
@@ -645,7 +646,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					}
 				}
 				catch(Exception err)
-				{
+                {
+                    LogError("BaseAccount.CFTUserCheck", "private void BindInfoFListID(int flist_id)，读取数据有误：", err);
                     labFQQid.Text = "读取数据有误：" + PublicRes.GetErrorMsg(err.Message) + Msg + ", stacktrace" + err.StackTrace;
 					btOK.Visible = false;
 					btSetRealName.Visible = false;
@@ -730,7 +732,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				
 			}
 			catch(Exception err)
-			{
+            {
+                LogError("BaseAccount.CFTUserCheck", "protected void btOK_Click(object sender, System.EventArgs e)，通过失败：", err);
                 WebUtils.ShowMessage(this.Page, "通过失败:" + PublicRes.GetErrorMsg(err.Message + msg) + ", stacktrace" + err.StackTrace);
 			}
 			finally
@@ -826,7 +829,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				
 			}
 			catch(Exception err)
-			{
+            {
+                LogError("BaseAccount.CFTUserCheck", "protected void btSetRealName_Click(object sender, System.EventArgs e)，通过失败：", err);
                 WebUtils.ShowMessage(this.Page, "通过失败:" + PublicRes.GetErrorMsg(err.Message + msg) + ", stacktrace" + err.StackTrace);
 			}
 		}
@@ -956,7 +960,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				}
 			}
 			catch(Exception err)
-			{
+            {
+                LogError("BaseAccount.CFTUserCheck", "protected void btCancel_Click(object sender, System.EventArgs e)，通过失败：", err);
                 WebUtils.ShowMessage(this.Page, "拒绝失败:" + PublicRes.GetErrorMsg(err.Message + msg) + ", stacktrace" + err.StackTrace);
 			}
 			finally
@@ -1032,7 +1037,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				
 			}
 			catch(Exception err)
-			{
+            {
+                LogError("BaseAccount.CFTUserCheck", "protected void btnDel_Click(object sender, System.EventArgs e)，拒绝失败：", err);
                 WebUtils.ShowMessage(this.Page, "拒绝失败:" + PublicRes.GetErrorMsg(err.Message + msg) + ", stacktrace" + err.StackTrace);
 			}
 			finally

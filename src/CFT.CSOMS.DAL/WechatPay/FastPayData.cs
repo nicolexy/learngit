@@ -7,6 +7,7 @@ using System.Configuration;
 using CFT.CSOMS.DAL.Infrastructure;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using System.Collections;
+using CFT.Apollo.Logging;
 
 namespace CFT.CSOMS.DAL.WechatPay
 {
@@ -326,6 +327,7 @@ namespace CFT.CSOMS.DAL.WechatPay
             }
             catch (Exception ex)
             {
+                LogHelper.LogError("CFT.CSOMS.DAL.WechatPay.FastPayData  public DataSet CoinWalletsPaymentQuery(string prime_trans_id)零钱包收付款记录查询处理：" + ex.ToString());
                 throw new Exception("零钱包收付款记录查询处理失败！" + msg);
             }
         }

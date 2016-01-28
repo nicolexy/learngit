@@ -350,8 +350,8 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             catch (Exception ex)
             {
-                string err = "添加提现拦截记录出错：" + ex.Message;
-                LogHelper.LogInfo(err);
+                string err = "添加提现拦截记录出错：" + ex;
+                LogHelper.LogError(err);
                 throw new Exception(err);
             }
         }

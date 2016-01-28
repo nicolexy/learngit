@@ -28,7 +28,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 	/// <summary>
 	/// SysBulletinManage_Detail 的摘要说明。
 	/// </summary>
-    public partial class BankInterfaceManage_Detail : System.Web.UI.Page
+    public partial class BankInterfaceManage_Detail : PageBase
 	{
         private string sysid, bulletinId, uctype;
         private static int nTime=0;//添加时间段
@@ -161,6 +161,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             }
             catch (Exception ex)
             {
+                LogError("SysManage.BankInterfaceManage_Detail", "protected void Page_Load(object sender, System.EventArgs e)异常:", ex);
                 WebUtils.ShowMessage(this.Page,PublicRes.GetErrorMsg(ex.Message));
                 return;
             }
@@ -216,11 +217,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
+                LogError("SysManage.BankInterfaceManage_Detail", "protected void BindBankInterface(string bulletinId, string objid)SoapException异常:", eSoap);
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
                 WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
             }
             catch (Exception eSys)
             {
+                LogError("SysManage.BankInterfaceManage_Detail", "protected void BindBankInterface(string bulletinId, string objid)读取数据异常:", eSys);
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
         }
@@ -430,6 +433,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             }
             catch (Exception err) //捕获soap类异常
             {
+                LogError("SysManage.BankInterfaceManage_Detail", "protected void OperateBankInterFace(bool isAdd)银行接口维护异常:", err);
                 string errStr = PublicRes.GetErrorMsg(err.Message.ToString());
                 WebUtils.ShowMessage(this.Page, "银行接口维护异常：" + errStr);
             }

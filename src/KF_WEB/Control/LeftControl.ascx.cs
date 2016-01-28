@@ -352,6 +352,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 //手Q支付
                 HandQBusiness.AddSubMenu("手Q红包查询", "HandQBusiness/FindHandQRedPacket.aspx");
                 HandQBusiness.AddSubMenu("手Q还款查询", "HandQBusiness/RefundHandQQuery.aspx");
+                HandQBusiness.AddSubMenu("手Q转账查询", "HandQBusiness/HandQTransQuery.aspx");
 
                 //HK钱包支付
                 HKWalletPay.AddSubMenu("帐号查询", "ForeignCurrencyPay/FCXGAccountQuery.aspx");

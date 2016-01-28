@@ -7,6 +7,9 @@ using System.Web;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web
 {
+    /// <summary>
+    /// 用户操作页面基类
+    /// </summary>
     public class PageBase : System.Web.UI.Page
     {
         protected override void OnInit(EventArgs e)

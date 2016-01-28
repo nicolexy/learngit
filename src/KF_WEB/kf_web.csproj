@@ -1413,6 +1413,13 @@
     <Compile Include="HandQBusiness\FindHandQRedPacket.aspx.designer.cs">
       <DependentUpon>FindHandQRedPacket.aspx</DependentUpon>
     </Compile>
+    <Compile Include="HandQBusiness\HandQTransQuery.aspx.cs">
+      <DependentUpon>HandQTransQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HandQBusiness\HandQTransQuery.aspx.designer.cs">
+      <DependentUpon>HandQTransQuery.aspx</DependentUpon>
+    </Compile>
     <Compile Include="HandQBusiness\RefundHandQQuery.aspx.cs">
       <DependentUpon>RefundHandQQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3278,6 +3285,7 @@
       <SubType>Component</SubType>
     </Content>
     <Content Include="HandQBusiness\FindHandQRedPacket.aspx" />
+    <Content Include="HandQBusiness\HandQTransQuery.aspx" />
     <Content Include="HandQBusiness\RefundHandQQuery.aspx" />
     <Content Include="Images\Page\4.gif" />
     <Content Include="Images\Page\back.gif" />
