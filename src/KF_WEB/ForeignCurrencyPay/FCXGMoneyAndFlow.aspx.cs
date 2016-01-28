@@ -108,6 +108,52 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             }
         }
 
+        private string GetOpenID()
+        {
+            //wechatid：andyyao  
+            //openid：o5PXlsoBBGCtF9HR-vhcbhQV1Pmw
+            //微信账户：o5PXlsoBBGCtF9HR-vhcbhQV1Pmw@wx.hkg
+            //内部id:600001137
+
+            string openID = string.Empty;
+            var input = txt_input.Text.Trim();
+            var queryuid = input;
+
+                string ip = this.Page.Request.UserHostAddress.ToString();
+                if (ip == "::1")
+                    ip = "127.0.0.1";
+            try
+            {
+                    var uin = input;
+                    if (checkWeChatId.Checked)
+                    {
+                        openID = WeChatHelper.GetFCXGOpenIdFromWeChatName(input, ip);
+                        return openID;
+                    }
+
+                    if (!checkUId.Checked)//如果不是uid
+                    {
+                        queryuid = bll.QueryUserId(uin);
+                    }
+
+                var dt_user = bll.QueryUserInfo(queryuid, ip);
+
+                if (dt_user != null && dt_user.Columns.Count > 0 && dt_user.Columns.Contains("uin"))
+                {
+                   var tmpopenID = dt_user.Rows[0]["uin"] as string;
+                   if (!string.IsNullOrEmpty(tmpopenID))
+                    {
+                        openID = tmpopenID.Substring(0, tmpopenID.IndexOf("@wx.hkg"));
+                    }
+                }
+            }
+            catch (Exception ex) {
+                LogError("ForeignCurrencyPay.FCXGMoneyAndFlow", " private string GetOpenID()", ex);
+            }
+
+            return openID;
+        }
+
         //按钮处理程序选择
         protected void SwitchHandler(object sender, EventArgs e)
         {
@@ -152,8 +198,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                         case "btn_refund": RefundHandler(query_uid, skip, pager.PageSize); break;
                         case "btn_BankrollList": BankrollListHandler(query_uid,skip, pager.PageSize); break;
                         case "btn_Fetch": FetchHandler(query_uid, skip, pager.PageSize); ; break;
-                        case "btn_getPackage": GetPackageList(query_uid, skip, pager.PageSize); ; break;
-                        case "btn_SendPackage": SendPackageList(query_uid, skip, pager.PageSize); ; break;
+                        case "btn_getPackage": GetPackageList(GetOpenID(), skip, pager.PageSize); ; break;
+                        case "btn_SendPackage": SendPackageList(GetOpenID(), skip, pager.PageSize); ; break;
 
                             
                         default: WebUtils.ShowMessage(this.Page, "查询出错:" + type + "不存在"); break;
@@ -175,10 +221,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
        /// <param name="query_uid"></param>
        /// <param name="skip"></param>
        /// <param name="p"></param>
-        private void GetPackageList(string query_uid, int skip, int p)
+        private void GetPackageList(string query_openid, int skip, int p)
         {
             var bll = new FCXGWallet();
-            var packageData = bll.QueryReceivePackageList(query_uid, ViewState["stime"].ToString(), ViewState["etime"].ToString(), skip, p, ViewState["client_ip"].ToString());
+            var packageData = bll.QueryReceivePackageList(query_openid, ViewState["stime"].ToString(), ViewState["etime"].ToString(), skip, p, ViewState["client_ip"].ToString());
             if (packageData == null || packageData.Count < 1)
             {
                 WebUtils.ShowMessage(this.Page, "未找到记录");
@@ -193,10 +239,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
         /// <param name="query_uid"></param>
         /// <param name="skip"></param>
         /// <param name="p"></param>
-        private void SendPackageList(string query_uid, int skip, int p)
+        private void SendPackageList(string query_openid, int skip, int p)
         {
             var bll = new FCXGWallet();
-            var packageData = bll.QuerySendPackageList(query_uid, ViewState["stime"].ToString(), ViewState["etime"].ToString(), skip, p, ViewState["client_ip"].ToString());
+            var packageData = bll.QuerySendPackageList(query_openid, ViewState["stime"].ToString(), ViewState["etime"].ToString(), skip, p, ViewState["client_ip"].ToString());
             if (packageData == null || packageData.Count < 1)
             {
                 WebUtils.ShowMessage(this.Page, "未找到记录");
