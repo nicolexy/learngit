@@ -70,7 +70,7 @@
 							<HeaderStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#4A3C8C"></HeaderStyle>
 							<Columns>
                                 <asp:BoundColumn DataField="Fopenid" HeaderText="账号id"></asp:BoundColumn>
-								<asp:BoundColumn DataField="uin" HeaderText="微信财付通帐号"></asp:BoundColumn>
+								<%--<asp:BoundColumn DataField="uin" HeaderText="微信财付通帐号"></asp:BoundColumn>--%>
 								<asp:BoundColumn DataField="Fcard_name" HeaderText="姓名"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="Fbank_name" HeaderText="开户名称"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="Fnum_str" HeaderText="还款金额"></asp:BoundColumn>
@@ -97,8 +97,8 @@
 					<TD bgColor="#eeeeee" colSpan="4" height="18"><SPAN>&nbsp;微信信用卡还款详情：</SPAN></TD>
 				</TR>
                 <TR>
-					<TD style="WIDTH: 125px; HEIGHT: 20px" bgColor="#eeeeee" height="20"><FONT face="宋体">&nbsp;微信财付通帐号:</FONT></TD>
-					<TD style="WIDTH: 136px; HEIGHT: 20px" bgColor="#ffffff" height="19"><FONT face="宋体">&nbsp;<asp:label id="lb_uin" runat="server"></asp:label></FONT></TD>
+					<TD style="WIDTH: 125px; HEIGHT: 20px" bgColor="#eeeeee" height="20"><FONT face="宋体">&nbsp;收单订单号:</FONT></TD>
+					<TD style="WIDTH: 136px; HEIGHT: 20px" bgColor="#ffffff" height="19"><FONT face="宋体">&nbsp;<asp:label id="lb_trade_id" runat="server"></asp:label></FONT></TD>
 					<TD style="WIDTH: 185px; HEIGHT: 20px" bgColor="#eeeeee" height="20"><FONT face="宋体">&nbsp;还款支付单号:</FONT></TD>
 					<TD style="WIDTH: 136px; HEIGHT: 20px" bgColor="#ffffff" height="20"><FONT face="宋体">&nbsp;<asp:label id="lb_wx_trans_id" runat="server"></asp:label></FONT></TD>
 				</TR>
@@ -137,12 +137,6 @@
 					<TD style="WIDTH: 136px; HEIGHT: 20px" bgColor="#ffffff" height="19"><FONT face="宋体">&nbsp;<asp:label id="lb_c11" runat="server"></asp:label></FONT></TD>
 					<TD style="WIDTH: 185px; HEIGHT: 20px" bgColor="#eeeeee" height="20"><FONT face="宋体">&nbsp;代金券金额:</FONT></TD>
 					<TD style="WIDTH: 136px; HEIGHT: 20px" bgColor="#ffffff" height="20"><FONT face="宋体">&nbsp;<asp:label id="lb_Fstandby2" runat="server"></asp:label></FONT></TD>
-				</TR>
-                <TR>
-					<TD style="WIDTH: 125px; HEIGHT: 20px" bgColor="#eeeeee" height="20"><FONT face="宋体">&nbsp;收单订单号:</FONT></TD>
-					<TD style="WIDTH: 136px; HEIGHT: 20px" bgColor="#ffffff" height="19"><FONT face="宋体">&nbsp;<asp:label id="lb_trade_id" runat="server"></asp:label></FONT></TD>
-					<TD style="WIDTH: 185px; HEIGHT: 20px" bgColor="#eeeeee" height="20"><FONT face="宋体">&nbsp;</FONT></TD>
-					<TD style="WIDTH: 136px; HEIGHT: 20px" bgColor="#ffffff" height="20"><FONT face="宋体">&nbsp;<asp:label id="Label3" runat="server"></asp:label></FONT></TD>
 				</TR>
             </TABLE>
 		</form>
