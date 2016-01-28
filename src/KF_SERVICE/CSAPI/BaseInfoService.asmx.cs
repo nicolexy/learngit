@@ -16,6 +16,7 @@ using System.Data;
 using CFT.CSOMS.BLL.TransferMeaning;
 using CFT.CSOMS.BLL.RefundModule;
 using System.Threading;
+using CFT.Apollo.Logging;
 
 namespace CFT.CSOMS.Service.CSAPI
 {
@@ -2093,6 +2094,266 @@ namespace CFT.CSOMS.Service.CSAPI
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
+
+        
+
+
+
+        /// <summary>
+        /// 解冻
+        /// </summary>
+        [WebMethod]
+        public void UnFreezeAccount()
+        {
+            try{
+
+                
+            
+                
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                 //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "account", "channel", "executor", "executorip", "username", "contact", "reason", "appid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string account = paramsHt.ContainsKey("account") ? paramsHt["account"].ToString() : "";
+                string channel  =paramsHt.ContainsKey("channel") ? paramsHt["channel"].ToString() : "";
+                string executor = paramsHt.ContainsKey("executor") ? paramsHt["executor"].ToString() : "";
+                string executorip =paramsHt.ContainsKey("executorip") ? paramsHt["executorip"].ToString() : "";
+                string userName = paramsHt.ContainsKey("username") ? paramsHt["username"].ToString() : "";
+                string contact = paramsHt.ContainsKey("contact") ? paramsHt["contact"].ToString() : "";
+                string reason =paramsHt.ContainsKey("reason") ? paramsHt["reason"].ToString() : "";
+                string appid =paramsHt.ContainsKey("appid") ? paramsHt["appid"].ToString() : "";
+                string token =paramsHt.ContainsKey("token") ? paramsHt["token"].ToString() : "";
+
+                bool exeSign = false;
+				TENCENT.OSS.CFT.KF.KF_Service.Finance_Manage fm = new TENCENT.OSS.CFT.KF.KF_Service.Finance_Manage();
+				  TENCENT.OSS.CFT.KF.KF_Service.Finance_Header fhq = new  TENCENT.OSS.CFT.KF.KF_Service.Finance_Header();
+                    //fh.SrcUrl = page.Page.Request.Url.ToString();
+                    //fh.SessionID = page.Page.Session.SessionID;
+                    fhq.UserIP =executorip;
+                    fhq.UserName = userName;
+                    //fh.SzKey = page.Page.Session["SzKey"].ToString();
+                    //fh.OperID = Int32.Parse(page.Page.Session["OperID"].ToString());
+                    //fh.RightString = page.Page.Session["SzKey"].ToString();
+                    fhq.UserPassword = "";
+                fm.myHeader = fhq;
+
+            string val;
+            string des;
+            bool iswechat = false;
+            if (account.Contains("@wx.tenpay.com"))
+            {
+                iswechat = true;
+            }
+
+                string freezeChannel=string.Empty;
+                string tuserName=string.Empty;
+                string fid=string.Empty;
+              //FFreezeType: 1为冻结帐户，2为锁定工单
+                
+				//读取出原来提交的用户姓名和联系方式和帐户号码。
+				TENCENT.OSS.CFT.KF.KF_Service.Query_Service fmquery = new TENCENT.OSS.CFT.KF.KF_Service.Query_Service();
+                fmquery.myHeader = fhq;
+
+					TENCENT.OSS.CFT.KF.KF_Service.FreezeInfo fi = fmquery.GetExistFreeze(account,1);
+                    if (fi != null)
+                    { //如果没有冻结记录的，也能解冻
+                        //ddlFreezeChannel.Text = (fi.FFreezeChannel == "" || fi.FFreezeChannel == null) ? "<无解冻渠道>" : fi.FFreezeChannel;
+                        if (fi.FFreezeChannel != null && fi.FFreezeChannel != "" && fi.FFreezeChannel != "0")
+                        {
+                            freezeChannel = fi.FFreezeChannel;
+                        }
+                        fid=fi.fid;
+                        tuserName = (string.IsNullOrEmpty(fi.username)) ? "" : fi.username;
+                    }
+
+            if (channel != "" && channel != "0")
+                    {
+                        //如果为空,不需要进行权限判断;不为空,则需要进行权限判断.
+                        if (channel == "1" || channel == "6")
+                        {
+                            //风控渠道
+                            val = "UnFreezeChannelFK";
+                            des = "风控冻结";
+                        }
+                        else if (channel == "2")
+                        {
+                            //拍拍
+                            val = "UnFreezeChannelPP";
+                            des = "拍拍冻结";
+                        }
+                        else if (channel == "3")
+                        {
+                            //用户
+                            val = "UnFreezeChannelYH";
+                            des = "用户冻结";
+                        }
+                        else if (channel == "4")
+                        {
+                            //商户
+                            val = "UnFreezeChannelSH";
+                            des = "商户冻结";
+                        }
+                        else if (channel == "5")
+                        {
+                            //BG
+                            val = "UnFreezeChannelBG";
+                            des = "BG接口冻结";
+                        }
+                    }
+                    else 
+                    {
+                        val = "UnFreezeChannelFK";
+                        des = "风控冻结";
+                    }
+            TENCENT.OSS.CFT.KF.KF_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Service.Query_Service();
+            qs.myHeader = fhq;
+
+
+            //先判断余额，如果超过，发起审批，原来的处理放在审批完成环节。
+            long UNFreeze_BigMoney = long.Parse(System.Configuration.ConfigurationManager.AppSettings["UNFreeze_BigMoney"]);
+            string Msg = "";
+            long userbalance = 0;
+            if (!iswechat)
+            {
+                userbalance = qs.GetUserBalance(account, 1, out Msg);
+            }
+            if (userbalance >= UNFreeze_BigMoney)
+            {
+                //发起审批后结束。
+                TENCENT.OSS.CFT.KF.KF_Service.Check_Service cs = new TENCENT.OSS.CFT.KF.KF_Service.Check_Service();
+                TENCENT.OSS.CFT.KF.KF_Service.Finance_Header fhc = fhq;
+                cs.myHeader = fhc;
+
+                TENCENT.OSS.C2C.Finance.BankLib.Param[] myparam = new TENCENT.OSS.C2C.Finance.BankLib.Param[8];
+
+                myparam[0] = new  TENCENT.OSS.C2C.Finance.BankLib.Param();
+                myparam[0].ParamName = "uid";
+                myparam[0].ParamValue = account;
+
+                myparam[1] = new TENCENT.OSS.C2C.Finance.BankLib.Param();
+                myparam[1].ParamName = "mediflag";
+                myparam[1].ParamValue = "false";
+
+                myparam[2] = new TENCENT.OSS.C2C.Finance.BankLib.Param();
+                myparam[2].ParamName = "username";
+                myparam[2].ParamValue = fhc.UserName;
+
+                myparam[3] = new TENCENT.OSS.C2C.Finance.BankLib.Param();
+                myparam[3].ParamName = "userip";
+                myparam[3].ParamValue = fhc.UserIP;
+
+                myparam[4] = new TENCENT.OSS.C2C.Finance.BankLib.Param();
+                myparam[4].ParamName = "type";
+                myparam[4].ParamValue = "2";
+
+                myparam[5] = new TENCENT.OSS.C2C.Finance.BankLib.Param();
+                myparam[5].ParamName = "handleresult";
+                myparam[5].ParamValue = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.replaceSqlStr(reason);
+
+
+                myparam[6] = new TENCENT.OSS.C2C.Finance.BankLib.Param();
+                myparam[6].ParamName = "fid";
+                myparam[6].ParamValue = fid;
+
+                string returnUrl = "/BaseAccount/FreezeDetail.aspx?fid=" + fid.ToString();
+                myparam[7] = new TENCENT.OSS.C2C.Finance.BankLib.Param();
+                myparam[7].ParamName = "returnUrl";
+                myparam[7].ParamValue = returnUrl;
+
+                string fmemo = "解冻大金额用户：" + account + "，金额为：" + TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(userbalance);
+
+                string mainId = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                cs.StartCheck(mainId, "UNFreezeCheck", fmemo, TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(userbalance.ToString()), myparam);
+
+
+                Record record = new Record();
+                record.RetValue = "解冻账户余额较大，发起审批成功！";
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+              return;
+            }
+
+                  string uname =tuserName;
+                      
+
+                        bool refreeze = false;
+
+                        if (iswechat)
+                        {
+                            //微信处理流程
+                            refreeze = fm.UnFreezePerAccountWechat_New(account, uname);
+                        }
+                        else
+                        {
+                            //解冻 2 ui_unfreeze_user_service
+                            refreeze = fm.freezePerAccount(account, 2, uname, "");
+                        }
+
+                        if (refreeze)
+                        {
+                            //解冻成功，发送微信消息
+                            //发微信解冻消息
+                            if (account.IndexOf("@wx.tenpay.com") > 0)
+                            {
+                                string reqsource = "bus_kf_unfreeze";//客服解冻
+                                string accid = account.Substring(0, account.IndexOf("@wx.tenpay.com"));
+                                string templateid = "DeNkYEfSBW7mVQET6QHwnilGWvG8cLssLSyRH0CSDk0";
+                                string cont1 = "你的微信支付账户已排除了安全风险并由保护模式切换至正常模式。";
+                                string cont2 = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                                string cont3 = "请点击详情查看微信支付安全保障介绍";
+                                string msgtype = "unfreeze";
+                                try
+                                {
+                                    new CFT.CSOMS.BLL.FreezeModule.FreezeService().SendWechatMsg(reqsource, accid, templateid, cont1, cont2, cont3, msgtype);
+                                }
+                                catch (Exception ef)
+                                {
+                                    LogHelper.LogError("发微信解冻消息[new FreezeService().SendWechatMsg]异常：" + ef.ToString());
+                                }
+                            }
+                        }
+                    
+
+
+					if(!string.IsNullOrEmpty(fid))  //如果不是数据异常,为空说明是QQ简化注册的,不用走这
+					{
+						try
+						{
+							TENCENT.OSS.CFT.KF.KF_Service.FreezeInfo finfo = new TENCENT.OSS.CFT.KF.KF_Service.FreezeInfo();
+							fi.fid = fid;
+							fi.FHandleResult = reason;
+							fi.FFreezeType = 1;
+                            fi.FHandleResult = TENCENT.OSS.CFT.KF.KF_Service.PublicRes.replaceMStr(finfo.FHandleResult);
+							qs.UpdateFreezeInfo(fi);
+						}
+						catch(Exception ex)
+                        {
+                            LogHelper.LogError(("ENCENT.OSS.CFT.KF.KF_Web.BaseAccount.freezeBankAcc"+" "+ "protected void BT_F_Or_Not_Click(object sender, System.EventArgs e),处理冻结工单时失败:"+ ex);
+						}
+                    }
+
+                Record record = new Record();
+                record.RetValue = infos.Tables[0].Rows[0]["res_info"].ToString();
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetFreezeListDetail").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetFreezeListDetail").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+
 
         #endregion
 
