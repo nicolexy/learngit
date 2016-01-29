@@ -261,7 +261,15 @@
                             </asp:TemplateColumn>
                            <asp:BoundColumn HeaderText="创建时间" DataField="create_time" />
                            <asp:BoundColumn HeaderText="支付时间" DataField="pay_time" />
-                           <asp:BoundColumn HeaderText="支付状态"  HeaderStyle-Width="60" DataField="pay_state" />
+                          
+						    <asp:TemplateColumn HeaderText="支付状态">
+							    <HeaderStyle Wrap="False"></HeaderStyle>
+							    <ItemStyle Wrap="False"></ItemStyle>
+							    <ItemTemplate>
+								    <asp:Label runat="server" Text='<%# GetPayState(DataBinder.Eval(Container, "DataItem.pay_state")) %>' ID="Labelpay_pay_state" NAME="Labelpay_pay_state">
+								    </asp:Label>
+							    </ItemTemplate>
+						    </asp:TemplateColumn>
 
 						    <asp:TemplateColumn HeaderText="支付方式">
 							    <HeaderStyle Wrap="False"></HeaderStyle>

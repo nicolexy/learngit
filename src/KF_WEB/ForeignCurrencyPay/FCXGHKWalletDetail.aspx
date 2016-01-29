@@ -228,7 +228,16 @@
 						        </asp:TemplateColumn>
 								<asp:BoundColumn DataField="recv_time" HeaderText="领取时间"></asp:BoundColumn>
 								<asp:BoundColumn DataField="account_time" HeaderText="入账时间"></asp:BoundColumn>
-								<asp:BoundColumn DataField="memo" HeaderText="备注"></asp:BoundColumn>
+                                
+                               <asp:TemplateColumn HeaderText="备注">
+							        <HeaderStyle Wrap="False"></HeaderStyle>
+							        <ItemStyle Wrap="False"></ItemStyle>
+							        <ItemTemplate>
+								        <asp:Label runat="server" Text='<%# GetMemo(DataBinder.Eval(Container, "DataItem.memo")) %>' ID="Label131" NAME="Label131">
+								        </asp:Label>
+							        </ItemTemplate>
+						        </asp:TemplateColumn>
+
 							</Columns>
 							<PagerStyle HorizontalAlign="Left" ForeColor="#000066" BackColor="White" Mode="NumericPages"></PagerStyle>
 						</asp:datagrid></TD>
