@@ -2325,9 +2325,8 @@ namespace CFT.CSOMS.Service.CSAPI
                     {
                         TENCENT.OSS.CFT.KF.KF_Service.FreezeInfo finfo = new TENCENT.OSS.CFT.KF.KF_Service.FreezeInfo();
                         fi.fid = fid;
-                        fi.FHandleResult = reason;
+                        fi.FHandleResult = TENCENT.OSS.CFT.KF.KF_Service.PublicRes.replaceMStr(reason);
                         fi.FFreezeType = 1;
-                        fi.FHandleResult = TENCENT.OSS.CFT.KF.KF_Service.PublicRes.replaceMStr(finfo.FHandleResult);
                         qs.UpdateFreezeInfo(fi);
                     }
                     catch (Exception ex)
