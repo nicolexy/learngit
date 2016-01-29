@@ -26,6 +26,10 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
         /// 香港红包Relay 新接口请求端口
         /// </summary>
         int Port_RedPacket = Apollo.Common.Configuration.AppSettings.Get<int>("FCXGWallet_Port_ForRedPacket", 22000);
+        /// <summary>
+        /// 香港红包Relay 编码格式
+        /// </summary>
+        string RedPacket_Encode = Apollo.Common.Configuration.AppSettings.Get<string>("FCXGWallet_RedPacket_Encode", "gb2312");
 
 
         #region 一、外币帐号查询
@@ -425,11 +429,11 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
                     "&offset=" + offset.ToString() +
                     "&limit=" + limit.ToString();
 
-                var result = RelayAccessFactory.RelayInvoke(req, "101788", true, false, IP_RedPacket,Port_RedPacket, "gb2312");
+                var result = RelayAccessFactory.RelayInvoke(req, "101788", true, false, IP_RedPacket, Port_RedPacket, RedPacket_Encode);
 
                 var retDataList = new List<HKWalletReceivePackageModel>();
 
-                var resultJson = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.GetRelayParams(result, "gb2312", "res_info");
+                var resultJson = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.GetRelayParams(result, RedPacket_Encode, "res_info");
 
                 var resultModel = Newtonsoft.Json.JsonConvert.DeserializeObject<HKWalletrecvModel<HKWalletReceivePackageModel>>(resultJson);
                 if (resultModel != null && resultModel.ret_num> 0)
@@ -460,11 +464,11 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
                     "&offset=" + offset.ToString() +
                     "&limit=" + limit.ToString();
 
-                var result = RelayAccessFactory.RelayInvoke(req, "101787", true, false, IP_RedPacket, Port_RedPacket, "gb2312");
+                var result = RelayAccessFactory.RelayInvoke(req, "101787", true, false, IP_RedPacket, Port_RedPacket, RedPacket_Encode);
 
                 var retDataList = new List<HKWalletSendPackageModel>();
 
-                var resultJson = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.GetRelayParams(result, "gb2312", "res_info");
+                var resultJson = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.GetRelayParams(result, RedPacket_Encode, "res_info");
 
                 var resultModel = Newtonsoft.Json.JsonConvert.DeserializeObject<HKWalletSendModel<HKWalletSendPackageModel>>(resultJson);
                 if (resultModel != null && resultModel.ret_num > 0)
@@ -500,11 +504,11 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
                     req += "&qry_time=" + qry_time;
                 }
 
-                var result = RelayAccessFactory.RelayInvoke(req, "101786", true, false, IP_RedPacket, Port_RedPacket, "gb2312");
+                var result = RelayAccessFactory.RelayInvoke(req, "101786", true, false, IP_RedPacket, Port_RedPacket, RedPacket_Encode);
                 
                 var retDataList = new HKWalletDetailItem();
 
-                var resultJson = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.GetRelayParams(result, "gb2312", "res_info");
+                var resultJson = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.GetRelayParams(result, RedPacket_Encode, "res_info");
                 retDataList = Newtonsoft.Json.JsonConvert.DeserializeObject<HKWalletDetailItem>(resultJson);
 
                 return retDataList;
