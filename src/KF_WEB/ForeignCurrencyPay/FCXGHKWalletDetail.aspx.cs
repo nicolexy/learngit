@@ -89,7 +89,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                 this.lb_hb_type.Text = hbtypeStr;
                 this.lb_send_listid.Text = hborder.send_listid;
                 this.lb_create_time.Text = hborder.create_time;
-                this.lb_pay_state.Text = hborder.pay_state;
+
+                string paystate = string.Empty;
+                //hattiyzhang(张菲) 01-29 16:10:51
+                //1 等待付款
+                //2 已付款
+                if (!string.IsNullOrEmpty(hborder.pay_state)) {
+                    if (hborder.pay_state == "1") {
+                        paystate = "等待付款";
+                    }
+                    else if (hborder.pay_state == "2")
+                    {
+                        paystate = "已付款";
+                    }
+                }
+                this.lb_pay_state.Text = paystate;
                 this.lb_card_type.Text = hborder.card_type;
                 this.lb_total_amount.Text = MoneyTransfer.FenToYuan(hborder.total_amount) ;
                 this.lb_total_num.Text = hborder.total_num;
@@ -139,6 +153,36 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                 string Value = Convert.ToString(o);
                 if (string.IsNullOrEmpty(Value)) return string.Empty;
                 return Value;
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// 获取备注信息
+        /// </summary>
+        /// <param name="objval"></param>
+        /// <returns></returns>
+        public string GetMemo(object objval)
+        {
+            ///备注那块：
+            //2，表示最佳手气
+            //1，表示不是最佳手所
+            //文档上写着，只有2，最佳手气时才显示
+            string memo = string.Empty;
+            try
+            {
+                if (objval != null)
+                {
+                    var strv = objval.ToString();
+                    if (strv == "2")
+                    {
+                        memo = "最佳手气";
+                    }
+                }
+                return memo;
             }
             catch
             {

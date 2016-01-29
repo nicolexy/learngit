@@ -348,6 +348,37 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                 return retTypeValue;
         }
 
+        public string GetPayState(object objval)
+        {
+            string paystate = string.Empty;
+            //hattiyzhang(张菲) 01-29 16:10:51
+            //1 等待付款
+            //2 已付款
+            try
+            {
+                if (objval != null)
+                {
+                    var strv = objval.ToString();
+                    if (!string.IsNullOrEmpty(strv))
+                    {
+                        if (strv == "1")
+                        {
+                            paystate = "等待付款";
+                        }
+                        else if (strv == "2")
+                        {
+                            paystate = "已付款";
+                        }
+                    }
+                }
+                return paystate;
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
+
         /// <summary>
         /// 将日期转为年月日格式
         /// </summary>
