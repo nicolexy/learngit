@@ -17,7 +17,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
         {
             if (!IsPostBack)
             {
-                pager.PageSize = 20;
+                pager.PageSize = 10;
                 pager.RecordCount = 10000;
             }
         }

@@ -131,7 +131,7 @@ namespace CFT.CSOMS.DAL.HandQModule
            string requestText = "reqid=5602&flag=2&offset={0}&limit={1}&fields=uin:{2}";
            requestText = string.Format(requestText, offset, limit, uin);
 
-           DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "4006", ip, port);
+           DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML1(requestText, "4006", ip, port);
            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
            {
                return ds.Tables[0];
@@ -158,7 +158,7 @@ namespace CFT.CSOMS.DAL.HandQModule
            string requestText = "reqid=5601&flag=2&offset={0}&limit={1}&fields=uin:{2}";
            requestText = string.Format(requestText, offset, limit, uin);
 
-           DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "4006", ip, port);
+           DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML1(requestText, "4006", ip, port);
            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
            {
                return ds.Tables[0];

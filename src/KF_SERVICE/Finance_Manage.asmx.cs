@@ -900,7 +900,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
 					if(Fspecial != null && Fspecial.Trim() != "")
 					{
-						throw new LogicException("不允许冻结或解冻商户所绑定的QQ号码");
+						throw new LogicException("不允许冻结或解冻商户所绑定的帐号");
 					}
 				}
 
@@ -933,6 +933,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     CommQuery.GetDSForServiceFromICE(req, "ui_freeze_user_service", true, out Msg);
                     if (Msg != "")
                     {
+                        SunLibrary.LogHelper.LogError("非微信帐号 ui_freeze_user_service 冻结ICE接口返回：" + Msg);
                         throw new Exception("调ui_freeze_user_service冻结异常：" + Msg);
                     }
                 }
@@ -950,6 +951,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     CommQuery.GetDSForServiceFromICE(req, "ui_unfreeze_user_service", true, out Msg);
                     if (Msg != "")
                     {
+                        SunLibrary.LogHelper.LogError("非微信帐号 ui_unfreeze_user_service 解冻ICE接口返回：" + Msg);
                         throw new Exception("调ui_unfreeze_user_service解冻异常："+Msg);
                     }
                 }
@@ -972,6 +974,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 			catch(Exception e)
 			{
                 //ice.CloseConn();
+                SunLibrary.LogHelper.LogError("非微信帐号" + ((type == 1) ? "冻结" : "解冻") + "ICE接口异常：" + e.ToString());
 				throw new Exception("冻结个人账户出错！" + e.Message.ToString().Replace("'","’"));
 				return false;		
 			}
@@ -1108,6 +1111,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 req += "&source=2&client_ip=" + myHeader.UserIP + "&channel=" + channel + "&name=" + username + "&modify_time=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 CommQuery.GetDSForServiceFromICE(req, "ui_freeze_user_service", true, out Msg);
                 if (Msg != "") {
+                    SunLibrary.LogHelper.LogError("微信帐号 ui_freeze_user_service 解冻ICE接口返回：" + Msg);
                     throw new Exception(Msg);
                 }
 
@@ -1115,6 +1119,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e) 
             {
+                SunLibrary.LogHelper.LogError("微信帐号 ui_freeze_user_service 解冻ICE接口异常：" + e.ToString());
                 throw new LogicException("service处理失败:" + e.Message);
                 return false;
             }
@@ -1154,6 +1159,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 CommQuery.GetDSForServiceFromICE(req, "ui_unfreeze_user_service", true, out Msg);
                 if (Msg != "")
                 {
+                    SunLibrary.LogHelper.LogError("微信帐号 ui_unfreeze_user_service 解冻ICE接口返回：" + Msg);
                     throw new Exception(Msg);
                 }
 
@@ -1161,6 +1167,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
+                SunLibrary.LogHelper.LogError("微信帐号 ui_unfreeze_user_service 解冻ICE接口异常：" + e.ToString());
                 throw new LogicException("service处理失败:" + e.Message);
                 return false;
             }
