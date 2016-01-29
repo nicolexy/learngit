@@ -2102,9 +2102,9 @@ namespace CFT.CSOMS.Service.CSAPI
         [WebMethod]
         public void UnFreezeAccount()
         {
+            List<BaseInfoC.FreezeThaw> list = new List<BaseInfoC.FreezeThaw>();
             try
             {
-
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
                 APIUtil.ValidateParamsNew(paramsHt, "account", "channel", "executor", "executorip", "username", "contact", "reason", "appid", "token");
@@ -2120,6 +2120,9 @@ namespace CFT.CSOMS.Service.CSAPI
                 string reason = paramsHt.ContainsKey("reason") ? paramsHt["reason"].ToString() : "";
                 string appid = paramsHt.ContainsKey("appid") ? paramsHt["appid"].ToString() : "";
                 string token = paramsHt.ContainsKey("token") ? paramsHt["token"].ToString() : "";
+
+                SunLibrary.LogHelper.LogError(string.Format("UnFreezeAccount 参数：[{0}，{1}，{2}，{3}，{4}，{5}，{6}]",
+                    account, channel, executor, executorip, userName, contact, reason));
 
                 bool exeSign = false;
                 TENCENT.OSS.CFT.KF.KF_Service.Finance_Manage fm = new TENCENT.OSS.CFT.KF.KF_Service.Finance_Manage();
@@ -2208,7 +2211,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 {
                     userbalance = qs.GetUserBalance(account, 1, out Msg);
                 }
-                List<BaseInfoC.FreezeThaw> list = new List<BaseInfoC.FreezeThaw>();
+
                 if (userbalance >= UNFreeze_BigMoney)
                 {
                     //发起审批后结束。
@@ -2332,19 +2335,26 @@ namespace CFT.CSOMS.Service.CSAPI
                         LogHelper.LogError("ENCENT.OSS.CFT.KF.KF_Web.BaseAccount.freezeBankAcc" + " " + "protected void BT_F_Or_Not_Click(object sender, System.EventArgs e),处理冻结工单时失败:" + ex);
                     }
                 }
-
-                APIUtil.Print<BaseInfoC.FreezeThaw>(list);
             }
             catch (ServiceException se)
             {
-                SunLibrary.LoggerFactory.Get("GetFreezeListDetail").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
-                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+                SunLibrary.LoggerFactory.Get("UnFreezeAccount").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                //APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+                BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();
+                freeze.flag = -1;
+                freeze.info = se.Message;
+                list.Add(freeze);
             }
             catch (Exception ex)
             {
-                SunLibrary.LoggerFactory.Get("GetFreezeListDetail").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
-                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+                SunLibrary.LoggerFactory.Get("UnFreezeAccount").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                //APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS + "；" + ex.Message);
+                BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();
+                freeze.flag = -1;
+                freeze.info = ex.Message;
+                list.Add(freeze);
             }
+            APIUtil.Print<BaseInfoC.FreezeThaw>(list);
         }
 
 
@@ -2680,9 +2690,13 @@ namespace CFT.CSOMS.Service.CSAPI
             }
         }
 
+        /// <summary>
+        /// 冻结
+        /// </summary>
         [WebMethod]
         public void AccountFreeze()
         {
+            List<BaseInfoC.FreezeThaw> list = new List<BaseInfoC.FreezeThaw>();
             try
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
@@ -2746,7 +2760,7 @@ namespace CFT.CSOMS.Service.CSAPI
                     SunLibrary.LogHelper.LogError("创建冻结工单时失败:" + ex.ToString());
                 }
 
-                List<BaseInfoC.FreezeThaw> list = new List<BaseInfoC.FreezeThaw>();
+                
                 if (exeSign) //冻结成功
                 {
                     if (account.IndexOf("@wx.tenpay.com") > 0) //发送微信消息
@@ -2782,18 +2796,26 @@ namespace CFT.CSOMS.Service.CSAPI
                     freeze.info = "冻结失败。";
                     list.Add(freeze);
                 }                
-                APIUtil.Print<BaseInfoC.FreezeThaw>(list);
             }
             catch (ServiceException se)
             {
                 SunLibrary.LoggerFactory.Get("AccountFreeze").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
-                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+                BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();
+                freeze.flag = -1;
+                freeze.info =  se.Message;
+                list.Add(freeze);
+                //APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
             }
             catch (Exception ex)
             {
                 SunLibrary.LoggerFactory.Get("AccountFreeze").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.ToString());
-                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+                BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();
+                freeze.flag = -1;
+                freeze.info = ex.Message;
+                list.Add(freeze);
+                //APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS + "；" + ex.Message);
             }
+            APIUtil.Print<BaseInfoC.FreezeThaw>(list);
         }
     }
 }
