@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// TradeLog 的摘要说明。
     /// </summary>
-    public partial class TradeLog : System.Web.UI.Page
+    public partial class TradeLog : PageBase
     {
         protected System.Data.DataSet DS_TradeLog;
         protected System.Data.DataTable dataTable1;
@@ -154,11 +154,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
                 catch (SoapException eSoap) //捕获soap类
                 {
+                    LogError("BaseAccount.TradeLog", "private void BindData(int i, int pageIndex)", eSoap);
                     string str = PublicRes.GetErrorMsg(eSoap.Message.ToString());
                     WebUtils.ShowMessage(this.Page, "查询错误，详细：" + str);
                 }
                 catch (Exception e)
                 {
+                    LogError("BaseAccount.TradeLog", "private void BindData(int i, int pageIndex)", e);
                     Response.Write("<font color=red>查询错误，详细：" + e.Message + "</font>");
                 }
             }
