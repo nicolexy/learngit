@@ -17,7 +17,7 @@ namespace CFT.CSOMS.DAL.Tests
             var uid = "334063101";
             var s_time = "2014-09-06 00:00:00";
             var e_time = "2014-09-11 23:59:59";
-            DataSet ds = (new TradeData()).QueryWxBuyOrderByUid(int.Parse(uid), DateTime.Parse(s_time), DateTime.Parse(e_time));
+            DataSet ds = (new TradeData()).QueryWxBuyOrderByUid(Int64.Parse(uid), DateTime.Parse(s_time), DateTime.Parse(e_time));
         }
     }
 }

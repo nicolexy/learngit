@@ -48,7 +48,7 @@ namespace CFT.CSOMS.BLL.TradeModule
             }
         }
        
-        public DataSet QueryWxBuyOrderByUid(int uid, DateTime startTime, DateTime endTime)
+        public DataSet QueryWxBuyOrderByUid(Int64 uid, DateTime startTime, DateTime endTime)
         {
             return (new TradeData()).QueryWxBuyOrderByUid(uid, startTime, endTime);
         }
