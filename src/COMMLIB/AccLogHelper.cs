@@ -72,6 +72,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
     /// <summary>
     /// ACC日志处理类
+    /// 网络传输风险，春节前取消上线该功能
     /// </summary>
     public class AccLogHelper
     {
