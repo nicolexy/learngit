@@ -224,7 +224,7 @@
                 <HeaderStyle Wrap="False"></HeaderStyle>
                 <ItemStyle Wrap="False"></ItemStyle>
                 <ItemTemplate>
-                    <asp:Label runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Fmemo").ToString() %>'>
+                    <asp:Label runat="server" Text='<%#  DataBinder.Eval(Container, "DataItem.Fmemo").ToString() %>'>
 
                     </asp:Label>
                 </ItemTemplate>

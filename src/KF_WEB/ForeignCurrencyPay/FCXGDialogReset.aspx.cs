@@ -9,7 +9,7 @@ using CFT.CSOMS.BLL.ForeignCurrencyModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
 {
-    public partial class FCXGDialogReset : System.Web.UI.Page
+    public partial class FCXGDialogReset : PageBase
     {
         string uid, sign;
         protected void Page_Load(object sender, EventArgs e)
@@ -20,10 +20,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                 sign = Request.QueryString["sign"] ?? ViewState["sign"] as string;
                 if (!IsPostBack)
                 {
-                    if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
-                    {
-                        Response.Redirect("../login.aspx?wh=1");
-                    }
                     ChekedShowTitle(sign);
                     ViewState["sign"] = sign;
                     var uin = Request.QueryString["uin"] as string;
@@ -61,15 +57,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                 }
 
                 bool result = false;
-                if (sign == "quick_reset")
+                //注意：快速重置和申诉重置调用的接口是一样的。
+                if (sign == "quick_reset" || sign == "appeal_reset")
                 {
                     result = bll.ResetPassWord(uin, uid, trueName, contact, reason, "", ip);
                 }
-                else if (sign == "appeal_reset")
-                {
-                    throw new Exception("暂未开放申诉重置功能!");
-                    //result = bll.ResetPassWord(uin, uid, "", trueName, contact, reason, "", ip);
-                }
+                //else if (sign == "appeal_reset")
+                //{
+                //    throw new Exception("暂未开放申诉重置功能!");
+                //    //result = bll.ResetPassWord(uin, uid, "", trueName, contact, reason, "", ip);
+                //}
 
                 if (result)
                 {

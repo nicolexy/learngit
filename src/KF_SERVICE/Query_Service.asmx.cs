@@ -2269,6 +2269,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
+                LogHelper.LogError("查询交易单表   public DataSet GetPayList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)" + e.ToString());
                 throw e;
             }
             finally
@@ -2303,6 +2304,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception e)
             {
+                LogHelper.LogError("满减使用查询    public DataSet GetManJianUsingList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, string banktype, int istr, int imax)" + e.ToString());
+               
                 return null;
             }
         }

@@ -133,7 +133,7 @@
                         </td>
                         <th>密码操作：</th>
                         <td>
-                            <asp:LinkButton ID="btn_pwd_reset" runat="server" OnClick="btn_pwd_reset_Click">快速重置密码</asp:LinkButton>
+                            <asp:LinkButton ID="btn_pwd_reset" Visible="false" runat="server" OnClick="btn_pwd_reset_Click"></asp:LinkButton>
                             &nbsp;<asp:LinkButton ID="btn_reset_log" runat="server" OnClick="QueryLog_Click">重置记录查询</asp:LinkButton>
                         </td>
                     </tr>
