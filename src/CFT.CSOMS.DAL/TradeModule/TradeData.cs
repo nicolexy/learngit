@@ -160,7 +160,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// 微信买家纬度用户订单查询
         /// </summary>
         /// <returns></returns>
-        public DataSet QueryWxBuyOrderByUid(int uid, DateTime startTime, DateTime endTime, int offset = 0, int limit = 10)
+        public DataSet QueryWxBuyOrderByUid(Int64 uid, DateTime startTime, DateTime endTime, int offset = 0, int limit = 10)
         {
             //ver=1&head_u=&sp_id=2000000501&request_type=100878&uid=123456&s_time=2015-01-01&e_time=2015-03-01&offset=0&limit=10&icard_flag=0
             //uid= 334073577
@@ -1031,7 +1031,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                     {
                         try
                         {
-                            dsForWX = QueryWxBuyOrderByUid(int.Parse(buyqqInnerID.Trim()), u_BeginTime, u_EndTime, start, max);//微信买家纬度订单
+                            dsForWX = QueryWxBuyOrderByUid(Int64.Parse(buyqqInnerID.Trim()), u_BeginTime, u_EndTime, start, max);//微信买家纬度订单
                             //添加将微信订单数据
                             ds = PublicRes.ToOneDataset(ds, dsForWX);
                         }
@@ -1102,13 +1102,13 @@ namespace CFT.CSOMS.DAL.TradeModule
                 ds = new PublicRes().QueryCommRelay8020("2216", fields, istr, imax);
                 try
                 {
-                    DataSet dsForWX = QueryWxBuyOrderByUid(int.Parse(fuid.Trim()), dtBegin, dtEnd, istr, imax);//微信买家纬度订单
+                    DataSet dsForWX = QueryWxBuyOrderByUid(Int64.Parse(fuid.Trim()), dtBegin, dtEnd, istr, imax);//微信买家纬度订单
                     //添加将微信订单数据
                     ds = PublicRes.ToOneDataset(ds, dsForWX);
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("添加将微信订单数据失败：" + ex.Message);
+                    throw new Exception("添加将微信订单数据失败：" + ex);
                 }
             }
             else if (iIDType == 9)  //根据QQ号码查卖家交易单
