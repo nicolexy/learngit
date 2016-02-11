@@ -262,6 +262,8 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             catch (Exception err)
             {
+                LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData    public bool LogOnUsercheckOrder(string u_QQID, string Fcurtype), ERROR:" + err.ToString());
+
                 throw new Exception(err.Message);
             }
         }
@@ -325,6 +327,8 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             catch (Exception ex)
             {
+                LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData   public DataSet GetTradeList(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax), ERROR:" + ex.ToString());
+
                 return null;
             }
             finally
@@ -345,8 +349,10 @@ namespace CFT.CSOMS.DAL.TradeModule
                 string listID = CommQuery.GetOneResultFromICE(strCmd, CommQuery.QUERY_TCBANKROLL_DAY, "Flistid", out errMsg);
                 return listID;
             }
-            catch
+            catch (Exception e)
             {
+                LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData  public string ConvertToListID(string sFbankAcc, DateTime sDateTime), ERROR:" + e.ToString());
+
                 throw new Exception("根据银行订单号和日期查询交易单失败！");
             }
         }
@@ -362,8 +368,9 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             catch (Exception e)
             {
+                LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData  public DataSet GetQueryListDetail(string listid), ERROR:" + e.ToString());
+
                 throw new Exception("service发生错误,请联系管理员！");
-                return null;
             }
         }
 
@@ -493,6 +500,8 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             catch (Exception e)
             {
+                LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData  public DataSet GetBankRollListByListId(string u_ID, string u_QueryType, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,float fnum, float fnumMax, string banktype, string sorttype, int iPageStart, int iPageMax), ERROR:" + e.ToString());
+
                 throw new Exception("service发生错误,请联系管理员！" + e.Message + msg);
             }
         }
@@ -507,6 +516,8 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             catch (Exception e)
             {
+                LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData  public DataSet GetRefund(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax), ERROR:" + e.ToString());
+
                 throw new Exception("service发生错误,请联系管理员！");
             }
         }
@@ -573,6 +584,8 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             catch (Exception err)
             {
+                LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData  public bool GetChildrenBankRollList(string u_QQID, DateTime u_BeginTime, DateTime u_EndTime, string Fcurtype, int istr, int imax, int Ftype, string Fmemo, out string reply), ERROR:" + err.ToString());
+
                 throw new Exception(err.Message);
             }
         }
@@ -735,6 +748,8 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             catch (Exception e)
             {
+                LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData  public DataSet GetBankRollList_withID(DateTime u_BeginTime, DateTime u_EndTime, string ListID, int istr, int imax), ERROR:" + e.ToString());
+
                 return null;
             }
         }
@@ -1056,6 +1071,8 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             catch (Exception err)
             {
+                LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData    public DataSet GetQueryList(DateTime u_BeginTime, DateTime u_EndTime, string buyqq, string saleqq, string buyqqInnerID, string saleqqInnerID,string u_QueryType, string queryvalue, int fstate, int fcurtype, int start, int max), ERROR:" + err.ToString());
+
                 throw new Exception("查询出错！" + err.Message);
             }
         }
@@ -1197,6 +1214,8 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             catch (System.Exception ex)
             {
+                LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData   public DataSet QueryBusCardPrepaid(string beginDate, string endDate, int pageSize, string uin, string listid, string cardid, out string errMsg), ERROR:" + ex.ToString());
+
                 errMsg = ex.Message;
                 return null;
             }
@@ -1238,6 +1257,8 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             catch (Exception e)
             {
+                LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData  public DataSet GetBankRollList(string u_QQID, string fuid, DateTime u_BeginTime, DateTime u_EndTime, string ftype, int istr, int imax, ref string ref_param), ERROR:" + e.ToString());
+
                 throw e;
             }
         }
@@ -1275,6 +1296,8 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             catch (Exception e)
             {
+                LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData  public DataSet GetFundCardListDetail(string flistid, string fsupplylist, string fcarrdid, int offset, int limit), ERROR:" + e.ToString());
+
                 throw e;
             }
         }
