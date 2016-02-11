@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// bankrolllog 的摘要说明。
     /// </summary>
-    public partial class bankrolllog : System.Web.UI.Page
+    public partial class bankrolllog : PageBase
     {
         protected System.Data.DataSet DS_Bankroll;
         protected System.Data.DataTable dataTable1;
