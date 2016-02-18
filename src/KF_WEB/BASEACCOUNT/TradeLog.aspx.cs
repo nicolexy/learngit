@@ -110,7 +110,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     }
                     else
                     {
-                        DS_TradeLog = new TradeService().GetListidFromUserOrder(selectStr, Session["uid"].ToString(), 0, 1, iusertype);
+                        DS_TradeLog = new TradeService().GetListidFromUserOrder(selectStr, Session["uid"].ToString(), istr, imax, iusertype);
                     }
 
                     if (DS_TradeLog != null && DS_TradeLog.Tables.Count != 0 && DS_TradeLog.Tables[0].Rows.Count != 0)
