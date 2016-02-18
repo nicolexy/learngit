@@ -93,8 +93,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                         throw new Exception("不能跨年查询！");
                     }
 
+                    /*
+                     * 1、交易单、退款单、资金流水、提现 如查询日期截止到今天，则只能查询今天之前的，不能查询当天的。                      
+                     * 2、收红包、发红包，如查询日期截止到今天，则可以查询到今天的。
+                     * 请调整成统一的，查询截止日期当天的可查询到。
+                     * 
+                     * 红包的接口应该是 在日期后面默认加入了时间 23:59:59
+                     */
                     ViewState["stime"] = dts.ToString("yyyy-MM-dd");
-                    ViewState["etime"] = dte.ToString("yyyy-MM-dd");
+                    ViewState["etime"] = dte.AddDays(1).ToString("yyyy-MM-dd"); //先全部加一天， 然后 收红包、发红包 在减一天
                 }
                 else
                 {
@@ -224,7 +231,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
         private void GetPackageList(string query_openid, int skip, int p)
         {
             var bll = new FCXGWallet();
-            var packageData = bll.QueryReceivePackageList(query_openid, ViewState["stime"].ToString(), ViewState["etime"].ToString(), skip, p, ViewState["client_ip"].ToString());
+            var etime = DateTime.Parse(ViewState["etime"].ToString()).AddDays(-1).ToString("yyyy-MM-dd");   //红包减少一天
+            var packageData = bll.QueryReceivePackageList(query_openid, ViewState["stime"].ToString(), etime, skip, p, ViewState["client_ip"].ToString());
             if (packageData == null || packageData.Count < 1)
             {
                 WebUtils.ShowMessage(this.Page, "未找到记录");
@@ -242,7 +250,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
         private void SendPackageList(string query_openid, int skip, int p)
         {
             var bll = new FCXGWallet();
-            var packageData = bll.QuerySendPackageList(query_openid, ViewState["stime"].ToString(), ViewState["etime"].ToString(), skip, p, ViewState["client_ip"].ToString());
+            var etime = DateTime.Parse(ViewState["etime"].ToString()).AddDays(-1).ToString("yyyy-MM-dd");   //红包减少一天
+            var packageData = bll.QuerySendPackageList(query_openid, ViewState["stime"].ToString(), etime, skip, p, ViewState["client_ip"].ToString());
             if (packageData == null || packageData.Count < 1)
             {
                 WebUtils.ShowMessage(this.Page, "未找到记录");
