@@ -1534,22 +1534,53 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 {
                     dt = userDs.Tables[0].Copy();
                     #region
-                    dt.Columns["uid"].ColumnName = "Fuid";
-                    dt.Columns["curtype"].ColumnName = "Fcurtype";
-                    dt.Columns["balance"].ColumnName = "Fbalance";
-                    dt.Columns["con"].ColumnName = "Fcon";
-                    dt.Columns["state"].ColumnName = "Fstate";
-                    dt.Columns["standby1"].ColumnName = "Fstandby1";
-                    dt.Columns["standby2"].ColumnName = "Fstandby2";
-                    dt.Columns["modify_time"].ColumnName = "Fmodify_time";
-                    dt.Columns["user_type"].ColumnName = "Fuser_type";
-                    dt.Columns["qqid"].ColumnName = "Fqqid";
-                    dt.Columns["truename"].ColumnName = "Ftruename";
-                    dt.Columns["company_name"].ColumnName = "Fcompany_name";
-                    dt.Columns["login_ip"].ColumnName = "Flogin_ip";
-                    dt.Columns["memo"].ColumnName = "Fmemo";
-                    dt.Columns["create_time"].ColumnName = "Fcreate_time";
-                    dt.Columns["bpay_state"].ColumnName = "Fbpay_state";
+                    //dt.Columns["uid"].ColumnName = "Fuid";
+                    //dt.Columns["curtype"].ColumnName = "Fcurtype";
+                    //dt.Columns["balance"].ColumnName = "Fbalance";
+                    //dt.Columns["con"].ColumnName = "Fcon";
+                    //dt.Columns["state"].ColumnName = "Fstate";
+                    //dt.Columns["standby1"].ColumnName = "Fstandby1";
+                    //dt.Columns["standby2"].ColumnName = "Fstandby2";
+                    //dt.Columns["modify_time"].ColumnName = "Fmodify_time";
+                    //dt.Columns["user_type"].ColumnName = "Fuser_type";
+                    //dt.Columns["qqid"].ColumnName = "Fqqid";
+                    //dt.Columns["truename"].ColumnName = "Ftruename";
+                    //dt.Columns["company_name"].ColumnName = "Fcompany_name";
+                    //dt.Columns["login_ip"].ColumnName = "Flogin_ip";
+                    //dt.Columns["memo"].ColumnName = "Fmemo";
+                    //dt.Columns["create_time"].ColumnName = "Fcreate_time";
+                    //dt.Columns["bpay_state"].ColumnName = "Fbpay_state";
+
+                    Dictionary<string, string> DicCols = new Dictionary<string, string>();
+                    DicCols.Add("uid", "Fuid");
+                    DicCols.Add("curtype", "Fcurtype");
+                    DicCols.Add("balance", "Fbalance");
+                    DicCols.Add("con", "Fcon");
+                    DicCols.Add("state", "Fstate");
+                    DicCols.Add("standby1", "Fstandby1");
+                    DicCols.Add("standby2", "Fstandby2");
+                    DicCols.Add("modify_time", "Fmodify_time");
+                    DicCols.Add("user_type", "Fuser_type");
+                    DicCols.Add("qqid", "Fqqid");
+                    DicCols.Add("truename", "Ftruename");
+                    DicCols.Add("company_name", "Fcompany_name");
+                    DicCols.Add("login_ip", "Flogin_ip");
+                    DicCols.Add("memo", "Fmemo");
+                    DicCols.Add("create_time", "Fcreate_time");
+                    DicCols.Add("bpay_state", "Fbpay_state");
+
+                    foreach (string col in DicCols.Keys)
+                    {
+                        if (dt.Columns.Contains(col))
+                        {
+                            dt.Columns[col].ColumnName = DicCols[col];
+                        }
+                        else 
+                        {
+                            dt.Columns.Add(DicCols[col], typeof(string));
+                        }
+                    }
+
                     #endregion
                 }
             }

@@ -162,15 +162,30 @@ namespace CFT.CSOMS.DAL.FundModule
             DataTable dt = null;
             var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
-            string requestText = "reqid=612&flag=2&offset=0&limit=20&fields=trade_id:{0}";
-            requestText = string.Format(requestText, tradeId);
-            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            string requestText = "reqid=612&flag=2&offset={0}&limit={1}&fields=trade_id:{2}";
+            DataSet ds = new DataSet();
+            int pageindex = 0;
+            int limit = 20;
+            while (true)
+            {
+                string requestTextTemp = string.Format(requestText, pageindex * limit, limit, tradeId);
+                DataSet dsTemp = RelayAccessFactory.GetDSFromRelayFromXML(requestTextTemp, "100769", serverIp, serverPort);
+                if (dsTemp != null && dsTemp.Tables.Count > 0 && dsTemp.Tables[0].Rows.Count > 0)
+                {
+                    ds = PublicRes.ToOneDataset(dsTemp, ds);
+                }
+                else
+                {
+                    break;
+                }
+                pageindex++;
+            }
+
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 dt = ds.Tables[0];
             }
             return dt;
-          
         }
 
         /// <summary>

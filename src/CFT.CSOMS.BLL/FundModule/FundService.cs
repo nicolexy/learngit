@@ -557,7 +557,7 @@ namespace CFT.CSOMS.BLL.FundModule
                         }
                         catch (Exception ex)
                         {
-                            throw new Exception("查询spid:" + dr["Fspid"].ToString() + "的基金公司名异常！" + ex.Message);
+                            throw new Exception("查询spid:" + dr["Fspid"].ToString() + "的基金公司名异常！" + ex.ToString());
                         }
 
                         if (isSpecialFund(fund_code, spId)) //易方达沪深300基金
