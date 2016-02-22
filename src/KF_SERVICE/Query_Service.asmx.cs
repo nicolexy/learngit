@@ -16559,6 +16559,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
+                LogHelper.LogError("  public DataTable GetPayCardInfoEx(string qqid) 查询基金账户的支付银行卡信息(将银行转义封装在里面):" + err.ToString());
                 throw new LogicException("Service处理失败！");
             }
 
@@ -16589,6 +16590,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception ex)
             {
+                LogHelper.LogError("  public DataTable GetPayCardInfoEx(string qqid) 查询基金账户的支付银行卡信息(将银行转义封装在里面):" + ex.ToString());
                 throw new LogicException("获取用户绑定银行卡异常：" + ex.Message);
             }
         }
@@ -17883,7 +17885,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception ex)
             {
-                LogHelper.LogInfo("查询数据异常:" + ex.ToString());
+                LogHelper.LogError(" public DataSet BatPay_InitGrid_R(string WeekIndex) 查询数据异常:" + ex.ToString());
                 throw ex;
             }
             finally

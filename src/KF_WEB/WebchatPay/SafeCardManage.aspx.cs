@@ -36,7 +36,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
     using System.IO;
     using System.Collections.Generic;
 
-    public partial class SafeCardManage : System.Web.UI.Page
+    public partial class SafeCardManage : PageBase
     {
         protected Query_Service.Query_Service queryService = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
         private string fundSPId;
