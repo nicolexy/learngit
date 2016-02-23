@@ -472,24 +472,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         protected global::System.Web.UI.WebControls.LinkButton LKBT_TradeLog_Sale;
         
         /// <summary>
-        /// LKBT_TradeLog_Unfinished control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LKBT_TradeLog_Unfinished;
-        
-        /// <summary>
-        /// LKBT_TradeLog_Sale_Unfinished control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LKBT_TradeLog_Sale_Unfinished;
-        
-        /// <summary>
         /// LKBT_bankrollLog control.
         /// </summary>
         /// <remarks>
@@ -533,33 +515,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton LkBT_Refund_Sale;
-        
-        /// <summary>
-        /// LkBT_ButtonInfo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LkBT_ButtonInfo;
-        
-        /// <summary>
-        /// LkBT_Gwq control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LkBT_Gwq;
-        
-        /// <summary>
-        /// LkBT_mediOrder control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LkBT_mediOrder;
         
         /// <summary>
         /// ImageButton2 control.

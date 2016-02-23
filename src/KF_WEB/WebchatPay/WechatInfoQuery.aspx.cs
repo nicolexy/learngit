@@ -750,8 +750,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 //初始化导航按钮
                 this.LKBT_TradeLog.ForeColor = Color.Red;
                 this.LKBT_TradeLog_Sale.ForeColor = Color.Black;
-                this.LKBT_TradeLog_Unfinished.ForeColor = Color.Black;
-                this.LKBT_TradeLog_Sale_Unfinished.ForeColor = Color.Black;
+                //this.LKBT_TradeLog_Unfinished.ForeColor = Color.Black;
+                //this.LKBT_TradeLog_Sale_Unfinished.ForeColor = Color.Black;
                 this.LkBT_PaymentLog.ForeColor = Color.Black;
                 this.LKBT_bankrollLog.ForeColor = Color.Black;
                 this.LKBT_GatheringLog.ForeColor = Color.Black;
@@ -829,8 +829,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 LogError("WebchatPay.WechatInfoQuery", " private void clickEvent().SoapException:", er);
                 this.LKBT_TradeLog.Visible = false;
                 this.LKBT_TradeLog_Sale.Visible = false;
-                this.LKBT_TradeLog_Unfinished.Visible = false;
-                this.LKBT_TradeLog_Sale_Unfinished.Visible = false;
+                //this.LKBT_TradeLog_Unfinished.Visible = false;
+                //this.LKBT_TradeLog_Sale_Unfinished.Visible = false;
                 this.LkBT_PaymentLog.Visible = false;
                 this.LKBT_bankrollLog.Visible = false;
                 this.LKBT_GatheringLog.Visible = false;
@@ -854,16 +854,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             iFrameHeight = height.ToString();
             this.LKBT_TradeLog.ForeColor = Color.Black;
             this.LKBT_TradeLog_Sale.ForeColor = Color.Black;
-            this.LKBT_TradeLog_Unfinished.ForeColor = Color.Black;
-            this.LKBT_TradeLog_Sale_Unfinished.ForeColor = Color.Black;
+            //this.LKBT_TradeLog_Unfinished.ForeColor = Color.Black;
+            //this.LKBT_TradeLog_Sale_Unfinished.ForeColor = Color.Black;
             this.LkBT_PaymentLog.ForeColor = Color.Black;
             this.LKBT_bankrollLog.ForeColor = Color.Black;
             this.LKBT_GatheringLog.ForeColor = Color.Black;
             this.LkBT_PaymentLog.ForeColor = Color.Black;
             this.LkBT_Refund.ForeColor = Color.Black;
             this.LkBT_Refund_Sale.ForeColor = Color.Black;
-            this.LkBT_ButtonInfo.ForeColor = Color.Black;
-            this.LkBT_Gwq.ForeColor = Color.Black;
+            //this.LkBT_ButtonInfo.ForeColor = Color.Black;
+            //this.LkBT_Gwq.ForeColor = Color.Black;
             activeButton.ForeColor = Color.Red;
         }
 
@@ -891,29 +891,29 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
         }
 
-        protected void LKBT_TradeLog_Unfinished_Click(object sender, System.EventArgs e)
-        {
-            if (Session["uid"] == null)
-            {
-                WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
-            }
-            else
-            {
-                SetFrame("../BaseAccount/TradeLog.aspx?user=Unfinished", 230, this.LKBT_TradeLog_Unfinished);
-            }
-        }
+        //protected void LKBT_TradeLog_Unfinished_Click(object sender, System.EventArgs e)
+        //{
+        //    if (Session["uid"] == null)
+        //    {
+        //        WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
+        //    }
+        //    else
+        //    {
+        //        SetFrame("../BaseAccount/TradeLog.aspx?user=Unfinished", 230, this.LKBT_TradeLog_Unfinished);
+        //    }
+        //}
 
-        protected void LKBT_TradeLog_Sale_Unfinished_Click(object sender, System.EventArgs e)
-        {
-            if (Session["uid"] == null)
-            {
-                WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
-            }
-            else
-            {
-                SetFrame("../BaseAccount/TradeLog.aspx?user=SaleUnfinished", 230, this.LKBT_TradeLog_Sale_Unfinished);
-            }
-        }
+        //protected void LKBT_TradeLog_Sale_Unfinished_Click(object sender, System.EventArgs e)
+        //{
+        //    if (Session["uid"] == null)
+        //    {
+        //        WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
+        //    }
+        //    else
+        //    {
+        //        SetFrame("../BaseAccount/TradeLog.aspx?user=SaleUnfinished", 230, this.LKBT_TradeLog_Sale_Unfinished);
+        //    }
+        //}
 
         protected void LKBT_bankrollLog_Click(object sender, System.EventArgs e)
         {
@@ -1063,29 +1063,29 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
         }
 
-        protected void LkBT_ButtonInfo_Click(object sender, System.EventArgs e)
-        {
-            if (Session["uid"] == null)
-            {
-                WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
-            }
-            else
-            {
-                SetFrame("../BaseAccount/ButtonInfo.aspx", 230, this.LkBT_ButtonInfo);
-            }
-        }
+        //protected void LkBT_ButtonInfo_Click(object sender, System.EventArgs e)
+        //{
+        //    if (Session["uid"] == null)
+        //    {
+        //        WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
+        //    }
+        //    else
+        //    {
+        //        SetFrame("../BaseAccount/ButtonInfo.aspx", 230, this.LkBT_ButtonInfo);
+        //    }
+        //}
 
-        protected void LkBT_Gwq_Click(object sender, System.EventArgs e)
-        {
-            if (Session["uid"] == null)
-            {
-                WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
-            }
-            else
-            {
-                SetFrame("../BaseAccount/GwqByQQ.aspx", 230, this.LkBT_Gwq);
-            }
-        }
+        //protected void LkBT_Gwq_Click(object sender, System.EventArgs e)
+        //{
+        //    if (Session["uid"] == null)
+        //    {
+        //        WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
+        //    }
+        //    else
+        //    {
+        //        SetFrame("../BaseAccount/GwqByQQ.aspx", 230, this.LkBT_Gwq);
+        //    }
+        //}
 
         protected void LkBT_Refund_Sale_Click(object sender, System.EventArgs e)
         {
@@ -1134,17 +1134,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             BindData(1, 1);
         }
 
-        protected void LkBT_mediOrder_Click(object sender, EventArgs e)
-        {
-            if (Session["uid"] == null)
-            {
-                WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
-            }
-            else
-            {
-                SetFrame("../BaseAccount/TradeLog.aspx?user=mediOrder", 230, this.LkBT_mediOrder);
-            }
-        }
+        //protected void LkBT_mediOrder_Click(object sender, EventArgs e)
+        //{
+        //    if (Session["uid"] == null)
+        //    {
+        //        WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
+        //    }
+        //    else
+        //    {
+        //        SetFrame("../BaseAccount/TradeLog.aspx?user=mediOrder", 230, this.LkBT_mediOrder);
+        //    }
+        //}
 
         protected void CKV_Btn_synchro_Click(object sender, EventArgs e)
         {
