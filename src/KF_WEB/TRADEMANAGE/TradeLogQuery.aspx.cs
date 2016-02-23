@@ -31,7 +31,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         public string iFramePath_TradeLog;    //设置iFrame的路径
         public string iFrameHeight;  //设置iFrame(用户交易记录)显示区域的高度
         public string iFrameBank;    //设置iFrameBank的显示区域的高度
-        public string listShow;
+        //public string listShow;
 
         protected System.Web.UI.WebControls.LinkButton LinkButton1;
         protected System.Web.UI.WebControls.LinkButton LinkButton2;
@@ -144,7 +144,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             {
                 this.lbEnter.Visible = true;
                 this.txDate.Visible = true;
-                this.lkTime.Visible = true;
+                //this.lkTime.Visible = true;
                 this.rfvDate.Visible = true;
                 this.rfvNum.Enabled = false;
             }
@@ -152,7 +152,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             {
                 this.lbEnter.Visible = false;
                 this.txDate.Visible = false;
-                this.lkTime.Visible = false;
+                //this.lkTime.Visible = false;
                 this.rfvDate.Visible = false;
                 this.rfvNum.Enabled = true;
             }
@@ -347,13 +347,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
             {
-                listShow = "false";
+                btn_tradeBaseInfo.NavigateUrl = "/TradeManage/OrderDetail2.aspx?listid=" + selectStrSession;
+                //listShow = "false";
                 throw new Exception("数据库无此记录");
             }
-            else
-            {
-                listShow = "true";
-            }
+            //else
+            //{
+            //    //listShow = "true";
+            //}
 
             ds.Tables[0].Columns.Add("Fpay_type_str");  //支付类型
             ds.Tables[0].Columns.Add("Fpaybuy_str"); //退买家金额
@@ -427,6 +428,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             ht.Add("115", "微信平台余额支付");
             ht.Add("116", "微信c2c转账");
             ht.Add("117", "手Q b2c");
+            //2016-02-23 添加
+            ht.Add("118", "微信委托代扣");
+            ht.Add("119", "手Q委托代扣");
+            ht.Add("120", "手q c2c转账");
+            ht.Add("121", "微信实时结算");
+            ht.Add("122", "微信实时分润");
+            ht.Add("123", "订单关单冲正");
+            ht.Add("124", "财付通nfc支付（手q）");
+            ht.Add("125", "手Q平台余额支付");
+            ht.Add("126", "手Q扫码支付");
+            ht.Add("127", "手Q公众号支付");
+            ht.Add("128", "手Q境外支付");
             classLibrary.setConfig.DbtypeToPageContent(ds.Tables[0], "Fchannel_id", "Fchannel_id_str", ht);
           
 
@@ -853,6 +866,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
         protected void btQuery_Click(object sender, System.EventArgs e)
         {
+            btn_tradeBaseInfo.NavigateUrl = null;
             string strszkey = Session["SzKey"].ToString().Trim();
             int ioperid = Int32.Parse(Session["OperID"].ToString());
             int iserviceid = Common.AllUserRight.GetServiceID("TradeManagement");
@@ -865,16 +879,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             clickEvent();
         }
 
-        protected void lkTime_Click(object sender, System.EventArgs e)
-        {
-            this.Calendar1.Visible = true;
-        }
+        //protected void lkTime_Click(object sender, System.EventArgs e)
+        //{
+        //    this.Calendar1.Visible = true;
+        //}
 
-        protected void Calendar1_SelectionChanged(object sender, System.EventArgs e)
-        {
-            this.Calendar1.Visible = false;
-            this.txDate.Text = this.Calendar1.SelectedDate.ToString("yyyy-MM-dd");
-        }
+        //protected void Calendar1_SelectionChanged(object sender, System.EventArgs e)
+        //{
+        //    this.Calendar1.Visible = false;
+        //    this.txDate.Text = this.Calendar1.SelectedDate.ToString("yyyy-MM-dd");
+        //}
 
         protected void LinkButton_synchro_Click(object sender, System.EventArgs e)
         {
