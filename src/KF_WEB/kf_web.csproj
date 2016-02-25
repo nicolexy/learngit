@@ -2217,6 +2217,13 @@
     <Compile Include="TradeManage\MobileBindingQuery.aspx.designer.cs">
       <DependentUpon>MobileBindingQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TradeManage\OrderDetail2.aspx.cs">
+      <DependentUpon>OrderDetail2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\OrderDetail2.aspx.designer.cs">
+      <DependentUpon>OrderDetail2.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TradeManage\PayLimitManage.aspx.cs">
       <DependentUpon>PayLimitManage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3541,6 +3548,7 @@
     <Content Include="TradeManage\CreditQueryNew.aspx" />
     <Content Include="TradeManage\FundCardQuery_DetailNew.aspx" />
     <Content Include="TradeManage\MobileBindingQuery.aspx" />
+    <Content Include="TradeManage\OrderDetail2.aspx" />
     <Content Include="TradeManage\PayLimitManage.aspx" />
     <Content Include="TradeManage\PickQueryNew.aspx" />
     <Content Include="TradeManage\TradeMigration.aspx" />
@@ -4704,6 +4712,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\FundCardQuery_DetailNew.aspx.resx">
       <DependentUpon>FundCardQuery_DetailNew.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TradeManage\OrderDetail2.aspx.resx">
+      <DependentUpon>OrderDetail2.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\PayLimitManage.aspx.resx">
       <DependentUpon>PayLimitManage.aspx.cs</DependentUpon>
