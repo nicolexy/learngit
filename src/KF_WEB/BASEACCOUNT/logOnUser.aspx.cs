@@ -252,7 +252,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                         #region 微信特有判断
                         try
                         {
-                            var WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(wxid);
+                            var WXUnfinishedTrade = (new TradeService()).QueryWXUnfinishedTrade(qqid);
                             if (!WXUnfinishedTrade)
                             {
                                 LogHelper.LogInfo(wxid + "此账号有未完成微信支付转账，禁止注销!");
@@ -260,7 +260,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                                 return;
                             }
 
-                            var HasUnfinishedHB = (new TradeService()).QueryWXUnfinishedHB(wxid);
+                            var HasUnfinishedHB = (new TradeService()).QueryWXUnfinishedHB(qqid);
                             if (!HasUnfinishedHB)
                             {
                                 LogHelper.LogInfo(wxid + "此账号有未完成微信红包，禁止注销!");
