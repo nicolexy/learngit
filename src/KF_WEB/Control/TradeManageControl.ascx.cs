@@ -57,7 +57,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
 			if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this))
 			{
-				menuControl.AddSubMenu("提现记录查询","TradeManage/PickQuery.aspx") ;
+                menuControl.AddSubMenu("提现记录查询", "TradeManage/PickQueryNew.aspx");
 				menuControl.AddSubMenu("商户交易清单","TradeManage/TradeLogList.aspx") ;
 				menuControl.AddSubMenu("退款单查询","TradeManage/B2CReturnQuery.aspx") ;
 				menuControl.AddSubMenu("代扣单笔查询","NewQueryInfoPages/QueryDKInfoPage.aspx");

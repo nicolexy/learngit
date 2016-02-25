@@ -460,20 +460,20 @@
                     <tr bgcolor="#e4e5f7">
                         <td background="../IMAGES/Page/bg_bl.gif" bgcolor="#e4e5f7" colspan="3" height="20">
                             <font color="#ff0000">&nbsp;<img height="16" src="../IMAGES/Page/post.gif" width="20">&nbsp;
-                                <asp:LinkButton ID="LKBT_TradeLog" runat="server" ForeColor="Red" OnClick="LKBT_TradeLog_Click">买家交易单</asp:LinkButton></font>|<span
-                                    class="style2">
+                                <asp:LinkButton ID="LKBT_TradeLog" runat="server" ForeColor="Red" OnClick="LKBT_TradeLog_Click">买家交易单</asp:LinkButton></font>|
+                            <span class="style2">
                                     <asp:LinkButton ID="LKBT_TradeLog_Sale" runat="server" ForeColor="Black" OnClick="LKBT_TradeLog_Sale_Click">卖家交易单</asp:LinkButton>|
-                                    <asp:LinkButton ID="LKBT_TradeLog_Unfinished" runat="server" ForeColor="Black" OnClick="LKBT_TradeLog_Unfinished_Click">买家未完成交易单</asp:LinkButton>|
-                                    <asp:LinkButton ID="LKBT_TradeLog_Sale_Unfinished" runat="server" ForeColor="Black"
-                                        OnClick="LKBT_TradeLog_Sale_Unfinished_Click">卖家未完成交易单</asp:LinkButton>|
+                                    <%--<asp:LinkButton ID="LKBT_TradeLog_Unfinished" runat="server" ForeColor="Black" OnClick="LKBT_TradeLog_Unfinished_Click">买家未完成交易单</asp:LinkButton>|--%>
+                                    <%--<asp:LinkButton ID="LKBT_TradeLog_Sale_Unfinished" runat="server" ForeColor="Black" OnClick="LKBT_TradeLog_Sale_Unfinished_Click">卖家未完成交易单</asp:LinkButton>|--%>
                                     <asp:LinkButton ID="LKBT_bankrollLog" runat="server" ForeColor="Black" OnClick="LKBT_bankrollLog_Click">用户资金流水</asp:LinkButton>|
                                     <asp:LinkButton ID="LKBT_GatheringLog" runat="server" ForeColor="Black" OnClick="LKBT_GatheringLog_Click">充值记录</asp:LinkButton>|
                                     <asp:LinkButton ID="LkBT_PaymentLog" runat="server" ForeColor="Black" OnClick="LkBT_PaymentLog_Click">提现记录</asp:LinkButton>&nbsp;|
                                     <asp:LinkButton ID="LkBT_Refund" runat="server" ForeColor="Black" OnClick="LkBT_Refund_Click">买家退款单</asp:LinkButton>&nbsp;|
                                     <asp:LinkButton ID="LkBT_Refund_Sale" runat="server" ForeColor="Black" OnClick="LkBT_Refund_Sale_Click">卖家退款单</asp:LinkButton>&nbsp;|
-                                    <asp:LinkButton ID="LkBT_ButtonInfo" runat="server" ForeColor="Black" OnClick="LkBT_ButtonInfo_Click">商家工具按钮</asp:LinkButton>&nbsp;|
-                                    <asp:LinkButton ID="LkBT_Gwq" runat="server" ForeColor="Black" OnClick="LkBT_Gwq_Click">财付券</asp:LinkButton>&nbsp;|
-                                    <asp:LinkButton ID="LkBT_mediOrder" runat="server" ForeColor="Black" OnClick="LkBT_mediOrder_Click">中介交易</asp:LinkButton></span>
+                                    <%--<asp:LinkButton ID="LkBT_ButtonInfo" runat="server" ForeColor="Black" OnClick="LkBT_ButtonInfo_Click">商家工具按钮</asp:LinkButton>&nbsp;|--%>
+                                    <%--<asp:LinkButton ID="LkBT_Gwq" runat="server" ForeColor="Black" OnClick="LkBT_Gwq_Click">财付券</asp:LinkButton>&nbsp;|--%>
+                                    <%--<asp:LinkButton ID="LkBT_mediOrder" runat="server" ForeColor="Black" OnClick="LkBT_mediOrder_Click">中介交易</asp:LinkButton>--%>
+                            </span>
                             <div align="center">
                                 <font face="Tahoma"></font>
                             </div>

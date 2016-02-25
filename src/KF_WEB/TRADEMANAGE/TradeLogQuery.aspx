@@ -11,6 +11,7 @@
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 	</HEAD>
 	<body>
 		<form id="Form1" method="post" runat="server">
@@ -37,15 +38,13 @@
 					<td>
 						<table height="100%" cellSpacing="0" cellPadding="1" width="100%" border="0">
 							<tr>
-								<td style="HEIGHT: 37px" width="78%">
-									<P align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-										输入：&nbsp;
-										<asp:textbox id="TextBox1_ListID" runat="server" Width="200px" BorderWidth="1px" BorderStyle="Solid"></asp:textbox><asp:radiobutton id="rbList" runat="server" Text="交易单号" Checked="True" GroupName="id" AutoPostBack="True"
+								<td style="HEIGHT: 37px;padding-left:60px;" width="78%">
+									<P align="left">
+										输入：<asp:textbox id="TextBox1_ListID" runat="server" Width="200px" ></asp:textbox><asp:radiobutton id="rbList" runat="server" Text="交易单号" Checked="True" GroupName="id" AutoPostBack="True"
 											ToolTip="根据交易单号查询"></asp:radiobutton>&nbsp;<asp:radiobutton id="rbBank" runat="server" Text="银行返回定单号" GroupName="id" AutoPostBack="True" ToolTip="根据银行订单号查选"></asp:radiobutton>
 										<asp:regularexpressionvalidator id="rfvNum" runat="server" Display="Dynamic" ValidationExpression="^[0-9 ][0-9 ][0-9 ][0-9 ]+"
 											ControlToValidate="TextBox1_ListID" ErrorMessage="RegularExpressionValidator" Enabled="False">不为数字或单号过短</asp:regularexpressionvalidator><br>
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										<asp:label id="lbEnter" runat="server" Width="38px" Visible="False">日期：</asp:label><asp:textbox id="txDate" runat="server" Width="77px" BorderStyle="Groove" Visible="False"></asp:textbox><asp:linkbutton id="lkTime" runat="server" Visible="False" ForeColor="Red" CausesValidation="False" onclick="lkTime_Click">*点击插入时间</asp:linkbutton><asp:requiredfieldvalidator id="RequiredFieldValidator1" runat="server" Display="Dynamic" ControlToValidate="TextBox1_ListID"
+										<asp:label id="lbEnter" runat="server" Width="38px" Visible="False">日期：</asp:label><asp:textbox id="txDate" runat="server" Width="120px" Visible="False"  class="Wdate" onclick="WdatePicker()"></asp:textbox><asp:requiredfieldvalidator id="RequiredFieldValidator1" runat="server" Display="Dynamic" ControlToValidate="TextBox1_ListID"
 											ErrorMessage="RequiredFieldValidator">单号不为空</asp:requiredfieldvalidator><asp:regularexpressionvalidator id="RegularExpressionValidator2" runat="server" Display="Dynamic" ValidationExpression="^[0-9][0-9]{3}-[0-9]{2}-[0-9]{2}$"
 											ControlToValidate="txDate" ErrorMessage="RegularExpressionValidator">正确格式：2005-07-01</asp:regularexpressionvalidator><asp:requiredfieldvalidator id="rfvDate" runat="server" Display="Dynamic" ControlToValidate="txDate" ErrorMessage="RequiredFieldValidator">日期不能为空</asp:requiredfieldvalidator></P>
 								</td>
@@ -58,7 +57,7 @@
 					</td>
 				</tr>
 			</table>
-			<div align="center"><asp:calendar id="Calendar1" runat="server" Visible="False" onselectionchanged="Calendar1_SelectionChanged"></asp:calendar><br>
+			<div align="center"><br>
 				<TABLE height="362" cellSpacing="0" cellPadding="0" width="95%" align="center" border="0">
 					<TR>
 						<TD bgColor="#666666">
@@ -70,8 +69,11 @@
 												<td background="../IMAGES/Page/bg_bl.gif" height="20"><strong><font color="#ff0000"><IMG height="16" src="../IMAGES/Page/post.gif" width="20">
 														</font></strong><font color="#ff0000">交易单资料</font>
 												</td>
-												<td width="10%" background="../IMAGES/Page/bg_bl.gif"><!--<div align="center"><A href="../ACCOUNTMANAGE/AdjustDepositMoney.aspx?id=<%=LB_Flistid.Text.Trim()%>" ><font color="red">分析</font></A>|</div> --><FONT face="宋体">
-														<asp:HyperLink id="hlOrder" runat="server">订单详细信息</asp:HyperLink></FONT></td>
+												<td width="20%" background="../IMAGES/Page/bg_bl.gif"><!--<div align="center"><A href="../ACCOUNTMANAGE/AdjustDepositMoney.aspx?id=<%=LB_Flistid.Text.Trim()%>" ><font color="red">分析</font></A>|</div> -->
+                                                    <FONT face="宋体"><asp:HyperLink id="hlOrder" runat="server">订单详细信息</asp:HyperLink></FONT>
+                                                    |
+                                                    <FONT face="宋体"><asp:HyperLink id="btn_tradeBaseInfo" runat="server">交易基本信息</asp:HyperLink></FONT>
+												</td>
 												<td width="5%" background="../IMAGES/Page/bg_bl.gif">
 													<div align="left"><A href="tradeLogQuery.aspx?id=<%=LB_Flistid.Text.Trim()%>" target=_blank ><font color="red"><font color="red">全屏</font></font></A></div>
 												</td>
