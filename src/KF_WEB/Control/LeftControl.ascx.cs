@@ -304,7 +304,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 SelfHelpAppealManage1.AddSubMenu("客服统计查询", "BaseAccount/KFTotalQuery.aspx");
 
                 //tradeManage1.AddSubMenu("提现记录查询", "TradeManage/PickQuery.aspx");
-                tradeManage1.AddSubMenu("提现记录查询(新)", "TradeManage/PickQueryNew.aspx");
+                tradeManage1.AddSubMenu("提现记录查询", "TradeManage/PickQueryNew.aspx");
                 tradeManage1.AddSubMenu("退款单查询", "TradeManage/B2CReturnQuery.aspx");
                 
 
@@ -472,6 +472,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
             //CancelAccount
             accountOperate1.AddSubMenu("帐户销户记录", "BaseAccount/logOnUser.aspx");
+            accountOperate1.AddSubMenu("批量注销", "BaseAccount/logOnUserBatch.aspx");
             //accountOperate1.AddSubMenu("帐户销户记录-新", "BaseAccount/logOnUserNew.aspx");
 
             //UpdateAccountQQ

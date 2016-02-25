@@ -656,21 +656,21 @@ namespace CFT.CSOMS.BLL.TradeModule
         /// <summary>
         /// 查询 转账是否可以注销  
         /// </summary>
-        /// <param name="WeChatName"></param>
+        /// <param name="qqid"></param>
         /// <returns>true 可以注销</returns>
-        public bool QueryWXUnfinishedTrade(string WeChatName)
+        public bool QueryWXUnfinishedTrade(string qqid)
         {
-            return (new TradeData()).QueryWXUnfinishedTrade(WeChatName);
+            return (new TradeData()).QueryWXUnfinishedTrade(qqid);
         }
 
         /// <summary>
         /// 查询 红包是否可以注销
         /// </summary>
-        /// <param name="WeChatName"></param>
+        /// <param name="qqid"></param>
         /// <returns>true 可以注销</returns>
-        public bool QueryWXUnfinishedHB(string WeChatName)
+        public bool QueryWXUnfinishedHB(string qqid)
         {
-            return (new TradeData()).QueryWXUnfinishedHB(WeChatName);
+            return (new TradeData()).QueryWXUnfinishedHB(qqid);
         }
 
         ///// <summary>

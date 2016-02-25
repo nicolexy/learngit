@@ -875,9 +875,10 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// </summary>
         /// <param name="open_id"></param>
         /// <returns>true 可以注销</returns>
-        public bool QueryWXUnfinishedTrade(string WeChatName)
+        public bool QueryWXUnfinishedTrade(string uin)
         {
-            string acctid = WeChatHelper.GetUINFromWeChatName(WeChatName.Trim()).Replace("@wx.tenpay.com", "");
+            //string acctid = WeChatHelper.GetUINFromWeChatName(WeChatName.Trim()).Replace("@wx.tenpay.com", "");
+            string acctid =uin.Trim().Replace("@wx.tenpay.com", "");
             System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             var url = Apollo.Common.Configuration.AppSettings.Get<string>("CancellationUnfinishedQueryCGI", "http://10.229.141.17:11903/cgi-bin/wxtf/canunregtransfer?f=json");
             var req = jss.Serialize(new
@@ -905,11 +906,12 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// <summary>
         /// 查询 红包是否可以注销
         /// </summary>
-        /// <param name="WeChatName"></param>
+        /// <param name="qqid"></param>
         /// <returns>true 可以注销</returns>
-        public bool QueryWXUnfinishedHB(string WeChatName)
+        public bool QueryWXUnfinishedHB(string qqid)
         {
-            string acctid = WeChatHelper.GetUINFromWeChatName(WeChatName.Trim()).Replace("@wx.tenpay.com", "");
+            //string acctid = WeChatHelper.GetUINFromWeChatName(WeChatName.Trim()).Replace("@wx.tenpay.com", "");
+            string acctid = qqid.Trim().Replace("@wx.tenpay.com", "");
             System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             var url = Apollo.Common.Configuration.AppSettings.Get<string>("CancellationHBQueryCGI", "http://10.229.141.17:11903/cgi-bin/wxhb/canunreghb?f=json");
             var req = jss.Serialize(new

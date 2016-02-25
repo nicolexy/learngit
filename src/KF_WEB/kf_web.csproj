@@ -420,6 +420,13 @@
     <Compile Include="BaseAccount\GatherLog.aspx.designer.cs">
       <DependentUpon>GatherLog.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\logOnUserBatch.aspx.cs">
+      <DependentUpon>logOnUserBatch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\logOnUserBatch.aspx.designer.cs">
+      <DependentUpon>logOnUserBatch.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\logOnUserNew.aspx.cs">
       <DependentUpon>logOnUserNew.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3010,6 +3017,7 @@
     <Content Include="BaseAccount\FetchListIntercept.aspx" />
     <Content Include="BaseAccount\FreezeFinQuery2.aspx" />
     <Content Include="BaseAccount\GatherLog.aspx" />
+    <Content Include="BaseAccount\logOnUserBatch.aspx" />
     <Content Include="BaseAccount\logOnUserNew.aspx" />
     <Content Include="BaseAccount\ModifyContactInfo.aspx">
       <SubType>Form</SubType>
@@ -5140,8 +5148,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>45222</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://www.kfweb.com</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

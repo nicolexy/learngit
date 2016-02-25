@@ -252,6 +252,7 @@ namespace TENCENT.OSS.CFT.KF.Common
                 rights[166] = new OneRight("RefundCheck", 166, "退款登记");
 
                 rights[102] = new OneRight("RefundMerchantCheck", 102, "退款商户录入");
+                rights[20] = new OneRight("BatchCancellation", 20, "批量注销");
                 //增加代扣调整按钮权限
                 rights[31] = new OneRight("DKAdjust", 31, "代扣调整状态");
 
