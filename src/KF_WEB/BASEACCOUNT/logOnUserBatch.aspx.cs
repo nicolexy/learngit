@@ -1,6 +1,7 @@
 ﻿using CFT.CSOMS.BLL.TradeModule;
 using log4net;
 using Microsoft.Office.Interop.Excel;
+using SunLibrary;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -27,6 +28,10 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
     {
         string uid;
         string cancelPath = string.Empty;
+
+        Query_Service qs = new Query_Service();
+        Check_Service cs = new Check_Service();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -35,6 +40,12 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 this.Label_uid.Text = uid;
                 string szkey = Session["szkey"].ToString();
                 if (!ClassLib.ValidateRight("BatchCancellation", this)) Response.Redirect("../login.aspx?wh=1");
+
+                TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Finance_Header fh2 = setConfig.setFH(this);
+                qs.Finance_HeaderValue = fh2;
+
+                TENCENT.OSS.CFT.KF.KF_Web.Check_WebService.Finance_Header fh = setConfig.setFH_CheckService(this);
+                cs.Finance_HeaderValue = fh;
             }
             catch  //如果没有登陆或者没有权限就跳出
             {
@@ -106,7 +117,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     else
                     {
                         failNum++;
-                        res_dt.Rows[i][2] = msg;
+                        res_dt.Rows[i][2] = msg.Length > 100 ? msg.Substring(0, 100) : msg;
                     }
                 }
                 #region
@@ -170,7 +181,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 }
                 catch (Exception ex)
                 {
-                    LogManager.GetLogger("批量注销生成Excel失败！" + ex.Message + ", stacktrace" + ex.StackTrace);
+                    LogHelper.LogInfo("批量注销生成Excel失败！" + ex.Message + ", stacktrace" + ex.StackTrace);
                 }
                 finally
                 {
@@ -217,9 +228,6 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                             return result;
                         }
 
-                        Query_Service qs = new Query_Service();
-                        TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Finance_Header fh2 = setConfig.setFH(this);
-                        qs.Finance_HeaderValue = fh2;
                         if (qs.LogOnUsercheckOrder(account, "1"))
                         {
                             msg = "有未完成的交易单！";
@@ -315,9 +323,6 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                             myParams[3].ParamName = "fuser";
                             myParams[3].ParamValue = Session["uid"].ToString();
 
-                            Check_Service cs = new Check_Service();
-                            TENCENT.OSS.CFT.KF.KF_Web.Check_WebService.Finance_Header fh = setConfig.setFH_CheckService(this);
-                            cs.Finance_HeaderValue = fh;
                             cs.StartCheck(mainID, checkType, memo, MoneyTransfer.FenToYuan(balance.ToString()), myParams);
 
                             msg = "销户申请提请成功！";
@@ -329,8 +334,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     catch (Exception ex)
                     {
                         msg = ex.Message;
-                        LogManager.GetLogger("批量注销异常：" + ex.Message + ", stacktrace" + ex.StackTrace);
-                        
+                        LogHelper.LogInfo("批量注销异常：" + ex.Message + ", stacktrace" + ex.StackTrace);
                     }
                 }
             }
