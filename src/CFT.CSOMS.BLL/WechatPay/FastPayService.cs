@@ -123,10 +123,21 @@ namespace CFT.CSOMS.BLL.WechatPay
             }
             return ht;
         }
-
-        public DataSet QueryBankCardNewList(string bankCard, string bankDate,string bankType, int biz_type, int offset, int limit)
+        /// <summary>
+        /// 通过接口查询bank pos日表和月表的数据
+        /// </summary>
+        /// <param name="QueryType">查询类型1:银行卡查询 ,2 银行参考号查询</param>
+        /// <param name="bankCard">卡号</param>
+        /// <param name="bankDate">日期</param>
+        /// <param name="bankType"></param>
+        /// <param name="biz_type">业务类型</param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <param name="real_bill_no">银行参考号查询 QueryType=2时,必填 </param>
+        /// <returns></returns>
+        public DataSet QueryBankCardNewList(int QueryType, string bankCard, string bankDate, string bankType, int biz_type, int offset, int limit, string real_bill_no="")
         {
-            if (string.IsNullOrEmpty(bankCard.Trim()))
+            if (QueryType==1 && string.IsNullOrEmpty(bankCard.Trim()))
             {
                 throw new ArgumentNullException("银行卡号为空！");
             }
@@ -145,13 +156,13 @@ namespace CFT.CSOMS.BLL.WechatPay
                 int limitQ = 8;
                 int totalNum = 0;
                 //查pos月表
-                dsPos[i] = new FastPayData().GetBankPosDataList(bankCard, bankDate, aryBankType[i], biz_type, offsetQ, limitQ, out totalNum);
+                dsPos[i] = new FastPayData().GetBankPosDataList(QueryType, bankCard, bankDate, aryBankType[i], biz_type, offsetQ, limitQ, out totalNum, real_bill_no);
                 //需多次查询合并结果
                 int index = 1;
                 while (limitQ * index < totalNum)
                 {
                     offsetQ = limitQ * index;
-                    DataSet ds2 = new FastPayData().GetBankPosDataList(bankCard, bankDate, aryBankType[i], biz_type, offsetQ, limitQ, out totalNum);
+                    DataSet ds2 = new FastPayData().GetBankPosDataList(QueryType, bankCard, bankDate, aryBankType[i], biz_type, offsetQ, limitQ, out totalNum, real_bill_no);
                     index++;
                     dsPos[i] = PublicRes.ToOneDataset(dsPos[i], ds2);//将两个库的数据合并到一个库
                 }

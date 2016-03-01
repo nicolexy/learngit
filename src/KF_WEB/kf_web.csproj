@@ -2203,6 +2203,13 @@
     <Compile Include="TradeManage\CGIInfoQuery.aspx.designer.cs">
       <DependentUpon>CGIInfoQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TradeManage\BankRefereNoQuery.aspx.cs">
+      <DependentUpon>BankRefereNoQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\BankRefereNoQuery.aspx.designer.cs">
+      <DependentUpon>BankRefereNoQuery.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TradeManage\CreditQueryNew.aspx.cs">
       <DependentUpon>CreditQueryNew.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3553,6 +3560,7 @@
     <Content Include="TradeManage\BusCardPrepaidQuery.aspx" />
     <Content Include="TradeManage\ContractQuery.aspx" />
     <Content Include="TradeManage\CGIInfoQuery.aspx" />
+    <Content Include="TradeManage\BankRefereNoQuery.aspx" />
     <Content Include="TradeManage\CreditQueryNew.aspx" />
     <Content Include="TradeManage\FundCardQuery_DetailNew.aspx" />
     <Content Include="TradeManage\MobileBindingQuery.aspx" />
