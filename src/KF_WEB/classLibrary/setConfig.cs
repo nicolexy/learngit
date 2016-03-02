@@ -972,6 +972,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
         /// <returns></returns>
         public static string ConvertID(string str,int start,int end)
         {
+            if (str == null)
+            {
+                return "";
+            }
+
             string tmp = str.Trim();
             int len = tmp.Length;
             if (len < start || len < end) {
