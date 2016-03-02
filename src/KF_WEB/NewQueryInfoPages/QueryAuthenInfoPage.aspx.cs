@@ -183,7 +183,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                     this.lb_c15.Text = setConfig.replaceHtmlStr(dr["authenTypeName"].ToString());
 					this.lb_c16.Text = setConfig.replaceHtmlStr(dr["creTypeName"].ToString());
-					this.lb_c17.Text = setConfig.replaceHtmlStr(dr["Fattach"].ToString());
+                    var creid = setConfig.replaceHtmlStr(dr["Fattach"].ToString());
+                    this.lb_c17.Text = setConfig.ConvertID(creid, creid.Length - 6, 3);
 					this.lb_c18.Text = setConfig.replaceHtmlStr(dr["Fcreate_time"].ToString());
 					this.lb_c19.Text = setConfig.replaceHtmlStr(dr["Fmodify_time"].ToString());
 					this.lb_c20.Text = setConfig.replaceHtmlStr(dr["Fstandby3"].ToString());

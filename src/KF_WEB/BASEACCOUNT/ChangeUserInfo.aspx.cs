@@ -179,7 +179,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             this.DropDownList2_certify.SelectedValue = fcre_type;
             ViewState["Fcre_type"] = fcre_type;
             string fcreid = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fcreid"]);
-            this.Textbox13_Fcreid.Text = fcreid;
+            this.Textbox13_Fcreid.Text = setConfig.ConvertID(fcreid, fcreid.Length - 6, 3);
             ViewState["Fcreid"] = fcreid;
             string fmemo = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fmemo"]);
             this.TX_Memo.Text = fmemo;
