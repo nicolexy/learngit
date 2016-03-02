@@ -85,7 +85,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                         }
                     }
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -114,7 +114,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             lb_card_curtype_str.Text = row["card_curtype_str"] as string;
             lb_refund_paynum_str.Text = row["total_payout_str"] as string;  // total_payout 总出款金额（退款和拒付金额的和)
             lb_refund_state_str.Text = row["refund_state_str"] as string;
-            lb_refund_time_acc.Text = row["refund_time_acc"] as string;
+            //lb_refund_time_acc.Text = row["refund_time_acc"] as string;
+
+            var istoRefundInfo = row["trade_state"].ToString() == "7";
+            link_toRefundInfo.Visible = istoRefundInfo;
+            if (istoRefundInfo) // 等于转入退款
+            {
+                link_toRefundInfo.NavigateUrl = "/ForeignCurrencyPay/FCRefundQuery.aspx?mdlistid=" + row["listid"];
+            }
+
             lb_trade_state_str.Text = row["trade_state_str"] as string;
             lb_rec_banklist.Text = row["rec_banklist"] as string;
             lb_appeal_sign_str.Text = row["appeal_sign_str"] as string;
