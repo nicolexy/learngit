@@ -273,8 +273,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
                 FastPay1.AddSubMenu("一点通业务", "BaseAccount/BankCardUnbind.aspx");
                 FastPay1.AddSubMenu("一点通业务(新)", "BaseAccount/BankCardUnbindNew.aspx");
-               // FastPay1.AddSubMenu("银行卡查询", "TradeManage/BankCardQuery.aspx");
+              
                 FastPay1.AddSubMenu("银行卡查询", "TradeManage/BankCardQueryNew.aspx");
+                FastPay1.AddSubMenu("银行参考号查询", "TradeManage/BankRefereNoQuery.aspx");
+
                 FastPay1.AddSubMenu("姓名生僻字", "BaseAccount/RareNameQuery.aspx");
                 FastPay1.AddSubMenu("卡信息查询", "BaseAccount/CardInfoQuery.aspx");
 

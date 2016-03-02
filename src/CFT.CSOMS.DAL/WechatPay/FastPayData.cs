@@ -52,37 +52,50 @@ namespace CFT.CSOMS.DAL.WechatPay
             return RelayAccessFactory.GetDSFromRelayRowNum(out totalNum, inmsg, "2617", ip, port);
         }
 
-
         /// <summary>
         /// 通过接口查询bank pos日表和月表的数据
         /// </summary>
+        /// <param name="QueryType">查询类型1:银行卡查询 ,2 银行参考号查询</param>
         /// <param name="bankCard">卡号</param>
         /// <param name="bankDate">日期</param>
+        /// <param name="bankType"></param>
         /// <param name="biz_type">业务类型</param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
+        /// <param name="totalNum"></param>
+        /// <param name="real_bill_no">银行参考号查询 QueryType=2时,必填 </param>
         /// <returns></returns>
-        public DataSet GetBankPosDataList(string bankCard, string bankDate,string bankType ,int biz_type, int offset, int limit, out int totalNum)
+        public DataSet GetBankPosDataList(int QueryType, string bankCard, string bankDate, string bankType, int biz_type, int offset, int limit, out int totalNum, string real_bill_no = "")
         {
             DateTime d1 = DateTime.ParseExact(bankDate, "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture);
 
             string begintime = d1.ToString("yyyy-MM-dd") + " 00:00:00";
             string endtime = d1.ToString("yyyy-MM-dd") + " 23:59:59";
-            string serBankaccno = BankLib.BankIOX.Encrypt(bankCard);//银行卡加密
-      
-            //测试
-            //   serBankaccno = "WeWfyNvtk7-M7WwTIPZvesYv2WHITL3E";
 
             string relayDefaultSPId = "20000000";
-            string inmsg = "req_id=1006&card_no=" + serBankaccno;
-            inmsg += "&biz_type=" + biz_type;
-            inmsg += "&bank_type=" + bankType;
-            inmsg += "&start_time=" + begintime;
-            inmsg += "&end_time=" + endtime;
-            inmsg += "&limit=" + limit;
-            inmsg += "&offset=" + offset;
-            inmsg += "&table_suffix=" + bankDate;
-            inmsg += "&MSG_NO=26171006" + DateTime.Now.Ticks.ToString();
+            string inmsg = "";
+            string serBankaccno = "";
+            if (QueryType == 1)
+            {
+                serBankaccno = BankLib.BankIOX.Encrypt(bankCard);//银行卡加密
+                //测试
+                //   serBankaccno = "WeWfyNvtk7-M7WwTIPZvesYv2WHITL3E";
+                inmsg = "req_id=1006&card_no=" + serBankaccno +
+                        "&biz_type=" + biz_type;
+            }
+            else if (QueryType == 2)
+            {
+                inmsg = "req_id=1004&real_bill_no=" + real_bill_no;
+            }
+
+            inmsg +=
+                "&bank_type=" + bankType +
+                "&start_time=" + begintime +
+                "&end_time=" + endtime +
+                "&limit=" + limit +
+                "&offset=" + offset +
+                "&table_suffix=" + bankDate +
+                "&MSG_NO=26171006" + DateTime.Now.Ticks.ToString();
 
             string ip = System.Configuration.ConfigurationManager.AppSettings["QueryBankPosIP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["QueryBankPosPORT"].ToString());
