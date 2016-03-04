@@ -25,7 +25,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
     /// <summary>
     /// BankCardQueryNew 的摘要说明。
     /// </summary>
-    public partial class BankCardQueryNew : System.Web.UI.Page
+    public partial class BankRefereNoQuery : System.Web.UI.Page
     {
         private static log4net.ILog s_log;
         private static log4net.ILog log
@@ -61,7 +61,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             {
                 TextBoxDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 RequestBankInfo();
-                Table2.Visible = false;
+                showbox.Visible = false;
             }
         }
 
@@ -151,7 +151,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             try
             {
-                Table2.Visible = true;
+                showbox.Visible = true;
                 pager.RecordCount = 1000;
                 BindData(1);
 
@@ -187,28 +187,29 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
 
             ViewState["Date"] = Date.ToString("yyyyMMdd");
-            ViewState["fpay_acc"] = this.txtBankCardID.Text.Trim();
+            ViewState["BankRefereNo"] = this.txt_BankRefereNo.Text.Trim();
             ViewState["bank_type"] = DropOldBankType.SelectedItem.Value;
-            ViewState["bank_name"] = DropOldBankType.SelectedItem.Text;
 
 
-            if (ViewState["fpay_acc"].ToString() == "")
+            if (ViewState["BankRefereNo"].ToString() == "")
             {
-                throw new Exception("请输入银行卡号！");
+                throw new Exception("请输入银行参考号！");
             }
         }
 
 
         private void BindData(int index)
         {
+            var real_bill_no = ViewState["BankRefereNo"] as string;
+            var Date = ViewState["Date"] as string;
+            var bank_type = ViewState["bank_type"] as string;
+
             try
             {
                 int max = pager.PageSize;
-                //     int start = max * (index - 1) + 1;
                 int start = max * (index - 1);
-                //  Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                // DataSet ds = qs.Getfbank_orderList(ViewState["fpay_acc"].ToString(), ViewState["Date"].ToString(), start, max);
-                DataSet ds = new FastPayService().QueryBankCardNewList(1,ViewState["fpay_acc"].ToString(), ViewState["Date"].ToString(), ViewState["bank_type"].ToString(), int.Parse(this.ddlBizType.SelectedValue), start, max);
+
+                DataSet ds = new FastPayService().QueryBankCardNewList(2, "", Date, bank_type, 10100, start, max, real_bill_no);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     DataGrid1.DataSource = ds.Tables[0].DefaultView;
@@ -223,24 +224,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             {
                 string errStr = PublicRes.GetErrorMsg(eSys.Message.ToString());
 
-                log.ErrorFormat("卡号={0}, 日期={1}, 银行名称={2}, 银行类型={3} ,出错原因={4}", ViewState["fpay_acc"].ToString(), ViewState["Date"].ToString(),
-                    ViewState["bank_name"].ToString(), ViewState["bank_type"].ToString(), eSys.Message.ToString());
+                log.ErrorFormat("银行参考号={0}, 日期={1},银行类型={3} ,出错原因={4}", real_bill_no, Date, bank_type, eSys.Message.ToString());
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + errStr);
-
             }
 
         }
 
-        private void DataToGrid(DataSet ds)
-        {
-            ds.Tables[0].Columns.Add("FamtStr", typeof(string));
-            foreach (DataRow dr in ds.Tables[0].Rows)
-            {
-                dr["FamtStr"] = MoneyTransfer.FenToYuan(dr["Famt"].ToString());
-            }
-            DataGrid1.DataSource = ds.Tables[0].DefaultView;
-            DataGrid1.DataBind();
-        }
 
         public void btnBatchQuery(object sender, System.EventArgs e)
         {
@@ -284,7 +273,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
                         if (item == null || string.IsNullOrEmpty(item.Value))
                         {
-                            string strTips = string.Format("卡号:{0}对应银行名：{1} 找不到银行类型值。", r1, r3);
+                            string strTips = string.Format("银行参考号:{0}对应银行名：{1} 找不到银行类型值。", r1, r3);
                             ShowMsg(strTips);
                             return;
                         }
@@ -306,7 +295,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 
                             //加分页标记，若为-1不分页
-                            DataSet tmpDs = new FastPayService().QueryBankCardNewList(1,r1, date, item.Value, 10100, -1, -1);
+                            DataSet tmpDs = new FastPayService().QueryBankCardNewList(2, "", date, item.Value, 10100, -1, -1, r1);
                             if (tmpDs != null && tmpDs.Tables.Count > 0 && tmpDs.Tables[0].Rows.Count > 0)
                             {
                                 foreach (DataRow dr in tmpDs.Tables[0].Rows)

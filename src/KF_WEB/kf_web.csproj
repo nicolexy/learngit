@@ -838,6 +838,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="classLibrary\setConfig.cs" />
+    <Compile Include="classLibrary\SocketConnection.cs" />
     <Compile Include="classLibrary\Utility.cs" />
     <Compile Include="Control\AccountLedgerManageControl.ascx.cs">
       <DependentUpon>AccountLedgerManageControl.ascx</DependentUpon>
@@ -908,6 +909,13 @@
     </Compile>
     <Compile Include="Control\commonDataSet.ascx.designer.cs">
       <DependentUpon>commonDataSet.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Control\FundControl.ascx.cs">
+      <DependentUpon>FundControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Control\FundControl.ascx.designer.cs">
+      <DependentUpon>FundControl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Control\HKWalletPay.ascx.cs">
       <DependentUpon>HKWalletPay.ascx</DependentUpon>
@@ -2203,6 +2211,13 @@
     <Compile Include="TradeManage\CGIInfoQuery.aspx.designer.cs">
       <DependentUpon>CGIInfoQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TradeManage\BankRefereNoQuery.aspx.cs">
+      <DependentUpon>BankRefereNoQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\BankRefereNoQuery.aspx.designer.cs">
+      <DependentUpon>BankRefereNoQuery.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TradeManage\CreditQueryNew.aspx.cs">
       <DependentUpon>CreditQueryNew.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3165,6 +3180,7 @@
     <Content Include="Control\commonDataSet.ascx">
       <SubType>UserControl</SubType>
     </Content>
+    <Content Include="Control\FundControl.ascx" />
     <Content Include="Control\HKWalletPay.ascx" />
     <Content Include="Control\HandQBusiness.ascx" />
     <Content Include="Control\AccountOperateControl.ascx">
@@ -3553,6 +3569,7 @@
     <Content Include="TradeManage\BusCardPrepaidQuery.aspx" />
     <Content Include="TradeManage\ContractQuery.aspx" />
     <Content Include="TradeManage\CGIInfoQuery.aspx" />
+    <Content Include="TradeManage\BankRefereNoQuery.aspx" />
     <Content Include="TradeManage\CreditQueryNew.aspx" />
     <Content Include="TradeManage\FundCardQuery_DetailNew.aspx" />
     <Content Include="TradeManage\MobileBindingQuery.aspx" />

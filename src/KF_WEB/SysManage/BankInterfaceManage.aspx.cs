@@ -173,7 +173,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 //≈≈–Ú
                 DataTable dt = ds.Tables[0];
                 DataView view = dt.DefaultView;
-                view.Sort = "updatetime desc";
+                view.Sort = "startime desc";
                 dt = view.ToTable();
                 DataSet dsResult = new DataSet();
                 dsResult.Tables.Add(dt);

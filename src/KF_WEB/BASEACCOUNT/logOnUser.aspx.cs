@@ -28,6 +28,9 @@ using System.Text.RegularExpressions;
 using CFT.Apollo.Logging;
 using CFT.CSOMS.COMMLIB;
 using CFT.CSOMS.BLL.CFTAccountModule;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
 
 
 namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
@@ -186,7 +189,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Finance_Header fh2 = setConfig.setFH(this);
                 qs.Finance_HeaderValue = fh2;
 
-
+                string accountName = string.Empty;
                 long balance = 0;//就是金额
                 if (ViewState["Cached" + qqid] == null)
                 {
@@ -314,6 +317,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     var ds = qs.GetUserAccount(qqid, 1, 1, 1);
                     if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                     {
+                        accountName = ds.Tables[0].Rows[0]["UserRealName2"].ToString();
                         string s_fz_amt = PublicRes.objectToString(ds.Tables[0], "Ffz_amt"); //分账冻结金额
                         string s_cron = PublicRes.objectToString(ds.Tables[0], "Fcon");
 
@@ -379,6 +383,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     {
                         SendEmail(emailAddr, qqid, "系统自动销户");
                     }
+                    UnRegisterNotify(qqid, accountName, fh.UserIP);
                     WebUtils.ShowMessage(this.Page, "系统自动销户成功！");
                     return;
                 }
@@ -428,6 +433,51 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 
             this.btLogOn.Enabled = false;
 		}
+
+        /// <summary>
+        /// 注销成功通知风控
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="accountName"></param>
+        /// <param name="executorip"></param>
+        private void UnRegisterNotify(string account, string accountName, string executorip)
+        {
+            IPAddress ipAddr;
+            string ip = ConfigurationManager.AppSettings["UnRegisterNotify_IP"].ToString();
+            int port = Convert.ToInt32(ConfigurationManager.AppSettings["UnRegisterNotify_Port"].ToString());
+            if (!IPAddress.TryParse(ip, out ipAddr))
+            {
+                LogHelper.LogError("ip地址错误：" + ipAddr.ToString());
+            }
+            else
+            {
+                UDPConnection conn = new UDPConnection(ipAddr, port);
+                UdpClient udpC = conn.Connection();
+                if (udpC == null)
+                {
+                    LogHelper.LogError("注销财付通通知unregister_notify，无法连接到服务器。");
+                }
+                else
+                {
+                    string dataStr = "channel_id=111";
+                    dataStr += "&purchaser_id=" + account;
+                    dataStr += "&client_ip=" + executorip;
+                    dataStr += "&time_stamp=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    dataStr += "&imei=";
+                    dataStr += "&guid=";
+                    dataStr += "&mobile_info=";
+                    dataStr += "&QQRiskInfo=";
+                    dataStr += "&certno_3des=";
+                    dataStr += "&name=" + accountName;
+                    dataStr += "&ftype=3";
+
+                    string reqStr = "protocol=unregister_notify&version=1.0&data" + CommUtil.URLEncode(dataStr);
+                    LogHelper.LogInfo("unregister_notify send:" + reqStr);
+                    byte[] sendbytes = Encoding.Unicode.GetBytes(reqStr);
+                    udpC.Send(sendbytes, sendbytes.Length);
+                }
+            }
+        }
 
         private bool SendEmail(string email, string qqid,string subject)
         {

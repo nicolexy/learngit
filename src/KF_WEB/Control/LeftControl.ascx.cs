@@ -43,6 +43,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
         protected SysManage SysManage1;
         protected CreditPayControl CreditPayControl1;
         protected WebchatPayControl WebchatPayControl1;
+        protected FundControl FundControl1;
+        
         protected TravelPlatform TravelPlatform1;
         protected ForeignCurrencyPay ForeignCurrencyPay1;
         protected ForeignCurrencyAccount ForeignCurrencyAccount1;
@@ -130,6 +132,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                     if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("PayManagement", this))  //支付管理下的菜单，都需要申请该权限
                     {
                         WebchatPayControl1.Visible=false;
+                        FundControl1.Visible = false;
                         FastPay1.Visible=false;
                         CreditPayControl1.Visible=false;
                         OverseasPay1.Visible=false;
@@ -273,8 +276,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
                 FastPay1.AddSubMenu("一点通业务", "BaseAccount/BankCardUnbind.aspx");
                 FastPay1.AddSubMenu("一点通业务(新)", "BaseAccount/BankCardUnbindNew.aspx");
-               // FastPay1.AddSubMenu("银行卡查询", "TradeManage/BankCardQuery.aspx");
+              
                 FastPay1.AddSubMenu("银行卡查询", "TradeManage/BankCardQueryNew.aspx");
+                FastPay1.AddSubMenu("银行参考号查询", "TradeManage/BankRefereNoQuery.aspx");
+
                 FastPay1.AddSubMenu("姓名生僻字", "BaseAccount/RareNameQuery.aspx");
                 FastPay1.AddSubMenu("卡信息查询", "BaseAccount/CardInfoQuery.aspx");
 
@@ -385,16 +390,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 //微信支付
                 WebchatPayControl1.AddSubMenu("微信支付帐号", "WebchatPay/WechatInfoQuery.aspx");
                 WebchatPayControl1.AddSubMenu("AA收款帐号", "WebchatPay/WechatAACollection.aspx");
-                WebchatPayControl1.AddSubMenu("理财通查询", "NewQueryInfoPages/GetFundRatePage.aspx");
-                WebchatPayControl1.AddSubMenu("理财通安全卡", "WebchatPay/SafeCardManage.aspx");
-                WebchatPayControl1.AddSubMenu("生活化理财", "WebchatPay/FundFixedInvestment.aspx");
-                WebchatPayControl1.AddSubMenu("理财通预约买入", "WebchatPay/LCTReserveOrder.aspx");
+                //WebchatPayControl1.AddSubMenu("理财通查询", "NewQueryInfoPages/GetFundRatePage.aspx");
+                //WebchatPayControl1.AddSubMenu("理财通安全卡", "WebchatPay/SafeCardManage.aspx");
+                //WebchatPayControl1.AddSubMenu("生活化理财", "WebchatPay/FundFixedInvestment.aspx");
+                //WebchatPayControl1.AddSubMenu("理财通预约买入", "WebchatPay/LCTReserveOrder.aspx");
                 WebchatPayControl1.AddSubMenu("微信红包查询", "WebchatPay/WechatRedPacket.aspx");
                 WebchatPayControl1.AddSubMenu("小额刷卡", "WebchatPay/SmallCreditCardQuery.aspx");
                 WebchatPayControl1.AddSubMenu("微信信用卡还款", "WebchatPay/CreditCardRefundQuery.aspx");
-                WebchatPayControl1.AddSubMenu("理财通增值券", "WebchatPay/AddedValueTicketQuery.aspx");
-                WebchatPayControl1.AddSubMenu("合约机查询", "WebchatPay/QueryContractMachine.aspx");
+                //WebchatPayControl1.AddSubMenu("理财通增值券", "WebchatPay/AddedValueTicketQuery.aspx");
+                //WebchatPayControl1.AddSubMenu("合约机查询", "WebchatPay/QueryContractMachine.aspx");
                 WebchatPayControl1.AddSubMenu("实时还款查询", "WebchatPay/QueryRealtimeRepayment.aspx");
+
+                FundControl1.AddSubMenu("理财通查询", "NewQueryInfoPages/GetFundRatePage.aspx");
+                FundControl1.AddSubMenu("理财通安全卡", "WebchatPay/SafeCardManage.aspx");
+                FundControl1.AddSubMenu("生活化理财", "WebchatPay/FundFixedInvestment.aspx");
+                FundControl1.AddSubMenu("理财通预约买入", "WebchatPay/LCTReserveOrder.aspx");
+                FundControl1.AddSubMenu("理财通增值券", "WebchatPay/AddedValueTicketQuery.aspx");
+                FundControl1.AddSubMenu("合约机查询", "WebchatPay/QueryContractMachine.aspx");
             }
 
             if (classLibrary.ClassLib.ValidateRight("DKAdjust", this))

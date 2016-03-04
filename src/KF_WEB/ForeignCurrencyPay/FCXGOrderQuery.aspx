@@ -86,8 +86,8 @@
                     <asp:TextBox ID="txt_card_no" runat="server" />
                     </td>
                     <td>查询日期：
-                     <input type="text" runat="server" id="txt_cardQuery_date" onclick="WdatePicker()" />
-                        <img onclick="txt_cardQuery_date.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" style="width: 16px; height: 22px; cursor: pointer" alt="选择日期" /></td>
+                     <input type="text" runat="server" id="txt_cardQuery_date" onclick="WdatePicker()" class="Wdate" />
+                    </td>
                 </tr>
                 <tr>
                     <td>MD订单号：
@@ -169,9 +169,7 @@
                 </tr>
                 <tr>
                     <th></th>
-                    <td>
-                      
-                    </td>
+                    <td></td>
                     <th>卡类型：</th>
                     <td>
                         <asp:Label ID="lb_card_type" runat="server" />
@@ -242,9 +240,9 @@
                     <td>
                         <asp:Label ID="lb_trade_state_str" runat="server" />
                     </td>
-                    <th>退款时间：</th>
+                    <th>退款详细：</th>
                     <td>
-                        <asp:Label ID="lb_refund_time_acc" runat="server" />
+                        <asp:HyperLink ID="link_toRefundInfo" runat="server" Visible="false">查看退款详细</asp:HyperLink>
                     </td>
                 </tr>
                 <tr>

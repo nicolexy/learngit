@@ -92,6 +92,7 @@
                                 <asp:BoundColumn DataField="Fpaynum_str_order" HeaderText="交易金额"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="Fcreate_time" HeaderText="退款时间"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="Fsp_refund_num_str" HeaderText="退款金额"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="fmodify_time" HeaderText="完成时间"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="Frefund_state_str" HeaderText="退款状态"></asp:BoundColumn>
 							</Columns>
                             <PagerStyle HorizontalAlign="Right" ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>

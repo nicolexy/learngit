@@ -208,6 +208,9 @@
                         <asp:BoundColumn DataField="close_flagText" HeaderText="封闭标志">
                             <HeaderStyle Width="80px"></HeaderStyle>
                         </asp:BoundColumn>
+                        <asp:BoundColumn DataField="FType_Str" HeaderText="基金类型">
+                            <HeaderStyle Width="120px"></HeaderStyle>
+                        </asp:BoundColumn>
                         <asp:BoundColumn DataField="transfer_flagText" HeaderText="转换交易">
                             <HeaderStyle Width="180px"></HeaderStyle>
                         </asp:BoundColumn>

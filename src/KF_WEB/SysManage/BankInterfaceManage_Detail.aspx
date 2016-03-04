@@ -27,7 +27,7 @@
                 <TR>
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp; 标题 </FONT>
 					</TD>
-					<TD align="left" colSpan="2"><asp:textbox id="tbTitle" runat="server" Width="488px" Height="120px" TextMode="MultiLine">bankName维护公告</asp:textbox></TD>
+					<TD align="left" colSpan="2"><asp:textbox id="tbTitle" runat="server" Width="488px" Height="120px" TextMode="MultiLine">银行维护公告</asp:textbox></TD>
 			    	<TD rowspan="18" align="left" valign="top">
 							<asp:datagrid id="DatagridBank" runat="server" Width="300px"  PageSize="200"
 								AutoGenerateColumns="False" CellPadding="3" BackColor="White" BorderWidth="1px" BorderStyle="None"
@@ -48,7 +48,7 @@
 				<TR>
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp; 正文 </FONT>
 					</TD>
-					<TD align="left"><asp:textbox id="tbInterfaceMainText" runat="server" Width="488px" Height="120px" TextMode="MultiLine">**银行系统维护中，预计endtime恢复。</asp:textbox><asp:requiredfieldvalidator id="Requiredfieldvalidator9" runat="server" ErrorMessage="请输入" ControlToValidate="tbInterfaceMainText"></asp:requiredfieldvalidator></TD>
+					<TD align="left"><asp:textbox id="tbInterfaceMainText" runat="server" Width="488px" Height="120px" TextMode="MultiLine">银行系统维护中，预计endtime恢复。</asp:textbox><asp:requiredfieldvalidator id="Requiredfieldvalidator9" runat="server" ErrorMessage="请输入" ControlToValidate="tbInterfaceMainText"></asp:requiredfieldvalidator></TD>
 				</TR>
              <%--   <TR>
 					<TD align="left" width="15%"><FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp; 影响接口 </FONT>

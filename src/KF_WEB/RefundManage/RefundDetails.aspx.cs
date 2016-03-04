@@ -145,6 +145,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     string[] strAryOperator = strOperater.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                     if (strAryOperator.Length == 2)
                     {
+                        ViewState["kfOperator"] = strAryOperator[0];    // 记录资料提交者  用户
                         kfOperator.Text = string.Format("资料提交者：{0} 提交时间:{1}", strAryOperator[0], strAryOperator[1]);
                     }
                     else
@@ -533,6 +534,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     SetBtnEnabledState(false, 0);
                     log.InfoFormat("审批拒绝成功：操作者：{0} checkId：{1} ", Session["uid"].ToString(), strCheckId); 
                     WebUtils.ShowMessage(this.Page, "审批已生效！");
+                    RefusedSendEmail();
                 }
                 else
                 {
@@ -639,6 +641,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             }
         }
 
+        /// <summary>
+        /// 拒绝后发送邮件 给 资料提交者
+        /// </summary>
+        private void RefusedSendEmail()
+        {
+            try
+            {
+                var uin = ViewState["kfOperator"] as string;
+                if (uin != null)
+                {
+                    var listid = lbUinID.Text;
+                    var mailBody = uin + "：\r\n" +
+                        "您提交的特殊退款订单 " + listid + " 审批失败，请您及时关注！谢谢！";
+                    TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendInternalMail(uin, "", "特殊退款订单审批失败通知", mailBody);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.ErrorFormat("审批拒绝：操作者：{0} 退款号：{1} 发送邮件给资料提交者发送失败:{2}", Session["uid"].ToString(), ViewState["foldId"].ToString(), ex.Message); 
+            }
+        }
         /*
         //作废
         protected void btnTransferInvalid_Click(object sender, EventArgs e)

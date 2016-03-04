@@ -106,6 +106,15 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             }
             #endregion
 
+            #region 判断是否有绑定确认状态的银行卡
+            var ds = new BankCardBindService().GetBankCardBindList_New(old_qqid, "", "", "", "", "", "", "", "", 2, "", "", 0, "", 0, 1);
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                outMsg = "绑定确认状态的银行卡时,不允许修改转换！";
+                return false;
+            }
+            #endregion
+
             return true;
         }
 

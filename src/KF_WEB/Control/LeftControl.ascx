@@ -32,6 +32,8 @@
 <%@ Register TagPrefix="uc1" TagName="PNRQuery" Src="PNRQueryControl.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="HandQBusiness" Src="HandQBusiness.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="HKWalletPay" Src="HKWalletPay.ascx" %>
+<%@ Register Src="~/Control/FundControl.ascx" TagPrefix="uc1" TagName="FundControl" %>
+
 
 <script language="javascript" type="text/javascript" src="scripts/jquery-1.11.3.min.js"></script>
 <script language="javascript" type="text/javascript" src="scripts/local.js"></script>
@@ -108,6 +110,7 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
                   <td >
                         <uc1:WebchatPayControl ID="WebchatPayControl1" runat="server" /><!--微信支付-->
                         <uc1:FastPay id="FastPay1" runat="server"></uc1:FastPay><!--快捷支付-->
+                        <uc1:FundControl runat="server" ID="FundControl1" /><!--理财通-->
                         <uc1:CreditPayControl ID="CreditPayControl1" runat="server" /><!--信用支付-->
                         <uc1:OverseasPay id="OverseasPay1" runat="server"></uc1:OverseasPay><!--国际支付-->
                         <uc1:MicroPay id="MicroPay1" runat="server"></uc1:MicroPay><!--微支付--> 

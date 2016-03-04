@@ -781,7 +781,7 @@ namespace CSAPI
                 if (limit < 0 || limit > 50)
                     limit = 50;
 
-                var infos = new CFT.CSOMS.BLL.WechatPay.FastPayService().QueryBankCardNewList(bank_card, date_str, bank_type, bit_type, offset, limit);
+                var infos = new CFT.CSOMS.BLL.WechatPay.FastPayService().QueryBankCardNewList(1,bank_card, date_str, bank_type, bit_type, offset, limit);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
