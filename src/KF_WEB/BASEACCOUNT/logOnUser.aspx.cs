@@ -189,7 +189,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Finance_Header fh2 = setConfig.setFH(this);
                 qs.Finance_HeaderValue = fh2;
 
-
+                string accountName = string.Empty;
                 long balance = 0;//就是金额
                 if (ViewState["Cached" + qqid] == null)
                 {
@@ -317,6 +317,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     var ds = qs.GetUserAccount(qqid, 1, 1, 1);
                     if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                     {
+                        accountName = ds.Tables[0].Rows[0]["UserRealName2"].ToString();
                         string s_fz_amt = PublicRes.objectToString(ds.Tables[0], "Ffz_amt"); //分账冻结金额
                         string s_cron = PublicRes.objectToString(ds.Tables[0], "Fcon");
 
@@ -382,7 +383,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     {
                         SendEmail(emailAddr, qqid, "系统自动销户");
                     }
-                    UnRegisterNotify(qqid, "", fh.UserIP);
+                    UnRegisterNotify(qqid, accountName, fh.UserIP);
                     WebUtils.ShowMessage(this.Page, "系统自动销户成功！");
                     return;
                 }
