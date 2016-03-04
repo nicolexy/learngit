@@ -838,6 +838,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="classLibrary\setConfig.cs" />
+    <Compile Include="classLibrary\SocketConnection.cs" />
     <Compile Include="classLibrary\Utility.cs" />
     <Compile Include="Control\AccountLedgerManageControl.ascx.cs">
       <DependentUpon>AccountLedgerManageControl.ascx</DependentUpon>
