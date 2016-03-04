@@ -28,6 +28,9 @@ using System.Text.RegularExpressions;
 using CFT.Apollo.Logging;
 using CFT.CSOMS.COMMLIB;
 using CFT.CSOMS.BLL.CFTAccountModule;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
 
 
 namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
@@ -379,6 +382,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     {
                         SendEmail(emailAddr, qqid, "系统自动销户");
                     }
+                    UnRegisterNotify(qqid, "", fh.UserIP);
                     WebUtils.ShowMessage(this.Page, "系统自动销户成功！");
                     return;
                 }
@@ -428,6 +432,50 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 
             this.btLogOn.Enabled = false;
 		}
+
+        /// <summary>
+        /// 注销成功通知风控
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="accountName"></param>
+        /// <param name="executorip"></param>
+        private void UnRegisterNotify(string account, string accountName, string executorip)
+        {
+            IPAddress ipAddr;
+            int port = 9001;
+            if (!IPAddress.TryParse("10.123.6.31", out ipAddr))
+            {
+                LogHelper.LogError("ip地址错误：" + ipAddr.ToString());
+            }
+            else
+            {
+                UDPConnection conn = new UDPConnection(ipAddr, port);
+                UdpClient udpC = conn.Connection();
+                if (udpC == null)
+                {
+                    LogHelper.LogError("注销财付通通知unregister_notify，无法连接到服务器。");
+                }
+                else
+                {
+                    string dataStr = "channel_id=111";
+                    dataStr += "&purchaser_id=" + account;
+                    dataStr += "&client_ip=" + executorip;
+                    dataStr += "&time_stamp=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    dataStr += "&imei=";
+                    dataStr += "&guid=";
+                    dataStr += "&mobile_info=";
+                    dataStr += "&QQRiskInfo=";
+                    dataStr += "&certno_3des=";
+                    dataStr += "&name=" + accountName;
+                    dataStr += "&ftype=3";
+
+                    string reqStr = "protocol=unregister_notify&version=1.0&data" + CommUtil.URLEncode(dataStr);
+
+                    byte[] sendbytes = Encoding.Unicode.GetBytes(reqStr);
+                    udpC.Send(sendbytes, sendbytes.Length);
+                }
+            }
+        }
 
         private bool SendEmail(string email, string qqid,string subject)
         {
