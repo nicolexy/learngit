@@ -17810,26 +17810,52 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     //根据交易单号查看备注说明信息
                     if (ds.Tables[0].Rows.Count > 0)
                     {
-                        string strPaylistid = ds.Tables[0].Rows[0]["Ftransaction_id"].ToString();
+                        //string strPaylistid = ds.Tables[0].Rows[0]["Ftransaction_id"].ToString();
+                        string strFdraw_id = ds.Tables[0].Rows[0]["Fdraw_id"].ToString();
+                        DateTime Fcreate_time = Convert.ToDateTime(ds.Tables[0].Rows[0]["Fcreate_time"].ToString());
+
                         MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ZWTK"));
                         try
                         {
-                            string strSql = " select FHandleMemo,Foldid from c2c_zwdb.t_refund_other where FPaylistid = '" + strPaylistid + "'";
+                            string strSql = " select FHandleMemo,Foldid from c2c_zwdb.t_refund_other where Foldid = '" + strFdraw_id + "'";
                             da.OpenConn();
                             DataTable dt1 = da.GetTable(strSql);
                             if (dt1 != null && dt1.Rows.Count > 0)
                             {
                                 //先得出说明信息
                                 ds.Tables[0].Rows[0]["FHandleMemoEx"] = dt1.Rows[0]["FHandleMemo"];
-                                string strOldID = dt1.Rows[0]["Foldid"].ToString();
-                                //根据退款号求备注 （根据交易单号求备注会超时：交易单号不是索引）
-                                string sql = " select Fexplain from c2c_zwdb.t_refund_total where foldid = '" + strOldID + "'";
-                                DataTable dt2 = da.GetTable(sql);
-                                if (dt2 != null && dt2.Rows.Count > 0)
+                            }
+
+                            string FexplainEx = "";
+                            strSql = " select fhdid from c2c_zwdb.t_refund_detail_{0} where foldid = '{1}'";
+                            strSql = string.Format(strSql, Fcreate_time.Year.ToString(), strFdraw_id);
+                            DataTable dt2 = da.GetTable(strSql);
+                            if (dt2 != null && dt2.Rows.Count > 0)
+                            {
+                                string fhdid = dt2.Rows[0]["fhdid"].ToString().Trim();
+                                if (!string.IsNullOrEmpty(fhdid))
                                 {
-                                    ds.Tables[0].Rows[0]["FexplainEx"] = dt2.Rows[0]["Fexplain"];
+                                    strSql = " select Fexplain from c2c_zwdb.t_refund_total where foldid = '" + fhdid + "'";
+                                    DataTable dt3 = da.GetTable(strSql);
+                                    if (dt3 != null && dt3.Rows.Count > 0)
+                                    {
+                                        FexplainEx = dt3.Rows[0]["Fexplain"].ToString();
+                                    }
+                                }                             
+                            }
+                            if (string.IsNullOrEmpty(FexplainEx))
+                            {
+                                //根据退款号求备注 （根据交易单号求备注会超时：交易单号不是索引）
+                                strSql = " select Fexplain from c2c_zwdb.t_refund_total where foldid = '" + strFdraw_id + "'";
+                                DataTable dt4 = da.GetTable(strSql);
+                                if (dt4 != null && dt4.Rows.Count > 0)
+                                {
+                                    FexplainEx = dt4.Rows[0]["Fexplain"].ToString();
                                 }
                             }
+
+                            ds.Tables[0].Rows[0]["FexplainEx"] = FexplainEx;
+
                         }
                         finally
                         {
