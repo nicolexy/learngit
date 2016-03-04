@@ -909,6 +909,13 @@
     <Compile Include="Control\commonDataSet.ascx.designer.cs">
       <DependentUpon>commonDataSet.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Control\FundControl.ascx.cs">
+      <DependentUpon>FundControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Control\FundControl.ascx.designer.cs">
+      <DependentUpon>FundControl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Control\HKWalletPay.ascx.cs">
       <DependentUpon>HKWalletPay.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3165,6 +3172,7 @@
     <Content Include="Control\commonDataSet.ascx">
       <SubType>UserControl</SubType>
     </Content>
+    <Content Include="Control\FundControl.ascx" />
     <Content Include="Control\HKWalletPay.ascx" />
     <Content Include="Control\HandQBusiness.ascx" />
     <Content Include="Control\AccountOperateControl.ascx">

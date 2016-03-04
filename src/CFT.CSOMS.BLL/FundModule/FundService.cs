@@ -15,6 +15,9 @@ namespace CFT.CSOMS.BLL.FundModule
 
         //理财通渠道字典
         static Dictionary<string, string> DicFchannel;
+        //基金类型
+        static Dictionary<string, string> DicFtype;
+
 
         static FundService()
         {
@@ -29,6 +32,17 @@ namespace CFT.CSOMS.BLL.FundModule
                 {"97", "PC网银"},
                 {"98", "PC微信支付"},
                 {"99", "PCQQ钱包"}
+            };
+
+            DicFtype = new Dictionary<string, string>()
+            {
+                {"1", "货币"},
+                {"2", "定期"},
+                {"3", "保险"},
+                {"4", "指数"},
+                {"5", "非标"},
+                {"6", "报价回购"},
+                {"7", "投连险"}
             };
         }
 
@@ -73,6 +87,14 @@ namespace CFT.CSOMS.BLL.FundModule
                 { "1269516701" , "9000004" }, //光大永明光明财富2号B款年金保险（投资连结型）
             };
             return GuangDadic.ContainsKey(spid) && GuangDadic[spid] == fund_code;
+        }
+
+        public bool IsSmallChange(string spid)
+        {
+            //1295277801|1294122801|1294122101|1306760801 
+            List<string> SmallChangedic = new List<string>() { "1295277801", "1294122801", "1294122101", "1306760801" };
+
+           return SmallChangedic.Any(p => p == spid);
         }
       
         public DataTable GetFundTradeLog(string qqid,int istr, int imax)
@@ -224,6 +246,9 @@ namespace CFT.CSOMS.BLL.FundModule
             userFundsTable.Columns.Add("transfer_flag", typeof(string));
             userFundsTable.Columns.Add("buy_valid", typeof(string));
             userFundsTable.Columns.Add("markValue", typeof(string));//市值
+            //基金类型
+            userFundsTable.Columns.Add("Ftype", typeof(string));//市值
+            userFundsTable.Columns.Add("FType_Str", typeof(string));//基金类型
 
             var cftAccountBLLService = new CFTAccountModule.AccountService();
             DataTable subAccountInfoTable;
@@ -239,6 +264,7 @@ namespace CFT.CSOMS.BLL.FundModule
                     item["close_flag"] = FundInfoBySpidTable.Rows[0]["Fclose_flag"].ToString();
                     item["transfer_flag"] = FundInfoBySpidTable.Rows[0]["Ftransfer_flag"].ToString();
                     item["buy_valid"] = FundInfoBySpidTable.Rows[0]["Fbuy_valid"].ToString();
+                    item["Ftype"] = FundInfoBySpidTable.Rows[0]["Ftype"].ToString();
                 }
 
                 //balance
@@ -284,6 +310,15 @@ namespace CFT.CSOMS.BLL.FundModule
                 catch (Exception ex)
                 {
                     throw new Exception("查询市值异常：" + ex.Message);
+                }
+                //基金类型转义
+                if (IsSmallChange(item["Fspid"].ToString()))
+                {
+                    item["FType_Str"] = "零钱";
+                }
+                else
+                {
+                    item["FType_Str"] = DicFtype[item["FType"].ToString()];
                 }
             }
 
