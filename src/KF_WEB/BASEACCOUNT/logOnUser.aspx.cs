@@ -443,8 +443,9 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
         private void UnRegisterNotify(string account, string accountName, string executorip)
         {
             IPAddress ipAddr;
-            int port = 9001;
-            if (!IPAddress.TryParse("10.123.6.31", out ipAddr))
+            string ip = ConfigurationManager.AppSettings["UnRegisterNotify_IP"].ToString();
+            int port = Convert.ToInt32(ConfigurationManager.AppSettings["UnRegisterNotify_Port"].ToString());
+            if (!IPAddress.TryParse(ip, out ipAddr))
             {
                 LogHelper.LogError("ipµÿ÷∑¥ÌŒÛ£∫" + ipAddr.ToString());
             }
@@ -471,7 +472,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     dataStr += "&ftype=3";
 
                     string reqStr = "protocol=unregister_notify&version=1.0&data" + CommUtil.URLEncode(dataStr);
-
+                    LogHelper.LogInfo("unregister_notify send:" + reqStr);
                     byte[] sendbytes = Encoding.Unicode.GetBytes(reqStr);
                     udpC.Send(sendbytes, sendbytes.Length);
                 }
