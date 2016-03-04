@@ -27,14 +27,14 @@ namespace CFT.CSOMS.BLL.FundModule
 
                 //交易类型
                 Hashtable ht1 = new Hashtable();
-                ht1.Add("1", "充值到余额");
+                ht1.Add("1", "充值成功");
                 ht1.Add("2", "普通赎回到余额");
                 ht1.Add("3", "快速赎回到余额");
                 ht1.Add("4", "提现失败回到余额");
-                ht1.Add("5", "余额提现(t+0)");
-                ht1.Add("6", "余额申购");
+                ht1.Add("5", "提现成功");
+                ht1.Add("6", "申购成功");
                 ht1.Add("7", "余额提现(t+1)");
-                ht1.Add("10", "活动奖励");
+                ht1.Add("10", "到账成功");
                 ht1.Add("11", "对账补单");
 
                 //支付渠道
