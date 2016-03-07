@@ -473,7 +473,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 
                     string reqStr = "protocol=unregister_notify&version=1.0&data" + CommUtil.URLEncode(dataStr);
                     LogHelper.LogInfo("unregister_notify send:" + reqStr);
-                    byte[] sendbytes = Encoding.Unicode.GetBytes(reqStr);
+                    byte[] sendbytes = Encoding.Default.GetBytes(reqStr);
                     udpC.Send(sendbytes, sendbytes.Length);
                 }
             }
