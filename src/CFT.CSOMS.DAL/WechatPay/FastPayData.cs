@@ -80,8 +80,7 @@ namespace CFT.CSOMS.DAL.WechatPay
                 serBankaccno = BankLib.BankIOX.Encrypt(bankCard);//银行卡加密
                 //测试
                 //   serBankaccno = "WeWfyNvtk7-M7WwTIPZvesYv2WHITL3E";
-                inmsg = "req_id=1006&card_no=" + serBankaccno +
-                        "&biz_type=" + biz_type;
+                inmsg = "req_id=1006&card_no=" + serBankaccno ;
             }
             else if (QueryType == 2)
             {
@@ -89,6 +88,7 @@ namespace CFT.CSOMS.DAL.WechatPay
             }
 
             inmsg +=
+                "&biz_type=" + biz_type +
                 "&bank_type=" + bankType +
                 "&start_time=" + begintime +
                 "&end_time=" + endtime +

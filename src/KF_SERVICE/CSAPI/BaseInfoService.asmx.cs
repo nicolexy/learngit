@@ -1537,14 +1537,15 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "old_qqid", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "old_qqid", "op_uin", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
                 string old_qqid = paramsHt["old_qqid"].ToString();
+                string op_uin = paramsHt["op_uin"].ToString();
                 string outMsg = "";
 
-                bool state = new CFT.CSOMS.BLL.CFTAccountModule.AccountOperate().ChangeQQState(old_qqid, out outMsg);
+                bool state = new CFT.CSOMS.BLL.CFTAccountModule.AccountOperate().ChangeQQState(old_qqid, op_uin, out outMsg);
 
                 RecordNew record = new RecordNew();
                 record.RetValue = state.ToString().ToLower();

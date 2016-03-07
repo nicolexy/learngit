@@ -206,7 +206,8 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         dr["Ftruename"] = CommUtil.TripleDESDecryptRealName(dr["Ftruename"].ToString(), key);
-                        dr["Fbank_id"] = dr["Fbank_id"].ToString(); //不进行解密 //CommUtil.TripleDESDecryptRealName(dr["Fbank_id"].ToString(), key);
+                        var bank_id = CommUtil.TripleDESDecryptRealName(dr["Fbank_id"].ToString(), key);
+                        dr["Fbank_id"] = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.convertToUTF8Base64(bank_id); 
                         dr["Fcre_id"] = CommUtil.TripleDESDecryptRealName(dr["Fcre_id"].ToString(), key);
                         dr["Ftelephone"] = CommUtil.TripleDESDecryptRealName(dr["Ftelephone"].ToString(), key);
                         dr["Fmobilephone"] = CommUtil.TripleDESDecryptRealName(dr["Fmobilephone"].ToString(), key);
