@@ -140,7 +140,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 ds.Tables[0].Columns.Add("URL", typeof(string));
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    dr["URL"] = "CFTUserCheck.aspx?fid=&db=&tb=&flist_id=" + dr["flist_id"].ToString();
+                    dr["URL"] = "CFTUserCheck.aspx?from=UserClassQuery&fid=&db=&tb=&flist_id=" + dr["flist_id"].ToString();
                 }
                 DataGrid1.DataSource = ds.Tables[0].DefaultView;
                 DataGrid1.DataBind();

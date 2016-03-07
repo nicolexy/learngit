@@ -81,7 +81,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         }
 
         //判断是否符合修改QQ条件
-        public bool ChangeQQState(string old_qqid, out string outMsg)
+        public bool ChangeQQState(string old_qqid,string opUin, out string outMsg)
         {
             outMsg = "";
             if (isHasBalance(old_qqid.Trim()))
@@ -107,7 +107,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             #endregion
 
             #region 判断是否有绑定确认状态的银行卡
-            var ds = new BankCardBindService().GetBankCardBindList_New(old_qqid, "", "", "", "", "", "", "", "", 2, "", "", 0, "", 0, 1);
+            var ds = new BankCardBindService().GetBankCardBindList_New(old_qqid, "", "", "", "", "", "", "", "", 2, "", opUin, 0, "", 0, 1);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 outMsg = "绑定确认状态的银行卡时,不允许修改转换！";
