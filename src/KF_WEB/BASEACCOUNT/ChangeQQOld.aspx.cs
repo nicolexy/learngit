@@ -155,24 +155,33 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
     
         protected void btnChangeQQ_Click(object sender, System.EventArgs e)
         {
-            if (OldQQ.Text.Trim() == "")
+            try
             {
-                WebUtils.ShowMessage(this.Page, "请输入旧帐号！");
+                if (OldQQ.Text.Trim() == "")
+                {
+                    WebUtils.ShowMessage(this.Page, "请输入旧帐号！");
+                    return;
+                }
+
+                if (NewQQ.Text.Trim() == "")
+                {
+                    WebUtils.ShowMessage(this.Page, "请输入新帐号！");
+                    return;
+                }
+
+                string outMsg = "";
+                if (!new AccountOperate().ChangeQQState(OldQQ.Text.Trim(), Session["uid"].ToString(), out outMsg))
+                {
+                    WebUtils.ShowMessage(this.Page, outMsg);
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                WebUtils.ShowMessage(this.Page, "判断是否符合修改条件异常:" + ex.ToString());
                 return;
             }
 
-            if (NewQQ.Text.Trim() == "")
-            {
-                WebUtils.ShowMessage(this.Page, "请输入新帐号！");
-                return;
-            }
-
-            string outMsg="";
-            if (!new AccountOperate().ChangeQQState(OldQQ.Text.Trim(),out outMsg))
-            {
-                WebUtils.ShowMessage(this.Page, outMsg);
-                return;
-            }
            
             //发起审批。
             //在这里变成了一个提起审批的流程，而不再是直接审批。
