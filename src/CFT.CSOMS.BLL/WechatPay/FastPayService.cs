@@ -187,7 +187,10 @@ namespace CFT.CSOMS.BLL.WechatPay
 
                     drfield["fbank_order"] = row["fbill_no"].ToString();
                     drfield["fpay_acc"] = bankCard;
-                    drfield["Famt"] = row["famount"].ToString();
+                    if (QueryType == 1)
+                    {
+                        drfield["Famt"] = row["famount"].ToString();
+                    }
                     drfield["Fbiz_type"] = biz_type;
 
                     drfield.EndEdit();

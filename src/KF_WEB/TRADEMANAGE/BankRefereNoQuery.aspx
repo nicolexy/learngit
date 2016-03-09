@@ -85,9 +85,9 @@
                         <ItemStyle ForeColor="#4A3C8C" BackColor="#E7E7FF"></ItemStyle>
                         <HeaderStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#4A3C8C"></HeaderStyle>
                         <Columns>
-                            <asp:BoundColumn DataField="fpay_acc" HeaderText="银行卡号"></asp:BoundColumn>
+                            <%--<asp:BoundColumn DataField="fpay_acc" HeaderText="银行卡号"></asp:BoundColumn>--%>
                             <asp:BoundColumn DataField="fbank_order" HeaderText="银行订单号"></asp:BoundColumn>
-                            <asp:BoundColumn DataField="FamtStr" HeaderText="金额"></asp:BoundColumn>
+                            <%--<asp:BoundColumn DataField="FamtStr" HeaderText="金额"></asp:BoundColumn>--%>
                             <asp:BoundColumn DataField="Fbiz_type_str" HeaderText="支付状态"></asp:BoundColumn>
                         </Columns>
                         <PagerStyle HorizontalAlign="Right" ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>
