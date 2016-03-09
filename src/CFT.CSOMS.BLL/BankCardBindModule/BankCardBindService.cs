@@ -201,13 +201,17 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                 //对返回的xml解密的秘钥
                 string key = System.Configuration.ConfigurationManager.AppSettings["RealNameKey"].ToString();
                 key += Operator;
+
+                byte[] KEY = new byte[] { 0x4a, 0x08, 0x80, 0x58, 0x13, 0xad, 0x46, 0x89 };
+                byte[] IV = new byte[] { 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18 };
+
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         dr["Ftruename"] = CommUtil.TripleDESDecryptRealName(dr["Ftruename"].ToString(), key);
                         var bank_id = CommUtil.TripleDESDecryptRealName(dr["Fbank_id"].ToString(), key);
-                        dr["Fbank_id"] = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.convertToUTF8Base64(bank_id); 
+                        dr["Fbank_id"] = Convert.ToBase64String(Apollo.Common.Cryptography.DESHelper.Encrypt(bank_id, KEY, IV));    //等Apollo.Common 跟新后 可以直接用这个方法 CFTCrytographyHerper.DESEncryptAndBase64URLEncoded(text2cntrypted, null, null);
                         dr["Fcre_id"] = CommUtil.TripleDESDecryptRealName(dr["Fcre_id"].ToString(), key);
                         dr["Ftelephone"] = CommUtil.TripleDESDecryptRealName(dr["Ftelephone"].ToString(), key);
                         dr["Fmobilephone"] = CommUtil.TripleDESDecryptRealName(dr["Fmobilephone"].ToString(), key);
