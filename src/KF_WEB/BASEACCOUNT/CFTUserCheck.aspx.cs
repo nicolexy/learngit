@@ -529,7 +529,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 						labFcre_type.Text = GetCreType(druser["Fcre_type"].ToString());
 
                         var creid = PublicRes.GetString(druser["Fcreid"]);
-                        labFcreid.Text = setConfig.ConvertID(creid, creid.Length - 6, 3);
+                        labFcreid.Text = ViewState["from"].ToString() == "UserClassQuery" ? setConfig.ConvertID(creid, creid.Length - 6, 3) : creid;
 						labFEmail.Text = PublicRes.GetString(druser["FEmail"]);
 						labFtruename.Text = PublicRes.GetString(druser["Ftruename"]);
 
@@ -646,7 +646,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 						labFcre_type.Text = GetCreType(druser["Fcre_type"].ToString());
 
                         var creid = PublicRes.GetString(druser["Fcreid"]);
-                        labFcreid.Text = setConfig.ConvertID(creid, creid.Length - 6, 3);
+                        labFcreid.Text = ViewState["from"].ToString() == "UserClassQuery" ? setConfig.ConvertID(creid, creid.Length - 6, 3) : creid;
 						labFtruename.Text = PublicRes.GetString(druser["Ftruename"]);
 					}
 				}
