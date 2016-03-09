@@ -228,7 +228,7 @@
 													<div align="center"><strong><FONT size="2">修改原因</FONT></strong></div>
 												</td>
 												<td style="HEIGHT: 24px" colspan = "3" >
-                                                    <asp:TextBox ID="txt_Reason" runat="server" Enabled="false" TextMode="MultiLine" width="100%" Height="100%"></asp:TextBox>
+                                                    <asp:TextBox ID="txt_Reason" runat="server" Enabled="false" TextMode="MultiLine" width="100%" Height="40"></asp:TextBox>
 
                                                     <%--<strong><DIV align="center"><STRONG><asp:label id="lbReason" runat="server" ></asp:label></STRONG></DIV></strong>--%>													
 												    <asp:Button ID="Button1" runat="server" Visible="false" Text="保存修改" OnClick="Button1_Click"/>

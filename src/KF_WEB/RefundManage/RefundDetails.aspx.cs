@@ -607,7 +607,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 btnRefuse.Enabled   = false;
                 btnCW.Enabled       = false;
                 //btnInvalid.Enabled  = false;
-                txt_Reason.Width = 560;
+                //txt_Reason.Width = 560;
                 txt_Reason.Enabled = false;
                 Button1.Visible = false;
             }
