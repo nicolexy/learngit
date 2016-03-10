@@ -392,6 +392,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
                 rights[25] = new OneRight("TradeManagement", 25, "交易管理");
                 rights[26] = new OneRight("SPInfoManagement", 26, "商户信息管理");
                 rights[27] = new OneRight("SystemManagement", 27, "系统管理");
+                rights[28] = new OneRight("ShowIDCrad", 28, "身份证查询");
 				rights[18] = new OneRight("UserReport",18,"意见投诉");
 				rights[19] = new OneRight("HistoryModify",19,"资料修改历史");
 				rights[81] = new OneRight("FreezeUser",81,"冻结帐户按钮");
