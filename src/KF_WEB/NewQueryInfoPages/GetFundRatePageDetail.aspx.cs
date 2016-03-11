@@ -724,6 +724,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (dt != null && dt.Rows.Count != 0)
                 {
                     fRate_uin.Text = dt.Rows[0]["uin"].ToString();
+                    fRate_type.Text = dt.Rows[0]["fRate_type_Str"].ToString();
                     fRate_spid.Text = dt.Rows[0]["spid"].ToString();
                     fRate_fund_code.Text = dt.Rows[0]["fund_code"].ToString();
                     fRate_total_fee.Text = dt.Rows[0]["total_fee"].ToString();

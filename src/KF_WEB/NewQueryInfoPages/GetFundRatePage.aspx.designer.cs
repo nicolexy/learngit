@@ -175,13 +175,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages {
         protected global::System.Web.UI.WebControls.Label lblBalance;
         
         /// <summary>
-        /// lbMarkValue control.
+        /// lbLCTMarkValue control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbMarkValue;
+        protected global::System.Web.UI.WebControls.Label lbLCTMarkValue;
         
         /// <summary>
         /// lbLCTAccState control.
@@ -218,6 +218,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbUin;
+        
+        /// <summary>
+        /// lbChangeMarkValue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbChangeMarkValue;
+        
+        /// <summary>
+        /// lbTotalAssets control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbTotalAssets;
         
         /// <summary>
         /// btnBalanceQuery control.

@@ -87,8 +87,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">市值：
-                            <asp:Label ID="lbMarkValue" runat="server"></asp:Label>
+                            <td align="left">理财通市值：
+                            <asp:Label ID="lbLCTMarkValue" runat="server"></asp:Label>
                             </td>
                             <td align="left">理财通账户状态：
                             <asp:Label ID="lbLCTAccState" runat="server"></asp:Label>
@@ -103,7 +103,12 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="3">&nbsp;</td>
+                            <td >零钱市值：
+                                <asp:Label ID="lbChangeMarkValue" runat="server"></asp:Label>
+                            </td>
+                             <td colspan="2" >总资产：
+                                <asp:Label ID="lbTotalAssets" runat="server"></asp:Label>
+                             </td>
                             <td>
                                 <asp:Button ID="btnBalanceQuery" runat="server" Width="250px" Text="资金流水查询" OnClick="btnBalanceQuery_Click"></asp:Button></td>
                         </tr>
