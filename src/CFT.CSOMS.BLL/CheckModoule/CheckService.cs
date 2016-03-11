@@ -12,6 +12,25 @@ namespace CFT.CSOMS.DAL.CheckModoule
 {
     public class CheckService
     {
+        //指数基金赎回类型：fRate_type
+        public string DicfRate_type(string key)
+        {
+            Dictionary<string, string> dicfRate_type = new Dictionary<string, string>() 
+            {   
+                {"1238657101","T+2到账"},
+                {"1241176901","T+2到账"},
+
+                {"1239537001","T+3到账"},
+                {"1249279401","T+3到账"},
+                {"1249643101","T+3到账"},
+
+                {"1250802101","T+7到账"}
+           };
+            if (dicfRate_type.ContainsKey(key))
+                return dicfRate_type[key];
+            return "t+0";
+        }
+
         public DataTable GetCheckInfo(string objid, string checkType)
         {
             try
@@ -33,6 +52,14 @@ namespace CFT.CSOMS.DAL.CheckModoule
                     }
                     sql = sql.Substring(0, sql.Length - 1);
                     dtR = PublicRes.returnDSAll(sql, "ht_DB").Tables[0];
+                    if (dtR != null && dtR.Rows.Count > 0)
+                    {
+                        dtR.Columns.Add("fRate_type_Str", typeof(string));
+                        foreach (DataRow dr in dtR.Rows) 
+                        {
+                            dr["fRate_type_Str"] = DicfRate_type(dr["spid"].ToString().Trim());
+                        }
+                    }
                     return dtR;
                 }
                 else
