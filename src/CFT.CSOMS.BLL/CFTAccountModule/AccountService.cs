@@ -71,9 +71,9 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         }
       
         //查询用户资料表
-        public DataSet GetUserInfo(string u_QQID, int istr, int imax)
+        public DataSet GetUserInfo(string u_QQID, int accountType, int istr, int imax)
         {
-            DataSet ds = new AccountData().GetUserInfo(u_QQID, istr, imax);
+            DataSet ds = new AccountData().GetUserInfo(u_QQID, accountType, istr, imax);
 
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {

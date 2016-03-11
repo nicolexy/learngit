@@ -108,7 +108,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 
 
-			DataSet ds = new AccountService().GetUserInfo(this.TX_QQID.Text.Trim(),istr,imax);
+            DataSet ds = new AccountService().GetUserInfo(this.TX_QQID.Text.Trim(), 0, istr, imax);
 			if(ds == null || ds.Tables.Count<1 || ds.Tables[0].Rows.Count<1) 
 			{
 				throw new Exception("数据库无此记录");					
