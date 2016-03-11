@@ -120,7 +120,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 akeys.Sort(new PolyphoneIComparer());
                 foreach (string k in akeys)
                 {
-                    DropOldBankType.Items.Add(new System.Web.UI.WebControls.ListItem(k.ToString(), ht[k].ToString()));
+                    var dropitem = new System.Web.UI.WebControls.ListItem(k, ht[k].ToString());
+                    dropitem.Selected = k == "招商银行";
+                    DropOldBankType.Items.Add(dropitem);
                 }
             }
             catch (Exception ex)
@@ -335,13 +337,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     StringWriter sw = new StringWriter();
-                    sw.WriteLine("银行卡号\t银行订单号\t金额\t业务状态");
+                    sw.WriteLine("银行订单号\t业务状态");
 
                     foreach (DataRow dr in dt.Rows)
                     {
-                        sw.WriteLine("=\"" + dr["fpay_acc"].ToString() + "\"\t=\"" + dr["fbank_order"].ToString() + "\"\t=\"" + dr["FamtStr"]
-                            + "\"\t=\"" + dr["Fbiz_type_str"] + "\"");
-
+                        sw.WriteLine("=\"" + dr["fbank_order"].ToString() + "\"\t=\"" + dr["Fbiz_type_str"] + "\"");
                     }
                     sw.Close();
                     //string f_name = "银行卡批量查询";

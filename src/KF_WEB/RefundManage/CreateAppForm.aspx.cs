@@ -129,7 +129,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 string strOperator = Session["uid"].ToString() + "|" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 if (new RefundService().UpdateRefundData(aryOldID, lbIdentity.Text, lbInitBankAccNo.Text, lbMail.Text, lbNewBankAccNo.Text,
                     lbBankUserName.Text, lbReason.Text, strImgCommitment, strImgIdentity, strImgBankWater, strImgCancellation, lbBankName.Text, strOperator, int.Parse(ViewState["initBankID"].ToString()),
-                    int.Parse(ViewState["newBankID"].ToString()), int.Parse(ViewState["userFlagID"].ToString()), int.Parse(ViewState["cardTypeID"].ToString()), 2, out strMsg) == false)
+                    int.Parse(ViewState["newBankID"].ToString()), int.Parse(ViewState["userFlagID"].ToString()), int.Parse(ViewState["cardTypeID"].ToString()), 3, out strMsg) == false)
                 {
                     WebUtils.ShowMessage(this.Page, "≤πÃÓ◊ ¡œ ß∞‹" + strMsg);
                 }
