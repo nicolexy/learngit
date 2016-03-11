@@ -125,7 +125,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("请求RequestBankInfo出错：原因{0}", ex.Message.ToString());
+                log.ErrorFormat("请求RequestBankInfo出错：原因{0}", ex.ToString());
             }
 
         }
@@ -160,13 +160,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             {
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
                 string strTips = string.Format("请求btnSearch_Click出错：原因{0}", eSoap.Message.ToString());
-                log.ErrorFormat("请求btnSearch_Click出错：原因{0}", eSoap.Message.ToString());
+                log.ErrorFormat("请求btnSearch_Click出错：原因{0}", eSoap.ToString());
                 ShowMsg(strTips);
 
             }
             catch (Exception eSys)
             {
-                log.ErrorFormat(eSys.Message.ToString());
+                log.ErrorFormat(eSys.ToString());
                 ShowMsg(eSys.Message.ToString());
             }
         }

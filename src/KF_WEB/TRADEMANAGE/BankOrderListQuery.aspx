@@ -65,13 +65,24 @@
 							<FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
 							<SelectedItemStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#738A9C"></SelectedItemStyle>
 							<AlternatingItemStyle BackColor="#F7F7F7"></AlternatingItemStyle>
-							<ItemStyle ForeColor="#4A3C8C" BackColor="#E7E7FF"></ItemStyle>
+							<ItemStyle   ForeColor="#4A3C8C" BackColor="#E7E7FF"></ItemStyle>
 							<HeaderStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#4A3C8C"></HeaderStyle>
 							<Columns>
-                               <asp:BoundColumn DataField="Fbank_listid" HeaderText="银行订单" ><HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
-							        <ItemStyle Wrap="False"></ItemStyle></asp:BoundColumn>
-                                <asp:BoundColumn DataField="Flistid" HeaderText="财付通订单"><HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
-							        <ItemStyle Wrap="False" HorizontalAlign=Center></ItemStyle></asp:BoundColumn>
+                              <asp:TemplateColumn HeaderText="银行订单">
+									<ItemTemplate>
+										<a href = 'FundQuery.aspx?from=bankquery&checkdate=<%# DataBinder.Eval(Container, "DataItem.Fpay_time")%>&czID=<%# DataBinder.Eval(Container, "DataItem.Fbank_listid") %>'>
+											<%# DataBinder.Eval(Container, "DataItem.Fbank_listid") %>
+										</a>
+									</ItemTemplate>
+								</asp:TemplateColumn>
+                                
+                                <asp:TemplateColumn HeaderText="财付通订单">
+									<ItemTemplate>
+										<a href = 'TradeLogQuery.aspx?from=bankquery&id=<%# DataBinder.Eval(Container, "DataItem.Flistid")%>'>
+                                           <%# DataBinder.Eval(Container, "DataItem.Flistid") %>
+										</a>
+									</ItemTemplate>
+								</asp:TemplateColumn>
                                 <asp:BoundColumn DataField="Fpaynum_str" HeaderText="交易金额"><HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
 							        <ItemStyle Wrap="False" HorizontalAlign=Center></ItemStyle></asp:BoundColumn>
 								<asp:BoundColumn DataField="TradeState_str" HeaderText="交易状态"><HeaderStyle Wrap="False" HorizontalAlign="Center" ></HeaderStyle>
@@ -79,6 +90,8 @@
                                 <asp:BoundColumn DataField="CompanyName" HeaderText="商户名称"><HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
 							        <ItemStyle Wrap="False" HorizontalAlign=Center></ItemStyle></asp:BoundColumn>
                                 <asp:BoundColumn DataField="WWWAdress" HeaderText="商户网址"><HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
+							        <ItemStyle Wrap="False" HorizontalAlign=Center></ItemStyle></asp:BoundColumn>
+                               <asp:BoundColumn DataField="Faid" HeaderText="帐号"><HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
 							        <ItemStyle Wrap="False" HorizontalAlign=Center></ItemStyle></asp:BoundColumn>
                                <asp:BoundColumn DataField="Fbuy_bank_type_str" HeaderText="银行类型"><HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
 							        <ItemStyle Wrap="False" HorizontalAlign=Center></ItemStyle></asp:BoundColumn>

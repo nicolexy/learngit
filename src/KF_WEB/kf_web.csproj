@@ -1207,19 +1207,19 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="FastPay\FastPayQuery.aspx.cs">
-      <DependentUpon>FastPayQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="FastPay\FastPayQuery.aspx.designer.cs">
-      <DependentUpon>FastPayQuery.aspx</DependentUpon>
-    </Compile>
     <Compile Include="FastPay\FastPayLimitQuery.aspx.cs">
       <DependentUpon>FastPayLimitQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FastPay\FastPayLimitQuery.aspx.designer.cs">
       <DependentUpon>FastPayLimitQuery.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FastPay\FastPayQuery.aspx.cs">
+      <DependentUpon>FastPayQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FastPay\FastPayQuery.aspx.designer.cs">
+      <DependentUpon>FastPayQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="ForeignCardPay\FCardOrderQuery.aspx.cs">
       <DependentUpon>FCardOrderQuery.aspx</DependentUpon>
@@ -3268,10 +3268,10 @@
     <Content Include="default.aspx" />
     <Content Include="FastPay\Email\QQReclaim.htm" />
     <Content Include="FastPay\Email\SelfBusinessReject.htm" />
+    <Content Include="FastPay\FastPayLimitQuery.aspx" />
     <Content Include="FastPay\FastPayQuery.aspx">
       <SubType>Form</SubType>
     </Content>
-    <Content Include="FastPay\FastPayLimitQuery.aspx" />
     <Content Include="ForeignCardPay\FCardOrderQuery.aspx" />
     <Content Include="ForeignCardPay\FCardRefusePayQuery.aspx" />
     <Content Include="ForeignCardPay\FCardRollQuery.aspx" />
@@ -4426,11 +4426,11 @@
     <EmbeddedResource Include="default.aspx.resx">
       <DependentUpon>default.aspx.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FastPay\FastPayQuery.aspx.resx">
-      <DependentUpon>FastPayQuery.aspx.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FastPay\FastPayLimitQuery.aspx.resx">
       <DependentUpon>FastPayLimitQuery.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FastPay\FastPayQuery.aspx.resx">
+      <DependentUpon>FastPayQuery.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ForeignCardPay\FCardOrderQuery.aspx.resx">
       <DependentUpon>FCardOrderQuery.aspx.cs</DependentUpon>
