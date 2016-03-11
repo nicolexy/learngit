@@ -21,13 +21,15 @@ using System.Configuration;
 using System.Collections.Generic;
 using System.Text;
 using CFT.CSOMS.BLL.TransferMeaning;
+using System.Linq;
+using CFT.Apollo.Logging;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
     /// <summary>
     /// SysBulletinManage 的摘要说明。
     /// </summary>
-    public partial class BankOrderListQuery : System.Web.UI.Page
+    public partial class BankOrderListQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         public string begintime = DateTime.Now.ToString("yyyy-MM-dd");
         public string endtime = DateTime.Now.ToString("yyyy-MM-dd");
@@ -98,6 +100,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     DataGrid1.DataBind();
                     throw new Exception("数据库无此记录");
                 }
+
                 DataGrid1.DataSource = ds.Tables[0].DefaultView;
                 DataGrid1.DataBind();
             }
@@ -246,9 +249,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch (Exception es)
             {
+                LogError("TradeManage.BankOrderListQuery", "protected int query(string UinListId, string BankListId, string begin, string end)", es);
                 throw new Exception("查询出错:" + es.Message.ToString());
             }
         }
+
+        /// <summary>
+        /// 临时保存查询订单信息
+        /// </summary>
+        DataTable tmpListData = null;
 
         private List<String> BindDataListId(int index, bool isold)
         {
@@ -359,8 +368,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     //查询出多个交易单号
                     idlist.Add(dr["Flistid"].ToString());
                 }
-               
+
+                if (tmpListData == null)
+                {
+                    tmpListData = ds.Tables[0];
+                }
+                else {
+                    tmpListData.Merge(ds.Tables[0]);
+                }
+
             }
+
+
             return idlist;
         }
 
@@ -408,6 +427,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     ds.Tables[0].Columns.Add("WWWAdress"); //商户网址
                     ds.Tables[0].Columns.Add("Fbuy_bank_type_str"); //银行类型
                     ds.Tables[0].Columns.Add("TradeState_str"); //交易状态
+                    ds.Tables[0].Columns.Add("Faid"); //帐号
+
+                    //ds.Tables[0].Columns.Add("tbegindate", typeof(string));
+                    //ds.Tables[0].Columns.Add("tenddate", typeof(string));
+
                     classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fpaynum", "Fpaynum_str");//交易金额
                     DataSet buss_ds = new DataSet();
                     foreach (DataRow row in ds.Tables[0].Rows)
@@ -428,8 +452,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
                         }
                         string memo = ds.Tables[0].Rows[0]["Fmemo"].ToString();
-
-
 
                         //查询交易状态
                         bool isC2C = false;
@@ -505,6 +527,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     }
                 }
 
+                //检测是否遗漏批量搜索信息显示
+                CheckDataShow(ref ds);
+
                 return dsAll;
             }
             catch (SoapException eSoap) //捕获soap类异常
@@ -514,6 +539,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch (Exception eSys)
             {
+
+                LogError("ForeignCurrencyPay.BankOrderListQuery", "BindInfo(typeid, listid, qry_time);", eSys);
                 //WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
                 throw new Exception("读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
             }
@@ -539,7 +566,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     string r1 = res_dt.Rows[i][0].ToString().Trim();//财付通订单
                     string r2 = res_dt.Rows[i][1].ToString().Trim();//银行订单号
                     string r3 = res_dt.Rows[i][2].ToString().Trim();//开始日期
-                    string r4 = res_dt.Rows[i][3].ToString().Trim();//结束日期
+                    string r4 = res_dt.Rows[i][3].ToString().Trim();//结束日期XZ 
                     if (string.IsNullOrEmpty(r1) && string.IsNullOrEmpty(r2)) break;
 
                     DateTime begindate = new DateTime(), enddate = new DateTime();
@@ -566,12 +593,63 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
                 }
                 ds = TradeInfo(4);//int iType总是4
-              
+
                 return ds;
             }
             catch (Exception eSys)
             {
                 throw new Exception("读取数据失败！" +eSys.Message.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 检测所有订单信息是否查询显示，若没有显示则添加显示
+        /// v_swuzhang
+        /// 2016-03-10
+        /// </summary>
+        /// <param name="ds"></param>
+        private void CheckDataShow(ref DataSet dsc)
+        {
+            try
+            {
+                if (tmpListData != null && tmpListData.Rows.Count > 0 && dsc != null && dsc.Tables.Count > 0)
+                {
+                    LogHelper.LogInfo("BankOrderListQuery : tmpListData.Count:" + tmpListData.Rows.Count);
+
+                    tmpListData.Columns.Add("FNewNum", typeof(String));
+                    tmpListData.Columns.Add("FStateName", typeof(String));
+                    setConfig.FenToYuan_Table(tmpListData, "FNum", "FNewNum");
+                    classLibrary.setConfig.GetColumnValueFromDic(tmpListData, "Fsign", "FStateName", "TCLIST_SIGN");
+
+                    tmpListData.Columns.Add("FbankName", typeof(String));
+                    classLibrary.setConfig.GetColumnValueFromDic(tmpListData, "Fbank_type", "FbankName", "BANK_TYPE");
+
+                    for (int i = 0; i < tmpListData.Rows.Count; i++)
+                    {
+                        var rowdata = tmpListData.Rows[i];
+
+                        LogHelper.LogInfo("BankOrderListQuery : tmpListData.Fbank_listid=" + rowdata["Fbank_listid"] + ",Flistid=" + rowdata["Flistid"]);
+
+                        var tmpData = dsc.Tables[0].Select("Fbank_list =" + rowdata["Fbank_list"]);
+                        if (tmpData == null || tmpData.Length <= 0)
+                        {
+                            //添加数据
+                            DataRow dr = dsc.Tables[0].NewRow();
+                            dr["Fbank_listid"] = rowdata["Fbank_list"];
+                            dr["Flistid"] = rowdata["Flistid"];
+                            dr["Faid"] = rowdata["Faid"];
+                            dr["Fpay_time"] = rowdata["Fpay_front_time"];
+                            dr["Fpaynum_str"] = rowdata["FNewNum"];
+                            dr["TradeState_str"] = rowdata["FStateName"];
+                            dr["Fbuy_bank_type_str"] = rowdata["FbankName"];
+
+                            dsc.Tables[0].Rows.Add(dr);
+                        }
+                    }
+                }
+            }
+            catch(Exception ef) {
+                LogError("BankOrderListQuery ", " private void CheckDataShow(ref DataSet dsc)", ef);
             }
         }
 

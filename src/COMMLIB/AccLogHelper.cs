@@ -61,7 +61,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
     /// </summary>
     public enum AccReturnCode
     {
-        SUCCESS = 200,
+        SUCCESS = 0,
         BIGMONEYSUCCESS=2001,
         NORESULT = 4004,
         CREATEFREEZEID = 4001,
@@ -132,6 +132,9 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         /// <summary>
         /// 异步发送支付日志到财付通监控系统(推荐用法)
         /// </summary>
+        /// <param name="dstserver">该服务的模块名比如relay, itg_deal_server </param>
+        /// <param name="srcip">发起这次接口调用请求的源ip </param>
+        /// <param name="dstip">处理这次接口调用请求的本地服务ip </param>
         /// <param name="msgNo"></param>
         /// <param name="FlistId"></param>
         /// <param name="codeFile"></param>
@@ -147,14 +150,14 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         /// <param name="ncIp"></param>
         /// <param name="ncInfo"></param>
         /// <returns></returns>
-        public static void SendPayLogAsync(string reqIp, string msgNo, string FlistId, string codeFile, int codeLine, AccService service, AccLogResult accResult, AccReturnCode returnCode, string returnPackage, long timeSpent, string payBankType, string ncNo, string ncIp, string ncInfo)
+        public static void SendPayLogAsync(string dstserver, string srcip, string dstip, string msgNo, string FlistId, string codeFile, int codeLine, AccService service, AccLogResult accResult, AccReturnCode returnCode, string returnPackage, long timeSpent, string funcidentity, string ncNo, string ncIp, string ncInfo)
         {
             Task.Factory.StartNew(() =>
             {
                 try
                 {
                     string outMsg = "";
-                    if (!SendPayLog(reqIp, msgNo, FlistId, codeFile, codeLine, service, accResult, returnCode, returnPackage, timeSpent, out outMsg, payBankType, ncNo, ncIp, ncInfo))
+                    if (!SendPayLog(dstserver,srcip,dstip, msgNo, FlistId, codeFile, codeLine, service, accResult, returnCode, returnPackage, timeSpent, out outMsg, funcidentity, ncNo, ncIp, ncInfo))
                     {
                         WriteLog(string.Format("记录Acc日志失败(msgNo={0}).返回信息：{1}", msgNo, outMsg),true);
                     }
@@ -169,6 +172,9 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         /// <summary>
         /// 发送支付日志到财付通监控系统
         /// </summary>
+        /// <param name="dstserver">该服务的模块名比如relay, itg_deal_server </param>
+        /// <param name="srcip">发起这次接口调用请求的源ip </param>
+        /// <param name="dstip">处理这次接口调用请求的本地服务ip </param>
         /// <param name="msgNo"></param>
         /// <param name="FlistId"></param>
         /// <param name="codeFile"></param>
@@ -188,7 +194,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         /// <param name="ex8"></param>
         /// <param name="msgNo"></param>
         /// <returns></returns>
-        private static bool SendPayLog(string reqIp, string msgNo, string FlistId, string codeFile, int codeLine, AccService service, AccLogResult accResult, AccReturnCode returnCode, string returnPackage, long timeSpent, out string outMsg, string ex1 = "", string ex2 = "", string ex3 = "", string ex4 = "", string ex5 = "", string ex6 = "", string ex7 = "", string ex8 = "")
+        private static bool SendPayLog(string dstserver, string srcip, string dstip, string msgNo, string FlistId, string codeFile, int codeLine, AccService service, AccLogResult accResult, AccReturnCode returnCode, string returnPackage, long timeSpent, out string outMsg, string ex1 = "", string ex2 = "", string ex3 = "", string ex4 = "", string ex5 = "", string ex6 = "", string ex7 = "", string ex8 = "")
         {
             #region 字段说明
             //系统日志标识|FILE|LINE|时间|pid|srcip|dstip|dstport|server| service(cgi)|MSG_NO(染色ID )| QQ号|单号|商户号|扩展key1|扩展key2|扩展key3|扩展key4|扩展key5|扩展key6|扩展key7|扩展key8|处理时耗|结果类型|返回值（错误码）|返回包|请求包|保留字段1(text)| 保留字段2(text)|保留字段3(text)|
@@ -239,10 +245,10 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 logBuilder.Append(codeLine).Append("|");//LINE
                 logBuilder.Append(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")).Append("|");//时间
                 logBuilder.Append("|");//pid
-                logBuilder.Append("|");//srcip
-                logBuilder.Append(reqIp).Append("|");//dstip
+                logBuilder.Append(srcip).Append("|");//srcip
+                logBuilder.Append(dstip).Append("|");//dstip
                 logBuilder.Append("|");//dstport
-                logBuilder.Append(SystemIdentity).Append("|");//server
+                logBuilder.Append(dstserver).Append("|");//server
                 logBuilder.Append(((int)service).ToString()).Append("|");// service(cgi)
                 logBuilder.Append(msgNo).Append("|");//MSG_NO(染色ID )
                 logBuilder.Append("|");//QQ号
@@ -303,6 +309,41 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             }
             catch {
                 return 0;
+            }
+        }
+
+        /// <summary>
+        /// 获取本机IP  默认只取一个IP， 怕有些地方只能用一个
+        /// </summary>
+        /// <returns>本机ip</returns>
+        public static string GetLocalIp(int ipCount = 1)
+        {
+            System.Net.IPAddress[] ips = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList;
+            //vista以上IP为数组第二个，XP的IP为数组第一个
+            if (ips.Length <= 0)
+            {
+                return "127.0.0.1";
+            }
+            else if (ips.Length == 1)
+            {
+                return ips[0].ToString();
+            }
+            else
+            {
+                string outIp = "";
+                foreach (var ip in ips)
+                {
+                    string[] temp = ip.ToString().Split('.');
+                    if (temp.Length == 4)
+                    {
+                        if (ipCount == 1) return ip.ToString();
+
+                        outIp += ip.ToString() + "|";
+                    }
+                }
+                if (string.IsNullOrEmpty(outIp)) outIp = "127.0.0.1";
+
+                return outIp;
             }
         }
     }
