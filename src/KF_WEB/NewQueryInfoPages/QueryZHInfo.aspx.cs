@@ -204,7 +204,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (qqid != null && qqid != "")
                 {
 
-                    ds = new AccountService().GetUserInfo(qqid, 1, 1);
+                    ds = new AccountService().GetUserInfo(qqid, 0, 1, 1);
                     ds_acc = new AccountService().GetUserAccount(qqid, 1, 1, 1);
                 }
 

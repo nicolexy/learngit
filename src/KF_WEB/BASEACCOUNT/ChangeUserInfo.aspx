@@ -262,12 +262,14 @@
 						<div align="left">
 							<table height="100%" cellSpacing="0" cellPadding="1" width="100%" border="0">
 								<tr>
-									<td width="19%">&nbsp;</td>
-									<td width="78%">输入：&nbsp;&nbsp;
+									<td style="padding-left: 100px">输入：&nbsp;&nbsp;
 										<asp:textbox id="TX_QQID" runat="server" BorderWidth="1px"></asp:textbox>
 										&nbsp;&nbsp;&nbsp;
 										<asp:requiredfieldvalidator id="RequiredFieldValidator1" runat="server" ControlToValidate="TX_QQID" ErrorMessage="RequiredFieldValidator">请输入帐户号码</asp:requiredfieldvalidator></td>
-									<TD width="3%">&nbsp;</TD>
+									<TD>
+                                        <input id="CFT" name="IDType" runat="server" type="radio" checked /><label for="CFT">C账号</label>
+                                        <input id="InternalID" name="IDType" runat="server" type="radio" /><label for="InternalID">内部账号</label>
+									</TD>
 								</tr>
 							</table>
 						</div>
