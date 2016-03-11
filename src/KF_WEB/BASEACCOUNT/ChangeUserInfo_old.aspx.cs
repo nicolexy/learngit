@@ -129,7 +129,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			this.Textbox11_Fpcode.Text   = ds.Tables[0].Rows[0]["Fpcode"].ToString();
 			this.DropDownList2_certify.Visible = true;
 			this.DropDownList2_certify.SelectedValue = ds.Tables[0].Rows[0]["Fcre_type"].ToString();
-			this.Textbox13_Fcreid.Text   = classLibrary.setConfig.ConvertCreID(ds.Tables[0].Rows[0]["Fcreid"].ToString());
+
+            var Fcreid = ds.Tables[0].Rows[0]["Fcreid"].ToString();
+            this.Textbox13_Fcreid.Text = classLibrary.ClassLib.ValidateRight("ShowIDCrad", this) ? Fcreid : classLibrary.setConfig.ConvertCreID(Fcreid);
 
 			this.TX_Memo.Text        = ds.Tables[0].Rows[0]["Fmemo"].ToString();
 			this.TX_Fmodify_time.Text = ds.Tables[0].Rows[0]["Fmodify_time"].ToString();
