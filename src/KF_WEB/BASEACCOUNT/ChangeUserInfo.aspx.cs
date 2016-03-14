@@ -142,9 +142,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 throw new Exception("数据库无此记录");
             }
             //Response.Write("DS:" + ds.Tables[0].Rows[0][0].ToString());
-            ViewState["qqid"] = this.TX_QQID.Text.Trim();
 
             this.Label1_Fqqid.Text = ds.Tables[0].Rows[0]["Fqqid"].ToString();
+            ViewState["qqid"] = ds.Tables[0].Rows[0]["Fqqid"].ToString();
+
             this.TextBox2_Ftruename.Text = ds.Tables[0].Rows[0]["Ftruename"].ToString();
             this.DropDownList1_Sex.Visible = true;
 
@@ -201,7 +202,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string userType = null;
             string Msg = null;
             string userType_str = null;
-            string qqid = this.TX_QQID.Text.Trim();
+            string qqid = ViewState["qqid"].ToString().Trim();
 
             bool exeSign = new AccountService().GetUserType(qqid, out userType, out userType_str, out Msg);
 
@@ -331,7 +332,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 //修改帐户类型
                 string Msg = null;
-                bool exeSign = myService.modifyUserType(this.TX_QQID.Text.Trim(), this.ddlType.SelectedValue, ViewState["UserType"].ToString().Trim(), out Msg);
+                bool exeSign = myService.modifyUserType(ViewState["qqid"].ToString().Trim(), this.ddlType.SelectedValue, ViewState["UserType"].ToString().Trim(), out Msg);
 
                 if (exeSign == false)
                 {
@@ -342,7 +343,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 //furion 20060816
                 string oldatttype = ViewState["Fatt_id"] == null ? this.ddlAttid.SelectedValue : ViewState["Fatt_id"].ToString().Trim();
 
-                exeSign = myService.modifyAttType(this.TX_QQID.Text.Trim(), this.ddlAttid.SelectedValue, oldatttype, out Msg);
+                exeSign = myService.modifyAttType(ViewState["qqid"].ToString().Trim(), this.ddlAttid.SelectedValue, oldatttype, out Msg);
 
                 if (exeSign == false)
                 {
@@ -407,7 +408,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 BindInfo(1, 1);
                 BindDataLog(1);//查询日志
                 //furion 20061116 email登录修改
-                ViewState["qqid"] = this.TX_QQID.Text.Trim();
             }
             catch (SoapException eSoap)
             {
@@ -424,14 +424,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         private void BindDataLog(int index)
         {
-            string qqid = this.TX_QQID.Text.Trim();
+            string qqid = ViewState["qqid"].ToString().Trim();
             this.logPager.CurrentPageIndex = index;
 
             //增加分页
             int max = logPager.PageSize;
             int start = max * (index - 1);
 
-            var dt = new AccountService().QueryChangeUserInfoLog(this.TX_QQID.Text.Trim(), start, max);
+            var dt = new AccountService().QueryChangeUserInfoLog(qqid, start, max);
             if (dt != null && dt.Rows.Count > 0)
             {              
                 dgLog.DataSource = dt.DefaultView;
@@ -594,7 +594,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 //furion 20061116 email登录修改				
                 //string qqid        = setConfig.replaceMStr(this.Label1_Fqqid.Text.Trim());
-                string qqid = setConfig.replaceSqlStr(ViewState["qqid"].ToString());
+                string qqid = setConfig.replaceSqlStr(ViewState["qqid"].ToString().Trim());
 
                 string changedName = setConfig.replaceSqlStr(this.TextBox2_Ftruename.Text.Trim());
                 string changedCom = setConfig.replaceSqlStr(this.Textbox4_Company.Text.Trim());
