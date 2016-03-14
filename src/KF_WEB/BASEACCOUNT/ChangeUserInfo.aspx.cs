@@ -183,7 +183,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             this.DropDownList2_certify.SelectedValue = fcre_type;
             ViewState["Fcre_type"] = fcre_type;
             string fcreid = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fcreid"]);
-            this.Textbox13_Fcreid.Text = setConfig.ConvertID(fcreid, fcreid.Length - 6, 3);
+            this.Textbox13_Fcreid.Text = classLibrary.ClassLib.ValidateRight("ShowIDCrad", this) ? fcreid : classLibrary.setConfig.ConvertCreID(fcreid);
             ViewState["Fcreid"] = fcreid;
             string fmemo = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fmemo"]);
             this.TX_Memo.Text = fmemo;
@@ -298,7 +298,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 mi[12, 3] = "证件类型";
 
                 mi[13, 0] = "Fcreid";
-                mi[13, 1] = classLibrary.setConfig.replaceSqlStr(this.Textbox13_Fcreid.Text.Trim());
+                mi[13, 1] = ViewState["Fcreid"].ToString().Trim(); //classLibrary.setConfig.replaceSqlStr(this.Textbox13_Fcreid.Text.Trim());
                 mi[13, 2] = ViewState["Fcreid"].ToString().Trim();
                 mi[13, 3] = "证件号码";
 
