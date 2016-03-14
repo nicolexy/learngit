@@ -70,8 +70,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 TextBoxBeginDate.Text = DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd 00:00:00");
                 TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
 
-				classLibrary.setConfig.GetAllBankList(ddlBankType);
-				ddlBankType.Items.Insert(0,new ListItem("所有银行","0000"));
+                //classLibrary.setConfig.GetAllBankList(ddlBankType);
+                //ddlBankType.Items.Insert(0,new ListItem("所有银行","0000"));
 
 				Table2.Visible = false;				
 			}
@@ -232,23 +232,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				TextBoxEndDate.Text = nenddate;
 				throw new Exception("请以"+newczdate+"为开始日期或以"+nenddate+"结束日期!");
 			}
-			try
-			{
-				float tmp = float.Parse(tbFNum.Text.Trim());
+            //try
+            //{
+            //    float tmp =  float.Parse(tbFNum.Text.Trim());
 				
-				if (tmp > 2100000000)
-				{
-					throw new Exception("金额最大为21000000元！不能超过该金额！");	
-				}
-			}
-			catch
-			{
-				throw new Exception("请输入正确的金额！");
-			}
+            //    if (tmp > 2100000000)
+            //    {
+            //        throw new Exception("金额最大为21000000元！不能超过该金额！");	
+            //    }
+            //}
+            //catch
+            //{
+            //    throw new Exception("请输入正确的金额！");
+            //}
 
-			ViewState["fnum"]    = tbFNum.Text.Trim();
-			ViewState["fnumMax"] = txbNumMax.Text.Trim();
-			ViewState["fstate"] = ddlStateType.SelectedValue;
+            ViewState["fnum"] = "0.00";// tbFNum.Text.Trim();
+            ViewState["fnumMax"] = "20000000.00";// txbNumMax.Text.Trim();
+            ViewState["fstate"] = "0";// ddlStateType.SelectedValue;
 
 			ViewState["uid"] = classLibrary.setConfig.replaceSqlStr(u_ID);
 			ViewState["begindate"] = DateTime.Parse(begindate.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -256,11 +256,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			ViewState["enddate"] = DateTime.Parse(enddate.ToString("yyyy-MM-dd HH:mm:ss"));
 			endtime = enddate.ToString("yyyy-MM-dd");
 
-			ViewState["sorttype"]  = ddlSortType.SelectedValue;
+            ViewState["sorttype"] = "1";// ddlSortType.SelectedValue;
 			ViewState["querytype"] = this.dpLst.SelectedValue.Trim();
 
 			//furion 20060324 增加银行查询条件
-			ViewState["banktype"] = ddlBankType.SelectedValue;
+            ViewState["banktype"] = "0000";//ddlBankType.SelectedValue;
 
 			//furion 20050819 加入对SQL敏感字符的判断
 			tbQQID.Text = classLibrary.setConfig.replaceSqlStr(u_ID);

@@ -211,15 +211,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         protected global::System.Web.UI.WebControls.Label LB_Fbank_backid;
         
         /// <summary>
-        /// LB_Fspid control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LB_Fspid;
-        
-        /// <summary>
         /// LB_Flstate control.
         /// </summary>
         /// <remarks>
@@ -355,15 +346,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         protected global::System.Web.UI.WebControls.Label LB_Fsale_bankid;
         
         /// <summary>
-        /// LB_Fcurtype control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LB_Fcurtype;
-        
-        /// <summary>
         /// LB_Fpay_type control.
         /// </summary>
         /// <remarks>
@@ -416,15 +398,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LB_Fprocedure;
-        
-        /// <summary>
-        /// LB_Fservice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LB_Fservice;
         
         /// <summary>
         /// LB_Fcash control.
@@ -605,15 +578,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Fok_time_acc;
-        
-        /// <summary>
-        /// Fappeal_signName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Fappeal_signName;
         
         /// <summary>
         /// Fmedi_signName control.

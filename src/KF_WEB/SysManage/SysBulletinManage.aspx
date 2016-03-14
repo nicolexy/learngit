@@ -33,16 +33,16 @@
 							<asp:ListItem Value="1" Selected="True">商户系统公告列表</asp:ListItem>
 							<asp:ListItem Value="2">财付通系统首页公告</asp:ListItem>
 							<asp:ListItem Value="6">企业收易付公告</asp:ListItem>
-                            <asp:ListItem Value="8">财付通银行维护公告</asp:ListItem>
+                            <%--<asp:ListItem Value="8">财付通银行维护公告</asp:ListItem>--%>
                             <asp:ListItem Value="7">生活缴费维护公告</asp:ListItem>
-                            <asp:ListItem Value="11">提现维护公告</asp:ListItem>
-                            <asp:ListItem Value="12">向银行卡付款维护公告</asp:ListItem>
-                            <asp:ListItem Value="13">还房贷维护公告</asp:ListItem>
-                            <asp:ListItem Value="14">信用卡还款维护公告</asp:ListItem>
-                            <asp:ListItem Value="21">提现银行接口</asp:ListItem>
-                            <asp:ListItem Value="22">向银行卡付款银行接口</asp:ListItem>
-                            <asp:ListItem Value="23">还房贷银行接口</asp:ListItem>
-                            <asp:ListItem Value="24">信用卡还款银行接口</asp:ListItem>
+                            <%--<asp:ListItem Value="11">提现维护公告</asp:ListItem>--%>
+                            <%--<asp:ListItem Value="12">向银行卡付款维护公告</asp:ListItem>--%>
+                            <%--<asp:ListItem Value="13">还房贷维护公告</asp:ListItem>--%>
+                            <%--<asp:ListItem Value="14">信用卡还款维护公告</asp:ListItem>--%>
+                            <%--<asp:ListItem Value="21">提现银行接口</asp:ListItem>--%>
+                            <%--<asp:ListItem Value="22">向银行卡付款银行接口</asp:ListItem>--%>
+                            <%--<asp:ListItem Value="23">还房贷银行接口</asp:ListItem>--%>
+                            <%--<asp:ListItem Value="24">信用卡还款银行接口</asp:ListItem>--%>
 						</asp:dropdownlist></TD>
                         	<TD style="WIDTH: 290px"><asp:label id="labQueryName" runat="server">银行类型编码</asp:label><asp:textbox id="txtBankType" runat="server" Width="130px"></asp:textbox>
 						<asp:DropDownList id="ddl_uctype" runat="server" Visible="False" Enabled="False">

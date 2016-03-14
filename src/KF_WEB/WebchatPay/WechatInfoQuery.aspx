@@ -136,20 +136,19 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="height: 3px" width="20%" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
+                       <%-- <td style="height: 3px" width="20%" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="3">
                             微信号:
                         </td>
-                        <td style="height: 3px" bgcolor="#ffffff" height="3">
+                         <td style="height: 3px" bgcolor="#ffffff" height="3">
                             &nbsp;<span class="style2">
-                                <asp:Label ID="labEmail" runat="server" Visible="false">at126@126.com</asp:Label><%--这个labEmail保留是为了兼容以前的代码实现--%>
-                                <asp:Label id="lb_wxName" runat="server" Text="微信号"/>
-                                  </span>
+                                <asp:Label ID="labEmail" runat="server" Visible="false">at126@126.com</asp:Label><!--这个labEmail保留是为了兼容以前的代码实现-->
+                               微信号</span>
                         </td>
-                        <td style="height: 8px" width="11%" background="../IMAGES/Page/bg_bl.gif" bgcolor="#e4e5f7"
+                       <td style="height: 8px" width="11%" background="../IMAGES/Page/bg_bl.gif" bgcolor="#e4e5f7"
                             height="8">
                             <asp:Label ID="labEmailState" runat="server"></asp:Label>
-                        </td>
+                        </td>--%>
                         <td style="height: 3px" width="24%" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="3">
                             &nbsp;<font face="宋体">内部ID:</font>
@@ -158,9 +157,11 @@
                             &nbsp;<font face="宋体">
                                 <asp:Label ID="lbInnerID" runat="server"></asp:Label></font>
                         </td>
+                        <td style="height: 14px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee" height="14"></td>
+                        <td style="height: 14px" bgcolor="#ffffff" height="14" colspan="2"></td>
                     </tr>
-                    <tr>
-                        <td style="height: 13px" width="20%" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
+                  <%--   <tr>
+                       <td style="height: 13px" width="20%" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="13">
                             <font face="宋体">&nbsp;手机帐号:</font>
                         </td>
@@ -180,7 +181,7 @@
                             <font face="宋体">&nbsp;</font>
                             <asp:Label ID="lbLeftPay" runat="server"></asp:Label>
                         </td>
-                    </tr>
+                    </tr>--%>
                     <tr>
                         <td style="height: 8px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="8">
@@ -261,7 +262,7 @@
                         </td>
                     </tr>
                     
-                    <tr>
+                <%--    <tr>
                         <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="4">
                             &nbsp;昨日余额:
@@ -270,7 +271,7 @@
                             &nbsp;
                             <asp:Label ID="Label5_YestodayLeft" runat="server">10</asp:Label>
                         </td>
-                    </tr>
+                    </tr>--%>
                     <tr>
                         <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="4">
@@ -289,7 +290,7 @@
                                 <asp:Label ID="lblLoginTime" runat="server">10</asp:Label></font>
                         </td>
                     </tr>
-                    <tr>
+                <%--    <tr>
                         <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="4">
                             <font face="宋体">&nbsp;当日已付:</font>
@@ -305,8 +306,8 @@
                             &nbsp;
                             <asp:Label ID="Label7_SingleMax" runat="server">2000</asp:Label>
                         </td>
-                    </tr>
-                    <tr>
+                    </tr>--%>
+                    <%--<tr>
                         <td style="height: 13px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="13">
                             &nbsp;单日支付限额:
@@ -322,8 +323,8 @@
                             <font face="宋体">&nbsp;
                                 <asp:Label ID="lbFetchMoney" runat="server"></asp:Label></font>
                         </td>
-                    </tr>
-                    <tr>
+                    </tr>--%>
+                    <%--<tr>
                         <td style="height: 13px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="13">
                             <font face="宋体">&nbsp;当日已充值金额:</font>
@@ -340,24 +341,26 @@
                             &nbsp;
                             <asp:Label ID="Label9_LastSaveDate" runat="server">2005-03-01</asp:Label>
                         </td>
-                    </tr>
+                    </tr>--%>
                     <tr>
-                        <td style="height: 6px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
+                  <%--      <td style="height: 6px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="6">
                             &nbsp;最近提款日期:
                         </td>
                         <td style="height: 6px" bgcolor="#ffffff" height="6" colspan="2">
                             &nbsp;
                             <asp:Label ID="Label10_Drawing" runat="server">2005-04-15</asp:Label>
-                        </td>
+                        </td>--%>
                         <td style="height: 14px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="14">
                             <font face="宋体">&nbsp;最后登陆IP地址:</font>
                         </td>
-                        <td style="height: 14px" bgcolor="#ffffff" height="14">
+                        <td style="height: 14px" bgcolor="#ffffff" height="14" colspan="2">
                             <font face="宋体">&nbsp;
                                 <asp:Label ID="Label17_Flogin_ip" runat="server">202.103.24.68</asp:Label></font>
                         </td>
+                        <td style="height: 14px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee" height="14"></td>
+                        <td style="height: 14px" bgcolor="#ffffff" height="14" colspan="2"></td>
                     </tr>
                     <tr>
                         <td style="height: 14px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"

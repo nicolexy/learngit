@@ -245,22 +245,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 this.Label4_Freeze.Text = classLibrary.setConfig.FenToYuan(l_fzamt + l_cron);//冻结金额=分账冻结金额+冻结金额
                 #endregion
 
-                this.Label5_YestodayLeft.Text = ds.Tables[0].Rows[0]["Fyday_balance"].ToString();		   //"10";
+                //this.Label5_YestodayLeft.Text = ds.Tables[0].Rows[0]["Fyday_balance"].ToString();		   //"10";
                 this.Label3_LeftAcc.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fbalance"].ToString());//tu.u_Balance;				   //"3000";
 
                 this.Label2_Type.Text = Transfer.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());//tu.u_CurType;				   //"代金券";
                 this.lblLoginTime.Text = ds.Tables[0].Rows[0]["Fcreate_time"].ToString();
 
-                this.Label16_Fapay.Text = ds.Tables[0].Rows[0]["Fapay"].ToString();
-                this.Label7_SingleMax.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fquota"].ToString());		   //"2000";
+                //this.Label16_Fapay.Text = ds.Tables[0].Rows[0]["Fapay"].ToString();
+                //this.Label7_SingleMax.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fquota"].ToString());		   //"2000";
 
-                this.Label8_PerDayLmt.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fquota_pay"].ToString());			//"5000";
-                this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Ffetch"].ToString().Trim());
+                //this.Label8_PerDayLmt.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fquota_pay"].ToString());			//"5000";
+                //this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Ffetch"].ToString().Trim());
 
-                this.lbSave.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fsave"].ToString().Trim());
-                this.Label9_LastSaveDate.Text = ds.Tables[0].Rows[0]["Fsave_time"].ToString();				//"2005-03-01";
+                //this.lbSave.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fsave"].ToString().Trim());
+                //this.Label9_LastSaveDate.Text = ds.Tables[0].Rows[0]["Fsave_time"].ToString();				//"2005-03-01";
 
-                this.Label10_Drawing.Text = ds.Tables[0].Rows[0]["Ffetch_time"].ToString();              //"2005-04-15";
+                //this.Label10_Drawing.Text = ds.Tables[0].Rows[0]["Ffetch_time"].ToString();              //"2005-04-15";
                 this.Label17_Flogin_ip.Text = ds.Tables[0].Rows[0]["Flogin_ip"].ToString();
 
                 this.Label6_LastModify.Text = ds.Tables[0].Rows[0]["Fmodify_time"].ToString();		   //"2005-05-01";
@@ -273,10 +273,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 this.Label11_Remark.Text = ds.Tables[0].Rows[0]["Fmemo"].ToString();					//"这个家伙很懒，什么都没有留下！";                
             }
 
-            if (Session["QQID"] == null && Session["QQID"] == "")
-            {
-                return;
-            }
+            //if (Session["QQID"] == null && Session["QQID"] == "")
+            //{
+            //    return;
+            //}
         }
 
 		private void BindData(int istr,int imax)
@@ -295,13 +295,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             this.Label2_Type.Text           = Transfer.convertMoney_type(PublicRes.objectToString(ds.Tables[0], "Fcurtype"));//tu.u_CurType;				   //"代金券";
 			this.Label3_LeftAcc.Text		= classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fbalance"));//tu.u_Balance;				   //"3000";
 			this.Label4_Freeze.Text			= classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fcon"));                  //"1000";
-            this.Label5_YestodayLeft.Text = PublicRes.objectToString(ds.Tables[0], "Fyday_balance"); 		   //"10";
+            //this.Label5_YestodayLeft.Text = PublicRes.objectToString(ds.Tables[0], "Fyday_balance"); 		   //"10";
 			this.lblLoginTime.Text          = PublicRes.objectToString(ds.Tables[0],"Fcreate_time");
 			this.Label6_LastModify.Text		= PublicRes.objectToString(ds.Tables[0],"Fmodify_time");		   //"2005-05-01";
-			this.Label7_SingleMax.Text		= classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fquota"));		   //"2000";
-			this.Label8_PerDayLmt.Text		= classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fquota_pay"));			//"5000";
-			this.Label9_LastSaveDate.Text   = PublicRes.objectToString(ds.Tables[0],"Fsave_time");				//"2005-03-01";
-			this.Label10_Drawing.Text		= PublicRes.objectToString(ds.Tables[0],"Ffetch_time");              //"2005-04-15";
+            //this.Label7_SingleMax.Text		= classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fquota"));		   //"2000";
+            //this.Label8_PerDayLmt.Text		= classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fquota_pay"));			//"5000";
+            //this.Label9_LastSaveDate.Text   = PublicRes.objectToString(ds.Tables[0],"Fsave_time");				//"2005-03-01";
+            //this.Label10_Drawing.Text		= PublicRes.objectToString(ds.Tables[0],"Ffetch_time");              //"2005-04-15";
 			this.Label11_Remark.Text		= PublicRes.objectToString(ds.Tables[0],"Fmemo");					//"这个家伙很懒，什么都没有留下！";
             this.Label12_Fstate.Text        = Transfer.accountState(PublicRes.objectToString(ds.Tables[0],"Fstate"));
             this.Label13_Fuser_type.Text    = Transfer.convertFuser_type(PublicRes.objectToString(ds.Tables[0],"Fuser_type"));
@@ -317,7 +317,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			}
 			
 			this.Label15_Useable.Text       = classLibrary.setConfig.FenToYuan((long.Parse(PublicRes.objectToString(ds.Tables[0],"Fbalance"))-long.Parse(PublicRes.objectToString(ds.Tables[0],"Fcon"))).ToString());  //帐户余额减去冻结余额= 可用余额
-			this.Label16_Fapay.Text         = PublicRes.objectToString(ds.Tables[0],"Fapay");
+            //this.Label16_Fapay.Text         = PublicRes.objectToString(ds.Tables[0],"Fapay");
 			this.Label17_Flogin_ip.Text     = PublicRes.objectToString(ds.Tables[0],"Flogin_ip");
 
 			//furion 20061116 email登录修改
@@ -328,9 +328,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             int nAttid = int.Parse(PublicRes.objectToString(ds.Tables[0], "Att_id"));
 			this.Label18_Attid.Text			 = CheckBasicInfo(nAttid);
 			this.lbInnerID.Text             = PublicRes.objectToString(ds.Tables[0],"fuid").Trim();
-			this.lbFetchMoney.Text          = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Ffetch").Trim());
+            //this.lbFetchMoney.Text          = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Ffetch").Trim());
             this.lbLeftPay.Text             = Transfer.convertBPAY(PublicRes.objectToString(ds.Tables[0],"Fbpay_state").Trim());
-			this.lbSave.Text                = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fsave").Trim());
+            //this.lbSave.Text                = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fsave").Trim());
 			string fuid = PublicRes.objectToString(ds.Tables[0],"fuid").Trim();
 
 			if(Label1_Acc.Text != "")

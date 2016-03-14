@@ -498,7 +498,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             this.LB_Fcreate_time.Text = ds.Tables[0].Rows[0]["Fcreate_time"].ToString();
             this.LB_FCreate_time_c2c.Text = ds.Tables[0].Rows[0]["Fcreate_time_c2c"].ToString();
-            this.LB_Fcurtype.Text = Transfer.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());
+            //this.LB_Fcurtype.Text = Transfer.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());
             //this.LB_Fexplain.Text = ds.Tables[0].Rows[0]["Fmemo"].ToString();
             this.LB_Ffact.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Ffact"].ToString());
             this.LB_Fip.Text = ds.Tables[0].Rows[0]["Fip"].ToString();
@@ -519,8 +519,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             this.LB_Fsale_name.Text = ds.Tables[0].Rows[0]["Fsale_name"].ToString();
             this.LB_Fsale_uid.Text = ds.Tables[0].Rows[0]["Fsale_uid"].ToString();
             this.LB_Fsaleid.Text = ds.Tables[0].Rows[0]["Fsaleid"].ToString();
-            this.LB_Fservice.Text = ds.Tables[0].Rows[0]["Fservice"].ToString();
-            this.LB_Fspid.Text = ds.Tables[0].Rows[0]["Fspid"].ToString().Trim();
+            //this.LB_Fservice.Text = ds.Tables[0].Rows[0]["Fservice"].ToString();
+            //this.LB_Fspid.Text = ds.Tables[0].Rows[0]["Fspid"].ToString().Trim();
 
             this.lbAdjustFlag.Text = Transfer.convertAdjustSign(ds.Tables[0].Rows[0]["Fadjust_flag"].ToString().Trim());
             try
@@ -552,7 +552,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             this.Freq_refund_time.Text = ds.Tables[0].Rows[0]["Freq_refund_time"].ToString(); //请求退款时间
             this.Fok_time.Text = ds.Tables[0].Rows[0]["Fok_time"].ToString(); //退款时间
             this.Fok_time_acc.Text = ds.Tables[0].Rows[0]["Fok_time_acc"].ToString(); //退款时间(账务)
-            this.Fappeal_signName.Text = ds.Tables[0].Rows[0]["Fappeal_sign_str"].ToString(); //申诉标志
+            //this.Fappeal_signName.Text = ds.Tables[0].Rows[0]["Fappeal_sign_str"].ToString(); //申诉标志
             this.Fmedi_signName.Text = ds.Tables[0].Rows[0]["Fmedi_sign_str"].ToString(); //中介标志
             this.Fchannel_idName.Text = ds.Tables[0].Rows[0]["Fchannel_id_str"].ToString(); //渠道编号
             this.Fmemo.Text = ds.Tables[0].Rows[0]["Fmemo"].ToString(); //交易说明
