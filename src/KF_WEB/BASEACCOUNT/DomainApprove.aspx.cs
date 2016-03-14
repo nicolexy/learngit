@@ -40,6 +40,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                     ViewState["uid"] = Session["uid"].ToString();
 					this.PanelDetail.Visible = false;
+                    TextBoxBeginDate.Value = DateTime.Now.AddDays(-3).ToString("yyyy-MM-dd");
+                    TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 				}
 			}
 			catch
@@ -136,7 +138,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 string strEndTime = Convert.ToDateTime(TextBoxEndDate.Value.Trim()).ToString("yyyy-MM-dd 23:59:59");
                 ApplyTimeEnd = Convert.ToDateTime(strEndTime);
             }
-           
+            if (ApplyTimeStart == null || ApplyTimeEnd == null) 
+            {
+                throw new LogicException("请输入起始时间和结束时间！");
+            }
+            if (ApplyTimeStart.Value < ApplyTimeEnd.Value.AddDays(-7))
+            {
+                throw new LogicException("时间范围不能超过7天！");
+            }
 
             string Spid = txtSpid.Text.Trim();
             string CompanyName = txtCompanyName.Text.Trim();

@@ -80,7 +80,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			//如果是从其他页面跳转获取充值单的详情，则跳转
 			if (Request.QueryString["czID"] != null)
 			{
-				this.dpLst.SelectedValue = "czd";
+                if (Request.QueryString["from"] != null && Request.QueryString["from"].ToString() == "bankquery")
+                {
+                    this.dpLst.SelectedValue = "BankBack";
+                }
+                else
+                {
+                    this.dpLst.SelectedValue = "czd";
+                }
+
 				string ID = Request.QueryString["czID"].ToString().Trim();
 				//				this.CheckBox1.Checked=true;
                 TextBoxBeginDate.Text = "2009-01-01 00:00:00";
@@ -112,6 +120,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				}	
 			}
 		}
+
 
 		#region Web 窗体设计器生成的代码
 		override protected void OnInit(EventArgs e)

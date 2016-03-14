@@ -38,8 +38,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
         protected SpecialManageControl SpecialManageControl1;
         protected DKManageControl DKManageControl1;
         protected DFManageControl DFManageControl1;
-        protected ActivityCooperation ActivityCooperation1;
-        protected TokenCoin TokenCoin1;
+        //protected ActivityCooperation ActivityCooperation1;
+        //protected TokenCoin TokenCoin1;
         protected SysManage SysManage1;
         protected CreditPayControl CreditPayControl1;
         protected WebchatPayControl WebchatPayControl1;
@@ -75,7 +75,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 try
                 {
                     SysManage1.Visible = true;
-                    ActivityCooperation1.Visible = true;
+                    //ActivityCooperation1.Visible = true;
                     baseAccount1.Visible = false;
                     accountOperate1.Visible = false;
                     tradeManage1.Visible = false;
@@ -147,7 +147,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                     {
                         tradeManage1.Visible = true;
                     }
-                    TokenCoin1.Visible = true;
+                    //TokenCoin1.Visible = true;
                 }
                 catch (Exception ex)
                 {
@@ -186,8 +186,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 TravelPlatform1.AddSubMenu("机票订单查询", "TravelPlatform/AirTicketsOrderQuery.aspx");
                 TravelPlatform1.AddSubMenu("酒店订单查询", "TravelPlatform/HotelOrderQuery.aspx");
                 // ActivityCooperation1.AddSubMenu("满减用户查询", "BaseAccount/ManJianUserQuery.aspx");
-                ActivityCooperation1.AddSubMenu("满减使用查询", "BaseAccount/ManJianUsingQuery.aspx");
-                ActivityCooperation1.AddSubMenu("拍拍店铺白名单", "NewQueryInfoPages/PaiPaiBMDQuery.aspx");
+                //ActivityCooperation1.AddSubMenu("满减使用查询", "BaseAccount/ManJianUsingQuery.aspx");
+                //ActivityCooperation1.AddSubMenu("拍拍店铺白名单", "NewQueryInfoPages/PaiPaiBMDQuery.aspx");
                 SelfHelpAppealManage1.AddSubMenu("我发起的审批", "BaseAccount/StartCheck.aspx");
                 AccountLedgerManage1.AddSubMenu("分账订单流水", "BaseAccount/SeparateOperation.aspx");
                 //AccountLedgerManage1.AddSubMenu("分账订单金额","TradeManage/SeparateListQuery.aspx");
@@ -210,7 +210,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 accountManage1.AddSubMenu("提现规则查询", "TradeManage/AppealDSettings.aspx");
                
                 accountManage1.AddSubMenu("直付商户查询", "BaseAccount/PayBusinessQuery.aspx");
-                accountManage1.AddSubMenu("中介商户查询", "BaseAccount/AgencyBusinessQuery.aspx");
+                //accountManage1.AddSubMenu("中介商户查询", "BaseAccount/AgencyBusinessQuery.aspx");
                 accountManage1.AddSubMenu("结算查询", "TradeManage/SettQuery.aspx");
                 accountManage1.AddSubMenu("结算查询(新)", "TradeManage/SettQueryNew.aspx");
                 accountManage1.AddSubMenu("合同查询", "TradeManage/ContractQuery.aspx");
@@ -221,15 +221,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 accountManage1.AddSubMenu("T+0付款查询", "TradeManage/BatPayQuery.aspx");
                 //	accountManage1.AddSubMenu("PNR签约关系查询","BaseAccount/PNRQuery.aspx") ;
                 accountManage1.AddSubMenu("同步记录查询", "TradeManage/SynRecordQuery.aspx");
-                accountManage1.AddSubMenu("收付易查询", "TradeManage/ShouFuYiQuery.aspx");
-                accountManage1.AddSubMenu("保证金账户查询", "BaseAccount/DepositAccountQuery.aspx");
+                //accountManage1.AddSubMenu("收付易查询", "TradeManage/ShouFuYiQuery.aspx");
+                //accountManage1.AddSubMenu("保证金账户查询", "BaseAccount/DepositAccountQuery.aspx");
                 accountManage1.AddSubMenu("微信/财付通商户信息互查", "WebchatPay/WechatMerchantTrans.aspx");
 
-                if (classLibrary.ClassLib.ValidateRight("MobileConfig", this))
-                {
-                    accountManage1.AddSubMenu("方案有效期", "TradeManage/MobileRechargeConfigValidDate.aspx");
-                    accountManage1.AddSubMenu("分流配置", "TradeManage/MobileRechargeConfig.aspx");
-                }
+                //if (classLibrary.ClassLib.ValidateRight("MobileConfig", this))
+                //{
+                //    //accountManage1.AddSubMenu("方案有效期", "TradeManage/MobileRechargeConfigValidDate.aspx");
+                //    //accountManage1.AddSubMenu("分流配置", "TradeManage/MobileRechargeConfig.aspx");
+                //}
                 accountManage1.AddSubMenu("商户交易清单", "TradeManage/TradeLogList.aspx");
                 accountManage1.AddSubMenu("商户订单查询财付通订单", "TradeManage/QuerySpOrderPage.aspx");
                 accountManage1.AddSubMenu("自助BD商户查询", "BaseAccount/SelfQuery.aspx");
@@ -292,11 +292,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 LifeFeeDetailManage1.AddSubMenu("生活缴费查询", "TradeManage/FeeQuery.aspx");
                 //LifeFeeDetailManage1.AddSubMenu("邮储汇款查询", "RemitCheck/RemitQuery.aspx");
                 LifeFeeDetailManage1.AddSubMenu("邮储汇款查询", "RemitCheck/RemitQueryNew.aspx");
-                LifeFeeDetailManage1.AddSubMenu("手机充值卡查询", "TradeManage/FundCardQuery_Detail.aspx");
-                LifeFeeDetailManage1.AddSubMenu("手机充值卡查询-新", "TradeManage/FundCardQuery_DetailNew.aspx");
+                //LifeFeeDetailManage1.AddSubMenu("手机充值卡查询", "TradeManage/FundCardQuery_Detail.aspx");
+                //LifeFeeDetailManage1.AddSubMenu("手机充值卡查询-新", "TradeManage/FundCardQuery_DetailNew.aspx");
                 //LifeFeeDetailManage1.AddSubMenu("信用卡还款", "TradeManage/CreditQuery.aspx");
                 LifeFeeDetailManage1.AddSubMenu("信用卡还款", "TradeManage/CreditQueryNew.aspx");
-                LifeFeeDetailManage1.AddSubMenu("话费发货查询", "TradeManage/PhoneBillQuery.aspx");
+                //LifeFeeDetailManage1.AddSubMenu("话费发货查询", "TradeManage/PhoneBillQuery.aspx");
                 LifeFeeDetailManage1.AddSubMenu("自动充值", "TradeManage/AutomaticRechargeQuery.aspx");
                 LifeFeeDetailManage1.AddSubMenu("公交卡充值查询", "TradeManage/BusCardPrepaidQuery.aspx");
 
@@ -329,7 +329,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 DKManageControl1.AddSubMenu("协议库导入", "NewQueryInfoPages/ProtocolLibImport.aspx");
                 DKManageControl1.AddSubMenu("协议库查询", "NewQueryInfoPages/QueryProtocolLib.aspx");
 
-                tradeManage1.AddSubMenu("用户手机充值记录查询", "TradeManage/MobileRechargeQuery.aspx");
+                //tradeManage1.AddSubMenu("用户手机充值记录查询", "TradeManage/MobileRechargeQuery.aspx");
                 tradeManage1.AddSubMenu("银行订单号查询", "TradeManage/BankBillNoQuery.aspx");
 
                 //VIPAccountManage.AddSubMenu("财付值流水","VIPAccount/PropertyTurnover.aspx");
@@ -347,9 +347,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 OverseasPay1.AddSubMenu("外汇汇率查询", "NewQueryInfoPages/QueryForeignExchangeRate.aspx");
                 OverseasPay1.AddSubMenu("境外微信小额支付查询", "NewQueryInfoPages/QueryWeiXinMircoPay.aspx");
 
-                InternetBank.AddSubMenu("流水查询", "InternetBank/TurnoverQuery.aspx");
-                InternetBank.AddSubMenu("账单查询", "InternetBank/BillQuery.aspx");
-                InternetBank.AddSubMenu("历史账单", "InternetBank/BillHistoryQuery.aspx");
+                //InternetBank.AddSubMenu("流水查询", "InternetBank/TurnoverQuery.aspx");
+                //InternetBank.AddSubMenu("账单查询", "InternetBank/BillQuery.aspx");
+                //InternetBank.AddSubMenu("历史账单", "InternetBank/BillHistoryQuery.aspx");
                 InternetBank.AddSubMenu("会员优惠额度", "InternetBank/MermberDiscount.aspx");
                 InternetBank.AddSubMenu("退款登记", "InternetBank/RefundQuery.aspx");
                 InternetBank.AddSubMenu("退款商户录入", "InternetBank/RefundMerchant.aspx");
@@ -368,17 +368,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 HKWalletPay.AddSubMenu("商户查询", "ForeignCurrencyPay/FCXGSPQuery.aspx");
 
                 //活动合作
-                ActivityCooperation1.AddSubMenu("打折密码", "NewQueryInfoPages/QueryDiscountCode.aspx");
-                ActivityCooperation1.AddSubMenu("用户参加的活动", "NewQueryInfoPages/QueryUserJoinActivity.aspx");
-                ActivityCooperation1.AddSubMenu("活动日志查询", "NewQueryInfoPages/QueryActivityLogs.aspx");
-                ActivityCooperation1.AddSubMenu("微信活动查询", "NewQueryInfoPages/QueryWebchatPayActivity.aspx");
-                ActivityCooperation1.AddSubMenu("乐刷卡活动查询", "Activity/QueryLeShuaKaActivity.aspx");
-                ActivityCooperation1.AddSubMenu("理财通活动查询", "Activity/QueryLCTActivity.aspx");
-                ActivityCooperation1.AddSubMenu("新活动添加", "Activity/LctActivityAdd.aspx");
+                //ActivityCooperation1.AddSubMenu("打折密码", "NewQueryInfoPages/QueryDiscountCode.aspx");
+                //ActivityCooperation1.AddSubMenu("用户参加的活动", "NewQueryInfoPages/QueryUserJoinActivity.aspx");
+                //ActivityCooperation1.AddSubMenu("活动日志查询", "NewQueryInfoPages/QueryActivityLogs.aspx");
+                //ActivityCooperation1.AddSubMenu("微信活动查询", "NewQueryInfoPages/QueryWebchatPayActivity.aspx");
+                //ActivityCooperation1.AddSubMenu("乐刷卡活动查询", "Activity/QueryLeShuaKaActivity.aspx");
+                //ActivityCooperation1.AddSubMenu("理财通活动查询", "Activity/QueryLCTActivity.aspx");
+                //ActivityCooperation1.AddSubMenu("新活动添加", "Activity/LctActivityAdd.aspx");
 
                 //财付券管理
-                TokenCoin1.AddSubMenu("财付券查询", "TokenCoin/GwqQuery.aspx");
-                TokenCoin1.AddSubMenu("财付券查询明细", "TokenCoin/GwqShow.aspx");
+                //TokenCoin1.AddSubMenu("财付券查询", "TokenCoin/GwqQuery.aspx");
+                //TokenCoin1.AddSubMenu("财付券查询明细", "TokenCoin/GwqShow.aspx");
 
                 //信用支付
                 CreditPayControl1.AddSubMenu("基本信息", "CreditPay/QueryCreditUserInfo.aspx");
@@ -389,12 +389,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
                 //微信支付
                 WebchatPayControl1.AddSubMenu("微信支付帐号", "WebchatPay/WechatInfoQuery.aspx");
-                WebchatPayControl1.AddSubMenu("AA收款帐号", "WebchatPay/WechatAACollection.aspx");
+                //WebchatPayControl1.AddSubMenu("AA收款帐号", "WebchatPay/WechatAACollection.aspx");
                 //WebchatPayControl1.AddSubMenu("理财通查询", "NewQueryInfoPages/GetFundRatePage.aspx");
                 //WebchatPayControl1.AddSubMenu("理财通安全卡", "WebchatPay/SafeCardManage.aspx");
                 //WebchatPayControl1.AddSubMenu("生活化理财", "WebchatPay/FundFixedInvestment.aspx");
                 //WebchatPayControl1.AddSubMenu("理财通预约买入", "WebchatPay/LCTReserveOrder.aspx");
-                WebchatPayControl1.AddSubMenu("微信红包查询", "WebchatPay/WechatRedPacket.aspx");
+                //WebchatPayControl1.AddSubMenu("微信红包查询", "WebchatPay/WechatRedPacket.aspx");
                 WebchatPayControl1.AddSubMenu("小额刷卡", "WebchatPay/SmallCreditCardQuery.aspx");
                 WebchatPayControl1.AddSubMenu("微信信用卡还款", "WebchatPay/CreditCardRefundQuery.aspx");
                 //WebchatPayControl1.AddSubMenu("理财通增值券", "WebchatPay/AddedValueTicketQuery.aspx");

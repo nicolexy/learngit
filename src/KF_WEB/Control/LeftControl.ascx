@@ -97,8 +97,8 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
 			      
 			            <uc1:SelfHelpAppealManage id="SelfHelpAppealManage1" runat="server"></uc1:SelfHelpAppealManage><!--自助申诉-->
 			            <uc1:NameAuthened id="NameAuthened1" runat="server"></uc1:NameAuthened><!--实名认证-->
-			            <uc1:TokenCoin ID="TokenCoin1" runat="server" /><!--财付券管理-->
-			            <uc1:ActivityCooperation ID="ActivityCooperation1" runat="server" /><!--活动合作-->
+			            <%--<uc1:TokenCoin ID="TokenCoin1" runat="server" /><!--财付券管理-->--%>
+			            <%--<uc1:ActivityCooperation ID="ActivityCooperation1" runat="server" /><!--活动合作-->--%>
 			            <uc1:RiskConManage id="RiskConManage1" runat="server"></uc1:RiskConManage><!--风控管理-->
 			            <uc1:FundAccountManage id="FundAccountManage1" runat="server"></uc1:FundAccountManage><!--基金账户-->
                   </td>

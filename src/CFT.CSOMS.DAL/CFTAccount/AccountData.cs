@@ -263,12 +263,17 @@ namespace CFT.CSOMS.DAL.CFTAccount
         }
 
         //查询用户资料表
-        public DataSet GetUserInfo(string u_QQID, int istr, int imax)
+        public DataSet GetUserInfo(string u_QQID,int accountType, int istr, int imax)
         {          
             try
             {
                 // TODO: 1客户信息资料外移
-                string fuid = PublicRes.ConvertToFuid(u_QQID);
+                string fuid = string.Empty;
+                if (accountType == 0)  // type 0:为uin ,1:为uid
+                    fuid = PublicRes.ConvertToFuid(u_QQID);
+                else
+                    fuid = u_QQID;
+
                 Q_USER_INFO cuser = new Q_USER_INFO(fuid);
                 return cuser.GetResultX(istr, imax, "ZW");
             }

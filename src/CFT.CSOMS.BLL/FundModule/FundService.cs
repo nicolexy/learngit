@@ -18,6 +18,18 @@ namespace CFT.CSOMS.BLL.FundModule
         //基金类型
         static Dictionary<string, string> DicFtype;
 
+        //账户总金额
+        private long _totalBalance = 0;
+        public long totalBalance { get { return _totalBalance; } }
+        //累计收益
+        private long _totalProfit = 0;
+        public long totalProfit { get { return _totalProfit; } }
+        //理财通市值
+        private decimal _totalLCTMarkValue = 0;
+        public decimal totalLCTMarkValue { get { return _totalLCTMarkValue; } }
+        //零钱市值
+        private decimal _totalChangeMarkValue = 0;
+        public decimal totalChangeMarkValue { get { return _totalChangeMarkValue; } }
 
         static FundService()
         {
@@ -88,7 +100,11 @@ namespace CFT.CSOMS.BLL.FundModule
             };
             return GuangDadic.ContainsKey(spid) && GuangDadic[spid] == fund_code;
         }
-
+        /// <summary>
+        /// 零钱商户
+        /// </summary>
+        /// <param name="spid"></param>
+        /// <returns></returns>
         public bool IsSmallChange(string spid)
         {
             //1295277801|1294122801|1294122101|1306760801 
@@ -246,8 +262,16 @@ namespace CFT.CSOMS.BLL.FundModule
             userFundsTable.Columns.Add("transfer_flag", typeof(string));
             userFundsTable.Columns.Add("buy_valid", typeof(string));
             userFundsTable.Columns.Add("markValue", typeof(string));//市值
+
+            userFundsTable.Columns.Add("profitText", typeof(string));
+            userFundsTable.Columns.Add("balanceText", typeof(string)); //余额
+            userFundsTable.Columns.Add("conText", typeof(string));//冻结金额
+            userFundsTable.Columns.Add("close_flagText", typeof(string));
+            userFundsTable.Columns.Add("transfer_flagText", typeof(string));
+            userFundsTable.Columns.Add("buy_validText", typeof(string));
+
             //基金类型
-            userFundsTable.Columns.Add("Ftype", typeof(string));//市值
+            userFundsTable.Columns.Add("Ftype", typeof(string));//基金类型
             userFundsTable.Columns.Add("FType_Str", typeof(string));//基金类型
 
             var cftAccountBLLService = new CFTAccountModule.AccountService();
@@ -311,6 +335,9 @@ namespace CFT.CSOMS.BLL.FundModule
                 {
                     throw new Exception("查询市值异常：" + ex.Message);
                 }
+             
+
+                #region 字段转义
                 //基金类型转义
                 if (IsSmallChange(item["Fspid"].ToString()))
                 {
@@ -320,6 +347,68 @@ namespace CFT.CSOMS.BLL.FundModule
                 {
                     item["FType_Str"] = DicFtype[item["FType"].ToString()];
                 }
+
+                switch (item["close_flag"].ToString())
+                {
+                    case "1":
+                        item["close_flagText"] = "不封闭";
+                        break;
+                    case "2":
+                        item["close_flagText"] = "封闭";
+                        break;
+                    case "3":
+                        item["close_flagText"] = "半封闭";
+                        break;
+                }
+                switch (item["transfer_flag"].ToString())
+                {
+                    case "0":
+                        item["transfer_flagText"] = "不支持转入、转出";
+                        break;
+                    case "1":
+                        item["transfer_flagText"] = "支持转入不支持转出";
+                        break;
+                    case "2":
+                        item["transfer_flagText"] = "支持转出不支持转入";
+                        break;
+                    case "3":
+                        item["transfer_flagText"] = "同时支持转入和转出";
+                        break;
+                }
+                switch (item["buy_valid"].ToString())
+                {
+                    case "1":
+                        item["buy_validText"] = "支持申购";
+                        break;
+                    case "2":
+                        item["buy_validText"] = "支持认购";
+                        break;
+                    case "4":
+                        item["buy_validText"] = "支持申购/认购";
+                        break;
+                }
+                #endregion
+
+                #region  统计收益总和，和余额总和
+                try
+                {
+                    _totalBalance += long.Parse(item["balance"].ToString());
+                    _totalProfit += long.Parse(item["Ftotal_profit"].ToString());
+                    if (IsSmallChange(item["Fspid"].ToString()))
+                    {
+                        _totalChangeMarkValue += decimal.Parse(item["markValue"].ToString());
+                       
+                    }
+                    else
+                    {
+                        _totalLCTMarkValue += decimal.Parse(item["markValue"].ToString());
+                    }
+                }
+                catch
+                {
+
+                }
+                #endregion
             }
 
             return userFundsTable;
@@ -712,7 +801,12 @@ namespace CFT.CSOMS.BLL.FundModule
                             string Fpur_type = dr["Fpur_type"].ToString();
                             string Floading_type = dr["Floading_type"].ToString();
                             string Fpurpose = dr["Fpurpose"].ToString();
-
+                            var tradeFund = QueryTradeFundInfo(spid, dr["Flistid"].ToString());
+                            string Fbusiness_type = "";
+                            if (tradeFund != null && tradeFund.Rows.Count > 0)
+                            {
+                                Fbusiness_type = tradeFund.Rows[0]["Fbusiness_type"].ToString();
+                            }
                             #region 存取
                             switch (Fpur_type)
                             {
@@ -779,11 +873,43 @@ namespace CFT.CSOMS.BLL.FundModule
                             {
                                 dr["Floading_type_str"] = "赎回提现给商户";
                             }
+
+                            else if (Fpur_type == "12" && Fpurpose == "3" && Fbusiness_type == "0")
+                            {
+                                dr["Floading_type_str"] = "转投";
+                            }
+                            else if (Fpur_type == "12" && Fpurpose == "3" && Fbusiness_type == "3")
+                            {
+                                dr["Floading_type_str"] = "预约转换";
+                            }
+                            else if (Fpur_type == "12" && Fpurpose == "3" && Fbusiness_type == "5")
+                            {
+                                dr["Floading_type_str"] = "预约募集";
+                            }
+
                             else
                             {
                                 //除了出其他都没有赎回方式
                                 dr["Floading_type_str"] = "";
-                            } 
+                            }
+
+                            //零钱赎回用途
+                            if (IsSmallChange(spid))
+                            {
+                                // 保险箱赎回判断
+                                if ("1" == Floading_type)
+                                {
+                                    dr["Floading_type_str"] = "快速取出到零钱"; //"T+0赎回赎回到零钱";
+                                }
+                                else if ("0" == Floading_type)
+                                {
+                                    dr["Floading_type_str"] = "普通取出到零钱";// "T+1赎回到零钱";
+                                }
+                                else
+                                {
+                                    dr["Floading_type_str"] = "未知类型";
+                                }
+                            }
                             #endregion
 
                             #region 注释
@@ -868,18 +994,18 @@ namespace CFT.CSOMS.BLL.FundModule
                                     dr["Ftotal_fee_str"] = "";
                                 }
 
-                                try
+                                //try
+                                //{
+                                //    var tradeFund = QueryTradeFundInfo(spid, dr["Flistid"].ToString());
+                                if (tradeFund != null && tradeFund.Rows.Count > 0)
                                 {
-                                    var tradeFund = QueryTradeFundInfo(spid, dr["Flistid"].ToString());
-                                    if (tradeFund != null && tradeFund.Rows.Count > 0)
-                                    {
-                                        dr["charge_fee"] = tradeFund.Rows[0]["Fcharge_fee"].ToString();
-                                    }
+                                    dr["charge_fee"] = tradeFund.Rows[0]["Fcharge_fee"].ToString();
                                 }
-                                catch (Exception ex)
-                                {
-                                    throw new Exception("查询手续费异常：" + ex.Message);
-                                }
+                                //}
+                                //catch (Exception ex)
+                                //{
+                                //    throw new Exception("查询手续费异常：" + ex.Message);
+                                //}
                             } 
                             #endregion
 
@@ -1399,7 +1525,7 @@ namespace CFT.CSOMS.BLL.FundModule
                 string state = dr["Fstate"].ToString();
                 dr["Fstate"] = LCTReserveOrder_State.ContainsKey(state) ? LCTReserveOrder_State[state] : "未知:" + state;
                 string Fcancel_reason = dr["Fcancel_reason"].ToString();
-                dr["Fcancel_reason"] = Fcancel_reason == "0" ? "0" :
+                dr["Fcancel_reason"] = Fcancel_reason == "0" ? "" :
                                        Fcancel_reason == "1" ? "用户取消预约" :
                                        Fcancel_reason == "2" ? "过期自动取消预约" : 
                                        "未知:" + Fcancel_reason;

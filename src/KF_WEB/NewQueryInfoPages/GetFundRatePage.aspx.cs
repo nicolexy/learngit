@@ -138,6 +138,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 {
                     lbLCTBalance.Text = classLibrary.setConfig.FenToYuan(subAccountInfoTable.Rows[0]["Fbalance"].ToString());//分转元
                 }
+                lbTotalAssets.Text = (Convert.ToDecimal(lbLCTMarkValue.Text) + Convert.ToDecimal(lbChangeMarkValue.Text) + Convert.ToDecimal(lbLCTBalance.Text)).ToString();
             }
             catch (Exception eSys)
             {
@@ -296,14 +297,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         private void BindFundAccountsSummary(string uin)
         {
-            var summaryTable = new FundService().GetUserFundSummary(uin);
-
-            summaryTable.Columns.Add("profitText", typeof(string));
-            summaryTable.Columns.Add("balanceText", typeof(string)); //余额
-            summaryTable.Columns.Add("conText", typeof(string));//冻结金额
-            summaryTable.Columns.Add("close_flagText", typeof(string));
-            summaryTable.Columns.Add("transfer_flagText", typeof(string));
-            summaryTable.Columns.Add("buy_validText", typeof(string));
+            FundService fundService = new FundService();
+            var summaryTable = fundService.GetUserFundSummary(uin);
 
             classLibrary.setConfig.FenToYuan_Table(summaryTable, "Ftotal_profit", "profitText");
             classLibrary.setConfig.FenToYuan_Table(summaryTable, "con", "conText");
@@ -313,78 +308,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 classLibrary.setConfig.FenToYuan_Table(summaryTable, "balance", "balanceText");
             }
 
-            foreach (DataRow dr in summaryTable.Rows)
-            {
-                switch (dr["close_flag"].ToString())
-                {
-                    case "1":
-                        dr["close_flagText"] = "不封闭";
-                        break;
-                    case "2":
-                        dr["close_flagText"] = "封闭";
-                        break;
-                    case "3":
-                        dr["close_flagText"] = "半封闭";
-                        break;
-                }
-                switch (dr["transfer_flag"].ToString())
-                {
-                    case "0":
-                        dr["transfer_flagText"] = "不支持转入、转出";
-                        break;
-                    case "1":
-                        dr["transfer_flagText"] = "支持转入不支持转出";
-                        break;
-                    case "2":
-                        dr["transfer_flagText"] = "支持转出不支持转入";
-                        break;
-                    case "3":
-                        dr["transfer_flagText"] = "同时支持转入和转出";
-                        break;
-                }
-                switch (dr["buy_valid"].ToString())
-                {
-                    case "1":
-                        dr["buy_validText"] = "支持申购";
-                        break;
-                    case "2":
-                        dr["buy_validText"] = "支持认购";
-                        break;
-                    case "4":
-                        dr["buy_validText"] = "支持申购/认购";
-                        break;
-                }
-            }
             dgUserFundSummary.DataSource = summaryTable;
             dgUserFundSummary.DataBind();
 
-            //统计收益总和，和余额总和
-            long totalBalance = 0, totalProfit = 0;
-            decimal totalMarkValue = 0;
-            foreach (DataRow item in summaryTable.Rows)
-            {
-                try
-                {
-                    totalBalance += long.Parse(item["balance"].ToString());
-                    totalProfit += long.Parse(item["Ftotal_profit"].ToString());
-                    totalMarkValue += decimal.Parse(item["markValue"].ToString());
-                }
-                catch
-                {
-
-                }
-            }
             if (!ClassLib.ValidateRight("BalanceControl", this))
             {
                 lblBalance.Text = "";
             }
             else
             {
-                lblBalance.Text = classLibrary.setConfig.FenToYuan(totalBalance).Replace("元", ""); //账户总金额
+                lblBalance.Text = classLibrary.setConfig.FenToYuan(fundService.totalBalance).Replace("元", ""); //账户总金额
             }
 
-            lblTotalProfit.Text = classLibrary.setConfig.FenToYuan(totalProfit);
-            lbMarkValue.Text = totalMarkValue.ToString();//市值
+            lblTotalProfit.Text = classLibrary.setConfig.FenToYuan(fundService.totalProfit);
+            lbLCTMarkValue.Text = fundService.totalLCTMarkValue.ToString();//理财通市值
+            lbChangeMarkValue.Text = fundService.totalChangeMarkValue.ToString();//零钱市值
         }
 
         private void BindProfitList(string tradeId, string spId, DateTime beginDate, DateTime endDate, int pageIndex = 1)
@@ -593,6 +531,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         {
             try
             {
+                this.dgBankRollListNotChildren.Visible = true;
+                this.tableBankRollListNotChildren.Visible = true;
                 this.bankRollListNotChildrenPager.CurrentPageIndex = pageIndex;
                 int max = pager.PageSize;
                 int start = max * (pageIndex - 1);
@@ -717,8 +657,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 {
                     this.tableCloseFundRoll.Visible = true;
                     this.tableBankRollList.Visible = true;
-                    BindCloseFundRoll(ViewState["tradeId"].ToString(), fundCode, beginDate, endDate, 1);
-                    BindBankRollList(ViewState["uin"].ToString(), fundSPId, ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType, memo);
+                    //BindCloseFundRoll(ViewState["tradeId"].ToString(), fundCode, beginDate, endDate, 1);
+                    //BindBankRollList(ViewState["uin"].ToString(), fundSPId, ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType, memo);
                 }
                 else
                 {
@@ -740,17 +680,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                         ExhibitionDataGridColumns(dgCloseFundRoll, false, hideList.ToArray());
 
                         this.tableCloseFundRoll.Visible = true;
-                        BindCloseFundRoll(ViewState["tradeId"].ToString(), fundCode, beginDate, endDate, 1);
+                        //BindCloseFundRoll(ViewState["tradeId"].ToString(), fundCode, beginDate, endDate, 1);
                     }
                     else if (close_flag == "1") //不封闭
                     {
                         ExhibitionDataGridColumns(dgCloseFundRoll, false, 4, 5);
                     }
 
-                    BindProfitList(ViewState["tradeId"].ToString(), fundSPId, beginDate, endDate);
-                    BindBankRollList(ViewState["uin"].ToString(), fundSPId, ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType, memo);
-                    BindBankRollListNotChildren(ViewState["uin"].ToString(), fundSPId, ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType);
                 }
+                //查询用户余额收益情况明细
+                BindProfitList(ViewState["tradeId"].ToString(), fundSPId, beginDate, endDate);
+                //查询用户资金流水情况
+                BindBankRollList(ViewState["uin"].ToString(), fundSPId, ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType, memo);
+                //交易明细
+                BindCloseFundRoll(ViewState["tradeId"].ToString(), fundCode, beginDate, endDate, 1);
+                //查询用户交易流水情况
+                BindBankRollListNotChildren(ViewState["uin"].ToString(), fundSPId, ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType);
             }
             catch (Exception eSys)
             {

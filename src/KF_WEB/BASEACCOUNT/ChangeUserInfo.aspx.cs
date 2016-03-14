@@ -131,8 +131,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 Response.Redirect("../login.aspx?wh=1"); //重新登陆
             }
-
-            DataSet ds = new AccountService().GetUserInfo(this.TX_QQID.Text.Trim(), istr, imax);
+            int accountType = 0;
+            if (this.InternalID.Checked)
+            {
+                accountType = 1;
+            }
+            DataSet ds = new AccountService().GetUserInfo(this.TX_QQID.Text.Trim(), accountType, istr, imax);
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
             {
                 throw new Exception("数据库无此记录");

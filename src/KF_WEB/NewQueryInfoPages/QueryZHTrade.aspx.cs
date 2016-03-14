@@ -314,7 +314,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     if (qqid != null && qqid != "")
                     {
 
-                        ds_u = new AccountService().GetUserInfo(qqid, 1, 1);
+                        ds_u = new AccountService().GetUserInfo(qqid, 0, 1, 1);
                     }
                     string true_name = "";
                     if (ds_u != null && ds_u.Tables.Count > 0)

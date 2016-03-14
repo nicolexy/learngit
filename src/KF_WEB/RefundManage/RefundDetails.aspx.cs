@@ -268,7 +268,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                     log.InfoFormat("求个人信息不为空：操作者：{0} ", Session["uid"].ToString());
 
 
-                    DataSet tmpds = new AccountService().GetUserInfo(strUid.Trim(), 1, 1);
+                    DataSet tmpds = new AccountService().GetUserInfo(strUid.Trim(), 0, 1, 1);
                     if (tmpds == null || tmpds.Tables.Count < 1 || tmpds.Tables[0].Rows.Count < 1)
                     {
                         msg += string.Format("根据财付通帐号：{0} 求个人信息为空:", strUid);
@@ -607,7 +607,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 btnRefuse.Enabled   = false;
                 btnCW.Enabled       = false;
                 //btnInvalid.Enabled  = false;
-                txt_Reason.Width = 560;
+                //txt_Reason.Width = 560;
                 txt_Reason.Enabled = false;
                 Button1.Visible = false;
             }

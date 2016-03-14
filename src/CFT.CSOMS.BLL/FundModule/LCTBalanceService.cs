@@ -27,14 +27,14 @@ namespace CFT.CSOMS.BLL.FundModule
 
                 //交易类型
                 Hashtable ht1 = new Hashtable();
-                ht1.Add("1", "充值成功");
+                ht1.Add("1", "充值到余额");
                 ht1.Add("2", "普通赎回到余额");
                 ht1.Add("3", "快速赎回到余额");
                 ht1.Add("4", "提现失败回到余额");
-                ht1.Add("5", "提现成功");
-                ht1.Add("6", "申购成功");
+                ht1.Add("5", "余额提现(t+0)");
+                ht1.Add("6", "余额申购");
                 ht1.Add("7", "余额提现(t+1)");
-                ht1.Add("10", "到账成功");
+                ht1.Add("10", "活动奖励");
                 ht1.Add("11", "对账补单");
 
                 //支付渠道
@@ -52,11 +52,13 @@ namespace CFT.CSOMS.BLL.FundModule
                 Hashtable ht3 = new Hashtable();
                 ht3.Add("0", "初始");
                 ht3.Add("1", "支付成功");
-                ht3.Add("2", "充值成功不可退款状态");
+                //ht3.Add("2", "充值成功不可退款状态");
+                ht3.Add("2", "入账成功");
                 ht3.Add("3", "转入充值退款");
                 ht3.Add("4", "充值退款成功");
                 ht3.Add("5", "子账户虚拟提现成功，总账户未支付到基金商户");
-                ht3.Add("6", "余额转出成功");
+                //ht3.Add("6", "余额转出成功");
+                ht3.Add("6", "出账成功");
                 ht3.Add("7", "余额转出退款");
 
                 Hashtable ht4 = new Hashtable();
