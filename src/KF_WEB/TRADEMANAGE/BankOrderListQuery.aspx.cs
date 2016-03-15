@@ -528,7 +528,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 }
 
                 //检测是否遗漏批量搜索信息显示
-                CheckDataShow(ref ds);
+                CheckDataShow(ref dsAll);
 
                 return dsAll;
             }
@@ -628,7 +628,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     {
                         var rowdata = tmpListData.Rows[i];
 
-                        LogHelper.LogInfo("BankOrderListQuery : tmpListData.Fbank_listid=" + rowdata["Fbank_listid"] + ",Flistid=" + rowdata["Flistid"]);
+                        LogHelper.LogInfo("BankOrderListQuery : tmpListData.Fbank_listid=" + rowdata["Fbank_list"] + ",Flistid=" + rowdata["Flistid"]);
 
                         var tmpData = dsc.Tables[0].Select("Fbank_list =" + rowdata["Fbank_list"]);
                         if (tmpData == null || tmpData.Length <= 0)
@@ -732,6 +732,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         {
             BindDataOutExcel();
 
+        }
+
+        public  string ConvertDateToString(object objval)
+        {
+            string retVal = string.Empty;
+
+            if (objval == null) {
+                return retVal;
+            }
+
+            DateTime dtime = DateTime.Now;
+            if (DateTime.TryParse(objval.ToString(), out dtime)) {
+                retVal= dtime.ToString("yyyyMMddHHmmss");
+            }
+
+            return retVal;
         }
 
     }
