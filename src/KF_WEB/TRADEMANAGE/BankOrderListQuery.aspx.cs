@@ -428,6 +428,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     ds.Tables[0].Columns.Add("Fbuy_bank_type_str"); //银行类型
                     ds.Tables[0].Columns.Add("TradeState_str"); //交易状态
                     ds.Tables[0].Columns.Add("Faid"); //帐号
+                    ds.Tables[0].Columns.Add("Page_OrderTypeID"); //查询订单类别ID:1:银行订单号，2充值订单
 
                     //ds.Tables[0].Columns.Add("tbegindate", typeof(string));
                     //ds.Tables[0].Columns.Add("tenddate", typeof(string));
@@ -436,6 +437,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     DataSet buss_ds = new DataSet();
                     foreach (DataRow row in ds.Tables[0].Rows)
                     {
+                        row["Page_OrderTypeID"] = "1";
                         row["Fbuy_bank_type_str"] = Transfer.convertbankType(ds.Tables[0].Rows[0]["Fbuy_bank_type"].ToString());
                       //  row["Flstate_str"] = classLibrary.setConfig.convertTradeState(ds.Tables[0].Rows[0]["Flstate"].ToString());
                         string spid = ds.Tables[0].Rows[0]["Flistid"].ToString().Substring(0, 10);//商户号为财付通订单号前十位
@@ -630,18 +632,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
                         LogHelper.LogInfo("BankOrderListQuery : tmpListData.Fbank_listid=" + rowdata["Fbank_list"] + ",Flistid=" + rowdata["Flistid"]);
 
-                        var tmpData = dsc.Tables[0].Select("Fbank_list =" + rowdata["Fbank_list"]);
+                        var tmpData = dsc.Tables[0].Select("Fbank_listid =" + rowdata["Fbank_list"]);
                         if (tmpData == null || tmpData.Length <= 0)
                         {
                             //添加数据
                             DataRow dr = dsc.Tables[0].NewRow();
                             dr["Fbank_listid"] = rowdata["Fbank_list"];
                             dr["Flistid"] = rowdata["Flistid"];
-                            dr["Faid"] = rowdata["Faid"];
+                            dr["Fmemo"] = rowdata["Faid"];
                             dr["Fpay_time"] = rowdata["Fpay_time"];
                             dr["Fpaynum_str"] = rowdata["FNewNum"];
                             dr["TradeState_str"] = rowdata["FStateName"];
                             dr["Fbuy_bank_type_str"] = rowdata["FbankName"];
+                            dr["Page_OrderTypeID"] = "2";//用该字段标识是否为充值订单。
 
                             dsc.Tables[0].Rows.Add(dr);
                         }
