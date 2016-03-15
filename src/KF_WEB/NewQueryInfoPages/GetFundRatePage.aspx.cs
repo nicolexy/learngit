@@ -138,7 +138,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 {
                     lbLCTBalance.Text = classLibrary.setConfig.FenToYuan(subAccountInfoTable.Rows[0]["Fbalance"].ToString());//分转元
                 }
-                lbTotalAssets.Text = (Convert.ToDecimal(lbLCTMarkValue.Text) + Convert.ToDecimal(lbChangeMarkValue.Text) + Convert.ToDecimal(lbLCTBalance.Text)).ToString();
+                lbTotalAssets.Text = (Convert.ToDecimal(lbLCTMarkValue.Text) + Convert.ToDecimal(lbChangeMarkValue.Text) + Convert.ToDecimal(lbLCTBalance.Text.Replace("元", ""))).ToString();
             }
             catch (Exception eSys)
             {

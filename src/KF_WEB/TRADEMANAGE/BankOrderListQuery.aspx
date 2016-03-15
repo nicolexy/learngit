@@ -70,7 +70,7 @@
 							<Columns>
                               <asp:TemplateColumn HeaderText="ÒøÐÐ¶©µ¥">
 									<ItemTemplate>
-										<a href = 'FundQuery.aspx?from=bankquery&checkdate=<%# DataBinder.Eval(Container, "DataItem.Fpay_time")%>&czID=<%# DataBinder.Eval(Container, "DataItem.Fbank_listid") %>'>
+										<a href = 'FundQuery.aspx?from=bankquery&checkdate=<%# ConvertDateToString(DataBinder.Eval(Container, "DataItem.Fpay_time"))%>&czID=<%# DataBinder.Eval(Container, "DataItem.Fbank_listid") %>'>
 											<%# DataBinder.Eval(Container, "DataItem.Fbank_listid") %>
 										</a>
 									</ItemTemplate>
