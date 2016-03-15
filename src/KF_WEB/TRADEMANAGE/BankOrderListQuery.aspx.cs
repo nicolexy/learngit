@@ -638,7 +638,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                             dr["Fbank_listid"] = rowdata["Fbank_list"];
                             dr["Flistid"] = rowdata["Flistid"];
                             dr["Faid"] = rowdata["Faid"];
-                            dr["Fpay_time"] = rowdata["Fpay_front_time"];
+                            dr["Fpay_time"] = rowdata["Fpay_time"];
                             dr["Fpaynum_str"] = rowdata["FNewNum"];
                             dr["TradeState_str"] = rowdata["FStateName"];
                             dr["Fbuy_bank_type_str"] = rowdata["FbankName"];
