@@ -894,7 +894,7 @@ namespace CFT.CSOMS.BLL.FundModule
                             }
 
                             //零钱赎回用途
-                            if (IsSmallChange(spid))
+                            if (Fpur_type == "4" && IsSmallChange(spid))
                             {
                                 // 保险箱赎回判断
                                 if ("1" == Floading_type)
