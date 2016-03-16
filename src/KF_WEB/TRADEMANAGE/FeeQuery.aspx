@@ -26,7 +26,7 @@
 				<TR>
 					<TD colSpan="2">
 						<TABLE id="Table2" border="1" cellSpacing="1" cellPadding="1" width="100%">
-							<TR>
+	<%--						<TR>
 								<TD><asp:label id="Label5" runat="server">当前状态</asp:label></TD>
 								<TD style="WIDTH: 340px"><FONT face="宋体"><asp:dropdownlist id="ddlState" runat="server" Width="104px">
 											<asp:ListItem Value="9" Selected="True">所有状态</asp:ListItem>
@@ -43,14 +43,14 @@
 										<asp:ListItem Value="tel">电话费</asp:ListItem>
 										<asp:ListItem Value="outtime">超时退款</asp:ListItem>
 									</asp:dropdownlist></TD>
-							</TR>
+							</TR>--%>
 							<TR>
-								<TD><asp:label id="Label6" runat="server">款项情况</asp:label></TD>
+							<%--	<TD><asp:label id="Label6" runat="server">款项情况</asp:label></TD>
 								<TD style="WIDTH: 340px"><asp:dropdownlist id="ddlPaytypeState" runat="server" Width="104px">
 										<asp:ListItem Value="9" Selected="True">所有状态</asp:ListItem>
 										<asp:ListItem Value="0">退款</asp:ListItem>
 										<asp:ListItem Value="1">打款</asp:ListItem>
-									</asp:dropdownlist></TD>
+									</asp:dropdownlist></TD>--%>
 								<TD><asp:label id="Label2" runat="server">交易单</asp:label></TD>
 								<TD><asp:textbox id="tblistID" runat="server" Width="200px"></asp:textbox><asp:button id="btnQuery" runat="server" Text="查询记录" onclick="btnQuery_Click"></asp:button></TD>
 							</TR>

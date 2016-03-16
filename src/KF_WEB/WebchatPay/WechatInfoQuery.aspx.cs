@@ -100,26 +100,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             this.Label2_Type.Text = "";
             this.Label3_LeftAcc.Text = "";
             this.Label4_Freeze.Text = "";
-            this.Label5_YestodayLeft.Text = "";
+            //this.Label5_YestodayLeft.Text = "";
             this.Label6_LastModify.Text = "";
-            this.Label7_SingleMax.Text = "";
-            this.Label8_PerDayLmt.Text = "";
-            this.Label9_LastSaveDate.Text = "";
-            this.Label10_Drawing.Text = "";
+            //this.Label7_SingleMax.Text = "";
+            //this.Label8_PerDayLmt.Text = "";
+            //this.Label9_LastSaveDate.Text = "";
+            //this.Label10_Drawing.Text = "";
             this.Label11_Remark.Text = "";
             this.Label12_Fstate.Text = "";
             this.Label13_Fuser_type.Text = "";
             this.Label14_Ftruename.Text = "";
             this.Label15_Useable.Text = "";
-            this.Label16_Fapay.Text = "";
+            //this.Label16_Fapay.Text = "";
             this.Label17_Flogin_ip.Text = "";
             this.Label18_Attid.Text = "";
-            this.labEmail.Text = "";
-            this.lb_wxName.Text = "";
-            this.labMobile.Text = "";
+            //this.labEmail.Text = "";
+            //this.lb_wxName.Text = "";
+            //this.labMobile.Text = "";
             this.labQQstate.Text = "";
-            this.labEmailState.Text = "";
-            this.labMobileState.Text = "";
+            //this.labEmailState.Text = "";
+            //this.labMobileState.Text = "";
             this.lblLoginTime.Text = "";
             this.CKV_freeze.Text = "";
             this.CKV_WXRemainder.Text = "";
@@ -191,13 +191,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
                 this.Label3_LeftAcc.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fbalance"));//tu.u_Balance;				   //"3000";
                 //this.Label4_Freeze.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fcon"));                  //"1000";
-                this.Label5_YestodayLeft.Text = PublicRes.objectToString(ds.Tables[0],"Fyday_balance");		   //"10";
+                //this.Label5_YestodayLeft.Text = PublicRes.objectToString(ds.Tables[0],"Fyday_balance");		   //"10";
                 this.lblLoginTime.Text = PublicRes.objectToString(ds.Tables[0],"Fcreate_time");
                 this.Label6_LastModify.Text = PublicRes.objectToString(ds.Tables[0],"Fmodify_time");		   //"2005-05-01";
-                this.Label7_SingleMax.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fquota"));		   //"2000";
-                this.Label8_PerDayLmt.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fquota_pay"));			//"5000";
-                this.Label9_LastSaveDate.Text = PublicRes.objectToString(ds.Tables[0],"Fsave_time");				//"2005-03-01";
-                this.Label10_Drawing.Text = PublicRes.objectToString(ds.Tables[0],"Ffetch_time");              //"2005-04-15";
+                //this.Label7_SingleMax.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fquota"));		   //"2000";
+                //this.Label8_PerDayLmt.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fquota_pay"));			//"5000";
+                //this.Label9_LastSaveDate.Text = PublicRes.objectToString(ds.Tables[0],"Fsave_time");				//"2005-03-01";
+                //this.Label10_Drawing.Text = PublicRes.objectToString(ds.Tables[0],"Ffetch_time");              //"2005-04-15";
                 this.Label11_Remark.Text = PublicRes.objectToString(ds.Tables[0],"Fmemo");					//"这个家伙很懒，什么都没有留下！";
                 
                 //微信查询的state判断有所不同 yinhuang
@@ -246,12 +246,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 this.Label4_Freeze.Text = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(l_fzamt + l_cron).ToString("f2") + "元";   //classLibrary.setConfig.FenToYuan(l_fzamt + l_cron);//冻结金额=分账冻结金额+冻结金额
                 //this.Label15_Useable.Text = classLibrary.setConfig.FenToYuan((long.Parse(ds.Tables[0].Rows[0]["Fbalance"].ToString()) - long.Parse(ds.Tables[0].Rows[0]["Fcon"].ToString())).ToString());  //帐户余额减去冻结余额= 可用余额
                 this.Label15_Useable.Text = classLibrary.setConfig.FenToYuan(l_balance - l_cron);  //帐户余额减去冻结余额= 可用余额
-                this.Label16_Fapay.Text = PublicRes.objectToString(ds.Tables[0],"Fapay");
+                //this.Label16_Fapay.Text = PublicRes.objectToString(ds.Tables[0],"Fapay");
                 this.Label17_Flogin_ip.Text = PublicRes.objectToString(ds.Tables[0],"Flogin_ip");
 
                 //furion 20061116 email登录修改
-                this.labEmail.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0],"Femail"));
-                this.labMobile.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0],"Fmobile"));
+                //this.labEmail.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0],"Femail"));
+                //this.labMobile.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0],"Fmobile"));
                 //2006-10-18 edwinyang 增加产品属性
                 int nAttid = 0;
                 //				pbp.BindDropDownList(pm.QueryDicAccName(),ddlAttid,out Msg);
@@ -268,9 +268,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 }
                 
                 this.lbInnerID.Text = PublicRes.objectToString(ds.Tables[0],"fuid");
-                this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Ffetch"));
-                this.lbLeftPay.Text = Transfer.convertBPAY(PublicRes.objectToString(ds.Tables[0], "Fbpay_state"));
-                this.lbSave.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fsave"));
+                //this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Ffetch"));
+                //this.lbLeftPay.Text = Transfer.convertBPAY(PublicRes.objectToString(ds.Tables[0], "Fbpay_state"));
+                //this.lbSave.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fsave"));
 
                 string fuid = PublicRes.objectToString(ds.Tables[0],"fuid");
                 if (Label1_Acc.Text != "")
@@ -295,49 +295,49 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 else
                     labQQstate.Text = "";
 
-                if (labEmail.Text != "")
-                {
-                    string testuid = myService.QQ2Uid(labEmail.Text);
-                    if (testuid != null)
-                    {
-                        labEmailState.Text = "注册未关联";
-                        if (testuid.Trim() == fuid)
-                        {
-                            //再判断是否是已激活 furion 20070226
-                            string trueuid = myService.QQ2UidX(labEmail.Text);
-                            if (trueuid != null)
-                                labEmailState.Text = "已关联";
-                            else
-                                labEmailState.Text = "已关联未激活";
-                        }
-                    }
-                    else
-                        labEmailState.Text = "未注册";
-                }
-                else
-                    labEmailState.Text = "";
+                //if (labEmail.Text != "")
+                //{
+                //    string testuid = myService.QQ2Uid(labEmail.Text);
+                //    if (testuid != null)
+                //    {
+                //        labEmailState.Text = "注册未关联";
+                //        if (testuid.Trim() == fuid)
+                //        {
+                //            //再判断是否是已激活 furion 20070226
+                //            string trueuid = myService.QQ2UidX(labEmail.Text);
+                //            if (trueuid != null)
+                //                labEmailState.Text = "已关联";
+                //            else
+                //                labEmailState.Text = "已关联未激活";
+                //        }
+                //    }
+                //    else
+                //        labEmailState.Text = "未注册";
+                //}
+                //else
+                //    labEmailState.Text = "";
 
-                if (labMobile.Text != "")
-                {
-                    string testuid = myService.QQ2Uid(labMobile.Text);
-                    if (testuid != null)
-                    {
-                        labMobileState.Text = "注册未关联";
-                        if (testuid.Trim() == fuid)
-                        {
-                            //再判断是否是已激活 furion 20070226
-                            string trueuid = myService.QQ2UidX(labMobile.Text);
-                            if (trueuid != null)
-                                labMobileState.Text = "已关联";
-                            else
-                                labMobileState.Text = "已关联未激活";
-                        }
-                    }
-                    else
-                        labMobileState.Text = "未注册";
-                }
-                else
-                    labMobileState.Text = "";
+                //if (labMobile.Text != "")
+                //{
+                //    string testuid = myService.QQ2Uid(labMobile.Text);
+                //    if (testuid != null)
+                //    {
+                //        labMobileState.Text = "注册未关联";
+                //        if (testuid.Trim() == fuid)
+                //        {
+                //            //再判断是否是已激活 furion 20070226
+                //            string trueuid = myService.QQ2UidX(labMobile.Text);
+                //            if (trueuid != null)
+                //                labMobileState.Text = "已关联";
+                //            else
+                //                labMobileState.Text = "已关联未激活";
+                //        }
+                //    }
+                //    else
+                //        labMobileState.Text = "未注册";
+                //}
+                //else
+                //    labMobileState.Text = "";
 
                 LinkButton3.Text = "";
 
@@ -426,13 +426,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 this.Label2_Type.Text = Transfer.convertMoney_type(ds.Tables[0].Rows[0]["Fcurtype"].ToString());//tu.u_CurType;				   //"代金券";
                 this.Label3_LeftAcc.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fbalance"].ToString());//tu.u_Balance;				   //"3000";
                 //this.Label4_Freeze.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fcon"].ToString());                  //"1000";
-                this.Label5_YestodayLeft.Text = ds.Tables[0].Rows[0]["Fyday_balance"].ToString();		   //"10";
+                //this.Label5_YestodayLeft.Text = ds.Tables[0].Rows[0]["Fyday_balance"].ToString();		   //"10";
                 this.lblLoginTime.Text = ds.Tables[0].Rows[0]["Fcreate_time"].ToString();
                 this.Label6_LastModify.Text = ds.Tables[0].Rows[0]["Fmodify_time"].ToString();		   //"2005-05-01";
-                this.Label7_SingleMax.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fquota"].ToString());		   //"2000";
-                this.Label8_PerDayLmt.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fquota_pay"].ToString());			//"5000";
-                this.Label9_LastSaveDate.Text = ds.Tables[0].Rows[0]["Fsave_time"].ToString();				//"2005-03-01";
-                this.Label10_Drawing.Text = ds.Tables[0].Rows[0]["Ffetch_time"].ToString();              //"2005-04-15";
+                //this.Label7_SingleMax.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fquota"].ToString());		   //"2000";
+                //this.Label8_PerDayLmt.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fquota_pay"].ToString());			//"5000";
+                //this.Label9_LastSaveDate.Text = ds.Tables[0].Rows[0]["Fsave_time"].ToString();				//"2005-03-01";
+                //this.Label10_Drawing.Text = ds.Tables[0].Rows[0]["Ffetch_time"].ToString();              //"2005-04-15";
                 this.Label11_Remark.Text = ds.Tables[0].Rows[0]["Fmemo"].ToString();					//"这个家伙很懒，什么都没有留下！";
                 this.Label12_Fstate.Text = Transfer.accountState(ds.Tables[0].Rows[0]["Fstate"].ToString());
                 this.Label13_Fuser_type.Text = Transfer.convertFuser_type(ds.Tables[0].Rows[0]["Fuser_type"].ToString());
@@ -461,19 +461,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                     this.Label14_Ftruename.Text = ds.Tables[0].Rows[0]["Ftruename"].ToString();
                 }
                 this.Label15_Useable.Text = classLibrary.setConfig.FenToYuan((long.Parse(ds.Tables[0].Rows[0]["Fbalance"].ToString()) - long.Parse(ds.Tables[0].Rows[0]["Fcon"].ToString())).ToString());  //帐户余额减去冻结余额= 可用余额
-                this.Label16_Fapay.Text = ds.Tables[0].Rows[0]["Fapay"].ToString();
+                //this.Label16_Fapay.Text = ds.Tables[0].Rows[0]["Fapay"].ToString();
                 this.Label17_Flogin_ip.Text = ds.Tables[0].Rows[0]["Flogin_ip"].ToString();
 
                 //furion 20061116 email登录修改
-                this.labEmail.Text = PublicRes.GetString(ds.Tables[0].Rows[0]["Femail"]);
-                this.labMobile.Text = PublicRes.GetString(ds.Tables[0].Rows[0]["Fmobile"]);
+                //this.labEmail.Text = PublicRes.GetString(ds.Tables[0].Rows[0]["Femail"]);
+                //this.labMobile.Text = PublicRes.GetString(ds.Tables[0].Rows[0]["Fmobile"]);
                 //2006-10-18 edwinyang 增加产品属性
                 int nAttid = int.Parse(ds.Tables[0].Rows[0]["Att_id"].ToString());
                 //				pbp.BindDropDownList(pm.QueryDicAccName(),ddlAttid,out Msg);
                 this.Label18_Attid.Text = CheckBasicInfo(nAttid);
-                this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Ffetch"].ToString().Trim());
-                this.lbLeftPay.Text = Transfer.convertBPAY(ds.Tables[0].Rows[0]["Fbpay_state"].ToString().Trim());
-                this.lbSave.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fsave"].ToString().Trim());
+                //this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Ffetch"].ToString().Trim());
+                //this.lbLeftPay.Text = Transfer.convertBPAY(ds.Tables[0].Rows[0]["Fbpay_state"].ToString().Trim());
+                //this.lbSave.Text = classLibrary.setConfig.FenToYuan(ds.Tables[0].Rows[0]["Fsave"].ToString().Trim());
 
                 string fuid = ds.Tables[0].Rows[0]["fuid"].ToString().Trim();
 
@@ -499,49 +499,49 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 else
                     labQQstate.Text = "";
 
-                if (labEmail.Text != "")
-                {
-                    string testuid = myService.QQ2Uid(labEmail.Text);
-                    if (testuid != null)
-                    {
-                        labEmailState.Text = "注册未关联";
-                        if (testuid.Trim() == fuid)
-                        {
-                            //再判断是否是已激活 furion 20070226
-                            string trueuid = myService.QQ2UidX(labEmail.Text);
-                            if (trueuid != null)
-                                labEmailState.Text = "已关联";
-                            else
-                                labEmailState.Text = "已关联未激活";
-                        }
-                    }
-                    else
-                        labEmailState.Text = "未注册";
-                }
-                else
-                    labEmailState.Text = "";
+                //if (labEmail.Text != "")
+                //{
+                //    string testuid = myService.QQ2Uid(labEmail.Text);
+                //    if (testuid != null)
+                //    {
+                //        labEmailState.Text = "注册未关联";
+                //        if (testuid.Trim() == fuid)
+                //        {
+                //            //再判断是否是已激活 furion 20070226
+                //            string trueuid = myService.QQ2UidX(labEmail.Text);
+                //            if (trueuid != null)
+                //                labEmailState.Text = "已关联";
+                //            else
+                //                labEmailState.Text = "已关联未激活";
+                //        }
+                //    }
+                //    else
+                //        labEmailState.Text = "未注册";
+                //}
+                //else
+                //    labEmailState.Text = "";
 
-                if (labMobile.Text != "")
-                {
-                    string testuid = myService.QQ2Uid(labMobile.Text);
-                    if (testuid != null)
-                    {
-                        labMobileState.Text = "注册未关联";
-                        if (testuid.Trim() == fuid)
-                        {
-                            //再判断是否是已激活 furion 20070226
-                            string trueuid = myService.QQ2UidX(labMobile.Text);
-                            if (trueuid != null)
-                                labMobileState.Text = "已关联";
-                            else
-                                labMobileState.Text = "已关联未激活";
-                        }
-                    }
-                    else
-                        labMobileState.Text = "未注册";
-                }
-                else
-                    labMobileState.Text = "";
+                //if (labMobile.Text != "")
+                //{
+                //    string testuid = myService.QQ2Uid(labMobile.Text);
+                //    if (testuid != null)
+                //    {
+                //        labMobileState.Text = "注册未关联";
+                //        if (testuid.Trim() == fuid)
+                //        {
+                //            //再判断是否是已激活 furion 20070226
+                //            string trueuid = myService.QQ2UidX(labMobile.Text);
+                //            if (trueuid != null)
+                //                labMobileState.Text = "已关联";
+                //            else
+                //                labMobileState.Text = "已关联未激活";
+                //        }
+                //    }
+                //    else
+                //        labMobileState.Text = "未注册";
+                //}
+                //else
+                //    labMobileState.Text = "";
 
                 LinkButton3.Text = "";
 
@@ -802,27 +802,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 this.LkBT_Refund.Visible = true;
                 this.LkBT_Refund_Sale.Visible = true;
 
-                if (Label1_Acc.Text.Length > 0 && Label1_Acc.Text.EndsWith("@wx.tenpay.com"))
-                {
-                    try
-                    {
-                        var ticket = Session["oa_ticket"] as string;
-                        if (string.IsNullOrEmpty(ticket))
-                        {
-                            TempErrlog.InnerText = "ticket为空 不可获取";
-                        }
-                        else
-                        {
-                            var openid = Label1_Acc.Text.Substring(0, Label1_Acc.Text.Length - 14);
-                            labEmail.Text = WeChatHelper.GetUserNameFromOpenid(openid, ticket);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        //开发阶段   用这个方式 记录一下 异常
-                        TempErrlog.InnerText = ex.ToString();
-                    }
-                }
+                //if (Label1_Acc.Text.Length > 0 && Label1_Acc.Text.EndsWith("@wx.tenpay.com"))
+                //{
+                //    try
+                //    {
+                //        var ticket = Session["oa_ticket"] as string;
+                //        if (string.IsNullOrEmpty(ticket))
+                //        {
+                //            TempErrlog.InnerText = "ticket为空 不可获取";
+                //        }
+                //        else
+                //        {
+                //            var openid = Label1_Acc.Text.Substring(0, Label1_Acc.Text.Length - 14);
+                //            labEmail.Text = WeChatHelper.GetUserNameFromOpenid(openid, ticket);
+                //        }
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        //开发阶段   用这个方式 记录一下 异常
+                //        TempErrlog.InnerText = ex.ToString();
+                //    }
+                //}
             }
             catch (SoapException er) //捕获soap类
             {

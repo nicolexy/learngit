@@ -23,7 +23,7 @@
 					<TR>
 						<TD colSpan="2">
 							<TABLE id="Table2" border="1" cellSpacing="1" cellPadding="1" width="100%">
-								<TR>
+								<%--<TR>
 									<TD><asp:label id="Label8" runat="server" style="Z-INDEX: 0">商户号</asp:label></TD>
 									<TD><FONT face="宋体">
 											<asp:DropDownList id="ddlSpid" runat="server" Width="104px" style="Z-INDEX: 0"></asp:DropDownList></FONT></TD>
@@ -48,8 +48,8 @@
 											<asp:ListItem Value="16">逾期退汇</asp:ListItem>
 											<asp:ListItem Value="17">邮储线下退汇</asp:ListItem>
 										</asp:dropdownlist></TD>
-								</TR>
-								<TR>
+								</TR>--%>
+								<%--<TR>
 									<TD>
 										<asp:label id="Label5" runat="server">交易类型</asp:label></TD>
 									<TD>
@@ -69,8 +69,8 @@
 											<asp:ListItem Value="4">挂起后成功</asp:ListItem>
 											<asp:ListItem Value="5">挂起后失败</asp:ListItem>
 										</asp:dropdownlist></TD>
-								</TR>
-								<TR>
+								</TR>--%>
+								<%--<TR>
 									<TD>
 										<asp:label id="Label3" runat="server">汇款类型</asp:label></TD>
 									<TD>
@@ -82,7 +82,7 @@
 										</asp:dropdownlist></TD>
 									<TD></TD>
 									<TD></TD>
-								</TR>
+								</TR>--%>
 								<TR>
 									<TD><asp:label id="Label17" runat="server">汇票号</asp:label></TD>
 									<TD><asp:textbox id="tbRemitRec" runat="server" Width="200px"></asp:textbox></TD>

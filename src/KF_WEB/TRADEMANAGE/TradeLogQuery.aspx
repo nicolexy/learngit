@@ -83,11 +83,11 @@
 									</TD>
 								</TR>
 								<TR>
-									<TD style="WIDTH: 125px; HEIGHT: 18px"  bgColor="#eeeeee">&nbsp; 交易单号:</TD>
-									<TD style="WIDTH: 136px; HEIGHT: 18px"  bgColor="#ffffff">&nbsp;<span class="style4">
+									<TD style="WIDTH: 20%; HEIGHT: 18px"  bgColor="#eeeeee">&nbsp; 交易单号:</TD>
+									<TD style="WIDTH: 30%; HEIGHT: 18px"  bgColor="#ffffff">&nbsp;<span class="style4">
 											<asp:label id="LB_Flistid" runat="server"></asp:label></span></TD>
-									<TD style="WIDTH: 125px; HEIGHT: 18px"  bgColor="#eeeeee">&nbsp;交易状态:</TD>
-									<TD style="WIDTH: 156px; HEIGHT: 18px" bgColor="#ffffff" colspan="2">&nbsp;
+									<TD style="WIDTH: 20%; HEIGHT: 18px"  bgColor="#eeeeee">&nbsp;交易状态:</TD>
+									<TD style="WIDTH: 30%; HEIGHT: 18px" bgColor="#ffffff" colspan="2">&nbsp;
 										<asp:Label ID="lblTradeState" Runat="server"></asp:Label></TD>
 								</TR>
 								<TR>
@@ -119,15 +119,16 @@
 											<asp:label id="LB_Fbank_backid" runat="server"></asp:label></FONT></TD>
 								</TR>
 								<TR>
-									<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee"><FONT face="宋体">&nbsp;机构代码名称(发起):</FONT></TD>
+									<%--<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee"><FONT face="宋体">&nbsp;机构代码名称(发起):</FONT></TD>
 									<TD style="WIDTH: 136px; HEIGHT: 18px" bgColor="#ffffff"><FONT face="宋体">&nbsp;
-											<asp:label id="LB_Fspid" runat="server"></asp:label></FONT></TD>
+											<asp:label id="LB_Fspid" runat="server"></asp:label></FONT></TD>--%>
 									<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee"><FONT face="宋体">&nbsp;交易单的状态:</FONT></TD>
 									<TD style="HEIGHT: 18px" width="62px" bgColor="#ffffff"><FONT face="宋体">&nbsp;
 											<asp:label id="LB_Flstate" runat="server" ForeColor="Red"></asp:label></FONT></TD>
 									<TD style="HEIGHT: 18px" width="124px" background="../IMAGES/Page/bg_bl.gif" bgColor="#e4e5f7">&nbsp;
 										<asp:linkbutton id="LinkButton3_action" runat="server" onclick="LinkButton3_action_Click">冻结</asp:linkbutton>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:linkbutton id="LinkButton_synchro" runat="server" onclick="LinkButton_synchro_Click">同步订单状态</asp:linkbutton></TD>
-								</TR>
+								    <TD style="WIDTH: 156px; HEIGHT: 18px" bgColor="#ffffff" colspan="2"></TD>
+                                </TR>
 								<TR>
 									<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee"><FONT face="宋体">&nbsp;买家内部帐号:</FONT></TD>
 									<TD style="WIDTH: 136px; HEIGHT: 18px" bgColor="#ffffff"><FONT face="宋体">&nbsp;
@@ -181,13 +182,13 @@
 										<asp:label id="LB_Fsale_bankid" runat="server"></asp:label></TD>
 								</TR>
 								<TR>
-									<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee"
+									<%--<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee"
 										height="18">&nbsp;币种代码:</TD>
 									<TD style="WIDTH: 136px; HEIGHT: 18px" bgColor="#ffffff" height="18">&nbsp;
-										<asp:label id="LB_Fcurtype" runat="server"></asp:label></TD>
+										<asp:label id="LB_Fcurtype" runat="server"></asp:label></TD>--%>
 									<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee"
 										height="18">&nbsp;支付类型:</TD>
-									<TD style="WIDTH: 156px; HEIGHT: 18px" bgColor="#ffffff" colSpan="2" height="17">&nbsp;<FONT face="宋体">
+									<TD style="WIDTH: 156px; HEIGHT: 18px" bgColor="#ffffff" colSpan="4" height="17">&nbsp;<FONT face="宋体">
 											<asp:label id="LB_Fpay_type" runat="server"></asp:label></FONT></TD>
 								</TR>
 								<TR>
@@ -213,12 +214,12 @@
 								<TR>
 									<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee"
 										height="18"><FONT face="宋体">&nbsp;交易(服务)手续费:</FONT></TD>
-									<TD style="WIDTH: 136px; HEIGHT: 18px" bgColor="#ffffff" height="18"><FONT face="宋体">&nbsp;
+									<TD style="WIDTH: 136px; HEIGHT: 18px" bgColor="#ffffff" height="18" colSpan="4"><FONT face="宋体">&nbsp;
 											<asp:label id="LB_Fprocedure" runat="server"></asp:label></FONT></TD>
-									<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee"
+									<%--<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee"
 										height="18"><FONT face="宋体">&nbsp;服务费率:</FONT></TD>
 									<TD style="WIDTH: 156px; HEIGHT: 18px" bgColor="#ffffff" colSpan="2" height="17"><FONT face="宋体">&nbsp;
-											<asp:label id="LB_Fservice" runat="server"></asp:label></FONT></TD>
+											<asp:label id="LB_Fservice" runat="server"></asp:label></FONT></TD>--%>
 								</TR>
 								<TR>
 									<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee"
@@ -343,16 +344,16 @@
 										</TD>
 									</TR>
                                     <TR>
-										<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee" height="18">
+										<%--<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee" height="18">
 											<FONT face="宋体">&nbsp;申诉标志：</FONT>
 										</TD>
 										<TD style="WIDTH: 136px; HEIGHT: 18px" bgColor="#ffffff" height="18">
 											<FONT face="宋体">&nbsp;<asp:label id="Fappeal_signName" runat="server"></asp:label></FONT>
-										</TD>
+										</TD>--%>
 										<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee" height="18">
 											<FONT face="宋体">&nbsp;中介标志：</FONT>
 										</TD>
-										<TD style="WIDTH: 156px; HEIGHT: 18px" bgColor="#ffffff" colSpan="2" height="17">
+										<TD style="WIDTH: 156px; HEIGHT: 18px" bgColor="#ffffff" colSpan="4" height="17">
 											<FONT face="宋体">&nbsp;<asp:label id="Fmedi_signName" runat="server"></asp:label></FONT>
 										</TD>
 									</TR>

@@ -90,9 +90,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 		{
             try
             {
-                string ftype = ddlFtype.SelectedValue;
-                string state = ddlState.SelectedValue;
-                string paystate = ddlPaytypeState.SelectedValue;
+                string ftype = "9";// ddlFtype.SelectedValue;
+                string state = "9";// ddlState.SelectedValue;
+                string paystate = "9";// ddlPaytypeState.SelectedValue;
 
                 string listID = tblistID.Text.Trim();
                 ViewState["ListID"] = listID;

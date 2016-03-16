@@ -44,11 +44,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy-MM-01");
 					TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
-					classLibrary.setConfig.GetAllBankList(ddlBankType);
-					ddlBankType.Items.Insert(0,new ListItem("所有银行","0000"));
+                    //classLibrary.setConfig.GetAllBankList(ddlBankType);
+                    //ddlBankType.Items.Insert(0,new ListItem("所有银行","0000"));
 
-                    PublicRes.GetCashTypeList(ddlCashType);
-                    ddlCashType.Items.Insert(0, new ListItem("所有类型", "0000"));
+                    //PublicRes.GetCashTypeList(ddlCashType);
+                    //ddlCashType.Items.Insert(0, new ListItem("所有类型", "0000"));
 
 					Table2.Visible = false;				
 				}
@@ -128,17 +128,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 }
             }
 
-			try
-			{
-				float tmp = float.Parse(tbFNum.Text.Trim());
-			}
-			catch
-            {
-				throw new Exception("请输入正确的金额！");
-			}
+            //try
+            //{
+            //    float tmp = float.Parse(tbFNum.Text.Trim());
+            //}
+            //catch
+            //{
+            //    throw new Exception("请输入正确的金额！");
+            //}
 
-			ViewState["fnum"] = tbFNum.Text.Trim();
-			ViewState["fstate"] = ddlStateType.SelectedValue;
+            ViewState["fnum"] = "0";//tbFNum.Text.Trim();
+            ViewState["fstate"] = "0"; // ddlStateType.SelectedValue;
 
 			ViewState["uid"] = u_ID;
 			ViewState["begindate"] = DateTime.Parse(begindate.ToString("yyyy-MM-dd 00:00:00"));
@@ -146,10 +146,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			ViewState["enddate"] = DateTime.Parse(enddate.ToString("yyyy-MM-dd 23:59:59"));
 			endtime = enddate.ToString("yyyy-MM-dd");
 
-			ViewState["sorttype"] = ddlSortType.SelectedValue;
+            ViewState["sorttype"] = "0";// ddlSortType.SelectedValue;
 
 			//furion 20060324 增加银行查询条件
-			ViewState["banktype"] = ddlBankType.SelectedValue;
+            ViewState["banktype"] = "0000";//ddlBankType.SelectedValue;
 
 			tbQQID.Text = u_ID;
 			//furion 20070129 加入对银行帐号的查询 0为普通帐号,1为银行帐号
@@ -206,7 +206,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			int idtype = Int32.Parse(ViewState["idtype"].ToString());
 
             //yinhuang 2013/8/1
-            string cash_type = ddlCashType.SelectedValue;
+            string cash_type = "0000";//ddlCashType.SelectedValue;
 
 			string sorttype = ViewState["sorttype"].ToString();
 

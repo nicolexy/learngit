@@ -88,7 +88,7 @@
 						<asp:textbox id="TextBoxEndDate" runat="server" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'TextBoxBeginDate\')}'})" Width="160px" CssClass="Wdate" BorderStyle="Groove"></asp:textbox>
 					</TD>
 				</TR>
-				<TR>
+				<%--<TR>
 					<TD style="WIDTH: 91px; HEIGHT: 25px" align="right">
 						<asp:label id="Label5" runat="server">查询状态</asp:label></TD>
 					<TD style="WIDTH: 290px; HEIGHT: 25px">
@@ -109,7 +109,7 @@
 							ToolTip="**.**" ErrorMessage="RegularExpressionValidator" ControlToValidate="tbFNum" Display="Dynamic">请输入正确金额</asp:regularexpressionvalidator>
 						<asp:regularexpressionvalidator id="Regularexpressionvalidator1" runat="server" ValidationExpression="^[0-9/.]+"
 							ToolTip="**.**" ErrorMessage="RegularExpressionValidator" ControlToValidate="txbNumMax" Display="Dynamic">请输入正确金额</asp:regularexpressionvalidator></TD>
-				</TR>
+				</TR>--%>
 				<TR>
 					<TD style="WIDTH: 91px" align="right">
 						<asp:dropdownlist id="dpLst" runat="server" AutoPostBack="True" onselectedindexchanged="dpLst_SelectedIndexChanged">
@@ -124,7 +124,7 @@
 							Display="Dynamic" Enabled="False"></asp:requiredfieldvalidator>
 						<asp:regularexpressionvalidator id="revNumOnly" runat="server" ValidationExpression="^[0-9 ]{10,30}" ErrorMessage="非法充值单号"
 							ControlToValidate="tbQQID" Display="Dynamic" Enabled="False"></asp:regularexpressionvalidator></TD>
-					<TD align="right"><FONT face="宋体">
+					<%--<TD align="right"><FONT face="宋体">
 							<asp:label id="Label4" runat="server">排序类型</asp:label></FONT></TD>
 					<TD align="left">
 						<asp:dropdownlist id="ddlSortType" runat="server" Width="152px" AutoPostBack="True">
@@ -132,16 +132,17 @@
 							<asp:ListItem Value="2">时间大到小</asp:ListItem>
 							<asp:ListItem Value="3">金额小到大</asp:ListItem>
 							<asp:ListItem Value="4">金额大到小</asp:ListItem>
-						</asp:dropdownlist></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 91px" align="right">
-						<asp:Label id="Label7" runat="server">充值银行</asp:Label></TD>
-					<TD style="WIDTH: 290px">
-						<asp:DropDownList id="ddlBankType" runat="server"></asp:DropDownList></TD>
-					<TD align="center" colspan="2"><FONT face="宋体">
+						</asp:dropdownlist></TD>--%>
+                    <TD align="center" colspan="2"><FONT face="宋体">
 							<asp:CheckBox id="CheckBox1" runat="server" Text="历史记录"></asp:CheckBox>
 							<asp:button id="Button2" runat="server" Width="80px" Text="查 询" onclick="Button2_Click"></asp:button></FONT></TD>
+				</TR>
+				<TR>
+				<%--	<TD style="WIDTH: 91px" align="right">
+						<asp:Label id="Label7" runat="server">充值银行</asp:Label></TD>
+					<TD style="WIDTH: 290px">
+						<asp:DropDownList id="ddlBankType" runat="server"></asp:DropDownList></TD>--%>
+					
 				</TR>
 			</TABLE>
 		</form>
