@@ -500,6 +500,23 @@ namespace CFT.CSOMS.DAL.RefundModule
             return null;
         }
 
+        //查询退款失败财务转客服处理备注信息
+        public DataSet CheckFZWCheckOtherMemo(string strOldId)
+        {
+            try
+            {
+                string strSql = "select FStandby4 from c2c_zwdb.t_refund_other where foldid ='" + strOldId + "'";
+                using (var da = MySQLAccessFactory.GetMySQLAccess("RefundDB"))
+                {
+                    da.OpenConn();                     
+                    return da.dsGetTotalData(strSql);                   
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         //
         public void RequestInfoChange(string strTxt, string strOperator)
         {
