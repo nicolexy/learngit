@@ -1240,5 +1240,16 @@ namespace CFT.CSOMS.BLL.TradeModule
             int state = new TradeData().WeiLibDaiQuery(uin);
             return state != 0;  //0:无未还清欠款, 1:有未还清欠款
         }
+
+     
+        /// <summary>
+        /// 查询交易单表
+        /// </summary>
+        /// <param name="listid"></param>
+        /// <returns></returns>
+        public DataSet GetPayByListid(string listid)
+        {
+            return new TradeData().GetPayByListid(listid);
+        }
     }
 }
