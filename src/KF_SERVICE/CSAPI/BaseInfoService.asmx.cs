@@ -1415,7 +1415,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 string userType = "", Msg = "", userType_str = "";
                 var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserInfo(qqid, 0, offset, limit);
-                bool type = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserType(qqid, out userType,out userType_str, out Msg);
+                bool type = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserType(qqid, 0, out userType, out userType_str, out Msg);
                 if (type && infos != null && infos.Tables.Count > 0 && infos.Tables[0].Rows.Count > 0)
                 {
                     infos.Tables[0].Columns.Add("userType", typeof(String));

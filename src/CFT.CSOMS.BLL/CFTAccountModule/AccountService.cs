@@ -136,10 +136,10 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                 return "";
         }
 
-        public bool GetUserType(string qqid, out string userType, out string userType_str, out string Msg)
+        public bool GetUserType(string qqid, int accountType, out string userType, out string userType_str, out string Msg)
         {
             userType_str = "";
-            bool ret_value = new AccountData().GetUserType(qqid, out userType, out Msg);
+            bool ret_value = new AccountData().GetUserType(qqid, accountType, out userType, out Msg);
             if (ret_value)
             {
                 userType_str = ConvertToUsertype((userType));

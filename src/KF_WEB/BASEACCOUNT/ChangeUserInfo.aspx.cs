@@ -132,7 +132,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 Response.Redirect("../login.aspx?wh=1"); //重新登陆
             }
             int accountType = 0;
-            if (this.InternalID.Checked)
+            if (this.InternalID.Checked) //内部账号 uid
             {
                 accountType = 1;
             }
@@ -204,7 +204,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string userType_str = null;
             string qqid = ViewState["qqid"].ToString().Trim();
 
-            bool exeSign = new AccountService().GetUserType(qqid, out userType, out userType_str, out Msg);
+            string uid = new AccountService().QQ2Uid(qqid);
+            if (string.IsNullOrEmpty(uid)) //uin 查 uid 未查到则为已注销不能编辑
+                this.LinkButton1_Edit.Visible = false;
+            else
+                this.LinkButton1_Edit.Visible = true;
+
+            if (accountType == 1)
+                qqid = this.TX_QQID.Text.Trim();
+
+            bool exeSign = new AccountService().GetUserType(qqid, accountType, out userType, out userType_str, out Msg);
 
             if (exeSign == false)
             {
