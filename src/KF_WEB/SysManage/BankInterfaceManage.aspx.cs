@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using SunLibraryEX;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using CFT.Apollo.Logging;
+using System.Linq;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 {
@@ -66,6 +67,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 textBoxBeginDate.Text ="";
                 textBoxEndDate.Text ="";
                 this.pager.RecordCount = 1000;
+
+                int totalNum = 0;
+                DataSet ds = new BankClassifyService().QueryBankBusiInfo(1, "", "", 0, 0, 0, 1000, out totalNum);
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+                    {
+                        DataView dv = ds.Tables[0].DefaultView;
+                        dv.Sort = "bank_name ASC"; 
+                        this.ddl_bankname.DataSource = dv.ToTable();
+                        this.ddl_bankname.DataBind();
+                        this.ddl_bankname.Items.Add(new ListItem() { Text = "请选择", Value = "", Selected = true });
+                    }
+                }
             }
 
             this.btnOpen.Attributes["onClick"] = "if(!confirm('确定要提前放开正在维护中的公告吗？')) return false;";
@@ -274,7 +289,51 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
             if (bankTypeList != null && bankTypeList.Count > 30)
                 throw new Exception("银行编码超过30个！");
 
+            if (!string.IsNullOrEmpty( ddl_bankname.SelectedItem.Value))
+            { 
+                var bankTypes= GetbankTypeByBankName(ddl_bankname.SelectedItem.Value);
+                if (bankTypes != null && bankTypes.Length > 0)
+                {
+                    foreach (var item in bankTypes)
+                    {
+                        if (!bankTypeList.Contains(item))
+                        {
+                            bankTypeList.Add(item);
+                        }
+                    }
+                }
+            }
+
             Session["BankTypeList"] = bankTypeList;
+        }
+
+        private string[] GetbankTypeByBankName(string bank_code)
+        {
+            var bankType = ViewState["bankType" + bank_code] as string[]; //缓存一下防止下次查找的时候还去查询接口
+            if (bankType == null)
+            {
+                var bll = new BankClassifyService();
+                var totalNum = 0;
+                var limit=10;
+                DataSet ds = bll.QueryBankBusiInfo(0, bank_code, "", 0, 0, 0, limit, out totalNum);
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    var dt = ds.Tables[0];
+                    var pagecout = (int)Math.Ceiling(totalNum * 1.0 / limit);
+                    for (int i = 1; i < pagecout; i++)
+                    {
+                        var offset = i * limit;
+                        DataSet ds1 = bll.QueryBankBusiInfo(0, bank_code, "", 0, 2, offset, limit, out totalNum);
+                        if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
+                        {
+                            dt.Merge(ds1.Tables[0]);
+                        }
+                    }
+                    bankType = dt.AsEnumerable().Select(u => (string)u["bank_type"]).ToArray();
+                    ViewState["bankType" + bank_code] = bankType;
+                }
+            }
+            return bankType;
         }
 
         protected void btnQuery_Click(object sender, System.EventArgs e)
