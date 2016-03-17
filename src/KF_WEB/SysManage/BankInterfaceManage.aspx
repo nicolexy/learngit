@@ -53,10 +53,14 @@
                     </TD>
 				</TR>
                 <TR>
-					<TD align="right" width="15%"><FONT face="宋体">银行类型编码 </FONT>
+					<TD align="right" width="15%">
+                         <FONT face="宋体">开户行:</FONT>
+                        <asp:DropDownList ID="ddl_bankname" runat="server" DataTextField="bank_name" DataValueField="bank_code"></asp:DropDownList>
 					</TD>
-					<TD align="left" colSpan="4"><asp:textbox id="txtBankType" runat="server" Width="100%" Height="80px" TextMode="MultiLine"></asp:textbox>
-                        </TD>
+					<TD align="left" colSpan="4">
+                        <FONT face="宋体">银行类型编码:</FONT>
+                        <asp:textbox id="txtBankType" runat="server" Width="90%" Height="80px" TextMode="MultiLine"></asp:textbox>
+                    </TD>
 				</TR>
                   <TR>
                     <TD align="left" colspan="5"><font color="red">新增可输入多个银行编码，请按分号“;”分割填写，例如：1001;1002</font>
