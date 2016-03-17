@@ -2183,6 +2183,13 @@
     <Compile Include="TradeManage\ContractQuery.aspx.designer.cs">
       <DependentUpon>ContractQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TradeManage\TradeLogQueryNew.aspx.cs">
+      <DependentUpon>TradeLogQueryNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\TradeLogQueryNew.aspx.designer.cs">
+      <DependentUpon>TradeLogQueryNew.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TradeManage\CreditQueryNew.aspx.cs">
       <DependentUpon>CreditQueryNew.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3452,6 +3459,9 @@
     <Content Include="TradeManage\ComplainUserDetail.aspx" />
     <Content Include="TradeManage\ComplainUserInput.aspx" />
     <Content Include="TradeManage\ContractQuery.aspx" />
+    <Content Include="TradeManage\TradeLogQueryNew.aspx">
+      <SubType>Form</SubType>
+    </Content>
     <Content Include="TradeManage\CreditQueryNew.aspx" />
     <Content Include="TradeManage\CrtQuery.aspx" />
     <Content Include="TradeManage\FeeQuery.aspx" />
@@ -4593,6 +4603,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\ContractQuery.aspx.resx">
       <DependentUpon>ContractQuery.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TradeManage\TradeLogQueryNew.aspx.resx">
+      <DependentUpon>TradeLogQueryNew.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\CrtQuery.aspx.resx">
       <DependentUpon>CrtQuery.aspx.cs</DependentUpon>

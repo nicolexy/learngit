@@ -1355,5 +1355,25 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
             return int.Parse(dic["have_unpaid_loan"]);
         }
+
+        /// <summary>
+        /// 查询交易单表
+        /// </summary>
+        /// <param name="listid"></param>
+        /// <returns></returns>
+        public DataSet GetPayByListid(string listid)
+        {
+            var ip = Apollo.Common.Configuration.AppSettings.Get("QueryOrderRelayIp", "10.128.128.72");
+            var port = Apollo.Common.Configuration.AppSettings.Get("QueryOrderRelayPort", 22000);
+            var msg="";
+            var req = "route_type=transid" +
+                "&route_transid=" + listid +
+                "&listid=" + listid;
+
+            var result = RelayAccessFactory.RelayInvoke(req, "101905", false, false, ip, port);
+
+            return CommQuery.GetDataSetFromReply(result, out msg);
+
+        }
     }
 }
