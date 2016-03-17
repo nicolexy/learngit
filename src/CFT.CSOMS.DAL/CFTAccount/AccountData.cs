@@ -285,7 +285,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
         }
 
         //返回用户的帐户类型
-        public bool GetUserType(string qqid, out string userType, out string Msg)
+        public bool GetUserType(string qqid, int accountType, out string userType, out string Msg)
         {
             userType = null;
             Msg = null;
@@ -297,7 +297,12 @@ namespace CFT.CSOMS.DAL.CFTAccount
 
             try
             {
-                string strID = PublicRes.ConvertToFuid(qqid);  //先转换成fuid
+                string strID = string.Empty;
+                if (accountType == 1)
+                    strID = qqid;
+                else
+                    strID = PublicRes.ConvertToFuid(qqid);  //先转换成fuid
+
                 string strSql = "uid=" + strID;
                 userType = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_USERINFO, "Fuser_type", out Msg);
 
