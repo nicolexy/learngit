@@ -297,6 +297,28 @@ namespace CFT.CSOMS.BLL.RefundModule
             }
         }
 
+        /// <summary>
+        /// 查询退款失败财务转客服处理备注信息
+        /// </summary>
+        /// <param name="strOldId"></param>
+        /// <returns></returns>
+        public string CheckFZWCheckOtherMemo(string strOldId)
+        {
+            try
+            {
+                var ds = new AbnormalRefundData().CheckFZWCheckOtherMemo(strOldId);
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    return ds.Tables[0].Rows[0]["FStandby4"] as string;
+                }
+            }
+            catch (Exception ex)
+            {
+                Apollo.Logging.LogHelper.LogError("查询退款失败财务转客服处理备注信息失败：" + ex.Message);
+            }
+            return null;
+        }
+
         public void RequestInfoChange(string strTxt, string strOperator)
         {
             try

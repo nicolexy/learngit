@@ -61,6 +61,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 			if (!Page.IsPostBack)
 			{
 				BindHistoryInfo("","",DateTime.Parse("1970-01-01 00:00:00"),DateTime.Now,0,10);
+                TextBoxBeginDate.Value = DateTime.Now.ToString("yyyy-01-01");
 				this.TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 			}
 
@@ -499,16 +500,17 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
             DateTime bgTime, edTime;
             if (!DateTime.TryParse(this.TextBoxBeginDate.Value, out bgTime))
             {
-                WebUtils.ShowMessage(this.Page, "起始日期格式不正确!默认为1970年1月1日");
-                this.TextBoxBeginDate.Value = "1970-01-01";
-                bgTime = new DateTime(1970, 1, 1);
+                //WebUtils.ShowMessage(this.Page, "起始日期格式不正确!默认为1970年1月1日");
+                bgTime = new DateTime(DateTime.Now.Year, 1, 1);
+                this.TextBoxBeginDate.Value = bgTime.ToString("yyyy-MM-dd");
             }
 
             if (!DateTime.TryParse(this.TextBoxEndDate.Value, out edTime))
             {
-                WebUtils.ShowMessage(this.Page, "结束日期格式不正确!默认为当天");
-                this.TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
+                //WebUtils.ShowMessage(this.Page, "结束日期格式不正确!默认为当天");
                 edTime = DateTime.Today;
+                this.TextBoxEndDate.Value = edTime.ToString("yyyy-MM-dd");
+                
             }
 
             string qqid = this.TxbQueryQQ.Text.Trim();
