@@ -62,9 +62,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
     public enum AccReturnCode
     {
         SUCCESS = 0,
-        BIGMONEYSUCCESS=2001,
+        FAILURE = 1001,
         NORESULT = 4004,
-        CREATEFREEZEID = 4001,
         EXCEPTION = 5000,
         REQUESTSERVICEERROR = 5004
 
