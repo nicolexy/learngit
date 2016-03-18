@@ -17,6 +17,6 @@
     <form id="Form1" method="post" runat="server">
     <uc1:LeftControl ID="LeftControl1" runat="server"></uc1:LeftControl>
     </form>
-    <iframe width="0" height="0" src="http://passport.oa.com/modules/passport/signin.ashx?title=%E5%AE%A2%E6%9C%8D%E7%B3%BB%E7%BB%9F&url=http%3A%2F%2Fkf.cf.com%2Flogin.aspx%3FoaAuthentication%3D1"></iframe>
+    <%--<iframe width="0" height="0" src="http://passport.oa.com/modules/passport/signin.ashx?title=%E5%AE%A2%E6%9C%8D%E7%B3%BB%E7%BB%9F&url=http%3A%2F%2Fkf.cf.com%2Flogin.aspx%3FoaAuthentication%3D1"></iframe>--%>
 </body>
 </html>

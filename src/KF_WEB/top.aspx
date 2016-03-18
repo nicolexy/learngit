@@ -11,13 +11,18 @@
 		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
 		<LINK href="styles/ossstyle.css" type="text/css" rel="stylesheet">
 		<LINK href="styles/local.css" type="text/css" rel="stylesheet">
-		<script language="javascript">
-		     function Refresh()
-		     {}     
-		     
-		</script>
+		<script type="text/javascript">   
+		    window.onload = function ()
+		    {
+		        setInterval(function () {
+		            var iframe = document.getElementById("iframe_CheckLogin");
+		            iframe.src = "CheckLogin.aspx";
+		        }, 1000 * 60 * 2);
+		    }
+        </script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
+        <iframe width="0" height="0" frameborder="0" style="display:none" id="iframe_CheckLogin"></iframe>
 		<form id="Form1" method="post" runat="server">
 			<uc1:CFTHeader id="CFTHeader1" runat="server"></uc1:CFTHeader>
 			<hr>

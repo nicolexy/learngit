@@ -791,6 +791,13 @@
     <Compile Include="CFTHeader\CFTHeader.ascx.designer.cs">
       <DependentUpon>CFTHeader.ascx</DependentUpon>
     </Compile>
+    <Compile Include="CheckLogin.aspx.cs">
+      <DependentUpon>CheckLogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CheckLogin.aspx.designer.cs">
+      <DependentUpon>CheckLogin.aspx</DependentUpon>
+    </Compile>
     <Compile Include="classLibrary\Balance.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -3039,6 +3046,7 @@
     <Content Include="CFTHeader\bg01.gif" />
     <Content Include="CFTHeader\CFTHeader.ascx" />
     <Content Include="CFTHeader\logo.gif" />
+    <Content Include="CheckLogin.aspx" />
     <Content Include="Control\AccountLedgerManageControl.ascx">
       <SubType>UserControl</SubType>
     </Content>
