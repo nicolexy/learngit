@@ -1538,6 +1538,31 @@ namespace CFT.CSOMS.BLL.FundModule
             return dt;
         }
 
+
+        public DataTable GetLCTSwith(string trade_id, string buy_id, string redem_id, string change_id)
+        {
+            FundInfoData data = new FundInfoData();
+            DataTable dt = data.GetLCTSwith(trade_id, buy_id, redem_id, change_id);
+            dt.Columns.Add("Fori_fund_name", typeof(string));//转出基金公司
+            dt.Columns.Add("Fnew_fund_name", typeof(string));//转入基金公司
+            dt.Columns.Add("FstateStr", typeof(string));
+            foreach (DataRow dr in dt.Rows)
+            {
+                dr["Fori_fund_name"] = GetFundName(dr["Fori_spid"].ToString());
+                dr["Fnew_fund_name"] = GetFundName(dr["Fnew_spid"].ToString());
+                string Fstate = dr["Fstate"].ToString().Trim();
+                dr["FstateStr"] = Fstate == "0" ? "初始（如果流程中断这个初始态是一种最终态）" :
+                                  Fstate == "1" ? "申购申请成功" :
+                                  Fstate == "2" ? "赎回成功" :
+                                  Fstate == "3" ? "赎回失败（最终状态）" :
+                                  Fstate == "4" ? "转换成功（最终状态）" : ("未知：" + Fstate);
+                dr["Ftotal_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_fee"].ToString());
+            }
+            return dt;
+
+        }
+
+
         public Dictionary<string, string> LCTReserveOrder_State = new Dictionary<string, string>()
         {
              {"0","初始状态"},

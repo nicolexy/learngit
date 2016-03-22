@@ -344,5 +344,52 @@ namespace CFT.CSOMS.DAL.FundModule
             }
             return dt;
         }
+        //理财通转投
+        public DataTable GetLCTSwith(string trade_id, string buy_id, string redem_id, string change_id)
+        {
+            /* <request>
+       <reqid>628</reqid>
+       <flag>1</flag>
+       <notes>查询转换记录</notes>
+       <db_no>4405</db_no>
+        <db_type>1</db_type>
+        <db_field>trade_id</db_field>
+        <sql>
+       SELECT Fchange_id,Ftotal_fee,Ftrade_id,Fori_spid,Fnew_spid,Fori_fund_code, \
+       Fnew_fund_code,Fbuy_id,Fredem_id,Fstate,Facc_time \
+       FROM  fund_db_$AA$.t_change_sp_record_$B$ \
+       WHERE Fbuy_id='$buy_id$' \
+       OR Fredem_id='$redem_id$' \
+       OR Fchange_id='$change_id$' \
+      AND Ftrade_id='$trade_id$' \
+        </sql>
+ 
+             </request>*/
+
+            string requestText = "reqid=628&flag=1&fields=trade_id:" + trade_id;
+            //if (!string.IsNullOrEmpty(buy_id))
+            //{
+            requestText += "|buy_id:" + buy_id;
+            //}
+            //if (!string.IsNullOrEmpty(redem_id))
+            //{
+            requestText += "|redem_id:" + redem_id;
+            //}
+            //if (!string.IsNullOrEmpty(change_id))
+            //{
+            requestText += "|change_id:" + change_id;
+            //}
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            DataTable dt = null;
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+            }
+            else
+            {
+                throw new LogicException("查询数据为空");
+            }
+            return dt;
+        }
     }
 }
