@@ -475,7 +475,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             this.LB_Fbank_listid.Text = ds.Tables[0].Rows[0]["Fbank_listid"].ToString();
             this.LB_Fbargain_time.Text = ds.Tables[0].Rows[0]["Fbargain_time"].ToString();
             this.LB_Fbuy_bank_type.Text = Transfer.convertbankType(ds.Tables[0].Rows[0]["Fbuy_bank_type"].ToString());          
-            this.LB_Fbuy_bankid.Text = "";
+            //this.LB_Fbuy_bankid.Text = "";
             this.LB_Fbuy_name.Text = ds.Tables[0].Rows[0]["Fbuy_name"].ToString();
             this.LB_Fbuy_uid.Text = ds.Tables[0].Rows[0]["Fbuy_uid"].ToString();
 

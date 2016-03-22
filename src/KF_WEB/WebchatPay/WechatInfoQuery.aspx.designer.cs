@@ -373,24 +373,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         protected global::System.Web.UI.WebControls.LinkButton LkBT_PaymentLog;
         
         /// <summary>
-        /// LkBT_Refund control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LkBT_Refund;
-        
-        /// <summary>
-        /// LkBT_Refund_Sale control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LkBT_Refund_Sale;
-        
-        /// <summary>
         /// ImageButton2 control.
         /// </summary>
         /// <remarks>
