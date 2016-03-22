@@ -70,15 +70,15 @@
 							<Columns>
                               <asp:TemplateColumn HeaderText="银行订单">
 									<ItemTemplate>
-                                        <%# (Eval("Page_OrderTypeID")!=null&&Eval("Page_OrderTypeID").ToString()=="1")?"<a href ='TradeLogQuery.aspx?from=bankquery&checkdate="+ ConvertDateToString(Eval("Fpay_time"))+"&czID="+Eval("Fbank_listid")+"'>"+Eval("Fbank_listid")+"</a>":Eval("Fbank_listid") %>
+
+                                       <%# "<a href ='FundQuery.aspx?from=bankquery&checkdate="+ ConvertDateToString(Eval("Fpay_time"))+"&czID="+Eval("Fbank_listid")+"'>"+Eval("Fbank_listid")+"</a>" %>
+
 									</ItemTemplate>
 								</asp:TemplateColumn>
                                 
                                 <asp:TemplateColumn HeaderText="财付通订单">
 									<ItemTemplate>
-										<a href = 'TradeLogQuery.aspx?from=bankquery&id=<%# DataBinder.Eval(Container, "DataItem.Flistid")%>'>
-                                           <%# DataBinder.Eval(Container, "DataItem.Flistid") %>
-										</a>
+                                        <%# (Eval("Page_OrderTypeID")!=null&&Eval("Page_OrderTypeID").ToString()=="1")?"<a href ='TradeLogQuery.aspx?from=bankquery&id="+Eval("Flistid")+"'>"+Eval("Flistid")+"</a>":Eval("Flistid") %>
 									</ItemTemplate>
 								</asp:TemplateColumn>
                                 <asp:BoundColumn DataField="Fpaynum_str" HeaderText="交易金额"><HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
