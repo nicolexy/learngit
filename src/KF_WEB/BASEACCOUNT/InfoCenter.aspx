@@ -240,12 +240,18 @@
                             height="4">
                             &nbsp;帐户余额<font face="宋体">:</font>
                         </td>
-                        <td style="height: 4px" bgcolor="#ffffff" height="4">
+                        <td style="height: 4px" bgcolor="#ffffff" height="4" colspan="2">
                             &nbsp;<font face="宋体">
                                 <asp:Label ID="Label3_LeftAcc" runat="server" Width="180px">3000</asp:Label></font>
                         </td>
-                        <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee" height="4"></td>
-                        <td style="height: 4px" bgcolor="#ffffff" colspan="2" height="4"></td>
+                               <td style="height: 14px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
+                            height="14">
+                            <font face="宋体">&nbsp;最后登陆IP地址:</font>
+                        </td>
+                        <td style="height: 14px" bgcolor="#ffffff" height="14">
+                            <font face="宋体">&nbsp;
+                                <asp:Label ID="Label17_Flogin_ip" runat="server">202.103.24.68</asp:Label></font>
+                        </td>
                     </tr>
                     <tr>
                         <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
@@ -317,26 +323,19 @@
                             <asp:Label ID="Label9_LastSaveDate" runat="server">2005-03-01</asp:Label>
                         </td>
                     </tr>--%>
-                    <tr>
-                       <%-- <td style="height: 6px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
+                    <%--<tr>
+                        <td style="height: 6px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="6">
                             &nbsp;最近提款日期:
                         </td>
                         <td style="height: 6px" bgcolor="#ffffff" height="6" colspan="2">
                             &nbsp;
                             <asp:Label ID="Label10_Drawing" runat="server">2005-04-15</asp:Label>
-                        </td>--%>
-                        <td style="height: 14px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
-                            height="14">
-                            <font face="宋体">&nbsp;最后登陆IP地址:</font>
                         </td>
-                        <td style="height: 14px" bgcolor="#ffffff" height="14">
-                            <font face="宋体">&nbsp;
-                                <asp:Label ID="Label17_Flogin_ip" runat="server">202.103.24.68</asp:Label></font>
-                        </td>
+                 
                         <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee" height="4"></td>
                         <td style="height: 4px" bgcolor="#ffffff" colspan="2" height="4"></td>
-                    </tr>
+                    </tr>--%>
                     <tr>
                         <td style="height: 14px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="14">

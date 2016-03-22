@@ -202,6 +202,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
         protected global::System.Web.UI.WebControls.Label Label3_LeftAcc;
         
         /// <summary>
+        /// Label17_Flogin_ip control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label17_Flogin_ip;
+        
+        /// <summary>
         /// Label2_Type control.
         /// </summary>
         /// <remarks>
@@ -218,15 +227,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblLoginTime;
-        
-        /// <summary>
-        /// Label17_Flogin_ip control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label17_Flogin_ip;
         
         /// <summary>
         /// Label6_LastModify control.
