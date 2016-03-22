@@ -62,7 +62,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.VIPAccount
             try
             {
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                DataSet ds = qs.QueryIconInfo(this.tbx_acc.Text.Trim());
+                DataSet ds = null;//qs.QueryIconInfo(this.tbx_acc.Text.Trim());
 
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                 {
@@ -142,8 +142,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.VIPAccount
         {
             try
             {
-                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                qs.RefreshIcon(this.tbx_acc.Text.Trim());
+                //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                //qs.RefreshIcon(this.tbx_acc.Text.Trim());
                 WebUtils.ShowMessage(this.Page, "成功刷新图标");
             }
             catch (SoapException eSoap) //捕获soap类异常
@@ -161,9 +161,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.VIPAccount
         {
             try
             {
-                Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-                qs.ExtinguishIcon(this.tbx_acc.Text.Trim());
+                //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                //qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
+                //qs.ExtinguishIcon(this.tbx_acc.Text.Trim());
                 WebUtils.ShowMessage(this.Page, "成功熄灭图标");
             }
             catch (SoapException eSoap) //捕获soap类异常

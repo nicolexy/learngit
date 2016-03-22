@@ -76,6 +76,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 			return fh;
 		}
 
+        public static ZWBatchPay_Service.Finance_Header ZWSetFH(TemplateControl page)  //设置soap头信息
+        {
+            if (page.Page.Session["uid"] == null)
+            {
+                throw new ArgumentNullException("Session[uid]", " 登录状态过期，请重新登录。");
+            }
+            ZWBatchPay_Service.Finance_Header fh = new TENCENT.OSS.CFT.KF.KF_Web.ZWBatchPay_Service.Finance_Header();
+
+            fh.UserIP = page.Page.Request.UserHostAddress;
+            fh.UserName = page.Page.Session["uid"].ToString();
+            fh.SzKey = page.Page.Session["SzKey"].ToString();
+            fh.OperID = Int32.Parse(page.Page.Session["OperID"].ToString());
+            fh.RightString = page.Page.Session["SzKey"].ToString();
+
+            return fh;
+        }
+
 		public static FQuery_Service.Finance_Header FsetFH(TemplateControl page)  //设置soap头信息
 		{
             if (page.Page.Session["uid"] == null)

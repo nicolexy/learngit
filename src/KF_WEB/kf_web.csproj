@@ -2746,6 +2746,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\ZWBatchPay_Service\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\ZWCheck_Service\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -3850,8 +3855,17 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\SPOA_Service\SPOA_Service.disco" />
+    <None Include="Web References\ZWBatchPay_Service\batchpay_service.wsdl" />
+    <Content Include="Web References\ZWBatchPay_Service\Param.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\ZWBatchPay_Service\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <None Include="Web References\ZWCheck_Service\Check_Service.disco" />
     <None Include="Web References\FQuery_Service\Query_Service.disco" />
+    <None Include="Web References\ZWBatchPay_Service\batchpay_service.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -4886,6 +4900,17 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>finance_web_ZWCheck_Service_Check_Service</CachedSettingsPropName>
     </WebReferenceUrl>
+    <WebReferenceUrl Include="http://admin.zw.cf.com/finance_service/batchpay_service.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\ZWBatchPay_Service\</RelPath>
+      <UpdateFromURL>http://admin.zw.cf.com/finance_service/batchpay_service.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>finance_web_ZWBatchPay_Service_BatchPay_Service</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="http://admintk.cf.com/FINANCE_SERVICE/Query_Service.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\FINANCE_RefundSERVICE\</RelPath>
@@ -5011,7 +5036,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>45222</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
