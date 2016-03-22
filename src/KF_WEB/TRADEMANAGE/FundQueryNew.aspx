@@ -1,4 +1,4 @@
-<%@ Page language="c#" Codebehind="FundQuery.aspx.cs" AutoEventWireup="True" Inherits="TENCENT.OSS.CFT.KF.KF_Web.TradeManage.FundQuery" %>
+ï»¿<%@ Page language="c#" Codebehind="FundQueryNew.aspx.cs" AutoEventWireup="True" Inherits="TENCENT.OSS.CFT.KF.KF_Web.TradeManage.FundQueryNew" %>
 <%@ Import Namespace="TENCENT.OSS.CFT.KF.KF_Web.classLibrary" %>
 <%@ Register TagPrefix="webdiyer" Namespace="Wuqi.Webdiyer" Assembly="AspNetPager" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
@@ -28,18 +28,18 @@
 							<ItemStyle ForeColor="Black" BackColor="#EEEEEE"></ItemStyle>
 							<HeaderStyle Font-Bold="True" ForeColor="Black" BackColor="Silver"></HeaderStyle>
 							<Columns>
-								<asp:BoundColumn DataField="Fbank_list" HeaderText="¸øÒøÐÐ¶©µ¥ºÅ"></asp:BoundColumn>
-								<asp:BoundColumn DataField="Faid" HeaderText="ÕÊºÅ"></asp:BoundColumn>
-                                <asp:BoundColumn DataField="FListID" HeaderText="ÊÕ¿îµ¥IDµ¥ºÅ"></asp:BoundColumn>
-								<asp:BoundColumn DataField="Faname" HeaderText="ÐÕÃû"></asp:BoundColumn>
-								<asp:BoundColumn DataField="FbankName" HeaderText="ÒøÐÐÀàÐÍ"></asp:BoundColumn>
-								<asp:BoundColumn DataField="Fpay_front_time" HeaderText="³äÖµÊ±¼ä"></asp:BoundColumn>
-								<asp:BoundColumn DataField="FNewnum" HeaderText="³äÖµ½ð¶î"></asp:BoundColumn>
-								<asp:BoundColumn DataField="FStateName" HeaderText="³äÖµ×´Ì¬"></asp:BoundColumn>
-								<asp:TemplateColumn HeaderText="ÏêÏ¸ÄÚÈÝ">
+								<asp:BoundColumn DataField="Fbank_list" HeaderText="ç»™é“¶è¡Œè®¢å•å·"></asp:BoundColumn>
+								<asp:BoundColumn DataField="Faid" HeaderText="å¸å·"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FListID" HeaderText="æ”¶æ¬¾å•IDå•å·"></asp:BoundColumn>
+								<asp:BoundColumn DataField="Faname" HeaderText="å§“å"></asp:BoundColumn>
+								<asp:BoundColumn DataField="FbankName" HeaderText="é“¶è¡Œç±»åž‹"></asp:BoundColumn>
+								<asp:BoundColumn DataField="Fpay_front_time" HeaderText="å……å€¼æ—¶é—´"></asp:BoundColumn>
+								<asp:BoundColumn DataField="FNewnum" HeaderText="å……å€¼é‡‘é¢"></asp:BoundColumn>
+								<asp:BoundColumn DataField="FStateName" HeaderText="å……å€¼çŠ¶æ€"></asp:BoundColumn>
+								<asp:TemplateColumn HeaderText="è¯¦ç»†å†…å®¹">
 									<ItemTemplate>
 										<a href = 'FUndQuery_Detail.aspx?tdeid=<%# DataBinder.Eval(Container, "DataItem.FTde_ID")%>&begintime=<%=begintime %>&endtime=<%=endtime %>&listid=<%# DataBinder.Eval(Container, "DataItem.Flistid")%>&fpay_front_time=<%# DataBinder.Eval(Container, "DataItem.Fpay_front_time")%>&Fbank_list=<%# DataBinder.Eval(Container, "DataItem.Fbank_list")%>&Fbank_type=<%# DataBinder.Eval(Container, "DataItem.Fbank_type")%>&FHistoryFlag=<%# DataBinder.Eval(Container, "DataItem.FHistoryFlag")%>'>
-											ÏêÏ¸ÄÚÈÝ</a>
+											è¯¦ç»†å†…å®¹</a>
 									</ItemTemplate>
 								</asp:TemplateColumn>
 								<asp:BoundColumn Visible="False" DataField="FlistId" HeaderText="FlistId"></asp:BoundColumn>
@@ -48,13 +48,13 @@
 						</asp:datagrid></TD>
 				</TR>
 				<tr>
-					<td><asp:label id="Label9" runat="server">²éÑ¯×Ü¼ÇÂ¼Êý£º</asp:label>
+					<td><asp:label id="Label9" runat="server">æŸ¥è¯¢æ€»è®°å½•æ•°ï¼š</asp:label>
 						<asp:label id="labCountNum" runat="server" Width="100"></asp:label>
-						<asp:label id="Label10" runat="server">²éÑ¯×Ü½ð¶î£º</asp:label>
+						<asp:label id="Label10" runat="server">æŸ¥è¯¢æ€»é‡‘é¢ï¼š</asp:label>
 						<asp:label id="labAmount" runat="server" Width="100"></asp:label></td>
 				</tr>
 				<TR height="25">
-					<TD><webdiyer:aspnetpager id="pager" runat="server" PageSize="50" NumericButtonTextFormatString="[{0}]" SubmitButtonText="×ªµ½"
+					<TD><webdiyer:aspnetpager id="pager" runat="server" PageSize="50" NumericButtonTextFormatString="[{0}]" SubmitButtonText="è½¬åˆ°"
 							OnPageChanged="ChangePage" HorizontalAlign="right" CssClass="mypager" ShowInputBox="always" PagingButtonSpacing="0"
 							ShowCustomInfoSection="left" NumericButtonCount="5" AlwaysShow="True" CustomInfoTextAlign="Center"></webdiyer:aspnetpager></TD>
 				</TR>
@@ -66,9 +66,9 @@
 						<DIV align="center">
 							<TABLE id="Table3" height="100%" cellSpacing="0" cellPadding="1" width="100%" border="0">
 								<TR>
-									<TD width="79%"><FONT face="ËÎÌå"><FONT color="red"><IMG height="16" src="../IMAGES/Page/post.gif" width="20">&nbsp;&nbsp;
+									<TD width="79%"><FONT face="å®‹ä½“"><FONT color="red"><IMG height="16" src="../IMAGES/Page/post.gif" width="20">&nbsp;&nbsp;
 												<asp:Label id="Label8" runat="server" Width="192px">Label</asp:Label></FONT></FONT></TD>
-									<TD width="21%"><FONT face="ËÎÌå">&nbsp;</FONT>²Ù×÷Ô±´úÂë: <SPAN class="style3">
+									<TD width="21%"><FONT face="å®‹ä½“">&nbsp;</FONT>æ“ä½œå‘˜ä»£ç : <SPAN class="style3">
 											<asp:label id="Label1" runat="server" Width="73px" ForeColor="Red"></asp:label></SPAN></TD>
 								</TR>
 							</TABLE>
@@ -78,71 +78,69 @@
 				</TR>
 				<TR>
 					<TD style="WIDTH: 91px" align="right">
-						<asp:label id="Label2" runat="server">¿ªÊ¼ÈÕÆÚ</asp:label></TD>
+						<asp:label id="Label2" runat="server">å¼€å§‹æ—¥æœŸ</asp:label></TD>
 					<TD style="WIDTH: 290px">
 						<asp:textbox id="TextBoxBeginDate" runat="server" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'TextBoxEndDate\')}'})" Width="160px" CssClass="Wdate" BorderStyle="Groove"></asp:textbox>
 					</TD>
 					<TD align="right">
-						<asp:label id="Label3" runat="server">½áÊøÈÕÆÚ</asp:label></TD>
+						<asp:label id="Label3" runat="server">ç»“æŸæ—¥æœŸ</asp:label></TD>
 					<TD>
 						<asp:textbox id="TextBoxEndDate" runat="server" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'TextBoxBeginDate\')}'})" Width="160px" CssClass="Wdate" BorderStyle="Groove"></asp:textbox>
 					</TD>
 				</TR>
-				<%--<TR>
+				<TR>
 					<TD style="WIDTH: 91px; HEIGHT: 25px" align="right">
-						<asp:label id="Label5" runat="server">²éÑ¯×´Ì¬</asp:label></TD>
+						<asp:label id="Label5" runat="server">æŸ¥è¯¢çŠ¶æ€</asp:label></TD>
 					<TD style="WIDTH: 290px; HEIGHT: 25px">
 						<asp:dropdownlist id="ddlStateType" runat="server" Width="152px" AutoPostBack="True">
-							<asp:ListItem Value="0" Selected="True">ËùÓÐ×´Ì¬</asp:ListItem>
-							<asp:ListItem Value="1">¸¶¿î³É¹¦</asp:ListItem>
-							<asp:ListItem Value="2">¸¶¿îÊ§°Ü</asp:ListItem>
-							<asp:ListItem Value="3">µÈ´ý¸¶¿î</asp:ListItem>
-							<asp:ListItem Value="4">¸¶¿îÖÐ</asp:ListItem>
-							<asp:ListItem Value="5">×÷·Ï</asp:ListItem>
+							<asp:ListItem Value="0" Selected="True">æ‰€æœ‰çŠ¶æ€</asp:ListItem>
+							<asp:ListItem Value="1">ä»˜æ¬¾æˆåŠŸ</asp:ListItem>
+							<asp:ListItem Value="2">ä»˜æ¬¾å¤±è´¥</asp:ListItem>
+							<asp:ListItem Value="3">ç­‰å¾…ä»˜æ¬¾</asp:ListItem>
+							<asp:ListItem Value="4">ä»˜æ¬¾ä¸­</asp:ListItem>
+							<asp:ListItem Value="5">ä½œåºŸ</asp:ListItem>
 						</asp:dropdownlist></TD>
 					<TD style="HEIGHT: 25px" align="right">
-						<asp:label id="Label6" runat="server">½ð¶îÏÞ¶È</asp:label></TD>
+						<asp:label id="Label6" runat="server">é‡‘é¢é™åº¦</asp:label></TD>
 					<TD style="HEIGHT: 25px">
-						<asp:textbox id="tbFNum" runat="server" Width="88px" BorderStyle="Groove">0.00</asp:textbox><FONT face="ËÎÌå">-
-							<asp:textbox id="txbNumMax" runat="server" Width="88px" BorderStyle="Groove">20000000.00</asp:textbox>Ôª</FONT>
+						<asp:textbox id="tbFNum" runat="server" Width="88px" BorderStyle="Groove">0.00</asp:textbox><FONT face="å®‹ä½“">-
+							<asp:textbox id="txbNumMax" runat="server" Width="88px" BorderStyle="Groove">20000000.00</asp:textbox>å…ƒ</FONT>
 						<asp:regularexpressionvalidator id="Regularexpressionvalidator7" runat="server" ValidationExpression="^[0-9/.]+"
-							ToolTip="**.**" ErrorMessage="RegularExpressionValidator" ControlToValidate="tbFNum" Display="Dynamic">ÇëÊäÈëÕýÈ·½ð¶î</asp:regularexpressionvalidator>
+							ToolTip="**.**" ErrorMessage="RegularExpressionValidator" ControlToValidate="tbFNum" Display="Dynamic">è¯·è¾“å…¥æ­£ç¡®é‡‘é¢</asp:regularexpressionvalidator>
 						<asp:regularexpressionvalidator id="Regularexpressionvalidator1" runat="server" ValidationExpression="^[0-9/.]+"
-							ToolTip="**.**" ErrorMessage="RegularExpressionValidator" ControlToValidate="txbNumMax" Display="Dynamic">ÇëÊäÈëÕýÈ·½ð¶î</asp:regularexpressionvalidator></TD>
-				</TR>--%>
+							ToolTip="**.**" ErrorMessage="RegularExpressionValidator" ControlToValidate="txbNumMax" Display="Dynamic">è¯·è¾“å…¥æ­£ç¡®é‡‘é¢</asp:regularexpressionvalidator></TD>
+				</TR>
 				<TR>
 					<TD style="WIDTH: 91px" align="right">
 						<asp:dropdownlist id="dpLst" runat="server" AutoPostBack="True" onselectedindexchanged="dpLst_SelectedIndexChanged">
-							<asp:ListItem Value="qq">°´ÕÊºÅ</asp:ListItem>
-							<asp:ListItem Value="czd">³äÖµµ¥ºÅ</asp:ListItem>
-							<asp:ListItem Value="toBank" Selected="True">¸øÒøÐÐµÄ¶©µ¥ºÅ</asp:ListItem>
-							<asp:ListItem Value="BankBack">ÒøÐÐ·µ»Ø¶©µ¥ºÅ</asp:ListItem>
+							<asp:ListItem Value="qq">æŒ‰å¸å·</asp:ListItem>
+							<asp:ListItem Value="czd">å……å€¼å•å·</asp:ListItem>
+							<asp:ListItem Value="toBank" Selected="True">ç»™é“¶è¡Œçš„è®¢å•å·</asp:ListItem>
+							<asp:ListItem Value="BankBack">é“¶è¡Œè¿”å›žè®¢å•å·</asp:ListItem>
 						</asp:dropdownlist></TD>
 					<TD style="WIDTH: 290px">
 						<asp:textbox id="tbQQID" runat="server" Width="165px" BorderStyle="Groove"></asp:textbox>
-						<asp:requiredfieldvalidator id="rfvNullCheck" runat="server" ErrorMessage="²»ÄÜÎª¿Õ" ControlToValidate="tbQQID"
+						<asp:requiredfieldvalidator id="rfvNullCheck" runat="server" ErrorMessage="ä¸èƒ½ä¸ºç©º" ControlToValidate="tbQQID"
 							Display="Dynamic" Enabled="False"></asp:requiredfieldvalidator>
-						<asp:regularexpressionvalidator id="revNumOnly" runat="server" ValidationExpression="^[0-9 ]{10,30}" ErrorMessage="·Ç·¨³äÖµµ¥ºÅ"
+						<asp:regularexpressionvalidator id="revNumOnly" runat="server" ValidationExpression="^[0-9 ]{10,30}" ErrorMessage="éžæ³•å……å€¼å•å·"
 							ControlToValidate="tbQQID" Display="Dynamic" Enabled="False"></asp:regularexpressionvalidator></TD>
-					<%--<TD align="right"><FONT face="ËÎÌå">
-							<asp:label id="Label4" runat="server">ÅÅÐòÀàÐÍ</asp:label></FONT></TD>
+					<TD align="right"><FONT face="å®‹ä½“">
+							<asp:label id="Label4" runat="server">æŽ’åºç±»åž‹</asp:label></FONT></TD>
 					<TD align="left">
 						<asp:dropdownlist id="ddlSortType" runat="server" Width="152px" AutoPostBack="True">
-							<asp:ListItem Value="1">Ê±¼äÐ¡µ½´ó</asp:ListItem>
-							<asp:ListItem Value="2">Ê±¼ä´óµ½Ð¡</asp:ListItem>
-							<asp:ListItem Value="3">½ð¶îÐ¡µ½´ó</asp:ListItem>
-							<asp:ListItem Value="4">½ð¶î´óµ½Ð¡</asp:ListItem>
-						</asp:dropdownlist></TD>--%>
-                    <TD align="center" colspan="2"><FONT face="ËÎÌå">
-							<asp:CheckBox id="CheckBox1" runat="server" Text="ÀúÊ·¼ÇÂ¼"></asp:CheckBox>
-							<asp:button id="Button2" runat="server" Width="80px" Text="²é Ñ¯" onclick="Button2_Click"></asp:button></FONT></TD>
+							<asp:ListItem Value="1">æ—¶é—´å°åˆ°å¤§</asp:ListItem>
+							<asp:ListItem Value="2">æ—¶é—´å¤§åˆ°å°</asp:ListItem>
+							<asp:ListItem Value="3">é‡‘é¢å°åˆ°å¤§</asp:ListItem>
+							<asp:ListItem Value="4">é‡‘é¢å¤§åˆ°å°</asp:ListItem>
+						</asp:dropdownlist></TD>
 				</TR>
 				<TR>
-				<%--	<TD style="WIDTH: 91px" align="right">
-						<asp:Label id="Label7" runat="server">³äÖµÒøÐÐ</asp:Label></TD>
+					<TD style="WIDTH: 91px" align="right">
+						<asp:Label id="Label7" runat="server">å……å€¼é“¶è¡Œ</asp:Label></TD>
 					<TD style="WIDTH: 290px">
-						<asp:DropDownList id="ddlBankType" runat="server"></asp:DropDownList></TD>--%>
-					
+						<asp:DropDownList id="ddlBankType" runat="server"></asp:DropDownList></TD>
+					<TD align="center" colspan="2"><FONT face="å®‹ä½“">
+							<asp:button id="Button2" runat="server" Width="80px" Text="æŸ¥ è¯¢" onclick="Button2_Click"></asp:button></FONT></TD>
 				</TR>
 			</TABLE>
 		</form>

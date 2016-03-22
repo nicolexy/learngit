@@ -28,7 +28,7 @@
 					<TD align="right"><asp:label id="Label3" runat="server">结束日期</asp:label></TD>
 					<TD><asp:textbox id="TextBoxEndDate" runat="server"  onclick="WdatePicker()" CssClass="Wdate"></asp:textbox></TD>
 				</TR>
-				<TR>
+				<%--<TR>
 					<TD align="right"><asp:label id="Label5" runat="server">查询状态</asp:label></TD>
 					<TD>
 						<asp:DropDownList id="ddlStateType" runat="server" Width="152px">
@@ -43,7 +43,7 @@
 					<TD><asp:textbox id="tbFNum" runat="server">0</asp:textbox>
 						<asp:regularexpressionvalidator id="Regularexpressionvalidator7" runat="server" ValidationExpression="^[0-9/.]+"
 							ToolTip="**.**" ErrorMessage="RegularExpressionValidator" ControlToValidate="tbFNum" Display="Dynamic">请输入正确金额</asp:regularexpressionvalidator></TD>
-				</TR>
+				</TR>--%>
 				<TR>
 					<TD align="right" colSpan="1" rowSpan="1">
 						<asp:DropDownList id="ddlIDType" runat="server">
@@ -53,24 +53,24 @@
 						</asp:DropDownList></TD>
 					<TD><asp:textbox id="tbQQID" runat="server"></asp:textbox></TD>
 					<TD align="right"><FONT face="宋体">
-							<asp:Label id="Label7" runat="server">排序类型</asp:Label></FONT></TD>
+							<%--<asp:Label id="Label7" runat="server">排序类型</asp:Label></FONT></TD>--%>
 					<TD align="left">
-						<asp:DropDownList id="ddlSortType" runat="server" Width="152px">
+						<%--<asp:DropDownList id="ddlSortType" runat="server" Width="152px">
 							<asp:ListItem Value="0" Selected="True">不排序</asp:ListItem>
 							<asp:ListItem Value="1">时间小到大</asp:ListItem>
 							<asp:ListItem Value="2">时间大到小</asp:ListItem>
 							<asp:ListItem Value="3">金额小到大</asp:ListItem>
 							<asp:ListItem Value="4">金额大到小</asp:ListItem>
-						</asp:DropDownList></TD>
+						</asp:DropDownList>--%></TD>
 				</TR>
-				<TR>
+				<%--<TR>
 					<TD align="right" colSpan="1"><asp:label id="Label8" runat="server">提现银行</asp:label></TD>
 					<TD>
 						<asp:DropDownList id="ddlBankType" runat="server"></asp:DropDownList></TD>
 					<TD align="right" colSpan="1"><asp:label id="Label9" runat="server">提现类型</asp:label></TD>
 					<TD>
 						<asp:DropDownList id="ddlCashType" runat="server"></asp:DropDownList></TD>
-				</TR>
+				</TR>--%>
                 <TR>
 					<TD align="center" colspan="4"><FONT face="宋体"><asp:button id="Button1" runat="server" Width="80px" Text="查 询" onclick="Button2_Click"></asp:button></FONT></TD>
 				</TR>

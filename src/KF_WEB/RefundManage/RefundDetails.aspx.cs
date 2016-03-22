@@ -351,13 +351,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
         private void ShowHistoryCheckRecord(string strCheckId)
         {
             string strHistory = null;
-            if (ViewState["foldId"] == null)
+            var foldId = ViewState["foldId"] as string;
+            if (foldId == null)
             {
                 return;
             }
             ZWCheck_Service.Check_Service chkService = new ZWCheck_Service.Check_Service();
             //财务转客服历史记录
-            DataSet zwDs = new RefundService().CheckFZWCheckMemo(ViewState["foldId"].ToString());
+            RefundService zwbll = new RefundService();
+            DataSet zwDs = zwbll.CheckFZWCheckMemo(foldId);
             if (zwDs != null && zwDs.Tables.Count > 0 && zwDs.Tables[0].Rows.Count > 0)
             {
                 string[] arrHisCheckId = null;
@@ -380,7 +382,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                         {
                             ShowHistorySystle(arrHisCheckId[index], chkService,ref strHistory);
                         }
-                    }                   
+                    }
+                    var FStandby4 = zwbll.CheckFZWCheckOtherMemo(foldId);
+                    if (!string.IsNullOrEmpty(FStandby4))
+                    {
+                        strHistory += "<br /><font style='color:red;'>备注:" + FStandby4 + "</font>";
+                    }
                 }
             }
             //当前审批的历史数据

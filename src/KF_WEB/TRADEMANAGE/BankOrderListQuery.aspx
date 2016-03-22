@@ -70,9 +70,7 @@
 							<Columns>
                               <asp:TemplateColumn HeaderText="银行订单">
 									<ItemTemplate>
-										<a href = 'FundQuery.aspx?from=bankquery&checkdate=<%# ConvertDateToString(DataBinder.Eval(Container, "DataItem.Fpay_time"))%>&czID=<%# DataBinder.Eval(Container, "DataItem.Fbank_listid") %>'>
-											<%# DataBinder.Eval(Container, "DataItem.Fbank_listid") %>
-										</a>
+                                        <%# (Eval("Page_OrderTypeID")!=null&&Eval("Page_OrderTypeID").ToString()=="1")?"<a href ='TradeLogQuery.aspx?from=bankquery&checkdate="+ ConvertDateToString(Eval("Fpay_time"))+"&czID="+Eval("Fbank_listid")+"'>"+Eval("Fbank_listid")+"</a>":Eval("Fbank_listid") %>
 									</ItemTemplate>
 								</asp:TemplateColumn>
                                 
@@ -90,8 +88,6 @@
                                 <asp:BoundColumn DataField="CompanyName" HeaderText="商户名称"><HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
 							        <ItemStyle Wrap="False" HorizontalAlign=Center></ItemStyle></asp:BoundColumn>
                                 <asp:BoundColumn DataField="WWWAdress" HeaderText="商户网址"><HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
-							        <ItemStyle Wrap="False" HorizontalAlign=Center></ItemStyle></asp:BoundColumn>
-                               <asp:BoundColumn DataField="Faid" HeaderText="帐号"><HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
 							        <ItemStyle Wrap="False" HorizontalAlign=Center></ItemStyle></asp:BoundColumn>
                                <asp:BoundColumn DataField="Fbuy_bank_type_str" HeaderText="银行类型"><HeaderStyle Wrap="False" HorizontalAlign="Center"></HeaderStyle>
 							        <ItemStyle Wrap="False" HorizontalAlign=Center></ItemStyle></asp:BoundColumn>

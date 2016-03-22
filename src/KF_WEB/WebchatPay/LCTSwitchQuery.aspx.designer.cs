@@ -7,189 +7,216 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage {
+namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
     
     
-    public partial class BankInterfaceManage {
+    public partial class LCTSwitchQuery {
         
         /// <summary>
-        /// Form1 control.
+        /// form1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm Form1;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// lbTitle control.
+        /// txt_input_id control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbTitle;
+        protected global::System.Web.UI.WebControls.TextBox txt_input_id;
         
         /// <summary>
-        /// Label1 control.
+        /// WeChatId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.WebControls.RadioButton WeChatId;
         
         /// <summary>
-        /// ddlSysList control.
+        /// WeChatQQ control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlSysList;
+        protected global::System.Web.UI.WebControls.RadioButton WeChatQQ;
         
         /// <summary>
-        /// textBoxBeginDate control.
+        /// WeChatMobile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textBoxBeginDate;
+        protected global::System.Web.UI.WebControls.RadioButton WeChatMobile;
         
         /// <summary>
-        /// textBoxEndDate control.
+        /// WeChatEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textBoxEndDate;
+        protected global::System.Web.UI.WebControls.RadioButton WeChatEmail;
         
         /// <summary>
-        /// Label8 control.
+        /// WeChatUid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label8;
+        protected global::System.Web.UI.WebControls.RadioButton WeChatUid;
         
         /// <summary>
-        /// ddlBullType control.
+        /// WeChatCft control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlBullType;
+        protected global::System.Web.UI.WebControls.RadioButton WeChatCft;
         
         /// <summary>
-        /// Label2 control.
+        /// txtListid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
+        protected global::System.Web.UI.WebControls.TextBox txtListid;
         
         /// <summary>
-        /// ddlBullState control.
+        /// Radio_redem_id control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlBullState;
+        protected global::System.Web.UI.WebControls.RadioButton Radio_redem_id;
         
         /// <summary>
-        /// btnQuery control.
+        /// Radio_buy_id control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnQuery;
+        protected global::System.Web.UI.WebControls.RadioButton Radio_buy_id;
         
         /// <summary>
-        /// ddl_bankname control.
+        /// Radio_change_id control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddl_bankname;
+        protected global::System.Web.UI.WebControls.RadioButton Radio_change_id;
         
         /// <summary>
-        /// txtBankType control.
+        /// btnSearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBankType;
+        protected global::System.Web.UI.WebControls.Button btnSearch;
         
         /// <summary>
-        /// btadd control.
+        /// tbdetail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btadd;
+        protected global::System.Web.UI.WebControls.Panel tbdetail;
         
         /// <summary>
-        /// btnOpen control.
+        /// lbluin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnOpen;
+        protected global::System.Web.UI.WebControls.Label lbluin;
         
         /// <summary>
-        /// btnCancel control.
+        /// lblFchange_id control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCancel;
+        protected global::System.Web.UI.WebControls.Label lblFchange_id;
         
         /// <summary>
-        /// btnCurrent control.
+        /// lblFbuy_id control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCurrent;
+        protected global::System.Web.UI.WebControls.Label lblFbuy_id;
         
         /// <summary>
-        /// Table3 control.
+        /// lblFredem_id control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable Table3;
+        protected global::System.Web.UI.WebControls.Label lblFredem_id;
         
         /// <summary>
-        /// Datagrid2 control.
+        /// lblFtotal_fee control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataGrid Datagrid2;
+        protected global::System.Web.UI.WebControls.Label lblFtotal_fee;
         
         /// <summary>
-        /// pager control.
+        /// lblFori_fund_name control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Wuqi.Webdiyer.AspNetPager pager;
+        protected global::System.Web.UI.WebControls.Label lblFori_fund_name;
+        
+        /// <summary>
+        /// lblFnew_fund_name control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFnew_fund_name;
+        
+        /// <summary>
+        /// lblFstateStr control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFstateStr;
+        
+        /// <summary>
+        /// lblFacc_time control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFacc_time;
     }
 }

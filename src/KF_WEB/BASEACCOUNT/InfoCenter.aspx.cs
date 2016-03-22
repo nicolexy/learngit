@@ -43,8 +43,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         protected void Page_Load(object sender, System.EventArgs e)
         {
 
-            this.LkBT_Refund.Visible = false;     //3.0暂时不提供该功能
-            this.LkBT_Refund_Sale.Visible = false;   //3.0暂时不提供该功能
+            //this.LkBT_Refund.Visible = false;     //3.0暂时不提供该功能
+            //this.LkBT_Refund_Sale.Visible = false;   //3.0暂时不提供该功能
 
             if (!IsPostBack)
             {
@@ -114,18 +114,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             this.Label3_LeftAcc.Text = "";
             this.Label4_Freeze.Text = "";
             this.lb_Freeze_amt.Text = "";
-            this.Label5_YestodayLeft.Text = "";
+            //this.Label5_YestodayLeft.Text = "";
             this.Label6_LastModify.Text = "";
-            this.Label7_SingleMax.Text = "";
-            this.Label8_PerDayLmt.Text = "";
-            this.Label9_LastSaveDate.Text = "";
-            this.Label10_Drawing.Text = "";
+            //this.Label7_SingleMax.Text = "";
+            //this.Label8_PerDayLmt.Text = "";
+            //this.Label9_LastSaveDate.Text = "";
+            //this.Label10_Drawing.Text = "";
             this.Label11_Remark.Text = "";
             this.Label12_Fstate.Text = "";
             this.Label13_Fuser_type.Text = "";
             this.Label14_Ftruename.Text = "";
             this.Label15_Useable.Text = "";
-            this.Label16_Fapay.Text = "";
+            //this.Label16_Fapay.Text = "";
             this.Label17_Flogin_ip.Text = "";
             this.Label18_Attid.Text = "";
             this.labEmail.Text = "";
@@ -174,13 +174,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                     this.Label3_LeftAcc.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fbalance"));//tu.u_Balance;				   //"3000";
                     //this.Label4_Freeze.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0],"Fcon"));                  //"1000";
-                    this.Label5_YestodayLeft.Text = PublicRes.objectToString(ds.Tables[0], "Fyday_balance");		   //"10";
+                    //this.Label5_YestodayLeft.Text = PublicRes.objectToString(ds.Tables[0], "Fyday_balance");		   //"10";
                     this.lblLoginTime.Text = PublicRes.objectToString(ds.Tables[0], "Fcreate_time");
                     this.Label6_LastModify.Text = PublicRes.objectToString(ds.Tables[0], "Fmodify_time");		   //"2005-05-01";
-                    this.Label7_SingleMax.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fquota"));		   //"2000";
-                    this.Label8_PerDayLmt.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fquota_pay"));			//"5000";
-                    this.Label9_LastSaveDate.Text = PublicRes.objectToString(ds.Tables[0], "Fsave_time");				//"2005-03-01";
-                    this.Label10_Drawing.Text = PublicRes.objectToString(ds.Tables[0], "Ffetch_time");              //"2005-04-15";
+                    //this.Label7_SingleMax.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fquota"));		   //"2000";
+                    //this.Label8_PerDayLmt.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fquota_pay"));			//"5000";
+                    //this.Label9_LastSaveDate.Text = PublicRes.objectToString(ds.Tables[0], "Fsave_time");				//"2005-03-01";
+                    //this.Label10_Drawing.Text = PublicRes.objectToString(ds.Tables[0], "Ffetch_time");              //"2005-04-15";
                     this.Label11_Remark.Text = PublicRes.objectToString(ds.Tables[0], "Fmemo");					//"这个家伙很懒，什么都没有留下！";
 
                     //微信查询的state判断有所不同 yinhuang
@@ -250,7 +250,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         LogHelper.LogError("查询余额支付功能关闭与否失败：qqid=" + this.TextBox1_InputQQ.Text.Trim() + "异常信息：" + ex.ToString());
                     }
 
-                    this.Label16_Fapay.Text = PublicRes.objectToString(ds.Tables[0], "Fapay");
+                    //this.Label16_Fapay.Text = PublicRes.objectToString(ds.Tables[0], "Fapay");
                     this.Label17_Flogin_ip.Text = PublicRes.objectToString(ds.Tables[0], "Flogin_ip");
 
                     //furion 20061116 email登录修改
@@ -274,9 +274,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     }
 
                     this.lbInnerID.Text = PublicRes.objectToString(ds.Tables[0], "fuid");
-                    this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Ffetch"));
+                    //this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Ffetch"));
                     this.lbLeftPay.Text = Transfer.convertBPAY(PublicRes.objectToString(ds.Tables[0], "Fbpay_state"));
-                    this.lbSave.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fsave"));
+                    //this.lbSave.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fsave"));
 
                     string fuid = PublicRes.objectToString(ds.Tables[0], "fuid");
 
@@ -406,7 +406,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             try
             {
                 string msg = "";
-                int state = GetUserClassInfo(Session["QQID"].ToString(), out msg);
+                int state = new AuthenInfoService().GetUserClassInfo(Session["QQID"].ToString(), out msg);
 
                 labUserClassInfo.Text = msg;
             }
@@ -438,13 +438,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 this.Label2_Type.Text = Transfer.convertMoney_type(PublicRes.objectToString(ds.Tables[0], "Fcurtype"));//tu.u_CurType;				   //"代金券";
                 this.Label3_LeftAcc.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fbalance"));//tu.u_Balance;				   //"3000";
                 
-                this.Label5_YestodayLeft.Text = PublicRes.objectToString(ds.Tables[0], "Fyday_balance");		   //"10";
+                //this.Label5_YestodayLeft.Text = PublicRes.objectToString(ds.Tables[0], "Fyday_balance");		   //"10";
                 this.lblLoginTime.Text = PublicRes.objectToString(ds.Tables[0], "Fcreate_time");
                 this.Label6_LastModify.Text = PublicRes.objectToString(ds.Tables[0], "Fmodify_time");		   //"2005-05-01";
-                this.Label7_SingleMax.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fquota"));		   //"2000";
-                this.Label8_PerDayLmt.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fquota_pay"));			//"5000";
-                this.Label9_LastSaveDate.Text = PublicRes.objectToString(ds.Tables[0], "Fsave_time");				//"2005-03-01";
-                this.Label10_Drawing.Text = PublicRes.objectToString(ds.Tables[0], "Ffetch_time");              //"2005-04-15";
+                //this.Label7_SingleMax.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fquota"));		   //"2000";
+                //this.Label8_PerDayLmt.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fquota_pay"));			//"5000";
+                //this.Label9_LastSaveDate.Text = PublicRes.objectToString(ds.Tables[0], "Fsave_time");				//"2005-03-01";
+                //this.Label10_Drawing.Text = PublicRes.objectToString(ds.Tables[0], "Ffetch_time");              //"2005-04-15";
                 this.Label11_Remark.Text = PublicRes.objectToString(ds.Tables[0], "Fmemo");					//"这个家伙很懒，什么都没有留下！";
                 this.Label12_Fstate.Text = Transfer.accountState(PublicRes.objectToString(ds.Tables[0], "Fstate"));
                 this.Label13_Fuser_type.Text = Transfer.convertFuser_type(PublicRes.objectToString(ds.Tables[0], "Fuser_type"));
@@ -493,7 +493,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     LogError("BaseAccount.InfoCenter", " private void BindDataCancel(int istr, int imax)", ex);
                 }
 
-                this.Label16_Fapay.Text =PublicRes.objectToString(ds.Tables[0], "Fapay");
+                //this.Label16_Fapay.Text =PublicRes.objectToString(ds.Tables[0], "Fapay");
                 this.Label17_Flogin_ip.Text =PublicRes.objectToString(ds.Tables[0], "Flogin_ip");
 
                 //furion 20061116 email登录修改
@@ -503,9 +503,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 int nAttid = int.Parse(PublicRes.objectToString(ds.Tables[0], "Att_id"));
                 //				pbp.BindDropDownList(pm.QueryDicAccName(),ddlAttid,out Msg);
                 this.Label18_Attid.Text = Transfer.convertProAttType(nAttid);
-                this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Ffetch").Trim());
+                //this.lbFetchMoney.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Ffetch").Trim());
                 this.lbLeftPay.Text = Transfer.convertBPAY(PublicRes.objectToString(ds.Tables[0], "Fbpay_state").Trim());
-                this.lbSave.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fsave").Trim());
+                //this.lbSave.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(ds.Tables[0], "Fsave").Trim());
 
                 string fuid = PublicRes.objectToString(ds.Tables[0], "fuid").Trim();
 
@@ -635,7 +635,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             try
             {
                 string msg = "";
-                int state = GetUserClassInfo(Session["QQID"].ToString(), out msg);
+                int state = new AuthenInfoService().GetUserClassInfo(Session["QQID"].ToString(), out msg);
                 if (state > 0)
                 {
                     labUserClassInfo.Text = msg;
@@ -651,73 +651,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 LogError("BaseAccount.InfoCenter", " private void BindDataCancel(int istr, int imax)", ex);
             }
 
-        }
-
-        private int GetUserClassInfo(string qqid, out string msg)
-        {
-            //查询一下用户认证信息 furion 20071227
-            string inmsg = "uin=" + qqid.Trim().ToLower();
-            inmsg += "&opr_type=3";
-
-            string reply;
-            short sresult;
-
-            if (TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.middleInvoke("au_query_auinfo_service", inmsg, false, out reply, out sresult, out msg))
-            {
-                if (sresult != 0)
-                {
-                    msg = "au_query_auinfo_service接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply;
-                    return -1;
-                }
-                else
-                {
-                    if (reply.StartsWith("result=0"))
-                    {
-                        //在这取msg显示出来.
-                        int iindex = reply.IndexOf("state=");
-                        if (iindex > 0)
-                        {
-                            iindex = Int32.Parse(reply.Substring(iindex + 6, 1));
-                            if (iindex == 0)
-                            {
-                                msg = "未验证";
-                            }
-                            else if (iindex == 1)
-                            {
-                                msg = "验证通过";
-                            }
-                            else if (iindex == 2)
-                            {
-                                msg = "身份验证中";
-                            }
-                            else if (iindex == 3)
-                            {
-                                msg = "验证失败,不可再申请";
-                            }
-                            else if (iindex == 4)
-                            {
-                                msg = "验证失败,可再申请";
-                            }
-                            else
-                            {
-                                msg = "未定义类型" + iindex;
-                            }
-                        }
-
-                        return iindex;
-                    }
-                    else
-                    {
-                        msg = "au_query_auinfo_service接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply;
-                        return -1;
-                    }
-                }
-            }
-            else
-            {
-                msg = "au_query_auinfo_service接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply;
-                return -1;
-            }
         }
 
         private static string getCgiString(string instr)
@@ -772,8 +705,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 this.LKBT_bankrollLog.ForeColor = Color.Black;
                 this.LKBT_GatheringLog.ForeColor = Color.Black;
                 this.LkBT_PaymentLog.ForeColor = Color.Black;
-                this.LkBT_Refund.ForeColor = Color.Black;
-                this.LkBT_Refund_Sale.ForeColor = Color.Black;
+                //this.LkBT_Refund.ForeColor = Color.Black;
+                //this.LkBT_Refund_Sale.ForeColor = Color.Black;
 
                 Session["QQID"] = getQQID();
 
@@ -804,8 +737,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 this.LKBT_bankrollLog.Visible = true;
                 this.LKBT_GatheringLog.Visible = true;
                 this.LkBT_PaymentLog.Visible = true;
-                this.LkBT_Refund.Visible = true;
-                this.LkBT_Refund_Sale.Visible = true;
+                //this.LkBT_Refund.Visible = true;
+                //this.LkBT_Refund_Sale.Visible = true;
             }
             catch (SoapException er) //捕获soap类
             {
@@ -843,8 +776,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             this.LKBT_bankrollLog.ForeColor = Color.Black;
             this.LKBT_GatheringLog.ForeColor = Color.Black;
             this.LkBT_PaymentLog.ForeColor = Color.Black;
-            this.LkBT_Refund.ForeColor = Color.Black;
-            this.LkBT_Refund_Sale.ForeColor = Color.Black;
+            //this.LkBT_Refund.ForeColor = Color.Black;
+            //this.LkBT_Refund_Sale.ForeColor = Color.Black;
             //this.LkBT_ButtonInfo.ForeColor = Color.Black;
             //this.LkBT_Gwq.ForeColor = Color.Black;
             activeButton.ForeColor = Color.Red;
@@ -1083,17 +1016,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
         }
 
-        protected void LkBT_Refund_Click(object sender, System.EventArgs e)
-        {
-            if (Session["uid"] == null)
-            {
-                WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
-            }
-            else
-            {
-                SetFrame("refund.aspx?type=buy", 230, this.LkBT_Refund);
-            }
-        }
+        //protected void LkBT_Refund_Click(object sender, System.EventArgs e)
+        //{
+        //    if (Session["uid"] == null)
+        //    {
+        //        WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
+        //    }
+        //    else
+        //    {
+        //        SetFrame("refund.aspx?type=buy", 230, this.LkBT_Refund);
+        //    }
+        //}
 
         protected void LinkButton3_Click(object sender, System.EventArgs e)
         {
@@ -1131,17 +1064,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         //    }
         //}
 
-        protected void LkBT_Refund_Sale_Click(object sender, System.EventArgs e)
-        {
-            if (Session["uid"] == null)
-            {
-                WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
-            }
-            else
-            {
-                SetFrame("refund.aspx?type=sale", 230, this.LkBT_Refund_Sale);
-            }
-        }
+        //protected void LkBT_Refund_Sale_Click(object sender, System.EventArgs e)
+        //{
+        //    if (Session["uid"] == null)
+        //    {
+        //        WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
+        //    }
+        //    else
+        //    {
+        //        SetFrame("refund.aspx?type=sale", 230, this.LkBT_Refund_Sale);
+        //    }
+        //}
 
         protected void btnDelClass_Click(object sender, System.EventArgs e)
         {

@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
+namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
     
     
-    public partial class InfoCenter {
+    public partial class TradeLogQueryNew {
         
         /// <summary>
         /// Form1 control.
@@ -31,354 +31,498 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
         protected global::System.Web.UI.WebControls.Label Label_uid;
         
         /// <summary>
-        /// TextBox1_InputQQ control.
+        /// TextBox1_ListID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1_InputQQ;
+        protected global::System.Web.UI.WebControls.TextBox TextBox1_ListID;
         
         /// <summary>
-        /// RequiredFieldValidator1 control.
+        /// btQuery control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+        protected global::System.Web.UI.WebControls.Button btQuery;
         
         /// <summary>
-        /// CFT control.
+        /// hlOrder control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton CFT;
+        protected global::System.Web.UI.WebControls.HyperLink hlOrder;
         
         /// <summary>
-        /// InternalID control.
+        /// btn_tradeBaseInfo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton InternalID;
+        protected global::System.Web.UI.WebControls.HyperLink btn_tradeBaseInfo;
         
         /// <summary>
-        /// CheckBox1 control.
+        /// LB_Flistid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox CheckBox1;
+        protected global::System.Web.UI.WebControls.Label LB_Flistid;
         
         /// <summary>
-        /// Button1 control.
+        /// lblTradeState control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Label lblTradeState;
         
         /// <summary>
-        /// Label1_Acc control.
+        /// lbAdjustFlag control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1_Acc;
+        protected global::System.Web.UI.WebControls.Label lbAdjustFlag;
         
         /// <summary>
-        /// labQQstate control.
+        /// lbTradeType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labQQstate;
+        protected global::System.Web.UI.WebControls.Label lbTradeType;
         
         /// <summary>
-        /// Label14_Ftruename control.
+        /// lbPayBindSeqId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label14_Ftruename;
+        protected global::System.Web.UI.WebControls.Label lbPayBindSeqId;
         
         /// <summary>
-        /// lbtn_synName control.
+        /// lbCloseReason control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbtn_synName;
+        protected global::System.Web.UI.WebControls.Label lbCloseReason;
         
         /// <summary>
-        /// labEmail control.
+        /// LB_Fbank_listid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labEmail;
+        protected global::System.Web.UI.WebControls.Label LB_Fbank_listid;
         
         /// <summary>
-        /// labEmailState control.
+        /// LB_Fbank_backid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labEmailState;
+        protected global::System.Web.UI.WebControls.Label LB_Fbank_backid;
         
         /// <summary>
-        /// lbInnerID control.
+        /// LB_Flstate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbInnerID;
+        protected global::System.Web.UI.WebControls.Label LB_Flstate;
         
         /// <summary>
-        /// labMobile control.
+        /// LinkButton3_action control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labMobile;
+        protected global::System.Web.UI.WebControls.LinkButton LinkButton3_action;
         
         /// <summary>
-        /// labMobileState control.
+        /// LinkButton_synchro control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labMobileState;
+        protected global::System.Web.UI.WebControls.LinkButton LinkButton_synchro;
         
         /// <summary>
-        /// lbLeftPay control.
+        /// LB_Fbuy_uid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbLeftPay;
+        protected global::System.Web.UI.WebControls.Label LB_Fbuy_uid;
         
         /// <summary>
-        /// Label12_Fstate control.
+        /// LB_Fsale_uid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label12_Fstate;
+        protected global::System.Web.UI.WebControls.Label LB_Fsale_uid;
         
         /// <summary>
-        /// LinkButton3 control.
+        /// LB_Fbuyid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton3;
+        protected global::System.Web.UI.WebControls.Label LB_Fbuyid;
         
         /// <summary>
-        /// Label13_Fuser_type control.
+        /// LB_Fsaleid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label13_Fuser_type;
+        protected global::System.Web.UI.WebControls.Label LB_Fsaleid;
         
         /// <summary>
-        /// Label15_Useable control.
+        /// LB_FbuyidCFT control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label15_Useable;
+        protected global::System.Web.UI.WebControls.Label LB_FbuyidCFT;
         
         /// <summary>
-        /// Label19_OpenOrNot control.
+        /// LB_FsaleidCFT control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label19_OpenOrNot;
+        protected global::System.Web.UI.WebControls.Label LB_FsaleidCFT;
         
         /// <summary>
-        /// Label4_Freeze control.
+        /// LB_Fbuy_name control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label4_Freeze;
+        protected global::System.Web.UI.WebControls.Label LB_Fbuy_name;
         
         /// <summary>
-        /// lb_Freeze_amt control.
+        /// LB_Fsale_name control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lb_Freeze_amt;
+        protected global::System.Web.UI.WebControls.Label LB_Fsale_name;
         
         /// <summary>
-        /// Label3_LeftAcc control.
+        /// LB_Fbuy_bank_type control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label3_LeftAcc;
+        protected global::System.Web.UI.WebControls.Label LB_Fbuy_bank_type;
         
         /// <summary>
-        /// Label2_Type control.
+        /// LB_Fsale_bank_type control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2_Type;
+        protected global::System.Web.UI.WebControls.Label LB_Fsale_bank_type;
         
         /// <summary>
-        /// lblLoginTime control.
+        /// LB_Fbuy_bankid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblLoginTime;
+        protected global::System.Web.UI.WebControls.Label LB_Fbuy_bankid;
         
         /// <summary>
-        /// Label17_Flogin_ip control.
+        /// LB_Fsale_bankid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label17_Flogin_ip;
+        protected global::System.Web.UI.WebControls.Label LB_Fsale_bankid;
         
         /// <summary>
-        /// Label6_LastModify control.
+        /// LB_Fpay_type control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label6_LastModify;
+        protected global::System.Web.UI.WebControls.Label LB_Fpay_type;
         
         /// <summary>
-        /// Label18_Attid control.
+        /// LB_Fprice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label18_Attid;
+        protected global::System.Web.UI.WebControls.Label LB_Fprice;
         
         /// <summary>
-        /// Label11_Remark control.
+        /// LB_Fcarriage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label11_Remark;
+        protected global::System.Web.UI.WebControls.Label LB_Fcarriage;
         
         /// <summary>
-        /// labUserClassInfo control.
+        /// LB_Fpaynum control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labUserClassInfo;
+        protected global::System.Web.UI.WebControls.Label LB_Fpaynum;
         
         /// <summary>
-        /// btnDelClass control.
+        /// LB_Ffact control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDelClass;
+        protected global::System.Web.UI.WebControls.Label LB_Ffact;
         
         /// <summary>
-        /// dgList control.
+        /// LB_Fprocedure control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataGrid dgList;
+        protected global::System.Web.UI.WebControls.Label LB_Fprocedure;
         
         /// <summary>
-        /// LKBT_TradeLog control.
+        /// LB_Fcash control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LKBT_TradeLog;
+        protected global::System.Web.UI.WebControls.Label LB_Fcash;
         
         /// <summary>
-        /// LKBT_TradeLog_Sale control.
+        /// LB_Fcoding control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LKBT_TradeLog_Sale;
+        protected global::System.Web.UI.WebControls.Label LB_Fcoding;
         
         /// <summary>
-        /// LKBT_bankrollLog control.
+        /// HyperLink1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LKBT_bankrollLog;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
         
         /// <summary>
-        /// LKBT_GatheringLog control.
+        /// LB_FCreate_time_c2c control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LKBT_GatheringLog;
+        protected global::System.Web.UI.WebControls.Label LB_FCreate_time_c2c;
         
         /// <summary>
-        /// LkBT_PaymentLog control.
+        /// LB_Fcreate_time control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LkBT_PaymentLog;
+        protected global::System.Web.UI.WebControls.Label LB_Fcreate_time;
         
         /// <summary>
-        /// ImageButton2 control.
+        /// LB_Fbargain_time control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton2;
+        protected global::System.Web.UI.WebControls.Label LB_Fbargain_time;
+        
+        /// <summary>
+        /// LB_Fpay_time control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LB_Fpay_time;
+        
+        /// <summary>
+        /// LB_Freceive_time_c2c control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LB_Freceive_time_c2c;
+        
+        /// <summary>
+        /// LB_Freceive_time control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LB_Freceive_time;
+        
+        /// <summary>
+        /// LB_Fip control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LB_Fip;
+        
+        /// <summary>
+        /// LB_Fmodify_time control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LB_Fmodify_time;
+        
+        /// <summary>
+        /// LB_Fexplain control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LB_Fexplain;
+        
+        /// <summary>
+        /// Fchannel_idName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Fchannel_idName;
+        
+        /// <summary>
+        /// Fmemo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Fmemo;
+        
+        /// <summary>
+        /// Frefund_typeName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Frefund_typeName;
+        
+        /// <summary>
+        /// FpaybuyName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label FpaybuyName;
+        
+        /// <summary>
+        /// FpaysaleName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label FpaysaleName;
+        
+        /// <summary>
+        /// Freq_refund_time control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Freq_refund_time;
+        
+        /// <summary>
+        /// Fok_time control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Fok_time;
+        
+        /// <summary>
+        /// Fok_time_acc control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Fok_time_acc;
+        
+        /// <summary>
+        /// Fmedi_signName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Fmedi_signName;
+        
+        /// <summary>
+        /// Label1_listID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label1_listID;
     }
 }

@@ -1415,7 +1415,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 string userType = "", Msg = "", userType_str = "";
                 var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserInfo(qqid, 0, offset, limit);
-                bool type = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserType(qqid, out userType,out userType_str, out Msg);
+                bool type = new CFT.CSOMS.BLL.CFTAccountModule.AccountService().GetUserType(qqid, 0, out userType, out userType_str, out Msg);
                 if (type && infos != null && infos.Tables.Count > 0 && infos.Tables[0].Rows.Count > 0)
                 {
                     infos.Tables[0].Columns.Add("userType", typeof(String));
@@ -2104,7 +2104,9 @@ namespace CFT.CSOMS.Service.CSAPI
         [WebMethod]
         public void UnFreezeAccount()
         {
-            bool reqok = true;
+            System.Diagnostics.Stopwatch watchTime = new System.Diagnostics.Stopwatch();
+            watchTime.Start();
+
             List<BaseInfoC.FreezeThaw> list = new List<BaseInfoC.FreezeThaw>();
             try
             {
@@ -2268,8 +2270,10 @@ namespace CFT.CSOMS.Service.CSAPI
                     freeze.info = "解冻账户余额较大，发起审批成功！";
                     list.Add(freeze);
 
+                    watchTime.Stop();
+                    
                     //自定义功能代码 1005
-                    AccLogHelper.SendPayLogAsync("webservice",HttpContext.Current.Request.UserHostAddress,AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.UNFREEZE, AccLogResult.SUCCESS, AccReturnCode.BIGMONEYSUCCESS, "", 0, "1005", "", "", "");
+                    AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.UNFREEZE, AccLogResult.SUCCESS, AccReturnCode.SUCCESS, "解冻账户余额较大，发起审批成功", watchTime.ElapsedMilliseconds, "1005", "", "", "");
                     APIUtil.Print<BaseInfoC.FreezeThaw>(list);
                     return;
                 }
@@ -2313,6 +2317,10 @@ namespace CFT.CSOMS.Service.CSAPI
                     freeze.flag = 0;
                     freeze.info = "解冻成功。";
                     list.Add(freeze);
+
+                    watchTime.Stop();
+                    //自定义功能代码 1005
+                    AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.UNFREEZE, AccLogResult.SUCCESS, AccReturnCode.SUCCESS, "解冻成功", watchTime.ElapsedMilliseconds, "1005", "", "", "");
                 }
                 else
                 {
@@ -2321,6 +2329,10 @@ namespace CFT.CSOMS.Service.CSAPI
                     freeze.flag = 1;
                     freeze.info = "解冻失败。";
                     list.Add(freeze);
+
+                    watchTime.Stop();
+                    //自定义功能代码 1005
+                    AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.UNFREEZE, AccLogResult.SUCCESS, AccReturnCode.FAILURE, "解冻失败", watchTime.ElapsedMilliseconds, "1005", "", "", "");
                 }
 
 
@@ -2342,8 +2354,8 @@ namespace CFT.CSOMS.Service.CSAPI
             }
             catch (ServiceException se)
             {
-                AccLogHelper.SendPayLogAsync("webservice",HttpContext.Current.Request.UserHostAddress,AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.UNFREEZE, AccLogResult.APPLICATIONERROR, AccReturnCode.REQUESTSERVICEERROR, "", 0, "1005", "", "", "");
-                reqok = false;
+                watchTime.Stop();
+                AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.UNFREEZE, AccLogResult.APPLICATIONERROR, AccReturnCode.REQUESTSERVICEERROR, "调用解冻相关服务异常", watchTime.ElapsedMilliseconds, "1005", "", "", "");
                 SunLibrary.LoggerFactory.Get("UnFreezeAccount").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
                 //APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
                 BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();
@@ -2353,20 +2365,14 @@ namespace CFT.CSOMS.Service.CSAPI
             }
             catch (Exception ex)
             {
-                AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.UNFREEZE, AccLogResult.APPLICATIONERROR, AccReturnCode.EXCEPTION, "", 0, "1005", "", "", "");
-                reqok = false;
-
+                watchTime.Stop();
+                AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.UNFREEZE, AccLogResult.APPLICATIONERROR, AccReturnCode.EXCEPTION, "解冻发生异常",watchTime.ElapsedMilliseconds, "1005", "", "", "");
                 SunLibrary.LoggerFactory.Get("UnFreezeAccount").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
                 //APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS + "；" + ex.Message);
                 BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();
                 freeze.flag = -1;
                 freeze.info = ex.Message;
                 list.Add(freeze);
-            }
-
-            if (reqok)
-            {
-                AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.UNFREEZE, AccLogResult.SUCCESS, AccReturnCode.SUCCESS, "", 0, "1005", "", "", "");
             }
 
             APIUtil.Print<BaseInfoC.FreezeThaw>(list);
@@ -2711,7 +2717,9 @@ namespace CFT.CSOMS.Service.CSAPI
         [WebMethod]
         public void AccountFreeze()
         {
-            bool reqok = true;
+            System.Diagnostics.Stopwatch watchTime = new System.Diagnostics.Stopwatch();
+            watchTime.Start();
+            bool hadreqok = false;
 
             List<BaseInfoC.FreezeThaw> list = new List<BaseInfoC.FreezeThaw>();
             try
@@ -2774,18 +2782,15 @@ namespace CFT.CSOMS.Service.CSAPI
                 }
                 catch (Exception ex)
                 {
-                    AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.FREEZE, AccLogResult.APPLICATIONERROR, AccReturnCode.CREATEFREEZEID, "", 0, "1006", "", "", "");
-                    reqok = false;
                     SunLibrary.LogHelper.LogError("创建冻结工单时失败:" + ex.ToString());
                 }
 
                 
                 if (exeSign) //冻结成功
                 {
-                    if (reqok)
-                    {
-                        AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.FREEZE, AccLogResult.SUCCESS, AccReturnCode.SUCCESS, "", 0, "1006", "", "", "");
-                    }
+                        watchTime.Stop();
+                        AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.FREEZE, AccLogResult.SUCCESS, AccReturnCode.SUCCESS, "冻结成功", watchTime.ElapsedMilliseconds, "1006", "", "", "");
+                        hadreqok = true;
 
                     if (account.IndexOf("@wx.tenpay.com") > 0) //发送微信消息
                     {
@@ -2819,12 +2824,19 @@ namespace CFT.CSOMS.Service.CSAPI
                     freeze.flag = 1;
                     freeze.info = "冻结失败。";
                     list.Add(freeze);
+
+                    watchTime.Stop();
+                    AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.FREEZE, AccLogResult.SUCCESS, AccReturnCode.FAILURE, "冻结失败", watchTime.ElapsedMilliseconds, "1006", "", "", "");
+                    hadreqok = true;
                 }                
             }
             catch (ServiceException se)
             {
-                AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.FREEZE, AccLogResult.APPLICATIONERROR, AccReturnCode.REQUESTSERVICEERROR, "", 0, "1006", "", "", "");
-                reqok = false;
+                if (hadreqok == false)
+                {
+                    watchTime.Stop();
+                    AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.FREEZE, AccLogResult.APPLICATIONERROR, AccReturnCode.REQUESTSERVICEERROR, "调用冻结服务异常", watchTime.ElapsedMilliseconds, "1006", "", "", "");
+                }
 
                 SunLibrary.LoggerFactory.Get("AccountFreeze").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
                 BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();
@@ -2835,8 +2847,12 @@ namespace CFT.CSOMS.Service.CSAPI
             }
             catch (Exception ex)
             {
-                AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.FREEZE, AccLogResult.APPLICATIONERROR, AccReturnCode.EXCEPTION, "", 0, "1006", "", "", "");
-                reqok = false;
+                if (hadreqok == false)
+                {
+                    watchTime.Stop();
+                    AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.FREEZE, AccLogResult.APPLICATIONERROR, AccReturnCode.EXCEPTION, "冻结操作异常", watchTime.ElapsedMilliseconds
+                        , "1006", "", "", "");
+                }
 
                 SunLibrary.LoggerFactory.Get("AccountFreeze").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.ToString());
                 BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();

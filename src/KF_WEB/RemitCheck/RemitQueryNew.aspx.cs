@@ -34,10 +34,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RemitCheck
             {
                 Response.Redirect("../login.aspx?wh=1");
             }
-            if (!IsPostBack)
-            {
-                GetSpid();
-            }
+            //if (!IsPostBack)
+            //{
+            //    GetSpid();
+            //}
         }
 
         #region Web 窗体设计器生成的代码
@@ -80,38 +80,38 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RemitCheck
             Response.Write("<script language=javascript>alert('" + msg + "')</script>");
         }
 
-        private void GetSpid()
-        {
-            try
-            {
-                DataTable dt = new RemitService().GetRemitSpid();
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        ddlSpid.Items.Add(dr["spid"].ToString());
-                    }
-                }
-                else
-                {
-                    ShowMsg("spid未配置！");
-                    return;
-                }
-            }
-            catch (Exception ex)
-            {
-                ShowMsg("spid未配置！" + ex.ToString());
-                return;
-            }
-        }
+        //private void GetSpid()
+        //{
+        //    try
+        //    {
+        //        DataTable dt = new RemitService().GetRemitSpid();
+        //        if (dt != null && dt.Rows.Count > 0)
+        //        {
+        //            foreach (DataRow dr in dt.Rows)
+        //            {
+        //                ddlSpid.Items.Add(dr["spid"].ToString());
+        //            }
+        //        }
+        //        else
+        //        {
+        //            ShowMsg("spid未配置！");
+        //            return;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ShowMsg("spid未配置！" + ex.ToString());
+        //        return;
+        //    }
+        //}
 
         private void BindData(int index)
         {
-            string tranType = this.ddlTrantype.SelectedValue;
-            string dataType = this.ddlDataType.SelectedValue;
-            string remitType = this.ddlRemitType.SelectedValue;
-            string tranState = this.ddlTranState.SelectedValue;
-            string spid = ddlSpid.SelectedValue;
+            string tranType = "99";// this.ddlTrantype.SelectedValue;
+            string dataType = "99";//this.ddlDataType.SelectedValue;
+            string remitType = "99";// this.ddlRemitType.SelectedValue;
+            string tranState = "99";//this.ddlTranState.SelectedValue;
+            string spid = "1000007401";//ddlSpid.SelectedValue;
             string remitRec = this.tbRemitRec.Text.Trim();
             string listID = tblistID.Text.Trim();
 
@@ -138,11 +138,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RemitCheck
 
         private void GetCount()
         {
-            string tranType = this.ddlTrantype.SelectedValue;
-            string dataType = this.ddlDataType.SelectedValue;
-            string remitType = this.ddlRemitType.SelectedValue;
-            string tranState = this.ddlTranState.SelectedValue;
-            string spid = ddlSpid.SelectedValue;
+            string tranType = "99";// this.ddlTrantype.SelectedValue;
+            string dataType = "99";//this.ddlDataType.SelectedValue;
+            string remitType = "99";// this.ddlRemitType.SelectedValue;
+            string tranState = "99";//this.ddlTranState.SelectedValue;
+            string spid = "1000007401";//ddlSpid.SelectedValue;
             string remitRec = this.tbRemitRec.Text.Trim();
             string listID = tblistID.Text.Trim();
 

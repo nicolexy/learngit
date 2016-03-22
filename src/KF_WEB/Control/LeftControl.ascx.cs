@@ -407,6 +407,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 FundControl1.AddSubMenu("理财通预约买入", "WebchatPay/LCTReserveOrder.aspx");
                 FundControl1.AddSubMenu("理财通增值券", "WebchatPay/AddedValueTicketQuery.aspx");
                 FundControl1.AddSubMenu("合约机查询", "WebchatPay/QueryContractMachine.aspx");
+                FundControl1.AddSubMenu("理财通转投查询", "WebchatPay/LCTSwitchQuery.aspx");
             }
 
             if (classLibrary.ClassLib.ValidateRight("DKAdjust", this))
@@ -445,10 +446,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             BankBillManage1.AddSubMenu("汇总付款数据", "BaseAccount/batPay.aspx");
             //MediumTradeManage1.AddSubMenu("中介订单查询", "TradeManage/OrderQuery.aspx");
             tradeManage1.AddSubMenu("交易记录查询", "TradeManage/TradeLogQuery.aspx");
-
+            tradeManage1.AddSubMenu("交易记录查询(新)", "TradeManage/TradeLogQueryNew.aspx");
             //FundQuery
           //  BankBillManage1.AddSubMenu("订单实时调帐", "TradeManage/RealtimeOrder.aspx");
             tradeManage1.AddSubMenu("充值记录查询", "TradeManage/FundQuery.aspx");
+            tradeManage1.AddSubMenu("充值记录查询(新)", "TradeManage/FundQueryNew.aspx");
             tradeManage1.AddSubMenu("银行订单查询", "TradeManage/BankOrderListQuery.aspx");
             tradeManage1.AddSubMenu("转账单查询", "TradeManage/TransferQuery.aspx");
             tradeManage1.AddSubMenu("历史交易单迁移", "TradeManage/TradeMigration.aspx");

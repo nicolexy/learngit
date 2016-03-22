@@ -228,14 +228,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
+                       <%-- <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="4">
                             &nbsp;昨日余额:
                         </td>
                         <td style="height: 4px" bgcolor="#ffffff" colspan="2" height="4">
                             &nbsp;
                             <asp:Label ID="Label5_YestodayLeft" runat="server">10</asp:Label>
-                        </td>
+                        </td>--%>
                         <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="4">
                             &nbsp;帐户余额<font face="宋体">:</font>
@@ -244,6 +244,8 @@
                             &nbsp;<font face="宋体">
                                 <asp:Label ID="Label3_LeftAcc" runat="server" Width="180px">3000</asp:Label></font>
                         </td>
+                        <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee" height="4"></td>
+                        <td style="height: 4px" bgcolor="#ffffff" colspan="2" height="4"></td>
                     </tr>
                     <tr>
                         <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
@@ -263,7 +265,7 @@
                                 <asp:Label ID="lblLoginTime" runat="server">10</asp:Label></font>
                         </td>
                     </tr>
-                    <tr>
+          <%--          <tr>
                         <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="4">
                             <font face="宋体">&nbsp;当日已付:</font>
@@ -279,8 +281,8 @@
                             &nbsp;
                             <asp:Label ID="Label7_SingleMax" runat="server">2000</asp:Label>
                         </td>
-                    </tr>
-                    <tr>
+                    </tr>--%>
+               <%--     <tr>
                         <td style="height: 13px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="13">
                             &nbsp;单日支付限额:
@@ -296,8 +298,8 @@
                             <font face="宋体">&nbsp;
                                 <asp:Label ID="lbFetchMoney" runat="server"></asp:Label></font>
                         </td>
-                    </tr>
-                    <tr>
+                    </tr>--%>
+                   <%-- <tr>
                         <td style="height: 13px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="13">
                             <font face="宋体">&nbsp;当日已充值金额:</font>
@@ -314,16 +316,16 @@
                             &nbsp;
                             <asp:Label ID="Label9_LastSaveDate" runat="server">2005-03-01</asp:Label>
                         </td>
-                    </tr>
+                    </tr>--%>
                     <tr>
-                        <td style="height: 6px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
+                       <%-- <td style="height: 6px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="6">
                             &nbsp;最近提款日期:
                         </td>
                         <td style="height: 6px" bgcolor="#ffffff" height="6" colspan="2">
                             &nbsp;
                             <asp:Label ID="Label10_Drawing" runat="server">2005-04-15</asp:Label>
-                        </td>
+                        </td>--%>
                         <td style="height: 14px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                             height="14">
                             <font face="宋体">&nbsp;最后登陆IP地址:</font>
@@ -332,6 +334,8 @@
                             <font face="宋体">&nbsp;
                                 <asp:Label ID="Label17_Flogin_ip" runat="server">202.103.24.68</asp:Label></font>
                         </td>
+                        <td style="height: 4px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee" height="4"></td>
+                        <td style="height: 4px" bgcolor="#ffffff" colspan="2" height="4"></td>
                     </tr>
                     <tr>
                         <td style="height: 14px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
@@ -468,8 +472,8 @@
                                     <asp:LinkButton ID="LKBT_bankrollLog" runat="server" ForeColor="Black" OnClick="LKBT_bankrollLog_Click">用户资金流水</asp:LinkButton>|
                                     <asp:LinkButton ID="LKBT_GatheringLog" runat="server" ForeColor="Black" OnClick="LKBT_GatheringLog_Click">充值记录</asp:LinkButton>|
                                     <asp:LinkButton ID="LkBT_PaymentLog" runat="server" ForeColor="Black" OnClick="LkBT_PaymentLog_Click">提现记录</asp:LinkButton>&nbsp;|
-                                    <asp:LinkButton ID="LkBT_Refund" runat="server" ForeColor="Black" OnClick="LkBT_Refund_Click">买家退款单</asp:LinkButton>&nbsp;|
-                                    <asp:LinkButton ID="LkBT_Refund_Sale" runat="server" ForeColor="Black" OnClick="LkBT_Refund_Sale_Click">卖家退款单</asp:LinkButton>&nbsp;|
+                                    <%--<asp:LinkButton ID="LkBT_Refund" runat="server" ForeColor="Black" OnClick="LkBT_Refund_Click">买家退款单</asp:LinkButton>&nbsp;|--%>
+                                    <%--<asp:LinkButton ID="LkBT_Refund_Sale" runat="server" ForeColor="Black" OnClick="LkBT_Refund_Sale_Click">卖家退款单</asp:LinkButton>&nbsp;|--%>
                                     <%--<asp:LinkButton ID="LkBT_ButtonInfo" runat="server" ForeColor="Black" OnClick="LkBT_ButtonInfo_Click">商家工具按钮</asp:LinkButton>&nbsp;|--%>
                                     <%--<asp:LinkButton ID="LkBT_Gwq" runat="server" ForeColor="Black" OnClick="LkBT_Gwq_Click">财付券</asp:LinkButton>&nbsp;|--%>
                                     <%--<asp:LinkButton ID="LkBT_mediOrder" runat="server" ForeColor="Black" OnClick="LkBT_mediOrder_Click">中介交易</asp:LinkButton>--%>

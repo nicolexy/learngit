@@ -127,7 +127,7 @@
                         <asp:ListItem Value="-2">挂起</asp:ListItem>     
                         <asp:ListItem Value="0">等待客服处理</asp:ListItem>
 						<asp:ListItem Value="1">已通知用户</asp:ListItem>
-						<asp:ListItem Value="2">收集用户卡号，等待客服审批</asp:ListItem>						
+						<%--<asp:ListItem Value="2">收集用户卡号，等待客服审批</asp:ListItem>--%>						
 						<asp:ListItem Value="3">客服通过等待BG审核</asp:ListItem>
 						<asp:ListItem Value="4">BG通过等待风控审核</asp:ListItem>						
 						<asp:ListItem Value="5">风控通过，等待财务处理</asp:ListItem>

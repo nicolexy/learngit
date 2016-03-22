@@ -785,6 +785,43 @@ namespace CFT.CSOMS.BLL.TradeModule
                 return null;
             }
         }
+        /// <summary>
+        /// 新的充值记录查询
+        /// </summary>
+        /// <param name="u_ID"></param>
+        /// <param name="u_IDType"></param>
+        /// <param name="u_BeginTime"></param>
+        /// <param name="u_EndTime"></param>
+        /// <param name="istr"></param>
+        /// <param name="imax"></param>
+        /// <returns></returns>
+        public DataSet GetBankRollListByListId(string u_ID, string u_QueryType, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,
+              float fnum, float fnumMax, string banktype, string sorttype, int iPageStart, int iPageMax)
+        {
+            DataSet ds = new TradeData().GetBankRollListByListId_New(u_ID, u_QueryType, fcurtype, u_BeginTime, u_EndTime,
+                            fstate, fnum, fnumMax, banktype, sorttype, iPageStart, iPageMax);
+
+            if ((u_QueryType == "toBank" || u_QueryType == "BankBack") && !u_ID.ToUpper().StartsWith("CFT"))
+            {
+                for (int i = 1; i < 9; i++)
+                {
+                    string newUID = "CFT0" + i.ToString() + u_ID;
+                    DataSet tmpDS = new TradeData().GetBankRollListByListId_New(newUID, u_QueryType, fcurtype, u_BeginTime, u_EndTime,
+                                        fstate, fnum, fnumMax, banktype, sorttype, iPageStart, iPageMax);
+
+                    if (tmpDS != null && tmpDS.Tables.Count > 0 && tmpDS.Tables[0].Rows.Count > 0)
+                    {
+                        ds = PublicRes.ToOneDataset(ds, tmpDS);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return ds;
+        }
 
         /// <summary>
         /// 查询用户帐户流水表
@@ -1239,6 +1276,17 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             int state = new TradeData().WeiLibDaiQuery(uin);
             return state != 0;  //0:无未还清欠款, 1:有未还清欠款
+        }
+
+     
+        /// <summary>
+        /// 查询交易单表
+        /// </summary>
+        /// <param name="listid"></param>
+        /// <returns></returns>
+        public DataSet GetPayByListid(string listid)
+        {
+            return new TradeData().GetPayByListid(listid);
         }
     }
 }
