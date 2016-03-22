@@ -449,6 +449,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             //FundQuery
           //  BankBillManage1.AddSubMenu("订单实时调帐", "TradeManage/RealtimeOrder.aspx");
             tradeManage1.AddSubMenu("充值记录查询", "TradeManage/FundQuery.aspx");
+            tradeManage1.AddSubMenu("充值记录查询(新)", "TradeManage/FundQueryNew.aspx");
             tradeManage1.AddSubMenu("银行订单查询", "TradeManage/BankOrderListQuery.aspx");
             tradeManage1.AddSubMenu("转账单查询", "TradeManage/TransferQuery.aspx");
             tradeManage1.AddSubMenu("历史交易单迁移", "TradeManage/TradeMigration.aspx");

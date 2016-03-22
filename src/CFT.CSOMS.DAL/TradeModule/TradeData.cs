@@ -506,6 +506,101 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
         }
 
+        public DataSet GetBankRollListByListId_New(string u_ID, string u_QueryType, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,
+          float fnum, float fnumMax, string banktype, string sorttype, int iPageStart, int iPageMax)
+        {
+            //celiafeng(冯心玲) 03-10 16:10:49
+            //集成的接口我们目前没有合适的模块放，这个逻辑放在客服系统吧，就只有两个接口
+            //按给银行订单号查的，就用cq_query_tcbanklist_service(cq_query_tcbanklist_service  QUERY_MUL_CHARGE_LIST)，查不到的话查FINANCE_OD_TCBANKROLL_DAY
+            //其他的查询都查FINANCE_OD_TCBANKROLL_DAY(ex_common_query_service  FINANCE_OD_TCBANKROLL_DAY)
+
+            string msg = "";
+            try
+            {
+                DataSet ds = null;
+                string srtSql = "";
+                if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "qq")  //按照QQ号查询，注意使用内部uid
+                {
+                    string uid = PublicRes.ConvertToFuid(u_ID);
+                    srtSql = "auid=" + uid;
+                }
+                else if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "tobank")  //给银行的订单号
+                {
+                    srtSql = "bank_list=" + u_ID.Trim() + "";
+                }
+                else if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "bankback") //银行返回u
+                {
+                    srtSql = "bank_acc=" + u_ID.Trim();
+                }
+                else if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "czd") //充值单查询
+                {
+                    srtSql = "listid=" + u_ID.Trim();
+                }
+                if (fstate != 0)
+                {
+                    srtSql += "&sign=" + fstate;
+                }
+                long num = (long)Math.Round(fnum * 100, 0);
+                long numMax = (long)Math.Round(fnumMax * 100, 0);
+
+                srtSql += "&num_start=" + num + "&num_end=" + numMax;
+
+                if (banktype != "0000" && banktype != "")
+                {
+                    srtSql += "&bank_type=" + banktype;
+                }
+
+                if (u_QueryType.ToLower() == "tobank")
+                {
+                    string querstr = srtSql + "&offset=0&limit=10";
+                    ds = CommQuery.GetDataSetFromICE_QueryServer(querstr, CommQuery.QUERY_TCBANKROLL_S, out msg);
+
+                    if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                    {
+                        while (u_EndTime >= u_BeginTime)
+                        {
+                            string truetime = u_EndTime.ToString("yyyyMMdd");
+                            querstr = srtSql + "&query_day=" + truetime + "&strlimit=limit " + iPageStart + "," + iPageMax;
+                            DataSet dsTemp = CommQuery.GetDataSetFromICE(querstr, CommQuery.QUERY_TCBANKROLL_DAY, out msg);
+                            if (dsTemp != null && dsTemp.Tables.Count > 0 && dsTemp.Tables[0].Rows.Count > 0)
+                            {
+                                ds = PublicRes.ToOneDataset(ds, dsTemp);
+                                break;
+                            }
+                            u_EndTime = u_EndTime.AddDays(-1);
+                        }
+                    }
+                }
+                else
+                {
+                    while (u_EndTime >= u_BeginTime)
+                    {
+                        string truetime = u_EndTime.ToString("yyyyMMdd");
+                        string querstr = srtSql + "&query_day=" + truetime + "&curtype=" + fcurtype + "&strlimit=limit " + iPageStart + "," + iPageMax;
+                        DataSet dsTemp = CommQuery.GetDataSetFromICE(querstr, CommQuery.QUERY_TCBANKROLL_DAY, out msg);
+                        if (dsTemp != null && dsTemp.Tables.Count > 0 && dsTemp.Tables[0].Rows.Count > 0)
+                        {
+                            if (u_QueryType.ToLower() == "qq" || u_QueryType.ToLower() == "czd")
+                            {
+                                ds = PublicRes.ToOneDataset(ds, dsTemp);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        u_EndTime = u_EndTime.AddDays(-1);
+                    }
+                }
+                return ds;
+            }
+            catch (Exception e)
+            {
+                LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData  public DataSet GetBankRollListByListId(string u_ID, string u_QueryType, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,float fnum, float fnumMax, string banktype, string sorttype, int iPageStart, int iPageMax), ERROR:" + e.ToString());
+                throw new Exception("service发生错误,请联系管理员！" + msg + e.ToString());
+            }
+        }
+
         //查询退款单表
         public DataSet GetRefund(string u_ID, int u_IDType, DateTime u_BeginTime, DateTime u_EndTime, int istr, int imax)
         {

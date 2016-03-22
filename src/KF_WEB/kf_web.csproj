@@ -2246,6 +2246,13 @@
     <Compile Include="TradeManage\FundQuery.aspx.designer.cs">
       <DependentUpon>FundQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TradeManage\FundQueryNew.aspx.cs">
+      <DependentUpon>FundQueryNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\FundQueryNew.aspx.designer.cs">
+      <DependentUpon>FundQueryNew.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TradeManage\FundQuery_Detail.aspx.cs">
       <DependentUpon>FundQuery_Detail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3479,6 +3486,7 @@
     </Content>
     <Content Include="TradeManage\FundCardQuery_DetailNew.aspx" />
     <Content Include="TradeManage\FundQuery.aspx" />
+    <Content Include="TradeManage\FundQueryNew.aspx" />
     <Content Include="TradeManage\FundQuery_Detail.aspx" />
     <Content Include="TradeManage\GatheringLog.aspx">
       <SubType>Form</SubType>
