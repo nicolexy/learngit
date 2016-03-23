@@ -105,10 +105,9 @@
 					<TD style="HEIGHT: 4px" bgColor="#ffffff" colSpan="2" height="4">&nbsp;
 						<asp:label id="Label5_YestodayLeft" runat="server"></asp:label></TD>--%>
 					<TD style="HEIGHT: 4px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee" height="4">&nbsp;帐户余额<FONT face="宋体">:</FONT></TD>
-					<TD style="HEIGHT: 4px" bgColor="#ffffff" height="4">&nbsp;<FONT face="宋体">
-							<asp:label id="Label3_LeftAcc" runat="server" Width="180px"></asp:label></FONT></TD>
-                    <TD style="HEIGHT: 4px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee" height="4"></TD>
-					<TD style="HEIGHT: 4px" bgColor="#ffffff" colSpan="2" height="4"></TD>
+					<TD style="HEIGHT: 4px" bgColor="#ffffff" height="4" colspan="2">&nbsp;<FONT face="宋体"><asp:label id="Label3_LeftAcc" runat="server" Width="180px"></asp:label></FONT></TD>
+                   	<TD style="HEIGHT: 14px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee" height="14"><FONT face="宋体">&nbsp;最后登陆IP地址:</FONT></TD>
+					<TD style="HEIGHT: 14px" bgColor="#ffffff" height="14"><FONT face="宋体">&nbsp;<asp:label id="Label17_Flogin_ip" runat="server"></asp:label></FONT></TD>
 				</TR>
 				<TR>
 					<TD style="HEIGHT: 4px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee" height="4"><FONT face="宋体">&nbsp;币种类型:</FONT></TD>
@@ -144,17 +143,17 @@
 					<TD style="HEIGHT: 6px" bgColor="#ffffff" height="6">&nbsp;
 						<asp:label id="Label9_LastSaveDate" runat="server"></asp:label></TD>
 				</TR>--%>
-				<TR>
-					<%--<TD style="HEIGHT: 6px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee" height="6">&nbsp;最近提款日期:</TD>
+				<%--<TR>
+					<TD style="HEIGHT: 6px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee" height="6">&nbsp;最近提款日期:</TD>
 					<TD style="HEIGHT: 6px" bgColor="#ffffff" colSpan="2" height="6">&nbsp;
-						<asp:label id="Label10_Drawing" runat="server"></asp:label></TD>--%>
+						<asp:label id="Label10_Drawing" runat="server"></asp:label></TD>
 					<TD style="HEIGHT: 14px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee"
 						height="14"><FONT face="宋体">&nbsp;最后登陆IP地址:</FONT></TD>
 					<TD style="HEIGHT: 14px" bgColor="#ffffff" height="14"><FONT face="宋体">&nbsp;
 							<asp:label id="Label17_Flogin_ip" runat="server"></asp:label></FONT></TD>
                     <TD style="HEIGHT: 4px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee" height="4"></TD>
 					<TD style="HEIGHT: 4px" bgColor="#ffffff" colSpan="2" height="4"></TD>
-				</TR>
+				</TR>--%>
 				<TR>
 					<TD style="HEIGHT: 14px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee"
 						height="14"><FONT face="宋体">&nbsp;最后修改时间:</FONT></TD>

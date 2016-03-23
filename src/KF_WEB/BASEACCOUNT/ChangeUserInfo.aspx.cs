@@ -202,18 +202,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string userType = null;
             string Msg = null;
             string userType_str = null;
-            string qqid = ViewState["qqid"].ToString().Trim();
+            string UinOrUid = ViewState["qqid"].ToString().Trim();
 
-            string uid = new AccountService().QQ2Uid(qqid);
-            if (string.IsNullOrEmpty(uid)) //uin 查 uid 未查到则为已注销不能编辑
-                this.LinkButton1_Edit.Visible = false;
+            if (accountType == 1)   //输入为uid
+            {
+                string resultUid = new AccountService().QQ2Uid(UinOrUid); //uin查询uid
+
+                UinOrUid = this.TX_QQID.Text.Trim();
+
+                if (!string.IsNullOrEmpty(resultUid) && resultUid == UinOrUid) //uin查到uid并且查询到的uid和输入的uid一致 则可编辑
+                    this.LinkButton1_Edit.Visible = true;
+                else
+                    this.LinkButton1_Edit.Visible = false;
+            }
             else
+            {
                 this.LinkButton1_Edit.Visible = true;
+            }
 
-            if (accountType == 1)
-                qqid = this.TX_QQID.Text.Trim();
-
-            bool exeSign = new AccountService().GetUserType(qqid, accountType, out userType, out userType_str, out Msg);
+            bool exeSign = new AccountService().GetUserType(UinOrUid, accountType, out userType, out userType_str, out Msg);
 
             if (exeSign == false)
             {

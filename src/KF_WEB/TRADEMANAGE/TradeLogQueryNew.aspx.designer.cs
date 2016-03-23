@@ -256,13 +256,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         protected global::System.Web.UI.WebControls.Label LB_Fsale_bank_type;
         
         /// <summary>
-        /// LB_Fbuy_bankid control.
+        /// LB_Fpay_type control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LB_Fbuy_bankid;
+        protected global::System.Web.UI.WebControls.Label LB_Fpay_type;
         
         /// <summary>
         /// LB_Fsale_bankid control.
@@ -272,15 +272,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LB_Fsale_bankid;
-        
-        /// <summary>
-        /// LB_Fpay_type control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LB_Fpay_type;
         
         /// <summary>
         /// LB_Fprice control.
@@ -326,6 +317,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LB_Fprocedure;
+        
+        /// <summary>
+        /// LB_Fexplain control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LB_Fexplain;
         
         /// <summary>
         /// LB_Fcash control.
@@ -425,15 +425,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LB_Fmodify_time;
-        
-        /// <summary>
-        /// LB_Fexplain control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LB_Fexplain;
         
         /// <summary>
         /// Fchannel_idName control.

@@ -185,24 +185,16 @@
 											<asp:Label ID="LB_Fsale_bank_type" runat="server"></asp:Label></font></td>
                             </tr>
                             <tr>
-                                <td style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee">&nbsp;
-                                </td>
-                                <td style="WIDTH: 136px; HEIGHT: 18px" bgcolor="#ffffff" height="18">&nbsp;
-										<asp:Label ID="LB_Fbuy_bankid" runat="server"></asp:Label></td>
-                                <td style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
-                                    height="18">&nbsp;代金券ID:</td>
-                                <td style="WIDTH: 156px; HEIGHT: 18px" bgcolor="#ffffff" colspan="2" height="17">&nbsp;
-										<asp:Label ID="LB_Fsale_bankid" runat="server"></asp:Label></td>
-                            </tr>
-                            <tr>
                                 <%--<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee"
 										height="18">&nbsp;币种代码:</TD>
 									<TD style="WIDTH: 136px; HEIGHT: 18px" bgColor="#ffffff" height="18">&nbsp;
 										<asp:label id="LB_Fcurtype" runat="server"></asp:label></TD>--%>
                                 <td style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                                     height="18">&nbsp;支付类型:</td>
-                                <td style="WIDTH: 156px; HEIGHT: 18px" bgcolor="#ffffff" colspan="4" height="17">&nbsp;<font face="宋体">
+                                <td style="WIDTH: 156px; HEIGHT: 18px" bgcolor="#ffffff" height="17">&nbsp;<font face="宋体">
                                     <asp:Label ID="LB_Fpay_type" runat="server"></asp:Label></font></td>
+                                <td style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee" height="18">&nbsp;代金券ID:</td>
+                                <td style="WIDTH: 156px; HEIGHT: 18px" bgcolor="#ffffff" colspan="2" height="17">&nbsp;<asp:Label ID="LB_Fsale_bankid" runat="server"></asp:Label></td>
                             </tr>
                             <tr>
                                 <td style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
@@ -227,12 +219,14 @@
                             <tr>
                                 <td style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                                     height="18"><font face="宋体">&nbsp;交易(服务)手续费:</font></td>
-                                <td style="WIDTH: 136px; HEIGHT: 18px" bgcolor="#ffffff" height="18" colspan="4"><font face="宋体">&nbsp;
+                                <td style="WIDTH: 136px; HEIGHT: 18px" bgcolor="#ffffff" height="18"><font face="宋体">&nbsp;
 											<asp:Label ID="LB_Fprocedure" runat="server"></asp:Label></font></td>
                                 <%--<TD style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgColor="#eeeeee"
 										height="18"><FONT face="宋体">&nbsp;服务费率:</FONT></TD>
 									<TD style="WIDTH: 156px; HEIGHT: 18px" bgColor="#ffffff" colSpan="2" height="17"><FONT face="宋体">&nbsp;
 											<asp:label id="LB_Fservice" runat="server"></asp:label></FONT></TD>--%>
+                                <td sstyle="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee" height="18"><font face="宋体">&nbsp;备注:</font></td>
+                                <td bgcolor="#ffffff" height="18"><font face="宋体">&nbsp;<asp:Label ID="LB_Fexplain" runat="server"></asp:Label></font></td>
                             </tr>
                             <tr>
                                 <td style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
@@ -288,7 +282,7 @@
                                 <td style="WIDTH: 156px; HEIGHT: 18px" bgcolor="#ffffff" colspan="2" height="17"><font face="宋体">&nbsp;
 											<asp:Label ID="LB_Fmodify_time" runat="server"></asp:Label></font></td>
                             </tr>
-                            <tr>
+                   <%--         <tr>
                                 <td sstyle="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee"
                                     height="18"><font face="宋体">&nbsp;备注:</font></td>
                                 <td bgcolor="#ffffff" height="18"><font face="宋体">&nbsp;
@@ -299,7 +293,7 @@
                                 <td style="WIDTH: 156px; HEIGHT: 18px" bgcolor="#ffffff" colspan="2" height="17">
                                     <font face="宋体">&nbsp;</font>
                                 </td>
-                            </tr>
+                            </tr>--%>
                             <tr>
                                 <td style="WIDTH: 125px; HEIGHT: 18px" background="../IMAGES/Page/bk_white.gif" bgcolor="#eeeeee" height="18">
                                     <font face="宋体">&nbsp;渠道编号：</font>

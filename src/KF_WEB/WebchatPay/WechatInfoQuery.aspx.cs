@@ -30,8 +30,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         protected void Page_Load(object sender, System.EventArgs e)
         {
 
-            this.LkBT_Refund.Visible = false;     //3.0暂时不提供该功能
-            this.LkBT_Refund_Sale.Visible = false;   //3.0暂时不提供该功能
+            //this.LkBT_Refund.Visible = false;     //3.0暂时不提供该功能
+            //this.LkBT_Refund_Sale.Visible = false;   //3.0暂时不提供该功能
 
             if (!IsPostBack)
             {
@@ -689,8 +689,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 this.LKBT_bankrollLog.ForeColor = Color.Black;
                 this.LKBT_GatheringLog.ForeColor = Color.Black;
                 this.LkBT_PaymentLog.ForeColor = Color.Black;
-                this.LkBT_Refund.ForeColor = Color.Black;
-                this.LkBT_Refund_Sale.ForeColor = Color.Black;
+                //this.LkBT_Refund.ForeColor = Color.Black;
+                //this.LkBT_Refund_Sale.ForeColor = Color.Black;
 
                 string queryType = GetQueryType();
 
@@ -732,8 +732,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 this.LKBT_bankrollLog.Visible = true;
                 this.LKBT_GatheringLog.Visible = true;
                 this.LkBT_PaymentLog.Visible = true;
-                this.LkBT_Refund.Visible = true;
-                this.LkBT_Refund_Sale.Visible = true;
+                //this.LkBT_Refund.Visible = true;
+                //this.LkBT_Refund_Sale.Visible = true;
 
                 //if (Label1_Acc.Text.Length > 0 && Label1_Acc.Text.EndsWith("@wx.tenpay.com"))
                 //{
@@ -768,8 +768,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 this.LKBT_bankrollLog.Visible = false;
                 this.LKBT_GatheringLog.Visible = false;
                 this.LkBT_PaymentLog.Visible = false;
-                this.LkBT_Refund.Visible = false;
-                this.LkBT_Refund_Sale.Visible = false;
+                //this.LkBT_Refund.Visible = false;
+                //this.LkBT_Refund_Sale.Visible = false;
                 setLableText_Null();
                 string str = PublicRes.GetErrorMsg(er.Message.ToString());
                 WebUtils.ShowMessage(this.Page, "查询错误：" + str);
@@ -793,8 +793,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             this.LKBT_bankrollLog.ForeColor = Color.Black;
             this.LKBT_GatheringLog.ForeColor = Color.Black;
             this.LkBT_PaymentLog.ForeColor = Color.Black;
-            this.LkBT_Refund.ForeColor = Color.Black;
-            this.LkBT_Refund_Sale.ForeColor = Color.Black;
+            //this.LkBT_Refund.ForeColor = Color.Black;
+            //this.LkBT_Refund_Sale.ForeColor = Color.Black;
             //this.LkBT_ButtonInfo.ForeColor = Color.Black;
             //this.LkBT_Gwq.ForeColor = Color.Black;
             activeButton.ForeColor = Color.Red;
@@ -972,17 +972,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
         }
 
-        protected void LkBT_Refund_Click(object sender, System.EventArgs e)
-        {
-            if (Session["uid"] == null)
-            {
-                WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
-            }
-            else
-            {
-                SetFrame("../BaseAccount/refund.aspx?type=buy", 230, this.LkBT_Refund);
-            }
-        }
+        //protected void LkBT_Refund_Click(object sender, System.EventArgs e)
+        //{
+        //    if (Session["uid"] == null)
+        //    {
+        //        WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
+        //    }
+        //    else
+        //    {
+        //        SetFrame("../BaseAccount/refund.aspx?type=buy", 230, this.LkBT_Refund);
+        //    }
+        //}
 
         protected void LinkButton3_Click(object sender, System.EventArgs e)
         {
@@ -1020,17 +1020,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         //    }
         //}
 
-        protected void LkBT_Refund_Sale_Click(object sender, System.EventArgs e)
-        {
-            if (Session["uid"] == null)
-            {
-                WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
-            }
-            else
-            {
-                SetFrame("../BaseAccount/refund.aspx?type=sale", 230, this.LkBT_Refund_Sale);
-            }
-        }
+        //protected void LkBT_Refund_Sale_Click(object sender, System.EventArgs e)
+        //{
+        //    if (Session["uid"] == null)
+        //    {
+        //        WebUtils.ShowMessage(this.Page, "超时，请重新登陆！");
+        //    }
+        //    else
+        //    {
+        //        SetFrame("../BaseAccount/refund.aspx?type=sale", 230, this.LkBT_Refund_Sale);
+        //    }
+        //}
 
         protected void btnDelClass_Click(object sender, System.EventArgs e)
         {
