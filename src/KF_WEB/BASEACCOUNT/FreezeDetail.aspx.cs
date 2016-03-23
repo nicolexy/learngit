@@ -145,6 +145,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     return "ivr自助冻结";
                 case "8":
                     return "公众号自助冻结";
+                case "9":
+                    return "微信安全";
                 default:
                     return "无冻结渠道";
             }

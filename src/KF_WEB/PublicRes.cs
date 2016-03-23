@@ -501,6 +501,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             DataSet ds = new DataSet();
             string strConn = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path
                     + ";Extended Properties='Excel 8.0;HDR=NO;IMEX=1';";
+            if (path.EndsWith(".xlsx"))
+            {
+                //此连接可以操作.xls与.xlsx文件 (支持Excel2003 和 Excel2007 的连接字符串)
+                strConn = "Provider=Microsoft.Ace.OleDb.12.0;data source=" + path
+                  + ";Extended Properties='Excel 12.0; HDR=NO; IMEX=1'"; 
+            }
             OleDbConnection objConn = new OleDbConnection(strConn);
             objConn.Open();
             DataTable schemaTable = objConn.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, null);

@@ -61,7 +61,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             string uid = Session["uid"].ToString();
             try
             {
-                string path = Server.MapPath("~/") + "PLFile" + "\\refund.xls";
+                string path =  Server.MapPath("~/") + "PLFile" + "\\refund.xls";
+                if (fileUpload.FileName.EndsWith(".xlsx"))
+                {
+                    path = Server.MapPath("~/") + "PLFile" + "\\refund.xlsx";
+                }
                 fileUpload.PostedFile.SaveAs(path);
                 DataSet res_ds = PublicRes.readXls(path, "F1,F2,F3,F4,F5,F6");
                 System.Data.DataTable dt = res_ds.Tables[0];
@@ -77,7 +81,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 dt_failed.Columns.Add("失败的商户订单号", typeof(System.String));
                 dt_failed.Columns.Add("失败原因", typeof(System.String));
 
-                //查出商户号个数
+                //每次重推格式
+                int percount = 10;
+                //查出所有商户号
                 List<string> partner_list = new List<string>();
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -87,17 +93,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                         partner_list.Add(partner);
                     }
                 }
-
+              
                 foreach (string partner in partner_list)
                 {
                     DataRow[] drs = dt.Select(" F1='" + partner + "'");
                     try
                     {
-                        string request_text = "partner=" + drs[0]["F1"].ToString().Trim();
-                        request_text += "&customs_company_code=" + drs[0]["F2"].ToString().Trim();
-                        request_text += "&customs=" + drs[0]["F3"].ToString().Trim();
-                        request_text += "&total_num=" + drs.Count();
+                        string reqfather = "partner=" + drs[0]["F1"].ToString().Trim();
+                        reqfather += "&customs_company_code=" + drs[0]["F2"].ToString().Trim();
+                        reqfather += "&customs=" + drs[0]["F3"].ToString().Trim();
+                        //reqfather += "&total_num=" + drs.Count();
 
+                        string reqStr = reqfather;
+                        int index = 0;
                         for (int i = 0; i < drs.Count(); i++)
                         {
                             if (string.IsNullOrEmpty(drs[i]["F4"].ToString().Trim()) && string.IsNullOrEmpty(drs[i]["F5"].ToString().Trim()))
@@ -105,31 +113,41 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                                 throw new Exception("财付通支付单号和商户订单号不能同时为空");
                             }
 
-                            request_text += "&transaction_id_" + i + "=" + drs[i]["F4"].ToString().Trim();
-                            request_text += "&out_trade_no_" + i + "=" + drs[i]["F5"].ToString().Trim();
-                            request_text += "&redeclare_reason_" + i + "=" + drs[i]["F6"].ToString().Trim();
-                        }
-
-                        //执行重推
-                        System.Data.DataTable _dtfailed = new WechatPayService().CustomsRedeclare(request_text);
-                        //记录失败的单
-                        if (_dtfailed != null && _dtfailed.Rows.Count > 0)
-                        {
-                            foreach (DataRow item in _dtfailed.Rows)
+                            reqStr += "&transaction_id_" + index + "=" + drs[i]["F4"].ToString().Trim();
+                            reqStr += "&out_trade_no_" + index + "=" + drs[i]["F5"].ToString().Trim();
+                            reqStr += "&redeclare_reason_" + index + "=" + drs[i]["F6"].ToString().Trim();
+                            //每10条执行一次重推，最后一条执行一次
+                            if ((i+1) % percount == 0 || (i+1) == drs.Count())
                             {
+                                int count = index+1;
+                                reqStr += "&total_num=" + count;
+                                //执行重推
+                                System.Data.DataTable _dtfailed = new WechatPayService().CustomsRedeclare(reqStr);
+                                //回复初始
+                                reqStr = reqfather;
+                                index = 0;
+                                //记录失败的单
+                                if (_dtfailed != null && _dtfailed.Rows.Count > 0)
+                                {
+                                    foreach (DataRow item in _dtfailed.Rows)
+                                    {
 
-                                DataRow dr_faild = dt_failed.NewRow();
-                                dr_faild["商户号"] = drs[0]["F1"].ToString();
-                                dr_faild["商户海关备案号"] = drs[0]["F2"].ToString();
-                                dr_faild["海关编号"] = drs[0]["F3"].ToString();
-                                dr_faild["重推总数"] = drs.Count();
-                                dr_faild["失败数量"] = _dtfailed.Rows.Count;
-                                dr_faild["失败的财付通支付单号"] = item["transaction_id"].ToString();
-                                dr_faild["失败的商户订单号"] = item["out_trade_no"].ToString();
-                                dr_faild["失败原因"] = item["fail_info"].ToString();
-                                dt_failed.Rows.Add(dr_faild);
+                                        DataRow dr_faild = dt_failed.NewRow();
+                                        dr_faild["商户号"] = drs[0]["F1"].ToString();
+                                        dr_faild["商户海关备案号"] = drs[0]["F2"].ToString();
+                                        dr_faild["海关编号"] = drs[0]["F3"].ToString();
+                                        dr_faild["重推总数"] = drs.Count();
+                                        dr_faild["失败数量"] = _dtfailed.Rows.Count;
+                                        dr_faild["失败的财付通支付单号"] = item["transaction_id"].ToString();
+                                        dr_faild["失败的商户订单号"] = item["out_trade_no"].ToString();
+                                        dr_faild["失败原因"] = item["fail_info"].ToString();
+                                        dt_failed.Rows.Add(dr_faild);
+                                    }
+                                }
+                                continue;
                             }
-                        }
+                            index++;
+                        }                     
                     }
                     catch (Exception error)
                     {
@@ -179,6 +197,40 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 CommMailSend.SendInternalMail(uid, "", "批量海关重推失败", e.ToString(), false);
             }
 
+        }
+
+        protected void btn_one_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string request_text = "partner=" + txt_partner.Text.Trim();
+                request_text += "&customs_company_code=" + txt_customs_company_code.Text.Trim();
+                request_text += "&customs=" + txt_customs.Text.Trim();
+                request_text += "&total_num=1";
+
+
+                if (string.IsNullOrEmpty(txt_transaction_id.Text.Trim()) && string.IsNullOrEmpty(txt_out_trade_no.Text.Trim()))
+                {
+                    throw new Exception("财付通支付单号和商户订单号不能同时为空");
+                }
+
+                request_text += "&transaction_id_0=" + txt_transaction_id.Text.Trim();
+                request_text += "&out_trade_no_0=" + txt_out_trade_no.Text.Trim();
+                request_text += "&redeclare_reason_0=" + txt_redeclare_reason.Text.Trim();
+                System.Data.DataTable dtfailed = new WechatPayService().CustomsRedeclare(request_text);
+                if (dtfailed != null && dtfailed.Rows.Count > 0)
+                {
+                    lblmessageOne.Text = "重推失败，失败原因：" + dtfailed.Rows[0]["fail_info"].ToString();
+                }
+                else 
+                {
+                    lblmessageOne.Text = "重推成功";
+                }
+            }
+            catch (Exception ex)
+            {
+                lblmessageOne.Text = "重推失败，失败原因：" + HttpUtility.JavaScriptStringEncode(ex.Message);
+            }
         }
     }
 }

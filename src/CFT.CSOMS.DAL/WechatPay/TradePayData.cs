@@ -340,15 +340,23 @@ namespace CFT.CSOMS.DAL.WechatPay
         /// <returns></returns>
         public DataSet QueryDeclareDogInfo(string partner, string transaction_id, string out_trade_no, string sub_order_no, string sub_order_id)
         {
+            if (string.IsNullOrEmpty(partner.Trim()) && string.IsNullOrEmpty(transaction_id.Trim()))
+            {
+                throw new Exception("商户号和支付单号不能同时为空！");
+            }
             string ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("CustomsIP", "10.123.6.29");
             int port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("CustomsPort", 443);
 
-            string requestText = "partner=" + partner;
-
+            string requestText = "1=1";
+            if (!string.IsNullOrEmpty(partner))
+            {
+                requestText += "&partner=" + partner;
+            }
             if (!string.IsNullOrEmpty(transaction_id))
             {
                 requestText += "&transaction_id=" + transaction_id;
             }
+
             if (!string.IsNullOrEmpty(out_trade_no))
             {
                 requestText += "&out_trade_no=" + out_trade_no;

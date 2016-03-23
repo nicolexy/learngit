@@ -1808,55 +1808,42 @@ namespace CFT.CSOMS.DAL.CFTAccount
             //查询一下用户认证信息 furion 20071227
             //au_query_auinfo_service 改成
             //au_qry_auth_status_service
-           /* string inmsg = "uin=" + qqid.Trim().ToLower();
-            inmsg += "&query_type=1";
-
-            string reply;
-            short sresult;
-
-            if (TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.middleInvoke("au_qry_auth_status_service", inmsg, false, out reply, out sresult, out msg))
+            try
             {
-                if (sresult != 0)
+                string ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("Relay_IP", "10.12.67.158");
+                int port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("Relay_PORT", 22000);
+
+                string inmsg = "uin=" + qqid.Trim().ToLower() + "&query_type=1";
+                string answer = RelayAccessFactory.RelayInvoke(inmsg, "8499", false, false, ip, port);
+                if (answer.StartsWith("result=0"))
                 {
-                    msg = "au_qry_auth_status_service接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply;
-                    return -1;
-                }
-                else
-                {
-                    if (reply.StartsWith("result=0"))
+                    Dictionary<string, string> dicReply = answer.ToDictionary('&', '=');
+                    int pass_bank_auth = int.Parse(dicReply["pass_bank_auth"].ToString().Trim());
+                    //在这取msg显示出来.
+                    if (pass_bank_auth == 1)
                     {
-
-                        Dictionary<string, string> dicReply = reply.ToDictionary('&', '=');
-                        int pass_bank_auth = int.Parse(dicReply["pass_bank_auth"].ToString().Trim());
-                        //在这取msg显示出来.
-                        if (pass_bank_auth == 1)
-                        {
-                            msg = "验证通过";
-                        }
-                        else 
-                        {
-                            msg = "未通过";
-                        }
-
-                        return pass_bank_auth;
+                        msg = "验证通过";
                     }
                     else
                     {
-                        msg = "au_qry_auth_status_service接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply;
-                        return -1;
+                        msg = "未通过";
                     }
+
+                    return pass_bank_auth;
+                }
+                else
+                {
+                    msg = "查询实名认证接口失败，请求串：" + inmsg + "。返回串：" + answer;
+                    return -1;
                 }
             }
-            else
+            catch (Exception e) 
             {
-                msg = "au_qry_auth_status_service接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply;
+                msg = "查询实名认证接口失败，错误信息：" + e.Message;
                 return -1;
             }
-        }
 
-        #endregion
-        */
-
+             /*
             //查询一下用户认证信息 furion 20071227
             string inmsg = "uin=" + qqid.Trim().ToLower();
             inmsg += "&opr_type=3";
@@ -1920,9 +1907,11 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 msg = "au_query_auinfo_service接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply;
                 return -1;
             }
+              */ 
         }
 
         #endregion
+
     }
 
     #region 异常姓名类

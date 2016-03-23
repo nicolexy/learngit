@@ -415,17 +415,20 @@ namespace CFT.CSOMS.BLL.WechatPay
         /// <returns></returns>
         public DataSet QueryDeclareDogInfo(string partner, string transaction_id, string out_trade_no, string sub_order_no, string sub_order_id)
         {
-            if (string.IsNullOrEmpty(partner.Trim()))
+            if (string.IsNullOrEmpty(partner.Trim()) && string.IsNullOrEmpty(transaction_id.Trim())) 
             {
-                throw new Exception("商户号不能为空！");
+                throw new Exception("商户号和支付单号不能同时为空！");
             }
-            if (string.IsNullOrEmpty(transaction_id.Trim()) &&
-                string.IsNullOrEmpty(out_trade_no.Trim()) &&
+            else if (string.IsNullOrEmpty(transaction_id.Trim()) && !string.IsNullOrEmpty(partner.Trim()))
+            {
+                if (string.IsNullOrEmpty(out_trade_no.Trim()) &&
                 string.IsNullOrEmpty(sub_order_no.Trim()) &&
                 string.IsNullOrEmpty(sub_order_id.Trim()))
-            {
-                throw new Exception("支付单号,商户订单号,子商户订单号,子支付单号不能同时为空！");
+                {
+                    throw new Exception("根据商户号查询时：商户订单号,子商户订单号,子支付单号不能同时为空！");
+                }
             }
+            
 
             DataSet ds = new TradePayData().QueryDeclareDogInfo(partner, transaction_id, out_trade_no, sub_order_no, sub_order_id);
             if (ds != null && ds.Tables.Count != 0)

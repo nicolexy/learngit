@@ -237,9 +237,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 else
                 {                  
                     SetBtnEnabledState(false, 0);
-                    lbKfCheckTime.Text = lbKfCheckName.Text = lbKfCheckReason.Text = null;
-                    lbBgCheckTime.Text = lbBgCheckName.Text = lbBgCheckReason.Text = null;
-                    lbFengCheckTime.Text = lbFengCheckName.Text = lbFengCheckReason.Text = null;
+                    rep_checkLogList.DataSource = null; //清空
+                    rep_checkLogList.DataBind();
+                    //lbKfCheckTime.Text = lbKfCheckName.Text = lbKfCheckReason.Text = null;
+                    //lbBgCheckTime.Text = lbBgCheckName.Text = lbBgCheckReason.Text = null;
+                    //lbFengCheckTime.Text = lbFengCheckName.Text = lbFengCheckReason.Text = null;
                     log.InfoFormat("为空:strCheckId={0}", strCheckId);
                 }
                 
@@ -313,35 +315,64 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             DataSet curDsData = chkService.GetCheckLogByType(ViewState["checkId"].ToString(), 1);
             if (curDsData != null && curDsData.Tables.Count > 0 && curDsData.Tables[0].Rows.Count > 0)
             {
-                foreach (DataRow dr in curDsData.Tables[0].Rows)
+                var dt = curDsData.Tables[0];
+                if (DateTime.Today > new DateTime(2016, 03, 23)) // 因为取消了 原一级审批(客服审批的功能), 所以在这个时间段以后的审批记录对应FLevel其实是向前位移了以为的
                 {
-                    switch (dr["FLevel"].ToString().Trim())
+                    foreach (DataRow item in dt.Rows)
                     {
-                        case "1":
-                            {
-                                lbKfCheckTime.Text = dr["FCheckTime"].ToString();
-                                lbKfCheckName.Text = dr["FCheckuser"].ToString();
-                                lbKfCheckReason.Text = dr["FCheckMemo"].ToString();
-                                break;
-                            }
-                        case "2":
-                            {
-                                lbBgCheckTime.Text = dr["FCheckTime"].ToString();
-                                lbBgCheckName.Text = dr["FCheckuser"].ToString();
-                                lbBgCheckReason.Text = dr["FCheckMemo"].ToString();
-                                break;
-                            }
-                        case "3":
-                            {
-                                lbFengCheckTime.Text = dr["FCheckTime"].ToString();
-                                lbFengCheckName.Text = dr["FCheckuser"].ToString();
-                                lbFengCheckReason.Text = dr["FCheckMemo"].ToString();
-                                break;
-                            }
-                        default:
-                            break;
+                        switch (item["FLevel"].ToString().Trim())
+                        {
+                            case "1": item["CheckTypeName"] = "BG审核"; break;
+                            case "2": item["CheckTypeName"] = "风控审核"; break;
+                            default: item["CheckTypeName"] = "审批等级错误" + item["FLevel"].ToString(); break;
+                        }
                     }
                 }
+                else 
+                {
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        switch (item["FLevel"].ToString().Trim())
+                        {
+                            case "1": item["CheckTypeName"] = "客服审核"; break;
+                            case "2": item["CheckTypeName"] = "BG审核"; break;
+                            case "3": item["CheckTypeName"] = "风控审核"; break;
+                            default: item["CheckTypeName"] = "审批等级错误" + item["FLevel"].ToString(); break;
+                        }
+                    }
+                }
+                dt.DefaultView.Sort = "FLevel asc";
+                rep_checkLogList.DataSource = dt.DefaultView;
+                rep_checkLogList.DataBind();
+                //foreach (DataRow dr in curDsData.Tables[0].Rows)
+                //{
+                //    switch (dr["FLevel"].ToString().Trim())
+                //    {
+                //        case "1":
+                //            {
+                //                lbKfCheckTime.Text = dr["FCheckTime"].ToString();
+                //                lbKfCheckName.Text = dr["FCheckuser"].ToString();
+                //                lbKfCheckReason.Text = dr["FCheckMemo"].ToString();
+                //                break;
+                //            }
+                //        case "2":
+                //            {
+                //                lbBgCheckTime.Text = dr["FCheckTime"].ToString();
+                //                lbBgCheckName.Text = dr["FCheckuser"].ToString();
+                //                lbBgCheckReason.Text = dr["FCheckMemo"].ToString();
+                //                break;
+                //            }
+                //        case "3":
+                //            {
+                //                lbFengCheckTime.Text = dr["FCheckTime"].ToString();
+                //                lbFengCheckName.Text = dr["FCheckuser"].ToString();
+                //                lbFengCheckReason.Text = dr["FCheckMemo"].ToString();
+                //                break;
+                //            }
+                //        default:
+                //            break;
+                //    }
+                //}
             }
         }
 

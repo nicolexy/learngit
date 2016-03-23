@@ -43,6 +43,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CFT.Apollo.log4net.1.0.0.15\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -125,6 +129,10 @@
     <ProjectReference Include="..\CFT.CSOMS.DAL\CFT.CSOMS.DAL.csproj">
       <Project>{6c10b34d-4b02-4f2c-a964-8955677a5213}</Project>
       <Name>CFT.CSOMS.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CFT.CSOMS.Models\CFT.CSOMS.Models.csproj">
+      <Project>{a229be06-1171-4e86-bc9f-750d3b49bd51}</Project>
+      <Name>CFT.CSOMS.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\COMMLIB\commLib.csproj">
       <Project>{c747901f-7ee1-4aed-ab7b-547c6aec99a0}</Project>

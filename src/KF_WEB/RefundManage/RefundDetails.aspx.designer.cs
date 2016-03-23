@@ -283,85 +283,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage {
         protected global::System.Web.UI.WebControls.Label kfOperator;
         
         /// <summary>
-        /// lbKfCheckTime control.
+        /// rep_checkLogList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbKfCheckTime;
-        
-        /// <summary>
-        /// lbKfCheckName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbKfCheckName;
-        
-        /// <summary>
-        /// lbKfCheckReason control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbKfCheckReason;
-        
-        /// <summary>
-        /// lbBgCheckTime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbBgCheckTime;
-        
-        /// <summary>
-        /// lbBgCheckName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbBgCheckName;
-        
-        /// <summary>
-        /// lbBgCheckReason control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbBgCheckReason;
-        
-        /// <summary>
-        /// lbFengCheckTime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbFengCheckTime;
-        
-        /// <summary>
-        /// lbFengCheckName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbFengCheckName;
-        
-        /// <summary>
-        /// lbFengCheckReason control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbFengCheckReason;
+        protected global::System.Web.UI.WebControls.Repeater rep_checkLogList;
         
         /// <summary>
         /// lbHistory1 control.

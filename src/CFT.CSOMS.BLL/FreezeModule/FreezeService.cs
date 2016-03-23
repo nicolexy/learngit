@@ -96,6 +96,18 @@ namespace CFT.CSOMS.BLL.FreezeModule
                     {
                         dr["strFfreeze_channel"] = "涉嫌可疑交易冻结";
                     }
+                    else if (tmp == "7")
+                    {
+                        dr["strFfreeze_channel"] = "ivr自助冻结";
+                    }
+                    else if (tmp == "8")
+                    {
+                        dr["strFfreeze_channel"] = "公众号自助冻结";
+                    }
+                    else if (tmp == "9")
+                    {
+                        dr["strFfreeze_channel"] = "微信安全";
+                    }
                     else
                     {
                         dr["strFfreeze_channel"] = "无冻结渠道";
