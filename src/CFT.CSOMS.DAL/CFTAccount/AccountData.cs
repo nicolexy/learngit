@@ -1808,7 +1808,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
             //查询一下用户认证信息 furion 20071227
             //au_query_auinfo_service 改成
             //au_qry_auth_status_service
-            string inmsg = "uin=" + qqid.Trim().ToLower();
+           /* string inmsg = "uin=" + qqid.Trim().ToLower();
             inmsg += "&query_type=1";
 
             string reply;
@@ -1855,7 +1855,74 @@ namespace CFT.CSOMS.DAL.CFTAccount
         }
 
         #endregion
+        */
 
+            //查询一下用户认证信息 furion 20071227
+            string inmsg = "uin=" + qqid.Trim().ToLower();
+            inmsg += "&opr_type=3";
+
+            string reply;
+            short sresult;
+
+            if (TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.middleInvoke("au_query_auinfo_service", inmsg, false, out reply, out sresult, out msg))
+            {
+                if (sresult != 0)
+                {
+                    msg = "au_query_auinfo_service接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply;
+                    return -1;
+                }
+                else
+                {
+                    if (reply.StartsWith("result=0"))
+                    {
+                        //在这取msg显示出来.
+                        int iindex = reply.IndexOf("state=");
+                        if (iindex > 0)
+                        {
+                            iindex = Int32.Parse(reply.Substring(iindex + 6, 1));
+                            if (iindex == 0)
+                            {
+                                msg = "未验证";
+                            }
+                            else if (iindex == 1)
+                            {
+                                msg = "验证通过";
+                            }
+                            else if (iindex == 2)
+                            {
+                                msg = "身份验证中";
+                            }
+                            else if (iindex == 3)
+                            {
+                                msg = "验证失败,不可再申请";
+                            }
+                            else if (iindex == 4)
+                            {
+                                msg = "验证失败,可再申请";
+                            }
+                            else
+                            {
+                                msg = "未定义类型" + iindex;
+                            }
+                        }
+
+                        return iindex;
+                    }
+                    else
+                    {
+                        msg = "au_query_auinfo_service接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply;
+                        return -1;
+                    }
+                }
+            }
+            else
+            {
+                msg = "au_query_auinfo_service接口失败：result=" + sresult + "，msg=" + msg + "&reply=" + reply;
+                return -1;
+            }
+        }
+
+        #endregion
     }
 
     #region 异常姓名类
