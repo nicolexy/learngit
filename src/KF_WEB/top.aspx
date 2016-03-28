@@ -27,7 +27,7 @@
 </head>
 <body ms_positioning="GridLayout">
     <iframe width="0" height="0" frameborder="0" style="display: none" id="iframe_CheckLogin"></iframe>
-		<form id="Form1" method="post" runat="server">
+		<form id="Form1" method="post" runat="server"> 
         <uc1:CFTHeader ID="CFTHeader1" runat="server"></uc1:CFTHeader>
 			<hr>
 		</form>

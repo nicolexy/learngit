@@ -316,6 +316,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             if (curDsData != null && curDsData.Tables.Count > 0 && curDsData.Tables[0].Rows.Count > 0)
             {
                 var dt = curDsData.Tables[0];
+                dt.Columns.Add("CheckTypeName");
                 if (DateTime.Today > new DateTime(2016, 03, 23)) // 因为取消了 原一级审批(客服审批的功能), 所以在这个时间段以后的审批记录对应FLevel其实是向前位移了以为的
                 {
                     foreach (DataRow item in dt.Rows)
