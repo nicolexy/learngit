@@ -106,6 +106,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch (Exception eSys)
             {
+                LogError("TENCENT.OSS.CFT.KF.KF_Web.TradeManage.BankOrderListQuery", "   private void bind(string UinListId, string BankListId, string begindate, string enddate)", eSys);
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
                 return;
             }
@@ -565,8 +566,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 List<DataSet> listD = new List<DataSet>();
                 for (int i = 0; i < iRows; i++)
                 {
-                    string r1 = res_dt.Rows[i][0].ToString().Trim();//财付通订单
-                    string r2 = res_dt.Rows[i][1].ToString().Trim();//银行订单号
+                    string r1 = res_dt.Rows[i][0].ToString().Trim();//银行订单号
+                    string r2 = res_dt.Rows[i][1].ToString().Trim();//财付通订单
                     string r3 = res_dt.Rows[i][2].ToString().Trim();//开始日期
                     string r4 = res_dt.Rows[i][3].ToString().Trim();//结束日期XZ 
                     if (string.IsNullOrEmpty(r1) && string.IsNullOrEmpty(r2)) break;
@@ -600,6 +601,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch (Exception eSys)
             {
+                LogError("TENCENT.OSS.CFT.KF.KF_Web.TradeManage.BankOrderListQuery", "  private DataSet SearchMore()", eSys);
                 throw new Exception("读取数据失败！" +eSys.Message.ToString());
             }
         }
@@ -687,6 +689,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             catch (Exception eSys)
             {
+                LogError("TENCENT.OSS.CFT.KF.KF_Web.TradeManage.BankOrderListQuery", " public void btnSearchMore_Click(object sender, System.EventArgs e)", eSys);
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
                 return;
             }
@@ -721,12 +724,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 Response.Clear();
                 Response.AddHeader("Content-Disposition", "attachment; filename=" + HttpUtility.UrlEncode("银行订单批量查询", Encoding.UTF8) + ".xls");
                 Response.ContentType = "application/ms-excel";
-                Response.ContentEncoding = Encoding.UTF8;
+                Response.ContentEncoding = System.Text.Encoding.Default;
+                Response.Charset = "UTF-8";  
                 Response.Write(sw);
                 Response.End();
             }
             catch (Exception eSys)
             {
+                LogError("TENCENT.OSS.CFT.KF.KF_Web.TradeManage.BankOrderListQuery", "  private void BindDataOutExcel()", eSys);
                 WebUtils.ShowMessage(this.Page, "导出数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString())); return;
             }
         }
