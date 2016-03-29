@@ -125,7 +125,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 }
 
 
-                string reqServerUrl = ConfigurationManager.AppSettings["MobileRechageQueryUrl"] ?? "http://chong.cm.com/index.php/api/recovercarddeal/getDealList?";
+                string reqServerUrl = ConfigurationManager.AppSettings["MobileRechageQueryUrl"] ?? "http://chong.cm.com:8080/index.php/api/recovercarddeal/getDealList?";
                 string auth_cm_com_session_key = string.Empty;
                 if (Session["SzKey"] != null)
                 {
