@@ -401,9 +401,9 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
         /// <param name="limit"></param>
         /// <param name="client_ip"></param>
         /// <returns></returns>
-        public DataTable QueryFetchInfo(string uid, string stime, string etime, int offset, int limit, string client_ip)
+        public DataTable QueryFetchInfo(string uid, string stime, string etime, int offset, int limit, string client_ip, string coding = "")
         {
-            DataTable dt = dal.QueryFetchInfo(uid, stime, etime, offset, limit, client_ip);
+            DataTable dt = dal.QueryFetchInfo(uid, stime, etime, offset, limit, client_ip, coding);
             if (dt != null)
             {
                 foreach (DataRow row in dt.Rows)
