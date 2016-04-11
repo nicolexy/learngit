@@ -211,6 +211,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 DataSet ds = new FastPayService().QueryBankCardNewList(1,ViewState["fpay_acc"].ToString(), ViewState["Date"].ToString(), ViewState["bank_type"].ToString(), int.Parse(this.ddlBizType.SelectedValue), start, max);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
+                    DataTable dt = ds.Tables[0];
+                    dt.Columns.Add("Furl", typeof(string));
+
+                    foreach(DataRow dr in dt.Rows)
+                    {
+                        string url ="../TradeManage/FundQueryNew.aspx?from=toBank&czID=" + dr["fbank_order"].ToString() ;
+                        url = url + (!string.IsNullOrEmpty(TextBoxDate.Text.Trim())
+                            ? "&checkdate=" + Convert.ToDateTime(TextBoxDate.Text.Trim()).ToString("yyyyMMdd") : "");
+
+                        dr["Furl"] = url;
+                    }
+
                     DataGrid1.DataSource = ds.Tables[0].DefaultView;
                     DataGrid1.DataBind();
                 }

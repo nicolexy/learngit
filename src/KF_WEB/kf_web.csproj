@@ -2759,6 +2759,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="WebchatPay\CrossBorderRemittances.aspx.cs">
+      <DependentUpon>CrossBorderRemittances.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebchatPay\CrossBorderRemittances.aspx.designer.cs">
+      <DependentUpon>CrossBorderRemittances.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WebchatPay\CustomsApplicationQuery.aspx.cs">
       <DependentUpon>CustomsApplicationQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3416,6 +3423,7 @@
     <Content Include="SpSettle\SettleRuleQuery.aspx" />
     <Content Include="SpSettle\SettleReqDetail.aspx" />
     <Content Include="SpSettle\SettleReqQuery.aspx" />
+    <Content Include="Styles\common.css" />
     <Content Include="Styles\local.css" />
     <Content Include="Styles\ossstyle.css" />
     <Content Include="Styles\style.css" />
@@ -3873,6 +3881,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="WebchatPay\CrossBorderRemittances.aspx" />
     <Content Include="WebchatPay\CustomsApplicationQuery.aspx" />
     <Content Include="WebchatPay\CustomsBatchRedeclare.aspx" />
     <Content Include="WebchatPay\CustomsPushingQuery.aspx" />

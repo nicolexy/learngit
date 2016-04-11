@@ -527,5 +527,63 @@ namespace CFT.CSOMS.BLL.WechatPay
                 return "";
             }
         }
+
+        public DataTable CrossBorderRemittances(string WeChatId, string s_phone_no, string wx_pay_id, string wx_pay_state,
+                                               string remit_type, string start_date, string end_date, int offset, int limit)
+        {
+            #region  数据验证
+            string s_openid = "";
+            if (string.IsNullOrEmpty(WeChatId) && string.IsNullOrEmpty(s_phone_no) && string.IsNullOrEmpty(wx_pay_id))
+            {
+                throw new Exception("微信号，手机号码，支付单号不能同时为空！");
+            }
+            if (!string.IsNullOrEmpty(WeChatId) )
+            {
+                if ((string.IsNullOrEmpty(start_date) || string.IsNullOrEmpty(end_date)))
+                {
+                    throw new Exception("根据微信号查询时，起始时间和结束时间不能为空！");
+                }
+                try
+                {
+//#if DEBUG
+//                    s_openid = WeChatId;
+//#endif
+                    s_openid = WeChatHelper.GetHBOpenIdFromWeChatName(WeChatId);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("微信号转openid失败:" + ex.Message);
+                }
+            }
+            if (!string.IsNullOrEmpty(s_phone_no) && (string.IsNullOrEmpty(start_date) || string.IsNullOrEmpty(end_date)))
+            {
+                throw new Exception("根据手机号码查询时，起始时间和结束时间不能为空！");
+            }
+
+            if (!string.IsNullOrEmpty(start_date) && !string.IsNullOrEmpty(end_date))
+            {
+                DateTime stime = Convert.ToDateTime(start_date);
+                DateTime etime = Convert.ToDateTime(end_date);
+
+                if (stime.AddDays(30) < etime)
+                {
+                    throw new Exception("时间返回不能超过一个月!");
+                }
+
+                start_date = stime.ToString("yyyy-MM-dd");
+                end_date = etime.ToString("yyyy-MM-dd");
+            }
+            #endregion
+
+            DataTable dt = new TradePayData().CrossBorderRemittances(s_openid, s_phone_no, wx_pay_id, wx_pay_state,
+                                               remit_type, start_date, end_date, offset, limit);
+
+            //dt.Columns.Add("remit_type", typeof(string));
+            //dt.Columns.Add("wx_pay_state", typeof(string));
+            //dt.Columns.Add("r_bank_type", typeof(string));
+            //dt.Columns.Add("", typeof(string));
+
+            return dt;
+        }
     }
 }

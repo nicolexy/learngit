@@ -795,11 +795,11 @@ namespace CFT.CSOMS.BLL.TradeModule
         /// <param name="istr"></param>
         /// <param name="imax"></param>
         /// <returns></returns>
-        public DataSet GetBankRollListByListId(string u_ID, string u_QueryType, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,
-              float fnum, float fnumMax, string banktype, string sorttype, int iPageStart, int iPageMax)
+        public DataSet GetBankRollListByListId(string u_ID, string u_QueryType, int? fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,
+              float? fnum, float? fnumMax, string banktype, int iPageStart, int iPageMax,string uid="")
         {
             DataSet ds = new TradeData().GetBankRollListByListId_New(u_ID, u_QueryType, fcurtype, u_BeginTime, u_EndTime,
-                            fstate, fnum, fnumMax, banktype, sorttype, iPageStart, iPageMax);
+                            fstate, fnum, fnumMax, banktype, iPageStart, iPageMax, uid);
 
             if ((u_QueryType == "toBank" || u_QueryType == "BankBack") && !u_ID.ToUpper().StartsWith("CFT"))
             {
@@ -807,7 +807,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                 {
                     string newUID = "CFT0" + i.ToString() + u_ID;
                     DataSet tmpDS = new TradeData().GetBankRollListByListId_New(newUID, u_QueryType, fcurtype, u_BeginTime, u_EndTime,
-                                        fstate, fnum, fnumMax, banktype, sorttype, iPageStart, iPageMax);
+                                        fstate, fnum, fnumMax, banktype, iPageStart, iPageMax, uid);
 
                     if (tmpDS != null && tmpDS.Tables.Count > 0 && tmpDS.Tables[0].Rows.Count > 0)
                     {
@@ -1163,9 +1163,9 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             return (new TradeData()).GetManJianUsingList(u_ID, u_IDType, u_BeginTime, u_EndTime, banktype, istr, imax);
         }
-        public DataSet Q_PAY_LIST(string strID, int iIDType, DateTime dtBegin, DateTime dtEnd, int istr, int imax)
+        public DataSet Q_PAY_LIST(string strID, int iIDType, DateTime dtBegin, DateTime dtEnd, int istr, int imax,string fuid="")
         {
-            return (new TradeData()).Q_PAY_LIST(strID, iIDType, dtBegin, dtEnd, istr, imax);
+            return (new TradeData()).Q_PAY_LIST(strID, iIDType, dtBegin, dtEnd, istr, imax, fuid);
         }
         public DataSet MediListQueryClass(string u_ID, string Fcode, string strBeginTime, string strEndTime, string u_UserFilter
           , string u_OrderBy, int limStart, int limCount)

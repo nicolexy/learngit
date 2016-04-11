@@ -506,8 +506,8 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
         }
 
-        public DataSet GetBankRollListByListId_New(string u_ID, string u_QueryType, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,
-          float fnum, float fnumMax, string banktype, string sorttype, int iPageStart, int iPageMax)
+        public DataSet GetBankRollListByListId_New(string u_ID, string u_QueryType, int? fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,
+          float? fnum, float? fnumMax, string banktype, int iPageStart, int iPageMax, string uid="")
         {
             //celiafeng(冯心玲) 03-10 16:10:49
             //集成的接口我们目前没有合适的模块放，这个逻辑放在客服系统吧，就只有两个接口
@@ -519,9 +519,12 @@ namespace CFT.CSOMS.DAL.TradeModule
             {
                 DataSet ds = null;
                 string srtSql = "";
-                if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "qq")  //按照QQ号查询，注意使用内部uid
+                if (u_QueryType.ToLower() == "qq")  //按照QQ号查询，注意使用内部uid
                 {
-                    string uid = PublicRes.ConvertToFuid(u_ID);
+                    if (string.IsNullOrEmpty(uid))
+                    {
+                        uid = PublicRes.ConvertToFuid(u_ID);
+                    }
                     srtSql = "auid=" + uid;
                 }
                 else if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "tobank")  //给银行的订单号
@@ -540,14 +543,24 @@ namespace CFT.CSOMS.DAL.TradeModule
                 {
                     srtSql += "&sign=" + fstate;
                 }
-                long num = (long)Math.Round(fnum * 100, 0);
-                long numMax = (long)Math.Round(fnumMax * 100, 0);
-
-                srtSql += "&num_start=" + num + "&num_end=" + numMax;
+                if (fnum.HasValue)
+                {
+                    long num = (long)Math.Round(fnum.Value * 100, 0);
+                    srtSql += "&num_start=" + num;
+                }
+                if (fnumMax.HasValue)
+                {
+                    long numMax = (long)Math.Round(fnumMax.Value * 100, 0);
+                    srtSql += "&num_end=" + numMax;
+                }
 
                 if (banktype != "0000" && banktype != "")
                 {
                     srtSql += "&bank_type=" + banktype;
+                }
+                if (fcurtype.HasValue)
+                {
+                    srtSql += "&curtype=" + fcurtype.Value;
                 }
 
                 if (u_QueryType.ToLower() == "tobank")
@@ -576,7 +589,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                     while (u_EndTime >= u_BeginTime)
                     {
                         string truetime = u_EndTime.ToString("yyyyMMdd");
-                        string querstr = srtSql + "&query_day=" + truetime + "&curtype=" + fcurtype + "&strlimit=limit " + iPageStart + "," + iPageMax;
+                        string querstr = srtSql + "&query_day=" + truetime + "&strlimit=limit " + iPageStart + "," + iPageMax;
                         DataSet dsTemp = CommQuery.GetDataSetFromICE(querstr, CommQuery.QUERY_TCBANKROLL_DAY, out msg);
                         if (dsTemp != null && dsTemp.Tables.Count > 0 && dsTemp.Tables[0].Rows.Count > 0)
                         {
@@ -1198,10 +1211,13 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// <summary>
         /// iIDType=0,9,10,13
         /// </summary>
-        public DataSet Q_PAY_LIST(string strID, int iIDType, DateTime dtBegin, DateTime dtEnd, int istr, int imax)
+        public DataSet Q_PAY_LIST(string QQID, int iIDType, DateTime dtBegin, DateTime dtEnd, int istr, int imax,string fuid="")
         {
             DataSet ds = new DataSet();
-            string fuid = PublicRes.ConvertToFuid(strID);
+            if (string.IsNullOrEmpty(fuid))
+            {
+                fuid = PublicRes.ConvertToFuid(QQID); 
+            }
             //#if DEBUG
             //           fuid = strID;
             //#endif
