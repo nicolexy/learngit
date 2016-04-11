@@ -302,9 +302,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
         
         protected void FetchHandler(string query_uid, int offset, int limit)
         {
-           
-
-            var dt = bll.QueryFetchInfo(query_uid, ViewState["stime"].ToString(), ViewState["etime"].ToString(), offset, limit, ViewState["client_ip"].ToString()); 
+            var dt = bll.QueryFetchInfo(query_uid, ViewState["stime"].ToString(), ViewState["etime"].ToString(), offset, limit, ViewState["client_ip"].ToString(), "utf-8"); 
             if (dt == null || dt.Rows.Count < 1)
             {
                 WebUtils.ShowMessage(this.Page, "未找到记录");

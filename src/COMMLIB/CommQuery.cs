@@ -2220,6 +2220,46 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             return result;
         }
 
+        /// <summary>
+        /// json转datatable
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static DataTable JSONToDataTable(string json, string rowsName)
+        {
+            DataTable dataTable = new DataTable();  //实例化
+
+            JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+            javaScriptSerializer.MaxJsonLength = Int32.MaxValue; //取得最大数值
+            Dictionary<string, object> arrayList = javaScriptSerializer.DeserializeObject(json) as Dictionary<string, object>;
+            if (!arrayList.ContainsKey(rowsName))
+            {
+                throw new Exception("解析json失败：" + json);
+            }
+            else 
+            {
+                var rows = arrayList[rowsName] as  object[];
+                if (rows != null && rows.Count() > 0)
+                {
+                    dataTable.Columns.AddRange(((Dictionary<string, object>)rows[0]).Keys.Select(U => new DataColumn(U)).ToArray());
+                    foreach (Dictionary<string, object> item in rows)
+                    {
+                        DataRow dr = dataTable.NewRow();
+                        foreach (DataColumn  dc in dataTable.Columns )
+                        {
+                            dr[dc.ColumnName] = item[dc.ColumnName].ToString();
+                        }
+                        dataTable.Rows.Add(dr);
+
+                    }
+                }
+
+            }
+
+            return dataTable;
+        }
+
+
         #region 酒店订单查询cgi返回结果json之构造对象
         public struct ToHotelOrder
         {

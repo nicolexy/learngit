@@ -115,7 +115,10 @@
                     <HeaderStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#4A3C8C"></HeaderStyle>
                     <Columns>
                         <asp:BoundColumn DataField="fpay_acc" HeaderText="银行卡号"></asp:BoundColumn>
-                        <asp:BoundColumn DataField="fbank_order" HeaderText="银行订单号"></asp:BoundColumn>
+                        <asp:HyperLinkColumn DataNavigateUrlField="Furl"  DataTextField="fbank_order" HeaderText="银行订单号">
+														<ItemStyle Font-Underline="True" ForeColor="Blue"></ItemStyle>
+						</asp:HyperLinkColumn>
+                       <%-- <asp:BoundColumn DataField="fbank_order" HeaderText="银行订单号"></asp:BoundColumn>--%>
                         <asp:BoundColumn DataField="FamtStr" HeaderText="金额"></asp:BoundColumn>
                         <asp:BoundColumn DataField="Fbiz_type_str" HeaderText="业务状态"></asp:BoundColumn>
                     </Columns>

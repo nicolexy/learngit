@@ -565,5 +565,63 @@ namespace CFT.CSOMS.DAL.WechatPay
             }
             return dt;
         }
+
+        //跨境汇款
+        public DataTable CrossBorderRemittances(string s_openid, string s_phone_no, string wx_pay_id, string wx_pay_state,
+                                                    string remit_type, string start_date, string end_date, int offset, int limit)
+        {
+            // request_type=101742&ver=1&head_u=&sp_id=2000000000&end_date=2015-12-30&limit=1&offset=0&remit_type=1&s_openid=ocFrljmJJnec4nIb0odhaGaOd4a0&start_date=2015-11-30&MSG_NO=13551036714533431660000000002
+            //result=0&res_info={"rownum":"1","rows":[{"accept_time":"2015-12-30 14:24:31","cny_amount":"9386","cur_type":"CAD","fee_amount":"55","fetch_time":"0000-00-00 00:00:00","fx_amount":"2000","fx_rate":"469280000000","pay_amount":"9441","pay_state":"13","pay_time":"2015-12-30 14:19:10","purpose":"1","r_address":"","r_bank_acc":"","r_bank_code":"","r_bank_name":"","r_bank_type":"","r_email":"","r_name":"{\"first_name\":\"\",\"last_name\":\"\"}\n","r_phone_no":"","remit_state":"13","remit_type":"1","s_address":"{\"city\":\"天津市\",\"district\":\"武清区\",\"province\":\"天津\",\"street\":\"一定会接电话的\"}\n","s_dob":"","wx_pay_id":"1010110543201512300001144529"}]}
+
+            DataTable dt = null;
+            string ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("CrossBorder_RelayIP", "10.123.6.29");
+            int port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("CrossBorder_RelayPORT", 35600);
+            string requesttext = "offset=" + offset + "&limit=" + limit;
+            if (!string.IsNullOrEmpty(s_openid))
+            {
+                requesttext += "&s_openid=" + s_openid;
+            }
+            if (!string.IsNullOrEmpty(s_phone_no))
+            {
+                requesttext += "&s_phone_no=" + s_phone_no;
+            }
+            if (!string.IsNullOrEmpty(wx_pay_id))
+            {
+                requesttext += "&wx_pay_id=" + wx_pay_id;
+            }
+            if (!string.IsNullOrEmpty(wx_pay_state))
+            {
+                requesttext += "&wx_pay_state=" + wx_pay_state;
+            }
+            if (!string.IsNullOrEmpty(remit_type))
+            {
+                requesttext += "&remit_type=" + remit_type;
+            }
+            if (!string.IsNullOrEmpty(start_date))
+            {
+                requesttext += "&start_date=" + start_date;
+            }
+            if (!string.IsNullOrEmpty(end_date))
+            {
+                requesttext += "&end_date=" + end_date;
+            }
+            requesttext += "&MSG_NO=101742" + DateTime.Now.Ticks.ToString();
+//#if DEBUG
+//            requesttext = "request_type=101742&ver=1&head_u=&sp_id=2000000000&end_date=2015-12-30&limit=1&offset=0&remit_type=1&s_openid=ocFrljmJJnec4nIb0odhaGaOd4a0&start_date=2015-11-30&MSG_NO=13551036714533431660000000002";
+//#endif
+            string answer = RelayAccessFactory.RelayInvoke(requesttext, "101742", false, false, ip, port, "");
+
+            if (answer.Contains("result=0&res_info="))
+            {
+                Dictionary<string, string> dic_answer = answer.ToDictionary('&', '=');
+                dt = CommQuery.JSONToDataTable(dic_answer["res_info"], "rows");
+            }
+            else
+            {
+                throw new Exception("请求串:" + requesttext + ";返回串：" + answer);
+            }
+            return dt;
+
+        }
     }
 }

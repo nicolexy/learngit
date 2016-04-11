@@ -14,6 +14,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 using System.Web.Services.Protocols;
 using TENCENT.OSS.CFT.KF.Common;
 using CFT.CSOMS.BLL.TransferMeaning;
+using CFT.CSOMS.BLL.TradeModule;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
@@ -38,47 +39,50 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			}
 
 			if(!IsPostBack)
-			{
-				string tdeid = Request.QueryString["tdeid"];
-				string type =Request.QueryString["type"];
+			{	
+                //string tdeid = Request.QueryString["tdeid"];
+                //string type =Request.QueryString["type"];
 				
 
 
-				if(tdeid == null || tdeid.Trim() == "")
-				{
-					WebUtils.ShowMessage(this.Page,"参数有误！");
-                    return;
-				}
+                //if(tdeid == null || tdeid.Trim() == "")
+                //{
+                //    WebUtils.ShowMessage(this.Page,"参数有误！");
+                //    return;
+                //}
 
 				try
 				{
-					if(type!=null && type!="")
-					{
-						if(type.Trim()=="subacc")//子帐户充值查询查核心
-						{
-							string fcurtype=Request.QueryString["curtype"];
-							if(fcurtype==null || fcurtype=="")
-							{
-								WebUtils.ShowMessage(this.Page,"参数有误！币种为空");
-								return;
-							}
-							BindInfo(tdeid,"","","",fcurtype,"","","","");
-						}
+                    string fpay_front_time = Request.QueryString["fpay_front_time"];
+                    string listid = Request.QueryString["listid"];
+                    BindInfo(listid, fpay_front_time);
+                    //if(type!=null && type!="")
+                    //{
+                    //    if(type.Trim()=="subacc")//子帐户充值查询查核心
+                    //    {
+                    //        string fcurtype=Request.QueryString["curtype"];
+                    //        if(fcurtype==null || fcurtype=="")
+                    //        {
+                    //            WebUtils.ShowMessage(this.Page,"参数有误！币种为空");
+                    //            return;
+                    //        }
+                    //        BindInfo(tdeid,"","","",fcurtype,"","","","");
+                    //    }
 
 
-					}
-					else
-					{
+                    //}
+                    //else
+                    //{
 				
-						string listid=Request.QueryString["listid"];
-						string begintime = Request.QueryString["begintime"];
-						string endtime = Request.QueryString["endtime"];
-						string fpay_front_time=Request.QueryString["fpay_front_time"];
-						string fbank_type=Request.QueryString["Fbank_type"];
-						string fbank_list=Request.QueryString["Fbank_list"];
-                        string fhis_flag = Request.QueryString["FHistoryFlag"];
-                        BindInfo(tdeid, listid, begintime, endtime, "", fpay_front_time, fbank_type, fbank_list, fhis_flag);
-					}
+                    //    string listid=Request.QueryString["listid"];
+                    //    string begintime = Request.QueryString["begintime"];
+                    //    string endtime = Request.QueryString["endtime"];
+                    //    string fpay_front_time=Request.QueryString["fpay_front_time"];
+                    //    string fbank_type=Request.QueryString["Fbank_type"];
+                    //    string fbank_list=Request.QueryString["Fbank_list"];
+                    //    string fhis_flag = Request.QueryString["FHistoryFlag"];
+                    //    BindInfo(tdeid, listid, begintime, endtime, "", fpay_front_time, fbank_type, fbank_list, fhis_flag);
+                    //}
 				}
 				catch(LogicException err)
 				{
@@ -96,7 +100,46 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			}
 		}
 
+        private void BindInfo(string listid, string fpay_front_time)
+        {
 
+            DataSet ds = null;
+            DateTime fpaytime = Convert.ToDateTime(fpay_front_time);
+
+            ds = new TradeService().GetBankRollListByListId(listid, "czd", null, fpaytime, fpaytime, 0, null, null, "", 0, 1);
+
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                DataRow dr = ds.Tables[0].Rows[0];
+                labFListID.Text = PublicRes.GetString(dr["FListID"]);
+
+                long itmp = long.Parse(PublicRes.GetString(dr["FNum"]));
+
+                //furion 20051012 分元转换专用章
+                //float ltmp = (float)itmp/100;
+                double ltmp = MoneyTransfer.FenToYuan(itmp);
+
+                labFNum.Text = ltmp.ToString();
+
+                string tmp = PublicRes.GetInt(dr["FState"]);
+                labFState.Text = Transfer.returnDicStr("TCLIST_STATE", tmp);
+
+                tmp = PublicRes.GetInt(dr["Fsign"]);
+                labFSign.Text = Transfer.returnDicStr("TCLIST_SIGN", tmp);
+
+
+                labFBank_List.Text = PublicRes.GetString(dr["FBank_List"]);
+                labFBank_Acc.Text = PublicRes.GetString(dr["FBank_Acc"]);
+                labFBank_Type.Text = PublicRes.GetString(Transfer.returnDicStr("BANK_TYPE", PublicRes.GetInt(dr["FBank_Type"])));
+
+                labFaid.Text = PublicRes.GetString(dr["faid"]);
+                labFaname.Text = PublicRes.GetString(dr["faname"]);
+                labFpay_front_time.Text = PublicRes.GetDateTime(dr["Fpay_front_time"]);
+                labFbank_time.Text = PublicRes.GetDateTime(dr["FBank_Time"]);
+                labFmodify_time.Text = PublicRes.GetDateTime(dr["FModify_time"]);
+            }
+        }
+        /*
 		private void BindInfo(string tdeid, string listid,string begintime, string endtime,string fcurtype,string fpay_front_time,string fbank_type,string fbank_list, string his_flag)
 		{
 
@@ -198,7 +241,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			
 			}
 		}
-
+        */
 		#region Web 窗体设计器生成的代码
 		override protected void OnInit(EventArgs e)
 		{
