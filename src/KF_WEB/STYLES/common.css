@@ -1,0 +1,74 @@
+﻿
+a {
+    color:black
+}
+a:hover
+{ 
+color:red;
+}
+
+.container {
+    width: 1100px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.style_title {
+    padding-top: 8px;
+    vertical-align: middle;
+    height: 35px;
+    text-align: left;
+    background: #D7D7D7;
+    color: #1462AD;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: "Microsoft YaHei";
+    border: 1px solid #CCCCCC;
+    border-bottom-width:0;
+}
+
+.container caption {
+    padding-top: 5px;
+    padding-left: 5px;
+    vertical-align: middle;
+    height: 25px;
+    text-align: left;
+    color: #646464;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: "Microsoft YaHei";
+    border: 1px solid #CCCCCC;
+    border-bottom-width: 0px;
+}
+
+.container table {
+    width: 100%;
+    background-color: #CCCCCC;
+    border-width: 2px;
+    font-family: "Microsoft YaHei";
+    font-size: 12px;
+    border-width:0;
+}
+
+.container td, .container th {
+    background: #fff;
+    height: 20px;
+    padding: 2px 4px;
+}
+
+.tb_query_title {
+    text-align: right;
+    font-weight: bold;
+}
+.datagrid td {
+    text-align:center;
+}
+.datagrid .th td {
+    background: #D7D7D7;
+    color: #1462AD;
+    font-weight:bold;
+}
+
+select {
+     height:24px;
+}

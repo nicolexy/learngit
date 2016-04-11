@@ -76,6 +76,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 try
                 {
                     string selectStr = Session["QQID"].ToString();
+                    string fuid = Session["fuid"].ToString();
                     DateTime beginTime = DateTime.Now.AddDays(-PublicRes.PersonInfoDayCount);
                     DateTime endTime = DateTime.Now.AddDays(1);
                     int pageSize = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["pageSize"].ToString());
@@ -106,7 +107,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                     if (iusertype >= 0)
                     {
-                        DS_TradeLog = classLibrary.setConfig.returnDataSet(selectStr, 1, beginTime, endTime, iusertype, "GetPayList", istr, imax, Session["uid"].ToString(), Request.UserHostAddress);
+                        //if (u_IDType == 0 || u_IDType == 9 || u_IDType == 10 || u_IDType == 13)
+                        DS_TradeLog = new TradeService().Q_PAY_LIST(selectStr, 0, beginTime, endTime, istr, imax, fuid);
+                        //DS_TradeLog = classLibrary.setConfig.returnDataSet(selectStr, 1, beginTime, endTime, iusertype, "GetPayList", istr, imax, Session["uid"].ToString(), Request.UserHostAddress);
                     }
                     else
                     {

@@ -85,12 +85,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 {
                     this.dpLst.SelectedValue = "BankBack";
                 }
+                if (Request.QueryString["from"] != null && Request.QueryString["from"].ToString() == "toBank")
+                {
+                    this.dpLst.SelectedValue = "toBank";
+                }
                 else
                 {
                     this.dpLst.SelectedValue = "czd";
                 }
 
-                string ID = Request.QueryString["czID"].ToString().Trim();
+                tbQQID.Text = Request.QueryString["czID"].ToString().Trim();
                 //				this.CheckBox1.Checked=true;
                 TextBoxBeginDate.Text = "2009-01-01 00:00:00";
                 TextBoxEndDate.Text = "2009-01-01 00:00:00";
@@ -375,7 +379,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             }
             DataSet ds = null;
 
-            ds = new TradeService().GetBankRollListByListId(u_ID, queryType, fcurtype, begindate, enddate, fstate, fnum, fnumMax, banktype, sorttype, newstart, newmax);
+            ds = new TradeService().GetBankRollListByListId(u_ID, queryType, fcurtype, begindate, enddate, fstate, fnum, fnumMax, banktype,  newstart, newmax);
 
             if (ds != null && ds.Tables.Count > 0)
             {

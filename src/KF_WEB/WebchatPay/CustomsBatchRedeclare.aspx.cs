@@ -100,7 +100,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                     try
                     {
                         string reqfather = "partner=" + drs[0]["F1"].ToString().Trim();
-                        reqfather += "&customs_company_code=" + drs[0]["F2"].ToString().Trim();
+                        if (!string.IsNullOrEmpty(drs[0]["F2"].ToString().Trim()))
+                        {
+                            reqfather += "&customs_company_code=" + drs[0]["F2"].ToString().Trim();
+                        }
                         reqfather += "&customs=" + drs[0]["F3"].ToString().Trim();
                         //reqfather += "&total_num=" + drs.Count();
 
@@ -131,7 +134,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                                 {
                                     foreach (DataRow item in _dtfailed.Rows)
                                     {
-
                                         DataRow dr_faild = dt_failed.NewRow();
                                         dr_faild["商户号"] = drs[0]["F1"].ToString();
                                         dr_faild["商户海关备案号"] = drs[0]["F2"].ToString();
@@ -203,19 +205,38 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         {
             try
             {
-                string request_text = "partner=" + txt_partner.Text.Trim();
-                request_text += "&customs_company_code=" + txt_customs_company_code.Text.Trim();
-                request_text += "&customs=" + txt_customs.Text.Trim();
-                request_text += "&total_num=1";
-
-
+                if (string.IsNullOrEmpty(txt_partner.Text.Trim()))
+                {
+                    throw new Exception("商户号不能为空！");
+                }
+                if (string.IsNullOrEmpty(txt_customs.Text.Trim()))
+                {
+                    throw new Exception("海关编号不能为空！");
+                }
                 if (string.IsNullOrEmpty(txt_transaction_id.Text.Trim()) && string.IsNullOrEmpty(txt_out_trade_no.Text.Trim()))
                 {
                     throw new Exception("财付通支付单号和商户订单号不能同时为空");
                 }
+              
 
-                request_text += "&transaction_id_0=" + txt_transaction_id.Text.Trim();
-                request_text += "&out_trade_no_0=" + txt_out_trade_no.Text.Trim();
+                string request_text = "partner=" + txt_partner.Text.Trim();
+                request_text += "&customs=" + txt_customs.Text.Trim();
+                request_text += "&total_num=1";
+                if (!string.IsNullOrEmpty(txt_customs_company_code.Text.Trim()))
+                {
+                    request_text += "&customs_company_code=" + txt_customs_company_code.Text.Trim();
+                }
+
+                if (!string.IsNullOrEmpty(txt_transaction_id.Text.Trim()))
+                {
+                    request_text += "&transaction_id_0=" + txt_transaction_id.Text.Trim();
+                }
+
+                if (!string.IsNullOrEmpty(txt_out_trade_no.Text.Trim()))
+                {
+                    request_text += "&out_trade_no_0=" + txt_out_trade_no.Text.Trim();
+                }
+              
                 request_text += "&redeclare_reason_0=" + txt_redeclare_reason.Text.Trim();
                 System.Data.DataTable dtfailed = new WechatPayService().CustomsRedeclare(request_text);
                 if (dtfailed != null && dtfailed.Rows.Count > 0)
