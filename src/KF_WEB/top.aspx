@@ -15,7 +15,7 @@
     <link href="styles/local.css" type="text/css" rel="stylesheet">
 </head>
 <body ms_positioning="GridLayout">
-		<form id="Form1" method="post" runat="server"> 
+		<form id="Form1" method="post" runat="server">
         <uc1:CFTHeader ID="CFTHeader1" runat="server"></uc1:CFTHeader>
 			<hr>
 		</form>
