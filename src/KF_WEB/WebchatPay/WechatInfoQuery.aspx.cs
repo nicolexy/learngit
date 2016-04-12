@@ -694,7 +694,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
                 string queryType = GetQueryType();
 
-                Session["QQID"] = AccountService.GetQQID(queryType, this.TextBox1_InputQQ.Text);                
+                Session["QQID"] = AccountService.GetQQID(queryType, this.TextBox1_InputQQ.Text);
+                Session["fuid"] = "";
+                if (queryType == "WeChatUid")
+                {
+                    Session["fuid"] = this.TextBox1_InputQQ.Text;
+                }
+                
                 //Session["QQID"] = getQQID();
 
                 iFrameHeight = "230";   //iFame显示区域的高度

@@ -76,7 +76,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 try
                 {
                     string selectStr = Session["QQID"].ToString();
-                    string fuid = Session["fuid"].ToString();
+                    string fuid = "";
+                    if (Session["fuid"] != null)
+                    {
+                        fuid = Session["fuid"].ToString();
+                    }
                     DateTime beginTime = DateTime.Now.AddDays(-PublicRes.PersonInfoDayCount);
                     DateTime endTime = DateTime.Now.AddDays(1);
                     int pageSize = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["pageSize"].ToString());
