@@ -79,7 +79,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 				{
 					fcurtype=int.Parse(Request.QueryString["fcurtype"].Trim());
 				}
-                this.DS_Gather = new TradeService().GetBankRollListByListId(selectStr, "qq", fcurtype, beginTime, endTime, 0, null, null, "0000", istr, imax, Session["fuid"].ToString());
+
+                string fuid = "";
+                if (Session["fuid"] != null) 
+                {
+                    fuid = Session["fuid"].ToString();
+                }
+                this.DS_Gather = new TradeService().GetBankRollListByListId(selectStr, "qq", fcurtype, beginTime, endTime, 0, null, null, "0000", istr, imax, fuid);
                 //this.DS_Gather = classLibrary.setConfig.returnDataSet(selectStr,1,beginTime,endTime,0,"Gather",istr,imax,
                 //    Session["uid"].ToString(),Request.UserHostAddress,isHistory);
 				

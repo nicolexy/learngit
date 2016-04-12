@@ -12,6 +12,7 @@ using System.Configuration;
 
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -57,9 +58,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			//如果是QQID查询页面调用
 			if (Request.QueryString["type"].ToString() == "QQID")
 			{
+                string fuid = "";
+                if (Session["fuid"] != null) 
+                {
+                    fuid = Session["fuid"].ToString();
+                }
 				string selectStr = Session["QQID"].ToString();
-				this.DS_Payment = classLibrary.setConfig.returnDataSet(selectStr,1,beginTime,endTime,0,"PayList",istr,imax,Session["uid"].ToString(),Request.UserHostAddress);
-				
+				//this.DS_Payment = classLibrary.setConfig.returnDataSet(selectStr,1,beginTime,endTime,0,"PayList",istr,imax,Session["uid"].ToString(),Request.UserHostAddress);
+
+                DateTime beginTime_Temp = beginTime;
+                DataSet ds = new DataSet();
+                DataSet ds_Temp = new DataSet();
+                while (beginTime_Temp < endTime)
+                {
+                    ds_Temp = new PickService().GetTCBankPAYList(selectStr, 0, beginTime_Temp, endTime, istr, imax, fuid);//2424,2425
+                    ds = PublicRes.ToOneDataset(ds, ds_Temp);
+                    beginTime_Temp = beginTime_Temp.AddMonths(1);
+                    beginTime_Temp = DateTime.Parse(beginTime_Temp.Year + "-" + beginTime_Temp.Month + "-01");
+                }
+                this.DS_Payment = ds;
+
 				int total;
 				if(DS_Payment != null && DS_Payment.Tables.Count != 0 && DS_Payment.Tables[0].Rows.Count != 0)
 				{

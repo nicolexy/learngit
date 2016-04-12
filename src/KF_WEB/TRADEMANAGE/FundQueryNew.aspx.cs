@@ -102,8 +102,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 {
                     string date = Request.QueryString["checkdate"].Trim();
                     date = date.Substring(0, 4) + "-" + date.Substring(4, 2) + "-" + date.Substring(6, 2);
-                    TextBoxBeginDate.Text = DateTime.Parse(date).AddDays(-1).ToString("yyyy-MM-dd 00:00:00");
-                    TextBoxEndDate.Text = DateTime.Parse(date).AddDays(1).ToString("yyyy-MM-dd 23:59:59");
+                    TextBoxBeginDate.Text = DateTime.Parse(date).ToString("yyyy-MM-dd 00:00:00");
+                    TextBoxEndDate.Text = DateTime.Parse(date).ToString("yyyy-MM-dd 23:59:59");
 
                 }
                 clickEvent();

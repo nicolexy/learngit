@@ -77,10 +77,10 @@ namespace CFT.CSOMS.BLL.TradeModule
             return new PickData().GetQuerySettlementTodayList(Fspid);
         }
 
-        public DataSet GetTCBankPAYList(string strID, int iIDType, DateTime dtBegin, DateTime dtEnd, int istr, int imax)
+        public DataSet GetTCBankPAYList(string strID, int iIDType, DateTime dtBegin, DateTime dtEnd, int istr, int imax,string fuid="")
         {
             //DataSet ds = new PickData().GetTCBankPAYList(strID, iIDType, dtBegin, dtEnd, istr, imax);
-            DataSet ds = new PickData().GetPickList(strID, iIDType, dtBegin, dtEnd, 0, 0, "0000", "0", "0000", istr, imax);
+            DataSet ds = new PickData().GetPickList(strID, iIDType, dtBegin, dtEnd, 0, 0, "0000", "0", "0000", istr, imax, fuid);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 ds.Tables[0].Columns.Add("Fstate_str", typeof(string));
