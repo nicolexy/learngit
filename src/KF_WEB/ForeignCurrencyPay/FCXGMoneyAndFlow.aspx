@@ -148,7 +148,7 @@
                           <asp:BoundColumn HeaderText=" 科目" DataField="subject" />
                           <asp:BoundColumn HeaderText=" 提现金额" DataField="num" />
                           <asp:BoundColumn HeaderText=" 手续费" DataField="charge" />
-                          <asp:BoundColumn HeaderText=" 出款账户银行ID" DataField="bank_acno" />
+                          <asp:BoundColumn HeaderText=" 提现银行" DataField="bank_name" />
                           <asp:BoundColumn HeaderText=" 提现时间" DataField="create_time" />
                           <asp:BoundColumn HeaderText=" 付款时间" DataField="pay_time" />
                           <asp:BoundColumn HeaderText=" 回导时间" DataField="acc_time" />
