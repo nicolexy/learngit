@@ -112,7 +112,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     if (iusertype >= 0)
                     {
                         //if (u_IDType == 0 || u_IDType == 9 || u_IDType == 10 || u_IDType == 13)
-                        DS_TradeLog = new TradeService().Q_PAY_LIST(selectStr, 0, beginTime, endTime, istr, imax, fuid);
+                        DS_TradeLog = new TradeService().Q_PAY_LIST(selectStr, iusertype, beginTime, endTime, istr, imax, fuid);
                         //DS_TradeLog = classLibrary.setConfig.returnDataSet(selectStr, 1, beginTime, endTime, iusertype, "GetPayList", istr, imax, Session["uid"].ToString(), Request.UserHostAddress);
                     }
                     else

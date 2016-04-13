@@ -12,7 +12,6 @@ using System.Web.UI.HtmlControls;
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using System.Configuration;
-using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -36,9 +35,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					//绑定第一页数据
 					BindData(1);
 				}
-				catch
+				catch(Exception ex)
 				{
-					Response.Write("<font color = red>超时，请重新登陆。</font>");
+                    Response.Write("<font color = red>" + ex.ToString() + "</font>");
 				}
 			}		
 		}
@@ -80,14 +79,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 					fcurtype=int.Parse(Request.QueryString["fcurtype"].Trim());
 				}
 
-                string fuid = "";
-                if (Session["fuid"] != null) 
-                {
-                    fuid = Session["fuid"].ToString();
-                }
-                this.DS_Gather = new TradeService().GetBankRollListByListId(selectStr, "qq", fcurtype, beginTime, endTime, 0, null, null, "0000", istr, imax, fuid);
-                //this.DS_Gather = classLibrary.setConfig.returnDataSet(selectStr,1,beginTime,endTime,0,"Gather",istr,imax,
-                //    Session["uid"].ToString(),Request.UserHostAddress,isHistory);
+				this.DS_Gather = classLibrary.setConfig.returnDataSet(selectStr,1,beginTime,endTime,0,"Gather",istr,imax,
+					Session["uid"].ToString(),Request.UserHostAddress,isHistory);
 				
 				int total;
 				if(DS_Gather != null && DS_Gather.Tables.Count != 0 && DS_Gather.Tables[0].Rows.Count != 0)
