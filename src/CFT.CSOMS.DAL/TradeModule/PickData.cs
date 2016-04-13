@@ -25,14 +25,17 @@ namespace CFT.CSOMS.DAL.TradeModule
         int PickRecordKeepTime = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("PickRecordKeepTime", 3);
         //提现记录查询
         public DataSet GetPickList(string u_ID, int idtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float fnum, string banktype, string sorttype, string cashtype,
-            int offset, int limit)
+            int offset, int limit,string uid="")
         {
             string stime = u_BeginTime.ToString("yyyy-MM-dd");
             string etime = u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");
             if (idtype == 0)
             {
                 //按uid查询
-                string uid = PublicRes.ConvertToFuid(u_ID);
+                if (string.IsNullOrEmpty(uid))
+                {
+                    uid = PublicRes.ConvertToFuid(u_ID);
+                }
 //#if DEBUG
 //                uid = "295169794";
 //#endif
