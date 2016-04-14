@@ -79,9 +79,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 				+ "?szkey=" + szkey + "&" + strsessionid + "&loginname=" + loginname
 				+ "&ip=" + ip + "&md5=" + md5value);
 
-			menuControl.AddSubMenu("认证状态查询-new","NewQueryInfoPages/QueryAuthenInfoPage.aspx");
+			menuControl.AddSubMenu("认证状态查询","NewQueryInfoPages/QueryAuthenInfoPage.aspx");
 
-			menuControl.AddSubMenu("证件状态查询-new","NewQueryInfoPages/QueryAuthenStateInfoPage.aspx");
+			menuControl.AddSubMenu("证件状态查询","NewQueryInfoPages/QueryAuthenStateInfoPage.aspx");
 
             menuControl.AddSubMenu("免费流量查询", "NewQueryInfoPages/QueryFreeFlow.aspx");
             menuControl.AddSubMenu("微信实名认证查询", "WebchatPay/QueryWechatRealNameAuthen.aspx");

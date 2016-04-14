@@ -391,12 +391,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 DataSet dsdgList = new AuthenInfoService().GetUserClassDeleteList(this.TextBox1_InputQQ.Text.Trim());
                 if (dsdgList != null && dsdgList.Tables.Count > 0 && dsdgList.Tables[0].Rows.Count > 0)
                 {
-                    this.dgList.Visible = true;
-                    this.dgList.DataSource = dsdgList.Tables[0].DefaultView;
-                    this.DataBind();
+                    this.btnDelRecord.Visible = true;
                 }
                 else
-                    this.dgList.Visible = false;
+                    this.btnDelRecord.Visible = false;
             }
             catch (Exception ex)
             {
@@ -620,12 +618,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 DataSet dsdgList = new AuthenInfoService().GetUserClassDeleteList(this.TextBox1_InputQQ.Text.Trim());
                 if (dsdgList != null && dsdgList.Tables.Count > 0 && dsdgList.Tables[0].Rows.Count > 0)
                 {
-                    this.dgList.Visible = true;
-                    this.dgList.DataSource = dsdgList.Tables[0].DefaultView;
-                    this.DataBind();
+                    this.btnDelRecord.Visible = true;
                 }
                 else
-                    this.dgList.Visible = false;
+                    this.btnDelRecord.Visible = false;
             }
             catch(Exception ex)
             {
@@ -1106,17 +1102,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
         }
 
-        public void dgList_PageIndexChanged(object source, System.Web.UI.WebControls.DataGridPageChangedEventArgs e)
+        protected void btnDelRecord_Click(object sender, EventArgs e)
         {
-            try{
-            this.dgList.CurrentPageIndex = e.NewPageIndex;
-            BindData(1, 1);
-            }
-            catch (Exception ef)
-            {
-                LogError("TradeManage.PickQueryNew", "public void dgList_PageIndexChanged(object source, System.Web.UI.WebControls.DataGridPageChangedEventArgs e)", ef);
-                WebUtils.ShowMessage(this.Page, "调用服务出错：" + ef.Message);
-            }
+            Response.Redirect("InfoCenterDelRecord.aspx?qqid=" + this.TextBox1_InputQQ.Text.Trim());
         }
 
         //protected void LkBT_mediOrder_Click(object sender, EventArgs e)
