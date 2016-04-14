@@ -24,6 +24,9 @@
         BODY {
             BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif);
         }
+        .auto-style1 {
+            height: 29px;
+        }
     </style>
     <script src="../Scripts/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
 </head>
@@ -46,11 +49,11 @@
                 <td><asp:TextBox ID="tbx_submit_user" runat="server"></asp:TextBox></td>
             </tr>
             <tr>
-                <td align="right">
+                <td align="right" class="auto-style1">
                     <asp:Label ID="Label4" runat="server">开始日期：</asp:Label></td>
-                <td><asp:TextBox ID="TextBoxBeginDate" onClick="WdatePicker({maxDate:'#F{$dp.$D(\'TextBoxEndDate\')}'})" Width="160px" CssClass="Wdate" runat="server"></asp:TextBox></td>
-                <td align="right"><asp:Label ID="Label5" runat="server">结束日期：</asp:Label></td>
-                <td colspan="5"><asp:TextBox ID="TextBoxEndDate" onClick="WdatePicker({minDate:'#F{$dp.$D(\'TextBoxBeginDate\')}'})" Width="160px" CssClass="Wdate" runat="server"></asp:TextBox></td>
+                <td class="auto-style1"><asp:TextBox ID="TextBoxBeginDate" onClick="WdatePicker({maxDate:'#F{$dp.$D(\'TextBoxEndDate\')}'})" Width="160px" CssClass="Wdate" runat="server"></asp:TextBox></td>
+                <td align="right" class="auto-style1"><asp:Label ID="Label5" runat="server">结束日期：</asp:Label></td>
+                <td colspan="5" class="auto-style1"><asp:TextBox ID="TextBoxEndDate" onClick="WdatePicker({minDate:'#F{$dp.$D(\'TextBoxBeginDate\')}'})" Width="160px" CssClass="Wdate" runat="server"></asp:TextBox></td>
             </tr>
             <tr>
                 <td align="right">
@@ -79,8 +82,9 @@
                 <td align="right">交易状态：</td>
                 <td>
                     <asp:DropDownList ID="ddlTradeState" runat="server"></asp:DropDownList></td>
-                <td align="right">&nbsp;</td>
-                <td colspan="5">
+                <td align="right">批次号：</td>
+                <td><asp:TextBox ID="batch_num" Width="200px" runat="server"></asp:TextBox></td>
+                <td colspan="4">
                     <asp:Button ID="Button1" runat="server" Width="80px" Text="查 询" OnClick="Button1_Click"></asp:Button>&nbsp;
                    <asp:Button ID="btnNew" runat="server" Width="80px" Text="新 增" OnClick="btnNew_Click"></asp:Button>&nbsp;
                    <asp:Button ID="Button2" runat="server" Width="80px" Text="导出excel" OnClick="Export_Click"></asp:Button>&nbsp;
@@ -121,6 +125,7 @@
                             <asp:BoundColumn DataField="Fid" HeaderText="ID" Visible="false"></asp:BoundColumn>
                             <asp:BoundColumn DataField="Forder_id" HeaderText="财付通订单号"></asp:BoundColumn>
                             <asp:BoundColumn DataField="Fcoding" HeaderText="订单编码"></asp:BoundColumn>
+                            <asp:BoundColumn DataField="Fbatch_num" HeaderText="批次号"></asp:BoundColumn>
                             <asp:BoundColumn DataField="Ftrade_state_str" HeaderText="交易状态"></asp:BoundColumn>
                             <asp:BoundColumn DataField="Famount_str" HeaderText="交易金额"></asp:BoundColumn>
                             <asp:BoundColumn DataField="Frefund_amountStr" HeaderText="退款金额"></asp:BoundColumn>

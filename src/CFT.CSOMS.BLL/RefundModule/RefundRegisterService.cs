@@ -23,12 +23,12 @@ namespace CFT.CSOMS.BLL.RefundModule
         /// <param name="iPageStart"></param>
         /// <param name="iPageMax"></param>
         /// <returns></returns>
-        public DataSet QueryRefundRegisterList(string coding, string orderId, string stime, string etime, int refundType, int refundState, string tradeState, 
-            int refund_id, string submit_user, int iPageStart, int iPageMax) 
+        public DataSet QueryRefundRegisterList(string coding, string orderId, string stime, string etime, int refundType, int refundState,
+            string batchNum, string tradeState, int refund_id, string submit_user, int iPageStart, int iPageMax) 
         {
             DataSet newDs = null;
-            DataSet ds = new RefundRegisterData().QueryRefundRegisterList(coding, orderId, stime, etime, refundType, refundState, tradeState, 
-                refund_id, submit_user, iPageStart, iPageMax);
+            DataSet ds = new RefundRegisterData().QueryRefundRegisterList(coding, orderId, stime, etime, refundType, refundState,
+                batchNum, tradeState, refund_id, submit_user, iPageStart, iPageMax);
 
             if (ds != null && ds.Tables.Count > 0) 
             {
@@ -57,6 +57,8 @@ namespace CFT.CSOMS.BLL.RefundModule
                     {
                         dr["FTrade_Type"] = dt_ice.Rows[0]["Ftrade_type"].ToString();
                         object obj = dt_ice.Rows[0]["Ftrade_state"];
+                    //dr["FTrade_Type"] = "2";
+                    //object obj = "2";
                         //通过交易状态查询条件，来过滤记录
                         if (obj != null)
                         {
@@ -95,10 +97,11 @@ namespace CFT.CSOMS.BLL.RefundModule
         /// <param name="refund_id">商户号</param>
         /// <param name="submit_user">登记人</param>
         /// <returns></returns>
-        public int QueryRefundRegisterCount(string coding, string orderId, string stime, string etime, 
-            int refundType, int refundState, string tradeState, int refund_id, string submit_user) 
+        public int QueryRefundRegisterCount(string coding, string orderId, string stime, string etime, int refundType, int refundState,
+            string batchNum, string tradeState, int refund_id, string submit_user) 
         {
-            return new RefundRegisterData().QueryRefundRegisterCount(coding, orderId, stime, etime, refundType, refundState, tradeState, refund_id, submit_user);
+            return new RefundRegisterData().QueryRefundRegisterCount(coding, orderId, stime, etime, refundType, refundState, 
+                batchNum, tradeState, refund_id, submit_user);
         }
 
         /// <summary>
@@ -141,7 +144,7 @@ namespace CFT.CSOMS.BLL.RefundModule
                     }
                     if (dt_ice != null && dt_ice.Rows.Count > 0)
                     {
-                        dr["FTrade_Type"] =  dt_ice.Rows[0]["Ftrade_type"].ToString();
+                        dr["FTrade_Type"] = dt_ice.Rows[0]["Ftrade_type"].ToString();
                         object obj = dt_ice.Rows[0]["Ftrade_state"];
                         //通过交易状态查询条件，来过滤记录
                         if (obj != null)

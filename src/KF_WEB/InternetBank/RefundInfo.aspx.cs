@@ -5,6 +5,8 @@ using CFT.CSOMS.BLL.RefundModule;
 using CFT.CSOMS.BLL.InternetBank;
 using System.Data;
 using System.Collections.Generic;
+using CFT.CSOMS.BLL.WechatPay;
+using CFT.Apollo.Logging;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 {
@@ -230,10 +232,39 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             }
 		}
 
-        protected void btnAmount_Click(object sender, System.EventArgs e) 
+        protected void btnAmount_Click(object sender, System.EventArgs e)
         {
             string listid = cftOrderId.Text.Trim();
-            if (string.IsNullOrEmpty(listid)) 
+
+            bool flag = false;
+            try
+            {
+                DataTable wx_dt = new WechatPayService().QueryWxTrans(listid); //查询微信转账业务
+                if (wx_dt != null && wx_dt.Rows.Count > 0)
+                {
+                    string wxTradeId = PublicRes.objectToString(wx_dt, "wx_trade_id");//子账户关联订单号
+                    if (wxTradeId.Contains("mkt") || wxTradeId.Contains("wxp"))
+                    {
+                        flag = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                flag = true;
+                LogHelper.LogError("查询微信转账业务异常：" + ex.Message + ex.StackTrace);
+                WebUtils.ShowMessage(this.Page, "查询微信转账业务异常：" + ex.Message + ex.StackTrace);
+            }
+
+            if (flag)
+            {
+                this.btnSave.Visible = false;
+                WebUtils.ShowMessage(this.Page, "当前订单为微信大单，禁止录入！");
+            }
+            else
+                this.btnSave.Visible = true;
+
+            if (string.IsNullOrEmpty(listid))
             {
                 return;
             }

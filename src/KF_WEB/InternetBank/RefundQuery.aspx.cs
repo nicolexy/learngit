@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using CFT.CSOMS.BLL.InternetBank;
 using log4net;
 using System.Data.OleDb;
+using CFT.CSOMS.BLL.WechatPay;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 {
@@ -215,8 +216,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             int rf_type = int.Parse(ddlRefundType.SelectedValue);     //退款类型
             int rf_status = int.Parse(ddlRefundStatus.SelectedValue); //提交退款状态
             string s_trade_state = ddlTradeState.SelectedValue;       //交易状态
+            string batchNum = batch_num.Text.Trim();                  //批次号
 
-            int count = new RefundRegisterService().QueryRefundRegisterCount(listid, cftorderid, stime, etime, rf_type, rf_status, s_trade_state, refund_id, submit_user);
+            int count = new RefundRegisterService().QueryRefundRegisterCount(listid, cftorderid, stime, etime, rf_type, rf_status, 
+                batchNum, s_trade_state, refund_id, submit_user);
             Label9.Text = count.ToString();
 
             pager.RecordCount = count;
@@ -224,7 +227,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             int max = pager.PageSize;
             int start = max * (index - 1);
 
-            DataSet ds = new RefundRegisterService().QueryRefundRegisterList(listid, cftorderid, stime, etime, rf_type, rf_status, s_trade_state, refund_id, submit_user, start, max);
+            DataSet ds = new RefundRegisterService().QueryRefundRegisterList(listid, cftorderid, stime, etime, rf_type, rf_status,
+                batchNum, s_trade_state, refund_id, submit_user, start, max);
 
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
@@ -247,7 +251,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 ht2.Add("3", "失效");
 
 
-                classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0], "Ftrade_state_new", "Ftrade_state_str", "PAY_STATE");
+                //classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0], "Ftrade_state_new", "Ftrade_state_str", "PAY_STATE");
 
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Famount", "Famount_str");
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Frefund_amount", "Frefund_amountStr");
@@ -316,11 +320,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             int rf_type = int.Parse(ddlRefundType.SelectedValue);
             int rf_status = int.Parse(ddlRefundStatus.SelectedValue);
             string s_trade_state = ddlTradeState.SelectedValue;
+            string batchNum = batch_num.Text.Trim();
 
             List<string> fileAtta = new List<string>();
             try
             {
-                int total = new RefundRegisterService().QueryRefundRegisterCount(listid, cftorderid, stime, etime, rf_type, rf_status, s_trade_state, refund_id, submit_user);
+                int total = new RefundRegisterService().QueryRefundRegisterCount(listid, cftorderid, stime, etime, rf_type, rf_status, 
+                    batchNum, s_trade_state, refund_id, submit_user);
 
                 if (total > 0)
                 {
@@ -333,8 +339,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
                     for (int j = 0; j < countSheet; j++)
                     {
-                        DataSet ds = new RefundRegisterService().QueryRefundRegisterList(listid, cftorderid, stime, etime, rf_type, rf_status, s_trade_state,
-                            refund_id, submit_user, j * maxSheet, maxSheet);
+                        DataSet ds = new RefundRegisterService().QueryRefundRegisterList(listid, cftorderid, stime, etime, rf_type, rf_status,
+                            batchNum, s_trade_state, refund_id, submit_user, j * maxSheet, maxSheet);
                         if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                         {
                             System.Data.DataTable dt = ds.Tables[0];
@@ -565,7 +571,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                     PublicRes.Export(failed_dt, path);
                     string[] fileAtta = { path };
                     //mail
-                    CommMailSend.SendInternalMail(uid, "", "退款登记导出;总数：" + iRows + ";成功数：" + succ + ";失败数：" + fail, "", false, fileAtta);
+                    CommMailSend.SendInternalMail(uid, "", "批量导入退款登记;总数：" + iRows + ";成功数：" + succ + ";失败数：" + fail, "", false, fileAtta);
 
                 }
                 catch (Exception e)
@@ -605,7 +611,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                     System.Data.DataTable res_dt = res_ds.Tables[0];
                     if (res_dt != null && res_dt.Rows.Count > 0)
                     {
-                        string orderId = "", filterOrder = "";
+                        string orderId = "", filterOrder = "", wxBigOrder = string.Empty;
                         foreach (DataRow item in res_dt.Rows)
                         {
                             orderId = item[0].ToString();
@@ -613,12 +619,35 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                             {
                                 filterOrder += orderId + "，";
                             }
+                            
+                            try
+                            {
+                                System.Data.DataTable wx_dt = new WechatPayService().QueryWxTrans(orderId); //查询微信转账业务
+                                if (wx_dt != null && wx_dt.Rows.Count > 0)
+                                {
+                                    string wxTradeId = PublicRes.objectToString(wx_dt, "wx_trade_id");//子账户关联订单号
+                                    if (wxTradeId.Contains("mkt") || wxTradeId.Contains("wxp"))
+                                    {
+                                        wxBigOrder += orderId + "，";
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                LogHelper.LogError("查询微信转账业务异常：" + ex.Message + ex.StackTrace);
+                                WebUtils.ShowMessage(this.Page, "查询微信转账业务异常：" + ex.Message + ex.StackTrace);
+                            }
                         }
                         if (!string.IsNullOrEmpty(filterOrder))
                         {
                             WebUtils.ShowMessage(this.Page, filterOrder + " 商家的订单不允许走网银退款。");
                             return;
                         }
+                        if (!string.IsNullOrEmpty(wxBigOrder))
+                        {
+                            WebUtils.ShowMessage(this.Page, wxBigOrder + " 微信大单不允许走网银退款。");
+                            return;
+                        }                       
                     }
                     //  Upload();
                     Thread thread = new Thread(Upload);
@@ -635,114 +664,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             {
                 WebUtils.ShowMessage(this.Page, ex.Message);
             }
-        }
-
-        public void btnRefund_Click(object sender, System.EventArgs e)
-        {
-
-            if (!classLibrary.ClassLib.ValidateRight("InternetBankRefund", this))
-            {
-                //权限判断
-                WebUtils.ShowMessage(this.Page, "没有权限！");
-                return;
-            }
-
-            DateTime begindate = DateTime.Parse(TextBoxBeginDate.Text);
-            string stime = begindate.ToString("yyyy-MM-dd 00:00:00");
-            DateTime enddate = DateTime.Parse(TextBoxEndDate.Text);
-            string etime = enddate.ToString("yyyy-MM-dd 23:59:59");
-
-
-
-            //先查询退款记录
-            Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-            DataSet ds = qs.QueryRefundInfo("", "", stime, etime, 0, 2, "2", 1, 1000); //支付成功，未提交
-
-            FQuery_Service.Query_Service fs = new TENCENT.OSS.CFT.KF.KF_Web.FQuery_Service.Query_Service();
-            FQuery_Service.Finance_Header Ffh = classLibrary.setConfig.FsetFH(this);
-            fs.Finance_HeaderValue = Ffh;
-            string msg = "";
-
-            bool flag = false; //发起退款成功标志
-            int total = 0, succ = 0, fail = 0;
-            //string errMsg = "";
-            var errMsg = new StringBuilder("");
-
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    msg = "";
-                    if (dr["FTrade_Type"].ToString() == "2" || dr["FTrade_Type"].ToString() == "3")
-                    {
-                        total++;
-                        //发请求
-                        try
-                        {
-                            flag = fs.StartTraderRefund_KF(dr["FTrade_Type"].ToString(), dr["Fbuy_acc"].ToString(), dr["Forder_id"].ToString(), long.Parse(dr["Famount"].ToString()), "客服发起退款", "", out msg);
-                            //如果为true，则更新状态为已提交
-                            if (flag)
-                            {
-                                succ++;
-                                qs.UpdateSubmitRefundState(dr["Fid"].ToString(), 1);
-                            }
-                            else
-                            {
-                                fail++;
-                                errMsg.AppendLine(msg);
-                            }
-                        }
-                        catch (SoapException ser)
-                        {
-                            //fail++;
-                            errMsg.AppendLine(ser.Message);
-                        }
-                    }
-                }
-            }
-            //再查一次失效的记录，防止订单状态发生改变
-            ds = qs.QueryRefundInfo("", "", stime, etime, 0, 3, "2", 1, 1000); //支付成功，失效的
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    msg = "";
-                    if (dr["FTrade_Type"].ToString() == "2" || dr["FTrade_Type"].ToString() == "3")
-                    {
-                        total++;
-                        //发请求
-                        try
-                        {
-                            flag = fs.StartTraderRefund_KF(dr["FTrade_Type"].ToString(), dr["Fbuy_acc"].ToString(), dr["Forder_id"].ToString(), long.Parse(dr["Famount"].ToString()), "客服发起退款", "", out msg);
-                            //如果为true，则更新状态为已提交
-                            if (flag)
-                            {
-                                succ++;
-                                qs.UpdateSubmitRefundState(dr["Fid"].ToString(), 1);
-                            }
-                            else
-                            {
-                                fail++;
-                                errMsg.AppendLine(msg);
-                            }
-                        }
-                        catch (SoapException ser)
-                        {
-                            //fail++;
-                            errMsg.AppendLine(ser.Message);
-                        }
-                    }
-                }
-            }
-
-            Table3.Visible = true;
-            Table2.Visible = false;
-
-            lbTotal.Text = total.ToString();
-            lbSucc.Text = succ.ToString();
-            lbFail.Text = fail.ToString();
-            lbError.Text = errMsg.ToString();
-
         }
 
         /// <summary>
@@ -765,19 +686,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 WebUtils.ShowMessage(this.Page, "请输入正确的时间。");
                 return ;
             }
+            ZWBatchPay_Service.BatchPay_Service bs = new ZWBatchPay_Service.BatchPay_Service();
+            bs.Finance_HeaderValue = classLibrary.setConfig.ZWSetFH(this);
+
             string stime = begindate.ToString("yyyy-MM-dd 00:00:00");
             string etime = enddate.ToString("yyyy-MM-dd 23:59:59");
 
             System.Threading.Tasks.Task.Factory.StartNew(() =>
             {
-                long amount = 0;    //总金额
                 const int fileRowConut = 3000;  //单个文件最大记录数
                 List<string> fidList = new List<string>(); //需要更改状态的财付通订单Fid
                 System.Data.DataTable dt = null;
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                string no = DateTime.Now.ToString("yyyyMMddHHmmssffff");  //退款批次
 
                 #region 更新提交状态为 (1 = 已提交)   的委托
-                Action<List<string>> updateState = fidArr =>
+                Action<List<string>, string> updateState = (fidArr, batchNum) =>
                 {
                     int fidCount = 100;
                     string fids = string.Empty;
@@ -788,7 +712,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                         {
                             fids += fidArr[j] + ",";
                         }
-                        qs.UpdateSubmitRefundState(fids.TrimEnd(','), 1);
+                        qs.UpdateSubmitRefundState(fids.TrimEnd(','), 1, batchNum);
                         fids = string.Empty;
                     }
                 }; 
@@ -805,8 +729,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                         {
                             countSheet = count % fileRowConut == 0 ? count / fileRowConut : (count / fileRowConut) + 1;
                         }
-                        List<string> excelFile = new List<string>();
-                        string no = DateTime.Now.ToString("yyyyMMddHHmmssffff");
+                        List<string> successFile = new List<string>();
+                        List<string> failFile = new List<string>();
+                        Dictionary<string, RefundFile> dicSuccessFile = null;
+                        Dictionary<string, RefundFile> dicFailFile = null;
+
+                        string zwMsg = string.Empty;
+                        
+
+                        string txtFilePath = Server.MapPath("~/") + "PLFile\\{0}_{1}.txt";
+                        string txtSuccess = string.Format(txtFilePath, no, "success");
+                        string txtFail = string.Format(txtFilePath, no, "fail");
                         for (int j = 0; j < countSheet; j++)
                         {
                             DataSet dsa = new RefundRegisterService().GetExportRefundData(stime, etime, j * fileRowConut, fileRowConut);
@@ -817,74 +750,38 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                                 #region 生成附件
                                 try
                                 {
-                                    string path = Server.MapPath("~/") + "PLFile\\网银退款{0}_{1}.xls";
-                                    Application xlApp = new ApplicationClass();
-                                    Workbooks workbooks = xlApp.Workbooks;
-                                    Workbook workbook = workbooks.Add(XlWBATemplate.xlWBATWorksheet);
-                                    Worksheet worksheet = (Worksheet)workbook.Worksheets[1]; //取得sheet1
-                                    Range range;
-
-                                    #region 标题
-                                    range = (Range)worksheet.Cells[1, 1];
-                                    range.ColumnWidth = 45;
-                                    range.NumberFormatLocal = "@";
-                                    range.Font.Size = 15;
-                                    range.Value2 = "交易单号";
-
-                                    range = (Range)worksheet.Cells[1, 2];
-                                    range.ColumnWidth = 25;
-                                    range.NumberFormatLocal = "@";
-                                    range.Font.Size = 15;
-                                    range.Value2 = "退款金额（元）";
-
-                                    range = (Range)worksheet.Cells[1, 3];
-                                    range.ColumnWidth = 30;
-                                    range.NumberFormatLocal = "@";
-                                    range.Font.Size = 15;
-                                    range.Value2 = "退款备注";
-                                    #endregion
-
-                                    workbook.Saved = true;
-                                    var curPath = string.Format(path, no, j + 1);
-                                    workbook.SaveAs(curPath, 56, Missing.Value, Missing.Value, Missing.Value, Missing.Value, XlSaveAsAccessMode.xlExclusive,
-                                        Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value);
-
-                                    range = null;
-                                    workbooks = null;
-                                    workbook = null;
-                                    if (xlApp != null)
-                                    {
-                                        xlApp.Workbooks.Close();
-                                        xlApp.Quit();
-                                        xlApp = null;
-                                    }
-
-                                    excelFile.Add(curPath);
-
-                                    string strConn = "Provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=" + curPath + ";" + "Excel 12.0 Xml;HDR=YES;";
-                                    OleDbConnection conn = new OleDbConnection(strConn);
-                                    conn.Open();
-                                    OleDbCommand cmd = new OleDbCommand();
-                                    cmd.Connection = conn;
-
                                     foreach (DataRow row in dt.Rows)
                                     {
-                                        var tradeType = row["FTrade_Type"].ToString();
-                                        if (tradeType == "2" || tradeType == "3")  //数据导入后订单的状态可能在其他地方发生改变，需再次判断
-                                        {
-                                            amount += long.Parse(row["Frefund_amount"].ToString());
-                                            fidList.Add(row["Fid"].ToString());
+                                        string tradeType = row["FTrade_Type"].ToString();
 
-                                            cmd.CommandText = string.Format(@"
-                                            INSERT INTO [sheet1$] 
-                                                (交易单号,退款金额（元）,退款备注) 
-                                            VALUES
-                                            ('{0}','{1}','{2}')",
-                                            row["Forder_id"].ToString(), MoneyTransfer.FenToYuan(row["Frefund_amount"].ToString()), row["Fbuy_acc"].ToString());
-                                            cmd.ExecuteNonQuery();
+                                        #region 账务检测
+                                        bool flag = false;
+                                        try
+                                        {
+                                            flag = bs.BatchRefundSingleCheck(row["Forder_id"].ToString(), Convert.ToInt32(row["Frefund_type"].ToString()),
+                                                Convert.ToInt64(row["Frefund_amount"].ToString()), out zwMsg);
+                                            if (!string.IsNullOrEmpty(zwMsg))
+                                                LogManager.GetLogger("BatchRefundSingleCheck接口返回：" + zwMsg);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            LogManager.GetLogger("BatchRefundSingleCheck接口调用异常：" + ex.Message + ex.StackTrace);
+                                        }
+                                        #endregion
+
+
+                                        if ((tradeType == "2" || tradeType == "3") && flag)  //数据导入后订单的状态可能在其他地方发生改变，需再次判断
+                                        {
+                                            WriteTxt(txtSuccess,
+                                                row["Fid"].ToString(), row["Frefund_amount"].ToString(), row["Forder_id"].ToString(), row["Fbuy_acc"].ToString());
+
+                                        }
+                                        else
+                                        {
+                                            WriteTxt(txtFail,
+                                                row["Fid"].ToString(), row["Frefund_amount"].ToString(), row["Forder_id"].ToString(), row["Fbuy_acc"].ToString());
                                         }
                                     }
-                                    conn.Close();
                                 }
                                 catch (Exception ex)
                                 {
@@ -898,37 +795,106 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                                 #endregion
                             }
                         }
+                        dicSuccessFile = WriteXls(txtSuccess, no, "success");
+                        dicFailFile = WriteXls(txtFail, no, "fail");
 
-                        if (excelFile.Count > 0)
+                        string uin = Session["uid"].ToString();
+                        int okTotal = 0;
+                        int subOkTotal = 0;
+                        int subFailTotal = 0;
+                        int failTotal = 0;
+
+                        long okAmount = 0;
+                        long subOkAmount = 0;
+                        long subFailAmount = 0;
+                        long failAmount = 0;
+
+                        string subOkFile = string.Empty;
+                        string subFailFile = string.Empty;
+
+                        List<string> subFile = new List<string>();
+                        if (dicSuccessFile != null && dicSuccessFile.Count > 0)
                         {
-                            bool sendFlag = true;
-                            try
+                            foreach (KeyValuePair<string, RefundFile> item in dicSuccessFile)
                             {
-                                #region 邮件发送
-                                var emailMsg = new StringBuilder("<html><head><title></title></head><body>");
-                                emailMsg.Append("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:1310px;line-height:22px; margin-left:10px; table-layout:fixed;\" align='left' ID='Table1'><tr><td style='width:1300px;'>");
-
-                                var msg = "<p style='padding:10px 0;margin:0;'> 亲爱的财务同事：<br>&nbsp;&nbsp;&nbsp;&nbsp;以下为本期网银退款数据，共计{0}笔，{1}。请协助办理批量退款处理。谢谢！</p>";
-                                emailMsg.AppendFormat(msg, fidList.Count, classLibrary.setConfig.FenToYuan(amount));
-
-                                emailMsg.Append("</table></p></td></tr><tr><td height=\"15\"></td></tr></table></body></html>");
-
-                                string sub = "【网银退款】编号：" + no;
-                                string toMail = ConfigurationManager.AppSettings["InternetRefundToMail"].ToString();
-                                string ccMail = ConfigurationManager.AppSettings["InternetRefundCcMail"].ToString();
-                                CommMailSend.SendInternalMail(toMail, ccMail, sub, emailMsg.ToString(), true, excelFile.ToArray());
+                                subFile.Add(item.Key);
+                                okTotal += item.Value.listFid.Count;
+                                okAmount += item.Value.amount;
+                                bool sendFlag = false;
+                                #region 提交到账务
+                                try
+                                {
+                                    sendFlag = bs.BatchRefundRequest(item.Value.batchNum, 2, false, uin, item.Value.listFid.Count, item.Value.amount, item.Value.remotePath, item.Value.fileMd5, out zwMsg);
+                                    if (!string.IsNullOrEmpty(zwMsg))
+                                        LogManager.GetLogger("BatchRefundRequest接口返回：" + zwMsg);
+                                }
+                                catch (Exception ex)
+                                {
+                                    sendFlag = false;
+                                    LogManager.GetLogger("BatchRefundRequest接口调用异常：" + ex.Message + ex.StackTrace);
+                                }
+                                if (sendFlag)
+                                {
+                                    subOkFile += item.Key + "|";
+                                    subOkTotal += item.Value.listFid.Count;
+                                    subOkAmount += item.Value.amount;
+                                    fidList.AddRange(item.Value.listFid);
+                                    updateState(fidList,item.Value.batchNum);
+                                }
+                                else
+                                {
+                                    subFailFile += item.Key + "|";
+                                    subFailTotal += item.Value.listFid.Count;
+                                    subFailAmount += item.Value.amount;
+                                }
                                 #endregion
                             }
-                            catch (Exception ex)
+                        }
+                        if (dicFailFile != null && dicFailFile.Count > 0)
+                        {
+                            foreach (KeyValuePair<string, RefundFile> item in dicFailFile)
                             {
-                                sendFlag = false;
-                            }
-                            if (sendFlag) //邮件发送无异常更新状态
-                            {
-                                updateState(fidList);
+                                subFile.Add(item.Key);
+                                failTotal += item.Value.listFid.Count;
+                                failAmount += item.Value.amount;
                             }
                         }
+
+
+                        #region 邮件方式
+                        bool sendEmail = true;
+                        try
+                        {
+                            #region 邮件发送
+                            var emailMsg = new StringBuilder("<html><head><title></title></head><body>");
+                            emailMsg.Append("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:1310px;line-height:22px; margin-left:10px; table-layout:fixed;\" align='left' ID='Table1'><tr><td style='width:1300px;'>");
+
+                            var msg = @"<p style='padding:10px 0;margin:0;'> 提交账务退款汇总结果：<br>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            总提交金额：{0}、总提交笔数：{1}、校验失败金额：{2}、校验失败笔数：{3}、
+                                            提交失败金额：{4}、提交失败笔数：{5}、成功金额：{6}、成功笔数：{7}、
+                                            提交失败文件：{8}、提交成功文件：{9}。
+                                            </p>";
+                            emailMsg.AppendFormat(msg,
+                                classLibrary.setConfig.FenToYuan(okAmount + failAmount), okTotal + failTotal, classLibrary.setConfig.FenToYuan(failAmount), failTotal,
+                                classLibrary.setConfig.FenToYuan(subFailAmount), subFailTotal, classLibrary.setConfig.FenToYuan(subOkAmount), subOkTotal,
+                                subFailFile.TrimEnd('|'), subOkFile.TrimEnd('|'));
+
+                            emailMsg.Append("</table></p></td></tr><tr><td height=\"15\"></td></tr></table></body></html>");
+
+                            string sub = "【网银退款】编号：" + no + "提交结果通知";
+                            //string toMail = ConfigurationManager.AppSettings["InternetRefundToMail"].ToString();
+                            //string ccMail = ConfigurationManager.AppSettings["InternetRefundCcMail"].ToString();
+                            CommMailSend.SendInternalMail(uin, "", sub, emailMsg.ToString(), true, subFile.ToArray());
+                            #endregion
+                        }
+                        catch (Exception ex)
+                        {
+                            sendEmail = false;
+                            LogManager.GetLogger("提交账务退款汇总邮件发送失败！" + ex.Message + ", stacktrace" + ex.StackTrace);
+                        }
+                        #endregion
                     }
+
                 }
                 catch (Exception ex)
                 {
@@ -938,6 +904,194 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             });
 
             WebUtils.ShowMessage(this.Page, "后台处理中，稍后请查收邮件。");
+        }
+
+        private void WriteTxt(string filePath,params string[] fields)
+        {
+            using (FileStream stream = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.Write))
+            {
+                StreamWriter writer = new StreamWriter(stream, Encoding.UTF8);
+                try
+                {
+                    writer.WriteLine(string.Join("|", fields));
+                }
+                catch
+                {
+                }
+                writer.Close();
+            }
+        }
+
+        private void CreateXls(string filePath)
+        {
+            Application xlApp = new ApplicationClass();
+            Workbooks workbooks = xlApp.Workbooks;
+            Workbook workbook = workbooks.Add(XlWBATemplate.xlWBATWorksheet);
+            Worksheet worksheet = (Worksheet)workbook.Worksheets[1]; //取得sheet1
+            Range range;
+
+            #region 标题
+            range = (Range)worksheet.Cells[1, 1];
+            range.ColumnWidth = 45;
+            range.NumberFormatLocal = "@";
+            range.Font.Size = 15;
+            range.Value2 = "交易单号";
+
+            range = (Range)worksheet.Cells[1, 2];
+            range.ColumnWidth = 25;
+            range.NumberFormatLocal = "@";
+            range.Font.Size = 15;
+            range.Value2 = "退款金额（元）";
+
+            range = (Range)worksheet.Cells[1, 3];
+            range.ColumnWidth = 30;
+            range.NumberFormatLocal = "@";
+            range.Font.Size = 15;
+            range.Value2 = "退款备注";
+            #endregion
+
+            workbook.Saved = true;
+
+            workbook.SaveAs(filePath, 56, Missing.Value, Missing.Value, Missing.Value, Missing.Value, XlSaveAsAccessMode.xlExclusive,
+                Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value);
+
+            range = null;
+            workbooks = null;
+            workbook = null;
+            if (xlApp != null)
+            {
+                xlApp.Workbooks.Close();
+                xlApp.Quit();
+                xlApp = null;
+            }
+        }
+
+        private Dictionary<string, RefundFile> WriteXls(string txtFile,string no,string status)
+        {
+            Dictionary<string, RefundFile> dicFile = new Dictionary<string, RefundFile>();
+            string path = Server.MapPath("~/") + "PLFile\\网银退款{0}_{1}_{2}.xls";
+            string successPath = string.Empty;
+            int lineCount = 0;
+            try
+            {
+                using (StreamReader sr = new StreamReader(txtFile))
+                {
+                    while (sr.Peek() >= 0)
+                    {
+                        sr.ReadLine();
+                        lineCount++;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                
+            }
+
+            int fileRowConut = 1000;
+            int countSheet = 1;
+            if (lineCount > fileRowConut)
+            {
+                countSheet = lineCount % fileRowConut == 0 ? lineCount / fileRowConut : (lineCount / fileRowConut) + 1;
+            }
+            using (StreamReader sr = new StreamReader(txtFile, Encoding.UTF8))
+            {
+                OleDbConnection conn = null;
+                OleDbCommand cmd = null;
+                List<string> listFid = null;
+                long singleAmount = 0;
+                string batchNum = string.Empty;
+
+                for (int i = 0; i < countSheet; i++)
+                {
+                    int idx = 0;
+                    listFid = new List<string>();
+                    singleAmount = 0;
+                    successPath = string.Format(path, no, i + 1, status);
+                    batchNum = no +"_"+ (i + 1);
+                    CreateXls(successPath);
+                    string strConn = "Provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=" + successPath + ";" + "Excel 12.0 Xml;HDR=YES;";
+                    conn = new OleDbConnection(strConn);
+                    conn.Open();
+                    cmd = new OleDbCommand();
+                    cmd.Connection = conn;
+
+                    String line;
+                    while (idx < fileRowConut && (line = sr.ReadLine()) != null)
+                    {
+                        string[] arrStr = line.Split('|');
+                        listFid.Add(arrStr[0]);
+                        singleAmount += long.Parse(arrStr[1]);
+                        cmd.CommandText = string.Format(@"
+                        INSERT INTO [sheet1$] 
+                            (交易单号,退款金额（元）,退款备注) 
+                        VALUES 
+                            ('{0}','{1}','{2}')",
+                                                    arrStr[2], MoneyTransfer.FenToYuan(arrStr[1]), arrStr[3]);
+                        cmd.ExecuteNonQuery();
+                        idx++;
+                    }
+
+                    if (conn != null)
+                    {
+                        conn.Close();
+
+                        string fileMd5 = Utility.GetMD5HashFromFile(successPath);
+                        //文件上传
+                        var result = commLib.FPSFileHelper.UploadFile(successPath);
+                        RefundFile refundFile = new RefundFile();
+                        refundFile.fileMd5 = fileMd5;
+                        refundFile.listFid = listFid;
+                        refundFile.amount = singleAmount;
+                        refundFile.remotePath = result.url;
+                        refundFile.batchNum = batchNum;
+                        dicFile.Add(successPath, refundFile);
+                    }
+                }
+                #region
+                //                while ((line = sr.ReadLine()) != null)
+//                {
+//                    if (numLine % 1000 == 0)
+//                    {
+//                        if (conn != null)
+//                        {
+//                            conn.Close();
+
+//                            string fileMd5 = Utility.GetMD5HashFromFile(successPath);
+//                            //文件上传
+//                            var result = commLib.FPSFileHelper.UploadFile(successPath);
+//                            RefundFile refundFile = new RefundFile();
+//                            refundFile.fileMd5 = fileMd5;
+//                            refundFile.listFid = listFid;
+//                            refundFile.amount = singleAmount;
+//                            refundFile.remotePath = result.url;
+//                            dicFile.Add(successPath, refundFile);
+//                        }
+//                        listFid = new List<string>();
+//                        singleAmount = 0;
+//                        successPath = string.Format(path, no, (numLine % 1000) + 1, status);
+//                        CreateXls(successPath);
+//                        string strConn = "Provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=" + successPath + ";" + "Excel 12.0 Xml;HDR=YES;";
+//                        conn = new OleDbConnection(strConn);
+//                        conn.Open();
+//                        cmd = new OleDbCommand();
+//                        cmd.Connection = conn;
+//                    }
+//                    string[] arrStr = line.Split('|');
+//                    listFid.Add(arrStr[0]);
+//                    singleAmount += long.Parse(arrStr[1]);
+//                    cmd.CommandText = string.Format(@"
+//                    INSERT INTO [sheet1$] 
+//                        (交易单号,退款金额（元）,退款备注) 
+//                    VALUES 
+//                        ('{0}','{1}','{2}')", 
+//                                            arrStr[2], arrStr[3], arrStr[4]);
+//                    cmd.ExecuteNonQuery();
+//                    numLine++;
+                //                }
+                #endregion
+            }
+            return dicFile;
         }
 
         private void DelRefund(string fid)
@@ -958,5 +1112,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 WebUtils.ShowMessage(this.Page, e.Message);
             }
         }
+    }
+
+    public class RefundFile
+    {
+        public List<string> listFid { get; set; }
+
+        public string fileMd5 { get; set; }
+
+        public long amount { get; set; }
+
+        public string remotePath { get; set; }
+
+        public string batchNum { get; set; }
     }
 }
