@@ -166,6 +166,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank {
         protected global::System.Web.UI.WebControls.DropDownList ddlTradeState;
         
         /// <summary>
+        /// batch_num control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox batch_num;
+        
+        /// <summary>
         /// Button1 control.
         /// </summary>
         /// <remarks>

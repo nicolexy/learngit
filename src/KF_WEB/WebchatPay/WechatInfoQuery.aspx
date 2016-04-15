@@ -448,8 +448,9 @@
                         <td  style="height: 14px" bgcolor="#ffffff" height="14" colspan="4"></td>
                         <td style="height: 16px" bgcolor="#ffffff" height="16">
                             <font face="宋体">
-                                <asp:Button ID="btnDelClass" runat="server" Text="删除认证" Visible="False" OnClick="btnDelClass_Click">
-                                </asp:Button></font>
+                                <asp:Button ID="btnDelClass" runat="server" Text="删除认证" Visible="False" OnClick="btnDelClass_Click"></asp:Button>&nbsp;
+                                <asp:Button ID="btnDelRecord" runat="server" Text="删除记录" Visible="False" OnClick="btnDelRecord_Click"></asp:Button>
+                            </font>
                         </td>
                     </tr>
                 </table>
@@ -457,30 +458,6 @@
         </tr>
     </table>
     <br>
-    <table cellspacing="0" cellpadding="0" width="95%" align="center" border="0">
-        <tr>
-            <td valign="top" align="center">
-                <asp:DataGrid ID="dgList" runat="server" Width="1150px" ItemStyle-HorizontalAlign="Center"
-                    HeaderStyle-HorizontalAlign="Center" HorizontalAlign="Center" PageSize="5" AutoGenerateColumns="False"
-                    GridLines="Horizontal" CellPadding="1" BackColor="White" BorderWidth="1px" BorderStyle="None"
-                    BorderColor="#E7E7FF" AllowPaging="True" OnPageIndexChanged="dgList_PageIndexChanged">
-                    <FooterStyle ForeColor="#4A3C8C" BackColor="#B5C7DE"></FooterStyle>
-                    <SelectedItemStyle Font-Bold="True" ForeColor="#F7F7F7" BackColor="#738A9C"></SelectedItemStyle>
-                    <AlternatingItemStyle BackColor="#F7F7F7"></AlternatingItemStyle>
-                    <ItemStyle HorizontalAlign="Center" ForeColor="#4A3C8C" BackColor="#E7E7FF"></ItemStyle>
-                    <HeaderStyle Font-Bold="True" HorizontalAlign="Center" ForeColor="#F7F7F7" BackColor="#4A3C8C">
-                    </HeaderStyle>
-                    <Columns>
-                        <asp:BoundColumn DataField="Fqqid" HeaderText="帐号"></asp:BoundColumn>
-                        <asp:BoundColumn DataField="Fmemo" HeaderText="备注"></asp:BoundColumn>
-                        <asp:BoundColumn DataField="Fauthen_operator" HeaderText="操作人员"></asp:BoundColumn>
-                        <asp:BoundColumn DataField="Fmodify_time" HeaderText="最后修改时间"></asp:BoundColumn>
-                    </Columns>
-                    <PagerStyle ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>
-                </asp:DataGrid>
-            </td>
-        </tr>
-    </table>
     <table height="35" cellspacing="0" cellpadding="0" width="95%" align="center" border="0">
         <tr>
             <td bgcolor="#666666">
@@ -488,14 +465,14 @@
                     <tr bgcolor="#e4e5f7">
                         <td background="../IMAGES/Page/bg_bl.gif" bgcolor="#e4e5f7" colspan="3" height="20">
                             <font color="#ff0000">&nbsp;<img height="16" src="../IMAGES/Page/post.gif" width="20">&nbsp;</font>
-                               <asp:LinkButton ID="LKBT_TradeLog" runat="server" ForeColor="Red" OnClick="LKBT_TradeLog_Click">买家交易单</asp:LinkButton></font>|<span
-                                    class="style2">
+                               <asp:LinkButton ID="LKBT_TradeLog" runat="server" ForeColor="Red" OnClick="LKBT_TradeLog_Click">买家交易单</asp:LinkButton></font>|<span class="style2">
                                     <asp:LinkButton ID="LKBT_TradeLog_Sale" runat="server" ForeColor="Black" OnClick="LKBT_TradeLog_Sale_Click">卖家交易单</asp:LinkButton>|
                                     <%--<asp:LinkButton ID="LKBT_TradeLog_Unfinished" runat="server" ForeColor="Black" OnClick="LKBT_TradeLog_Unfinished_Click">买家未完成交易单</asp:LinkButton>|--%>
                                     <%--<asp:LinkButton ID="LKBT_TradeLog_Sale_Unfinished" runat="server" ForeColor="Black" OnClick="LKBT_TradeLog_Sale_Unfinished_Click">卖家未完成交易单</asp:LinkButton>|--%>
                                     <asp:LinkButton ID="LKBT_bankrollLog" runat="server" ForeColor="Black" OnClick="LKBT_bankrollLog_Click">用户资金流水</asp:LinkButton>|
                                     <asp:LinkButton ID="LKBT_GatheringLog" runat="server" ForeColor="Black" OnClick="LKBT_GatheringLog_Click">充值记录</asp:LinkButton>|
                                     <asp:LinkButton ID="LkBT_PaymentLog" runat="server" ForeColor="Black" OnClick="LkBT_PaymentLog_Click">提现记录</asp:LinkButton>&nbsp;|
+                                    <span style="color:#ff6a00">（以上菜单支持30天内的相关记录查询）</span>
                                     <%--<asp:LinkButton ID="LkBT_Refund" runat="server" ForeColor="Black" OnClick="LkBT_Refund_Click">买家退款单</asp:LinkButton>&nbsp;|
                                     <asp:LinkButton ID="LkBT_Refund_Sale" runat="server" ForeColor="Black" OnClick="LkBT_Refund_Sale_Click">卖家退款单</asp:LinkButton>&nbsp;|--%>
                                     <%--<asp:LinkButton ID="LkBT_ButtonInfo" runat="server" ForeColor="Black" OnClick="LkBT_ButtonInfo_Click">商家工具按钮</asp:LinkButton>&nbsp;|--%>
