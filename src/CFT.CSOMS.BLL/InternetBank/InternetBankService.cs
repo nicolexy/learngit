@@ -1,9 +1,13 @@
-﻿using CFT.CSOMS.DAL.InternetBank;
+﻿using CFT.Apollo.Logging;
+using CFT.CSOMS.BLL.WechatPay;
+using CFT.CSOMS.DAL.Infrastructure;
+using CFT.CSOMS.DAL.InternetBank;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using TENCENT.OSS.C2C.Finance.Common.CommLib;
 
 namespace CFT.CSOMS.BLL.InternetBank
 {
@@ -14,6 +18,45 @@ namespace CFT.CSOMS.BLL.InternetBank
             if (string.IsNullOrEmpty(FOrderId)) 
             {
                 throw new ArgumentNullException("FOrderId");
+            }
+            try
+            {
+                List<int> refundIdList = new List<int>();
+                DataSet ds = new InternetBankService().GetRefundByFrefundId(0, "", "", 0, 0);
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+                    {
+                        foreach (DataRow item in ds.Tables[0].Rows)
+                        {
+                            refundIdList.Add(Convert.ToInt32(item["Frefund_id"]));
+                        }
+                    }
+                }
+                if (!string.IsNullOrEmpty(FOrderId) && FOrderId.Length >= 10)
+                {
+                    if (!refundIdList.Contains(Convert.ToInt32(FOrderId.Substring(0, 10))))
+                    {
+                        LogHelper.LogError("该商家的订单不允许走网银退款。");
+                        throw new Exception("该商家的订单不允许走网银退款。");
+                    }
+                }
+
+                DataTable wx_dt = new WechatPayService().QueryWxTrans(FOrderId); //查询微信转账业务
+                if (wx_dt != null && wx_dt.Rows.Count > 0)
+                {
+                    string wxTradeId = PublicRes.objectToString(wx_dt, "wx_trade_id");//子账户关联订单号
+                    if (wxTradeId.Contains("mkt") || wxTradeId.Contains("wxp"))
+                    {
+                        LogHelper.LogError("当前订单为微信大单，禁止录入！");
+                        throw new Exception("当前订单为微信大单，禁止录入！");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                loger.err("AddRefundInfo", ex.Message+ex.StackTrace);
+                return false;
             }
             return  new CFT.CSOMS.DAL.InternetBank.InternetBankData().AddRefundInfo(FOrderId, FRefund_type, FSam_no, FRecycle_user, FSubmit_user, FRefund_amount,  memo);
         }
