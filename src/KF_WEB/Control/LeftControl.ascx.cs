@@ -410,6 +410,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 FundControl1.AddSubMenu("理财通增值券", "WebchatPay/AddedValueTicketQuery.aspx");
                 FundControl1.AddSubMenu("合约机查询", "WebchatPay/QueryContractMachine.aspx");
                 FundControl1.AddSubMenu("理财通转投查询", "WebchatPay/LCTSwitchQuery.aspx");
+                FundControl1.AddSubMenu("报价交易查询", "WebchatPay/QuotationTransactionQuery.aspx");
             }
 
             if (classLibrary.ClassLib.ValidateRight("DKAdjust", this))

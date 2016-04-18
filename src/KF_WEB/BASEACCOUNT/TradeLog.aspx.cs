@@ -75,11 +75,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 try
                 {
-                    string selectStr = Session["QQID"].ToString();
+                    string selectStr = "";
                     string fuid = "";
+                    if (Session["QQID"] != null)
+                    {
+                        selectStr = Session["QQID"].ToString().Trim();
+                    }
                     if (Session["fuid"] != null)
                     {
                         fuid = Session["fuid"].ToString();
+                    }
+                    if (string.IsNullOrEmpty(selectStr)) 
+                    {
+                        return;
                     }
                     DateTime beginTime = DateTime.Now.AddDays(-PublicRes.PersonInfoDayCount);
                     DateTime endTime = DateTime.Now.AddDays(1);

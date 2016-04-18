@@ -367,18 +367,18 @@ namespace CFT.CSOMS.DAL.FundModule
              </request>*/
 
             string requestText = "reqid=628&flag=1&fields=trade_id:" + trade_id;
-            //if (!string.IsNullOrEmpty(buy_id))
-            //{
-            requestText += "|buy_id:" + buy_id;
-            //}
-            //if (!string.IsNullOrEmpty(redem_id))
-            //{
-            requestText += "|redem_id:" + redem_id;
-            //}
-            //if (!string.IsNullOrEmpty(change_id))
-            //{
-            requestText += "|change_id:" + change_id;
-            //}
+            if (!string.IsNullOrEmpty(buy_id))
+            {
+                requestText += "|buy_id:" + buy_id;
+            }
+            if (!string.IsNullOrEmpty(redem_id))
+            {
+                requestText += "|redem_id:" + redem_id;
+            }
+            if (!string.IsNullOrEmpty(change_id))
+            {
+                requestText += "|change_id:" + change_id;
+            }
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             DataTable dt = null;
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -390,6 +390,105 @@ namespace CFT.CSOMS.DAL.FundModule
                 throw new LogicException("查询数据为空");
             }
             return dt;
+        }
+        public DataTable Query_QuotationTransaction(string trade_id, string fund_code, string state, string profit_end_date,int offset,int limit)
+        {
+//            <request>
+//    <reqid>675</reqid>
+//    <flag>2</flag>
+//    <notes>报价交易列表</notes>
+//    <db_no>4405</db_no>
+//    <db_type>1</db_type>
+//    <needauth>true</needauth>
+//    <needtradeid>false</needtradeid>
+//    <db_field>trade_id</db_field>
+//    <sql>
+//        SELECT Fproduct_type，Fproduct_name，Fissue_name，Fbuy_total，Fbuy_limit，Fnew_user_value_date，Fold_user_value_date
+//        Fid,Fissue,Ftrade_id,Fspid,Ffund_code, \
+//        Ftrans_date,Fvalue_date,Fduration,Fdue_date, \
+//        Fprofit_recon_date,Ffetch_arrive_date,Fredem_type, \
+//        Fprofit_rate,Fterminate_profit_rate, \
+//        Ftotal_fee,Fcreate_time,Fmodify_time,Fstate, \
+//        Fend_transfer_spid,Fend_transfer_fundcode,Fprofit_type,\
+//        Fprofit_last_recon_date,Flast_profit,Ftotal_profit \
+//        FROM fund_db_$AA$.t_quote_trans_$B$   \
+//        WHERE Ftrade_id='$trade_id$'  \
+//        AND Ffund_code = '$fund_code$' \
+//        AND Fstate = '$state$' \
+//        AND Fprofit_recon_date &gt;='$profit_end_date$' \
+//        ORDER BY Fcreate_time DESC \
+//    </sql>
+//</request>
+            string requestText = "reqid=675&flag=2&offset=" + offset + "&limit=" + limit + "&fields=trade_id:" + trade_id;
+            if (!string.IsNullOrEmpty(fund_code))
+            {
+                requestText += "|fund_code:" + fund_code;
+            }
+            if (!string.IsNullOrEmpty(state))
+            {
+                requestText += "|state:" + state;
+            }
+            if (!string.IsNullOrEmpty(profit_end_date))
+            {
+                requestText += "|profit_end_date:" + profit_end_date;
+            }
+            requestText += "&MSG_NO=100769675" + DateTime.Now.ToString("yyyyMMddHHmmss");
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            DataTable dt = null;
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+            }
+            else
+            {
+                throw new LogicException("查询数据为空");
+            }
+            return dt;
+
+        }
+
+        public DataTable QueryOne_QuotationTransaction(string trade_id, string Fid)
+        {
+//        <request>
+//    <reqid>676</reqid>
+//    <flag>1</flag>
+//    <notes>报价交易详情</notes>
+//    <db_no>4405</db_no>
+//    <db_type>1</db_type>
+//    <needauth>true</needauth>
+//    <needtradeid>false</needtradeid>
+//    <db_field>trade_id</db_field>
+//    <sql>
+//        SELECT Fid,Fissue,Ftrade_id,Fspid,Ffund_code, \
+//        Ftrans_date,Fvalue_date,Fduration,Fdue_date, \
+//        Fprofit_recon_date,Ffetch_arrive_date,Fredem_type, \
+//        Fprofit_rate,Fterminate_profit_rate, \
+//        Ftotal_fee,Fcreate_time,Fmodify_time,Fstate,Fend_transfer_spid, \
+//        Fend_transfer_fundcode \
+//        FROM fund_db_$AA$.t_quote_trans_$B$   \
+//        WHERE Ftrade_id='$trade_id$'  \
+//        AND Ffund_code = '$fund_code$' \
+//        AND Fissue = '$issue$' \
+//        AND Fid ='$id$' \
+//    </sql>
+//</request>
+
+            string requestText = "reqid=676&flag=1&fields=trade_id:" + trade_id;
+            requestText += "|id:" + Fid;
+             
+            requestText += "&MSG_NO=100769676" + DateTime.Now.ToString("yyyyMMddHHmmss");
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            DataTable dt = null;
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+            }
+            else
+            {
+                throw new LogicException("查询数据为空");
+            }
+            return dt;
+
         }
     }
 }
