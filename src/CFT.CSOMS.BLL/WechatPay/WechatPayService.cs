@@ -11,6 +11,7 @@ using CFT.CSOMS.DAL.Infrastructure;
 using TENCENT.OSS.CFT.KF.DataAccess;
 using BankLib;
 using System.Web;
+using CFT.CSOMS.DAL.FundModule;
 
 namespace CFT.CSOMS.BLL.WechatPay
 {
@@ -583,6 +584,41 @@ namespace CFT.CSOMS.BLL.WechatPay
             //dt.Columns.Add("r_bank_type", typeof(string));
             //dt.Columns.Add("", typeof(string));
 
+            return dt;
+        }
+        public DataTable QueryQuotationTransaction(string trade_id, string Fid, string fund_code, string state, string profit_end_date, int offset, int limit)
+        {
+            DataTable dt = null;
+            if (limit == 1)
+            {
+                dt = new FundInfoData().QueryOne_QuotationTransaction(trade_id, Fid);
+            }
+            else
+            {
+                dt = new FundInfoData().Query_QuotationTransaction(trade_id, fund_code, state, profit_end_date, offset, limit);
+            }
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                dt.Columns.Add("Fund_name", typeof(string));
+                dt.Columns.Add("Fredem_type_str", typeof(string));
+                dt.Columns.Add("Fstate_str", typeof(string));
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Fund_name"] = "中信证券";//目前只有一个基金，以后再改
+                    string Fredem_type = dr["Fredem_type"].ToString().Trim();
+                    dr["Fredem_type_str"] = Fredem_type == "1" ? "赎回到理财通余额" :
+                        Fredem_type == "2" ? "赎回到银行卡" :
+                        Fredem_type == "3" ? "赎回到财付通余额" :
+                         Fredem_type == "4" ? "赎回到期转货币" :
+                        "未知：" + Fredem_type;
+                    string Fstate = dr["Fstate"].ToString().Trim();
+                    dr["Fstate_str"] = Fstate == "1" ? "待执行（申购确认完成即该状态）" :
+                        Fstate == "2" ? "发起到期赎回" :
+                        Fstate == "3" ? "到期赎回成功" :
+                         "未知：" + Fredem_type;
+                }
+            }
             return dt;
         }
     }

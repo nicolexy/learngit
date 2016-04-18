@@ -953,6 +953,13 @@
     <Compile Include="Control\TravelPlatform.ascx.designer.cs">
       <DependentUpon>TravelPlatform.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Control\UserNameControl.ascx.cs">
+      <DependentUpon>UserNameControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Control\UserNameControl.ascx.designer.cs">
+      <DependentUpon>UserNameControl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Control\WebchatPayControl.ascx.cs">
       <DependentUpon>WebchatPayControl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2834,6 +2841,13 @@
     <Compile Include="WebchatPay\QueryWechatRealNameAuthen.aspx.designer.cs">
       <DependentUpon>QueryWechatRealNameAuthen.aspx</DependentUpon>
     </Compile>
+    <Compile Include="WebchatPay\QuotationTransactionQuery.aspx.cs">
+      <DependentUpon>QuotationTransactionQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebchatPay\QuotationTransactionQuery.aspx.designer.cs">
+      <DependentUpon>QuotationTransactionQuery.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WebchatPay\WechatMerchantTrans.aspx.cs">
       <DependentUpon>WechatMerchantTrans.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3123,6 +3137,7 @@
       <SubType>UserControl</SubType>
     </Content>
     <Content Include="Control\TravelPlatform.ascx" />
+    <Content Include="Control\UserNameControl.ascx" />
     <Content Include="Control\WebchatPayControl.ascx" />
     <Content Include="Control\CreditPayControl.ascx" />
     <Content Include="Control\SysManage.ascx">
@@ -3912,6 +3927,7 @@
     <Content Include="WebchatPay\LCTSwitchQuery.aspx" />
     <Content Include="WebchatPay\QueryRealtimeRepayment.aspx" />
     <Content Include="WebchatPay\QueryWechatRealNameAuthen.aspx" />
+    <Content Include="WebchatPay\QuotationTransactionQuery.aspx" />
     <Content Include="WebchatPay\WechatMerchantTrans.aspx" />
     <Content Include="WebchatPay\CreditCardRefundQuery.aspx" />
     <Content Include="WebchatPay\AddedValueTicketQuery.aspx" />
@@ -5079,7 +5095,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>45222</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
