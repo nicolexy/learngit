@@ -55,7 +55,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.VIPAccount
             try
             {
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-                DataSet ds = qs.QueryTurnover(tbx_acc.Text.Trim(), tbx_order.Text.Trim(), strBeginDate, strEndDate);
+                DataSet ds = null;//qs.QueryTurnover(tbx_acc.Text.Trim(), tbx_order.Text.Trim(), strBeginDate, strEndDate);
                 int total = 0;
                 if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                 {

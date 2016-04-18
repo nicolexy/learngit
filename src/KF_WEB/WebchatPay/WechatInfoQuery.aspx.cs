@@ -377,12 +377,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 DataSet dsdgList = myService.GetUserClassDeleteList(this.TextBox1_InputQQ.Text.Trim());
                 if (dsdgList != null && dsdgList.Tables.Count > 0 && dsdgList.Tables[0].Rows.Count > 0)
                 {
-                    this.dgList.Visible = true;
-                    this.dgList.DataSource = dsdgList.Tables[0].DefaultView;
-                    this.DataBind();
+                    this.btnDelRecord.Visible = true;
                 }
                 else
-                    this.dgList.Visible = false;
+                    this.btnDelRecord.Visible = false;
             }
             catch(Exception ex)
             {
@@ -587,12 +585,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 DataSet dsdgList = myService.GetUserClassDeleteList(this.TextBox1_InputQQ.Text.Trim());
                 if (dsdgList != null && dsdgList.Tables.Count > 0 && dsdgList.Tables[0].Rows.Count > 0)
                 {
-                    this.dgList.Visible = true;
-                    this.dgList.DataSource = dsdgList.Tables[0].DefaultView;
-                    this.DataBind();
+                    this.btnDelRecord.Visible = true;
                 }
                 else
-                    this.dgList.Visible = false;
+                    this.btnDelRecord.Visible = false;
             }
             catch(Exception ex)
             {
@@ -1067,11 +1063,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
         }
 
-        public void dgList_PageIndexChanged(object source, System.Web.UI.WebControls.DataGridPageChangedEventArgs e)
-        {
-            this.dgList.CurrentPageIndex = e.NewPageIndex;
-            BindData(1, 1);
-        }
 
         //protected void LkBT_mediOrder_Click(object sender, EventArgs e)
         //{
@@ -1103,6 +1094,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 WebUtils.ShowMessage(this.Page, "Í¬²½:" + classLibrary.setConfig.replaceMStr(ex.Message));
             }
   
+        }
+
+        protected void btnDelRecord_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("InfoCenterDelRecord.aspx?qqid=" + this.TextBox1_InputQQ.Text.Trim());
         }
     }
 

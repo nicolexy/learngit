@@ -63,7 +63,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.VIPAccount
 			try
 			{
 				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-				DataSet ds = qs.QueryBankCardBind(account);
+                DataSet ds = null;// qs.QueryBankCardBind(account);
 				if(ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
 				{
 					this.ShowMsg("查询记录为空。");
@@ -85,7 +85,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.VIPAccount
 								continue;
 							}
 						}
-						DataSet oneInfo = qs.QueryBankCardInfo(cardNumber);
+                        DataSet oneInfo = null;//qs.QueryBankCardInfo(cardNumber);
 						if(oneInfo != null && oneInfo.Tables[0] != null)
 						{
 							oneInfo.Tables[0].Columns.Add("FstateName",typeof(string));
@@ -141,7 +141,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.VIPAccount
 				
 
 					#region 获取银行卡交易信息
-					DataSet transaction = qs.QueryBankCardTransaction(account);
+                    DataSet transaction = null;//qs.QueryBankCardTransaction(account);
 
 					if(transaction == null || transaction.Tables.Count == 0 || transaction.Tables[0].Rows.Count == 0)
 					{}

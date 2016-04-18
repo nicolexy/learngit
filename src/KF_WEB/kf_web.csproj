@@ -407,6 +407,13 @@
     <Compile Include="BaseAccount\GatherLog.aspx.designer.cs">
       <DependentUpon>GatherLog.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\InfoCenterDelRecord.aspx.cs">
+      <DependentUpon>InfoCenterDelRecord.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\InfoCenterDelRecord.aspx.designer.cs">
+      <DependentUpon>InfoCenterDelRecord.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\logOnUserBatch.aspx.cs">
       <DependentUpon>logOnUserBatch.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -945,6 +952,13 @@
     </Compile>
     <Compile Include="Control\TravelPlatform.ascx.designer.cs">
       <DependentUpon>TravelPlatform.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Control\UserNameControl.ascx.cs">
+      <DependentUpon>UserNameControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Control\UserNameControl.ascx.designer.cs">
+      <DependentUpon>UserNameControl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Control\WebchatPayControl.ascx.cs">
       <DependentUpon>WebchatPayControl.ascx</DependentUpon>
@@ -2754,6 +2768,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\ZWBatchPay_Service\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\ZWCheck_Service\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -2821,6 +2840,13 @@
     </Compile>
     <Compile Include="WebchatPay\QueryWechatRealNameAuthen.aspx.designer.cs">
       <DependentUpon>QueryWechatRealNameAuthen.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebchatPay\QuotationTransactionQuery.aspx.cs">
+      <DependentUpon>QuotationTransactionQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebchatPay\QuotationTransactionQuery.aspx.designer.cs">
+      <DependentUpon>QuotationTransactionQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebchatPay\WechatMerchantTrans.aspx.cs">
       <DependentUpon>WechatMerchantTrans.aspx</DependentUpon>
@@ -2947,6 +2973,7 @@
     <Content Include="BaseAccount\FetchListIntercept.aspx" />
     <Content Include="BaseAccount\FreezeFinQuery2.aspx" />
     <Content Include="BaseAccount\GatherLog.aspx" />
+    <Content Include="BaseAccount\InfoCenterDelRecord.aspx" />
     <Content Include="BaseAccount\logOnUserBatch.aspx" />
     <Content Include="BaseAccount\logOnUserNew.aspx" />
     <Content Include="BaseAccount\ModifyContactInfo.aspx">
@@ -3110,6 +3137,7 @@
       <SubType>UserControl</SubType>
     </Content>
     <Content Include="Control\TravelPlatform.ascx" />
+    <Content Include="Control\UserNameControl.ascx" />
     <Content Include="Control\WebchatPayControl.ascx" />
     <Content Include="Control\CreditPayControl.ascx" />
     <Content Include="Control\SysManage.ascx">
@@ -3876,8 +3904,17 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\SPOA_Service\SPOA_Service.disco" />
+    <None Include="Web References\ZWBatchPay_Service\batchpay_service.wsdl" />
+    <Content Include="Web References\ZWBatchPay_Service\Param.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\ZWBatchPay_Service\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <None Include="Web References\ZWCheck_Service\Check_Service.disco" />
     <None Include="Web References\FQuery_Service\Query_Service.disco" />
+    <None Include="Web References\ZWBatchPay_Service\batchpay_service.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3890,6 +3927,7 @@
     <Content Include="WebchatPay\LCTSwitchQuery.aspx" />
     <Content Include="WebchatPay\QueryRealtimeRepayment.aspx" />
     <Content Include="WebchatPay\QueryWechatRealNameAuthen.aspx" />
+    <Content Include="WebchatPay\QuotationTransactionQuery.aspx" />
     <Content Include="WebchatPay\WechatMerchantTrans.aspx" />
     <Content Include="WebchatPay\CreditCardRefundQuery.aspx" />
     <Content Include="WebchatPay\AddedValueTicketQuery.aspx" />
@@ -4917,6 +4955,17 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>finance_web_ZWCheck_Service_Check_Service</CachedSettingsPropName>
     </WebReferenceUrl>
+    <WebReferenceUrl Include="http://admin.zw.cf.com/finance_service/batchpay_service.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\ZWBatchPay_Service\</RelPath>
+      <UpdateFromURL>http://admin.zw.cf.com/finance_service/batchpay_service.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>finance_web_ZWBatchPay_Service_BatchPay_Service</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="http://admintk.cf.com/FINANCE_SERVICE/Query_Service.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\FINANCE_RefundSERVICE\</RelPath>
@@ -5046,7 +5095,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>45222</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

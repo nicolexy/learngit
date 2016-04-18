@@ -32,5 +32,8 @@
     <Setting Name="finance_web_FINANCE_REFUNDSERVICE_Query_Service" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://admintk.cf.com/FINANCE_SERVICE/Query_Service.asmx</Value>
     </Setting>
+    <Setting Name="finance_web_ZWBatchPay_Service_BatchPay_Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://admin.zw.cf.com/finance_service/batchpay_service.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

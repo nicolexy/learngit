@@ -3917,15 +3917,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
         [WebMethod(Description = "更新提交退款状态函数")]
-        public void UpdateSubmitRefundState(string fid, int refundState)
+        public void UpdateSubmitRefundState(string fid, int refundState,string batchNum)
         {
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ht"));
             try
             {
                 da.OpenConn();
                 string sql = string.Format(@"
-                update c2c_fmdb.t_refund_info set Fsubmit_refund={0},Fmodify_time=now() where Fid in ({1})",
-                refundState, fid);
+                update c2c_fmdb.t_refund_info set Fbatch_num={0},Fsubmit_refund={1},Fmodify_time=now() where Fid in ({2})",
+                batchNum, refundState, fid);
                 da.ExecSqlNum(sql);
             }
             catch (Exception err)

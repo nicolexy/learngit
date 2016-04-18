@@ -25,11 +25,11 @@ namespace CFT.CSOMS.DAL.RefundModule
         /// <param name="iPageStart"></param>
         /// <param name="iPageMax"></param>
         /// <returns></returns>
-        public DataSet QueryRefundRegisterList(string coding, string orderId, string stime, string etime, int refundType, int refundState, string tradeState,
-            int refund_id, string submit_user, int iPageStart, int iPageMax) 
+        public DataSet QueryRefundRegisterList(string coding, string orderId, string stime, string etime, int refundType, int refundState,
+            string batchNum, string tradeState, int refund_id, string submit_user, int iPageStart, int iPageMax)
         {
             StringBuilder Sql = new StringBuilder("select * from  c2c_fmdb.t_refund_info where 1=1 ");
-            
+
             if (!string.IsNullOrEmpty(coding))
             {
                 Sql.Append(" and Fcoding='" + coding + "'");
@@ -61,6 +61,10 @@ namespace CFT.CSOMS.DAL.RefundModule
             if (refundState != null && refundState != 0)
             {
                 Sql.Append(" and Fsubmit_refund=" + refundState);
+            }
+            if (!string.IsNullOrEmpty(batchNum) && batchNum != "0")
+            {
+                Sql.Append(" and Fbatch_num='" + batchNum + "'");
             }
             if (!string.IsNullOrEmpty(tradeState) && tradeState != "0")
             {
@@ -146,7 +150,8 @@ namespace CFT.CSOMS.DAL.RefundModule
             return count;
         }
 
-        public int QueryRefundRegisterCount(string coding, string orderId, string stime, string etime, int refundType, int refundState, string tradeState, int refund_id, string submit_user)
+        public int QueryRefundRegisterCount(string coding, string orderId, string stime, string etime, int refundType, int refundState,
+            string batchNum, string tradeState, int refund_id, string submit_user)
         {
             StringBuilder Sql = new StringBuilder("select count(*) from  c2c_fmdb.t_refund_info where 1=1 ");
 
@@ -181,6 +186,10 @@ namespace CFT.CSOMS.DAL.RefundModule
             if (refundState != null && refundState != 0)
             {
                 Sql.Append(" and Fsubmit_refund=" + refundState); 
+            }
+            if (!string.IsNullOrEmpty(batchNum) && batchNum != "0")
+            {
+                Sql.Append(" and Fbatch_num='" + batchNum + "'");
             }
             if (!string.IsNullOrEmpty(tradeState) && tradeState != "0")
             {
