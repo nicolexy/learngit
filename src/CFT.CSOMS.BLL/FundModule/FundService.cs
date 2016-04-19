@@ -1273,9 +1273,9 @@ namespace CFT.CSOMS.BLL.FundModule
         /// <param name="end_sell_type">到期操作</param>
         /// <param name="client_ip">操作ip</param>
         /// <returns></returns>
-        public bool AlterEndStrategy(string Trade_id, string Fund_code, long Close_listid, int user_end_type, int end_sell_type, string client_ip)
+        public bool AlterEndStrategy(string Trade_id, string Fund_code, long Close_listid, int user_end_type, int end_sell_type, string client_ip,string spid)
         {
-           return new FundProfit().AlterEndStrategy(Trade_id, Fund_code, Close_listid, user_end_type, end_sell_type, client_ip);
+           return new FundProfit().AlterEndStrategy(Trade_id, Fund_code, Close_listid, user_end_type, end_sell_type, client_ip,spid);
         }
 
         #region 理财通定投和定赎

@@ -44,11 +44,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             ViewState["trade_id"] = trade_id;
 
             string fund_code = ddl_fund.SelectedValue.Trim();
-            string state = ddl_state.SelectedValue.Trim();
-            string profit_end_date = txt_profit_end_date.Text.Trim();
+            //string state = ddl_state.SelectedValue.Trim();
+            //string profit_end_date = txt_profit_end_date.Text.Trim();
             int limit = 10;
             int offset = (pager1.CurrentPageIndex - 1) * limit;
-            DataTable dt = new WechatPayService().QueryQuotationTransaction(trade_id, "", fund_code, state, profit_end_date, offset, limit);
+            DataTable dt = new WechatPayService().QueryQuotationTransaction(trade_id, "", fund_code, offset, limit);
             DataGrid1.DataSource = dt;
             DataGrid1.DataBind();
 
@@ -78,7 +78,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 
                     string fid = e.Item.Cells[0].Text.Replace("&nbsp;", "").Trim();
                     string trade_id = ViewState["trade_id"].ToString();
-                    DataTable dt = new WechatPayService().QueryQuotationTransaction(trade_id, fid, null, null, null, 0, 1);
+                    DataTable dt = new WechatPayService().QueryQuotationTransaction(trade_id, fid, null, 0, 1);
                     foreach (var control in this.panDetail.Controls)
                     {
                         if (control is Label)

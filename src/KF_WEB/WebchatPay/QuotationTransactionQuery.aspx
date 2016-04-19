@@ -45,7 +45,7 @@
                 <tr>
                     <td class="tb_query_title" style="width:60px" >账 号：
                     </td>
-                    <td colspan="5">
+                    <td>
                         <uc1:UserNameControl ID="UserNameControl1" runat="server" />
                     </td>                    
                 </tr>
@@ -56,7 +56,7 @@
                       <asp:DropDownList ID="ddl_fund" runat="server" Width="173px">
                           <asp:ListItem Text="中信证券" Value="9000001"></asp:ListItem>
                       </asp:DropDownList>
-                    </td>   
+                 <%--   </td>   
                        <td class="tb_query_title">状 态：
                     </td>
                     <td>
@@ -71,7 +71,7 @@
                     </td>
                     <td>
                       <asp:TextBox ID="txt_profit_end_date"  runat="server" onclick="WdatePicker()" onFocus="WdatePicker({disabledDays:[0,6]})" class="Wdate" Width="173px"></asp:TextBox>
-                    </td>                       
+                    </td>     --%>                  
                 </tr>
                 <tr>
                     <td colspan="6" style="text-align: center">

@@ -391,48 +391,48 @@ namespace CFT.CSOMS.DAL.FundModule
             }
             return dt;
         }
-        public DataTable Query_QuotationTransaction(string trade_id, string fund_code, string state, string profit_end_date,int offset,int limit)
+        public DataTable Query_QuotationTransaction(string trade_id, string id, string fund_code, int offset, int limit)
         {
-//            <request>
-//    <reqid>675</reqid>
-//    <flag>2</flag>
-//    <notes>报价交易列表</notes>
+//<request>
+//    <reqid>746</reqid>
+//    <flag>1</flag>
+//    <notes>报价交易详情(不验session)</notes>
 //    <db_no>4405</db_no>
 //    <db_type>1</db_type>
-//    <needauth>true</needauth>
 //    <needtradeid>false</needtradeid>
 //    <db_field>trade_id</db_field>
 //    <sql>
-//        SELECT Fproduct_type，Fproduct_name，Fissue_name，Fbuy_total，Fbuy_limit，Fnew_user_value_date，Fold_user_value_date
-//        Fid,Fissue,Ftrade_id,Fspid,Ffund_code, \
+//        SELECT Fid,Fissue,Ftrade_id,Fspid,Ffund_code, \
 //        Ftrans_date,Fvalue_date,Fduration,Fdue_date, \
 //        Fprofit_recon_date,Ffetch_arrive_date,Fredem_type, \
 //        Fprofit_rate,Fterminate_profit_rate, \
-//        Ftotal_fee,Fcreate_time,Fmodify_time,Fstate, \
-//        Fend_transfer_spid,Fend_transfer_fundcode,Fprofit_type,\
-//        Fprofit_last_recon_date,Flast_profit,Ftotal_profit \
+//        Ftotal_fee,Fcreate_time,Fmodify_time,Fstate,Fend_transfer_spid, \
+//        Fend_transfer_fundcode \
 //        FROM fund_db_$AA$.t_quote_trans_$B$   \
 //        WHERE Ftrade_id='$trade_id$'  \
 //        AND Ffund_code = '$fund_code$' \
-//        AND Fstate = '$state$' \
-//        AND Fprofit_recon_date &gt;='$profit_end_date$' \
-//        ORDER BY Fcreate_time DESC \
+//        AND Fissue = '$issue$' \
+//        AND Fid ='$id$' \
 //    </sql>
 //</request>
-            string requestText = "reqid=675&flag=2&offset=" + offset + "&limit=" + limit + "&fields=trade_id:" + trade_id;
+            string requestText = "reqid=746&offset=" + offset + "&limit=" + limit + "&fields=trade_id:" + trade_id;
             if (!string.IsNullOrEmpty(fund_code))
             {
                 requestText += "|fund_code:" + fund_code;
             }
-            if (!string.IsNullOrEmpty(state))
+            if (!string.IsNullOrEmpty(id))
             {
-                requestText += "|state:" + state;
+                requestText += "|id:" + id;
             }
-            if (!string.IsNullOrEmpty(profit_end_date))
-            {
-                requestText += "|profit_end_date:" + profit_end_date;
-            }
-            requestText += "&MSG_NO=100769675" + DateTime.Now.ToString("yyyyMMddHHmmss");
+            //if (!string.IsNullOrEmpty(state))
+            //{
+            //    requestText += "|state:" + state;
+            //}
+            //if (!string.IsNullOrEmpty(profit_end_date))
+            //{
+            //    requestText += "|profit_end_date:" + profit_end_date;
+            //}
+            requestText += "&MSG_NO=100769746" + DateTime.Now.ToString("yyyyMMddHHmmss");
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             DataTable dt = null;
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)

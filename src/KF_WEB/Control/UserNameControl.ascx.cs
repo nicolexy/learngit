@@ -63,8 +63,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 if (c is RadioButton)
                 {
                     RadioButton rdb = c as RadioButton;
-                    usertype = rdb.ID;
-                    break;
+                    if (rdb.Checked)
+                    {
+                        usertype = rdb.ID;
+                        break;
+                    }
                 }
             }
             return usertype;
