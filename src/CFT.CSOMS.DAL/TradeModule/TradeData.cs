@@ -1218,6 +1218,10 @@ namespace CFT.CSOMS.DAL.TradeModule
             {
                 fuid = PublicRes.ConvertToFuid(QQID); 
             }
+            if (string.IsNullOrEmpty(fuid))
+            {
+                return null;
+            }
             //#if DEBUG
             //           fuid = strID;
             //#endif

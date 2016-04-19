@@ -586,18 +586,10 @@ namespace CFT.CSOMS.BLL.WechatPay
 
             return dt;
         }
-        public DataTable QueryQuotationTransaction(string trade_id, string Fid, string fund_code, string state, string profit_end_date, int offset, int limit)
+        public DataTable QueryQuotationTransaction(string trade_id, string Fid, string fund_code, int offset, int limit)
         {
             DataTable dt = null;
-            if (limit == 1)
-            {
-                dt = new FundInfoData().QueryOne_QuotationTransaction(trade_id, Fid);
-            }
-            else
-            {
-                dt = new FundInfoData().Query_QuotationTransaction(trade_id, fund_code, state, profit_end_date, offset, limit);
-            }
-
+            dt = new FundInfoData().Query_QuotationTransaction(trade_id,Fid, fund_code, offset, limit);
             if (dt != null && dt.Rows.Count > 0)
             {
                 dt.Columns.Add("Fund_name", typeof(string));
