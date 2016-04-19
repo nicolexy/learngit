@@ -70,7 +70,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                         var end_date = GetQueryString("end_date");
                         var mobile = GetQueryString("mobile");
                         var LCTFund = GetQueryString("LCTFund");
-
+                        ViewState["spid"] = spid;
                         if (opertype == "1")  //客服系统提交审批
                         {
                             if (LCTFund == "true" && uin != "" && total_fee != "") //理财通余额强赎
@@ -801,11 +801,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 var close_listid = long.Parse(ViewState["close_listid"].ToString());
                 var user_end_type = int.Parse(AlterES_user_end_type.Value);
                 var end_sell_type = int.Parse(AlterES_end_sell_type.Value);
-
+                string spid = ViewState["spid"].ToString();
                 var client_ip = Request.UserHostAddress.ToString();
                 if (client_ip == "::1") client_ip = "127.0.0.1";
 
-                var isSucceed = fs.AlterEndStrategy(trade_id, fund_code, close_listid, user_end_type, end_sell_type, client_ip);
+                var isSucceed = fs.AlterEndStrategy(trade_id, fund_code, close_listid, user_end_type, end_sell_type, client_ip, spid);
                 if (isSucceed)
                 {
                     ShowMsg("修改成功");

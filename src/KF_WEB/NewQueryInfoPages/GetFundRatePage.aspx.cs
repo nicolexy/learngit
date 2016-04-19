@@ -755,6 +755,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                             dr["FDate"] = strEndDate.Substring(strEndDate.Length - 4);
 
                             dr["AlterEndStrategyURL"] = "GetFundRatePageDetail.aspx?opertype=2"
+                                + "&spid=" + ViewState["fundSPId"].ToString()
                                 + "&uin=" + ViewState["uin"].ToString()
                                 + "&fund_Code=" + ViewState["fundCode"].ToString()
                                 + "&trade_id=" + tradeId

@@ -198,7 +198,7 @@ namespace CFT.CSOMS.DAL.FundModule
         /// <param name="end_sell_type">到期操作</param>
         /// <param name="client_ip">操作ip</param>
         /// <returns></returns>
-        public bool AlterEndStrategy(string trade_id, string fund_code, long close_listid, int user_end_type, int end_sell_type, string client_ip)
+        public bool AlterEndStrategy(string trade_id, string fund_code, long close_listid, int user_end_type, int end_sell_type, string client_ip,string spid)
         {
             var ip = CFT.Apollo.Common.Configuration.AppSettings.Get("AlterEndStrategy_IP", "172.27.31.177");
             var port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("AlterEndStrategy_Port", 22000);
@@ -208,7 +208,9 @@ namespace CFT.CSOMS.DAL.FundModule
             token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(token, "md5").ToLower();
 
             var req =
-              "trade_id=" + trade_id +
+
+              "spid=" + spid +
+              "&trade_id=" + trade_id +
               "&fund_code=" + fund_code +
               "&close_listid=" + close_listid +
               "&user_end_type=" + user_end_type +
