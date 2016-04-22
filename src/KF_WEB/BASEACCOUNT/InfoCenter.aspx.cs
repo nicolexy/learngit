@@ -364,7 +364,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 LogHelper.LogError("出现异常：qqid=" + this.TextBox1_InputQQ.Text.Trim() + "异常信息：" + ex.ToString());
             }
-
+            if (Session["QQID"] == null && Session["QQID"] == "")
+            {
+                return;
+            }
             //try
             //{
                 //TAPD: 客服系统新需求363-财付通会员查询删除  ID：57321229
