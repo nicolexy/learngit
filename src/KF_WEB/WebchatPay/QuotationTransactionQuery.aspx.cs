@@ -13,12 +13,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
     public partial class QuotationTransactionQuery : System.Web.UI.Page
     {
+        int limit = 10;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 pager1.RecordCount = 10000;
                 pager1.Visible = false;
+                txt_profit_end_date.Text = DateTime.Now.ToString("yyyy-MM-dd");
             }
         }
 
@@ -42,13 +44,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             ViewState["txt_QQID"] = QQID;
             string trade_id = new FundService().GetTradeIdByUIN(QQID);
             ViewState["trade_id"] = trade_id;
+//#if DEBUG
+//            trade_id = "20150908000028213";
+//#endif
 
-            string fund_code = ddl_fund.SelectedValue.Trim();
+            //string fund_code = ddl_fund.SelectedValue.Trim();
             //string state = ddl_state.SelectedValue.Trim();
-            //string profit_end_date = txt_profit_end_date.Text.Trim();
-            int limit = 10;
+            DateTime Fdue_date = Convert.ToDateTime(txt_profit_end_date.Text.Trim());
+
             int offset = (pager1.CurrentPageIndex - 1) * limit;
-            DataTable dt = new WechatPayService().QueryQuotationTransaction(trade_id, "", fund_code, offset, limit);
+            DataTable dt = new WechatPayService().Query_QuotationTransaction(trade_id, Fdue_date, offset, limit);
             DataGrid1.DataSource = dt;
             DataGrid1.DataBind();
 
@@ -75,10 +80,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 {
                     panDetail.Visible = true;
                     txt_QQID.Text = ViewState["txt_QQID"].ToString();
-
                     string fid = e.Item.Cells[0].Text.Replace("&nbsp;", "").Trim();
                     string trade_id = ViewState["trade_id"].ToString();
-                    DataTable dt = new WechatPayService().QueryQuotationTransaction(trade_id, fid, null, 0, 1);
+                    DateTime Fdue_date = Convert.ToDateTime(txt_profit_end_date.Text.Trim());
+                    int offset = (pager1.CurrentPageIndex - 1) * limit;
+                    DataTable dt = new WechatPayService().Query_QuotationTransaction(trade_id, Fdue_date, offset, limit);
+                    DataRow dr = dt.Select(" Fid='" + fid + "'")[0];
+
                     foreach (var control in this.panDetail.Controls)
                     {
                         if (control is Label)
@@ -88,7 +96,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                             {
                                 try
                                 {
-                                    label.Text = dt.Rows[0][label.ID.Replace("lbl_", "")].ToString();
+                                    label.Text = dr[label.ID.Replace("lbl_", "")].ToString();
                                 }
                                 catch (Exception ex)
                                 {

@@ -391,92 +391,37 @@ namespace CFT.CSOMS.DAL.FundModule
             }
             return dt;
         }
-        public DataTable Query_QuotationTransaction(string trade_id, string id, string fund_code, int offset, int limit)
+        public DataTable Query_QuotationTransaction(string trade_id, DateTime Fdue_date, int offset, int limit)
         {
-//<request>
-//    <reqid>746</reqid>
-//    <flag>1</flag>
-//    <notes>报价交易详情(不验session)</notes>
-//    <db_no>4405</db_no>
-//    <db_type>1</db_type>
-//    <needtradeid>false</needtradeid>
-//    <db_field>trade_id</db_field>
-//    <sql>
-//        SELECT Fid,Fissue,Ftrade_id,Fspid,Ffund_code, \
-//        Ftrans_date,Fvalue_date,Fduration,Fdue_date, \
-//        Fprofit_recon_date,Ffetch_arrive_date,Fredem_type, \
-//        Fprofit_rate,Fterminate_profit_rate, \
-//        Ftotal_fee,Fcreate_time,Fmodify_time,Fstate,Fend_transfer_spid, \
-//        Fend_transfer_fundcode \
-//        FROM fund_db_$AA$.t_quote_trans_$B$   \
-//        WHERE Ftrade_id='$trade_id$'  \
-//        AND Ffund_code = '$fund_code$' \
-//        AND Fissue = '$issue$' \
-//        AND Fid ='$id$' \
-//    </sql>
-//</request>
-            string requestText = "reqid=746&offset=" + offset + "&limit=" + limit + "&fields=trade_id:" + trade_id;
-            if (!string.IsNullOrEmpty(fund_code))
-            {
-                requestText += "|fund_code:" + fund_code;
-            }
-            if (!string.IsNullOrEmpty(id))
-            {
-                requestText += "|id:" + id;
-            }
-            //if (!string.IsNullOrEmpty(state))
-            //{
-            //    requestText += "|state:" + state;
-            //}
-            //if (!string.IsNullOrEmpty(profit_end_date))
-            //{
-            //    requestText += "|profit_end_date:" + profit_end_date;
-            //}
-            requestText += "&MSG_NO=100769746" + DateTime.Now.ToString("yyyyMMddHHmmss");
-            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
-            DataTable dt = null;
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                dt = ds.Tables[0];
-            }
-            else
-            {
-                throw new LogicException("查询数据为空");
-            }
-            return dt;
 
-        }
-
-        public DataTable QueryOne_QuotationTransaction(string trade_id, string Fid)
-        {
-//        <request>
-//    <reqid>676</reqid>
+//            <request>
+//    <reqid>759</reqid>
 //    <flag>1</flag>
 //    <notes>报价交易详情</notes>
 //    <db_no>4405</db_no>
 //    <db_type>1</db_type>
-//    <needauth>true</needauth>
-//    <needtradeid>false</needtradeid>
+//    <needauth>false</needauth>
+//    <needtradeid>true</needtradeid>
 //    <db_field>trade_id</db_field>
 //    <sql>
 //        SELECT Fid,Fissue,Ftrade_id,Fspid,Ffund_code, \
 //        Ftrans_date,Fvalue_date,Fduration,Fdue_date, \
 //        Fprofit_recon_date,Ffetch_arrive_date,Fredem_type, \
 //        Fprofit_rate,Fterminate_profit_rate, \
-//        Ftotal_fee,Fcreate_time,Fmodify_time,Fstate,Fend_transfer_spid, \
-//        Fend_transfer_fundcode \
+//        Ftotal_fee,Fcreate_time,Fmodify_time,Fstate \
+//        Fend_transfer_spid,Fend_transfer_fundcode,Fend_redem_listid \
 //        FROM fund_db_$AA$.t_quote_trans_$B$   \
 //        WHERE Ftrade_id='$trade_id$'  \
-//        AND Ffund_code = '$fund_code$' \
-//        AND Fissue = '$issue$' \
-//        AND Fid ='$id$' \
+//        AND Fdue_date='$due_date$' \     
 //    </sql>
 //</request>
+            //request:&fields=trade_id:20150908000028213|due_date:20160408&flag=2&limit=2&offset=0&reqid=759
 
-            string requestText = "reqid=676&flag=1&fields=trade_id:" + trade_id;
-            requestText += "|id:" + Fid;
-             
-            requestText += "&MSG_NO=100769676" + DateTime.Now.ToString("yyyyMMddHHmmss");
+            string due_date = Fdue_date.Year.ToString() + Fdue_date.Month.ToString() + Fdue_date.Day.ToString();
+            string requestText = "reqid=759&flag=2&offset=" + offset +
+                "&limit=" + limit + "&fields=trade_id:" + trade_id + "|due_date:" + due_date;
+           
+            requestText += "&MSG_NO=100769759" + DateTime.Now.ToString("yyyyMMddHHmmss");
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             DataTable dt = null;
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)

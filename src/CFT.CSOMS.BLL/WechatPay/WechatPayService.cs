@@ -586,15 +586,23 @@ namespace CFT.CSOMS.BLL.WechatPay
 
             return dt;
         }
-        public DataTable QueryQuotationTransaction(string trade_id, string Fid, string fund_code, int offset, int limit)
+        /// <summary>
+        /// 理财通报价交易查询
+        /// </summary>
+        /// <param name="trade_id"></param>
+        /// <param name="Fdue_date"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public DataTable Query_QuotationTransaction(string trade_id, DateTime Fdue_date, int offset, int limit)
         {
             DataTable dt = null;
-            dt = new FundInfoData().Query_QuotationTransaction(trade_id,Fid, fund_code, offset, limit);
+            dt = new FundInfoData().Query_QuotationTransaction(trade_id, Fdue_date, offset, limit);
             if (dt != null && dt.Rows.Count > 0)
             {
                 dt.Columns.Add("Fund_name", typeof(string));
                 dt.Columns.Add("Fredem_type_str", typeof(string));
-                dt.Columns.Add("Fstate_str", typeof(string));
+                //dt.Columns.Add("Fstate_str", typeof(string));
                 foreach (DataRow dr in dt.Rows)
                 {
                     dr["Fund_name"] = "中信证券";//目前只有一个基金，以后再改
@@ -604,11 +612,11 @@ namespace CFT.CSOMS.BLL.WechatPay
                         Fredem_type == "3" ? "赎回到财付通余额" :
                          Fredem_type == "4" ? "赎回到期转货币" :
                         "未知：" + Fredem_type;
-                    string Fstate = dr["Fstate"].ToString().Trim();
-                    dr["Fstate_str"] = Fstate == "1" ? "待执行（申购确认完成即该状态）" :
-                        Fstate == "2" ? "发起到期赎回" :
-                        Fstate == "3" ? "到期赎回成功" :
-                         "未知：" + Fredem_type;
+                    //string Fstate = dr["Fstate"].ToString().Trim();
+                    //dr["Fstate_str"] = Fstate == "1" ? "待执行（申购确认完成即该状态）" :
+                    //    Fstate == "2" ? "发起到期赎回" :
+                    //    Fstate == "3" ? "到期赎回成功" :
+                    //     "未知：" + Fredem_type;
                 }
             }
             return dt;
