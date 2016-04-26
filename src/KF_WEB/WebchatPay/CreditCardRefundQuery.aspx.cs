@@ -274,19 +274,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 }
             }
 
-            //string wxNo = "",bankNo="",refundNo="" , uin = "";
-            //if (this.dd_queryType.SelectedValue == "1") 
-            //{
-            //    wxNo = this.cftNo.Text;
-            //}
-            //else if (this.dd_queryType.SelectedValue == "2") 
-            //{
-            //    bankNo = this.cftNo.Text;
-            //}
-            //else if (this.dd_queryType.SelectedValue == "3")
-            //{
-            //    refundNo = this.cftNo.Text;
-            //}
+            string wxNo = "",bankNo="",refundNo="" , uin = "";
+            if (this.dd_queryType.SelectedValue == "1") 
+            {
+                wxNo = this.cftNo.Text;
+            }
+            else if (this.dd_queryType.SelectedValue == "2") 
+            {
+                bankNo = this.cftNo.Text;
+            }
+            else if (this.dd_queryType.SelectedValue == "3")
+            {
+                refundNo = this.cftNo.Text;
+            }
             //else if (this.dd_queryType.SelectedValue == "4" 
             //    || this.dd_queryType.SelectedValue == "5" 
             //    || this.dd_queryType.SelectedValue == "6"
@@ -296,28 +296,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             //    Session["QQID"] = getQQID();
             //    uin = Session["QQID"].ToString();
             //}
-            //else 
-            //{
-            //    throw new Exception("查询参数不正确。");
-            //}
+            else 
+            {
+                throw new Exception("查询参数不正确。");
+            }
 
             int max = pager.PageSize;
             int start = max * (index - 1);
 
-            //var ds = new WechatPayService().QueryCreditCardRefund(wxNo, bankNo, refundNo,uin, s_begindate, s_enddate, start, max);
-            string No = cftNo.Text.Trim();
-            string query_type = this.dd_queryType.SelectedValue;
-            var dt = new WechatPayService().QueryCreditCardRefund(No, query_type, s_begindate, s_enddate, start, max);
-            if (dt != null  && dt.Rows.Count > 0)
+            var ds = new WechatPayService().QueryCreditCardRefund(wxNo, bankNo, refundNo,uin, s_begindate, s_enddate, start, max);
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 //通过uid取uin
                 //ds.Tables[0].Columns.Add("Fqqid", typeof(string));
-                dt.Columns.Add("Fnum_str", typeof(string));
-                dt.Columns.Add("Fcard_id_str", typeof(string));
-                dt.Columns.Add("Frefund_state_str", typeof(string));
-                dt.Columns.Add("Fticket_str", typeof(string));
-                
-                foreach (DataRow dr in dt.Rows)
+                ds.Tables[0].Columns.Add("Fnum_str", typeof(string));
+                ds.Tables[0].Columns.Add("Fcard_id_str", typeof(string));
+                ds.Tables[0].Columns.Add("Frefund_state_str", typeof(string));
+                ds.Tables[0].Columns.Add("Fticket_str", typeof(string));
+
+                foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     //dr["Fqqid"] =  AccountService.Uid2QQ(dr["Fuid"].ToString());
                     dr["Fcard_id_str"] = classLibrary.setConfig.ConvertID(dr["Fcard_id"].ToString(), 4, 4);
@@ -343,9 +340,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                     }           
                 }
 
-                classLibrary.setConfig.FenToYuan_Table(dt, "Fnum", "Fnum_str");
+                classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Fnum", "Fnum_str");
                 
-                DataGrid1.DataSource = dt.DefaultView;
+                DataGrid1.DataSource = ds.Tables[0].DefaultView;
                 DataGrid1.DataBind();
             }
             else 
