@@ -9,110 +9,54 @@ using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using System.Collections;
 using CFT.Apollo.Logging;
 using System.Xml;
-using CFT.CSOMS.COMMLIB;
 
 namespace CFT.CSOMS.DAL.WechatPay
 {
     public class CreditCardRefund
     {
-        /// <param name="wxNo">微信号</param>
-        /// <param name="bankNo">银行账号</param>
-        /// <param name="refundNo">还款单号</param>
-        public DataTable QueryCreditCardRefund(string No, string query_type, string stime, string etime, int offset, int limit) 
+        public DataSet QueryCreditCardRefundWX(string wxUid,string stime,string etime,int start,int count) 
         {
-            //head_u=&sp_id=2000000000&request_type=110226&ver=1&sys_flag=1&module=zft_kf_server&type=3&business_type=1&repay_no=1000019701201512080356023736&start_day=2015-12-01&end_day=2015-12-31&limit=10&offset=0
-            var ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("Relay_IP", "10.123.12.34");//172.27.31.177
-            var port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("Relay_PORT", 22000);
-//#if DEBUG
-//            stime = "2015-12-01";
-//            etime = "2015-12-31";
-//#endif
-
-            string requestText = "sys_flag=1&module=zft_kf_server&business_type=1&start_day=" + stime + "&end_day=" + etime
-                                    + "&offset=" + offset + "&limit=" + limit;
-            //微信号
-            if (query_type == "1")
+            if (string.IsNullOrEmpty(wxUid)) 
             {
-                string openid = WeChatHelper.GetXYKHKOpenIdFromWeChatName(No);
-//#if DEBUG
-//                openid = "o6BHkjiOuEkDSXPBaDbrelfpvg7k";
-//#endif
-
-                requestText += "&type=1&openid=" + openid;
+                throw new ArgumentNullException("必填参数：账号为空！");
+            }
+            wxUid = wxUid.Trim();
+            string tableName = "";
+            if (wxUid.Length == 1)
+            {
+                tableName = "wx_public_platform_0" + wxUid + ".t_wx_fetch_list_0";
+            }
+            else if (wxUid.Length == 2)
+            {
+                tableName = "wx_public_platform_" + wxUid + ".t_wx_fetch_list_0";
 
             }
-            //银行账号
-            else if (query_type == "2")
+            else 
             {
-//#if DEBUG
-//                No = "6222000000000001";
-//#endif
-                requestText += "&type=2&bank_no=" + No;
-            }
-            //还款单号
-            else if (query_type == "3")
-            {
-//#if DEBUG
-//                No = "1000019701201512080356023736";
-//#endif
-                requestText += "&type=3&repay_no=" + No;
-            }
-            else
-            {
-                throw new Exception("账号类型错误！");
+                tableName = "wx_public_platform_" + wxUid.Substring(wxUid.Length - 2) + ".t_wx_fetch_list_" + wxUid.Substring(wxUid.Length - 3, 1);
             }
 
-            DataSet ds = RelayAccessFactory.GetDSFromRelayMethod1(requestText, "110226", ip, port);
-            if (ds != null && ds.Tables.Count > 0) 
+            StringBuilder Sql = new StringBuilder("select * from "+tableName);
+            Sql.Append(" where Fuid=" + wxUid);
+            if (!string.IsNullOrEmpty(stime)) 
             {
-                return ds.Tables[0];
+                Sql.Append(" AND Fcreate_time >='"+stime+"'");
             }
-            return null;
-        }
+            if (!string.IsNullOrEmpty(etime))
+            {
+                Sql.Append(" AND Fcreate_time <='" + etime+"'");
+            }
+            Sql.Append(" limit "+start+","+count);
 
-        //public DataSet QueryCreditCardRefundWX(string wxUid,string stime,string etime,int start,int count) 
-        //{
-        //    if (string.IsNullOrEmpty(wxUid)) 
-        //    {
-        //        throw new ArgumentNullException("必填参数：账号为空！");
-        //    }
-        //    wxUid = wxUid.Trim();
-        //    string tableName = "";
-        //    if (wxUid.Length == 1)
-        //    {
-        //        tableName = "wx_public_platform_0" + wxUid + ".t_wx_fetch_list_0";
-        //    }
-        //    else if (wxUid.Length == 2)
-        //    {
-        //        tableName = "wx_public_platform_" + wxUid + ".t_wx_fetch_list_0";
-
-        //    }
-        //    else 
-        //    {
-        //        tableName = "wx_public_platform_" + wxUid.Substring(wxUid.Length - 2) + ".t_wx_fetch_list_" + wxUid.Substring(wxUid.Length - 3, 1);
-        //    }
-
-        //    StringBuilder Sql = new StringBuilder("select * from "+tableName);
-        //    Sql.Append(" where Fuid=" + wxUid);
-        //    if (!string.IsNullOrEmpty(stime)) 
-        //    {
-        //        Sql.Append(" AND Fcreate_time >='"+stime+"'");
-        //    }
-        //    if (!string.IsNullOrEmpty(etime))
-        //    {
-        //        Sql.Append(" AND Fcreate_time <='" + etime+"'");
-        //    }
-        //    Sql.Append(" limit "+start+","+count);
-
-        //    using (var da = MySQLAccessFactory.GetMySQLAccess("WxCreditCard"))
-        //    {
-        //        da.OpenConn();
+            using (var da = MySQLAccessFactory.GetMySQLAccess("WxCreditCard"))
+            {
+                da.OpenConn();
                 
-        //        DataSet ds = da.dsGetTotalData(Sql.ToString());
+                DataSet ds = da.dsGetTotalData(Sql.ToString());
 
-        //        return ds;
-        //    }
-        //}
+                return ds;
+            }
+        }
 
         public string QueryUidFromCreditCardOpenid(string openid)
         {
@@ -146,113 +90,113 @@ namespace CFT.CSOMS.DAL.WechatPay
             return ret;
         }
 
-        //public DataSet QueryCreditCardRefundWX(string bankNo, string refundNo, string stime, string etime, int start, int count)
-        //{
-        //    string table1 = "";
-        //    string table2 = "";
-        //    if (!string.IsNullOrEmpty(stime))
-        //    {
-        //        DateTime d = DateTime.Parse(stime);
-        //        string tt = "";
-        //        if (d.Month < 10)
-        //        {
-        //            tt = d.Year + "0" + d.Month;
-        //        }
-        //        else 
-        //        {
-        //            tt = d.Year.ToString() + d.Month;
-        //        }
-        //        table1 = "wx_public_platform.t_wx_fetch_list_" + tt;
-        //    }
-        //    if (!string.IsNullOrEmpty(etime))
-        //    {
-        //        DateTime d = DateTime.Parse(etime);
-        //        string tt = "";
-        //        if (d.Month < 10)
-        //        {
-        //            tt = d.Year + "0" + d.Month;
-        //        }
-        //        else
-        //        {
-        //            tt = d.Year.ToString() + d.Month;
-        //        }
-        //        table2 = "wx_public_platform.t_wx_fetch_list_" + tt;
-        //    }
-        //    if (table1 == "" && table2 == "") 
-        //    {
-        //        throw new Exception("起始日期不能为空");
-        //    }
+        public DataSet QueryCreditCardRefundWX(string bankNo, string refundNo, string stime, string etime, int start, int count)
+        {
+            string table1 = "";
+            string table2 = "";
+            if (!string.IsNullOrEmpty(stime))
+            {
+                DateTime d = DateTime.Parse(stime);
+                string tt = "";
+                if (d.Month < 10)
+                {
+                    tt = d.Year + "0" + d.Month;
+                }
+                else 
+                {
+                    tt = d.Year.ToString() + d.Month;
+                }
+                table1 = "wx_public_platform.t_wx_fetch_list_" + tt;
+            }
+            if (!string.IsNullOrEmpty(etime))
+            {
+                DateTime d = DateTime.Parse(etime);
+                string tt = "";
+                if (d.Month < 10)
+                {
+                    tt = d.Year + "0" + d.Month;
+                }
+                else
+                {
+                    tt = d.Year.ToString() + d.Month;
+                }
+                table2 = "wx_public_platform.t_wx_fetch_list_" + tt;
+            }
+            if (table1 == "" && table2 == "") 
+            {
+                throw new Exception("起始日期不能为空");
+            }
 
-        //    string Sql1 = "SELECT * FROM "+table1;
-        //    string Sql2 = "SELECT * FROM " + table2;
-        //    string strWhere = "";
+            string Sql1 = "SELECT * FROM "+table1;
+            string Sql2 = "SELECT * FROM " + table2;
+            string strWhere = "";
             
-        //    if (!string.IsNullOrEmpty(bankNo))
-        //    {
-        //        bankNo = CreditEncode(bankNo);
-        //        strWhere = " WHERE Fcard_id='"+bankNo+"'"; //卡号是加密的，需要调接口
-        //    }
-        //    else if (!string.IsNullOrEmpty(refundNo))
-        //    {
-        //        strWhere = " WHERE Fwx_fetch_no='" + refundNo+"'"; 
-        //    }
-        //    else 
-        //    {
-        //        throw new ArgumentNullException("查询参数不能为空！");
-        //    }
+            if (!string.IsNullOrEmpty(bankNo))
+            {
+                bankNo = CreditEncode(bankNo);
+                strWhere = " WHERE Fcard_id='"+bankNo+"'"; //卡号是加密的，需要调接口
+            }
+            else if (!string.IsNullOrEmpty(refundNo))
+            {
+                strWhere = " WHERE Fwx_fetch_no='" + refundNo+"'"; 
+            }
+            else 
+            {
+                throw new ArgumentNullException("查询参数不能为空！");
+            }
             
-        //    if (!string.IsNullOrEmpty(stime))
-        //    {
-        //        strWhere += " AND Fcreate_time >='" + stime+"'";
-        //    }
-        //    if (!string.IsNullOrEmpty(etime))
-        //    {
-        //        strWhere += " AND Fcreate_time <='" + etime+"'";
-        //    }
-        //    strWhere += " limit " + start + "," + count;
+            if (!string.IsNullOrEmpty(stime))
+            {
+                strWhere += " AND Fcreate_time >='" + stime+"'";
+            }
+            if (!string.IsNullOrEmpty(etime))
+            {
+                strWhere += " AND Fcreate_time <='" + etime+"'";
+            }
+            strWhere += " limit " + start + "," + count;
 
 
-        //    Sql1 += strWhere;
-        //    Sql2 += strWhere;
+            Sql1 += strWhere;
+            Sql2 += strWhere;
 
-        //    using (var da = MySQLAccessFactory.GetMySQLAccess("WxCreditCard"))
-        //    {
-        //        da.OpenConn();
+            using (var da = MySQLAccessFactory.GetMySQLAccess("WxCreditCard"))
+            {
+                da.OpenConn();
 
-        //        DataSet ds = null;
-        //        DataSet ds2 = null;
+                DataSet ds = null;
+                DataSet ds2 = null;
 
-        //        if (table1 != "") 
-        //        {
-        //            ds = da.dsGetTotalData(Sql1);
-        //        }
-        //        if (table2 != "" && table2 != table1) 
-        //        {
-        //            ds2 = da.dsGetTotalData(Sql2);
-        //        }
-        //        if (ds != null)
-        //        {
-        //            if (ds.Tables.Count == 0) 
-        //            {
-        //                ds.Tables.Add(new DataTable());
-        //            }
+                if (table1 != "") 
+                {
+                    ds = da.dsGetTotalData(Sql1);
+                }
+                if (table2 != "" && table2 != table1) 
+                {
+                    ds2 = da.dsGetTotalData(Sql2);
+                }
+                if (ds != null)
+                {
+                    if (ds.Tables.Count == 0) 
+                    {
+                        ds.Tables.Add(new DataTable());
+                    }
 
-        //            if (ds2 != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0) 
-        //            {
-        //                foreach (DataRow dr in ds2.Tables[0].Rows) 
-        //                {
-        //                    ds.Tables[0].ImportRow(dr);
-        //                }
-        //            }
-        //        }
-        //        else 
-        //        {
-        //            ds = ds2;
-        //        }
+                    if (ds2 != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0) 
+                    {
+                        foreach (DataRow dr in ds2.Tables[0].Rows) 
+                        {
+                            ds.Tables[0].ImportRow(dr);
+                        }
+                    }
+                }
+                else 
+                {
+                    ds = ds2;
+                }
 
-        //        return ds;
-        //    }
-        //}
+                return ds;
+            }
+        }
 
         public DataTable QueryCreditCardRefundDetail(string wxUid, string wxFetchNo) 
         {
