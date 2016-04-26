@@ -43,20 +43,20 @@
                     查询条件
                 </caption>
                 <tr>
-                    <td class="tb_query_title" style="width:60px" >账 号：
+                    <td class="tb_query_title" style="width:120px" >账 号：
                     </td>
                     <td>
                         <uc1:UserNameControl ID="UserNameControl1" runat="server" />
                     </td>                    
                 </tr>
                  <tr>
-                    <td class="tb_query_title">基 金：
+                   <%-- <td class="tb_query_title">基 金：
                     </td>
                     <td>
                       <asp:DropDownList ID="ddl_fund" runat="server" Width="173px">
                           <asp:ListItem Text="中信证券" Value="9000001"></asp:ListItem>
                       </asp:DropDownList>
-                 <%--   </td>   
+                   </td>   
                        <td class="tb_query_title">状 态：
                     </td>
                     <td>
@@ -66,15 +66,15 @@
                           <asp:ListItem Text="发起到期赎回" Value="2"></asp:ListItem>
                           <asp:ListItem Text="到期赎回成功" Value="3"></asp:ListItem>
                       </asp:DropDownList>
-                    </td>      
+                    </td>--%>    
                        <td class="tb_query_title">收益截止日：
                     </td>
                     <td>
                       <asp:TextBox ID="txt_profit_end_date"  runat="server" onclick="WdatePicker()" onFocus="WdatePicker({disabledDays:[0,6]})" class="Wdate" Width="173px"></asp:TextBox>
-                    </td>     --%>                  
+                    </td>                      
                 </tr>
                 <tr>
-                    <td colspan="6" style="text-align: center">
+                    <td colspan="2" style="text-align: center">
                         <asp:Button ID="btnSerach" runat="server" Text="查 询" OnClick="btnSerach_Click" />
 
                     </td>
@@ -86,7 +86,7 @@
                 <HeaderStyle  CssClass="th"/>
                 <Columns>
                     <asp:BoundColumn DataField="Fid" HeaderText="" Visible="false" />
-                    <asp:BoundColumn DataField="Fissue_name" HeaderText="报价编号名称" />
+                  <%--  <asp:BoundColumn DataField="Fissue_name" HeaderText="报价编号名称" />--%>
                      <asp:BoundColumn DataField="Fund_name" HeaderText="基金名称" />
                      <asp:BoundColumn DataField="Ftrans_date" HeaderText="交易日" />
                     <asp:BoundColumn DataField="Fvalue_date" HeaderText="起息日" />
@@ -96,7 +96,7 @@
                      <asp:BoundColumn DataField="Fredem_type_str" HeaderText="赎回方式" />
                      <asp:BoundColumn DataField="Ftotal_fee" HeaderText="已确认金额" />
                      <asp:BoundColumn DataField="Fcreate_time" HeaderText="创建时间" />
-                     <asp:BoundColumn DataField="Fstate_str" HeaderText="状态" />
+                   <%--  <asp:BoundColumn DataField="Fstate" HeaderText="状态" />--%>
                     <asp:ButtonColumn Text="查看" CommandName="detail" />
                 </Columns>
             </asp:DataGrid>
@@ -113,7 +113,7 @@
                     <td class="auto-style1">账号：</td>
                      <td> <asp:Label runat="server" ID="txt_QQID"></asp:Label> </td> 
                     <td class="tb_query_title">状态：</td>
-                     <td><asp:Label runat="server" ID="lbl_Fstate_str"> </asp:Label></td>
+                     <td><asp:Label runat="server" ID="lbl_Fstate"> </asp:Label></td>
                 </tr>
                 <tr>
                     <td class="auto-style1">报价编号：</td>
