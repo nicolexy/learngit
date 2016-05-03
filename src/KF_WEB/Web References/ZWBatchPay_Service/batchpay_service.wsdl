@@ -1867,6 +1867,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="CompensationKey" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="refundType" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -1883,6 +1884,8 @@
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="batchID" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="listid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fetchQQID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="refundType" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>

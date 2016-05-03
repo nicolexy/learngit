@@ -21,6 +21,7 @@ using CFT.CSOMS.BLL.InternetBank;
 using log4net;
 using System.Data.OleDb;
 using CFT.CSOMS.BLL.WechatPay;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 {
@@ -50,7 +51,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                     TextBoxBeginDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
                     TextBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
-                    //setConfig.GetAllTypeList(ddlTradeState, "PAY_STATE");
+                    setConfig.GetAllTypeList(ddlTradeState, "PAY_STATE");
                     ddlTradeState.Items.Insert(0, new ListItem("全部", "0"));
                     //退款登记模版 v_yqyqguo
                     //DownloadTemplate.NavigateUrl = System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString() + DownloadTemplate.NavigateUrl;
@@ -237,6 +238,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 ds.Tables[0].Columns.Add("Ftrade_state_str", typeof(String));
                 ds.Tables[0].Columns.Add("Famount_str", typeof(String));
                 ds.Tables[0].Columns.Add("Frefund_amountStr", typeof(String));
+               
                 Hashtable ht1 = new Hashtable();
                 ht1.Add("1", "投诉退款");
                 ht1.Add("2", "投诉退款");
@@ -622,10 +624,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                             
                             try
                             {
-                                System.Data.DataTable wx_dt = new WechatPayService().QueryWxTrans(orderId); //查询微信转账业务
-                                if (wx_dt != null && wx_dt.Rows.Count > 0)
+                                DataSet ds = new TradeService().GetPayByListid(orderId); //查询微信转账业务
+                                if (ds != null && ds.Tables[0].Rows.Count > 0)
                                 {
-                                    string wxTradeId = PublicRes.objectToString(wx_dt, "wx_trade_id");//子账户关联订单号
+                                    string wxTradeId = ds.Tables[0].Rows[0]["Fcoding"].ToString();//子账户关联订单号
                                     if (wxTradeId.Contains("mkt") || wxTradeId.Contains("wxp"))
                                     {
                                         wxBigOrder += orderId + "，";
@@ -694,7 +696,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
             System.Threading.Tasks.Task.Factory.StartNew(() =>
             {
-                const int fileRowConut = 3000;  //单个文件最大记录数
+                const int fileRowConut = 1000;  //单个文件最大记录数
                 List<string> fidList = new List<string>(); //需要更改状态的财付通订单Fid
                 System.Data.DataTable dt = null;
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
@@ -911,13 +913,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             using (FileStream stream = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.Write))
             {
                 StreamWriter writer = new StreamWriter(stream, Encoding.UTF8);
-                try
-                {
-                    writer.WriteLine(string.Join("|", fields));
-                }
-                catch
-                {
-                }
+               
+                writer.WriteLine(string.Join("|", fields));
+                
                 writer.Close();
             }
         }
@@ -1106,6 +1104,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             {
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
                 qs.DelRefundInfo(fid);
+
+                //权限判断
+                WebUtils.ShowMessage(this.Page, "删除成功");
             }
             catch (Exception e)
             {

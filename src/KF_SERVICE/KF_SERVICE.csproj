@@ -122,6 +122,8 @@
     <Reference Include="System.EnterpriseServices">
       <Name>System.EnterpriseServices</Name>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
@@ -217,6 +219,11 @@
     <Compile Include="priorCheck.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="PublicRes.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -232,6 +239,11 @@
     </Compile>
     <Compile Include="RightAndLog.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web References\ZWBatchPay_Service\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Content Include="Agent_Service.asmx">
       <SubType>Form</SubType>
@@ -261,6 +273,12 @@
     <Content Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Properties\DataSources\System.Data.DataSet.datasource" />
+    <Content Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </Content>
+    <None Include="Web References\ZWBatchPay_Service\batchpay_service.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -290,6 +308,14 @@
     <EmbeddedResource Include="Query_Service.asmx.resx">
       <DependentUpon>Query_Service.asmx.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Web References\ZWBatchPay_Service\batchpay_service.wsdl" />
+    <Content Include="Web References\ZWBatchPay_Service\Param.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\ZWBatchPay_Service\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
@@ -332,6 +358,25 @@
       <Project>{1434c13f-494a-4196-8733-a3edd0e5d6a5}</Project>
       <Name>ICEAccess</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://admin.zw.cf.com/finance_service/batchpay_service.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\ZWBatchPay_Service\</RelPath>
+      <UpdateFromURL>http://admin.zw.cf.com/finance_service/batchpay_service.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>FINANCE_SERVICE_ZWBatchPay_Service_BatchPay_Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
