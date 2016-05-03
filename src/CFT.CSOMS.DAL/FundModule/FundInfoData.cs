@@ -417,7 +417,7 @@ namespace CFT.CSOMS.DAL.FundModule
 //</request>
             //request:&fields=trade_id:20150908000028213|due_date:20160408&flag=2&limit=2&offset=0&reqid=759
 
-            string due_date = Fdue_date.Year.ToString() + Fdue_date.Month.ToString() + Fdue_date.Day.ToString();
+            string due_date = Fdue_date.ToString("yyyyMMdd");
             string requestText = "reqid=759&flag=2&offset=" + offset +
                 "&limit=" + limit + "&fields=trade_id:" + trade_id + "|due_date:" + due_date;
            
