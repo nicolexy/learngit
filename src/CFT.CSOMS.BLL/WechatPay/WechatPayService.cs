@@ -36,24 +36,18 @@ namespace CFT.CSOMS.BLL.WechatPay
                     throw new ArgumentNullException("起始日期不能为空");
                 }
 
-                if (!string.IsNullOrEmpty(wxNo))
-                {
-                    //通过微信号查openid
-                    string openid = WeChatHelper.GetXYKHKOpenIdFromWeChatName(wxNo);
-                    //通过openid查询还款uid
-                    string uid = new CreditCardRefund().QueryUidFromCreditCardOpenid(openid);
-
-                    ds = new CreditCardRefund().QueryCreditCardRefundWX(uid, stime, etime, start, count);
-                }
-                else if (!string.IsNullOrEmpty(bankNo))
-                {
-                    //如果是银行卡号查询，需要先调接口加密
-                    ds = new CreditCardRefund().QueryCreditCardRefundWX(bankNo, refundNo, stime, etime, start, count);
-                }
-                else if (!string.IsNullOrEmpty(refundNo))
-                {
-                    ds = new CreditCardRefund().QueryCreditCardRefundWX(bankNo, refundNo, stime, etime, start, count);
-                }
+                //if (!dt.Columns.Contains("Fbank_name"))
+                //{
+                //    dt.Columns.Add("Fbank_name", typeof(string));
+                //}
+                //if (!dt.Columns.Contains("Ffetch_front_time"))
+                //{
+                //    dt.Columns.Add("Ffetch_front_time", typeof(string));
+                //}
+                //if (!dt.Columns.Contains("Fuid"))
+                //{
+                //    dt.Columns.Add("Fuid", typeof(string));
+                //}
                 //else if (!string.IsNullOrEmpty(uin))
                 //{
                 //    string uid = AccountData.ConvertToFuid(uin);

@@ -31,7 +31,15 @@ namespace CFT.CSOMS.DAL.WechatPay
                 tableName = "wx_public_platform_" + wxUid + ".t_wx_fetch_list_0";
 
             }
-            else 
+            //微信支付账户
+            else if (query_type == "4")
+            {
+//#if DEBUG
+//                No = "085e9858eb5129227ba04f552@wx.tenpay.com";
+//#endif
+                requestText += "&type=4&acctid=" + No;
+            }
+            else
             {
                 tableName = "wx_public_platform_" + wxUid.Substring(wxUid.Length - 2) + ".t_wx_fetch_list_" + wxUid.Substring(wxUid.Length - 3, 1);
             }
