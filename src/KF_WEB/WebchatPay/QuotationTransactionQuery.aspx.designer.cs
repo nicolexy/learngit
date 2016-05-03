@@ -49,6 +49,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         protected global::System.Web.UI.WebControls.TextBox txt_profit_end_date;
         
         /// <summary>
+        /// ddl_state control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddl_state;
+        
+        /// <summary>
+        /// txt_profit_end_date control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_profit_end_date;
+        
+        /// <summary>
         /// btnSerach control.
         /// </summary>
         /// <remarks>
