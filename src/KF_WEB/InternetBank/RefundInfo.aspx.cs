@@ -7,6 +7,7 @@ using System.Data;
 using System.Collections.Generic;
 using CFT.CSOMS.BLL.WechatPay;
 using CFT.Apollo.Logging;
+using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 {
@@ -239,10 +240,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             bool flag = false;
             try
             {
-                DataTable wx_dt = new WechatPayService().QueryWxTrans(listid); //查询微信转账业务
-                if (wx_dt != null && wx_dt.Rows.Count > 0)
+                DataSet ds =  new TradeService().GetPayByListid(listid); //查询微信转账业务
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
-                    string wxTradeId = PublicRes.objectToString(wx_dt, "wx_trade_id");//子账户关联订单号
+                    string wxTradeId = ds.Tables[0].Rows[0]["Fcoding"].ToString();//子账户关联订单号
                     if (wxTradeId.Contains("mkt") || wxTradeId.Contains("wxp"))
                     {
                         flag = true;
@@ -252,8 +253,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             catch (Exception ex)
             {
                 flag = true;
-                LogHelper.LogError("查询微信转账业务异常：" + ex.Message + ex.StackTrace);
+                LogHelper.LogError("查询微信转账业务异常  protected void btnAmount_Click(object sender, System.EventArgs e) ：" + ex.ToString());
                 WebUtils.ShowMessage(this.Page, "查询微信转账业务异常：" + ex.Message + ex.StackTrace);
+                return;
             }
 
             if (flag)

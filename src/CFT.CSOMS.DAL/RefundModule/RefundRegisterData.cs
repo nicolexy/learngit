@@ -20,7 +20,7 @@ namespace CFT.CSOMS.DAL.RefundModule
         /// <param name="refundType">退款类型</param>
         /// <param name="refundState">提交退款状态</param>
         /// <param name="tradeState">交易状态</param>
-        /// <param name="refund_id">商户号</param>
+        /// <param name="refund_id">商户号</param> 
         /// <param name="submit_user">登记人</param>
         /// <param name="iPageStart"></param>
         /// <param name="iPageMax"></param>

@@ -3879,6 +3879,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
+                LogHelper.LogError("public void ChangeRefundInfo(RefundInfoClass ric): 异常：" + err.ToString());
                 throw new LogicException(err.Message);
             }
         }
@@ -3895,6 +3896,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
             catch (Exception err)
             {
+                LogHelper.LogError(string.Format("public void DelRefundInfo(string fid):fid={0},异常：{1}",fid,err.ToString()));
                 throw new LogicException(err.Message);
             }
             finally
@@ -8407,6 +8409,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     throw new LogicException("用户无权执行此操作！");
                 }
 
+                //ftype  1:找回密码，11:特殊密码找回，100:查询所有申诉类型申诉记录
                 CFTUserAppealClass cuser = new CFTUserAppealClass(fuin, u_BeginTime, u_EndTime, fstate, ftype, QQType, dotype, SortType);
                 DataSet ds = cuser.GetResultX("CFT"); //CFTB 切换成 主库表
 
