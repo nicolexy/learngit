@@ -9,62 +9,118 @@ using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using System.Collections;
 using CFT.Apollo.Logging;
 using System.Xml;
+using CFT.CSOMS.COMMLIB;
 
 namespace CFT.CSOMS.DAL.WechatPay
 {
     public class CreditCardRefund
     {
-        public DataSet QueryCreditCardRefundWX(string wxUid,string stime,string etime,int start,int count) 
+        /// <param name="wxNo">微信号</param>
+        /// <param name="bankNo">银行账号</param>
+        /// <param name="refundNo">还款单号</param>
+        public DataTable QueryCreditCardRefund(string No, string query_type, string stime, string etime, int offset, int limit)
         {
-            if (string.IsNullOrEmpty(wxUid)) 
-            {
-                throw new ArgumentNullException("必填参数：账号为空！");
-            }
-            wxUid = wxUid.Trim();
-            string tableName = "";
-            if (wxUid.Length == 1)
-            {
-                tableName = "wx_public_platform_0" + wxUid + ".t_wx_fetch_list_0";
-            }
-            else if (wxUid.Length == 2)
-            {
-                tableName = "wx_public_platform_" + wxUid + ".t_wx_fetch_list_0";
+            //head_u=&sp_id=2000000000&request_type=110226&ver=1&sys_flag=1&module=zft_kf_server&type=3&business_type=1&repay_no=1000019701201512080356023736&start_day=2015-12-01&end_day=2015-12-31&limit=10&offset=0
+            var ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("Relay_IP", "10.123.12.34");//172.27.31.177
+            var port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("Relay_PORT", 22000);
+            //#if DEBUG
+            //            stime = "2015-12-01";
+            //            etime = "2015-12-31";
+            //#endif
 
+            string requestText = "sys_flag=1&module=zft_kf_server&business_type=1&start_day=" + stime + "&end_day=" + etime
+                                    + "&offset=" + offset + "&limit=" + limit;
+            //微信号
+            if (query_type == "1")
+            {
+                string openid = WeChatHelper.GetXYKHKOpenIdFromWeChatName(No);
+                //#if DEBUG
+                //                openid = "o6BHkjiOuEkDSXPBaDbrelfpvg7k";
+                //#endif
+
+                requestText += "&type=1&openid=" + openid;
+
+            }
+            //银行账号
+            else if (query_type == "2")
+            {
+                //#if DEBUG
+                //                No = "6222000000000001";
+                //#endif
+                requestText += "&type=2&bank_no=" + No;
+            }
+            //还款单号
+            else if (query_type == "3")
+            {
+                //#if DEBUG
+                //                No = "1000019701201512080356023736";
+                //#endif
+                requestText += "&type=3&repay_no=" + No;
             }
             //微信支付账户
             else if (query_type == "4")
             {
-//#if DEBUG
-//                No = "085e9858eb5129227ba04f552@wx.tenpay.com";
-//#endif
+                //#if DEBUG
+                //                No = "085e9858eb5129227ba04f552@wx.tenpay.com";
+                //#endif
                 requestText += "&type=4&acctid=" + No;
             }
             else
             {
-                tableName = "wx_public_platform_" + wxUid.Substring(wxUid.Length - 2) + ".t_wx_fetch_list_" + wxUid.Substring(wxUid.Length - 3, 1);
+                throw new Exception("账号类型错误！");
             }
 
-            StringBuilder Sql = new StringBuilder("select * from "+tableName);
-            Sql.Append(" where Fuid=" + wxUid);
-            if (!string.IsNullOrEmpty(stime)) 
+            DataSet ds = RelayAccessFactory.GetDSFromRelayMethod1(requestText, "110226", ip, port);
+            if (ds != null && ds.Tables.Count > 0)
             {
-                Sql.Append(" AND Fcreate_time >='"+stime+"'");
+                return ds.Tables[0];
             }
-            if (!string.IsNullOrEmpty(etime))
-            {
-                Sql.Append(" AND Fcreate_time <='" + etime+"'");
-            }
-            Sql.Append(" limit "+start+","+count);
-
-            using (var da = MySQLAccessFactory.GetMySQLAccess("WxCreditCard"))
-            {
-                da.OpenConn();
-                
-                DataSet ds = da.dsGetTotalData(Sql.ToString());
-
-                return ds;
-            }
+            return null;
         }
+
+        //public DataSet QueryCreditCardRefundWX(string wxUid,string stime,string etime,int start,int count) 
+        //{
+        //    if (string.IsNullOrEmpty(wxUid)) 
+        //    {
+        //        throw new ArgumentNullException("必填参数：账号为空！");
+        //    }
+        //    wxUid = wxUid.Trim();
+        //    string tableName = "";
+        //    if (wxUid.Length == 1)
+        //    {
+        //        tableName = "wx_public_platform_0" + wxUid + ".t_wx_fetch_list_0";
+        //    }
+        //    else if (wxUid.Length == 2)
+        //    {
+        //        tableName = "wx_public_platform_" + wxUid + ".t_wx_fetch_list_0";
+
+        //    }
+        //    else
+        //    {
+        //        tableName = "wx_public_platform_" + wxUid.Substring(wxUid.Length - 2) + ".t_wx_fetch_list_" + wxUid.Substring(wxUid.Length - 3, 1);
+        //    }
+
+        //    StringBuilder Sql = new StringBuilder("select * from "+tableName);
+        //    Sql.Append(" where Fuid=" + wxUid);
+        //    if (!string.IsNullOrEmpty(stime)) 
+        //    {
+        //        Sql.Append(" AND Fcreate_time >='"+stime+"'");
+        //    }
+        //    if (!string.IsNullOrEmpty(etime))
+        //    {
+        //        Sql.Append(" AND Fcreate_time <='" + etime+"'");
+        //    }
+        //    Sql.Append(" limit "+start+","+count);
+
+        //    using (var da = MySQLAccessFactory.GetMySQLAccess("WxCreditCard"))
+        //    {
+        //        da.OpenConn();
+                
+        //        DataSet ds = da.dsGetTotalData(Sql.ToString());
+
+        //        return ds;
+        //    }
+        //}
 
         public string QueryUidFromCreditCardOpenid(string openid)
         {
