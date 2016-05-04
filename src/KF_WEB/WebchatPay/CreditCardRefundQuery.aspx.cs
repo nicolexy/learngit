@@ -163,13 +163,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         {
             //需要注意分页情况
             clearDT();
-            var dt = new WechatPayService().QueryCreditCardRefundDetail(wx_no, fetch_no);
-            if (dt != null) 
-            {
-                lb_c1.Text = dt.Rows[0]["Fwx_fetch_no"].ToString();
-                lb_c2.Text = classLibrary.setConfig.FenToYuan(dt.Rows[0]["Fnum"].ToString());
+            var dt = new WechatPayService().QueryCreditCardRefund(fetch_no, "3", "", "", 0, 1);
+            //var dt = new WechatPayService().QueryCreditCardRefundDetail(wx_no, fetch_no);
+            if (dt != null)
+            { //PublicRes.objectToString(dt, "", true)
+                lb_c1.Text = PublicRes.objectToString(dt, "Fwx_fetch_no", true);
+                lb_c2.Text = classLibrary.setConfig.FenToYuan(PublicRes.objectToString(dt, "Fnum", true));
 
-                var s_state = dt.Rows[0]["Fstate"].ToString();
+                var s_state = PublicRes.objectToString(dt, "Fstate", true);
                 lb_c3.Text = ConvertState(s_state);
 
                 if (s_state == "5")
@@ -182,32 +183,32 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 }
                 else
                 {
-                    lb_c4.Text = "失败    失败原因：" + dt.Rows[0]["Ffetch_memo"].ToString(); ;
+                    lb_c4.Text = "失败    失败原因：" + PublicRes.objectToString(dt, "Ffetch_memo", true);
                 }
 
-                lb_c5.Text = Transfer.convertbankType(dt.Rows[0]["Fbank_type"].ToString());
-                lb_c6.Text = dt.Rows[0]["Fcard_id"].ToString();
-                lb_c7.Text = dt.Rows[0]["Fcard_name"].ToString();
-                lb_c8.Text = dt.Rows[0]["Fopenid"].ToString();
-                lb_c9.Text = dt.Rows[0]["Fpay_front_time"].ToString();
-                lb_c10.Text = dt.Rows[0]["Fmodify_time"].ToString();
-                lb_c11.Text = dt.Rows[0]["Fcft_fetch_no"].ToString();
+                lb_c5.Text = Transfer.convertbankType(PublicRes.objectToString(dt, "Fbank_type", true));
+                lb_c6.Text = PublicRes.objectToString(dt, "Fcard_id", true);
+                lb_c7.Text = PublicRes.objectToString(dt, "Fcard_name", true);
+                lb_c8.Text = PublicRes.objectToString(dt, "Fopenid", true);
+                lb_c9.Text = PublicRes.objectToString(dt, "Fpay_front_time", true);
+                lb_c10.Text = PublicRes.objectToString(dt, "Fmodify_time", true);
+                lb_c11.Text = PublicRes.objectToString(dt, "Fcft_fetch_no", true);
                 try
                 {
-                    lb_Fstandby2.Text = MoneyTransfer.FenToYuan(dt.Rows[0]["Fstandby2"].ToString());
+                    lb_Fstandby2.Text = MoneyTransfer.FenToYuan(PublicRes.objectToString(dt, "Fstandby2"));
 
-                    var wxOrderdt = new WechatPayService().QueryTradeOrder(2, null, dt.Rows[0]["Fsp_id"].ToString(), fetch_no);
+                    var wxOrderdt = new WechatPayService().QueryTradeOrder(2, null, PublicRes.objectToString(dt, "Fsp_id", true), fetch_no);
                     if (wxOrderdt != null)
                     {
-                        lb_wx_trans_id.Text = wxOrderdt.Rows[0]["wx_trans_id"].ToString();
-                        lb_trade_id.Text = wxOrderdt.Rows[0]["trade_no"].ToString();
+                        lb_wx_trans_id.Text = PublicRes.objectToString(wxOrderdt, "wx_trans_id", true);
+                        lb_trade_id.Text = PublicRes.objectToString(wxOrderdt, "trade_no", true);
                     }
                 }
                 catch (Exception ex)
                 {
                     LogHelper.LogError("微信还款查询详细异常：" + ex.ToString());
                 }
-       
+
             }
         }
 

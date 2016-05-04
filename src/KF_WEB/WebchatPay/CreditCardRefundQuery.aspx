@@ -28,6 +28,7 @@
                         <asp:ListItem Value="1" Selected="True">账号</asp:ListItem>
                         <asp:ListItem Value="2">银行账号</asp:ListItem>
                         <asp:ListItem Value="3">还款单号</asp:ListItem>
+                        <asp:ListItem Value="4">微信支付账户</asp:ListItem>
                         <%--<asp:ListItem Value="4">微信绑定QQ</asp:ListItem>
                         <asp:ListItem Value="5">微信绑定手机</asp:ListItem>
                         <asp:ListItem Value="6">微信绑定邮箱</asp:ListItem>

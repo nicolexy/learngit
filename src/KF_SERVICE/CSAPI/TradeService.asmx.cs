@@ -72,6 +72,33 @@ namespace CSAPI
                 {
                     memo = paramsHt["memo"].ToString();
                 }
+
+                #region 添加检验接口 2016-05-03
+                //单笔交易能否退款校验
+                //验点：
+                 //a.查询交易真实信息，退款金额不得超过交易金额
+                 //b.该交易单累加退款金额不得超出交易金额
+                ZWBatchPay_Service.BatchPay_Service bs = new ZWBatchPay_Service.BatchPay_Service();
+                bs.Finance_HeaderValue.UserName = FSubmit_user;
+                string zwMsg = string.Empty;
+                bool flag = bs.BatchRefundSingleCheck(FOrderId, FRefund_type, long.Parse(FRefund_amount), out zwMsg);
+                if (!string.IsNullOrEmpty(zwMsg)|| !flag)
+                {
+                    SunLibrary.LoggerFactory.Get("AddRefundInfo").InfoFormat("接口BatchRefundSingleCheck,单笔交易退款校验失败,返回：{0}", zwMsg);
+                    APIUtil.PrintError(APIUtil.ERR_SYSTEM, "单笔交易退款校验失败,"+zwMsg);
+                    return;
+                }
+
+                //微信大单检测
+                if (IsWeCharBigOrder(FOrderId))
+                {
+                    SunLibrary.LoggerFactory.Get("AddRefundInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, "当前订单为微信大单，禁止录入！");
+                    APIUtil.PrintError(APIUtil.ERR_SYSTEM, "当前订单为微信大单，禁止录入！");
+                    return;
+                }
+
+                #endregion
+
                 //调用bll层方法
                 bool infos = new CFT.CSOMS.BLL.InternetBank.InternetBankService().AddRefundInfo(FOrderId, FRefund_type, FSam_no, FRecycle_user, FSubmit_user, FRefund_amount, memo);
 
@@ -94,6 +121,29 @@ namespace CSAPI
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
+
+        /// <summary>
+        /// 微信大单检测
+        /// </summary>
+        /// <param name="listid"></param>
+        /// <returns></returns>
+        private bool IsWeCharBigOrder(string listid)
+        {
+            bool flag = false;
+
+            DataSet ds = new CFT.CSOMS.BLL.TradeModule.TradeService().GetPayByListid(listid); //查询微信转账业务
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                string wxTradeId = ds.Tables[0].Rows[0]["Fcoding"].ToString();//子账户关联订单号
+                if (wxTradeId.Contains("mkt") || wxTradeId.Contains("wxp"))
+                {
+                    flag = true;
+                }
+            }
+
+            return flag;
+        }
+
         #endregion
 
         #region 交易单,资金流水等
