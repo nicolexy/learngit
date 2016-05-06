@@ -278,6 +278,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\kf_service.pubxml" />
     <None Include="Web References\ZWBatchPay_Service\batchpay_service.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

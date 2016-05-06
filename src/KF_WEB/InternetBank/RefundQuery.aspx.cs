@@ -252,8 +252,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 ht2.Add("2", "未提交");
                 ht2.Add("3", "失效");
 
-
-                //classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0], "Ftrade_state_new", "Ftrade_state_str", "PAY_STATE");
+                //Ftrade_state_new DAL数据库获取信息后添加
+                classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0], "Ftrade_state_new", "Ftrade_state_str", "PAY_STATE");
 
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Famount", "Famount_str");
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Frefund_amount", "Frefund_amountStr");
@@ -754,7 +754,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                                 {
                                     foreach (DataRow row in dt.Rows)
                                     {
-                                        string tradeType = row["FTrade_Type"].ToString();
+                                        string tradeType = row["Ftrade_state"].ToString();
 
                                         #region 账务检测
                                         bool flag = false;
