@@ -2865,5 +2865,184 @@ namespace CFT.CSOMS.Service.CSAPI
 
             APIUtil.Print<BaseInfoC.FreezeThaw>(list);
         }
+
+
+
+
+
+        /// <summary>
+        /// 自助申诉查询
+        /// </summary>
+        [WebMethod]
+        public void GetUserAppealType()
+        {
+            //客服系统接口需求33-自助申诉查询
+            //http://tapd.oa.com/tenpay_kf/prong/stories/view/1010068761057663725
+            //2016-04-27
+            //v_swuzhang
+
+            System.Diagnostics.Stopwatch watchTime = new System.Diagnostics.Stopwatch();
+            watchTime.Start();
+            bool hadreqok = false;
+
+            List<BaseInfoC.FreezeThaw> list = new List<BaseInfoC.FreezeThaw>();
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "uin", "appid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                string u_BeginTime=DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
+                string u_EndTime = DateTime.Now.ToString("yyyy-MM-dd");
+
+                LogHelper.LogInfo(string.Format("AccountFreeze 参数：[{0}]",uin));
+
+                DataSet dsAll = null;
+
+                //ftype  1:找回密码，11:特殊密码找回，100:查询所有申诉类型申诉记录
+                int ftype=11;
+                try
+                {
+                    TENCENT.OSS.CFT.KF.KF_Service.CFTUserAppealClass cuser = new TENCENT.OSS.CFT.KF.KF_Service.CFTUserAppealClass(uin, u_BeginTime, u_EndTime, 99, ftype, "", "9",99);
+                    DataSet ds = cuser.GetResultX("CFT"); //CFTB 切换成 主库表
+
+
+                    DateTime beginDate = DateTime.Parse(u_BeginTime);
+                    int yearEnd = DateTime.Parse(u_EndTime).Year;
+                    int monEnd = DateTime.Parse(u_EndTime).Month;
+                    List<string> listdb = new List<string>();
+                    List<string> listtb = new List<string>();
+                    if (yearEnd >= 2014)//才查分库表
+                    {
+                      
+                        while (!((beginDate.Year == yearEnd && beginDate.Month > monEnd) || (beginDate.Year > yearEnd)))
+                        {
+                            listdb.Add(beginDate.Year.ToString());
+                            listtb.Add(beginDate.Month.ToString());
+                            beginDate = beginDate.AddMonths(1);
+                        }
+                    }
+
+                    DataSet dsFenResult = new DataSet();
+                    if (listdb == null || listdb.Count == 0)
+                        dsFenResult = null;
+                    else
+                    {
+                        int index = 0;//计数添加的有数据的数据表
+                        for (int i = 0; i < listdb.Count; i++)
+                        {
+                            string db = listdb[i];
+                            string tb = listtb[i];
+                            TENCENT.OSS.CFT.KF.KF_Service.CFTUserAppealClass cuser2 = new TENCENT.OSS.CFT.KF.KF_Service.CFTUserAppealClass(uin, u_BeginTime, u_EndTime, 99, ftype, "", "9", 99, true, db, tb);//分库分表的查询
+                            DataSet dsfen = cuser2.GetResultX("CFTNEW");
+
+                            if (dsfen != null && dsfen.Tables.Count > 0 && dsfen.Tables[0].Rows.Count > 0)
+                            {
+                                if (index == 0)
+                                {
+                                    dsFenResult.Tables.Add(dsfen.Tables[0].Copy());
+                                    index++;
+                                }
+                                else
+                                {
+                                    foreach (DataRow dr in dsfen.Tables[0].Rows)
+                                    {
+                                        dsFenResult.Tables[0].ImportRow(dr);//将记录加入到一个表里
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    SunLibrary.LogHelper.LogError("创建冻结工单时失败:" + ex.ToString());
+                }
+
+
+            //    if (exeSign) //冻结成功
+            //    {
+            //        watchTime.Stop();
+            //        AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.FREEZE, AccLogResult.SUCCESS, AccReturnCode.SUCCESS, "冻结成功", watchTime.ElapsedMilliseconds, "1006", "", "", "");
+            //        hadreqok = true;
+
+            //        if (account.IndexOf("@wx.tenpay.com") > 0) //发送微信消息
+            //        {
+            //            string reqsource = "bus_kf_freeze";
+            //            string accid = account.Substring(0, account.IndexOf("@wx.tenpay.com"));
+            //            string templateid = "Td2l1120f5TCN9Ap2R3yWLhVS7yy41U379MZudwmiH0";
+            //            string cont1 = "你的微信支付账户已成功开启保护模式，账户暂不可用。";
+            //            string cont2 = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+            //            string cont3 = "请点击详情恢复至正常模式";
+            //            string msgtype = "freeze";
+            //            try
+            //            {
+            //                //为不影响线上，暂不处理异常
+            //                new FreezeService().SendWechatMsg(reqsource, accid, templateid, cont1, cont2, cont3, msgtype);
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                SunLibrary.LogHelper.LogError("发微信冻结消息[new FreezeService().SendWechatMsg]异常：" + ex.ToString());
+            //            }
+            //        }
+
+            //        BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();
+            //        freeze.flag = 0;
+            //        freeze.info = "冻结成功。";
+            //        list.Add(freeze);
+            //    }
+            //    else
+            //    {
+            //        //失败
+            //        BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();
+            //        freeze.flag = 1;
+            //        freeze.info = "冻结失败。";
+            //        list.Add(freeze);
+
+            //        watchTime.Stop();
+            //        AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.FREEZE, AccLogResult.SUCCESS, AccReturnCode.FAILURE, "冻结失败", watchTime.ElapsedMilliseconds, "1006", "", "", "");
+            //        hadreqok = true;
+            //    }
+            //}
+            //catch (ServiceException se)
+            //{
+            //    if (hadreqok == false)
+            //    {
+            //        watchTime.Stop();
+            //        AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.FREEZE, AccLogResult.APPLICATIONERROR, AccReturnCode.REQUESTSERVICEERROR, "调用冻结服务异常", watchTime.ElapsedMilliseconds, "1006", "", "", "");
+            //    }
+
+            //    SunLibrary.LoggerFactory.Get("AccountFreeze").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+            //    BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();
+            //    freeze.flag = -1;
+            //    freeze.info = se.Message;
+            //    list.Add(freeze);
+            //    //APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                if (hadreqok == false)
+                {
+                    watchTime.Stop();
+                    AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.FREEZE, AccLogResult.APPLICATIONERROR, AccReturnCode.EXCEPTION, "冻结操作异常", watchTime.ElapsedMilliseconds
+                        , "1006", "", "", "");
+                }
+
+                SunLibrary.LoggerFactory.Get("AccountFreeze").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.ToString());
+                BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();
+                freeze.flag = -1;
+                freeze.info = ex.Message;
+                list.Add(freeze);
+                //APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS + "；" + ex.Message);
+            }
+
+
+            APIUtil.Print<BaseInfoC.FreezeThaw>(list);
+        }
+
     }
 }
