@@ -32,7 +32,7 @@
 </head>
 <body ms_positioning="GridLayout">
     <form id="Form1" method="post" runat="server">
-        <table style="LEFT: 5%; POSITION: absolute; TOP: 5%" cellspacing="1" cellpadding="1" width="1020" border="1">
+        <table style="LEFT: 5%; POSITION: absolute; TOP: 5%; width: 1094px;" cellspacing="1" cellpadding="1" border="1">
             <tr>
                 <td style="WIDTH: 100%" bgcolor="#e4e5f7" colspan="8"><font face="ËÎÌå"><font color="red">
                     <img height="16" src="../IMAGES/Page/post.gif" width="20">&nbsp;&nbsp;ÍË¿îµÇ¼Ç</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
