@@ -252,8 +252,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 ht2.Add("2", "未提交");
                 ht2.Add("3", "失效");
 
-
-                //classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0], "Ftrade_state_new", "Ftrade_state_str", "PAY_STATE");
+                //Ftrade_state_new DAL数据库获取信息后添加
+                classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0], "Ftrade_state_new", "Ftrade_state_str", "PAY_STATE");
 
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Famount", "Famount_str");
                 classLibrary.setConfig.FenToYuan_Table(ds.Tables[0], "Frefund_amount", "Frefund_amountStr");
@@ -694,13 +694,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             string stime = begindate.ToString("yyyy-MM-dd 00:00:00");
             string etime = enddate.ToString("yyyy-MM-dd 23:59:59");
 
-            System.Threading.Tasks.Task.Factory.StartNew(() =>
-            {
                 const int fileRowConut = 1000;  //单个文件最大记录数
                 List<string> fidList = new List<string>(); //需要更改状态的财付通订单Fid
                 System.Data.DataTable dt = null;
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
                 string no = DateTime.Now.ToString("yyyyMMddHHmmssffff");  //退款批次
+
+                LogManager.GetLogger(string.Format("btnRefundEmail_Click batch_num ={0},stime={1},etime={2}", no, stime, etime));
 
                 #region 更新提交状态为 (1 = 已提交)   的委托
                 Action<List<string>, string> updateState = (fidArr, batchNum) =>
@@ -714,6 +714,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                         {
                             fids += fidArr[j] + ",";
                         }
+
+                        LogManager.GetLogger(string.Format("btnRefundEmail_Click UpdateSubmitRefundState ，fids={0}, state={1},batchNum=={2},updNum={3}", fids.TrimEnd(','), 1, batchNum, updNum));
+                 
                         qs.UpdateSubmitRefundState(fids.TrimEnd(','), 1, batchNum);
                         fids = string.Empty;
                     }
@@ -724,6 +727,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 try
                 {
                     int count = new RefundRegisterService().GetExportRefundCount(stime, etime);
+
+                    LogManager.GetLogger(string.Format("btnRefundEmail_Click new RefundRegisterService().GetExportRefundCount，stime={0}, etime={1},count=={2}", stime, etime, count));
                     if (count > 0)
                     {
                         int countSheet = 1;
@@ -731,6 +736,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                         {
                             countSheet = count % fileRowConut == 0 ? count / fileRowConut : (count / fileRowConut) + 1;
                         }
+                        LogManager.GetLogger(string.Format("btnRefundEmail_Click ，countSheet={0}", countSheet));
+
                         List<string> successFile = new List<string>();
                         List<string> failFile = new List<string>();
                         Dictionary<string, RefundFile> dicSuccessFile = null;
@@ -738,10 +745,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
                         string zwMsg = string.Empty;
                         
-
                         string txtFilePath = Server.MapPath("~/") + "PLFile\\{0}_{1}.txt";
                         string txtSuccess = string.Format(txtFilePath, no, "success");
                         string txtFail = string.Format(txtFilePath, no, "fail");
+
+                        LogManager.GetLogger(string.Format("btnRefundEmail_Click txtFilePath={0},txtSuccess={1},txtFail=={2}", txtFilePath, txtSuccess, txtFail));
+
                         for (int j = 0; j < countSheet; j++)
                         {
                             DataSet dsa = new RefundRegisterService().GetExportRefundData(stime, etime, j * fileRowConut, fileRowConut);
@@ -754,40 +763,44 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                                 {
                                     foreach (DataRow row in dt.Rows)
                                     {
-                                        string tradeType = row["FTrade_Type"].ToString();
+                                        string tradeType = row["Ftrade_state"].ToString();
 
                                         #region 账务检测
                                         bool flag = false;
                                         try
                                         {
+                                            LogManager.GetLogger(string.Format(" btnRefundEmail_Click  BatchRefundSingleCheck  请求提交参数  ZWBatchPay_Service.BatchPay_Service.BatchRefundSingleCheck： flag={0},zwMsg={1},tradeType={2},Forder_id={3},Frefund_type={4},Frefund_amount={5}", flag, zwMsg, tradeType, row["Forder_id"].ToString(),row["Frefund_type"].ToString(),row["Frefund_amount"].ToString()));
+
                                             flag = bs.BatchRefundSingleCheck(row["Forder_id"].ToString(), Convert.ToInt32(row["Frefund_type"].ToString()),
                                                 Convert.ToInt64(row["Frefund_amount"].ToString()), out zwMsg);
+
                                             if (!string.IsNullOrEmpty(zwMsg))
+                                            {
                                                 LogManager.GetLogger("BatchRefundSingleCheck接口返回：" + zwMsg);
+                                            }
+
+                                            LogManager.GetLogger(" btnRefundEmail_Click  BatchRefundSingleCheck 返回结果  ZWBatchPay_Service.BatchPay_Service.BatchRefundSingleCheck： flag=" + flag + ",zwMsg=" + zwMsg);
                                         }
                                         catch (Exception ex)
                                         {
-                                            LogManager.GetLogger("BatchRefundSingleCheck接口调用异常：" + ex.Message + ex.StackTrace);
+                                            LogManager.GetLogger(" btnRefundEmail_Click  BatchRefundSingleCheck接口调用异常：" + ex.Message + ex.StackTrace);
                                         }
                                         #endregion
 
 
                                         if ((tradeType == "2" || tradeType == "3") && flag)  //数据导入后订单的状态可能在其他地方发生改变，需再次判断
                                         {
-                                            WriteTxt(txtSuccess,
-                                                row["Fid"].ToString(), row["Frefund_amount"].ToString(), row["Forder_id"].ToString(), row["Fbuy_acc"].ToString());
-
+                                            WriteTxt(txtSuccess,row["Fid"].ToString(), row["Frefund_amount"].ToString(), row["Forder_id"].ToString(), row["Fbuy_acc"].ToString());
                                         }
                                         else
                                         {
-                                            WriteTxt(txtFail,
-                                                row["Fid"].ToString(), row["Frefund_amount"].ToString(), row["Forder_id"].ToString(), row["Fbuy_acc"].ToString());
+                                            WriteTxt(txtFail,row["Fid"].ToString(), row["Frefund_amount"].ToString(), row["Forder_id"].ToString(), row["Fbuy_acc"].ToString());
                                         }
                                     }
                                 }
                                 catch (Exception ex)
                                 {
-                                    LogManager.GetLogger("提交账务退款生成Excel失败！countSheet：" + countSheet + ", " + ex.Message + ", stacktrace" + ex.StackTrace);
+                                    LogManager.GetLogger(" btnRefundEmail_Click  提交账务退款生成Excel失败！countSheet：" + countSheet + ", " + ex.ToString() + ", stacktrace" + ex.StackTrace);
                                 }
                                 finally
                                 {
@@ -826,14 +839,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                                 #region 提交到账务
                                 try
                                 {
+                                    LogManager.GetLogger(string.Format(" btnRefundEmail_Click  BatchRefundRequest  ZWBatchPay_Service.BatchPay_Service.BatchRefundRequest接口返回：batchNum={0},uin={1},item.Value.remotePath={2},item.Value.listFid.Count={3}, item.Value.fileMd5={4}", item.Value.batchNum, uin, item.Value.remotePath, item.Value.listFid.Count,item.Value.fileMd5));
                                     sendFlag = bs.BatchRefundRequest(item.Value.batchNum, 2, false, uin, item.Value.listFid.Count, item.Value.amount, item.Value.remotePath, item.Value.fileMd5, out zwMsg);
                                     if (!string.IsNullOrEmpty(zwMsg))
-                                        LogManager.GetLogger("BatchRefundRequest接口返回：" + zwMsg);
+                                        LogManager.GetLogger(string.Format("BatchRefundRequest  ZWBatchPay_Service.BatchPay_Service.BatchRefundRequest接口返回：sendFlag={0},zwMsg={1}", sendFlag, zwMsg));
                                 }
                                 catch (Exception ex)
                                 {
                                     sendFlag = false;
-                                    LogManager.GetLogger("BatchRefundRequest接口调用异常：" + ex.Message + ex.StackTrace);
+                                    LogManager.GetLogger(" btnRefundEmail_Click  BatchRefundRequest接口调用异常：" + ex.ToString() + ex.StackTrace);
                                 }
                                 if (sendFlag)
                                 {
@@ -841,13 +855,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                                     subOkTotal += item.Value.listFid.Count;
                                     subOkAmount += item.Value.amount;
                                     fidList.AddRange(item.Value.listFid);
-                                    updateState(fidList,item.Value.batchNum);
+                                    updateState(fidList, item.Value.batchNum);
+                                    LogManager.GetLogger(" btnRefundEmail_Click  BatchRefundRequest：subOkFile" + subOkFile + ",sendFlag = " + sendFlag);
                                 }
                                 else
                                 {
                                     subFailFile += item.Key + "|";
                                     subFailTotal += item.Value.listFid.Count;
                                     subFailAmount += item.Value.amount;
+                                    LogManager.GetLogger(" btnRefundEmail_Click  BatchRefundRequest  返回失败：subFailFile" + subFailFile + ",sendFlag = " + sendFlag);
                                 }
                                 #endregion
                             }
@@ -860,11 +876,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                                 failTotal += item.Value.listFid.Count;
                                 failAmount += item.Value.amount;
                             }
+
+                            LogManager.GetLogger("btnRefundEmail_Click   ：dicFailFile.Count=" + dicFailFile.Count);
                         }
 
 
                         #region 邮件方式
-                        bool sendEmail = true;
+                       // bool sendEmail = true;
                         try
                         {
                             #region 邮件发送
@@ -884,28 +902,32 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                             emailMsg.Append("</table></p></td></tr><tr><td height=\"15\"></td></tr></table></body></html>");
 
                             string sub = "【网银退款】编号：" + no + "提交结果通知";
+
+                            LogManager.GetLogger(string.Format(" btnRefundEmail_Click 发送邮件信息！sub={0},emailMsg={1},sendtomail={2}", sub, emailMsg.ToString(), uin));
                             //string toMail = ConfigurationManager.AppSettings["InternetRefundToMail"].ToString();
                             //string ccMail = ConfigurationManager.AppSettings["InternetRefundCcMail"].ToString();
                             CommMailSend.SendInternalMail(uin, "", sub, emailMsg.ToString(), true, subFile.ToArray());
+
+                            WebUtils.ShowMessage(this.Page, "后台处理中，稍后请查收邮件。");
                             #endregion
                         }
                         catch (Exception ex)
                         {
-                            sendEmail = false;
-                            LogManager.GetLogger("提交账务退款汇总邮件发送失败！" + ex.Message + ", stacktrace" + ex.StackTrace);
+                           // sendEmail = false;
+                            LogManager.GetLogger(" btnRefundEmail_Click 提交账务退款汇总邮件发送失败！" + ex.Message + ", stacktrace" + ex.StackTrace);
+
+                            WebUtils.ShowMessage(this.Page, "操作发生异常：" + ex.Message);
                         }
                         #endregion
                     }
-
                 }
                 catch (Exception ex)
                 {
-                    LogManager.GetLogger("提交账务退款失败！" + ex.Message + ", stacktrace" + ex.StackTrace);
+                    LogManager.GetLogger(" btnRefundEmail_Click 提交账务退款失败！" + ex.Message + ", stacktrace" + ex.StackTrace);
+
+                    WebUtils.ShowMessage(this.Page, "操作发生异常：" + ex.Message);
                 }
                 #endregion
-            });
-
-            WebUtils.ShowMessage(this.Page, "后台处理中，稍后请查收邮件。");
         }
 
         private void WriteTxt(string filePath,params string[] fields)
@@ -981,9 +1003,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                
+                LogManager.GetLogger("private Dictionary<string, RefundFile> WriteXls(string txtFile,string no,string status)！ " + ex.Message + ", stacktrace" + ex.StackTrace);
             }
 
             int fileRowConut = 1000;

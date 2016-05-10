@@ -20,58 +20,88 @@ namespace CFT.CSOMS.BLL.WechatPay
         /// <summary>
         /// 获取微信信用卡还款记录
         /// </summary>
-        /// <param name="wxNo">微信号</param>
-        /// <param name="bankNo">银行账号</param>
-        /// <param name="refundNo">还款单号</param>
-        /// <param name="stime">开始日期</param>
-        /// <param name="etime">结束日期</param>
+        /// <param name="No">1.微信号 2.银行账号 3.还款单号</param>
+        /// <param name="query_type">1.微信号 2.银行账号 3.还款单号</param>
+        /// <param name="stime"></param>
+        /// <param name="etime"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
         /// <returns></returns>
-        public DataSet QueryCreditCardRefund(string wxNo, string bankNo, string refundNo, string uin, string stime, string etime, int start, int count)
+        public DataTable QueryCreditCardRefund(string No, string query_type, string stime, string etime, int offset, int limit)
         {
-            DataSet ds = null;
-            try
+            DataTable dt = new CreditCardRefund().QueryCreditCardRefund(No, query_type, stime, etime, offset, limit);
+            if (dt != null && dt.Rows.Count > 0)
             {
-                if (string.IsNullOrEmpty(stime) || string.IsNullOrEmpty(etime))
+                foreach (DataColumn dc in dt.Columns)
                 {
-                    throw new ArgumentNullException("起始日期不能为空");
+                    dt.Columns[dc.ColumnName].ColumnName = "F" + dc.ColumnName;
                 }
 
-                if (!string.IsNullOrEmpty(wxNo))
-                {
-                    //通过微信号查openid
-                    string openid = WeChatHelper.GetXYKHKOpenIdFromWeChatName(wxNo);
-                    //通过openid查询还款uid
-                    string uid = new CreditCardRefund().QueryUidFromCreditCardOpenid(openid);
-
-                    ds = new CreditCardRefund().QueryCreditCardRefundWX(uid, stime, etime, start, count);
-                }
-                else if (!string.IsNullOrEmpty(bankNo))
-                {
-                    //如果是银行卡号查询，需要先调接口加密
-                    ds = new CreditCardRefund().QueryCreditCardRefundWX(bankNo, refundNo, stime, etime, start, count);
-                }
-                else if (!string.IsNullOrEmpty(refundNo))
-                {
-                    ds = new CreditCardRefund().QueryCreditCardRefundWX(bankNo, refundNo, stime, etime, start, count);
-                }
-                //else if (!string.IsNullOrEmpty(uin))
+                //if (!dt.Columns.Contains("Fbank_name"))
                 //{
-                //    string uid = AccountData.ConvertToFuid(uin);
-                //  //  string uid = "299708827";
-                //    ds = new CreditCardRefund().QueryCreditCardRefundWX(uid, stime, etime, start, count);
+                //    dt.Columns.Add("Fbank_name", typeof(string));
                 //}
-                else
-                {
-                    throw new ArgumentNullException("查询条件不能为空");
-                }
+                //if (!dt.Columns.Contains("Ffetch_front_time"))
+                //{
+                //    dt.Columns.Add("Ffetch_front_time", typeof(string));
+                //}
+                //if (!dt.Columns.Contains("Fuid"))
+                //{
+                //    dt.Columns.Add("Fuid", typeof(string));
+                //}
             }
-            catch (Exception ee)
-            {
-                throw new Exception(ee.Message);
-            }
-
-            return ds;
+            return dt;
         }
+
+        ///// <summary>
+        ///// 获取微信信用卡还款记录
+        ///// </summary>
+        ///// <param name="wxNo">微信号</param>
+        ///// <param name="bankNo">银行账号</param>
+        ///// <param name="refundNo">还款单号</param>
+        ///// <param name="stime">开始日期</param>
+        ///// <param name="etime">结束日期</param>
+        ///// <returns></returns>
+        //public DataSet QueryCreditCardRefund(string wxNo, string bankNo, string refundNo, string uin, string stime, string etime, int start, int count)
+        //{
+        //    DataSet ds = null;
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(stime) || string.IsNullOrEmpty(etime))
+        //        {
+        //            throw new ArgumentNullException("起始日期不能为空");
+        //        }
+
+        //        //if (!dt.Columns.Contains("Fbank_name"))
+        //        //{
+        //        //    dt.Columns.Add("Fbank_name", typeof(string));
+        //        //}
+        //        //if (!dt.Columns.Contains("Ffetch_front_time"))
+        //        //{
+        //        //    dt.Columns.Add("Ffetch_front_time", typeof(string));
+        //        //}
+        //        //if (!dt.Columns.Contains("Fuid"))
+        //        //{
+        //        //    dt.Columns.Add("Fuid", typeof(string));
+        //        //}
+        //        //else if (!string.IsNullOrEmpty(uin))
+        //        //{
+        //        //    string uid = AccountData.ConvertToFuid(uin);
+        //        //  //  string uid = "299708827";
+        //        //    ds = new CreditCardRefund().QueryCreditCardRefundWX(uid, stime, etime, start, count);
+        //        //}
+        //        else
+        //        {
+        //            throw new ArgumentNullException("查询条件不能为空");
+        //        }
+        //    }
+        //    catch (Exception ee)
+        //    {
+        //        throw new Exception(ee.Message);
+        //    }
+
+        //    return ds;
+        //}
 
         /// <summary>
         /// 获取微信信用卡还款详情

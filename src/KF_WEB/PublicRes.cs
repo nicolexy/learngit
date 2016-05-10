@@ -640,12 +640,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
         }
 
-        public static string objectToString(DataTable dt, string col_name)
+        public static string objectToString(DataTable dt, string col_name,bool showMessage = false)
         {
-            return objectToString(dt, 0, col_name);
+            return objectToString(dt, 0, col_name, showMessage);
         }
 
-        public static string objectToString(DataTable dt, int row_id, string col_name)
+        public static string objectToString(DataTable dt, int row_id, string col_name, bool showMessage = false)
         {
             string ret = "";
             try
@@ -661,7 +661,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             }
             catch (Exception ex)
             {
-                ret = "";
+                if (showMessage)
+                {
+                    ret = ex.Message;
+                }
+                else
+                {
+                    ret = "";
+                }
             }
 
             return ret;
