@@ -3922,17 +3922,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         public void UpdateSubmitRefundState(string fid, int refundState,string batchNum)
         {
             MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("ht"));
+            string sql = string.Empty;
             try
             {
                 da.OpenConn();
-                string sql = string.Format(@"
-                update c2c_fmdb.t_refund_info set Fbatch_num={0},Fsubmit_refund={1},Fmodify_time=now() where Fid in ({2})",
+                sql = string.Format(@"
+                update c2c_fmdb.t_refund_info set Fbatch_num='{0}',Fsubmit_refund={1},Fmodify_time=now() where Fid in ({2})",
                 batchNum, refundState, fid);
                 da.ExecSqlNum(sql);
             }
             catch (Exception err)
             {
-                throw new LogicException(err.Message);
+                LogHelper.LogError(string.Format(" public void UpdateSubmitRefundState(string fid, int refundState,string batchNum):fid={0},“Ï≥££∫{1},Ã·Ωªsql={2}", fid, err.ToString(), sql));
+                throw;
             }
             finally
             {
