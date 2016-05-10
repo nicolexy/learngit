@@ -1,4 +1,5 @@
 ﻿using CFT.CSOMS.DAL.Infrastructure;
+using CommLib;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -59,7 +60,7 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 if (type == 0)
                 {
                     //普通用户
-                    da = MySQLAccessFactory.GetMySQLAccess("statistics");    //统计数据库   
+                    da = new MySqlAccess(DbConnectionString.Instance.GetConnectionString("NEW_statistics"));    //统计数据库   
                 }
                 else
                 {
@@ -70,9 +71,9 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 string sql = "update " + tableName + " set count=0 where Fcreid='" + creid + "'";
                 retNum = da.ExecSqlNum(sql);
             }
-            catch
+            catch(Exception e)
             {
-                throw new Exception("清理失败");
+                throw new Exception("清理失败" + e.ToString());
             }
             finally
             {

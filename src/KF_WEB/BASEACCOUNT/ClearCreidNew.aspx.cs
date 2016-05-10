@@ -90,7 +90,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
-                WebUtils.ShowMessage(this.Page, "清理失败");
+                WebUtils.ShowMessage(this.Page, "清理失败" + HttpUtility.JavaScriptStringEncode(ex.ToString()));
                 log4net.LogManager.GetLogger("清理失败" + ex.Message);
             }
         }
