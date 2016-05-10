@@ -2867,11 +2867,9 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
 
-
-
-
         /// <summary>
         /// 自助申诉查询
+        /// 判断输入的帐号在1个月内（以提交时间为准），是否有特殊找回密码
         /// </summary>
         [WebMethod]
         public void GetUserAppealType()
@@ -2880,10 +2878,6 @@ namespace CFT.CSOMS.Service.CSAPI
             //http://tapd.oa.com/tenpay_kf/prong/stories/view/1010068761057663725
             //2016-04-27
             //v_swuzhang
-
-            System.Diagnostics.Stopwatch watchTime = new System.Diagnostics.Stopwatch();
-            watchTime.Start();
-            bool hadreqok = false;
 
             List<BaseInfoC.FreezeThaw> list = new List<BaseInfoC.FreezeThaw>();
             try
@@ -2896,7 +2890,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
                 string u_BeginTime=DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
-                string u_EndTime = DateTime.Now.ToString("yyyy-MM-dd");
+                string u_EndTime = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
 
                 LogHelper.LogInfo(string.Format("AccountFreeze 参数：[{0}]",uin));
 
@@ -2909,6 +2903,12 @@ namespace CFT.CSOMS.Service.CSAPI
                     TENCENT.OSS.CFT.KF.KF_Service.CFTUserAppealClass cuser = new TENCENT.OSS.CFT.KF.KF_Service.CFTUserAppealClass(uin, u_BeginTime, u_EndTime, 99, ftype, "", "9",99);
                     DataSet ds = cuser.GetResultX("CFT"); //CFTB 切换成 主库表
 
+
+                    if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0) {
+
+
+                        APIUtil.Print<BaseInfoC.FreezeThaw>(list);
+                    }
 
                     DateTime beginDate = DateTime.Parse(u_BeginTime);
                     int yearEnd = DateTime.Parse(u_EndTime).Year;
@@ -3025,13 +3025,6 @@ namespace CFT.CSOMS.Service.CSAPI
             }
             catch (Exception ex)
             {
-                if (hadreqok == false)
-                {
-                    watchTime.Stop();
-                    AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.FREEZE, AccLogResult.APPLICATIONERROR, AccReturnCode.EXCEPTION, "冻结操作异常", watchTime.ElapsedMilliseconds
-                        , "1006", "", "", "");
-                }
-
                 SunLibrary.LoggerFactory.Get("AccountFreeze").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.ToString());
                 BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();
                 freeze.flag = -1;

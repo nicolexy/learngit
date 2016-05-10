@@ -49,7 +49,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 			if(!IsPostBack)
 			{
-				Table2.Visible = false;				
+				Table2.Visible = false;		
+		
+                TextBoxBeginDate.Value = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
+                TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 			}
 		}
 
@@ -88,6 +91,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			{
 				throw new Exception("请输入用户帐号！");
 			}
+
+            DateTime begindate;
+            DateTime enddate;
+            try
+            {
+                begindate = DateTime.Parse(TextBoxBeginDate.Value);
+                enddate = DateTime.Parse(TextBoxEndDate.Value);
+            }
+            catch
+            {
+                throw new Exception("日期输入有误！");
+            }
+
+            if (begindate.CompareTo(enddate) > 0)
+            {
+                throw new Exception("终止日期小于起始日期，请重新输入！");
+            }
 
 			ViewState["fuin"] = classLibrary.setConfig.replaceMStr(stmp);
 		}
@@ -149,7 +169,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			Finance_Header fh = setConfig.setFH(this);
 			qs.Finance_HeaderValue = fh;
             DataSet ds = new DataSet();
-            DataSet ds1 = qs.GetCFTUserAppealListNew(fuin, "", "", 99, 100, "", "9", start, max, 99);//ftype=100查询所有申诉类型
+            DataSet ds1 = qs.GetCFTUserAppealListNew(fuin, TextBoxBeginDate.Value, TextBoxEndDate.Value, 99, 100, "", "9", start, max, 99);//ftype=100查询所有申诉类型
 
             //处理分页问题
             if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
