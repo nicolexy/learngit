@@ -30,6 +30,8 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 		{
 			try
 			{
+                log4net.ILog log = log4net.LogManager.GetLogger("public static void SendInternalMail(string mailToStr, string mailccStr, string mailSubject, string mailBody, bool isBodyHtml, string[] fileAttachment),mailToStr=" + mailToStr + ",mailccStr=" + mailccStr + ",mailSubject=" + mailSubject);
+
                 string from = ConfigurationManager.AppSettings["EmailAddress"].ToString();
                 string passwd = ConfigurationManager.AppSettings["EmailPassword"].ToString();
                 string smtpServer = ConfigurationManager.AppSettings["SMTPServer"].ToString();
