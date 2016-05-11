@@ -255,8 +255,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             {
                 DateTime d1 = DateTime.Now;
                 DateTime d2 = d1.AddMonths(-1);
-                s_begindate = d2.ToString("yyyy-MM-dd 00:00:00");
-                s_enddate = d1.ToString("yyyy-MM-dd 23:59:59");
+                s_begindate = d2.ToString("yyyy-MM-dd");
+                s_enddate = d1.ToString("yyyy-MM-dd");
             }
             else
             {
@@ -264,13 +264,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 if (!string.IsNullOrEmpty(s_stime))
                 {
                     DateTime begindate = DateTime.Parse(s_stime);
-                    s_begindate = begindate.ToString("yyyy-MM-dd 00:00:00");
+                    s_begindate = begindate.ToString("yyyy-MM-dd");
                 }
                 string s_etime = TextBoxEndDate.Value;
                 if (!string.IsNullOrEmpty(s_etime))
                 {
                     DateTime enddate = DateTime.Parse(s_etime);
-                    s_enddate = enddate.ToString("yyyy-MM-dd 23:59:59");
+                    s_enddate = enddate.ToString("yyyy-MM-dd");
                 }
             }
 
