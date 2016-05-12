@@ -34,6 +34,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
         protected void Page_Load(object sender, System.EventArgs e)
         {
+
+           // string txtFilePath = Server.MapPath("~/") + "PLFile\\{0}_{1}.txt";
+           // string txtSuccess = string.Format(txtFilePath, "asdf", "success");
+           // WriteTxt(txtSuccess,"1","2", "3", "4");
+           //var dicSuccessFile = WriteXls(txtSuccess, "asdf", "success");
+
             // 在此处放置用户代码以初始化页面
             try
             {
@@ -155,11 +161,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
+                LogHelper.LogError("Export_Click 异常！" + eSoap.Message + ", stacktrace" + eSoap.StackTrace + "\r\n" + eSoap.ToString());
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
                 WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
             }
             catch (Exception eSys)
             {
+                LogHelper.LogError("Button1_Click 异常！" + eSys.Message + ", stacktrace" + eSys.StackTrace + "\r\n" + eSys.ToString());
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString());
             }
         }
@@ -290,12 +298,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             }
             catch (SoapException eSoap) //捕获soap类异常
             {
+                LogHelper.LogError("Export_Click 异常！" + eSoap.Message + ", stacktrace" + eSoap.StackTrace + "\r\n" + eSoap.ToString());
                 string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
                 WebUtils.ShowMessage(this.Page, "调用服务出错：" + errStr);
             }
-            catch (Exception eSys)
+            catch (Exception ex)
             {
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + eSys.Message.ToString());
+                LogHelper.LogError("Export_Click 异常！" + ex.Message + ", stacktrace" + ex.StackTrace + "\r\n" + ex.ToString());
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + ex.Message.ToString());
             }
         }
 
@@ -455,7 +465,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             }
             catch (Exception ex)
             {
-                LogHelper.LogError("导出退款登记失败！" + ex.Message + ", stacktrace" + ex.StackTrace);
+                LogHelper.LogError("导出退款登记失败！" + ex.Message + ", stacktrace" + ex.StackTrace+"\r\n"+ex.ToString());
             }
 
             if (fileAtta.Count > 0)
@@ -464,7 +474,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 {
                     CommMailSend.SendInternalMail(uin, "", "退款登记导出", "", false, fileAtta.ToArray());
                 }
-                catch (Exception ex){}
+                catch (Exception ex)
+                {
+                    LogHelper.LogError("导出退款登记失败！" + ex.Message + ", stacktrace" + ex.StackTrace + "\r\n" + ex.ToString());
+                }
             }
         }
 
@@ -591,7 +604,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             }
             catch (Exception e)
             {
-                LogHelper.LogInfo("批量导入退款登记失败!" + e.Message);
+                LogHelper.LogError("批量导入退款登记失败!" + e.ToString());
                 CommMailSend.SendInternalMail(uid, "", "批量导入退款登记失败", e.ToString(), false);
             }
 
@@ -664,6 +677,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             }
             catch (Exception ex)
             {
+                LogHelper.LogError(" public void btnUpload_Click(object sender, System.EventArgs e)！ 异常：" + ex.ToString() + ",StackTrace=" + ex.StackTrace);
                 WebUtils.ShowMessage(this.Page, ex.Message);
             }
         }
@@ -745,6 +759,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                     Dictionary<string, RefundFile> dicFailFile = null;
 
                     string zwMsg = string.Empty;
+                    string outErrMsg = string.Empty;
 
                     string txtFilePath = Server.MapPath("~/") + "PLFile\\{0}_{1}.txt";
                     string txtSuccess = string.Format(txtFilePath, no, "success");
@@ -804,6 +819,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                             catch (Exception ex)
                             {
                                 LogHelper.LogError(" btnRefundEmail_Click  提交账务退款生成Excel失败！countSheet：" + countSheet + ", " + ex.ToString() + ", stacktrace" + ex.StackTrace);
+                                outErrMsg = ex.Message;
                             }
                             finally
                             {
@@ -813,6 +829,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                             #endregion
                         }
                     }
+
+                    if (!File.Exists(txtSuccess) || !File.Exists(txtFail)) {
+
+                        WebUtils.ShowMessage(this.Page, string.Format("文件路径txtSuccess={0}或txtFail={1}不存在;原因：{2}。",txtSuccess,txtFail,outErrMsg));
+                        return;
+                    }
+
                     dicSuccessFile = WriteXls(txtSuccess, no, "success");
                     dicFailFile = WriteXls(txtFail, no, "fail");
 
@@ -1009,6 +1032,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             catch (Exception ex)
             {
                 LogHelper.LogError("private Dictionary<string, RefundFile> WriteXls(string txtFile,string no,string status)！ " + ex.Message + ", stacktrace" + ex.StackTrace);
+                throw;
             }
 
             int fileRowConut = 1000;
@@ -1133,9 +1157,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 //权限判断
                 WebUtils.ShowMessage(this.Page, "删除成功");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                WebUtils.ShowMessage(this.Page, e.Message);
+                LogHelper.LogError(" private void DelRefund(string fid)！ " + ex.Message + ", stacktrace" + ex.StackTrace);
+                WebUtils.ShowMessage(this.Page, ex.Message);
             }
         }
     }
