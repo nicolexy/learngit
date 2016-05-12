@@ -163,7 +163,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         {
             //需要注意分页情况
             clearDT();
-            var dt = new WechatPayService().QueryCreditCardRefund(fetch_no, "3", "", "", 0, 1);
+            string s_begindate = ViewState["s_begindate"].ToString();
+            string s_enddate = ViewState["s_enddate"].ToString();
+            var dt = new WechatPayService().QueryCreditCardRefund(fetch_no, "3", s_begindate, s_enddate, 0, 1);
             //var dt = new WechatPayService().QueryCreditCardRefundDetail(wx_no, fetch_no);
             if (dt != null)
             { //PublicRes.objectToString(dt, "", true)
@@ -302,6 +304,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             //    throw new Exception("查询参数不正确。");
             //}
 
+            ViewState["s_begindate"] = s_begindate;
+            ViewState["s_enddate"] = s_enddate;
             int max = pager.PageSize;
             int start = max * (index - 1);
 
