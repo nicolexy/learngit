@@ -48,6 +48,8 @@ namespace commLib
                         //上传文件
                         var result = client.PostAsync("/file/" + appId, content).Result;
                         var retData = result.Content.ReadAsStringAsync();
+
+                        LogHelper.LogInfo(string.Format("FPS文件上传返回信息:{0}", retData.Result));
                         //json 转为 UploadFileModel对象
                         System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
                         fileModel = jss.Deserialize<UploadFileModel>(retData.Result);
@@ -59,7 +61,7 @@ namespace commLib
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.LogInfo(string.Format("FPS文件上传失败:{0} ,异常:{1}", filepathname, ex.ToString()), "FPSFileHelper");
+                    LogHelper.LogError(string.Format("FPS文件上传失败:{0} ,异常:{1}", filepathname, ex.ToString()), "FPSFileHelper");
                     throw;
                 }
                 finally

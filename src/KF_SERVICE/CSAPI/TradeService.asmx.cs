@@ -38,7 +38,7 @@ namespace CSAPI
                 int FRefund_type = 1; //退款类型
                 string FSam_no = "";//SAM工单号
                 string FRecycle_user = "";//回收人
-                string FSubmit_user = ""; //登记人
+                string FSubmit_user = "CSAPI"; //登记人
                 string FRefund_amount = "0"; //退款金额
                 string memo = "";//备注
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
@@ -78,9 +78,10 @@ namespace CSAPI
                 //验点：
                  //a.查询交易真实信息，退款金额不得超过交易金额
                  //b.该交易单累加退款金额不得超出交易金额
-                ZWBatchPay_Service.BatchPay_Service bs = new ZWBatchPay_Service.BatchPay_Service();
-                bs.Finance_HeaderValue.UserName = FSubmit_user;
                 string zwMsg = string.Empty;
+                ZWBatchPay_Service.BatchPay_Service bs = new ZWBatchPay_Service.BatchPay_Service();
+                bs.Finance_HeaderValue = new ZWBatchPay_Service.Finance_Header();
+                bs.Finance_HeaderValue.UserName = FSubmit_user;
                 bool flag = bs.BatchRefundSingleCheck(FOrderId, FRefund_type, long.Parse(FRefund_amount), out zwMsg);
                 if (!string.IsNullOrEmpty(zwMsg)|| !flag)
                 {
@@ -117,7 +118,7 @@ namespace CSAPI
             }
             catch (Exception ex)
             {
-                SunLibrary.LoggerFactory.Get("AddRefundInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                SunLibrary.LoggerFactory.Get("AddRefundInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.ToString());
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }

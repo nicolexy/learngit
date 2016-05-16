@@ -34,7 +34,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
         protected void Page_Load(object sender, System.EventArgs e)
         {
-
+            //string spath = Server.MapPath("~/") + "PLFile\\网银退款asdf_1_success.xls";
+            //commLib.FPSFileHelper.UploadFile(spath);
             // string txtFilePath = Server.MapPath("~/") + "PLFile\\{0}_{1}.txt";
             // string txtSuccess = string.Format(txtFilePath, "asdf", "success");
             // WriteTxt(txtSuccess,"1","2", "3", "4");
@@ -1066,6 +1067,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                     conn.Open();
                     cmd = new OleDbCommand();
                     cmd.Connection = conn;
+
+                    LogHelper.LogInfo(" private Dictionary<string, RefundFile> WriteXls(string txtFile, string no, string status)  successPath文件地址： " + successPath);
 
                     String line;
                     while (idx < fileRowConut && (line = sr.ReadLine()) != null)
