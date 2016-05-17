@@ -81,7 +81,7 @@ namespace commLib
         /// <param name="fileName">发送给FPS的[文件路径]和文件名称, 默认文件使用原名称</param>
         /// <param name="upOutTime">超时时间</param>
         /// <returns></returns>
-        public static UploadFileModel UploadFile(string filePath, string filepathname = null, double upOutTime = 60)
+        public static UploadFileModel UploadFile(string filePath, string filepathname, double upOutTime = 60)
         {
             if (!File.Exists(filePath))
             {
@@ -89,10 +89,13 @@ namespace commLib
             }
             using (var fileStream = File.OpenRead(filePath))
             {
-                if (filepathname == null)
+                if (string.IsNullOrEmpty(filepathname))
                 {
                     filepathname = Path.GetFileName(filePath);
                 }
+
+                LogHelper.LogInfo(string.Format("public static UploadFileModel UploadFile(string filePath, string filepathname = null, double upOutTime = 60)   filepathname:{0} ,filePath:{1}", filepathname, filePath), "FPSFileHelper");
+
                 return UploadFile(fileStream, filepathname, upOutTime);
             }
         }

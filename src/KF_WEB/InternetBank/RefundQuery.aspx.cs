@@ -34,8 +34,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
         protected void Page_Load(object sender, System.EventArgs e)
         {
-            //string spath = Server.MapPath("~/") + "PLFile\\网银退款asdf_1_success.xls";
+            //string spath = Server.MapPath("~/") + "PLFile\\网银退款201605161605229563_1_3.xls";
             //commLib.FPSFileHelper.UploadFile(spath);
+
             // string txtFilePath = Server.MapPath("~/") + "PLFile\\{0}_{1}.txt";
             // string txtSuccess = string.Format(txtFilePath, "asdf", "success");
             // WriteTxt(txtSuccess,"1","2", "3", "4");
@@ -1036,7 +1037,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             }
             catch (Exception ex)
             {
-                LogHelper.LogError("private Dictionary<string, RefundFile> WriteXls(string txtFile,string no,string status)！ " + ex.Message + ", stacktrace" + ex.StackTrace);
+                LogHelper.LogError("private Dictionary<string, RefundFile> WriteXls(string txtFile, string no, string status)！ " + ex.Message + ", stacktrace" + ex.StackTrace);
                 throw;
             }
 
@@ -1092,7 +1093,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
                         string fileMd5 = Utility.GetMD5HashFromFile(successPath);
                         //文件上传
-                        var result = commLib.FPSFileHelper.UploadFile(successPath);
+                        commLib.Entity.UploadFileModel result = null;
+                        result = commLib.FPSFileHelper.UploadFile(successPath,"RefundQuery/"+Path.GetFileName(successPath));
+
+                        if (result == null ||string.IsNullOrEmpty(result.url)) {
+                            result = commLib.FPSFileHelper.UploadFile(successPath,Guid.NewGuid().ToString().Replace("-","")+Path.GetExtension(successPath));
+                        }
+
+
                         RefundFile refundFile = new RefundFile();
                         refundFile.fileMd5 = fileMd5;
                         refundFile.listFid = listFid;
@@ -1100,6 +1108,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                         refundFile.remotePath = result.url;
                         refundFile.batchNum = batchNum;
                         dicFile.Add(successPath, refundFile);
+
+                        LogHelper.LogInfo(" commLib.FPSFileHelper.UploadFile  remotePath文件地址： " + result.url);
                     }
                 }
                 #region
