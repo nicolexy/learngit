@@ -163,7 +163,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         {
             //需要注意分页情况
             clearDT();
-            var dt = new WechatPayService().QueryCreditCardRefund(fetch_no, "3", "", "", 0, 1);
+            string s_begindate = ViewState["s_begindate"].ToString();
+            string s_enddate = ViewState["s_enddate"].ToString();
+            var dt = new WechatPayService().QueryCreditCardRefund(fetch_no, "3", s_begindate, s_enddate, 0, 1);
             //var dt = new WechatPayService().QueryCreditCardRefundDetail(wx_no, fetch_no);
             if (dt != null)
             { //PublicRes.objectToString(dt, "", true)
@@ -256,8 +258,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             {
                 DateTime d1 = DateTime.Now;
                 DateTime d2 = d1.AddMonths(-1);
-                s_begindate = d2.ToString("yyyy-MM-dd 00:00:00");
-                s_enddate = d1.ToString("yyyy-MM-dd 23:59:59");
+                s_begindate = d2.ToString("yyyy-MM-dd");
+                s_enddate = d1.ToString("yyyy-MM-dd");
             }
             else
             {
@@ -265,13 +267,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 if (!string.IsNullOrEmpty(s_stime))
                 {
                     DateTime begindate = DateTime.Parse(s_stime);
-                    s_begindate = begindate.ToString("yyyy-MM-dd 00:00:00");
+                    s_begindate = begindate.ToString("yyyy-MM-dd");
                 }
                 string s_etime = TextBoxEndDate.Value;
                 if (!string.IsNullOrEmpty(s_etime))
                 {
                     DateTime enddate = DateTime.Parse(s_etime);
-                    s_enddate = enddate.ToString("yyyy-MM-dd 23:59:59");
+                    s_enddate = enddate.ToString("yyyy-MM-dd");
                 }
             }
 
@@ -302,6 +304,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             //    throw new Exception("查询参数不正确。");
             //}
 
+            ViewState["s_begindate"] = s_begindate;
+            ViewState["s_enddate"] = s_enddate;
             int max = pager.PageSize;
             int start = max * (index - 1);
 

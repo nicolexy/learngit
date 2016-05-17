@@ -48,6 +48,8 @@ namespace commLib
                         //上传文件
                         var result = client.PostAsync("/file/" + appId, content).Result;
                         var retData = result.Content.ReadAsStringAsync();
+
+                        LogHelper.LogInfo(string.Format("FPS文件上传返回信息:{0}", retData.Result));
                         //json 转为 UploadFileModel对象
                         System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
                         fileModel = jss.Deserialize<UploadFileModel>(retData.Result);
@@ -59,7 +61,7 @@ namespace commLib
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.LogInfo(string.Format("FPS文件上传失败:{0} ,异常:{1}", filepathname, ex.ToString()), "FPSFileHelper");
+                    LogHelper.LogError(string.Format("FPS文件上传失败:{0} ,异常:{1}", filepathname, ex.ToString()), "FPSFileHelper");
                     throw;
                 }
                 finally
@@ -79,7 +81,7 @@ namespace commLib
         /// <param name="fileName">发送给FPS的[文件路径]和文件名称, 默认文件使用原名称</param>
         /// <param name="upOutTime">超时时间</param>
         /// <returns></returns>
-        public static UploadFileModel UploadFile(string filePath, string filepathname = null, double upOutTime = 60)
+        public static UploadFileModel UploadFile(string filePath, string filepathname, double upOutTime = 60)
         {
             if (!File.Exists(filePath))
             {
@@ -87,10 +89,13 @@ namespace commLib
             }
             using (var fileStream = File.OpenRead(filePath))
             {
-                if (filepathname == null)
+                if (string.IsNullOrEmpty(filepathname))
                 {
                     filepathname = Path.GetFileName(filePath);
                 }
+
+                LogHelper.LogInfo(string.Format("public static UploadFileModel UploadFile(string filePath, string filepathname = null, double upOutTime = 60)   filepathname:{0} ,filePath:{1}", filepathname, filePath), "FPSFileHelper");
+
                 return UploadFile(fileStream, filepathname, upOutTime);
             }
         }
