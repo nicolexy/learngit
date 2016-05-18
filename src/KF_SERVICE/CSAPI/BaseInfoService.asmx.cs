@@ -107,7 +107,7 @@ namespace CFT.CSOMS.Service.CSAPI
                         infos.Tables[0].Rows[0]["Fcre_type_str"] = Transfer.GetCreType(infos.Tables[0].Rows[0]["Fcre_type"].ToString());
                     }
                     COMMLIB.CommUtil.FenToYuan_Table(infos.Tables[0], "FBalance", "FBalanceStr");
-                    COMMLIB.CommUtil.FenToYuan_Table(infos.Tables[0], "Fcon", "FconStr");                    
+                    COMMLIB.CommUtil.FenToYuan_Table(infos.Tables[0], "Fcon", "FconStr");
                 }
 
                 List<BaseInfoC.UserInfoBasic> list = APIUtil.ConvertTo<BaseInfoC.UserInfoBasic>(infos.Tables[0]);
@@ -407,8 +407,8 @@ namespace CFT.CSOMS.Service.CSAPI
                 string appeal_db = paramsHt.ContainsKey("db") ? paramsHt["db"].ToString() : "";
                 string appeal_tb = paramsHt.ContainsKey("tb") ? paramsHt["tb"].ToString() : "";
                 string comment = paramsHt.ContainsKey("comment") ? paramsHt["comment"].ToString() : ""; //备注
- 
-                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().ConfirmAppealSpecial(fid, handle_result,comment, user_desc, user, user_ip, appeal_db, appeal_tb);
+
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().ConfirmAppealSpecial(fid, handle_result, comment, user_desc, user, user_ip, appeal_db, appeal_tb);
 
                 Record record = new Record();
                 record.RetValue = infos.ToString().ToLower();
@@ -448,8 +448,8 @@ namespace CFT.CSOMS.Service.CSAPI
                 string appeal_db = paramsHt.ContainsKey("db") ? paramsHt["db"].ToString() : "";
                 string appeal_tb = paramsHt.ContainsKey("tb") ? paramsHt["tb"].ToString() : "";
                 string comment = paramsHt.ContainsKey("comment") ? paramsHt["comment"].ToString() : ""; //备注
-        
-                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().CannelAppealSpecial(fid, handle_result,comment, user_desc, user, user_ip, appeal_db, appeal_tb);
+
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().CannelAppealSpecial(fid, handle_result, comment, user_desc, user, user_ip, appeal_db, appeal_tb);
 
                 Record record = new Record();
                 record.RetValue = infos.ToString().ToLower();
@@ -489,8 +489,8 @@ namespace CFT.CSOMS.Service.CSAPI
                 string appeal_db = paramsHt.ContainsKey("db") ? paramsHt["db"].ToString() : "";
                 string appeal_tb = paramsHt.ContainsKey("tb") ? paramsHt["tb"].ToString() : "";
                 string comment = paramsHt.ContainsKey("comment") ? paramsHt["comment"].ToString() : ""; //备注
-        
-                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().DelAppealSpecial(fid, handle_result,comment, user_desc, user, user_ip, appeal_db, appeal_tb);
+
+                var infos = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().DelAppealSpecial(fid, handle_result, comment, user_desc, user, user_ip, appeal_db, appeal_tb);
 
                 Record record = new Record();
                 record.RetValue = infos.ToString().ToLower();
@@ -836,7 +836,7 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "old_creid", "new_creid", "user","user_ip", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "old_creid", "new_creid", "user", "user_ip", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
@@ -924,7 +924,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 SunLibrary.LoggerFactory.Get("GetCheckStatistics").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
-        } 
+        }
         #endregion
 
         #region 证件号码清理
@@ -1347,7 +1347,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
-      
+
         /// <summary>
         /// 删除认证信息
         /// </summary>
@@ -1389,7 +1389,7 @@ namespace CFT.CSOMS.Service.CSAPI
         #endregion
 
         #region /*个人信息*/
-       
+
         /// <summary>
         /// 获取个人信息
         /// </summary>
@@ -1484,7 +1484,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
-     
+
         #endregion
 
         #region QQ账号修改申请
@@ -1650,7 +1650,7 @@ namespace CFT.CSOMS.Service.CSAPI
                     limit = 50;
                 }
 
-                string msg="";
+                string msg = "";
                 var infos = new CFT.CSOMS.BLL.CFTAccountModule.AccountOperate().GetCanncelAccountLog(qqid, opera, begin_time, end_time, offset, limit, out msg);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
@@ -2271,7 +2271,7 @@ namespace CFT.CSOMS.Service.CSAPI
                     list.Add(freeze);
 
                     watchTime.Stop();
-                    
+
                     //自定义功能代码 1005
                     AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.UNFREEZE, AccLogResult.SUCCESS, AccReturnCode.SUCCESS, "解冻账户余额较大，发起审批成功", watchTime.ElapsedMilliseconds, "1005", "", "", "");
                     APIUtil.Print<BaseInfoC.FreezeThaw>(list);
@@ -2366,7 +2366,7 @@ namespace CFT.CSOMS.Service.CSAPI
             catch (Exception ex)
             {
                 watchTime.Stop();
-                AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.UNFREEZE, AccLogResult.APPLICATIONERROR, AccReturnCode.EXCEPTION, "解冻发生异常",watchTime.ElapsedMilliseconds, "1005", "", "", "");
+                AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.UNFREEZE, AccLogResult.APPLICATIONERROR, AccReturnCode.EXCEPTION, "解冻发生异常", watchTime.ElapsedMilliseconds, "1005", "", "", "");
                 SunLibrary.LoggerFactory.Get("UnFreezeAccount").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
                 //APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS + "；" + ex.Message);
                 BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();
@@ -2471,7 +2471,7 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin","serialNo","ip", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "uin", "serialNo", "ip", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 
@@ -2542,7 +2542,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 //实名认证
                 bool stateMsg = false;
-                var Authen = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().GetUserAuthenState(uin, "", 0,out stateMsg);
+                var Authen = new CFT.CSOMS.BLL.UserAppealModule.UserAppealService().GetUserAuthenState(uin, "", 0, out stateMsg);
                 if (stateMsg)
                 {
                     authenState = "是";
@@ -2738,7 +2738,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 string contact = paramsHt.ContainsKey("contact") ? paramsHt["contact"].ToString() : "";
                 string reason = paramsHt.ContainsKey("reason") ? paramsHt["reason"].ToString() : "";
 
-                LogHelper.LogInfo(string.Format("AccountFreeze 参数：[{0}，{1}，{2}，{3}，{4}，{5}，{6}]", 
+                LogHelper.LogInfo(string.Format("AccountFreeze 参数：[{0}，{1}，{2}，{3}，{4}，{5}，{6}]",
                     account, channel, executor, executorip, userName, contact, reason));
 
                 bool exeSign = false;
@@ -2746,7 +2746,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 fm.myHeader = new TENCENT.OSS.CFT.KF.KF_Service.Finance_Header();
                 fm.myHeader.UserName = executor;
                 fm.myHeader.UserIP = executorip;
-                if (account.Contains("@wx.tenpay.com")) 
+                if (account.Contains("@wx.tenpay.com"))
                 {
                     //微信处理流程
                     exeSign = fm.FreezePerAccountWechat_New(account, executor, channel);
@@ -2785,12 +2785,12 @@ namespace CFT.CSOMS.Service.CSAPI
                     SunLibrary.LogHelper.LogError("创建冻结工单时失败:" + ex.ToString());
                 }
 
-                
+
                 if (exeSign) //冻结成功
                 {
-                        watchTime.Stop();
-                        AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.FREEZE, AccLogResult.SUCCESS, AccReturnCode.SUCCESS, "冻结成功", watchTime.ElapsedMilliseconds, "1006", "", "", "");
-                        hadreqok = true;
+                    watchTime.Stop();
+                    AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.FREEZE, AccLogResult.SUCCESS, AccReturnCode.SUCCESS, "冻结成功", watchTime.ElapsedMilliseconds, "1006", "", "", "");
+                    hadreqok = true;
 
                     if (account.IndexOf("@wx.tenpay.com") > 0) //发送微信消息
                     {
@@ -2828,7 +2828,7 @@ namespace CFT.CSOMS.Service.CSAPI
                     watchTime.Stop();
                     AccLogHelper.SendPayLogAsync("webservice", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), "", "", "BaseInfoService", AccLogHelper.GetLineNum(), AccService.FREEZE, AccLogResult.SUCCESS, AccReturnCode.FAILURE, "冻结失败", watchTime.ElapsedMilliseconds, "1006", "", "", "");
                     hadreqok = true;
-                }                
+                }
             }
             catch (ServiceException se)
             {
@@ -2841,7 +2841,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 SunLibrary.LoggerFactory.Get("AccountFreeze").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
                 BaseInfoC.FreezeThaw freeze = new BaseInfoC.FreezeThaw();
                 freeze.flag = -1;
-                freeze.info =  se.Message;
+                freeze.info = se.Message;
                 list.Add(freeze);
                 //APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
             }
@@ -2864,6 +2864,110 @@ namespace CFT.CSOMS.Service.CSAPI
 
 
             APIUtil.Print<BaseInfoC.FreezeThaw>(list);
+        }
+
+
+        /// <summary>
+        /// 自助申诉查询
+        /// 判断输入的帐号在1个月内（以提交时间为准），是否有特殊找回密码
+        /// </summary>
+        [WebMethod]
+        public void GetUserAppealType()
+        {
+            //客服系统接口需求33-自助申诉查询
+            //http://tapd.oa.com/tenpay_kf/prong/stories/view/1010068761057663725
+            //2016-04-27
+            //v_swuzhang
+
+            List<BaseInfoC.AddUserAppeal> list = new List<BaseInfoC.AddUserAppeal>();
+            BaseInfoC.AddUserAppeal userappeal = new BaseInfoC.AddUserAppeal();
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "uin", "appid", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                //判断输入的帐号在1个月内（以提交时间为准）
+                string u_BeginTime = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
+                string u_EndTime = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
+
+                LogHelper.LogInfo(string.Format("public void GetUserAppealType() 参数：[uin={0},u_BeginTime={1},u_EndTime={2}]", uin, u_BeginTime, u_EndTime));
+
+                DataSet dsAll = null;
+
+                //ftype  1:找回密码，11:特殊密码找回，100:查询所有申诉类型申诉记录
+                int ftype = 11;
+
+                TENCENT.OSS.CFT.KF.KF_Service.CFTUserAppealClass cuser = new TENCENT.OSS.CFT.KF.KF_Service.CFTUserAppealClass(uin, u_BeginTime, u_EndTime, 99, ftype, "", "9", 99);
+                DataSet ds = cuser.GetResultX("CFT"); //CFTB 切换成 主库表
+
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    userappeal.hadRecord = 1;
+                    userappeal.info = "存在特殊找回密码申诉记录";
+                    list.Add(userappeal);
+
+                    LogHelper.LogInfo(string.Format("public void GetUserAppealType() 参数：[ftype={0},hadRecord={1}]", ftype, 1));
+
+                    APIUtil.Print<BaseInfoC.AddUserAppeal>(list);
+                    return;
+                }
+
+                DateTime beginDate = DateTime.Parse(u_BeginTime);
+                int yearEnd = DateTime.Parse(u_EndTime).Year;
+                int monEnd = DateTime.Parse(u_EndTime).Month;
+                List<string> listdb = new List<string>();
+                List<string> listtb = new List<string>();
+                if (yearEnd >= 2014)//才查分库表
+                {
+                    while (!((beginDate.Year == yearEnd && beginDate.Month > monEnd) || (beginDate.Year > yearEnd)))
+                    {
+                        listdb.Add(beginDate.Year.ToString());
+                        listtb.Add(beginDate.Month.ToString());
+                        beginDate = beginDate.AddMonths(1);
+                    }
+                }
+
+                DataSet dsFenResult = new DataSet();
+                if (listdb == null || listdb.Count == 0)
+                {
+                    userappeal.hadRecord = 0;
+                    userappeal.info = "不存在特殊找回密码申诉记录";
+                    LogHelper.LogInfo(string.Format("public void GetUserAppealType() 参数：listdb == null, [hadRecord={0}]", 0));
+                }
+                else
+                {
+                    for (int i = 0; i < listdb.Count; i++)
+                    {
+                        string db = listdb[i];
+                        string tb = listtb[i];
+                        TENCENT.OSS.CFT.KF.KF_Service.CFTUserAppealClass cuser2 = new TENCENT.OSS.CFT.KF.KF_Service.CFTUserAppealClass(uin, u_BeginTime, u_EndTime, 99, ftype, "", "9", 99, true, db, tb);//分库分表的查询
+                        DataSet dsfen = cuser2.GetResultX("CFTNEW");
+
+                        if (dsfen != null && dsfen.Tables.Count > 0 && dsfen.Tables[0].Rows.Count > 0)
+                        {
+                            userappeal.hadRecord = 1;
+                            userappeal.info = "存在特殊找回密码申诉记录";
+                            LogHelper.LogInfo(string.Format("public void GetUserAppealType() 参数：listdb.Count={0}, [hadRecord={1}]", listdb.Count, 1));
+                            break;
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                userappeal.hadRecord = 0;
+                userappeal.info = "获取信息失败";
+                SunLibrary.LogHelper.LogError("public void GetUserAppealType() 查询自助申诉查询异常:" + ex.ToString());
+            }
+            finally { 
+                list.Add(userappeal);
+                APIUtil.Print<BaseInfoC.AddUserAppeal>(list);
+            }
         }
     }
 }
