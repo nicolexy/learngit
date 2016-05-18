@@ -96,7 +96,7 @@
                      <asp:BoundColumn DataField="Fredem_type_str" HeaderText="赎回方式" />
                      <asp:BoundColumn DataField="Ftotal_fee" HeaderText="已确认金额" />
                      <asp:BoundColumn DataField="Fcreate_time" HeaderText="创建时间" />
-                   <%--  <asp:BoundColumn DataField="Fstate" HeaderText="状态" />--%>
+                     <asp:BoundColumn DataField="Fstate_str" HeaderText="状态" />
                     <asp:ButtonColumn Text="查看" CommandName="detail" />
                 </Columns>
             </asp:DataGrid>
@@ -104,7 +104,7 @@
                 pagingbuttonspacing="0" showinputbox="always" cssclass="mypager" horizontalalign="right" onpagechanged="ChangePage"
                 submitbuttontext="转到" numericbuttontextformatstring="[{0}]">
         </webdiyer:aspnetpager>
-            <asp:Panel runat="server" ID="panDetail" Visible="false" >
+            <asp:Panel runat="server" ID="panDetail" Visible="false">
             <table cellspacing="1" cellpadding="1"  >
                   <caption>
                     详情
@@ -113,31 +113,13 @@
                     <td class="auto-style1">账号：</td>
                      <td> <asp:Label runat="server" ID="txt_QQID"></asp:Label> </td> 
                     <td class="tb_query_title">状态：</td>
-                     <td><asp:Label runat="server" ID="lbl_Fstate"> </asp:Label></td>
+                     <td><asp:Label runat="server" ID="lbl_Fstate_str"> </asp:Label></td>
                 </tr>
                 <tr>
                     <td class="auto-style1">报价编号：</td>
                      <td> <asp:Label runat="server" ID="lbl_Fissue"></asp:Label> </td> 
-                    <td class="tb_query_title">当前申购金额：</td>
-                     <td><asp:Label runat="server" ID="lbl_Fbuy_total"> </asp:Label></td>
-                </tr>
-                 <tr>
-                    <td class="auto-style2">报价编号名称：</td>
-                     <td class="auto-style3"> <asp:Label runat="server" ID="lbl_Fissue_name"></asp:Label> </td> 
-                    <td class="auto-style4">累计申购额度：</td>
-                     <td class="auto-style3"><asp:Label runat="server" ID="lbl_Fbuy_limit"> </asp:Label></td>
-                </tr>
-                 <tr>
-                    <td class="auto-style1">产品类型：</td>
-                     <td> <asp:Label runat="server" ID="lbl_Fproduct_type"></asp:Label> </td> 
-                    <td class="tb_query_title">新用户起息时间：</td>
-                     <td><asp:Label runat="server" ID="lbl_Fnew_user_value_date"> </asp:Label></td>
-                </tr>
-                 <tr>
-                    <td class="auto-style1">产品名称：</td>
-                     <td> <asp:Label runat="server" ID="lbl_Fproduct_name"></asp:Label> </td> 
-                    <td class="tb_query_title">老用户起息时间：</td>
-                     <td><asp:Label runat="server" ID="lbl_Fold_user_value_date"> </asp:Label></td>
+                   <td class="tb_query_title"><%--当前申购金额：--%></td>
+                     <td><%--<asp:Label runat="server" ID="lbl_Fbuy_total"> </asp:Label>--%></td>
                 </tr>
                  <tr>
                     <td class="auto-style1">基金名称：</td>
@@ -147,19 +129,19 @@
                 </tr>
                  <tr>
                     <td class="auto-style1">赎回方式：</td>
-                     <td> <asp:Label runat="server" ID="lbl_Fredem_type"></asp:Label> </td> 
+                     <td> <asp:Label runat="server" ID="lbl_Fredem_type_str"></asp:Label> </td> 
                     <td class="tb_query_title">起息日：</td>
                      <td><asp:Label runat="server" ID="lbl_Fvalue_date"> </asp:Label></td>
                 </tr>
                  <tr>
                     <td class="auto-style1">到期年化收益率：</td>
-                     <td> <asp:Label runat="server" ID="lbl_Fprofit_rate"></asp:Label> </td> 
+                     <td> <asp:Label runat="server" ID="lbl_Fprofit_rate_str"></asp:Label> </td> 
                     <td class="tb_query_title">期限：</td>
                      <td><asp:Label runat="server" ID="lbl_Fduration"> </asp:Label></td>
                 </tr>
                  <tr>
-                    <td class="auto-style1">提前终止年化收益率：</td>
-                     <td> <asp:Label runat="server" ID="lbl_Fterminate_profit_rate"></asp:Label> </td> 
+                  <td class="auto-style1"><%--提前终止年化收益率：--%></td>
+                     <td> <%--<asp:Label runat="server" ID="lbl_Fterminate_profit_rate"></asp:Label>--%> </td> 
                     <td class="tb_query_title">到期日：</td>
                      <td><asp:Label runat="server" ID="lbl_Fdue_date"> </asp:Label></td>
                 </tr>
@@ -170,31 +152,19 @@
                      <td><asp:Label runat="server" ID="lbl_Fprofit_recon_date"> </asp:Label></td>
                 </tr>
                  <tr>
-                    <td class="auto-style1">昨日收益：</td>
-                     <td> <asp:Label runat="server" ID="lbl_Flast_profit"></asp:Label> </td> 
+                   <td class="auto-style1"><%--昨日收益：--%></td>
+                     <td> <%--<asp:Label runat="server" ID="lbl_Flast_profit"></asp:Label>--%> </td> 
                     <td class="tb_query_title">资金到账日：</td>
                      <td><asp:Label runat="server" ID="lbl_Ffetch_arrive_date"> </asp:Label></td>
                 </tr>
                  <tr>
-                    <td class="auto-style1">本期收益：</td>
-                     <td> <asp:Label runat="server" ID="lbl_Ftotal_profit"></asp:Label> </td> 
-                    <td class="tb_query_title">收益入账日期：</td>
-                     <td><asp:Label runat="server" ID="lbl_Fprofit_last_recon_date"> </asp:Label></td>
-                </tr>
-                 <tr>
-                    <td class="auto-style1">是否真实收益：</td>
-                     <td> <asp:Label runat="server" ID="lbl_Fprofit_type"></asp:Label> </td> 
+                   <%-- <td class="auto-style1">是否真实收益：</td>
+                     <td> <asp:Label runat="server" ID="lbl_Fprofit_type"></asp:Label> </td> --%>
                     <td class="tb_query_title">创建时间：</td>
                      <td><asp:Label runat="server" ID="lbl_Fcreate_time"> </asp:Label></td>
-                </tr>
-                 <tr>
-                    <td class="auto-style1">&nbsp;</td>
-                     <td> &nbsp;</td> 
-                    <td class="tb_query_title">修改时间：</td>
+                      <td class="tb_query_title">修改时间：</td>
                      <td><asp:Label runat="server" ID="lbl_Fmodify_time"> </asp:Label></td>
                 </tr>
-                
-                
             </table>
                 </asp:Panel>
         </div>
