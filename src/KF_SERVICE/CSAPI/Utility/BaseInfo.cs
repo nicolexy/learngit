@@ -647,6 +647,15 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
 
         }
 
+        public class AddUserAppeal
+        {
+            [XmlElement("hadRecord")]
+            public int hadRecord { get; set; }
+            [XmlElement("info")]
+            public string info { get; set; }
+
+        }
+
         #endregion
     }
 

@@ -13,6 +13,42 @@
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>
+        <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
+		<script language="javascript">
+		    function Show() {
+		        var TextBoxBeginDate = document.getElementById("TextBoxBeginDate");
+		        var ButtonBeginDate = document.getElementById("ButtonBeginDate");
+		        var TextBoxEndDate = document.getElementById("TextBoxEndDate");
+		        var ButtonEndDate = document.getElementById("ButtonEndDate");
+		        var tbFuin = document.getElementById("tbFuin");
+		        var ddlState = document.getElementById("ddlState");
+		        var txtQQ = document.getElementById("txtQQ");
+		        var rbtnFuin = document.getElementById("rbtnFuin");
+		        var rbtnQQ = document.getElementById("rbtnQQ");
+
+		        if (rbtnFuin.checked) {
+		            txtQQ.disabled = true;
+
+		            TextBoxBeginDate.disabled = false;
+		            ButtonBeginDate.disabled = false;
+		            TextBoxEndDate.disabled = false;
+		            ButtonEndDate.disabled = false;
+		            tbFuin.disabled = false;
+		            ddlState.disabled = false;
+		        }
+		        else {
+		            txtQQ.disabled = false;
+
+		            TextBoxBeginDate.disabled = true;
+		            ButtonBeginDate.disabled = true;
+		            TextBoxEndDate.disabled = true;
+		            ButtonEndDate.disabled = true;
+		            tbFuin.disabled = true;
+		            ddlState.disabled = true;
+		        }
+		    }
+
+		</script>
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
@@ -21,13 +57,23 @@
 				<TR>
 					<TD bgColor="#e4e5f7" colSpan="3"><FONT face="宋体" color="red"><IMG height="16" src="../IMAGES/Page/post.gif" width="20">
 							&nbsp;&nbsp;自助申诉查询</FONT> </FONT></TD>
-					<TD align="right" bgColor="#e4e5f7"><FONT face="宋体">操作员代码: <SPAN class="style3">
+					<TD align="right" bgColor="#e4e5f7" colSpan="5"><FONT face="宋体">操作员代码: <SPAN class="style3">
 								<asp:label id="Label1" runat="server" Width="73px"></asp:label></SPAN></FONT></TD>
 				</TR>
 				<TR>
-					<TD align="right" style="WIDTH: 83px"><asp:label id="Label5" runat="server">用户帐号</asp:label></TD>
+					<TD align="right"><asp:label id="Label5" runat="server">用户帐号</asp:label></TD>
 					<TD><asp:textbox id="tbFuin" runat="server"></asp:textbox>
 						<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ControlToValidate="tbFuin" ErrorMessage="请输入帐号"></asp:RequiredFieldValidator></TD>
+                    <td>开始日期：</td>
+                    <td>
+                        <input type="text" runat="server" id="TextBoxBeginDate" onclick="WdatePicker()" />
+                        <img onclick="TextBoxBeginDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+                    </td>
+                    <td>结束日期：</td>
+                    <td>
+                        <input type="text" runat="server" id="TextBoxEndDate" onclick="WdatePicker()" />
+                        <img onclick="TextBoxEndDate.click()" src="../SCRIPTS/My97DatePicker/skin/datePicker.gif" width="16" height="22" style="width:16px;height:22px; cursor:pointer;" alt="选择日期" />
+                    </td>
 					<TD align="center" colspan="2"><FONT face="宋体"><asp:button id="Button2" runat="server" Width="80px" Text="查 询" onclick="Button2_Click"></asp:button></FONT></TD>
 				</TR>
 			</TABLE>
