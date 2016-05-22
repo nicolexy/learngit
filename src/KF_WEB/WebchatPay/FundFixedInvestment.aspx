@@ -68,6 +68,7 @@
                 <td style="width: 50%">计划类型：
                      <asp:RadioButton ID="DT" GroupName="PROJECT" runat="server" Text="定投" Checked="true" />
                     <asp:RadioButton ID="HFD" GroupName="PROJECT" runat="server" Text="还房贷" />
+                     <asp:RadioButton ID="DreamProject" GroupName="PROJECT" runat="server" Text="梦想计划" />
                 </td>
 
                 <td align="center">
@@ -75,7 +76,6 @@
             </tr>
         </table>
         <br />
-
         <asp:DataGrid Width="1200" ID="dg_DT_fundBuyPlan" runat="server" AutoGenerateColumns="False" CssClass="tab_dg" Caption="计划列表(定投)" OnItemCommand="DataGrid1_ItemCommand">
             <HeaderStyle Font-Bold="True" Height="25px" />
             <Columns>
@@ -136,7 +136,7 @@
         </asp:DataGrid>
 
         <webdiyer:AspNetPager ID="pager1" runat="server" AlwaysShow="True" NumericButtonCount="5" ShowCustomInfoSection="left" Width="1200px"
-            PagingButtonSpacing="0" ShowInputBox="always" CssClass="mypager" HorizontalAlign="right" OnPageChanged="ChangePage1"
+            PagingButtonSpacing="0" ShowInputBox="always" CssClass="mypager" HorizontalAlign="right" OnPageChanged="ChangePage1" Visible="false"
             SubmitButtonText="转到" NumericButtonTextFormatString="[{0}]">
         </webdiyer:AspNetPager>
 
@@ -237,6 +237,7 @@
             PagingButtonSpacing="0" ShowInputBox="always" CssClass="mypager" HorizontalAlign="right" OnPageChanged="ChangePage2"
             SubmitButtonText="转到" NumericButtonTextFormatString="[{0}]" Visible="false">
         </webdiyer:AspNetPager>
+         <iframe id="iframe0" name="iframeList" marginwidth="0" marginheight="0"  frameborder="0" width="100%" height="600px"  src="<%=iframeSRC %>" ></iframe>
     </form>
 </body>
 </html>

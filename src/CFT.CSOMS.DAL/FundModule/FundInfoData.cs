@@ -314,6 +314,104 @@ namespace CFT.CSOMS.DAL.FundModule
         }
         #endregion
 
+        #region 梦想计划
+        /// <summary>
+        /// 计划列表
+        /// </summary>
+        /// <param name="uin"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public DataTable Get_DreamProject_Plan(string uin, int offset, int limit) 
+        { 
+            string requestText = "reqid=751&flag=2&offset={0}&limit={1}&fields=uin:{2}";
+            requestText = string.Format(requestText, offset, limit, uin);
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            DataTable dt = null;
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+            }
+            else
+            {
+                throw new LogicException("查询数据为空");
+            }
+            return dt;
+        }
+        /// <summary>
+        /// 交易单列表
+        /// </summary>
+        /// <param name="plan_id"></param>
+        /// <param name="trade_id"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public DataTable Get_DreamProject_trans(string plan_id, string trade_id, int offset, int limit)
+        {
+            string requestText = "reqid=753&flag=2&offset={0}&limit={1}&fields=trade_id:{2}|plan_id:{3}";
+            requestText = string.Format(requestText, offset, limit, trade_id, plan_id);
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            DataTable dt = null;
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+            }
+            else
+            {
+                throw new LogicException("查询数据为空");
+            }
+            return dt;
+        }
+        /// <summary>
+        /// 资产列表
+        /// </summary>
+        /// <param name="plan_id"></param>
+        /// <param name="trade_id"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public DataTable Get_DreamProject_asset(string plan_id, string trade_id, int offset, int limit)
+        {
+            string requestText = "reqid=755&flag=2&offset={0}&limit={1}&fields=trade_id:{2}|plan_id:{3}";
+            requestText = string.Format(requestText, offset, limit, trade_id, plan_id);
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            DataTable dt = null;
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+            }
+            else
+            {
+                throw new LogicException("查询数据为空");
+            }
+            return dt;
+        }
+
+        /// <summary>
+        /// 受控资产列表
+        /// </summary>
+        /// <param name="plan_id"></param>
+        /// <param name="trade_id"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public DataTable Get_DreamProject_controlasset(string trade_id, string spid, string fund_code)
+        {
+            string requestText = "reqid=756&flag=2&offset={0}&limit={1}&fields=trade_id:{2}|spid:{3}|fund_code:{4}";
+            requestText = string.Format(requestText, 0, 1, trade_id, spid, fund_code);
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            DataTable dt = null;
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+            }
+            else
+            {
+                throw new LogicException("查询数据为空");
+            }
+            return dt;
+        }
+        #endregion
         //预约买入
         public DataTable GetLCTReserveOrder(string trade_id, string listid, string stime, string etime, int offset, int limit)
         {

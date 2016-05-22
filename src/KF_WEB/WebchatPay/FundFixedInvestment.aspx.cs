@@ -14,6 +14,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
     public partial class FundFixedInvestment : System.Web.UI.Page
     {
+       public string iframeSRC = "";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack) 
@@ -44,10 +45,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 string uid = new AccountService().QQ2Uid(uin);
                 ViewState["uid"] = uid;
 
-//#if DEBUG
-//                ViewState["uid"] = "299708515";
-//                ViewState["uin"] = "442632198";
-//#endif
+#if DEBUG
+                ViewState["uid"] = "299708515";
+                ViewState["uin"] = "442632198";
+#endif
 
                 string PROJECT = RadioButtonList_SelectValue("PROJECT");
                 ViewState["PROJECT"] = PROJECT;
@@ -71,6 +72,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             //定投
             if (PROJECT == "DT")
             {
+                pager1.Visible = true;
                 string uid = ViewState["uid"].ToString();
                 FundService service = new FundService();
                 DataTable dt = service.Get_DT_fundBuyPlan(uid, offset, limit);
@@ -80,12 +82,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
             else if (PROJECT == "HFD")
             {
+                pager1.Visible = true;
                 string uin = ViewState["uin"].ToString();
                 FundService service = new FundService();
                 DataTable dt = service.Get_HFD_FundFetchPlan(uin, offset, limit);
                 classLibrary.setConfig.GetColumnValueFromDic(dt, "Fbank_type", "Fbank_type", "BANK_TYPE");
                 dg_HFD_FundFetchPlan.DataSource = dt;
                 dg_HFD_FundFetchPlan.DataBind();
+            }
+            else if (PROJECT == "DreamProject")
+            {
+                iframeSRC = "FundDreamProject.aspx?uin=" + ViewState["uin"].ToString();
+                DataBind();
             }
         }
         public void ChangePage1(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
