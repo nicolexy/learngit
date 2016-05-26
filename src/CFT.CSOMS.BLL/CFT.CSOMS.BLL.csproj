@@ -95,6 +95,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicModule\PublicService.cs" />
     <Compile Include="RareName\RareNameService.cs" />
+    <Compile Include="RealNameModule\RealNameCertificateService.cs" />
     <Compile Include="RefundModule\AbnormalRefund.cs" />
     <Compile Include="RefundModule\BankEmailService.cs" />
     <Compile Include="RefundModule\RefundRegisterService.cs" />
