@@ -67,13 +67,13 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
                 throw new ServiceException(ERR_PARAM, ErroMessage.MESSAGE_NULLPARAM);
             }
 
-          //  Hashtable nvc = GetQueryStrings();
+            //  Hashtable nvc = GetQueryStrings();
             if (paramsHt == null || paramsHt.Count == 0)
             {
                 throw new ServiceException(ERR_PARAM, ErroMessage.MESSAGE_NULLPARAM);
             }
 
-          //  string[] arr = paramsHt.Keys.Cast<string>().ToArray();
+            //  string[] arr = paramsHt.Keys.Cast<string>().ToArray();
 
             foreach (string s in str)
             {
@@ -139,14 +139,14 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
 
         public static bool ValidateToken(Dictionary<string, string> paramsHt)
         {
-         //   Hashtable nvc = GetQueryStrings();
+            //   Hashtable nvc = GetQueryStrings();
 
             if (paramsHt == null || paramsHt.Count == 0)
             {
                 throw new ServiceException(ERR_PARAM, ErroMessage.MESSAGE_NULLPARAM);
             }
 
-         //   string[] arr = paramsHt.Keys.Cast<string>().ToArray();
+            //   string[] arr = paramsHt.Keys.Cast<string>().ToArray();
 
             if (!paramsHt.Keys.Contains("appid"))
             {
@@ -172,9 +172,9 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
 
             StringBuilder req = new StringBuilder();
 
-            foreach (string s in paramsHt.Keys) 
+            foreach (string s in paramsHt.Keys)
             {
-                if (s == "token") 
+                if (s == "token")
                 {
                     continue;
                 }
@@ -198,12 +198,70 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             }
         }
 
-        public static bool ValidateDate(string strDate, string strFormat,bool DateCanNull)
+        public static bool ValidateSign(Dictionary<string, string> paramsHt, string formatStr, string key)
+        {
+            //   Hashtable nvc = GetQueryStrings();
+
+            if (paramsHt == null || paramsHt.Count == 0)
+            {
+                throw new ServiceException(ERR_PARAM, ErroMessage.MESSAGE_NULLPARAM);
+            }
+
+            if (!paramsHt.Keys.Contains("sign"))
+            {
+                throw new ServiceException(ERR_PARAM_LOST, "sign参数缺失！");
+            }
+
+            string[] formatArr = formatStr.Split('|');
+            StringBuilder reqFomat = new StringBuilder();
+            foreach (string a in formatArr)
+            {
+                if (paramsHt.Keys.Contains(a))
+                {
+                    reqFomat.Append(paramsHt[a]);
+                }
+                else
+                {
+                    if (a == "key")
+                    {
+                        reqFomat.Append(key);
+                    }
+                    else
+                    {
+                        reqFomat.Append("");
+                    }
+                }
+                reqFomat.Append("|");
+            }
+            if (reqFomat.ToString().EndsWith("|"))
+            {
+                reqFomat = new StringBuilder(reqFomat.ToString().Substring(0,reqFomat.ToString().Length - 1));
+            }
+
+            string md5 = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(reqFomat.ToString(), "md5").ToLower();
+
+            string token = paramsHt["sign"].ToString();
+
+            if (md5 == token)
+            {
+                return true;
+            }
+            else
+            {
+                SunLibrary.LoggerFactory.Get("APIUtil.ValidateSign").Info("right md5:" + md5);
+                throw new ServiceException(ERR_TOKEN, "sign验证失败");
+            }
+        }
+
+
+
+
+        public static bool ValidateDate(string strDate, string strFormat, bool DateCanNull)
         {
             if (DateCanNull)
             {
                 if (string.IsNullOrEmpty(strDate))
-                return true;
+                    return true;
             }
             else
             {
@@ -212,7 +270,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
                     throw new ServiceException(ERR_DATE, ErroMessage.MESSAGE_ERROFROMDATE);
                 }
             }
-         
+
             if (string.IsNullOrEmpty(strFormat))
             {
                 throw new ServiceException(ERR_GENERAL, "日期模板格式不能为空！");
@@ -375,7 +433,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
 
             return obj;
         }
- 
+
         public static XmlDocument ConverToXml<T>(T t)
         {
             XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
@@ -384,7 +442,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             MemoryStream stream = new MemoryStream();
             XmlWriterSettings setting = new XmlWriterSettings();
             setting.Encoding = new UTF8Encoding(false);
-         //   setting.Encoding = Encoding.GetEncoding("gb2312");
+            //   setting.Encoding = Encoding.GetEncoding("gb2312");
             setting.Indent = true;
             using (XmlWriter writer = XmlWriter.Create(stream, setting))
             {
@@ -393,8 +451,8 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
 
             XmlDocument xmldoc = new XmlDocument();
 
-        //    xmldoc.LoadXml(Encoding.GetEncoding("gb2312").GetString(stream.ToArray()));
-           xmldoc.LoadXml(Encoding.UTF8.GetString(stream.ToArray()));
+            //    xmldoc.LoadXml(Encoding.GetEncoding("gb2312").GetString(stream.ToArray()));
+            xmldoc.LoadXml(Encoding.UTF8.GetString(stream.ToArray()));
 
             return xmldoc;
         }
@@ -402,7 +460,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
         public static XmlDocument ToErrorXml(string code, string msg)
         {
             XmlDocument xmldoc = new XmlDocument();
-            XmlDeclaration xmlDel = xmldoc.CreateXmlDeclaration("1.0","utf-8",null);
+            XmlDeclaration xmlDel = xmldoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmldoc.AppendChild(xmlDel);
 
             XmlElement root = xmldoc.CreateElement("", "root", "");
@@ -451,7 +509,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             HttpRequest request = HttpContext.Current.Request;
             string paramstr = request.RawUrl.ToString();//获取当前请求的URL
             paramstr = HttpUtility.UrlDecode(paramstr);
-          //  SunLibrary.LoggerFactory.Get("APIUtil.getReqParamStr").Info("request params:" + paramstr);
+            //  SunLibrary.LoggerFactory.Get("APIUtil.getReqParamStr").Info("request params:" + paramstr);
             if (paramstr.IndexOf("?") == -1)
             {
                 return "";
@@ -500,11 +558,11 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             }
         }
         public static void PrintError(string code, string msg)
-        {          
+        {
             string paramstr = APIUtil.getReqParamStr();
             if (paramstr.ToLower().IndexOf("?f=json") > 0
                 || paramstr.ToLower().IndexOf("&f=json&") > 0
-                || paramstr.ToLower().IndexOf("&f=json")==paramstr.Length-7)//是json请求
+                || paramstr.ToLower().IndexOf("&f=json") == paramstr.Length - 7)//是json请求
                 PrintJSON(code, msg);
             else
                 PrintXML(code, msg);
@@ -517,7 +575,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             res.ContentType = "text/plain";
             res.Charset = "gb2312";
             res.Write("{");
-            res.Write("'return_code':"+code);
+            res.Write("'return_code':" + code);
             res.Write(",'msg':" + msg); ;
             res.Write("}");
             res.End();
@@ -572,8 +630,8 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
         {
             Dictionary<string, string> nvc = GetQueryStrings();
             string[] map = nvc.Keys.Cast<string>().ToArray();
-            if (map != null && map.Contains("f") 
-                &&  !string.IsNullOrEmpty(nvc["f"].ToString()) 
+            if (map != null && map.Contains("f")
+                && !string.IsNullOrEmpty(nvc["f"].ToString())
                 && nvc["f"].ToString().ToLower() == "json")
             {
                 PrintJson4DataTable(table, excludedColNames, colNameMaps);
@@ -604,9 +662,9 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             {
                 sb.Append("<record>");
                 foreach (DataColumn col in table.Columns)
-                {                    
+                {
                     //不需要显示的列处理
-                    if (excludedColNames != null && excludedColNames.Count > 0 && 
+                    if (excludedColNames != null && excludedColNames.Count > 0 &&
                         excludedColNames.Contains(col.ColumnName, StringComparer.InvariantCultureIgnoreCase))
                     {
                         continue;
@@ -632,7 +690,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
                             }
                         }
                     }
-                    sb.Append(String.Format("<{0}>{1}</{0}>", colName.ToLower(), dr[col.ColumnName].ToString()));                    
+                    sb.Append(String.Format("<{0}>{1}</{0}>", colName.ToLower(), dr[col.ColumnName].ToString()));
                 }
                 sb.Append("</record>");
             }
@@ -711,7 +769,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             res.ContentEncoding = Encoding.UTF8;
             res.Write(serializer.Serialize(result));
         }
-       
+
         public static Dictionary<string, string> GetQueryStrings()
         {
             string paramstr = APIUtil.getReqParamStr();
@@ -728,7 +786,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
                 if (!string.IsNullOrEmpty(value))
                 {
                     paramDic.Add(name, value);
-                }            
+                }
             }
 
             return paramDic;
@@ -740,9 +798,10 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             {
                 return int.Parse(str);
             }
-            catch(Exception ex){
-                SunLibrary.LoggerFactory.Get("APIUtil.paramIsInt").Info("string("+str+") to int error:"+ ex.Message);
-                throw new ServiceException(ERR_APPKEY, str+"参数不为int");
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("APIUtil.paramIsInt").Info("string(" + str + ") to int error:" + ex.Message);
+                throw new ServiceException(ERR_APPKEY, str + "参数不为int");
             }
         }
 
@@ -753,6 +812,6 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
                 return true;
             else
                 return false;
-        }    
+        }
     }
 }
