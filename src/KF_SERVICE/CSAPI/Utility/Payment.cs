@@ -563,6 +563,37 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
         }
 
         #endregion
+
+
+        #region 商户交易清单
+        public class TradeLog
+        {
+            //订单号
+            [XmlElement("listid")]
+            public string Flistid { get; set; }
+            //订单编码
+            [XmlElement("coding")]
+            public string Fcoding { get; set; }
+            //交易日期
+            [XmlElement("modify_time")]
+            public string fmodify_time { get; set; }
+            //交易状态
+            [XmlElement("state")]
+            public string Fstate { get; set; }
+            //买家帐号
+            [XmlElement("buyid")]
+            public string FBuyid { get; set; }
+            //买家姓名
+            [XmlElement("buy_name")]
+            public string FBuy_name { get; set; }
+            //交易金额
+            [XmlElement("paynum")]
+            public string Fpaynum { get; set; }
+            //交易说明
+            [XmlElement("memo")]
+            public string fmemo { get; set; }
+        }
+        #endregion
     }
 
     public class WechatApi

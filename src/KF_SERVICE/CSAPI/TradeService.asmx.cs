@@ -21,8 +21,7 @@ namespace CSAPI
     /// <summary>
     /// Summary description for TradeService
     /// </summary>
-    [WebService(Namespace = "")]
-    [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
+    [WebService(Namespace = "")]  
     [System.ComponentModel.ToolboxItem(false)]
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
     [System.Web.Script.Services.ScriptService]
@@ -76,17 +75,17 @@ namespace CSAPI
                 #region 添加检验接口 2016-05-03
                 //单笔交易能否退款校验
                 //验点：
-                 //a.查询交易真实信息，退款金额不得超过交易金额
-                 //b.该交易单累加退款金额不得超出交易金额
+                //a.查询交易真实信息，退款金额不得超过交易金额
+                //b.该交易单累加退款金额不得超出交易金额
                 string zwMsg = string.Empty;
                 ZWBatchPay_Service.BatchPay_Service bs = new ZWBatchPay_Service.BatchPay_Service();
                 bs.Finance_HeaderValue = new ZWBatchPay_Service.Finance_Header();
                 bs.Finance_HeaderValue.UserName = FSubmit_user;
                 bool flag = bs.BatchRefundSingleCheck(FOrderId, FRefund_type, long.Parse(FRefund_amount), out zwMsg);
-                if (!string.IsNullOrEmpty(zwMsg)|| !flag)
+                if (!string.IsNullOrEmpty(zwMsg) || !flag)
                 {
                     SunLibrary.LoggerFactory.Get("AddRefundInfo").InfoFormat("接口BatchRefundSingleCheck,单笔交易退款校验失败,返回：{0}", zwMsg);
-                    APIUtil.PrintError(APIUtil.ERR_SYSTEM, "单笔交易退款校验失败,"+zwMsg);
+                    APIUtil.PrintError(APIUtil.ERR_SYSTEM, "单笔交易退款校验失败," + zwMsg);
                     return;
                 }
 
@@ -232,7 +231,7 @@ namespace CSAPI
                     limit = 50;
                 }
 
-                var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(id, type, DateTime.Now, begin_time, end_time, offset, limit,uid);
+                var infos = new CFT.CSOMS.BLL.TradeModule.TradeService().GetTradeList(id, type, DateTime.Now, begin_time, end_time, offset, limit, uid);
                 if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
@@ -832,7 +831,7 @@ namespace CSAPI
                 if (limit < 0 || limit > 50)
                     limit = 50;
 
-                var infos = new CFT.CSOMS.BLL.WechatPay.FastPayService().QueryBankCardNewList(1,bank_card, date_str, bank_type, bit_type, offset, limit);
+                var infos = new CFT.CSOMS.BLL.WechatPay.FastPayService().QueryBankCardNewList(1, bank_card, date_str, bank_type, bit_type, offset, limit);
                 if (infos == null || infos.Tables.Count <= 0 || infos.Tables[0].Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
@@ -848,6 +847,68 @@ namespace CSAPI
             catch (Exception ex)
             {
                 SunLibrary.LoggerFactory.Get("QueryBankCardNewList").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+        #endregion
+
+        #region 商户交易清单
+        [WebMethod]
+        public void TradeLogList()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "spid", "state", "stime", "etime", "offset", "limit", "token");
+                //验证token
+                //APIUtil.ValidateToken(paramsHt);
+
+                string spid = paramsHt.ContainsKey("spid") ? paramsHt["spid"].ToString() : "";
+                int state = APIUtil.StringToInt(paramsHt["state"].ToString());
+                string uid = paramsHt.ContainsKey("uid") ? paramsHt["uid"].ToString() : "";
+                DateTime stime = APIUtil.StrToDate(paramsHt["stime"].ToString());
+                DateTime etime = APIUtil.StrToDate(paramsHt["etime"].ToString());
+                if (stime.AddDays(15) < etime)
+                {
+                    throw new ServiceException(APIUtil.ERR_PARAM, ErroMessage.MESSAGE_NULLPARAM);
+                }
+                int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
+                int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
+                string str_stime = stime.ToString("yyyy-MM-dd HH:mm:ss");
+                string str_etime = etime.ToString("yyyy-MM-dd HH:mm:ss");
+                string fcoding = string.Empty;
+                if (paramsHt.ContainsKey("coding"))
+                {
+                    fcoding = paramsHt["coding"];
+                }
+                if (offset < 0)
+                {
+                    offset = 0;
+                }
+                if (limit < 0 || limit > 50)
+                {
+                    limit = 50;
+                }
+                if (state != 1 || state != 2 || state != 7 || state != 99) { state = 1; }
+                string filter = "Ftrade_state='" + state + "'";
+                string order = "Flistid,FBuyid";
+                DataSet infos = new CFT.CSOMS.BLL.TradeModule.TradeService().MediListQueryClass(spid, fcoding, str_stime, str_etime, filter, order, offset, limit);
+                if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Payment.TradeLog> list = APIUtil.ConvertTo<Payment.TradeLog>(infos.Tables[0]);
+                APIUtil.Print<Payment.TradeLog>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("TradeLogList").ErrorFormat("return_code:{0},msg{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("TradeLogList").ErrorFormat("return_code:{0},msg{1}", APIUtil.ERR_SYSTEM, ex.Message);
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
