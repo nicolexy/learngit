@@ -112,6 +112,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         protected global::System.Web.UI.WebControls.RadioButton HFD;
         
         /// <summary>
+        /// DreamProject control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton DreamProject;
+        
+        /// <summary>
         /// btnQuery control.
         /// </summary>
         /// <remarks>

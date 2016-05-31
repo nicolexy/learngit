@@ -1500,6 +1500,99 @@ namespace CFT.CSOMS.BLL.FundModule
             return dt;
         }
         #endregion
+
+        #region 梦想计划
+        public DataTable Get_DreamProject_Plan(string uin, int offset, int limit)
+        {
+            FundInfoData data = new FundInfoData();
+            DataTable dt = data.Get_DreamProject_Plan(uin, offset, limit);
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Ftotal_plan_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_plan_fee"].ToString());
+                    dr["Ftotal_buy_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_buy_fee"].ToString());
+                    string Fstate = dr["Fstate"].ToString();
+                    dr["Fstate"] = Fstate == "1" ? "进行中" :
+                                   Fstate == "2" ? "终止中" :
+                                    Fstate == "3" ? "终止" :
+                                   "未知:" + Fstate;
+
+                }
+            }
+            return dt;
+        }
+        public DataTable Get_DreamProject_trans(string plan_id, string trade_id, int offset, int limit)
+        {
+            FundInfoData data = new FundInfoData();
+            DataTable dt = data.Get_DreamProject_trans(plan_id, trade_id, offset, limit);
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Ftotal_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_fee"].ToString());
+
+                    string Ftype = dr["Ftype"].ToString();
+                    dr["Ftype"] = Ftype == "1" ? "申购" :
+                                   Ftype == "2" ? "预约" :
+                                   "未知:" + Ftype;
+                    string Fstate = dr["Fstate"].ToString();
+                    dr["Fstate"] = Fstate == "0" ? "初始" :
+                                   Fstate == "1" ? "支付成功(暂时没用)" :
+                                    Fstate == "2" ? "买入成功" :
+                                     Fstate == "3" ? "买入失败" :
+                                   "未知:" + Fstate;
+                }
+            }
+            return dt;
+        }
+        public DataTable Get_DreamProject_asset(string plan_id, string trade_id, int offset, int limit)
+        {
+            FundInfoData data = new FundInfoData();
+            DataTable dt = data.Get_DreamProject_asset(plan_id, trade_id, offset, limit);
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                dt.Columns.Add("Ftotal_control_unit", typeof(string));
+                dt.Columns.Add("Fbusiness_type", typeof(string));
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string fund_code = dr["Ffund_code"].ToString();
+                    string spid = dr["Fspid"].ToString();
+#if DEBUG
+                    trade_id = "1111000";
+                    spid = "1111";
+                    fund_code = "0000";
+#endif
+                    DataTable dt_controlasset = data.Get_DreamProject_controlasset(trade_id, spid, fund_code);
+                    if (dt_controlasset != null && dt_controlasset.Rows.Count > 0)
+                    {
+                        dr["Ftotal_control_unit"] = dt_controlasset.Rows[0]["Ftotal_control_unit"].ToString();
+                        dr["Fbusiness_type"] = dt_controlasset.Rows[0]["Fbusiness_type"].ToString();
+                    }
+
+                    dr["Ftotal_buy_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_buy_fee"].ToString());
+                    dr["Ftotal_profit"] = MoneyTransfer.FenToYuan(dr["Ftotal_profit"].ToString());
+                    dr["Fprofit"] = MoneyTransfer.FenToYuan(dr["Fprofit"].ToString());
+                    dr["Ftotal_control_unit"] = MoneyTransfer.FenToYuan(dr["Ftotal_control_unit"].ToString());
+
+                    string Fstate = dr["Fstate"].ToString();
+                    dr["Fstate"] = Fstate == "1" ? "进行中" :
+                                    Fstate == "2" ? "终止" :
+                                   "未知:" + Fstate;
+                    string Fbusiness_type = dr["Fbusiness_type"].ToString();
+                    dr["Fbusiness_type"] = Fbusiness_type == "0" ? "默认" :
+                                    Fbusiness_type == "1" ? "梦想计划" :
+                                   "未知:" + Fbusiness_type;
+
+                }
+            }
+            return dt;
+        }
+        #endregion
         /// <summary>
         /// 理财通预约买入
         /// </summary>
