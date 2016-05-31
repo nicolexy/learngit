@@ -9,176 +9,2785 @@
 //------------------------------------------------------------------------------
 
 namespace CFT.CSOMS.DAL.SPOAServiceRef {
+    using System.Data;
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SPOAServiceRef.IGeneralSPOAService")]
     public interface IGeneralSPOAService {
         
+        // CODEGEN: Parameter 'GetCheckInfoResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetCheckInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetCheckInfoResponse")]
-        System.Data.DataSet GetCheckInfo(string ApplyCpInfoID, int checktype);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetCheckInfoResponse GetCheckInfo(CFT.CSOMS.DAL.SPOAServiceRef.GetCheckInfoRequest request);
         
+        // CODEGEN: Parameter 'SPID' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ReSendEmail_ToSP", ReplyAction="http://tempuri.org/IGeneralSPOAService/ReSendEmail_ToSPResponse")]
-        bool ReSendEmail_ToSP(out string resultstr, string SPID, string ApplyUser);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.ReSendEmail_ToSPResponse ReSendEmail_ToSP(CFT.CSOMS.DAL.SPOAServiceRef.ReSendEmail_ToSPRequest request);
         
+        // CODEGEN: Parameter 'SPID' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ReSendCertificate", ReplyAction="http://tempuri.org/IGeneralSPOAService/ReSendCertificateResponse")]
-        bool ReSendCertificate(out string resultstr, string SPID, string ApplyUser);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.ReSendCertificateResponse ReSendCertificate(CFT.CSOMS.DAL.SPOAServiceRef.ReSendCertificateRequest request);
         
+        // CODEGEN: Parameter 'QueryExpiredCertificateResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/QueryExpiredCertificate", ReplyAction="http://tempuri.org/IGeneralSPOAService/QueryExpiredCertificateResponse")]
-        System.Data.DataSet QueryExpiredCertificate(string beginDt, string endDt, string SPID, int topCount, int notInCount);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.QueryExpiredCertificateResponse QueryExpiredCertificate(CFT.CSOMS.DAL.SPOAServiceRef.QueryExpiredCertificateRequest request);
         
+        // CODEGEN: Parameter 'GetBDSpidListResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetBDSpidList", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetBDSpidListResponse")]
-        System.Data.DataSet GetBDSpidList();
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetBDSpidListResponse GetBDSpidList(CFT.CSOMS.DAL.SPOAServiceRef.GetBDSpidListRequest request);
         
+        // CODEGEN: Parameter 'Taskid' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/UpdateMspAmendTaskByTaskid", ReplyAction="http://tempuri.org/IGeneralSPOAService/UpdateMspAmendTaskByTaskidResponse")]
-        void UpdateMspAmendTaskByTaskid(string Taskid, int AmendState, string CheckUser);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.UpdateMspAmendTaskByTaskidResponse UpdateMspAmendTaskByTaskid(CFT.CSOMS.DAL.SPOAServiceRef.UpdateMspAmendTaskByTaskidRequest request);
         
+        // CODEGEN: Parameter 'Taskid' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/UpdateMspAmendInfoByTaskid", ReplyAction="http://tempuri.org/IGeneralSPOAService/UpdateMspAmendInfoByTaskidResponse")]
-        void UpdateMspAmendInfoByTaskid(string Taskid, string DisagreeResult);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.UpdateMspAmendInfoByTaskidResponse UpdateMspAmendInfoByTaskid(CFT.CSOMS.DAL.SPOAServiceRef.UpdateMspAmendInfoByTaskidRequest request);
         
+        // CODEGEN: Parameter 'Taskid' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/UpdateSpidDomainApplyByTaskid", ReplyAction="http://tempuri.org/IGeneralSPOAService/UpdateSpidDomainApplyByTaskidResponse")]
-        void UpdateSpidDomainApplyByTaskid(string Taskid, string Reason);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.UpdateSpidDomainApplyByTaskidResponse UpdateSpidDomainApplyByTaskid(CFT.CSOMS.DAL.SPOAServiceRef.UpdateSpidDomainApplyByTaskidRequest request);
         
+        // CODEGEN: Parameter 'Fspid' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/BusinessIdentityCardNum", ReplyAction="http://tempuri.org/IGeneralSPOAService/BusinessIdentityCardNumResponse")]
-        void BusinessIdentityCardNum(string Fspid, string OldIdentityCardNum, string NewIdentityCardNum, string IDImage, string ElseImage, string UserName, string Reason);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.BusinessIdentityCardNumResponse BusinessIdentityCardNum(CFT.CSOMS.DAL.SPOAServiceRef.BusinessIdentityCardNumRequest request);
         
+        // CODEGEN: Parameter 'Spid' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxModify", ReplyAction="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxModifyResponse")]
-        void ValueAddedTaxModify(string Spid, int Flag);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxModifyResponse ValueAddedTaxModify(CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxModifyRequest request);
         
+        // CODEGEN: Parameter 'ApplyCpInfoID' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ApproveTicket", ReplyAction="http://tempuri.org/IGeneralSPOAService/ApproveTicketResponse")]
-        void ApproveTicket(string ApplyCpInfoID, string UserID, int Type, string Reason);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.ApproveTicketResponse ApproveTicket(CFT.CSOMS.DAL.SPOAServiceRef.ApproveTicketRequest request);
         
+        // CODEGEN: Parameter 'ApplyCpInfoID' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/CheckTicket", ReplyAction="http://tempuri.org/IGeneralSPOAService/CheckTicketResponse")]
-        void CheckTicket(string ApplyCpInfoID, string UserID);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.CheckTicketResponse CheckTicket(CFT.CSOMS.DAL.SPOAServiceRef.CheckTicketRequest request);
         
+        // CODEGEN: Parameter 'TableFlag' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ModifyPayBusinessInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/ModifyPayBusinessInfoResponse")]
-        void ModifyPayBusinessInfo(string TableFlag, string KeyID, string ContactUser, string ContactPhone, string ContactMobile, string ContactQQ, string ContactEmail, string CompanyAddress, string Postalcode);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.ModifyPayBusinessInfoResponse ModifyPayBusinessInfo(CFT.CSOMS.DAL.SPOAServiceRef.ModifyPayBusinessInfoRequest request);
         
+        // CODEGEN: Parameter 'UserName' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/SubmitBusinessInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/SubmitBusinessInfoResponse")]
-        void SubmitBusinessInfo(string UserName, string Fspid, string OldFspName, string NewFspName, string OldEmail, string NewEmail, string OldAddress, string NewAddress, string ApplyResult, string[] FileInfos);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.SubmitBusinessInfoResponse SubmitBusinessInfo(CFT.CSOMS.DAL.SPOAServiceRef.SubmitBusinessInfoRequest request);
         
+        // CODEGEN: Parameter 'taskid' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxApprove", ReplyAction="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxApproveResponse")]
-        void ValueAddedTaxApprove(string taskid, string Memo, string imgTaxCert, string imgBizLicenseCert, string imgAuthorizationCert, string UserName);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxApproveResponse ValueAddedTaxApprove(CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxApproveRequest request);
         
+        // CODEGEN: Parameter 'taskid' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxCancel", ReplyAction="http://tempuri.org/IGeneralSPOAService/ValueAddedTaxCancelResponse")]
-        void ValueAddedTaxCancel(string taskid, string spid, string Memo, string UserName);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxCancelResponse ValueAddedTaxCancel(CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxCancelRequest request);
         
+        // CODEGEN: Parameter 'SpidMobileApplyResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/SpidMobileApply", ReplyAction="http://tempuri.org/IGeneralSPOAService/SpidMobileApplyResponse")]
-        string SpidMobileApply(string applyUser, string spid, string approve_mobile, string file_name_id_card, string file_name_mobile_file, string memo);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.SpidMobileApplyResponse SpidMobileApply(CFT.CSOMS.DAL.SPOAServiceRef.SpidMobileApplyRequest request);
         
+        // CODEGEN: Parameter 'LostOfSpidResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/LostOfSpid", ReplyAction="http://tempuri.org/IGeneralSPOAService/LostOfSpidResponse")]
-        string LostOfSpid(string fspid, string opuser, string freson);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.LostOfSpidResponse LostOfSpid(CFT.CSOMS.DAL.SPOAServiceRef.LostOfSpidRequest request);
         
+        // CODEGEN: Parameter 'FreezeSpidResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/FreezeSpid", ReplyAction="http://tempuri.org/IGeneralSPOAService/FreezeSpidResponse")]
-        string FreezeSpid(string fspid, string opuser, string freson);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.FreezeSpidResponse FreezeSpid(CFT.CSOMS.DAL.SPOAServiceRef.FreezeSpidRequest request);
         
+        // CODEGEN: Parameter 'ClosePayResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/ClosePay", ReplyAction="http://tempuri.org/IGeneralSPOAService/ClosePayResponse")]
-        string ClosePay(string fspid, string opuser, string freson);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.ClosePayResponse ClosePay(CFT.CSOMS.DAL.SPOAServiceRef.ClosePayRequest request);
         
+        // CODEGEN: Parameter 'OpenPayResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/OpenPay", ReplyAction="http://tempuri.org/IGeneralSPOAService/OpenPayResponse")]
-        string OpenPay(string fspid, string opuser, string freson);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.OpenPayResponse OpenPay(CFT.CSOMS.DAL.SPOAServiceRef.OpenPayRequest request);
         
+        // CODEGEN: Parameter 'CloseRefundResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/CloseRefund", ReplyAction="http://tempuri.org/IGeneralSPOAService/CloseRefundResponse")]
-        string CloseRefund(string fspid, string opuser, string freson);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.CloseRefundResponse CloseRefund(CFT.CSOMS.DAL.SPOAServiceRef.CloseRefundRequest request);
         
+        // CODEGEN: Parameter 'OpenRefundResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/OpenRefund", ReplyAction="http://tempuri.org/IGeneralSPOAService/OpenRefundResponse")]
-        string OpenRefund(string fspid, string opuser, string freson);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.OpenRefundResponse OpenRefund(CFT.CSOMS.DAL.SPOAServiceRef.OpenRefundRequest request);
         
+        // CODEGEN: Parameter 'CloseAgencyResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/CloseAgency", ReplyAction="http://tempuri.org/IGeneralSPOAService/CloseAgencyResponse")]
-        string CloseAgency(string fspid, string opuser, string freson);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.CloseAgencyResponse CloseAgency(CFT.CSOMS.DAL.SPOAServiceRef.CloseAgencyRequest request);
         
+        // CODEGEN: Parameter 'OpenAgencyResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/OpenAgency", ReplyAction="http://tempuri.org/IGeneralSPOAService/OpenAgencyResponse")]
-        string OpenAgency(string fspid, string opuser, string freson);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.OpenAgencyResponse OpenAgency(CFT.CSOMS.DAL.SPOAServiceRef.OpenAgencyRequest request);
         
+        // CODEGEN: Parameter 'RestoreOfSpidResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/RestoreOfSpid", ReplyAction="http://tempuri.org/IGeneralSPOAService/RestoreOfSpidResponse")]
-        string RestoreOfSpid(string fspid, string opuser, string freson);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.RestoreOfSpidResponse RestoreOfSpid(CFT.CSOMS.DAL.SPOAServiceRef.RestoreOfSpidRequest request);
         
+        // CODEGEN: Parameter 'BusinessLogoutApplyResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/BusinessLogoutApply", ReplyAction="http://tempuri.org/IGeneralSPOAService/BusinessLogoutApplyResponse")]
-        string BusinessLogoutApply(string fspid, string opuser, string freson);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.BusinessLogoutApplyResponse BusinessLogoutApply(CFT.CSOMS.DAL.SPOAServiceRef.BusinessLogoutApplyRequest request);
         
+        // CODEGEN: Parameter 'SendSPMerkeyResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/SendSPMerkey", ReplyAction="http://tempuri.org/IGeneralSPOAService/SendSPMerkeyResponse")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.SendSPMerkeyResponse SendSPMerkey(CFT.CSOMS.DAL.SPOAServiceRef.SendSPMerkeyRequest request);
+        
+        // CODEGEN: Parameter 'GetAgencyBusinessListResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessList", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessListResponse")]
-        System.Data.DataSet GetAgencyBusinessList(string qqid, string domain, int notInCount, int topCount);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessListResponse GetAgencyBusinessList(CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessListRequest request);
         
+        // CODEGEN: Parameter 'GetAgencyBusinessInfoResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessInfoResponse")]
-        System.Data.DataSet GetAgencyBusinessInfo(string Fid);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessInfoResponse GetAgencyBusinessInfo(CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessInfoRequest request);
         
+        // CODEGEN: Parameter 'QueryAgencyBySpidResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/QueryAgencyBySpid", ReplyAction="http://tempuri.org/IGeneralSPOAService/QueryAgencyBySpidResponse")]
-        System.Data.DataSet QueryAgencyBySpid(string spid);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.QueryAgencyBySpidResponse QueryAgencyBySpid(CFT.CSOMS.DAL.SPOAServiceRef.QueryAgencyBySpidRequest request);
         
+        // CODEGEN: Parameter 'QueryApplyListBySpidResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/QueryApplyListBySpid", ReplyAction="http://tempuri.org/IGeneralSPOAService/QueryApplyListBySpidResponse")]
-        System.Data.DataSet QueryApplyListBySpid(string spid);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.QueryApplyListBySpidResponse QueryApplyListBySpid(CFT.CSOMS.DAL.SPOAServiceRef.QueryApplyListBySpidRequest request);
         
+        // CODEGEN: Parameter 'QueryAgencyInfoByIdResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/QueryAgencyInfoById", ReplyAction="http://tempuri.org/IGeneralSPOAService/QueryAgencyInfoByIdResponse")]
-        System.Data.DataSet QueryAgencyInfoById(string fid);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.QueryAgencyInfoByIdResponse QueryAgencyInfoById(CFT.CSOMS.DAL.SPOAServiceRef.QueryAgencyInfoByIdRequest request);
         
+        // CODEGEN: Parameter 'GetShouFuYiListResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetShouFuYiList", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetShouFuYiListResponse")]
-        System.Data.DataSet GetShouFuYiList(string qq);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetShouFuYiListResponse GetShouFuYiList(CFT.CSOMS.DAL.SPOAServiceRef.GetShouFuYiListRequest request);
         
+        // CODEGEN: Parameter 'GetAgencyBusinessInfoListResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessInfoList", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessInfoListResponse")]
-        System.Data.DataSet GetAgencyBusinessInfoList(string Fspid);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessInfoListResponse GetAgencyBusinessInfoList(CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessInfoListRequest request);
         
+        // CODEGEN: Parameter 'GetHisBusinessListResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetHisBusinessList", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetHisBusinessListResponse")]
-        System.Data.DataSet GetHisBusinessList(string spid);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetHisBusinessListResponse GetHisBusinessList(CFT.CSOMS.DAL.SPOAServiceRef.GetHisBusinessListRequest request);
         
+        // CODEGEN: Parameter 'GetSelfTypeListResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetSelfTypeList", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetSelfTypeListResponse")]
-        System.Data.DataSet GetSelfTypeList();
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetSelfTypeListResponse GetSelfTypeList(CFT.CSOMS.DAL.SPOAServiceRef.GetSelfTypeListRequest request);
         
+        // CODEGEN: Parameter 'GetSelfKFListResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetSelfKFList", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetSelfKFListResponse")]
-        System.Data.DataSet GetSelfKFList();
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetSelfKFListResponse GetSelfKFList(CFT.CSOMS.DAL.SPOAServiceRef.GetSelfKFListRequest request);
         
+        // CODEGEN: Parameter 'SPID' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetSelfQueryListCount", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetSelfQueryListCountResponse")]
-        int GetSelfQueryListCount(string SPID, System.Nullable<int> DraftFlag, string CompanyName, System.Nullable<int> Flag, string WWWAdress, string Appid, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryListCountResponse GetSelfQueryListCount(CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryListCountRequest request);
         
+        // CODEGEN: Parameter 'GetSelfQueryListResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetSelfQueryList", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetSelfQueryListResponse")]
-        System.Data.DataSet GetSelfQueryList(string SPID, System.Nullable<int> DraftFlag, string CompanyName, System.Nullable<int> Flag, string WWWAdress, string Appid, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType, int topCount, int notInCount);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryListResponse GetSelfQueryList(CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryListRequest request);
         
+        // CODEGEN: Parameter 'GetSelfQuerySPTypeResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetSelfQuerySPType", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetSelfQuerySPTypeResponse")]
-        System.Data.DataSet GetSelfQuerySPType();
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQuerySPTypeResponse GetSelfQuerySPType(CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQuerySPTypeRequest request);
         
+        // CODEGEN: Parameter 'GetSelfQueryInfoResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetSelfQueryInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetSelfQueryInfoResponse")]
-        System.Data.DataSet GetSelfQueryInfo(string applyCpInfoID);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryInfoResponse GetSelfQueryInfo(CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryInfoRequest request);
         
+        // CODEGEN: Parameter 'GetSpidDomainQueryListResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetSpidDomainQueryList", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetSpidDomainQueryListResponse")]
-        System.Data.DataSet GetSpidDomainQueryList(string Spid, string CompanyName, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, System.Nullable<int> AmendState, string submitType, int topCount, int notInCount);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetSpidDomainQueryListResponse GetSpidDomainQueryList(CFT.CSOMS.DAL.SPOAServiceRef.GetSpidDomainQueryListRequest request);
         
+        // CODEGEN: Parameter 'GetOneValueAddedTaxResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetOneValueAddedTax", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetOneValueAddedTaxResponse")]
-        System.Data.DataSet GetOneValueAddedTax(string spid);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetOneValueAddedTaxResponse GetOneValueAddedTax(CFT.CSOMS.DAL.SPOAServiceRef.GetOneValueAddedTaxRequest request);
         
+        // CODEGEN: Parameter 'GetAllValueAddedTaxResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetAllValueAddedTax", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetAllValueAddedTaxResponse")]
-        System.Data.DataSet GetAllValueAddedTax(string Spid, string CompanyName, int topCount, int notInCount);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetAllValueAddedTaxResponse GetAllValueAddedTax(CFT.CSOMS.DAL.SPOAServiceRef.GetAllValueAddedTaxRequest request);
         
+        // CODEGEN: Parameter 'GetValueAddedTaxDetailResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetValueAddedTaxDetail", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetValueAddedTaxDetailResponse")]
-        System.Data.DataSet GetValueAddedTaxDetail(string taskid);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetValueAddedTaxDetailResponse GetValueAddedTaxDetail(CFT.CSOMS.DAL.SPOAServiceRef.GetValueAddedTaxDetailRequest request);
         
+        // CODEGEN: Parameter 'GetTradeTypeResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetTradeType", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetTradeTypeResponse")]
-        string GetTradeType(string spid);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetTradeTypeResponse GetTradeType(CFT.CSOMS.DAL.SPOAServiceRef.GetTradeTypeRequest request);
         
+        // CODEGEN: Parameter 'GetWWWAddressResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetWWWAddress", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetWWWAddressResponse")]
-        string GetWWWAddress(string spid);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetWWWAddressResponse GetWWWAddress(CFT.CSOMS.DAL.SPOAServiceRef.GetWWWAddressRequest request);
         
+        // CODEGEN: Parameter 'GetBDNameResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetBDName", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetBDNameResponse")]
-        string GetBDName(string spid);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetBDNameResponse GetBDName(CFT.CSOMS.DAL.SPOAServiceRef.GetBDNameRequest request);
         
+        // CODEGEN: Parameter 'GetApplyValueAddedTaxResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetApplyValueAddedTax", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetApplyValueAddedTaxResponse")]
-        System.Data.DataSet GetApplyValueAddedTax(string Spid, string Flags, int topCount, int notInCount);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetApplyValueAddedTaxResponse GetApplyValueAddedTax(CFT.CSOMS.DAL.SPOAServiceRef.GetApplyValueAddedTaxRequest request);
         
+        // CODEGEN: Parameter 'QueryBussFreezeListResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/QueryBussFreezeList", ReplyAction="http://tempuri.org/IGeneralSPOAService/QueryBussFreezeListResponse")]
-        System.Data.DataSet QueryBussFreezeList(string spid, string type, string state);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.QueryBussFreezeListResponse QueryBussFreezeList(CFT.CSOMS.DAL.SPOAServiceRef.QueryBussFreezeListRequest request);
         
+        // CODEGEN: Parameter 'GetAllValueAddedTax1Result' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetAllValueAddedTax1", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetAllValueAddedTax1Response")]
-        string GetAllValueAddedTax1();
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetAllValueAddedTax1Response GetAllValueAddedTax1(CFT.CSOMS.DAL.SPOAServiceRef.GetAllValueAddedTax1Request request);
         
+        // CODEGEN: Parameter 'GetApplyCpInfoXByIDResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetApplyCpInfoXByID", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetApplyCpInfoXByIDResponse")]
-        System.Data.DataSet GetApplyCpInfoXByID(string ApplyCpInfoID);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetApplyCpInfoXByIDResponse GetApplyCpInfoXByID(CFT.CSOMS.DAL.SPOAServiceRef.GetApplyCpInfoXByIDRequest request);
         
+        // CODEGEN: Parameter 'GetMspAmendTaskByIDResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetMspAmendTaskByID", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetMspAmendTaskByIDResponse")]
-        System.Data.DataSet GetMspAmendTaskByID(string TaskId);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetMspAmendTaskByIDResponse GetMspAmendTaskByID(CFT.CSOMS.DAL.SPOAServiceRef.GetMspAmendTaskByIDRequest request);
         
+        // CODEGEN: Parameter 'GetSpInfoResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/GetSpInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/GetSpInfoResponse")]
-        System.Data.DataSet GetSpInfo(string SPID, string ApplyCpInfoID, string CompanyName, string WWWAdress, string WebName, string AppID, int topCount, int notInCount);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetSpInfoResponse GetSpInfo(CFT.CSOMS.DAL.SPOAServiceRef.GetSpInfoRequest request);
         
+        // CODEGEN: Parameter 'QueryAmendMspInfoResult' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGeneralSPOAService/QueryAmendMspInfo", ReplyAction="http://tempuri.org/IGeneralSPOAService/QueryAmendMspInfoResponse")]
-        System.Data.DataSet QueryAmendMspInfo(string spid, string type, string caccounts);
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CFT.CSOMS.DAL.SPOAServiceRef.QueryAmendMspInfoResponse QueryAmendMspInfo(CFT.CSOMS.DAL.SPOAServiceRef.QueryAmendMspInfoRequest request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCheckInfo", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetCheckInfoRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string ApplyCpInfoID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        public int checktype;
+        
+        public GetCheckInfoRequest() {
+        }
+        
+        public GetCheckInfoRequest(string ApplyCpInfoID, int checktype) {
+            this.ApplyCpInfoID = ApplyCpInfoID;
+            this.checktype = checktype;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCheckInfoResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetCheckInfoResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetCheckInfoResult;
+        
+        public GetCheckInfoResponse() {
+        }
+        
+        public GetCheckInfoResponse(System.Data.DataSet GetCheckInfoResult) {
+            this.GetCheckInfoResult = GetCheckInfoResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ReSendEmail_ToSP", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ReSendEmail_ToSPRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string SPID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string ApplyUser;
+        
+        public ReSendEmail_ToSPRequest() {
+        }
+        
+        public ReSendEmail_ToSPRequest(string SPID, string ApplyUser) {
+            this.SPID = SPID;
+            this.ApplyUser = ApplyUser;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ReSendEmail_ToSPResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ReSendEmail_ToSPResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public bool ReSendEmail_ToSPResult;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string resultstr;
+        
+        public ReSendEmail_ToSPResponse() {
+        }
+        
+        public ReSendEmail_ToSPResponse(bool ReSendEmail_ToSPResult, string resultstr) {
+            this.ReSendEmail_ToSPResult = ReSendEmail_ToSPResult;
+            this.resultstr = resultstr;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ReSendCertificate", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ReSendCertificateRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string SPID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string ApplyUser;
+        
+        public ReSendCertificateRequest() {
+        }
+        
+        public ReSendCertificateRequest(string SPID, string ApplyUser) {
+            this.SPID = SPID;
+            this.ApplyUser = ApplyUser;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ReSendCertificateResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ReSendCertificateResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public bool ReSendCertificateResult;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string resultstr;
+        
+        public ReSendCertificateResponse() {
+        }
+        
+        public ReSendCertificateResponse(bool ReSendCertificateResult, string resultstr) {
+            this.ReSendCertificateResult = ReSendCertificateResult;
+            this.resultstr = resultstr;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="QueryExpiredCertificate", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class QueryExpiredCertificateRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string beginDt;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string endDt;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string SPID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        public int topCount;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=4)]
+        public int notInCount;
+        
+        public QueryExpiredCertificateRequest() {
+        }
+        
+        public QueryExpiredCertificateRequest(string beginDt, string endDt, string SPID, int topCount, int notInCount) {
+            this.beginDt = beginDt;
+            this.endDt = endDt;
+            this.SPID = SPID;
+            this.topCount = topCount;
+            this.notInCount = notInCount;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="QueryExpiredCertificateResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class QueryExpiredCertificateResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet QueryExpiredCertificateResult;
+        
+        public QueryExpiredCertificateResponse() {
+        }
+        
+        public QueryExpiredCertificateResponse(System.Data.DataSet QueryExpiredCertificateResult) {
+            this.QueryExpiredCertificateResult = QueryExpiredCertificateResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetBDSpidList", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetBDSpidListRequest {
+        
+        public GetBDSpidListRequest() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetBDSpidListResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetBDSpidListResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetBDSpidListResult;
+        
+        public GetBDSpidListResponse() {
+        }
+        
+        public GetBDSpidListResponse(System.Data.DataSet GetBDSpidListResult) {
+            this.GetBDSpidListResult = GetBDSpidListResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateMspAmendTaskByTaskid", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class UpdateMspAmendTaskByTaskidRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Taskid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        public int AmendState;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string CheckUser;
+        
+        public UpdateMspAmendTaskByTaskidRequest() {
+        }
+        
+        public UpdateMspAmendTaskByTaskidRequest(string Taskid, int AmendState, string CheckUser) {
+            this.Taskid = Taskid;
+            this.AmendState = AmendState;
+            this.CheckUser = CheckUser;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateMspAmendTaskByTaskidResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class UpdateMspAmendTaskByTaskidResponse {
+        
+        public UpdateMspAmendTaskByTaskidResponse() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateMspAmendInfoByTaskid", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class UpdateMspAmendInfoByTaskidRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Taskid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string DisagreeResult;
+        
+        public UpdateMspAmendInfoByTaskidRequest() {
+        }
+        
+        public UpdateMspAmendInfoByTaskidRequest(string Taskid, string DisagreeResult) {
+            this.Taskid = Taskid;
+            this.DisagreeResult = DisagreeResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateMspAmendInfoByTaskidResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class UpdateMspAmendInfoByTaskidResponse {
+        
+        public UpdateMspAmendInfoByTaskidResponse() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateSpidDomainApplyByTaskid", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class UpdateSpidDomainApplyByTaskidRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Taskid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Reason;
+        
+        public UpdateSpidDomainApplyByTaskidRequest() {
+        }
+        
+        public UpdateSpidDomainApplyByTaskidRequest(string Taskid, string Reason) {
+            this.Taskid = Taskid;
+            this.Reason = Reason;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateSpidDomainApplyByTaskidResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class UpdateSpidDomainApplyByTaskidResponse {
+        
+        public UpdateSpidDomainApplyByTaskidResponse() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="BusinessIdentityCardNum", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class BusinessIdentityCardNumRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Fspid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string OldIdentityCardNum;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string NewIdentityCardNum;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string IDImage;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string ElseImage;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string UserName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Reason;
+        
+        public BusinessIdentityCardNumRequest() {
+        }
+        
+        public BusinessIdentityCardNumRequest(string Fspid, string OldIdentityCardNum, string NewIdentityCardNum, string IDImage, string ElseImage, string UserName, string Reason) {
+            this.Fspid = Fspid;
+            this.OldIdentityCardNum = OldIdentityCardNum;
+            this.NewIdentityCardNum = NewIdentityCardNum;
+            this.IDImage = IDImage;
+            this.ElseImage = ElseImage;
+            this.UserName = UserName;
+            this.Reason = Reason;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="BusinessIdentityCardNumResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class BusinessIdentityCardNumResponse {
+        
+        public BusinessIdentityCardNumResponse() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ValueAddedTaxModify", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ValueAddedTaxModifyRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Spid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        public int Flag;
+        
+        public ValueAddedTaxModifyRequest() {
+        }
+        
+        public ValueAddedTaxModifyRequest(string Spid, int Flag) {
+            this.Spid = Spid;
+            this.Flag = Flag;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ValueAddedTaxModifyResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ValueAddedTaxModifyResponse {
+        
+        public ValueAddedTaxModifyResponse() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ApproveTicket", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ApproveTicketRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string ApplyCpInfoID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string UserID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        public int Type;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Reason;
+        
+        public ApproveTicketRequest() {
+        }
+        
+        public ApproveTicketRequest(string ApplyCpInfoID, string UserID, int Type, string Reason) {
+            this.ApplyCpInfoID = ApplyCpInfoID;
+            this.UserID = UserID;
+            this.Type = Type;
+            this.Reason = Reason;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ApproveTicketResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ApproveTicketResponse {
+        
+        public ApproveTicketResponse() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CheckTicket", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class CheckTicketRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string ApplyCpInfoID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string UserID;
+        
+        public CheckTicketRequest() {
+        }
+        
+        public CheckTicketRequest(string ApplyCpInfoID, string UserID) {
+            this.ApplyCpInfoID = ApplyCpInfoID;
+            this.UserID = UserID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CheckTicketResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class CheckTicketResponse {
+        
+        public CheckTicketResponse() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyPayBusinessInfo", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ModifyPayBusinessInfoRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string TableFlag;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string KeyID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string ContactUser;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string ContactPhone;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string ContactMobile;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string ContactQQ;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string ContactEmail;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string CompanyAddress;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Postalcode;
+        
+        public ModifyPayBusinessInfoRequest() {
+        }
+        
+        public ModifyPayBusinessInfoRequest(string TableFlag, string KeyID, string ContactUser, string ContactPhone, string ContactMobile, string ContactQQ, string ContactEmail, string CompanyAddress, string Postalcode) {
+            this.TableFlag = TableFlag;
+            this.KeyID = KeyID;
+            this.ContactUser = ContactUser;
+            this.ContactPhone = ContactPhone;
+            this.ContactMobile = ContactMobile;
+            this.ContactQQ = ContactQQ;
+            this.ContactEmail = ContactEmail;
+            this.CompanyAddress = CompanyAddress;
+            this.Postalcode = Postalcode;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyPayBusinessInfoResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ModifyPayBusinessInfoResponse {
+        
+        public ModifyPayBusinessInfoResponse() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SubmitBusinessInfo", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class SubmitBusinessInfoRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string UserName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Fspid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string OldFspName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string NewFspName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string OldEmail;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string NewEmail;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string OldAddress;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string NewAddress;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string ApplyResult;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=9)]
+        [System.Xml.Serialization.XmlArrayAttribute(IsNullable=true)]
+        [System.Xml.Serialization.XmlArrayItemAttribute(Namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays")]
+        public string[] FileInfos;
+        
+        public SubmitBusinessInfoRequest() {
+        }
+        
+        public SubmitBusinessInfoRequest(string UserName, string Fspid, string OldFspName, string NewFspName, string OldEmail, string NewEmail, string OldAddress, string NewAddress, string ApplyResult, string[] FileInfos) {
+            this.UserName = UserName;
+            this.Fspid = Fspid;
+            this.OldFspName = OldFspName;
+            this.NewFspName = NewFspName;
+            this.OldEmail = OldEmail;
+            this.NewEmail = NewEmail;
+            this.OldAddress = OldAddress;
+            this.NewAddress = NewAddress;
+            this.ApplyResult = ApplyResult;
+            this.FileInfos = FileInfos;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SubmitBusinessInfoResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class SubmitBusinessInfoResponse {
+        
+        public SubmitBusinessInfoResponse() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ValueAddedTaxApprove", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ValueAddedTaxApproveRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string taskid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Memo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string imgTaxCert;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string imgBizLicenseCert;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string imgAuthorizationCert;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string UserName;
+        
+        public ValueAddedTaxApproveRequest() {
+        }
+        
+        public ValueAddedTaxApproveRequest(string taskid, string Memo, string imgTaxCert, string imgBizLicenseCert, string imgAuthorizationCert, string UserName) {
+            this.taskid = taskid;
+            this.Memo = Memo;
+            this.imgTaxCert = imgTaxCert;
+            this.imgBizLicenseCert = imgBizLicenseCert;
+            this.imgAuthorizationCert = imgAuthorizationCert;
+            this.UserName = UserName;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ValueAddedTaxApproveResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ValueAddedTaxApproveResponse {
+        
+        public ValueAddedTaxApproveResponse() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ValueAddedTaxCancel", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ValueAddedTaxCancelRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string taskid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string spid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Memo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string UserName;
+        
+        public ValueAddedTaxCancelRequest() {
+        }
+        
+        public ValueAddedTaxCancelRequest(string taskid, string spid, string Memo, string UserName) {
+            this.taskid = taskid;
+            this.spid = spid;
+            this.Memo = Memo;
+            this.UserName = UserName;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ValueAddedTaxCancelResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ValueAddedTaxCancelResponse {
+        
+        public ValueAddedTaxCancelResponse() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SpidMobileApply", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class SpidMobileApplyRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string applyUser;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string spid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string approve_mobile;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string file_name_id_card;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string file_name_mobile_file;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string memo;
+        
+        public SpidMobileApplyRequest() {
+        }
+        
+        public SpidMobileApplyRequest(string applyUser, string spid, string approve_mobile, string file_name_id_card, string file_name_mobile_file, string memo) {
+            this.applyUser = applyUser;
+            this.spid = spid;
+            this.approve_mobile = approve_mobile;
+            this.file_name_id_card = file_name_id_card;
+            this.file_name_mobile_file = file_name_mobile_file;
+            this.memo = memo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SpidMobileApplyResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class SpidMobileApplyResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string SpidMobileApplyResult;
+        
+        public SpidMobileApplyResponse() {
+        }
+        
+        public SpidMobileApplyResponse(string SpidMobileApplyResult) {
+            this.SpidMobileApplyResult = SpidMobileApplyResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="LostOfSpid", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class LostOfSpidRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string fspid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string opuser;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string freson;
+        
+        public LostOfSpidRequest() {
+        }
+        
+        public LostOfSpidRequest(string fspid, string opuser, string freson) {
+            this.fspid = fspid;
+            this.opuser = opuser;
+            this.freson = freson;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="LostOfSpidResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class LostOfSpidResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string LostOfSpidResult;
+        
+        public LostOfSpidResponse() {
+        }
+        
+        public LostOfSpidResponse(string LostOfSpidResult) {
+            this.LostOfSpidResult = LostOfSpidResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="FreezeSpid", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class FreezeSpidRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string fspid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string opuser;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string freson;
+        
+        public FreezeSpidRequest() {
+        }
+        
+        public FreezeSpidRequest(string fspid, string opuser, string freson) {
+            this.fspid = fspid;
+            this.opuser = opuser;
+            this.freson = freson;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="FreezeSpidResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class FreezeSpidResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string FreezeSpidResult;
+        
+        public FreezeSpidResponse() {
+        }
+        
+        public FreezeSpidResponse(string FreezeSpidResult) {
+            this.FreezeSpidResult = FreezeSpidResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ClosePay", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ClosePayRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string fspid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string opuser;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string freson;
+        
+        public ClosePayRequest() {
+        }
+        
+        public ClosePayRequest(string fspid, string opuser, string freson) {
+            this.fspid = fspid;
+            this.opuser = opuser;
+            this.freson = freson;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ClosePayResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ClosePayResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string ClosePayResult;
+        
+        public ClosePayResponse() {
+        }
+        
+        public ClosePayResponse(string ClosePayResult) {
+            this.ClosePayResult = ClosePayResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="OpenPay", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class OpenPayRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string fspid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string opuser;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string freson;
+        
+        public OpenPayRequest() {
+        }
+        
+        public OpenPayRequest(string fspid, string opuser, string freson) {
+            this.fspid = fspid;
+            this.opuser = opuser;
+            this.freson = freson;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="OpenPayResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class OpenPayResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string OpenPayResult;
+        
+        public OpenPayResponse() {
+        }
+        
+        public OpenPayResponse(string OpenPayResult) {
+            this.OpenPayResult = OpenPayResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CloseRefund", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class CloseRefundRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string fspid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string opuser;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string freson;
+        
+        public CloseRefundRequest() {
+        }
+        
+        public CloseRefundRequest(string fspid, string opuser, string freson) {
+            this.fspid = fspid;
+            this.opuser = opuser;
+            this.freson = freson;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CloseRefundResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class CloseRefundResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string CloseRefundResult;
+        
+        public CloseRefundResponse() {
+        }
+        
+        public CloseRefundResponse(string CloseRefundResult) {
+            this.CloseRefundResult = CloseRefundResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="OpenRefund", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class OpenRefundRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string fspid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string opuser;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string freson;
+        
+        public OpenRefundRequest() {
+        }
+        
+        public OpenRefundRequest(string fspid, string opuser, string freson) {
+            this.fspid = fspid;
+            this.opuser = opuser;
+            this.freson = freson;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="OpenRefundResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class OpenRefundResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string OpenRefundResult;
+        
+        public OpenRefundResponse() {
+        }
+        
+        public OpenRefundResponse(string OpenRefundResult) {
+            this.OpenRefundResult = OpenRefundResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CloseAgency", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class CloseAgencyRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string fspid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string opuser;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string freson;
+        
+        public CloseAgencyRequest() {
+        }
+        
+        public CloseAgencyRequest(string fspid, string opuser, string freson) {
+            this.fspid = fspid;
+            this.opuser = opuser;
+            this.freson = freson;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CloseAgencyResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class CloseAgencyResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string CloseAgencyResult;
+        
+        public CloseAgencyResponse() {
+        }
+        
+        public CloseAgencyResponse(string CloseAgencyResult) {
+            this.CloseAgencyResult = CloseAgencyResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="OpenAgency", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class OpenAgencyRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string fspid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string opuser;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string freson;
+        
+        public OpenAgencyRequest() {
+        }
+        
+        public OpenAgencyRequest(string fspid, string opuser, string freson) {
+            this.fspid = fspid;
+            this.opuser = opuser;
+            this.freson = freson;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="OpenAgencyResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class OpenAgencyResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string OpenAgencyResult;
+        
+        public OpenAgencyResponse() {
+        }
+        
+        public OpenAgencyResponse(string OpenAgencyResult) {
+            this.OpenAgencyResult = OpenAgencyResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RestoreOfSpid", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class RestoreOfSpidRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string fspid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string opuser;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string freson;
+        
+        public RestoreOfSpidRequest() {
+        }
+        
+        public RestoreOfSpidRequest(string fspid, string opuser, string freson) {
+            this.fspid = fspid;
+            this.opuser = opuser;
+            this.freson = freson;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RestoreOfSpidResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class RestoreOfSpidResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string RestoreOfSpidResult;
+        
+        public RestoreOfSpidResponse() {
+        }
+        
+        public RestoreOfSpidResponse(string RestoreOfSpidResult) {
+            this.RestoreOfSpidResult = RestoreOfSpidResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="BusinessLogoutApply", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class BusinessLogoutApplyRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string fspid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string opuser;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string freson;
+        
+        public BusinessLogoutApplyRequest() {
+        }
+        
+        public BusinessLogoutApplyRequest(string fspid, string opuser, string freson) {
+            this.fspid = fspid;
+            this.opuser = opuser;
+            this.freson = freson;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="BusinessLogoutApplyResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class BusinessLogoutApplyResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string BusinessLogoutApplyResult;
+        
+        public BusinessLogoutApplyResponse() {
+        }
+        
+        public BusinessLogoutApplyResponse(string BusinessLogoutApplyResult) {
+            this.BusinessLogoutApplyResult = BusinessLogoutApplyResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SendSPMerkey", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class SendSPMerkeyRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string spid;
+        
+        public SendSPMerkeyRequest() {
+        }
+        
+        public SendSPMerkeyRequest(string spid) {
+            this.spid = spid;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SendSPMerkeyResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class SendSPMerkeyResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string SendSPMerkeyResult;
+        
+        public SendSPMerkeyResponse() {
+        }
+        
+        public SendSPMerkeyResponse(string SendSPMerkeyResult) {
+            this.SendSPMerkeyResult = SendSPMerkeyResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetAgencyBusinessList", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetAgencyBusinessListRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string qqid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string domain;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        public int notInCount;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        public int topCount;
+        
+        public GetAgencyBusinessListRequest() {
+        }
+        
+        public GetAgencyBusinessListRequest(string qqid, string domain, int notInCount, int topCount) {
+            this.qqid = qqid;
+            this.domain = domain;
+            this.notInCount = notInCount;
+            this.topCount = topCount;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetAgencyBusinessListResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetAgencyBusinessListResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetAgencyBusinessListResult;
+        
+        public GetAgencyBusinessListResponse() {
+        }
+        
+        public GetAgencyBusinessListResponse(System.Data.DataSet GetAgencyBusinessListResult) {
+            this.GetAgencyBusinessListResult = GetAgencyBusinessListResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetAgencyBusinessInfo", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetAgencyBusinessInfoRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Fid;
+        
+        public GetAgencyBusinessInfoRequest() {
+        }
+        
+        public GetAgencyBusinessInfoRequest(string Fid) {
+            this.Fid = Fid;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetAgencyBusinessInfoResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetAgencyBusinessInfoResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetAgencyBusinessInfoResult;
+        
+        public GetAgencyBusinessInfoResponse() {
+        }
+        
+        public GetAgencyBusinessInfoResponse(System.Data.DataSet GetAgencyBusinessInfoResult) {
+            this.GetAgencyBusinessInfoResult = GetAgencyBusinessInfoResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="QueryAgencyBySpid", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class QueryAgencyBySpidRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string spid;
+        
+        public QueryAgencyBySpidRequest() {
+        }
+        
+        public QueryAgencyBySpidRequest(string spid) {
+            this.spid = spid;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="QueryAgencyBySpidResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class QueryAgencyBySpidResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet QueryAgencyBySpidResult;
+        
+        public QueryAgencyBySpidResponse() {
+        }
+        
+        public QueryAgencyBySpidResponse(System.Data.DataSet QueryAgencyBySpidResult) {
+            this.QueryAgencyBySpidResult = QueryAgencyBySpidResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="QueryApplyListBySpid", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class QueryApplyListBySpidRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string spid;
+        
+        public QueryApplyListBySpidRequest() {
+        }
+        
+        public QueryApplyListBySpidRequest(string spid) {
+            this.spid = spid;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="QueryApplyListBySpidResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class QueryApplyListBySpidResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet QueryApplyListBySpidResult;
+        
+        public QueryApplyListBySpidResponse() {
+        }
+        
+        public QueryApplyListBySpidResponse(System.Data.DataSet QueryApplyListBySpidResult) {
+            this.QueryApplyListBySpidResult = QueryApplyListBySpidResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="QueryAgencyInfoById", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class QueryAgencyInfoByIdRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string fid;
+        
+        public QueryAgencyInfoByIdRequest() {
+        }
+        
+        public QueryAgencyInfoByIdRequest(string fid) {
+            this.fid = fid;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="QueryAgencyInfoByIdResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class QueryAgencyInfoByIdResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet QueryAgencyInfoByIdResult;
+        
+        public QueryAgencyInfoByIdResponse() {
+        }
+        
+        public QueryAgencyInfoByIdResponse(System.Data.DataSet QueryAgencyInfoByIdResult) {
+            this.QueryAgencyInfoByIdResult = QueryAgencyInfoByIdResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetShouFuYiList", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetShouFuYiListRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string qq;
+        
+        public GetShouFuYiListRequest() {
+        }
+        
+        public GetShouFuYiListRequest(string qq) {
+            this.qq = qq;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetShouFuYiListResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetShouFuYiListResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetShouFuYiListResult;
+        
+        public GetShouFuYiListResponse() {
+        }
+        
+        public GetShouFuYiListResponse(System.Data.DataSet GetShouFuYiListResult) {
+            this.GetShouFuYiListResult = GetShouFuYiListResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetAgencyBusinessInfoList", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetAgencyBusinessInfoListRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Fspid;
+        
+        public GetAgencyBusinessInfoListRequest() {
+        }
+        
+        public GetAgencyBusinessInfoListRequest(string Fspid) {
+            this.Fspid = Fspid;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetAgencyBusinessInfoListResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetAgencyBusinessInfoListResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetAgencyBusinessInfoListResult;
+        
+        public GetAgencyBusinessInfoListResponse() {
+        }
+        
+        public GetAgencyBusinessInfoListResponse(System.Data.DataSet GetAgencyBusinessInfoListResult) {
+            this.GetAgencyBusinessInfoListResult = GetAgencyBusinessInfoListResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetHisBusinessList", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetHisBusinessListRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string spid;
+        
+        public GetHisBusinessListRequest() {
+        }
+        
+        public GetHisBusinessListRequest(string spid) {
+            this.spid = spid;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetHisBusinessListResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetHisBusinessListResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetHisBusinessListResult;
+        
+        public GetHisBusinessListResponse() {
+        }
+        
+        public GetHisBusinessListResponse(System.Data.DataSet GetHisBusinessListResult) {
+            this.GetHisBusinessListResult = GetHisBusinessListResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSelfTypeList", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetSelfTypeListRequest {
+        
+        public GetSelfTypeListRequest() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSelfTypeListResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetSelfTypeListResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetSelfTypeListResult;
+        
+        public GetSelfTypeListResponse() {
+        }
+        
+        public GetSelfTypeListResponse(System.Data.DataSet GetSelfTypeListResult) {
+            this.GetSelfTypeListResult = GetSelfTypeListResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSelfKFList", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetSelfKFListRequest {
+        
+        public GetSelfKFListRequest() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSelfKFListResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetSelfKFListResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetSelfKFListResult;
+        
+        public GetSelfKFListResponse() {
+        }
+        
+        public GetSelfKFListResponse(System.Data.DataSet GetSelfKFListResult) {
+            this.GetSelfKFListResult = GetSelfKFListResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSelfQueryListCount", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetSelfQueryListCountRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string SPID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<int> DraftFlag;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string CompanyName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<int> Flag;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string WWWAdress;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Appid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.DateTime> ApplyTimeStart;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.DateTime> ApplyTimeEnd;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string BankUserName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string KFCheckUser;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string SuggestUser;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string MerType;
+        
+        public GetSelfQueryListCountRequest() {
+        }
+        
+        public GetSelfQueryListCountRequest(string SPID, System.Nullable<int> DraftFlag, string CompanyName, System.Nullable<int> Flag, string WWWAdress, string Appid, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType) {
+            this.SPID = SPID;
+            this.DraftFlag = DraftFlag;
+            this.CompanyName = CompanyName;
+            this.Flag = Flag;
+            this.WWWAdress = WWWAdress;
+            this.Appid = Appid;
+            this.ApplyTimeStart = ApplyTimeStart;
+            this.ApplyTimeEnd = ApplyTimeEnd;
+            this.BankUserName = BankUserName;
+            this.KFCheckUser = KFCheckUser;
+            this.SuggestUser = SuggestUser;
+            this.MerType = MerType;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSelfQueryListCountResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetSelfQueryListCountResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public int GetSelfQueryListCountResult;
+        
+        public GetSelfQueryListCountResponse() {
+        }
+        
+        public GetSelfQueryListCountResponse(int GetSelfQueryListCountResult) {
+            this.GetSelfQueryListCountResult = GetSelfQueryListCountResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSelfQueryList", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetSelfQueryListRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string SPID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<int> DraftFlag;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string CompanyName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<int> Flag;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string WWWAdress;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Appid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.DateTime> ApplyTimeStart;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.DateTime> ApplyTimeEnd;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string BankUserName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string KFCheckUser;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string SuggestUser;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string MerType;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=12)]
+        public int topCount;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=13)]
+        public int notInCount;
+        
+        public GetSelfQueryListRequest() {
+        }
+        
+        public GetSelfQueryListRequest(string SPID, System.Nullable<int> DraftFlag, string CompanyName, System.Nullable<int> Flag, string WWWAdress, string Appid, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType, int topCount, int notInCount) {
+            this.SPID = SPID;
+            this.DraftFlag = DraftFlag;
+            this.CompanyName = CompanyName;
+            this.Flag = Flag;
+            this.WWWAdress = WWWAdress;
+            this.Appid = Appid;
+            this.ApplyTimeStart = ApplyTimeStart;
+            this.ApplyTimeEnd = ApplyTimeEnd;
+            this.BankUserName = BankUserName;
+            this.KFCheckUser = KFCheckUser;
+            this.SuggestUser = SuggestUser;
+            this.MerType = MerType;
+            this.topCount = topCount;
+            this.notInCount = notInCount;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSelfQueryListResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetSelfQueryListResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetSelfQueryListResult;
+        
+        public GetSelfQueryListResponse() {
+        }
+        
+        public GetSelfQueryListResponse(System.Data.DataSet GetSelfQueryListResult) {
+            this.GetSelfQueryListResult = GetSelfQueryListResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSelfQuerySPType", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetSelfQuerySPTypeRequest {
+        
+        public GetSelfQuerySPTypeRequest() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSelfQuerySPTypeResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetSelfQuerySPTypeResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetSelfQuerySPTypeResult;
+        
+        public GetSelfQuerySPTypeResponse() {
+        }
+        
+        public GetSelfQuerySPTypeResponse(System.Data.DataSet GetSelfQuerySPTypeResult) {
+            this.GetSelfQuerySPTypeResult = GetSelfQuerySPTypeResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSelfQueryInfo", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetSelfQueryInfoRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string applyCpInfoID;
+        
+        public GetSelfQueryInfoRequest() {
+        }
+        
+        public GetSelfQueryInfoRequest(string applyCpInfoID) {
+            this.applyCpInfoID = applyCpInfoID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSelfQueryInfoResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetSelfQueryInfoResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetSelfQueryInfoResult;
+        
+        public GetSelfQueryInfoResponse() {
+        }
+        
+        public GetSelfQueryInfoResponse(System.Data.DataSet GetSelfQueryInfoResult) {
+            this.GetSelfQueryInfoResult = GetSelfQueryInfoResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSpidDomainQueryList", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetSpidDomainQueryListRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Spid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string CompanyName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.DateTime> ApplyTimeStart;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.DateTime> ApplyTimeEnd;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<int> AmendState;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string submitType;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=6)]
+        public int topCount;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=7)]
+        public int notInCount;
+        
+        public GetSpidDomainQueryListRequest() {
+        }
+        
+        public GetSpidDomainQueryListRequest(string Spid, string CompanyName, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, System.Nullable<int> AmendState, string submitType, int topCount, int notInCount) {
+            this.Spid = Spid;
+            this.CompanyName = CompanyName;
+            this.ApplyTimeStart = ApplyTimeStart;
+            this.ApplyTimeEnd = ApplyTimeEnd;
+            this.AmendState = AmendState;
+            this.submitType = submitType;
+            this.topCount = topCount;
+            this.notInCount = notInCount;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSpidDomainQueryListResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetSpidDomainQueryListResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetSpidDomainQueryListResult;
+        
+        public GetSpidDomainQueryListResponse() {
+        }
+        
+        public GetSpidDomainQueryListResponse(System.Data.DataSet GetSpidDomainQueryListResult) {
+            this.GetSpidDomainQueryListResult = GetSpidDomainQueryListResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetOneValueAddedTax", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetOneValueAddedTaxRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string spid;
+        
+        public GetOneValueAddedTaxRequest() {
+        }
+        
+        public GetOneValueAddedTaxRequest(string spid) {
+            this.spid = spid;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetOneValueAddedTaxResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetOneValueAddedTaxResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetOneValueAddedTaxResult;
+        
+        public GetOneValueAddedTaxResponse() {
+        }
+        
+        public GetOneValueAddedTaxResponse(System.Data.DataSet GetOneValueAddedTaxResult) {
+            this.GetOneValueAddedTaxResult = GetOneValueAddedTaxResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetAllValueAddedTax", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetAllValueAddedTaxRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Spid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string CompanyName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        public int topCount;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        public int notInCount;
+        
+        public GetAllValueAddedTaxRequest() {
+        }
+        
+        public GetAllValueAddedTaxRequest(string Spid, string CompanyName, int topCount, int notInCount) {
+            this.Spid = Spid;
+            this.CompanyName = CompanyName;
+            this.topCount = topCount;
+            this.notInCount = notInCount;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetAllValueAddedTaxResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetAllValueAddedTaxResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetAllValueAddedTaxResult;
+        
+        public GetAllValueAddedTaxResponse() {
+        }
+        
+        public GetAllValueAddedTaxResponse(System.Data.DataSet GetAllValueAddedTaxResult) {
+            this.GetAllValueAddedTaxResult = GetAllValueAddedTaxResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetValueAddedTaxDetail", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetValueAddedTaxDetailRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string taskid;
+        
+        public GetValueAddedTaxDetailRequest() {
+        }
+        
+        public GetValueAddedTaxDetailRequest(string taskid) {
+            this.taskid = taskid;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetValueAddedTaxDetailResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetValueAddedTaxDetailResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetValueAddedTaxDetailResult;
+        
+        public GetValueAddedTaxDetailResponse() {
+        }
+        
+        public GetValueAddedTaxDetailResponse(System.Data.DataSet GetValueAddedTaxDetailResult) {
+            this.GetValueAddedTaxDetailResult = GetValueAddedTaxDetailResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetTradeType", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetTradeTypeRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string spid;
+        
+        public GetTradeTypeRequest() {
+        }
+        
+        public GetTradeTypeRequest(string spid) {
+            this.spid = spid;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetTradeTypeResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetTradeTypeResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string GetTradeTypeResult;
+        
+        public GetTradeTypeResponse() {
+        }
+        
+        public GetTradeTypeResponse(string GetTradeTypeResult) {
+            this.GetTradeTypeResult = GetTradeTypeResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetWWWAddress", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetWWWAddressRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string spid;
+        
+        public GetWWWAddressRequest() {
+        }
+        
+        public GetWWWAddressRequest(string spid) {
+            this.spid = spid;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetWWWAddressResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetWWWAddressResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string GetWWWAddressResult;
+        
+        public GetWWWAddressResponse() {
+        }
+        
+        public GetWWWAddressResponse(string GetWWWAddressResult) {
+            this.GetWWWAddressResult = GetWWWAddressResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetBDName", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetBDNameRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string spid;
+        
+        public GetBDNameRequest() {
+        }
+        
+        public GetBDNameRequest(string spid) {
+            this.spid = spid;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetBDNameResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetBDNameResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string GetBDNameResult;
+        
+        public GetBDNameResponse() {
+        }
+        
+        public GetBDNameResponse(string GetBDNameResult) {
+            this.GetBDNameResult = GetBDNameResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetApplyValueAddedTax", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetApplyValueAddedTaxRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Spid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Flags;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        public int topCount;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        public int notInCount;
+        
+        public GetApplyValueAddedTaxRequest() {
+        }
+        
+        public GetApplyValueAddedTaxRequest(string Spid, string Flags, int topCount, int notInCount) {
+            this.Spid = Spid;
+            this.Flags = Flags;
+            this.topCount = topCount;
+            this.notInCount = notInCount;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetApplyValueAddedTaxResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetApplyValueAddedTaxResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetApplyValueAddedTaxResult;
+        
+        public GetApplyValueAddedTaxResponse() {
+        }
+        
+        public GetApplyValueAddedTaxResponse(System.Data.DataSet GetApplyValueAddedTaxResult) {
+            this.GetApplyValueAddedTaxResult = GetApplyValueAddedTaxResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="QueryBussFreezeList", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class QueryBussFreezeListRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string spid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string type;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string state;
+        
+        public QueryBussFreezeListRequest() {
+        }
+        
+        public QueryBussFreezeListRequest(string spid, string type, string state) {
+            this.spid = spid;
+            this.type = type;
+            this.state = state;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="QueryBussFreezeListResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class QueryBussFreezeListResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet QueryBussFreezeListResult;
+        
+        public QueryBussFreezeListResponse() {
+        }
+        
+        public QueryBussFreezeListResponse(System.Data.DataSet QueryBussFreezeListResult) {
+            this.QueryBussFreezeListResult = QueryBussFreezeListResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetAllValueAddedTax1", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetAllValueAddedTax1Request {
+        
+        public GetAllValueAddedTax1Request() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetAllValueAddedTax1Response", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetAllValueAddedTax1Response {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string GetAllValueAddedTax1Result;
+        
+        public GetAllValueAddedTax1Response() {
+        }
+        
+        public GetAllValueAddedTax1Response(string GetAllValueAddedTax1Result) {
+            this.GetAllValueAddedTax1Result = GetAllValueAddedTax1Result;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetApplyCpInfoXByID", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetApplyCpInfoXByIDRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string ApplyCpInfoID;
+        
+        public GetApplyCpInfoXByIDRequest() {
+        }
+        
+        public GetApplyCpInfoXByIDRequest(string ApplyCpInfoID) {
+            this.ApplyCpInfoID = ApplyCpInfoID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetApplyCpInfoXByIDResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetApplyCpInfoXByIDResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetApplyCpInfoXByIDResult;
+        
+        public GetApplyCpInfoXByIDResponse() {
+        }
+        
+        public GetApplyCpInfoXByIDResponse(System.Data.DataSet GetApplyCpInfoXByIDResult) {
+            this.GetApplyCpInfoXByIDResult = GetApplyCpInfoXByIDResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetMspAmendTaskByID", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetMspAmendTaskByIDRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string TaskId;
+        
+        public GetMspAmendTaskByIDRequest() {
+        }
+        
+        public GetMspAmendTaskByIDRequest(string TaskId) {
+            this.TaskId = TaskId;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetMspAmendTaskByIDResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetMspAmendTaskByIDResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetMspAmendTaskByIDResult;
+        
+        public GetMspAmendTaskByIDResponse() {
+        }
+        
+        public GetMspAmendTaskByIDResponse(System.Data.DataSet GetMspAmendTaskByIDResult) {
+            this.GetMspAmendTaskByIDResult = GetMspAmendTaskByIDResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSpInfo", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetSpInfoRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string SPID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string ApplyCpInfoID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string CompanyName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string WWWAdress;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string WebName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string AppID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=6)]
+        public int topCount;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=7)]
+        public int notInCount;
+        
+        public GetSpInfoRequest() {
+        }
+        
+        public GetSpInfoRequest(string SPID, string ApplyCpInfoID, string CompanyName, string WWWAdress, string WebName, string AppID, int topCount, int notInCount) {
+            this.SPID = SPID;
+            this.ApplyCpInfoID = ApplyCpInfoID;
+            this.CompanyName = CompanyName;
+            this.WWWAdress = WWWAdress;
+            this.WebName = WebName;
+            this.AppID = AppID;
+            this.topCount = topCount;
+            this.notInCount = notInCount;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSpInfoResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetSpInfoResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet GetSpInfoResult;
+        
+        public GetSpInfoResponse() {
+        }
+        
+        public GetSpInfoResponse(System.Data.DataSet GetSpInfoResult) {
+            this.GetSpInfoResult = GetSpInfoResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="QueryAmendMspInfo", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class QueryAmendMspInfoRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string spid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string type;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string caccounts;
+        
+        public QueryAmendMspInfoRequest() {
+        }
+        
+        public QueryAmendMspInfoRequest(string spid, string type, string caccounts) {
+            this.spid = spid;
+            this.type = type;
+            this.caccounts = caccounts;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="QueryAmendMspInfoResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class QueryAmendMspInfoResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Data.DataSet QueryAmendMspInfoResult;
+        
+        public QueryAmendMspInfoResponse() {
+        }
+        
+        public QueryAmendMspInfoResponse(System.Data.DataSet QueryAmendMspInfoResult) {
+            this.QueryAmendMspInfoResult = QueryAmendMspInfoResult;
+        }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -208,224 +2817,785 @@ namespace CFT.CSOMS.DAL.SPOAServiceRef {
                 base(binding, remoteAddress) {
         }
         
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetCheckInfoResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetCheckInfo(CFT.CSOMS.DAL.SPOAServiceRef.GetCheckInfoRequest request) {
+            return base.Channel.GetCheckInfo(request);
+        }
+        
         public System.Data.DataSet GetCheckInfo(string ApplyCpInfoID, int checktype) {
-            return base.Channel.GetCheckInfo(ApplyCpInfoID, checktype);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetCheckInfoRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetCheckInfoRequest();
+            inValue.ApplyCpInfoID = ApplyCpInfoID;
+            inValue.checktype = checktype;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetCheckInfoResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetCheckInfo(inValue);
+            return retVal.GetCheckInfoResult;
         }
         
-        public bool ReSendEmail_ToSP(out string resultstr, string SPID, string ApplyUser) {
-            return base.Channel.ReSendEmail_ToSP(out resultstr, SPID, ApplyUser);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.ReSendEmail_ToSPResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.ReSendEmail_ToSP(CFT.CSOMS.DAL.SPOAServiceRef.ReSendEmail_ToSPRequest request) {
+            return base.Channel.ReSendEmail_ToSP(request);
         }
         
-        public bool ReSendCertificate(out string resultstr, string SPID, string ApplyUser) {
-            return base.Channel.ReSendCertificate(out resultstr, SPID, ApplyUser);
+        public bool ReSendEmail_ToSP(string SPID, string ApplyUser, out string resultstr) {
+            CFT.CSOMS.DAL.SPOAServiceRef.ReSendEmail_ToSPRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.ReSendEmail_ToSPRequest();
+            inValue.SPID = SPID;
+            inValue.ApplyUser = ApplyUser;
+            CFT.CSOMS.DAL.SPOAServiceRef.ReSendEmail_ToSPResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).ReSendEmail_ToSP(inValue);
+            resultstr = retVal.resultstr;
+            return retVal.ReSendEmail_ToSPResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.ReSendCertificateResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.ReSendCertificate(CFT.CSOMS.DAL.SPOAServiceRef.ReSendCertificateRequest request) {
+            return base.Channel.ReSendCertificate(request);
+        }
+        
+        public bool ReSendCertificate(string SPID, string ApplyUser, out string resultstr) {
+            CFT.CSOMS.DAL.SPOAServiceRef.ReSendCertificateRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.ReSendCertificateRequest();
+            inValue.SPID = SPID;
+            inValue.ApplyUser = ApplyUser;
+            CFT.CSOMS.DAL.SPOAServiceRef.ReSendCertificateResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).ReSendCertificate(inValue);
+            resultstr = retVal.resultstr;
+            return retVal.ReSendCertificateResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.QueryExpiredCertificateResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.QueryExpiredCertificate(CFT.CSOMS.DAL.SPOAServiceRef.QueryExpiredCertificateRequest request) {
+            return base.Channel.QueryExpiredCertificate(request);
         }
         
         public System.Data.DataSet QueryExpiredCertificate(string beginDt, string endDt, string SPID, int topCount, int notInCount) {
-            return base.Channel.QueryExpiredCertificate(beginDt, endDt, SPID, topCount, notInCount);
+            CFT.CSOMS.DAL.SPOAServiceRef.QueryExpiredCertificateRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.QueryExpiredCertificateRequest();
+            inValue.beginDt = beginDt;
+            inValue.endDt = endDt;
+            inValue.SPID = SPID;
+            inValue.topCount = topCount;
+            inValue.notInCount = notInCount;
+            CFT.CSOMS.DAL.SPOAServiceRef.QueryExpiredCertificateResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).QueryExpiredCertificate(inValue);
+            return retVal.QueryExpiredCertificateResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetBDSpidListResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetBDSpidList(CFT.CSOMS.DAL.SPOAServiceRef.GetBDSpidListRequest request) {
+            return base.Channel.GetBDSpidList(request);
         }
         
         public System.Data.DataSet GetBDSpidList() {
-            return base.Channel.GetBDSpidList();
+            CFT.CSOMS.DAL.SPOAServiceRef.GetBDSpidListRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetBDSpidListRequest();
+            CFT.CSOMS.DAL.SPOAServiceRef.GetBDSpidListResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetBDSpidList(inValue);
+            return retVal.GetBDSpidListResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.UpdateMspAmendTaskByTaskidResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.UpdateMspAmendTaskByTaskid(CFT.CSOMS.DAL.SPOAServiceRef.UpdateMspAmendTaskByTaskidRequest request) {
+            return base.Channel.UpdateMspAmendTaskByTaskid(request);
         }
         
         public void UpdateMspAmendTaskByTaskid(string Taskid, int AmendState, string CheckUser) {
-            base.Channel.UpdateMspAmendTaskByTaskid(Taskid, AmendState, CheckUser);
+            CFT.CSOMS.DAL.SPOAServiceRef.UpdateMspAmendTaskByTaskidRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.UpdateMspAmendTaskByTaskidRequest();
+            inValue.Taskid = Taskid;
+            inValue.AmendState = AmendState;
+            inValue.CheckUser = CheckUser;
+            CFT.CSOMS.DAL.SPOAServiceRef.UpdateMspAmendTaskByTaskidResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).UpdateMspAmendTaskByTaskid(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.UpdateMspAmendInfoByTaskidResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.UpdateMspAmendInfoByTaskid(CFT.CSOMS.DAL.SPOAServiceRef.UpdateMspAmendInfoByTaskidRequest request) {
+            return base.Channel.UpdateMspAmendInfoByTaskid(request);
         }
         
         public void UpdateMspAmendInfoByTaskid(string Taskid, string DisagreeResult) {
-            base.Channel.UpdateMspAmendInfoByTaskid(Taskid, DisagreeResult);
+            CFT.CSOMS.DAL.SPOAServiceRef.UpdateMspAmendInfoByTaskidRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.UpdateMspAmendInfoByTaskidRequest();
+            inValue.Taskid = Taskid;
+            inValue.DisagreeResult = DisagreeResult;
+            CFT.CSOMS.DAL.SPOAServiceRef.UpdateMspAmendInfoByTaskidResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).UpdateMspAmendInfoByTaskid(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.UpdateSpidDomainApplyByTaskidResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.UpdateSpidDomainApplyByTaskid(CFT.CSOMS.DAL.SPOAServiceRef.UpdateSpidDomainApplyByTaskidRequest request) {
+            return base.Channel.UpdateSpidDomainApplyByTaskid(request);
         }
         
         public void UpdateSpidDomainApplyByTaskid(string Taskid, string Reason) {
-            base.Channel.UpdateSpidDomainApplyByTaskid(Taskid, Reason);
+            CFT.CSOMS.DAL.SPOAServiceRef.UpdateSpidDomainApplyByTaskidRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.UpdateSpidDomainApplyByTaskidRequest();
+            inValue.Taskid = Taskid;
+            inValue.Reason = Reason;
+            CFT.CSOMS.DAL.SPOAServiceRef.UpdateSpidDomainApplyByTaskidResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).UpdateSpidDomainApplyByTaskid(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.BusinessIdentityCardNumResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.BusinessIdentityCardNum(CFT.CSOMS.DAL.SPOAServiceRef.BusinessIdentityCardNumRequest request) {
+            return base.Channel.BusinessIdentityCardNum(request);
         }
         
         public void BusinessIdentityCardNum(string Fspid, string OldIdentityCardNum, string NewIdentityCardNum, string IDImage, string ElseImage, string UserName, string Reason) {
-            base.Channel.BusinessIdentityCardNum(Fspid, OldIdentityCardNum, NewIdentityCardNum, IDImage, ElseImage, UserName, Reason);
+            CFT.CSOMS.DAL.SPOAServiceRef.BusinessIdentityCardNumRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.BusinessIdentityCardNumRequest();
+            inValue.Fspid = Fspid;
+            inValue.OldIdentityCardNum = OldIdentityCardNum;
+            inValue.NewIdentityCardNum = NewIdentityCardNum;
+            inValue.IDImage = IDImage;
+            inValue.ElseImage = ElseImage;
+            inValue.UserName = UserName;
+            inValue.Reason = Reason;
+            CFT.CSOMS.DAL.SPOAServiceRef.BusinessIdentityCardNumResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).BusinessIdentityCardNum(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxModifyResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.ValueAddedTaxModify(CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxModifyRequest request) {
+            return base.Channel.ValueAddedTaxModify(request);
         }
         
         public void ValueAddedTaxModify(string Spid, int Flag) {
-            base.Channel.ValueAddedTaxModify(Spid, Flag);
+            CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxModifyRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxModifyRequest();
+            inValue.Spid = Spid;
+            inValue.Flag = Flag;
+            CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxModifyResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).ValueAddedTaxModify(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.ApproveTicketResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.ApproveTicket(CFT.CSOMS.DAL.SPOAServiceRef.ApproveTicketRequest request) {
+            return base.Channel.ApproveTicket(request);
         }
         
         public void ApproveTicket(string ApplyCpInfoID, string UserID, int Type, string Reason) {
-            base.Channel.ApproveTicket(ApplyCpInfoID, UserID, Type, Reason);
+            CFT.CSOMS.DAL.SPOAServiceRef.ApproveTicketRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.ApproveTicketRequest();
+            inValue.ApplyCpInfoID = ApplyCpInfoID;
+            inValue.UserID = UserID;
+            inValue.Type = Type;
+            inValue.Reason = Reason;
+            CFT.CSOMS.DAL.SPOAServiceRef.ApproveTicketResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).ApproveTicket(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.CheckTicketResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.CheckTicket(CFT.CSOMS.DAL.SPOAServiceRef.CheckTicketRequest request) {
+            return base.Channel.CheckTicket(request);
         }
         
         public void CheckTicket(string ApplyCpInfoID, string UserID) {
-            base.Channel.CheckTicket(ApplyCpInfoID, UserID);
+            CFT.CSOMS.DAL.SPOAServiceRef.CheckTicketRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.CheckTicketRequest();
+            inValue.ApplyCpInfoID = ApplyCpInfoID;
+            inValue.UserID = UserID;
+            CFT.CSOMS.DAL.SPOAServiceRef.CheckTicketResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).CheckTicket(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.ModifyPayBusinessInfoResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.ModifyPayBusinessInfo(CFT.CSOMS.DAL.SPOAServiceRef.ModifyPayBusinessInfoRequest request) {
+            return base.Channel.ModifyPayBusinessInfo(request);
         }
         
         public void ModifyPayBusinessInfo(string TableFlag, string KeyID, string ContactUser, string ContactPhone, string ContactMobile, string ContactQQ, string ContactEmail, string CompanyAddress, string Postalcode) {
-            base.Channel.ModifyPayBusinessInfo(TableFlag, KeyID, ContactUser, ContactPhone, ContactMobile, ContactQQ, ContactEmail, CompanyAddress, Postalcode);
+            CFT.CSOMS.DAL.SPOAServiceRef.ModifyPayBusinessInfoRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.ModifyPayBusinessInfoRequest();
+            inValue.TableFlag = TableFlag;
+            inValue.KeyID = KeyID;
+            inValue.ContactUser = ContactUser;
+            inValue.ContactPhone = ContactPhone;
+            inValue.ContactMobile = ContactMobile;
+            inValue.ContactQQ = ContactQQ;
+            inValue.ContactEmail = ContactEmail;
+            inValue.CompanyAddress = CompanyAddress;
+            inValue.Postalcode = Postalcode;
+            CFT.CSOMS.DAL.SPOAServiceRef.ModifyPayBusinessInfoResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).ModifyPayBusinessInfo(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.SubmitBusinessInfoResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.SubmitBusinessInfo(CFT.CSOMS.DAL.SPOAServiceRef.SubmitBusinessInfoRequest request) {
+            return base.Channel.SubmitBusinessInfo(request);
         }
         
         public void SubmitBusinessInfo(string UserName, string Fspid, string OldFspName, string NewFspName, string OldEmail, string NewEmail, string OldAddress, string NewAddress, string ApplyResult, string[] FileInfos) {
-            base.Channel.SubmitBusinessInfo(UserName, Fspid, OldFspName, NewFspName, OldEmail, NewEmail, OldAddress, NewAddress, ApplyResult, FileInfos);
+            CFT.CSOMS.DAL.SPOAServiceRef.SubmitBusinessInfoRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.SubmitBusinessInfoRequest();
+            inValue.UserName = UserName;
+            inValue.Fspid = Fspid;
+            inValue.OldFspName = OldFspName;
+            inValue.NewFspName = NewFspName;
+            inValue.OldEmail = OldEmail;
+            inValue.NewEmail = NewEmail;
+            inValue.OldAddress = OldAddress;
+            inValue.NewAddress = NewAddress;
+            inValue.ApplyResult = ApplyResult;
+            inValue.FileInfos = FileInfos;
+            CFT.CSOMS.DAL.SPOAServiceRef.SubmitBusinessInfoResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).SubmitBusinessInfo(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxApproveResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.ValueAddedTaxApprove(CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxApproveRequest request) {
+            return base.Channel.ValueAddedTaxApprove(request);
         }
         
         public void ValueAddedTaxApprove(string taskid, string Memo, string imgTaxCert, string imgBizLicenseCert, string imgAuthorizationCert, string UserName) {
-            base.Channel.ValueAddedTaxApprove(taskid, Memo, imgTaxCert, imgBizLicenseCert, imgAuthorizationCert, UserName);
+            CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxApproveRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxApproveRequest();
+            inValue.taskid = taskid;
+            inValue.Memo = Memo;
+            inValue.imgTaxCert = imgTaxCert;
+            inValue.imgBizLicenseCert = imgBizLicenseCert;
+            inValue.imgAuthorizationCert = imgAuthorizationCert;
+            inValue.UserName = UserName;
+            CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxApproveResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).ValueAddedTaxApprove(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxCancelResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.ValueAddedTaxCancel(CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxCancelRequest request) {
+            return base.Channel.ValueAddedTaxCancel(request);
         }
         
         public void ValueAddedTaxCancel(string taskid, string spid, string Memo, string UserName) {
-            base.Channel.ValueAddedTaxCancel(taskid, spid, Memo, UserName);
+            CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxCancelRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxCancelRequest();
+            inValue.taskid = taskid;
+            inValue.spid = spid;
+            inValue.Memo = Memo;
+            inValue.UserName = UserName;
+            CFT.CSOMS.DAL.SPOAServiceRef.ValueAddedTaxCancelResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).ValueAddedTaxCancel(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.SpidMobileApplyResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.SpidMobileApply(CFT.CSOMS.DAL.SPOAServiceRef.SpidMobileApplyRequest request) {
+            return base.Channel.SpidMobileApply(request);
         }
         
         public string SpidMobileApply(string applyUser, string spid, string approve_mobile, string file_name_id_card, string file_name_mobile_file, string memo) {
-            return base.Channel.SpidMobileApply(applyUser, spid, approve_mobile, file_name_id_card, file_name_mobile_file, memo);
+            CFT.CSOMS.DAL.SPOAServiceRef.SpidMobileApplyRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.SpidMobileApplyRequest();
+            inValue.applyUser = applyUser;
+            inValue.spid = spid;
+            inValue.approve_mobile = approve_mobile;
+            inValue.file_name_id_card = file_name_id_card;
+            inValue.file_name_mobile_file = file_name_mobile_file;
+            inValue.memo = memo;
+            CFT.CSOMS.DAL.SPOAServiceRef.SpidMobileApplyResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).SpidMobileApply(inValue);
+            return retVal.SpidMobileApplyResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.LostOfSpidResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.LostOfSpid(CFT.CSOMS.DAL.SPOAServiceRef.LostOfSpidRequest request) {
+            return base.Channel.LostOfSpid(request);
         }
         
         public string LostOfSpid(string fspid, string opuser, string freson) {
-            return base.Channel.LostOfSpid(fspid, opuser, freson);
+            CFT.CSOMS.DAL.SPOAServiceRef.LostOfSpidRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.LostOfSpidRequest();
+            inValue.fspid = fspid;
+            inValue.opuser = opuser;
+            inValue.freson = freson;
+            CFT.CSOMS.DAL.SPOAServiceRef.LostOfSpidResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).LostOfSpid(inValue);
+            return retVal.LostOfSpidResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.FreezeSpidResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.FreezeSpid(CFT.CSOMS.DAL.SPOAServiceRef.FreezeSpidRequest request) {
+            return base.Channel.FreezeSpid(request);
         }
         
         public string FreezeSpid(string fspid, string opuser, string freson) {
-            return base.Channel.FreezeSpid(fspid, opuser, freson);
+            CFT.CSOMS.DAL.SPOAServiceRef.FreezeSpidRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.FreezeSpidRequest();
+            inValue.fspid = fspid;
+            inValue.opuser = opuser;
+            inValue.freson = freson;
+            CFT.CSOMS.DAL.SPOAServiceRef.FreezeSpidResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).FreezeSpid(inValue);
+            return retVal.FreezeSpidResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.ClosePayResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.ClosePay(CFT.CSOMS.DAL.SPOAServiceRef.ClosePayRequest request) {
+            return base.Channel.ClosePay(request);
         }
         
         public string ClosePay(string fspid, string opuser, string freson) {
-            return base.Channel.ClosePay(fspid, opuser, freson);
+            CFT.CSOMS.DAL.SPOAServiceRef.ClosePayRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.ClosePayRequest();
+            inValue.fspid = fspid;
+            inValue.opuser = opuser;
+            inValue.freson = freson;
+            CFT.CSOMS.DAL.SPOAServiceRef.ClosePayResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).ClosePay(inValue);
+            return retVal.ClosePayResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.OpenPayResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.OpenPay(CFT.CSOMS.DAL.SPOAServiceRef.OpenPayRequest request) {
+            return base.Channel.OpenPay(request);
         }
         
         public string OpenPay(string fspid, string opuser, string freson) {
-            return base.Channel.OpenPay(fspid, opuser, freson);
+            CFT.CSOMS.DAL.SPOAServiceRef.OpenPayRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.OpenPayRequest();
+            inValue.fspid = fspid;
+            inValue.opuser = opuser;
+            inValue.freson = freson;
+            CFT.CSOMS.DAL.SPOAServiceRef.OpenPayResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).OpenPay(inValue);
+            return retVal.OpenPayResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.CloseRefundResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.CloseRefund(CFT.CSOMS.DAL.SPOAServiceRef.CloseRefundRequest request) {
+            return base.Channel.CloseRefund(request);
         }
         
         public string CloseRefund(string fspid, string opuser, string freson) {
-            return base.Channel.CloseRefund(fspid, opuser, freson);
+            CFT.CSOMS.DAL.SPOAServiceRef.CloseRefundRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.CloseRefundRequest();
+            inValue.fspid = fspid;
+            inValue.opuser = opuser;
+            inValue.freson = freson;
+            CFT.CSOMS.DAL.SPOAServiceRef.CloseRefundResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).CloseRefund(inValue);
+            return retVal.CloseRefundResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.OpenRefundResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.OpenRefund(CFT.CSOMS.DAL.SPOAServiceRef.OpenRefundRequest request) {
+            return base.Channel.OpenRefund(request);
         }
         
         public string OpenRefund(string fspid, string opuser, string freson) {
-            return base.Channel.OpenRefund(fspid, opuser, freson);
+            CFT.CSOMS.DAL.SPOAServiceRef.OpenRefundRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.OpenRefundRequest();
+            inValue.fspid = fspid;
+            inValue.opuser = opuser;
+            inValue.freson = freson;
+            CFT.CSOMS.DAL.SPOAServiceRef.OpenRefundResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).OpenRefund(inValue);
+            return retVal.OpenRefundResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.CloseAgencyResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.CloseAgency(CFT.CSOMS.DAL.SPOAServiceRef.CloseAgencyRequest request) {
+            return base.Channel.CloseAgency(request);
         }
         
         public string CloseAgency(string fspid, string opuser, string freson) {
-            return base.Channel.CloseAgency(fspid, opuser, freson);
+            CFT.CSOMS.DAL.SPOAServiceRef.CloseAgencyRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.CloseAgencyRequest();
+            inValue.fspid = fspid;
+            inValue.opuser = opuser;
+            inValue.freson = freson;
+            CFT.CSOMS.DAL.SPOAServiceRef.CloseAgencyResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).CloseAgency(inValue);
+            return retVal.CloseAgencyResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.OpenAgencyResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.OpenAgency(CFT.CSOMS.DAL.SPOAServiceRef.OpenAgencyRequest request) {
+            return base.Channel.OpenAgency(request);
         }
         
         public string OpenAgency(string fspid, string opuser, string freson) {
-            return base.Channel.OpenAgency(fspid, opuser, freson);
+            CFT.CSOMS.DAL.SPOAServiceRef.OpenAgencyRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.OpenAgencyRequest();
+            inValue.fspid = fspid;
+            inValue.opuser = opuser;
+            inValue.freson = freson;
+            CFT.CSOMS.DAL.SPOAServiceRef.OpenAgencyResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).OpenAgency(inValue);
+            return retVal.OpenAgencyResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.RestoreOfSpidResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.RestoreOfSpid(CFT.CSOMS.DAL.SPOAServiceRef.RestoreOfSpidRequest request) {
+            return base.Channel.RestoreOfSpid(request);
         }
         
         public string RestoreOfSpid(string fspid, string opuser, string freson) {
-            return base.Channel.RestoreOfSpid(fspid, opuser, freson);
+            CFT.CSOMS.DAL.SPOAServiceRef.RestoreOfSpidRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.RestoreOfSpidRequest();
+            inValue.fspid = fspid;
+            inValue.opuser = opuser;
+            inValue.freson = freson;
+            CFT.CSOMS.DAL.SPOAServiceRef.RestoreOfSpidResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).RestoreOfSpid(inValue);
+            return retVal.RestoreOfSpidResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.BusinessLogoutApplyResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.BusinessLogoutApply(CFT.CSOMS.DAL.SPOAServiceRef.BusinessLogoutApplyRequest request) {
+            return base.Channel.BusinessLogoutApply(request);
         }
         
         public string BusinessLogoutApply(string fspid, string opuser, string freson) {
-            return base.Channel.BusinessLogoutApply(fspid, opuser, freson);
+            CFT.CSOMS.DAL.SPOAServiceRef.BusinessLogoutApplyRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.BusinessLogoutApplyRequest();
+            inValue.fspid = fspid;
+            inValue.opuser = opuser;
+            inValue.freson = freson;
+            CFT.CSOMS.DAL.SPOAServiceRef.BusinessLogoutApplyResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).BusinessLogoutApply(inValue);
+            return retVal.BusinessLogoutApplyResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.SendSPMerkeyResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.SendSPMerkey(CFT.CSOMS.DAL.SPOAServiceRef.SendSPMerkeyRequest request) {
+            return base.Channel.SendSPMerkey(request);
+        }
+        
+        public string SendSPMerkey(string spid) {
+            CFT.CSOMS.DAL.SPOAServiceRef.SendSPMerkeyRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.SendSPMerkeyRequest();
+            inValue.spid = spid;
+            CFT.CSOMS.DAL.SPOAServiceRef.SendSPMerkeyResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).SendSPMerkey(inValue);
+            return retVal.SendSPMerkeyResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessListResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetAgencyBusinessList(CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessListRequest request) {
+            return base.Channel.GetAgencyBusinessList(request);
         }
         
         public System.Data.DataSet GetAgencyBusinessList(string qqid, string domain, int notInCount, int topCount) {
-            return base.Channel.GetAgencyBusinessList(qqid, domain, notInCount, topCount);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessListRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessListRequest();
+            inValue.qqid = qqid;
+            inValue.domain = domain;
+            inValue.notInCount = notInCount;
+            inValue.topCount = topCount;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessListResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetAgencyBusinessList(inValue);
+            return retVal.GetAgencyBusinessListResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessInfoResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetAgencyBusinessInfo(CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessInfoRequest request) {
+            return base.Channel.GetAgencyBusinessInfo(request);
         }
         
         public System.Data.DataSet GetAgencyBusinessInfo(string Fid) {
-            return base.Channel.GetAgencyBusinessInfo(Fid);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessInfoRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessInfoRequest();
+            inValue.Fid = Fid;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessInfoResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetAgencyBusinessInfo(inValue);
+            return retVal.GetAgencyBusinessInfoResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.QueryAgencyBySpidResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.QueryAgencyBySpid(CFT.CSOMS.DAL.SPOAServiceRef.QueryAgencyBySpidRequest request) {
+            return base.Channel.QueryAgencyBySpid(request);
         }
         
         public System.Data.DataSet QueryAgencyBySpid(string spid) {
-            return base.Channel.QueryAgencyBySpid(spid);
+            CFT.CSOMS.DAL.SPOAServiceRef.QueryAgencyBySpidRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.QueryAgencyBySpidRequest();
+            inValue.spid = spid;
+            CFT.CSOMS.DAL.SPOAServiceRef.QueryAgencyBySpidResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).QueryAgencyBySpid(inValue);
+            return retVal.QueryAgencyBySpidResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.QueryApplyListBySpidResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.QueryApplyListBySpid(CFT.CSOMS.DAL.SPOAServiceRef.QueryApplyListBySpidRequest request) {
+            return base.Channel.QueryApplyListBySpid(request);
         }
         
         public System.Data.DataSet QueryApplyListBySpid(string spid) {
-            return base.Channel.QueryApplyListBySpid(spid);
+            CFT.CSOMS.DAL.SPOAServiceRef.QueryApplyListBySpidRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.QueryApplyListBySpidRequest();
+            inValue.spid = spid;
+            CFT.CSOMS.DAL.SPOAServiceRef.QueryApplyListBySpidResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).QueryApplyListBySpid(inValue);
+            return retVal.QueryApplyListBySpidResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.QueryAgencyInfoByIdResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.QueryAgencyInfoById(CFT.CSOMS.DAL.SPOAServiceRef.QueryAgencyInfoByIdRequest request) {
+            return base.Channel.QueryAgencyInfoById(request);
         }
         
         public System.Data.DataSet QueryAgencyInfoById(string fid) {
-            return base.Channel.QueryAgencyInfoById(fid);
+            CFT.CSOMS.DAL.SPOAServiceRef.QueryAgencyInfoByIdRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.QueryAgencyInfoByIdRequest();
+            inValue.fid = fid;
+            CFT.CSOMS.DAL.SPOAServiceRef.QueryAgencyInfoByIdResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).QueryAgencyInfoById(inValue);
+            return retVal.QueryAgencyInfoByIdResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetShouFuYiListResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetShouFuYiList(CFT.CSOMS.DAL.SPOAServiceRef.GetShouFuYiListRequest request) {
+            return base.Channel.GetShouFuYiList(request);
         }
         
         public System.Data.DataSet GetShouFuYiList(string qq) {
-            return base.Channel.GetShouFuYiList(qq);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetShouFuYiListRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetShouFuYiListRequest();
+            inValue.qq = qq;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetShouFuYiListResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetShouFuYiList(inValue);
+            return retVal.GetShouFuYiListResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessInfoListResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetAgencyBusinessInfoList(CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessInfoListRequest request) {
+            return base.Channel.GetAgencyBusinessInfoList(request);
         }
         
         public System.Data.DataSet GetAgencyBusinessInfoList(string Fspid) {
-            return base.Channel.GetAgencyBusinessInfoList(Fspid);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessInfoListRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessInfoListRequest();
+            inValue.Fspid = Fspid;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetAgencyBusinessInfoListResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetAgencyBusinessInfoList(inValue);
+            return retVal.GetAgencyBusinessInfoListResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetHisBusinessListResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetHisBusinessList(CFT.CSOMS.DAL.SPOAServiceRef.GetHisBusinessListRequest request) {
+            return base.Channel.GetHisBusinessList(request);
         }
         
         public System.Data.DataSet GetHisBusinessList(string spid) {
-            return base.Channel.GetHisBusinessList(spid);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetHisBusinessListRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetHisBusinessListRequest();
+            inValue.spid = spid;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetHisBusinessListResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetHisBusinessList(inValue);
+            return retVal.GetHisBusinessListResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetSelfTypeListResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetSelfTypeList(CFT.CSOMS.DAL.SPOAServiceRef.GetSelfTypeListRequest request) {
+            return base.Channel.GetSelfTypeList(request);
         }
         
         public System.Data.DataSet GetSelfTypeList() {
-            return base.Channel.GetSelfTypeList();
+            CFT.CSOMS.DAL.SPOAServiceRef.GetSelfTypeListRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetSelfTypeListRequest();
+            CFT.CSOMS.DAL.SPOAServiceRef.GetSelfTypeListResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetSelfTypeList(inValue);
+            return retVal.GetSelfTypeListResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetSelfKFListResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetSelfKFList(CFT.CSOMS.DAL.SPOAServiceRef.GetSelfKFListRequest request) {
+            return base.Channel.GetSelfKFList(request);
         }
         
         public System.Data.DataSet GetSelfKFList() {
-            return base.Channel.GetSelfKFList();
+            CFT.CSOMS.DAL.SPOAServiceRef.GetSelfKFListRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetSelfKFListRequest();
+            CFT.CSOMS.DAL.SPOAServiceRef.GetSelfKFListResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetSelfKFList(inValue);
+            return retVal.GetSelfKFListResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryListCountResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetSelfQueryListCount(CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryListCountRequest request) {
+            return base.Channel.GetSelfQueryListCount(request);
         }
         
         public int GetSelfQueryListCount(string SPID, System.Nullable<int> DraftFlag, string CompanyName, System.Nullable<int> Flag, string WWWAdress, string Appid, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType) {
-            return base.Channel.GetSelfQueryListCount(SPID, DraftFlag, CompanyName, Flag, WWWAdress, Appid, ApplyTimeStart, ApplyTimeEnd, BankUserName, KFCheckUser, SuggestUser, MerType);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryListCountRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryListCountRequest();
+            inValue.SPID = SPID;
+            inValue.DraftFlag = DraftFlag;
+            inValue.CompanyName = CompanyName;
+            inValue.Flag = Flag;
+            inValue.WWWAdress = WWWAdress;
+            inValue.Appid = Appid;
+            inValue.ApplyTimeStart = ApplyTimeStart;
+            inValue.ApplyTimeEnd = ApplyTimeEnd;
+            inValue.BankUserName = BankUserName;
+            inValue.KFCheckUser = KFCheckUser;
+            inValue.SuggestUser = SuggestUser;
+            inValue.MerType = MerType;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryListCountResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetSelfQueryListCount(inValue);
+            return retVal.GetSelfQueryListCountResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryListResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetSelfQueryList(CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryListRequest request) {
+            return base.Channel.GetSelfQueryList(request);
         }
         
         public System.Data.DataSet GetSelfQueryList(string SPID, System.Nullable<int> DraftFlag, string CompanyName, System.Nullable<int> Flag, string WWWAdress, string Appid, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, string BankUserName, string KFCheckUser, string SuggestUser, string MerType, int topCount, int notInCount) {
-            return base.Channel.GetSelfQueryList(SPID, DraftFlag, CompanyName, Flag, WWWAdress, Appid, ApplyTimeStart, ApplyTimeEnd, BankUserName, KFCheckUser, SuggestUser, MerType, topCount, notInCount);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryListRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryListRequest();
+            inValue.SPID = SPID;
+            inValue.DraftFlag = DraftFlag;
+            inValue.CompanyName = CompanyName;
+            inValue.Flag = Flag;
+            inValue.WWWAdress = WWWAdress;
+            inValue.Appid = Appid;
+            inValue.ApplyTimeStart = ApplyTimeStart;
+            inValue.ApplyTimeEnd = ApplyTimeEnd;
+            inValue.BankUserName = BankUserName;
+            inValue.KFCheckUser = KFCheckUser;
+            inValue.SuggestUser = SuggestUser;
+            inValue.MerType = MerType;
+            inValue.topCount = topCount;
+            inValue.notInCount = notInCount;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryListResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetSelfQueryList(inValue);
+            return retVal.GetSelfQueryListResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQuerySPTypeResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetSelfQuerySPType(CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQuerySPTypeRequest request) {
+            return base.Channel.GetSelfQuerySPType(request);
         }
         
         public System.Data.DataSet GetSelfQuerySPType() {
-            return base.Channel.GetSelfQuerySPType();
+            CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQuerySPTypeRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQuerySPTypeRequest();
+            CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQuerySPTypeResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetSelfQuerySPType(inValue);
+            return retVal.GetSelfQuerySPTypeResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryInfoResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetSelfQueryInfo(CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryInfoRequest request) {
+            return base.Channel.GetSelfQueryInfo(request);
         }
         
         public System.Data.DataSet GetSelfQueryInfo(string applyCpInfoID) {
-            return base.Channel.GetSelfQueryInfo(applyCpInfoID);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryInfoRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryInfoRequest();
+            inValue.applyCpInfoID = applyCpInfoID;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetSelfQueryInfoResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetSelfQueryInfo(inValue);
+            return retVal.GetSelfQueryInfoResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetSpidDomainQueryListResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetSpidDomainQueryList(CFT.CSOMS.DAL.SPOAServiceRef.GetSpidDomainQueryListRequest request) {
+            return base.Channel.GetSpidDomainQueryList(request);
         }
         
         public System.Data.DataSet GetSpidDomainQueryList(string Spid, string CompanyName, System.Nullable<System.DateTime> ApplyTimeStart, System.Nullable<System.DateTime> ApplyTimeEnd, System.Nullable<int> AmendState, string submitType, int topCount, int notInCount) {
-            return base.Channel.GetSpidDomainQueryList(Spid, CompanyName, ApplyTimeStart, ApplyTimeEnd, AmendState, submitType, topCount, notInCount);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetSpidDomainQueryListRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetSpidDomainQueryListRequest();
+            inValue.Spid = Spid;
+            inValue.CompanyName = CompanyName;
+            inValue.ApplyTimeStart = ApplyTimeStart;
+            inValue.ApplyTimeEnd = ApplyTimeEnd;
+            inValue.AmendState = AmendState;
+            inValue.submitType = submitType;
+            inValue.topCount = topCount;
+            inValue.notInCount = notInCount;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetSpidDomainQueryListResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetSpidDomainQueryList(inValue);
+            return retVal.GetSpidDomainQueryListResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetOneValueAddedTaxResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetOneValueAddedTax(CFT.CSOMS.DAL.SPOAServiceRef.GetOneValueAddedTaxRequest request) {
+            return base.Channel.GetOneValueAddedTax(request);
         }
         
         public System.Data.DataSet GetOneValueAddedTax(string spid) {
-            return base.Channel.GetOneValueAddedTax(spid);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetOneValueAddedTaxRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetOneValueAddedTaxRequest();
+            inValue.spid = spid;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetOneValueAddedTaxResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetOneValueAddedTax(inValue);
+            return retVal.GetOneValueAddedTaxResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetAllValueAddedTaxResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetAllValueAddedTax(CFT.CSOMS.DAL.SPOAServiceRef.GetAllValueAddedTaxRequest request) {
+            return base.Channel.GetAllValueAddedTax(request);
         }
         
         public System.Data.DataSet GetAllValueAddedTax(string Spid, string CompanyName, int topCount, int notInCount) {
-            return base.Channel.GetAllValueAddedTax(Spid, CompanyName, topCount, notInCount);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetAllValueAddedTaxRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetAllValueAddedTaxRequest();
+            inValue.Spid = Spid;
+            inValue.CompanyName = CompanyName;
+            inValue.topCount = topCount;
+            inValue.notInCount = notInCount;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetAllValueAddedTaxResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetAllValueAddedTax(inValue);
+            return retVal.GetAllValueAddedTaxResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetValueAddedTaxDetailResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetValueAddedTaxDetail(CFT.CSOMS.DAL.SPOAServiceRef.GetValueAddedTaxDetailRequest request) {
+            return base.Channel.GetValueAddedTaxDetail(request);
         }
         
         public System.Data.DataSet GetValueAddedTaxDetail(string taskid) {
-            return base.Channel.GetValueAddedTaxDetail(taskid);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetValueAddedTaxDetailRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetValueAddedTaxDetailRequest();
+            inValue.taskid = taskid;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetValueAddedTaxDetailResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetValueAddedTaxDetail(inValue);
+            return retVal.GetValueAddedTaxDetailResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetTradeTypeResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetTradeType(CFT.CSOMS.DAL.SPOAServiceRef.GetTradeTypeRequest request) {
+            return base.Channel.GetTradeType(request);
         }
         
         public string GetTradeType(string spid) {
-            return base.Channel.GetTradeType(spid);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetTradeTypeRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetTradeTypeRequest();
+            inValue.spid = spid;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetTradeTypeResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetTradeType(inValue);
+            return retVal.GetTradeTypeResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetWWWAddressResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetWWWAddress(CFT.CSOMS.DAL.SPOAServiceRef.GetWWWAddressRequest request) {
+            return base.Channel.GetWWWAddress(request);
         }
         
         public string GetWWWAddress(string spid) {
-            return base.Channel.GetWWWAddress(spid);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetWWWAddressRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetWWWAddressRequest();
+            inValue.spid = spid;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetWWWAddressResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetWWWAddress(inValue);
+            return retVal.GetWWWAddressResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetBDNameResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetBDName(CFT.CSOMS.DAL.SPOAServiceRef.GetBDNameRequest request) {
+            return base.Channel.GetBDName(request);
         }
         
         public string GetBDName(string spid) {
-            return base.Channel.GetBDName(spid);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetBDNameRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetBDNameRequest();
+            inValue.spid = spid;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetBDNameResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetBDName(inValue);
+            return retVal.GetBDNameResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetApplyValueAddedTaxResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetApplyValueAddedTax(CFT.CSOMS.DAL.SPOAServiceRef.GetApplyValueAddedTaxRequest request) {
+            return base.Channel.GetApplyValueAddedTax(request);
         }
         
         public System.Data.DataSet GetApplyValueAddedTax(string Spid, string Flags, int topCount, int notInCount) {
-            return base.Channel.GetApplyValueAddedTax(Spid, Flags, topCount, notInCount);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetApplyValueAddedTaxRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetApplyValueAddedTaxRequest();
+            inValue.Spid = Spid;
+            inValue.Flags = Flags;
+            inValue.topCount = topCount;
+            inValue.notInCount = notInCount;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetApplyValueAddedTaxResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetApplyValueAddedTax(inValue);
+            return retVal.GetApplyValueAddedTaxResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.QueryBussFreezeListResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.QueryBussFreezeList(CFT.CSOMS.DAL.SPOAServiceRef.QueryBussFreezeListRequest request) {
+            return base.Channel.QueryBussFreezeList(request);
         }
         
         public System.Data.DataSet QueryBussFreezeList(string spid, string type, string state) {
-            return base.Channel.QueryBussFreezeList(spid, type, state);
+            CFT.CSOMS.DAL.SPOAServiceRef.QueryBussFreezeListRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.QueryBussFreezeListRequest();
+            inValue.spid = spid;
+            inValue.type = type;
+            inValue.state = state;
+            CFT.CSOMS.DAL.SPOAServiceRef.QueryBussFreezeListResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).QueryBussFreezeList(inValue);
+            return retVal.QueryBussFreezeListResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetAllValueAddedTax1Response CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetAllValueAddedTax1(CFT.CSOMS.DAL.SPOAServiceRef.GetAllValueAddedTax1Request request) {
+            return base.Channel.GetAllValueAddedTax1(request);
         }
         
         public string GetAllValueAddedTax1() {
-            return base.Channel.GetAllValueAddedTax1();
+            CFT.CSOMS.DAL.SPOAServiceRef.GetAllValueAddedTax1Request inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetAllValueAddedTax1Request();
+            CFT.CSOMS.DAL.SPOAServiceRef.GetAllValueAddedTax1Response retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetAllValueAddedTax1(inValue);
+            return retVal.GetAllValueAddedTax1Result;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetApplyCpInfoXByIDResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetApplyCpInfoXByID(CFT.CSOMS.DAL.SPOAServiceRef.GetApplyCpInfoXByIDRequest request) {
+            return base.Channel.GetApplyCpInfoXByID(request);
         }
         
         public System.Data.DataSet GetApplyCpInfoXByID(string ApplyCpInfoID) {
-            return base.Channel.GetApplyCpInfoXByID(ApplyCpInfoID);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetApplyCpInfoXByIDRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetApplyCpInfoXByIDRequest();
+            inValue.ApplyCpInfoID = ApplyCpInfoID;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetApplyCpInfoXByIDResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetApplyCpInfoXByID(inValue);
+            return retVal.GetApplyCpInfoXByIDResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetMspAmendTaskByIDResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetMspAmendTaskByID(CFT.CSOMS.DAL.SPOAServiceRef.GetMspAmendTaskByIDRequest request) {
+            return base.Channel.GetMspAmendTaskByID(request);
         }
         
         public System.Data.DataSet GetMspAmendTaskByID(string TaskId) {
-            return base.Channel.GetMspAmendTaskByID(TaskId);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetMspAmendTaskByIDRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetMspAmendTaskByIDRequest();
+            inValue.TaskId = TaskId;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetMspAmendTaskByIDResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetMspAmendTaskByID(inValue);
+            return retVal.GetMspAmendTaskByIDResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.GetSpInfoResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.GetSpInfo(CFT.CSOMS.DAL.SPOAServiceRef.GetSpInfoRequest request) {
+            return base.Channel.GetSpInfo(request);
         }
         
         public System.Data.DataSet GetSpInfo(string SPID, string ApplyCpInfoID, string CompanyName, string WWWAdress, string WebName, string AppID, int topCount, int notInCount) {
-            return base.Channel.GetSpInfo(SPID, ApplyCpInfoID, CompanyName, WWWAdress, WebName, AppID, topCount, notInCount);
+            CFT.CSOMS.DAL.SPOAServiceRef.GetSpInfoRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.GetSpInfoRequest();
+            inValue.SPID = SPID;
+            inValue.ApplyCpInfoID = ApplyCpInfoID;
+            inValue.CompanyName = CompanyName;
+            inValue.WWWAdress = WWWAdress;
+            inValue.WebName = WebName;
+            inValue.AppID = AppID;
+            inValue.topCount = topCount;
+            inValue.notInCount = notInCount;
+            CFT.CSOMS.DAL.SPOAServiceRef.GetSpInfoResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).GetSpInfo(inValue);
+            return retVal.GetSpInfoResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CFT.CSOMS.DAL.SPOAServiceRef.QueryAmendMspInfoResponse CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService.QueryAmendMspInfo(CFT.CSOMS.DAL.SPOAServiceRef.QueryAmendMspInfoRequest request) {
+            return base.Channel.QueryAmendMspInfo(request);
         }
         
         public System.Data.DataSet QueryAmendMspInfo(string spid, string type, string caccounts) {
-            return base.Channel.QueryAmendMspInfo(spid, type, caccounts);
+            CFT.CSOMS.DAL.SPOAServiceRef.QueryAmendMspInfoRequest inValue = new CFT.CSOMS.DAL.SPOAServiceRef.QueryAmendMspInfoRequest();
+            inValue.spid = spid;
+            inValue.type = type;
+            inValue.caccounts = caccounts;
+            CFT.CSOMS.DAL.SPOAServiceRef.QueryAmendMspInfoResponse retVal = ((CFT.CSOMS.DAL.SPOAServiceRef.IGeneralSPOAService)(this)).QueryAmendMspInfo(inValue);
+            return retVal.QueryAmendMspInfoResult;
         }
     }
 }

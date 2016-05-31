@@ -116,6 +116,7 @@
     <Compile Include="Infrastructure\MySQLAccessFactory.cs" />
     <Compile Include="Infrastructure\QueryBaseForDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RealNameModule\RealNameCertificateData.cs" />
     <Compile Include="RefundModule\AbnormalRefundData.cs" />
     <Compile Include="RefundModule\BankEmailData.cs" />
     <Compile Include="RefundModule\RefundRegisterData.cs" />

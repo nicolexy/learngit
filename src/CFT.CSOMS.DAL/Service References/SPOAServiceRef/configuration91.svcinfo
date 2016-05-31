@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="/2kicVsSRn5tapNVDhjuT21PJnM=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="6Qb3ACA/pVKdTN46faLltZf8CEw=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="wsHttpBinding" name="WSHttpBinding_IGeneralSPOAService">
       <properties>
@@ -127,10 +127,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="WSHttpBinding_IGeneralSPOAService" contract="SPOAServiceRef.IGeneralSPOAService" bindingType="wsHttpBinding" address="http://10.12.189.114/spoawcf/GeneralSPOAService.svc" bindingConfiguration="WSHttpBinding_IGeneralSPOAService">
+    <endpoint name="WSHttpBinding_IGeneralSPOAService" contract="SPOAServiceRef.IGeneralSPOAService" bindingType="wsHttpBinding" address="http://10.137.3.157/SpoaWCF/GeneralSPOAService.svc" bindingConfiguration="WSHttpBinding_IGeneralSPOAService">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://10.12.189.114/spoawcf/GeneralSPOAService.svc</serializedValue>
+          <serializedValue>http://10.137.3.157/SpoaWCF/GeneralSPOAService.svc</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

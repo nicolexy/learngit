@@ -3435,6 +3435,63 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
 
         /// <summary>
+        /// 把字符串解析成DataTable - result=0&=ok&row_1=paramOne_0=&paramTwo_0=&paramOne_1=&paramTwo_1=...&paramOne_n=&paramTwo_n=
+        /// &row_2=paramOne_0=&paramTwo_0=&paramOne_1=&paramTwo_1=...&paramOne_n=&paramTwo_n=
+        /// </summary>
+        /// <param name="str">要解析的字符串</param>
+        /// <param name="rowCountField">行数 字段名</param>
+        /// <param name="rowsField">值所在字段</param>
+        /// <returns></returns>
+        public static DataTable ParseRelayStringToDataTableNew(string str, string rowCountField, string rowsField)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                throw new ArgumentNullException("返回值: str ");
+            }
+            var dic = str.ToDictionary();
+            if (dic["result"] != "0")
+            {
+                throw new Exception("请求失败[" + str + "]");
+            }
+
+            DataTable dt = null;
+            var rowsCount = int.Parse(dic[rowCountField]);
+
+            if (rowsCount > 0)
+            {
+                dt = new DataTable();
+                if (dic.Keys.Contains(rowsField + "_1"))
+                {
+
+                    var rowsStr = dic[rowsField + "_1"].Replace("%25", "%").Replace("%26", "&").Replace("%3D", "=").Replace("%3d", "=");
+                    var rowdic = rowsStr.ToDictionary();
+                    foreach (var item in rowdic)
+                    {
+                        dt.Columns.Add(item.Key);
+                    }
+                    for (int i = 0; i < rowsCount; i++)
+                    {
+                        var temprowsStr = dic[rowsField + "_" + (i + 1)].Replace("%25", "%").Replace("%26", "&").Replace("%3D", "=").Replace("%3d", "=");
+                        var temprowdic = temprowsStr.ToDictionary();
+                        var row = dt.NewRow();
+                        foreach (DataColumn item in dt.Columns)
+                        {
+                            row[item] = temprowdic[item.ColumnName];
+                        }
+                        dt.Rows.Add(row);
+                    }
+                }
+            }
+            else
+            {
+                return null;
+            }
+
+            return dt;
+        }
+
+
+        /// <summary>
         /// 解析result=0&res_info=ok&partner=1234567890&out_trade_no=45678901&transaction_id=12343531231231&count=1&mch_customs_no_0=4401962010&customs_0=1&state_0=1&modify_time_0=20151208132419&business_type_0=1&explanation_0=
         /// </summary>
         /// <param name="answer"></param>
