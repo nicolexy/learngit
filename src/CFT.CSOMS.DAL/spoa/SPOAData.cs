@@ -274,16 +274,22 @@ namespace CFT.CSOMS.DAL.SPOA
         {
             SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
 
-            return cli.ReSendEmail_ToSP(out resultstr,spid, applyUser);
+            return cli.ReSendEmail_ToSP(spid, applyUser,out resultstr);
         }
 
         public bool ReSendCertificate(out string resultstr, string spid, string applyUser)
         {
             SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
 
-            return cli.ReSendCertificate(out resultstr, spid, applyUser);
+            return cli.ReSendCertificate(spid, applyUser,out resultstr);
         }
 
+        public string SendSPMerkey(string spid)
+        {
+            SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
+
+            return cli.SendSPMerkey(spid);
+        }
 
         public DataSet QueryExpiredCertificate(string begindate, string enddate, string spid, int topCount, int notInCount)
         {

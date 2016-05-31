@@ -9,10 +9,10 @@
   </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
-      <xsd:import namespace="http://tempuri.org/" />
-      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import />
-      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="" />
+      <xsd:import schemaLocation="" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IGeneralSPOAService_GetCheckInfo_InputMessage">
@@ -176,6 +176,12 @@
   </wsdl:message>
   <wsdl:message name="IGeneralSPOAService_BusinessLogoutApply_OutputMessage">
     <wsdl:part name="parameters" element="tns:BusinessLogoutApplyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_SendSPMerkey_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendSPMerkey" />
+  </wsdl:message>
+  <wsdl:message name="IGeneralSPOAService_SendSPMerkey_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendSPMerkeyResponse" />
   </wsdl:message>
   <wsdl:message name="IGeneralSPOAService_GetAgencyBusinessList_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAgencyBusinessList" />
@@ -453,6 +459,10 @@
     <wsdl:operation name="BusinessLogoutApply">
       <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/BusinessLogoutApply" message="tns:IGeneralSPOAService_BusinessLogoutApply_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/BusinessLogoutApplyResponse" message="tns:IGeneralSPOAService_BusinessLogoutApply_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendSPMerkey">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/SendSPMerkey" message="tns:IGeneralSPOAService_SendSPMerkey_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGeneralSPOAService/SendSPMerkeyResponse" message="tns:IGeneralSPOAService_SendSPMerkey_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetAgencyBusinessList">
       <wsdl:input wsaw:Action="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessList" message="tns:IGeneralSPOAService_GetAgencyBusinessList_InputMessage" />
@@ -813,6 +823,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="SendSPMerkey">
+      <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/SendSPMerkey" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetAgencyBusinessList">
       <soap12:operation soapAction="http://tempuri.org/IGeneralSPOAService/GetAgencyBusinessList" style="document" />
       <wsdl:input>
@@ -1068,9 +1087,9 @@
   </wsdl:binding>
   <wsdl:service name="GeneralSPOAService">
     <wsdl:port name="WSHttpBinding_IGeneralSPOAService" binding="tns:WSHttpBinding_IGeneralSPOAService">
-      <soap12:address location="http://10.12.189.114/spoawcf/GeneralSPOAService.svc" />
+      <soap12:address location="http://10.137.3.157/SpoaWCF/GeneralSPOAService.svc" />
       <wsa10:EndpointReference>
-        <wsa10:Address>http://10.12.189.114/spoawcf/GeneralSPOAService.svc</wsa10:Address>
+        <wsa10:Address>http://10.137.3.157/SpoaWCF/GeneralSPOAService.svc</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
           <Dns>localhost</Dns>
         </Identity>
