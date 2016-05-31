@@ -627,6 +627,22 @@ namespace CFT.CSOMS.BLL.SPOA
                 throw new Exception(" 重发证书异常：resultstr:" + resultstr + "  " + e.Message);
             }
         }
+        /// <summary>
+        /// 重发秘钥
+        /// </summary>
+        /// <param name="spid"></param>
+        /// <returns></returns>
+        public string SendSPMerkey(string spid)
+        {
+            try
+            {
+                return new SPOAData().SendSPMerkey(spid);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("重发证书异常：" + e.ToString());
+            }
+        }
 
         /// <summary>
         /// 商户证书到期查询

@@ -18,14 +18,14 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://10.12.189.114/spoawcf/GeneralSPOAService.svc/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="http://10.137.3.157/spoawcf/GeneralSPOAService.svc/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service2.wsdl" MetadataType="Wsdl" ID="44552b17-d94a-4b30-8500-f2fb418a996a" SourceId="1" SourceUrl="http://10.12.189.114/spoawcf/GeneralSPOAService.svc/mex" />
-    <MetadataFile FileName="service5.xsd" MetadataType="Schema" ID="731fbe08-a858-46ce-8ef1-d5a4d8ffa5e0" SourceId="1" SourceUrl="http://10.12.189.114/spoawcf/GeneralSPOAService.svc/mex" />
-    <MetadataFile FileName="service7.xsd" MetadataType="Schema" ID="8f56140b-d823-446b-8bab-1709c480b1e7" SourceId="1" SourceUrl="http://10.12.189.114/spoawcf/GeneralSPOAService.svc/mex" />
-    <MetadataFile FileName="service6.xsd" MetadataType="Schema" ID="27d02e69-3f5f-4379-8bda-eac076636fba" SourceId="1" SourceUrl="http://10.12.189.114/spoawcf/GeneralSPOAService.svc/mex" />
-    <MetadataFile FileName="Arrays1.xsd" MetadataType="Schema" ID="2e0e8a10-d07d-46c9-993f-249aa23d2246" SourceId="1" SourceUrl="http://10.12.189.114/spoawcf/GeneralSPOAService.svc/mex" />
+    <MetadataFile FileName="service2.wsdl" MetadataType="Wsdl" ID="96732c55-00fb-46f6-9378-018d4257c645" SourceId="1" SourceUrl="http://10.137.3.157/spoawcf/GeneralSPOAService.svc/mex" />
+    <MetadataFile FileName="service5.xsd" MetadataType="Schema" ID="6ad0f47d-30f7-4636-8995-588b5fd5eedf" SourceId="1" SourceUrl="http://10.137.3.157/spoawcf/GeneralSPOAService.svc/mex" />
+    <MetadataFile FileName="service6.xsd" MetadataType="Schema" ID="5034a5d1-c7d9-4311-a104-1197707100d3" SourceId="1" SourceUrl="http://10.137.3.157/spoawcf/GeneralSPOAService.svc/mex" />
+    <MetadataFile FileName="service7.xsd" MetadataType="Schema" ID="587ab88e-c984-4e89-ba87-9679fbefe281" SourceId="1" SourceUrl="http://10.137.3.157/spoawcf/GeneralSPOAService.svc/mex" />
+    <MetadataFile FileName="Arrays1.xsd" MetadataType="Schema" ID="1f69c7dc-ea6e-4159-a2d5-8381622ac259" SourceId="1" SourceUrl="http://10.137.3.157/spoawcf/GeneralSPOAService.svc/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

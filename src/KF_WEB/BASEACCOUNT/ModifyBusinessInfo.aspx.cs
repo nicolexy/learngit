@@ -531,9 +531,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             try
             {
                 //yinhuang 2013/8/7
-                string str_params = "p_parm1=" + Fspid + "&p_parm2=" + Key + "&p_parm3=" + DateTime.Now.ToString("yyyy年MM月dd日 HH:时mm分ss秒");
-                TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsg(Email, "2040", str_params);
-
+                //string str_params = "p_parm1=" + Fspid + "&p_parm2=" + Key + "&p_parm3=" + DateTime.Now.ToString("yyyy年MM月dd日 HH:时mm分ss秒");
+                //TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsg(Email, "2040", str_params);
+                string msg = new SPOAService().SendSPMerkey(Fspid);
+                if (msg != "0") 
+                {
+                    throw new Exception("重发秘钥失败：" + msg);
+                }
                 return true;
             }
             catch (Exception err)
