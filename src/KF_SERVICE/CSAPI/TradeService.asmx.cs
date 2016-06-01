@@ -862,7 +862,7 @@ namespace CSAPI
                 //验证必填参数
                 APIUtil.ValidateParamsNew(paramsHt, "appid", "spid", "state", "stime", "etime", "offset", "limit", "token");
                 //验证token
-                //APIUtil.ValidateToken(paramsHt);
+                APIUtil.ValidateToken(paramsHt);
 
                 string spid = paramsHt.ContainsKey("spid") ? paramsHt["spid"].ToString() : "";
                 int state = APIUtil.StringToInt(paramsHt["state"].ToString());
