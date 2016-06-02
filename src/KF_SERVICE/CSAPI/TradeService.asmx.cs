@@ -891,7 +891,7 @@ namespace CSAPI
                     limit = 50;
                 }
                 if (state != 1 || state != 2 || state != 7 || state != 99) { state = 1; }
-                string filter = "Ftrade_state='" + state + "'";
+                string filter = state.ToString() ;
                 string order = "Flistid,FBuyid";
                 DataSet infos = new CFT.CSOMS.BLL.TradeModule.TradeService().MediListQueryClass(spid, fcoding, str_stime, str_etime, filter, order, offset, limit);
                 if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
