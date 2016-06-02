@@ -582,16 +582,16 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
             public string Fstate { get; set; }
             //买家帐号
             [XmlElement("buyid")]
-            public string FBuyid { get; set; }
+            public string Fbuyid { get; set; }
             //买家姓名
             [XmlElement("buy_name")]
-            public string FBuy_name { get; set; }
+            public string Fbuy_name { get; set; }
             //交易金额
             [XmlElement("paynum")]
             public string Fpaynum { get; set; }
             //交易说明
             [XmlElement("memo")]
-            public string fmemo { get; set; }
+            public string Fmemo { get; set; }
         }
         #endregion
     }
