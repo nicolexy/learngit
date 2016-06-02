@@ -71,6 +71,7 @@
                  <asp:BoundColumn DataField="Ftype" HeaderText="申购状态"></asp:BoundColumn>
                  <asp:BoundColumn DataField="Fplan_id" HeaderText="计划账户"></asp:BoundColumn>
                  <asp:BoundColumn DataField="Fspid" HeaderText="资金商户号"></asp:BoundColumn>
+                 <asp:BoundColumn DataField="FundName" HeaderText="基金名称"></asp:BoundColumn>
                  <asp:BoundColumn DataField="Ffund_code" HeaderText="基金编码"></asp:BoundColumn>
                  <asp:BoundColumn DataField="Ftotal_fee" HeaderText="金额"></asp:BoundColumn>
                  <asp:BoundColumn DataField="Facc_time" HeaderText="对账时间"></asp:BoundColumn>
@@ -88,6 +89,7 @@
               <Columns>
                  <asp:BoundColumn DataField="Fplan_id" HeaderText="计划账户"></asp:BoundColumn>
                    <asp:BoundColumn DataField="Fspid" HeaderText="资金商户号"></asp:BoundColumn>
+                   <asp:BoundColumn DataField="FundName" HeaderText="基金名称"></asp:BoundColumn>
                    <asp:BoundColumn DataField="Ffund_code" HeaderText="基金编码"></asp:BoundColumn>
                    <asp:BoundColumn DataField="Ftotal_buy_fee" HeaderText="总申购金额"></asp:BoundColumn>
                    <asp:BoundColumn DataField="Ftotal_profit" HeaderText="累计总收益"></asp:BoundColumn>
