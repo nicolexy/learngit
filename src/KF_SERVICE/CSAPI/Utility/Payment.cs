@@ -576,7 +576,7 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
             public string Fcoding { get; set; }
             //交易日期
             [XmlElement("modify_time")]
-            public string fmodify_time { get; set; }
+            public string Fmodify_time { get; set; }
             //交易状态
             [XmlElement("state")]
             public string Fstate { get; set; }
