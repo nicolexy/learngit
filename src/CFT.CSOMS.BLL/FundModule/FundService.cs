@@ -1530,8 +1530,10 @@ namespace CFT.CSOMS.BLL.FundModule
 
             if (dt != null && dt.Rows.Count > 0)
             {
+                dt.Columns.Add("FundName", typeof(string));
                 foreach (DataRow dr in dt.Rows)
                 {
+                    dr["FundName"] = GetFundName(dr["Fspid"].ToString());
                     dr["Ftotal_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_fee"].ToString());
 
                     string Ftype = dr["Ftype"].ToString();
@@ -1557,11 +1559,13 @@ namespace CFT.CSOMS.BLL.FundModule
             {
                 dt.Columns.Add("Ftotal_control_unit", typeof(string));
                 dt.Columns.Add("Fbusiness_type", typeof(string));
-
+                dt.Columns.Add("FundName", typeof(string));
                 foreach (DataRow dr in dt.Rows)
                 {
+                    dr["FundName"] = GetFundName(dr["Fspid"].ToString());
                     string fund_code = dr["Ffund_code"].ToString();
                     string spid = dr["Fspid"].ToString();
+
 #if DEBUG
                     trade_id = "1111000";
                     spid = "1111";
