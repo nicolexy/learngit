@@ -28,14 +28,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             try
             {
                 pager1.Visible = true;
-                DataBind();
+                Bind();
             }
             catch (Exception ex)
             {
                 WebUtils.ShowMessage(this.Page, "读取数据失败！" + HttpUtility.JavaScriptStringEncode(ex.Message));
             }
         }
-        protected void DataBind() 
+        protected void Bind() 
         {
             string WeChatId = txt_WeChatId.Text.Trim();
             string s_phone_no = txt_s_phone_no.Text.Trim();
@@ -62,7 +62,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             pager1.CurrentPageIndex = e.NewPageIndex;
             try
             {
-                DataBind();
+                Bind();
             }
             catch (Exception ex)
             {

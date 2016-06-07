@@ -367,7 +367,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 HKWalletPay.AddSubMenu("订单查询", "ForeignCurrencyPay/FCXGOrderQuery.aspx");
                 HKWalletPay.AddSubMenu("冻结解冻查询", "BaseAccount/FCXGFreezeLog.aspx");
                 HKWalletPay.AddSubMenu("商户查询", "ForeignCurrencyPay/FCXGSPQuery.aspx");
-
+                HKWalletPay.AddSubMenu("实名信息查询", "ForeignCurrencyPay/RealNameInformationQuery.aspx");
+                HKWalletPay.AddSubMenu("实名处理查询", "ForeignCurrencyPay/RealNameCheck.aspx");
                 //活动合作
                 //ActivityCooperation1.AddSubMenu("打折密码", "NewQueryInfoPages/QueryDiscountCode.aspx");
                 //ActivityCooperation1.AddSubMenu("用户参加的活动", "NewQueryInfoPages/QueryUserJoinActivity.aspx");

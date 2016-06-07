@@ -1348,6 +1348,20 @@
     <Compile Include="ForeignCurrencyPay\FCXGHKWalletDetail.aspx.designer.cs">
       <DependentUpon>FCXGHKWalletDetail.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ForeignCurrencyPay\RealNameCheck.aspx.cs">
+      <DependentUpon>RealNameCheck.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\RealNameCheck.aspx.designer.cs">
+      <DependentUpon>RealNameCheck.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\RealNameInformationQuery.aspx.cs">
+      <DependentUpon>RealNameInformationQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForeignCurrencyPay\RealNameInformationQuery.aspx.designer.cs">
+      <DependentUpon>RealNameInformationQuery.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FreezeManage\FastReplyManagePage.aspx.cs">
       <DependentUpon>FastReplyManagePage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3235,6 +3249,8 @@
     <Content Include="ForeignCurrencyPay\FCXGHKWalletDetail.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="ForeignCurrencyPay\RealNameInformationQuery.aspx" />
+    <Content Include="ForeignCurrencyPay\RealNameCheck.aspx" />
     <Content Include="FreezeManage\FastReplyManagePage.aspx">
       <SubType>Form</SubType>
     </Content>
