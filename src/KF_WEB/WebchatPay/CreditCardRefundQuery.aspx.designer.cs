@@ -254,5 +254,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lb_Fstandby2;
+        
+        /// <summary>
+        /// lbl_uin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_uin;
+        
+        /// <summary>
+        /// lbl_channel_id control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_channel_id;
     }
 }

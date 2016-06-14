@@ -36,19 +36,63 @@ namespace CFT.CSOMS.BLL.WechatPay
                 {
                     dt.Columns[dc.ColumnName].ColumnName = "F" + dc.ColumnName;
                 }
+                dt.Columns.Add("Fstate_str", typeof(string));
+                dt.Columns.Add("Frefund_state_str", typeof(string));
+                dt.Columns.Add("Fticket_str", typeof(string));
+                dt.Columns.Add("Fchannel_id_str", typeof(string));
 
-                //if (!dt.Columns.Contains("Fbank_name"))
-                //{
-                //    dt.Columns.Add("Fbank_name", typeof(string));
-                //}
-                //if (!dt.Columns.Contains("Ffetch_front_time"))
-                //{
-                //    dt.Columns.Add("Ffetch_front_time", typeof(string));
-                //}
-                //if (!dt.Columns.Contains("Fuid"))
-                //{
-                //    dt.Columns.Add("Fuid", typeof(string));
-                //}
+
+                dt.Columns.Add("wx_trans_id", typeof(string));
+                dt.Columns.Add("trade_no", typeof(string));
+                              
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string state = dr["Fstate"].ToString();
+                    dr["Fstate_str"] = state == "1" ? "等待支付" :
+                                        state == "2" ? "支付完成" :
+                                        state == "3" ? "B2C转账完成" :
+                                        state == "4" ? "提现发起" :
+                                        state == "5" ? "提现成功" :
+                                        state == "6" ? "提现失败" :
+                                        state == "7" ? "退票" :
+                                        state == "8" ? "退款" : "未知:" + state;
+
+                    dr["Frefund_state_str"] = state == "5" ? "成功" :
+                                       (state == "2" || state == "3" || state == "4") ? "还款中" :
+                                       "失败    失败原因：" + dr["Ffetch_memo"].ToString();
+                    dr["Fticket_str"] = state == "7" ? "是" : "否";
+
+                    string channel_id=dr["Fchannel_id"].ToString();
+                    dr["Fchannel_id_str"] = channel_id == "0" ? "微信还款" :
+                                        channel_id == "1" ? "彩贝_中信" :
+                                        channel_id == "2" ? "彩贝_上海银行" :
+                                        channel_id == "3" ? "彩贝_建行" :
+                                        channel_id == "4" ? "邮箱" :
+                                        channel_id == "5" ? "主站" :
+                                        channel_id == "6" ? "51信用卡" :
+                                        channel_id == "7" ? "卡牛信用卡管家" :
+                                        channel_id == "8" ? "挖财" :
+                                        channel_id == "9" ? "理财还款" :
+                                        channel_id == "10" ? "余额理财还款" :
+                                        channel_id == "11" ? "手机管家" : "未知:" + channel_id;
+                    try
+                    {
+                        string fetch_no = dr["Fwx_fetch_no"].ToString();
+                        string Fsp_id = fetch_no.Substring(0, 10);
+
+                        var wxOrderdt = new WechatPayService().QueryTradeOrder(2, null, Fsp_id, fetch_no);
+                        if (wxOrderdt != null && wxOrderdt.Rows.Count > 0)
+                        {
+                            dr["wx_trans_id"] = wxOrderdt.Rows[0]["wx_trans_id"];
+                            dr["trade_no"] = wxOrderdt.Rows[0]["trade_no"];
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        dr["wx_trans_id"] = ex.Message; 
+                    }
+                }
+                 
             }
             return dt;
         }
