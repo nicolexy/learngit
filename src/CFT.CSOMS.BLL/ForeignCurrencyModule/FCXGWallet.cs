@@ -549,6 +549,97 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
 
         #endregion
 
+        #region 七、实名信息
+        public DataTable QueryRealNameInfo(string uin, string client_ip)
+        {
+            DataTable dt = dal.QueryRealNameInfo(uin, client_ip);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                dt.Columns.Add("name", typeof(string));
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["name"] = dr["first_name"].ToString() + dr["last_name"].ToString();
+
+                    string type = dr["type"].ToString();
+                    dr["type"] = type == "1" ? "客服验证" :
+                        type == "2" ? "机器验证" :
+                        type == "3" ? "银行验证" :
+                        "未知：" + type;
+
+                    string state = dr["state"].ToString();
+                    dr["state"] = state == "1" ? "待审核" :
+                        state == "2" ? "审核通过" :
+                        state == "3" ? "客服审核不通过" :
+                         state == "4" ? "机器审核不通过" :
+                        "未知：" + state;
+
+                    string cre_type = dr["cre_type"].ToString();
+                    dr["cre_type"] = cre_type == "1" ? "中国身份证" :
+                                    cre_type == "2" ? "护照" :
+                                    cre_type == "3" ? "军官证" :
+                                    cre_type == "4" ? "士兵证" :
+                                    cre_type == "5" ? "回乡证" :
+                                    cre_type == "6" ? "中国临时身份证" :
+                                    cre_type == "7" ? "户口簿" :
+                                    cre_type == "8" ? "警官证" :
+                                    cre_type == "9" ? "台胞证" :
+                                    cre_type == "10" ? "营业执照" :
+                                    cre_type == "11" ? "其它证件" :
+                                    cre_type == "21" ? "香港永久身份证" :
+                        "未知：" + cre_type;
+                }
+            }
+            return dt;
+        }
+
+        public DataTable QueryRealNameInfo2(string uin, string _type, string _state, DateTime? start_time, DateTime? end_time, string client_ip, int offset, int limit)
+        {
+            DataTable dt = dal.QueryRealNameInfo2(uin, _type, _state, start_time, end_time, client_ip, offset, limit);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                dt.Columns.Add("name", typeof(string));
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Operator"] = System.Web.HttpUtility.UrlDecode(dr["Operator"].ToString());
+                    dr["name"] = dr["first_name"].ToString() + dr["last_name"].ToString();
+
+                    string type = dr["type"].ToString();
+                    dr["type"] = type == "1" ? "客服验证" :
+                        type == "2" ? "机器验证" :
+                        type == "3" ? "银行验证" :
+                        "未知：" + type;
+
+                    string state = dr["state"].ToString();
+                    dr["state"] = state == "1" ? "待审核" :
+                        state == "2" ? "审核通过" :
+                        state == "3" ? "客服审核不通过" :
+                         state == "4" ? "机器审核不通过" :
+                        "未知：" + state;
+
+                    string cre_type = dr["cre_type"].ToString();
+                    dr["cre_type"] = cre_type == "1" ? "中国身份证" :
+                                    cre_type == "2" ? "护照" :
+                                    cre_type == "3" ? "军官证" :
+                                    cre_type == "4" ? "士兵证" :
+                                    cre_type == "5" ? "回乡证" :
+                                    cre_type == "6" ? "中国临时身份证" :
+                                    cre_type == "7" ? "户口簿" :
+                                    cre_type == "8" ? "警官证" :
+                                    cre_type == "9" ? "台胞证" :
+                                    cre_type == "10" ? "营业执照" :
+                                    cre_type == "11" ? "其它证件" :
+                                    cre_type == "21" ? "香港永久身份证" :
+                        "未知：" + cre_type;
+                }
+            }
+            return dt;
+        }
+        public string checkRealName(string Operator, string uin, string approval_id, string state, string memo, string client_ip)
+        {
+            return dal.checkRealName(Operator, uin, approval_id, state, memo, client_ip);
+        }
+        #endregion
+
         #region 日记
         /// <summary>
         /// 日记查询 - 重置
