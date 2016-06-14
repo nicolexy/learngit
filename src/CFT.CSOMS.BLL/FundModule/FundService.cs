@@ -292,7 +292,13 @@ namespace CFT.CSOMS.BLL.FundModule
                 }
 
                 //balance
-                subAccountInfoTable = new LCTBalanceService().QuerySubAccountInfo(uin, int.Parse(item["Fcurtype"].ToString()));
+                int Fcurtype = 0;
+                if (!int.TryParse(item["Fcurtype"].ToString().Trim(), out Fcurtype)) 
+                {
+                    throw new Exception("查询基金币种类型失败：Fspid=" + item["Fspid"].ToString());
+                }
+
+                subAccountInfoTable = new LCTBalanceService().QuerySubAccountInfo(uin, Fcurtype);
                 if (subAccountInfoTable == null || subAccountInfoTable.Rows.Count < 1)
                 {
                     item["balance"] = "0";
@@ -309,7 +315,7 @@ namespace CFT.CSOMS.BLL.FundModule
                 //    item["fundName"] = GetAllFundInfo().Where(i => i.CurrencyType == int.Parse(item["Fcurtype"].ToString())).First().Name;
                 try
                 {
-                    var ProfitTable = new FundProfit().QueryProfitStatistic(tradeId, int.Parse(item["Fcurtype"].ToString()));//查累计收益
+                    var ProfitTable = new FundProfit().QueryProfitStatistic(tradeId, Fcurtype);//查累计收益
 
                     if (ProfitTable != null && ProfitTable.Rows.Count > 0)
                     {
@@ -335,7 +341,7 @@ namespace CFT.CSOMS.BLL.FundModule
                 {
                     throw new Exception("查询市值异常：" + ex.Message);
                 }
-             
+
 
                 #region 字段转义
                 //基金类型转义
@@ -390,24 +396,40 @@ namespace CFT.CSOMS.BLL.FundModule
                 #endregion
 
                 #region  统计收益总和，和余额总和
-                try
-                {
-                    _totalBalance += long.Parse(item["balance"].ToString());
-                    _totalProfit += long.Parse(item["Ftotal_profit"].ToString());
-                    if (IsSmallChange(item["Fspid"].ToString()))
-                    {
-                        _totalChangeMarkValue += decimal.Parse(item["markValue"].ToString());
-                       
-                    }
-                    else
-                    {
-                        _totalLCTMarkValue += decimal.Parse(item["markValue"].ToString());
-                    }
-                }
-                catch
-                {
 
+                //_totalBalance += long.Parse(item["balance"].ToString());
+                //_totalProfit += long.Parse(item["Ftotal_profit"].ToString());
+                //if (IsSmallChange(item["Fspid"].ToString()))
+                //{
+                //    _totalChangeMarkValue += decimal.Parse(item["markValue"].ToString());
+
+                //}
+                //else
+                //{
+                //    _totalLCTMarkValue += decimal.Parse(item["markValue"].ToString());
+                //}
+
+                long temp_totalBalance = 0;
+                long temp_totalProfit = 0;
+                decimal temp_totalChangeMarkValue = 0;
+                decimal temp_totalLCTMarkValue = 0;
+
+                long.TryParse(item["balance"].ToString().Trim(), out temp_totalBalance);
+                long.TryParse(item["Ftotal_profit"].ToString().Trim(), out temp_totalProfit);
+
+                if (IsSmallChange(item["Fspid"].ToString()))
+                {
+                    decimal.TryParse(item["markValue"].ToString().Trim(), out temp_totalChangeMarkValue);
                 }
+                else
+                {
+                    decimal.TryParse(item["markValue"].ToString().Trim(), out temp_totalLCTMarkValue);
+                }
+
+                _totalBalance += temp_totalBalance;
+                _totalProfit += temp_totalProfit;
+                _totalChangeMarkValue += temp_totalChangeMarkValue;
+                _totalLCTMarkValue += temp_totalLCTMarkValue;
                 #endregion
             }
 

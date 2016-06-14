@@ -654,10 +654,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 {
                     return "";
                 }
-                if (dt.Columns.Contains(col_name))
-                {
-                    return dt.Rows[row_id][col_name].ToString();
-                }
+                return dt.Rows[row_id][col_name].ToString();
             }
             catch (Exception ex)
             {

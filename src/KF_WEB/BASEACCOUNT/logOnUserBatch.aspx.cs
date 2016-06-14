@@ -99,10 +99,11 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 File1.PostedFile.SaveAs(cancelPath);
             }
             int failNum = 0;
-            DataSet res_ds = PublicRes.readXls(cancelPath, "F1,F2,F3");
+            DataSet res_ds = PublicRes.readXls(cancelPath, "F1,F2");
             System.Data.DataTable res_dt = res_ds.Tables[0];
             if (res_dt != null && res_dt.Rows.Count > 0)
             {
+                res_dt.Columns.Add("F3",typeof(string));
                 string account = string.Empty, reason=string.Empty;
                 for (int i = 0; i < res_dt.Rows.Count; i++)
                 {
