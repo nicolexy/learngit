@@ -620,6 +620,20 @@
     <Compile Include="BaseAccount\RareNameQuery.aspx.designer.cs">
       <DependentUpon>RareNameQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\RealNameAuthWhiteEdit.aspx.cs">
+      <DependentUpon>RealNameAuthWhiteEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\RealNameAuthWhiteEdit.aspx.designer.cs">
+      <DependentUpon>RealNameAuthWhiteEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BaseAccount\RealNameCertifationQuery.aspx.cs">
+      <DependentUpon>RealNameCertifationQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\RealNameCertifationQuery.aspx.designer.cs">
+      <DependentUpon>RealNameCertifationQuery.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\RecoverQQ.aspx.cs">
       <DependentUpon>RecoverQQ.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2995,6 +3009,7 @@
     <Content Include="BaseAccount\FreezeFinQuery2.aspx" />
     <Content Include="BaseAccount\GatherLog.aspx" />
     <Content Include="BaseAccount\InfoCenterDelRecord.aspx" />
+    <Content Include="BaseAccount\js\RealNameCertifation.js" />
     <Content Include="BaseAccount\logOnUserBatch.aspx" />
     <Content Include="BaseAccount\logOnUserNew.aspx" />
     <Content Include="BaseAccount\ModifyContactInfo.aspx">
@@ -3064,6 +3079,8 @@
       <SubType>Form</SubType>
     </Content>
     <Content Include="BaseAccount\RareNameQuery.aspx" />
+    <Content Include="BaseAccount\RealNameAuthWhiteEdit.aspx" />
+    <Content Include="BaseAccount\RealNameCertifationQuery.aspx" />
     <Content Include="BaseAccount\RecoverQQ.aspx" />
     <Content Include="BaseAccount\refund.aspx" />
     <Content Include="BaseAccount\RefundNew.aspx" />
@@ -3442,7 +3459,10 @@
     <Content Include="RemitCheck\RemitQuery.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="SCRIPTS\IdentityIDValidate.js" />
     <Content Include="SCRIPTS\jquery-1.11.3.min.js" />
+    <Content Include="SCRIPTS\laypage\laypage.js" />
+    <Content Include="SCRIPTS\laypage\skin\laypage.css" />
     <Content Include="SCRIPTS\Local.js" />
     <Content Include="config\DB.config">
       <SubType>Designer</SubType>

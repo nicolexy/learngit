@@ -86,7 +86,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                     int offset = (pager1.CurrentPageIndex - 1) * limit;
                     DataTable dt = new WechatPayService().Query_QuotationTransaction(trade_id, Fdue_date, offset, limit);
                     DataRow dr = dt.Select(" Fid='" + fid + "'")[0];
-
+                    
                     foreach (var control in this.panDetail.Controls)
                     {
                         if (control is Label)
