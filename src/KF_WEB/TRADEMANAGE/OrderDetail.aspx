@@ -465,7 +465,7 @@
 							<PagerStyle HorizontalAlign="Left" ForeColor="#000066" BackColor="White" Mode="NumericPages"></PagerStyle>
 						</asp:datagrid></TD>
 				</TR>
-				<TR>
+				<%--<TR>
 					<TD><asp:label id="Label43" runat="server" ForeColor="Blue">物流信息</asp:label></TD>
 				</TR>
 				<TR>
@@ -488,7 +488,7 @@
 							</Columns>
 							<PagerStyle HorizontalAlign="Left" ForeColor="#000066" BackColor="White" Mode="NumericPages"></PagerStyle>
 						</asp:datagrid></TD>
-				</TR>
+				</TR>--%>
 				<TR>
 					<TD><asp:label id="Label29" runat="server" ForeColor="Blue">投诉单信息</asp:label></TD>
 				</TR>

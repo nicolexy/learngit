@@ -423,74 +423,74 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 DataGrid2.DataSource = dsuserpay.Tables[0].DefaultView;
             }
 
-            //显示物流单
-            DataSet dstransport = fs.GetTransportList(listid);
-            if (dstransport != null && dstransport.Tables.Count > 0)
-            {
-                dstransport.Tables[0].Columns.Add("Ftransport_typeName");
-                dstransport.Tables[0].Columns.Add("Fgoods_typeName");
-                dstransport.Tables[0].Columns.Add("Ftran_typeName");
-                dstransport.Tables[0].Columns.Add("FstateName");
+            ////显示物流单
+            //DataSet dstransport = fs.GetTransportList(listid);
+            //if (dstransport != null && dstransport.Tables.Count > 0)
+            //{
+            //    dstransport.Tables[0].Columns.Add("Ftransport_typeName");
+            //    dstransport.Tables[0].Columns.Add("Fgoods_typeName");
+            //    dstransport.Tables[0].Columns.Add("Ftran_typeName");
+            //    dstransport.Tables[0].Columns.Add("FstateName");
 
-                foreach (DataRow dr in dstransport.Tables[0].Rows)
-                {
-                    strtmp = dr["Ftransport_type"].ToString();
-                    if (strtmp == "1")
-                    {
-                        dr["Ftransport_typeName"] = "卖方发货";
-                    }
-                    else if (strtmp == "2")
-                    {
-                        dr["Ftransport_typeName"] = "买方发送退货";
-                    }
-                    else
-                    {
-                        dr["Ftransport_typeName"] = "未知类型" + strtmp;
-                    }
+            //    foreach (DataRow dr in dstransport.Tables[0].Rows)
+            //    {
+            //        strtmp = dr["Ftransport_type"].ToString();
+            //        if (strtmp == "1")
+            //        {
+            //            dr["Ftransport_typeName"] = "卖方发货";
+            //        }
+            //        else if (strtmp == "2")
+            //        {
+            //            dr["Ftransport_typeName"] = "买方发送退货";
+            //        }
+            //        else
+            //        {
+            //            dr["Ftransport_typeName"] = "未知类型" + strtmp;
+            //        }
 
-                    strtmp = dr["Fgoods_type"].ToString();
-                    if (strtmp == "1")
-                    {
-                        dr["Fgoods_typeName"] = "实物物品";
-                    }
-                    else if (strtmp == "2")
-                    {
-                        dr["Fgoods_typeName"] = "虚拟物品";
-                    }
-                    else
-                    {
-                        dr["Fgoods_typeName"] = "未知类型" + strtmp;
-                    }
+            //        strtmp = dr["Fgoods_type"].ToString();
+            //        if (strtmp == "1")
+            //        {
+            //            dr["Fgoods_typeName"] = "实物物品";
+            //        }
+            //        else if (strtmp == "2")
+            //        {
+            //            dr["Fgoods_typeName"] = "虚拟物品";
+            //        }
+            //        else
+            //        {
+            //            dr["Fgoods_typeName"] = "未知类型" + strtmp;
+            //        }
 
-                    strtmp = dr["Ftran_type"].ToString();
-                    if (strtmp == "1")
-                    {
-                        dr["Ftran_typeName"] = "平邮";
-                    }
-                    else if (strtmp == "2")
-                    {
-                        dr["Ftran_typeName"] = "快递";
-                    }
-                    else if (strtmp == "3")
-                    {
-                        dr["Ftran_typeName"] = "email发货";
-                    }
-                    else if (strtmp == "4")
-                    {
-                        dr["Ftran_typeName"] = "手机";
-                    }
-                    else if (strtmp == "5")
-                    {
-                        dr["Ftran_typeName"] = "其它";
-                    }
-                    else
-                    {
-                        dr["Ftran_typeName"] = "未知类型" + strtmp;
-                    }
-                }
+            //        strtmp = dr["Ftran_type"].ToString();
+            //        if (strtmp == "1")
+            //        {
+            //            dr["Ftran_typeName"] = "平邮";
+            //        }
+            //        else if (strtmp == "2")
+            //        {
+            //            dr["Ftran_typeName"] = "快递";
+            //        }
+            //        else if (strtmp == "3")
+            //        {
+            //            dr["Ftran_typeName"] = "email发货";
+            //        }
+            //        else if (strtmp == "4")
+            //        {
+            //            dr["Ftran_typeName"] = "手机";
+            //        }
+            //        else if (strtmp == "5")
+            //        {
+            //            dr["Ftran_typeName"] = "其它";
+            //        }
+            //        else
+            //        {
+            //            dr["Ftran_typeName"] = "未知类型" + strtmp;
+            //        }
+            //    }
 
-                Datagrid3.DataSource = dstransport.Tables[0].DefaultView;
-            }
+            //    Datagrid3.DataSource = dstransport.Tables[0].DefaultView;
+            //}
             this.DataBind();
         }
 

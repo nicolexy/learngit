@@ -139,6 +139,12 @@
 					<TD style="WIDTH: 185px; HEIGHT: 20px" bgColor="#eeeeee" height="20"><FONT face="宋体">&nbsp;代金券金额:</FONT></TD>
 					<TD style="WIDTH: 136px; HEIGHT: 20px" bgColor="#ffffff" height="20"><FONT face="宋体">&nbsp;<asp:label id="lb_Fstandby2" runat="server"></asp:label></FONT></TD>
 				</TR>
+                   <TR>
+					<TD style="WIDTH: 125px; HEIGHT: 20px" bgColor="#eeeeee" height="20"><FONT face="宋体">&nbsp;微信支付财付通账户:</FONT></TD>
+					<TD style="WIDTH: 136px; HEIGHT: 20px" bgColor="#ffffff" height="19"><FONT face="宋体">&nbsp;<asp:label id="lbl_uin" runat="server"></asp:label></FONT></TD>
+					<TD style="WIDTH: 185px; HEIGHT: 20px" bgColor="#eeeeee" height="20"><FONT face="宋体">&nbsp;还款渠道:</FONT></TD>
+					<TD style="WIDTH: 136px; HEIGHT: 20px" bgColor="#ffffff" height="20"><FONT face="宋体">&nbsp;<asp:label id="lbl_channel_id" runat="server"></asp:label></FONT></TD>
+				</TR>
             </TABLE>
 		</form>
 	</body>

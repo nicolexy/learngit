@@ -550,6 +550,132 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
         }
         #endregion
 
+        #region 七、实名信息
+        public DataTable QueryRealNameInfo(string uin, string client_ip)
+        {
+
+            string req = "uin=" + uin + "&client_ip=" + client_ip;
+
+            var result = RelayAccessFactory.RelayInvoke(req, "102224", true, false, ip, port, "utf-8");
+
+            if (!result.Contains("result=0&res_info=ok"))
+            {
+                throw new Exception("请求串：" + req + "返回串：" + result);
+            }
+
+            Dictionary<string, string> dic = result.ToDictionary('&', '=');
+
+            DataTable dt = new DataTable();
+            foreach (string key in dic.Keys)
+            {
+                dt.Columns.Add(key, typeof(string));
+            }
+            DataRow dr = dt.NewRow();
+            foreach (string key in dic.Keys)
+            {
+                dr[key] = dic[key];
+            }
+            dt.Rows.Add(dr);
+            return dt;
+
+        }
+
+        public DataTable QueryRealNameInfo2(string uin, string type, string state, DateTime? start_time, DateTime? end_time, string client_ip,int offset,int limit)
+        {
+            string req = "client_ip=" + client_ip + "&offset=" + offset + "&limit=" + limit;
+
+            if (!string.IsNullOrEmpty(uin))
+            {
+                req += "&uin=" + uin;
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+                req += "&type=" + type;
+            }
+            if (!string.IsNullOrEmpty(state))
+            {
+                req += "&state=" + state;
+            }
+            if (start_time.HasValue)
+            {
+                string stime = start_time.Value.ToString("yyyy-MM-dd");
+                req += "&start_time=" + stime;
+            }
+            if (end_time.HasValue)
+            {
+                string etime = end_time.Value.ToString("yyyy-MM-dd");
+                req += "&end_time=" + etime;
+            }
+            var result = RelayAccessFactory.RelayInvoke(req, "102241", true, false, ip, port, "utf-8");
+            #region
+            if (!result.Contains("result=0&res_info=ok"))
+            {
+                throw new Exception("请求串：" + req + "返回串：" + result);
+            }
+
+            Dictionary<string, string> dic = result.ToDictionary('&', '=');
+            int row_num = Convert.ToInt32(dic["row_num"]);
+            if (row_num == 0)
+            {
+                throw new Exception("查询结果为空！");
+            }
+            DataTable dt = new DataTable();
+
+            string row1 = System.Web.HttpUtility.UrlDecode(dic["row1"], System.Text.Encoding.GetEncoding("utf-8"));
+            Dictionary<string, string> dic_Colums = row1.ToDictionary('&', '=');
+            foreach (string key in dic_Colums.Keys)
+            {
+                dt.Columns.Add(key, typeof(string));
+            }
+
+            foreach (string key_row in dic.Keys)
+            {
+                if (key_row.StartsWith("row") && key_row != "row_num")
+                {
+                    DataRow dr = dt.NewRow();
+                    string row_x = System.Web.HttpUtility.UrlDecode(dic[key_row], System.Text.Encoding.GetEncoding("utf-8"));
+                    Dictionary<string, string> dic_row = row_x.ToDictionary('&', '=');
+                    foreach (string key_col in dic_Colums.Keys)
+                    {
+                        try
+                        {
+                            dr[key_col] = dic_row[key_col];
+                        }
+                        catch(Exception ex)
+                        {
+                            throw new Exception(key_col + key_row);
+                        }
+                    }
+                    dt.Rows.Add(dr);
+                }
+            }
+            #endregion
+            return dt;
+
+        }
+
+        public string checkRealName(string Operator, string uin, string approval_id, string state, string memo, string client_ip)
+        {
+            memo = System.Web.HttpUtility.UrlEncode(memo);
+            string req = "client_ip=" + client_ip +
+                "&uin=" + uin +
+                "&op_name=" + Operator +
+                "&approval_id=" + approval_id +
+                "&state=" + state +
+                "&memo=" + memo;
+            string result = RelayAccessFactory.RelayInvoke(req, "102225", true, false, ip, port, "utf-8");
+            if (result.Contains("result=0&res_info=ok"))
+            {
+                return "0";
+            }
+            else
+            {
+                throw new Exception("请求串：" + req + "返回串" + result);
+            }
+        }
+
+        #endregion
+
         #region 日记
         /// <summary>
         /// 日记查询 - 重置
