@@ -532,31 +532,33 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             //Hashtable map = getReqParamMap();
             Dictionary<string, string> nvc = GetQueryStrings();
             string[] map = nvc.Keys.Cast<string>().ToArray();
+            string cb = nvc.ContainsKey("cb") ? nvc["cb"].ToString() : string.Empty;
             if (map != null && map.Contains("f"))
             {
                 string s = nvc["f"].ToString();
                 if (string.IsNullOrEmpty(s))
                 {
-                    PrintXML<T>(list);
+                    PrintXML<T>(list, cb);
                 }
                 else if (s.ToLower() == "xml")
                 {
-                    PrintXML<T>(list);
+                    PrintXML<T>(list, cb);
                 }
                 else if (s.ToLower() == "json")
                 {
-                    PrintJSON<T>(list);
+                    PrintJSON<T>(list, cb);
                 }
                 else
                 {
-                    PrintXML<T>(list);
+                    PrintXML<T>(list, cb);
                 }
             }
             else
             {
-                PrintXML<T>(list);
+                PrintXML<T>(list, cb);
             }
         }
+
         public static void PrintError(string code, string msg)
         {
             string paramstr = APIUtil.getReqParamStr();
@@ -576,12 +578,12 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             res.Charset = "gb2312";
             res.Write("{");
             res.Write("'return_code':" + code);
-            res.Write(",'msg':" + msg); ;
+            res.Write(",'msg':" + msg);
             res.Write("}");
             res.End();
         }
 
-        public static void PrintJSON<T>(List<T> list)
+        public static void PrintJSON<T>(List<T> list,string strJsonCallBack ="")
         {
             var ret = new ResultParse<T>().ReturnToObject(list);
             System.Web.Script.Serialization.JavaScriptSerializer js = new System.Web.Script.Serialization.JavaScriptSerializer();
@@ -591,7 +593,15 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             res.ContentType = "text/plain";
             res.Charset = "utf-8";
             res.ContentEncoding = Encoding.UTF8;
-            res.Write(json);
+
+            if (!string.IsNullOrEmpty(strJsonCallBack))
+            {
+                res.Write(strJsonCallBack+"("+json+")");
+            }
+            else
+            {
+                res.Write(json);
+            }
             //res.End();
         }
 
@@ -608,19 +618,26 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             res.End();
         }
 
-        public static void PrintXML<T>(List<T> list)
+        public static void PrintXML<T>(List<T> list, string strJsonCallBack = "")
         {
             var ret = new ResultParse<T>().ReturnToObject(list);
 
             HttpResponse res = HttpContext.Current.Response;
-            res.ContentType = "text/xml";
             res.Charset = "utf-8";
             res.ContentEncoding = Encoding.UTF8;
             //xmldocument
             System.Xml.XmlDocument doc = ConverToXml<RetObject<T>>(ret);
             //doc.Save(res.OutputStream);
 
-            res.Write(doc.OuterXml);
+            if (!string.IsNullOrEmpty(strJsonCallBack))
+            {
+                res.Write(strJsonCallBack + "(" + doc.OuterXml + ")");
+            }
+            else
+            {
+                res.ContentType = "text/xml";
+                res.Write(doc.OuterXml);
+            }
 
             //res.End();
         }
