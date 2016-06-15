@@ -20,7 +20,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
 {
     public class RealNameCertificateService
     {
-        public bool AuMaintainWhiteListC(string src, string Operator, string uin, long uid, int op_type, int valid_days, string sign, out string msg)
+        public bool AuMaintainWhiteListC(string src, string Operator, string uin, Int64 uid, int op_type, int valid_days, string sign, out string msg)
         {
             DataSet ds = new RealNameCertificateData().AuMaintainWhiteListC(src, Operator, uin, uid, op_type, valid_days, sign);
             bool ret = false;
@@ -44,7 +44,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
         }
 
 
-        public DataSet BindQryBindMaskInfoC(string src, string Operator, long uid, string sign)
+        public DataSet BindQryBindMaskInfoC(string src, string Operator, Int64 uid, string sign)
         {
             DataSet ds = new RealNameCertificateData().BindQryBindMaskInfoC(src, Operator, uid, sign);
             try
@@ -110,13 +110,13 @@ namespace CFT.CSOMS.BLL.RealNameModule
             return ds;
         }
 
-        public DataSet AuQryAuthStatusServiceByQueryType1(int query_type, string uin, long uid)
+        public DataSet AuQryAuthStatusServiceByQueryType1(int query_type, string uin, Int64 uid)
         {
             DataSet ds = new RealNameCertificateData().AuQryAuthStatusServiceByQueryType1(query_type, uin, uid);
 
             return ds;
         }
-        public DataSet AuQryAuthStatusServiceByQueryType1(int query_type, string uin, long uid, int request_detail_info, string src, string Operator, string sign)
+        public DataSet AuQryAuthStatusServiceByQueryType1(int query_type, string uin, Int64 uid, int request_detail_info, string src, string Operator, string sign)
         {
             DataSet ds = new RealNameCertificateData().AuQryAuthStatusServiceByQueryType1(query_type, uin, uid, request_detail_info, src, Operator, sign);
             try
@@ -146,7 +146,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
             return ds;
         }
 
-        public DataSet PQueryUserInfoService(string uin, long uid, string query_attach, int curtype)
+        public DataSet PQueryUserInfoService(string uin, Int64 uid, string query_attach, int curtype)
         {
             DataSet ds = new RealNameCertificateData().PQueryUserInfoService(uin, uid, query_attach, curtype);
             try
@@ -186,7 +186,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
             return ds;
         }
 
-        public DataSet QuotaBanQueryC(int uid_type, long uid, int have_cre_photocopy, string cre_id, int cre_type)
+        public DataSet QuotaBanQueryC(int uid_type, Int64 uid, int have_cre_photocopy, string cre_id, int cre_type)
         {
             if (!string.IsNullOrEmpty(cre_id)) { cre_id = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(cre_id.ToString(), "md5").ToLower(); }
             DataSet ds = new RealNameCertificateData().QuotaBanQueryC(uid_type, uid, have_cre_photocopy, cre_id, cre_type);
@@ -194,7 +194,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
             return ds;
         }
 
-        public DataSet QuotaBanQueryC(int uid_type, long uid, int have_cre_photocpy)
+        public DataSet QuotaBanQueryC(int uid_type, Int64 uid, int have_cre_photocpy)
         {
             DataSet ds = new RealNameCertificateData().QuotaBanQueryC(uid_type, uid, have_cre_photocpy);
 

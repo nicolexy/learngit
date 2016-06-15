@@ -18,7 +18,7 @@ namespace CFT.CSOMS.DAL.RealNameModule
 {
     public class RealNameCertificateData
     {
-        public DataSet AuMaintainWhiteListC(string src, string Operator, string uin, long uid, int op_type, int valid_days, string sign)
+        public DataSet AuMaintainWhiteListC(string src, string Operator, string uin, Int64 uid, int op_type, int valid_days, string sign)
         {
             string relayip = System.Configuration.ConfigurationManager.AppSettings["Auth_Relay_IP"];
             int relayport = int.Parse(System.Configuration.ConfigurationManager.AppSettings["Auth_Relay_Port"]);
@@ -38,7 +38,7 @@ namespace CFT.CSOMS.DAL.RealNameModule
 
         }
 
-        public DataSet BindQryBindMaskInfoC(string src, string Operator, long uid, string sign)
+        public DataSet BindQryBindMaskInfoC(string src, string Operator, Int64 uid, string sign)
         {
             string relayip = System.Configuration.ConfigurationManager.AppSettings["Auth_Relay_IP"];
             int relayport = int.Parse(System.Configuration.ConfigurationManager.AppSettings["Auth_Relay_Port"]);
@@ -103,7 +103,7 @@ namespace CFT.CSOMS.DAL.RealNameModule
             }
         }
 
-        public DataSet AuQryAuthStatusServiceByQueryType1(int query_type, string uin, long uid)
+        public DataSet AuQryAuthStatusServiceByQueryType1(int query_type, string uin, Int64 uid)
         {
             string relayip = System.Configuration.ConfigurationManager.AppSettings["Auth_Relay_IP"];
             int relayport = int.Parse(System.Configuration.ConfigurationManager.AppSettings["Auth_Relay_Port"]);
@@ -120,7 +120,7 @@ namespace CFT.CSOMS.DAL.RealNameModule
                 throw new Exception(string.Format("实名状态和认证渠道信息查询:{0},{1}", relayip, err.Message));
             }
         }
-        public DataSet AuQryAuthStatusServiceByQueryType1(int query_type, string uin, long uid, int request_detail_info, string src, string Operator, string sign)
+        public DataSet AuQryAuthStatusServiceByQueryType1(int query_type, string uin, Int64 uid, int request_detail_info, string src, string Operator, string sign)
         {
             try
             {
@@ -141,7 +141,7 @@ namespace CFT.CSOMS.DAL.RealNameModule
             }
         }
 
-        public DataSet PQueryUserInfoService(string uin, long uid, string query_attach, int curtype)
+        public DataSet PQueryUserInfoService(string uin, Int64 uid, string query_attach, int curtype)
         {
             string relayip = System.Configuration.ConfigurationManager.AppSettings["UserInfoQuota_Relay_IP"];
             int relayport = int.Parse(System.Configuration.ConfigurationManager.AppSettings["UserInfoQuota_Relay_Port"]);
@@ -179,7 +179,7 @@ namespace CFT.CSOMS.DAL.RealNameModule
         }
 
 
-        public DataSet QuotaBanQueryC(int uid_type, long uid, int have_cre_photocopy, string cre_id, int cre_type)
+        public DataSet QuotaBanQueryC(int uid_type, Int64 uid, int have_cre_photocopy, string cre_id, int cre_type)
         {
             string relayip = System.Configuration.ConfigurationManager.AppSettings["UserInfoQuota_Relay_IP"];
             int relayport = int.Parse(System.Configuration.ConfigurationManager.AppSettings["UserInfoQuota_Relay_Port"]);
@@ -195,7 +195,7 @@ namespace CFT.CSOMS.DAL.RealNameModule
                 throw new Exception(string.Format("账户限额数据查询:{0},{1}", relayip, err.Message));
             }
         }
-        public DataSet QuotaBanQueryC(int uid_type, long uid, int have_cre_photocopy)
+        public DataSet QuotaBanQueryC(int uid_type, Int64 uid, int have_cre_photocopy)
         {
             string relayip = System.Configuration.ConfigurationManager.AppSettings["UserInfoQuota_Relay_IP"];
             int relayport = int.Parse(System.Configuration.ConfigurationManager.AppSettings["UserInfoQuota_Relay_Port"]);
