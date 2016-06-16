@@ -122,7 +122,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             if (!string.IsNullOrEmpty(identityId))
             {
-                DataTable dt = new RealNameCertificateService().GetInfoByIdentityCard(identityId, Session["OperId"].ToString());
+                DataTable dt = new RealNameCertificateService().GetInfoByIdentityCard(identityId, Session["uid"].ToString());
                 DataTable final = new RealNameCertificateService().GetPagedTable(dt, pageIndex, pageSize);
                 int count = (dt != null && dt.Rows.Count > 0) ? dt.Rows.Count : 0;
                 ret = GetResultJsonStr(count, final,pageIndex);
@@ -133,7 +133,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         public string GetInfoByUserType(string user, string usertype, int pageIndex, int pageSize)
         {
             string ret = string.Empty;
-            DataTable dt = new RealNameCertificateService().GetInfoByUid(user, usertype, Session["OperId"].ToString());
+            DataTable dt = new RealNameCertificateService().GetInfoByUid(user, usertype, Session["uid"].ToString());
             DataTable final = new RealNameCertificateService().GetPagedTable(dt, pageIndex, pageSize);
             int count = (dt != null && dt.Rows.Count > 0) ? dt.Rows.Count : 0;
             ret = GetResultJsonStr(count, final,pageIndex);
