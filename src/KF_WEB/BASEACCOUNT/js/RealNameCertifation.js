@@ -26,6 +26,7 @@
     }
 }
 function ajaxSubmit() {
+    $("#middle table").find("tbody").empty();
     var type = $("#certifationtype :selected").val();
     if (validateForm(type)) {
         switch (type) {
