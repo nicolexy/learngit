@@ -101,7 +101,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                                                 Response.Write(ret);
                                                 Response.End();
                                             }
-                                            break;                                        
+                                            break;
                                     }
                                 }
                             }
@@ -113,19 +113,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         }
 
-       
+
 
         //通过身份证查找信息
         public string GetInfoByIdentityCard(string identityId, int pageIndex, int pageSize)
         {
             string ret = string.Empty;
-
             if (!string.IsNullOrEmpty(identityId))
             {
                 DataTable dt = new RealNameCertificateService().GetInfoByIdentityCard(identityId, Session["uid"].ToString());
                 DataTable final = new RealNameCertificateService().GetPagedTable(dt, pageIndex, pageSize);
-                int count = (dt != null && dt.Rows.Count > 0) ? dt.Rows.Count : 0;
-                ret = GetResultJsonStr(count, final,pageIndex);
+                int count = (dt != null && dt.Rows.Count > 0) ? ((dt.Rows.Count % pageSize == 0) ? dt.Rows.Count / pageSize : dt.Rows.Count / pageSize + 1) : 0;
+                ret = GetResultJsonStr(count, final, pageIndex);
             }
             return ret;
         }
@@ -135,12 +134,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string ret = string.Empty;
             DataTable dt = new RealNameCertificateService().GetInfoByUid(user, usertype, Session["uid"].ToString());
             DataTable final = new RealNameCertificateService().GetPagedTable(dt, pageIndex, pageSize);
-            int count = (dt != null && dt.Rows.Count > 0) ? dt.Rows.Count : 0;
-            ret = GetResultJsonStr(count, final,pageIndex);
+            int count = (dt != null && dt.Rows.Count > 0) ? ((dt.Rows.Count % pageSize == 0) ? dt.Rows.Count / pageSize : dt.Rows.Count / pageSize + 1) : 0;
+            ret = GetResultJsonStr(count, final, pageIndex);
             return ret;
         }
-
-        public string GetResultJsonStr(int rowcount, DataTable dt,int pageIndex)
+        public string GetResultJsonStr(int rowcount, DataTable dt, int pageIndex)
         {
             if (rowcount == 0 || dt == null)
             {
@@ -152,7 +150,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             sb.AppendFormat("\"pages\":{0},\"content\":\"", rowcount);
             foreach (DataRow row in dt.Rows)
             {
-
                 string uid_type = string.IsNullOrEmpty(row["uid_type"].ToString()) ? "" : row["uid_type"].ToString();
                 string uid = string.IsNullOrEmpty(row["uid"].ToString()) ? "" : row["uid"].ToString();
                 string uin = string.IsNullOrEmpty(row["uin"].ToString()) ? "" : row["uin"].ToString();
@@ -162,10 +159,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 string btn = string.Format("<button onclick= 'quotaDetail(this,{0},{1},{2},&quot;{3}&quot;,{4});' oper_state='0' type='button'>明细</button>", uid_type, uid, cre_type, cre_id, channelstate);
                 string setbtn = string.Format("<button onclick='settingWhite({0},&quot;{1}&quot;,{2});' type='button'>添加</button>", uid, uin, pageIndex);
                 string cancelbtn = string.Format("<button onclick='cancelWhite({0},&quot;{1}&quot;,{2});' type='button'>取消</button>", uid, uin, pageIndex);
-                string finalstr = isRight && uid_type!="0" ? ((uid_type == "99") ? cancelbtn : setbtn) : "";
+                string finalstr = isRight && uid_type != "0" ? ((uid_type == "99") ? cancelbtn : setbtn) : "";
                 if (row["bind_bank_info"] != null && row["bind_bank_info"].ToString() != "")
                 {
-                    DataTable temp_dt = CommQuery.ParseRelayStringToDataTableNew("result=0&"+row["bind_bank_info"].ToString(), "bind_bank_num", "row");
+                    DataTable temp_dt = CommQuery.ParseRelayStringToDataTableNew("result=0&" + row["bind_bank_info"].ToString(), "bind_bank_num", "row");
                     int cols = (temp_dt != null && temp_dt.Rows.Count > 0) ? temp_dt.Rows.Count : 1;
                     sb.Append("<tr>");
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["uin"].ToString()) ? "" : row["uin"].ToString());
@@ -186,6 +183,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                             sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(temp_dt.Rows[i]["mobile_mask"].ToString()) ? "" : temp_dt.Rows[i]["mobile_mask"].ToString());
                             sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(temp_dt.Rows[i]["authen_time"].ToString()) ? "" : temp_dt.Rows[i]["authen_time"].ToString());
                             if (i > 0) sb.Append("</tr>");
+                            if (i == 0)
+                            {
+                                sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, btn);
+                                sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, finalstr);
+                                sb.Append("</tr>");
+                            }
                         }
                     }
                     else
@@ -194,11 +197,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         sb.Append("<td></td>");
                         sb.Append("<td></td>");
                         sb.Append("<td></td>");
-                    }                  
-                  
-                    sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, btn);
-                    sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, finalstr);
-                    sb.Append("</tr>");
+                        sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, btn);
+                        sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, finalstr);
+                        sb.Append("</tr>");
+                    }
                 }
                 else
                 {
@@ -215,18 +217,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     sb.Append("<td></td>");
                     sb.Append("<td></td>");
                     sb.Append("<td></td>");
-                    sb.AppendFormat("<td>{0}</td>",btn);
-                    sb.AppendFormat("<td>{0}</td>",finalstr);
+                    sb.AppendFormat("<td>{0}</td>", btn);
+                    sb.AppendFormat("<td>{0}</td>", finalstr);
                     sb.Append("</tr>");
                 }
-
             }
             sb.Append("\"}");
             return sb.ToString();
         }
 
-        public string GetQuotaDetail(int uid_type,Int64 uid,int cre_type,string cre_id,int have_cre_photocopy)
-        {           
+        public string GetQuotaDetail(int uid_type, Int64 uid, int cre_type, string cre_id, int have_cre_photocopy)
+        {
             DataTable dt = new RealNameCertificateService().GetQuotaDetail(uid_type, uid, cre_type, cre_id, have_cre_photocopy);
             StringBuilder sb = new StringBuilder();
             sb.Append("<table cellspacing='1' cellpadding='0' align='center' bgcolor='#666666' border='0' width='95%'>");
@@ -236,7 +237,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 foreach (DataRow row in dt.Rows)
                 {
                     sb.Append("<tr>");
-                    sb.AppendFormat("<td>{0}</td>", (row["total_out_amount"] != null && row["total_out_amount"].ToString()!="")?row["total_out_amount"].ToString():"");
+                    sb.AppendFormat("<td>{0}</td>", (row["total_out_amount"] != null && row["total_out_amount"].ToString() != "") ? row["total_out_amount"].ToString() : "");
                     sb.AppendFormat("<td>{0}</td>", (row["cre_month_outin_amount"] != null && row["cre_month_outin_amount"].ToString() != "") ? row["cre_month_outin_amount"].ToString() : "");
                     sb.AppendFormat("<td>{0}</td>", (row["cre_year_out_amount"] != null && row["cre_year_out_amount"].ToString() != "") ? row["cre_year_out_amount"].ToString() : "");
                     sb.AppendFormat("<td>{0}</td>", (row["rest_total_out_amount"] != null && row["rest_total_out_amount"].ToString() != "") ? row["rest_total_out_amount"].ToString() : "");
@@ -260,9 +261,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string outMsg = string.Empty;
             if (op_type == 1)
             {
-                if (valid_days!=0)
+                if (valid_days != 0)
                 {
-                    string tmp = string.Format("{0}|{1}|{2}|{3}|{4}|{5}|",uin,uid,Session["OperId"].ToString(),"kf.cf.com",op_type,valid_days);
+                    string tmp = string.Format("{0}|{1}|{2}|{3}|{4}|{5}|", uin, uid, Session["OperId"].ToString(), "kf.cf.com", op_type, valid_days);
                     sign = new RealNameCertificateService().FormatStrEnscript(tmp, "AuMaintainWhiteListCKey");
                 }
                 else

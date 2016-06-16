@@ -44,7 +44,7 @@
         }
     </style>
     <script type="text/javascript" src="../scripts/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="../scripts/IdentityIDValidate.js"></script>   
+    <script type="text/javascript" src="../scripts/IdentityIDValidate.js"></script>
     <script type="text/javascript" src="../SCRIPTS/laypage/laypage.js"></script>
     <link href="../SCRIPTS/laypage/skin/laypage.css" rel="stylesheet" />
     <script type="text/javascript" src="js/RealNameCertifation.js"></script>
@@ -52,6 +52,8 @@
         $(function () {
             $("#certifationtype").bind("change", function () {
                 $("#middle table").find("tbody").empty();
+                $("#page11").empty();
+                $("#bottom").empty();
                 $("#certicondtion div:eq(" + $(":selected", this).index() + ")").siblings().css("display", "none");
                 $("#certicondtion div:eq(" + $(":selected", this).index() + ")").css("display", "block").find("input[type=text]").val("");
                 $("#error_info").html("");
@@ -111,7 +113,7 @@
                                                             <input id="WeChatId" name="IDType" runat="server" type="radio" checked /><label for="WeChatId">微信帐号</label>
                                                             <input id="WeChatQQ" name="IDType" runat="server" type="radio" /><label for="WeChatQQ">微信绑定QQ</label>
                                                             <input id="WeChatMobile" name="IDType" runat="server" type="radio" /><label for="WeChatMobile">微信绑定手机</label>
-                                                            <input id="WeChatCft" name="IDType" runat="server" type="radio" /><label for="WeChatCft">微信财付通账号</label>
+                                                            <input id="WeChatCft" name="IDType" runat="server" type="radio" /><label for="WeChatCft">微信财付通</label>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -125,9 +127,9 @@
                             </table>
                         </td>
                     </tr>
-                </table>             
+                </table>
             </div>
-            <div id="middle" style="padding-top: 10px;width: 95%;">
+            <div id="middle" style="padding-top: 10px; width: 95%;">
                 <table cellspacing="1" cellpadding="0" align="center" bgcolor="#666666" border="0" width="95%">
                     <thead class="th">
                         <tr>
@@ -147,15 +149,14 @@
                             <th>白名单</th>
                         </tr>
                     </thead>
-                    <tbody>                       
+                    <tbody>
                     </tbody>
-                </table>              
+                </table>
             </div>
-            <div style="padding-top: 10px;width:90%;">
+            <div style="padding-top: 10px; width: 90%;">
                 <div id="page11" style="float: right;"></div>
-            </div>  
-            <div id="bottom" style="padding-top: 10px;width: 95%;">     
-               
+            </div>
+            <div id="bottom" style="padding-top: 10px; width: 95%;">
             </div>
         </div>
     </form>
