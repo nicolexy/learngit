@@ -205,10 +205,17 @@ namespace CFT.CSOMS.BLL.RealNameModule
         public DataTable GetInfoByIdentityCard(string identityId, string Operator)
         {
             DataTable dt = CreateCommonDt();
-            GetCreRelationCByIdentitiyId(identityId, ref dt);
-            GetUserInfoByUidList(ref dt);
-            GetAuthStatusInfo(Operator, ref dt);
-            GetBindCardInfo(Operator, ref dt);
+            try
+            {
+                GetCreRelationCByIdentitiyId(identityId, ref dt);
+                GetUserInfoByUidList(ref dt);
+                GetAuthStatusInfo(Operator, ref dt);
+                GetBindCardInfo(Operator, ref dt);
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+            }
             return dt;
         }
 
@@ -216,16 +223,23 @@ namespace CFT.CSOMS.BLL.RealNameModule
         public DataTable GetInfoByUid(string username, string usertype, string Operator)
         {
             DataTable dt = CreateCommonDt();
-            string uin = AccountService.GetQQID(usertype, username);
-            string uid = new AccountService().QQ2Uid(uin);
-            if (!string.IsNullOrEmpty(uid))
+            try
             {
-                DataRow row = dt.NewRow();
-                row["uid"] = uid;
-                dt.Rows.Add(row);
-                GetUserInfoByUidList(ref dt);
-                GetAuthStatusInfo(Operator, ref dt);
-                GetBindCardInfo(Operator, ref dt);
+                string uin = AccountService.GetQQID(usertype, username);
+                string uid = new AccountService().QQ2Uid(uin);
+                if (!string.IsNullOrEmpty(uid))
+                {
+                    DataRow row = dt.NewRow();
+                    row["uid"] = uid;
+                    dt.Rows.Add(row);
+                    GetUserInfoByUidList(ref dt);
+                    GetAuthStatusInfo(Operator, ref dt);
+                    GetBindCardInfo(Operator, ref dt);
+                }
+            }
+            catch (Exception ex)
+            {
+                dt = null;
             }
             return dt;
         }
@@ -420,7 +434,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
         #region 动态分割DataTable分页
         public DataTable GetPagedTable(DataTable dt, int PageIndex, int PageSize)
         {
-            if (PageIndex == 0)
+            if (PageIndex == 0||dt==null||dt.Rows.Count==0)
             {
                 return dt;
             }
