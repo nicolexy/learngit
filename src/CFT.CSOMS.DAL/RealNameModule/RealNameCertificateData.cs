@@ -129,8 +129,7 @@ namespace CFT.CSOMS.DAL.RealNameModule
                 string requesttpe = System.Configuration.ConfigurationManager.AppSettings["AuQryAuthStatusService_RequestType"];
                 string reqString = !string.IsNullOrEmpty(uin) ? "uin=" + uin : "";
                 reqString += !string.IsNullOrEmpty(src) ? "&src=" + src : "";
-                reqString += !string.IsNullOrEmpty(Operator) ? "&operator=" + Operator : "";
-                reqString += !string.IsNullOrEmpty(Operator) ? "&operator=" + Operator : "";
+                reqString += !string.IsNullOrEmpty(Operator) ? "&operator=" + Operator : "";              
                 reqString += "&uid=" + uid + "&query_type=" + query_type + "&request_detail_info=" + request_detail_info + "&sign=" + sign;
 
                 return RelayAccessFactory.GetDSFromRelay(reqString, requesttpe, relayip, relayport);
