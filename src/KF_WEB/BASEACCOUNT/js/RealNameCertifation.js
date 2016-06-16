@@ -13,7 +13,6 @@
                     }
                     return ret;
                 }
-
             }
             break;
         case "账户":
@@ -27,18 +26,20 @@
 }
 function ajaxSubmit() {
     $("#middle table").find("tbody").empty();
+    $("#page11").empty();
+    $("#bottom").empty();
     var type = $("#certifationtype :selected").val();
     if (validateForm(type)) {
         switch (type) {
             case "身份证":
-                {
-                    var identityId = $("#txt_identity").val();
+                {                    
+                    var identityId = $("#txt_identity").val().replace(/^\s+|\s+$/g, "");
                     AjaxLayPage(1, identityId);
                 }
                 break;
             case "账户":
-                {
-                    var user = $("#txt_usertype").val();
+                {                    
+                    var user = $("#txt_usertype").val().replace(/^\s+|\s+$/g, "");
                     var usertype = $("input[name=IDType]:checked").val();
                     AjaxLayPageByUser(1, user, usertype);
                 }
