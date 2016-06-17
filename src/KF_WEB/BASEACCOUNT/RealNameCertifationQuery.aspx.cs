@@ -93,6 +93,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                                             break;
                                         case "SettingAuMaintainWhite":
                                             {
+                                                Response.ContentType = "application/json";
                                                 Int64 uid = string.IsNullOrEmpty(Request.Params["uid"]) ? 0 : Int64.Parse(Request.Params["uid"]);
                                                 string uin = string.IsNullOrEmpty(Request.Params["uin"]) ? "" : Request.Params["uin"];
                                                 int op_type = int.Parse(Request.Params["op_type"]);
@@ -144,7 +145,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 return "{\"pages\":0,\"content\":\"<tr><td colspan='14'>没有符合条件的数据!</td></tr>\"}";
             }
-            bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("62_169", this);
+            bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("RealNameCertification", this);
             StringBuilder sb = new StringBuilder();
             sb.Append("{");
             sb.AppendFormat("\"pages\":{0},\"content\":\"", rowcount);
@@ -231,11 +232,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             DataTable dt = new RealNameCertificateService().GetQuotaDetail(uid_type, uid, cre_type, cre_id, have_cre_photocopy);
             StringBuilder sb = new StringBuilder();
             sb.Append("<table cellspacing='1' cellpadding='0' align='center' bgcolor='#666666' border='0' width='95%'>");
-            sb.Append("<tr><th>账户终身支出金额</th><th>对应证件号月进出金额</th><th>对应证件号年支出金额</th><th>账户终身剩余额度</th><th>账户剩余月进出额度</th><th>账户剩余年支付额度</th></tr>");
+            sb.Append("<thead class='th'><tr><th>账户终身支出金额</th><th>对应证件号月进出金额</th><th>对应证件号年支出金额</th><th>账户终身剩余额度</th><th>账户剩余月进出额度</th><th>账户剩余年支付额度</th></tr></thead>");
             if (dt != null && dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
-                {
+                { 
                     sb.Append("<tr>");
                     sb.AppendFormat("<td>{0}</td>", (row["total_out_amount"] != null && row["total_out_amount"].ToString() != "") ? row["total_out_amount"].ToString() : "");
                     sb.AppendFormat("<td>{0}</td>", (row["cre_month_outin_amount"] != null && row["cre_month_outin_amount"].ToString() != "") ? row["cre_month_outin_amount"].ToString() : "");
