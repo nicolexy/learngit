@@ -147,11 +147,11 @@ function cancelWhite(uid, uin, pageIndex) {
                 var usertype = $("input[name=IDType]:checked").val();
             }
             break;
-    }
+    }    
     $.post("RealNameCertifationQuery.aspx", { action: "Edit", method: "SettingAuMaintainWhite", uid: uid, uin: uin, op_type: 2 },
                      function (data) {
                          alert(data.ret);
-                         if (identityId == undefined) {
+                         if (typeof(identityId) == 'undefined') {
                              AjaxLayPageByUser(pageIndex, user, usertype);
                          } else {
                              AjaxLayPage(pageIndex, identityId);
