@@ -432,6 +432,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
                 //增加代扣调整按钮权限
                 rights[31] = new OneRight("DKAdjust", 31, "代扣调整状态");
 
+                rights[169] = new OneRight("RealNameCertification", 169, "实名认证白名单设置");
+
 				ht = new Hashtable(RIGHTCOUNT);
 				for(int i=0 ; i< RIGHTCOUNT; i++)
 				{
