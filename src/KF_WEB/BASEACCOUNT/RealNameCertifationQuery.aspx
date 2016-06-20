@@ -49,7 +49,7 @@
     <link href="../SCRIPTS/laypage/skin/laypage.css" rel="stylesheet" />
     <script type="text/javascript" src="js/RealNameCertifation.js"></script>
     <script type="text/javascript">
-        $(function () {
+        $(function () {           
             $("#certifationtype").bind("change", function () {
                 $("#middle table").find("tbody").empty();
                 $("#page11").empty();

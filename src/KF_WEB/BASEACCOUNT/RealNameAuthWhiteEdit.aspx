@@ -48,7 +48,7 @@
                      function (data) {                         
                          alert(data.ret);
                          setTimeout(function () {
-                             if(arg.cre_id==undefined)
+                             if (typeof (arg.cre_id) == 'undefined')
                              {                               
                                  arg.win.AjaxLayPageByUser(pageIndex, arg.user, arg.usertype);
                              }else{
