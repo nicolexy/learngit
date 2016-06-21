@@ -215,6 +215,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
             catch (Exception ex)
             {
                 dt = null;
+                loger.err("GetInfoByUid", ex.Message);               
             }
             return dt;
         }
@@ -240,6 +241,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
             catch (Exception ex)
             {
                 dt = null;
+                loger.err("GetInfoByUid", ex.Message);               
             }
             return dt;
         }
@@ -500,8 +502,8 @@ namespace CFT.CSOMS.BLL.RealNameModule
             //dt.Columns.Add("card_tail", typeof(string));
             ////【银行名称】
             //dt.Columns.Add("bank_name", typeof(string));
-            ////【银行预留手机】手机号掩码
-            //dt.Columns.Add("mobile_mask", typeof(string));
+            ////【银行预留手机】手机号
+            //dt.Columns.Add("mobile", typeof(string));
             ////银行卡认证时间
             //dt.Columns.Add("authen_time", typeof(string));
 

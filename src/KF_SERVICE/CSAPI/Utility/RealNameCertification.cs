@@ -18,9 +18,9 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             //四位卡尾号
             [XmlElement("card_tail")]
             public string card_tail { get; set; }
-            //手机号掩码
-            [XmlElement("mobile_mask")]
-            public string mobile_mask { get; set; }
+            //手机号
+            [XmlElement("mobile")]
+            public string mobile { get; set; }
             //认证时间
             [XmlElement("authen_time")]
             public string authen_time { get; set; }
