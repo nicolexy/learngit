@@ -181,7 +181,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                             if (i > 0) sb.Append("<tr>");
                             sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(temp_dt.Rows[i]["card_tail"].ToString()) ? "" : temp_dt.Rows[i]["card_tail"].ToString());
                             sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(temp_dt.Rows[i]["bank_name"].ToString()) ? "" : temp_dt.Rows[i]["bank_name"].ToString());
-                            sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(temp_dt.Rows[i]["mobile_mask"].ToString()) ? "" : temp_dt.Rows[i]["mobile_mask"].ToString());
+                            sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(temp_dt.Rows[i]["mobile"].ToString()) ? "" : temp_dt.Rows[i]["mobile"].ToString());
                             sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(temp_dt.Rows[i]["authen_time"].ToString()) ? "" : temp_dt.Rows[i]["authen_time"].ToString());
                             if (i > 0) sb.Append("</tr>");
                             if (i == 0)
@@ -232,15 +232,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             DataTable dt = new RealNameCertificateService().GetQuotaDetail(uid_type, uid, cre_type, cre_id, have_cre_photocopy);
             StringBuilder sb = new StringBuilder();
             sb.Append("<table cellspacing='1' cellpadding='0' align='center' bgcolor='#666666' border='0' width='95%'>");
-            sb.Append("<thead class='th'><tr><th>账户终身支出金额</th><th>对应证件号月进出金额</th><th>对应证件号年支出金额</th><th>账户终身剩余额度</th><th>账户剩余月进出额度</th><th>账户剩余年支付额度</th></tr></thead>");
+            sb.Append("<thead class='th'><tr><th>账户终身支出金额</th><th>账户月支出金额</th><th>账户月进出金额</th><th>账户终身剩余额度</th><th>账户剩余月进出额度</th><th>账户剩余年支付额度</th></tr></thead>");
             if (dt != null && dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
                 { 
                     sb.Append("<tr>");
                     sb.AppendFormat("<td>{0}</td>", (row["total_out_amount"] != null && row["total_out_amount"].ToString() != "") ? row["total_out_amount"].ToString() : "");
-                    sb.AppendFormat("<td>{0}</td>", (row["cre_month_outin_amount"] != null && row["cre_month_outin_amount"].ToString() != "") ? row["cre_month_outin_amount"].ToString() : "");
-                    sb.AppendFormat("<td>{0}</td>", (row["cre_year_out_amount"] != null && row["cre_year_out_amount"].ToString() != "") ? row["cre_year_out_amount"].ToString() : "");
+                    sb.AppendFormat("<td>{0}</td>", (row["month_out_amount"] != null && row["month_out_amount"].ToString() != "") ? row["month_out_amount"].ToString() : "");
+                    sb.AppendFormat("<td>{0}</td>", (row["month_outin_amount"] != null && row["month_outin_amount"].ToString() != "") ? row["month_outin_amount"].ToString() : "");
                     sb.AppendFormat("<td>{0}</td>", (row["rest_total_out_amount"] != null && row["rest_total_out_amount"].ToString() != "") ? row["rest_total_out_amount"].ToString() : "");
                     sb.AppendFormat("<td>{0}</td>", (row["rest_month_outin_amount"] != null && row["rest_month_outin_amount"].ToString() != "") ? row["rest_month_outin_amount"].ToString() : "");
                     sb.AppendFormat("<td>{0}</td>", (row["rest_year_out_amount"] != null && row["rest_year_out_amount"].ToString() != "") ? row["rest_year_out_amount"].ToString() : "");
@@ -264,7 +264,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 if (valid_days != 0)
                 {
-                    string tmp = string.Format("{0}|{1}|{2}|{3}|{4}|{5}|", uin, uid, Session["OperId"].ToString(), "kf.cf.com", op_type, valid_days);
+                    string tmp = string.Format("{0}|{1}|{2}|{3}|{4}|{5}|", uin, uid, Session["uid"].ToString(), "kf.cf.com", op_type, valid_days);
                     sign = new RealNameCertificateService().FormatStrEnscript(tmp, "AuMaintainWhiteListCKey");
                 }
                 else
@@ -274,10 +274,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             else
             {
-                string tmp = string.Format("{0}|{1}|{2}|{3}|{4}||", uin, uid, Session["OperId"].ToString(), "kf.cf.com", op_type);
+                string tmp = string.Format("{0}|{1}|{2}|{3}|{4}||", uin, uid, Session["uid"].ToString(), "kf.cf.com", op_type);
                 sign = new RealNameCertificateService().FormatStrEnscript(tmp, "AuMaintainWhiteListCKey");
             }
-            bool state = new RealNameCertificateService().AuMaintainWhiteListC("kf.cf.com", Session["OperId"].ToString(), uin, uid, op_type, valid_days, sign, out outMsg);
+            bool state = new RealNameCertificateService().AuMaintainWhiteListC("kf.cf.com", Session["uid"].ToString(), uin, uid, op_type, valid_days, sign, out outMsg);
             sb.Append("{\"ret\":\"" + (state ? "操作成功" : "操作失败") + "\"}");
             return sb.ToString();
         }

@@ -49,7 +49,7 @@
     <link href="../SCRIPTS/laypage/skin/laypage.css" rel="stylesheet" />
     <script type="text/javascript" src="js/RealNameCertifation.js"></script>
     <script type="text/javascript">
-        $(function () {           
+        $(function () {          
             $("#certifationtype").bind("change", function () {
                 $("#middle table").find("tbody").empty();
                 $("#page11").empty();
@@ -145,7 +145,7 @@
                             <th>银行名称</th>
                             <th>手机</th>
                             <th>银行卡认证时间</th>
-                            <th>额度</th>
+                            <th>额度(单位：分)</th>
                             <th>白名单</th>
                         </tr>
                     </thead>
