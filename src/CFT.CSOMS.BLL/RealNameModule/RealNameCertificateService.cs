@@ -215,7 +215,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
             catch (Exception ex)
             {
                 dt = null;
-                loger.err("GetInfoByUid", ex.Message);               
+                loger.err("GetInfoByIdentityCard", ex.Message);               
             }
             return dt;
         }
