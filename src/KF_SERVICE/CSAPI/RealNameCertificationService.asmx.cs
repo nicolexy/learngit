@@ -32,7 +32,7 @@ namespace CFT.CSOMS.Service.CSAPI
         public void AuMaintainWhiteListC()
         {
             try
-            {
+            {            
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
                 APIUtil.ValidateParamsNew(paramsHt, "operator", "uin", "uid", "op_type", "appid", "token");

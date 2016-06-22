@@ -130,7 +130,7 @@ function settingWhite(uid, uin, pageIndex) {
             }
             break;
     }
-    window.showModelessDialog('RealNameAuthWhiteEdit.aspx', arg, 'dialogWidth=240px;dialogHeight=150px;scroll=no');
+    window.showModalDialog('RealNameAuthWhiteEdit.aspx?rand='+ Math.random(), arg, 'dialogWidth=240px;dialogHeight=150px;scroll=no');
 
 }
 function cancelWhite(uid, uin, pageIndex) {  
