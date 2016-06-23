@@ -50,7 +50,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 string outMsg = "";
                 if (paramsHt.Keys.Contains("uid"))
                 {
-                    uid = Int64.Parse(paramsHt["uid"].ToString());
+                    uid = APIUtil.StringToInt64(paramsHt["uid"].ToString());
                 }
                 if (paramsHt.Keys.Contains("op_type"))
                 {
@@ -121,7 +121,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 string outMsg = "";
                 if (paramsHt.Keys.Contains("uid"))
                 {
-                    uid = Int64.Parse(paramsHt["uid"].ToString());
+                    uid = APIUtil.StringToInt64(paramsHt["uid"].ToString());
                 }
                 DataSet ds = null;
                 ds = new RealNameCertificateService().BindQryBindMaskInfoC(src, Operator, uid, sign);
@@ -176,7 +176,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 string src = paramsHt.ContainsKey("src") ? paramsHt["src"] : string.Empty;
                 string Operator = paramsHt.ContainsKey("operator") ? paramsHt["operator"] : string.Empty;
                 string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"] : string.Empty;
-                Int64 uid = paramsHt.ContainsKey("uid") ? APIUtil.StringToInt(paramsHt["uid"]) : -1;
+                Int64 uid = paramsHt.ContainsKey("uid") ? APIUtil.StringToInt64(paramsHt["uid"]) : -1;
                 int request_detail_info = paramsHt.ContainsKey("request_detail_info") ? APIUtil.StringToInt(paramsHt["request_detail_info"]) : 0;
                 DataSet ds = null;
                 switch (query_type)
@@ -264,7 +264,7 @@ namespace CFT.CSOMS.Service.CSAPI
                     throw new ServiceException(APIUtil.ERR_PARAM, ErroMessage.MESSAGE_NULLPARAM); 
                 }
                 string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"] : string.Empty;
-                Int64 uid = paramsHt.ContainsKey("uid") ? APIUtil.StringToInt(paramsHt["uid"]) : -1;
+                Int64 uid = paramsHt.ContainsKey("uid") ? APIUtil.StringToInt64(paramsHt["uid"]) : -1;
                 int curtype = paramsHt.ContainsKey("curtype") ? APIUtil.StringToInt(paramsHt["curtype"]) : -1;
                 string query_attach = paramsHt.ContainsKey("query_attach") ? paramsHt["query_attach"] : string.Empty;
                 DataSet ds = null;
@@ -385,7 +385,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 //token验证
                 APIUtil.ValidateToken(paramsHt);
                 int uid_type = paramsHt.ContainsKey("uid_type") ? APIUtil.StringToInt(paramsHt["uid_type"]) : 0;
-                Int64 uid = APIUtil.StringToInt(paramsHt["uid"]);
+                Int64 uid = APIUtil.StringToInt64(paramsHt["uid"]);
                 int have_cre_photocopy = paramsHt.ContainsKey("have_cre_photocopy") ? APIUtil.StringToInt(paramsHt["have_cre_photocopy"]) : 0;
                 DataSet ds = null;
                 if (uid_type == 1 | uid_type == 2 || uid_type == 3)
