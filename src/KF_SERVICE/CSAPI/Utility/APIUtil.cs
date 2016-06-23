@@ -822,6 +822,19 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             }
         }
 
+        public static Int64 StringToInt64(string str)
+        {
+            try
+            {
+                return Int64.Parse(str);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("APIUtil.paramIsInt64").Info("string(" + str + ") to int error:" + ex.Message);
+                throw new ServiceException(ERR_APPKEY, str + "参数不为Int64");
+            }
+        }
+
         public static bool StringToBool(string str)
         {
             string strb = str.ToLower();

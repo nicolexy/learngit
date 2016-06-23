@@ -76,7 +76,7 @@
                                             src="../IMAGES/Page/post.gif" width="20">
                                             实名认证查询</font>
                                     </td>
-                                    <td width="20%" style="background-image: url(../IMAGES/Page/bg_bl.gif)" nowrap>操作员代码: <span class="style3">
+                                    <td width="20%" style="background-image: url(../IMAGES/Page/bg_bl.gif)">操作员代码: <span style="color: #ff0000">
                                         <asp:Label ID="Label_uid" runat="server" Width="200px"></asp:Label></span>
                                     </td>
                                 </tr>
