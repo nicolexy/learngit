@@ -475,9 +475,14 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
 
                 //银行卡号加密
                 //bankID = PublicRes.EncryptZerosPadding(bankID);
+                if (!string.IsNullOrEmpty(fuin) && string.IsNullOrEmpty(uid))
+                {
+                    uid = PublicRes.ConvertToFuid(fuin);
+                }
+
 
                 string reqString = "operator=" + Operator + "&start=" + limStart + "&limit=" + limCount + "&bind_type=" + bind_type;
-                reqString += !string.IsNullOrEmpty(fuin) ? "&qqid=" + fuin : "";
+                //reqString += !string.IsNullOrEmpty(fuin) ? "&qqid=" + fuin : "";
                 reqString += !string.IsNullOrEmpty(uid) ? "&uid=" + uid : "";
                 reqString += !string.IsNullOrEmpty(bankID) ? "&card_id=" + bankID : "";
                 reqString += !string.IsNullOrEmpty(creID) ? "&cre_id=" + creID : "";

@@ -325,13 +325,13 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
         /// <param name="limit"></param>
         /// <param name="client_ip">IP</param>
         /// <returns></returns>
-        public DataTable QueryTradeInfo(string uid, string list_type, string stime, string etime, int offset, int limit, string client_ip)
+        public DataTable QueryTradeInfo(string uid, string stime, string etime, int offset, int limit, string client_ip)
         {
             try
             {
                 var req =
                     "uid=" + uid +
-                    "&list_type=" + list_type +
+                    //"&list_type=" + list_type +
                     "&limit=" + limit.ToString() +
                     "&begin_time=" + stime +
                     "&end_time=" + etime +

@@ -43,7 +43,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
         protected void Button1_Click(object sender, EventArgs e)
         {
             #region 清空数据
-            DataGrid[] dgs = { dg_refund, dg_trade, dg_BankrollList, dg_fetch, dg_GetPackageList, dg_SendPackageList };
+            DataGrid[] dgs = { dg_trade, dg_BankrollList, dg_fetch, dg_GetPackageList, dg_SendPackageList };
             foreach (var item in dgs)
             {
                 item.DataSource = null;
@@ -166,7 +166,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
         {
             try
             {
-                DataGrid[] dgs = { dg_refund, dg_trade, dg_BankrollList, dg_fetch,dg_GetPackageList,dg_SendPackageList };
+                DataGrid[] dgs = { dg_trade, dg_BankrollList, dg_fetch,dg_GetPackageList,dg_SendPackageList };
                 foreach (var item in dgs)
                 {
                     item.DataSource = null;
@@ -186,7 +186,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                 {
                     type = (string)ViewState["btn_CurType"];
                 }
-                LinkButton[] btns = { btn_refund, btn_trade, btn_BankrollList, btn_Fetch, btn_getPackage, btn_SendPackage };
+                LinkButton[] btns = {btn_trade, btn_BankrollList, btn_Fetch, btn_getPackage, btn_SendPackage };
                 foreach (var item in btns)
                 {
                     if (item.ID == type)
@@ -202,7 +202,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                     switch (type)
                     {
                         case "btn_trade": TradeHandler(query_uid, skip, pager.PageSize); break;
-                        case "btn_refund": RefundHandler(query_uid, skip, pager.PageSize); break;
+                        //case "btn_refund": RefundHandler(query_uid, skip, pager.PageSize); break;
                         case "btn_BankrollList": BankrollListHandler(query_uid,skip, pager.PageSize); break;
                         case "btn_Fetch": FetchHandler(query_uid, skip, pager.PageSize); ; break;
                         case "btn_getPackage": GetPackageList(GetOpenID(), skip, pager.PageSize); ; break;
@@ -269,18 +269,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             SwitchHandler(null, null);
         }
 
-        //退款单
-        protected void RefundHandler(string query_uid, int offset, int limit)
-        {
-            var bll = new FCXGWallet();
-            var dt = bll.QueryRefundInfo(query_uid, ViewState["stime"].ToString(), ViewState["etime"].ToString(), offset, limit, ViewState["client_ip"].ToString());
-            if (dt == null || dt.Rows.Count < 1)
-            {
-                WebUtils.ShowMessage(this.Page, "未找到记录");
-            }
-            dg_refund.DataSource = dt;
-            dg_refund.DataBind();
-        }
+        ////退款单
+        //protected void RefundHandler(string query_uid, int offset, int limit)
+        //{
+        //    var bll = new FCXGWallet();
+        //    var dt = bll.QueryRefundInfo(query_uid, ViewState["stime"].ToString(), ViewState["etime"].ToString(), offset, limit, ViewState["client_ip"].ToString());
+        //    if (dt == null || dt.Rows.Count < 1)
+        //    {
+        //        WebUtils.ShowMessage(this.Page, "未找到记录");
+        //    }
+        //    dg_refund.DataSource = dt;
+        //    dg_refund.DataBind();
+        //}
 
         //交易单
         protected void TradeHandler(string query_uid, int offset, int limit)
