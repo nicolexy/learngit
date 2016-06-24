@@ -337,7 +337,8 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
         /// <returns></returns>
         public DataTable QueryTradeInfo(string uid,string stime,string etime, int offset, int limit, string client_ip)
         {
-            var preTable = dal.QueryTradeInfo(uid, "101", stime, etime, offset, limit, HandlerIp(client_ip));
+            //var preTable = dal.QueryTradeInfo(uid, "101", stime, etime, offset, limit, HandlerIp(client_ip));
+            var preTable = dal.QueryTradeInfo(uid, stime, etime, offset, limit, HandlerIp(client_ip));
             if (preTable != null && preTable.Rows.Count > 0)
             {
                 DataTable resultdt = null;
@@ -349,6 +350,26 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
                         var tempdt = QueryOrderByMDList(orderid);
                         resultdt = MergeDataTable(resultdt, tempdt);
                     }
+                }
+
+                if (resultdt != null && resultdt.Rows.Count > 0) 
+                {
+                    resultdt.Columns.Add("list_type_str", typeof(string));
+
+                    foreach (DataRow item in resultdt.Rows)
+                    {
+                        string listid = item["listid"].ToString();
+                        var drs_preTable = preTable.Select(" listid='" + listid + "'");
+                        if (drs_preTable.Length > 0)
+                        {
+                            string list_type = drs_preTable[0]["list_type"].ToString();
+                            item["list_type_str"] = list_type == "109" ? "P2P转出方支付单" :
+                                                    list_type == "110" ? "P2P转入方收款单" :
+                                                    "未知：" + list_type;
+                        }
+                    }
+
+                    
                 }
                 return resultdt;
             }
@@ -363,33 +384,33 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
         /// <param name="limit"></param>
         /// <param name="client_ip">IP</param>
         /// <returns></returns>
-        public DataTable QueryRefundInfo(string uid,string stime,string etime, int offset, int limit, string client_ip)
-        {
-            var preTable = dal.QueryTradeInfo(uid, "102", stime, etime, offset, limit, HandlerIp(client_ip));
-            if (preTable != null && preTable.Rows.Count > 0)
-            {
-                DataTable resultdt = null;
-                foreach (DataRow item in preTable.Rows)
-                {
-                    var orderid = item["coding"] as string;
-                    if (orderid != null)
-                    {
-                        var tempdt = QueryOrderByMDList(orderid);
-                        if (tempdt != null && tempdt.Rows.Count > 0)
-                        {
-                            tempdt.Columns.Add("refund_list");
-                            foreach (DataRow row in tempdt.Rows)
-                            {
-                                row["refund_list"] = item["listid"];  //退款单号
-                            }
-                        }
-                        resultdt = MergeDataTable(resultdt, tempdt);
-                    }
-                }
-                return resultdt;
-            }
-            return null;
-        }
+        //public DataTable QueryRefundInfo(string uid,string stime,string etime, int offset, int limit, string client_ip)
+        //{
+        //    var preTable = dal.QueryTradeInfo(uid, "102", stime, etime, offset, limit, HandlerIp(client_ip));
+        //    if (preTable != null && preTable.Rows.Count > 0)
+        //    {
+        //        DataTable resultdt = null;
+        //        foreach (DataRow item in preTable.Rows)
+        //        {
+        //            var orderid = item["coding"] as string;
+        //            if (orderid != null)
+        //            {
+        //                var tempdt = QueryOrderByMDList(orderid);
+        //                if (tempdt != null && tempdt.Rows.Count > 0)
+        //                {
+        //                    tempdt.Columns.Add("refund_list");
+        //                    foreach (DataRow row in tempdt.Rows)
+        //                    {
+        //                        row["refund_list"] = item["listid"];  //退款单号
+        //                    }
+        //                }
+        //                resultdt = MergeDataTable(resultdt, tempdt);
+        //            }
+        //        }
+        //        return resultdt;
+        //    }
+        //    return null;
+        //}
 
         /// <summary>
         /// 体现单查询
