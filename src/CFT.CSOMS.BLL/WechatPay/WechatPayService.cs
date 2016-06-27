@@ -678,6 +678,9 @@ namespace CFT.CSOMS.BLL.WechatPay
                 dt.Columns.Add("Fredem_type_str", typeof(string));
                 dt.Columns.Add("Fstate_str", typeof(string));
                 dt.Columns.Add("Fprofit_rate_str", typeof(string));
+
+                dt.Columns.Add("Fprofit_type_str", typeof(string));
+                
                 foreach (DataRow dr in dt.Rows)
                 {
                     dr["Fund_name"] = "中信证券";//目前只有一个基金，以后再改
@@ -694,6 +697,15 @@ namespace CFT.CSOMS.BLL.WechatPay
                         Fstate == "3" ? "到期赎回成功" :
                          "未知：" + Fstate;
                     dr["Ftotal_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_fee"].ToString().Trim());
+
+                    dr["Flast_profit"] = MoneyTransfer.FenToYuan(dr["Flast_profit"].ToString().Trim());
+                    dr["Ftotal_profit"] = MoneyTransfer.FenToYuan(dr["Ftotal_profit"].ToString().Trim());
+
+                    string Fprofit_type = dr["Fprofit_type"].ToString().Trim();
+                    dr["Fprofit_type_str"] = Fprofit_type == "0" ? "0：真实收益" :
+                       Fprofit_type == "1" ? "预估收益" :
+                        "未知：" + Fprofit_type;
+
                     long Fprofit_rate = Convert.ToInt64(dr["Fprofit_rate"].ToString()) / 100000000;
                     dr["Fprofit_rate_str"] = Fprofit_rate.ToString() + "%";
                 }

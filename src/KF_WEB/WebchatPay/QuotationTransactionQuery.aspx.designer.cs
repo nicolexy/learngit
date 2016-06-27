@@ -112,6 +112,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         protected global::System.Web.UI.WebControls.Label lbl_Fissue;
         
         /// <summary>
+        /// lbl_Fprofit_type control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_Fprofit_type;
+        
+        /// <summary>
         /// lbl_Fund_name control.
         /// </summary>
         /// <remarks>
@@ -166,15 +175,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         protected global::System.Web.UI.WebControls.Label lbl_Fduration;
         
         /// <summary>
-        /// lbl_Fdue_date control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl_Fdue_date;
-        
-        /// <summary>
         /// lbl_Ftotal_fee control.
         /// </summary>
         /// <remarks>
@@ -184,6 +184,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         protected global::System.Web.UI.WebControls.Label lbl_Ftotal_fee;
         
         /// <summary>
+        /// lbl_Fdue_date control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_Fdue_date;
+        
+        /// <summary>
+        /// lbl_Flast_profit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_Flast_profit;
+        
+        /// <summary>
         /// lbl_Fprofit_recon_date control.
         /// </summary>
         /// <remarks>
@@ -191,6 +209,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbl_Fprofit_recon_date;
+        
+        /// <summary>
+        /// lbl_Ftotal_profit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_Ftotal_profit;
         
         /// <summary>
         /// lbl_Ffetch_arrive_date control.

@@ -14,21 +14,7 @@
             font-weight: bold;
             width: 304px;
         }
-        .auto-style2 {
-            text-align: right;
-            font-weight: bold;
-            width: 304px;
-            height: 22px;
-        }
-        .auto-style3 {
-            height: 22px;
-        }
-        .auto-style4 {
-            text-align: right;
-            font-weight: bold;
-            height: 22px;
-        }
-    </style>
+        </style>
      <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 
 </head>
@@ -118,8 +104,10 @@
                 <tr>
                     <td class="auto-style1">报价编号：</td>
                      <td> <asp:Label runat="server" ID="lbl_Fissue"></asp:Label> </td> 
-                   <td class="tb_query_title"><%--当前申购金额：--%></td>
-                     <td><%--<asp:Label runat="server" ID="lbl_Fbuy_total"> </asp:Label>--%></td>
+                   <td class="tb_query_title"><%--当前申购金额：--%>是否真实收益：</td>
+                     <td><%--<asp:Label runat="server" ID="lbl_Fbuy_total"> </asp:Label>--%>
+                         <asp:Label ID="lbl_Fprofit_type" runat="server"> </asp:Label>
+                    </td>
                 </tr>
                  <tr>
                     <td class="auto-style1">基金名称：</td>
@@ -140,20 +128,26 @@
                      <td><asp:Label runat="server" ID="lbl_Fduration"> </asp:Label></td>
                 </tr>
                  <tr>
-                  <td class="auto-style1"><%--提前终止年化收益率：--%></td>
-                     <td> <%--<asp:Label runat="server" ID="lbl_Fterminate_profit_rate"></asp:Label>--%> </td> 
+                  <td class="auto-style1"><%--提前终止年化收益率：--%>已确认金额：</td>
+                     <td> <%--<asp:Label runat="server" ID="lbl_Fterminate_profit_rate"></asp:Label>--%> 
+                         <asp:Label ID="lbl_Ftotal_fee" runat="server"></asp:Label>
+                     </td> 
                     <td class="tb_query_title">到期日：</td>
                      <td><asp:Label runat="server" ID="lbl_Fdue_date"> </asp:Label></td>
                 </tr>
                  <tr>
-                    <td class="auto-style1">已确认金额：</td>
-                     <td> <asp:Label runat="server" ID="lbl_Ftotal_fee"></asp:Label> </td> 
+                    <td class="auto-style1">昨日收益：</td>
+                     <td> 
+                         <asp:Label ID="lbl_Flast_profit" runat="server"> </asp:Label>
+                     </td> 
                     <td class="tb_query_title">收益截止日：</td>
                      <td><asp:Label runat="server" ID="lbl_Fprofit_recon_date"> </asp:Label></td>
                 </tr>
                  <tr>
-                   <td class="auto-style1"><%--昨日收益：--%></td>
-                     <td> <%--<asp:Label runat="server" ID="lbl_Flast_profit"></asp:Label>--%> </td> 
+                   <td class="auto-style1"><%--昨日收益：--%>本期收益：</td>
+                     <td> <%--<asp:Label runat="server" ID="lbl_Flast_profit"></asp:Label>--%> 
+                         <asp:Label ID="lbl_Ftotal_profit" runat="server"> </asp:Label>
+                     </td> 
                     <td class="tb_query_title">资金到账日：</td>
                      <td><asp:Label runat="server" ID="lbl_Ffetch_arrive_date"> </asp:Label></td>
                 </tr>
@@ -165,6 +159,7 @@
                       <td class="tb_query_title">修改时间：</td>
                      <td><asp:Label runat="server" ID="lbl_Fmodify_time"> </asp:Label></td>
                 </tr>
+                 
             </table>
                 </asp:Panel>
         </div>

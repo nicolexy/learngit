@@ -94,8 +94,8 @@
             <div>
                 <br />
                 <asp:LinkButton ID="btn_trade" runat="server" OnClick="SwitchHandler">交易单</asp:LinkButton>
-                &nbsp;
-                <asp:LinkButton ID="btn_refund" runat="server" OnClick="SwitchHandler">退款单</asp:LinkButton>
+               <%-- &nbsp;
+                <asp:LinkButton ID="btn_refund" runat="server" OnClick="SwitchHandler">退款单</asp:LinkButton>--%>
                  &nbsp;
                 <asp:LinkButton ID="btn_BankrollList" runat="server" OnClick="SwitchHandler">资金流水</asp:LinkButton>
                  &nbsp;
@@ -123,9 +123,11 @@
                     <asp:BoundColumn HeaderText="币种" DataField="price_curtype_str" />
                     <asp:BoundColumn HeaderText="应支付金额" DataField="bank_paynum_str" />
                     <asp:BoundColumn HeaderText="实际支付金额" DataField="bank_paynum_str" />
+                    <asp:BoundColumn HeaderText="订单类型" DataField="list_type_str" />
+                    
                 </Columns>
             </asp:DataGrid>
-            <asp:DataGrid ID="dg_refund" runat="server" AutoGenerateColumns="False" CssClass="tab_dg" Caption="退款单">
+         <%--   <asp:DataGrid ID="dg_refund" runat="server" AutoGenerateColumns="False" CssClass="tab_dg" Caption="退款单">
                 <HeaderStyle Font-Bold="True" Height="25px" />
                 <Columns>
                     <asp:BoundColumn HeaderText=" 交易时间" DataField="acc_time" />
@@ -138,7 +140,7 @@
                     <asp:BoundColumn HeaderText=" 实际退款金额" DataField="total_payout_str" />
                     <asp:BoundColumn HeaderText=" 退款状态" DataField="refund_state_str" />
                 </Columns>
-            </asp:DataGrid>
+            </asp:DataGrid>--%>
               <asp:DataGrid ID="dg_fetch" runat="server" AutoGenerateColumns="False" CssClass="tab_dg" Caption="提现">
                 <HeaderStyle Font-Bold="True" Height="25px" />
                       <Columns>

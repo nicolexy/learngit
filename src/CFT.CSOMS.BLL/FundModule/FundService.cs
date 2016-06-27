@@ -249,7 +249,7 @@ namespace CFT.CSOMS.BLL.FundModule
            // var userFundsTable = new FundProfit().QueryProfitStatistic(tradeId);
             var userFundsTable = new FundProfit().QueryFundBind(tradeId);//查商户号
 
-            if(userFundsTable.Rows.Count < 1)
+            if (userFundsTable == null || userFundsTable.Rows.Count < 1)
                 throw new Exception(string.Format("{0}没有申购的基金", uin));
 
             userFundsTable.Columns.Add("balance", typeof(string));

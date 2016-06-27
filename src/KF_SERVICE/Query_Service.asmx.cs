@@ -12823,6 +12823,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     if (ds.Tables[0].Rows[0]["AmendState"].ToString() == "-3")
                     {
+                        string AmendType = ds.Tables[0].Rows[0]["AmendType"].ToString();
                         if (Result)
                         {
                             new SPOAService().UpdateMspAmendTaskByTaskid(Taskid, 0, UserID);
@@ -12830,15 +12831,42 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         }
                         else
                         {
-                            new SPOAService().UpdateSpidDomainApplyByTaskid(Taskid, Reason);
                             new SPOAService().UpdateMspAmendTaskByTaskid(Taskid, 4, UserID);
                             CFTUserAppealClass.InputAppealNumber(UserID, "Fail", "domain");
+
+                            if (AmendType == "18")//域名
+                            {
+                                new SPOAService().UpdateSpidDomainApplyByTaskid(Taskid, Reason);
+                            }
+                            else//非域名
+                            {
+                                new SPOAService().UpdateMspAmendInfoByTaskid(Taskid, Reason);
+                            }
                         }
                     }
                     else
                     {
                         throw new Exception("该记录已被审核!");
                     }
+
+                    //if (ds.Tables[0].Rows[0]["AmendState"].ToString() == "-3")
+                    //{
+                    //    if (Result)
+                    //    {
+                    //        new SPOAService().UpdateMspAmendTaskByTaskid(Taskid, 0, UserID);
+                    //        CFTUserAppealClass.InputAppealNumber(UserID, "Success", "domain");
+                    //    }
+                    //    else
+                    //    {
+                    //        new SPOAService().UpdateSpidDomainApplyByTaskid(Taskid, Reason);
+                    //        new SPOAService().UpdateMspAmendTaskByTaskid(Taskid, 4, UserID);
+                    //        CFTUserAppealClass.InputAppealNumber(UserID, "Fail", "domain");
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    throw new Exception("该记录已被审核!");
+                    //}
                 }
                 else
                 {
