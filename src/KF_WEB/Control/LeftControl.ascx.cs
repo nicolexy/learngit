@@ -247,8 +247,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 //暂且屏蔽该菜单，后期可能会打开，不可删除
                 //AccountOperaManage1.AddSubMenu("商户注销退出", "TradeManage/BusinessLogout.aspx");
 
-                AccountOperaManage1.AddSubMenu("投诉商户录入", "TradeManage/ComplainBussinessInput.aspx");
-                AccountOperaManage1.AddSubMenu("用户投诉", "TradeManage/ComplainUserInput.aspx");
+                //AccountOperaManage1.AddSubMenu("投诉商户录入", "TradeManage/ComplainBussinessInput.aspx");
+                //AccountOperaManage1.AddSubMenu("用户投诉", "TradeManage/ComplainUserInput.aspx");
 
 
                 SysManage1.AddSubMenu("系统公告管理", "SysManage/SysBulletinManage.aspx");
