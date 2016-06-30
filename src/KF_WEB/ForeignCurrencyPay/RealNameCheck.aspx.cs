@@ -119,8 +119,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
 
                 string GetImageFromKf2Url = System.Configuration.ConfigurationManager.AppSettings["GetImageFromKf2Url"].ToString();
 
-                img_photo_path1.ImageUrl = GetImageFromKf2Url + "/" + dr["photo_path1"].ToString();
-                img_photo_path2.ImageUrl = GetImageFromKf2Url + "/" + dr["photo_path2"].ToString();
+                img_photo_path1.ImageUrl = GetImageFromKf2Url + "/waibi/" + dr["photo_path1"].ToString();
+                img_photo_path2.ImageUrl = GetImageFromKf2Url + "/waibi/" + dr["photo_path2"].ToString();
                 txt_memo.Text = dr["memo"].ToString();
 
                 string state = dr["state"].ToString();

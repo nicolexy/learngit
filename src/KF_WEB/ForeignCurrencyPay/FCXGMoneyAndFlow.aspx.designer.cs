@@ -103,6 +103,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay {
         protected global::System.Web.UI.WebControls.LinkButton btn_trade;
         
         /// <summary>
+        /// btn_refund control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btn_refund;
+        
+        /// <summary>
         /// btn_BankrollList control.
         /// </summary>
         /// <remarks>
@@ -146,6 +155,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DataGrid dg_trade;
+        
+        /// <summary>
+        /// dg_refund control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DataGrid dg_refund;
         
         /// <summary>
         /// dg_fetch control.
