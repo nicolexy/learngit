@@ -3634,6 +3634,93 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
         }
 
+        /// <summary>
+        /// 格式字符串解析 result=0&row1=&row2=&row_num=...格式字符串解析
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="errMsg"></param>
+        /// <param name="totalNum">总记录数</param>
+        /// <returns></returns>
+        public static DataSet ParseRelayPageRow1Num(string str, out string errMsg)
+        {
+            DataSet dsresult = null;
+            Hashtable ht = null;
+            errMsg = "";
+
+            if (str != null && str != "")
+            {
+                string[] strlist1 = str.Split('&'); //result=0&xx1=1&xx2=2
+
+                if (strlist1.Length == 0)
+                {
+                    dsresult = null;
+                    errMsg = "调用失败,返回结果有误" + str;
+                    return null;
+                }
+
+                ht = new Hashtable(strlist1.Length);
+
+                foreach (string strtmp in strlist1)
+                {
+                    string[] strlist2 = strtmp.Split('=');
+                    if (strlist2.Length != 2)
+                    {
+                        continue;
+                    }
+
+                    ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
+                }
+
+                if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
+                {
+                    dsresult = null;
+                    errMsg = "调用失败,返回结果有误" + str;
+                    return null;
+                }
+
+                dsresult = new DataSet();
+                DataTable dt = new DataTable();
+                dsresult.Tables.Add(dt);
+                int irowcount = Int32.Parse(ht["row_num"].ToString().Trim());
+
+                if (irowcount > 0)
+                {
+                    for (int i = 1; i <= irowcount; i++)
+                    {
+                        string onerow = ht["row" + i].ToString().Trim().Replace("%25", "%").Replace("%26", "&").Replace("%3D", "=").Replace("%3d", "=").Replace("%2B", " ").Replace("%2b", " ").Replace("%3A", ":").Replace("%3a", ":");
+                        onerow=URLDecode(onerow, "utf-8");
+                        string[] strsplit_detail = onerow.Split('&');
+
+                        DataRow drfield = dt.NewRow();
+                        drfield.BeginEdit();
+
+                        foreach (string stmp in strsplit_detail)
+                        {
+                            if (stmp == null || stmp.Trim() == "")
+                                continue;
+
+                            string[] fieldsplit = stmp.Split('=');
+
+                            if (fieldsplit.Length != 2)
+                                continue;
+
+                            if (i == 1)
+                            {
+                                dt.Columns.Add(fieldsplit[0]);
+                            }
+                            drfield[fieldsplit[0]] = fieldsplit[1].Trim();
+                        }
+
+                        drfield.EndEdit();
+                        dt.Rows.Add(drfield);
+                    }
+                }
+
+            }
+
+            return dsresult;
+
+        }
 
         /// <summary>
         /// 格式字符串解析 result=0&row0=&row1=&row_num=...格式字符串解析(需要返回ref_param)

@@ -494,7 +494,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
         /// <returns></returns>
         /// 
         public static DataSet GetDSFromRelayMethod1(string requestString, string serviceCode, string relayIP = "", int relayPort = 0, bool encrypt = false, bool invisible = false, string relayDefaultSPId = "")
-        {
+       {
             string Msg = "";
             string answer = RelayInvoke(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
             DataSet ds = null;

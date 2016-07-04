@@ -311,5 +311,14 @@ namespace CFT.CSOMS.BLL.HandQModule
             }
             return dt;
         }
+        public DataTable HandQTansferQuery(string uin, int offset, int limit, int type, out string Msg)
+        {
+            DataSet ds = new HandQDAL().HandQTansferQuery(uin, offset, limit, type,out Msg);
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                return ds.Tables[0];
+            }
+            return null;
+        }
     }
 }
