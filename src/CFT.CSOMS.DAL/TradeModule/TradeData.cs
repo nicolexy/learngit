@@ -141,7 +141,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             //    throw new Exception("注销前历史库交易查询失败 未配置:" + year + "这个年份的reqid ");
             //}
 
-           // var reqid = dic[year];
+            // var reqid = dic[year];
             var ds = new PublicRes().QueryCommRelay8020("415", fields, 0, 20);
             if (ds != null && ds.Tables.Count != 0 && ds.Tables[0].Rows.Count != 0)
             {
@@ -507,7 +507,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         }
 
         public DataSet GetBankRollListByListId_New(string u_ID, string u_QueryType, int? fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,
-          float? fnum, float? fnumMax, string banktype, int iPageStart, int iPageMax, string uid="")
+          float? fnum, float? fnumMax, string banktype, int iPageStart, int iPageMax, string uid = "")
         {
             //celiafeng(冯心玲) 03-10 16:10:49
             //集成的接口我们目前没有合适的模块放，这个逻辑放在客服系统吧，就只有两个接口
@@ -986,7 +986,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         public bool QueryWXUnfinishedTrade(string uin)
         {
             //string acctid = WeChatHelper.GetUINFromWeChatName(WeChatName.Trim()).Replace("@wx.tenpay.com", "");
-            string acctid =uin.Trim().Replace("@wx.tenpay.com", "");
+            string acctid = uin.Trim().Replace("@wx.tenpay.com", "");
             System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             var url = Apollo.Common.Configuration.AppSettings.Get<string>("CancellationUnfinishedQueryCGI", "http://10.229.141.17:11903/cgi-bin/wxtf/canunregtransfer?f=json");
             var req = jss.Serialize(new
@@ -994,7 +994,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                 acctid = acctid
             });
             string msg = "";
-            var answer = commRes.GetFromCGIPost(url, null, req,out msg);
+            var answer = commRes.GetFromCGIPost(url, null, req, out msg);
             if (msg != "")
             {
                 throw new Exception("调用CGI出错:" + msg);
@@ -1009,6 +1009,36 @@ namespace CFT.CSOMS.DAL.TradeModule
                 throw new Exception("转账是否可以注销失败:" + answer);
             }
             return (int)obj["flag"] == 0;  //4、flag转账标记，0表示可以注销，1表示不可以注销
+        }
+        /// <summary>
+        /// 查询  是否有微信还款的未完成交易 
+        /// </summary>
+        /// <param name="open_id"></param>
+        /// <returns>true 可以注销</returns>
+        public bool QueryWXFCancelAsRepayMent(string uin, out string resultcode)
+        {
+            try
+            {
+                var ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("Relay_IP", "10.123.12.34");
+                var port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("Relay_PORT", 22000);
+                string stime = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd");
+                string etime = DateTime.Now.ToString("yyyy-MM-dd");             
+                string requestText = "sys_flag=1&module=zft_kf_server&business_type=1&start_day="+stime+"&end_day="+etime+"&offset=1&limit=1&type=4&acctid=" + uin;
+                DataSet ds = RelayAccessFactory.GetDSFromRelayMethod1(requestText, "110226", "10.123.12.34", 22000);
+                resultcode = "";
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count==1)
+                {
+                    resultcode = string.Format("用户姓名【{0}】还款单号【{1}】还款金额【{2}】!", ds.Tables[0].Rows[0]["card_name"].ToString(), ds.Tables[0].Rows[0]["wx_fetch_no"], ds.Tables[0].Rows[0]["num"] != null && (ds.Tables[0].Rows[0]["num"].ToString() != "") ? ds.Tables[0].Rows[0]["num"].ToString() : "0");
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {             
+                LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData     public bool QueryWXFCancelAsRepayMent(string uin, out string resultcode), ERROR:" + e.Message.ToString());
+                throw new Exception("查询微信未完成还款交易失败" + e.Message);
+            }
+
         }
 
         /// <summary>
@@ -1038,7 +1068,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             {
                 throw new Exception("CGI返回值为空");
             }
-            var obj = (jss.DeserializeObject(answer) as Dictionary<string, object>)["result"] as Dictionary<string,object>;
+            var obj = (jss.DeserializeObject(answer) as Dictionary<string, object>)["result"] as Dictionary<string, object>;
             if ((int)obj["retcode"] != 0)
             {
                 throw new Exception("转账是否可以注销失败:" + answer);
@@ -1049,11 +1079,11 @@ namespace CFT.CSOMS.DAL.TradeModule
         public DataSet GetUnfinishedMobileQHB(string uin)
         {
             string RequestText = "uin=" + uin;
-            RequestText += "&snd_state=1,3&offset=0&limit=1&type=1";
+            RequestText += "&qry_type=2";
 
             var relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("HandQHBIP", "10.238.13.244");
             var relayPORT = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("HandQHBPort", 22000);
-            string answer = RelayAccessFactory.RelayInvoke(RequestText, "100578", false, false, relayIP, relayPORT, "");
+            string answer = RelayAccessFactory.RelayInvoke(RequestText, "102081", true, false, relayIP, relayPORT, "");
             answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
             string Msg = "";
             DataSet ds = CommQuery.ParseRelayStr(answer, out Msg, true);
@@ -1211,12 +1241,12 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// <summary>
         /// iIDType=0,9,10,13
         /// </summary>
-        public DataSet Q_PAY_LIST(string QQID, int iIDType, DateTime dtBegin, DateTime dtEnd, int istr, int imax,string fuid="")
+        public DataSet Q_PAY_LIST(string QQID, int iIDType, DateTime dtBegin, DateTime dtEnd, int istr, int imax, string fuid = "")
         {
             DataSet ds = new DataSet();
             if (string.IsNullOrEmpty(fuid))
             {
-                fuid = PublicRes.ConvertToFuid(QQID); 
+                fuid = PublicRes.ConvertToFuid(QQID);
             }
             if (string.IsNullOrEmpty(fuid))
             {
@@ -1358,7 +1388,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                 var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["BankRollQueryPort"].ToString());
                 if (!string.IsNullOrEmpty(u_QQID) && string.IsNullOrEmpty(fuid))
                     fuid = PublicRes.ConvertToFuid(u_QQID);
-                    //fuid = "295191000";
+                //fuid = "295191000";
                 if (istr % imax == 1) istr -= 1;
 
                 string requestText = "s_time=" + ICEAccess.ICEEncode(u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"))
@@ -1480,7 +1510,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         {
             var ip = Apollo.Common.Configuration.AppSettings.Get("QueryOrderRelayIp", "10.128.128.72");
             var port = Apollo.Common.Configuration.AppSettings.Get("QueryOrderRelayPort", 22000);
-            var msg="";
+            var msg = "";
             var req = "route_type=transid" +
                 "&route_transid=" + listid +
                 "&listid=" + listid;
@@ -1489,6 +1519,6 @@ namespace CFT.CSOMS.DAL.TradeModule
 
             return CommQuery.GetDataSetFromReply(result, out msg);
 
-        }
+        }             
     }
 }

@@ -673,6 +673,16 @@ namespace CFT.CSOMS.BLL.TradeModule
             return (new TradeData()).QueryWXUnfinishedHB(qqid);
         }
 
+        /// <summary>
+        /// 查询  是否有微信还款的未完成交易 
+        /// </summary>
+        /// <param name="qqid"></param>
+        /// <returns>true 可以注销</returns>
+        public bool QueryWXFCancelAsRepayMent(string qqid, out string resultCodeString)
+        {
+             return (new TradeData()).QueryWXFCancelAsRepayMent(qqid,out resultCodeString);
+        }
+
         ///// <summary>
         ///// 指定时间内用户是否存在未完成的红包
         ///// </summary>
