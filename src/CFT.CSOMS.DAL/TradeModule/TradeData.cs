@@ -507,6 +507,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         }
 
         public DataSet GetBankRollListByListId_New(string u_ID, string u_QueryType, int? fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,
+          float? fnum, float? fnumMax, string banktype, int iPageStart, int iPageMax, string uid = "")
         {
             //celiafeng(冯心玲) 03-10 16:10:49
             //集成的接口我们目前没有合适的模块放，这个逻辑放在客服系统吧，就只有两个接口
@@ -1078,10 +1079,25 @@ namespace CFT.CSOMS.DAL.TradeModule
         public DataSet GetUnfinishedMobileQHB(string uin)
         {
             string RequestText = "uin=" + uin;
-            RequestText += "&qry_type=2";
-
+            RequestText += "&snd_state=1,3&offset=0&limit=1&type=1";
             var relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("HandQHBIP", "10.238.13.244");
             var relayPORT = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("HandQHBPort", 22000);
+            string answer = RelayAccessFactory.RelayInvoke(RequestText, "100578", false, false, relayIP, relayPORT, "");
+            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
+            string Msg = "";
+            DataSet ds = CommQuery.ParseRelayStr(answer, out Msg, true);
+            return ds;
+        }
+
+        /// <summary>
+        /// 替换手q原先的转账接口
+        /// </summary>     
+        public DataSet GetUnfinishedMobileQTransfer(string uin)
+        {
+            string RequestText = "uin=" + uin;
+            RequestText += "&qry_type=2";       
+            var relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("HandQ_Payment_RelayIP", "10.238.13.244");
+            var relayPORT = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("HandQ_Payment_RelayPort", 22000);
             string answer = RelayAccessFactory.RelayInvoke(RequestText, "102081", true, false, relayIP, relayPORT, "");
             answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
             string Msg = "";

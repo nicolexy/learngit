@@ -721,6 +721,11 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             return (new TradeData()).GetUnfinishedMobileQHB(uin);
         }
+
+        public DataSet GetUnfinishedMobileQTransfer(string uin)
+        {
+            return (new TradeData()).GetUnfinishedMobileQTransfer(uin);
+        }
         #endregion
 
         /// <summary>

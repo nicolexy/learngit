@@ -199,20 +199,45 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     if (Regex.IsMatch(qqid, @"^[1-9]\d*$"))
                     {
                         #region 手Q特有判断
-                        DataSet dsHandQ = new TradeService().QueryPaymentParty("", "1,2,12,4,6,7", "3", qqid);
-                        if (dsHandQ != null && dsHandQ.Tables.Count > 0 && dsHandQ.Tables[0].Rows.Count > 0 && dsHandQ.Tables[0].Rows[0]["result"].ToString() != "97420006")
+
+                        #region 转账
+                        try
                         {
-                            WebUtils.ShowMessage(this.Page, "手Q用户转账中、退款中、未完成的订单禁止注销和批量注销");
+                            DataSet dsMobileQHB = new TradeService().GetUnfinishedMobileQTransfer(qqid);
+                            if (dsMobileQHB != null && dsMobileQHB.Tables.Count > 0 && dsMobileQHB.Tables[0].Rows.Count > 0 && dsMobileQHB.Tables[0].Rows[0]["result"].ToString() != "192720108")
+                            {
+                                WebUtils.ShowMessage(this.Page, "手Q用户转账中、退款中、未完成的订单禁止注销和批量注销");
+                                return;
+                            }
+                        }
+                        catch (System.Exception ex)
+                        {
+                            LogHelper.LogError("查询手Q转账记录失败" + ex.Message, "LogOnUser");
+                            WebUtils.ShowMessage(this.Page, "查询手Q转账记录失败" + ex.Message);
                             return;
                         }
-
+                        #endregion
+                        //DataSet dsHandQ = new TradeService().QueryPaymentParty("", "1,2,12,4,6,7", "3", qqid);
+                        //if (dsHandQ != null && dsHandQ.Tables.Count > 0 && dsHandQ.Tables[0].Rows.Count > 0 && dsHandQ.Tables[0].Rows[0]["result"].ToString() != "97420006")
+                        //{
+                        //    WebUtils.ShowMessage(this.Page, "手Q用户转账中、退款中、未完成的订单禁止注销和批量注销");
+                        //    return;
+                        //}
                         #region 红包
                         try
                         {
                             DataSet dsMobileQHB = new TradeService().GetUnfinishedMobileQHB(qqid);
-                            if (dsMobileQHB != null && dsMobileQHB.Tables.Count > 0 && dsMobileQHB.Tables[0].Rows.Count > 0 && dsMobileQHB.Tables[0].Rows[0]["result"].ToString() != "192720108")
+                            if (dsMobileQHB.Tables[0].Columns.Contains("row_num"))
                             {
-                                WebUtils.ShowMessage(this.Page, "该账户存在未完成的手Q红包交易，禁止注销和批量注销");
+                                if (dsMobileQHB != null && dsMobileQHB.Tables.Count > 0 && dsMobileQHB.Tables[0].Rows.Count > 0 && int.Parse(dsMobileQHB.Tables[0].Rows[0]["row_num"].ToString()) > 0)
+                                {
+                                    WebUtils.ShowMessage(this.Page, "该账户存在未完成的手Q红包交易，禁止注销和批量注销");
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                WebUtils.ShowMessage(this.Page, "查询是否有未完成手Q红包交易失败!");
                                 return;
                             }
                         }
@@ -222,7 +247,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                             WebUtils.ShowMessage(this.Page, "查询手Q红包未完成交易失败" + ex.Message);
                             return;
                         }
-                        #endregion
+                        #endregion                    
 
                         #region 微粒贷
                         try
