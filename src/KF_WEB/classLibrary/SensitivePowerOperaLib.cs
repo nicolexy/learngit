@@ -434,6 +434,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 
                 rights[169] = new OneRight("RealNameCertification", 169, "实名认证白名单设置");
 
+                rights[170] = new OneRight("IceOutPPSecurityMoney", 170, "解冻拍拍保证金订单");
+
 				ht = new Hashtable(RIGHTCOUNT);
 				for(int i=0 ; i< RIGHTCOUNT; i++)
 				{

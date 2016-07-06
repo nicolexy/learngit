@@ -107,7 +107,6 @@
                                                                 <span style="display: block; float: left;">
                                                                     <input type="text" id="txt_usertype" style="width: 200px;" onfocus="fucusClear();" /></span><span id="error_userinfo" style="display: block; color: red; float: left;"></span>
                                                             </div>
-
                                                         </td>
                                                         <td>
                                                             <input id="WeChatId" name="IDType" runat="server" type="radio" checked /><label for="WeChatId">微信帐号</label>

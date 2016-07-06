@@ -141,7 +141,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             //    throw new Exception("注销前历史库交易查询失败 未配置:" + year + "这个年份的reqid ");
             //}
 
-            // var reqid = dic[year];
+           // var reqid = dic[year];
             var ds = new PublicRes().QueryCommRelay8020("415", fields, 0, 20);
             if (ds != null && ds.Tables.Count != 0 && ds.Tables[0].Rows.Count != 0)
             {
@@ -507,7 +507,6 @@ namespace CFT.CSOMS.DAL.TradeModule
         }
 
         public DataSet GetBankRollListByListId_New(string u_ID, string u_QueryType, int? fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,
-          float? fnum, float? fnumMax, string banktype, int iPageStart, int iPageMax, string uid = "")
         {
             //celiafeng(冯心玲) 03-10 16:10:49
             //集成的接口我们目前没有合适的模块放，这个逻辑放在客服系统吧，就只有两个接口
@@ -1520,5 +1519,21 @@ namespace CFT.CSOMS.DAL.TradeModule
             return CommQuery.GetDataSetFromReply(result, out msg);
 
         }             
+
+        //解冻拍拍保证金
+        public DataSet IsIceOutPPSecurtyMoney(string uin, string transactionId)
+        {
+            var relayip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("Relay_IP", "10.123.12.34");
+            var relayport = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("Relay_PORT", 22000);        
+            string reqString = "flag=2&uin=" + uin + "&transaction_id=" + transactionId;
+            try
+            {                
+                return RelayAccessFactory.GetDSFromRelayAnsNotEncr(reqString, "10", relayip, relayport,"",true);
+            }
+            catch (Exception err)
+            {
+                throw new Exception(string.Format("解冻拍拍保证金:{0},{1}", relayip, err.Message));
+            }            
+        }
     }
 }
