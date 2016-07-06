@@ -1287,7 +1287,6 @@ namespace CFT.CSOMS.BLL.TradeModule
             int state = new TradeData().WeiLibDaiQuery(uin);
             return state != 0;  //0:无未还清欠款, 1:有未还清欠款
         }
-
      
         /// <summary>
         /// 查询交易单表
@@ -1298,5 +1297,30 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             return new TradeData().GetPayByListid(listid);
         }
+
+        //解冻拍拍保证金
+        public bool IsIceOutPPSecurtyMoney(string uin, string transactionId, out string msg)
+        {
+            DataSet ds = new TradeData().IsIceOutPPSecurtyMoney(uin, transactionId);
+            bool ret = false;
+            msg = "";
+            try
+            {
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["result"].ToString()) && int.Parse(ds.Tables[0].Rows[0]["result"].ToString()) == 0)
+                    {
+                        ret = true;
+                    }
+                    msg = ds.Tables[0].Rows[0]["res_info"].ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("解冻拍拍保证金IsIceOutPPSecurtyMoney：" + e.Message);
+            }
+            return ret;        
+        }
+
     }
 }

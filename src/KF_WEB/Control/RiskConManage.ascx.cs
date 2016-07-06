@@ -45,7 +45,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 				menuControl.AddSubMenu("二次登录密码撤销","Trademanage/SuspendSecondPasseword.aspx") ;
 			}
 
-			if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this) || TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("DeleteCrt",this))
+			if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this) && TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("DeleteCrt",this))
 			{
 				menuControl.AddSubMenu("个人证书管理","Trademanage/CrtQuery.aspx") ;
 			}
@@ -61,7 +61,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 				menuControl.AddSubMenu("风控解冻审核","FreezeManage/FreezeQuery.aspx");
 				menuControl.AddSubMenu("报表统计输出","FreezeManage/FreezeCount.aspx");
 			}
-
 		}
 
 		#region Web 窗体设计器生成的代码

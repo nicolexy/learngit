@@ -157,7 +157,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
             }
 
             //解析
-            ds = CommQuery.ParseRelayStr(answer, out Msg);
+            ds = CommQuery.ParseRelayStr(answer, out Msg,invisible);
             if (Msg != "")
             {
                 throw new Exception(Msg);
