@@ -1019,12 +1019,12 @@ namespace CFT.CSOMS.DAL.TradeModule
         {
             try
             {
-                var ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("Relay_IP", "10.123.12.34");
+                var ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("Relay_IP", "172.27.31.177");
                 var port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("Relay_PORT", 22000);
                 string stime = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd");
                 string etime = DateTime.Now.ToString("yyyy-MM-dd");             
                 string requestText = "sys_flag=1&module=zft_kf_server&business_type=1&start_day="+stime+"&end_day="+etime+"&offset=1&limit=1&type=4&acctid=" + uin;
-                DataSet ds = RelayAccessFactory.GetDSFromRelayMethod1(requestText, "110226", "10.123.12.34", 22000);
+                DataSet ds = RelayAccessFactory.GetDSFromRelayMethod1(requestText, "110226", ip, port);
                 resultcode = "";
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count==1)
                 {
@@ -1095,9 +1095,9 @@ namespace CFT.CSOMS.DAL.TradeModule
         public DataSet GetUnfinishedMobileQTransfer(string uin)
         {
             string RequestText = "uin=" + uin;
-            RequestText += "&qry_type=2";       
-            var relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("HandQ_Payment_RelayIP", "10.238.13.244");
-            var relayPORT = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("HandQ_Payment_RelayPort", 22000);
+            RequestText += "&qry_type=2";
+            var relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("HandQHBIP", "10.238.13.244");
+            var relayPORT = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("HandQHBPort", 22000);
             string answer = RelayAccessFactory.RelayInvoke(RequestText, "102081", true, false, relayIP, relayPORT, "");
             answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
             string Msg = "";
@@ -1539,7 +1539,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         //解冻拍拍保证金
         public DataSet IsIceOutPPSecurtyMoney(string uin, string transactionId)
         {
-            var relayip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("Relay_IP", "10.123.12.34");
+            var relayip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("Relay_IP", "172.27.31.177");
             var relayport = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("Relay_PORT", 22000);        
             string reqString = "flag=2&uin=" + uin + "&transaction_id=" + transactionId;
             try
