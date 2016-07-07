@@ -203,8 +203,8 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                         #region 转账
                         try
                         {
-                            DataSet dsMobileQHB = new TradeService().GetUnfinishedMobileQTransfer(qqid);
-                            if (dsMobileQHB != null && dsMobileQHB.Tables.Count > 0 && dsMobileQHB.Tables[0].Rows.Count > 0 && dsMobileQHB.Tables[0].Rows[0]["result"].ToString() != "192720108")
+                            DataSet dsMobileQTransfer = new TradeService().GetUnfinishedMobileQTransfer(qqid);
+                            if (dsMobileQTransfer != null && dsMobileQTransfer.Tables.Count > 0 && dsMobileQTransfer.Tables[0].Rows.Count > 0 && dsMobileQTransfer.Tables[0].Rows[0]["result"].ToString() != "192720108")
                             {
                                 WebUtils.ShowMessage(this.Page, "手Q用户转账中、退款中、未完成的订单禁止注销和批量注销");
                                 return;
