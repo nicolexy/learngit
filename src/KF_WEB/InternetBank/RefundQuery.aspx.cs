@@ -716,6 +716,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                 List<string> fidList = new List<string>(); //需要更改状态的财付通订单Fid
                 System.Data.DataTable dt = null;
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                qs.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
                 string no = DateTime.Now.ToString("yyyyMMddHHmmssffff");  //退款批次
 
                 LogHelper.LogInfo(string.Format("btnRefundEmail_Click batch_num ={0},stime={1},etime={2}", no, stime, etime));
@@ -767,6 +768,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                     string txtSuccess = string.Format(txtFilePath, no, "success");
                     string txtFail = string.Format(txtFilePath, no, "fail");
 
+                    Dictionary<int, string> fileSuccessTypeList = new Dictionary<int, string>();
+
                     LogHelper.LogInfo(string.Format("btnRefundEmail_Click txtFilePath={0},txtSuccess={1},txtFail=={2}", txtFilePath, txtSuccess, txtFail));
 
                     for (int j = 0; j < countSheet; j++)
@@ -790,6 +793,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
                                     //2网银订单退款
                                     var refundType = 2;
+
+                                    #region 获取订单交易类型
+
+                                    //绑定交易资料信息
+                                    DateTime beginTime = DateTime.Parse(ConfigurationManager.AppSettings["sBeginTime"].ToString());
+                                    DateTime endTime = DateTime.Parse(ConfigurationManager.AppSettings["sEndTime"].ToString());
+                                    int istr = 1;
+                                    int imax = 2;
+                                    DataSet ds = qs.GetPayList(row["Forder_id"].ToString(), 4, beginTime, endTime, istr, imax);
+                                    int temp_orderType = 0;
+                                    if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0 && int.TryParse(ds.Tables[0].Rows[0]["Ftrade_type"].ToString(), out temp_orderType))
+                                    {
+                                        refundType = temp_orderType;
+                                        LogHelper.LogInfo(string.Format(" btnRefundEmail_Click    获取订单交易类型，查询数据  TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service.GetPayList： Forder_id={0} ,refundType={1}", row["Forder_id"].ToString(), refundType));
+                                    }
+                                    else
+                                    {
+                                        LogHelper.LogInfo(string.Format(" btnRefundEmail_Click    获取订单交易类型，查询数据  TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service.GetPayList： Forder_id={0} 返回信息为空", row["Forder_id"].ToString()));
+
+                                    }
+                                    #endregion
+
                                     LogHelper.LogInfo(string.Format(" btnRefundEmail_Click  BatchRefundSingleCheck  请求提交参数  ZWBatchPay_Service.BatchPay_Service.BatchRefundSingleCheck： flag={0},zwMsg={1},tradeType={2},Forder_id={3},Frefund_type={4},Frefund_amount={5},refundType={6}", flag, zwMsg, tradeType, row["Forder_id"].ToString(), row["Frefund_type"].ToString(), row["Frefund_amount"].ToString(), refundType));
 
                                     try
@@ -812,7 +837,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
                                     if ((tradeType == "2" || tradeType == "3") && flag)  //数据导入后订单的状态可能在其他地方发生改变，需再次判断
                                     {
-                                        WriteTxt(txtSuccess, row["Fid"].ToString(), row["Frefund_amount"].ToString(), row["Forder_id"].ToString(), row["Fbuy_acc"].ToString());
+                                        //按类型创建文件
+                                        string filepath = txtSuccess + "_" + refundType;
+                                        if (!fileSuccessTypeList.ContainsKey(refundType))
+                                        {
+                                            fileSuccessTypeList.Add(refundType,filepath);
+                                        }
+                                        WriteTxt(filepath, row["Fid"].ToString(), row["Frefund_amount"].ToString(), row["Forder_id"].ToString(), row["Fbuy_acc"].ToString());
                                     }
                                     else
                                     {
@@ -835,15 +866,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                     }
 
 
-                    if (File.Exists(txtSuccess))
-                    {
-                        dicSuccessFile = WriteXls(txtSuccess, no, "success");
-                    }
 
-                    if (File.Exists(txtFail))
-                    {
-                        dicFailFile = WriteXls(txtFail, no, "fail");
-                    }
 
                     string uin = Session["uid"].ToString();
                     int okTotal = 0;
@@ -860,46 +883,66 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                     string subFailFile = string.Empty;
 
                     List<string> subFile = new List<string>();
-                    if (dicSuccessFile != null && dicSuccessFile.Count > 0)
+
+                    if (fileSuccessTypeList.Count > 0)
                     {
-                        foreach (KeyValuePair<string, RefundFile> item in dicSuccessFile)
+                        foreach (var filesuccessinfo in fileSuccessTypeList)
                         {
-                            subFile.Add(item.Key);
-                            okTotal += item.Value.listFid.Count;
-                            okAmount += item.Value.amount;
-                            bool sendFlag = false;
-                            #region 提交到账务
-                            try
+                            int filerefundtype = filesuccessinfo.Key;
+                            string filerefundpath = filesuccessinfo.Value;
+
+                            if (File.Exists(filerefundpath))
                             {
-                                LogHelper.LogInfo(string.Format(" btnRefundEmail_Click  BatchRefundRequest  ZWBatchPay_Service.BatchPay_Service.BatchRefundRequest接口返回：batchNum={0},uin={1},item.Value.remotePath={2},item.Value.listFid.Count={3}, item.Value.fileMd5={4}", item.Value.batchNum, uin, item.Value.remotePath, item.Value.listFid.Count, item.Value.fileMd5));
-                                sendFlag = bs.BatchRefundRequest(item.Value.batchNum, 2, false, uin, item.Value.listFid.Count, item.Value.amount, item.Value.remotePath, item.Value.fileMd5, out zwMsg);
-                                if (!string.IsNullOrEmpty(zwMsg))
-                                    LogHelper.LogInfo(string.Format("BatchRefundRequest  ZWBatchPay_Service.BatchPay_Service.BatchRefundRequest接口返回：sendFlag={0},zwMsg={1}", sendFlag, zwMsg));
+                                dicSuccessFile = WriteXls(filerefundpath, no, "success");
                             }
-                            catch (Exception ex)
+                            if (dicSuccessFile != null && dicSuccessFile.Count > 0)
                             {
-                                sendFlag = false;
-                                LogHelper.LogError(" btnRefundEmail_Click  BatchRefundRequest接口调用异常：" + ex.ToString() + ex.StackTrace);
+                                foreach (KeyValuePair<string, RefundFile> item in dicSuccessFile)
+                                {
+                                    subFile.Add(item.Key);
+                                    okTotal += item.Value.listFid.Count;
+                                    okAmount += item.Value.amount;
+                                    bool sendFlag = false;
+                                    #region 提交到账务
+                                    try
+                                    {
+                                        LogHelper.LogInfo(string.Format(" btnRefundEmail_Click  BatchRefundRequest  ZWBatchPay_Service.BatchPay_Service.BatchRefundRequest接口返回：batchNum={0},uin={1},item.Value.remotePath={2},item.Value.listFid.Count={3}, item.Value.fileMd5={4}", item.Value.batchNum, uin, item.Value.remotePath, item.Value.listFid.Count, item.Value.fileMd5));
+                                        sendFlag = bs.BatchRefundRequest(item.Value.batchNum, filerefundtype, false, uin, item.Value.listFid.Count, item.Value.amount, item.Value.remotePath, item.Value.fileMd5, out zwMsg);
+                                        if (!string.IsNullOrEmpty(zwMsg))
+                                            LogHelper.LogInfo(string.Format("BatchRefundRequest  ZWBatchPay_Service.BatchPay_Service.BatchRefundRequest接口返回：sendFlag={0},zwMsg={1}", sendFlag, zwMsg));
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        sendFlag = false;
+                                        LogHelper.LogError(" btnRefundEmail_Click  BatchRefundRequest接口调用异常：" + ex.ToString() + ex.StackTrace);
+                                    }
+                                    if (sendFlag)
+                                    {
+                                        subOkFile += item.Key + "|";
+                                        subOkTotal += item.Value.listFid.Count;
+                                        subOkAmount += item.Value.amount;
+                                        fidList.AddRange(item.Value.listFid);
+                                        updateState(fidList, item.Value.batchNum);
+                                        LogHelper.LogInfo(" btnRefundEmail_Click  BatchRefundRequest：subOkFile" + subOkFile + ",sendFlag = " + sendFlag);
+                                    }
+                                    else
+                                    {
+                                        subFailFile += item.Key + "|";
+                                        subFailTotal += item.Value.listFid.Count;
+                                        subFailAmount += item.Value.amount;
+                                        LogHelper.LogInfo(" btnRefundEmail_Click  BatchRefundRequest  返回失败：subFailFile" + subFailFile + ",sendFlag = " + sendFlag);
+                                    }
+                                    #endregion
+                                }
                             }
-                            if (sendFlag)
-                            {
-                                subOkFile += item.Key + "|";
-                                subOkTotal += item.Value.listFid.Count;
-                                subOkAmount += item.Value.amount;
-                                fidList.AddRange(item.Value.listFid);
-                                updateState(fidList, item.Value.batchNum);
-                                LogHelper.LogInfo(" btnRefundEmail_Click  BatchRefundRequest：subOkFile" + subOkFile + ",sendFlag = " + sendFlag);
-                            }
-                            else
-                            {
-                                subFailFile += item.Key + "|";
-                                subFailTotal += item.Value.listFid.Count;
-                                subFailAmount += item.Value.amount;
-                                LogHelper.LogInfo(" btnRefundEmail_Click  BatchRefundRequest  返回失败：subFailFile" + subFailFile + ",sendFlag = " + sendFlag);
-                            }
-                            #endregion
                         }
                     }
+
+                    if (File.Exists(txtFail))
+                    {
+                        dicFailFile = WriteXls(txtFail, no, "fail");
+                    }
+
                     if (dicFailFile != null && dicFailFile.Count > 0)
                     {
                         foreach (KeyValuePair<string, RefundFile> item in dicFailFile)
