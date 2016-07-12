@@ -1254,8 +1254,9 @@ namespace CFT.CSOMS.BLL.TradeModule
         /// </summary>
         /// <param name="uin">单号</param>    
         /// <param name="queryType">查询类型 财付通订单号: 1,  商户订单号:2 </param>
+        /// <param name="fuid">内部帐号 </param>
         /// <returns></returns>
-        public DataSet TransferQuery(string uin, int queryType)
+        public DataSet TransferQuery(string uin, int queryType, string fuid)
         {
             Dictionary<string, string> dic_listType = new Dictionary<string, string>()
             {
@@ -1266,7 +1267,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                 {"5", "手Q AA收款"},
                 {"6", "手Q转账"},
             };
-           var ds=new TradeData().TransferQuery(uin, queryType);
+            var ds = new TradeData().TransferQuery(uin, queryType, fuid);
            if (ds != null && ds.Tables.Count > 0)
            {
                var dt = ds.Tables[0];

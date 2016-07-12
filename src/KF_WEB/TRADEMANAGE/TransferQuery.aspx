@@ -59,13 +59,26 @@
                     <asp:Label ID="lb_operatorID" runat="server"></asp:Label>
                 </td>
             </tr>
-            <tr>
-                <td align="left" colspan="2">
-                    <span>单号：</span>
-                    <asp:TextBox ID="txt_order" runat="server" Width="250"></asp:TextBox>
+           <tr>
+                <td align="left">                    
                     <asp:RadioButton ID="check_tenpay" runat="server" GroupName="chekedType" Text="财付通订单" Checked="true" />
-                    <asp:RadioButton ID="check_sp" runat="server" GroupName="chekedType" Text="商户订单号" />
-                    <asp:Button ID="Button1" runat="server" Text="查询" Style="margin-left: 100px;" OnClick="Button1_Click" />
+                </td>
+                <td colspan="2">
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>单号：</span>
+                    <asp:TextBox ID="txt_order" runat="server" Width="250"></asp:TextBox>
+                </td>
+            </tr>
+            <tr style="border: 0">
+                <td>
+                     <asp:RadioButton ID="check_sp" runat="server" GroupName="chekedType" Text="商户订单号" />
+                </td>
+                <td>
+                    <span>商户订单号：</span>
+                    <asp:TextBox ID="txt_SpOrder" runat="server" Width="250"></asp:TextBox>
+                </td>
+                 <td>
+                    <span>财付通账户：</span>
+                    <asp:TextBox ID="txt_CaiFuTongAccount" runat="server" Width="250"></asp:TextBox>
                 </td>
             </tr>
             <tr>
