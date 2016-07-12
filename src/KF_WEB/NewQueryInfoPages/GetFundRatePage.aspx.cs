@@ -323,6 +323,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             lblTotalProfit.Text = classLibrary.setConfig.FenToYuan(fundService.totalProfit);
             lbLCTMarkValue.Text = fundService.totalLCTMarkValue.ToString();//理财通市值
             lbChangeMarkValue.Text = fundService.totalChangeMarkValue.ToString();//零钱市值
+            //余额+
+            lblBalancePlus.Text = "余额+(" + fundService.BalancePlus_fundName + "):" + classLibrary.setConfig.FenToYuan(fundService.BalancePlus);
+
         }
 
         private void BindProfitList(string tradeId, string spId, DateTime beginDate, DateTime endDate, int pageIndex = 1)
