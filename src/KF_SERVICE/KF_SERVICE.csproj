@@ -168,6 +168,10 @@
       <DependentUpon>BaseInfoService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CSAPI\HKWalletService.asmx.cs">
+      <DependentUpon>HKWalletService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CSAPI\PaymentService.asmx.cs">
       <DependentUpon>PaymentService.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -260,6 +264,7 @@
       <SubType>Form</SubType>
     </Content>
     <Content Include="CSAPI\BaseInfoService.asmx" />
+    <Content Include="CSAPI\HKWalletService.asmx" />
     <Content Include="CSAPI\PaymentService.asmx" />
     <Content Include="CSAPI\RealNameCertificationService.asmx" />
     <Content Include="CSAPI\TradeService.asmx" />

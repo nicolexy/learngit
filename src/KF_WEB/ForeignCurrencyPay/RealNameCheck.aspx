@@ -87,7 +87,7 @@
                     <asp:BoundColumn DataField="create_time" HeaderText="申请时间" />
                     <asp:BoundColumn DataField="modify_time" HeaderText="审核时间" />
                     <asp:BoundColumn DataField="operator" HeaderText="处理人" />
-                    <asp:BoundColumn DataField="state" HeaderText="状态" />
+                    <asp:BoundColumn DataField="state_str" HeaderText="状态" />
                     <asp:ButtonColumn Text="查看"  CommandName="detail"   />
                 </Columns>
             </asp:DataGrid>
@@ -142,20 +142,19 @@
                     </tr>
                     <tr>
                         <td class="tb_query_title">身份证扫描件：</td>
-                        <td><asp:Image runat="server" ID="img_photo_path1" /></td>
-                        <td colspan="2"><asp:Image runat="server" ID="img_photo_path2" /></td>
+                        <td><asp:Image runat="server" ID="img_photo_path1"  Width="380"  Height="380" /></td>
+                        <td colspan="2"><asp:Image runat="server" ID="img_photo_path2"   Width="380"  Height="380"/></td>
                     </tr>
                     <tr>
                         <td class="tb_query_title">拒绝原因：</td>
                         <td colspan="3">
-                            <asp:TextBox runat="server" ID="txt_memo" TextMode="MultiLine" Height="55px" Width="494px"></asp:TextBox>
-                            <br />
-                            <asp:DropDownList runat="server" ID="DropDownList2" Height="25px" Width="400px">
-                                <asp:ListItem Selected="True">登记姓名和证件照片中内容不符</asp:ListItem>
-                                <asp:ListItem>登记出生日期和证件照片中内容不符</asp:ListItem>
-                                <asp:ListItem>登记证件类型和证件照片中内容不符</asp:ListItem>
-                                <asp:ListItem>登记证件号码和证件照片中内容不符</asp:ListItem>
-                                <asp:ListItem>证件照片模糊不清</asp:ListItem>
+                            <asp:DropDownList runat="server" ID="ddlmemo" Height="25px" Width="400px">
+                                <asp:ListItem Selected="True" Value=""></asp:ListItem>
+                                <asp:ListItem Value="01">登记姓名和证件照片中内容不符</asp:ListItem>
+                                <asp:ListItem Value="02">登记出生日期和证件照片中内容不符</asp:ListItem>
+                                <asp:ListItem Value="03">登记证件类型和证件照片中内容不符</asp:ListItem>
+                                <asp:ListItem Value="04">登记证件号码和证件照片中内容不符</asp:ListItem>
+                                <asp:ListItem Value="05">证件照片模糊不清</asp:ListItem>
                             </asp:DropDownList>
                         </td>
                     </tr>
