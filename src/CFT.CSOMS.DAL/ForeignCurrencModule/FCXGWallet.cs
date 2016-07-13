@@ -7,6 +7,7 @@ using System.Text;
 using SunLibraryEX;
 using CFT.CSOMS.DAL.WechatPay.Entity;
 using commLib.Entity;
+using commLib.Entity.HKWallet;
 
 namespace CFT.CSOMS.DAL.ForeignCurrencModule
 {
@@ -656,13 +657,14 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
 
         public string checkRealName(string Operator, string uin, string approval_id, string state, string memo, string client_ip)
         {
-            memo = System.Web.HttpUtility.UrlEncode(memo);
             string req = "client_ip=" + client_ip +
                 "&uin=" + uin +
                 "&op_name=" + Operator +
                 "&approval_id=" + approval_id +
                 "&state=" + state +
-                "&memo=" + memo;
+                "&memo=" + memo.Trim();
+
+
             string result = RelayAccessFactory.RelayInvoke(req, "102225", true, false, ip, port, "utf-8");
             if (result.Contains("result=0&res_info=ok"))
             {
@@ -672,6 +674,75 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
             {
                 throw new Exception("请求串：" + req + "返回串" + result);
             }
+        }
+
+
+        public List<HKWalletRealNameCheckModel> New_QueryRealNameInfo2(string uin, string type, string state, DateTime? start_time, DateTime? end_time, string client_ip, int offset, int limit)
+        {
+            string req = "client_ip=" + client_ip + "&offset=" + offset + "&limit=" + limit;
+
+            if (!string.IsNullOrEmpty(uin))
+            {
+                req += "&uin=" + uin;
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+                req += "&type=" + type;
+            }
+            if (!string.IsNullOrEmpty(state))
+            {
+                req += "&state=" + state;
+            }
+            if (start_time.HasValue)
+            {
+                string stime = start_time.Value.ToString("yyyy-MM-dd");
+                req += "&start_time=" + stime;
+            }
+            if (end_time.HasValue)
+            {
+                string etime = end_time.Value.ToString("yyyy-MM-dd");
+                req += "&end_time=" + etime;
+            }
+            var result = RelayAccessFactory.RelayInvoke(req, "102241", true, false, ip, port, "utf-8");
+            if (!result.Contains("result=0&res_info=ok"))
+            {
+                throw new Exception("请求串：" + req + "返回串：" + result);
+            }
+            List<HKWalletRealNameCheckModel> list = ToList<HKWalletRealNameCheckModel>(result);
+            return list;
+        }
+
+        public List<T> ToList<T>(string result) where T : class
+        {
+            Dictionary<string, string> dic = result.ToDictionary('&', '=');
+            int row_num = Convert.ToInt32(dic["row_num"]);
+            if (row_num == 0)
+            {
+                throw new Exception("查询结果为空！");
+            }
+            List<T> list = new List<T>();
+            Type type = typeof(T);
+
+            foreach (string key_row in dic.Keys)
+            {
+                if (key_row.StartsWith("row") && key_row != "row_num")
+                {
+                    string rows = System.Web.HttpUtility.UrlDecode(dic[key_row], System.Text.Encoding.GetEncoding("utf-8"));
+                    Dictionary<string, string> dic_rows = rows.ToDictionary('&', '=');
+                    object obj = Activator.CreateInstance(type);
+                    foreach (string key_col in dic_rows.Keys)
+                    {
+                        System.Reflection.PropertyInfo Property = type.GetProperties().Where(p => p.Name.ToLower() == key_col.ToLower()).FirstOrDefault();
+                        if (Property != null)
+                        {
+                            Property.SetValue(obj, dic_rows[key_col], null);
+                        }
+                    }
+                    list.Add(obj as T);
+                }
+            }
+
+            return list;
         }
 
         #endregion
