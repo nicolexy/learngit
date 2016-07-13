@@ -49,7 +49,7 @@
     <link href="../SCRIPTS/laypage/skin/laypage.css" rel="stylesheet" />
     <script type="text/javascript" src="js/RealNameCertifation.js"></script>
     <script type="text/javascript">
-        $(function () {          
+        $(function () {
             $("#certifationtype").bind("change", function () {
                 $("#middle table").find("tbody").empty();
                 $("#page11").empty();
@@ -112,7 +112,7 @@
                                                             <input id="WeChatId" name="IDType" runat="server" type="radio" checked /><label for="WeChatId">微信帐号</label>
                                                             <input id="WeChatQQ" name="IDType" runat="server" type="radio" /><label for="WeChatQQ">微信绑定QQ</label>
                                                             <input id="WeChatMobile" name="IDType" runat="server" type="radio" /><label for="WeChatMobile">微信绑定手机</label>
-                                                            <input id="WeChatCft" name="IDType" runat="server" type="radio" /><label for="WeChatCft">微信财付通</label>
+                                                            <input id="WeChatCft" name="IDType" runat="server" type="radio" /><label for="WeChatCft">财付通账户</label>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -138,6 +138,8 @@
                             <th>证件号码</th>
                             <th>公安部认证时间</th>
                             <th>影印件认证时间</th>
+                            <th>运营商认证时间</th>
+                            <th>学历认证时间</th>
                             <th>账户类型</th>
                             <th>认证结果</th>
                             <th>银行卡</th>
