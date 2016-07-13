@@ -6,7 +6,7 @@ using System.Text;
 using CFT.CSOMS.DAL.Infrastructure;
 using CFT.Apollo.CommunicationFramework;
 using TENCENT.OSS.CFT.KF.Common;
-
+using TENCENT.OSS.C2C.Finance.Common.CommLib;
 
 namespace CFT.CSOMS.DAL.HandQModule
 {
@@ -168,6 +168,21 @@ namespace CFT.CSOMS.DAL.HandQModule
                throw new LogicException("查询数据为空!");
            }
 
+       }
+       /// <summary>
+       /// 手Q出入账查询，增加该方法是因为原来接口已变更
+       /// </summary>
+       /// type->1 转出 2 转入
+       public DataSet HandQTansferQuery(string uin,int offset,int limit,int type,out string Msg)
+       {
+           string RequestText = "uin=" + uin;
+           RequestText += "&offset="+offset+"&limit="+limit+"&type="+type;
+
+           var relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("HandQHBIP", "10.238.13.244");
+           var relayPORT = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("HandQHBPort", 22000);
+           string answer = RelayAccessFactory.RelayInvoke(RequestText, "102080", true, false, relayIP, relayPORT, "");         
+           DataSet ds = CommQuery.ParseRelayPageRow1Num(answer, out Msg);
+           return ds;
        }
     }
 }

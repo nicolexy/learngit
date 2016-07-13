@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Tencent.DotNet.Common.UI;
+using CFT.CSOMS.BLL.CFTAccountModule;
+using CFT.Apollo.Logging;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -26,19 +28,45 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         protected void Button1_Click(object sender, EventArgs e)
         {
             int queryType = 0;
+            string orderNumber = string.Empty;            //商户订单号或财付通订单号
+            string fuid = string.Empty;              //财付通账户对应内部UID
             try
             {
                 if (check_sp.Checked)
                 {
+                    //商户订单号
                     queryType = 2;
+                    orderNumber = txt_SpOrder.Text.Trim();
+                    string caiFuTongAccount = txt_CaiFuTongAccount.Text.Trim();//财付通账户
+                    if (string.IsNullOrEmpty(orderNumber))
+                    {
+                        tab_transfer_info.Visible = false;
+                        WebUtils.ShowMessage(this.Page, "请输入商户订单号");
+                        return;
+                    }
+                    else if (string.IsNullOrEmpty(caiFuTongAccount))
+                    {
+                        tab_transfer_info.Visible = false;
+                        WebUtils.ShowMessage(this.Page, "请输入财付通账户");
+                        return;
+                    }
+                    fuid = new AccountService().QQ2Uid(caiFuTongAccount);
                 }
                 else if (check_tenpay.Checked)
                 {
+                    //财付通订单
                     queryType = 1;
+                    orderNumber = txt_order.Text.Trim();
+                    if (string.IsNullOrEmpty(orderNumber))
+                    {
+                        tab_transfer_info.Visible = false;
+                        WebUtils.ShowMessage(this.Page, "请输入财付通订单号");
+                        return;
+                    }
                 }
 
                 var bll = new TradeService();
-                var ds = bll.TransferQuery(txt_order.Text, queryType);
+                var ds = bll.TransferQuery(orderNumber, queryType, fuid);
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {

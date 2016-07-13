@@ -673,6 +673,16 @@ namespace CFT.CSOMS.BLL.TradeModule
             return (new TradeData()).QueryWXUnfinishedHB(qqid);
         }
 
+        /// <summary>
+        /// 查询  是否有微信还款的未完成交易 
+        /// </summary>
+        /// <param name="qqid"></param>
+        /// <returns>true 可以注销</returns>
+        public bool QueryWXFCancelAsRepayMent(string qqid, out string resultCodeString)
+        {
+             return (new TradeData()).QueryWXFCancelAsRepayMent(qqid,out resultCodeString);
+        }
+
         ///// <summary>
         ///// 指定时间内用户是否存在未完成的红包
         ///// </summary>
@@ -710,6 +720,11 @@ namespace CFT.CSOMS.BLL.TradeModule
         public DataSet GetUnfinishedMobileQHB(string uin)
         {
             return (new TradeData()).GetUnfinishedMobileQHB(uin);
+        }
+
+        public DataSet GetUnfinishedMobileQTransfer(string uin)
+        {
+            return (new TradeData()).GetUnfinishedMobileQTransfer(uin);
         }
         #endregion
 
@@ -1239,8 +1254,9 @@ namespace CFT.CSOMS.BLL.TradeModule
         /// </summary>
         /// <param name="uin">单号</param>    
         /// <param name="queryType">查询类型 财付通订单号: 1,  商户订单号:2 </param>
+        /// <param name="fuid">内部帐号 </param>
         /// <returns></returns>
-        public DataSet TransferQuery(string uin, int queryType)
+        public DataSet TransferQuery(string uin, int queryType, string fuid)
         {
             Dictionary<string, string> dic_listType = new Dictionary<string, string>()
             {
@@ -1251,7 +1267,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                 {"5", "手Q AA收款"},
                 {"6", "手Q转账"},
             };
-           var ds=new TradeData().TransferQuery(uin, queryType);
+            var ds = new TradeData().TransferQuery(uin, queryType, fuid);
            if (ds != null && ds.Tables.Count > 0)
            {
                var dt = ds.Tables[0];
@@ -1277,7 +1293,6 @@ namespace CFT.CSOMS.BLL.TradeModule
             int state = new TradeData().WeiLibDaiQuery(uin);
             return state != 0;  //0:无未还清欠款, 1:有未还清欠款
         }
-
      
         /// <summary>
         /// 查询交易单表
@@ -1288,5 +1303,30 @@ namespace CFT.CSOMS.BLL.TradeModule
         {
             return new TradeData().GetPayByListid(listid);
         }
+
+        //解冻拍拍保证金
+        public bool IsIceOutPPSecurtyMoney(string uin, string transactionId, out string msg)
+        {
+            DataSet ds = new TradeData().IsIceOutPPSecurtyMoney(uin, transactionId);
+            bool ret = false;
+            msg = "";
+            try
+            {
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["result"].ToString()) && int.Parse(ds.Tables[0].Rows[0]["result"].ToString()) == 0)
+                    {
+                        ret = true;
+                    }
+                    msg = ds.Tables[0].Rows[0]["res_info"].ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("解冻拍拍保证金IsIceOutPPSecurtyMoney：" + e.Message);
+            }
+            return ret;        
+        }
+
     }
 }

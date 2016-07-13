@@ -220,22 +220,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay {
         protected global::System.Web.UI.WebControls.Image img_photo_path2;
         
         /// <summary>
-        /// txt_memo control.
+        /// ddlmemo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_memo;
-        
-        /// <summary>
-        /// DropDownList2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList2;
+        protected global::System.Web.UI.WebControls.DropDownList ddlmemo;
         
         /// <summary>
         /// btn_Pass control.

@@ -247,8 +247,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 //暂且屏蔽该菜单，后期可能会打开，不可删除
                 //AccountOperaManage1.AddSubMenu("商户注销退出", "TradeManage/BusinessLogout.aspx");
 
-                AccountOperaManage1.AddSubMenu("投诉商户录入", "TradeManage/ComplainBussinessInput.aspx");
-                AccountOperaManage1.AddSubMenu("用户投诉", "TradeManage/ComplainUserInput.aspx");
+                //AccountOperaManage1.AddSubMenu("投诉商户录入", "TradeManage/ComplainBussinessInput.aspx");
+                //AccountOperaManage1.AddSubMenu("用户投诉", "TradeManage/ComplainUserInput.aspx");
 
 
                 SysManage1.AddSubMenu("系统公告管理", "SysManage/SysBulletinManage.aspx");
@@ -420,12 +420,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 //DKManageControl1.AddSubMenu("调整状态查询", "NewQueryInfoPages/DK_QueryAdjust.aspx");
             }
            
-            if (classLibrary.ClassLib.ValidateRight("InfoCenter", this) || TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("DeleteCrt", this))
+            if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("DeleteCrt", this))
             {
                 RiskConManage1.AddSubMenu("个人证书管理", "Trademanage/CrtQuery.aspx");
-            }
-
-     
+            }            
 
             if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("CFTUserPick", this))
             {
@@ -483,6 +481,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             
             RiskConManage1.AddSubMenu("冻结资金记录", "BaseAccount/FreezeFinQuery.aspx");
             RiskConManage1.AddSubMenu("冻结资金查询(新）", "BaseAccount/FreezeFinQuery2.aspx");
+
+            if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("IceOutPPSecurityMoney", this))
+            {
+                RiskConManage1.AddSubMenu("拍拍保证金解冻", "Trademanage/IceOutPPSecurityMoney.aspx");
+            }
            // RiskConManage1.AddSubMenu("提现冻结资金查询", "BaseAccount/CashOutFreezeQuery.aspx");   该功能下线，2016-01-05 darrenran
 
             //CFTUserAppeal

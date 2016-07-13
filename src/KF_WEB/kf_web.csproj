@@ -2226,6 +2226,13 @@
     <Compile Include="TradeManage\ContractQuery.aspx.designer.cs">
       <DependentUpon>ContractQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TradeManage\IceOutPPSecurityMoney.aspx.cs">
+      <DependentUpon>IceOutPPSecurityMoney.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TradeManage\IceOutPPSecurityMoney.aspx.designer.cs">
+      <DependentUpon>IceOutPPSecurityMoney.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TradeManage\MobileRechargeQueryNew.aspx.cs">
       <DependentUpon>MobileRechargeQueryNew.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3560,6 +3567,8 @@
     <Content Include="TradeManage\ComplainUserDetail.aspx" />
     <Content Include="TradeManage\ComplainUserInput.aspx" />
     <Content Include="TradeManage\ContractQuery.aspx" />
+    <Content Include="TradeManage\IceOutPPSecurityMoney.aspx" />
+    <Content Include="TradeManage\js\IceOutPPSecurityMoney.js" />
     <Content Include="TradeManage\MobileRechargeQueryNew.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -5141,7 +5150,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>65084</DevelopmentServerPort>
+          <DevelopmentServerPort>39045</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

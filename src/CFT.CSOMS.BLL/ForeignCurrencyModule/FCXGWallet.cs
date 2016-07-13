@@ -8,6 +8,7 @@ using System.Collections;
 using CFT.CSOMS.DAL.Infrastructure;
 using TENCENT.OSS.C2C.Finance.BankLib;
 using commLib.Entity;
+using commLib.Entity.HKWallet;
 
 namespace CFT.CSOMS.BLL.ForeignCurrencyModule
 {
@@ -655,8 +656,20 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
             }
             return dt;
         }
+
+        public List<HKWalletRealNameCheckModel> New_QueryRealNameInfo2(string uin, string _type, string _state, DateTime? start_time, DateTime? end_time, string client_ip, int offset, int limit)
+        {
+            return dal.New_QueryRealNameInfo2(uin, _type, _state, start_time, end_time, client_ip, offset, limit);
+        }
+
+
         public string checkRealName(string Operator, string uin, string approval_id, string state, string memo, string client_ip)
         {
+            if (!(state == "2" || state == "3"))
+            {
+                throw new Exception("审批状态错误！");
+            }
+
             return dal.checkRealName(Operator, uin, approval_id, state, memo, client_ip);
         }
         #endregion

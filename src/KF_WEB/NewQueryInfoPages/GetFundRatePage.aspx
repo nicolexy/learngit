@@ -106,9 +106,12 @@
                             <td >零钱市值：
                                 <asp:Label ID="lbChangeMarkValue" runat="server"></asp:Label>
                             </td>
-                             <td colspan="2" >总资产：
+                             <td>总资产：
                                 <asp:Label ID="lbTotalAssets" runat="server"></asp:Label>
                              </td>
+                            <td>
+                                <asp:Label ID="lblBalancePlus" runat="server"></asp:Label>
+                            </td>
                             <td>
                                 <asp:Button ID="btnBalanceQuery" runat="server" Width="250px" Text="资金流水查询" OnClick="btnBalanceQuery_Click"></asp:Button></td>
                         </tr>
@@ -453,6 +456,8 @@
                             </asp:BoundColumn>
                             <asp:BoundColumn DataField="Fbank_type_str" HeaderText="银行类型">
                                 <HeaderStyle Width="200px"></HeaderStyle>
+                            </asp:BoundColumn>
+                            <asp:BoundColumn DataField="Remark" HeaderText="备注">
                             </asp:BoundColumn>
                         </Columns>
                         <PagerStyle ForeColor="#4A3C8C" BackColor="#E7E7FF" Mode="NumericPages"></PagerStyle>

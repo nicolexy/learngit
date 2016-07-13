@@ -66,33 +66,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
             string uin = ViewState["uin"].ToString();
             int limit = pager.PageSize;
             int offset = (pager.CurrentPageIndex - 1) * limit;
-
+            string Msg = "";
+          
             if (TransType == "TransOut")
             {
-                DataTable dt = new HandQService().HandQPayerTrans(uin, offset, limit);
-                if (!dt.Columns.Contains("Fsave_listid"))
-                {
-                    dt.Columns.Add("Fsave_listid", typeof(string));
-                }
-                if (!dt.Columns.Contains("Ftransfer_listid"))
-                {
-                    dt.Columns.Add("Ftransfer_listid", typeof(string));
-                }
+                DataTable dt = new HandQService().HandQTansferQuery(uin, offset, limit, 1, out Msg);               
                 DataGrid1.DataSource = dt;
                 DataGrid1.DataBind();
                 DataGrid1.Caption = "转出";
             }
             else if (TransType == "TransIn")
             {
-                DataTable dt = new HandQService().HandQSellerTrans(uin, offset, limit);
-                if (!dt.Columns.Contains("Fsave_listid"))
-                {
-                    dt.Columns.Add("Fsave_listid", typeof(string));
-                }
-                if (!dt.Columns.Contains("Ftransfer_listid"))
-                {
-                    dt.Columns.Add("Ftransfer_listid", typeof(string));
-                }
+                DataTable dt = new HandQService().HandQTansferQuery(uin, offset, limit, 2, out Msg);              
                 DataGrid1.DataSource = dt;
                 DataGrid1.DataBind();
                 DataGrid1.Caption = "转入";

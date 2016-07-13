@@ -30,7 +30,16 @@ namespace CFT.CSOMS.BLL.FundModule
         //零钱市值
         private decimal _totalChangeMarkValue = 0;
         public decimal totalChangeMarkValue { get { return _totalChangeMarkValue; } }
+        
+        //余额+
+        private long _BalancePlus = 0;
+        public long BalancePlus { get { return _BalancePlus; } }
 
+        //余额+基金
+        private string _BalancePlus_fundName = "";
+        public string BalancePlus_fundName { get { return _BalancePlus_fundName; } }
+
+       
         static FundService()
         {
             DicFchannel = new Dictionary<string, string>()
@@ -315,11 +324,21 @@ namespace CFT.CSOMS.BLL.FundModule
                 //    item["fundName"] = GetAllFundInfo().Where(i => i.CurrencyType == int.Parse(item["Fcurtype"].ToString())).First().Name;
                 try
                 {
-                    var ProfitTable = new FundProfit().QueryProfitStatistic(tradeId, Fcurtype);//查累计收益
+                    //查累计收益
+                    var ProfitTable = new FundProfit().QueryProfitStatistic(tradeId, Fcurtype);
 
                     if (ProfitTable != null && ProfitTable.Rows.Count > 0)
                     {
-                        item["Ftotal_profit"] = ProfitTable.Rows[0]["Ftotal_profit"].ToString();
+                        if (item["Facct_type"] == "2") 
+                        {
+                            //查余额+累计收益
+                            item["Ftotal_profit"] = ProfitTable.Rows[0]["Fstandby7"].ToString();
+                        }
+                        else
+                        {
+                            //普通基金累计收益
+                            item["Ftotal_profit"] = ProfitTable.Rows[0]["Ftotal_profit"].ToString();
+                        }
                     }
                     else
                     {
@@ -425,6 +444,14 @@ namespace CFT.CSOMS.BLL.FundModule
                 {
                     decimal.TryParse(item["markValue"].ToString().Trim(), out temp_totalLCTMarkValue);
                 }
+
+                if (item["Facct_type"].ToString() == "2") 
+                {
+                    //余额＋基金在用户各基金中最多只有一个，所有可以在循环体中赋值，而不用+=；
+                    _BalancePlus = temp_totalBalance;
+                    _BalancePlus_fundName = item["fundName"].ToString();
+                }
+
 
                 _totalBalance += temp_totalBalance;
                 _totalProfit += temp_totalProfit;
@@ -812,7 +839,7 @@ namespace CFT.CSOMS.BLL.FundModule
                     bankRollList.Columns.Add("charge_fee", typeof(string));//手续费分
                     bankRollList.Columns.Add("charge_fee_str", typeof(string));//手续费
                     bankRollList.Columns.Add("fund_balance", typeof(string));//份额
-
+                    bankRollList.Columns.Add("Remark", typeof(string));//备注（是否余额+）
                     if (bankRollList.Rows.Count > 0)
                     {
                         COMMLIB.CommUtil.FenToYuan_Table(bankRollList, "Ftotal_fee", "Ftotal_fee_str");
@@ -1040,7 +1067,16 @@ namespace CFT.CSOMS.BLL.FundModule
                             }
                         
                             #endregion    
-                        
+
+                            #region 是否余额＋
+
+                            if (dr["Fbusi_flag"].ToString() == "1" || dr["Fbusi_flag"].ToString() == "2")
+                            {
+
+                                dr["Remark"] = "余额+";
+                            }
+                            #endregion
+
                         }
 
                         #region 状态

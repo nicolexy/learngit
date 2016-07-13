@@ -115,8 +115,8 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		protected void btLogOn_Click(object sender, System.EventArgs e)  //暂不开放注销功能
-		{
-            // qs1.ClosedBalancePaid(this.TextBox1_QQID.Text.Trim());//测试用关闭余额支付功能，为了查询及打开
+        {      
+               // qs1.ClosedBalancePaid(this.TextBox1_QQID.Text.Trim());//测试用关闭余额支付功能，为了查询及打开
 			string qqid   = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceSqlStr(this.TextBox1_QQID.Text).Trim();
             string wxid = this.TextBox2_WX.Text.Trim();
 			string reason = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceSqlStr(this.txtReason.Text).Trim();
@@ -166,15 +166,15 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 
 			string Msg = "";
 
-			try
-			{
-				Finance_Manage fm = new Finance_Manage();
-				if (!fm.checkUserReg(qqid,out Msg))
-				{
-					Msg = "帐号非法或者未注册！";
-					WebUtils.ShowMessage(this.Page,Msg);
-					return;
-				}
+            try
+            {
+                Finance_Manage fm = new Finance_Manage();
+                if (!fm.checkUserReg(qqid, out Msg))
+                {
+                    Msg = "帐号非法或者未注册！";
+                    WebUtils.ShowMessage(this.Page, Msg);
+                    return;
+                }
 
                 if (255 < reason.Length)
                 {
@@ -182,9 +182,10 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     return;
                 }
 
-				Check_Service cs = new Check_Service();
-				TENCENT.OSS.CFT.KF.KF_Web.Check_WebService.Finance_Header fh = setConfig.setFH_CheckService(this);
-				cs.Finance_HeaderValue = fh;
+
+                Check_Service cs = new Check_Service();
+                TENCENT.OSS.CFT.KF.KF_Web.Check_WebService.Finance_Header fh = setConfig.setFH_CheckService(this);
+                cs.Finance_HeaderValue = fh;
 
                 Query_Service qs = new Query_Service();
                 TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Finance_Header fh2 = setConfig.setFH(this);
@@ -198,13 +199,30 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     if (Regex.IsMatch(qqid, @"^[1-9]\d*$"))
                     {
                         #region 手Q特有判断
-                        DataSet dsHandQ = new TradeService().QueryPaymentParty("", "1,2,12,4,6,7", "3", qqid);
-                        if (dsHandQ != null && dsHandQ.Tables.Count > 0 && dsHandQ.Tables[0].Rows.Count > 0 && dsHandQ.Tables[0].Rows[0]["result"].ToString() != "97420006")
+
+                        #region 转账
+                        try
                         {
-                            WebUtils.ShowMessage(this.Page, "手Q用户转账中、退款中、未完成的订单禁止注销和批量注销");
+                            DataSet dsMobileQTransfer = new TradeService().GetUnfinishedMobileQTransfer(qqid);
+                            if (dsMobileQTransfer != null && dsMobileQTransfer.Tables.Count > 0 && dsMobileQTransfer.Tables[0].Rows.Count > 0 && dsMobileQTransfer.Tables[0].Rows[0]["result"].ToString() != "192720108")
+                            {
+                                WebUtils.ShowMessage(this.Page, "手Q用户转账中、退款中、未完成的订单禁止注销和批量注销");
+                                return;
+                            }
+                        }
+                        catch (System.Exception ex)
+                        {
+                            LogHelper.LogError("查询手Q转账记录失败" + ex.Message, "LogOnUser");
+                            WebUtils.ShowMessage(this.Page, "查询手Q转账记录失败" + ex.Message);
                             return;
                         }
-
+                        #endregion
+                        //DataSet dsHandQ = new TradeService().QueryPaymentParty("", "1,2,12,4,6,7", "3", qqid);
+                        //if (dsHandQ != null && dsHandQ.Tables.Count > 0 && dsHandQ.Tables[0].Rows.Count > 0 && dsHandQ.Tables[0].Rows[0]["result"].ToString() != "97420006")
+                        //{
+                        //    WebUtils.ShowMessage(this.Page, "手Q用户转账中、退款中、未完成的订单禁止注销和批量注销");
+                        //    return;
+                        //}
                         #region 红包
                         try
                         {
@@ -229,7 +247,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                             WebUtils.ShowMessage(this.Page, "查询手Q红包未完成交易失败" + ex.Message);
                             return;
                         }
-                        #endregion
+                        #endregion                    
 
                         #region 微粒贷
                         try
@@ -269,6 +287,14 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                             {
                                 LogHelper.LogInfo(wxid + "此账号有未完成微信红包，禁止注销!");
                                 WebUtils.ShowMessage(this.Page, "此账号有未完成微信红包，禁止注销!");
+                                return;
+                            }
+                            string resultCodeString = "";
+                            var HasUnfinishedRepayment = new TradeService().QueryWXFCancelAsRepayMent(qqid, out resultCodeString);
+                            if (HasUnfinishedRepayment)
+                            {
+                                LogHelper.LogInfo(wxid + "此账号有未完成微信还款，禁止注销!");
+                                WebUtils.ShowMessage(this.Page, "此账号有未完成微信还款，禁止注销!" + resultCodeString);
                                 return;
                             }
                         }
@@ -356,7 +382,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
                     {
                         balance += long.Parse(ds1.Tables[0].Rows[0]["Fbalance"].ToString().Trim());
-                    } 
+                    }
                     #endregion
 
                     ViewState["Cached" + qqid] = balance;
@@ -412,27 +438,29 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                     cs.StartCheck(mainID, checkType, memo, MoneyTransfer.FenToYuan(balance.ToString()), myParams);
                     WebUtils.ShowMessage(this.Page, "销户申请提请成功！");
                     return;
-                } 
+                }
 
                 #endregion
-			}
-			catch(SoapException eSoap) //捕获soap类异常
+            }
+            catch (SoapException eSoap) //捕获soap类异常
             {
                 LogError("BaseAccount.logOnUser.protected void btLogOn_Click(object sender, System.EventArgs e) ", "销户操作申请失败,SoapException:", eSoap);
-				string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
+                string errStr = PublicRes.GetErrorMsg(eSoap.Message.ToString());
                 WebUtils.ShowMessage(this.Page, "销户操作申请失败：" + errStr + "，StackTrace：" + eSoap.StackTrace);
-				return;
-			}
-			catch(Exception err)
+                return;
+            }
+            catch (Exception err)
             {
                 LogError("BaseAccount.logOnUser.protected void btLogOn_Click(object sender, System.EventArgs e) ", "销户操作申请异常:", err);
-				//Msg += "销户操作申请异常！" + Common.CommLib.commRes.replaceHtmlStr(err.Message);
-				Msg += "销户操作申请异常！" + TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceHtmlStr(err.Message);
+                //Msg += "销户操作申请异常！" + Common.CommLib.commRes.replaceHtmlStr(err.Message);
+                Msg += "销户操作申请异常！" + TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceHtmlStr(err.Message);
                 WebUtils.ShowMessage(this.Page, Msg + "，StackTrace：" + err.StackTrace);
-				return;
-			}
-
-            this.btLogOn.Enabled = false;
+                return;
+            }
+            finally
+            {
+                this.btLogOn.Enabled = false;
+            }
 		}
 
         /// <summary>

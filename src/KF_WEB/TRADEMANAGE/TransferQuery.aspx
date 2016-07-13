@@ -50,27 +50,41 @@
     <form id="Form1" method="post" runat="server">
         <table id="table1" border="0" cellspacing="1" cellpadding="0" width="900" runat="server">
             <tr>
-                <td width="50%">
+                <td width="15%">
                     <img src="../IMAGES/Page/post.gif" width="20" height="16" alt="" />
                     <span class="style3">转账单查询</span>
                 </td>
-                <td>
+                <td colspan="2">
                     <label class="style3">操作员ID：</label>
                     <asp:Label ID="lb_operatorID" runat="server"></asp:Label>
                 </td>
             </tr>
             <tr>
-                <td align="left" colspan="2">
-                    <span>单号：</span>
-                    <asp:TextBox ID="txt_order" runat="server" Width="250"></asp:TextBox>
+                <td align="left">                    
                     <asp:RadioButton ID="check_tenpay" runat="server" GroupName="chekedType" Text="财付通订单" Checked="true" />
-                    <asp:RadioButton ID="check_sp" runat="server" GroupName="chekedType" Text="商户订单号" />
-                    <asp:Button ID="Button1" runat="server" Text="查询" Style="margin-left: 100px;" OnClick="Button1_Click" />
+                </td>
+                <td colspan="2">
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>单号：</span>
+                    <asp:TextBox ID="txt_order" runat="server" Width="250"></asp:TextBox>
+                </td>
+            </tr>
+            <tr style="border: 0">
+                <td>
+                     <asp:RadioButton ID="check_sp" runat="server" GroupName="chekedType" Text="商户订单号" />
+                </td>
+                <td>
+                    <span>商户订单号：</span>
+                    <asp:TextBox ID="txt_SpOrder" runat="server" Width="250"></asp:TextBox>
+                </td>
+                 <td>
+                    <span>财付通账户：</span>
+                    <asp:TextBox ID="txt_CaiFuTongAccount" runat="server" Width="250"></asp:TextBox>
                 </td>
             </tr>
             <tr>
-                <td colspan="2" style="border: 0">
+                <td colspan="3" style="border: 0">
                     <span style="line-height:2em">功能说明：查询微信/手Q的红包、转账、AA的入账单详情。</span>
+                    <asp:Button ID="Button1" runat="server" Text="查询" Style="margin-left: 100px;" OnClick="Button1_Click" />
                     <table style="width: 100%;" id="tab_transfer_info" cellspacing="1" cellpadding="0" runat="server"  visible="false">
                         <caption style="text-align: left; background: #b0c3d1; padding: 4px;">
                             转账单详情：

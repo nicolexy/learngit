@@ -7,36 +7,27 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace TENCENT.OSS.CFT.KF.KF_Web.Control {
+namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
     
     
-    public partial class LeftControl {
+    public partial class IceOutPPSecurityMoney {
         
         /// <summary>
-        /// HandQBusiness 控件。
+        /// form1 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::TENCENT.OSS.CFT.KF.KF_Web.Control.HandQBusiness HandQBusiness;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// HKWalletPay 控件。
+        /// Label_uid 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::TENCENT.OSS.CFT.KF.KF_Web.Control.HKWalletPay HKWalletPay;
-        
-        /// <summary>
-        /// InternetBank 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::TENCENT.OSS.CFT.KF.KF_Web.Control.InternetBank InternetBank;
+        protected global::System.Web.UI.WebControls.Label Label_uid;
     }
 }

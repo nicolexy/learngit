@@ -40,15 +40,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         protected global::System.Web.UI.WebControls.Label lb_operatorID;
         
         /// <summary>
-        /// txt_order control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_order;
-        
-        /// <summary>
         /// check_tenpay control.
         /// </summary>
         /// <remarks>
@@ -58,6 +49,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         protected global::System.Web.UI.WebControls.RadioButton check_tenpay;
         
         /// <summary>
+        /// txt_order control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_order;
+        
+        /// <summary>
         /// check_sp control.
         /// </summary>
         /// <remarks>
@@ -65,6 +65,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButton check_sp;
+        
+        /// <summary>
+        /// txt_SpOrder control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_SpOrder;
+        
+        /// <summary>
+        /// txt_CaiFuTongAccount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_CaiFuTongAccount;
         
         /// <summary>
         /// Button1 control.
