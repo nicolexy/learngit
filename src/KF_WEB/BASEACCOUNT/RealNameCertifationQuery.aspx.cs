@@ -172,6 +172,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["cre_id"].ToString()) ? "" : row["cre_id"].ToString());
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["gov_auth_fail_reason_dt"].ToString()) ? "" : row["gov_auth_fail_reason_dt"].ToString());
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["ocr_authen_info_dt"].ToString()) ? "" : row["ocr_authen_info_dt"].ToString());
+                    sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["mobile_authen_info_dt"].ToString()) ? "" : row["mobile_authen_info_dt"].ToString());
+                    sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["edu_authen_info_dt"].ToString()) ? "" : row["edu_authen_info_dt"].ToString());
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["authen_account_type"].ToString()) ? "" : row["authen_account_type"].ToString());
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["gov_auth_result"].ToString()) ? "" : row["gov_auth_result"].ToString());
                     if (temp_dt != null && temp_dt.Rows.Count > 0)
@@ -212,6 +214,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["cre_id"].ToString()) ? "" : row["cre_id"].ToString());
                     sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["gov_auth_fail_reason_dt"].ToString()) ? "" : row["gov_auth_fail_reason_dt"].ToString());
                     sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["ocr_authen_info_dt"].ToString()) ? "" : row["ocr_authen_info_dt"].ToString());
+                    sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["mobile_authen_info_dt"].ToString()) ? "" : row["mobile_authen_info_dt"].ToString());
+                    sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["edu_authen_info_dt"].ToString()) ? "" : row["edu_authen_info_dt"].ToString());
                     sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["authen_account_type"].ToString()) ? "" : row["authen_account_type"].ToString());
                     sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["gov_auth_result"].ToString()) ? "" : row["gov_auth_result"].ToString());
                     sb.Append("<td></td>");
@@ -236,7 +240,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             if (dt != null && dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
-                { 
+                {
                     sb.Append("<tr>");
                     sb.AppendFormat("<td>{0}</td>", (row["total_out_amount"] != null && row["total_out_amount"].ToString() != "") ? row["total_out_amount"].ToString() : "");
                     sb.AppendFormat("<td>{0}</td>", (row["month_outin_amount"] != null && row["month_outin_amount"].ToString() != "") ? row["month_outin_amount"].ToString() : "");

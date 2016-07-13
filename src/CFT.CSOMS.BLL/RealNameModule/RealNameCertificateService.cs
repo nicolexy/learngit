@@ -90,14 +90,28 @@ namespace CFT.CSOMS.BLL.RealNameModule
             {
                 //对返回的xml解密的秘钥
                 string key = Operator + System.Configuration.ConfigurationManager.AppSettings["AuQryAuthStatusServiceKey"].ToString();
-                if (ds != null && ds.Tables.Count > 0)
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         if (!string.IsNullOrEmpty(dr["result"].ToString()) && int.Parse(dr["result"].ToString()) == 0)
                         {
-                            dr["gov_authen_info"] = CommUtil.TripleDESDecryptRealName(dr["gov_authen_info"].ToString(), key);
-                            dr["ocr_authen_info"] = CommUtil.TripleDESDecryptRealName(dr["ocr_authen_info"].ToString(), key);
+                            if (ds.Tables[0].Columns.Contains("gov_authen_info") && !string.IsNullOrEmpty(dr["gov_authen_info"].ToString()))
+                            {
+                                dr["gov_authen_info"] = CommUtil.TripleDESDecryptRealName(dr["gov_authen_info"].ToString(), key);
+                            }
+                            if (ds.Tables[0].Columns.Contains("ocr_authen_info") && !string.IsNullOrEmpty(dr["ocr_authen_info"].ToString()))
+                            {
+                                dr["ocr_authen_info"] = CommUtil.TripleDESDecryptRealName(dr["ocr_authen_info"].ToString(), key);
+                            }
+                            if (ds.Tables[0].Columns.Contains("mobile_authen_info") && !string.IsNullOrEmpty(dr["mobile_authen_info"].ToString()))
+                            {
+                                dr["mobile_authen_info"] = CommUtil.TripleDESDecryptRealName(dr["mobile_authen_info"].ToString(), key);
+                            }
+                            if (ds.Tables[0].Columns.Contains("edu_authen_info") && !string.IsNullOrEmpty(dr["edu_authen_info"].ToString()))
+                            {
+                                dr["edu_authen_info"] = CommUtil.TripleDESDecryptRealName(dr["edu_authen_info"].ToString(), key);
+                            }
                         }
 
                     }
@@ -123,19 +137,30 @@ namespace CFT.CSOMS.BLL.RealNameModule
             {
                 //对返回的xml解密的秘钥
                 string key = Operator + System.Configuration.ConfigurationManager.AppSettings["AuQryAuthStatusServiceKey"].ToString();
-                if (ds != null && ds.Tables.Count > 0)
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
-                    if (ds.Tables[0].Columns.Contains("gov_authen_info") && ds.Tables[0].Columns.Contains("ocr_authen_info"))
+                    foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        foreach (DataRow dr in ds.Tables[0].Rows)
+                        if (!string.IsNullOrEmpty(dr["result"].ToString()) && int.Parse(dr["result"].ToString()) == 0)
                         {
-                            if (!string.IsNullOrEmpty(dr["result"].ToString()) && int.Parse(dr["result"].ToString()) == 0)
+                            if (ds.Tables[0].Columns.Contains("gov_authen_info") && !string.IsNullOrEmpty(dr["gov_authen_info"].ToString()))
                             {
                                 dr["gov_authen_info"] = CommUtil.TripleDESDecryptRealName(dr["gov_authen_info"].ToString(), key);
+                            }
+                            if (ds.Tables[0].Columns.Contains("ocr_authen_info") && !string.IsNullOrEmpty(dr["ocr_authen_info"].ToString()))
+                            {
                                 dr["ocr_authen_info"] = CommUtil.TripleDESDecryptRealName(dr["ocr_authen_info"].ToString(), key);
                             }
-
+                            if (ds.Tables[0].Columns.Contains("mobile_authen_info") && !string.IsNullOrEmpty(dr["mobile_authen_info"].ToString()))
+                            {
+                                dr["mobile_authen_info"] = CommUtil.TripleDESDecryptRealName(dr["mobile_authen_info"].ToString(), key);
+                            }
+                            if (ds.Tables[0].Columns.Contains("edu_authen_info") && !string.IsNullOrEmpty(dr["edu_authen_info"].ToString()))
+                            {
+                                dr["edu_authen_info"] = CommUtil.TripleDESDecryptRealName(dr["edu_authen_info"].ToString(), key);
+                            }
                         }
+
                     }
                 }
             }
@@ -215,7 +240,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
             catch (Exception ex)
             {
                 dt = null;
-                loger.err("GetInfoByIdentityCard", ex.Message);               
+                loger.err("GetInfoByIdentityCard", ex.Message);
             }
             return dt;
         }
@@ -241,7 +266,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
             catch (Exception ex)
             {
                 dt = null;
-                loger.err("GetInfoByUid", ex.Message);               
+                loger.err("GetInfoByUid", ex.Message);
             }
             return dt;
         }
@@ -329,7 +354,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
                             cur_row["authen_channel_state"] = ds_userinfo.Tables[0].Rows[0]["authen_channel_state"];
                             cur_row["user_true_name"] = ds_userinfo.Tables[0].Rows[0]["user_true_name"];
                             cur_row["cre_type"] = ds_userinfo.Tables[0].Rows[0]["cre_type"];
-                            cur_row["cre_type_txt"] = GetCreTypeText((ds_userinfo.Tables[0].Rows[0]["cre_type"] != null && ds_userinfo.Tables[0].Rows[0]["cre_type"].ToString()!="")?ds_userinfo.Tables[0].Rows[0]["cre_type"].ToString():"0");
+                            cur_row["cre_type_txt"] = GetCreTypeText((ds_userinfo.Tables[0].Rows[0]["cre_type"] != null && ds_userinfo.Tables[0].Rows[0]["cre_type"].ToString() != "") ? ds_userinfo.Tables[0].Rows[0]["cre_type"].ToString() : "0");
                             cur_row["cre_id"] = ds_userinfo.Tables[0].Rows[0]["cre_id"];
                             cur_row.EndEdit();
                         }
@@ -378,18 +403,31 @@ namespace CFT.CSOMS.BLL.RealNameModule
                                     cur_row["gov_auth_result"] = "未去公安部实名";
                                 }
                             }
-                            if (ds_auth.Tables[0].Rows[0]["gov_authen_info"] != null && ds_auth.Tables[0].Rows[0]["gov_authen_info"].ToString() != "")
+                            if (ds_auth.Tables[0].Columns.Contains("gov_authen_info") && ds_auth.Tables[0].Rows[0]["gov_authen_info"] != null && ds_auth.Tables[0].Rows[0]["gov_authen_info"].ToString() != "")
                             {
                                 string gov_auth_fail_reason_dt = "authen_time";
                                 DealStr(ds_auth.Tables[0].Rows[0]["gov_authen_info"].ToString(), ref gov_auth_fail_reason_dt);
                                 cur_row["gov_auth_fail_reason_dt"] = gov_auth_fail_reason_dt;
                             }
-                            if (ds_auth.Tables[0].Rows[0]["ocr_authen_info"] != null && ds_auth.Tables[0].Rows[0]["ocr_authen_info"].ToString() != "")
+                            if (ds_auth.Tables[0].Columns.Contains("ocr_authen_info") && ds_auth.Tables[0].Rows[0]["ocr_authen_info"] != null && ds_auth.Tables[0].Rows[0]["ocr_authen_info"].ToString() != "")
                             {
                                 string ocr_authen_info_dt = "authen_time";
                                 DealStr(ds_auth.Tables[0].Rows[0]["ocr_authen_info"].ToString(), ref ocr_authen_info_dt);
                                 cur_row["ocr_authen_info_dt"] = ocr_authen_info_dt;
                             }
+                            if (ds_auth.Tables[0].Columns.Contains("mobile_authen_info") && ds_auth.Tables[0].Rows[0]["mobile_authen_info"] != null && ds_auth.Tables[0].Rows[0]["mobile_authen_info"].ToString() != "")
+                            {
+                                string mobile_authen_info_dt = "authen_time";
+                                DealStr(ds_auth.Tables[0].Rows[0]["mobile_authen_info"].ToString(), ref mobile_authen_info_dt);
+                                cur_row["mobile_authen_info_dt"] = mobile_authen_info_dt;
+                            }
+                            if (ds_auth.Tables[0].Columns.Contains("edu_authen_info") && ds_auth.Tables[0].Rows[0]["edu_authen_info"] != null && ds_auth.Tables[0].Rows[0]["edu_authen_info"].ToString() != "")
+                            {
+                                string edu_authen_info_dt = "authen_time";
+                                DealStr(ds_auth.Tables[0].Rows[0]["edu_authen_info"].ToString(), ref edu_authen_info_dt);
+                                cur_row["edu_authen_info_dt"] = edu_authen_info_dt;
+                            }
+
                             cur_row.EndEdit();
                         }
                     }
@@ -436,7 +474,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
         #region 动态分割DataTable分页
         public DataTable GetPagedTable(DataTable dt, int PageIndex, int PageSize)
         {
-            if (PageIndex == 0||dt==null||dt.Rows.Count==0)
+            if (PageIndex == 0 || dt == null || dt.Rows.Count == 0)
             {
                 return dt;
             }
@@ -507,7 +545,10 @@ namespace CFT.CSOMS.BLL.RealNameModule
             ////银行卡认证时间
             //dt.Columns.Add("authen_time", typeof(string));
 
-
+            //mobile_authen_info运营商认证详细信息【运营商认证时间】
+            dt.Columns.Add("mobile_authen_info_dt", typeof(string));
+            //edu_authen_info学历认证详细信息【学历认证时间】
+            dt.Columns.Add("edu_authen_info_dt", typeof(string));
 
             return dt;
         }
