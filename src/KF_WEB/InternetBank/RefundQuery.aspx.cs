@@ -837,13 +837,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
                                     if ((tradeType == "2" || tradeType == "3") && flag)  //数据导入后订单的状态可能在其他地方发生改变，需再次判断
                                     {
-                                        //按类型创建文件
-                                        string filepath = txtSuccess + "_" + refundType;
+                                            //按类型创建文件
+                                        string filepath = txtSuccess;
                                         if (!fileSuccessTypeList.ContainsKey(refundType))
                                         {
-                                            fileSuccessTypeList.Add(refundType,filepath);
+                                            string filenameext = System.IO.Path.GetExtension(txtSuccess);
+                                            filepath = txtSuccess.Substring(0, filenameext.Length - filenameext.Length) + "_" + refundType + filenameext;
+
+                                            fileSuccessTypeList.Add(refundType, filepath);
                                         }
+
                                         WriteTxt(filepath, row["Fid"].ToString(), row["Frefund_amount"].ToString(), row["Forder_id"].ToString(), row["Fbuy_acc"].ToString());
+
+                                        LogHelper.LogInfo(" btnRefundEmail_Click  按订单类型生成文件格式。 filepath：" + filepath);
+                              
                                     }
                                     else
                                     {
@@ -893,7 +900,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 
                             if (File.Exists(filerefundpath))
                             {
-                                dicSuccessFile = WriteXls(filerefundpath, no, "success");
+                                dicSuccessFile = WriteXls(filerefundpath, no, "success_"+filesuccessinfo.Key);
                             }
                             if (dicSuccessFile != null && dicSuccessFile.Count > 0)
                             {
