@@ -456,11 +456,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 Msg += "销户操作申请异常！" + TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceHtmlStr(err.Message);
                 WebUtils.ShowMessage(this.Page, Msg + "，StackTrace：" + err.StackTrace);
                 return;
-            }
-            finally
-            {
-                this.btLogOn.Enabled = false;
-            }
+            }           
 		}
 
         /// <summary>
