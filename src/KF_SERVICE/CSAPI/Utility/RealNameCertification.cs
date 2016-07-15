@@ -81,6 +81,12 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             //渠道中的银行字符编码列表
             [XmlElement("bind_bank")]
             public string bind_bank { get; set; }
+            //运营商认证详细信息
+            [XmlElement("mobile_authen_info")]
+            public string mobile_authen_info { get; set; }
+            //学历认证详细信息
+            [XmlElement("edu_authen_info")]
+            public string edu_authen_info { get; set; }
 
         }
         #endregion
