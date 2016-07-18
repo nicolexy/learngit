@@ -436,9 +436,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             DKManageControl1.AddSubMenu("调整状态查询", "NewQueryInfoPages/DK_QueryAdjust.aspx");
 
             //DrawAndApprove
-          
-            AccountOperaManage1.AddSubMenu("自助商户审核", "BaseAccount/SelfQueryApprove.aspx");
-            AccountOperaManage1.AddSubMenu("商户申请修改资料审核", "BaseAccount/DomainApprove.aspx");
+
+            //AccountOperaManage1.AddSubMenu("自助商户审核", "BaseAccount/SelfQueryApprove.aspx");//20160715 龙海军: 客服系统查询页面屏蔽，代码先保留，做成可恢复，防止后续业务变更需要重新使用
+            AccountOperaManage1.AddSubMenu("商户修改资料审核", "BaseAccount/DomainApprove.aspx");
             AccountOperaManage1.AddSubMenu("商户营改增审核", "BaseAccount/ValueAddedTaxApprove.aspx");
             AccountOperaManage1.AddSubMenu("商户营改增查询", "BaseAccount/ValueAddedTaxQuery.aspx");
             AccountOperaManage1.AddSubMenu("结算规则查询", "TradeManage/AppealSSetting.aspx");
