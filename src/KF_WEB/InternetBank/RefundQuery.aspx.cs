@@ -842,7 +842,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                                         if (!fileSuccessTypeList.ContainsKey(refundType))
                                         {
                                             string filenameext = System.IO.Path.GetExtension(txtSuccess);
-                                            filepath = txtSuccess.Substring(0, filenameext.Length - filenameext.Length) + "_" + refundType + filenameext;
+                                            filepath = txtSuccess.Substring(0, txtSuccess.Length - filenameext.Length) + "_" + refundType + filenameext;
 
                                             fileSuccessTypeList.Add(refundType, filepath);
                                         }
@@ -850,7 +850,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                                         WriteTxt(filepath, row["Fid"].ToString(), row["Frefund_amount"].ToString(), row["Forder_id"].ToString(), row["Fbuy_acc"].ToString());
 
                                         LogHelper.LogInfo(" btnRefundEmail_Click  按订单类型生成文件格式。 filepath：" + filepath);
-                              
                                     }
                                     else
                                     {
@@ -996,7 +995,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                     catch (Exception ex)
                     {
                         // sendEmail = false;
-                        LogHelper.LogError(" btnRefundEmail_Click 提交账务退款汇总邮件发送失败！" + ex.Message + ", stacktrace" + ex.StackTrace);
+                        LogHelper.LogError(" btnRefundEmail_Click 提交账务退款汇总邮件发送失败！" +  ", ERROR:" + ex.ToString());
 
                         WebUtils.ShowMessage(this.Page, "操作发生异常：" + ex.Message.Replace("'", ""));
                     }
@@ -1005,7 +1004,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
             }
             catch (Exception ex)
             {
-                LogHelper.LogError(" btnRefundEmail_Click 提交账务退款失败！" + ex.Message + ", stacktrace" + ex.StackTrace);
+                LogHelper.LogError(" btnRefundEmail_Click 提交账务退款失败！" + ex.Message + ", ERROR:" + ex.ToString());
 
                 WebUtils.ShowMessage(this.Page, "操作发生异常：" + ex.Message.Replace("'", ""));
             }

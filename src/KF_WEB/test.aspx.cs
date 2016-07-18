@@ -27,6 +27,8 @@ using CFT.CSOMS.BLL.TradeModule;
 using CFT.CSOMS.BLL.FundModule;
 using BankLib;
 using CFT.CSOMS.BLL.ForeignCurrencyModule;
+using CFT.CSOMS.COMMLIB;
+using CFT.Apollo.Logging;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web
@@ -139,6 +141,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             //TestRelayInvoke1("10.12.23.14", "22000", "request_type=100569&ver=1&head_u=&sp_id=&draw_id=104201308040012310737");
             //TestRelayInvoke2("10.12.23.14", "22000", "request_type=100568&ver=1&head_u=&sp_id=&transaction_id=2000000501901308040012310734");
             //TestRelayInvoke2("10.12.23.14", "22000", "request_type=100567&ver=1&head_u=&sp_id=&listid=2000000501901204240011520734");
+
+            if(Request["wechatname"]!=null){
+                WeChatInfo(Request["wechatname"].ToString());
+            }
+        }
+
+
+        private void WeChatInfo(string wechatName) {
+            string retInfo = WeChatHelper.GetAAOpenIdFromWeChatNameTest(wechatName);
+
+            LogHelper.LogInfo(" test.aspx  private void WeChatInfo  retInfo£º" + retInfo);
+
+            Response.Write(retInfo);
         }
 
         private static void OrderDecoupled()

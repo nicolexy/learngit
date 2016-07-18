@@ -143,7 +143,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             if (rowcount == 0 || dt == null)
             {
-                return "{\"pages\":0,\"content\":\"<tr><td colspan='14'>没有符合条件的数据!</td></tr>\"}";
+                return "{\"pages\":0,\"content\":\"<tr><td colspan='16'>没有符合条件的数据!</td></tr>\"}";
             }
             bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("RealNameCertification", this);
             StringBuilder sb = new StringBuilder();
@@ -253,7 +253,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             else
             {
-                sb.Append("<tr><td colspan='14'>没有符合条件的数据！</td></tr>");
+                sb.Append("<tr><td colspan='6'>没有符合条件的数据！</td></tr>");
             }
             sb.Append("</table>");
             return sb.ToString();
