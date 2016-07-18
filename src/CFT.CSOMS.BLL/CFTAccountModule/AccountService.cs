@@ -432,7 +432,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             }
             catch (Exception ex)
             {
-                log4net.LogManager.GetLogger("查询个人账户信息出错: " + ex.Message);
+                log4net.LogManager.GetLogger("查询个人账户信息出错: " + ex.ToString());
                 return null;
             }
         }
@@ -687,9 +687,9 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             catch (Exception ex)
             {
                 if (type == "WeChatAA")
-                    log4net.LogManager.GetLogger("查询微信AA收款帐号出错: " + ex.Message);
+                    log4net.LogManager.GetLogger("查询微信AA收款帐号出错: " + ex.ToString());
                 else
-                    log4net.LogManager.GetLogger("查询微信支付帐号出错: " + ex.Message);
+                    log4net.LogManager.GetLogger("查询微信支付帐号出错: " + ex.ToString());
 
                 return null;
             }

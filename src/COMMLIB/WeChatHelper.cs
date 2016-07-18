@@ -32,7 +32,7 @@ namespace CFT.CSOMS.COMMLIB
         /// <param name="parameterString"></param>
         /// <param name="resultKeyWord"></param>
         /// <returns></returns>
-        protected static string CallWechatAPI(string requstType, string parameterString, string resultKeyWord)
+        protected static string CallWechatAPI(string requstType, string parameterString, string resultKeyWord,bool needHtmlDecode=false)
         {
             try
             {
@@ -43,6 +43,13 @@ namespace CFT.CSOMS.COMMLIB
 
                 var req = "wechat_xml_text=" + parameterString;
                 var relay_result = RelayInvoke(req, requstType, false, false, ip, port);
+
+                if (needHtmlDecode) {
+                    relay_result = System.Web.HttpUtility.HtmlDecode(relay_result);
+
+                    LogHelper.LogInfo("protected static string CallWechatAPI HtmlDecode:" + relay_result);
+                }
+
                 var relay_dic = SunLibraryEX.StringEx.ToDictionary(relay_result);
                 if (relay_dic["result"] != "0")
                 {
@@ -82,6 +89,7 @@ namespace CFT.CSOMS.COMMLIB
             }
             catch (Exception ex)
             {
+                LogHelper.LogError("protected static string CallWechatAPI:" + ex.ToString());
                 throw new Exception(string.Format("调用微信URL接口异常：{0}", ex.Message));
             }
         }
@@ -118,8 +126,8 @@ namespace CFT.CSOMS.COMMLIB
             }
             catch (Exception err)
             {
-                string error = "调用relay服务前失败" + err.Message;
-                LogHelper.LogInfo(error);
+                string error = "调用relay服务前失败:" + err.Message;
+                LogHelper.LogError("调用relay服务前失败:" + err.ToString());
                 throw new Exception(error);
             }
         }
@@ -189,7 +197,6 @@ namespace CFT.CSOMS.COMMLIB
             }
         }
 
-
         /// <summary>
         /// 通过微信号获取AAopenid
         /// </summary>
@@ -200,15 +207,82 @@ namespace CFT.CSOMS.COMMLIB
             try
             {
                 var appId = ConfigurationManager.AppSettings["WeChatAppIdAA"];
-                var parameterString = string.Format("<root><appid>{0}</appid><username>{1}</username></root>", appId, wechatName);
 
-                return CallWechatAPI("101340", parameterString, "openid");
+                //var weChatNewRequestJson = ConfigurationManager.AppSettings["weChatNewRequestJson"] ?? "0";
+
+                //if (weChatNewRequestJson != "1")
+                //{
+                    var parameterString = string.Format("<root><appid>{0}</appid><username>{1}</username></root>", appId, wechatName);
+                    return CallWechatAPI("101340", parameterString, "openid");
+                //}
+                //else
+                //{
+                //    var parameterString = GetWeChatRequestString(appId, wechatName);
+
+                //    LogHelper.LogInfo("protected static string CallWechatAPI Request data:" + parameterString);
+                //    //shinxzhou(周兴) 07-14 10:27:54
+                //    //你那边有encodeUrl这样的api吗？json串要先encode一下
+                //    //是的，返回的也是json，也是要decodeUrl一下
+                //    parameterString = System.Web.HttpUtility.HtmlEncode(parameterString);
+
+                //    LogHelper.LogInfo("protected static string GetAAOpenIdFromWeChatName Request data  HtmlEncode:" + parameterString);
+
+                //    return CallWechatAPI("102408", parameterString, "openid",true);
+                //}
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("通过微信api转换微信号到AAopenid异常:{0}", ex.Message));
+                LogHelper.LogError("protected static string CallWechatAPI Exception:" + ex.ToString());
+
+                throw new Exception(string.Format("通过微信api转换微信号到AAopenid异常:{0}", ex.ToString()));
             }
         }
+
+
+        /// <summary>
+        /// 通过微信号获取AAopenid
+        /// </summary>
+        /// <param name="wechatName"></param>
+        /// <returns></returns>
+        public static string GetAAOpenIdFromWeChatNameTest(string wechatName)
+        {
+            try
+            {
+                var appId = ConfigurationManager.AppSettings["WeChatAppIdAA"];
+
+               
+                    var parameterString = GetWeChatRequestString(appId, wechatName);
+
+                    LogHelper.LogInfo("protected static string CallWechatAPI Request data:" + parameterString);
+                    //shinxzhou(周兴) 07-14 10:27:54
+                    //你那边有encodeUrl这样的api吗？json串要先encode一下
+                    //是的，返回的也是json，也是要decodeUrl一下
+                    parameterString = System.Web.HttpUtility.HtmlEncode(parameterString);
+
+                    LogHelper.LogInfo("protected static string GetAAOpenIdFromWeChatNameTest Request data  HtmlEncode:" + parameterString);
+
+                    return CallWechatAPI("102408", parameterString, "openid", true);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogError("protected static string GetAAOpenIdFromWeChatNameTest Exception:" + ex.ToString());
+
+                throw new Exception(string.Format("通过微信api转换微信号到AAopenid异常:{0}", ex.ToString()));
+            }
+        }
+
+
+        /// <summary>
+        /// 获取微信信息获取请求字符串
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="wechatName"></param>
+        /// <returns></returns>
+        private static string GetWeChatRequestString(string appId, string wechatName)
+        {
+            return "{\"appid\":\""+appId+"\",\"username\":\""+wechatName+"\"}";
+        }
+
 
         /// <summary>
         /// 通过微信号获取红包openid
