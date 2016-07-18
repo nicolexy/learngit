@@ -69,8 +69,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 			if(TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("DrawAndApprove",this))
 			{
 				menuControl.AddSubMenu("自助商户领单","BaseAccount/SelfQuery.aspx") ;
-				menuControl.AddSubMenu("自助商户审核","BaseAccount/SelfQueryApprove.aspx") ;
-				menuControl.AddSubMenu("商户申请修改资料审核","BaseAccount/DomainApprove.aspx") ;
+                //menuControl.AddSubMenu("自助商户审核","BaseAccount/SelfQueryApprove.aspx") ;//20160715 龙海军: 客服系统查询页面屏蔽，代码先保留，做成可恢复，防止后续业务变更需要重新使用
+                menuControl.AddSubMenu("商户修改资料审核", "BaseAccount/DomainApprove.aspx");
 			}
 		}
 
