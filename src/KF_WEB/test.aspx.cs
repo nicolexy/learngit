@@ -142,10 +142,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             //TestRelayInvoke2("10.12.23.14", "22000", "request_type=100568&ver=1&head_u=&sp_id=&transaction_id=2000000501901308040012310734");
             //TestRelayInvoke2("10.12.23.14", "22000", "request_type=100567&ver=1&head_u=&sp_id=&listid=2000000501901204240011520734");
 
-              Response.Write("12");
 
             if(Request["wechatname"]!=null){
-
+                LogHelper.LogInfo(" test.aspx  wechatname £º" + Request["wechatname"].ToString());
                 WeChatInfo(Request["wechatname"].ToString());
             }
         }
