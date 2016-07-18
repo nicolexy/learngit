@@ -839,13 +839,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                                     {
                                             //按类型创建文件
                                         string filepath = txtSuccess;
-                                        if (!fileSuccessTypeList.ContainsKey(refundType))
-                                        {
+                                        
                                             string filenameext = System.IO.Path.GetExtension(txtSuccess);
                                             filepath = txtSuccess.Substring(0, txtSuccess.Length - filenameext.Length) + "_" + refundType + filenameext;
-
-                                            fileSuccessTypeList.Add(refundType, filepath);
-                                        }
+                                           
+                                            if (!fileSuccessTypeList.ContainsKey(refundType))
+                                            {
+                                                fileSuccessTypeList.Add(refundType, filepath);
+                                            }
 
                                         WriteTxt(filepath, row["Fid"].ToString(), row["Frefund_amount"].ToString(), row["Forder_id"].ToString(), row["Fbuy_acc"].ToString());
 
