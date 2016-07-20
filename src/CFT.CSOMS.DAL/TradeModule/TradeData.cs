@@ -1030,14 +1030,24 @@ namespace CFT.CSOMS.DAL.TradeModule
                 StringBuilder retStr = new StringBuilder();
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count>0)
                 {
-                    if (ds.Tables[0].Columns.Contains("result") && ds.Tables[0].Rows.Count == 1 && ds.Tables[0].Rows[0]["result"].ToString() == "26502015")
+                    if (ds.Tables[0].Columns.Contains("result")&&ds.Tables[0].Rows.Count==1)
                     {
-                        return false;
+                        if (ds.Tables[0].Columns.Contains("total_num"))
+                        {
+                            if (ds.Tables[0].Rows[0]["result"].ToString() == "0" && ds.Tables[0].Rows[0]["total_num"].ToString() == "0")
+                            {
+                                return false;
+                            }                            
+                        }
+                        else
+                        {
+                            if (ds.Tables[0].Rows[0]["result"].ToString() == "26502015")
+                            {
+                                return false;
+                            }
+                        }
                     }
-                    else if (ds.Tables[0].Columns.Contains("result") && ds.Tables[0].Rows.Count == 1 && ds.Tables[0].Rows[0]["result"].ToString() == "0" && ds.Tables[0].Rows[0]["total_num"].ToString() == "0")
-                    {
-                        return false;
-                    }else if (!ds.Tables[0].Columns.Contains("result"))
+                    else
                     {
                         for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                         {

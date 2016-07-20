@@ -42,7 +42,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 	{
         protected BalaceService balaceService = new BalaceService();
 		protected void Page_Load(object sender, System.EventArgs e)
-		{    
+		{             
 			try
 			{
 				Label1.Text = Session["uid"].ToString();
