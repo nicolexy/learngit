@@ -114,7 +114,8 @@ namespace CFT.CSOMS.BLL.TradeModule
                     if (!ds.Tables[0].Columns.Contains("Ftrade_stateName"))
                     { ds.Tables[0].Columns.Add("Ftrade_stateName"); }//交易状态
 
-                    TransferMeaning.Transfer.GetColumnValueFromDic(ds.Tables[0], "Fpay_type", "Fpay_type_str", "PAY_TYPE");//支付类型
+                    //TransferMeaning.Transfer.GetColumnValueFromDic(ds.Tables[0], "Fpay_type", "Fpay_type_str", "PAY_TYPE");//支付类型
+                    ds.Tables[0].Rows[0]["Fpay_type_str"] = TransferMeaning.Transfer.cPay_type(ds.Tables[0].Rows[0]["Fpay_type"].ToString());
 
                     #region Fappeal_sign、Fmedi_sign、Fchannel_id
                     string strtmp = ds.Tables[0].Rows[0]["Fappeal_sign"].ToString();
@@ -371,8 +372,9 @@ namespace CFT.CSOMS.BLL.TradeModule
                         if (dsState != null && dsState.Tables.Count > 0 && dsState.Tables[0].Rows.Count > 0)
                         {
                             dsState.Tables[0].Columns.Add("Ftrade_stateName");
-                            TransferMeaning.Transfer.GetColumnValueFromDic(dsState.Tables[0], "fvalue", "Ftrade_stateName", "PAY_STATE");
-                            ds.Tables[0].Rows[0]["Ftrade_stateName"] = dsState.Tables[0].Rows[0]["Ftrade_stateName"].ToString();
+                            //TransferMeaning.Transfer.GetColumnValueFromDic(dsState.Tables[0], "fvalue", "Ftrade_stateName", "PAY_STATE");
+                            //ds.Tables[0].Rows[0]["Ftrade_stateName"] = dsState.Tables[0].Rows[0]["Ftrade_stateName"].ToString();
+                            ds.Tables[0].Rows[0]["Ftrade_stateName"] = TransferMeaning.Transfer.convertTradeListState(ds.Tables[0].Rows[0]["Ftrade_state"].ToString());
                             if (isC2C)
                             {
                                 int PersonInfoDayCount = Int32.Parse(ConfigurationManager.AppSettings["PersonInfoDayCount"].Trim());
