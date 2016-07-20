@@ -3282,10 +3282,10 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 dsresult = new DataSet();
                 DataTable dt = new DataTable();
                 dsresult.Tables.Add(dt);
-
-                int totalNum = Int32.Parse(ht["total_num"].ToString().Trim());
-                if (totalNum > 0)
+               
+                if (ht.ContainsKey("total_num"))
                 {
+                    int totalNum = Int32.Parse(ht["total_num"].ToString().Trim());
                     for (int i = 0; i < totalNum; i++)
                     {
                         DataRow drfield = dt.NewRow();
