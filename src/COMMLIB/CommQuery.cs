@@ -3239,7 +3239,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         /// <param name="str"></param>
         /// <param name="errMsg"></param>
         /// <returns></returns>
-        public static DataSet ParseRelayPageMethod1(string str, out string errMsg)
+        public static DataSet ParseRelayPageMethod1(string str, out string errMsg, bool isAllowedFaild = false)
         {
             DataSet dsresult = null;
             Hashtable ht = null;
@@ -3268,13 +3268,16 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                     ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
                 }
-
-                if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
+                if (!isAllowedFaild)
                 {
-                    dsresult = null;
-                    errMsg = "调用失败,返回结果有误" + str;
-                    return null;
+                    if (!ht.Contains("result") || ht["result"].ToString().Trim() != "0")
+                    {
+                        dsresult = null;
+                        errMsg = "调用失败,返回结果有误" + str;
+                        return null;
+                    }
                 }
+               
 
                 dsresult = new DataSet();
                 DataTable dt = new DataTable();

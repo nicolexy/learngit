@@ -371,7 +371,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                         if (dsState != null && dsState.Tables.Count > 0 && dsState.Tables[0].Rows.Count > 0)
                         {
                             dsState.Tables[0].Columns.Add("Ftrade_stateName");
-                            TransferMeaning.Transfer.GetColumnValueFromDic(dsState.Tables[0], "Ftrade_state", "Ftrade_stateName", "PAY_STATE");
+                            TransferMeaning.Transfer.GetColumnValueFromDic(dsState.Tables[0], "fvalue", "Ftrade_stateName", "PAY_STATE");
                             ds.Tables[0].Rows[0]["Ftrade_stateName"] = dsState.Tables[0].Rows[0]["Ftrade_stateName"].ToString();
                             if (isC2C)
                             {
