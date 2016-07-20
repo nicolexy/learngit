@@ -3284,21 +3284,59 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                 dsresult.Tables.Add(dt);
 
                 int totalNum = Int32.Parse(ht["total_num"].ToString().Trim());
-
-                for (int i = 0; i < totalNum; i++)
+                if (totalNum > 0)
                 {
+                    for (int i = 0; i < totalNum; i++)
+                    {
+                        DataRow drfield = dt.NewRow();
+                        drfield.BeginEdit();
+                        foreach (string s in ht.Keys)
+                        {
+                            if (i == 0 && s.IndexOf("_0") > -1)
+                                dt.Columns.Add(s.Substring(0, s.Length - 2));
+                            if (s.IndexOf("_" + i) > -1)
+                            {
+                                int indextN = ("_" + i).Length;
+                                string fiedlName = s.Substring(0, s.Length - indextN);
+                                drfield[fiedlName] = IceDecode(ht[s].ToString().Trim());
+                            }
+                        }
+                        drfield.EndEdit();
+                        dt.Rows.Add(drfield);
+                    }
+                }
+                else
+                {
+                    //添加列
+                    foreach (string stmp in strlist1)
+                    {
+                        if (stmp == null || stmp.Trim() == "")
+                            continue;
+
+                        string[] fieldsplit = stmp.Split('=');
+
+                        if (fieldsplit.Length != 2)
+                            continue;
+
+                        dt.Columns.Add(fieldsplit[0]);
+                    }
+
                     DataRow drfield = dt.NewRow();
                     drfield.BeginEdit();
-                    foreach (string s in ht.Keys)
+
+                    //解析xx1=1&xx2=2
+                    foreach (string stmp in strlist1)
                     {
-                        if (i == 0 && s.IndexOf("_0") > -1)
-                            dt.Columns.Add(s.Substring(0, s.Length - 2));
-                        if (s.IndexOf("_" + i) > -1)
-                        {
-                            int indextN = ("_" + i).Length;
-                            string fiedlName = s.Substring(0, s.Length - indextN);
-                            drfield[fiedlName] = IceDecode(ht[s].ToString().Trim());
-                        }
+                        if (stmp == null || stmp.Trim() == "")
+                            continue;
+
+                        string[] fieldsplit = stmp.Split('=');
+
+                        if (fieldsplit.Length != 2)
+                            continue;
+
+                        drfield[fieldsplit[0]] = IceDecode(fieldsplit[1].Trim());
+
                     }
                     drfield.EndEdit();
                     dt.Rows.Add(drfield);

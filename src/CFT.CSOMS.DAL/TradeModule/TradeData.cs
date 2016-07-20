@@ -1021,9 +1021,10 @@ namespace CFT.CSOMS.DAL.TradeModule
             {
                 var ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("Relay_IP", "172.27.31.177");
                 var port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("Relay_PORT", 22000);
+             
                 string stime = DateTime.Now.AddDays(-28).ToString("yyyy-MM-dd");
                 string etime = DateTime.Now.ToString("yyyy-MM-dd");             
-                string requestText = "sys_flag=1&module=zft_kf_server&business_type=1&start_day="+stime+"&end_day="+etime+"&offset=1&limit=20&type=4&acctid=" + uin;
+                string requestText = "sys_flag=1&module=zft_kf_server&business_type=1&start_day="+stime+"&end_day="+etime+"&offset=0&limit=20&type=4&acctid=" + uin;
                 DataSet ds = RelayAccessFactory.GetDSFromRelayMethod2(requestText, "110226", ip, port);
                 resultcode = "";
                 StringBuilder retStr = new StringBuilder();
@@ -1033,8 +1034,10 @@ namespace CFT.CSOMS.DAL.TradeModule
                     {
                         return false;
                     }
-
-                    if (!ds.Tables[0].Columns.Contains("result"))
+                    else if (ds.Tables[0].Columns.Contains("result") && ds.Tables[0].Rows.Count == 1 && ds.Tables[0].Rows[0]["result"].ToString() == "0" && ds.Tables[0].Rows[0]["total_num"].ToString() == "0")
+                    {
+                        return false;
+                    }else if (!ds.Tables[0].Columns.Contains("result"))
                     {
                         for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                         {
@@ -1044,7 +1047,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                             }
                             else
                             {
-                                retStr.AppendFormat("用户姓名【{0}】还款单号【{1}】还款金额【{2}】!", ds.Tables[0].Rows[0]["card_name"].ToString(), ds.Tables[0].Rows[0]["wx_fetch_no"], ds.Tables[0].Rows[i]["num"] != null && (ds.Tables[0].Rows[i]["num"].ToString() != "") ? ds.Tables[0].Rows[i]["num"].ToString() : "0");
+                                retStr.AppendFormat("用户姓名【{0}】还款单号【{1}】还款金额【{2}】!", ds.Tables[0].Rows[i]["card_name"].ToString(), ds.Tables[0].Rows[i]["wx_fetch_no"], ds.Tables[0].Rows[i]["num"] != null && (ds.Tables[0].Rows[i]["num"].ToString() != "") ? ds.Tables[0].Rows[i]["num"].ToString() : "0");
                             }
                         }
                         if (!string.IsNullOrEmpty(retStr.ToString()))
@@ -1584,7 +1587,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             string reqString = "flag=2&uin=" + uin + "&transaction_id=" + transactionId;
             try
             {                
-                return RelayAccessFactory.GetDSFromRelayAnsNotEncr(reqString, "10", relayip, relayport,"",true);
+                return RelayAccessFactory.GetDSFromRelayAnsNotEncr2(reqString, "10", relayip, relayport);
             }
             catch (Exception err)
             {
