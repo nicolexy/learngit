@@ -511,5 +511,24 @@ namespace CFT.CSOMS.DAL.Infrastructure
             }
             return ds;
         }
+
+        public static DataSet GetDSFromRelayMethod2(string requestString, string serviceCode, string relayIP = "", int relayPort = 0, bool encrypt = false, bool invisible = false, string relayDefaultSPId = "")
+        {
+            string Msg = "";
+            string answer = RelayInvoke(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
+            DataSet ds = null;
+            if (answer == "")
+            {
+                return null;
+            }
+
+            //解析
+            ds = CommQuery.ParseRelayPageMethod1(answer, out Msg,true);
+            if (Msg != "")
+            {
+                throw new Exception(Msg);
+            }
+            return ds;
+        }
     }
 }

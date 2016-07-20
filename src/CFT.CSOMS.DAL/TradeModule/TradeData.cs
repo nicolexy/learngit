@@ -1021,15 +1021,43 @@ namespace CFT.CSOMS.DAL.TradeModule
             {
                 var ip = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("Relay_IP", "172.27.31.177");
                 var port = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("Relay_PORT", 22000);
-                string stime = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd");
+                string stime = DateTime.Now.AddDays(-28).ToString("yyyy-MM-dd");
                 string etime = DateTime.Now.ToString("yyyy-MM-dd");             
-                string requestText = "sys_flag=1&module=zft_kf_server&business_type=1&start_day="+stime+"&end_day="+etime+"&offset=1&limit=1&type=4&acctid=" + uin;
-                DataSet ds = RelayAccessFactory.GetDSFromRelayMethod1(requestText, "110226", ip, port);
+                string requestText = "sys_flag=1&module=zft_kf_server&business_type=1&start_day="+stime+"&end_day="+etime+"&offset=1&limit=20&type=4&acctid=" + uin;
+                DataSet ds = RelayAccessFactory.GetDSFromRelayMethod2(requestText, "110226", ip, port);
                 resultcode = "";
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count==1)
+                StringBuilder retStr = new StringBuilder();
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count>0)
                 {
-                    resultcode = string.Format("用户姓名【{0}】还款单号【{1}】还款金额【{2}】!", ds.Tables[0].Rows[0]["card_name"].ToString(), ds.Tables[0].Rows[0]["wx_fetch_no"], ds.Tables[0].Rows[0]["num"] != null && (ds.Tables[0].Rows[0]["num"].ToString() != "") ? ds.Tables[0].Rows[0]["num"].ToString() : "0");
-                    return true;
+                    if (ds.Tables[0].Columns.Contains("result") && ds.Tables[0].Rows.Count == 1 && ds.Tables[0].Rows[0]["result"].ToString() == "26502015")
+                    {
+                        return false;
+                    }
+
+                    if (!ds.Tables[0].Columns.Contains("result"))
+                    {
+                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        {
+                            if (ds.Tables[0].Rows[i]["state"].ToString() == "5" || ds.Tables[0].Rows[i]["state"].ToString() == "8")
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                retStr.AppendFormat("用户姓名【{0}】还款单号【{1}】还款金额【{2}】!", ds.Tables[0].Rows[0]["card_name"].ToString(), ds.Tables[0].Rows[0]["wx_fetch_no"], ds.Tables[0].Rows[i]["num"] != null && (ds.Tables[0].Rows[i]["num"].ToString() != "") ? ds.Tables[0].Rows[i]["num"].ToString() : "0");
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(retStr.ToString()))
+                        {
+                            resultcode = retStr.ToString();
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }                 
+                
                 }
                 return false;
             }
