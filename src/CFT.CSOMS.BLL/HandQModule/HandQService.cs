@@ -311,11 +311,26 @@ namespace CFT.CSOMS.BLL.HandQModule
             }
             return dt;
         }
-        public DataTable HandQTansferQuery(string uin, int offset, int limit, int type, out string Msg)
+        public DataTable HandQTansferQuery(string uin, int offset, int limit, int type,string stime,string etime, out string Msg)
         {
-            DataSet ds = new HandQDAL().HandQTansferQuery(uin, offset, limit, type,out Msg);
+            DataSet ds = new HandQDAL().HandQTansferQuery(uin, offset, limit, type,stime,etime,out Msg);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    if (!string.IsNullOrEmpty(dr["total_fee"].ToString()))
+                    {
+                        dr["total_fee"] = Double.Parse(dr["total_fee"].ToString())/100;
+                    }
+                    if (!string.IsNullOrEmpty(dr["price"].ToString()))
+                    {
+                        dr["price"] = Double.Parse(dr["price"].ToString()) / 100;
+                    }
+                    if (!string.IsNullOrEmpty(dr["charge_fee"].ToString()))
+                    {
+                        dr["charge_fee"] = Double.Parse(dr["charge_fee"].ToString())/100;
+                    }
+                }
                 return ds.Tables[0];
             }
             return null;

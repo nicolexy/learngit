@@ -25,7 +25,7 @@
     <form id="formMain" runat="server">
         <table cellspacing="0" rules="all" border="1" style="width: 95%; border-collapse: collapse;">
             <tr>
-                <td style="width: 100%" bgcolor="#e4e5f7" colspan="2"><font color="red">
+                <td style="width: 100%" bgcolor="#e4e5f7" colspan="3"><font color="red">
                     <img src="../images/page/post.gif" width="20" height="16">手Q转账查询</font>
                 </td>
             </tr>
@@ -34,7 +34,12 @@
                     <asp:TextBox ID="txt_user" Width="200px" runat="server"></asp:TextBox>
                     <asp:RadioButton ID="TransOut" GroupName="TransType" runat="server" Text="转出" Checked="true" />
                     <asp:RadioButton ID="TransIn" GroupName="TransType" runat="server" Text="转入" />
-
+                </td>
+                <td>
+                    开始日期:
+                      <asp:TextBox ID="textBoxBeginDate" runat="server" Width="150px" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  CssClass="Wdate"></asp:TextBox>                  
+                    结束日期：
+                        <asp:TextBox ID="textBoxEndDate" runat="server" Width="150px" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  CssClass="Wdate"></asp:TextBox>                    
                 </td>
                 <td>
                     <asp:Button ID="btnQuery" runat="server" Width="80px" Text="查 询" OnClick="btnQuery_Click"></asp:Button>
