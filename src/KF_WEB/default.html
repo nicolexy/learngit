@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <!--<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>-->
+    <script src="../SCRIPTS/jquery-3.0.0.min.js"></script>
+    <!--<script src="../SCRIPTS/jquery-1.11.3.min.js"></script>-->
+        <style type="text/css">
+        .black_overlay
+        {
+            display: none;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: gray;
+            z-index: 1001;
+            -moz-opacity: 0.8;
+            opacity: .80;
+            filter: alpha(opacity=80);
+        }
+
+        .white_content
+        {
+            display: none;
+            position: absolute;
+            top: 25%;
+            left: 33%;
+            width: 40%;
+            height: 40%;
+            border: 1px solid lightblue;
+            background-color:gray;
+            z-index: 1002;
+            overflow: auto;
+        }
+
+        .white_content_small
+        {
+            display: none;
+            position: absolute;
+            top: 20%;
+            left: 30%;
+            width: 40%;
+            height: 50%;
+            border: 1px solid lightblue;
+            background-color: white;
+            z-index: 1002;
+            overflow: auto;
+        }
+    </style>
+    <script type="text/javascript">
+
+        function setCookie(name, value, expire) {
+            window.document.cookie = name + "=" + escape(value) + ((expire == null) ? "" : ("; expires=" + expire.toGMTString()));
+        }
+
+        function getCookie(Name) {
+            var search = Name + "=";
+            if (window.document.cookie.length > 0) { // if there are any cookies 
+                offset = window.document.cookie.indexOf(search);
+                if (offset != -1) { // if cookie exists 
+                    offset += search.length;
+                    // set index of beginning of value 
+                    end = window.document.cookie.indexOf(";", offset)
+                    // set index of end of cookie value
+                    if (end == -1)
+                        end = window.document.cookie.length;
+                    return unescape(window.document.cookie.substring(offset, end));
+                }
+            }
+            return null;
+        }
+        function register(name) {
+            var today = new Date();
+            var expires = new Date();
+            expires.setTime(today.getTime() + 1000 * 60 * 60 * 12);
+            setCookie("Tencent_kf_cf_com", name, expires);
+        }
+        
+        $(function () {
+            ////当浏览器窗口大小改变时
+            //$(window).resize(function () {
+            //    screenwidth = $(window).width();
+            //    screenheight = $(window).height();
+            //    mytop = $(document).scrollTop();
+            //    getPosLeft = screenwidth / 2 - 200;
+            //    getPosTop = screenheight / 2 - 150;
+            //    $("#div_Notice").css({ "left": getPosLeft, "top": getPosTop + mytop });
+            //});
+            ////当拉动滚动条时，弹出层跟着移动
+            //$(window).scroll(function () {
+            //    screenwidth = $(window).width();
+            //    screenheight = $(window).height();
+            //    mytop = $(document).scrollTop();
+            //    getPosLeft = screenwidth / 2 - 200;
+            //    getPosTop = screenheight / 2 - 150;
+            //    $("#div_Notice").css({ "left": getPosLeft, "top": getPosTop + mytop });
+            //});
+            var c = getCookie("Tencent_kf_cf_com");
+            if (c != null) {
+                return;
+            }
+           
+            ShowDiv("div_Notice", "back");
+            $("#btn_Sure").css("display","none");
+            $("#cb_CheckNotice").click(function () {
+
+                if ($("#cb_CheckNotice").is(':checked')) {
+                    $("#btn_Sure").css("display", "block");
+                    //$("#btn_Sure").removeAttr("disabled");
+                }
+                else {
+                    $("#btn_Sure").css("display", "none");
+                }
+            })
+
+            $("#btn_Sure").click(function () {               
+                CloseDiv("div_Notice", "back");
+                register("xiaolin");
+            });
+        })
+        //弹出隐藏层
+        function ShowDiv(show_div, bg_div) {           
+            document.getElementById(show_div).style.display = 'block';           
+            document.getElementById(bg_div).style.display = 'block';            
+            //$("#" + show_div).css("display", "block");
+            //$("#" + bg_div).css("display", "block");
+            var bgdiv = document.getElementById(bg_div);
+            bgdiv.style.width = document.body.scrollWidth;
+            bgdiv.style.height = $(document).height();           
+            //$("#" + bg_div).width($(document).body.scrollWidth());           
+            $("#" + bg_div).height($(document).height());
+            
+        };
+        //关闭弹出层
+        function CloseDiv(show_div, bg_div) {
+            document.getElementById(show_div).style.display = 'none';
+            document.getElementById(bg_div).style.display = 'none';
+        };
+    </script>
+</head>
+<body style="height:100%">
+
+    <div>
+        <iframe id="ifr_Main" frameborder="0" src="default.aspx" style=" width:100%; height:900px"></iframe>
+    </div>    
+    <div id="back" class="black_overlay"></div>
+    <div id="div_Notice" class="white_content">
+        <p style="color: red; font-size: x-large">警告</p>
+        <p>您正在访问的kf.cf.com页面上的任何操作（包括数据和资金的增删改查）都是敏感操作，请仔细阅读如下内容：</p>
+        <p>1.禁止任何非业务需要的滥用本站点，违者<span style="color: red; font-size: x-large">高压线</span>处置！</p>
+        <p>2.禁止任何形式（如：截图外传，微信QQ同事等途径暴露传播数据，与他人分享或炫耀等）的外传和泄漏，违者<span style="color: red; font-size: x-large">高压线</span>处置！</p>
+        <p>3.所有操作都会有<span style="color: red; font-size: x-large">记录</span>和<span style="color: red; font-size: x-large">审计</span>，请勿触犯<span style="color: red; font-size: x-large">高压线</span>！</p>
+        
+        <div style=" text-align:center" >
+            <input type="checkbox" id="cb_CheckNotice" />  
+            <span>同意以上内容</span>
+            <br /><br />
+            <button id="btn_Sure" style="background-color: red; margin-left:350px ">确定</button>
+            
+        </div>
+    </div>
+</body>
+</html>
