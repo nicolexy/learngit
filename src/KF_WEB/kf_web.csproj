@@ -3252,6 +3252,7 @@
     <Content Include="CreditPay\QueryCreditUserInfo.aspx" />
     <Content Include="CreditPay\QueryCreditBillList.aspx" />
     <Content Include="default.aspx" />
+    <Content Include="default.html" />
     <Content Include="FastPay\Email\QQReclaim.htm" />
     <Content Include="FastPay\Email\SelfBusinessReject.htm" />
     <Content Include="FastPay\FastPayLimitQuery.aspx" />
@@ -3468,6 +3469,8 @@
     </Content>
     <Content Include="SCRIPTS\IdentityIDValidate.js" />
     <Content Include="SCRIPTS\jquery-1.11.3.min.js" />
+    <Content Include="SCRIPTS\jquery-3.0.0.js" />
+    <Content Include="SCRIPTS\jquery-3.0.0.min.js" />
     <Content Include="SCRIPTS\laypage\laypage.js" />
     <Content Include="SCRIPTS\laypage\skin\laypage.css" />
     <Content Include="SCRIPTS\Local.js" />
@@ -5150,7 +5153,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>39045</DevelopmentServerPort>
+          <DevelopmentServerPort>52666</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
