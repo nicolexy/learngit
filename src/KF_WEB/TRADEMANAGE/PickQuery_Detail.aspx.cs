@@ -161,7 +161,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 				labFaid.Text = PublicRes.GetString(dr["faid"]);
 				labFaname.Text = PublicRes.GetString(dr["faname"]);
-                labFabankid.Text = classLibrary.setConfig.ConvertID(PublicRes.GetString(dr["Fabankid"]),4,4);
+                bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                //labFabankid.Text = classLibrary.setConfig.ConvertID(PublicRes.GetString(dr["Fabankid"]),4,4);
+                labFabankid.Text = classLibrary.setConfig.BankCardNoSubstring(PublicRes.GetString(dr["Fabankid"]), isRight);
+                
 				labFpay_time.Text = PublicRes.GetDateTime(dr["Fpay_time"]);
 				labFmodify_time.Text = PublicRes.GetDateTime(dr["FModify_time"]);
 

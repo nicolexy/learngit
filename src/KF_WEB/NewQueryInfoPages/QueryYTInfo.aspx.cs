@@ -131,6 +131,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         private void BindData()
 		{
+            bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
             string s_time = TextBoxBeginDate.Value;
             string s_begindate = "";
             if (s_time != null && s_time != "") {
@@ -228,7 +229,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     //个人信息
-                    lb_c5.Text = ds.Tables[0].Rows[0]["Ftruename"].ToString();//姓名
+
+                    lb_c5.Text = classLibrary.setConfig.ConvertName(ds.Tables[0].Rows[0]["Ftruename"].ToString(), isRight);   //姓名
                     string s_cretype = PublicRes.GetString(ds.Tables[0].Rows[0]["Fcre_type"]);//证件类型
                     if (s_cretype == "1")
                     {
@@ -237,8 +239,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     else {
                         lb_c6.Text = "";
                     }
-                    lb_c7.Text = PublicRes.GetString(ds.Tables[0].Rows[0]["Fmobile"]);//手机号
-                    lb_c8.Text = classLibrary.setConfig.ConvertCreID(ds.Tables[0].Rows[0]["Fcreid"].ToString());//证件号码
+                    
+                    lb_c7.Text = classLibrary.setConfig.ConvertTelephoneNumber(PublicRes.GetString(ds.Tables[0].Rows[0]["Fmobile"]), isRight);//手机号
+                    if (lb_c6.Text == "身份证")
+                    {
+                        lb_c8.Text = classLibrary.setConfig.IDCardNoSubstring(ds.Tables[0].Rows[0]["Fcreid"].ToString(), isRight);//证件号码
+                    }
+                    else 
+                    {
+                        lb_c8.Text = ds.Tables[0].Rows[0]["Fcreid"].ToString();// classLibrary.setConfig.ConvertCreID(ds.Tables[0].Rows[0]["Fcreid"].ToString());//证件号码
+                    }
+                   
                     lb_c9.Text = PublicRes.GetString(ds.Tables[0].Rows[0]["Femail"]);//email
                 }
                 if (ds_acc != null && ds_acc.Tables.Count > 0) 
@@ -317,7 +328,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             {
                 DataTable dt = ht.Tables[0];
 
-                lb_c19.Text = s_certno;
+                bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                lb_c19.Text = classLibrary.setConfig.IDCardNoSubstring(s_certno, isRight);
                 lb_c20.Text = dt.Rows[0]["num"].ToString();
             }
             else

@@ -184,6 +184,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     //  DataSet ds1 = new SPOAService().GetSpInfo(" and ApplyCpInfoID="+KeyID, 2, 0);
                     DataSet ds1 = new SPOAService().GetSpInfo("", KeyID, "", "", "", "", 2, 0);
 
+                    bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                    
                     if (ds1.Tables[0].Rows.Count == 1)
                     {
                         this.divInfo.Visible = true;
@@ -211,8 +213,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         this.lblArea.Text = ds1.Tables[0].Rows[0]["AreaName"].ToString();
                         this.lblBDName.Text = ds1.Tables[0].Rows[0]["BDName"].ToString();
                         this.txtConnetionName.Text = ds1.Tables[0].Rows[0]["ContactUser"].ToString();
-                        this.txtPhone.Text = ds1.Tables[0].Rows[0]["ContactPhone"].ToString();
-                        this.txtMobile.Text = ds1.Tables[0].Rows[0]["ContactMobile"].ToString();
+                        //this.txtPhone.Text = ds1.Tables[0].Rows[0]["ContactPhone"].ToString();
+                        this.txtPhone.Text = classLibrary.setConfig.ConvertTelephoneNumber(ds1.Tables[0].Rows[0]["ContactPhone"].ToString(), isRight);                        
+                        //this.txtMobile.Text = ds1.Tables[0].Rows[0]["ContactMobile"].ToString();
+                        this.txtMobile.Text = classLibrary.setConfig.ConvertTelephoneNumber(ds1.Tables[0].Rows[0]["ContactMobile"].ToString(), isRight);
                         this.txtEmail.Text = ds1.Tables[0].Rows[0]["ContactEmail"].ToString();
                         //	this.lblFaxNo.Text = ds1.Tables[0].Rows[0]["ContactFax"].ToString();
                         this.txtQQNo.Text = ds1.Tables[0].Rows[0]["ContactQQ"].ToString();

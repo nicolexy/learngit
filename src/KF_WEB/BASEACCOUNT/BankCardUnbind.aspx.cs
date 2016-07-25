@@ -98,7 +98,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             this.PanelList.Visible = false;
             this.PanelMod.Visible = true;
-
+            bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
             Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
             // 20130809 数据库标记：FBDIndex=1绑定表 FBDIndex=2 临时绑定表
             DataSet ds = qs.GetBankCardBind(Request.QueryString["Fuid"].ToString(), Request.QueryString["Findex"].ToString(), Request.QueryString["FBDIndex"].ToString());
@@ -157,8 +157,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     this.lblFcard_tail.Text = cardTail.Substring(cardTail.Length - 4, 4);
                 }
                 this.lblFcard_tail_db.Text = cardTail;
-
-                this.lblFtruename.Text = ds.Tables[0].Rows[0]["Ftruename"].ToString();
+                
+                this.lblFtruename.Text = classLibrary.setConfig.ConvertName(ds.Tables[0].Rows[0]["Ftruename"].ToString(), isRight_SensitiveRole);
                 string Fbind_type = ds.Tables[0].Rows[0]["Fbind_type"].ToString();
 
                 if (Fbind_type == "0")
@@ -238,7 +238,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                                 this.lblcreType.Text = "未知"; break;
                             }
                     }
-
+                    if (this.lblcreType.Text == "身份证")
+                    {
+                        this.lblCreID.Text = classLibrary.setConfig.IDCardNoSubstring(ds.Tables[0].Rows[0]["Fcre_id"].ToString(), isRight_SensitiveRole);
+                    }
+                    else
+                    {
+                        this.lblCreID.Text = ds.Tables[0].Rows[0]["Fcre_id"].ToString();
+                    }
                     this.lblCreateTime.Text = dr["Fcreate_time"].ToString();
                     this.lblbindTimeLocal.Text = dr["Fbind_time_local"].ToString();
                     this.lblbindTimeBank.Text = dr["Fbind_time_bank"].ToString();

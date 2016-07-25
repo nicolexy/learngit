@@ -212,7 +212,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			int max = pager.PageSize;
 			int start = max * (index-1) + 1;
-
+            bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
             DataSet ds = pickservice.GetPickList(idtype, u_ID, begindate, enddate, fstate, fnum, banktype, sorttype, cash_type, start, max);
 			if(ds != null && ds.Tables.Count >0 && ds.Tables[0].Rows.Count > 0)
 			{
@@ -229,7 +229,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 				foreach(DataRow dr in ds.Tables[0].Rows)
 				{
-                    dr["FaBankID_str"] = classLibrary.setConfig.ConvertID(dr["FaBankID"].ToString(), 4, 4);
+
+                    dr["Facc_name"] = classLibrary.setConfig.ConvertName(dr["Facc_name"].ToString(), isRight);
+                    dr["FaBankID"] = classLibrary.setConfig.BankCardNoSubstring(dr["FaBankID"].ToString(), isRight);
+                    //dr["FaBankID_str"] = classLibrary.setConfig.ConvertID(dr["FaBankID"].ToString(), 4, 4);
+                    dr["FaBankID_str"] = classLibrary.setConfig.BankCardNoSubstring(dr["FaBankID"].ToString(), isRight);
                     if (PublicRes.GetString(dr["Fsign"]) == "7")
                     {
                         dr["Fsign_str"] = "ÊÇ";

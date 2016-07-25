@@ -80,6 +80,8 @@ namespace TENCENT.OSS.CFT.KF.Common
 
             rights[170] = new OneRight("IceOutPPSecurityMoney", 170, "解冻拍拍保证金订单");
 
+            rights[196] = new OneRight("SensitiveRole", 196, "敏感权限");
+
 			ht = new Hashtable(RIGHTCOUNT);
 			for(int i=0 ; i< RIGHTCOUNT; i++)
 			{

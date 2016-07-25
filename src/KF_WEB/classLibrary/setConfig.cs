@@ -16,6 +16,7 @@ using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using TENCENT.OSS.C2C.Finance.BankLib;
 using CFT.CSOMS.BLL.TradeModule;
 using CFT.CSOMS.BLL.DKModule;
+using System.Text;
 namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 {
 	/// <summary>
@@ -1142,6 +1143,214 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
             ddl.Items.Add(new ListItem("全部", ""));
         }
 
-      
+        /// <summary>
+        /// 信息处理
+        /// 对输入身份证号码信息进行处理，除前三位和后三位用*号替换
+        /// </summary>
+        /// <param name="inputIDCardNo">身份证号码</param>              
+        /// <param name="isHasesensitiveRole">是否拥有敏感权限</param>
+        /// <returns></returns>
+        public static string IDCardNoSubstring(string inputIDCardNo, bool isHasesensitiveRole)
+        {
+            string result = string.Empty;
+            try
+            {
+                if (!string.IsNullOrEmpty(inputIDCardNo))
+                {
+                    if (isHasesensitiveRole)
+                    {
+                        result = inputIDCardNo;
+                    }
+                    else
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0; i < inputIDCardNo.Length; i++)
+                        {
+                            if (i < 3)
+                            {
+                                sb.Append(inputIDCardNo[i].ToString());
+                            }
+                            else if (i >= inputIDCardNo.Length - 3)
+                            {
+                                sb.Append(inputIDCardNo[i].ToString());
+                            }
+                            else
+                            {
+                                sb.Append("*");
+                            }
+                        }
+
+                        result = sb.ToString();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result = string.Empty;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 信息处理
+        /// 对银行帐号信息进行处理，除前三位和后三位用*号替换
+        /// </summary>
+        /// <param name="inputBankCardNo">银行帐号</param>              
+        /// <param name="isHasesensitiveRole">是否拥有敏感权限</param>
+        /// <returns></returns>
+        public static string BankCardNoSubstring(string inputBankCardNo, bool isHasesensitiveRole)
+        {
+            string result = string.Empty;
+            try
+            {
+                if (!string.IsNullOrEmpty(inputBankCardNo))
+                {
+                    if (isHasesensitiveRole)
+                    {
+                        result = inputBankCardNo;
+                    }
+                    else
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0; i < inputBankCardNo.Length; i++)
+                        {
+                            if (i < 3)
+                            {
+                                sb.Append(inputBankCardNo[i].ToString());
+                            }
+                            else if (i >= inputBankCardNo.Length-3)
+                            {
+                                sb.Append(inputBankCardNo[i].ToString());
+                            }
+                            else
+                            {
+                                sb.Append("*");
+                            }
+                        }
+
+                        result = sb.ToString();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result = string.Empty;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 电话号码处理
+        /// </summary>
+        /// <param name="telephoneNumber">电话号码</param>
+        /// <param name="isHasesensitiveRole">是否拥有敏感权限</param>
+        /// <returns></returns>
+        public static string ConvertTelephoneNumber(string telephoneNumber, bool isHasesensitiveRole)
+        {
+            string result = string.Empty;
+            try
+            {
+                if (!string.IsNullOrEmpty(telephoneNumber))
+                {
+                    if (isHasesensitiveRole)
+                    {
+                        result = telephoneNumber;
+                    }
+                    else
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0; i < telephoneNumber.Length; i++)
+                        {
+                            if (i < 3)
+                            {
+                                sb.Append(telephoneNumber[i].ToString());
+                            }
+                            else if (i >= 8)
+                            {
+                                sb.Append(telephoneNumber[i].ToString());
+                            }
+                            else
+                            {
+                                sb.Append("*");
+                            }
+                        }
+                        result = sb.ToString();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result = string.Empty;
+            }
+
+            return result;
+        }
+        /// <summary>
+        /// 姓名处理
+        /// 姓名：将原有姓名SHA256加密，同时采用通用方法脱敏，3个汉字以上只保留第一个和最后一个汉字，2个汉字只保留最后的汉字，如：张*三，*伟,脱敏为2个字段，1个加密字段，1个脱敏字段。
+        /// </summary>
+        /// <param name="name">姓名</param>
+        /// <param name="isHasesensitiveRole">是否拥有敏感权限</param>
+        /// <returns></returns>
+        public static string ConvertName(string name, bool isHasesensitiveRole)
+        {
+            string result = string.Empty;
+            try
+            {
+                if (!string.IsNullOrEmpty(name))
+                {
+                    if (isHasesensitiveRole)
+                    {
+                        result = name;
+                    }
+                    else
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        if (name.Length == 2)
+                        {
+                            for (int i = 0; i < name.Length; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    sb.Append("*");
+                                }
+                                else
+                                {
+                                    sb.Append(name[i].ToString());
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 0; i < name.Length; i++)
+                            {
+                                if (i == 0 || i == name.Length - 1)
+                                {
+                                    sb.Append(name[i].ToString());
+                                }
+                                else
+                                {
+                                    sb.Append("*");
+                                }
+                            }
+                        }
+
+                        result = sb.ToString();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result = string.Empty;
+            }
+
+            return result;
+        }
 	}
 }
