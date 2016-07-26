@@ -10,7 +10,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
 	/// <summary>
     /// QueryRefund 的摘要说明。yinhuang 2013/11/20
 	/// </summary>
-    public partial class QueryRefund : System.Web.UI.Page
+    public partial class QueryRefund : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         protected void Page_Load(object sender, System.EventArgs e)
 		{

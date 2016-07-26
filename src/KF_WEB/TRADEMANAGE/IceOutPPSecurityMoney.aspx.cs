@@ -9,7 +9,7 @@ using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
-    public partial class IceOutPPSecurityMoney : System.Web.UI.Page
+    public partial class IceOutPPSecurityMoney : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

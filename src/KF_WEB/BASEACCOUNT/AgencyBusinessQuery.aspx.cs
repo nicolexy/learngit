@@ -24,7 +24,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// AgencyBusinessQuery 的摘要说明。
     /// </summary>
-    public partial class AgencyBusinessQuery : System.Web.UI.Page
+    public partial class AgencyBusinessQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
 
         protected void Page_Load(object sender, System.EventArgs e)

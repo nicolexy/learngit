@@ -14,7 +14,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// Summary description for MobileRechargeConfigValidDateEdit.
 	/// </summary>
-	public partial class MobileRechargeConfigValidDateEdit : System.Web.UI.Page
+	public partial class MobileRechargeConfigValidDateEdit : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected void Page_Load(object sender, System.EventArgs e)
 		{

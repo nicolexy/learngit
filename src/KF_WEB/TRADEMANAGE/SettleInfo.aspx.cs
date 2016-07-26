@@ -25,7 +25,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// SettleInfo 的摘要说明。
 	/// </summary>
-	public partial class SettleInfo : System.Web.UI.Page
+	public partial class SettleInfo : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         protected System.Web.UI.WebControls.Label Label38;
         protected System.Web.UI.WebControls.Label Label48;

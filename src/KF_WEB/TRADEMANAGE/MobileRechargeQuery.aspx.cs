@@ -14,7 +14,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// Summary description for MobileRechargeQuery.
 	/// </summary>
-	public partial class MobileRechargeQuery : System.Web.UI.Page
+	public partial class MobileRechargeQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		
 		string strBeginDate = "",strEndDate = "";

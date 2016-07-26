@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// ValueAddedTaxApprove 的摘要说明。
 	/// </summary>
-	public partial class ValueAddedTaxApprove : System.Web.UI.Page
+	public partial class ValueAddedTaxApprove : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.TextBox txtCompanyName;
 		protected System.Web.UI.WebControls.Label lblSpid;

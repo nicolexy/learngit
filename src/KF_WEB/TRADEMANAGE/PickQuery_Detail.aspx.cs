@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// PickQuery_Detail 的摘要说明。
 	/// </summary>
-	public partial class PickQuery_Detail : System.Web.UI.Page
+	public partial class PickQuery_Detail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         PickService pickservice = new PickService();
 		protected void Page_Load(object sender, System.EventArgs e)

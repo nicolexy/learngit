@@ -19,7 +19,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	/// <summary>
 	/// RefundErrorMain 的摘要说明。
 	/// </summary>
-	public partial class RefundErrorMain : System.Web.UI.Page
+	public partial class RefundErrorMain : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 
 		private string WorkType = "";

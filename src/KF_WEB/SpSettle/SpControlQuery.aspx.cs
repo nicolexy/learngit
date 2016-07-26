@@ -11,7 +11,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 	/// <summary>
     /// SpControlQuery 的摘要说明。
 	/// </summary>
-    public partial class SpControlQuery : System.Web.UI.Page
+    public partial class SpControlQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
     
 		protected void Page_Load(object sender, System.EventArgs e)

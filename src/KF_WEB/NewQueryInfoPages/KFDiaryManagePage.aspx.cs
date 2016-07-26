@@ -16,7 +16,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// <summary>
 	/// KFDiaryManagePage 的摘要说明。
 	/// </summary>
-	public partial class KFDiaryManagePage : System.Web.UI.Page
+	public partial class KFDiaryManagePage : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

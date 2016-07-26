@@ -24,7 +24,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
 	/// <summary>
     /// QueryYTTrade 的摘要说明。
 	/// </summary>
-    public partial class FCASettlementQuery : System.Web.UI.Page
+    public partial class FCASettlementQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         public DateTime qbegindate, qenddate;
         protected ForeignCurrencyService FCBLLService = new ForeignCurrencyService();

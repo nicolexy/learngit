@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// UserClass 的摘要说明。
     /// </summary>
-    public partial class UserClass : System.Web.UI.Page
+    public partial class UserClass : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         private string type
         {
@@ -156,4 +156,5 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         }
     }
 
-}
+}
+

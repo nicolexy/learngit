@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// UserAppealCheck 的摘要说明。
 	/// </summary>
-	public partial class UserAppealCheck : System.Web.UI.Page
+	public partial class UserAppealCheck : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected Control.UserAppealCheckControl UserAppealCheckControl0;
 		protected Control.UserAppealCheckControl UserAppealCheckControl1;

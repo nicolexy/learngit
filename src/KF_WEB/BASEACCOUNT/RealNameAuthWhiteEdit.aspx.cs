@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
-    public partial class RealNameAuthWhiteEdit : System.Web.UI.Page
+    public partial class RealNameAuthWhiteEdit : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

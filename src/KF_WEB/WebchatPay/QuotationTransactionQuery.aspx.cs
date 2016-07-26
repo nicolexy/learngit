@@ -11,7 +11,7 @@ using Tencent.DotNet.Common.UI;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
-    public partial class QuotationTransactionQuery : System.Web.UI.Page
+    public partial class QuotationTransactionQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         int limit = 10;
         protected void Page_Load(object sender, EventArgs e)

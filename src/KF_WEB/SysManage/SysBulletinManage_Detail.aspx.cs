@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 	/// <summary>
 	/// SysBulletinManage_Detail 的摘要说明。
 	/// </summary>
-	public partial class SysBulletinManage_Detail : System.Web.UI.Page
+	public partial class SysBulletinManage_Detail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.Label lbTitle;
 		protected System.Web.UI.WebControls.DropDownList ddlSysList;

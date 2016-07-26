@@ -9,7 +9,7 @@ using TENCENT.OSS.C2C.Finance.Common.CommLib;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 {
-    public partial class NoticeUserByEmail : System.Web.UI.Page
+    public partial class NoticeUserByEmail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

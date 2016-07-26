@@ -16,7 +16,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
     /// Summary description for BankBillNoQuery.
 	/// </summary>
-    public partial class BankBillNoQuery : System.Web.UI.Page
+    public partial class BankBillNoQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		
 		string strBeginDate = "",strEndDate = "";

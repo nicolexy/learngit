@@ -19,7 +19,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// paymentlog 的摘要说明。
 	/// </summary>
-	public partial class paymentlog : System.Web.UI.Page
+	public partial class paymentlog : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Data.DataSet DS_Payment;
 		protected System.Data.DataTable dataTable1;

@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// <summary>
 	/// QueryFundInfoPage 的摘要说明。
 	/// </summary>
-	public partial class QueryFundInfoPage : System.Web.UI.Page
+	public partial class QueryFundInfoPage : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.Label rtnList;
 		protected System.Web.UI.WebControls.Label lb_2;

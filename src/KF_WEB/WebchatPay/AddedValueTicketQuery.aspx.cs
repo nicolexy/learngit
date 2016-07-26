@@ -11,7 +11,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 	/// <summary>
     /// AddedValueTicketQuery 的摘要说明。yinhuang 2014/06/18
 	/// </summary>
-    public partial class AddedValueTicketQuery : System.Web.UI.Page
+    public partial class AddedValueTicketQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         protected void Page_Load(object sender, System.EventArgs e)
 		{

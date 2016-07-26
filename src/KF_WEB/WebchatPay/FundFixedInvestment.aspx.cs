@@ -12,7 +12,7 @@ using TENCENT.OSS.CFT.KF.Common;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
-    public partial class FundFixedInvestment : System.Web.UI.Page
+    public partial class FundFixedInvestment : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
        public string iframeSRC = "";
         protected void Page_Load(object sender, EventArgs e)

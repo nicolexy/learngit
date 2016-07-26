@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
     /// <summary>
     /// QueryDiscountCode 的摘要说明。
     /// </summary>
-    public partial class AutomaticRechargeQuery : System.Web.UI.Page
+    public partial class AutomaticRechargeQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, System.EventArgs e)
         {

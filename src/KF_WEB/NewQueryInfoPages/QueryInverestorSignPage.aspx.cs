@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// <summary>
 	/// QueryInverestorSignPage 的摘要说明。
 	/// </summary>
-	public partial class QueryInverestorSignPage : System.Web.UI.Page
+	public partial class QueryInverestorSignPage : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.Label lb_1;
 		protected System.Web.UI.WebControls.Label lb_2;

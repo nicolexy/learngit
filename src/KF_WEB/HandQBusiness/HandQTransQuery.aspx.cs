@@ -11,7 +11,7 @@ using TENCENT.OSS.CFT.KF.Common;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
 {
-    public partial class HandQTransQuery : System.Web.UI.Page
+    public partial class HandQTransQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

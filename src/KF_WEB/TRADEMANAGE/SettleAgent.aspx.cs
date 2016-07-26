@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// SettleAgent 的摘要说明。
 	/// </summary>
-	public partial class SettleAgent : System.Web.UI.Page
+	public partial class SettleAgent : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         protected System.Web.UI.WebControls.Label Label3;
         protected System.Web.UI.WebControls.TextBox TextBoxBeginDate;

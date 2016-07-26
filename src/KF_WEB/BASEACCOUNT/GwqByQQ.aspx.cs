@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// GwqByQQ 的摘要说明。
 	/// </summary>
-	public partial class GwqByQQ : System.Web.UI.Page
+	public partial class GwqByQQ : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// <summary>
 	/// QueryChargeInfoPage 的摘要说明。
 	/// </summary>
-	public partial class QueryChargeInfoPage : System.Web.UI.Page
+	public partial class QueryChargeInfoPage : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.Label lb_1;
 		protected System.Web.UI.WebControls.TextBox tbx_findDate;

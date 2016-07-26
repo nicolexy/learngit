@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
     /// DepositAccountQuery 的摘要说明。
 	/// </summary>
-    public partial class DepositAccountQuery : System.Web.UI.Page
+    public partial class DepositAccountQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         protected System.Web.UI.WebControls.Button btnQuery;
         protected System.Web.UI.WebControls.TextBox txtSPId;

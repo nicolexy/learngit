@@ -18,7 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// <summary>
     /// Summary description for BankBillNoQuery.
 	/// </summary>
-    public partial class QueryAuthenStateInfoPage : System.Web.UI.Page
+    public partial class QueryAuthenStateInfoPage : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         AccountService acc = new AccountService();
         AuthenStateDeleteClass authenInfo = new AuthenStateDeleteClass();

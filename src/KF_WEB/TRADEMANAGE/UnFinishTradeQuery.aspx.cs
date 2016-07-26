@@ -25,7 +25,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
     /// <summary>
     /// QueryYTTrade 的摘要说明。
     /// </summary>
-    public partial class UnFinishTradeQuery : System.Web.UI.Page
+    public partial class UnFinishTradeQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         public DateTime qbegindate, qenddate;
         protected ForeignCardService FCBLLService = new ForeignCardService();

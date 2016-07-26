@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// <summary>
 	/// GetUserFundAccountInfoPage 的摘要说明。
 	/// </summary>
-	public partial class GetUserFundAccountInfoPage : System.Web.UI.Page
+	public partial class GetUserFundAccountInfoPage : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected Wuqi.Webdiyer.AspNetPager pager;
 	

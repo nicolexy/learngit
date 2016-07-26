@@ -18,7 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// BankrollHistoryLog 的摘要说明。
 	/// </summary>
-	public partial class BankrollHistoryLog : System.Web.UI.Page
+	public partial class BankrollHistoryLog : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected string iFramePath;
 	

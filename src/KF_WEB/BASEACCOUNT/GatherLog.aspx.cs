@@ -19,7 +19,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// GatherLog 的摘要说明。
     /// </summary>
-    public partial class GatherLog : System.Web.UI.Page
+    public partial class GatherLog : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected DataTable dataTable1;
         protected DataColumn dataColumn1;

@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// <summary>
 	/// QueryAuthenInfoPage 的摘要说明。
 	/// </summary>
-	public partial class QueryAuthenInfoPage : System.Web.UI.Page
+	public partial class QueryAuthenInfoPage : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.Button btn_submit_acc;
 		protected System.Web.UI.WebControls.TextBox TextBox1;

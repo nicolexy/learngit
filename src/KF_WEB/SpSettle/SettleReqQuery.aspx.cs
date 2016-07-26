@@ -25,7 +25,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 	/// <summary>
     /// SettleReqQuery 的摘要说明。
 	/// </summary>
-    public partial class SettleReqQuery : System.Web.UI.Page
+    public partial class SettleReqQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
     
 		protected void Page_Load(object sender, System.EventArgs e)

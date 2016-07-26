@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// SelfQueryDetail 的摘要说明。
 	/// </summary>
-	public partial class SelfQueryDetail : System.Web.UI.Page
+	public partial class SelfQueryDetail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected TENCENT.OSS.CFT.KF.KF_Web.Control.FunctionControl NewFunction;
    

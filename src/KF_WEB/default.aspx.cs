@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 	/// <summary>
 	/// Default1 的摘要说明。
 	/// </summary>
-	public partial class Default : System.Web.UI.Page
+	public partial class Default : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		public string path;
 		protected void Page_Load(object sender, System.EventArgs e)

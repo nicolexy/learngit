@@ -24,7 +24,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 
 namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 {
-    public partial class logOnUserBatch : System.Web.UI.Page
+    public partial class logOnUserBatch : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         string uid;
         string cancelPath = string.Empty;

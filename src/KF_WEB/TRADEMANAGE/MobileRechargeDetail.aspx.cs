@@ -15,7 +15,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// Summary description for MobileRechargeDetail.
 	/// </summary>
-	public partial class MobileRechargeDetail : System.Web.UI.Page
+	public partial class MobileRechargeDetail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 
 		

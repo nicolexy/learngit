@@ -18,7 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// UserBankAccountQuery 的摘要说明。
 	/// </summary>
-	public partial class UserBankAccountQuery : System.Web.UI.Page
+	public partial class UserBankAccountQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.TextBox TextBox1;
 		protected System.Web.UI.WebControls.Button Button1;

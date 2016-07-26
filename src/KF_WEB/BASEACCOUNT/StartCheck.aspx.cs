@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// StartCheck 的摘要说明。
     /// </summary>
-    public partial class StartCheck : System.Web.UI.Page
+    public partial class StartCheck : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected System.Web.UI.WebControls.LinkButton lkUnchecked;
         protected System.Web.UI.WebControls.DataGrid dgCheck;

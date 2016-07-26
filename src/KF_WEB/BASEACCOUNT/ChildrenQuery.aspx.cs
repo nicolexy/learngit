@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// ChildrenQuery 的摘要说明。
 	/// </summary>
-	public partial class ChildrenQuery : System.Web.UI.Page
+	public partial class ChildrenQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		public string iFramePath;
 	
