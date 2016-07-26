@@ -112,13 +112,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay {
         protected global::System.Web.UI.WebControls.Label lbl_Fissue;
         
         /// <summary>
-        /// lbl_Fprofit_type_str control.
+        /// lbl_Fprofit_type control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl_Fprofit_type_str;
+        protected global::System.Web.UI.WebControls.Label lbl_Fprofit_type;
         
         /// <summary>
         /// lbl_Fund_name control.

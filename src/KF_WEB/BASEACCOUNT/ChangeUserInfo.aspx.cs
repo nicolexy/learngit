@@ -60,7 +60,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         protected System.Web.UI.HtmlControls.HtmlInputHidden Hcity;
         protected System.Web.UI.WebControls.DropDownList ddlAttid;
         protected System.Web.UI.HtmlControls.HtmlSelect city;
-
+        bool isRight_SensitiveRole = false;
         private void Page_Load(object sender, System.EventArgs e)
         {
             // 在此处放置用户代码以初始化页面
@@ -81,6 +81,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             if (!Page.IsPostBack)
             {
+                isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                 setInfoNull();
                 initBasicInfo();
             }
@@ -145,10 +146,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             this.Label1_Fqqid.Text = ds.Tables[0].Rows[0]["Fqqid"].ToString();
             ViewState["qqid"] = ds.Tables[0].Rows[0]["Fqqid"].ToString();
-            //对姓名进行敏感操作判断
-            bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
-            string ftruename = classLibrary.setConfig.ConvertName(ds.Tables[0].Rows[0]["Ftruename"].ToString(), isRight);            
-           this.TextBox2_Ftruename.Text = ftruename;// ds.Tables[0].Rows[0]["Ftruename"].ToString();
+            //对姓名进行敏感操作判断            
+            this.TextBox2_Ftruename.Text = classLibrary.setConfig.ConvertName(ds.Tables[0].Rows[0]["Ftruename"].ToString(), isRight_SensitiveRole);   // ds.Tables[0].Rows[0]["Ftruename"].ToString();
             this.DropDownList1_Sex.Visible = true;
 
             //furion 20060816
@@ -170,8 +169,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             ViewState["Fphone"] = fphone;
             string fmobile = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fmobile"]);
             //对手机号码进行敏感操作判断
-            string telephoneNumber = classLibrary.setConfig.ConvertTelephoneNumber(fmobile, isRight);
-            this.Textbox7_Fmobile.Text = telephoneNumber;
+            this.Textbox7_Fmobile.Text = classLibrary.setConfig.ConvertTelephoneNumber(fmobile, isRight_SensitiveRole);
             ViewState["Fmobile"] = fmobile;
             string femail = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Femail"]);
             this.Textbox7_Femail.Text = femail;
@@ -191,7 +189,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             //对手机号码进行敏感操作判断
             
             //this.Textbox13_Fcreid.Text = classLibrary.ClassLib.ValidateRight("ShowIDCrad", this) ? fcreid : classLibrary.setConfig.ConvertCreID(fcreid);
-            this.Textbox13_Fcreid.Text = classLibrary.ClassLib.ValidateRight("ShowIDCrad", this) ? fcreid : classLibrary.setConfig.IDCardNoSubstring(fcreid, isRight);
+            this.Textbox13_Fcreid.Text = classLibrary.setConfig.IDCardNoSubstring(fcreid, isRight_SensitiveRole);
             ViewState["Fcreid"] = fcreid;
             string fmemo = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fmemo"]);
             this.TX_Memo.Text = fmemo;

@@ -24,12 +24,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// </summary>
     public partial class QueryYTInfo : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
+        bool isRight_SensitiveRole = false;
         protected void Page_Load(object sender, System.EventArgs e)
 		{
             //radioListOrder.Attributes.Add("onclick", "showRadioClick()"); 
 
 			try
 			{
+                isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
 				Label1.Text = Session["uid"].ToString();
 				string szkey = Session["SzKey"].ToString();
 
@@ -131,7 +133,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
         private void BindData()
 		{
-            bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+            
             string s_time = TextBoxBeginDate.Value;
             string s_begindate = "";
             if (s_time != null && s_time != "") {
@@ -230,7 +232,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 {
                     //个人信息
 
-                    lb_c5.Text = classLibrary.setConfig.ConvertName(ds.Tables[0].Rows[0]["Ftruename"].ToString(), isRight);   //姓名
+                    lb_c5.Text = classLibrary.setConfig.ConvertName(ds.Tables[0].Rows[0]["Ftruename"].ToString(), isRight_SensitiveRole);   //姓名
                     string s_cretype = PublicRes.GetString(ds.Tables[0].Rows[0]["Fcre_type"]);//证件类型
                     if (s_cretype == "1")
                     {
@@ -239,11 +241,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     else {
                         lb_c6.Text = "";
                     }
-                    
-                    lb_c7.Text = classLibrary.setConfig.ConvertTelephoneNumber(PublicRes.GetString(ds.Tables[0].Rows[0]["Fmobile"]), isRight);//手机号
+
+                    lb_c7.Text = classLibrary.setConfig.ConvertTelephoneNumber(PublicRes.GetString(ds.Tables[0].Rows[0]["Fmobile"]), isRight_SensitiveRole);//手机号
                     if (lb_c6.Text == "身份证")
                     {
-                        lb_c8.Text = classLibrary.setConfig.IDCardNoSubstring(ds.Tables[0].Rows[0]["Fcreid"].ToString(), isRight);//证件号码
+                        lb_c8.Text = classLibrary.setConfig.IDCardNoSubstring(ds.Tables[0].Rows[0]["Fcreid"].ToString(), isRight_SensitiveRole);//证件号码
                     }
                     else 
                     {
@@ -328,8 +330,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             {
                 DataTable dt = ht.Tables[0];
 
-                bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
-                lb_c19.Text = classLibrary.setConfig.IDCardNoSubstring(s_certno, isRight);
+                lb_c19.Text = classLibrary.setConfig.IDCardNoSubstring(s_certno, isRight_SensitiveRole);
                 lb_c20.Text = dt.Rows[0]["num"].ToString();
             }
             else
