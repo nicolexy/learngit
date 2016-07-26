@@ -724,9 +724,14 @@ namespace CFT.CSOMS.BLL.TradeModule
             return (new TradeData()).GetUnfinishedMobileQHB(uin);
         }
 
-        public DataSet GetUnfinishedMobileQTransfer(string uin)
+        public DataSet GetUnfinishedMobileQTransfer(string uin,out string errorMsg)
         {
-            return (new TradeData()).GetUnfinishedMobileQTransfer(uin);
+            return (new TradeData()).GetUnfinishedMobileQTransfer(uin,out errorMsg);
+        }
+
+        public DataSet GetUnfinishedMobileQTransferByListId(string uin, string listId, out string errorMsg)
+        {
+            return (new TradeData()).GetUnfinishedMobileQTransferByListId(uin, listId, out errorMsg);
         }
         #endregion
 
