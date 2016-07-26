@@ -68,6 +68,7 @@
                 <td style="width: 50%">计划类型：
                      <asp:RadioButton ID="DT" GroupName="PROJECT" runat="server" Text="定投" Checked="true" />
                     <asp:RadioButton ID="HFD" GroupName="PROJECT" runat="server" Text="还房贷" />
+                    <asp:RadioButton ID="PayBackCredit" GroupName="PROJECT" runat="server" Text="还信用卡" />
                      <asp:RadioButton ID="DreamProject" GroupName="PROJECT" runat="server" Text="梦想计划" />
                 </td>
 

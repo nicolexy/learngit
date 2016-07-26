@@ -172,6 +172,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 labFbankID.Text = GetBankIDName(dr["Fbankid"].ToString());
                 labFbankType.Text = PublicRes.GetString(Transfer.returnDicStr("BANK_TYPE", PublicRes.GetInt(dr["Fbank_Type"])));
                 labFmemo.Text = PublicRes.GetString(dr["Fmemo"]);
+                try
+                {
+                    //提现记录查询新增一个预计到账时间（Fstandby3）字段，该字段仅用于微信零钱包提现
+                    if (dr["Fproduct"].ToString().Trim() == "7")
+                    {
+                        lbl_Fstandby3.Text = PublicRes.GetString(dr["Fstandby3"]);
+                    }
+                }
+                catch (Exception exc)
+                {
+                    lbl_Fstandby3.Text = exc.Message;
+                }
+
 			}
 			else
 			{

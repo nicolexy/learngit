@@ -519,6 +519,36 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
                 throw new Exception("HK钱包支付---红包详情查询,异常:" + ex);
             }
         } 
+        /// <summary>
+        /// 香港钱包 转账流水
+        /// </summary>
+        public List<HKWalletTransRollList> QueryHKTransRollList(string client_ip, string query_openid, string trans_type, string start_time, string end_time, int offset, int limit)
+        {
+
+            //&client_ip=127.0.0.1&end_time=2016-06-30&limit=10&offset=0&openid=o5PXlsmW40pXioztjs1BvqNPXCdQ&start_time=2016-01-01&trans_type=1&abstract=XEqsYg_vvlzl4yJBLt7t5OQbSKQ%3d
+            string requesttest = "client_ip=" + client_ip +
+                                "&openid=" + query_openid +
+                                "&trans_type=" + trans_type +
+                                "&start_time=" + start_time +
+                                "&end_time=" + end_time +
+                                "&offset=" + offset +
+                                "&limit=" + limit +
+                                "&MSG_NO=102369" + DateTime.Now.ToString("yyyyMMddHHmmss");
+
+            var result = RelayAccessFactory.RelayInvoke(requesttest, "102369", true, false, IP_RedPacket, Port_RedPacket, RedPacket_Encode);
+            if (!result.Contains("result=0"))
+            {
+                throw new Exception("HK钱包支付---转账流水查询,异常:requesttest:" + requesttest + "result:" + result);
+            }
+            string resultJson = TENCENT.OSS.C2C.Finance.Common.CommLib.CommQuery.GetRelayParams(result, RedPacket_Encode, "res_info");
+            var DynamicObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(resultJson);
+            //rownum不是总条数，没什么作用
+            string rownum = Convert.ToString(DynamicObject.rownum);
+
+            string rows = Convert.ToString(DynamicObject.rows);
+            List<HKWalletTransRollList> list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<HKWalletTransRollList>>(rows);
+            return list;
+        }
 
         #endregion
 

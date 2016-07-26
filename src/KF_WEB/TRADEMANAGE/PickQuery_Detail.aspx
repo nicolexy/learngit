@@ -151,6 +151,23 @@
 								<tr borderColor="#999999" bgColor="#999999" style="HEIGHT: 4px">
 									<td colSpan="4"></td>
 								</tr>
+                                	<TR>
+									<TD align="center" style="HEIGHT: 16px">
+										<P align="right"><asp:label id="Label4" runat="server">预计到账时间：</asp:label><FONT face="宋体">:</FONT></P>
+									</TD>
+									<TD align="center" style="HEIGHT: 16px">
+										<P align="left"><asp:label id="lbl_Fstandby3" runat="server" ForeColor="Blue"></asp:label></P>
+									</TD>
+									<TD align="center" style="HEIGHT: 16px">
+										
+									</TD>
+									<TD align="center" style="HEIGHT: 16px">
+										
+									</TD>
+								</TR>
+                                <tr borderColor="#999999" bgColor="#999999" style="HEIGHT: 4px">
+									<td colSpan="4"></td>
+								</tr>
 								<TR style="HEIGHT: 46px">
 									<TD vAlign="middle" align="center" colSpan="4"><FONT face="宋体"></FONT></TD>
 								</TR>
