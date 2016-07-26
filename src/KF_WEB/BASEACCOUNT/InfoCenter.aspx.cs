@@ -28,7 +28,7 @@ using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
-    public partial class InfoCenter : PageBase//System.Web.UI.Page
+    public partial class InfoCenter : PageBase//TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         public string iFramePath;  //设置iFrame的路径
         public string iFrameHeight;  //设置iFrame(用户交易记录)显示区域的高度
@@ -210,9 +210,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     string str_truename = PublicRes.objectToString(ds.Tables[0], "UserRealName2");
                     if (str_truename == "")
                     {
-                        str_truename = PublicRes.objectToString(ds.Tables[0], "Ftruename");
+                        str_truename = PublicRes.objectToString(ds.Tables[0], "Ftruename");                                                                     
                     }
-                    this.Label14_Ftruename.Text = str_truename;
+                    bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                    this.Label14_Ftruename.Text = classLibrary.setConfig.ConvertName(str_truename, isRight); ;
 
                     string s_fz_amt = PublicRes.objectToString(ds.Tables[0], "Ffz_amt"); //分账冻结金额
                     string s_balance = PublicRes.objectToString(ds.Tables[0], "Fbalance");
@@ -255,7 +256,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                     //furion 20061116 email登录修改
                     this.labEmail.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Femail"));
-                    this.labMobile.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile"));
+
+                    this.labMobile.Text = classLibrary.setConfig.ConvertTelephoneNumber(PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile")), isRight);      
                     //2006-10-18 edwinyang 增加产品属性
                     int nAttid = 0;
                     //				pbp.BindDropDownList(pm.QueryDicAccName(),ddlAttid,out Msg);

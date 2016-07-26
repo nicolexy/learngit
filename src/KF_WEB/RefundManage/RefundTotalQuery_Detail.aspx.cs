@@ -19,7 +19,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	/// <summary>
 	/// RefundTotalQuery_Detail 的摘要说明。
 	/// </summary>
-    public partial class RefundTotalQuery_Detail : System.Web.UI.Page
+    public partial class RefundTotalQuery_Detail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
     
 		private void Page_Load(object sender, System.EventArgs e)

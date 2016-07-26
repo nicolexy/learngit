@@ -19,7 +19,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// FreezeFinQuery 的摘要说明。
 	/// </summary>
-	public partial class FreezeFinQuery : System.Web.UI.Page
+	public partial class FreezeFinQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 
 		protected int ElemCount = int.Parse(System.Configuration.ConfigurationManager.AppSettings["pageSize"].ToString());

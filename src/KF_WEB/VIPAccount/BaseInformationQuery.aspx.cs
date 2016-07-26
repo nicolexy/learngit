@@ -16,7 +16,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.VIPAccount
 	/// <summary>
 	/// Summary description for BaseInformationQuery.
 	/// </summary>
-	public partial class BaseInformationQuery : System.Web.UI.Page
+	public partial class BaseInformationQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

@@ -10,7 +10,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
 	/// <summary>
     /// QueryCreditUserInfo 的摘要说明。yinhuang 2013/11/25
 	/// </summary>
-    public partial class QueryCreditUserInfo : System.Web.UI.Page
+    public partial class QueryCreditUserInfo : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 
         protected void Page_Load(object sender, System.EventArgs e)

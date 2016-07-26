@@ -14,7 +14,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// AppealManage 的摘要说明。
 	/// </summary>
-	public partial class AppealManage : System.Web.UI.Page
+	public partial class AppealManage : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.Label lblFpaybuy;
 		protected System.Web.UI.WebControls.Label lblFpaysale;

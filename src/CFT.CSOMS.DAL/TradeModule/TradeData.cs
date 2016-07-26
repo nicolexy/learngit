@@ -1133,19 +1133,32 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// <summary>
         /// 替换手q原先的转账接口
         /// </summary>     
-        public DataSet GetUnfinishedMobileQTransfer(string uin)
+        public DataSet GetUnfinishedMobileQTransfer(string uin,out string errorMsg)
         {
             string RequestText = "uin=" + uin;
             RequestText += "&qry_type=2";
             var relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("HandQHBIP", "10.238.13.244");
             var relayPORT = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("HandQHBPort", 22000);
             string answer = RelayAccessFactory.RelayInvoke(RequestText, "102081", true, false, relayIP, relayPORT, "");
-            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
-            string Msg = "";
-            DataSet ds = CommQuery.ParseRelayStr(answer, out Msg, true);
+            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));        
+            DataSet ds = CommQuery.ParseRelayStr(answer, out errorMsg, true);
             return ds;
         }
 
+        /// <summary>
+        /// 替换手q原先的转账接口,通过uin和商户订单号找相关信息
+        /// </summary>     
+        public DataSet GetUnfinishedMobileQTransferByListId(string uin, string listId,out string errorMsg)
+        {
+            string RequestText = "uin=" + uin;
+            RequestText += "&qry_type=1&listid=" + listId;
+            var relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("HandQHBIP", "10.238.13.244");
+            var relayPORT = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("HandQHBPort", 22000);
+            string answer = RelayAccessFactory.RelayInvoke(RequestText, "102081", true, false, relayIP, relayPORT, "");
+            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
+            DataSet ds = CommQuery.ParseRelayStr(answer, out errorMsg, true);
+            return ds;
+        }
         /// <summary>
         /// 未完成交易单查询(买家、卖家)
         /// </summary>

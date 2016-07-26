@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// ChangeUserName 的摘要说明。
     /// </summary>
-    public partial class ChangeUserInfo : System.Web.UI.Page
+    public partial class ChangeUserInfo : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected System.Web.UI.WebControls.ImageButton ImageButton3;
         protected System.Web.UI.WebControls.Button Button2_Submit;
@@ -145,8 +145,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             this.Label1_Fqqid.Text = ds.Tables[0].Rows[0]["Fqqid"].ToString();
             ViewState["qqid"] = ds.Tables[0].Rows[0]["Fqqid"].ToString();
-
-            this.TextBox2_Ftruename.Text = ds.Tables[0].Rows[0]["Ftruename"].ToString();
+            //对姓名进行敏感操作判断
+            bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+            string ftruename = classLibrary.setConfig.ConvertName(ds.Tables[0].Rows[0]["Ftruename"].ToString(), isRight);            
+           this.TextBox2_Ftruename.Text = ftruename;// ds.Tables[0].Rows[0]["Ftruename"].ToString();
             this.DropDownList1_Sex.Visible = true;
 
             //furion 20060816
@@ -167,7 +169,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             this.Textbox6_Fphone.Text = fphone;
             ViewState["Fphone"] = fphone;
             string fmobile = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fmobile"]);
-            this.Textbox7_Fmobile.Text = fmobile;
+            //对手机号码进行敏感操作判断
+            string telephoneNumber = classLibrary.setConfig.ConvertTelephoneNumber(fmobile, isRight);
+            this.Textbox7_Fmobile.Text = telephoneNumber;
             ViewState["Fmobile"] = fmobile;
             string femail = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Femail"]);
             this.Textbox7_Femail.Text = femail;
@@ -184,7 +188,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             this.DropDownList2_certify.SelectedValue = fcre_type;
             ViewState["Fcre_type"] = fcre_type;
             string fcreid = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fcreid"]);
-            this.Textbox13_Fcreid.Text = classLibrary.ClassLib.ValidateRight("ShowIDCrad", this) ? fcreid : classLibrary.setConfig.ConvertCreID(fcreid);
+            //对手机号码进行敏感操作判断
+            
+            //this.Textbox13_Fcreid.Text = classLibrary.ClassLib.ValidateRight("ShowIDCrad", this) ? fcreid : classLibrary.setConfig.ConvertCreID(fcreid);
+            this.Textbox13_Fcreid.Text = classLibrary.ClassLib.ValidateRight("ShowIDCrad", this) ? fcreid : classLibrary.setConfig.IDCardNoSubstring(fcreid, isRight);
             ViewState["Fcreid"] = fcreid;
             string fmemo = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fmemo"]);
             this.TX_Memo.Text = fmemo;

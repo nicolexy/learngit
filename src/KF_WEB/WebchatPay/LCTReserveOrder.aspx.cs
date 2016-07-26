@@ -12,7 +12,7 @@ using TENCENT.OSS.CFT.KF.Common;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
-    public partial class LCTReserveOrder : System.Web.UI.Page
+    public partial class LCTReserveOrder : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

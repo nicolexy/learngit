@@ -10,7 +10,7 @@ using CFT.CSOMS.BLL.HandQModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness
 {
-    public partial class RefundHandQQuery : System.Web.UI.Page
+    public partial class RefundHandQQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         private const int m_nPageSize = 10;
         protected void Page_Load(object sender, EventArgs e)

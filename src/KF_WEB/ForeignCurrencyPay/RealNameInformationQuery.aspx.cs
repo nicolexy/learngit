@@ -11,7 +11,7 @@ using Tencent.DotNet.Common.UI;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
 {
-    public partial class RealNameInformationQuery : System.Web.UI.Page
+    public partial class RealNameInformationQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -70,6 +70,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             DataTable dt = new FCXGWallet().QueryRealNameInfo(uin, ip);
 
             panDetail.Visible = true;
+            bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
 
             foreach (var con in panDetail.Controls)
             {
@@ -80,7 +81,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                     {
                         try
                         {
-                            lable.Text = dt.Rows[0][lable.ID.Replace("lbl_", "")].ToString();
+                            if (lable.ID == "lbl_name")
+                            {
+                                lable.Text = classLibrary.setConfig.ConvertName(dt.Rows[0][lable.ID.Replace("lbl_", "")].ToString(), isRight);
+                            }
+                            else if (lable.ID == "lbl_mobile")
+                            {
+                                lable.Text = classLibrary.setConfig.ConvertTelephoneNumber(dt.Rows[0][lable.ID.Replace("lbl_", "")].ToString(), isRight);
+                            }
+                            else if (lable.ID == "lbl_cre_id")
+                            {
+                                lable.Text = classLibrary.setConfig.IDCardNoSubstring(dt.Rows[0][lable.ID.Replace("lbl_", "")].ToString(), isRight);
+                            }
+                            else
+                            {
+                                lable.Text = dt.Rows[0][lable.ID.Replace("lbl_", "")].ToString();
+                            }
                         }
                         catch (Exception ex)
                         {

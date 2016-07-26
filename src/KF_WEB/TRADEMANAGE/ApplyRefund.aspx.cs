@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// ApplyRefund 的摘要说明。
 	/// </summary>
-	public partial class ApplyRefund : System.Web.UI.Page
+	public partial class ApplyRefund : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

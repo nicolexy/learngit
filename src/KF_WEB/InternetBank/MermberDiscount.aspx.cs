@@ -13,7 +13,7 @@ using Apollo = CFT.Apollo;//设置别名，不然命名空间与该文件命名�
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 {
-    public partial class MermberDiscount : System.Web.UI.Page
+    public partial class MermberDiscount : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

@@ -24,7 +24,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
 
 namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 {
-    public partial class logOnUserBatch : System.Web.UI.Page
+    public partial class logOnUserBatch : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         string uid;
         string cancelPath = string.Empty;
@@ -226,6 +226,12 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                         if (!(new TradeService()).QueryWXUnfinishedHB(account))
                         {
                             msg = "此账号有未完成微信红包，禁止注销！";
+                            return result;
+                        }
+
+                        var HasUnfinishedRepayment = new TradeService().QueryWXFCancelAsRepayMent(account, out msg);
+                        if (HasUnfinishedRepayment)
+                        {                          
                             return result;
                         }
 

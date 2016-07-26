@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
     /// ComplainUserDetail 的摘要说明。
 	/// </summary>
-    public partial class ComplainUserDetail : System.Web.UI.Page
+    public partial class ComplainUserDetail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         private string listid, qbussid, qbegindate, qenddate, qorderid, qcomptype, qstatus, qpage;
         private string flag, bussid;

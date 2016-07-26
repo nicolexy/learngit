@@ -12,7 +12,7 @@ using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using CFT.CSOMS.BLL.TransferMeaning;
 namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 {
-    public partial class RefundRegistration : System.Web.UI.Page
+    public partial class RefundRegistration : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
 
         private int m_nState = 1;

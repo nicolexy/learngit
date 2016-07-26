@@ -18,7 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// PageBase 的摘要说明。
 	/// </summary>
-	public class PageBase : System.Web.UI.Page
+	public class PageBase : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 
 		#region 成员变量

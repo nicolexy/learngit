@@ -19,7 +19,7 @@ using CFT.Apollo.Logging;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 {
-    public partial class DFBatchQuery : System.Web.UI.Page
+    public partial class DFBatchQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

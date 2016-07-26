@@ -10,7 +10,7 @@ using Tencent.DotNet.Common.UI;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
-    public partial class BusCardPrepaidQuery : System.Web.UI.Page
+    public partial class BusCardPrepaidQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         static DataTable dt;
         protected void Page_Load(object sender, EventArgs e)

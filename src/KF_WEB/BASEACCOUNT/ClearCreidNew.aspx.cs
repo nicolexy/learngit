@@ -10,7 +10,7 @@ using System.Web.Services.Protocols;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
-    public partial class ClearCreidNew : System.Web.UI.Page
+    public partial class ClearCreidNew : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

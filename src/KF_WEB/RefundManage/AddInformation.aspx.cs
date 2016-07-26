@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	/// <summary>
 	/// changeUserName_2 的摘要说明。
 	/// </summary>
-    public partial class AddInformation : System.Web.UI.Page
+    public partial class AddInformation : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         private const string FILE_EMPTY         = null;        
         private const string FILE_COMMITMENT    = "R_Commitment";

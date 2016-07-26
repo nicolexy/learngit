@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// UserClassTJ 的摘要说明。
 	/// </summary>
-	public partial class UserClassTJ : System.Web.UI.Page
+	public partial class UserClassTJ : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		public string pagebegindate

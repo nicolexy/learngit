@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// MobileBindQuery 的摘要说明。
 	/// </summary>
-	public partial class MobileBindQuery : System.Web.UI.Page
+	public partial class MobileBindQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)
@@ -43,7 +43,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
 			DataSet ds = qs.GetMsgNotify(ViewState["QQ"].ToString());
-
+            bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
 			if(ds != null && ds.Tables.Count >0 && ds.Tables[0].Rows.Count > 0)
 			{
 				ds.Tables[0].Columns.Add("MobileState",typeof(string));
@@ -55,6 +55,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				{
 					try
 					{
+                        //对手机号码进行敏感信息处理
+                        string fmobile = classLibrary.setConfig.ConvertTelephoneNumber(dr["fmobile"].ToString(), isRight);
+                        dr["fmobile"]=fmobile;
 						/*转化为2进制(0为未开通,1为开通)不足7位前面补0,排序从最后一位开始
 						  1.是否开通短信提醒
 						  2.是否绑定email

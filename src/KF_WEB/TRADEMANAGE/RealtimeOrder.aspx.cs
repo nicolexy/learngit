@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// RealtimeOrder 的摘要说明。
 	/// </summary>
-	public partial class RealtimeOrder : System.Web.UI.Page
+	public partial class RealtimeOrder : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

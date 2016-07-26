@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// SelfQuery 的摘要说明。
 	/// </summary>
-	public partial class SelfQuery : System.Web.UI.Page
+	public partial class SelfQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.DataGrid dgListFlist;
 	

@@ -25,7 +25,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCardPay
     /// <summary>
     /// QueryYTTrade 的摘要说明。
     /// </summary>
-    public partial class FCardRollQuery : System.Web.UI.Page
+    public partial class FCardRollQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         public DateTime qbegindate, qenddate;
         protected ForeignCardService FCBLLService = new ForeignCardService();

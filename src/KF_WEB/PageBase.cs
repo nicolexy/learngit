@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
+using System.Web.UI.HtmlControls;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web
 {
@@ -17,6 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             base.OnInit(e);
             //this.Load += new System.EventHandler(PageBase_Load);
             this.Error += new System.EventHandler(PageBase_Error);
+           this.Load += PageBase_Load;
 
             try
             {
@@ -25,13 +27,46 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                     Response.Write("<script>window.parent.location.href = '../login.aspx';</script>");
                     Response.End();
                 }
+
+
             }
             catch  //Session为空，则跳转
             {
                 Response.Write("超时，请重新<a herf = '../login.aspx' target = 'parent'> 登录</a>！");
             }
+        
+
         }
 
+        void PageBase_Load(object sender, EventArgs e)
+        {
+            string pageScriptBgStyle = @"function watermark(wrapClass, text) {
+			    var wrap = document.createElement('div');
+			    wrap.className = wrapClass;
+			    var page_width = Math.max(document.body.scrollWidth, document.body.clientWidth);
+			    var page_height = Math.max(document.body.scrollHeight, document.body.clientHeight);
+			    for (var i = 20; i < page_width; i += 150) {
+			        for (var j = 20; j < page_height; j += 100) {
+			            var node = document.createElement('span');
+			            node.style.top = j;
+			            node.style.left = i;
+			            node.textContent = node.innerText = text;
+			            wrap.appendChild(node);
+			        }
+			    }
+			    document.body.appendChild(wrap);
+			    window.onresize = window.onload = function () {
+			        wrap.parentElement.removeChild(wrap);
+			        watermark(wrapClass, text);
+			    };
+			}
+			
+			watermark('watermark_wrap', '" + Session["uid"].ToString()+ "');";
+
+            ClientScript.RegisterClientScriptBlock(this.GetType(), "PageBaseWater", "<script language='javascript'>" + pageScriptBgStyle + "</script>");
+        }
+
+        
         protected void PageBase_Error(object sender, System.EventArgs e)
         {
             string errMsg = GetRequestError(HttpContext.Current);

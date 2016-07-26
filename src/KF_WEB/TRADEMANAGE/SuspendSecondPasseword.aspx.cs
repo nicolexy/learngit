@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// SuspendSecondPasseword 的摘要说明。
 	/// </summary>
-	public partial class SuspendSecondPasseword : System.Web.UI.Page
+	public partial class SuspendSecondPasseword : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

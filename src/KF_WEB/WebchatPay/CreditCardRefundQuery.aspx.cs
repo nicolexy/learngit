@@ -25,7 +25,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 	/// <summary>
     /// CreditCardRefundQuery 的摘要说明。
 	/// </summary>
-    public partial class CreditCardRefundQuery : System.Web.UI.Page
+    public partial class CreditCardRefundQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, System.EventArgs e)
         {

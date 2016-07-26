@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// SynRecordQuery 的摘要说明。
 	/// </summary>
-	public partial class SynRecordQuery : System.Web.UI.Page
+	public partial class SynRecordQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.Label Label4;
 		protected System.Web.UI.WebControls.Label Label7;

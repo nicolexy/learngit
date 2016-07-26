@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// <summary>
 	/// TestPage 的摘要说明。
 	/// </summary>
-	public partial class TestPage : System.Web.UI.Page
+	public partial class TestPage : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)
@@ -124,7 +124,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 		}
 
 
-		private void ShowMsg(string msg)		{			Response.Write("<script language=javascript>alert('" + msg + "')</script>");		}
+		private void ShowMsg(string msg)
+		{
+			Response.Write("<script language=javascript>alert('" + msg + "')</script>");
+		}
 
 		protected void btn_addFastReply_Click(object sender, System.EventArgs e)
 		{

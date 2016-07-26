@@ -11,7 +11,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
 	/// <summary>
     /// QueryCapitalRoll 的摘要说明。yinhuang 2014/05/15
 	/// </summary>
-    public partial class QueryCapitalRoll : System.Web.UI.Page
+    public partial class QueryCapitalRoll : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         protected void Page_Load(object sender, System.EventArgs e)
 		{

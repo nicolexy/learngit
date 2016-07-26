@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// <summary>
     /// QueryForeignExchangeRate 的摘要说明。
 	/// </summary>
-    public partial class QueryForeignExchangeRate : System.Web.UI.Page
+    public partial class QueryForeignExchangeRate : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         public DateTime qbegindate, qenddate;
 

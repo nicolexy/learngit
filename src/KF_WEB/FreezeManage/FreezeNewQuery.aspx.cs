@@ -25,7 +25,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 	/// <summary>
     /// FreezeNewQuery 的摘要说明。
 	/// </summary>
-    public partial class FreezeNewQuery : System.Web.UI.Page
+    public partial class FreezeNewQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.TextBox tbx_listno1;
 	

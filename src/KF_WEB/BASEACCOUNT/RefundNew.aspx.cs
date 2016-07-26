@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// RefundNew 的摘要说明。
     /// </summary>
-    public partial class RefundNew : System.Web.UI.Page
+    public partial class RefundNew : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected System.Data.DataSet dataSet1;
 

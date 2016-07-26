@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// <summary>
     /// QueryYTTrade 的摘要说明。
 	/// </summary>
-    public partial class QueryZHTrade : System.Web.UI.Page
+    public partial class QueryZHTrade : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         public DateTime qbegindate, qenddate;
 

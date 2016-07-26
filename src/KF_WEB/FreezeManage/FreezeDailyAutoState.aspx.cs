@@ -18,7 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 	/// <summary>
     /// FreezeDailyAutoState 的摘要说明。
 	/// </summary>
-    public partial class FreezeDailyAutoState : System.Web.UI.Page
+    public partial class FreezeDailyAutoState : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 
 	

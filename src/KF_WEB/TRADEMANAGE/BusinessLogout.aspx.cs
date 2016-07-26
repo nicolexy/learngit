@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// BusinessLogout 的摘要说明。
 	/// </summary>
-	public partial class BusinessLogout : System.Web.UI.Page
+	public partial class BusinessLogout : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

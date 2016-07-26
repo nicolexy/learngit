@@ -16,7 +16,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// BankRollLog 的摘要说明。
 	/// </summary>
-	public partial class BankRollLog : System.Web.UI.Page
+	public partial class BankRollLog : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Data.DataSet DS_Bankroll;
 	

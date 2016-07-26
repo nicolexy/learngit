@@ -16,7 +16,7 @@ using System.Collections;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 {
-    public partial class QueryWeiXinMircoPay : System.Web.UI.Page
+    public partial class QueryWeiXinMircoPay : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         nBll.InternationalityPayModule.QueryWeiXinMircoPay bll = new nBll.InternationalityPayModule.QueryWeiXinMircoPay();
         Dictionary<string, string> PayState = nBll.InternationalityPayModule.QueryWeiXinMircoPay.PayState;

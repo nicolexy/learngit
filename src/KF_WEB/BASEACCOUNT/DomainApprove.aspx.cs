@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// DomainApprove 的摘要说明。
 	/// </summary>
-	public partial class DomainApprove : System.Web.UI.Page
+	public partial class DomainApprove : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

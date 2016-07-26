@@ -18,7 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// TradeLogList 的摘要说明。
 	/// </summary>
-	public partial class TradeLogList : System.Web.UI.Page
+	public partial class TradeLogList : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.Label Label9;
 		protected System.Web.UI.WebControls.Label lblBeginDate;

@@ -16,7 +16,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// test 的摘要说明。
 	/// </summary>
-	public partial class test : System.Web.UI.Page
+	public partial class test : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected commonData commData;
 		protected void Page_Load(object sender, System.EventArgs e)

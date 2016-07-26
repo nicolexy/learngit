@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
     /// <summary>
     /// OrderQuery 的摘要说明。
     /// </summary>
-    public partial class OrderQuery : System.Web.UI.Page
+    public partial class OrderQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         public string tfcurtype = "1";// 币种
 

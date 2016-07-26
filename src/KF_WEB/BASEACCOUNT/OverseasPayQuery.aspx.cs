@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// OverseasPayQuery 的摘要说明。
 	/// </summary>
-	public partial class OverseasPayQuery : System.Web.UI.Page
+	public partial class OverseasPayQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 
 	

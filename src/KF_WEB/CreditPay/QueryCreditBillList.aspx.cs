@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreidtPay
 	/// <summary>
     /// QueryCreditBillList 的摘要说明。yinhuang 2013/11/25
 	/// </summary>
-    public partial class QueryCreditBillList : System.Web.UI.Page
+    public partial class QueryCreditBillList : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         protected void Page_Load(object sender, System.EventArgs e)
 		{

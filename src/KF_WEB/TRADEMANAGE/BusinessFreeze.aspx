@@ -27,17 +27,17 @@
 						</FONT>操作员代码: </FONT><SPAN class="style3"><asp:label id="Label1" runat="server" ForeColor="Red" Width="73px"></asp:label></SPAN></TD>
 				</TR>
 				<TR>
-					<td align="right" width="25%"><asp:label id="Label5" runat="server">商户号</asp:label></td>
-					<TD width="25%"><asp:textbox id="txtFspid" runat="server"></asp:textbox></TD>
-					<TD width="45%"><asp:CheckBox ID="cbxFreeze" Runat="server" Text="暂停结算"></asp:CheckBox>
+					<td align="right" width="15%"><asp:label id="Label5" runat="server">商户号</asp:label></td>
+					<TD width="15%"><asp:textbox id="txtFspid" runat="server"></asp:textbox></TD>
+					<TD width="50%"><asp:CheckBox ID="cbxFreeze" Runat="server" Text="暂停结算"></asp:CheckBox>
 						&nbsp;<asp:CheckBox ID="cbxPay" Runat="server" Text="关闭支付"></asp:CheckBox>
                         &nbsp;<asp:CheckBox ID="cbxAccLose" Runat="server" Text="账号挂失"></asp:CheckBox>
                         &nbsp;<asp:CheckBox ID="cbxCloseAgent" Runat="server" Text="关闭中介"></asp:CheckBox>
                         </TD>
-					<TD align="center" width="30%"><asp:Button ID="btnFreeze" Runat="server" Text="提 交" onclick="btnFreeze_Click"></asp:Button>&nbsp;&nbsp;<asp:Button ID="btnQuery" Runat="server" Text="查 询" onclick="btnQuery_Click"></asp:Button></TD>
+					<TD align="center" width="45%"><asp:Button ID="btnFreeze" Runat="server" Text="提 交" onclick="btnFreeze_Click"></asp:Button>&nbsp;&nbsp;<asp:Button ID="btnQuery" Runat="server" Text="关闭结算\支付\退款记录查询" onclick="btnQuery_Click"></asp:Button></TD>
 				</TR>
 				<tr>
-					<td align="right" width="25%"><asp:label id="Label2" runat="server">原因</asp:label></td>
+					<td align="right" width="15%"><asp:label id="Label2" runat="server">原因</asp:label></td>
 					<td colspan="3"><asp:TextBox ID="txtReason" Runat="server" TextMode="MultiLine" Width="440px"></asp:TextBox>
 					</td>
 				</tr>

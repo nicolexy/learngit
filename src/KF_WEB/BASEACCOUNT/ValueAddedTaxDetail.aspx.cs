@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// ValueAddedTaxDetail 的摘要说明。
     /// </summary>
-    public partial class ValueAddedTaxDetail : System.Web.UI.Page
+    public partial class ValueAddedTaxDetail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
 
         protected void Page_Load(object sender, System.EventArgs e)
