@@ -36,7 +36,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 	/// <summary>
 	/// test 的摘要说明。
 	/// </summary>
-	public partial class test : TENCENT.OSS.CFT.KF.KF_Web.PageBase
+    public partial class test : System.Web.UI.Page
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

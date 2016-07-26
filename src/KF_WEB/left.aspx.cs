@@ -30,7 +30,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
 	/// </summary>
 
-	public partial class Left : TENCENT.OSS.CFT.KF.KF_Web.PageBase
+	public partial class Left : System.Web.UI.Page
 
 	{
 
