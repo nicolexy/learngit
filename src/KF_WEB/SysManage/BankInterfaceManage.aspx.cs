@@ -62,6 +62,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
                 PublicRes.GetDllDownList(ddlSysList, BankInterfaceName, "全部", "");
                 PublicRes.GetDllDownList(ddlBullType, BullType, "全部", "");
                 PublicRes.GetDropdownlist(BullState,ddlBullState);
+                ddlBullState.SelectedValue = "1";//公告状态默认是正常的
                 ddlSysList.SelectedValue = "1";
 
                 textBoxBeginDate.Text ="";

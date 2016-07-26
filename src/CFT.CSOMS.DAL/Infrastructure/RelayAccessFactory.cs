@@ -157,7 +157,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
             }
 
             //解析
-            ds = CommQuery.ParseRelayStr(answer, out Msg,invisible);
+            ds = CommQuery.ParseRelayStr(answer, out Msg);
             if (Msg != "")
             {
                 throw new Exception(Msg);
@@ -165,6 +165,35 @@ namespace CFT.CSOMS.DAL.Infrastructure
             return ds;
         }
 
+        /// <summary>
+        /// 特殊：请求串加密，返回串不加密的接口(并且返回串允许result!=0)
+        /// 解析字符串到DataSet  接口返回字符串格式
+        /// </summary>
+        /// <param name="inmsg"></param>
+        /// <param name="ip"></param>
+        /// <param name="port"></param>
+        /// <param name="Msg"></param>
+        /// <returns></returns>
+        public static DataSet GetDSFromRelayAnsNotEncr2(string paramsStr, string serviceCode, string relayIP = "", int relayPort = 0, string coding = "", bool invisible = false, string relayDefaultSPId = "")
+        {
+            string Msg = "";
+            paramsStr = RequestStringHelperEx.MiddleRequestEncrypt(paramsStr, true, "");
+            paramsStr = "request_type=" + serviceCode + "&ver=1&head_u=&sp_id=20000000000&" + paramsStr;
+            string answer = RelayAccessFactory.RelayInvoke(paramsStr, relayIP, relayPort, coding, invisible, relayDefaultSPId);
+            DataSet ds = null;
+            if (answer == "")
+            {
+                return null;
+            }
+
+            //解析
+            ds = CommQuery.ParseRelayStr(answer, out Msg, true);
+            if (Msg != "")
+            {
+                throw new Exception(Msg);
+            }
+            return ds;
+        }
         /// <summary>
         /// 
         /// 解析字符串到DataSet  接口返回字符串格式
@@ -505,6 +534,29 @@ namespace CFT.CSOMS.DAL.Infrastructure
 
             //解析
             ds = CommQuery.ParseRelayPageMethod1(answer, out Msg);
+            if (Msg != "")
+            {
+                throw new Exception(Msg);
+            }
+            return ds;
+        }
+        /// <summary>
+        /// 调relay接口，解析字符串到DataSet,多行记录，
+        /// 格式：result=0&res_info=ok&total_num=n&paramOne_0=&paramTwo_0=&paramOne_1=&paramTwo_1=...&paramOne_n=&paramTwo_n=
+        /// 并且允许resualt!=0
+        /// </summary>
+        public static DataSet GetDSFromRelayMethod2(string requestString, string serviceCode, string relayIP = "", int relayPort = 0, bool encrypt = false, bool invisible = false, string relayDefaultSPId = "")
+        {
+            string Msg = "";
+            string answer = RelayInvoke(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
+            DataSet ds = null;
+            if (answer == "")
+            {
+                return null;
+            }
+
+            //解析
+            ds = CommQuery.ParseRelayPageMethod1(answer, out Msg,true);
             if (Msg != "")
             {
                 throw new Exception(Msg);

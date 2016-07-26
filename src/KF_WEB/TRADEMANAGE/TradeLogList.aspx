@@ -78,7 +78,10 @@ TD {
 										</asp:radiobuttonlist>：
 										<asp:dropdownlist id="DropDownList2_tradeState" runat="server" Enabled="False" ForeColor="Black"></asp:dropdownlist>&nbsp;&nbsp;&nbsp;&nbsp;日期从
 										<asp:textbox id="txDateBegin" runat="server" Width="144px" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  CssClass="Wdate"></asp:textbox>&nbsp;到
-										<asp:textbox id="txDateEnd" runat="server" Width="144px" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  CssClass="Wdate"></asp:textbox></P>
+										<asp:textbox id="txDateEnd" runat="server" Width="144px" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  CssClass="Wdate"></asp:textbox>
+                                        <label style="color:red">时间跨度只支持按自然月查询，不支持跨月查询</label>
+									</P>
+                                    
 								</td>
 								<TD style="HEIGHT: 40px" width="3%">&nbsp;</TD>
 							</tr>

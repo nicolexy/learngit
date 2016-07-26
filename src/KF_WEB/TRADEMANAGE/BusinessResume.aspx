@@ -27,16 +27,16 @@
 						</FONT>操作员代码: </FONT><SPAN class="style3"><asp:label id="Label1" runat="server" ForeColor="Red" Width="73px"></asp:label></SPAN></TD>
 				</TR>
 				<TR>
-					<td align="right" width="25%"><asp:label id="Label5" runat="server">商户号</asp:label></td>
-					<TD width="25%"><asp:textbox id="txtFspid" runat="server"></asp:textbox><asp:RequiredFieldValidator id="RequiredFieldValidator2" runat="server" ErrorMessage="请输入商户号" ControlToValidate="txtFspid"></asp:RequiredFieldValidator></TD>
-                    <TD width="45%"><asp:CheckBox ID="cbxOpenFreeze" Runat="server" Text="恢复结算和挂失"></asp:CheckBox>
+					<td align="right" width="15%"><asp:label id="Label5" runat="server">商户号</asp:label></td>
+					<TD width="15%"><asp:textbox id="txtFspid" runat="server"></asp:textbox><asp:RequiredFieldValidator id="RequiredFieldValidator2" runat="server" ErrorMessage="请输入商户号" ControlToValidate="txtFspid"></asp:RequiredFieldValidator></TD>
+                    <TD width="50%"><asp:CheckBox ID="cbxOpenFreeze" Runat="server" Text="恢复结算和挂失"></asp:CheckBox>
 						&nbsp;<asp:CheckBox ID="cbxOpenPay" Runat="server" Text="开通支付"></asp:CheckBox>
                         &nbsp;<asp:CheckBox ID="cbxOpenAgent" Runat="server" Text="开通中介"></asp:CheckBox>
                     </TD>
-					<TD align="center" width="30%"><asp:Button ID="btnFreeze" Runat="server" Text="恢 复" onclick="btnFreeze_Click"></asp:Button>&nbsp;&nbsp;<asp:Button ID="btnQuery" Runat="server" Text="查 询" onclick="btnQuery_Click"></asp:Button></TD>
+					<TD align="center" width="45%"><asp:Button ID="btnFreeze" Runat="server" Text="恢 复" onclick="btnFreeze_Click"></asp:Button>&nbsp;&nbsp;<asp:Button ID="btnQuery" Runat="server" Text="恢复结算\支付\退款记录查询" onclick="btnQuery_Click"></asp:Button></TD>
 				</TR>
 				<tr>
-					<td align="right" width="25%"><asp:label id="Label2" runat="server">原因</asp:label></td>
+					<td align="right" width="15%"><asp:label id="Label2" runat="server">原因</asp:label></td>
 					<td colspan="3"><asp:TextBox ID="txtReason" Runat="server" TextMode="MultiLine" Width="440px"></asp:TextBox>
 					</td>
 				</tr>
