@@ -229,6 +229,12 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                             return result;
                         }
 
+                        var HasUnfinishedRepayment = new TradeService().QueryWXFCancelAsRepayMent(account, out msg);
+                        if (HasUnfinishedRepayment)
+                        {                          
+                            return result;
+                        }
+
                         if (qs.LogOnUsercheckOrder(account, "1"))
                         {
                             msg = "有未完成的交易单！";

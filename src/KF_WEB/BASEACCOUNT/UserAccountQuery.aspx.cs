@@ -267,11 +267,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             try
             {
+                bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                 dProv = iprov;
                 dCity = icity;
                 this.Label1_State.Text = state;
-                this.Label2_BankID.Text = bankid;
-                this.Label4_TrueName.Text = trueName;
+                this.Label2_BankID.Text = classLibrary.setConfig.BankCardNoSubstring(bankid, isRight);              
+                this.Label4_TrueName.Text = classLibrary.setConfig.ConvertName(trueName, isRight); ;
                 this.Label6_LastIP.Text = LastIP;
                 this.Label8_BankName.Text = BankName;
                 this.Label11_Modify_Time.Text = Modify_Time;
