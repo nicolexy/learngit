@@ -1156,6 +1156,7 @@
     </Compile>
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
@@ -1427,6 +1428,7 @@
     </Compile>
     <Compile Include="Left.aspx.cs">
       <DependentUpon>Left.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Left.aspx.designer.cs">
       <DependentUpon>Left.aspx</DependentUpon>
@@ -1899,6 +1901,7 @@
     </Compile>
     <Compile Include="test.aspx.cs">
       <DependentUpon>test.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="test.aspx.designer.cs">
       <DependentUpon>test.aspx</DependentUpon>
@@ -2287,7 +2290,9 @@
     <Compile Include="TradeManage\OrderQuery.aspx.designer.cs">
       <DependentUpon>OrderQuery.aspx</DependentUpon>
     </Compile>
-    <Compile Include="TradeManage\PageBase.cs" />
+    <Compile Include="TradeManage\PageBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="TradeManage\PayLimitManage.aspx.cs">
       <DependentUpon>PayLimitManage.aspx</DependentUpon>
     </Compile>
