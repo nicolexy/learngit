@@ -24,7 +24,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// <summary>
     /// QueryProtocolLib 的摘要说明。
 	/// </summary>
-    public partial class QueryProtocolLib : System.Web.UI.Page
+    public partial class QueryProtocolLib : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         public DateTime qbegindate, qenddate;
 

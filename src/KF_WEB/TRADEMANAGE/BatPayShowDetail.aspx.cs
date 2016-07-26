@@ -19,7 +19,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// BatPayShowDetail 的摘要说明。
 	/// </summary>
-	public partial class BatPayShowDetail : System.Web.UI.Page
+	public partial class BatPayShowDetail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.HyperLink hlBack;
 	

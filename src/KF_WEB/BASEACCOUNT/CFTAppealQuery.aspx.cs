@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// CFTAppealQuery 的摘要说明。
     /// </summary>
-    public partial class CFTAppealQuery : System.Web.UI.Page
+    public partial class CFTAppealQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         public static string rooturl
         {

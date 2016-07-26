@@ -8,7 +8,7 @@ using Tencent.DotNet.Common.UI;
 using CFT.CSOMS.BLL.ForeignCurrencyModule;
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
-    public partial class FCXGFreezeLog : System.Web.UI.Page
+    public partial class FCXGFreezeLog : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         string op_uid;
         protected void Page_Load(object sender, EventArgs e)

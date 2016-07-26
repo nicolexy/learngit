@@ -26,7 +26,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 	/// <summary>
     /// QueryYTTrade 的摘要说明。
 	/// </summary>
-    public partial class BulletinContacts : System.Web.UI.Page
+    public partial class BulletinContacts : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         protected SysManageService sysService = new SysManageService();
         protected void Page_Load(object sender, System.EventArgs e)

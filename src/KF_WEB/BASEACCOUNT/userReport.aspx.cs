@@ -18,7 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// userReport 的摘要说明。
 	/// </summary>
-	public partial class userReport : System.Web.UI.Page
+	public partial class userReport : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{   
 
 		public    DataSet ds;   //数据源DataSet

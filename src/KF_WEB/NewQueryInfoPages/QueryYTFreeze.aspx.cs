@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// <summary>
     /// QueryYTFreeze 的摘要说明。
 	/// </summary>
-    public partial class QueryYTFreeze : System.Web.UI.Page
+    public partial class QueryYTFreeze : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         public DateTime qbegindate,qenddate;
 

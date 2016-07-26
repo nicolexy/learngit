@@ -17,7 +17,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 	/// <summary>
 	/// FreezeCount 的摘要说明。
 	/// </summary>
-	public partial class FreezeCount : System.Web.UI.Page
+	public partial class FreezeCount : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.TextBox tbx_payAccount;
 		protected System.Web.UI.WebControls.TextBox tbx_listNo;

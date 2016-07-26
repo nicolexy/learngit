@@ -16,7 +16,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// <summary>
 	/// Summary description for QueryForeignCard.
 	/// </summary>
-	public partial class QueryForeignCard : System.Web.UI.Page
+	public partial class QueryForeignCard : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	    ForeignCardService fcs=new ForeignCardService();
 		protected void Page_Load(object sender, System.EventArgs e)

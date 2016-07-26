@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// CFTUserAppeal 的摘要说明。
 	/// </summary>
-	public partial class CFTUserAppeal : System.Web.UI.Page
+	public partial class CFTUserAppeal : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.DropDownList ddlStateType;
 		protected System.Web.UI.WebControls.TextBox tbFNum;

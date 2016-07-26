@@ -8,7 +8,7 @@ using Tencent.DotNet.Common.UI;
 using CFT.CSOMS.BLL.WechatPay;
 namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
-    public partial class QueryRealtimeRepayment : System.Web.UI.Page
+    public partial class QueryRealtimeRepayment : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

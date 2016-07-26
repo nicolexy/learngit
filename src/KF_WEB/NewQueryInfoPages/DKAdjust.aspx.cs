@@ -18,7 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// <summary>
 	/// DKAdjust 的摘要说明。
 	/// </summary>
-	public partial class DKAdjust : System.Web.UI.Page
+	public partial class DKAdjust : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

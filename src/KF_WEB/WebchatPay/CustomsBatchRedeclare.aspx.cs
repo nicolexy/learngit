@@ -22,7 +22,7 @@ using System.Web;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
-    public partial class CustomsBatchRedeclare : System.Web.UI.Page
+    public partial class CustomsBatchRedeclare : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

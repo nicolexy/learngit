@@ -19,7 +19,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// refund 的摘要说明。
 	/// </summary>
-	public partial class refund : System.Web.UI.Page
+	public partial class refund : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Data.DataSet dataSet1;
 	

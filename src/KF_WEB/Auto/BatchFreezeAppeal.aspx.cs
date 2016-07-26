@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Auto
     /// <summary>
     /// CFTAppeal 的摘要说明。
     /// </summary>
-    public partial class BatchFreezeAppeal : System.Web.UI.Page
+    public partial class BatchFreezeAppeal : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, System.EventArgs e)
         {

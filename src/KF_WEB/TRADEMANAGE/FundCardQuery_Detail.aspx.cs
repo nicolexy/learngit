@@ -19,7 +19,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
     /// <summary>
     /// FundCardQuery_Detail 的摘要说明。
     /// </summary>
-    public partial class FundCardQuery_Detail : System.Web.UI.Page
+    public partial class FundCardQuery_Detail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected System.Web.UI.WebControls.Label lbTitle;
         protected System.Web.UI.WebControls.Label Label10;

@@ -10,7 +10,7 @@ using Tencent.DotNet.Common.UI;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 {
-    public partial class BankClassifyManage : System.Web.UI.Page
+    public partial class BankClassifyManage : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected static bool IsAdd = false;
         Dictionary<string, string> BankBusinessType = BankClassifyService.BankBusinessType;

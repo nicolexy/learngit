@@ -34,7 +34,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	/// <summary>
     /// QueryYTTrade 的摘要说明。
 	/// </summary>
-    public partial class SendPaymentAbnorNotify : System.Web.UI.Page
+    public partial class SendPaymentAbnorNotify : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         protected RefundService refundService = new RefundService();
         protected void Page_Load(object sender, System.EventArgs e)

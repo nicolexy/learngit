@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// QueryQQ 的摘要说明。
     /// </summary>
-    public partial class QueryQQ : System.Web.UI.Page
+    public partial class QueryQQ : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         public DataSet ds;   //数据源DataSet
         public string Msg;

@@ -26,7 +26,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// SysBulletinManage 的摘要说明。
     /// </summary>
-    public partial class CardInfoQuery : System.Web.UI.Page
+    public partial class CardInfoQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         public string begintime = DateTime.Now.ToString("yyyy-MM-dd");
         public string endtime = DateTime.Now.ToString("yyyy-MM-dd");

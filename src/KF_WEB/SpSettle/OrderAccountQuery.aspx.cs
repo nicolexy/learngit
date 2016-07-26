@@ -10,7 +10,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 	/// <summary>
     /// OrderAccountQuery 的摘要说明。
 	/// </summary>
-    public partial class OrderAccountQuery : System.Web.UI.Page
+    public partial class OrderAccountQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
     
 		protected void Page_Load(object sender, System.EventArgs e)

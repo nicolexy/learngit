@@ -11,7 +11,7 @@ using System.Data;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
 {
-    public partial class FCXGBindCardQuery : System.Web.UI.Page
+    public partial class FCXGBindCardQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         string uid;
         protected void Page_Load(object sender, EventArgs e)

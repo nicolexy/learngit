@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// OrderDetail 的摘要说明。
 	/// </summary>
-	public partial class OrderDetail : System.Web.UI.Page
+	public partial class OrderDetail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

@@ -16,7 +16,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.VIPAccount
     /// <summary>
     /// Summary description for PropertyTurnover.
     /// </summary>
-    public partial class PropertyTurnover : System.Web.UI.Page
+    public partial class PropertyTurnover : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
 
         protected void Page_Load(object sender, System.EventArgs e)

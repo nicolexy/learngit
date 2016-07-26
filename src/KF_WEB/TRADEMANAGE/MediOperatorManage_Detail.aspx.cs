@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// MediOperatorManage_Detail 的摘要说明。
 	/// </summary>
-	public partial class MediOperatorManage_Detail : System.Web.UI.Page
+	public partial class MediOperatorManage_Detail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.HtmlControls.HtmlTable Table2;
    

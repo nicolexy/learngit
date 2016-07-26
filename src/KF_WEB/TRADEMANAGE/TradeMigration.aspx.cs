@@ -18,7 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
     /// <summary>
     /// TradeMigration 的摘要说明。
     /// </summary>
-    public class TradeMigration : System.Web.UI.Page
+    public class TradeMigration : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected System.Web.UI.WebControls.Label Label_uid;
         protected System.Web.UI.WebControls.Button btMigration;

@@ -9,7 +9,7 @@ using CFT.CSOMS.BLL.ForeignCurrencyModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
 {
-    public partial class FCXGDialogFreezeOrUnfreeze : System.Web.UI.Page
+    public partial class FCXGDialogFreezeOrUnfreeze : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         string uid, sign;
         Dictionary<string, string> dicunfreeze_channel = new Dictionary<string, string>()

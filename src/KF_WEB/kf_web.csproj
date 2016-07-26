@@ -213,7 +213,6 @@
     </Compile>
     <Compile Include="BaseAccount\BankrollHistoryLog.aspx.cs">
       <DependentUpon>BankrollHistoryLog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\BankrollHistoryLog.aspx.designer.cs">
       <DependentUpon>BankrollHistoryLog.aspx</DependentUpon>
@@ -227,21 +226,18 @@
     </Compile>
     <Compile Include="BaseAccount\batPay.aspx.cs">
       <DependentUpon>batPay.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\batPay.aspx.designer.cs">
       <DependentUpon>batPay.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\batpayDetail.aspx.cs">
       <DependentUpon>batpayDetail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\batpayDetail.aspx.designer.cs">
       <DependentUpon>batpayDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\ButtonInfo.aspx.cs">
       <DependentUpon>ButtonInfo.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\ButtonInfo.aspx.designer.cs">
       <DependentUpon>ButtonInfo.aspx</DependentUpon>
@@ -254,7 +250,6 @@
     </Compile>
     <Compile Include="BaseAccount\CFDQuery.aspx.cs">
       <DependentUpon>CFDQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\CFDQuery.aspx.designer.cs">
       <DependentUpon>CFDQuery.aspx</DependentUpon>
@@ -282,28 +277,24 @@
     </Compile>
     <Compile Include="BaseAccount\CFTUserPick.aspx.cs">
       <DependentUpon>CFTUserPick.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\CFTUserPick.aspx.designer.cs">
       <DependentUpon>CFTUserPick.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\CFTUserPickTJ.aspx.cs">
       <DependentUpon>CFTUserPickTJ.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\CFTUserPickTJ.aspx.designer.cs">
       <DependentUpon>CFTUserPickTJ.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\ChangeQQOld.aspx.cs">
       <DependentUpon>ChangeQQOld.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\ChangeQQOld.aspx.designer.cs">
       <DependentUpon>ChangeQQOld.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\ChangeUserInfo.aspx.cs">
       <DependentUpon>ChangeUserInfo.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\ChangeUserInfo.aspx.designer.cs">
       <DependentUpon>ChangeUserInfo.aspx</DependentUpon>
@@ -324,7 +315,6 @@
     </Compile>
     <Compile Include="BaseAccount\ChildrenHistoryOrderQuery.aspx.cs">
       <DependentUpon>ChildrenHistoryOrderQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\ChildrenHistoryOrderQuery.aspx.designer.cs">
       <DependentUpon>ChildrenHistoryOrderQuery.aspx</DependentUpon>
@@ -338,21 +328,18 @@
     </Compile>
     <Compile Include="BaseAccount\ChildrenOrderFromQueryNew.aspx.cs">
       <DependentUpon>ChildrenOrderFromQueryNew.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\ChildrenOrderFromQueryNew.aspx.designer.cs">
       <DependentUpon>ChildrenOrderFromQueryNew.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\ChildrenQuery.aspx.cs">
       <DependentUpon>ChildrenQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\ChildrenQuery.aspx.designer.cs">
       <DependentUpon>ChildrenQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\AImageFromCGI.aspx.cs">
       <DependentUpon>AImageFromCGI.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\AImageFromCGI.aspx.designer.cs">
       <DependentUpon>AImageFromCGI.aspx</DependentUpon>
@@ -367,14 +354,12 @@
     <Compile Include="BaseAccount\BaseDictionary.cs" />
     <Compile Include="BaseAccount\ClearCreidNew.aspx.cs">
       <DependentUpon>ClearCreidNew.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\ClearCreidNew.aspx.designer.cs">
       <DependentUpon>ClearCreidNew.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\ClearMobileNumber.aspx.cs">
       <DependentUpon>ClearMobileNumber.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\ClearMobileNumber.aspx.designer.cs">
       <DependentUpon>ClearMobileNumber.aspx</DependentUpon>
@@ -409,21 +394,18 @@
     </Compile>
     <Compile Include="BaseAccount\InfoCenterDelRecord.aspx.cs">
       <DependentUpon>InfoCenterDelRecord.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\InfoCenterDelRecord.aspx.designer.cs">
       <DependentUpon>InfoCenterDelRecord.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\logOnUserBatch.aspx.cs">
       <DependentUpon>logOnUserBatch.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\logOnUserBatch.aspx.designer.cs">
       <DependentUpon>logOnUserBatch.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\logOnUserNew.aspx.cs">
       <DependentUpon>logOnUserNew.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\logOnUserNew.aspx.designer.cs">
       <DependentUpon>logOnUserNew.aspx</DependentUpon>
@@ -444,7 +426,6 @@
     </Compile>
     <Compile Include="BaseAccount\DepositAccountQuery.aspx.cs">
       <DependentUpon>DepositAccountQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\DepositAccountQuery.aspx.designer.cs">
       <DependentUpon>DepositAccountQuery.aspx</DependentUpon>
@@ -454,7 +435,6 @@
     </Compile>
     <Compile Include="BaseAccount\detailCheck.aspx.cs">
       <DependentUpon>detailCheck.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\detailCheck.aspx.designer.cs">
       <DependentUpon>detailCheck.aspx</DependentUpon>
@@ -489,7 +469,6 @@
     </Compile>
     <Compile Include="BaseAccount\FreezeFinQuery.aspx.cs">
       <DependentUpon>FreezeFinQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\FreezeFinQuery.aspx.designer.cs">
       <DependentUpon>FreezeFinQuery.aspx</DependentUpon>
@@ -503,7 +482,6 @@
     </Compile>
     <Compile Include="BaseAccount\gatheringlog.aspx.cs">
       <DependentUpon>gatheringlog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\gatheringlog.aspx.designer.cs">
       <DependentUpon>gatheringlog.aspx</DependentUpon>
@@ -517,7 +495,6 @@
     </Compile>
     <Compile Include="BaseAccount\historyModify.aspx.cs">
       <DependentUpon>historyModify.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\historyModify.aspx.designer.cs">
       <DependentUpon>historyModify.aspx</DependentUpon>
@@ -531,7 +508,6 @@
     </Compile>
     <Compile Include="BaseAccount\KFTotalQuery.aspx.cs">
       <DependentUpon>KFTotalQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\KFTotalQuery.aspx.designer.cs">
       <DependentUpon>KFTotalQuery.aspx</DependentUpon>
@@ -552,14 +528,12 @@
     </Compile>
     <Compile Include="BaseAccount\NameAbnormal.aspx.cs">
       <DependentUpon>NameAbnormal.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\NameAbnormal.aspx.designer.cs">
       <DependentUpon>NameAbnormal.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\NameAbnormalDetail.aspx.cs">
       <DependentUpon>NameAbnormalDetail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\NameAbnormalDetail.aspx.designer.cs">
       <DependentUpon>NameAbnormalDetail.aspx</DependentUpon>
@@ -580,7 +554,6 @@
     </Compile>
     <Compile Include="BaseAccount\PayBusinessQuery.aspx.cs">
       <DependentUpon>PayBusinessQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\PayBusinessQuery.aspx.designer.cs">
       <DependentUpon>PayBusinessQuery.aspx</DependentUpon>
@@ -594,7 +567,6 @@
     </Compile>
     <Compile Include="BaseAccount\PNRQuery.aspx.cs">
       <DependentUpon>PNRQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\PNRQuery.aspx.designer.cs">
       <DependentUpon>PNRQuery.aspx</DependentUpon>
@@ -608,7 +580,6 @@
     </Compile>
     <Compile Include="BaseAccount\QueryQQ.aspx.cs">
       <DependentUpon>QueryQQ.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\QueryQQ.aspx.designer.cs">
       <DependentUpon>QueryQQ.aspx</DependentUpon>
@@ -629,25 +600,21 @@
     </Compile>
     <Compile Include="BaseAccount\RealNameCertifationQuery.aspx.cs">
       <DependentUpon>RealNameCertifationQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\RealNameCertifationQuery.aspx.designer.cs">
       <DependentUpon>RealNameCertifationQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\RecoverQQ.aspx.cs">
       <DependentUpon>RecoverQQ.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\refund.aspx.cs">
       <DependentUpon>refund.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\refund.aspx.designer.cs">
       <DependentUpon>refund.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\RefundNew.aspx.cs">
       <DependentUpon>RefundNew.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\RefundNew.aspx.designer.cs">
       <DependentUpon>RefundNew.aspx</DependentUpon>
@@ -668,7 +635,6 @@
     </Compile>
     <Compile Include="BaseAccount\SelfQueryDetail.aspx.cs">
       <DependentUpon>SelfQueryDetail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\SelfQueryDetail.aspx.designer.cs">
       <DependentUpon>SelfQueryDetail.aspx</DependentUpon>
@@ -689,14 +655,12 @@
     </Compile>
     <Compile Include="BaseAccount\TencentCreditQuery.aspx.cs">
       <DependentUpon>TencentCreditQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\TencentCreditQuery.aspx.designer.cs">
       <DependentUpon>TencentCreditQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\test.aspx.cs">
       <DependentUpon>test.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\test.aspx.designer.cs">
       <DependentUpon>test.aspx</DependentUpon>
@@ -731,7 +695,6 @@
     </Compile>
     <Compile Include="BaseAccount\UserAppealCheck.aspx.cs">
       <DependentUpon>UserAppealCheck.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\UserAppealCheck.aspx.designer.cs">
       <DependentUpon>UserAppealCheck.aspx</DependentUpon>
@@ -745,7 +708,6 @@
     </Compile>
     <Compile Include="BaseAccount\UserClass.aspx.cs">
       <DependentUpon>UserClass.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\UserClass.aspx.designer.cs">
       <DependentUpon>UserClass.aspx</DependentUpon>
@@ -759,35 +721,30 @@
     </Compile>
     <Compile Include="BaseAccount\UserClassQuery.aspx.cs">
       <DependentUpon>UserClassQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\UserClassQuery.aspx.designer.cs">
       <DependentUpon>UserClassQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\UserClassTJ.aspx.cs">
       <DependentUpon>UserClassTJ.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\UserClassTJ.aspx.designer.cs">
       <DependentUpon>UserClassTJ.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\userReport.aspx.cs">
       <DependentUpon>userReport.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\userReport.aspx.designer.cs">
       <DependentUpon>userReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\ValueAddedTaxApprove.aspx.cs">
       <DependentUpon>ValueAddedTaxApprove.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\ValueAddedTaxApprove.aspx.designer.cs">
       <DependentUpon>ValueAddedTaxApprove.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\ValueAddedTaxDetail.aspx.cs">
       <DependentUpon>ValueAddedTaxDetail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BaseAccount\ValueAddedTaxDetail.aspx.designer.cs">
       <DependentUpon>ValueAddedTaxDetail.aspx</DependentUpon>
@@ -1165,14 +1122,12 @@
     </Compile>
     <Compile Include="CreditPay\QueryCapitalRoll.aspx.cs">
       <DependentUpon>QueryCapitalRoll.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="CreditPay\QueryCapitalRoll.aspx.designer.cs">
       <DependentUpon>QueryCapitalRoll.aspx</DependentUpon>
     </Compile>
     <Compile Include="CreditPay\QueryCreditDebt.aspx.cs">
       <DependentUpon>QueryCreditDebt.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="CreditPay\QueryCreditDebt.aspx.designer.cs">
       <DependentUpon>QueryCreditDebt.aspx</DependentUpon>
@@ -1186,14 +1141,12 @@
     </Compile>
     <Compile Include="CreditPay\QueryCreditUserInfo.aspx.cs">
       <DependentUpon>QueryCreditUserInfo.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="CreditPay\QueryCreditUserInfo.aspx.designer.cs">
       <DependentUpon>QueryCreditUserInfo.aspx</DependentUpon>
     </Compile>
     <Compile Include="CreditPay\QueryCreditBillList.aspx.cs">
       <DependentUpon>QueryCreditBillList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="CreditPay\QueryCreditBillList.aspx.designer.cs">
       <DependentUpon>QueryCreditBillList.aspx</DependentUpon>
@@ -1210,7 +1163,6 @@
     </Compile>
     <Compile Include="FastPay\FastPayLimitQuery.aspx.cs">
       <DependentUpon>FastPayLimitQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FastPay\FastPayLimitQuery.aspx.designer.cs">
       <DependentUpon>FastPayLimitQuery.aspx</DependentUpon>
@@ -1224,7 +1176,6 @@
     </Compile>
     <Compile Include="ForeignCardPay\FCardOrderQuery.aspx.cs">
       <DependentUpon>FCardOrderQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ForeignCardPay\FCardOrderQuery.aspx.designer.cs">
       <DependentUpon>FCardOrderQuery.aspx</DependentUpon>
@@ -1273,7 +1224,6 @@
     </Compile>
     <Compile Include="ForeignCurrencyPay\FCXGSPQuery.aspx.cs">
       <DependentUpon>FCXGSPQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ForeignCurrencyPay\FCXGSPQuery.aspx.designer.cs">
       <DependentUpon>FCXGSPQuery.aspx</DependentUpon>
@@ -1287,7 +1237,6 @@
     </Compile>
     <Compile Include="ForeignCurrencyPay\FCXGBindCardQuery.aspx.cs">
       <DependentUpon>FCXGBindCardQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ForeignCurrencyPay\FCXGBindCardQuery.aspx.designer.cs">
       <DependentUpon>FCXGBindCardQuery.aspx</DependentUpon>
@@ -1301,7 +1250,6 @@
     </Compile>
     <Compile Include="ForeignCurrencyPay\FCASettlementQuery.aspx.cs">
       <DependentUpon>FCASettlementQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ForeignCurrencyPay\FCASettlementQuery.aspx.designer.cs">
       <DependentUpon>FCASettlementQuery.aspx</DependentUpon>
@@ -1315,21 +1263,18 @@
     </Compile>
     <Compile Include="ForeignCurrencyPay\FCATransferQuery.aspx.cs">
       <DependentUpon>FCATransferQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ForeignCurrencyPay\FCATransferQuery.aspx.designer.cs">
       <DependentUpon>FCATransferQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="ForeignCurrencyPay\FCAInfoQuery.aspx.cs">
       <DependentUpon>FCAInfoQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ForeignCurrencyPay\FCAInfoQuery.aspx.designer.cs">
       <DependentUpon>FCAInfoQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="ForeignCurrencyPay\FCRefundQuery.aspx.cs">
       <DependentUpon>FCRefundQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ForeignCurrencyPay\FCRefundQuery.aspx.designer.cs">
       <DependentUpon>FCRefundQuery.aspx</DependentUpon>
@@ -1350,7 +1295,6 @@
     </Compile>
     <Compile Include="ForeignCurrencyPay\FCUserTradeQuery.aspx.cs">
       <DependentUpon>FCUserTradeQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ForeignCurrencyPay\FCUserTradeQuery.aspx.designer.cs">
       <DependentUpon>FCUserTradeQuery.aspx</DependentUpon>
@@ -1371,42 +1315,36 @@
     </Compile>
     <Compile Include="ForeignCurrencyPay\RealNameInformationQuery.aspx.cs">
       <DependentUpon>RealNameInformationQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ForeignCurrencyPay\RealNameInformationQuery.aspx.designer.cs">
       <DependentUpon>RealNameInformationQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="FreezeManage\FastReplyManagePage.aspx.cs">
       <DependentUpon>FastReplyManagePage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FreezeManage\FastReplyManagePage.aspx.designer.cs">
       <DependentUpon>FastReplyManagePage.aspx</DependentUpon>
     </Compile>
     <Compile Include="FreezeManage\FreezeCount.aspx.cs">
       <DependentUpon>FreezeCount.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FreezeManage\FreezeCount.aspx.designer.cs">
       <DependentUpon>FreezeCount.aspx</DependentUpon>
     </Compile>
     <Compile Include="FreezeManage\FreezeDailyAutoState.aspx.cs">
       <DependentUpon>FreezeDailyAutoState.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FreezeManage\FreezeDailyAutoState.aspx.designer.cs">
       <DependentUpon>FreezeDailyAutoState.aspx</DependentUpon>
     </Compile>
     <Compile Include="FreezeManage\FreezeDiary.aspx.cs">
       <DependentUpon>FreezeDiary.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FreezeManage\FreezeDiary.aspx.designer.cs">
       <DependentUpon>FreezeDiary.aspx</DependentUpon>
     </Compile>
     <Compile Include="FreezeManage\FreezeNewQuery.aspx.cs">
       <DependentUpon>FreezeNewQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FreezeManage\FreezeNewQuery.aspx.designer.cs">
       <DependentUpon>FreezeNewQuery.aspx</DependentUpon>
@@ -1420,7 +1358,6 @@
     </Compile>
     <Compile Include="FreezeManage\FreezeQuery.aspx.cs">
       <DependentUpon>FreezeQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FreezeManage\FreezeQuery.aspx.designer.cs">
       <DependentUpon>FreezeQuery.aspx</DependentUpon>
@@ -1438,7 +1375,6 @@
     </Compile>
     <Compile Include="HandQBusiness\FindHandQRedPacket.aspx.cs">
       <DependentUpon>FindHandQRedPacket.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="HandQBusiness\FindHandQRedPacket.aspx.designer.cs">
       <DependentUpon>FindHandQRedPacket.aspx</DependentUpon>
@@ -1459,7 +1395,6 @@
     </Compile>
     <Compile Include="InternetBank\AtuoRenewQuery.aspx.cs">
       <DependentUpon>AtuoRenewQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="InternetBank\AtuoRenewQuery.aspx.designer.cs">
       <DependentUpon>AtuoRenewQuery.aspx</DependentUpon>
@@ -1473,7 +1408,6 @@
     </Compile>
     <Compile Include="InternetBank\RefundMerchant.aspx.cs">
       <DependentUpon>RefundMerchant.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="InternetBank\RefundMerchant.aspx.designer.cs">
       <DependentUpon>RefundMerchant.aspx</DependentUpon>
@@ -1488,7 +1422,6 @@
     <Compile Include="InternetBank\InternetBankDictionary.cs" />
     <Compile Include="InternetBank\MermberDiscount.aspx.cs">
       <DependentUpon>MermberDiscount.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="InternetBank\MermberDiscount.aspx.designer.cs">
       <DependentUpon>MermberDiscount.aspx</DependentUpon>
@@ -1516,21 +1449,18 @@
     </Compile>
     <Compile Include="NewQueryInfoPages\CFTTransferQuery.aspx.cs">
       <DependentUpon>CFTTransferQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\CFTTransferQuery.aspx.designer.cs">
       <DependentUpon>CFTTransferQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx.cs">
       <DependentUpon>QueryAuthenStateInfoPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx.designer.cs">
       <DependentUpon>QueryAuthenStateInfoPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryWeiXinMircoPay.aspx.cs">
       <DependentUpon>QueryWeiXinMircoPay.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryWeiXinMircoPay.aspx.designer.cs">
       <DependentUpon>QueryWeiXinMircoPay.aspx</DependentUpon>
@@ -1551,7 +1481,6 @@
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryZHInfo.aspx.cs">
       <DependentUpon>QueryZHInfo.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryZHInfo.aspx.designer.cs">
       <DependentUpon>QueryZHInfo.aspx</DependentUpon>
@@ -1565,14 +1494,12 @@
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryProtocolLib.aspx.cs">
       <DependentUpon>QueryProtocolLib.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryProtocolLib.aspx.designer.cs">
       <DependentUpon>QueryProtocolLib.aspx</DependentUpon>
     </Compile>
     <Compile Include="NewQueryInfoPages\ProtocolLibImport.aspx.cs">
       <DependentUpon>ProtocolLibImport.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\ProtocolLibImport.aspx.designer.cs">
       <DependentUpon>ProtocolLibImport.aspx</DependentUpon>
@@ -1593,28 +1520,24 @@
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryYTTrade.aspx.cs">
       <DependentUpon>QueryYTTrade.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryYTTrade.aspx.designer.cs">
       <DependentUpon>QueryYTTrade.aspx</DependentUpon>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryYTFreeze.aspx.cs">
       <DependentUpon>QueryYTFreeze.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryYTFreeze.aspx.designer.cs">
       <DependentUpon>QueryYTFreeze.aspx</DependentUpon>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryYTInfo.aspx.cs">
       <DependentUpon>QueryYTInfo.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryYTInfo.aspx.designer.cs">
       <DependentUpon>QueryYTInfo.aspx</DependentUpon>
     </Compile>
     <Compile Include="NewQueryInfoPages\DFBatchQuery.aspx.cs">
       <DependentUpon>DFBatchQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\DFBatchQuery.aspx.designer.cs">
       <DependentUpon>DFBatchQuery.aspx</DependentUpon>
@@ -1628,21 +1551,18 @@
     </Compile>
     <Compile Include="NewQueryInfoPages\DKAdjust.aspx.cs">
       <DependentUpon>DKAdjust.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\DKAdjust.aspx.designer.cs">
       <DependentUpon>DKAdjust.aspx</DependentUpon>
     </Compile>
     <Compile Include="NewQueryInfoPages\DK_QueryAdjust.aspx.cs">
       <DependentUpon>DK_QueryAdjust.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\DK_QueryAdjust.aspx.designer.cs">
       <DependentUpon>DK_QueryAdjust.aspx</DependentUpon>
     </Compile>
     <Compile Include="NewQueryInfoPages\GetUserFundAccountInfoPage.aspx.cs">
       <DependentUpon>GetUserFundAccountInfoPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\GetUserFundAccountInfoPage.aspx.designer.cs">
       <DependentUpon>GetUserFundAccountInfoPage.aspx</DependentUpon>
@@ -1656,21 +1576,18 @@
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryAuthenInfoPage.aspx.cs">
       <DependentUpon>QueryAuthenInfoPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryAuthenInfoPage.aspx.designer.cs">
       <DependentUpon>QueryAuthenInfoPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryBankListInfoPage.aspx.cs">
       <DependentUpon>QueryBankListInfoPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryBankListInfoPage.aspx.designer.cs">
       <DependentUpon>QueryBankListInfoPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryChargeInfoPage.aspx.cs">
       <DependentUpon>QueryChargeInfoPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryChargeInfoPage.aspx.designer.cs">
       <DependentUpon>QueryChargeInfoPage.aspx</DependentUpon>
@@ -1684,7 +1601,6 @@
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryDKcontractPage.aspx.cs">
       <DependentUpon>QueryDKcontractPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryDKcontractPage.aspx.designer.cs">
       <DependentUpon>QueryDKcontractPage.aspx</DependentUpon>
@@ -1698,7 +1614,6 @@
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryDKLimitPage.aspx.cs">
       <DependentUpon>QueryDKLimitPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryDKLimitPage.aspx.designer.cs">
       <DependentUpon>QueryDKLimitPage.aspx</DependentUpon>
@@ -1719,14 +1634,12 @@
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryForeignCard.aspx.cs">
       <DependentUpon>QueryForeignCard.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryForeignCard.aspx.designer.cs">
       <DependentUpon>QueryForeignCard.aspx</DependentUpon>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryFundInfoPage.aspx.cs">
       <DependentUpon>QueryFundInfoPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\QueryFundInfoPage.aspx.designer.cs">
       <DependentUpon>QueryFundInfoPage.aspx</DependentUpon>
@@ -1740,7 +1653,6 @@
     </Compile>
     <Compile Include="NewQueryInfoPages\ReBindUserBindingPage.aspx.cs">
       <DependentUpon>ReBindUserBindingPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewQueryInfoPages\ReBindUserBindingPage.aspx.designer.cs">
       <DependentUpon>ReBindUserBindingPage.aspx</DependentUpon>
@@ -1772,14 +1684,12 @@
     </Compile>
     <Compile Include="RefundManage\BankEmailManage.aspx.cs">
       <DependentUpon>BankEmailManage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RefundManage\BankEmailManage.aspx.designer.cs">
       <DependentUpon>BankEmailManage.aspx</DependentUpon>
     </Compile>
     <Compile Include="RefundManage\SendPaymentAbnorNotify.aspx.cs">
       <DependentUpon>SendPaymentAbnorNotify.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RefundManage\SendPaymentAbnorNotify.aspx.designer.cs">
       <DependentUpon>SendPaymentAbnorNotify.aspx</DependentUpon>
@@ -1793,7 +1703,6 @@
     </Compile>
     <Compile Include="RefundManage\NoticeBankByEmail.aspx.cs">
       <DependentUpon>NoticeBankByEmail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RefundManage\NoticeBankByEmail.aspx.designer.cs">
       <DependentUpon>NoticeBankByEmail.aspx</DependentUpon>
@@ -1807,14 +1716,12 @@
     </Compile>
     <Compile Include="RefundManage\RefundDetails.aspx.cs">
       <DependentUpon>RefundDetails.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RefundManage\RefundDetails.aspx.designer.cs">
       <DependentUpon>RefundDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="RefundManage\RefundErrorHandle.aspx.cs">
       <DependentUpon>RefundErrorHandle.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RefundManage\RefundErrorHandle.aspx.designer.cs">
       <DependentUpon>RefundErrorHandle.aspx</DependentUpon>
@@ -1828,14 +1735,12 @@
     </Compile>
     <Compile Include="RefundManage\RefundErrorQuery_Detail.aspx.cs">
       <DependentUpon>RefundErrorQuery_Detail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RefundManage\RefundErrorQuery_Detail.aspx.designer.cs">
       <DependentUpon>RefundErrorQuery_Detail.aspx</DependentUpon>
     </Compile>
     <Compile Include="RefundManage\RefundErrorReturn.aspx.cs">
       <DependentUpon>RefundErrorReturn.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RefundManage\RefundErrorReturn.aspx.designer.cs">
       <DependentUpon>RefundErrorReturn.aspx</DependentUpon>
@@ -1843,49 +1748,42 @@
     <Compile Include="RefundManage\RefundPublicFun.cs" />
     <Compile Include="RefundManage\RefundRegistration.aspx.cs">
       <DependentUpon>RefundRegistration.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RefundManage\RefundRegistration.aspx.designer.cs">
       <DependentUpon>RefundRegistration.aspx</DependentUpon>
     </Compile>
     <Compile Include="RefundManage\RefundTotalQuery.aspx.cs">
       <DependentUpon>RefundTotalQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RefundManage\RefundTotalQuery.aspx.designer.cs">
       <DependentUpon>RefundTotalQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="RefundManage\RefundTotalQuery_Detail.aspx.cs">
       <DependentUpon>RefundTotalQuery_Detail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RefundManage\RefundTotalQuery_Detail.aspx.designer.cs">
       <DependentUpon>RefundTotalQuery_Detail.aspx</DependentUpon>
     </Compile>
     <Compile Include="RefundManage\SuspendRefundment.aspx.cs">
       <DependentUpon>SuspendRefundment.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RefundManage\SuspendRefundment.aspx.designer.cs">
       <DependentUpon>SuspendRefundment.aspx</DependentUpon>
     </Compile>
     <Compile Include="RefundManage\PaymentAbnormalQueryNotify.aspx.cs">
       <DependentUpon>PaymentAbnormalQueryNotify.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RefundManage\PaymentAbnormalQueryNotify.aspx.designer.cs">
       <DependentUpon>PaymentAbnormalQueryNotify.aspx</DependentUpon>
     </Compile>
     <Compile Include="RemitCheck\RemitQueryNew.aspx.cs">
       <DependentUpon>RemitQueryNew.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RemitCheck\RemitQueryNew.aspx.designer.cs">
       <DependentUpon>RemitQueryNew.aspx</DependentUpon>
     </Compile>
     <Compile Include="RemitCheck\RemitQuery.aspx.cs">
       <DependentUpon>RemitQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RemitCheck\RemitQuery.aspx.designer.cs">
       <DependentUpon>RemitQuery.aspx</DependentUpon>
@@ -1899,42 +1797,36 @@
     </Compile>
     <Compile Include="SpSettle\CertBlackList.aspx.cs">
       <DependentUpon>CertBlackList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SpSettle\CertBlackList.aspx.designer.cs">
       <DependentUpon>CertBlackList.aspx</DependentUpon>
     </Compile>
     <Compile Include="SpSettle\OrderAccountQuery.aspx.cs">
       <DependentUpon>OrderAccountQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SpSettle\OrderAccountQuery.aspx.designer.cs">
       <DependentUpon>OrderAccountQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="SpSettle\OrderInfoQuery.aspx.cs">
       <DependentUpon>OrderInfoQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SpSettle\OrderInfoQuery.aspx.designer.cs">
       <DependentUpon>OrderInfoQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="SpSettle\OrderRelationQuery.aspx.cs">
       <DependentUpon>OrderRelationQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SpSettle\OrderRelationQuery.aspx.designer.cs">
       <DependentUpon>OrderRelationQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="SpSettle\SpControlQuery.aspx.cs">
       <DependentUpon>SpControlQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SpSettle\SpControlQuery.aspx.designer.cs">
       <DependentUpon>SpControlQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="SpSettle\SettleRuleQuery.aspx.cs">
       <DependentUpon>SettleRuleQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SpSettle\SettleRuleQuery.aspx.designer.cs">
       <DependentUpon>SettleRuleQuery.aspx</DependentUpon>
@@ -1969,7 +1861,6 @@
     </Compile>
     <Compile Include="SysManage\BankInterfaceManage_Detail.aspx.cs">
       <DependentUpon>BankInterfaceManage_Detail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SysManage\BankInterfaceManage_Detail.aspx.designer.cs">
       <DependentUpon>BankInterfaceManage_Detail.aspx</DependentUpon>
@@ -2004,7 +1895,6 @@
     </Compile>
     <Compile Include="SysManage\SysBulletinManage_Detail.aspx.cs">
       <DependentUpon>SysBulletinManage_Detail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SysManage\SysBulletinManage_Detail.aspx.designer.cs">
       <DependentUpon>SysBulletinManage_Detail.aspx</DependentUpon>
@@ -2025,7 +1915,6 @@
     </Compile>
     <Compile Include="TradeManage\AdjustList.aspx.cs">
       <DependentUpon>AdjustList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\AdjustList.aspx.designer.cs">
       <DependentUpon>AdjustList.aspx</DependentUpon>
@@ -2039,21 +1928,18 @@
     </Compile>
     <Compile Include="TradeManage\AppealDSettings.aspx.cs">
       <DependentUpon>AppealDSettings.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\AppealDSettings.aspx.designer.cs">
       <DependentUpon>AppealDSettings.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\AppealManage.aspx.cs">
       <DependentUpon>AppealManage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\AppealManage.aspx.designer.cs">
       <DependentUpon>AppealManage.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\AppealQuery.aspx.cs">
       <DependentUpon>AppealQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\AppealQuery.aspx.designer.cs">
       <DependentUpon>AppealQuery.aspx</DependentUpon>
@@ -2074,21 +1960,18 @@
     </Compile>
     <Compile Include="TradeManage\AutomaticRechargeQuery.aspx.cs">
       <DependentUpon>AutomaticRechargeQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\AutomaticRechargeQuery.aspx.designer.cs">
       <DependentUpon>AutomaticRechargeQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\B2CReturnQuery.aspx.cs">
       <DependentUpon>B2CReturnQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\B2CReturnQuery.aspx.designer.cs">
       <DependentUpon>B2CReturnQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\B2CReturnQuery_Detail.aspx.cs">
       <DependentUpon>B2CReturnQuery_Detail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\B2CReturnQuery_Detail.aspx.designer.cs">
       <DependentUpon>B2CReturnQuery_Detail.aspx</DependentUpon>
@@ -2109,7 +1992,6 @@
     </Compile>
     <Compile Include="TradeManage\BankCardQueryNew.aspx.cs">
       <DependentUpon>BankCardQueryNew.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\BankCardQueryNew.aspx.designer.cs">
       <DependentUpon>BankCardQueryNew.aspx</DependentUpon>
@@ -2137,7 +2019,6 @@
     </Compile>
     <Compile Include="TradeManage\BatPayQuery.aspx.cs">
       <DependentUpon>BatPayQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\BatPayQuery.aspx.designer.cs">
       <DependentUpon>BatPayQuery.aspx</DependentUpon>
@@ -2151,63 +2032,54 @@
     </Compile>
     <Compile Include="TradeManage\BeforeCancelTradeQuery.aspx.cs">
       <DependentUpon>BeforeCancelTradeQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\BeforeCancelTradeQuery.aspx.designer.cs">
       <DependentUpon>BeforeCancelTradeQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\BusCardPrepaidQuery.aspx.cs">
       <DependentUpon>BusCardPrepaidQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\BusCardPrepaidQuery.aspx.designer.cs">
       <DependentUpon>BusCardPrepaidQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\BusinessFreeze.aspx.cs">
       <DependentUpon>BusinessFreeze.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\BusinessFreeze.aspx.designer.cs">
       <DependentUpon>BusinessFreeze.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\BusinessLogout.aspx.cs">
       <DependentUpon>BusinessLogout.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\BusinessLogout.aspx.designer.cs">
       <DependentUpon>BusinessLogout.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\BusinessResume.aspx.cs">
       <DependentUpon>BusinessResume.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\BusinessResume.aspx.designer.cs">
       <DependentUpon>BusinessResume.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\CGIInfoQuery.aspx.cs">
       <DependentUpon>CGIInfoQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\CGIInfoQuery.aspx.designer.cs">
       <DependentUpon>CGIInfoQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\ComplainBussinessDetail.aspx.cs">
       <DependentUpon>ComplainBussinessDetail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\ComplainBussinessDetail.aspx.designer.cs">
       <DependentUpon>ComplainBussinessDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\ComplainBussinessInput.aspx.cs">
       <DependentUpon>ComplainBussinessInput.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\ComplainBussinessInput.aspx.designer.cs">
       <DependentUpon>ComplainBussinessInput.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\ComplainUserDetail.aspx.cs">
       <DependentUpon>ComplainUserDetail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\ComplainUserDetail.aspx.designer.cs">
       <DependentUpon>ComplainUserDetail.aspx</DependentUpon>
@@ -2221,14 +2093,12 @@
     </Compile>
     <Compile Include="TradeManage\ContractQuery.aspx.cs">
       <DependentUpon>ContractQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\ContractQuery.aspx.designer.cs">
       <DependentUpon>ContractQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\IceOutPPSecurityMoney.aspx.cs">
       <DependentUpon>IceOutPPSecurityMoney.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\IceOutPPSecurityMoney.aspx.designer.cs">
       <DependentUpon>IceOutPPSecurityMoney.aspx</DependentUpon>
@@ -2249,14 +2119,12 @@
     </Compile>
     <Compile Include="TradeManage\CreditQueryNew.aspx.cs">
       <DependentUpon>CreditQueryNew.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\CreditQueryNew.aspx.designer.cs">
       <DependentUpon>CreditQueryNew.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\CrtQuery.aspx.cs">
       <DependentUpon>CrtQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\CrtQuery.aspx.designer.cs">
       <DependentUpon>CrtQuery.aspx</DependentUpon>
@@ -2270,21 +2138,18 @@
     </Compile>
     <Compile Include="TradeManage\FreezeReason.aspx.cs">
       <DependentUpon>FreezeReason.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\FreezeReason.aspx.designer.cs">
       <DependentUpon>FreezeReason.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\FundCardQuery_Detail.aspx.cs">
       <DependentUpon>FundCardQuery_Detail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\FundCardQuery_Detail.aspx.designer.cs">
       <DependentUpon>FundCardQuery_Detail.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\FundCardQuery_DetailNew.aspx.cs">
       <DependentUpon>FundCardQuery_DetailNew.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\FundCardQuery_DetailNew.aspx.designer.cs">
       <DependentUpon>FundCardQuery_DetailNew.aspx</DependentUpon>
@@ -2305,21 +2170,18 @@
     </Compile>
     <Compile Include="TradeManage\FundQuery_Detail.aspx.cs">
       <DependentUpon>FundQuery_Detail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\FundQuery_Detail.aspx.designer.cs">
       <DependentUpon>FundQuery_Detail.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\GatheringLog.aspx.cs">
       <DependentUpon>GatheringLog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\GatheringLog.aspx.designer.cs">
       <DependentUpon>GatheringLog.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\MediCertExpireOperate.aspx.cs">
       <DependentUpon>MediCertExpireOperate.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\MediCertExpireOperate.aspx.designer.cs">
       <DependentUpon>MediCertExpireOperate.aspx</DependentUpon>
@@ -2333,7 +2195,6 @@
     </Compile>
     <Compile Include="TradeManage\MediCertManage.aspx.cs">
       <DependentUpon>MediCertManage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\MediCertManage.aspx.designer.cs">
       <DependentUpon>MediCertManage.aspx</DependentUpon>
@@ -2354,14 +2215,12 @@
     </Compile>
     <Compile Include="TradeManage\MobileBindingQuery.aspx.cs">
       <DependentUpon>MobileBindingQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\MobileBindingQuery.aspx.designer.cs">
       <DependentUpon>MobileBindingQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\MobileBindQuery.aspx.cs">
       <DependentUpon>MobileBindQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\MobileBindQuery.aspx.designer.cs">
       <DependentUpon>MobileBindQuery.aspx</DependentUpon>
@@ -2375,7 +2234,6 @@
     </Compile>
     <Compile Include="TradeManage\MobileRechargeConfigEdit.aspx.cs">
       <DependentUpon>MobileRechargeConfigEdit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\MobileRechargeConfigEdit.aspx.designer.cs">
       <DependentUpon>MobileRechargeConfigEdit.aspx</DependentUpon>
@@ -2389,53 +2247,45 @@
     </Compile>
     <Compile Include="TradeManage\MobileRechargeConfigValidDateEdit.aspx.cs">
       <DependentUpon>MobileRechargeConfigValidDateEdit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\MobileRechargeConfigValidDateEdit.aspx.designer.cs">
       <DependentUpon>MobileRechargeConfigValidDateEdit.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\MobileRechargeDetail.aspx.cs">
       <DependentUpon>MobileRechargeDetail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\MobileRechargeDetail.aspx.designer.cs">
       <DependentUpon>MobileRechargeDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\MobileRechargeQuery.aspx.cs">
       <DependentUpon>MobileRechargeQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\MobileRechargeQuery.aspx.designer.cs">
       <DependentUpon>MobileRechargeQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\MobileTokenQuery.aspx.cs">
       <DependentUpon>MobileTokenQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\MobileTokenQuery.aspx.designer.cs">
       <DependentUpon>MobileTokenQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\OrderDetail.aspx.cs">
       <DependentUpon>OrderDetail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\OrderDetail.aspx.designer.cs">
       <DependentUpon>OrderDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\OrderDetail2.aspx.cs">
       <DependentUpon>OrderDetail2.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\OrderDetail2.aspx.designer.cs">
       <DependentUpon>OrderDetail2.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\OrderMigration.aspx.cs">
       <DependentUpon>OrderMigration.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\OrderQuery.aspx.cs">
       <DependentUpon>OrderQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\OrderQuery.aspx.designer.cs">
       <DependentUpon>OrderQuery.aspx</DependentUpon>
@@ -2445,7 +2295,6 @@
     </Compile>
     <Compile Include="TradeManage\PayLimitManage.aspx.cs">
       <DependentUpon>PayLimitManage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\PayLimitManage.aspx.designer.cs">
       <DependentUpon>PayLimitManage.aspx</DependentUpon>
@@ -2473,7 +2322,6 @@
     </Compile>
     <Compile Include="TradeManage\PNROperateQuery.aspx.cs">
       <DependentUpon>PNROperateQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\PNROperateQuery.aspx.designer.cs">
       <DependentUpon>PNROperateQuery.aspx</DependentUpon>
@@ -2487,14 +2335,12 @@
     </Compile>
     <Compile Include="TradeManage\QuerySpOrderPage.aspx.cs">
       <DependentUpon>QuerySpOrderPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\QuerySpOrderPage.aspx.designer.cs">
       <DependentUpon>QuerySpOrderPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\QueryUserControledFinPage.aspx.cs">
       <DependentUpon>QueryUserControledFinPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\QueryUserControledFinPage.aspx.designer.cs">
       <DependentUpon>QueryUserControledFinPage.aspx</DependentUpon>
@@ -2508,14 +2354,12 @@
     </Compile>
     <Compile Include="TradeManage\RealTimeOrderQuery.aspx.cs">
       <DependentUpon>RealTimeOrderQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\RealTimeOrderQuery.aspx.designer.cs">
       <DependentUpon>RealTimeOrderQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\RefundMain.aspx.cs">
       <DependentUpon>RefundMain.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\RefundMain.aspx.designer.cs">
       <DependentUpon>RefundMain.aspx</DependentUpon>
@@ -2536,7 +2380,6 @@
     </Compile>
     <Compile Include="TradeManage\SettleAgent.aspx.cs">
       <DependentUpon>SettleAgent.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\SettleAgent.aspx.designer.cs">
       <DependentUpon>SettleAgent.aspx</DependentUpon>
@@ -2550,14 +2393,12 @@
     </Compile>
     <Compile Include="TradeManage\SettleInfo.aspx.cs">
       <DependentUpon>SettleInfo.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\SettleInfo.aspx.designer.cs">
       <DependentUpon>SettleInfo.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\SettleInfoDetail.aspx.cs">
       <DependentUpon>SettleInfoDetail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\SettleInfoDetail.aspx.designer.cs">
       <DependentUpon>SettleInfoDetail.aspx</DependentUpon>
@@ -2571,14 +2412,12 @@
     </Compile>
     <Compile Include="TradeManage\SettleRefundDetail.aspx.cs">
       <DependentUpon>SettleRefundDetail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\SettleRefundDetail.aspx.designer.cs">
       <DependentUpon>SettleRefundDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\SettleRule.aspx.cs">
       <DependentUpon>SettleRule.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\SettleRule.aspx.designer.cs">
       <DependentUpon>SettleRule.aspx</DependentUpon>
@@ -2603,7 +2442,6 @@
     </Compile>
     <Compile Include="TradeManage\ShouFuYiQuery.aspx.cs">
       <DependentUpon>ShouFuYiQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\ShouFuYiQuery.aspx.designer.cs">
       <DependentUpon>ShouFuYiQuery.aspx</DependentUpon>
@@ -2621,7 +2459,6 @@
     </Compile>
     <Compile Include="TradeManage\SuspendSecondPasseword.aspx.cs">
       <DependentUpon>SuspendSecondPasseword.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\SuspendSecondPasseword.aspx.designer.cs">
       <DependentUpon>SuspendSecondPasseword.aspx</DependentUpon>
@@ -2635,7 +2472,6 @@
     </Compile>
     <Compile Include="TradeManage\SynRecordQuery_Detail.aspx.cs">
       <DependentUpon>SynRecordQuery_Detail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\SynRecordQuery_Detail.aspx.designer.cs">
       <DependentUpon>SynRecordQuery_Detail.aspx</DependentUpon>
@@ -2656,11 +2492,9 @@
     </Compile>
     <Compile Include="TradeManage\TradeMigration.aspx.cs">
       <DependentUpon>TradeMigration.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\TranDetail.aspx.cs">
       <DependentUpon>TranDetail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\TranDetail.aspx.designer.cs">
       <DependentUpon>TranDetail.aspx</DependentUpon>
@@ -2674,21 +2508,18 @@
     </Compile>
     <Compile Include="TradeManage\TransferQuery.aspx.cs">
       <DependentUpon>TransferQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\TransferQuery.aspx.designer.cs">
       <DependentUpon>TransferQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\UnFinishTradeQuery.aspx.cs">
       <DependentUpon>UnFinishTradeQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\UnFinishTradeQuery.aspx.designer.cs">
       <DependentUpon>UnFinishTradeQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\UserControledFundPage.aspx.cs">
       <DependentUpon>UserControledFundPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\UserControledFundPage.aspx.designer.cs">
       <DependentUpon>UserControledFundPage.aspx</DependentUpon>
@@ -2709,7 +2540,6 @@
     </Compile>
     <Compile Include="TravelPlatform\HotelOrderQuery.aspx.cs">
       <DependentUpon>HotelOrderQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TravelPlatform\HotelOrderQuery.aspx.designer.cs">
       <DependentUpon>HotelOrderQuery.aspx</DependentUpon>
@@ -2729,14 +2559,12 @@
     </Compile>
     <Compile Include="VIPAccount\BaseInformationQuery.aspx.cs">
       <DependentUpon>BaseInformationQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="VIPAccount\BaseInformationQuery.aspx.designer.cs">
       <DependentUpon>BaseInformationQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="VIPAccount\IconManagement.aspx.cs">
       <DependentUpon>IconManagement.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="VIPAccount\IconManagement.aspx.designer.cs">
       <DependentUpon>IconManagement.aspx</DependentUpon>
@@ -2829,7 +2657,6 @@
     </Compile>
     <Compile Include="WebchatPay\CustomsBatchRedeclare.aspx.cs">
       <DependentUpon>CustomsBatchRedeclare.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="WebchatPay\CustomsBatchRedeclare.aspx.designer.cs">
       <DependentUpon>CustomsBatchRedeclare.aspx</DependentUpon>
@@ -2843,7 +2670,6 @@
     </Compile>
     <Compile Include="WebchatPay\FundDreamProject.aspx.cs">
       <DependentUpon>FundDreamProject.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="WebchatPay\FundDreamProject.aspx.designer.cs">
       <DependentUpon>FundDreamProject.aspx</DependentUpon>
@@ -2857,21 +2683,18 @@
     </Compile>
     <Compile Include="WebchatPay\LCTReserveOrder.aspx.cs">
       <DependentUpon>LCTReserveOrder.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="WebchatPay\LCTReserveOrder.aspx.designer.cs">
       <DependentUpon>LCTReserveOrder.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebchatPay\LCTSwitchQuery.aspx.cs">
       <DependentUpon>LCTSwitchQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="WebchatPay\LCTSwitchQuery.aspx.designer.cs">
       <DependentUpon>LCTSwitchQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebchatPay\QueryRealtimeRepayment.aspx.cs">
       <DependentUpon>QueryRealtimeRepayment.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="WebchatPay\QueryRealtimeRepayment.aspx.designer.cs">
       <DependentUpon>QueryRealtimeRepayment.aspx</DependentUpon>
@@ -2885,28 +2708,24 @@
     </Compile>
     <Compile Include="WebchatPay\QuotationTransactionQuery.aspx.cs">
       <DependentUpon>QuotationTransactionQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="WebchatPay\QuotationTransactionQuery.aspx.designer.cs">
       <DependentUpon>QuotationTransactionQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebchatPay\WechatMerchantTrans.aspx.cs">
       <DependentUpon>WechatMerchantTrans.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="WebchatPay\WechatMerchantTrans.aspx.designer.cs">
       <DependentUpon>WechatMerchantTrans.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebchatPay\CreditCardRefundQuery.aspx.cs">
       <DependentUpon>CreditCardRefundQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="WebchatPay\CreditCardRefundQuery.aspx.designer.cs">
       <DependentUpon>CreditCardRefundQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebchatPay\AddedValueTicketQuery.aspx.cs">
       <DependentUpon>AddedValueTicketQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="WebchatPay\AddedValueTicketQuery.aspx.designer.cs">
       <DependentUpon>AddedValueTicketQuery.aspx</DependentUpon>
@@ -2941,7 +2760,6 @@
     </Compile>
     <Compile Include="WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="WebForm1.aspx.designer.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
@@ -3252,7 +3070,6 @@
     <Content Include="CreditPay\QueryCreditUserInfo.aspx" />
     <Content Include="CreditPay\QueryCreditBillList.aspx" />
     <Content Include="default.aspx" />
-    <Content Include="default.html" />
     <Content Include="FastPay\Email\QQReclaim.htm" />
     <Content Include="FastPay\Email\SelfBusinessReject.htm" />
     <Content Include="FastPay\FastPayLimitQuery.aspx" />
@@ -3470,8 +3287,6 @@
     </Content>
     <Content Include="SCRIPTS\IdentityIDValidate.js" />
     <Content Include="SCRIPTS\jquery-1.11.3.min.js" />
-    <Content Include="SCRIPTS\jquery-3.0.0.js" />
-    <Content Include="SCRIPTS\jquery-3.0.0.min.js" />
     <Content Include="SCRIPTS\laypage\laypage.js" />
     <Content Include="SCRIPTS\laypage\skin\laypage.css" />
     <Content Include="SCRIPTS\Local.js" />
@@ -5155,7 +4970,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>52666</DevelopmentServerPort>
+          <DevelopmentServerPort>8814</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

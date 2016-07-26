@@ -26,7 +26,7 @@ using CFT.CSOMS.BLL.RealNameModule;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
-    public partial class RealNameCertifationQuery : System.Web.UI.Page
+    public partial class RealNameCertifationQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

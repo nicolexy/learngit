@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// FundQuery_Detail 的摘要说明。
 	/// </summary>
-	public partial class FundQuery_Detail : System.Web.UI.Page
+	public partial class FundQuery_Detail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

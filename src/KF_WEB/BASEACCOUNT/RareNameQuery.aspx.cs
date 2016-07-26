@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// SysBulletinManage 的摘要说明。
     /// </summary>
-    public partial class RareNameQuery : System.Web.UI.Page
+    public partial class RareNameQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         private string add = "1";
         private string change = "3";

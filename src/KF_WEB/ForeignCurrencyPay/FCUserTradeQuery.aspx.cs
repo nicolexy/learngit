@@ -12,7 +12,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
 {
-    public partial class FCUserTradeQuery : System.Web.UI.Page
+    public partial class FCUserTradeQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         BLL.FCUserTradeQuery bll = new BLL.FCUserTradeQuery();
         protected void Page_Load(object sender, EventArgs e)

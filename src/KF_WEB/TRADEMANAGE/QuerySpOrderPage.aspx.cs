@@ -18,7 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// QuerySpOrderPage 的摘要说明。
 	/// </summary>
-	public partial class QuerySpOrderPage : System.Web.UI.Page
+	public partial class QuerySpOrderPage : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

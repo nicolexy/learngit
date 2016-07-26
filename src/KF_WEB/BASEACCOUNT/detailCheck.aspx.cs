@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// detailCheck 的摘要说明。
     /// </summary>
-    public partial class detailCheck : System.Web.UI.Page
+    public partial class detailCheck : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
 
         string id, strType, uid, exedSign;   //exedSign表示是否执行的标志 ,checkResult表示是否同意，

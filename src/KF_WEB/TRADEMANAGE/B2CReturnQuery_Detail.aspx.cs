@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// B2CReturnQuery_Detail 的摘要说明。
 	/// </summary>
-	public partial class B2CReturnQuery_Detail : System.Web.UI.Page
+	public partial class B2CReturnQuery_Detail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

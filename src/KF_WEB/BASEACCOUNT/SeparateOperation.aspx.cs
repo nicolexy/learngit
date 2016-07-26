@@ -25,7 +25,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// UserClassQuery 的摘要说明。
 	/// </summary>
-	public partial class SeparateOperation : System.Web.UI.Page
+	public partial class SeparateOperation : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 
 

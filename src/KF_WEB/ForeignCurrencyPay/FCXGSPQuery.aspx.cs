@@ -9,7 +9,7 @@ using CFT.CSOMS.BLL.ForeignCurrencyModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
 {
-    public partial class FCXGSPQuery : System.Web.UI.Page
+    public partial class FCXGSPQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         string uid;
         protected void Page_Load(object sender, EventArgs e)

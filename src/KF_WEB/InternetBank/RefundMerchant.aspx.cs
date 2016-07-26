@@ -10,7 +10,7 @@ using Tencent.DotNet.Common.UI;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 {
-    public partial class RefundMerchant : System.Web.UI.Page
+    public partial class RefundMerchant : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected static bool IsAdd = false;
         protected static int Old_Frefund_id = 0;

@@ -15,7 +15,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// UserTradeLog 的摘要说明。
 	/// </summary>
-	public partial class UserTradeLog : System.Web.UI.Page
+	public partial class UserTradeLog : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Data.DataSet DS_Utradelog;
 	

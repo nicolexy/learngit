@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 	/// <summary>
     /// FreezeProcessDetail 的摘要说明。
 	/// </summary>
-    public partial class FreezeProcessDetail : System.Web.UI.Page
+    public partial class FreezeProcessDetail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 
         public string uid;

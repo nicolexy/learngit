@@ -26,7 +26,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// MediCertManage 的摘要说明。
 	/// </summary>
-	public partial class MediCertManage : System.Web.UI.Page
+	public partial class MediCertManage : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.HtmlControls.HtmlTable Table2;
 
@@ -37,10 +37,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			{
 				this.Label1.Text = Session["uid"].ToString();
 				string szkey = Session["SzKey"].ToString();
-				int operid = Int32.Parse(Session["OperID"].ToString());
+				int operid = Int32.Parse(Session["OperID"].ToString());
+
 				// if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "InfoCenter")) Response.Redirect("../login.aspx?wh=1");
 				if(!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
-			}
+			}
+
 			catch
 			{
 				Response.Redirect("../login.aspx?wh=1");

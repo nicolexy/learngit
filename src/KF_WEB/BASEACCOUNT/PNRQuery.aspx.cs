@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// PNRQuery 的摘要说明。
 	/// </summary>
-	public partial class PNRQuery : System.Web.UI.Page
+	public partial class PNRQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

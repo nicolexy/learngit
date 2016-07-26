@@ -18,7 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 	/// <summary>
 	/// FreezeVerify1 的摘要说明。
 	/// </summary>
-	public partial class FreezeVerify1 : System.Web.UI.Page
+	public partial class FreezeVerify1 : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 
         public string uid;

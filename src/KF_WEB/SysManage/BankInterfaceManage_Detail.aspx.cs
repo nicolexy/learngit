@@ -514,7 +514,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
         /// </summary>
         /// <param name="bankbulletin">公告类</param>
         /// <param name="objid">objid</param>
-        public void CheckBulletin(System.Web.UI.Page page,commData.T_BANKBULLETIN_INFO bankbulletin, string objid)
+        public void CheckBulletin(TENCENT.OSS.CFT.KF.KF_Web.PageBase page,commData.T_BANKBULLETIN_INFO bankbulletin, string objid)
         {
             string[,] param = GetBulletin(bankbulletin);//获得单条公告
 

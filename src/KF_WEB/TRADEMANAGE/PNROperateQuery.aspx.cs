@@ -27,7 +27,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// PayBusinessQuery 的摘要说明。
 	/// </summary>
-    public partial class PNROperateQuery : System.Web.UI.Page
+    public partial class PNROperateQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

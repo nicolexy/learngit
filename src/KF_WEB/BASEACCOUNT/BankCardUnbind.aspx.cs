@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// BankCardUnbind 的摘要说明。
     /// </summary>
-    public partial class BankCardUnbind : System.Web.UI.Page
+    public partial class BankCardUnbind : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected Wuqi.Webdiyer.AspNetPager Aspnetpager1;
 

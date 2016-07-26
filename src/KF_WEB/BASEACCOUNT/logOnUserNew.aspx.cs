@@ -36,7 +36,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
     /// <summary>
     /// logOnUserNew 的摘要说明。
     /// </summary>
-    public partial class logOnUserNew : System.Web.UI.Page
+    public partial class logOnUserNew : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected BalaceService balaceService = new BalaceService();
         protected void Page_Load(object sender, System.EventArgs e)

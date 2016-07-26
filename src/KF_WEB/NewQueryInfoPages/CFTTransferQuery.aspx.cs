@@ -18,7 +18,7 @@ using System.Web.Services.Protocols;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 {
-    public partial class CFTTransferQuery : System.Web.UI.Page
+    public partial class CFTTransferQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

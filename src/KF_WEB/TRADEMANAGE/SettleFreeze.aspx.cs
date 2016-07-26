@@ -25,7 +25,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// SettleFreeze 的摘要说明。
 	/// </summary>
-	public partial class SettleFreeze : System.Web.UI.Page
+	public partial class SettleFreeze : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
     
         string szSpid;

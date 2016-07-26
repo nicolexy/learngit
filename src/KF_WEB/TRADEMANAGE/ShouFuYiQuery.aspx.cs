@@ -25,7 +25,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// AgencyBusinessQuery 的摘要说明。
 	/// </summary>
-    public partial class ShouFuYiQuery : System.Web.UI.Page
+    public partial class ShouFuYiQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
     /// ComplainBussinessInput 的摘要说明。
 	/// </summary>
-    public partial class ComplainBussinessInput : System.Web.UI.Page
+    public partial class ComplainBussinessInput : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         public string qbussid, qpage;
         public DateTime qbegindate;

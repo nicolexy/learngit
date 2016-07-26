@@ -12,7 +12,7 @@ using Tencent.DotNet.Common.UI;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
 {
-    public partial class RealNameCheck : System.Web.UI.Page
+    public partial class RealNameCheck : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         string ip = "";
         protected void Page_Load(object sender, EventArgs e)

@@ -11,7 +11,7 @@ using TENCENT.OSS.CFT.KF.Common;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
-    public partial class FundDreamProject : System.Web.UI.Page
+    public partial class FundDreamProject : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

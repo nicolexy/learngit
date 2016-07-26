@@ -11,7 +11,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 {
-    public partial class CertBlackList : System.Web.UI.Page
+    public partial class CertBlackList : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         MerchantService merchantService = new MerchantService();
  

@@ -11,7 +11,7 @@ using Tencent.DotNet.Common.UI;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
 {
-    public partial class RealNameInformationQuery : System.Web.UI.Page
+    public partial class RealNameInformationQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

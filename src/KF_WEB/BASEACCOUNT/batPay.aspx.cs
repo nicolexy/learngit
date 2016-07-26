@@ -19,7 +19,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// batPay 的摘要说明。
     /// </summary>
-    public partial class batPay : System.Web.UI.Page
+    public partial class batPay : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
 
         private string WeekIndex = "0";

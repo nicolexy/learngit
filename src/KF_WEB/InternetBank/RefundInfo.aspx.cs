@@ -14,7 +14,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
 	/// <summary>
     /// RefundInfo 的摘要说明。
 	/// </summary>
-    public partial class RefundInfo : System.Web.UI.Page
+    public partial class RefundInfo : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         private string listid;
         protected static List<int> refundIdList = new List<int>();

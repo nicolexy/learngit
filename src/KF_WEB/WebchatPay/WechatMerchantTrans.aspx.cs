@@ -6,7 +6,7 @@ using System.Data;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
 {
-    public partial class WechatMerchantTrans : System.Web.UI.Page
+    public partial class WechatMerchantTrans : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
 
         protected void Page_Load(object sender, EventArgs e)

@@ -16,7 +16,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// GatheringLog 的摘要说明。
 	/// </summary>
-	public partial class GatheringLog : System.Web.UI.Page
+	public partial class GatheringLog : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Data.DataSet DS_Gather;
 	
