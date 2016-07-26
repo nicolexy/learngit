@@ -24,11 +24,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     public partial class BankCardUnbindNew : PageBase
     {
         protected Wuqi.Webdiyer.AspNetPager Aspnetpager1;
-
+        bool isRight_SensitiveRole = false;
         protected void Page_Load(object sender, System.EventArgs e)
         {
             try
             {
+                isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
                 if (!ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
@@ -93,8 +94,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         private void ShowEdit()
         {
             this.PanelList.Visible = false;
-            this.PanelMod.Visible = true;
-            bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+            this.PanelMod.Visible = true;            
             Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
             // 20130809 数据库标记：FBDIndex=1绑定表 FBDIndex=2 临时绑定表
 
@@ -209,9 +209,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 {
                     
                     if (ds.Tables[0].Rows[0]["Fmobilephone"].ToString() != "")
-                        this.lblPhone.Text = ds.Tables[0].Rows[0]["Fmobilephone"].ToString();
+                        this.lblPhone.Text = classLibrary.setConfig.ConvertTelephoneNumber(ds.Tables[0].Rows[0]["Fmobilephone"].ToString(), isRight_SensitiveRole);
                     else
-                        this.lblPhone.Text = ds.Tables[0].Rows[0]["Ftelephone"].ToString();
+                        this.lblPhone.Text = classLibrary.setConfig.ConvertTelephoneNumber(ds.Tables[0].Rows[0]["Ftelephone"].ToString(), isRight_SensitiveRole); 
 
                     this.lblUid.Text = ds.Tables[0].Rows[0]["Fuid"].ToString();
 

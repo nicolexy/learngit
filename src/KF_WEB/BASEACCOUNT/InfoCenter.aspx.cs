@@ -39,7 +39,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         private static bool tradeUpOrDown;
         string uid;
-
+        bool isRight_SensitiveRole = false;
         protected void Page_Load(object sender, System.EventArgs e)
         {
 
@@ -50,6 +50,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 this.LinkButton3.Attributes["onClick"] = "if(!confirm('确定要执行该操作吗？')) return false;";
                 this.btnDelClass.Attributes["onClick"] = "if(!confirm('确定要执行该操作吗？')) return false;";
+                isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+
                 CheckInput();
 
                 try
@@ -212,8 +214,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     {
                         str_truename = PublicRes.objectToString(ds.Tables[0], "Ftruename");                                                                     
                     }
-                    bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
-                    this.Label14_Ftruename.Text = classLibrary.setConfig.ConvertName(str_truename, isRight); ;
+
+                    this.Label14_Ftruename.Text = classLibrary.setConfig.ConvertName(str_truename, isRight_SensitiveRole);
 
                     string s_fz_amt = PublicRes.objectToString(ds.Tables[0], "Ffz_amt"); //分账冻结金额
                     string s_balance = PublicRes.objectToString(ds.Tables[0], "Fbalance");
@@ -257,7 +259,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     //furion 20061116 email登录修改
                     this.labEmail.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Femail"));
 
-                    this.labMobile.Text = classLibrary.setConfig.ConvertTelephoneNumber(PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile")), isRight);      
+                    this.labMobile.Text = classLibrary.setConfig.ConvertTelephoneNumber(PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile")), isRight_SensitiveRole);      
                     //2006-10-18 edwinyang 增加产品属性
                     int nAttid = 0;
                     //				pbp.BindDropDownList(pm.QueryDicAccName(),ddlAttid,out Msg);
@@ -471,11 +473,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 // 2012/5/2 因为需要Q_USER_INFO获取准确的用户真实姓名而改动
                 try
                 {
-                    this.Label14_Ftruename.Text = PublicRes.objectToString(ds.Tables[0], "UserRealName2");
+
+                    this.Label14_Ftruename.Text = classLibrary.setConfig.ConvertName(PublicRes.objectToString(ds.Tables[0], "UserRealName2"), isRight_SensitiveRole);
                 }
                 catch
                 {
-                    this.Label14_Ftruename.Text = PublicRes.objectToString(ds.Tables[0], "Ftruename");
+                    this.Label14_Ftruename.Text = classLibrary.setConfig.ConvertName(PublicRes.objectToString(ds.Tables[0], "Ftruename"), isRight_SensitiveRole);
                 }
                 long balance = 0, con = 0;
                 long.TryParse(PublicRes.objectToString(ds.Tables[0], "Fbalance"), out balance);
@@ -501,7 +504,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 //furion 20061116 email登录修改
                 this.labEmail.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Femail"));
-                this.labMobile.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile"));
+
+                this.labMobile.Text = classLibrary.setConfig.ConvertTelephoneNumber(PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile")), isRight_SensitiveRole);
                 //2006-10-18 edwinyang 增加产品属性
                 int nAttid = int.Parse(PublicRes.objectToString(ds.Tables[0], "Att_id"));
                 //				pbp.BindDropDownList(pm.QueryDicAccName(),ddlAttid,out Msg);

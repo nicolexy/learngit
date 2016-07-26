@@ -7,6 +7,7 @@
     <title>跨境汇款</title>
     <style type="text/css">
         @import url( ../STYLES/common.css );
+            @import url( ../STYLES/ossstyle.css );
     </style>
      <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 

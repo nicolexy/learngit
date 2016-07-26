@@ -23,11 +23,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     public partial class BankCardUnbind : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected Wuqi.Webdiyer.AspNetPager Aspnetpager1;
-
+        bool isRight_SensitiveRole = false;        
         protected void Page_Load(object sender, System.EventArgs e)
         {
             try
             {
+                isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
 
@@ -98,7 +99,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             this.PanelList.Visible = false;
             this.PanelMod.Visible = true;
-            bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+            
             Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
             // 20130809 数据库标记：FBDIndex=1绑定表 FBDIndex=2 临时绑定表
             DataSet ds = qs.GetBankCardBind(Request.QueryString["Fuid"].ToString(), Request.QueryString["Findex"].ToString(), Request.QueryString["FBDIndex"].ToString());
@@ -213,9 +214,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 {
                     this.lblCreID.Text = classLibrary.setConfig.ConvertCreID(ds.Tables[0].Rows[0]["Fcre_id"].ToString());
                     if (ds.Tables[0].Rows[0]["Fmobilephone"].ToString() != "")
-                        this.lblPhone.Text = ds.Tables[0].Rows[0]["Fmobilephone"].ToString();
+                        this.lblPhone.Text = classLibrary.setConfig.ConvertTelephoneNumber(ds.Tables[0].Rows[0]["Fmobilephone"].ToString(), isRight_SensitiveRole);
                     else
-                        this.lblPhone.Text = ds.Tables[0].Rows[0]["Ftelephone"].ToString();
+                        this.lblPhone.Text = classLibrary.setConfig.ConvertTelephoneNumber(ds.Tables[0].Rows[0]["Ftelephone"].ToString(), isRight_SensitiveRole); 
 
                     this.lblUid.Text = ds.Tables[0].Rows[0]["Fuid"].ToString();
 
