@@ -95,6 +95,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 iframeSRC = "FundDreamProject.aspx?uin=" + ViewState["uin"].ToString();
                 DataBind();
             }
+            else if (PROJECT == "PayBackCredit")
+            {
+                iframeSRC = "FundPayBackCredit.aspx?uin=" + ViewState["uin"].ToString();
+                DataBind();
+            }
         }
         public void ChangePage1(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
         {

@@ -43,7 +43,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
         protected void Button1_Click(object sender, EventArgs e)
         {
             #region 清空数据
-            DataGrid[] dgs = { dg_refund, dg_trade, dg_BankrollList, dg_fetch, dg_GetPackageList, dg_SendPackageList };
+            DataGrid[] dgs = { dg_refund, dg_trade, dg_BankrollList, dg_fetch, dg_GetPackageList, dg_SendPackageList,dg_TransRollList };
             foreach (var item in dgs)
             {
                 item.DataSource = null;
@@ -166,7 +166,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
         {
             try
             {
-                DataGrid[] dgs = { dg_refund, dg_trade, dg_BankrollList, dg_fetch,dg_GetPackageList,dg_SendPackageList };
+                DataGrid[] dgs = { dg_refund, dg_trade, dg_BankrollList, dg_fetch, dg_GetPackageList, dg_SendPackageList, dg_TransRollList };
                 foreach (var item in dgs)
                 {
                     item.DataSource = null;
@@ -186,7 +186,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                 {
                     type = (string)ViewState["btn_CurType"];
                 }
-                LinkButton[] btns = { btn_refund, btn_trade, btn_BankrollList, btn_Fetch, btn_getPackage, btn_SendPackage };
+                LinkButton[] btns = { btn_refund, btn_trade, btn_BankrollList, btn_Fetch, btn_getPackage, btn_SendPackage, btn_TransRoll_Payment, btn_TransRoll_Receivables };
                 foreach (var item in btns)
                 {
                     if (item.ID == type)
@@ -207,8 +207,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                         case "btn_Fetch": FetchHandler(query_uid, skip, pager.PageSize); ; break;
                         case "btn_getPackage": GetPackageList(GetOpenID(), skip, pager.PageSize); ; break;
                         case "btn_SendPackage": SendPackageList(GetOpenID(), skip, pager.PageSize); ; break;
-
-                            
+                        case "btn_TransRoll_Payment": TransRollList(GetOpenID(),"1",skip,pager.PageSize); ; break;
+                        case "btn_TransRoll_Receivables": TransRollList(GetOpenID(), "2", skip, pager.PageSize); ; break; 
                         default: WebUtils.ShowMessage(this.Page, "查询出错:" + type + "不存在"); break;
                     }
                     pager.Visible = true;
@@ -217,7 +217,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             catch (Exception ex)
             {
                 LogError("ForeignCurrencyPay.FCXGMoneyAndFlow", "protected void SwitchHandler(object sender, EventArgs e)", ex);
-                WebUtils.ShowMessage(this.Page, "异常:" + PublicRes.GetErrorMsg(ex.Message));
+                WebUtils.ShowMessage(this.Page, "异常:" + HttpUtility.JavaScriptStringEncode(ex.ToString()));
             }
         }
         #region 收/发红包查询
@@ -259,7 +259,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             dg_SendPackageList.DataSource = packageData;
             dg_SendPackageList.DataBind();
         }
-
+        /// <summary>
+        /// 转账记录
+        /// </summary>
+        /// <param name="query_uid"></param>
+        /// <param name="skip"></param>
+        /// <param name="p"></param>
+        private void TransRollList(string query_openid, string trans_type, int offset, int limit)
+        {
+            string start_time = ViewState["stime"].ToString();
+            string end_time = ViewState["etime"].ToString();
+            string client_ip = ViewState["client_ip"].ToString();
+#if DEBUG
+            query_openid = "o5PXlsmW40pXioztjs1BvqNPXCdQ";
+            start_time = "2016-01-01";
+            end_time = "2016-06-30";
+#endif
+            var bll = new FCXGWallet();
+            var packageData = bll.QueryHKTransRollList(client_ip, query_openid, trans_type, start_time, end_time, offset, limit);
+            if (packageData == null || packageData.Count < 1)
+            {
+                WebUtils.ShowMessage(this.Page, "未找到记录");
+            }
+            dg_TransRollList.DataSource = packageData;
+            dg_TransRollList.DataBind();
+        }
         #endregion
 
         //分页

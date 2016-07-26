@@ -178,6 +178,7 @@
     <Compile Include="Entity\HKWallet\HKWalletReceivePackageModel.cs" />
     <Compile Include="Entity\HKWallet\HKWalletSendPackageModel.cs" />
     <Compile Include="Entity\HKWallet\HKWalletRealNameCheckModel.cs" />
+    <Compile Include="Entity\HKWallet\HKWalletTransRollList.cs" />
     <Compile Include="Entity\QueryWeiXinMircoPay.cs" />
     <Compile Include="Entity\UploadFileModel.cs" />
     <Compile Include="FPSFileHelper.cs" />
