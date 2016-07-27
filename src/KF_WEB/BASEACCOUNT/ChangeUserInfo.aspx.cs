@@ -59,8 +59,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         protected System.Web.UI.WebControls.Button Button3;
         protected System.Web.UI.HtmlControls.HtmlInputHidden Hcity;
         protected System.Web.UI.WebControls.DropDownList ddlAttid;
-        protected System.Web.UI.HtmlControls.HtmlSelect city;
-        bool isRight_SensitiveRole = false;
+        protected System.Web.UI.HtmlControls.HtmlSelect city;        
         private void Page_Load(object sender, System.EventArgs e)
         {
             // 在此处放置用户代码以初始化页面
@@ -80,7 +79,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             if (!Page.IsPostBack)
             {
-                isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                
                 setInfoNull();
                 initBasicInfo();
             }
@@ -145,6 +144,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             this.Label1_Fqqid.Text = ds.Tables[0].Rows[0]["Fqqid"].ToString();
             ViewState["qqid"] = ds.Tables[0].Rows[0]["Fqqid"].ToString();
+            bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
             //对姓名进行敏感操作判断            
             this.TextBox2_Ftruename.Text = classLibrary.setConfig.ConvertName(ds.Tables[0].Rows[0]["Ftruename"].ToString(), isRight_SensitiveRole);   // ds.Tables[0].Rows[0]["Ftruename"].ToString();
             this.DropDownList1_Sex.Visible = true;

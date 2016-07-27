@@ -14,8 +14,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// </summary>
 	public partial class UserAccountQuery1 : PageBase
 	{
-        public string dProv, dCity;
-        bool isRight_SensitiveRole = false;
+        public string dProv, dCity;        
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			// 在此处放置用户代码以初始化页面
@@ -23,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			{
 				try
 				{
-                    isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                    
 					this.Label_uid.Text = Session["uid"].ToString();
 					string szkey = Session["SzKey"].ToString();
                     if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
@@ -269,12 +268,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             try
             {
-                
+                bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                 dProv = iprov;
                 dCity = icity;
                 this.Label1_State.Text = state;
                 this.Label2_BankID.Text = classLibrary.setConfig.BankCardNoSubstring(bankid, isRight_SensitiveRole);
-                this.Label4_TrueName.Text = classLibrary.setConfig.ConvertName(trueName, isRight_SensitiveRole); ;
+                this.Label4_TrueName.Text = classLibrary.setConfig.ConvertName(trueName, isRight_SensitiveRole);
                 this.Label6_LastIP.Text = LastIP;
                 this.Label8_BankName.Text = BankName;
                 this.Label11_Modify_Time.Text = Modify_Time;

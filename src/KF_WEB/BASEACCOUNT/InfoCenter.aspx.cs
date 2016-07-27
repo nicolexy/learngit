@@ -38,8 +38,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         protected BalaceService balaceService = new BalaceService();
 
         private static bool tradeUpOrDown;
-        string uid;
-        bool isRight_SensitiveRole = false;
+        string uid;         
         protected void Page_Load(object sender, System.EventArgs e)
         {
 
@@ -49,8 +48,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             if (!IsPostBack)
             {
                 this.LinkButton3.Attributes["onClick"] = "if(!confirm('确定要执行该操作吗？')) return false;";
-                this.btnDelClass.Attributes["onClick"] = "if(!confirm('确定要执行该操作吗？')) return false;";
-                isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                this.btnDelClass.Attributes["onClick"] = "if(!confirm('确定要执行该操作吗？')) return false;";                
 
                 CheckInput();
 
@@ -214,7 +212,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     {
                         str_truename = PublicRes.objectToString(ds.Tables[0], "Ftruename");                                                                     
                     }
-
+                    bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                     this.Label14_Ftruename.Text = classLibrary.setConfig.ConvertName(str_truename, isRight_SensitiveRole);
 
                     string s_fz_amt = PublicRes.objectToString(ds.Tables[0], "Ffz_amt"); //分账冻结金额
@@ -471,6 +469,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 //this.Label4_Freeze.Text = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(l_fzamt + l_cron).ToString("f2") + "元";// classLibrary.setConfig.FenToYuan(l_fzamt + l_cron);//冻结金额=分账冻结金额+冻结金额
 
                 // 2012/5/2 因为需要Q_USER_INFO获取准确的用户真实姓名而改动
+                bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                 try
                 {
 
