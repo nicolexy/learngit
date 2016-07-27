@@ -392,6 +392,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                     foreach (DataRow dr in dt.Rows)
                     {
+                        dr["Ftruename"] = classLibrary.setConfig.ConvertName(dr["Ftruename"].ToString(), isRight_SensitiveRole);
                         if (dr["Fbank_status"].ToString() == "0")
                             dr["Fbank_statusStr"] = "Œ¥∂®“Â";
                         else if (dr["Fbank_status"].ToString() == "1")

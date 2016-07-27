@@ -46,7 +46,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 					Session["SzKey"] = Request.QueryString["key"].Trim();
 					Session["OperID"] = Request.QueryString["id"].Trim();
 					Session["uid"] = Request.QueryString["LoginName"].Trim();
-                    Response.Redirect("default.html", false);
+                    Response.Redirect("defaultNotice.aspx", false);
 					return;
 				}
 				else
@@ -61,7 +61,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 					}
 					else
 					{
-						Response.Redirect("default.html",false);
+						Response.Redirect("defaultNotice.aspx",false);
 					}
 				}
 			}
@@ -83,7 +83,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 			}
 			else
 			{
-                Response.Redirect("default.html", false);
+                Response.Redirect("defaultNotice.aspx", false);
 				return;
 			}
 		}
