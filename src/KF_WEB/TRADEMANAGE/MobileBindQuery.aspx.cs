@@ -22,12 +22,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// </summary>
 	public partial class MobileBindQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
-        bool isRight_SensitiveRole = false;
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			try
 			{
-                isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
 				string szkey = Session["SzKey"].ToString();
 				int operid = Int32.Parse(Session["OperID"].ToString());
 				if(!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
@@ -56,11 +54,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				{
 					try
 					{
-                        //对手机号码进行敏感信息处理
-                        if (ds.Tables[0].Columns.Contains("Fmobile"))
-                        {
-                            dr["Fmobile"] = classLibrary.setConfig.ConvertTelephoneNumber(dr["Fmobile"].ToString(), isRight_SensitiveRole);
-                        }                        
 						/*转化为2进制(0为未开通,1为开通)不足7位前面补0,排序从最后一位开始
 						  1.是否开通短信提醒
 						  2.是否绑定email
