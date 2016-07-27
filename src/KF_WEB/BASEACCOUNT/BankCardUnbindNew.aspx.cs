@@ -23,13 +23,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// </summary>
     public partial class BankCardUnbindNew : PageBase
     {
-        protected Wuqi.Webdiyer.AspNetPager Aspnetpager1;
-        bool isRight_SensitiveRole = false;
+        protected Wuqi.Webdiyer.AspNetPager Aspnetpager1;        
         protected void Page_Load(object sender, System.EventArgs e)
         {
             try
             {
-                isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
                 if (!ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
@@ -153,7 +152,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     this.lblFcard_tail.Text = cardTail.Substring(cardTail.Length - 4, 4);
                 }
                 this.lblFcard_tail_db.Text = cardTail;
-
+                bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                 this.lblFtruename.Text = classLibrary.setConfig.ConvertName(ds.Tables[0].Rows[0]["Ftruename"].ToString(), isRight_SensitiveRole);
                 string Fbind_type = ds.Tables[0].Rows[0]["Fbind_type"].ToString();
 
@@ -389,7 +388,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 {
                     DataTable dt = ds.Tables[0];
                     dt.Columns.Add("Fbank_statusStr", typeof(string));
-
+                    bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                     foreach (DataRow dr in dt.Rows)
                     {
                         dr["Ftruename"] = classLibrary.setConfig.ConvertName(dr["Ftruename"].ToString(), isRight_SensitiveRole);

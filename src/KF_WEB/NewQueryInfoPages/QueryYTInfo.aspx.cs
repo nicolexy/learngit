@@ -24,14 +24,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// </summary>
     public partial class QueryYTInfo : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
-        bool isRight_SensitiveRole = false;
         protected void Page_Load(object sender, System.EventArgs e)
 		{
             //radioListOrder.Attributes.Add("onclick", "showRadioClick()"); 
 
 			try
 			{
-                isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                
 				Label1.Text = Session["uid"].ToString();
 				string szkey = Session["SzKey"].ToString();
 
@@ -231,7 +230,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     //个人信息
-
+                    bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                     lb_c5.Text = classLibrary.setConfig.ConvertName(ds.Tables[0].Rows[0]["Ftruename"].ToString(), isRight_SensitiveRole);   //姓名
                     string s_cretype = PublicRes.GetString(ds.Tables[0].Rows[0]["Fcre_type"]);//证件类型
                     if (s_cretype == "1")
@@ -329,7 +328,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             if (ht != null && ht.Tables.Count > 0)
             {
                 DataTable dt = ht.Tables[0];
-
+                bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                 lb_c19.Text = classLibrary.setConfig.IDCardNoSubstring(s_certno, isRight_SensitiveRole);
                 lb_c20.Text = dt.Rows[0]["num"].ToString();
             }

@@ -22,13 +22,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// </summary>
     public partial class BankCardUnbind : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
-        protected Wuqi.Webdiyer.AspNetPager Aspnetpager1;
-        bool isRight_SensitiveRole = false;        
+        protected Wuqi.Webdiyer.AspNetPager Aspnetpager1;         
         protected void Page_Load(object sender, System.EventArgs e)
         {
             try
             {
-                isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
 
@@ -112,6 +111,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             else
             {
+                bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                 DataRow dr = ds.Tables[0].Rows[0];
 
                 //Ö§¸¶ÏÞ¶îlxl
@@ -457,6 +457,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
                 else
                 {
+                    bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                     DataTable dt = ds.Tables[0];
                     dt.Columns.Add("Fbank_typeStr", typeof(string));
                     dt.Columns.Add("Fbank_statusStr", typeof(string));
@@ -558,6 +559,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
                 else
                 {
+                    bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                     DataTable dt = ds.Tables[0];
                     dt.Columns.Add("Fbank_typeStr", typeof(string));
                     dt.Columns.Add("Fbank_statusStr", typeof(string));

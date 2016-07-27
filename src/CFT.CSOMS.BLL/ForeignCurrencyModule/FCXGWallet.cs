@@ -547,6 +547,12 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
         /// </summary>
         public List<HKWalletTransRollList> QueryHKTransRollList(string client_ip, string query_openid, string trans_type, string start_time, string end_time, int offset, int limit)
         {
+            DateTime endtime = Convert.ToDateTime(end_time);
+            if (endtime > DateTime.Now) 
+            {
+                end_time = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+
             List<HKWalletTransRollList> list = dal.QueryHKTransRollList(client_ip, query_openid, trans_type, start_time, end_time, offset, limit);
             foreach (HKWalletTransRollList item in list)
             {

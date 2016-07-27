@@ -26,7 +26,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	public partial class PickQuery_Detail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         PickService pickservice = new PickService();
-        bool isRight_SensitiveRole = false;
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			try
@@ -34,7 +33,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				Label1.Text = Session["uid"].ToString();
 				string szkey = Session["SzKey"].ToString();
 				int operid = Int32.Parse(Session["OperID"].ToString());
-                isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                
 				//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
 				if(!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
 
@@ -161,8 +160,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 labFaBank_Type.Text = PublicRes.GetString(Transfer.returnDicStr("BANK_TYPE", PublicRes.GetInt(dr["FaBank_Type"])));
 
 				labFaid.Text = PublicRes.GetString(dr["faid"]);
-
-                labFaname.Text = classLibrary.setConfig.BankCardNoSubstring(PublicRes.GetString(dr["faname"]), isRight_SensitiveRole);
+                bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                labFaname.Text = classLibrary.setConfig.ConvertName(PublicRes.GetString(dr["faname"]), isRight_SensitiveRole);
                 
                 //labFabankid.Text = classLibrary.setConfig.ConvertID(PublicRes.GetString(dr["Fabankid"]),4,4);
                 labFabankid.Text = classLibrary.setConfig.BankCardNoSubstring(PublicRes.GetString(dr["Fabankid"]), isRight_SensitiveRole);
