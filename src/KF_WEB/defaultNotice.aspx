@@ -1,11 +1,14 @@
-﻿<!DOCTYPE html>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="defaultNotice.aspx.cs" Inherits="TENCENT.OSS.CFT.KF.KF_Web.defaultNotice" %>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head runat="server">
     <title></title>
     <!--<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>-->
     <script src="../SCRIPTS/jquery-3.0.0.min.js"></script>
     <!--<script src="../SCRIPTS/jquery-1.11.3.min.js"></script>-->
-        <style type="text/css">
+    <style type="text/css">
         .black_overlay
         {
             display: none;
@@ -30,7 +33,7 @@
             width: 40%;
             height: 40%;
             border: 1px solid lightblue;
-            background-color:gray;
+            background-color: gray;
             z-index: 1002;
             overflow: auto;
         }
@@ -77,7 +80,7 @@
             expires.setTime(today.getTime() + 1000 * 60 * 60 * 12);
             setCookie("Tencent_kf_cf_com", name, expires);
         }
-        
+
         $(function () {
             ////当浏览器窗口大小改变时
             //$(window).resize(function () {
@@ -97,13 +100,28 @@
             //    getPosTop = screenheight / 2 - 150;
             //    $("#div_Notice").css({ "left": getPosLeft, "top": getPosTop + mytop });
             //});
-            var c = getCookie("Tencent_kf_cf_com");
-            if (c != null) {
-                return;
-            }
-           
-            ShowDiv("div_Notice", "back");
-            $("#btn_Sure").css("display","none");
+          
+            //var c = getCookie("Tencent_kf_cf_com");
+
+            //if (c != null) {
+            //    return;
+            //}
+
+            
+            $("#btn_Sure").css("display", "none");
+            $.ajax({
+                type: 'get',
+                url: "defaultNotice.aspx?getAction=GetCookie",
+                dataType: "text",
+                success: function (data) {
+                    if (data == "True") {
+                        return;
+                    }
+                    else {
+                        ShowDiv("div_Notice", "back");
+                    }
+                }
+            });
             $("#cb_CheckNotice").click(function () {
 
                 if ($("#cb_CheckNotice").is(':checked')) {
@@ -115,23 +133,32 @@
                 }
             })
 
-            $("#btn_Sure").click(function () {               
+            $("#btn_Sure").click(function () {
+                $.ajax({
+                    type: 'get',
+                    url: "defaultNotice.aspx?getAction=SetCookie",
+                    dataType: "text",
+                    success: function (data) {
+                        if (data != null && data.length > 0) {
+                        }
+                    }
+                });
                 CloseDiv("div_Notice", "back");
-                register("xiaolin");
+                //register("xiaolin");
             });
         })
         //弹出隐藏层
-        function ShowDiv(show_div, bg_div) {           
-            document.getElementById(show_div).style.display = 'block';           
-            document.getElementById(bg_div).style.display = 'block';            
+        function ShowDiv(show_div, bg_div) {
+            document.getElementById(show_div).style.display = 'block';
+            document.getElementById(bg_div).style.display = 'block';
             //$("#" + show_div).css("display", "block");
             //$("#" + bg_div).css("display", "block");
             var bgdiv = document.getElementById(bg_div);
             bgdiv.style.width = document.body.scrollWidth;
-            bgdiv.style.height = $(document).height();           
+            bgdiv.style.height = $(document).height();
             //$("#" + bg_div).width($(document).body.scrollWidth());           
             $("#" + bg_div).height($(document).height());
-            
+
         };
         //关闭弹出层
         function CloseDiv(show_div, bg_div) {
@@ -140,11 +167,10 @@
         };
     </script>
 </head>
-<body style="height:100%">
-
+<body style="height: 100%">
     <div>
-        <iframe id="ifr_Main" frameborder="0" src="default.aspx" style=" width:100%; height:900px"></iframe>
-    </div>    
+        <iframe id="ifr_Main" frameborder="0" src="default.aspx" style="width: 100%; height: 900px"></iframe>
+    </div>
     <div id="back" class="black_overlay"></div>
     <div id="div_Notice" class="white_content">
         <p style="color: red; font-size: x-large">警告</p>
@@ -152,13 +178,14 @@
         <p>1.禁止任何非业务需要的滥用本站点，违者<span style="color: red; font-size: x-large">高压线</span>处置！</p>
         <p>2.禁止任何形式（如：截图外传，微信QQ同事等途径暴露传播数据，与他人分享或炫耀等）的外传和泄漏，违者<span style="color: red; font-size: x-large">高压线</span>处置！</p>
         <p>3.所有操作都会有<span style="color: red; font-size: x-large">记录</span>和<span style="color: red; font-size: x-large">审计</span>，请勿触犯<span style="color: red; font-size: x-large">高压线</span>！</p>
-        
-        <div style=" text-align:center" >
-            <input type="checkbox" id="cb_CheckNotice" />  
+
+        <div style="text-align: center">
+            <input type="checkbox" id="cb_CheckNotice" />
             <span>同意以上内容</span>
-            <br /><br />
-            <button id="btn_Sure" style="background-color: red; margin-left:350px ">确定</button>
-            
+            <br />
+            <br />
+            <button id="btn_Sure" style="background-color: red; margin-left: 350px">确定</button>
+
         </div>
     </div>
 </body>

@@ -28,11 +28,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
     public partial class RealNameCertifationQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
-        bool isRight_SensitiveRole = false;
         protected void Page_Load(object sender, EventArgs e)
         {
             Label_uid.Text = Session["uid"].ToString();
-            isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+           
             if (!IsPostBack)
             {
                 if (Request.Params["action"] != null && Request.Params["action"].ToString() != "")
@@ -147,7 +146,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 return "{\"pages\":0,\"content\":\"<tr><td colspan='16'>没有符合条件的数据!</td></tr>\"}";
             }
-            
+            bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
             bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("RealNameCertification", this);
             StringBuilder sb = new StringBuilder();
             sb.Append("{");
@@ -172,9 +171,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["uin"].ToString()) ? "" : row["uin"].ToString());
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["user_true_name"].ToString()) ? "" : classLibrary.setConfig.ConvertName(row["user_true_name"].ToString(), isRight_SensitiveRole));
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["cre_type_txt"].ToString()) ? "" : row["cre_type_txt"].ToString());
-                    if (!string.IsNullOrEmpty(row["cre_type_txt"].ToString()) && row["cre_type_txt"].ToString().Equals("身份证"))
+                    if (!string.IsNullOrEmpty(row["cre_type_txt"].ToString()) && row["cre_type_txt"].ToString().Contains("身份证"))
                     {
-                        sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, classLibrary.setConfig.IDCardNoSubstring(row["cre_id"].ToString(), isRight_SensitiveRole));
+                        sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["cre_id"].ToString()) ? "" : classLibrary.setConfig.IDCardNoSubstring(row["cre_id"].ToString(), isRight_SensitiveRole));
                     }
                     else
                     {
@@ -193,7 +192,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                             if (i > 0) sb.Append("<tr>");
                             sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(temp_dt.Rows[i]["card_tail"].ToString()) ? "" : temp_dt.Rows[i]["card_tail"].ToString());
                             sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(temp_dt.Rows[i]["bank_name"].ToString()) ? "" : temp_dt.Rows[i]["bank_name"].ToString());
-                            sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(temp_dt.Rows[i]["mobile"].ToString()) ? "" : classLibrary.setConfig.ConvertTelephoneNumber(temp_dt.Rows[i]["mobile"].ToString(), isRight_SensitiveRole));
+                            sb.AppendFormat("<td>{0}</td>",string.IsNullOrEmpty(temp_dt.Rows[i]["mobile"].ToString())?"": classLibrary.setConfig.ConvertTelephoneNumber(temp_dt.Rows[i]["mobile"].ToString(), isRight_SensitiveRole));
                             sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(temp_dt.Rows[i]["authen_time"].ToString()) ? "" : temp_dt.Rows[i]["authen_time"].ToString());
                             if (i > 0) sb.Append("</tr>");
                             if (i == 0)

@@ -480,8 +480,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                             dr["Fxyzf_typeStr"] = "否";
                         }
 
-                        dr["Fbank_typeStr"] = classLibrary.getData.GetBankNameFromBankCode(dr["Fbank_type"].ToString());
-
+                        dr["Fbank_typeStr"] = classLibrary.getData.GetBankNameFromBankCode(dr["Fbank_type"].ToString());                        
+                        dr["Ftruename"] = classLibrary.setConfig.ConvertName(dr["Ftruename"].ToString(), isRight_SensitiveRole);
+                        
                         if (dr["Fbank_status"].ToString() == "0")
                             dr["Fbank_statusStr"] = "未定义";
                         else if (dr["Fbank_status"].ToString() == "1")
@@ -581,7 +582,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         }
 
                         dr["Fbank_typeStr"] = classLibrary.getData.GetBankNameFromBankCode(dr["Fbank_type"].ToString());
-
+                        dr["Ftruename"] = classLibrary.setConfig.ConvertName(dr["Ftruename"].ToString(), isRight_SensitiveRole);
                         if (dr["Fbank_status"].ToString() == "0")
                             dr["Fbank_statusStr"] = "未定义";
                         else if (dr["Fbank_status"].ToString() == "1")

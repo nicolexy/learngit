@@ -68,8 +68,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             try
             {
-                this.Label_uid.Text = Session["uid"].ToString();
-
+                this.Label_uid.Text = Session["uid"].ToString();                                
                 string sr = Session["SzKey"].ToString();
                 if (!ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
 
@@ -86,7 +85,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 initBasicInfo();
             }
 
-            SetButtonVisible();
+            SetButtonVisible();           
         }
 
         private void SetButtonVisible()
@@ -189,7 +188,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             //对手机号码进行敏感操作判断
             
             //this.Textbox13_Fcreid.Text = classLibrary.ClassLib.ValidateRight("ShowIDCrad", this) ? fcreid : classLibrary.setConfig.ConvertCreID(fcreid);
-            this.Textbox13_Fcreid.Text = classLibrary.setConfig.IDCardNoSubstring(fcreid, isRight_SensitiveRole);
+            if (DropDownList2_certify.SelectedItem.Text.Contains("身份证"))
+            {
+                this.Textbox13_Fcreid.Text = classLibrary.setConfig.IDCardNoSubstring(fcreid, isRight_SensitiveRole);
+            }
+            else
+            {                
+                if (classLibrary.ClassLib.ValidateRight("ShowIDCrad", this))
+                {
+                    this.Textbox13_Fcreid.Text = fcreid;
+                }
+                else
+                {
+                    this.Textbox13_Fcreid.Text = classLibrary.setConfig.ConvertCreID(fcreid);
+                }
+            }
+            
+           
             ViewState["Fcreid"] = fcreid;
             string fmemo = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fmemo"]);
             this.TX_Memo.Text = fmemo;
@@ -471,7 +486,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             //绑定证件类型
             setConfig.bindDic("CRE_TYPE", this.DropDownList2_certify); //查询证件类型
-
             //绑定性别
             //			setConfig.bindDic("SEX",this.DropDownList1_Sex);//性别
 

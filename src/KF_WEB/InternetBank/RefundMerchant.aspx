@@ -1,9 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RefundMerchant.aspx.cs" Inherits="TENCENT.OSS.CFT.KF.KF_Web.InternetBank.RefundMerchant" %>
 <%@ Register TagPrefix="webdiyer" Namespace="Wuqi.Webdiyer" Assembly="AspNetPager" %>
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<html>
 <head runat="server">
     <title>退款商户录入</title>
     <meta content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">

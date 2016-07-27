@@ -2,8 +2,8 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="FindHandQRedPacket.aspx.cs"
     Inherits="TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness.FindHandQRedPacket" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<html>
 <head runat="server">
     <title>手Q红包查询</title>
     <style type="text/css">@import url( ../STYLES/ossstyle.css ); 

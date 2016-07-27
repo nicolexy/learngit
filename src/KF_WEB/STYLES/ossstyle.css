@@ -153,9 +153,9 @@ BODY {
 .hidden {display:none;}
 
 .watermark_wrap span {
-            z-index: 999;
+            z-index: -1;
             position: absolute;
-            color:#808080;
+            color:#BABCC7;
             font-size:14px;
             -moz-transform: rotate(0deg) scale(1.00,1.00) translate(0px,0px) skew(0deg,-12deg);
             -moz-transform-origin: 0% 0%;
