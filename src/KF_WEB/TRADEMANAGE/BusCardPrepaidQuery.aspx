@@ -1,19 +1,21 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="BusCardPrepaidQuery.aspx.cs" Inherits="TENCENT.OSS.CFT.KF.KF_Web.TradeManage.BusCardPrepaidQuery" %>
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<html>
 <head runat="server">
     <title>公交卡充值查询</title>
-    <style type="text/css">@import url( ../STYLES/ossstyle.css ); 
-        UNKNOWN { COLOR: #000000 }
-        .style3 { COLOR: #ff0000 }
-        BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
-        .auto-style1
+        <style type="text/css">
+        @import url( ../STYLES/ossstyle.css );
+
+        BODY {
+            background-image: url(../IMAGES/Page/bg01.gif);
+            overflow:hidden;
+        }
+          .auto-style1
         {
             width: 84px;
         }
-    </style>
+		</style>
     <script src="../Scripts/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
 </head>
 <body>

@@ -45,8 +45,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 			    wrap.className = wrapClass;
 			    var page_width = Math.max(document.body.scrollWidth, document.body.clientWidth);
 			    var page_height = Math.max(document.body.scrollHeight, document.body.clientHeight);
-			    for (var i = 20; i < page_width; i += 150) {
-			        for (var j = 20; j < page_height; j += 100) {
+			    for (var i = 20; i < page_width; i += 200) {
+			        for (var j = 20; j < page_height; j += 150) {
 			            var node = document.createElement('span');
 			            node.style.top = j;
 			            node.style.left = i;
