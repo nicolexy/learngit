@@ -40,8 +40,7 @@
             z-index:9999;
         }
     </style>
-    <link type="text/css" rel="Stylesheet" href="../STYLES/ossstyle.css" />
-    <link rel="Stylesheet" href="../Styles/ossstyle.css" />
+    <link type="text/css" rel="Stylesheet" href="../STYLES/ossstyle.css" />   
 </head>
 <body>
     <form id="formMain" runat="server">
