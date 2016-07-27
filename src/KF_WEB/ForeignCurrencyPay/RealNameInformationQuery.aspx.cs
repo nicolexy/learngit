@@ -68,7 +68,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             uin = "o5PXlsmuWeDZGyySqGzI-hEroCKA@wx.hkg";
 #endif
             DataTable dt = new FCXGWallet().QueryRealNameInfo(uin, ip);
-
+           
             panDetail.Visible = true;
             bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
 
@@ -91,7 +91,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                             }
                             else if (lable.ID == "lbl_cre_id")
                             {
-                                lable.Text = classLibrary.setConfig.IDCardNoSubstring(dt.Rows[0][lable.ID.Replace("lbl_", "")].ToString(), isRight);
+                                if (dt.Rows[0]["cre_type"].ToString().Contains("身份证"))
+                                {
+                                    lable.Text = classLibrary.setConfig.IDCardNoSubstring(dt.Rows[0][lable.ID.Replace("lbl_", "")].ToString(), isRight);
+                                }
+                                else
+                                {
+                                    lable.Text = dt.Rows[0][lable.ID.Replace("lbl_", "")].ToString();
+                                }
                             }
                             else
                             {

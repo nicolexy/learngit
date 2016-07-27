@@ -9,6 +9,7 @@
     <title>跨境汇款</title>
     <style type="text/css">
         @import url( ../STYLES/common.css );
+            @import url( ../STYLES/ossstyle.css );
         .auto-style1 {
             text-align: right;
             font-weight: bold;

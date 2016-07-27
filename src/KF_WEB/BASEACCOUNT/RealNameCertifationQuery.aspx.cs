@@ -28,9 +28,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
     public partial class RealNameCertifationQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
+        bool isRight_SensitiveRole = false;
         protected void Page_Load(object sender, EventArgs e)
         {
             Label_uid.Text = Session["uid"].ToString();
+            isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
             if (!IsPostBack)
             {
                 if (Request.Params["action"] != null && Request.Params["action"].ToString() != "")
@@ -145,7 +147,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 return "{\"pages\":0,\"content\":\"<tr><td colspan='16'>没有符合条件的数据!</td></tr>\"}";
             }
-            bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+            
             bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("RealNameCertification", this);
             StringBuilder sb = new StringBuilder();
             sb.Append("{");

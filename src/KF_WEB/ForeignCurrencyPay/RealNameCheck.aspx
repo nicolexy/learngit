@@ -8,11 +8,12 @@
     <title>实名审核查询</title>
     <style type="text/css">
         @import url( ../STYLES/common.css );
+            @import url( ../STYLES/ossstyle.css );
     </style>
     <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
-     <script language="javascript" type="text/javascript" src="../scripts/jquery-1.11.3.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../scripts/jquery-1.11.3.min.js"></script>
     <script language="javascript" type="text/javascript">
-        $(document).ready(function (){
+        $(document).ready(function () {
             $("#DropDownList2").change(function () {
                 $("#txt_memo").val($("#DropDownList2").find("option:selected").text());
             });
@@ -43,11 +44,11 @@
                     <td class="tb_query_title">认证方式：</td>
                     <td>
                         <asp:DropDownList runat="server" ID="ddl_type" Width="172px">
-                             <asp:ListItem Value=""></asp:ListItem>
+                            <asp:ListItem Value=""></asp:ListItem>
                             <asp:ListItem Value="1">客服验证</asp:ListItem>
                             <asp:ListItem Value="2">机器验证</asp:ListItem>
                             <asp:ListItem Value="3">银行验证</asp:ListItem>
-                           
+
                         </asp:DropDownList>
                     </td>
                     <td class="tb_query_title">处理状态：</td>
@@ -71,7 +72,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4" style="text-align:center">
+                    <td colspan="4" style="text-align: center">
                         <asp:Button ID="Button1" runat="server" Text="查 询" OnClick="btn_Query_Click" />
                     </td>
 
@@ -88,7 +89,7 @@
                     <asp:BoundColumn DataField="modify_time" HeaderText="审核时间" />
                     <asp:BoundColumn DataField="operator" HeaderText="处理人" />
                     <asp:BoundColumn DataField="state_str" HeaderText="状态" />
-                    <asp:ButtonColumn Text="查看"  CommandName="detail"   />
+                    <asp:ButtonColumn Text="查看" CommandName="detail" />
                 </Columns>
             </asp:DataGrid>
             <webdiyer:AspNetPager ID="pager1" runat="server" AlwaysShow="True" NumericButtonCount="5" ShowCustomInfoSection="left" Width="1100px"
@@ -101,11 +102,11 @@
                         详情
                     </caption>
                     <tr>
-                        <td class="tb_query_title" style="width:15%">用户账户：</td>
-                        <td style="width:35%">
+                        <td class="tb_query_title" style="width: 15%">用户账户：</td>
+                        <td style="width: 35%">
                             <asp:Label runat="server" ID="lbl_uin"></asp:Label></td>
-                        <td class="tb_query_title" style="width:15%">姓名：</td>
-                        <td style="width:35%">
+                        <td class="tb_query_title" style="width: 15%">姓名：</td>
+                        <td style="width: 35%">
                             <asp:Label runat="server" ID="lbl_name"></asp:Label>
                         </td>
 
@@ -130,20 +131,20 @@
                             <asp:Label runat="server" ID="lbl_cre_id"></asp:Label>
                         </td>
                     </tr>
-                      <tr>
+                    <tr>
                         <td class="tb_query_title">审核单号：</td>
                         <td>
                             <asp:Label runat="server" ID="lbl_approval_id"></asp:Label>
                         </td>
-                        <td class="tb_query_title"> &nbsp;</td>
-                        <td>
-                           
-                            &nbsp;</td>
+                        <td class="tb_query_title">&nbsp;</td>
+                        <td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td class="tb_query_title">身份证扫描件：</td>
-                        <td><asp:Image runat="server" ID="img_photo_path1"  Width="380"  Height="380" /></td>
-                        <td colspan="2"><asp:Image runat="server" ID="img_photo_path2"   Width="380"  Height="380"/></td>
+                        <td>
+                            <asp:Image runat="server" ID="img_photo_path1" Width="380" Height="380" /></td>
+                        <td colspan="2">
+                            <asp:Image runat="server" ID="img_photo_path2" Width="380" Height="380" /></td>
                     </tr>
                     <tr>
                         <td class="tb_query_title">拒绝原因：</td>
@@ -160,7 +161,7 @@
                     </tr>
                     <tr>
                         <td colspan="4" style="text-align: center">
-                            <asp:Button ID="btn_Pass" runat="server" Style="margin-right: 100px" Text="通 过" OnClick="btn_Pass_Click"  />
+                            <asp:Button ID="btn_Pass" runat="server" Style="margin-right: 100px" Text="通 过" OnClick="btn_Pass_Click" />
                             <asp:Button ID="btn_Refuse" runat="server" Style="margin-right: 100px" Text="拒 绝" OnClick="btn_Pass_Click" />
                         </td>
                     </tr>
