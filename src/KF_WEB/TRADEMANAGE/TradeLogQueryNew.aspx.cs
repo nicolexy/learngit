@@ -149,10 +149,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
                 //绑定交易单基础信息
                 Session["ListID"] = listID;
-                BindTradeInfo(iType, listID);
-
-                //手q转账单查询
-                BindHandQTransfer();              
+                BindTradeInfo(iType, listID);                                     
 
                 iFrameHeight = "85";   //iFame显示区域的高度
 
@@ -551,20 +548,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 this.LinkButton3_action.Visible = false;
             }
 
+            //手q转账单查询   
+            if (lbTradeType.Text.ToUpper().Contains("B2C"))
+            {
+                 BindHandQTransfer(LB_Fbuyid.Text,LB_Fcoding.Text);
+            }
+
             setIframePath();
             SetButtonVisible(); //furion 20050802;
         }
 
-        private void BindHandQTransfer()
-        {
+        private void BindHandQTransfer(string uin,string listId)
+        {           
             try
-            {
-                string listId = "";
-                string uin = "";
-                if (lbTradeType.Text.Contains("B2C"))
-                {
-                    listId = LB_Fcoding.Text;
-                    uin = LB_Fbuyid.Text;
+            { 
                     string errorMsg = "";
                     if (!string.IsNullOrEmpty(listId) && !string.IsNullOrEmpty(uin))
                     {
@@ -581,12 +578,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                                 WebUtils.ShowMessage(this.Page, "手q订单不存在!");
                                 return;
                             }
-                            else
+                            if (dsMobileQTransfer.Tables[0].Rows[0]["result"].ToString() == "0")
                             {
-                                LB_FsaleidCFT.Text = dsMobileQTransfer.Tables[0].Rows[0]["seller_uin"].ToString();
+                                LB_Fsaleid.Text = dsMobileQTransfer.Tables[0].Rows[0]["seller_uin"].ToString();
                                 LB_Fsale_name.Text = dsMobileQTransfer.Tables[0].Rows[0]["seller_name"].ToString();
-                            }
-                        }
+                            }                        
                     }
                 }
             }
