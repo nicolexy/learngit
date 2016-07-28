@@ -17,6 +17,8 @@
             left: 0%;
             width: 100%;
             height: 100%;
+            min-height: 100%;
+            min-width: 100%;
             background-color: gray;
             z-index: 1001;
             -moz-opacity: 0.8;
@@ -30,10 +32,10 @@
             position: absolute;
             top: 25%;
             left: 33%;
-            width: 40%;
-            height: 40%;
+            width: 600px;
+            height: 400px;
             border: 1px solid lightblue;
-            background-color: gray;
+            background-color: white;
             z-index: 1002;
             overflow: auto;
         }
@@ -51,63 +53,68 @@
             z-index: 1002;
             overflow: auto;
         }
-    </style>
-    <script type="text/javascript">
 
-        function setCookie(name, value, expire) {
-            window.document.cookie = name + "=" + escape(value) + ((expire == null) ? "" : ("; expires=" + expire.toGMTString()));
+        .yuanjiao
+        {
+            font-family: 'Microsoft YaHei';
+            border: 2px solid #379082;
+            border-radius: 20px;
+            padding: 30px 30px;
+            width: 600px;
         }
 
-        function getCookie(Name) {
-            var search = Name + "=";
-            if (window.document.cookie.length > 0) { // if there are any cookies 
-                offset = window.document.cookie.indexOf(search);
-                if (offset != -1) { // if cookie exists 
-                    offset += search.length;
-                    // set index of beginning of value 
-                    end = window.document.cookie.indexOf(";", offset)
-                    // set index of end of cookie value
-                    if (end == -1)
-                        end = window.document.cookie.length;
-                    return unescape(window.document.cookie.substring(offset, end));
-                }
+        .btn
+        {
+            line-height: 31px;
+            height: 31px;
+            width: 76px;
+            color: #ffffff;
+            background-color: #ededed;
+            font-size: 16px;
+            font-weight: normal;
+            font-family: Arial;
+            background: -webkit-gradient(linear, left top, left bottom, color-start(0.05, #c62d1f), color-stop(1, #f24437));
+            background: -moz-linear-gradient(top, #c62d1f 5%, #f24437 100%);
+            background: -o-linear-gradient(top, #c62d1f 5%, #f24437 100%);
+            background: -ms-linear-gradient(top, #c62d1f 5%, #f24437 100%);
+            background: linear-gradient(to bottom, #c62d1f 5%, #f24437 100%);
+            background: -webkit-linear-gradient(top, #c62d1f 5%, #f24437 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c62d1f', endColorstr='#f24437',GradientType=0);
+            border: 1px solid #d02718;
+            -webkit-border-top-left-radius: 18px;
+            -moz-border-radius-topleft: 18px;
+            border-top-left-radius: 18px;
+            -webkit-border-top-right-radius: 18px;
+            -moz-border-radius-topright: 18px;
+            border-top-right-radius: 18px;
+            -webkit-border-bottom-left-radius: 18px;
+            -moz-border-radius-bottomleft: 18px;
+            border-bottom-left-radius: 18px;
+            -webkit-border-bottom-right-radius: 18px;
+            -moz-border-radius-bottomright: 18px;
+            border-bottom-right-radius: 18px;
+            -moz-box-shadow: 3px 4px 0px 0px #8a2a21;
+            -webkit-box-shadow: 3px 4px 0px 0px #8a2a21;
+            box-shadow: 3px 4px 0px 0px #8a2a21;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+            .btn:hover
+            {
+                background-color: #f5f5f5;
+                background: -webkit-gradient(linear, left top, left bottom, color-start(0.05, #f24437), color-stop(1, #c62d1f));
+                background: -moz-linear-gradient(top, #f24437 5%, #c62d1f 100%);
+                background: -o-linear-gradient(top, #f24437 5%, #c62d1f 100%);
+                background: -ms-linear-gradient(top, #f24437 5%, #c62d1f 100%);
+                background: linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
+                background: -webkit-linear-gradient(top, #f24437 5%, #c62d1f 100%);
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f24437', endColorstr='#c62d1f',GradientType=0);
             }
-            return null;
-        }
-        function register(name) {
-            var today = new Date();
-            var expires = new Date();
-            expires.setTime(today.getTime() + 1000 * 60 * 60 * 12);
-            setCookie("Tencent_kf_cf_com", name, expires);
-        }
-
-        $(function () {
-            ////当浏览器窗口大小改变时
-            //$(window).resize(function () {
-            //    screenwidth = $(window).width();
-            //    screenheight = $(window).height();
-            //    mytop = $(document).scrollTop();
-            //    getPosLeft = screenwidth / 2 - 200;
-            //    getPosTop = screenheight / 2 - 150;
-            //    $("#div_Notice").css({ "left": getPosLeft, "top": getPosTop + mytop });
-            //});
-            ////当拉动滚动条时，弹出层跟着移动
-            //$(window).scroll(function () {
-            //    screenwidth = $(window).width();
-            //    screenheight = $(window).height();
-            //    mytop = $(document).scrollTop();
-            //    getPosLeft = screenwidth / 2 - 200;
-            //    getPosTop = screenheight / 2 - 150;
-            //    $("#div_Notice").css({ "left": getPosLeft, "top": getPosTop + mytop });
-            //});
-          
-            //var c = getCookie("Tencent_kf_cf_com");
-
-            //if (c != null) {
-            //    return;
-            //}
-
-            
+    </style>
+    <script type="text/javascript">      
+        $(function () {           
             $("#btn_Sure").css("display", "none");
             $.ajax({
                 type: 'get',
@@ -167,25 +174,26 @@
         };
     </script>
 </head>
-<body style="height: 100%">
-    <div>
-        <iframe id="ifr_Main" frameborder="0" src="default.aspx" style="width: 100%; height: 900px"></iframe>
+<body style="margin:0px">
+    <div style="overflow-y:hidden">
+        <iframe id="ifr_Main" frameborder="0" src="default.aspx" style="width: 100%; height: 100%;"></iframe>
     </div>
     <div id="back" class="black_overlay"></div>
-    <div id="div_Notice" class="white_content">
-        <p style="color: red; font-size: x-large">警告</p>
-        <p>您正在访问的kf.cf.com页面上的任何操作（包括数据和资金的增删改查）都是敏感操作，请仔细阅读如下内容：</p>
-        <p>1.禁止任何非业务需要的滥用本站点，违者<span style="color: red; font-size: x-large">高压线</span>处置！</p>
-        <p>2.禁止任何形式（如：截图外传，微信QQ同事等途径暴露传播数据，与他人分享或炫耀等）的外传和泄漏，违者<span style="color: red; font-size: x-large">高压线</span>处置！</p>
-        <p>3.所有操作都会有<span style="color: red; font-size: x-large">记录</span>和<span style="color: red; font-size: x-large">审计</span>，请勿触犯<span style="color: red; font-size: x-large">高压线</span>！</p>
+    <div id="div_Notice" class="white_content  yuanjiao" style="font-family: 'Microsoft YaHei'">
+        <span style="color: red; font-size: 250%; font-weight: bolder">警告</span>
+        <hr style="height: 1px; border: none; border-top: 1px solid  #cccccc;" />
+        <p style="padding: 3px 20px 3px 20px">您正在访问的kf.cf.com页面上的任何操作（包括数据和资金的增删改查）都是敏感操作，请仔细阅读如下内容：</p>
+        <p style="padding: 3px 20px 3px 20px">1.禁止任何非业务需要的滥用本站点，违者<span style="color: red; font-size: x-large">高压线</span>处置！</p>
+        <p style="padding: 3px 20px 3px 20px">2.禁止任何形式（如：截图外传，微信QQ同事等途径暴露传播数据，与他人分享或炫耀等）的外传和泄漏，违者<span style="color: red; font-size: x-large">高压线</span>处置！</p>
+        <p style="padding: 3px 20px 3px 20px">3.所有操作都会有<span style="color: red; font-size: x-large">记录</span>和<span style="color: red; font-size: x-large">审计</span>，请勿触犯<span style="color: red; font-size: x-large">高压线</span>！</p>
 
         <div style="text-align: center">
             <input type="checkbox" id="cb_CheckNotice" />
             <span>同意以上内容</span>
             <br />
             <br />
-            <button id="btn_Sure" style="background-color: red; margin-left: 350px">确定</button>
-
+            <button id="btn_Sure" class="btn" style="margin-left: 270px">确定</button>
+            <%--background-color: #cc4125; --%>
         </div>
     </div>
 </body>
