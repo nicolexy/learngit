@@ -57,7 +57,7 @@
         .yuanjiao
         {
             font-family: 'Microsoft YaHei';
-            border: 2px solid #379082;
+            border: 2px solid red;
             border-radius: 20px;
             padding: 30px 30px;
             width: 600px;
