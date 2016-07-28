@@ -5,7 +5,7 @@
 <head runat="server">
     <title runat="server" id="pageTitle">解绑卡</title>
     <style type="text/css">
-        @import url( ../STYLES/ossstyle.css );
+        @import url( ../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> );
 
         .style2 {
             COLOR: #000000;

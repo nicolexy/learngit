@@ -5,7 +5,7 @@
 <head runat="server">
     <title></title>
      <style type="text/css">
-        @import url( ../STYLES/ossstyle.css );
+        @import url( ../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> );
          .style_h1 {
              font-family:"Microsoft YaHei";
              font-size: 18px;

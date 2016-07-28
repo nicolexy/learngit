@@ -5,7 +5,7 @@
 <head>
     <title>InfoCenter</title>
     <style type="text/css">
-        @import url( ../STYLES/ossstyle.css );
+        @import url( ../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> );
         .style2
         {
             color: #000000;
@@ -470,7 +470,7 @@
                     <tr>
                         <td bgcolor="#ffffff" colspan="5" height="12">
                             <iframe id="iframe0" name="iframe0" marginwidth="0" marginheight="0" src="<%=iFramePath%>"
-                                frameborder="0" width="100%" height="20"></iframe>
+                                frameborder="0" width="100%" height="<%=iFrameHeight%>"></iframe>
                         </td>
                     </tr>
                 </table>

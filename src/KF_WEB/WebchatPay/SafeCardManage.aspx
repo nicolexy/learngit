@@ -7,7 +7,7 @@
 <head runat="server">
     <title>理财通安全卡管理</title>
     <style type="text/css">
-        @import url( ../STYLES/ossstyle.css );
+        @import url( ../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> );
         .style2
         {
             color: #000000;

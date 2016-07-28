@@ -11,7 +11,7 @@
     <meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema" />
 
     <style type="text/css">
-        @import url(../Styles/ossstyle.css);
+        @import url(../Styles/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %>);
 
         UNKNOWN {
             color:#000000;
