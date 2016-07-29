@@ -18,7 +18,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             base.OnInit(e);
             //this.Load += new System.EventHandler(PageBase_Load);
             this.Error += new System.EventHandler(PageBase_Error);
-           this.Load += PageBase_Load;
+            string pageBackgroundSwitch = System.Configuration.ConfigurationManager.AppSettings["SetPageBackgroundSwitch"] ?? "1";
+            if (pageBackgroundSwitch == "1")
+            {
+                this.Load += PageBase_Load;
+            }
 
             try
             {

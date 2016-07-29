@@ -31,7 +31,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         protected System.Web.UI.WebControls.Label lbTask;
         protected System.Web.UI.WebControls.LinkButton lkChecked;
 
-        public string iFramePath, iFrameHeight;
+        public string iFramePath;
+        public string iFrameHeight="230";
         public string signShow, exedSign, exeShow, sign;
         protected System.Web.UI.WebControls.DropDownList dlCheckType;
         protected System.Web.UI.WebControls.DataGrid dgCheckLog;
