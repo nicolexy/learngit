@@ -697,7 +697,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             //手q转账单查询   
             if (lbTradeType.Text.ToUpper().Contains("B2C"))
             {
-                BindHandQTransfer(LB_Fbuyid.Text, LB_Fcoding.Text);
+                BindHandQTransfer(LB_Fbuyid.Text, fcoding);
             }
 
             setIframePath();
