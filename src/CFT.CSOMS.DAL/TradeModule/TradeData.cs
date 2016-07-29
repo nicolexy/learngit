@@ -1140,7 +1140,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             var relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("HandQHBIP", "10.238.13.244");
             var relayPORT = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("HandQHBPort", 22000);
             string answer = RelayAccessFactory.RelayInvoke(RequestText, "102081", true, false, relayIP, relayPORT, "");
-            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));        
+            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("utf-8"));        
             DataSet ds = CommQuery.ParseRelayStr(answer, out errorMsg, true);
             return ds;
         }
@@ -1155,7 +1155,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             var relayIP = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("HandQHBIP", "10.238.13.244");
             var relayPORT = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("HandQHBPort", 22000);
             string answer = RelayAccessFactory.RelayInvoke(RequestText, "102081", true, false, relayIP, relayPORT, "");
-            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("GB2312"));
+            answer = System.Web.HttpUtility.UrlDecode(answer, System.Text.Encoding.GetEncoding("utf-8"));
             DataSet ds = CommQuery.ParseRelayStr(answer, out errorMsg, true);
             return ds;
         }
