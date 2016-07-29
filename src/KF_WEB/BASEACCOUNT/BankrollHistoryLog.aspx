@@ -179,7 +179,7 @@
 					</TD>
 				</TR>
 				<tr>
-					<td><iframe id=iframe0 name=iframe0 marginWidth=0 marginHeight=230 src="<%=iFramePath%>" frameBorder=0 width="100%" height=50></iframe>
+					<td><iframe id=iframe0 name=iframe0 marginWidth=0 marginHeight=230 src="<%=iFramePath%>" frameBorder=0 width="100%" height="250"></iframe>
 					</td>
 				</tr>
 			</TABLE>
