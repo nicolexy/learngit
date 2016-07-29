@@ -4,7 +4,7 @@
     <HEAD>
         <title>保证金账户查询</title>
         <style type="text/css">
-           @import url( ../styles/ossstyle.css ); 
+           @import url( ../styles/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> ); 
            .style2 { COLOR: #ff0000; FONT-WEIGHT: bold }
            .style3 { COLOR: #000000 }
            .style4 { COLOR: #ff0000 }

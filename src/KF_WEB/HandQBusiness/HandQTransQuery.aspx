@@ -16,8 +16,8 @@
             height: 25px;
         }
     </style>
-    <link type="text/css" rel="Stylesheet" href="../STYLES/ossstyle.css" />
-    <link rel="Stylesheet" href="../Styles/ossstyle.css" />
+    <link type="text/css" rel="Stylesheet" href="../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %>" />
+    <link rel="Stylesheet" href="../Styles/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %>" />
     <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>

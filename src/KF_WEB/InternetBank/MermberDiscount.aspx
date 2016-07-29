@@ -5,7 +5,7 @@
 <head runat="server">
     <title>会员优惠额度</title>
     <style type="text/css">
-        @import url( ../STYLES/ossstyle.css );
+        @import url( ../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> );
         UNKNOWN
         {
             color: #000000;

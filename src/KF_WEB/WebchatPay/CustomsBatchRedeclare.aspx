@@ -5,7 +5,7 @@
 <head id="Head1" runat="server">
     <title>海关重推</title>
     <style type="text/css">
-        @import url( ../STYLES/ossstyle.css );
+        @import url( ../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> );
 
         UNKNOWN {
             COLOR: #000000;
