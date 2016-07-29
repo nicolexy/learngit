@@ -87,7 +87,7 @@
 									<TD bgColor="#ffffff" colSpan="3" height="12"><IFRAME id=iframe0 
             name=iframe0 marginWidth=0 marginHeight=0 src="<%=iFramePath%>" 
             frameBorder=0 width="100%" scrolling=auto 
-        height="230"></IFRAME>
+        height="250"></IFRAME>
 									</TD>
 								</TR>
 							</TABLE>
