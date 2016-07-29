@@ -9,7 +9,7 @@
 		<meta name="CODE_LANGUAGE" content="C#">
 		<meta name="vs_defaultClientScript" content="JavaScript">
 		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
-		<style type="text/css">@import url( ../STYLES/ossstyle.css ); .style2 { COLOR: #000000 }
+		<style type="text/css">@import url( ../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> ); .style2 { COLOR: #000000 }
 	.style3 { COLOR: #ff0000 }
 	BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 		</style>

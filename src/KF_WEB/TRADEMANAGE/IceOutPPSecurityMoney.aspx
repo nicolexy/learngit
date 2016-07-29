@@ -9,7 +9,7 @@
     <script type="text/javascript" src="../scripts/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="js/IceOutPPSecurityMoney.js"></script>
     <style type="text/css">
-        @import url( ../STYLES/ossstyle.css );
+        @import url( ../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> );
 
         BODY {
             background-image: url(../IMAGES/Page/bg01.gif);

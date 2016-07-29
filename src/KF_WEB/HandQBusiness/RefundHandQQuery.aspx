@@ -5,7 +5,7 @@
 <html>
 <head runat="server">
     <title>手Q还款查询</title>
-    <style type="text/css">@import url( ../STYLES/ossstyle.css ); 
+    <style type="text/css">@import url( ../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> ); 
         UNKNOWN { COLOR: #000000 }
 	    .style3 { COLOR: #ff0000 }
 	    BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }

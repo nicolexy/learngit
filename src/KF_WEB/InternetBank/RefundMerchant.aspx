@@ -10,7 +10,7 @@
     <meta content="JavaScript" name="vs_defaultClientScript">
     <meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
     <style type="text/css">
-        @import url( ../STYLES/ossstyle.css );
+        @import url( ../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> );
         BODY {
             BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif);
         }

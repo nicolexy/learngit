@@ -6,7 +6,7 @@
 
 <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 
-<style type="text/css">@import url( ../STYLES/ossstyle.css ); .style2 { COLOR: #000000 }
+<style type="text/css">@import url( ../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> ); .style2 { COLOR: #000000 }
 
 	.style3 { COLOR: #ff0000 }
 
