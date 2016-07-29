@@ -158,7 +158,7 @@ BODY {
             color:#BABCC7;
             font-size:14px;
             -ms-transform:rotate(0deg) scale(1.00,1.00) translate(0px,0px) skew(0deg,-12deg);
-            -ms--transform-origin: 0% 0%;
+            -ms-transform-origin: 0% 0%;
             -moz-transform: rotate(0deg) scale(1.00,1.00) translate(0px,0px) skew(0deg,-12deg);
             -moz-transform-origin: 0% 0%;
             -webkit-transform: rotate(0deg) scale(1.00,1.00) translate(0px,0px) skew(0deg,-12deg);
