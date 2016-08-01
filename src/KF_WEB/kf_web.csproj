@@ -1208,6 +1208,13 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="defaultNotice.aspx.cs">
+      <DependentUpon>defaultNotice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="defaultNotice.aspx.designer.cs">
+      <DependentUpon>defaultNotice.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FastPay\FastPayLimitQuery.aspx.cs">
       <DependentUpon>FastPayLimitQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3252,7 +3259,7 @@
     <Content Include="CreditPay\QueryCreditUserInfo.aspx" />
     <Content Include="CreditPay\QueryCreditBillList.aspx" />
     <Content Include="default.aspx" />
-    <Content Include="default.html" />
+    <Content Include="defaultNotice.aspx" />
     <Content Include="FastPay\Email\QQReclaim.htm" />
     <Content Include="FastPay\Email\SelfBusinessReject.htm" />
     <Content Include="FastPay\FastPayLimitQuery.aspx" />
