@@ -26,7 +26,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	/// <summary>
     /// QueryYTTrade 的摘要说明。
 	/// </summary>
-    public partial class BankEmailManage : System.Web.UI.Page
+    public partial class BankEmailManage : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         protected BankEmailService sysService = new BankEmailService();
         protected void Page_Load(object sender, System.EventArgs e)

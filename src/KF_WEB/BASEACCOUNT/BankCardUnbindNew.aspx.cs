@@ -23,12 +23,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// </summary>
     public partial class BankCardUnbindNew : PageBase
     {
-        protected Wuqi.Webdiyer.AspNetPager Aspnetpager1;
-
+        protected Wuqi.Webdiyer.AspNetPager Aspnetpager1;        
         protected void Page_Load(object sender, System.EventArgs e)
         {
             try
             {
+                
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
                 if (!ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
@@ -93,8 +93,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         private void ShowEdit()
         {
             this.PanelList.Visible = false;
-            this.PanelMod.Visible = true;
-
+            this.PanelMod.Visible = true;            
             Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
             // 20130809 数据库标记：FBDIndex=1绑定表 FBDIndex=2 临时绑定表
 
@@ -153,8 +152,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     this.lblFcard_tail.Text = cardTail.Substring(cardTail.Length - 4, 4);
                 }
                 this.lblFcard_tail_db.Text = cardTail;
-
-                this.lblFtruename.Text = ds.Tables[0].Rows[0]["Ftruename"].ToString();
+                bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                this.lblFtruename.Text = classLibrary.setConfig.ConvertName(ds.Tables[0].Rows[0]["Ftruename"].ToString(), isRight_SensitiveRole);
                 string Fbind_type = ds.Tables[0].Rows[0]["Fbind_type"].ToString();
 
                 if (Fbind_type == "0")
@@ -207,11 +206,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 try
                 {
-                    this.lblCreID.Text = classLibrary.setConfig.ConvertCreID(ds.Tables[0].Rows[0]["Fcre_id"].ToString());
+                    
                     if (ds.Tables[0].Rows[0]["Fmobilephone"].ToString() != "")
-                        this.lblPhone.Text = ds.Tables[0].Rows[0]["Fmobilephone"].ToString();
+                        this.lblPhone.Text = classLibrary.setConfig.ConvertTelephoneNumber(ds.Tables[0].Rows[0]["Fmobilephone"].ToString(), isRight_SensitiveRole);
                     else
-                        this.lblPhone.Text = ds.Tables[0].Rows[0]["Ftelephone"].ToString();
+                        this.lblPhone.Text = classLibrary.setConfig.ConvertTelephoneNumber(ds.Tables[0].Rows[0]["Ftelephone"].ToString(), isRight_SensitiveRole); 
 
                     this.lblUid.Text = ds.Tables[0].Rows[0]["Fuid"].ToString();
 
@@ -234,7 +233,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                                 this.lblcreType.Text = "未知"; break;
                             }
                     }
-
+                   
+                    if (this.lblcreType.Text == "身份证")
+                    {
+                        this.lblCreID.Text = classLibrary.setConfig.IDCardNoSubstring(ds.Tables[0].Rows[0]["Fcre_id"].ToString(), isRight_SensitiveRole);
+                    }
+                    else
+                    {
+                        this.lblCreID.Text = ds.Tables[0].Rows[0]["Fcre_id"].ToString();
+                    }
                     this.lblCreateTime.Text = dr["Fcreate_time"].ToString();
                     this.lblbindTimeLocal.Text = dr["Fbind_time_local"].ToString();
                     this.lblbindTimeBank.Text = dr["Fbind_time_bank"].ToString();
@@ -381,9 +388,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 {
                     DataTable dt = ds.Tables[0];
                     dt.Columns.Add("Fbank_statusStr", typeof(string));
-
+                    bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                     foreach (DataRow dr in dt.Rows)
                     {
+                        dr["Ftruename"] = classLibrary.setConfig.ConvertName(dr["Ftruename"].ToString(), isRight_SensitiveRole);
                         if (dr["Fbank_status"].ToString() == "0")
                             dr["Fbank_statusStr"] = "未定义";
                         else if (dr["Fbank_status"].ToString() == "1")

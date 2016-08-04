@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
     /// <summary>
     /// SysBulletinManage 的摘要说明。
     /// </summary>
-    public partial class AtuoRenewQuery : System.Web.UI.Page
+    public partial class AtuoRenewQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
 
         protected void Page_Load(object sender, System.EventArgs e)

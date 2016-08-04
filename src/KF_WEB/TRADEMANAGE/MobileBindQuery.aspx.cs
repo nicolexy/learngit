@@ -20,9 +20,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// MobileBindQuery 的摘要说明。
 	/// </summary>
-	public partial class MobileBindQuery : System.Web.UI.Page
+	public partial class MobileBindQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
-	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			try
@@ -43,7 +42,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
 			DataSet ds = qs.GetMsgNotify(ViewState["QQ"].ToString());
-
+            
 			if(ds != null && ds.Tables.Count >0 && ds.Tables[0].Rows.Count > 0)
 			{
 				ds.Tables[0].Columns.Add("MobileState",typeof(string));

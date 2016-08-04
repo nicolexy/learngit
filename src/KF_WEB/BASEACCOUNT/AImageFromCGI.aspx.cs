@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// batPay 的摘要说明。
     /// </summary>
-    public partial class AImageShow : System.Web.UI.Page
+    public partial class AImageShow : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
 
         protected void Page_Load(object sender, EventArgs e)

@@ -1,9 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="HandQTransQuery.aspx.cs" Inherits="TENCENT.OSS.CFT.KF.KF_Web.HandQBusiness.HandQTransQuery" %>
 
 <%@ Register TagPrefix="webdiyer" Namespace="Wuqi.Webdiyer" Assembly="AspNetPager" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<html>
 <head id="Head1" runat="server">
     <title>手Q转账查询</title>
     <style type="text/css">
@@ -17,8 +16,8 @@
             height: 25px;
         }
     </style>
-    <link type="text/css" rel="Stylesheet" href="../STYLES/ossstyle.css" />
-    <link rel="Stylesheet" href="../Styles/ossstyle.css" />
+    <link type="text/css" rel="Stylesheet" href="../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %>" />
+    <link rel="Stylesheet" href="../Styles/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %>" />
     <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>

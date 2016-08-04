@@ -18,7 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	/// <summary>
 	/// RefundErrorQuery_Detail 的摘要说明。
 	/// </summary>
-	public partial class RefundErrorQuery_Detail : System.Web.UI.Page
+	public partial class RefundErrorQuery_Detail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

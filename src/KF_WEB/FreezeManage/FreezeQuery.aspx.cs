@@ -15,7 +15,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 	/// <summary>
 	/// FreezeVerify 的摘要说明。
 	/// </summary>
-	public partial class FreezeVerify : System.Web.UI.Page
+	public partial class FreezeVerify : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.TextBox tbx_listno1;
 	

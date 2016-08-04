@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// AppealSSetting 的摘要说明。
 	/// </summary>
-	public partial class AppealSSetting : System.Web.UI.Page
+	public partial class AppealSSetting : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

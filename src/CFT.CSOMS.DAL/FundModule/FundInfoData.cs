@@ -296,10 +296,33 @@ namespace CFT.CSOMS.DAL.FundModule
             return dt;
         }
 
-        public DataTable Get_HFD_PlanFetchOrder(string uin, string plan_id, int offset, int limit)
+        public DataTable Get_HFD_PlanFetchOrder(string bussi_type,string uid, string plan_id, int offset, int limit)
         {
-            string requestText = "reqid=718&flag=2&offset={0}&limit={1}&fields=uin:{2}|plan_id:" + plan_id;
-            requestText = string.Format(requestText, offset, limit, uin);
+
+            /*<request>
+    <reqid>718</reqid>
+    <flag>2</flag>
+    <notes>(客服无登陆态)提现计划执行列表</notes>
+    <db_no>4405</db_no>
+    <db_type>0</db_type>
+    <needauth>false</needauth>
+    <db_field>uid</db_field>
+    <sql>
+        SELECT Flistid, Fplan_id, Fcft_fetch_id, Fcft_bank_billno, Ftotal_fee, Fstate, Ftotal_transfer_fee, \
+        Flstate, Ffund_code, Fspid, Fbank_type, Fcard_tail, Fbind_serialno, Fbussi_type, Fdate, Fredeem_info, \
+        Fredeem_date, Ffail_reason, Ffail_desc, Fcreate_time, Fmodify_time, Facc_time,Fredem_type \
+        FROM fund_db.t_plan_fetch_order \
+        WHERE 1=1 \
+        AND Fplan_id='$plan_id$' \
+        AND Fuid='$uid$' \
+        AND Flstate=1 \
+        AND Fbussi_type=$bussi_type$ \
+        AND Fstate in ($state$) \
+        ORDER BY Fcreate_time DESC \
+    </sql>
+</request>*/
+            string requestText = "reqid=718&flag=2&offset={0}&limit={1}&fields=uid:{2}|plan_id:{3}|bussi_type:{4}";
+            requestText = string.Format(requestText, offset, limit, uid, plan_id, bussi_type);
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             DataTable dt = null;
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)

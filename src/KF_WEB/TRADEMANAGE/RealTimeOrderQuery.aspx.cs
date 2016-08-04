@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// RealTimeOrderQuery 的摘要说明。
 	/// </summary>
-	public partial class RealTimeOrderQuery : System.Web.UI.Page
+	public partial class RealTimeOrderQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		public string begintime = DateTime.Now.ToString("yyyy-MM-dd");
 		public string endtime = DateTime.Now.ToString("yyyy-MM-dd");

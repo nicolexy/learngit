@@ -26,7 +26,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
     /// <summary>
     /// PayBusinessQuery 的摘要说明。
     /// </summary>
-    public partial class AirTicketsOrderQuery : System.Web.UI.Page
+    public partial class AirTicketsOrderQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         public bool HideDivDisplay = false;
         protected void Page_Load(object sender, System.EventArgs e)

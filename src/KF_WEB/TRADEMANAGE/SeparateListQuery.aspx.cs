@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// SeparateListQuery 的摘要说明。
 	/// </summary>
-	public partial class SeparateListQuery : System.Web.UI.Page
+	public partial class SeparateListQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.DataGrid dgListFlist;
 	

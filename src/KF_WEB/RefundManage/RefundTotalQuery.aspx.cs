@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	/// <summary>
 	/// RefundTotalQuery 的摘要说明。
 	/// </summary>
-	public partial class RefundTotalQuery : System.Web.UI.Page
+	public partial class RefundTotalQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	    protected Hashtable ht;
         //当次实际需要使用的ht;

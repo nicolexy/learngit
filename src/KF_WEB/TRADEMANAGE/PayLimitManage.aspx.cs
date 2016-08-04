@@ -27,7 +27,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// PayLimitManage 的摘要说明。
 	/// </summary>
-	public partial class PayLimitManage : System.Web.UI.Page
+	public partial class PayLimitManage : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected Wuqi.Webdiyer.AspNetPager pager;
 		protected System.Web.UI.WebControls.DataGrid DataGrid2;

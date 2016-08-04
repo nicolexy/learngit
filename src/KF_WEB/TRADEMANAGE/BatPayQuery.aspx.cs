@@ -12,14 +12,15 @@ using System.Web.Services.Protocols;
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using TENCENT.OSS.CFT.KF.Common;
-using TENCENT.OSS.CFT.KF.KF_Web;
+using TENCENT.OSS.CFT.KF.KF_Web;
+
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
 	/// <summary>
 	/// BatPayQuery 的摘要说明。
 	/// </summary>
-	public partial class BatPayQuery : System.Web.UI.Page
+	public partial class BatPayQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.Button btnMain;
 	

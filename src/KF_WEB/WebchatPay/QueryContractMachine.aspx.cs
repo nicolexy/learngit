@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
     /// QueryContractMachine 的摘要说明。
     /// 合约机详情查询
 	/// </summary>
-    public partial class QueryContractMachine : System.Web.UI.Page
+    public partial class QueryContractMachine : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         protected void Page_Load(object sender, System.EventArgs e)
 		{

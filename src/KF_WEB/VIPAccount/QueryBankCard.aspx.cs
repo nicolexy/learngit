@@ -16,7 +16,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.VIPAccount
 	/// <summary>
 	/// Summary description for QueryBankCard.
 	/// </summary>
-	public partial class QueryBankCard : System.Web.UI.Page
+	public partial class QueryBankCard : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

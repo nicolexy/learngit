@@ -25,7 +25,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
     /// <summary>
     /// BankCardQueryNew 的摘要说明。
     /// </summary>
-    public partial class BankRefereNoQuery : System.Web.UI.Page
+    public partial class BankRefereNoQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         private static log4net.ILog s_log;
         private static log4net.ILog log

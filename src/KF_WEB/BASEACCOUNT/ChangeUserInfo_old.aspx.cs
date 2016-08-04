@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// ChangeUserName 的摘要说明。
 	/// </summary>
-	public partial class ChangeUserName : System.Web.UI.Page
+	public partial class ChangeUserName : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.Button Button2_Submit;
 		protected System.Web.UI.WebControls.Button Button3_Cancel;

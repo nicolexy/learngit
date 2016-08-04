@@ -25,7 +25,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.InternetBank;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
-    public partial class OverseasReturnQuery : System.Web.UI.Page
+    public partial class OverseasReturnQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected PublicService publicService = new PublicService();
 

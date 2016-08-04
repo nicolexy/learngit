@@ -25,13 +25,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// PayBusinessQuery 的摘要说明。
     /// </summary>
-    public partial class PayBusinessQuery : System.Web.UI.Page
-    {
-
+    public partial class PayBusinessQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
+    {         
         protected void Page_Load(object sender, System.EventArgs e)
         {
             try
-            {
+            {                
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
                 //int operid = Int32.Parse(Session["OperID"].ToString());
@@ -184,6 +183,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     //  DataSet ds1 = new SPOAService().GetSpInfo(" and ApplyCpInfoID="+KeyID, 2, 0);
                     DataSet ds1 = new SPOAService().GetSpInfo("", KeyID, "", "", "", "", 2, 0);
 
+                   
+                    
                     if (ds1.Tables[0].Rows.Count == 1)
                     {
                         this.divInfo.Visible = true;
@@ -211,8 +212,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         this.lblArea.Text = ds1.Tables[0].Rows[0]["AreaName"].ToString();
                         this.lblBDName.Text = ds1.Tables[0].Rows[0]["BDName"].ToString();
                         this.txtConnetionName.Text = ds1.Tables[0].Rows[0]["ContactUser"].ToString();
-                        this.txtPhone.Text = ds1.Tables[0].Rows[0]["ContactPhone"].ToString();
-                        this.txtMobile.Text = ds1.Tables[0].Rows[0]["ContactMobile"].ToString();
+                        bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                        //this.txtPhone.Text = ds1.Tables[0].Rows[0]["ContactPhone"].ToString();
+                        this.txtPhone.Text = classLibrary.setConfig.ConvertTelephoneNumber(ds1.Tables[0].Rows[0]["ContactPhone"].ToString(), isRight_SensitiveRole);                        
+                        //this.txtMobile.Text = ds1.Tables[0].Rows[0]["ContactMobile"].ToString();
+                        this.txtMobile.Text = classLibrary.setConfig.ConvertTelephoneNumber(ds1.Tables[0].Rows[0]["ContactMobile"].ToString(), isRight_SensitiveRole);
                         this.txtEmail.Text = ds1.Tables[0].Rows[0]["ContactEmail"].ToString();
                         //	this.lblFaxNo.Text = ds1.Tables[0].Rows[0]["ContactFax"].ToString();
                         this.txtQQNo.Text = ds1.Tables[0].Rows[0]["ContactQQ"].ToString();
@@ -302,8 +306,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 DataSet ds = new SPOAService().GetSpInfo("", ViewState["KeyID"].ToString(), "", "", "", "", 2, 0);
 
                 this.txtConnetionName.Text = ds.Tables[0].Rows[0]["ContactUser"].ToString();
-                this.txtPhone.Text = ds.Tables[0].Rows[0]["ContactPhone"].ToString();
-                this.txtMobile.Text = ds.Tables[0].Rows[0]["ContactMobile"].ToString();
+                //this.txtPhone.Text = ds.Tables[0].Rows[0]["ContactPhone"].ToString();
+                //this.txtMobile.Text = ds.Tables[0].Rows[0]["ContactMobile"].ToString();
+                bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                this.txtPhone.Text = classLibrary.setConfig.ConvertTelephoneNumber(ds.Tables[0].Rows[0]["ContactPhone"].ToString(), isRight_SensitiveRole);                
+                this.txtMobile.Text = classLibrary.setConfig.ConvertTelephoneNumber(ds.Tables[0].Rows[0]["ContactMobile"].ToString(), isRight_SensitiveRole);
                 this.txtQQNo.Text = ds.Tables[0].Rows[0]["ContactQQ"].ToString();
                 ControlBtn(true);
                 this.txtConnetionName.Enabled = false;
@@ -351,8 +358,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     this.lblFsidID.Text = ds.Tables[0].Rows[0]["IDNo"].ToString();
                     this.lblArea.Text = ds.Tables[0].Rows[0]["AreaName"].ToString();
                     this.txtConnetionName.Text = ds.Tables[0].Rows[0]["ContactUser"].ToString();
-                    this.txtPhone.Text = ds.Tables[0].Rows[0]["ContactPhone"].ToString();
-                    this.txtMobile.Text = ds.Tables[0].Rows[0]["ContactMobile"].ToString();
+                    //this.txtPhone.Text = ds.Tables[0].Rows[0]["ContactPhone"].ToString();                   
+                    //this.txtMobile.Text = ds.Tables[0].Rows[0]["ContactMobile"].ToString();
+                    bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                    this.txtPhone.Text = classLibrary.setConfig.ConvertTelephoneNumber(ds.Tables[0].Rows[0]["ContactPhone"].ToString(), isRight_SensitiveRole);
+                    this.txtMobile.Text = classLibrary.setConfig.ConvertTelephoneNumber(ds.Tables[0].Rows[0]["ContactMobile"].ToString(), isRight_SensitiveRole);
                     this.txtEmail.Text = ds.Tables[0].Rows[0]["ContactEmail"].ToString();
                     this.txtQQNo.Text = ds.Tables[0].Rows[0]["ContactQQ"].ToString();
                     this.txtRemark.Text = ds.Tables[0].Rows[0]["ErrorMemo"].ToString();

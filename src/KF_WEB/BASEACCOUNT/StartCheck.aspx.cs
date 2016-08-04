@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// StartCheck 的摘要说明。
     /// </summary>
-    public partial class StartCheck : System.Web.UI.Page
+    public partial class StartCheck : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected System.Web.UI.WebControls.LinkButton lkUnchecked;
         protected System.Web.UI.WebControls.DataGrid dgCheck;
@@ -31,7 +31,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         protected System.Web.UI.WebControls.Label lbTask;
         protected System.Web.UI.WebControls.LinkButton lkChecked;
 
-        public string iFramePath, iFrameHeight;
+        public string iFramePath;
+        public string iFrameHeight="230";
         public string signShow, exedSign, exeShow, sign;
         protected System.Web.UI.WebControls.DropDownList dlCheckType;
         protected System.Web.UI.WebControls.DataGrid dgCheckLog;

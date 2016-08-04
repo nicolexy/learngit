@@ -16,7 +16,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.FreezeManage
 	/// <summary>
 	/// FreezeDiary 的摘要说明。
 	/// </summary>
-	public partial class FreezeDiary : System.Web.UI.Page
+	public partial class FreezeDiary : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

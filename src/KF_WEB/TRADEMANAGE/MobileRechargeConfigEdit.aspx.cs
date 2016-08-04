@@ -14,7 +14,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// Summary description for MobileRechargeConfigEdit.
 	/// </summary>
-	public partial class MobileRechargeConfigEdit : System.Web.UI.Page
+	public partial class MobileRechargeConfigEdit : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 
 		protected void Page_Load(object sender, System.EventArgs e)

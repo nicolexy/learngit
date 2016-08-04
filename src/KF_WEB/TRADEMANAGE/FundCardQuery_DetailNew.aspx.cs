@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
     /// <summary>
     /// FundCardQuery_DetailNew 的摘要说明。
     /// </summary>
-    public partial class FundCardQuery_DetailNew : System.Web.UI.Page
+    public partial class FundCardQuery_DetailNew : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         TradeService service = new TradeService();
         int pagesize = 10;

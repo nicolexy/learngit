@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
     /// <summary>
     /// RefundMain 的摘要说明。
     /// </summary>
-    public partial class RefundMain : System.Web.UI.Page
+    public partial class RefundMain : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         private string WeekIndex = "0";
 

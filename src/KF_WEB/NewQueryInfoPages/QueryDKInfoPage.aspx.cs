@@ -19,7 +19,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	/// <summary>
 	/// QueryDKInfoPage 的摘要说明。
 	/// </summary>
-	public partial class QueryDKInfoPage : System.Web.UI.Page
+	public partial class QueryDKInfoPage : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

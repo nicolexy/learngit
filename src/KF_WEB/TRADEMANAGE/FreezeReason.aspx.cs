@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// FreezeReason 的摘要说明。
 	/// </summary>
-	public partial class FreezeReason : System.Web.UI.Page
+	public partial class FreezeReason : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		private string sign;

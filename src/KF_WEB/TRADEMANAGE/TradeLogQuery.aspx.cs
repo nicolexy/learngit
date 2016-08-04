@@ -294,9 +294,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
                 id = listID;
 
-                BindTradeInfo(iType);
-
-                BindPaymentInfo();
+                BindTradeInfo(iType);               
 
                 iFrameHeight = "85";   //iFame显示区域的高度
 
@@ -696,9 +694,51 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 this.LinkButton3_action.Text = "无效";
                 this.LinkButton3_action.Visible = false;
             }
+            //手q转账单查询   
+            if (lbTradeType.Text.ToUpper().Contains("B2C"))
+            {
+                BindHandQTransfer(LB_Fbuyid.Text, fcoding);
+            }
 
             setIframePath();
             SetButtonVisible(); //furion 20050802;
+        }
+
+        private void BindHandQTransfer(string uin,string listId)
+        {
+            try
+            {       
+               if (lbTradeType.Text.ToUpper().Contains("B2C"))
+                {                  
+                    string errorMsg = "";
+                    if (!string.IsNullOrEmpty(listId) && !string.IsNullOrEmpty(uin))
+                    {
+                        DataSet dsMobileQTransfer = new TradeService().GetUnfinishedMobileQTransferByListId(uin, listId, out errorMsg);
+                        if (!string.IsNullOrEmpty(errorMsg))
+                        {
+                            WebUtils.ShowMessage(this.Page, "手q转账单号查询用户的转账记录失败:" + errorMsg);
+                            return;
+                        }
+                        if (dsMobileQTransfer != null && dsMobileQTransfer.Tables.Count > 0 && dsMobileQTransfer.Tables[0].Rows.Count == 1)
+                        {
+                            if (dsMobileQTransfer.Tables[0].Rows[0]["result"].ToString() == "192920023" || dsMobileQTransfer.Tables[0].Rows[0]["result"].ToString() == "192920031")
+                            {
+                                WebUtils.ShowMessage(this.Page, "手q订单不存在!");
+                                return;
+                            }
+                            if (dsMobileQTransfer.Tables[0].Rows[0]["result"].ToString() == "0")
+                            {
+                                LB_Fsaleid.Text = dsMobileQTransfer.Tables[0].Rows[0]["seller_uin"].ToString();
+                                LB_Fsale_name.Text = dsMobileQTransfer.Tables[0].Rows[0]["seller_name"].ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogError("TradeManage.GetUnfinishedMobileQTransferByListId", " private void BindPaymentInfo(), 异常：", e);
+            }
         }
 
         private void BindPaymentInfo()

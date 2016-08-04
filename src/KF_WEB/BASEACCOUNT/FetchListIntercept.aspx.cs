@@ -11,7 +11,7 @@ using CFT.CSOMS.BLL.TradeModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
-    public partial class FetchListIntercept : System.Web.UI.Page
+    public partial class FetchListIntercept : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

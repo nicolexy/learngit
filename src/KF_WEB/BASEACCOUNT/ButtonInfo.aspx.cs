@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// ButtonInfo 的摘要说明。
 	/// </summary>
-	public partial class ButtonInfo : System.Web.UI.Page
+	public partial class ButtonInfo : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 
 		System.Data.DataSet ds;

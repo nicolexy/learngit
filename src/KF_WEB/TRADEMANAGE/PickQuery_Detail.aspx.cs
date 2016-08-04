@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// PickQuery_Detail 的摘要说明。
 	/// </summary>
-	public partial class PickQuery_Detail : System.Web.UI.Page
+	public partial class PickQuery_Detail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         PickService pickservice = new PickService();
 		protected void Page_Load(object sender, System.EventArgs e)
@@ -33,7 +33,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				Label1.Text = Session["uid"].ToString();
 				string szkey = Session["SzKey"].ToString();
 				int operid = Int32.Parse(Session["OperID"].ToString());
-
+                
 				//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID,"InfoCenter")) Response.Redirect("../login.aspx?wh=1");
 				if(!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
 
@@ -160,8 +160,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 labFaBank_Type.Text = PublicRes.GetString(Transfer.returnDicStr("BANK_TYPE", PublicRes.GetInt(dr["FaBank_Type"])));
 
 				labFaid.Text = PublicRes.GetString(dr["faid"]);
-				labFaname.Text = PublicRes.GetString(dr["faname"]);
-                labFabankid.Text = classLibrary.setConfig.ConvertID(PublicRes.GetString(dr["Fabankid"]),4,4);
+                bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                labFaname.Text = classLibrary.setConfig.ConvertName(PublicRes.GetString(dr["faname"]), isRight_SensitiveRole);
+                
+                //labFabankid.Text = classLibrary.setConfig.ConvertID(PublicRes.GetString(dr["Fabankid"]),4,4);
+                labFabankid.Text = classLibrary.setConfig.BankCardNoSubstring(PublicRes.GetString(dr["Fabankid"]), isRight_SensitiveRole);
+                
 				labFpay_time.Text = PublicRes.GetDateTime(dr["Fpay_time"]);
 				labFmodify_time.Text = PublicRes.GetDateTime(dr["FModify_time"]);
 
@@ -169,6 +173,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 labFbankID.Text = GetBankIDName(dr["Fbankid"].ToString());
                 labFbankType.Text = PublicRes.GetString(Transfer.returnDicStr("BANK_TYPE", PublicRes.GetInt(dr["Fbank_Type"])));
                 labFmemo.Text = PublicRes.GetString(dr["Fmemo"]);
+                try
+                {
+                    //提现记录查询新增一个预计到账时间（Fstandby3）字段，该字段仅用于微信零钱包提现
+                    if (dr["Fproduct"].ToString().Trim() == "7")
+                    {
+                        lbl_Fstandby3.Text = PublicRes.GetString(dr["Fstandby3"]);
+                    }
+                }
+                catch (Exception exc)
+                {
+                    lbl_Fstandby3.Text = exc.Message;
+                }
+
 			}
 			else
 			{

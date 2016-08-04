@@ -33,7 +33,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
     /// <summary>
     /// QueryYTTrade 的摘要说明。
     /// </summary>
-    public partial class GetFundRatePageDetail : System.Web.UI.Page
+    public partial class GetFundRatePageDetail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         CheckService checkService = new CheckService();
         //static Hashtable images;

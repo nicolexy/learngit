@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 {
-    public partial class PaymentAbnormalQueryNotify : System.Web.UI.Page
+    public partial class PaymentAbnormalQueryNotify : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected void Page_Load(object sender, System.EventArgs e)
 		{

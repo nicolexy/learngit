@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	/// <summary>
 	/// SuspendRefundment 的摘要说明。
 	/// </summary>
-	public partial class SuspendRefundment : System.Web.UI.Page
+	public partial class SuspendRefundment : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

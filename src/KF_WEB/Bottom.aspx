@@ -8,7 +8,7 @@
 		<meta name="CODE_LANGUAGE" Content="C#">
 		<meta name="vs_defaultClientScript" content="JavaScript">
 		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
-		<LINK href="styles/ossstyle.css" type="text/css" rel="stylesheet">
+		<LINK href="styles/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %>" type="text/css" rel="stylesheet">
 		<LINK href="styles/local.css" type="text/css" rel="stylesheet">
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">

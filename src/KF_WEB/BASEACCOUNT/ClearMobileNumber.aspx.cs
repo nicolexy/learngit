@@ -13,7 +13,7 @@ using TENCENT.OSS.CFT.KF.KF_Web.classLibrary;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
-    public partial class ClearMobileNumber : System.Web.UI.Page
+    public partial class ClearMobileNumber : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         string uid;
         protected void Page_Load(object sender, EventArgs e)

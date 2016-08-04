@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// ValueAddedTaxQuery 的摘要说明。
 	/// </summary>
-	public partial class ValueAddedTaxQuery : System.Web.UI.Page
+	public partial class ValueAddedTaxQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)
@@ -209,7 +209,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			this.lblTaxerCompanyName.Text = dr["TaxerCompanyName"].ToString();
 			this.lblTaxerID.Text = dr["TaxerID"].ToString();
 			this.lblTaxerBasebankName.Text = dr["TaxerBasebankName"].ToString();
-			this.lblTaxerBaseBankAcct.Text = dr["TaxerBaseBankAcct"].ToString();
+            bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);            
+            //this.lblTaxerBaseBankAcct.Text = dr["TaxerBaseBankAcct"].ToString();
+            this.lblTaxerBaseBankAcct.Text = classLibrary.setConfig.BankCardNoSubstring(dr["TaxerBaseBankAcct"].ToString(), isRight);
 			this.lblTaxerReceiverName.Text = dr["TaxerReceiverName"].ToString();
 			this.lblTaxerReceiverAddr.Text = dr["TaxerReceiverAddr"].ToString();
 			this.lblTaxerReceiverPostalCode.Text = dr["TaxerReceiverPostalCode"].ToString();

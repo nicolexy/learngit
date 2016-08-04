@@ -39,8 +39,8 @@
             z-index:9999;
         }
     </style>
-      <link type="text/css" rel="Stylesheet" href="../STYLES/ossstyle.css" />
-    <link rel="Stylesheet" href="../Styles/ossstyle.css" />
+      <link type="text/css" rel="Stylesheet" href="../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %>" />
+    <link rel="Stylesheet" href="../Styles/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %>" />
 </head>
 <body>
     <form id="form1" runat="server">

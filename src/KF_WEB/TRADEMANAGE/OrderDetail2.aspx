@@ -7,7 +7,7 @@
         
         
         
-        <style type="text/css">@import url( ../Resources/css/ossstyle.css ); .style2 { FONT-WEIGHT: bold; COLOR: #ff0000 }
+        <style type="text/css">@import url( ../Resources/css/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> ); .style2 { FONT-WEIGHT: bold; COLOR: #ff0000 }
     BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
         </style>
     </HEAD>

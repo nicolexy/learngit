@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// OrderMigration 的摘要说明。
 	/// </summary>
-    public class OrderMigration : System.Web.UI.Page
+    public class OrderMigration : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         protected System.Web.UI.WebControls.Label Label_uid;
         protected System.Web.UI.WebControls.TextBox txtOrderId;

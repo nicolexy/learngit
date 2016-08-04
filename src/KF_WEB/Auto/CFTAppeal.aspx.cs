@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Auto
 	/// <summary>
 	/// CFTAppeal 的摘要说明。
 	/// </summary>
-	public partial class CFTAppeal : System.Web.UI.Page
+	public partial class CFTAppeal : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected void Page_Load(object sender, System.EventArgs e)
 		{

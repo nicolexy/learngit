@@ -21,14 +21,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
     /// <summary>
     /// MobileBindingQuery 的摘要说明。
     /// </summary>
-    public partial class MobileBindingQuery : System.Web.UI.Page
+    public partial class MobileBindingQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
+        bool isRight_SensitiveRole= false;
         protected void Page_Load(object sender, System.EventArgs e)
         {
             try
             {
                 string szkey = Session["SzKey"].ToString();
                 int operid = Int32.Parse(Session["OperID"].ToString());
+                isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                 if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
             }
             catch
@@ -44,6 +46,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             {
                 foreach (DataRow dr in ds.Tables[0].Rows) //这里有个权限的判断
                 {
+                    //对手机号码进行敏感信息处理
+                    dr["Fmobile"] = classLibrary.setConfig.ConvertTelephoneNumber(dr["Fmobile"].ToString(), isRight_SensitiveRole);
+
                     if (dr["Unbind"].ToString() == "解绑")
                     {
                         if (!ClassLib.ValidateRight("DeleteCrt", this))

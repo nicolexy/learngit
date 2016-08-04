@@ -19,7 +19,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// FreezeList 的摘要说明。
     /// </summary>
-    public partial class FreezeList : System.Web.UI.Page
+    public partial class FreezeList : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, System.EventArgs e)
         {

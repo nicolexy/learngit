@@ -10,7 +10,7 @@ using System.Data;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
 {
-    public partial class FCXGOrderQuery : System.Web.UI.Page
+    public partial class FCXGOrderQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         string uid;
         protected void Page_Load(object sender, EventArgs e)

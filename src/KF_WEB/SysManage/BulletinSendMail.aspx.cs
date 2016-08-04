@@ -31,7 +31,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
 	/// <summary>
     /// QueryYTTrade 的摘要说明。
 	/// </summary>
-    public partial class BulletinSendMail : System.Web.UI.Page
+    public partial class BulletinSendMail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         private string title;
         private static List<string> listGroupId = new List<string>();

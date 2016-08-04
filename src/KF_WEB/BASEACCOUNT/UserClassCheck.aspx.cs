@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// UserClassCheck 的摘要说明。
 	/// </summary>
-	public partial class UserClassCheck : System.Web.UI.Page
+	public partial class UserClassCheck : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected Control.UserClassCheckControl UserClassCheckControl0;
 		protected Control.UserClassCheckControl UserClassCheckControl1;

@@ -31,7 +31,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
     /// QueryYTTrade 的摘要说明。
 	/// </summary>
-    public partial class MediCertExpireOperate : System.Web.UI.Page
+    public partial class MediCertExpireOperate : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         protected MerchantService merService = new MerchantService();
         protected void Page_Load(object sender, System.EventArgs e)

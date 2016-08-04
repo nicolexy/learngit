@@ -19,7 +19,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	/// <summary>
 	/// RefundErrorReturn 的摘要说明。
 	/// </summary>
-	public partial class RefundErrorReturn : System.Web.UI.Page
+	public partial class RefundErrorReturn : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		private string WeekIndex;
 		private string BatchID;

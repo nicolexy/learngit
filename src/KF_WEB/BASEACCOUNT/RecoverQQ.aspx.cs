@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// RecoverQQ 的摘要说明。
 	/// </summary>
-	public class RecoverQQ : System.Web.UI.Page
+	public class RecoverQQ : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.Label Label1;
 		protected System.Web.UI.WebControls.TextBox TX_QQID;

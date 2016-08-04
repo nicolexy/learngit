@@ -28,18 +28,17 @@ using CFT.CSOMS.BLL.TransferMeaning;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
-    public partial class InfoCenter : PageBase//System.Web.UI.Page
+    public partial class InfoCenter : PageBase//TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         public string iFramePath;  //设置iFrame的路径
-        public string iFrameHeight;  //设置iFrame(用户交易记录)显示区域的高度
+        public string iFrameHeight="230";  //设置iFrame(用户交易记录)显示区域的高度
         public string iFrameBank;
         protected System.Web.UI.WebControls.ImageButton ImageButton3;
 
         protected BalaceService balaceService = new BalaceService();
 
         private static bool tradeUpOrDown;
-        string uid;
-
+        string uid;         
         protected void Page_Load(object sender, System.EventArgs e)
         {
 
@@ -49,7 +48,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             if (!IsPostBack)
             {
                 this.LinkButton3.Attributes["onClick"] = "if(!confirm('确定要执行该操作吗？')) return false;";
-                this.btnDelClass.Attributes["onClick"] = "if(!confirm('确定要执行该操作吗？')) return false;";
+                this.btnDelClass.Attributes["onClick"] = "if(!confirm('确定要执行该操作吗？')) return false;";                
+
                 CheckInput();
 
                 try
@@ -210,9 +210,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     string str_truename = PublicRes.objectToString(ds.Tables[0], "UserRealName2");
                     if (str_truename == "")
                     {
-                        str_truename = PublicRes.objectToString(ds.Tables[0], "Ftruename");
+                        str_truename = PublicRes.objectToString(ds.Tables[0], "Ftruename");                                                                     
                     }
-                    this.Label14_Ftruename.Text = str_truename;
+                    bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+                    this.Label14_Ftruename.Text = classLibrary.setConfig.ConvertName(str_truename, isRight_SensitiveRole);
 
                     string s_fz_amt = PublicRes.objectToString(ds.Tables[0], "Ffz_amt"); //分账冻结金额
                     string s_balance = PublicRes.objectToString(ds.Tables[0], "Fbalance");
@@ -255,7 +256,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                     //furion 20061116 email登录修改
                     this.labEmail.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Femail"));
-                    this.labMobile.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile"));
+
+                    this.labMobile.Text = classLibrary.setConfig.ConvertTelephoneNumber(PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile")), isRight_SensitiveRole);      
                     //2006-10-18 edwinyang 增加产品属性
                     int nAttid = 0;
                     //				pbp.BindDropDownList(pm.QueryDicAccName(),ddlAttid,out Msg);
@@ -467,13 +469,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 //this.Label4_Freeze.Text = TENCENT.OSS.CFT.KF.Common.MoneyTransfer.FenToYuan(l_fzamt + l_cron).ToString("f2") + "元";// classLibrary.setConfig.FenToYuan(l_fzamt + l_cron);//冻结金额=分账冻结金额+冻结金额
 
                 // 2012/5/2 因为需要Q_USER_INFO获取准确的用户真实姓名而改动
+                bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
                 try
                 {
-                    this.Label14_Ftruename.Text = PublicRes.objectToString(ds.Tables[0], "UserRealName2");
+
+                    this.Label14_Ftruename.Text = classLibrary.setConfig.ConvertName(PublicRes.objectToString(ds.Tables[0], "UserRealName2"), isRight_SensitiveRole);
                 }
                 catch
                 {
-                    this.Label14_Ftruename.Text = PublicRes.objectToString(ds.Tables[0], "Ftruename");
+                    this.Label14_Ftruename.Text = classLibrary.setConfig.ConvertName(PublicRes.objectToString(ds.Tables[0], "Ftruename"), isRight_SensitiveRole);
                 }
                 long balance = 0, con = 0;
                 long.TryParse(PublicRes.objectToString(ds.Tables[0], "Fbalance"), out balance);
@@ -499,7 +503,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                 //furion 20061116 email登录修改
                 this.labEmail.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Femail"));
-                this.labMobile.Text = PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile"));
+
+                this.labMobile.Text = classLibrary.setConfig.ConvertTelephoneNumber(PublicRes.GetString(PublicRes.objectToString(ds.Tables[0], "Fmobile")), isRight_SensitiveRole);
                 //2006-10-18 edwinyang 增加产品属性
                 int nAttid = int.Parse(PublicRes.objectToString(ds.Tables[0], "Att_id"));
                 //				pbp.BindDropDownList(pm.QueryDicAccName(),ddlAttid,out Msg);

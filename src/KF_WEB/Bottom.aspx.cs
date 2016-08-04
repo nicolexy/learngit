@@ -14,7 +14,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 	/// <summary>
 	/// Bottom 的摘要说明。
 	/// </summary>
-	public partial class Bottom : System.Web.UI.Page
+    public partial class Bottom : System.Web.UI.Page
 	{
 		protected void Page_Load(object sender, System.EventArgs e)
 		{

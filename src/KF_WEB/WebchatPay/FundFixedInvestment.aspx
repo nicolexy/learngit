@@ -40,8 +40,7 @@
             z-index:9999;
         }
     </style>
-    <link type="text/css" rel="Stylesheet" href="../STYLES/ossstyle.css" />
-    <link rel="Stylesheet" href="../Styles/ossstyle.css" />
+    <link type="text/css" rel="Stylesheet" href="../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %>" />   
 </head>
 <body>
     <form id="formMain" runat="server">
@@ -68,6 +67,7 @@
                 <td style="width: 50%">计划类型：
                      <asp:RadioButton ID="DT" GroupName="PROJECT" runat="server" Text="定投" Checked="true" />
                     <asp:RadioButton ID="HFD" GroupName="PROJECT" runat="server" Text="还房贷" />
+                    <asp:RadioButton ID="PayBackCredit" GroupName="PROJECT" runat="server" Text="还信用卡" />
                      <asp:RadioButton ID="DreamProject" GroupName="PROJECT" runat="server" Text="梦想计划" />
                 </td>
 

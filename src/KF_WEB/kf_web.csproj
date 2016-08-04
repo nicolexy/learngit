@@ -1208,6 +1208,13 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="defaultNotice.aspx.cs">
+      <DependentUpon>defaultNotice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="defaultNotice.aspx.designer.cs">
+      <DependentUpon>defaultNotice.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FastPay\FastPayLimitQuery.aspx.cs">
       <DependentUpon>FastPayLimitQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3252,6 +3259,7 @@
     <Content Include="CreditPay\QueryCreditUserInfo.aspx" />
     <Content Include="CreditPay\QueryCreditBillList.aspx" />
     <Content Include="default.aspx" />
+    <Content Include="defaultNotice.aspx" />
     <Content Include="FastPay\Email\QQReclaim.htm" />
     <Content Include="FastPay\Email\SelfBusinessReject.htm" />
     <Content Include="FastPay\FastPayLimitQuery.aspx" />
@@ -3332,6 +3340,7 @@
     <Content Include="Images\Page\menu_off.gif" />
     <Content Include="Images\Page\menu_on.gif" />
     <Content Include="Images\Page\oicq.gif" />
+    <Content Include="Images\Page\pagewaterbg.png" />
     <Content Include="Images\Page\post.gif" />
     <Content Include="Images\Page\succeed.gif" />
     <Content Include="Images\Page\u0_original.png" />
@@ -3501,6 +3510,7 @@
     <Content Include="SpSettle\SettleRuleQuery.aspx" />
     <Content Include="SpSettle\SettleReqDetail.aspx" />
     <Content Include="SpSettle\SettleReqQuery.aspx" />
+    <Content Include="Styles\basepagestyle.css" />
     <Content Include="Styles\common.css" />
     <Content Include="Styles\local.css" />
     <Content Include="Styles\ossstyle.css" />
@@ -5150,7 +5160,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>39045</DevelopmentServerPort>
+          <DevelopmentServerPort>8814</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

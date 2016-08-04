@@ -5,7 +5,7 @@
 <head>
     <title>OverseasReturnQuery</title>
     <style type="text/css">
-        @import url( ../STYLES/ossstyle.css );
+        @import url( ../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> );
         .style3
         {
             color: #ff0000;

@@ -28,7 +28,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// ModifyBusinessInfo 的摘要说明。
     /// </summary>
-    public partial class ModifyBusinessInfo : System.Web.UI.Page
+    public partial class ModifyBusinessInfo : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
 
         protected void Page_Load(object sender, System.EventArgs e)

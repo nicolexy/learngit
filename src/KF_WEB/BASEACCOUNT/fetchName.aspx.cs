@@ -20,7 +20,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// fetchName 的摘要说明。
 	/// </summary>
-	public partial class fetchName : System.Web.UI.Page
+	public partial class fetchName : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 
         string oldName, newName, QQID, mail, reason, accPath, infoPath, newIdCardPath, oldIdCardPath, fetchNo, commTime;

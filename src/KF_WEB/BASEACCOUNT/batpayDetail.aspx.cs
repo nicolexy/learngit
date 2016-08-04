@@ -24,7 +24,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// batpayDetail 的摘要说明。
 	/// </summary>
-	public partial class batpayDetail : System.Web.UI.Page
+	public partial class batpayDetail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		private string BatchID;
 

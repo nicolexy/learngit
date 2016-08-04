@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// UserClassQuery 的摘要说明。
     /// </summary>
-    public partial class UserClassQuery : System.Web.UI.Page
+    public partial class UserClassQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
 
         protected void Page_Load(object sender, System.EventArgs e)
@@ -153,4 +153,5 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         }
     }
 
-}
+}
+

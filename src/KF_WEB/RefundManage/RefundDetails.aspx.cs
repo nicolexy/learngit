@@ -19,7 +19,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
 	/// <summary>
 	/// fetchName 的摘要说明。
 	/// </summary>
-    public partial class RefundDetails : System.Web.UI.Page
+    public partial class RefundDetails : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         private string m_nFrom = "1111";
         private string m_nRefundReason = "退款失败，财务转向客服处理.";

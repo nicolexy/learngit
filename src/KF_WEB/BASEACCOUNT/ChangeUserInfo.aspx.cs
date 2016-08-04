@@ -22,7 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
     /// <summary>
     /// ChangeUserName 的摘要说明。
     /// </summary>
-    public partial class ChangeUserInfo : System.Web.UI.Page
+    public partial class ChangeUserInfo : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected System.Web.UI.WebControls.ImageButton ImageButton3;
         protected System.Web.UI.WebControls.Button Button2_Submit;
@@ -59,8 +59,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         protected System.Web.UI.WebControls.Button Button3;
         protected System.Web.UI.HtmlControls.HtmlInputHidden Hcity;
         protected System.Web.UI.WebControls.DropDownList ddlAttid;
-        protected System.Web.UI.HtmlControls.HtmlSelect city;
-
+        protected System.Web.UI.HtmlControls.HtmlSelect city;        
         private void Page_Load(object sender, System.EventArgs e)
         {
             // 在此处放置用户代码以初始化页面
@@ -68,8 +67,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             try
             {
-                this.Label_uid.Text = Session["uid"].ToString();
-
+                this.Label_uid.Text = Session["uid"].ToString();                                
                 string sr = Session["SzKey"].ToString();
                 if (!ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
 
@@ -81,11 +79,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             if (!Page.IsPostBack)
             {
+                
                 setInfoNull();
                 initBasicInfo();
             }
 
-            SetButtonVisible();
+            SetButtonVisible();           
         }
 
         private void SetButtonVisible()
@@ -145,8 +144,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             this.Label1_Fqqid.Text = ds.Tables[0].Rows[0]["Fqqid"].ToString();
             ViewState["qqid"] = ds.Tables[0].Rows[0]["Fqqid"].ToString();
-
-            this.TextBox2_Ftruename.Text = ds.Tables[0].Rows[0]["Ftruename"].ToString();
+            bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
+            //对姓名进行敏感操作判断            
+            this.TextBox2_Ftruename.Text = classLibrary.setConfig.ConvertName(ds.Tables[0].Rows[0]["Ftruename"].ToString(), isRight_SensitiveRole);   // ds.Tables[0].Rows[0]["Ftruename"].ToString();
             this.DropDownList1_Sex.Visible = true;
 
             //furion 20060816
@@ -167,7 +167,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             this.Textbox6_Fphone.Text = fphone;
             ViewState["Fphone"] = fphone;
             string fmobile = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fmobile"]);
-            this.Textbox7_Fmobile.Text = fmobile;
+            //对手机号码进行敏感操作判断
+            this.Textbox7_Fmobile.Text = classLibrary.setConfig.ConvertTelephoneNumber(fmobile, isRight_SensitiveRole);
             ViewState["Fmobile"] = fmobile;
             string femail = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Femail"]);
             this.Textbox7_Femail.Text = femail;
@@ -184,7 +185,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             this.DropDownList2_certify.SelectedValue = fcre_type;
             ViewState["Fcre_type"] = fcre_type;
             string fcreid = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fcreid"]);
-            this.Textbox13_Fcreid.Text = classLibrary.ClassLib.ValidateRight("ShowIDCrad", this) ? fcreid : classLibrary.setConfig.ConvertCreID(fcreid);
+            //对手机号码进行敏感操作判断
+            
+            //this.Textbox13_Fcreid.Text = classLibrary.ClassLib.ValidateRight("ShowIDCrad", this) ? fcreid : classLibrary.setConfig.ConvertCreID(fcreid);
+            if (DropDownList2_certify.SelectedItem.Text.Contains("身份证"))
+            {
+                this.Textbox13_Fcreid.Text = classLibrary.setConfig.IDCardNoSubstring(fcreid, isRight_SensitiveRole);
+            }
+            else
+            {                
+                if (classLibrary.ClassLib.ValidateRight("ShowIDCrad", this))
+                {
+                    this.Textbox13_Fcreid.Text = fcreid;
+                }
+                else
+                {
+                    this.Textbox13_Fcreid.Text = classLibrary.setConfig.ConvertCreID(fcreid);
+                }
+            }
+            
+           
             ViewState["Fcreid"] = fcreid;
             string fmemo = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fmemo"]);
             this.TX_Memo.Text = fmemo;
@@ -466,7 +486,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
             //绑定证件类型
             setConfig.bindDic("CRE_TYPE", this.DropDownList2_certify); //查询证件类型
-
             //绑定性别
             //			setConfig.bindDic("SEX",this.DropDownList1_Sex);//性别
 

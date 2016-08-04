@@ -28,7 +28,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
     /// <summary>
     /// ChangeQQ 的摘要说明。
     /// </summary>
-    public partial class ChangeQQOld : System.Web.UI.Page
+    public partial class ChangeQQOld : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         int pageSize = 10;
         int istr = 0;

@@ -17,7 +17,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// historyModify 的摘要说明。
 	/// </summary>
-	public partial class historyModify : System.Web.UI.Page
+	public partial class historyModify : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		public    string  Msg;
 		int       istr=0;

@@ -25,7 +25,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
 	/// <summary>
     /// AdjustQuery 的摘要说明。
 	/// </summary>
-    public partial class AdjustQuery : System.Web.UI.Page
+    public partial class AdjustQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
     
 		protected void Page_Load(object sender, System.EventArgs e)

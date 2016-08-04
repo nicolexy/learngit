@@ -9,7 +9,7 @@
 		<meta name="CODE_LANGUAGE" Content="C#">
 		<meta name="vs_defaultClientScript" content="JavaScript">
 		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
-		<style type="text/css"> @import url( ../STYLES/ossstyle.css );  </style>
+		<style type="text/css"> @import url( ../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> );  </style>
 		<script language="javascript">
 		    window.onload = function () {
 		        var div = window.parent.document.getElementById('iframe0');

@@ -10,7 +10,7 @@
     <meta name="vs_defaultClientScript" content="JavaScript">
     <meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
     <style type="text/css">
-        @import url( ../STYLES/ossstyle.css );
+        @import url( ../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> );
 
         .style2 {
             COLOR: #000000;
@@ -104,6 +104,10 @@
                 <asp:LinkButton ID="btn_getPackage" runat="server" OnClick="SwitchHandler">收红包</asp:LinkButton>
                  &nbsp;
                 <asp:LinkButton ID="btn_SendPackage" runat="server" OnClick="SwitchHandler">发红包</asp:LinkButton>
+                   &nbsp;
+                <asp:LinkButton ID="btn_TransRoll_Payment" runat="server" OnClick="SwitchHandler">转账付款</asp:LinkButton>
+                   &nbsp;
+                <asp:LinkButton ID="btn_TransRoll_Receivables" runat="server" OnClick="SwitchHandler">转账收款</asp:LinkButton>
                 <hr />
             </div>
             <asp:DataGrid ID="dg_trade" runat="server" AutoGenerateColumns="False" CssClass="tab_dg" Caption="交易单">
@@ -326,6 +330,24 @@
 						    </asp:TemplateColumn>
                 </Columns>
             </asp:DataGrid>
+             <asp:DataGrid ID="dg_TransRollList" runat="server" AutoGenerateColumns="False" CssClass="tab_dg" Caption="转账收(付)款">
+                   <HeaderStyle Font-Bold="True" Height="25px" />
+                      <Columns>
+                          <asp:BoundColumn DataField="trans_listid" HeaderText="转帐单号"/>
+                           <asp:BoundColumn DataField="pay_nickname" HeaderText="付款人昵称"/>
+                          <asp:BoundColumn DataField="recv_nickname" HeaderText="收款人昵称"/>
+                          <asp:BoundColumn DataField="amount_str" HeaderText="转帐金额"/>
+                          <asp:BoundColumn DataField="fee_str" HeaderText="转帐手续费"/>
+                          <asp:BoundColumn DataField="pay_state_str" HeaderText="支付状态"/>
+                        <%--  <asp:BoundColumn DataField="pay_time" HeaderText="支付时间"/>--%>
+                          <asp:BoundColumn DataField="card_last4No" HeaderText="卡后四位"/>
+                          <asp:BoundColumn DataField="create_time" HeaderText="创建时间"/>
+                          <asp:BoundColumn DataField="pay_time" HeaderText="付款时间"/>
+                          <asp:BoundColumn DataField="recv_time" HeaderText="收款时间"/>
+                          <asp:BoundColumn DataField="inaccount_time" HeaderText="入帐时间"/>
+                          <asp:BoundColumn DataField="refund_time" HeaderText="退款时间"/>
+                      </Columns>
+             </asp:DataGrid>
             <webdiyer:AspNetPager ID="pager" runat="server" NumericButtonTextFormatString="[{0}]" SubmitButtonText="转到" HorizontalAlign="right" CssClass="mypager" ShowInputBox="always" PagingButtonSpacing="0" PageSize="10" ShowCustomInfoSection="left" NumericButtonCount="5" AlwaysShow="True" OnPageChanged="pager_PageChanged" Visible="false"></webdiyer:AspNetPager>
                 
         </div>

@@ -19,7 +19,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
 	/// TranDetail 的摘要说明。
 	/// </summary>
-	public partial class TranDetail : System.Web.UI.Page
+	public partial class TranDetail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)

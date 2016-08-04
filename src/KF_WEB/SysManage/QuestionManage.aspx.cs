@@ -23,7 +23,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SysManage
     /// <summary>
     /// SysBulletinManage 的摘要说明。
     /// </summary>
-    public partial class QuestionManage : System.Web.UI.Page
+    public partial class QuestionManage : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
 
         protected void Page_Load(object sender, System.EventArgs e)

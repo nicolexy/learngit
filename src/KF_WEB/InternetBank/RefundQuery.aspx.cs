@@ -28,7 +28,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
     /// <summary>
     /// RefundQuery 的摘要说明。
     /// </summary>
-    public partial class RefundQuery : System.Web.UI.Page
+    public partial class RefundQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected static List<int> refundIdList = new List<int>();
 

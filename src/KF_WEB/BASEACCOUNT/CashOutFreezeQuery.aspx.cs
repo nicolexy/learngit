@@ -15,7 +15,7 @@
 
 //namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 //{
-//    public partial class CashOutFreezeQuery : System.Web.UI.Page
+//    public partial class CashOutFreezeQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 //    {
 //        protected void Page_Load(object sender, EventArgs e)
 //        {

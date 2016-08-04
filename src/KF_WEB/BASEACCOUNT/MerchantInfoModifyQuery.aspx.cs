@@ -24,7 +24,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
 	/// SelfQuery 的摘要说明。
 	/// </summary>
-	public partial class MerchantInfoModifyQuery : System.Web.UI.Page
+	public partial class MerchantInfoModifyQuery : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		protected System.Web.UI.WebControls.DataGrid dgListFlist;
 		protected void Page_Load(object sender, System.EventArgs e)

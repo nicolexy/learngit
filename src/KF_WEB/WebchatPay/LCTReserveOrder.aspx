@@ -1,29 +1,30 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="LCTReserveOrder.aspx.cs" Inherits="TENCENT.OSS.CFT.KF.KF_Web.WebchatPay.LCTReserveOrder" %>
 
 <%@ Register TagPrefix="webdiyer" Namespace="Wuqi.Webdiyer" Assembly="AspNetPager" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<html>
 <head id="Head1" runat="server">
     <title>理财通预约买入</title>
     <style type="text/css">
+        @import url( ../STYLES/common.css );
+        @import url( ../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> );
+        BODY {
+            background-image: url(../IMAGES/Page/bg01.gif);
+        }
         caption {
             text-align: left;
             background: #b0c3d1;
             padding: 4px;
         }
         tr {
-            height:25px
+            height: 25px;
         }
-       
-    </style>
-    <link type="text/css" rel="Stylesheet" href="../STYLES/ossstyle.css" />
-    <link rel="Stylesheet" href="../Styles/ossstyle.css" />
+    </style>   
     <script type="text/javascript" src="../SCRIPTS/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
     <form id="formMain" runat="server">
-        <table  cellspacing="0" rules="all" border="1"  style="width:1200px;border-collapse:collapse;">
+        <table cellspacing="0" rules="all" border="1" style="width: 1200px; border-collapse: collapse;">
             <tr>
                 <td style="width: 100%" bgcolor="#e4e5f7" colspan="2"><font color="red">
                     <img src="../images/page/post.gif" width="20" height="16">理财通预约买入</font>
@@ -44,18 +45,18 @@
             </tr>
             <tr>
                 <td style="width: 50%">
-                        <label>开始时间:</label>
-                        <asp:TextBox ID="txtStime" runat="server" class="Wdate" onclick="WdatePicker()"></asp:TextBox>
-                            &nbsp;&nbsp;
+                    <label>开始时间:</label>
+                    <asp:TextBox ID="txtStime" runat="server" class="Wdate" onclick="WdatePicker()"></asp:TextBox>
+                    &nbsp;&nbsp;
                          <label>结束时间:</label>
-                        <asp:TextBox ID="txtEtime" runat="server" class="Wdate" onclick="WdatePicker()"></asp:TextBox>
+                    <asp:TextBox ID="txtEtime" runat="server" class="Wdate" onclick="WdatePicker()"></asp:TextBox>
                 </td>
                 <td align="center">
                     <asp:Button ID="btnQuery" runat="server" Width="80px" Text="查 询" OnClick="btnQuery_Click"></asp:Button></td>
             </tr>
         </table>
         <br />
-        <asp:DataGrid Width="1200" ID="DataGrid1" runat="server" AutoGenerateColumns="False"  Caption="理财通预约买入" OnItemCommand="DataGrid1_ItemCommand">
+        <asp:DataGrid Width="1200" ID="DataGrid1" runat="server" AutoGenerateColumns="False" Caption="理财通预约买入" OnItemCommand="DataGrid1_ItemCommand">
             <HeaderStyle Font-Bold="True" Height="25px" />
             <Columns>
                 <asp:BoundColumn DataField="Freserve_time" HeaderText="预约成功时间" />
@@ -77,16 +78,16 @@
             PagingButtonSpacing="0" ShowInputBox="always" CssClass="mypager" HorizontalAlign="right" OnPageChanged="ChangePage1"
             SubmitButtonText="转到" NumericButtonTextFormatString="[{0}]">
         </webdiyer:AspNetPager>
-        <asp:Panel runat="server" ID="panelDetail" Width="1200"  Visible="false">
-            <table cellspacing="0" rules="all" border="1"  style="width:1200px;border-collapse:collapse;">
-                 <caption>
-                        详情
-                    </caption>
+        <asp:Panel runat="server" ID="panelDetail" Width="1200" Visible="false">
+            <table cellspacing="0" rules="all" border="1" style="width: 1200px; border-collapse: collapse;">
+                <caption>
+                    详情
+                </caption>
                 <tr>
-                    <td style="text-align: right; width:25%">预约单号：</td>
+                    <td style="text-align: right; width: 25%">预约单号：</td>
                     <td>
                         <asp:Label runat="server" ID="Label_Flistid"></asp:Label></td>
-                    <td style="text-align: right; width:25%">预约基金：</td>
+                    <td style="text-align: right; width: 25%">预约基金：</td>
                     <td>
                         <asp:Label runat="server" ID="Label_Freserve_fund_name"></asp:Label></td>
                 </tr>
@@ -109,8 +110,8 @@
                 </tr>
 
                 <tr>
-                    <td style="text-align: right" >转换单号：</td>
-                    <td >
+                    <td style="text-align: right">转换单号：</td>
+                    <td>
                         <asp:Label runat="server" ID="Label_Ftransfer_id"></asp:Label></td>
                     <td style="text-align: right">转换方式：</td>
                     <td>
@@ -134,7 +135,7 @@
                     <td>
                         <asp:Label runat="server" ID="Label_Fscope_listid"></asp:Label></td>
                 </tr>
-                  <tr>
+                <tr>
                     <td style="text-align: right">预计转换日期：</td>
                     <td>
                         <asp:Label runat="server" ID="Label_Fexpect_date"></asp:Label></td>
@@ -142,7 +143,7 @@
                     <td>
                         <asp:Label runat="server" ID="Label_Freserve_time"></asp:Label></td>
                 </tr>
-                   <tr>
+                <tr>
                     <td style="text-align: right">实际转入日期：</td>
                     <td>
                         <asp:Label runat="server" ID="Label_Ftransfer_date"></asp:Label></td>
@@ -150,7 +151,7 @@
                     <td>
                         <asp:Label runat="server" ID="Label_Fconfirm_time"></asp:Label></td>
                 </tr>
-                   <tr>
+                <tr>
                     <td style="text-align: right">预约状态：</td>
                     <td>
                         <asp:Label runat="server" ID="Label_Fstate"></asp:Label></td>
@@ -158,7 +159,7 @@
                     <td>
                         <asp:Label runat="server" ID="Label_Fcancel_reason"></asp:Label></td>
                 </tr>
-                   <tr>
+                <tr>
                     <td style="text-align: right">创建时间：</td>
                     <td>
                         <asp:Label runat="server" ID="Label_Fcreate_time"></asp:Label></td>

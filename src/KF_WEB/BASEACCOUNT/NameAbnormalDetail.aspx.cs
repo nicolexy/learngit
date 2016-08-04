@@ -18,7 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// <summary>
     /// Summary description for BankBillNoQuery.
 	/// </summary>
-    public partial class NameAbnormalDetail : System.Web.UI.Page
+    public partial class NameAbnormalDetail : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
 		
 		string strBeginDate = "",strEndDate = "";

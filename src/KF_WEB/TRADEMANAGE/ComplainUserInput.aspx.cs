@@ -21,7 +21,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 	/// <summary>
     /// ComplainUserInput 的摘要说明。
 	/// </summary>
-    public partial class ComplainUserInput : System.Web.UI.Page
+    public partial class ComplainUserInput : TENCENT.OSS.CFT.KF.KF_Web.PageBase
 	{
         public string qlistid;
         public string qbussid;
