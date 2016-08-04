@@ -1516,10 +1516,20 @@ namespace CFT.CSOMS.BLL.FundModule
             }
             return dt;
         }
-        public DataTable Get_HFD_PlanFetchOrder(string uin, string plan_id, int offset, int limit)
+        public DataTable Get_HFD_PlanFetchOrder(string PROJECT, string uid, string plan_id, int offset, int limit)
         {
+            string bussi_type = "";
+            if (PROJECT == "HFD")
+            {
+                bussi_type = "2";
+            }
+            else 
+            {
+                bussi_type = "4";
+            }
+
             FundInfoData data = new FundInfoData();
-            DataTable dt = data.Get_HFD_PlanFetchOrder(uin, plan_id, offset, limit);
+            DataTable dt = data.Get_HFD_PlanFetchOrder(bussi_type, uid, plan_id, offset, limit);
             if (dt != null && dt.Rows.Count > 0)
             {
                 dt.Columns.Add("Ffund_name", typeof(string));
