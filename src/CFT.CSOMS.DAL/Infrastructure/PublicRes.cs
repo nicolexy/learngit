@@ -1630,7 +1630,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
                 return -1;
             }
         }
-
+   
         public static void FenToYuan_Table(DataTable dt, string FieldName, string destField)
         {
             try
