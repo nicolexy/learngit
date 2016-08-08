@@ -124,9 +124,13 @@ namespace CFT.CSOMS.BLL.TradeModule
 
             DataSet ds = new PickData().GetPickList(account, qry_type, stime, etime, 0, 0, "0000", "0", "0000", offset, limit);
             try
-            {
+            {            
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
+                    if (!ds.Tables[0].Columns.Contains("Fstandby3"))
+                    {
+                        ds.Tables[0].Columns.Add("Fstandby3", typeof(String)); //微信提现预计到账时间
+                    }
                     ds.Tables[0].Columns.Add("Fabank_type_str", typeof(String)); //提现银行
                     ds.Tables[0].Columns.Add("Fbank_type_str", typeof(String)); //出款银行
                     ds.Tables[0].Columns.Add("Fsign_str", typeof(String)); //退票
@@ -146,7 +150,7 @@ namespace CFT.CSOMS.BLL.TradeModule
                         {
                             dr["Fsign_str"] = "否";
                         }
-                        if (dr["Fproduct"].ToString().Trim() == "7")
+                        if (dr["Fproduct"].ToString().Trim() == "7" && (dr["Fbusiness_type"].ToString() == "2" || dr["Fbusiness_type"].ToString() == "3"))
                         {
                             dr["Fstandby3"] = GetString(dr["Fstandby3"]);
                         }
