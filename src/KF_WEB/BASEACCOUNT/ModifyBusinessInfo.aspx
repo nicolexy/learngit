@@ -73,13 +73,13 @@
 				</TR>
 				<TR>
 					<TD align="right"><asp:label id="Label19" runat="server">通知邮件</asp:label></TD>
-					<TD>如果商户没有收到通知邮件，亲点击
+					<TD colspan="3">如果商户没有收到通知邮件，亲点击
                         <asp:linkbutton id="btnSendEmailAgain" runat="server" Font-Bold="True" CausesValidation="False" onclick="btnSendEmailAgain_Click">重发通知邮件</asp:linkbutton>
 					</TD>
-                    <TD align="right"><asp:label id="Label18" runat="server">商户证书</asp:label></TD>
+                   <%-- <TD align="right"><asp:label id="Label18" runat="server">商户证书</asp:label></TD>
                     <TD>如果商户没有收到证书，请点击
                         <asp:linkbutton id="btnSendCertificateAgain" runat="server" Font-Bold="True" CausesValidation="False" onclick="btnSendCertificateAgain_Click">重发证书</asp:linkbutton>
-                    </TD>
+                    </TD>--%>
 				</TR>
 				<TR>
 					<TD align="right"><asp:label id="Label6" runat="server">网站名称</asp:label></TD>

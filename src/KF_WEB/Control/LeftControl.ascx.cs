@@ -442,7 +442,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             AccountOperaManage1.AddSubMenu("商户营改增审核", "BaseAccount/ValueAddedTaxApprove.aspx");
             AccountOperaManage1.AddSubMenu("商户营改增查询", "BaseAccount/ValueAddedTaxQuery.aspx");
             AccountOperaManage1.AddSubMenu("结算规则查询", "TradeManage/AppealSSetting.aspx");
-            AccountOperaManage1.AddSubMenu("证书通知黑名单管理", "SpSettle/CertBlackList.aspx");
+            //AccountOperaManage1.AddSubMenu("证书通知黑名单管理", "SpSettle/CertBlackList.aspx");//20160715 龙海军: 商户证书已经升级，现商户需要证书在页面直接下载安装就可以了  不需要我们通知  删除 商户信息管理-商户操作-证书通知黑名单管理 菜单
 
             //TradeLogQuery
             BankBillManage1.AddSubMenu("汇总付款数据", "BaseAccount/batPay.aspx");
