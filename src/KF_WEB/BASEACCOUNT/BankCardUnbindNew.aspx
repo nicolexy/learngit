@@ -110,10 +110,10 @@
 						<TD width="150" align="right"><LABEL id="LABEL4" runat="server">绑定状态</LABEL></TD>
 						<TD width="250">
 							<asp:DropDownList id="ddl_bindStatue" runat="server">
-								<asp:ListItem Value="99" Selected="True">所有</asp:ListItem>
+								<asp:ListItem Value="99">所有</asp:ListItem>
 								<asp:ListItem Value="0">未定义</asp:ListItem>
 								<asp:ListItem Value="1">预期绑定状态</asp:ListItem>
-								<asp:ListItem Value="2">绑定确认</asp:ListItem>
+								<asp:ListItem Value="2" Selected="True">绑定确认</asp:ListItem>
 								<asp:ListItem Value="4">解除绑定</asp:ListItem>
 							</asp:DropDownList></TD>
 						<TD colSpan="2" align="center">

@@ -567,22 +567,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     {
                         DataSet dsMobileQTransfer = new TradeService().GetUnfinishedMobileQTransferByListId(uin, listId, out errorMsg);
                         if (!string.IsNullOrEmpty(errorMsg))
-                        {
-                            WebUtils.ShowMessage(this.Page, "手q转账单号查询用户的转账记录失败:" + errorMsg);
+                        {                          
                             return;
                         }
                         if (dsMobileQTransfer != null && dsMobileQTransfer.Tables.Count > 0 && dsMobileQTransfer.Tables[0].Rows.Count == 1)
                         {
-                            if (dsMobileQTransfer.Tables[0].Rows[0]["result"].ToString() == "192920023" || dsMobileQTransfer.Tables[0].Rows[0]["result"].ToString() == "192920031")
-                            {
-                                WebUtils.ShowMessage(this.Page, "手q订单不存在!");
-                                return;
-                            }
                             if (dsMobileQTransfer.Tables[0].Rows[0]["result"].ToString() == "0")
                             {
                                 LB_Fsaleid.Text = dsMobileQTransfer.Tables[0].Rows[0]["seller_uin"].ToString();
                                 LB_Fsale_name.Text = dsMobileQTransfer.Tables[0].Rows[0]["seller_name"].ToString();
-                            }                        
+                            }
+                            else
+                            {
+                                return;
+                            }
                     }
                 }
             }

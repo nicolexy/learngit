@@ -240,7 +240,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
             catch (Exception ex)
             {
                 dt = null;
-                loger.err("GetInfoByIdentityCard", ex.Message);
+                loger.err("GetInfoByIdentityCard", ex.ToString());
             }
             return dt;
         }
@@ -266,7 +266,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
             catch (Exception ex)
             {
                 dt = null;
-                loger.err("GetInfoByUid", ex.Message);
+                loger.err("GetInfoByUid", ex.ToString());
             }
             return dt;
         }
@@ -279,7 +279,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
             try
             {
                 DataSet ds_relationCardUid = new RealNameCertificateService().PQueryCreRelationC(identityId, 1);
-                if (ds_relationCardUid != null || ds_relationCardUid.Tables.Count > 0 || ds_relationCardUid.Tables[0].Rows.Count == 1)
+                if (ds_relationCardUid != null && ds_relationCardUid.Tables.Count > 0 && ds_relationCardUid.Tables[0].Rows.Count == 1)
                 {
                     string uid_list = ds_relationCardUid.Tables[0].Rows[0]["uid_list"].ToString();
 
@@ -319,12 +319,102 @@ namespace CFT.CSOMS.BLL.RealNameModule
                 {
                     ds = new RealNameCertificateService().QuotaBanQueryC(uid_type, uid, have_cre_photocopy);
                 }
-                if (ds != null && ds.Tables.Count > 0)
+                if (ds != null && ds.Tables.Count > 0&&ds.Tables[0].Rows.Count>0)
                 {
                     dt = ds.Tables[0];
+                    foreach (DataRow cur_row in dt.Rows)
+                    {
+                        if (!string.IsNullOrEmpty(cur_row["total_out_amount"].ToString()))
+                        {
+                            if(cur_row["total_out_amount"].ToString()=="-1")
+                            {
+                                cur_row["total_out_amount"] = "该限额对当前账户不进行限制";
+                            }else
+                            {
+                                cur_row["total_out_amount"] = Int64.Parse(cur_row["total_out_amount"].ToString())/100.0;
+                            }                           
+                        }
+                        if (!string.IsNullOrEmpty(cur_row["month_outin_amount"].ToString()))
+                        {
+                            if (cur_row["month_outin_amount"].ToString() == "-1")
+                            {
+                                cur_row["month_outin_amount"] = "该限额对当前账户不进行限制";
+                            }
+                            else
+                            {
+                                cur_row["month_outin_amount"] = Int64.Parse(cur_row["month_outin_amount"].ToString()) / 100.0;
+                            }                            
+                        }
+                        if (!string.IsNullOrEmpty(cur_row["year_out_amount"].ToString()))
+                        {
+                            if (cur_row["year_out_amount"].ToString() == "-1")
+                            {
+                                cur_row["year_out_amount"] = "该限额对当前账户不进行限制";
+                            }
+                            else
+                            {
+                                cur_row["year_out_amount"] = Int64.Parse(cur_row["year_out_amount"].ToString()) / 100.0;
+                            }                           
+                        }
+                        if (!string.IsNullOrEmpty(cur_row["rest_total_out_amount"].ToString()))
+                        {
+                            if (cur_row["rest_total_out_amount"].ToString() == "-1")
+                            {
+                                cur_row["rest_total_out_amount"] = "该限额对当前账户不进行限制";
+                            }
+                            else
+                            {
+                                cur_row["rest_total_out_amount"] = Int64.Parse(cur_row["rest_total_out_amount"].ToString()) / 100.0;
+                            } 
+                        }
+                        if (!string.IsNullOrEmpty(cur_row["rest_month_outin_amount"].ToString()))
+                        {
+                            if (cur_row["rest_month_outin_amount"].ToString() == "-1")
+                            {
+                                cur_row["rest_month_outin_amount"] = "该限额对当前账户不进行限制";
+                            }
+                            else
+                            {
+                                cur_row["rest_month_outin_amount"] = Int64.Parse(cur_row["rest_month_outin_amount"].ToString()) / 100.0;
+                            } 
+                        }
+                        if (!string.IsNullOrEmpty(cur_row["rest_year_out_amount"].ToString()))
+                        {
+                            if (cur_row["rest_year_out_amount"].ToString() == "-1")
+                            {
+                                cur_row["rest_year_out_amount"] = "该限额对当前账户不进行限制";
+                            }
+                            else
+                            {
+                                cur_row["rest_year_out_amount"] = Int64.Parse(cur_row["rest_year_out_amount"].ToString()) / 100.0;
+                            } 
+                        }
+                        if (!string.IsNullOrEmpty(cur_row["cre_month_outin_amount"].ToString()))
+                        {
+                            if (cur_row["cre_month_outin_amount"].ToString() == "-1")
+                            {
+                                cur_row["cre_month_outin_amount"] = "该限额对当前证件不进行限制";
+                            }
+                            else
+                            {
+                                cur_row["cre_month_outin_amount"] = Int64.Parse(cur_row["rest_year_out_amount"].ToString()) / 100.0;
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(cur_row["cre_year_out_amount"].ToString()))
+                        {
+                            if (cur_row["cre_year_out_amount"].ToString() == "-1")
+                            {
+                                cur_row["cre_year_out_amount"] = "该限额对当前证件不进行限制";
+                            }
+                            else
+                            {
+                                cur_row["cre_year_out_amount"] = Int64.Parse(cur_row["cre_year_out_amount"].ToString()) / 100.0;
+                            }
+                        }
+                    }
                 }
             }
-            catch (Exception e)
+            catch 
             {
                 dt = null;
             }
@@ -344,7 +434,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
                     {
                         Int64 uid = Int64.Parse(dt.Rows[i]["uid"].ToString());
                         DataSet ds_userinfo = PQueryUserInfoService("", uid, "QUERY_USERINFO", 1);
-                        if (ds_userinfo != null || ds_userinfo.Tables.Count > 0 || ds_userinfo.Tables[0].Rows.Count == 1)
+                        if (ds_userinfo != null && ds_userinfo.Tables.Count > 0 && ds_userinfo.Tables[0].Rows.Count == 1)
                         {
                             DataRow cur_row = dt.Rows[i];
                             cur_row.BeginEdit();
@@ -352,7 +442,13 @@ namespace CFT.CSOMS.BLL.RealNameModule
                             cur_row["authen_account_type"] = GetAccountType(ds_userinfo.Tables[0].Rows[0]["authen_account_type"].ToString());
                             cur_row["uid_type"] = ds_userinfo.Tables[0].Rows[0]["authen_account_type"];
                             cur_row["authen_channel_state"] = ds_userinfo.Tables[0].Rows[0]["authen_channel_state"];
-                            cur_row["user_true_name"] = ds_userinfo.Tables[0].Rows[0]["user_true_name"];
+                            if (!string.IsNullOrEmpty(ds_userinfo.Tables[0].Rows[0]["authen_channel_state"].ToString()))
+                            {
+                                Int64 state = 0;
+                                Int64.TryParse(ds_userinfo.Tables[0].Rows[0]["authen_channel_state"].ToString(), out state);
+                                cur_row["authen_channel_info"] = GetAuthInfoByState(state);
+                            }
+                            cur_row["user_true_name"] = ds_userinfo.Tables[0].Rows[0]["user_true_name"];                           
                             cur_row["cre_type"] = ds_userinfo.Tables[0].Rows[0]["cre_type"];
                             cur_row["cre_type_txt"] = GetCreTypeText((ds_userinfo.Tables[0].Rows[0]["cre_type"] != null && ds_userinfo.Tables[0].Rows[0]["cre_type"].ToString() != "") ? ds_userinfo.Tables[0].Rows[0]["cre_type"].ToString() : "0");
                             cur_row["cre_id"] = ds_userinfo.Tables[0].Rows[0]["cre_id"];
@@ -384,7 +480,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
                         string temp = uin + "|" + uid + "|" + Operator + "|kf.cf.com|";
                         string sign = FormatStrEnscript(temp, "AuQryAuthStatusServiceKey");
                         DataSet ds_auth = AuQryAuthStatusServiceByQueryType1(1, uin, uid, 1, "kf.cf.com", Operator, sign);
-                        if (ds_auth != null || ds_auth.Tables.Count > 0 || ds_auth.Tables[0].Rows.Count == 1)
+                        if (ds_auth != null && ds_auth.Tables.Count > 0 && ds_auth.Tables[0].Rows.Count == 1)
                         {
                             DataRow cur_row = dt.Rows[i];
                             cur_row.BeginEdit();
@@ -405,15 +501,25 @@ namespace CFT.CSOMS.BLL.RealNameModule
                             }
                             if (ds_auth.Tables[0].Columns.Contains("gov_authen_info") && ds_auth.Tables[0].Rows[0]["gov_authen_info"] != null && ds_auth.Tables[0].Rows[0]["gov_authen_info"].ToString() != "")
                             {
-                                string gov_auth_fail_reason_dt = "authen_time";
-                                DealStr(ds_auth.Tables[0].Rows[0]["gov_authen_info"].ToString(), ref gov_auth_fail_reason_dt);
-                                cur_row["gov_auth_fail_reason_dt"] = gov_auth_fail_reason_dt;
+                                string gov_auth_info_dt = "authen_time";
+                                DealStr(ds_auth.Tables[0].Rows[0]["gov_authen_info"].ToString(), ref gov_auth_info_dt);
+                                cur_row["gov_auth_info_dt"] = gov_auth_info_dt;
                             }
                             if (ds_auth.Tables[0].Columns.Contains("ocr_authen_info") && ds_auth.Tables[0].Rows[0]["ocr_authen_info"] != null && ds_auth.Tables[0].Rows[0]["ocr_authen_info"].ToString() != "")
                             {
                                 string ocr_authen_info_dt = "authen_time";
                                 DealStr(ds_auth.Tables[0].Rows[0]["ocr_authen_info"].ToString(), ref ocr_authen_info_dt);
                                 cur_row["ocr_authen_info_dt"] = ocr_authen_info_dt;
+                            }
+                            if (!ds_auth.Tables[0].Columns.Contains("gov_authen_info") && ds_auth.Tables[0].Columns.Contains("ocr_authen_info"))
+                            {
+                                if (ds_auth.Tables[0].Rows[0]["ocr_authen_info"] != null && ds_auth.Tables[0].Rows[0]["ocr_authen_info"].ToString() != "")
+                                {
+                                    string ocr_authen_info_dt = "authen_time";
+                                    DealStr(ds_auth.Tables[0].Rows[0]["ocr_authen_info"].ToString(), ref ocr_authen_info_dt);
+                                    cur_row["ocr_authen_info_dt"] = ocr_authen_info_dt;
+                                    cur_row["gov_auth_info_dt"] = ocr_authen_info_dt;
+                                }
                             }
                             if (ds_auth.Tables[0].Columns.Contains("mobile_authen_info") && ds_auth.Tables[0].Rows[0]["mobile_authen_info"] != null && ds_auth.Tables[0].Rows[0]["mobile_authen_info"].ToString() != "")
                             {
@@ -454,7 +560,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
                         string temp = uid + "|" + Operator + "|kf.cf.com|";
                         string sign = FormatStrEnscript(temp, "BindQryBindMaskInfoCKey");
                         DataSet ds_bindcard = new RealNameCertificateService().BindQryBindMaskInfoC("kf.cf.com", Operator, uid, sign);
-                        if (ds_bindcard != null || ds_bindcard.Tables.Count > 0 || ds_bindcard.Tables[0].Rows.Count == 1)
+                        if (ds_bindcard != null && ds_bindcard.Tables.Count > 0 && ds_bindcard.Tables[0].Rows.Count == 1)
                         {
                             DataRow cur_row = dt.Rows[i];
                             cur_row.BeginEdit();
@@ -518,6 +624,8 @@ namespace CFT.CSOMS.BLL.RealNameModule
             dt.Columns.Add("authen_account_type", typeof(string));
             //认证渠道【状态集】
             dt.Columns.Add("authen_channel_state", typeof(string));
+            //认证渠道信息
+            dt.Columns.Add("authen_channel_info", typeof(string));
             //用户名称
             dt.Columns.Add("user_true_name", typeof(string));
             //证件类型
@@ -530,7 +638,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
             ////认证结果
             dt.Columns.Add("gov_auth_result", typeof(string));
             //gov_authen_info公安部认证渠道详细信息【公安部认证时间】
-            dt.Columns.Add("gov_auth_fail_reason_dt", typeof(string));
+            dt.Columns.Add("gov_auth_info_dt", typeof(string));
             //ocr_authen_info影印件认证详细信息【影印件认证时间】
             dt.Columns.Add("ocr_authen_info_dt", typeof(string));
 
@@ -675,13 +783,13 @@ namespace CFT.CSOMS.BLL.RealNameModule
             }
             return ret;
         }
+
         public string FormatStrEnscript(string dealstr, string key_name)
         {
             string key = System.Configuration.ConfigurationManager.AppSettings[key_name].ToString();
             dealstr += key;
             return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(dealstr, "md5").ToLower();
         }
-
 
         public string FormatReqParams(Dictionary<string, string> paramsHt, string formatStr, string key_name)
         {
@@ -723,8 +831,75 @@ namespace CFT.CSOMS.BLL.RealNameModule
 
         }
 
-
-
+        //认证状态信息
+        public string GetAuthInfoByState(Int64 authen_channel_state)
+        {
+            StringBuilder sb = new StringBuilder();
+            if (authen_channel_state == 0)
+            {
+                sb.Append("没有通过任何认证;");
+            }
+            else
+            {
+                if (1 == (authen_channel_state & (0x1 << 1)))
+                {
+                    sb.Append("公安部认证;");
+                }
+                if (1 == (authen_channel_state & (0x1 << 2)))
+                {
+                    sb.Append("身份证影印件上传认证;");
+                }
+                if (1 == (authen_channel_state & (0x1 << 3)))
+                {
+                    sb.Append("支持实名认证的银行绑卡;");
+                }
+                if (1 == (authen_channel_state & (0x1 << 4)))
+                {
+                    sb.Append("不支持实名认证的招行类银行绑卡;");
+                }
+                if (1 == (authen_channel_state & (0x1 << 5)))
+                {
+                    sb.Append("通过移动运营商认证;");
+                }
+                if (1 == (authen_channel_state & (0x1 << 6)))
+                {
+                    sb.Append("通过联通运营商认证;");
+                }
+                if (1 == (authen_channel_state & (0x1 << 7)))
+                {
+                    sb.Append("通过电信运营商认证;");
+                }
+                if (1 == (authen_channel_state & (0x1 << 8)))
+                {
+                    sb.Append("通过学历认证;");
+                }
+                if (1 == (authen_channel_state & (0x1 << 9)))
+                {
+                    sb.Append("通过银联认证;");
+                }
+                if (1 == (authen_channel_state & (0x1 << 10)))
+                {
+                    sb.Append("通过人脸识别;");
+                }
+                if (1 == (authen_channel_state & (0x1 << 11)))
+                {
+                    sb.Append("通过微信验卡;");
+                }
+                if (1 == (authen_channel_state & (0x1 << 12)))
+                {
+                    sb.Append("QQ社交认证;");
+                }
+                if (1 == (authen_channel_state & (0x1 << 13)))
+                {
+                    sb.Append("中铁认证;");
+                }
+                if (1 == (authen_channel_state & (0x1 << 14)))
+                {
+                    sb.Append("微信社交认证;");
+                }
+            }
+            return sb.ToString();
+        }
 
     }
 }

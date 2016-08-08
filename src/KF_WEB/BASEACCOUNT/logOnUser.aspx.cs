@@ -326,6 +326,12 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                         return;
                     }
 
+                    if (qs.LogOnUserCheckYDT(qqid, "2"))//是否开通了快捷支付
+                    {
+                        WebUtils.ShowMessage(this.Page, "开通了快捷支付");
+                        return;
+                    }
+
                     #region 金额判断
                     //这部分逻辑先注释掉：
                     //当用户没有关于余额支付的功能时（没有打开也没有关闭时）zw_prodatt_query_service返回错误
