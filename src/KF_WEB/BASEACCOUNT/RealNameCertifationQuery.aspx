@@ -22,6 +22,14 @@
                 padding: 2px 4px;
                 background-color: #FFFFFF;
             }
+        .tbtr {
+            text-align: left;
+            background-color: #D7D7D7;
+            color: #1462ad;
+            font-weight: bold;
+            height: 20px;
+            padding: 2px 4px;
+        }
 
         .th th {
             text-align: center;
@@ -141,12 +149,12 @@
                             <th>运营商认证时间</th>
                             <th>学历认证时间</th>
                             <th>账户类型</th>
-                            <th>认证结果</th>
+                            <th>认证状态</th>
                             <th>银行卡</th>
                             <th>银行名称</th>
                             <th>手机</th>
                             <th>银行卡认证时间</th>
-                            <th>额度(单位：分)</th>
+                            <th>额度(单位：元)</th>
                             <th>白名单</th>
                         </tr>
                     </thead>

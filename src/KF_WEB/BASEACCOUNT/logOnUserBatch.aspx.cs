@@ -245,7 +245,11 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                             msg = "开通了一点通！";
                             return result;
                         }
-
+                        if (qs.LogOnUserCheckYDT(account, "2"))
+                        {
+                            msg = "开通了快捷支付！";
+                            return result;
+                        }
                         #region 金额判断
                         //下面的流程
                         // 1:判断金额大于阀值,发起一个审批

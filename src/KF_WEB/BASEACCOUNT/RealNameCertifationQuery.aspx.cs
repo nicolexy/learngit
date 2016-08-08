@@ -151,8 +151,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             StringBuilder sb = new StringBuilder();
             sb.Append("{");
             sb.AppendFormat("\"pages\":{0},\"content\":\"", rowcount);
+            int tempRow = 0;
+            StringBuilder tempCreQuota = new StringBuilder();
             foreach (DataRow row in dt.Rows)
             {
+                tempRow++;
                 string uid_type = string.IsNullOrEmpty(row["uid_type"].ToString()) ? "" : row["uid_type"].ToString();
                 string uid = string.IsNullOrEmpty(row["uid"].ToString()) ? "" : row["uid"].ToString();
                 string uin = string.IsNullOrEmpty(row["uin"].ToString()) ? "" : row["uin"].ToString();
@@ -163,6 +166,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 string setbtn = string.Format("<button onclick='settingWhite({0},&quot;{1}&quot;,{2});' type='button'>添加</button>", uid, uin, pageIndex);
                 string cancelbtn = string.Format("<button onclick='cancelWhite({0},&quot;{1}&quot;,{2});' type='button'>取消</button>", uid, uin, pageIndex);
                 string finalstr = isRight && uid_type != "0" ? ((uid_type == "99") ? cancelbtn : setbtn) : "";
+                if (tempRow == 1)
+                {
+                    tempCreQuota.Append("<tr><td colspan='16' class='tbtr'>证件号所对应的限额</td></tr>");
+                    int uid_type1 = string.IsNullOrEmpty(uid_type) ? 0 : int.Parse(uid_type);
+                    Int64 uid1 = string.IsNullOrEmpty(uid) ? 0 : Int64.Parse(uid);
+                    int cre_type1 = string.IsNullOrEmpty(cre_type) ? 1 : int.Parse(cre_type);                   
+                    Int64 authen_channel_state = string.IsNullOrEmpty(channelstate) ? 0 : Int64.Parse(channelstate);
+                    int have_cre_photocopy = GetHasCrePhotocopyByState(authen_channel_state);
+                    DataTable dt1 = new RealNameCertificateService().GetQuotaDetail(uid_type1, uid1, cre_type1, cre_id, have_cre_photocopy);
+                    if (dt1 != null && dt1.Rows.Count==1)
+                    {
+                        tempCreQuota.AppendFormat("<tr><td colspan='4'>月进出金额</td><td colspan='4'>{0}</td><td colspan='4'>年支出金额</td><td colspan='4'>{1}</td></tr>", dt1.Rows[0]["cre_month_outin_amount"].ToString(), dt1.Rows[0]["cre_year_out_amount"].ToString());
+                    }
+                }
                 if (row["bind_bank_info"] != null && row["bind_bank_info"].ToString() != "")
                 {
                     DataTable temp_dt = CommQuery.ParseRelayStringToDataTableNew("result=0&" + row["bind_bank_info"].ToString(), "bind_bank_num", "row");
@@ -179,12 +196,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     {
                         sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["cre_id"].ToString()) ? "" : row["cre_id"].ToString());
                     }
-                    sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["gov_auth_fail_reason_dt"].ToString()) ? "" : row["gov_auth_fail_reason_dt"].ToString());
+                    sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["gov_auth_info_dt"].ToString()) ? "" : row["gov_auth_info_dt"].ToString());
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["ocr_authen_info_dt"].ToString()) ? "" : row["ocr_authen_info_dt"].ToString());
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["mobile_authen_info_dt"].ToString()) ? "" : row["mobile_authen_info_dt"].ToString());
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["edu_authen_info_dt"].ToString()) ? "" : row["edu_authen_info_dt"].ToString());
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["authen_account_type"].ToString()) ? "" : row["authen_account_type"].ToString());
-                    sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["gov_auth_result"].ToString()) ? "" : row["gov_auth_result"].ToString());
+                    sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["authen_channel_info"].ToString()) ? "" : row["authen_channel_info"].ToString());
                     if (temp_dt != null && temp_dt.Rows.Count > 0)
                     {
                         for (int i = 0; i < temp_dt.Rows.Count; i++)
@@ -192,7 +209,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                             if (i > 0) sb.Append("<tr>");
                             sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(temp_dt.Rows[i]["card_tail"].ToString()) ? "" : temp_dt.Rows[i]["card_tail"].ToString());
                             sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(temp_dt.Rows[i]["bank_name"].ToString()) ? "" : temp_dt.Rows[i]["bank_name"].ToString());
-                            sb.AppendFormat("<td>{0}</td>",string.IsNullOrEmpty(temp_dt.Rows[i]["mobile"].ToString())?"": classLibrary.setConfig.ConvertTelephoneNumber(temp_dt.Rows[i]["mobile"].ToString(), isRight_SensitiveRole));
+                            sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(temp_dt.Rows[i]["mobile"].ToString())?"": classLibrary.setConfig.ConvertTelephoneNumber(temp_dt.Rows[i]["mobile"].ToString(), isRight_SensitiveRole));
                             sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(temp_dt.Rows[i]["authen_time"].ToString()) ? "" : temp_dt.Rows[i]["authen_time"].ToString());
                             if (i > 0) sb.Append("</tr>");
                             if (i == 0)
@@ -221,12 +238,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["user_true_name"].ToString()) ? "" : classLibrary.setConfig.ConvertName(row["user_true_name"].ToString(), isRight_SensitiveRole));
                     sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["cre_type_txt"].ToString()) ? "" : row["cre_type_txt"].ToString());
                     sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["cre_id"].ToString()) ? "" : classLibrary.setConfig.IDCardNoSubstring(row["cre_id"].ToString(), isRight_SensitiveRole));
-                    sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["gov_auth_fail_reason_dt"].ToString()) ? "" : row["gov_auth_fail_reason_dt"].ToString());
+                    sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["gov_auth_info_dt"].ToString()) ? "" : row["gov_auth_info_dt"].ToString());
                     sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["ocr_authen_info_dt"].ToString()) ? "" : row["ocr_authen_info_dt"].ToString());
                     sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["mobile_authen_info_dt"].ToString()) ? "" : row["mobile_authen_info_dt"].ToString());
                     sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["edu_authen_info_dt"].ToString()) ? "" : row["edu_authen_info_dt"].ToString());
                     sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["authen_account_type"].ToString()) ? "" : row["authen_account_type"].ToString());
-                    sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["gov_auth_result"].ToString()) ? "" : row["gov_auth_result"].ToString());
+                    sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["authen_channel_info"].ToString()) ? "" : row["authen_channel_info"].ToString());
                     sb.Append("<td></td>");
                     sb.Append("<td></td>");
                     sb.Append("<td></td>");
