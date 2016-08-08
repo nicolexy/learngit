@@ -46,6 +46,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 WebUtils.ShowMessage(this, "请输入正确的日期"); return;
             }
+            TimeSpan ts = eDate.Subtract(sDate);            
+            if (ts.Days > 30)
+            {
+                WebUtils.ShowMessage(this, "查询日期范围不能超过30天"); 
+                return;
+            }
             if (moeny.Length > 0)
             {
                 try
