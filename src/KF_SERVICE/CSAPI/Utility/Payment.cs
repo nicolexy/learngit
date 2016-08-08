@@ -594,6 +594,51 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
             public string Fmemo { get; set; }
         }
         #endregion
+
+        #region 提现记录
+        public class WithdrawDepositRecord
+        {
+            //帐号ID
+            [XmlElement("Faid")]
+            public string Faid { get; set; }
+            //姓名
+            [XmlElement("Facc_name")]
+            public string Facc_name { get; set; }
+            //开户名称
+            [XmlElement("Fbank_name")]
+            public string Fbank_name { get; set; }
+            //提现金额
+            [XmlElement("Fnum_str")]
+            public string Fnum_str { get; set; }
+            //手续费
+            [XmlElement("Fcharge_str")]
+            public string Fcharge_str { get; set; }
+            //提现银行
+            [XmlElement("Fabank_type_str")]
+            public string Fabank_type_str { get; set; }
+            //出款银行
+            [XmlElement("Fbank_type_str")]
+            public string Fbank_type_str { get; set; }
+            //银行帐号
+            [XmlElement("FaBankID")]
+            public string FaBankID { get; set; }
+            //提现时间
+            [XmlElement("Fpay_front_time")]
+            public string Fpay_front_time { get; set; }
+            //提现时间
+            [XmlElement("FStateName")]
+            public string FStateName { get; set; }
+            //退票
+            [XmlElement("Fsign_str")]
+            public string Fsign_str { get; set; }
+            //退票原因
+            [XmlElement("Fmemo")]
+            public string Fmemo { get; set; }
+            //退票原因
+            [XmlElement("Fstandby3")]
+            public string Fstandby3 { get; set; }
+        }
+        #endregion
     }
 
     public class WechatApi
