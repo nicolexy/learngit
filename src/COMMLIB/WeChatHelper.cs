@@ -253,7 +253,7 @@ namespace CFT.CSOMS.COMMLIB
                 parameterString = System.Web.HttpUtility.UrlEncode(parameterString);
 
                 LogHelper.LogInfo("protected static string GetAAOpenIdFromWeChatName Request data  UrlEncode:" + parameterString);
-
+                //101340 -> 102408
                 return CallWechatAPI("102408", parameterString, "openid", true);
             }
             catch (Exception ex)
@@ -263,59 +263,6 @@ namespace CFT.CSOMS.COMMLIB
                 throw new Exception(string.Format("通过微信api转换微信号到AAopenid异常:{0}", ex.ToString()));
             }
         }
-
-
-        /// <summary>
-        /// 通过微信号获取AAopenid
-        /// </summary>
-        /// <param name="wechatName"></param>
-        /// <returns></returns>
-        public static string GetAAOpenIdFromWeChatNameTest(string wechatName)
-        {
-
-            System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
-
-                var relay_result = "result=0&res_info={\"openid\":\"oE15nt3wT0MkoxpHvLK8wwSyBK5Q\"}&";
-
-                var relay_dic = SunLibraryEX.StringEx.ToDictionary(relay_result);
-                if (relay_dic["result"] != "0")
-                {
-                    throw new Exception("relay转发l5,异常 [" + relay_result + "]");
-                }
-
-                var result = System.Web.HttpUtility.UrlDecode(relay_dic["res_info"]); //"{\"openid\":\"o6_bmjrPTlm6_2sgVt7hMZOPfL2M\"}";
-                var resultDic = jss.DeserializeObject(result) as Dictionary<string, object>;
-                if (resultDic == null)
-                {
-                    throw new Exception("通过微信api转换微信号到香港钱包openid出错" + result);
-                }
-                string rettemp= resultDic["openid"] as string;
-
-            try
-            {
-                var appId = ConfigurationManager.AppSettings["WeChatAppIdAA"];
-
-               
-                    var parameterString = GetWeChatRequestString(appId, wechatName);
-
-                    LogHelper.LogInfo("protected static string CallWechatAPI Request data:" + parameterString);
-                    //shinxzhou(周兴) 07-14 10:27:54
-                    //你那边有encodeUrl这样的api吗？json串要先encode一下
-                    //是的，返回的也是json，也是要decodeUrl一下
-                    parameterString = System.Web.HttpUtility.UrlEncode(parameterString);
-
-                    LogHelper.LogInfo("protected static string GetAAOpenIdFromWeChatNameTest Request data  UrlEncode:" + parameterString);
-
-                    return CallWechatAPI("102408", parameterString, "openid");
-            }
-            catch (Exception ex)
-            {
-                LogHelper.LogError("protected static string GetAAOpenIdFromWeChatNameTest Exception:" + ex.ToString());
-
-                throw new Exception(string.Format("通过微信api转换微信号到AAopenid异常:{0}", ex.ToString()));
-            }
-        }
-
 
         /// <summary>
         /// 获取微信信息获取请求字符串
@@ -346,8 +293,8 @@ namespace CFT.CSOMS.COMMLIB
 
                 parameterString = System.Web.HttpUtility.UrlEncode(parameterString);
                 LogHelper.LogInfo("protected static string GetHBOpenIdFromWeChatName Request data  UrlEncode:" + parameterString);
-
-                return CallWechatAPI("101338", parameterString, "openid",true);
+               //101338-> 102456
+                return CallWechatAPI("102456", parameterString, "openid", true);
             }
             catch (Exception ex)
             {
@@ -372,8 +319,8 @@ namespace CFT.CSOMS.COMMLIB
 
                 parameterString = System.Web.HttpUtility.UrlEncode(parameterString);
                 LogHelper.LogInfo("protected static string GetXYKHKOpenIdFromWeChatName Request data  UrlEncode:" + parameterString);
-
-                return CallWechatAPI("101339", parameterString, "openid", true);
+                //101339-> 102457
+                return CallWechatAPI("102457", parameterString, "openid", true);
             }
             catch (Exception ex)
             {
@@ -431,7 +378,8 @@ namespace CFT.CSOMS.COMMLIB
                 parameterString = System.Web.HttpUtility.UrlEncode(parameterString);
                 LogHelper.LogInfo("protected static string GetFCXGOpenIdFromWeChatName Request data  UrlEncode:" + parameterString);
 
-                return CallWechatAPI("101448", parameterString, "openid", true);
+                // 101448-> 102460
+                return CallWechatAPI("102460", parameterString, "openid", true);
             }
             catch (Exception ex)
             {
@@ -459,8 +407,8 @@ namespace CFT.CSOMS.COMMLIB
                 parameterString = System.Web.HttpUtility.UrlEncode(parameterString);
                 LogHelper.LogInfo("protected static string GetAcctIdFromOpenId Request data  UrlEncode:" + parameterString);
 
-
-                return CallWechatAPI("101341", parameterString, "outeracctid",true);
+                //101341 -> 102458
+                return CallWechatAPI("102458", parameterString, "outeracctid", true);
             }
             catch (Exception ex)
             {
@@ -487,8 +435,8 @@ namespace CFT.CSOMS.COMMLIB
                 parameterString = System.Web.HttpUtility.UrlEncode(parameterString);
                 LogHelper.LogInfo("protected static string GetAcctIdFromAAOpenId Request data  UrlEncode:" + parameterString);
 
-
-                return CallWechatAPI("101342", parameterString, "outeracctid", true);
+                //101342 -> 102459
+                return CallWechatAPI("102459", parameterString, "outeracctid", true);
             }
             catch (Exception ex)
             {
