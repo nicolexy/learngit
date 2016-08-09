@@ -319,20 +319,21 @@ namespace CFT.CSOMS.BLL.RealNameModule
                 {
                     ds = new RealNameCertificateService().QuotaBanQueryC(uid_type, uid, have_cre_photocopy);
                 }
-                if (ds != null && ds.Tables.Count > 0&&ds.Tables[0].Rows.Count>0)
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     dt = ds.Tables[0];
                     foreach (DataRow cur_row in dt.Rows)
                     {
                         if (!string.IsNullOrEmpty(cur_row["total_out_amount"].ToString()))
                         {
-                            if(cur_row["total_out_amount"].ToString()=="-1")
+                            if (cur_row["total_out_amount"].ToString() == "-1")
                             {
                                 cur_row["total_out_amount"] = "该限额对当前账户不进行限制";
-                            }else
+                            }
+                            else
                             {
-                                cur_row["total_out_amount"] = Int64.Parse(cur_row["total_out_amount"].ToString())/100.0;
-                            }                           
+                                cur_row["total_out_amount"] = Int64.Parse(cur_row["total_out_amount"].ToString()) / 100.0;
+                            }
                         }
                         if (!string.IsNullOrEmpty(cur_row["month_outin_amount"].ToString()))
                         {
@@ -343,7 +344,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
                             else
                             {
                                 cur_row["month_outin_amount"] = Int64.Parse(cur_row["month_outin_amount"].ToString()) / 100.0;
-                            }                            
+                            }
                         }
                         if (!string.IsNullOrEmpty(cur_row["year_out_amount"].ToString()))
                         {
@@ -354,7 +355,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
                             else
                             {
                                 cur_row["year_out_amount"] = Int64.Parse(cur_row["year_out_amount"].ToString()) / 100.0;
-                            }                           
+                            }
                         }
                         if (!string.IsNullOrEmpty(cur_row["rest_total_out_amount"].ToString()))
                         {
@@ -365,7 +366,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
                             else
                             {
                                 cur_row["rest_total_out_amount"] = Int64.Parse(cur_row["rest_total_out_amount"].ToString()) / 100.0;
-                            } 
+                            }
                         }
                         if (!string.IsNullOrEmpty(cur_row["rest_month_outin_amount"].ToString()))
                         {
@@ -376,7 +377,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
                             else
                             {
                                 cur_row["rest_month_outin_amount"] = Int64.Parse(cur_row["rest_month_outin_amount"].ToString()) / 100.0;
-                            } 
+                            }
                         }
                         if (!string.IsNullOrEmpty(cur_row["rest_year_out_amount"].ToString()))
                         {
@@ -387,7 +388,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
                             else
                             {
                                 cur_row["rest_year_out_amount"] = Int64.Parse(cur_row["rest_year_out_amount"].ToString()) / 100.0;
-                            } 
+                            }
                         }
                         if (!string.IsNullOrEmpty(cur_row["cre_month_outin_amount"].ToString()))
                         {
@@ -414,9 +415,10 @@ namespace CFT.CSOMS.BLL.RealNameModule
                     }
                 }
             }
-            catch 
+            catch (Exception ex)
             {
                 dt = null;
+                log4net.LogManager.GetLogger("获取账户限额明细 GetQuotaDetail： " + ex.ToString());
             }
             return dt;
         }

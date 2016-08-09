@@ -124,7 +124,7 @@ namespace CFT.CSOMS.BLL.TradeModule
 
             DataSet ds = new PickData().GetPickList(account, qry_type, stime, etime, 0, 0, "0000", "0", "0000", offset, limit);
             try
-            {            
+            {
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     if (!ds.Tables[0].Columns.Contains("Fstandby3"))
@@ -170,8 +170,8 @@ namespace CFT.CSOMS.BLL.TradeModule
             catch (Exception ex)
             {
                 throw new Exception("提现查询接口 GetWithdrawDepositRecord ：" + ex.ToString());
-            }           
-             return ds;                        
+            }
+            return ds;
 
         }
 
@@ -222,8 +222,10 @@ namespace CFT.CSOMS.BLL.TradeModule
                     }
                 }
             }
-            catch
-            { }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
 
@@ -246,13 +248,13 @@ namespace CFT.CSOMS.BLL.TradeModule
             }
         }
 
-    
+
         public static void queryDic(string type)
         {
             string Msg;
             DataSet ds = QueryDicInfoByType(type, out Msg);
 
-            if (ds == null) 
+            if (ds == null)
             {
                 throw new Exception(Msg);
             }
