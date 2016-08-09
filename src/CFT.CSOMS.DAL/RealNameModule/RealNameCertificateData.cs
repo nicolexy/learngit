@@ -122,11 +122,11 @@ namespace CFT.CSOMS.DAL.RealNameModule
         }
         public DataSet AuQryAuthStatusServiceByQueryType1(int query_type, string uin, Int64 uid, int request_detail_info, string src, string Operator, string sign)
         {
+            string relayip = System.Configuration.ConfigurationManager.AppSettings["Auth_Relay_IP"];
+            int relayport = int.Parse(System.Configuration.ConfigurationManager.AppSettings["Auth_Relay_Port"]);
+            string requesttpe = System.Configuration.ConfigurationManager.AppSettings["AuQryAuthStatusService_RequestType"];
             try
-            {
-                string relayip = System.Configuration.ConfigurationManager.AppSettings["Auth_Relay_IP"];
-                int relayport = int.Parse(System.Configuration.ConfigurationManager.AppSettings["Auth_Relay_Port"]);
-                string requesttpe = System.Configuration.ConfigurationManager.AppSettings["AuQryAuthStatusService_RequestType"];
+            {                
                 string reqString = !string.IsNullOrEmpty(uin) ? "uin=" + uin : "";
                 reqString += !string.IsNullOrEmpty(src) ? "&src=" + src : "";
                 reqString += !string.IsNullOrEmpty(Operator) ? "&operator=" + Operator : "";              
@@ -136,7 +136,7 @@ namespace CFT.CSOMS.DAL.RealNameModule
             }
             catch (Exception err)
             {
-                throw new Exception(string.Format("实名状态和认证渠道信息查询:{0},{1}", "10.123.9.160", err.Message));
+                throw new Exception(string.Format("实名状态和认证渠道信息查询:{0},{1}", relayip, err.Message));
             }
         }
 

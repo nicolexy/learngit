@@ -398,7 +398,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
                             }
                             else
                             {
-                                cur_row["cre_month_outin_amount"] = Int64.Parse(cur_row["rest_year_out_amount"].ToString()) / 100.0;
+                                cur_row["cre_month_outin_amount"] = Int64.Parse(cur_row["cre_month_outin_amount"].ToString()) / 100.0;
                             }
                         }
                         if (!string.IsNullOrEmpty(cur_row["cre_year_out_amount"].ToString()))
@@ -418,7 +418,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
             catch (Exception ex)
             {
                 dt = null;
-                log4net.LogManager.GetLogger("获取账户限额明细 GetQuotaDetail： " + ex.ToString());
+                loger.err("CFT.CSOMS.BLL.RealNameModule.RealNameCertificateService", ex.ToString());
             }
             return dt;
         }
@@ -843,59 +843,59 @@ namespace CFT.CSOMS.BLL.RealNameModule
             }
             else
             {
-                if (1 == (authen_channel_state & (0x1 << 1)))
+                if (0 != (authen_channel_state & (0x1 << 0)))
                 {
                     sb.Append("公安部认证;");
                 }
-                if (1 == (authen_channel_state & (0x1 << 2)))
+                if (0 != (authen_channel_state & (0x1 << 1)))
                 {
                     sb.Append("身份证影印件上传认证;");
                 }
-                if (1 == (authen_channel_state & (0x1 << 3)))
+                if (0 != (authen_channel_state & (0x1 << 2)))
                 {
                     sb.Append("支持实名认证的银行绑卡;");
                 }
-                if (1 == (authen_channel_state & (0x1 << 4)))
+                if (0 != (authen_channel_state & (0x1 << 3)))
                 {
                     sb.Append("不支持实名认证的招行类银行绑卡;");
                 }
-                if (1 == (authen_channel_state & (0x1 << 5)))
+                if (0 != (authen_channel_state & (0x1 << 4)))
                 {
                     sb.Append("通过移动运营商认证;");
                 }
-                if (1 == (authen_channel_state & (0x1 << 6)))
+                if (0 != (authen_channel_state & (0x1 << 5)))
                 {
                     sb.Append("通过联通运营商认证;");
                 }
-                if (1 == (authen_channel_state & (0x1 << 7)))
+                if (0 != (authen_channel_state & (0x1 << 6)))
                 {
                     sb.Append("通过电信运营商认证;");
                 }
-                if (1 == (authen_channel_state & (0x1 << 8)))
+                if (0 != (authen_channel_state & (0x1 << 7)))
                 {
                     sb.Append("通过学历认证;");
                 }
-                if (1 == (authen_channel_state & (0x1 << 9)))
+                if (0 != (authen_channel_state & (0x1 << 8)))
                 {
                     sb.Append("通过银联认证;");
                 }
-                if (1 == (authen_channel_state & (0x1 << 10)))
+                if (0 != (authen_channel_state & (0x1 << 9)))
                 {
                     sb.Append("通过人脸识别;");
                 }
-                if (1 == (authen_channel_state & (0x1 << 11)))
+                if (0 != (authen_channel_state & (0x1 << 10)))
                 {
                     sb.Append("通过微信验卡;");
                 }
-                if (1 == (authen_channel_state & (0x1 << 12)))
+                if (0 != (authen_channel_state & (0x1 << 11)))
                 {
                     sb.Append("QQ社交认证;");
                 }
-                if (1 == (authen_channel_state & (0x1 << 13)))
+                if (0 != (authen_channel_state & (0x1 << 12)))
                 {
                     sb.Append("中铁认证;");
                 }
-                if (1 == (authen_channel_state & (0x1 << 14)))
+                if (0 != (authen_channel_state & (0x1 << 13)))
                 {
                     sb.Append("微信社交认证;");
                 }
