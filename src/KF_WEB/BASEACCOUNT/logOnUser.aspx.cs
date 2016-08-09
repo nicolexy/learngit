@@ -61,7 +61,9 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 			if (!Page.IsPostBack)
 			{
 				BindHistoryInfo("","",DateTime.Parse("1970-01-01 00:00:00"),DateTime.Now,0,10);
-                TextBoxBeginDate.Value = DateTime.Now.ToString("yyyy-01-01");
+                DateTime bgTime = new DateTime(DateTime.Now.AddYears(-1).Year, 1, 1);
+                this.TextBoxBeginDate.Value = bgTime.ToString("yyyy-MM-dd");
+                //TextBoxBeginDate.Value = DateTime.Now.ToString("yyyy-01-01");
 				this.TextBoxEndDate.Value = DateTime.Now.ToString("yyyy-MM-dd");
 			}
 
@@ -326,6 +328,12 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                         return;
                     }
 
+                    if (qs.LogOnUserCheckYDT(qqid, "2"))//是否开通了快捷支付
+                    {
+                        WebUtils.ShowMessage(this.Page, "开通了快捷支付");
+                        return;
+                    }
+
                     #region 金额判断
                     //这部分逻辑先注释掉：
                     //当用户没有关于余额支付的功能时（没有打开也没有关闭时）zw_prodatt_query_service返回错误
@@ -460,6 +468,28 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
                 LogError("BaseAccount.logOnUser.protected void btLogOn_Click(object sender, System.EventArgs e) ", "销户操作申请异常:", err);
                 //Msg += "销户操作申请异常！" + Common.CommLib.commRes.replaceHtmlStr(err.Message);
                 Msg += "销户操作申请异常！" + TENCENT.OSS.CFT.KF.KF_Web.classLibrary.setConfig.replaceHtmlStr(err.Message);
+                if (!string.IsNullOrEmpty(Msg))
+                {
+                    if (Msg.IndexOf("result=") > 0)
+                    {
+                        string result = PublicRes.GetInt(Msg.Substring(Msg.IndexOf("result=") + 7, Msg.IndexOf('&') - (Msg.IndexOf("result=") + 7)));
+                        if (result.Equals("87920002"))
+                        {
+                            WebUtils.ShowMessage(this.Page, "错误代码:87920002;用户有绑定快捷");
+                            return;
+                        }
+                        else if (result.Equals("59022801"))
+                        {
+                            WebUtils.ShowMessage(this.Page, "错误代码:59022801;理财通账户验证异常");
+                            return;
+                        }
+                        else if (result.Equals("21620007"))
+                        {
+                            WebUtils.ShowMessage(this.Page, "错误代码:21620007;账户状态冻结");
+                            return;
+                        }
+                    }
+                }
                 WebUtils.ShowMessage(this.Page, Msg + "，StackTrace：" + err.StackTrace);
                 return;
             }           
@@ -531,7 +561,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
             if (!DateTime.TryParse(this.TextBoxBeginDate.Value, out bgTime))
             {
                 //WebUtils.ShowMessage(this.Page, "起始日期格式不正确!默认为1970年1月1日");
-                bgTime = new DateTime(DateTime.Now.Year, 1, 1);
+                bgTime = new DateTime(DateTime.Now.AddYears(-1).Year, 1, 1);
                 this.TextBoxBeginDate.Value = bgTime.ToString("yyyy-MM-dd");
             }
 

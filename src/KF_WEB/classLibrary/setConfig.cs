@@ -1166,11 +1166,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
                         StringBuilder sb = new StringBuilder();
                         for (int i = 0; i < inputIDCardNo.Length; i++)
                         {
-                            if (i < 3)
+                            if (i < 4)
                             {
                                 sb.Append(inputIDCardNo[i].ToString());
                             }
-                            else if (i >= inputIDCardNo.Length - 3)
+                            else if (i >= inputIDCardNo.Length - 4)
                             {
                                 sb.Append(inputIDCardNo[i].ToString());
                             }
@@ -1216,11 +1216,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
                         StringBuilder sb = new StringBuilder();
                         for (int i = 0; i < inputBankCardNo.Length; i++)
                         {
-                            if (i < 3)
+                            if (i < 4)
                             {
                                 sb.Append(inputBankCardNo[i].ToString());
                             }
-                            else if (i >= inputBankCardNo.Length-3)
+                            else if (i >= inputBankCardNo.Length-4)
                             {
                                 sb.Append(inputBankCardNo[i].ToString());
                             }
@@ -1265,11 +1265,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
                         StringBuilder sb = new StringBuilder();
                         for (int i = 0; i < telephoneNumber.Length; i++)
                         {
-                            if (i < 3)
+                            if (i < 4)
                             {
                                 sb.Append(telephoneNumber[i].ToString());
                             }
-                            else if (i >= 8)
+                            else if (i >= 7)
                             {
                                 sb.Append(telephoneNumber[i].ToString());
                             }

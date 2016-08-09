@@ -914,5 +914,65 @@ namespace CSAPI
         }
         #endregion
 
+        #region 提现记录查询
+        [WebMethod]
+        public void WithdrawDepositRecord()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "account", "qry_type", "stime", "etime", "offset", "limit", "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);                
+                DateTime stime = APIUtil.StrToDate(paramsHt["stime"].ToString());
+                DateTime etime = APIUtil.StrToDate(paramsHt["etime"].ToString());
+                if (stime.Month == etime.Month)
+                {
+                    if (stime.AddDays(30) < etime)
+                    {
+                        throw new ServiceException(APIUtil.ERR_PARAM, ErroMessage.MESSAGE_ERROFROMDATE);
+                    }
+                }
+                else
+                {
+                    throw new ServiceException(APIUtil.ERR_PARAM, ErroMessage.MESSAGE_ERROFROMDATE);
+                }
+                int offset = APIUtil.StringToInt(paramsHt["offset"].ToString());
+                int limit = APIUtil.StringToInt(paramsHt["limit"].ToString());
+                DateTime str_stime = APIUtil.StrToDate(stime.ToString("yyyy-MM-dd 00:00:00"));
+                DateTime str_etime = APIUtil.StrToDate(etime.ToString("yyyy-MM-dd 23:59:59")); 
+                int qry_type=0;
+                int.TryParse(paramsHt["qry_type"],out qry_type);      
+                if (offset < 0)
+                {
+                    offset = 0;
+                }
+                if (limit < 0 || limit > 50)
+                {
+                    limit = 50;
+                }             
+                string account = paramsHt["account"].ToString();
+                DataSet infos = new CFT.CSOMS.BLL.TradeModule.PickService().GetWithdrawDepositRecord(qry_type, account, stime, etime, offset, limit);
+                if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+                List<Payment.WithdrawDepositRecord> list = APIUtil.ConvertTo<Payment.WithdrawDepositRecord>(infos.Tables[0]);
+                APIUtil.Print<Payment.WithdrawDepositRecord>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("WithdrawDepositRecord").ErrorFormat("return_code:{0},msg{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("WithdrawDepositRecord").ErrorFormat("return_code:{0},msg{1}", APIUtil.ERR_SYSTEM, ex.ToString());
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+        #endregion
+
     }
 }

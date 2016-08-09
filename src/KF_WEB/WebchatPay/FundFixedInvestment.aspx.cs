@@ -80,7 +80,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 dg_DT_fundBuyPlan.DataSource = dt;
                 dg_DT_fundBuyPlan.DataBind();
             }
-            else if (PROJECT == "HFD")
+            else if (PROJECT == "HFD" || PROJECT == "PayBackCredit")
             {
                 pager1.Visible = true;
                 string uin = ViewState["uin"].ToString();
@@ -94,12 +94,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             {
                 iframeSRC = "FundDreamProject.aspx?uin=" + ViewState["uin"].ToString();
                 DataBind();
-            }
-            else if (PROJECT == "PayBackCredit")
-            {
-                iframeSRC = "FundPayBackCredit.aspx?uin=" + ViewState["uin"].ToString();
-                DataBind();
-            }
+            }          
         }
         public void ChangePage1(object src, Wuqi.Webdiyer.PageChangedEventArgs e)
         {
@@ -129,7 +124,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 {
                     GetPlanBuyOrder(plan_id);
                 }
-                else if (PROJECT == "HFD")
+                else if (PROJECT == "HFD" || PROJECT == "PayBackCredit")
                 {
                     GetPlanFetchOrder(plan_id);
                 }
@@ -236,14 +231,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
         {
             int limit = pager2.PageSize;
             int offset = (pager2.CurrentPageIndex - 1) * limit;
-            string uin = ViewState["uin"].ToString();
+            string uid = ViewState["uid"].ToString();
             FundService service = new FundService();
-            DataTable dt = service.Get_HFD_PlanFetchOrder(uin, plan_id, offset, limit);
+            string PROJECT = ViewState["PROJECT"].ToString();
+            DataTable dt = service.Get_HFD_PlanFetchOrder(PROJECT,uid, plan_id, offset, limit);
             classLibrary.setConfig.GetColumnValueFromDic(dt, "Fbank_type", "Fbank_type", "BANK_TYPE");
             if (dt != null && dt.Rows.Count > 0)
             {
                 pager2.Visible = true;
             }
+
+            dg_PlanFetchOrder.Caption = PROJECT == "HFD" ? "还款记录(定赎)" : "还信用卡";
             dg_PlanFetchOrder.DataSource = dt;
             dg_PlanFetchOrder.DataBind();
         }

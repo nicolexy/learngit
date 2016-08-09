@@ -57,7 +57,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
             catch (Exception ex)
             {
+                string errorMessage = PublicRes.GetErrorMsg(ex.Message);
+                if(!string.IsNullOrEmpty(errorMessage))
+                {
+                    if(errorMessage.IndexOf("result=")>0)
+                    {
+                        string result = PublicRes.GetInt(errorMessage.Substring(errorMessage.IndexOf("result=") + 7, errorMessage.IndexOf('&') - (errorMessage.IndexOf("result=") + 7)));
+                        if (result.Equals("20621300"))
+                        {
+                            WebUtils.ShowMessage(this.Page, "错误码：20621300银行入账结果尚未返回，请稍候查询还款记录是否成功。若未成功，请1个工作日留意退款。");
+                            return;
+                        }
+                    }                    
+                }
                 WebUtils.ShowMessage(this.Page, "查询出错" + PublicRes.GetErrorMsg(ex.Message));
+                return;
             }
         }
     }
