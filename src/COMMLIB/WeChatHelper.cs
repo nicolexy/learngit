@@ -378,8 +378,8 @@ namespace CFT.CSOMS.COMMLIB
                 parameterString = System.Web.HttpUtility.UrlEncode(parameterString);
                 LogHelper.LogInfo("protected static string GetFCXGOpenIdFromWeChatName Request data  UrlEncode:" + parameterString);
 
-                // 101448-> 102460
-                return CallWechatAPI("102460", parameterString, "openid", true);
+                // 101448 已经是新接口了，不用迁移
+                return CallWechatAPI("101448", parameterString, "openid", true);
             }
             catch (Exception ex)
             {
