@@ -169,15 +169,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 if (tempRow == 1)
                 {
                     tempCreQuota.Append("<tr><td colspan='16' class='tbtr'>证件号对应的限额</td></tr>");
+                    tempCreQuota.Append("<tr><td>月进出金额</td><td>年支出金额</td><td>微信账户体系年支出金额</td><td>qq账户体系年支出金额</td><td>日支付金额</td><td>微信账户体系日支出金额</td><td colspan='3'>qq账户体系日支出金额</td></tr>");
                     int uid_type1 = string.IsNullOrEmpty(uid_type) ? 0 : int.Parse(uid_type);
                     Int64 uid1 = string.IsNullOrEmpty(uid) ? 0 : Int64.Parse(uid);
                     int cre_type1 = string.IsNullOrEmpty(cre_type) ? 1 : int.Parse(cre_type);                   
                     Int64 authen_channel_state = string.IsNullOrEmpty(channelstate) ? 0 : Int64.Parse(channelstate);
                     int have_cre_photocopy = GetHasCrePhotocopyByState(authen_channel_state);
                     DataTable dt1 = new RealNameCertificateService().GetQuotaDetail(uid_type1, uid1, cre_type1, cre_id, have_cre_photocopy);
-                    if (dt1 != null && dt1.Rows.Count==1)
+                    if (dt1 != null && dt1.Rows.Count == 1)
                     {
-                        tempCreQuota.AppendFormat("<tr><td>月进出金额</td><td>{0}</td><td>年支出金额</td><td>{1}</td><td>微信账户体系年支出金额</td><td>{2}</td><td>qq账户体系年支出金额</td><td>{3}</td><td>日支付金额</td><td>{4}</td><td>微信账户体系日支出金额</td><td>{5}</td><td>qq账户体系日支出金额</td><td colspan='3'>{6}</td></tr>", dt1.Rows[0]["cre_month_outin_amount"].ToString(), dt1.Rows[0]["cre_year_out_amount"].ToString(), dt1.Rows[0]["cre_wx_year_out_amount"].ToString(),dt1.Rows[0]["cre_sqpc_year_out_amount"].ToString(),dt1.Rows[0]["cre_day_out_amount"].ToString(),dt1.Rows[0]["cre_wx_day_out_amount"].ToString(),dt1.Rows[0]["cre_sqpc_day_out_amount"].ToString());
+                        tempCreQuota.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td colspan='3'>{6}</td></tr>", dt1.Rows[0]["cre_month_outin_amount"].ToString(), dt1.Rows[0]["cre_year_out_amount"].ToString(), dt1.Rows[0]["cre_wx_year_out_amount"].ToString(), dt1.Rows[0]["cre_sqpc_year_out_amount"].ToString(), dt1.Rows[0]["cre_day_out_amount"].ToString(), dt1.Rows[0]["cre_wx_day_out_amount"].ToString(), dt1.Rows[0]["cre_sqpc_day_out_amount"].ToString());
+                    }
+                    else
+                    {
+                        sb.Append("<tr><td colspan='16'>没有符合条件的数据！</td></tr>");
                     }
                 }
                 if (row["bind_bank_info"] != null && row["bind_bank_info"].ToString() != "")
