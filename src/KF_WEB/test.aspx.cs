@@ -143,10 +143,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             //TestRelayInvoke2("10.12.23.14", "22000", "request_type=100567&ver=1&head_u=&sp_id=&listid=2000000501901204240011520734");
 
 
-            if(Request["wechatname"]!=null){
-                LogHelper.LogInfo(" test.aspx  wechatname £º" + Request["wechatname"].ToString());
-                WeChatInfo(Request["wechatname"].ToString());
-            }
+            //if(Request["wechatname"]!=null){
+            //    LogHelper.LogInfo(" test.aspx  wechatname £º" + Request["wechatname"].ToString());
+            //    WeChatInfo(Request["wechatname"].ToString());
+            //}
         }
 
 
