@@ -31,7 +31,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         protected void Page_Load(object sender, EventArgs e)
         {
             Label_uid.Text = Session["uid"].ToString();
-           
+          
             if (!IsPostBack)
             {
                 if (Request.Params["action"] != null && Request.Params["action"].ToString() != "")
@@ -168,7 +168,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 string finalstr = isRight && uid_type != "0" ? ((uid_type == "99") ? cancelbtn : setbtn) : "";
                 if (tempRow == 1)
                 {
-                    tempCreQuota.Append("<tr><td colspan='16' class='tbtr'>证件号所对应的限额</td></tr>");
+                    tempCreQuota.Append("<tr><td colspan='16' class='tbtr'>证件号对应的限额</td></tr>");
                     int uid_type1 = string.IsNullOrEmpty(uid_type) ? 0 : int.Parse(uid_type);
                     Int64 uid1 = string.IsNullOrEmpty(uid) ? 0 : Int64.Parse(uid);
                     int cre_type1 = string.IsNullOrEmpty(cre_type) ? 1 : int.Parse(cre_type);                   
@@ -252,6 +252,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     sb.AppendFormat("<td>{0}</td>", finalstr);
                     sb.Append("</tr>");
                 }
+            }
+            if (!string.IsNullOrEmpty(tempCreQuota.ToString()))
+            {
+                sb.Append(tempCreQuota.ToString());
             }
             sb.Append("\"}");
             return sb.ToString();
