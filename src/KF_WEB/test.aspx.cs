@@ -40,11 +40,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 	{
 	
 		protected void Page_Load(object sender, System.EventArgs e)
-		{
-        
-            string Uid = "527123677";
-               var dbNum = Uid.Substring(Uid.Length - 2, 2);
-              var tableNum = Uid.Substring(Uid.Length - 3, 1);
+        {
+            LogHelper.LogInfo(" test.aspx  ");
+
+            if (Request["wechatname"] != null)
+            {
+                LogHelper.LogInfo(" test.aspx  wechatname £º" + Request["wechatname"].ToString());
+                WeChatInfo(Request["wechatname"].ToString());
+            }
+
+            //string Uid = "527123677";
+            //   var dbNum = Uid.Substring(Uid.Length - 2, 2);
+            //  var tableNum = Uid.Substring(Uid.Length - 3, 1);
  
             //string ref_param = ViewState["ref_param"] == null ? "" : ViewState["ref_param"].ToString();
             //DataSet ds = new TradeService().GetBankRollList("272906037", DateTime.Now.AddDays(-1000), DateTime.Now, 0, 10, ref ref_param);
@@ -143,20 +150,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             //TestRelayInvoke2("10.12.23.14", "22000", "request_type=100567&ver=1&head_u=&sp_id=&listid=2000000501901204240011520734");
 
 
-            //if(Request["wechatname"]!=null){
-            //    LogHelper.LogInfo(" test.aspx  wechatname £º" + Request["wechatname"].ToString());
-            //    WeChatInfo(Request["wechatname"].ToString());
-            //}
+             
         }
 
 
-        private void WeChatInfo(string wechatName) {
-            //string retInfo = WeChatHelper.GetAAOpenIdFromWeChatNameTest(wechatName);
+        private void WeChatInfo(string wechatName)
+        {
+            string retInfo = string.Empty;
 
-            //LogHelper.LogInfo(" test.aspx  private void WeChatInfo  retInfo£º" + retInfo);
+            string tempopenid = WeChatHelper.GetAAOpenIdFromWeChatName(wechatName);
+            retInfo +=tempopenid+ "_=_" + WeChatHelper.GetAcctIdFromAAOpenId(tempopenid);
 
-            //Response.Write(retInfo);
-            //Response.End();
+            tempopenid = WeChatHelper.GetHBOpenIdFromWeChatName(wechatName);
+            retInfo += "_=_" + tempopenid;
+            retInfo += "_=_" + WeChatHelper.GetAcctIdFromOpenId(tempopenid);
+
+            retInfo += "_=_" + WeChatHelper.GetXYKHKOpenIdFromWeChatName(wechatName);
+
+
+            LogHelper.LogInfo(" test.aspx  private void WeChatInfo  retInfo£º" + retInfo);
+
+            Response.Write(retInfo);
+            Response.End();
         }
 
         private static void OrderDecoupled()
