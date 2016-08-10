@@ -177,7 +177,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     DataTable dt1 = new RealNameCertificateService().GetQuotaDetail(uid_type1, uid1, cre_type1, cre_id, have_cre_photocopy);
                     if (dt1 != null && dt1.Rows.Count==1)
                     {
-                        tempCreQuota.AppendFormat("<tr><td colspan='4'>月进出金额</td><td colspan='4'>{0}</td><td colspan='4'>年支出金额</td><td colspan='4'>{1}</td></tr>", dt1.Rows[0]["cre_month_outin_amount"].ToString(), dt1.Rows[0]["cre_year_out_amount"].ToString());
+                        tempCreQuota.AppendFormat("<tr><td>月进出金额</td><td>{0}</td><td>年支出金额</td><td>{1}</td><td>微信账户体系年支出金额</td><td>{2}</td><td>qq账户体系年支出金额</td><td>{3}</td><td>日支付金额</td><td>{4}</td><td>微信账户体系日支出金额</td><td>{5}</td><td>qq账户体系日支出金额</td><td colspan='3'>{6}</td></tr>", dt1.Rows[0]["cre_month_outin_amount"].ToString(), dt1.Rows[0]["cre_year_out_amount"].ToString(), dt1.Rows[0]["cre_wx_year_out_amount"].ToString(),dt1.Rows[0]["cre_sqpc_year_out_amount"].ToString(),dt1.Rows[0]["cre_day_out_amount"].ToString(),dt1.Rows[0]["cre_wx_day_out_amount"].ToString(),dt1.Rows[0]["cre_sqpc_day_out_amount"].ToString());
                     }
                 }
                 if (row["bind_bank_info"] != null && row["bind_bank_info"].ToString() != "")
