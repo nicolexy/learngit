@@ -326,36 +326,15 @@ namespace CFT.CSOMS.BLL.RealNameModule
                     {
                         if (!string.IsNullOrEmpty(cur_row["total_out_amount"].ToString()))
                         {
-                            if (cur_row["total_out_amount"].ToString() == "-1")
-                            {
-                                cur_row["total_out_amount"] = "该限额对当前账户不进行限制";
-                            }
-                            else
-                            {
-                                cur_row["total_out_amount"] = Int64.Parse(cur_row["total_out_amount"].ToString()) / 100.0;
-                            }
+                            cur_row["total_out_amount"] = Int64.Parse(cur_row["total_out_amount"].ToString()) / 100.0;
                         }
                         if (!string.IsNullOrEmpty(cur_row["month_outin_amount"].ToString()))
                         {
-                            if (cur_row["month_outin_amount"].ToString() == "-1")
-                            {
-                                cur_row["month_outin_amount"] = "该限额对当前账户不进行限制";
-                            }
-                            else
-                            {
-                                cur_row["month_outin_amount"] = Int64.Parse(cur_row["month_outin_amount"].ToString()) / 100.0;
-                            }
+                            cur_row["month_outin_amount"] = Int64.Parse(cur_row["month_outin_amount"].ToString()) / 100.0;
                         }
                         if (!string.IsNullOrEmpty(cur_row["year_out_amount"].ToString()))
                         {
-                            if (cur_row["year_out_amount"].ToString() == "-1")
-                            {
-                                cur_row["year_out_amount"] = "该限额对当前账户不进行限制";
-                            }
-                            else
-                            {
-                                cur_row["year_out_amount"] = Int64.Parse(cur_row["year_out_amount"].ToString()) / 100.0;
-                            }
+                            cur_row["year_out_amount"] = Int64.Parse(cur_row["year_out_amount"].ToString()) / 100.0;
                         }
                         if (!string.IsNullOrEmpty(cur_row["rest_total_out_amount"].ToString()))
                         {
@@ -392,25 +371,31 @@ namespace CFT.CSOMS.BLL.RealNameModule
                         }
                         if (!string.IsNullOrEmpty(cur_row["cre_month_outin_amount"].ToString()))
                         {
-                            if (cur_row["cre_month_outin_amount"].ToString() == "-1")
-                            {
-                                cur_row["cre_month_outin_amount"] = "该限额对当前证件不进行限制";
-                            }
-                            else
-                            {
-                                cur_row["cre_month_outin_amount"] = Int64.Parse(cur_row["cre_month_outin_amount"].ToString()) / 100.0;
-                            }
+                            cur_row["cre_month_outin_amount"] = Int64.Parse(cur_row["cre_month_outin_amount"].ToString()) / 100.0;
                         }
                         if (!string.IsNullOrEmpty(cur_row["cre_year_out_amount"].ToString()))
                         {
-                            if (cur_row["cre_year_out_amount"].ToString() == "-1")
-                            {
-                                cur_row["cre_year_out_amount"] = "该限额对当前证件不进行限制";
-                            }
-                            else
-                            {
-                                cur_row["cre_year_out_amount"] = Int64.Parse(cur_row["cre_year_out_amount"].ToString()) / 100.0;
-                            }
+                            cur_row["cre_year_out_amount"] = Int64.Parse(cur_row["cre_year_out_amount"].ToString()) / 100.0;
+                        }
+                        if (!string.IsNullOrEmpty(cur_row["cre_wx_year_out_amount"].ToString()))
+                        {
+                            cur_row["cre_wx_year_out_amount"] = Int64.Parse(cur_row["cre_wx_year_out_amount"].ToString()) / 100.0;
+                        }
+                        if (!string.IsNullOrEmpty(cur_row["cre_sqpc_year_out_amount"].ToString()))
+                        {
+                            cur_row["cre_sqpc_year_out_amount"] = Int64.Parse(cur_row["cre_sqpc_year_out_amount"].ToString()) / 100.0;
+                        }
+                        if (!string.IsNullOrEmpty(cur_row["cre_day_out_amount"].ToString()))
+                        {
+                            cur_row["cre_day_out_amount"] = Int64.Parse(cur_row["cre_day_out_amount"].ToString()) / 100.0;
+                        }
+                        if (!string.IsNullOrEmpty(cur_row["cre_wx_day_out_amount"].ToString()))
+                        {
+                            cur_row["cre_wx_day_out_amount"] = Int64.Parse(cur_row["cre_wx_day_out_amount"].ToString()) / 100.0;
+                        }
+                        if (!string.IsNullOrEmpty(cur_row["cre_sqpc_day_out_amount"].ToString()))
+                        {
+                            cur_row["cre_sqpc_day_out_amount"] = Int64.Parse(cur_row["cre_sqpc_day_out_amount"].ToString()) / 100.0;
                         }
                     }
                 }
@@ -450,7 +435,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
                                 Int64.TryParse(ds_userinfo.Tables[0].Rows[0]["authen_channel_state"].ToString(), out state);
                                 cur_row["authen_channel_info"] = GetAuthInfoByState(state);
                             }
-                            cur_row["user_true_name"] = ds_userinfo.Tables[0].Rows[0]["user_true_name"];                           
+                            cur_row["user_true_name"] = ds_userinfo.Tables[0].Rows[0]["user_true_name"];
                             cur_row["cre_type"] = ds_userinfo.Tables[0].Rows[0]["cre_type"];
                             cur_row["cre_type_txt"] = GetCreTypeText((ds_userinfo.Tables[0].Rows[0]["cre_type"] != null && ds_userinfo.Tables[0].Rows[0]["cre_type"].ToString() != "") ? ds_userinfo.Tables[0].Rows[0]["cre_type"].ToString() : "0");
                             cur_row["cre_id"] = ds_userinfo.Tables[0].Rows[0]["cre_id"];

@@ -409,13 +409,7 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             public string year_out_amount { get; set; }
             //账户终身支出金额
             [XmlElement("total_out_amount")]
-            public string total_out_amount { get; set; }
-            //对应证件号月进出金额
-            [XmlElement("cre_month_outin_amount")]
-            public string cre_month_outin_amount { get; set; }
-            //对应证件号年支出金额
-            [XmlElement("cre_year_out_amount")]
-            public string cre_year_out_amount { get; set; }
+            public string total_out_amount { get; set; }           
             //账户终身剩余额度
             [XmlElement("rest_total_out_amount")]
             public string rest_total_out_amount { get; set; }
@@ -425,6 +419,12 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             //账户剩余年支付额度
             [XmlElement("rest_year_out_amount")]
             public string rest_year_out_amount { get; set; }
+            //对应证件号月进出金额
+            [XmlElement("cre_month_outin_amount")]
+            public string cre_month_outin_amount { get; set; }
+            //对应证件号年支出金额
+            [XmlElement("cre_year_out_amount")]
+            public string cre_year_out_amount { get; set; }
             //对应证件号微信账户体系年支出金额
             [XmlElement("cre_wx_year_out_amount")]
             public string cre_wx_year_out_amount { get; set; }
@@ -434,6 +434,12 @@ namespace CFT.CSOMS.Service.CSAPI.BaseInfo
             //对应证件号日支付金额
             [XmlElement("cre_day_out_amount")]
             public string cre_day_out_amount { get; set; }
+            //对应证件号微信账户体系日支出金额
+            [XmlElement("cre_wx_day_out_amount")]
+            public string cre_wx_day_out_amount { get; set; }
+            //对应证件号qq账户体系日支出金额
+            [XmlElement("cre_sqpc_day_out_amount")]
+            public string cre_sqpc_day_out_amount { get; set; }
         #endregion
 
         }
