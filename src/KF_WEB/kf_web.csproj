@@ -1500,6 +1500,13 @@
     <Compile Include="InternetBank\MermberDiscount.aspx.designer.cs">
       <DependentUpon>MermberDiscount.aspx</DependentUpon>
     </Compile>
+    <Compile Include="KFWebTest.aspx.cs">
+      <DependentUpon>KFWebTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="KFWebTest.aspx.designer.cs">
+      <DependentUpon>KFWebTest.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Left.aspx.cs">
       <DependentUpon>Left.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3375,6 +3382,7 @@
     <Content Include="js\airportCity.js" />
     <Content Include="js\contrastBankErrorCode.js" />
     <Content Include="js\common.js" />
+    <Content Include="KFWebTest.aspx" />
     <Content Include="Left.aspx">
       <SubType>Form</SubType>
     </Content>
