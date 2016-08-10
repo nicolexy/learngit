@@ -151,12 +151,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
 
         private void WeChatInfo(string wechatName) {
-            string retInfo = WeChatHelper.GetAAOpenIdFromWeChatNameTest(wechatName);
+            //string retInfo = WeChatHelper.GetAAOpenIdFromWeChatNameTest(wechatName);
 
-            LogHelper.LogInfo(" test.aspx  private void WeChatInfo  retInfo£º" + retInfo);
+            //LogHelper.LogInfo(" test.aspx  private void WeChatInfo  retInfo£º" + retInfo);
 
-            Response.Write(retInfo);
-            Response.End();
+            //Response.Write(retInfo);
+            //Response.End();
         }
 
         private static void OrderDecoupled()
