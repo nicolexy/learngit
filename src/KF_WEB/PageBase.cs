@@ -32,6 +32,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                     Response.End();
                 }
 
+                //页面请求，日志记录
+                string requestRecord = Session["uid"] + " " + Request.UserHostAddress + " " + Request.Path + " " + Request.QueryString+" "+Request.RequestType+" "+Request.Url.Authority;
+                    
+            LogHelper.LogInfo(requestRecord,"KFWebPageRequest");
 
             }
             catch  //Session为空，则跳转
@@ -39,7 +43,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 Response.Write("超时，请重新<a herf = '../login.aspx' target = 'parent'> 登录</a>！");
             }
         
-
         }
 
         void PageBase_Load(object sender, EventArgs e)
