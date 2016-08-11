@@ -526,11 +526,6 @@ namespace CFT.CSOMS.DAL.RefundModule
                 {
                     return;
                 }
-                if (strOperator != "yonghualiu")
-                {
-                    return;
-                }
- 
                 using (var da = MySQLAccessFactory.GetMySQLAccess("RefundDB"))
                 {
                     da.OpenConn();

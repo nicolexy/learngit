@@ -56,7 +56,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                 this.operaterName.Text = Session["uid"].ToString();
                 if (!IsPostBack)
                 {
-                    if (Session["uid"].ToString() == RefundPublicFun.OPERATOR.Trim())
+                    if (RefundPublicFun.OPERATOR.Trim().Contains(Session["uid"].ToString()))
                     {
                         SetRighBtnState(true);
                     }
@@ -389,7 +389,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
         }
         protected void OnBtnYonghua_Click(object sender, EventArgs e)
         {
-            if (Session["uid"].ToString().Trim() != RefundPublicFun.OPERATOR.Trim())
+            if (!RefundPublicFun.OPERATOR.Trim().Contains(Session["uid"].ToString().Trim()))
             {
                 return;
             }
