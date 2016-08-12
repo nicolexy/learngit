@@ -18,6 +18,7 @@ using System.Threading;
 using CFT.Apollo.Logging;
 using CFT.CSOMS.BLL.FreezeModule;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
+using TENCENT.OSS.CFT.KF.Common;
 namespace CFT.CSOMS.Service.CSAPI
 {
     [WebService(Namespace = "")]
@@ -32,7 +33,7 @@ namespace CFT.CSOMS.Service.CSAPI
         public void AuMaintainWhiteListC()
         {
             try
-            {            
+            {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
                 APIUtil.ValidateParamsNew(paramsHt, "operator", "uin", "uid", "op_type", "appid", "token");
@@ -108,7 +109,7 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "operator", "uid","appid","token");
+                APIUtil.ValidateParamsNew(paramsHt, "operator", "uid", "appid", "token");
                 //token验证
                 APIUtil.ValidateToken(paramsHt);
                 //初始化src
@@ -163,7 +164,7 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "query_type","uin","appid","token");
+                APIUtil.ValidateParamsNew(paramsHt, "query_type", "uin", "appid", "token");
                 //token验证
                 APIUtil.ValidateToken(paramsHt);
                 //初始化src
@@ -256,12 +257,12 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "curtype", "query_attach","appid","token");
+                APIUtil.ValidateParamsNew(paramsHt, "curtype", "query_attach", "appid", "token");
                 //token验证
                 APIUtil.ValidateToken(paramsHt);
                 if (!paramsHt.ContainsKey("uin") && !paramsHt.ContainsKey("uid"))
                 {
-                    throw new ServiceException(APIUtil.ERR_PARAM, ErroMessage.MESSAGE_NULLPARAM); 
+                    throw new ServiceException(APIUtil.ERR_PARAM, ErroMessage.MESSAGE_NULLPARAM);
                 }
                 string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"] : string.Empty;
                 Int64 uid = paramsHt.ContainsKey("uid") ? APIUtil.StringToInt64(paramsHt["uid"]) : -1;
@@ -343,7 +344,7 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "cre_type", "cre_id","appid","token");
+                APIUtil.ValidateParamsNew(paramsHt, "cre_type", "cre_id", "appid", "token");
                 //token验证
                 APIUtil.ValidateToken(paramsHt);
                 string cre_id = paramsHt["cre_id"];
@@ -381,7 +382,7 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "uid_type", "uid", "have_cre_photocopy","appid","token");
+                APIUtil.ValidateParamsNew(paramsHt, "uid_type", "uid", "have_cre_photocopy", "appid", "token");
                 //token验证
                 APIUtil.ValidateToken(paramsHt);
                 int uid_type = paramsHt.ContainsKey("uid_type") ? APIUtil.StringToInt(paramsHt["uid_type"]) : 0;
@@ -398,8 +399,8 @@ namespace CFT.CSOMS.Service.CSAPI
                 else
                 {
                     ds = new RealNameCertificateService().QuotaBanQueryC(uid_type, uid, have_cre_photocopy);
-                } 
-              
+                }
+
                 if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
@@ -418,6 +419,68 @@ namespace CFT.CSOMS.Service.CSAPI
             catch (Exception ex)
             {
                 SunLibrary.LoggerFactory.Get("QuotaBanQueryC").ErrorFormat("return_code{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+        #endregion
+
+        #region 实名认证 身份证审核信息推送
+        /// <summary>
+        /// 解绑当前用户全部受控资金
+        /// </summary>
+        [WebMethod]
+        public void PushIdentityCardCheckInfo()
+        {
+            try
+            {
+            http://localhost:61131/CSAPI/RealNameCertificationService.asmx/PushIdentityCardCheckInfo?appid=10001&serial_number=1234&spid=1234567890&create_time=2016-08-12&uin=abcd@wx.tenpay.com&name=guoyueqiang&identitycard=360726&image_path1=image_path1&image_path2=image_path2&image_file1=image_file1&image_file2=image_file2&token=61be7a6c78aa0cb68405364ee4d4ab79
+
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //验证必填参数
+                APIUtil.ValidateParamsNew(paramsHt, "appid",
+                                                  "serial_number",
+                                                  "spid",
+                                                  "create_time",
+                                                  "uin",
+                                                  "name",
+                                                  "identitycard",
+                                                  "image_path1",
+                                                  "image_path2",
+                                                  "image_file1",
+                                                  "image_file2",
+                                                   "token");
+                //验证token
+                APIUtil.ValidateToken(paramsHt);
+
+                string serial_number = paramsHt.ContainsKey("serial_number") ? paramsHt["serial_number"].ToString() : "";
+                string spid = paramsHt.ContainsKey("spid") ? paramsHt["spid"].ToString() : "";
+                string create_time = paramsHt.ContainsKey("create_time") ? paramsHt["create_time"].ToString() : "";
+                string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                string name = paramsHt.ContainsKey("name") ? paramsHt["name"].ToString() : "";
+                string identitycard = paramsHt.ContainsKey("identitycard") ? paramsHt["identitycard"].ToString() : "";
+                string image_path1 = paramsHt.ContainsKey("image_path1") ? paramsHt["image_path1"].ToString() : "";
+                string image_path2 = paramsHt.ContainsKey("image_path2") ? paramsHt["image_path2"].ToString() : "";
+                string image_file1 = paramsHt.ContainsKey("image_file1") ? paramsHt["image_file1"].ToString() : "";
+                string image_file2 = paramsHt.ContainsKey("image_file2") ? paramsHt["image_file2"].ToString() : "";
+
+                DateTime Fcreate_time = Convert.ToDateTime(create_time);
+
+                string result = new RealNameCertificateService().PushIdentityCardCheckInfo(serial_number, spid, Fcreate_time, uin, name, identitycard,
+                                                    image_path1, image_path2, image_file1, image_file2);
+                Record record = new Record();
+                record.RetValue = result;
+                List<Record> list = new List<Record>();
+                list.Add(record);
+                APIUtil.Print<Record>(list);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("PushIdentityCardCheckInfo").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.ToString());
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("PushIdentityCardCheckInfo").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.ToString());
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
