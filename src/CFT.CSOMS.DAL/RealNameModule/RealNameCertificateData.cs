@@ -209,5 +209,29 @@ namespace CFT.CSOMS.DAL.RealNameModule
                 throw new Exception(string.Format("账户限额数据查询:{0},{1}", relayip, err.Message));
             }
         }
+        public string PushIdentityCardCheckInfo(string Fserial_number, string Fspid, DateTime Fcreate_time, string Fuin, string Fname, string Fidentitycard,
+                                              string Fimage_path1, string Fimage_path2, string Fimage_file1, string Fimage_file2)
+        {
+            using (MySqlAccess da = MySQLAccessFactory.GetMySQLAccess("DataSource_ht"))
+            {
+
+                da.OpenConn();
+                string cmd = "select Fserial_number from c2c_fmdb.t_check_identitycard_{0} where Fserial_number='{1}' limit 1;";
+                cmd = string.Format(cmd, Fcreate_time.ToString("yyyyMM"), Fserial_number);
+                string result = da.GetOneResult(cmd);
+                if (!string.IsNullOrEmpty(result))
+                {
+                    return "有相同的流水号！";
+                }
+                cmd = "insert into c2c_fmdb.t_check_identitycard_{0} " +
+                    "(Fserial_number,Fspid,Fcreate_time, Fuin,Fname,Fidentitycard, Fimage_path1, Fimage_path2, Fimage_file1, Fimage_file2)" +
+                    "values ('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}')"
+                    ;
+
+                cmd = string.Format(cmd, Fcreate_time.ToString("yyyyMM"), Fserial_number, Fspid, Fcreate_time.ToString(), Fuin, Fname, Fidentitycard, Fimage_path1, Fimage_path2, Fimage_file1, Fimage_file2);
+                return da.ExecSql(cmd) ? "true" : "false";
+            }
+        }
+
     }
 }

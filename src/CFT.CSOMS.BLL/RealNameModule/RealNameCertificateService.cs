@@ -564,6 +564,12 @@ namespace CFT.CSOMS.BLL.RealNameModule
             }
         }
 
+        public string PushIdentityCardCheckInfo(string Fserial_number, string Fspid, DateTime Fcreate_time, string Fuin, string Fname, string Fidentitycard,
+                                               string Fimage_path1, string Fimage_path2, string Fimage_file1, string Fimage_file2)
+        {
+            return new RealNameCertificateData().PushIdentityCardCheckInfo(Fserial_number, Fspid, Fcreate_time, Fuin, Fname, Fidentitycard,
+                                               Fimage_path1, Fimage_path2, Fimage_file1, Fimage_file2);
+        }
         #region 动态分割DataTable分页
         public DataTable GetPagedTable(DataTable dt, int PageIndex, int PageSize)
         {

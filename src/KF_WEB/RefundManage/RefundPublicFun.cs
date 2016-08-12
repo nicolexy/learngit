@@ -10,7 +10,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
     {
         public static string KFCHECKTYPE = "KFAbnormalRefund";
         public static string KFCHECKMEMO = "特殊退款审批流程启动";
-        public static string OPERATOR = "yonghualiu";
+        public static string OPERATOR = System.Configuration.ConfigurationManager.AppSettings["RefundManager"].ToString().Trim();
         public static string operatorName = null;
 
         public struct itemData
