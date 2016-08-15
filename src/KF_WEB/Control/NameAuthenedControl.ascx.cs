@@ -87,6 +87,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             menuControl.AddSubMenu("微信实名认证查询", "WebchatPay/QueryWechatRealNameAuthen.aspx");
             menuControl.AddSubMenu("姓名异常", "BaseAccount/NameAbnormal.aspx");
             menuControl.AddSubMenu("实名认证查询", "BaseAccount/RealNameCertifationQuery.aspx");
+            menuControl.AddSubMenu("身份证影印件客服人工审核", "BaseAccount/IDCardManualReview.aspx");
 		}
 	}
 }
