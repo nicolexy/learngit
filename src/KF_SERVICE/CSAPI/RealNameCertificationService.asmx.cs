@@ -456,10 +456,10 @@ namespace CFT.CSOMS.Service.CSAPI
                 string spid = paramsHt.ContainsKey("spid") ? paramsHt["spid"].ToString() : "";
                 string create_time = paramsHt.ContainsKey("create_time") ? paramsHt["create_time"].ToString() : "";
                 string uin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
-                string name = paramsHt.ContainsKey("name") ? paramsHt["name"].ToString() : "";
-                string identitycard = paramsHt.ContainsKey("identitycard") ? paramsHt["identitycard"].ToString() : "";
-                string image_path1 = paramsHt.ContainsKey("image_path1") ? paramsHt["image_path1"].ToString() : "";
-                string image_path2 = paramsHt.ContainsKey("image_path2") ? paramsHt["image_path2"].ToString() : "";
+                string name = paramsHt.ContainsKey("name") ? HttpUtility.UrlDecode(paramsHt["name"].ToString()) : "";
+                string identitycard = paramsHt.ContainsKey("identitycard") ? HttpUtility.UrlDecode(paramsHt["identitycard"].ToString()) : "";
+                string image_path1 = paramsHt.ContainsKey("image_path1") ? HttpUtility.UrlDecode(paramsHt["image_path1"].ToString()) : "";
+                string image_path2 = paramsHt.ContainsKey("image_path2") ? HttpUtility.UrlDecode(paramsHt["image_path2"].ToString()) : "";
                 string image_file1 = paramsHt.ContainsKey("image_file1") ? paramsHt["image_file1"].ToString() : "";
                 string image_file2 = paramsHt.ContainsKey("image_file2") ? paramsHt["image_file2"].ToString() : "";
 
@@ -467,6 +467,10 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 string result = new RealNameCertificateService().PushIdentityCardCheckInfo(serial_number, spid, Fcreate_time, uin, name, identitycard,
                                                     image_path1, image_path2, image_file1, image_file2);
+                if (result != "true")
+                {
+                    throw new ServiceException(APIUtil.ERR_GENERAL, result + "流水号：" + serial_number);
+                }
                 Record record = new Record();
                 record.RetValue = result;
                 List<Record> list = new List<Record>();
