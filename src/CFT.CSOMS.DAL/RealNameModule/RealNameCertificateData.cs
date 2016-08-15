@@ -224,8 +224,8 @@ namespace CFT.CSOMS.DAL.RealNameModule
                     return "有相同的流水号！";
                 }
                 cmd = "insert into c2c_fmdb.t_check_identitycard_{0} " +
-                    "(Fserial_number,Fspid,Fcreate_time, Fuin,Fname,Fidentitycard, Fimage_path1, Fimage_path2, Fimage_file1, Fimage_file2)" +
-                    "values ('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}')"
+                    "(Fserial_number,Fspid,Fcreate_time, Fuin,Fname,Fidentitycard, Fimage_path1, Fimage_path2, Fimage_file1, Fimage_file2,Fstate)" +
+                    "values ('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}',1)"
                     ;
 
                 cmd = string.Format(cmd, Fcreate_time.ToString("yyyyMM"), Fserial_number, Fspid, Fcreate_time.ToString(), Fuin, Fname, Fidentitycard, Fimage_path1, Fimage_path2, Fimage_file1, Fimage_file2);
