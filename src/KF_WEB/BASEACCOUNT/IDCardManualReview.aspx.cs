@@ -161,7 +161,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 if (!string.IsNullOrEmpty(decryptorStr))
                 {
                     BankLib.BankIOX aa = new BankLib.BankIOX();
-                    message = aa.Decryptor(decryptorStr, "abcdefghjklmn12345678912");
+                    message = aa.Decryptor(decryptorStr, "PWMXbxkk98N62W1lxnixJtMy");//测试环境key:abcdefghjklmn12345678912
                 }                
             }
             catch (Exception ex)
