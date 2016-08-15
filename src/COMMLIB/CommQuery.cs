@@ -4195,6 +4195,144 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
         }
 
+
+        /// <summary>
+        /// 特定格式字符串转表格
+        /// </summary>
+        /// <param name="str">特定格式字符串</param>
+        /// <param name="splitStr">字符串分隔符</param>
+        /// <param name="keyValueSplitStr">key和value分隔符</param>
+        /// <param name="errMsg"></param>
+        /// <returns></returns>
+        public static DataSet StringToDataTable(string str,char splitStr,char keyValueSplitStr, out string errMsg )
+        {
+            DataSet dsresult = null;
+            Hashtable ht = null;
+            errMsg = "";
+
+            if (!string.IsNullOrEmpty(str))
+            {
+                string[] strlist1 = str.Split(splitStr); //result=0&xx1=1&xx2=2
+
+                if (strlist1.Length == 0)
+                {
+                    dsresult = null;
+                    errMsg = "调用失败,返回结果有误" + str;
+                    return null;
+                }
+
+                ht = new Hashtable(strlist1.Length);
+
+                foreach (string strtmp in strlist1)
+                {
+                    string[] strlist2 = strtmp.Split(keyValueSplitStr);
+                    if (strlist2.Length != 2)
+                    {
+                        continue;
+                    }
+
+                    ht.Add(strlist2[0].Trim(), strlist2[1].Trim());
+                }
+
+                dsresult = new DataSet();
+                DataTable dt = new DataTable();
+                dsresult.Tables.Add(dt);
+                //添加列
+                foreach (string stmp in strlist1)
+                {
+                    if (stmp == null || stmp.Trim() == "")
+                        continue;
+
+                    string[] fieldsplit = stmp.Split('=');
+
+                    if (fieldsplit.Length != 2)
+                        continue;
+
+                    dt.Columns.Add(fieldsplit[0]);
+                }
+
+                DataRow drfield = dt.NewRow();
+                drfield.BeginEdit();
+
+                //解析xx1=1&xx2=2
+                foreach (string stmp in strlist1)
+                {
+                    if (stmp == null || stmp.Trim() == "")
+                        continue;
+
+                    string[] fieldsplit = stmp.Split('=');
+
+                    if (fieldsplit.Length != 2)
+                        continue;
+
+                    drfield[fieldsplit[0]] = IceDecode(fieldsplit[1].Trim());
+
+                }
+                drfield.EndEdit();
+                dt.Rows.Add(drfield);
+                
+            }
+
+            return dsresult;
+        }
+
+        /// <summary>
+        /// 特定格式字符串转数据字典
+        /// </summary>
+        /// <param name="str">特定格式字符串</param>
+        /// <param name="splitStr">字符串分隔符</param>
+        /// <param name="keyValueSplitStr">key和value分隔符</param>
+        /// <param name="errMsg"></param>
+        /// <returns></returns>
+        public static Dictionary<string, string> StringToDictionary(string inputStr, char splitStr, char keyValueSplitStr, out string errMsg)
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            errMsg = "";
+            try
+            {
+                if (!string.IsNullOrEmpty(inputStr))
+                {
+                    string[] inputStrArray= inputStr.Split(splitStr);
+
+                    if (inputStrArray.Length == 0)
+                    {
+                        dic = null;
+                        errMsg = "调用失败,返回结果有误" + inputStr;
+                    }
+                    else
+                    {
+                        foreach (string strtmp in inputStrArray)
+                        {
+                            string[] strlist2 = strtmp.Split(keyValueSplitStr);
+                            if (strlist2.Length != 2)
+                            {
+                                continue;
+                            }
+                            if (!dic.Keys.Contains(strlist2[0].ToString().Trim()))
+                            {
+                                dic.Add(strlist2[0].ToString().Trim(), strlist2[1].ToString().Trim());
+                            }
+                        }
+                    }                   
+                }
+            }
+            catch (Exception ex)
+            {
+                dic = null;
+            }            
+            return dic;
+        }
+
+        /// <summary>  
+        /// 获取时间戳  
+        /// </summary>  
+        /// <returns></returns>  
+        public static string GetTimeStamp()
+        {
+            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return Convert.ToInt64(ts.TotalSeconds).ToString();
+        }  
+
     }
 
 }

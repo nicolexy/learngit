@@ -184,6 +184,67 @@ namespace BankLib
                 return "";
             }
         }
+
+        #region
+
+        public string Encryptor(string Source, string Key)
+        {
+            if (Key.Length != 24)
+            {
+                throw new Exception("¥ÌŒÛµƒ√ÿ‘ø£°");
+            }
+
+            byte[] truekey = System.Text.Encoding.UTF8.GetBytes(Key);// Convert.FromBase64String(Key);
+            byte[] trueSource = System.Text.Encoding.UTF8.GetBytes(Source);
+
+            TripleDESCryptoServiceProvider tripleDes = new TripleDESCryptoServiceProvider()
+            {
+
+                Key = truekey,
+                Mode = CipherMode.ECB,
+                Padding = PaddingMode.Zeros
+            };
+
+            MemoryStream ms = new MemoryStream();
+            CryptoStream cs = new CryptoStream(ms, tripleDes.CreateEncryptor(), CryptoStreamMode.Write);
+
+            cs.Write(trueSource, 0, trueSource.Length);
+            cs.FlushFinalBlock();
+
+            byte[] str = ms.ToArray();
+
+            return Convert.ToBase64String(str);
+        }
+
+        public string Decryptor(string Source, string Key = "PWMXbxkk98N62W1lxnixJtMy")//’˝ Ωkey:PWMXbxkk98N62W1lxnixJtMy
+        {
+            if (Key.Length != 24)
+            {
+                throw new Exception("¥ÌŒÛµƒ√ÿ‘ø£°");
+            }
+
+            byte[] truekey = System.Text.Encoding.UTF8.GetBytes(Key);
+            byte[] trueSource = Convert.FromBase64String(Source);
+
+            TripleDESCryptoServiceProvider tripleDes = new TripleDESCryptoServiceProvider()
+            {
+                Key = truekey,
+                Mode = CipherMode.ECB,
+                Padding = PaddingMode.Zeros
+            };
+
+            MemoryStream ms = new MemoryStream();
+            CryptoStream cs = new CryptoStream(ms, tripleDes.CreateDecryptor(), CryptoStreamMode.Write);
+
+            cs.Write(trueSource, 0, trueSource.Length);
+            cs.FlushFinalBlock();
+
+            byte[] str = ms.ToArray();
+
+            return System.Text.Encoding.UTF8.GetString(str).TrimEnd('\0');
+        }
+
+        #endregion
 	
     
     }
