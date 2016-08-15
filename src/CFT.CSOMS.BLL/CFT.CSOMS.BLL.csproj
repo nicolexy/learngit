@@ -81,6 +81,7 @@
     <Compile Include="FundModule\ControlFundService.cs" />
     <Compile Include="FundModule\LCTBalanceService.cs" />
     <Compile Include="HandQModule\HandQService.cs" />
+    <Compile Include="IdCardModule\IdCardManualReviewService.cs" />
     <Compile Include="Infrastructure\PublicResService.cs" />
     <Compile Include="InternationalityPayModule\QueryWeiXinMircoPay.cs" />
     <Compile Include="InternetBank\InternetBankService.cs" />
