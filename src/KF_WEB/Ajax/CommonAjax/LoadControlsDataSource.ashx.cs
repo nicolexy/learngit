@@ -22,6 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
             if (!string.IsNullOrEmpty(getAction))
             {
                 Action(getAction, context);
+
             }
         }
 
