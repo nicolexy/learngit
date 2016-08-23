@@ -130,6 +130,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage {
         protected global::System.Web.UI.WebControls.Label labFSign;
         
         /// <summary>
+        /// lab_PayResult control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lab_PayResult;
+        
+        /// <summary>
+        /// lab_PayResultText control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lab_PayResultText;
+        
+        /// <summary>
         /// Label19 control.
         /// </summary>
         /// <remarks>

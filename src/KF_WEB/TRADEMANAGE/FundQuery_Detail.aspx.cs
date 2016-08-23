@@ -15,7 +15,7 @@ using System.Web.Services.Protocols;
 using TENCENT.OSS.CFT.KF.Common;
 using CFT.CSOMS.BLL.TransferMeaning;
 using CFT.CSOMS.BLL.TradeModule;
-
+using CFT.CSOMS.BLL.BankCardBindModule;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -127,6 +127,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 tmp = PublicRes.GetInt(dr["Fsign"]);
                 labFSign.Text = Transfer.returnDicStr("TCLIST_SIGN", tmp);
 
+                //调用接口返回支付结果
+                //测试代码bank_type=3006&bill_no=201608040000125722&transaction_id=1216402401321608040000000000
+                BankCardBindService bankCardBindService = new BankCardBindService();
+                int bankType = int.Parse(PublicRes.GetInt(dr["FBank_Type"]));
+                //string getBankSyncStateResult = bankCardBindService.GetBankSyncState(bankType, PublicRes.GetString(dr["FBank_List"]), PublicRes.GetString(dr["FListID"]));                
+                DataSet bankSyncStateResultDS = bankCardBindService.GetBankSyncStateDataSet(bankType, PublicRes.GetString(dr["FBank_List"]), PublicRes.GetString(dr["FListID"]));
+                lab_PayResultText.Text = PublicRes.GetDataTableColumnValue(bankSyncStateResultDS.Tables[0], 0, "pay_result").Equals("1") ? "支付结果未知" : "银行扣款成功";
 
                 labFBank_List.Text = PublicRes.GetString(dr["FBank_List"]);
                 labFBank_Acc.Text = PublicRes.GetString(dr["FBank_Acc"]);

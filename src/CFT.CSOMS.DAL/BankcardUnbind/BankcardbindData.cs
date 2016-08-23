@@ -794,5 +794,61 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
                 throw new Exception("Service处理失败！" + msg, err);
             }
         }
+
+        /// <summary>
+        /// 银行查补单状态查询
+        /// </summary>
+        /// <param name="bank_type"></param>
+        /// <param name="bill_no"></param>
+        /// <param name="transaction_id"></param>
+        /// <returns>返回格式如下:result=0&res_info=ok&amount=10&bank_billno=201608040000125722&bank_query_source=3&bank_query_time=2016-08-04 12:36:51&bill_no=201608040000125722&pay_result=2&sync_state=15&transaction_id=1216402401321608040000000000</returns>
+        public string GetBankSyncState(int bank_type, string bill_no, string transaction_id)
+        {
+            string relayip = System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_IP"];
+            int relayport = int.Parse(System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_Por"]);
+            string requesttpe = System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_request_type"];
+            try
+            {
+                StringBuilder sb_reqString = new StringBuilder();
+                sb_reqString.AppendFormat("bank_type={0}", bank_type.ToString());
+                sb_reqString.AppendFormat("&bill_no={0}", !string.IsNullOrEmpty(bill_no) ? bill_no : "");
+                sb_reqString.AppendFormat("&transaction_id={0}", !string.IsNullOrEmpty(transaction_id) ? transaction_id : "");
+                return RelayAccessFactory.RelayInvoke(sb_reqString.ToString(), requesttpe, false, false, relayip, relayport, "");
+
+            }
+            catch (Exception err)
+            {
+                throw new Exception(string.Format("银行查补单状态查询:{0},{1}", relayip, err.Message));
+            }
+
+        }
+
+        /// <summary>
+        /// 银行查补单状态查询
+        /// </summary>
+        /// <param name="bank_type"></param>
+        /// <param name="bill_no"></param>
+        /// <param name="transaction_id"></param>
+        /// <returns>返回格式如下:result=0&res_info=ok&amount=10&bank_billno=201608040000125722&bank_query_source=3&bank_query_time=2016-08-04 12:36:51&bill_no=201608040000125722&pay_result=2&sync_state=15&transaction_id=1216402401321608040000000000</returns>
+        public DataSet GetBankSyncStateDataSet(int bank_type, string bill_no, string transaction_id)
+        {
+            string relayip = System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_IP"];
+            int relayport = int.Parse(System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_Por"]);
+            string requesttpe = System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_request_type"];
+            try
+            {
+                StringBuilder sb_reqString = new StringBuilder();
+                sb_reqString.AppendFormat("bank_type={0}", bank_type.ToString());
+                sb_reqString.AppendFormat("&bill_no={0}", !string.IsNullOrEmpty(bill_no) ? bill_no : "");
+                sb_reqString.AppendFormat("&transaction_id={0}", !string.IsNullOrEmpty(transaction_id) ? transaction_id : "");
+                return RelayAccessFactory.GetDSFromRelayMethod1(sb_reqString.ToString(), requesttpe, relayip, relayport);
+
+            }
+            catch (Exception err)
+            {
+                throw new Exception(string.Format("银行查补单状态查询:{0},{1}", relayip, err.Message));
+            }
+
+        }
     }
 }

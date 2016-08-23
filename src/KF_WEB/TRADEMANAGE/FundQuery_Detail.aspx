@@ -62,66 +62,82 @@
 									</TD>
 								</TR>
 								<tr borderColor="#999999" bgColor="#999999">
+
 									<td colSpan="4"></td>
 								</tr>
-								<TR>
-									<TD align="center">
+                                <TR>
+									<TD align="center" style="HEIGHT: 17px">
+										<P align="right"><asp:label id="lab_PayResult" runat="server">支付结果：</asp:label><FONT face="宋体">:</FONT></P>
+									</TD>
+									<TD align="center" style="HEIGHT: 17px">
+										<P align="left"><asp:label id="lab_PayResultText" runat="server" ForeColor="Blue"></asp:label></P>
+									</TD>
+                                    <TD align="center">
 										<P align="right"><asp:label id="Label19" runat="server">银行订单号：</asp:label><FONT face="宋体">:</FONT></P>
 									</TD>
 									<TD align="center">
 										<P align="left"><asp:label id="labFBank_List" runat="server" ForeColor="Blue"></asp:label></P>
 									</TD>
+								</TR>
+                                <tr borderColor="#999999" bgColor="#999999">
+									<td colSpan="4"></td>
+								</tr>
+								<TR>
+									
 									<TD align="center">
 										<P align="right"><asp:label id="Label21" runat="server">银行返回订单号：</asp:label><FONT face="宋体">:</FONT></P>
 									</TD>
 									<TD align="center">
 										<P align="left"><asp:label id="labFBank_Acc" runat="server" ForeColor="Blue"></asp:label></P>
 									</TD>
-								</TR>
-								<tr borderColor="#999999" bgColor="#999999">
-									<td colSpan="4"><FONT face="宋体"></FONT></td>
-								</tr>
-								<TR>
-									<TD align="center" style="HEIGHT: 18px">
+                                    <TD align="center" style="HEIGHT: 18px">
 										<P align="right"><asp:label id="Label5" runat="server">银行类型：</asp:label><FONT face="宋体">:</FONT></P>
 									</TD>
 									<TD align="center" style="HEIGHT: 18px">
 										<P align="left"><asp:label id="labFBank_Type" runat="server" ForeColor="Blue"></asp:label></P>
 									</TD>
+								</TR>
+								<tr borderColor="#999999" bgColor="#999999">
+									<td colSpan="4"><FONT face="宋体"></FONT></td>
+								</tr>
+								<TR>
+									
 									<TD align="center" style="HEIGHT: 18px">
 										<P align="right"><asp:label id="Label15" runat="server">充值人ID：</asp:label><FONT face="宋体">:</FONT></P>
 									</TD>
 									<TD align="center" style="HEIGHT: 18px">
 										<P align="left"><asp:label id="labFaid" runat="server" ForeColor="Blue"></asp:label></P>
 									</TD>
-								</TR>
-								<tr borderColor="#999999" bgColor="#999999">
-									<td colSpan="4"><FONT face="宋体"></FONT></td>
-								</tr>
-								<TR>
-									<TD align="center">
+                                    <TD align="center">
 										<P align="right"><asp:label id="Label7" runat="server">充值人姓名：</asp:label><FONT face="宋体">:</FONT></P>
 									</TD>
 									<TD align="center">
 										<P align="left"><asp:label id="labFaname" runat="server" ForeColor="Blue"></asp:label></P>
 									</TD>
+								</TR>
+								<tr borderColor="#999999" bgColor="#999999">
+									<td colSpan="4"><FONT face="宋体"></FONT></td>
+								</tr>
+								<TR>
+									
 									<TD align="center">
 										<P align="right"><FONT face="宋体"></FONT><asp:label id="Label16" runat="server">付款前时间：</asp:label><FONT face="宋体">:</FONT></P>
 									</TD>
 									<TD align="center">
 										<P align="left"><asp:label id="labFpay_front_time" runat="server" ForeColor="Blue"></asp:label></P>
 									</TD>
-								</TR>
-								<tr borderColor="#999999" bgColor="#999999">
-									<td colSpan="4"></td>
-								</tr>
-								<TR>
-									<TD align="center" style="HEIGHT: 16px">
+                                    <TD align="center" style="HEIGHT: 16px">
 										<P align="right"><asp:label id="Label23" runat="server">银行返回时间：</asp:label><FONT face="宋体">:</FONT></P>
 									</TD>
 									<TD align="center" style="HEIGHT: 16px">
 										<P align="left"><asp:label id="labFbank_time" runat="server" ForeColor="Blue"></asp:label></P>
 									</TD>
+								</TR>
+								<tr borderColor="#999999" bgColor="#999999">
+									<td colSpan="4"></td>
+								</tr>
+								<TR>
+									
 									<TD align="center" style="HEIGHT: 16px">
 										<P align="right"><asp:label id="Label25" runat="server">最后修改时间：</asp:label><FONT face="宋体">:</FONT></P>
 									</TD>
