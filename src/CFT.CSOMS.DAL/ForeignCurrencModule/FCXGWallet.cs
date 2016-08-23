@@ -935,7 +935,8 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
             if (string.IsNullOrWhiteSpace(str))
                 return str;
 
-            var srcEncoding = srcCode == null ? System.Text.Encoding.Default : System.Text.Encoding.GetEncoding(srcCode);
+            //var srcEncoding = srcCode == null ? System.Text.Encoding.Default : System.Text.Encoding.GetEncoding(srcCode); //此处编码和解码会出现乱码，编码和解码要对应
+            var srcEncoding = srcCode == null ? System.Text.Encoding.GetEncoding(srcCode) : System.Text.Encoding.GetEncoding(srcCode);
             var toEncoding = System.Text.Encoding.GetEncoding(toCode);
 
             var buff = srcEncoding.GetBytes(str);

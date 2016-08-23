@@ -1180,6 +1180,33 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             }
             ddl.DataBind();
         }
+
+        /// <summary>
+        /// 获取DataTable中第N行的某列的值
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="rowIndex"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        public static string GetDataTableColumnValue(DataTable dt, int rowIndex, string columnName)
+        {
+            string columnValue = string.Empty;
+            try
+            {
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    if (dt.Columns.Contains(columnName))
+                    {
+                        columnValue = dt.Rows[rowIndex][columnName] != null && dt.Rows[rowIndex][columnName] != DBNull.Value ? dt.Rows[rowIndex][columnName].ToString() : string.Empty;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                columnValue = string.Empty;
+            }
+            return columnValue;
+        }
     }
 
 }

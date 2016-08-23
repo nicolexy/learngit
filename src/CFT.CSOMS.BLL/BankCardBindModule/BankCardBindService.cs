@@ -815,5 +815,80 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             return ret;
         }
 
+        /// <summary>
+        /// 银行查补单状态查询
+        /// </summary>
+        /// <param name="bank_type">银行类型</param>
+        /// <param name="bill_no">给银行订单号</param>
+        /// <param name="transaction_id">财付通订单号</param>
+        /// <returns></returns>
+        public string GetBankSyncState(int bank_type, string bill_no, string transaction_id)
+        {
+            try
+            {
+                string result = new BankcardbindData().GetBankSyncState(bank_type, bill_no, transaction_id);
+                return result;
+            }
+            catch (Exception err)
+            {
+                throw new Exception("GetBankSyncState Service处理失败！" + err.Message);
+            }
+
+        }
+
+
+        /// <summary>
+        /// 银行查补单状态查询
+        /// </summary>
+        /// <param name="bank_type">银行类型</param>
+        /// <param name="bill_no">给银行订单号</param>
+        /// <param name="transaction_id">财付通订单号</param>
+        /// <returns></returns>
+        public DataSet GetBankSyncStateDataSet(int bank_type, string bill_no, string transaction_id)
+        {
+            try
+            {
+                return new BankcardbindData().GetBankSyncStateDataSet(bank_type, bill_no, transaction_id);
+            }
+            catch (Exception err)
+            {
+                throw new Exception("GetBankSyncStateDataSet Service处理失败！" + err.Message);
+            }
+
+        }
+        /// <summary>
+        /// 银行查补单状态支付状态返回结果
+        /// </summary>
+        /// <param name="getBankSyncStateResult">银行查补单状态查询返回字符串</param>
+        /// <returns></returns>
+        public string GetBankSyncStatePayResult(string getBankSyncStateResult)
+        {
+            string result = string.Empty;
+            try
+            {
+                if (!string.IsNullOrEmpty(getBankSyncStateResult))
+                {
+                    string payResultStr = getBankSyncStateResult.Split('&')[7];
+                    string payResult = payResultStr.Substring(payResultStr.IndexOf("=") + 1);
+                    if (!string.IsNullOrEmpty(payResult))
+                    {
+                        if (payResult.Equals("1"))
+                        {
+                            result = "支付结果未知";
+                        }
+                        else if (payResult.Equals("2"))
+                        {
+                            result = "银行扣款成功";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result = string.Empty;
+            }
+            return result;
+        } 
+
     }
 }
