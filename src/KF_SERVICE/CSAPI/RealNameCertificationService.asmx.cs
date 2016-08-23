@@ -160,6 +160,8 @@ namespace CFT.CSOMS.Service.CSAPI
         [WebMethod]
         public void AuQryAuthStatusService()
         {
+            System.Diagnostics.Stopwatch watchTime = new System.Diagnostics.Stopwatch();
+            watchTime.Start();
             try
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
@@ -217,13 +219,15 @@ namespace CFT.CSOMS.Service.CSAPI
                         }
                         break;
                 }
-
+                watchTime.Stop();
+                SunLibrary.LoggerFactory.Get("PQueryUserInfoService").InfoFormat("认证渠道信息查询接口RealNameCertificationService.AuQryAuthStatusService,请求源IP{0},本地IP{1},Relay请求耗时{2}", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(), watchTime.ElapsedMilliseconds);
+                watchTime.Restart();
                 if (ds == null || ds.Tables.Count <= 0 || ds.Tables[0].Rows.Count <= 0)
                 {
                     throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
                 }
                 else
-                {
+                {                   
                     if (request_detail_info == 0)
                     {
                         List<RealNameCertification.AuthStatusInfo> list = APIUtil.ConvertTo<RealNameCertification.AuthStatusInfo>(ds.Tables[0]);
@@ -235,6 +239,8 @@ namespace CFT.CSOMS.Service.CSAPI
                         APIUtil.Print<RealNameCertification.AuthStatusInfoDetail>(list);
                     }
                 }
+                watchTime.Stop();
+                SunLibrary.LoggerFactory.Get("PQueryUserInfoService").InfoFormat("认证渠道信息查询接口RealNameCertificationService.AuQryAuthStatusService,请求源IP{0},本地IP{1},Relay结束解析到XMl或者Json耗时{2}", HttpContext.Current.Request.UserHostAddress, AccLogHelper.GetLocalIp(),watchTime.ElapsedMilliseconds);               
             }
             catch (ServiceException se)
             {
