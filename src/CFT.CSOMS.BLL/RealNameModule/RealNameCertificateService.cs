@@ -327,11 +327,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
                         if (!string.IsNullOrEmpty(cur_row["total_out_amount"].ToString()))
                         {
                             cur_row["total_out_amount"] = Int64.Parse(cur_row["total_out_amount"].ToString()) / 100.0;
-                        }
-                        if (!string.IsNullOrEmpty(cur_row["month_outin_amount"].ToString()))
-                        {
-                            cur_row["month_outin_amount"] = Int64.Parse(cur_row["month_outin_amount"].ToString()) / 100.0;
-                        }
+                        }                     
                         if (!string.IsNullOrEmpty(cur_row["year_out_amount"].ToString()))
                         {
                             cur_row["year_out_amount"] = Int64.Parse(cur_row["year_out_amount"].ToString()) / 100.0;
@@ -439,6 +435,7 @@ namespace CFT.CSOMS.BLL.RealNameModule
                             cur_row["cre_type"] = ds_userinfo.Tables[0].Rows[0]["cre_type"];
                             cur_row["cre_type_txt"] = GetCreTypeText((ds_userinfo.Tables[0].Rows[0]["cre_type"] != null && ds_userinfo.Tables[0].Rows[0]["cre_type"].ToString() != "") ? ds_userinfo.Tables[0].Rows[0]["cre_type"].ToString() : "0");
                             cur_row["cre_id"] = ds_userinfo.Tables[0].Rows[0]["cre_id"];
+                            cur_row["ban_static_state"] = ds_userinfo.Tables[0].Rows[0]["ban_static_state"].ToString() == "1" ? "是" : "否";
                             cur_row.EndEdit();
                         }
                     }
@@ -627,6 +624,8 @@ namespace CFT.CSOMS.BLL.RealNameModule
             dt.Columns.Add("cre_type_txt", typeof(string));
             //证件号
             dt.Columns.Add("cre_id", typeof(string));
+            //客户余额连续10天超过5000标记
+            dt.Columns.Add("ban_static_state", typeof(string));
 
             ////认证结果
             dt.Columns.Add("gov_auth_result", typeof(string));

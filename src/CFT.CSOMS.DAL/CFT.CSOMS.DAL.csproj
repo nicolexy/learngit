@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountModule\AccountData.cs" />
     <Compile Include="ActivityModule\ActivityData.cs" />
     <Compile Include="AutoRechargeModule\AutoRechargeData.cs" />
     <Compile Include="BalanceModule\BalanceData.cs" />

@@ -202,23 +202,20 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                 string key = System.Configuration.ConfigurationManager.AppSettings["RealNameKey"].ToString();
                 key += Operator;
 
-                byte[] KEY = new byte[] { 0x4a, 0x08, 0x80, 0x58, 0x13, 0xad, 0x46, 0x89 };
-                byte[] IV = new byte[] { 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18 };
-
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         dr["Ftruename"] = CommUtil.TripleDESDecryptRealName(dr["Ftruename"].ToString(), key);
-                        var bank_id = CommUtil.TripleDESDecryptRealName(dr["Fbank_id"].ToString(), key);
-                        dr["Fbank_id"] = Convert.ToBase64String(Apollo.Common.Cryptography.DESHelper.Encrypt(bank_id, KEY, IV));    //等Apollo.Common 跟新后 可以直接用这个方法 CFTCrytographyHerper.DESEncryptAndBase64URLEncoded(text2cntrypted, null, null);
+                        var bank_id = CommUtil.TripleDESDecryptRealName(dr["Fbank_id"].ToString(), key); ;
+                        dr["Fbank_id"] = CommUtil.EncryptZerosPadding(bank_id);
                         dr["Fcre_id"] = CommUtil.TripleDESDecryptRealName(dr["Fcre_id"].ToString(), key);
                         dr["Ftelephone"] = CommUtil.TripleDESDecryptRealName(dr["Ftelephone"].ToString(), key);
                         dr["Fmobilephone"] = CommUtil.TripleDESDecryptRealName(dr["Fmobilephone"].ToString(), key);
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new Exception("查询一点通业务和快捷支付业务 解密失败：" + e.Message);
             }
@@ -227,7 +224,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
 
 
 
-        public DataSet GetBankCardBindRelationList(string bank_type, string bank_id, 
+        public DataSet GetBankCardBindRelationList(string bank_type, string bank_id,
             string cre_type, string cre_id, string protocol_no, string phoneno, int bind_state, int limStart, int limCount)
         {
             try
@@ -253,11 +250,11 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                     foreach (DataRow dr in ds1.Tables[0].Rows)
                     {
                         DataRow drResult = dt.NewRow();
-                        drResult["uin"]         = dr["fuin"].ToString();
-                        drResult["bank_type"]   = dr["Fbank_type"].ToString();
-                        drResult["cre_id"]      = dr["fcre_id"].ToString();
-                        drResult["bank_id"]     = dr["fbank_id"].ToString();
-                        drResult["card_tail"]   = dr["fcard_tail"].ToString();
+                        drResult["uin"] = dr["fuin"].ToString();
+                        drResult["bank_type"] = dr["Fbank_type"].ToString();
+                        drResult["cre_id"] = dr["fcre_id"].ToString();
+                        drResult["bank_id"] = dr["fbank_id"].ToString();
+                        drResult["card_tail"] = dr["fcard_tail"].ToString();
                         dt.Rows.Add(drResult);
                     }
                 }
@@ -266,11 +263,11 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                     foreach (DataRow dr in ds2.Tables[0].Rows)
                     {
                         DataRow drResult = dt.NewRow();
-                        drResult["uin"]         = dr["fuin"].ToString();
-                        drResult["bank_type"]   = dr["Fbank_type"].ToString();
-                        drResult["cre_id"]      = dr["fcre_id"].ToString();
-                        drResult["bank_id"]     = dr["fbank_id"].ToString();
-                        drResult["card_tail"]   = dr["fcard_tail"].ToString();
+                        drResult["uin"] = dr["fuin"].ToString();
+                        drResult["bank_type"] = dr["Fbank_type"].ToString();
+                        drResult["cre_id"] = dr["fcre_id"].ToString();
+                        drResult["bank_id"] = dr["fbank_id"].ToString();
+                        drResult["card_tail"] = dr["fcard_tail"].ToString();
                         dt.Rows.Add(drResult);
                     }
                 }
@@ -308,7 +305,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             //dt.Columns.Add("xyzf_type_Str", typeof(string));//信用支付类型
 
             foreach (DataRow dr in dt.Rows)
-            {              
+            {
                 string Fbank_status = dr["Fbank_status"].ToString();
                 if (Fbank_status == "0")
                     dr["bank_status_str"] = "未定义";
@@ -398,7 +395,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             return ds;
         }
 
-           
+
 
 
 
@@ -680,6 +677,218 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
             }
         }
 
-              
+        /// <summary>
+        /// 一点通业务（101140），提供接口方，关于分页的
+        /// </summary>
+        /// <returns></returns>
+        public DataSet GetBankCardBindList_FinalNew(string fuin, string Fbank_type, string bankID, string uid, string creID, string protocolno, string phoneno,
+     string strBeginDate, string strEndDate, int bindStatue, string bind_serialno, string Operator, int bind_type, string cre_type, int limStart, int limCount, out int total_num)
+        {
+            DataSet ds = new BankcardbindData().GetBankCardBindList_FinalNew(fuin, Fbank_type, bankID, uid, creID, protocolno, phoneno, strBeginDate, strEndDate,
+                bindStatue, bind_serialno, Operator, bind_type, cre_type, limStart, limCount, out total_num);
+            try
+            {
+                //对返回的xml解密的秘钥
+                string key = System.Configuration.ConfigurationManager.AppSettings["RealNameKey"].ToString();
+                key += Operator;
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fonce_quota", "Fonce_quota");
+                        MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fday_quota", "Fday_quota");
+                        dr["Ftruename"] = CommUtil.TripleDESDecryptRealName(dr["Ftruename"].ToString(), key);
+                        var bank_id = CommUtil.TripleDESDecryptRealName(dr["Fbank_id"].ToString(), key); ;
+                        dr["Fbank_id"] = CommUtil.EncryptZerosPadding(bank_id);
+                        dr["Fcre_id"] = CommUtil.TripleDESDecryptRealName(dr["Fcre_id"].ToString(), key);
+                        dr["Ftelephone"] = CommUtil.TripleDESDecryptRealName(dr["Ftelephone"].ToString(), key);
+                        dr["Fmobilephone"] = CommUtil.TripleDESDecryptRealName(dr["Fmobilephone"].ToString(), key);
+                        dr["sms_flag"] = dr["sms_flag"].ToString() == "1" ? "已开启" : "已关闭";
+                        dr["Fbank_status"] = GetBankStatus(dr["Fbank_status"].ToString());
+                        dr["Fbind_type"] = GetBindType(dr["Fbind_type"].ToString());
+                        dr["Fbind_status"] = GetBindStatus(dr["Fbind_status"].ToString());
+                        dr["Fbind_flag"] = GetBindFlag(dr["Fbind_flag"].ToString());
+                        dr["Fcre_type"] = GetCreType(dr["Fcre_type"].ToString());
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("查询一点通业务和快捷支付业务 解密失败：" + e.Message);
+            }
+            return ds;
+        }
+
+        public string GetBankStatus(string bank_status)
+        {
+            string ret = string.Empty;
+            if (bank_status == "0")
+                ret = "未定义";
+            else if (bank_status == "1")
+                ret = "预绑定状态(未激活)";
+            else if (bank_status == "2")
+                ret = "绑定确认(正常)";
+            else if (bank_status == "3")
+                ret = "解除绑定";
+            else
+                ret = "Unknown";
+            return ret;
+        }
+
+        public string GetBindType(string bind_type)
+        {
+            string ret = string.Empty;
+            if (bind_type == "0")
+                ret = "未知类型";
+            else if (bind_type == "1")
+                ret = "普通借记卡关联";
+            else if (bind_type == "2")
+                ret = "银行联名卡关联";
+            else if (bind_type == "3")
+                ret = "信用卡关联";
+            else if (bind_type == "4")
+                ret = "内部绑定";
+            else if (bind_type == "20")
+                ret = "普通信用卡关联";
+            else
+                ret = "Unknown";
+            return ret;
+        }
+
+        public string GetBindStatus(string bind_status)
+        {
+            string ret = string.Empty;
+            if (bind_status == "0")
+                ret = "未定义";
+            else if (bind_status == "1")
+                ret = "初始状态";
+            else if (bind_status == "2")
+                ret = "开启";
+            else if (bind_status == "3")
+                ret = "关闭";
+            else if (bind_status == "4")
+                ret = "解除";
+            else if (bind_status == "5")
+                ret = "银行已激活，用户未激活";
+            else
+                ret = "Unknown";
+            return ret;
+        }
+
+        public string GetBindFlag(string bind_flag)
+        {
+            string ret = string.Empty;
+            if (bind_flag == "0")
+                ret = "未知";
+            else if (bind_flag == "1")
+                ret = "有效";
+            else if (bind_flag == "2")
+                ret = "无效";
+            else
+                ret = "Unknown";
+            return ret;
+        }
+
+        public string GetCreType(string cre_type)
+        {
+            string ret = string.Empty;
+            switch (cre_type)
+            {
+                case "1":
+                    {
+                        ret = "身份证";
+                    } break;
+                case "2":
+                    {
+                        ret = "护照";
+                    } break;
+                case "3":
+                    {
+                        ret = "军官证";
+                    } break;
+                default:
+                    {
+                        ret = "未知";
+                    } break;
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// 银行查补单状态查询
+        /// </summary>
+        /// <param name="bank_type">银行类型</param>
+        /// <param name="bill_no">给银行订单号</param>
+        /// <param name="transaction_id">财付通订单号</param>
+        /// <returns></returns>
+        public string GetBankSyncState(int bank_type, string bill_no, string transaction_id)
+        {
+            try
+            {
+                string result = new BankcardbindData().GetBankSyncState(bank_type, bill_no, transaction_id);
+                return result;
+            }
+            catch (Exception err)
+            {
+                throw new Exception("GetBankSyncState Service处理失败！" + err.Message);
+            }
+
+        }
+
+
+        /// <summary>
+        /// 银行查补单状态查询
+        /// </summary>
+        /// <param name="bank_type">银行类型</param>
+        /// <param name="bill_no">给银行订单号</param>
+        /// <param name="transaction_id">财付通订单号</param>
+        /// <returns></returns>
+        public DataSet GetBankSyncStateDataSet(int bank_type, string bill_no, string transaction_id)
+        {
+            try
+            {
+                return new BankcardbindData().GetBankSyncStateDataSet(bank_type, bill_no, transaction_id);
+            }
+            catch (Exception err)
+            {
+                throw new Exception("GetBankSyncStateDataSet Service处理失败！" + err.Message);
+            }
+
+        }
+        /// <summary>
+        /// 银行查补单状态支付状态返回结果
+        /// </summary>
+        /// <param name="getBankSyncStateResult">银行查补单状态查询返回字符串</param>
+        /// <returns></returns>
+        public string GetBankSyncStatePayResult(string getBankSyncStateResult)
+        {
+            string result = string.Empty;
+            try
+            {
+                if (!string.IsNullOrEmpty(getBankSyncStateResult))
+                {
+                    string payResultStr = getBankSyncStateResult.Split('&')[7];
+                    string payResult = payResultStr.Substring(payResultStr.IndexOf("=") + 1);
+                    if (!string.IsNullOrEmpty(payResult))
+                    {
+                        if (payResult.Equals("1"))
+                        {
+                            result = "支付结果未知";
+                        }
+                        else if (payResult.Equals("2"))
+                        {
+                            result = "银行扣款成功";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result = string.Empty;
+            }
+            return result;
+        } 
+
     }
 }

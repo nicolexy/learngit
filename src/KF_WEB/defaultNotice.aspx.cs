@@ -74,7 +74,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             bool result = false;
             try
             {
-                HttpCookie cookie = Request.Cookies["TencentKFCFSystemloginStaus"];
+                HttpCookie cookie = Request.Cookies["TencentKFCFSystemloginStatus"];
 
                 string loginStaus = cookie == null ? string.Empty : cookie.Value.ToString();
                 if (!string.IsNullOrEmpty(loginStaus))
@@ -95,7 +95,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             try
             {
                 // 创建一个HttpCookie对象
-                HttpCookie cookie = new HttpCookie("TencentKFCFSystemloginStaus");
+                HttpCookie cookie = new HttpCookie("TencentKFCFSystemloginStatus");
                 //设定此cookie值
                 cookie.Value = uid;
                 DateTime dtnow = DateTime.Now;

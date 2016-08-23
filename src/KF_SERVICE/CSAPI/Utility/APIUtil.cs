@@ -643,7 +643,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
         }
 
         public static void Print4DataTable(
-            DataTable table, List<String> excludedColNames, Dictionary<String, String> colNameMaps)
+            DataTable table, List<String> excludedColNames, Dictionary<String, String> colNameMaps,int total_num=-1)
         {
             Dictionary<string, string> nvc = GetQueryStrings();
             string[] map = nvc.Keys.Cast<string>().ToArray();
@@ -651,11 +651,11 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
                 && !string.IsNullOrEmpty(nvc["f"].ToString())
                 && nvc["f"].ToString().ToLower() == "json")
             {
-                PrintJson4DataTable(table, excludedColNames, colNameMaps);
+                PrintJson4DataTable(table, excludedColNames, colNameMaps,total_num);
             }
             else
             {
-                PrintXML4DataTable(table, excludedColNames, colNameMaps);
+                PrintXML4DataTable(table, excludedColNames, colNameMaps,total_num);
             }
         }
 
@@ -667,13 +667,17 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
         /// <param name="colNameMaps"> 列名需要重命名的列</param>
         /// <returns></returns>
         public static void PrintXML4DataTable(
-            DataTable table, List<String> excludedColNames, Dictionary<String, String> colNameMaps)
+            DataTable table, List<String> excludedColNames, Dictionary<String, String> colNameMaps,int total_num=-1)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("<root>");
             sb.Append(String.Format("<return_code>{0}</return_code>", APIUtil.SUCC));
             sb.Append(String.Format("<msg>{0}</msg>", APIUtil.MSG_OK));
             sb.Append(String.Format("<count>{0}</count>", table.Rows.Count));
+            if (total_num != -1)
+            {
+                sb.Append(String.Format("<total_num>{0}</total_num>", total_num));
+            }
             sb.Append("<records>");
             foreach (DataRow dr in table.Rows)
             {
@@ -730,7 +734,7 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
         /// <param name="colNameMaps"> 列名需要重命名的列</param>
         /// <returns></returns>
         public static void PrintJson4DataTable(
-            DataTable table, List<String> excludedColNames, Dictionary<String, String> colNameMaps)
+            DataTable table, List<String> excludedColNames, Dictionary<String, String> colNameMaps,int total_num=-1)
         {
             System.Web.Script.Serialization.JavaScriptSerializer
                 serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
@@ -738,7 +742,10 @@ namespace CFT.CSOMS.Service.CSAPI.Utility
             result.Add("return_code", APIUtil.SUCC);
             result.Add("msg", APIUtil.MSG_OK);
             result.Add("count", table.Rows.Count);
-
+            if (total_num != -1)
+            {
+                result.Add("total_num", total_num);
+            }
             List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
             Dictionary<string, object> row;
             foreach (DataRow dr in table.Rows)
