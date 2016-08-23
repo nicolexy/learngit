@@ -438,6 +438,13 @@
     <Compile Include="BaseAccount\logOnUserNew.aspx.designer.cs">
       <DependentUpon>logOnUserNew.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\logOnWxAccount.aspx.cs">
+      <DependentUpon>logOnWxAccount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\logOnWxAccount.aspx.designer.cs">
+      <DependentUpon>logOnWxAccount.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\ModifyContactInfo.aspx.cs">
       <DependentUpon>ModifyContactInfo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3042,9 +3049,11 @@
     <Content Include="BaseAccount\IDCardManualReview.aspx" />
     <Content Include="BaseAccount\IDCardManualReview.js" />
     <Content Include="BaseAccount\InfoCenterDelRecord.aspx" />
+    <Content Include="BaseAccount\js\LogOnWxAccount.js" />
     <Content Include="BaseAccount\js\RealNameCertifation.js" />
     <Content Include="BaseAccount\logOnUserBatch.aspx" />
     <Content Include="BaseAccount\logOnUserNew.aspx" />
+    <Content Include="BaseAccount\logOnWxAccount.aspx" />
     <Content Include="BaseAccount\ModifyContactInfo.aspx">
       <SubType>Form</SubType>
     </Content>

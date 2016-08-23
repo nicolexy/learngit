@@ -499,6 +499,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             //UpdateAccountQQ
             accountOperate1.AddSubMenu("帐户QQ修改", "BaseAccount/ChangeQQOld.aspx");
             accountOperate1.AddSubMenu("提现单拦截", "BaseAccount/FetchListIntercept.aspx");
+            accountOperate1.AddSubMenu("微信支付账户注销", "BaseAccount/logOnWxAccount.aspx");
 
             ForeignCurrencyPay1.AddSubMenu("订单查询", "ForeignCurrencyPay/FCOrderQuery.aspx");
             ForeignCurrencyPay1.AddSubMenu("退款查询", "ForeignCurrencyPay/FCRefundQuery.aspx");

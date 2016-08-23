@@ -1503,5 +1503,97 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         #endregion
+    
+        #region 快捷支付(一点通业务新)
+        [WebMethod]
+        public void GetBankCardBindListFinalNew()
+        {
+            try
+            {                
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //必填参数验证
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "query_type", "bind_state", "operator", "offset", "limit", "token");
+                //token验证
+                APIUtil.ValidateToken(paramsHt);
+
+                String fuin = paramsHt.ContainsKey("uin") ? paramsHt["uin"].ToString() : "";
+                String Operator = paramsHt["operator"].ToString();
+                String bankID = paramsHt.ContainsKey("bank_id") ? paramsHt["bank_id"].ToString() : "";
+                String fuid = paramsHt.ContainsKey("uid") ? paramsHt["uid"].ToString() : "";
+                String creType = paramsHt.ContainsKey("cre_type") ? paramsHt["cre_type"].ToString() : "";
+                String creID = paramsHt.ContainsKey("cre_id") ? paramsHt["cre_id"].ToString() : "";
+                String protocolno = paramsHt.ContainsKey("protocol_no") ? paramsHt["protocol_no"].ToString() : "";
+                String phoneno = paramsHt.ContainsKey("phoneno") ? paramsHt["phoneno"].ToString() : "";
+                String strBeginDate = paramsHt.ContainsKey("begin_date") ? paramsHt["begin_date"].ToString() : "";
+                String strEndDate = paramsHt.ContainsKey("end_date") ? paramsHt["end_date"].ToString() : "";
+                String Fbank_type = paramsHt.ContainsKey("bank_type") ? paramsHt["bank_type"].ToString() : "";
+                String bind_serialno = paramsHt.ContainsKey("bind_serialno") ? paramsHt["bind_serialno"].ToString() : "";
+                int queryType = paramsHt.ContainsKey("query_type") ? APIUtil.StringToInt(paramsHt["query_type"]) : 0;
+                int bindState = paramsHt.ContainsKey("bind_state") ? APIUtil.StringToInt(paramsHt["bind_state"]) : 99;
+
+                APIUtil.ValidateDate(strBeginDate, "yyyy-MM-dd HH:mm:ss", true);
+                APIUtil.ValidateDate(strBeginDate, "yyyy-MM-dd HH:mm:ss", true);
+
+                int limStart = APIUtil.StringToInt(paramsHt["offset"].ToString());
+                int limCount = APIUtil.StringToInt(paramsHt["limit"].ToString());
+                if (limStart < 0)
+                    limStart = 0;
+                if (limCount < 0 || limCount > 50)
+                    limCount = 50;
+                int total_num = 0;
+                var infos = new CFT.CSOMS.BLL.BankCardBindModule.BankCardBindService().GetBankCardBindList_FinalNew(
+                    fuin, Fbank_type, bankID, fuid, creID, protocolno, phoneno, strBeginDate, strEndDate, bindState, bind_serialno, Operator, queryType, creType, limStart, limCount,out total_num);
+
+                if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+
+                Dictionary<string, string> maps = new Dictionary<string, string>();
+
+                maps.Add("Fbank_id", "bank_id");
+                maps.Add("Fbank_status", "bank_status");
+                maps.Add("Fbank_type", "bank_type");
+                maps.Add("Fbind_flag", "bind_flag");
+                maps.Add("Fbind_serialno", "bind_serialno");
+                maps.Add("Fbind_status", "bind_status");
+                maps.Add("Fbind_time_bank", "bind_time_bank");
+                maps.Add("Fbind_time_local", "bind_time_local");
+                maps.Add("Fbind_type", "bind_type");
+                maps.Add("Fcard_tail", "card_tail");
+                maps.Add("Fcre_id", "cre_id");
+                maps.Add("Fcre_type", "cre_type");
+                maps.Add("Fcreate_time", "create_time");
+                maps.Add("Fday_quota", "day_quota");//单次支付限额(元)
+                maps.Add("Findex", "index");
+                maps.Add("Fmemo", "memo");
+                maps.Add("Fmobilephone", "mobilephone");
+                maps.Add("Fmodify_time", "modify_time");
+                maps.Add("Fonce_quota", "once_quota");//单天支付限额（元）
+                maps.Add("Fprotocol_no", "protocol_no");
+                maps.Add("Ftelephone", "telephone");
+                maps.Add("Ftruename", "truename");
+                maps.Add("Fuid", "uid");
+                maps.Add("Fuin", "uin");
+                maps.Add("Funchain_time_bank", "unchain_time_bank");//解绑时间（银行）
+                maps.Add("Funchain_time_local", "unchain_time_local");//解绑时间（本地）
+                maps.Add("Fxyzf_typeStr", "xyzf_type_str");//是否为微信信用卡
+                maps.Add("bank_name", "bank_name");
+                maps.Add("sms_flag", "sms_flag");//小额名短信通知,0已关闭，1已开启
+
+                APIUtil.Print4DataTable(infos.Tables[0], null, maps,total_num);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetBankCardBindListFinalNew").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetBankCardBindListFinalNew").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+        #endregion
     }
 }

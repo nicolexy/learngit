@@ -180,6 +180,29 @@ namespace CFT.CSOMS.COMMLIB
         }
 
         /// <summary>
+        /// 通过微信号获取微信支付财付通帐号(不包含后缀@wx.tenpay.com)
+        /// </summary>
+        /// <param name="wechatName"></param>
+        /// <returns></returns>
+        public static string GetUINByWxid(string wechatName,out string msg)
+        {
+            try
+            {
+                msg = string.Empty;
+                var hbOpenId = GetHBOpenIdFromWeChatName(wechatName);
+                var uin = GetAcctIdFromOpenId(hbOpenId);
+                return uin;
+            }
+            catch (Exception ex)
+            {
+                msg = "查询微信支付帐号出错";
+                log4net.LogManager.GetLogger("查询微信支付帐号出错: " + ex.ToString());
+                throw new Exception(string.Format("通过微信api转换微信号到财付通帐号异常:{0}", ex.ToString()));              
+            }
+
+        }
+
+        /// <summary>
         /// 通过微信号获取微信红包财付通帐号
         /// </summary>
         /// <param name="wechatName"></param>

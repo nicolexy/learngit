@@ -504,6 +504,40 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
            
         }
 
+
+        public DataSet GetBankCardBindList_FinalNew(string fuin, string Fbank_type, string bankID, string uid, string creID, string protocolno, string phoneno,
+           string strBeginDate, string strEndDate, int bindStatue, string bind_serialno, string Operator, int bind_type, string cre_type, int limStart, int limCount,out int total_num)
+        {
+            string serverIp = CFT.Apollo.Common.Configuration.AppSettings.Get<string>("BankCardIP", "10.123.9.169");
+            int serverPort = CFT.Apollo.Common.Configuration.AppSettings.Get<int>("BankCardPort", 22000);
+            try
+            {               
+                if (!string.IsNullOrEmpty(fuin) && string.IsNullOrEmpty(uid))
+                {
+                    uid = PublicRes.ConvertToFuid(fuin);
+                }
+                string reqString = "operator=" + Operator + "&start=" + limStart + "&limit=" + limCount + "&bind_type=" + bind_type;              
+                reqString += !string.IsNullOrEmpty(uid) ? "&uid=" + uid : "";
+                reqString += !string.IsNullOrEmpty(bankID) ? "&card_id=" + bankID : "";
+                reqString += !string.IsNullOrEmpty(creID) ? "&cre_id=" + creID : "";
+                reqString += !string.IsNullOrEmpty(phoneno) ? "&mobile=" + phoneno : "";
+                reqString += !string.IsNullOrEmpty(bind_serialno) ? "&bind_serialno=" + bind_serialno : "";
+                reqString += !string.IsNullOrEmpty(protocolno) ? "&protocol_no=" + protocolno : "";
+                reqString += bindStatue != 99 ? "&bind_status=" + bindStatue : "";
+                reqString += !string.IsNullOrEmpty(cre_type) ? "&cre_type=" + cre_type : "";
+                reqString += !string.IsNullOrEmpty(Fbank_type) ? "&bank_type=" + Fbank_type : "";
+                reqString += !string.IsNullOrEmpty(strBeginDate) ? "&begin_time=" + strBeginDate : "";
+                reqString += !string.IsNullOrEmpty(strEndDate) ? "&end_time=" + strEndDate : "";
+
+                return RelayAccessFactory.GetDSFromRelayFromXMLHasTotalCount(reqString, "101140",out total_num, serverIp, serverPort, true);
+            }
+            catch (Exception err)
+            {
+                throw new Exception(string.Format("查询一点通业务和快捷支付业务:ip:{0};{1}", serverIp, err.Message));
+            }
+
+        }
+
         /// <summary>
         /// 同步绑定信息
         /// </summary>
