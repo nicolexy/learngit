@@ -120,6 +120,9 @@ namespace CFT.CSOMS.DAL.Infrastructure
         {
             string Msg = "";
             string answer = RelayInvoke(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
+#if DEBUG
+            answer ="result=0&res_info=ok&name_auth_status=1&pass_gov_auth=1&pass_bank_auth=1&bind_count=0&authen_channel_state=12325&authen_account_type=3&authen_channel_sum=6&modify_ver=9&pass_ocr_auth=0&white_list_expire=0000-00-00 00:00:00&bind_bank=COMM|CEB&gov_authen_info=F9EC9CCC1EC35CA43484B8E828BAF70D2B6875ED4EFA221E474E1B0D1E66F09D5A023BA8585C927F7ADE3955765603944C61E51EDC291CF8CE8ACC92ECB998BFE7BFE9B78481D0F8E7701065ADAD431D5002C7FF6B7478BF&mobile_authen_info=CE8ACC92ECB998BFF3551E0C0ADD9D0C6A5390126513C9629276E9B01EBE14F5859F43F071F15ABD94338D2FA2798765D72722693B8F7578";
+#endif
             DataSet ds = null;
             if (answer == "")
             {

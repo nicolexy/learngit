@@ -144,7 +144,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {           
             if (rowcount == 0 || dt == null)
             {
-                return "{\"pages\":0,\"content\":\"<tr><td colspan='16'>没有符合条件的数据!</td></tr>\"}";
+                return "{\"pages\":0,\"content\":\"<tr><td colspan='18'>没有符合条件的数据!</td></tr>\"}";
             }
             bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
             bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("RealNameCertification", this);
@@ -168,8 +168,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 string finalstr = isRight && uid_type != "0" ? ((uid_type == "99") ? cancelbtn : setbtn) : "";
                 if (tempRow == 1)
                 {
-                    tempCreQuota.Append("<tr><td colspan='16' class='tbtr'>证件号对应的限额</td></tr>");
-                    tempCreQuota.Append("<tr><td colspan='2'>月进出金额</td><td colspan='2'>年支出金额</td><td colspan='2'>微信账户体系年支出金额</td><td colspan='2'>qq账户体系年支出金额</td><td colspan='2'>日支付金额</td><td colspan='2'>微信账户体系日支出金额</td><td colspan='4'>qq账户体系日支出金额</td></tr>");
+                    tempCreQuota.Append("<tr><td colspan='18' class='tbtr'>证件号对应的限额</td></tr>");
+                    tempCreQuota.Append("<tr><td colspan='2'>月进出金额</td><td colspan='2'>年支出金额</td><td colspan='2'>微信账户体系年支出金额</td><td colspan='2'>qq账户体系年支出金额</td><td colspan='2'>日支付金额</td><td colspan='2'>微信账户体系日支出金额</td><td colspan='6'>qq账户体系日支出金额</td></tr>");
                     int uid_type1 = string.IsNullOrEmpty(uid_type) ? 0 : int.Parse(uid_type);
                     Int64 uid1 = string.IsNullOrEmpty(uid) ? 0 : Int64.Parse(uid);
                     int cre_type1 = string.IsNullOrEmpty(cre_type) ? 1 : int.Parse(cre_type);                   
@@ -178,11 +178,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     DataTable dt1 = new RealNameCertificateService().GetQuotaDetail(uid_type1, uid1, cre_type1, cre_id, have_cre_photocopy);
                     if (dt1 != null && dt1.Rows.Count == 1)
                     {
-                        tempCreQuota.AppendFormat("<tr><td colspan='2'>{0}</td><td colspan='2'>{1}</td><td colspan='2'>{2}</td><td colspan='2'>{3}</td><td colspan='2'>{4}</td><td colspan='2'>{5}</td><td colspan='4'>{6}</td></tr>", dt1.Rows[0]["cre_month_outin_amount"].ToString(), dt1.Rows[0]["cre_year_out_amount"].ToString(), dt1.Rows[0]["cre_wx_year_out_amount"].ToString(), dt1.Rows[0]["cre_sqpc_year_out_amount"].ToString(), dt1.Rows[0]["cre_day_out_amount"].ToString(), dt1.Rows[0]["cre_wx_day_out_amount"].ToString(), dt1.Rows[0]["cre_sqpc_day_out_amount"].ToString());
+                        tempCreQuota.AppendFormat("<tr><td colspan='2'>{0}</td><td colspan='2'>{1}</td><td colspan='2'>{2}</td><td colspan='2'>{3}</td><td colspan='2'>{4}</td><td colspan='2'>{5}</td><td colspan='6'>{6}</td></tr>", dt1.Rows[0]["cre_month_outin_amount"].ToString(), dt1.Rows[0]["cre_year_out_amount"].ToString(), dt1.Rows[0]["cre_wx_year_out_amount"].ToString(), dt1.Rows[0]["cre_sqpc_year_out_amount"].ToString(), dt1.Rows[0]["cre_day_out_amount"].ToString(), dt1.Rows[0]["cre_wx_day_out_amount"].ToString(), dt1.Rows[0]["cre_sqpc_day_out_amount"].ToString());
                     }
                     else
                     {
-                        sb.Append("<tr><td colspan='16'>没有符合条件的数据！</td></tr>");
+                        sb.Append("<tr><td colspan='18'>没有符合条件的数据！</td></tr>");
                     }
                 }
                 if (row["bind_bank_info"] != null && row["bind_bank_info"].ToString() != "")
@@ -207,6 +207,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["edu_authen_info_dt"].ToString()) ? "" : row["edu_authen_info_dt"].ToString());
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["authen_account_type"].ToString()) ? "" : row["authen_account_type"].ToString());
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["authen_channel_info"].ToString()) ? "" : row["authen_channel_info"].ToString());
+                    sb.AppendFormat("<td rowspan='{0}'>{1}</td>", string.IsNullOrEmpty(row["gov_auth_result"].ToString()) ? "" : row["gov_auth_result"].ToString());
+                    sb.AppendFormat("<td rowspan='{0}'>{1}</td>", string.IsNullOrEmpty(row["ban_static_state"].ToString()) ? "" : row["ban_static_state"].ToString());
                     if (temp_dt != null && temp_dt.Rows.Count > 0)
                     {
                         for (int i = 0; i < temp_dt.Rows.Count; i++)
@@ -249,6 +251,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["edu_authen_info_dt"].ToString()) ? "" : row["edu_authen_info_dt"].ToString());
                     sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["authen_account_type"].ToString()) ? "" : row["authen_account_type"].ToString());
                     sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["authen_channel_info"].ToString()) ? "" : row["authen_channel_info"].ToString());
+                    sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["gov_auth_result"].ToString()) ? "" : row["gov_auth_result"].ToString());
+                    sb.AppendFormat("<td>{0}</td>", string.IsNullOrEmpty(row["ban_static_state"].ToString()) ? "" : row["ban_static_state"].ToString());
                     sb.Append("<td></td>");
                     sb.Append("<td></td>");
                     sb.Append("<td></td>");
@@ -271,14 +275,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             DataTable dt = new RealNameCertificateService().GetQuotaDetail(uid_type, uid, cre_type, cre_id, have_cre_photocopy);
             StringBuilder sb = new StringBuilder();
             sb.Append("<table cellspacing='1' cellpadding='0' align='center' bgcolor='#666666' border='0' width='95%'>");
-            sb.Append("<thead class='th'><tr><th>账户终身支出金额</th><th>账户月进出金额</th><th>账户年支出金额</th><th>账户终身剩余额度</th><th>账户剩余月进出额度</th><th>账户剩余年支付额度</th></tr></thead>");
+            sb.Append("<thead class='th'><tr><th>账户终身支出金额</th><th>账户年支出金额</th><th>账户终身剩余额度</th><th>账户剩余月进出额度</th><th>账户剩余年支付额度</th></tr></thead>");
             if (dt != null && dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
                 {
                     sb.Append("<tr>");
-                    sb.AppendFormat("<td>{0}</td>", (row["total_out_amount"] != null && row["total_out_amount"].ToString() != "") ? row["total_out_amount"].ToString() : "");
-                    sb.AppendFormat("<td>{0}</td>", (row["month_outin_amount"] != null && row["month_outin_amount"].ToString() != "") ? row["month_outin_amount"].ToString() : "");
+                    sb.AppendFormat("<td>{0}</td>", (row["total_out_amount"] != null && row["total_out_amount"].ToString() != "") ? row["total_out_amount"].ToString() : "");                   
                     sb.AppendFormat("<td>{0}</td>", (row["year_out_amount"] != null && row["year_out_amount"].ToString() != "") ? row["year_out_amount"].ToString() : "");
                     sb.AppendFormat("<td>{0}</td>", (row["rest_total_out_amount"] != null && row["rest_total_out_amount"].ToString() != "") ? row["rest_total_out_amount"].ToString() : "");
                     sb.AppendFormat("<td>{0}</td>", (row["rest_month_outin_amount"] != null && row["rest_month_outin_amount"].ToString() != "") ? row["rest_month_outin_amount"].ToString() : "");
@@ -288,7 +291,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             else
             {
-                sb.Append("<tr><td colspan='6'>没有符合条件的数据！</td></tr>");
+                sb.Append("<tr><td colspan='5'>没有符合条件的数据！</td></tr>");
             }
             sb.Append("</table>");
             return sb.ToString();
