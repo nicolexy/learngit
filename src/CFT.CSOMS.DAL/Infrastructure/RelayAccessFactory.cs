@@ -352,6 +352,26 @@ namespace CFT.CSOMS.DAL.Infrastructure
             return ds;
         }
 
+        public static DataSet GetDSFromRelayFromXMLHasTotalCount(string requestString, string serviceCode,out int total_num, string relayIP = "", int relayPort = 0, bool encrypt = false, bool invisible = false, string relayDefaultSPId = "")
+        {
+            string Msg = "";
+            string answer = RelayInvoke(requestString, serviceCode, encrypt, invisible, relayIP, relayPort, relayDefaultSPId);
+            DataSet ds = null;
+            if (answer == "")
+            {
+                total_num = 0;
+                return null;
+            }
+
+            //解析
+            ds = CommQuery.PaseRelayXml(answer, out Msg,out total_num);
+            if (Msg != "")
+            {
+                throw new Exception("请求串：" + requestString + " " + Msg);
+            }
+            return ds;
+        }
+
         /// <summary>
         /// 
         /// 调用relay接口，接口返回xml格式，requestString只需传接口特性参数，不传ver=1&head_u=&sp_id=等 兼容乱码

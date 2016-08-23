@@ -3,7 +3,7 @@
         case "身份证":
             {
                 var Validator = new IDValidator();
-                var code = $("#txt_identity").val();
+                var code = $("#txt_identity").val().replace(/^\s+|\s+$/g, "");
                 if (code == undefined || code == "" || code == null) { $("#error_info").html("身份证不能为空！"); return false; }
                 else
                 {
@@ -17,7 +17,8 @@
             break;
         case "账户":
             {
-                if ($("#txt_usertype").val() == undefined || $("#txt_usertype").val() == "" || $("#txt_usertype").val() == null) { $("#error_userinfo").html("账户不能为空！"); return false; }
+                var usertype = $("#txt_usertype").val().replace(/^\s+|\s+$/g, "");
+                if (usertype == undefined || usertype == "" || usertype == null) { $("#error_userinfo").html("账户不能为空！"); return false; }
                 else { return true; }
             }
             break;

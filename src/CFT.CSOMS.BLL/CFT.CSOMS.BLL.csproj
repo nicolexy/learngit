@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountModule\AccountService.cs" />
     <Compile Include="ActivityModule\ActivityService.cs" />
     <Compile Include="AutoRecharge\AutoRechargeService.cs" />
     <Compile Include="BalanceModule\BalaceService.cs" />
