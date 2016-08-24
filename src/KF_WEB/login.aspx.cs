@@ -85,7 +85,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 			}
 			else
 			{
-                Response.Redirect("defaultNotice.aspx", false);
+                string url = string.IsNullOrEmpty(requestUrl) ? "defaultNotice.aspx" : "defaultNotice.aspx?requestUrl=" + requestUrl + "";
+                Response.Redirect(url, false);  
 				return;
 			}
 		}
@@ -106,7 +107,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             }
             catch
             {
-                redirectUrl = "default.aspx";
+                redirectUrl = "defaultNotice.aspx";
             }
 
             return redirectUrl;
