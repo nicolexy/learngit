@@ -24,11 +24,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 this.Load += PageBase_Load;
             }
 
-            try
-            {
+            //try
+            //{
                 if (Session["uid"] == null)
                 {
-                    Response.Write("<script>window.parent.location.href = '../login.aspx';</script>");
+                    Response.Write("<script>window.parent.location.href = '../login.aspx?returnurl="+Server.HtmlEncode(Request.Url.AbsolutePath)+"';</script>");
                     Response.End();
                 }
 
@@ -37,11 +37,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                     
             LogHelper.LogInfo(requestRecord,"KFWebPageRequest");
 
-            }
-            catch  //Session为空，则跳转
-            {
-                Response.Write("超时，请重新<a herf = '../login.aspx' target = 'parent'> 登录</a>！");
-            }
+            //}
+            //catch(Exception ef)//Session为空，则跳转
+            //{
+            //    Response.Write("超时，请重新<a herf = '../login.aspx' target = 'parent'> 登录</a>！");
+            //}
         
         }
 
