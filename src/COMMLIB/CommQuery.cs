@@ -2024,6 +2024,10 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                     XmlDocument doc = new XmlDocument();
                     doc.LoadXml(rec_xml);
                     XmlElement root = doc.DocumentElement;
+                    if (root.SelectSingleNode("total_num") != null)
+                    {
+                        int.TryParse(root.SelectSingleNode("total_num").InnerText, out total_num);
+                    }
                     XmlNodeList record_el = root.SelectNodes("record");
                     if (record_el != null)
                     {

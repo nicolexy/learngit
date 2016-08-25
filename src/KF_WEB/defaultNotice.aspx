@@ -146,11 +146,22 @@
                     url: "defaultNotice.aspx?getAction=SetCookie",
                     dataType: "text",
                     success: function (data) {
-                        if (data != null && data.length > 0) {
-                        }
+                        var dataObj = eval('(' + data + ')');                      
+                        $.each(dataObj, function (idx, item) {
+                            var cookie = item.cookie;
+                            var requestUrl = item.requestUrl;                            
+                            if (cookie != null)
+                            {
+                                CloseDiv("div_Notice", "back");
+                                if (requestUrl != null)
+                                {
+                                    location.href = "http://kf.cf.com"+requestUrl;
+                                }
+                            }                            
+                        })
                     }
                 });
-                CloseDiv("div_Notice", "back");
+                //CloseDiv("div_Notice", "back");
                 //register("xiaolin");
             });
         })

@@ -18,9 +18,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             if (!IsPostBack)
             {
                 string actionName = Request.QueryString["getAction"] == null ? string.Empty : Request.QueryString["getAction"].ToString();
+                string requestUrl = Request.QueryString["requestUrl"] == null ? string.Empty : Request.QueryString["requestUrl"].ToString();
+                //requestUrl = "/RefundManage/RefundRegistration.aspx";
                 if (!string.IsNullOrEmpty(actionName))
                 {
-                    DoAction(actionName);
+                    DoAction(actionName, requestUrl);
                 }
 
             }
@@ -56,8 +58,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
            //     }
            // }   
         }
-       
-        private void DoAction(string actionName)
+
+        private void DoAction(string actionName, string requestUrl)
         {
             if (actionName.Equals("GetCookie"))
             {
@@ -65,7 +67,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             }
             else if (actionName.Equals("SetCookie"))
             {
-                SetCookie();
+                SetCookie(requestUrl);
             }
         }
 
@@ -85,12 +87,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             catch (Exception ex)
             {
                 result = false;
-            }
+            }            
             Response.Write(result);
             Response.End();
         }
 
-        private void SetCookie()
+        private void SetCookie(string requestUrl)
         {
             try
             {
@@ -103,8 +105,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 TimeSpan ts = DateTime.Parse(dtnow.AddDays(1).ToString("yyyy-MM-dd 00:01:00")).Subtract(dtnow);
                 cookie.Expires = dtnow + ts;
                 //加入此cookie
-                Response.Cookies.Add(cookie);
-                Response.Write(cookie.Value);
+                Response.Cookies.Add(cookie);                                
+                StringBuilder builder = new StringBuilder();
+                builder.Append("[ ");
+                builder.Append("{ ");
+                builder.Append("\"cookie\": ");
+                builder.Append(cookie.Value + ",");
+                builder.Append("\"requestUrl\": ");
+                builder.Append("\"" + requestUrl + "\"");
+                builder.Append("}");
+                builder.Append("]");
+                //Response.Write(cookie.Value);
+                Response.Write(builder.ToString());
                 Response.End();
             }
             catch (Exception ex)

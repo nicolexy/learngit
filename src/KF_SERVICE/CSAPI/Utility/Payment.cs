@@ -637,6 +637,9 @@ namespace CFT.CSOMS.Service.CSAPI.PayMent
             //退票原因
             [XmlElement("Fstandby3")]
             public string Fstandby3 { get; set; }
+            //单号
+            [XmlElement("FListID")]
+            public string FListID { get; set; }           
         }
         #endregion
     }
