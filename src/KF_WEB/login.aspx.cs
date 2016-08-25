@@ -77,6 +77,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 				Session["Ticket"] = ticket;
 			}
 
+            string requestUrl = GetRedirectUrl();
+
 			if(!classLibrary.SensitivePowerOperaLib.CheckSession(ticket,this))
 			{
 				//Response.Redirect("../login.aspx?wh=1");
@@ -87,6 +89,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 				return;
 			}
 		}
+
+        /// <summary>
+        /// 获取跳转登录前页面路径
+        /// </summary>
+        /// <returns></returns>
+        private string GetRedirectUrl()
+        {
+            var redirectUrl = string.Empty;
+            try
+            {
+                if (Request["returnurl"] != null && !string.IsNullOrEmpty(Request["returnurl"].ToString()))
+                {
+                    redirectUrl = Server.HtmlDecode(Request["returnurl"].ToString());
+                }
+            }
+            catch
+            {
+                redirectUrl = "default.aspx";
+            }
+
+            return redirectUrl;
+        }
 
 		#region Web 窗体设计器生成的代码
 
