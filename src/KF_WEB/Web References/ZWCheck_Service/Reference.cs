@@ -70,6 +70,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ZWCheck_Service {
         
         private System.Threading.SendOrPostCallback ValiCheckRightOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetUserCheckLevelOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -173,6 +175,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ZWCheck_Service {
         
         /// <remarks/>
         public event ValiCheckRightCompletedEventHandler ValiCheckRightCompleted;
+        
+        /// <remarks/>
+        public event GetUserCheckLevelCompletedEventHandler GetUserCheckLevelCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("Finance_HeaderValue")]
@@ -1010,6 +1015,50 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ZWCheck_Service {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://Tencent.com/OSS/C2C/Finance/Check_WebService/GetUserCheckLevel", RequestNamespace="http://Tencent.com/OSS/C2C/Finance/Check_WebService", ResponseNamespace="http://Tencent.com/OSS/C2C/Finance/Check_WebService", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetUserCheckLevel(string strCheckType, string userName) {
+            object[] results = this.Invoke("GetUserCheckLevel", new object[] {
+                        strCheckType,
+                        userName});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginGetUserCheckLevel(string strCheckType, string userName, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetUserCheckLevel", new object[] {
+                        strCheckType,
+                        userName}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public string EndGetUserCheckLevel(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetUserCheckLevelAsync(string strCheckType, string userName) {
+            this.GetUserCheckLevelAsync(strCheckType, userName, null);
+        }
+        
+        /// <remarks/>
+        public void GetUserCheckLevelAsync(string strCheckType, string userName, object userState) {
+            if ((this.GetUserCheckLevelOperationCompleted == null)) {
+                this.GetUserCheckLevelOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetUserCheckLevelOperationCompleted);
+            }
+            this.InvokeAsync("GetUserCheckLevel", new object[] {
+                        strCheckType,
+                        userName}, this.GetUserCheckLevelOperationCompleted, userState);
+        }
+        
+        private void OnGetUserCheckLevelOperationCompleted(object arg) {
+            if ((this.GetUserCheckLevelCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetUserCheckLevelCompleted(this, new GetUserCheckLevelCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1638,6 +1687,32 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ZWCheck_Service {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    public delegate void GetUserCheckLevelCompletedEventHandler(object sender, GetUserCheckLevelCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.17929")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetUserCheckLevelCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetUserCheckLevelCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
             }
         }
     }
