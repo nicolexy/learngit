@@ -19,10 +19,10 @@ namespace CFT.CSOMS.DAL.AccountModule
            bool retVal = false;         
            try
            {
-               LogHelper.LogInfo(string.Format("注销微信支付账户请求串-curl:http://mmhttpbroker.wx.com:12137/cgi-bin/customunregister?f=xml&appname=wx_tenpay-d<Request><accid>{0}</accid><username>{1}</username><oaticket>{2}</oaticket><clientip>{3}</clientip><reason>{4}</reason></Request>", accid, username, oaticket, clientip, reason));
+               LogHelper.LogInfo(string.Format("注销微信支付账户请求串-curl:http://10.135.7.164:12137/cgi-bin/customunregister?f=xml&appname=wx_tenpay-d<Request><accid>{0}</accid><username>{1}</username><oaticket>{2}</oaticket><clientip>{3}</clientip><reason>{4}</reason></Request>", accid, username, oaticket, clientip, reason));
                string parameterString = string.Format("<Request><accid>{0}</accid><username>{1}</username><oaticket>{2}</oaticket><clientip>{3}</clientip><reason>{4}</reason></Request>", accid, username, oaticket, clientip, reason);         
                var data = Encoding.Default.GetBytes(parameterString);
-               var request = (HttpWebRequest)WebRequest.Create(string.Format("http://mmhttpbroker.wx.com:12137/cgi-bin/{0}?f=xml&appname=wx_tenpay", "customunregister"));
+               var request = (HttpWebRequest)WebRequest.Create(string.Format("http://10.135.7.164:12137/cgi-bin/{0}?f=xml&appname=wx_tenpay", "customunregister"));
                request.Method = "POST";         
                request.ContentType = "text/xml;charset=UTF-8";
                var parameter = request.GetRequestStream();
