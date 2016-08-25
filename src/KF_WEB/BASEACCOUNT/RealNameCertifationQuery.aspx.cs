@@ -207,8 +207,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["edu_authen_info_dt"].ToString()) ? "" : row["edu_authen_info_dt"].ToString());
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["authen_account_type"].ToString()) ? "" : row["authen_account_type"].ToString());
                     sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["authen_channel_info"].ToString()) ? "" : row["authen_channel_info"].ToString());
-                    sb.AppendFormat("<td rowspan='{0}'>{1}</td>", string.IsNullOrEmpty(row["gov_auth_result"].ToString()) ? "" : row["gov_auth_result"].ToString());
-                    sb.AppendFormat("<td rowspan='{0}'>{1}</td>", string.IsNullOrEmpty(row["ban_static_state"].ToString()) ? "" : row["ban_static_state"].ToString());
+                    sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["gov_auth_result"].ToString()) ? "" : row["gov_auth_result"].ToString());
+                    sb.AppendFormat("<td rowspan='{0}'>{1}</td>", cols, string.IsNullOrEmpty(row["ban_static_state"].ToString()) ? "" : row["ban_static_state"].ToString());
                     if (temp_dt != null && temp_dt.Rows.Count > 0)
                     {
                         for (int i = 0; i < temp_dt.Rows.Count; i++)
