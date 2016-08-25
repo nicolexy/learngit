@@ -237,6 +237,7 @@
                         <asp:BoundColumn DataField="conText" HeaderText="冻结金额">
                             <HeaderStyle Width="150px"></HeaderStyle>
                         </asp:BoundColumn>
+                         <asp:BoundColumn DataField="Ftype" HeaderText="基金类型" Visible="false" />
                         <asp:ButtonColumn Text="详情" HeaderText="操作" CommandName="detail"></asp:ButtonColumn>
                     </Columns>
                 </asp:DataGrid>
@@ -545,8 +546,10 @@
                             <asp:TemplateColumn HeaderText="操作">
                                 <HeaderStyle Width="200px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="CloseFundApplyButton" href='#' target="_blank" Visible="false" runat="server" Text="客服强赎"></asp:LinkButton>
-                                    <asp:LinkButton ID="AlterEndStrategy" href='<%# DataBinder.Eval(Container, "DataItem.AlterEndStrategyURL")%>' target="_blank" Visible="false" runat="server" Text="修改"></asp:LinkButton>
+                                    <asp:HyperLink ID="CloseFundApplyButton" runat="server" NavigateUrl='<%# DataBinder.Eval(Container, "DataItem.URL")%>' Text="客服强赎" ></asp:HyperLink>
+                                    <asp:HyperLink ID="AlterEndStrategy" runat="server" NavigateUrl='<%# DataBinder.Eval(Container, "DataItem.AlterEndStrategyURL")%>' Text="修改" Target="_blank"  Visible="false"></asp:HyperLink>
+                                    <%--<asp:LinkButton ID="CloseFundApplyButton" href='<%# DataBinder.Eval(Container, "DataItem.URL")%>' target="_blank" Visible="false" runat="server" Text="客服强赎"></asp:LinkButton>--%>
+                                    <%--<asp:LinkButton ID="AlterEndStrategy" href='<%# DataBinder.Eval(Container, "DataItem.AlterEndStrategyURL")%>' target="_blank" Visible="false" runat="server" Text="修改"></asp:LinkButton>--%>
                                 </ItemTemplate>
                             </asp:TemplateColumn>
                         </Columns>

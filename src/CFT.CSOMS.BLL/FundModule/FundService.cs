@@ -1222,7 +1222,7 @@ namespace CFT.CSOMS.BLL.FundModule
 
                 var bankRollList = new FundRoll().GetChildrenBankRollList(qqId, beginTime, endTime, curtype, offset, limit, fType, fMemo);
 
-                if (bankRollList.Tables != null && bankRollList.Tables.Count > 0)
+                if (bankRollList!=null&&bankRollList.Tables.Count>0 && bankRollList.Tables.Count > 0)
                 {
                     bankRollList.Tables[0].Columns.Add("FpaynumText", typeof(string));
                     bankRollList.Tables[0].Columns.Add("FbalanceText", typeof(string));

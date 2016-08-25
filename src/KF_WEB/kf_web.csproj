@@ -1552,6 +1552,13 @@
     <Compile Include="NewQueryInfoPages\CFTTransferQuery.aspx.designer.cs">
       <DependentUpon>CFTTransferQuery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="NewQueryInfoPages\GetFundRatePageRedeem.aspx.cs">
+      <DependentUpon>GetFundRatePageRedeem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NewQueryInfoPages\GetFundRatePageRedeem.aspx.designer.cs">
+      <DependentUpon>GetFundRatePageRedeem.aspx</DependentUpon>
+    </Compile>
     <Compile Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx.cs">
       <DependentUpon>QueryAuthenStateInfoPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3413,6 +3420,7 @@
     <Content Include="Middle.htm" />
     <Content Include="NewQueryInfoPages\GetFundRatePageDetail.aspx" />
     <Content Include="NewQueryInfoPages\CFTTransferQuery.aspx" />
+    <Content Include="NewQueryInfoPages\GetFundRatePageRedeem.aspx" />
     <Content Include="NewQueryInfoPages\QueryAuthenStateInfoPage.aspx" />
     <Content Include="NewQueryInfoPages\QueryWeiXinMircoPay.aspx" />
     <Content Include="NewQueryInfoPages\QueryZHTrade.aspx" />
@@ -6494,10 +6502,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>finance_web_FQuery_Service_Query_Service</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://admin.cf.zw/FINANCE_SERVICE/Check_Service.asmx">
+    <WebReferenceUrl Include="http://admin.zw.cf.com/FINANCE_SERVICE/Check_Service.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\ZWCheck_Service\</RelPath>
-      <UpdateFromURL>http://admin.cf.zw/FINANCE_SERVICE/Check_Service.asmx</UpdateFromURL>
+      <UpdateFromURL>http://admin.zw.cf.com/FINANCE_SERVICE/Check_Service.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
