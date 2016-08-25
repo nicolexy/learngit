@@ -85,7 +85,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 			}
 			else
 			{
-                string url = string.IsNullOrEmpty(requestUrl) ? "defaultNotice.aspx" : "defaultNotice.aspx?requestUrl=" + requestUrl + "";
+                string url_Host = HttpContext.Current.Request.Url.Host;
+                int port = HttpContext.Current.Request.Url.Port;
+                string url_Host_port = port > 0 ? url_Host + ":" + port.ToString() : url_Host;
+                string url = string.IsNullOrEmpty(requestUrl) ? "defaultNotice.aspx" : "defaultNotice.aspx?requestUrl=" +url_Host_port+ requestUrl + "";
                 Response.Redirect(url, false);  
 				return;
 			}

@@ -63,7 +63,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
         {
             if (actionName.Equals("GetCookie"))
             {
-                GetCookie();
+                GetCookie(requestUrl);
             }
             else if (actionName.Equals("SetCookie"))
             {
@@ -71,24 +71,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             }
         }
 
-        private void GetCookie()
-        {
-            bool result = false;
+        private void GetCookie(string requestUrl)
+        {                            
+            string cookieName = string.Empty;
             try
             {
                 HttpCookie cookie = Request.Cookies["TencentKFCFSystemloginStatus"];
-
-                string loginStaus = cookie == null ? string.Empty : cookie.Value.ToString();
-                if (!string.IsNullOrEmpty(loginStaus))
-                {
-                    result = true;
-                }
+                cookieName = cookie == null ? string.Empty : cookie.Value.ToString();
             }
             catch (Exception ex)
             {
-                result = false;
-            }            
-            Response.Write(result);
+                cookieName = string.Empty;
+            }
+            StringBuilder builder = new StringBuilder();
+            builder.Append("[");
+            builder.Append("{");
+            builder.Append("\"cookie\":");
+            builder.Append("\"" + cookieName + "\",");
+            builder.Append("\"requestUrl\":");
+            builder.Append("\"" + requestUrl + "\"");
+            builder.Append("}");
+            builder.Append("]");
+            Response.Write(builder.ToString());
             Response.End();
         }
 
@@ -107,11 +111,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 //加入此cookie
                 Response.Cookies.Add(cookie);                                
                 StringBuilder builder = new StringBuilder();
-                builder.Append("[ ");
-                builder.Append("{ ");
-                builder.Append("\"cookie\": ");
-                builder.Append(cookie.Value + ",");
-                builder.Append("\"requestUrl\": ");
+                builder.Append("[");
+                builder.Append("{");
+                builder.Append("\"cookie\":");                
+                builder.Append("\"" + cookie.Value + "\",");
+                builder.Append("\"requestUrl\":");
                 builder.Append("\"" + requestUrl + "\"");
                 builder.Append("}");
                 builder.Append("]");
