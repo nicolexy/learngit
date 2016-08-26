@@ -121,12 +121,25 @@
                 url: "defaultNotice.aspx?getAction=GetCookie",
                 dataType: "text",
                 success: function (data) {
-                    if (data == "True") {
-                        return;
-                    }
-                    else {
-                        ShowDiv("div_Notice", "back");
-                    }
+                    //if (data == "True") {
+                    //    return;
+                    //}
+                    //else {
+                    //    ShowDiv("div_Notice", "back");
+                    //}
+                    var dataObj = eval("(" + data + ")");
+                    $.each(dataObj, function (idx, item) {
+                        var cookie = item.cookie;
+                        var requestUrl = item.requestUrl;
+                        if (cookie.length > 0) {
+                            if (requestUrl.length > 0) {
+                                location.href = requestUrl;
+                            }
+                        }
+                        else {
+                            ShowDiv("div_Notice", "back");
+                        }
+                    })
                 }
             });
             $("#cb_CheckNotice").click(function () {
@@ -146,16 +159,16 @@
                     url: "defaultNotice.aspx?getAction=SetCookie",
                     dataType: "text",
                     success: function (data) {
-                        var dataObj = eval('(' + data + ')');                      
+                        var dataObj = eval("(" + data + ")");
                         $.each(dataObj, function (idx, item) {
                             var cookie = item.cookie;
                             var requestUrl = item.requestUrl;                            
-                            if (cookie != null)
-                            {
+                            if (cookie.length>0)
+                            {                                
                                 CloseDiv("div_Notice", "back");
-                                if (requestUrl != null)
+                                if (requestUrl.length > 0)
                                 {
-                                    location.href = "http://kf.cf.com"+requestUrl;
+                                    location.href =requestUrl;
                                 }
                             }                            
                         })

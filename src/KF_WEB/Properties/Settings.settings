@@ -24,7 +24,7 @@
       <Value Profile="(Default)">http://10.12.189.114/spoaweb/SPOA_Service.asmx</Value>
     </Setting>
     <Setting Name="finance_web_ZWCheck_Service_Check_Service" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://admin.cf.zw/FINANCE_SERVICE/Check_Service.asmx</Value>
+      <Value Profile="(Default)">http://admin.zw.cf.com/FINANCE_SERVICE/Check_Service.asmx</Value>
     </Setting>
     <Setting Name="finance_web_FQuery_Service_Query_Service" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://admin.cf.com/FINANCE_SERVICE/Query_Service.asmx</Value>

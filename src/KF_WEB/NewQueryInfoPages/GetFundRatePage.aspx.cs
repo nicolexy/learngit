@@ -626,6 +626,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 ViewState["fundCode"] = e.Item.Cells[2].Text.Trim();
                 ViewState["close_flag"] = e.Item.Cells[3].Text.Trim();
                 ViewState["fund_name"] = e.Item.Cells[4].Text.Trim();
+                ViewState["Ftype"] = e.Item.Cells[13].Text.Trim();
                 if (ViewState["close_flag"].ToString() == "2")//封闭即定期
                     this.queryDiv.Visible = false;
                 else
@@ -670,7 +671,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     this.tableQueryResult.Visible = true;
                     this.tableBankRollList.Visible = true;
                     this.tableBankRollListNotChildren.Visible = true;
-
+                    this.tableCloseFundRoll.Visible = true;
                     ExhibitionDataGridColumns(dgCloseFundRoll, true, null);         //显示所有字段 查询交易明细
                     if (close_flag == "3") //半封闭
                     {
@@ -682,7 +683,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                         }
                         ExhibitionDataGridColumns(dgCloseFundRoll, false, hideList.ToArray());
 
-                        this.tableCloseFundRoll.Visible = true;
                         //BindCloseFundRoll(ViewState["tradeId"].ToString(), fundCode, beginDate, endDate, 1);
                     }
                     else if (close_flag == "1") //不封闭
@@ -748,11 +748,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                     if (tbCloseFundRollList.Rows.Count > 0)
                         foreach (DataRow dr in tbCloseFundRollList.Rows)
                         {
-                            dr["URL"] = "GetFundRatePageDetail.aspx?opertype=1&close_flag=2&uin=" + ViewState["uin"].ToString()
-                                + "&spid=" + ViewState["fundSPId"].ToString()
-                                + "&fund_code=" + ViewState["fundCode"].ToString()
-                                + "&total_fee=" + dr["Fstart_total_fee"].ToString()//总金额（本金）单位分
-                                + "&end_date=" + dr["Fend_date"].ToString();
+                            //dr["URL"] = "GetFundRatePageDetail.aspx?opertype=1&close_flag=2&uin=" + ViewState["uin"].ToString()
+                            //    + "&spid=" + ViewState["fundSPId"].ToString()
+                            //    + "&fund_code=" + ViewState["fundCode"].ToString()
+                            //    + "&total_fee=" + dr["Fstart_total_fee"].ToString()//总金额（本金）单位分
+                            //    + "&end_date=" + dr["Fend_date"].ToString();
 
                             string strEndDate = dr["Fend_date"].ToString();
                             dr["FDate"] = strEndDate.Substring(strEndDate.Length - 4);
@@ -767,6 +767,45 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                                 + "&end_sell_type=" + dr["Fend_sell_type"].ToString()
                                 + "&fund_name=" + setConfig.convertToBase64(ViewState["fund_name"].ToString()); //中文字段 , 使用base64 防止乱码
                             ;
+                            string Ftype = ViewState["Ftype"].ToString();
+                            if (Ftype == "1")//货币强赎
+                            {
+                                dr["URL"] = "GetFundRatePageRedeem.aspx?RedeemType=MonetaryFundRedeem"
+                                           + "&uin=" + ViewState["uin"].ToString()
+                                           + "&spid=" + ViewState["fundSPId"].ToString()
+                                           + "&fund_code=" + ViewState["fundCode"].ToString()
+                                           + "&fund_name=" + ViewState["fund_name"].ToString()
+                                           + "&total_fee=" + dr["Fstart_total_fee"].ToString()
+                                           + "&acct_type=2"
+                                           + "&channel_id=68|fm_6_qs_1"
+                                           + "&bind_serialno=" + ViewState["bind_serialno"].ToString()
+                                           + "&card_tail=" + ViewState["card_tail"].ToString()
+                                           + "&bank_type=" + ViewState["bank_type"].ToString()
+                                           + "&cur_type=" + ViewState["curtype"].ToString()
+                                           + "&close_id=" + dr["FDate"].ToString();
+                            }
+                            else if (Ftype == "2")//非货币强赎
+                            {
+                                dr["URL"] = "";
+                            }
+                            else //非货币强赎
+                            {
+                                dr["URL"] = "GetFundRatePageRedeem.aspx?RedeemType=NonMonetaryFundRedeem"
+                                             + "&uin=" + ViewState["uin"].ToString()
+                                             + "&spid=" + ViewState["fundSPId"].ToString()
+                                             + "&fund_code=" + ViewState["fundCode"].ToString()
+                                             + "&fund_name=" + ViewState["fund_name"].ToString()
+                                             + "&total_fee=" + dr["Fstart_total_fee"].ToString()
+                                             + "&acct_type=2"
+                                             + "&channel_id=68|fm_6_qs_1"
+                                             + "&bind_serialno=" + ViewState["bind_serialno"].ToString()
+                                             + "&card_tail=" + ViewState["card_tail"].ToString()
+                                             + "&bank_type=" + ViewState["bank_type"].ToString()
+                                             + "&cur_type=" + ViewState["curtype"].ToString()
+                                             + "&close_id=" + dr["FDate"].ToString()
+                                             + "&Ftype=" + Ftype;
+
+                            }
                         }
 
 
@@ -790,32 +829,36 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 var row = (DataRowView)e.Item.DataItem;
                 if (row["Fstate_str"].ToString() == "待执行")
                 {
-                    LinkButton CloseFundApply_btn = (LinkButton)e.Item.FindControl("CloseFundApplyButton");
-                    string url = "";
-                    var fundCode = ViewState["fundCode"].ToString();
-                    var fundSPId = ViewState["fundSPId"].ToString();
+                    HyperLink CloseFundApply_btn = (HyperLink)e.Item.FindControl("CloseFundApplyButton");
+                    //string url = "";
+                    //var fundCode = ViewState["fundCode"].ToString();
+                    //var fundSPId = ViewState["fundSPId"].ToString();
 
-                    FundService fundBLLService = new FundService();
-                    if (fundBLLService.isInsurance(fundCode, fundSPId)) // 光大使用指数基金  接口
-                    {
-                        url = "GetFundRatePageDetail.aspx?opertype=1&close_flag=3&uin=" + ViewState["uin"].ToString()
-                            + "&spid=" + fundSPId
-                            + "&fund_code=" + fundCode
-                            + "&total_fee=" + row["Fstart_total_fee"].ToString()
-                            + "&bind_serialno=" + ViewState["bind_serialno"].ToString()
-                            + "&card_tail=" + ViewState["card_tail"].ToString()
-                            + "&mobile=" + ViewState["mobile"].ToString()
-                            + "&bank_type=" + ViewState["bank_type"].ToString()
-                            + "&close_id=" + row["FDate"].ToString();
-                    }
-                    else
-                    {
-                        url = (string)row["URL"];
-                    }
-                    CloseFundApply_btn.Attributes.Add("href", url);
+                    //FundService fundBLLService = new FundService();
+                    //if (fundBLLService.isInsurance(fundCode, fundSPId)) // 光大使用指数基金  接口
+                    //{
+                    //    url = "GetFundRatePageDetail.aspx?opertype=1&close_flag=3&uin=" + ViewState["uin"].ToString()
+                    //        + "&spid=" + fundSPId
+                    //        + "&fund_code=" + fundCode
+                    //        + "&total_fee=" + row["Fstart_total_fee"].ToString()
+                    //        + "&bind_serialno=" + ViewState["bind_serialno"].ToString()
+                    //        + "&card_tail=" + ViewState["card_tail"].ToString()
+                    //        + "&mobile=" + ViewState["mobile"].ToString()
+                    //        + "&bank_type=" + ViewState["bank_type"].ToString()
+                    //        + "&close_id=" + row["FDate"].ToString();
+                    //}
+                    //else
+                    //{
+                    //    url = (string)row["URL"];
+                    //}
+                    //CloseFundApply_btn.Attributes.Add("href", url);
 
                     var AlterEndStrategy_btn = e.Item.FindControl("AlterEndStrategy");
-                    CloseFundApply_btn.Visible = true;
+
+                    if (CloseFundApply_btn.NavigateUrl == "") 
+                    {
+                        CloseFundApply_btn.Visible = false;
+                    }
                     AlterEndStrategy_btn.Visible = true;
                 }
             }
