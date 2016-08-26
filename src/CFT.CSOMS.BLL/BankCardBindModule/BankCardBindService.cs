@@ -14,6 +14,7 @@ using CFT.CSOMS.DAL.BankcardUnbind;
 using TENCENT.OSS.CFT.KF.DataAccess;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using CFT.CSOMS.COMMLIB;
+using CFT.Apollo.Logging;
 
 namespace CFT.CSOMS.BLL.BankCardBindModule
 {
@@ -823,17 +824,54 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         /// <param name="transaction_id">财付通订单号</param>
         /// <returns></returns>
         public string GetBankSyncState(int bank_type, string bill_no, string transaction_id)
-        {
+        {            
+            string pay_result = string.Empty;
             try
             {
-                string result = new BankcardbindData().GetBankSyncState(bank_type, bill_no, transaction_id);
-                return result;
+                string getBankSyncStateResult = new BankcardbindData().GetBankSyncState(bank_type, bill_no, transaction_id);                
+                Dictionary<string, string> resultToDictionary = CommQuery.StringToDictionary(getBankSyncStateResult, '&', '=');
+                if (resultToDictionary != null && resultToDictionary.Count>0)
+                {
+                    if (resultToDictionary.ContainsKey("result"))
+                    {
+                        string result = resultToDictionary["result"].ToString();//0 调用成功； 131512015 记录不存在 ； 131515001 参数错误；  131512009 查询数据库错误                        
+                        string res_info = resultToDictionary["res_info"].ToString();//返回信息
+                        if (result.Equals("0"))
+                        {
+                            if (resultToDictionary["pay_result"].ToString().Equals("1"))
+                            {
+                                pay_result = "支付结果未知";
+                            }
+                            else if (resultToDictionary["pay_result"].ToString().Equals("2"))
+                            {
+                                pay_result = "银行扣款成功";
+                            }                            
+                        }
+                        else if (result.Equals("131512015"))
+                        {
+                            LogHelper.LogInfo(string.Format("BankCardBindService类GetBankSyncState方法调用出错,参数bank_type={0},bill_no={1},transaction_id={2},错误信息:{3}", bank_type, bill_no, transaction_id, "记录不存在 " + res_info));
+                            pay_result = string.Empty;
+                        }
+                        else if (result.Equals("131515001"))
+                        {
+                            LogHelper.LogInfo(string.Format("BankCardBindService类GetBankSyncState方法调用出错,参数bank_type={0},bill_no={1},transaction_id={2},错误信息:{3}", bank_type, bill_no, transaction_id, "参数错误 " + res_info));
+                            pay_result = string.Empty;
+                        }
+                        else if (result.Equals("131512009"))
+                        {
+                            LogHelper.LogInfo(string.Format("BankCardBindService类GetBankSyncState方法调用出错,参数bank_type={0},bill_no={1},transaction_id={2},错误信息:{3}", bank_type, bill_no, transaction_id, "查询数据库错误 " + res_info));
+                            pay_result = string.Empty;
+                        }
+                    }
+                }
             }
             catch (Exception err)
             {
-                throw new Exception("GetBankSyncState Service处理失败！" + err.Message);
+                //throw new Exception("GetBankSyncState Service处理失败！" + err.Message);
+                pay_result = string.Empty;
+                LogHelper.LogInfo(string.Format("BankCardBindService类GetBankSyncState方法调用出错,参数bank_type={0},bill_no={1},transaction_id={2},错误信息:{3}", bank_type, bill_no, transaction_id, err.Message));
             }
-
+            return pay_result;
         }
 
 
@@ -846,15 +884,18 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
         /// <returns></returns>
         public DataSet GetBankSyncStateDataSet(int bank_type, string bill_no, string transaction_id)
         {
+            DataSet ds = null;
             try
             {
-                return new BankcardbindData().GetBankSyncStateDataSet(bank_type, bill_no, transaction_id);
+                ds= new BankcardbindData().GetBankSyncStateDataSet(bank_type, bill_no, transaction_id);
             }
             catch (Exception err)
             {
-                throw new Exception("GetBankSyncStateDataSet Service处理失败！" + err.Message);
+                //throw new Exception("GetBankSyncStateDataSet Service处理失败！" + err.Message);
+                ds = null;
+                LogHelper.LogInfo(string.Format("BankCardBindService类GetBankSyncStateDataSet方法调用出错,参数bank_type={0},bill_no={1},transaction_id={2},错误信息:{3}", bank_type, bill_no, transaction_id, err.Message));
             }
-
+            return ds;
         }
         /// <summary>
         /// 银行查补单状态支付状态返回结果

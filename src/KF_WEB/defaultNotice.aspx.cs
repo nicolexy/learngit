@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using CFT.CSOMS.BLL.BankCardBindModule;
 using CFT.CSOMS.BLL.IdCardModule;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 namespace TENCENT.OSS.CFT.KF.KF_Web
@@ -24,39 +26,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 {
                     DoAction(actionName, requestUrl);
                 }
-
             }
-            //测试代码
-            //IdCardManualReviewService aaa = new IdCardManualReviewService();
-            //string uin = "201311079024139@wx.tenpay.com";
-            //uid = "299708515";
-            //string seq_no = "1147099249300000001";
-            //string credit_spid = "10000003";
-            //string front_image = "201604251427591702311";
-            //string back_image = "201604251427591702312";
-            //int audit_result = 1;
-            //string audit_error_des = "image not clear";
-            //string audit_operator = "heidizhang";
-            //string audit_time = "2016-08-11 10:00:00";
-            //string sign = "edf3ea3fd7d7610188acb1a7fc1433f8";
-            //string result = aaa.Review(uin, uid, seq_no, credit_spid, front_image, back_image, audit_result, audit_error_des, audit_operator, audit_time);
-
-            //测试代码
-           // string retTextDecodeBase64 = DecodeBase64("eyJyZXN1bHQiOiIxOTQ5MDIwMDA0IiwicmVzX2luZm8iOiJbMTk0OTAyMDAwNF3mgqjnmoTmk43kvZzlt7Lmj5DkuqTvvIzor7fnoa7orqTmmK/lkKblt7LnlJ/mlYjjgIIifQ==");
-           // string msg = string.Empty;
-           // bool result =false;
-           // Dictionary<string, string> dic_RetText = CommQuery.StringToDictionary(retTextDecodeBase64.TrimStart('{').TrimEnd('}').Trim('"').Trim('"'), ',', ':', out msg);
-           //var json= Newtonsoft.Json.JsonConvert.DeserializeObject(retTextDecodeBase64) as Newtonsoft.Json.Linq.JObject;
-           //var ret= json["result"];
-           // if (dic_RetText != null && dic_RetText.Count > 0)
-           // {
-           //     if (dic_RetText.Keys.Contains("result"))
-           //     {
-           //         string retTextResult = dic_RetText["result"].ToString();
-           //         result = retTextResult.Equals("0") ? true : false;
-           //         msg = dic_RetText["res_info"].ToString();
-           //     }
-           // }   
+            //test();
         }
 
         private void DoAction(string actionName, string requestUrl)
@@ -127,6 +98,49 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             { 
             
             }            
+        }
+
+        private void test()
+        {
+            //测试代码
+            //IdCardManualReviewService aaa = new IdCardManualReviewService();
+            //string uin = "201311079024139@wx.tenpay.com";
+            //uid = "299708515";
+            //string seq_no = "1147099249300000001";
+            //string credit_spid = "10000003";
+            //string front_image = "201604251427591702311";
+            //string back_image = "201604251427591702312";
+            //int audit_result = 1;
+            //string audit_error_des = "image not clear";
+            //string audit_operator = "heidizhang";
+            //string audit_time = "2016-08-11 10:00:00";
+            //string sign = "edf3ea3fd7d7610188acb1a7fc1433f8";
+            //string result = aaa.Review(uin, uid, seq_no, credit_spid, front_image, back_image, audit_result, audit_error_des, audit_operator, audit_time);
+
+            //测试代码
+            // string retTextDecodeBase64 = DecodeBase64("eyJyZXN1bHQiOiIxOTQ5MDIwMDA0IiwicmVzX2luZm8iOiJbMTk0OTAyMDAwNF3mgqjnmoTmk43kvZzlt7Lmj5DkuqTvvIzor7fnoa7orqTmmK/lkKblt7LnlJ/mlYjjgIIifQ==");
+            // string msg = string.Empty;
+            // bool result =false;
+            // Dictionary<string, string> dic_RetText = CommQuery.StringToDictionary(retTextDecodeBase64.TrimStart('{').TrimEnd('}').Trim('"').Trim('"'), ',', ':', out msg);
+            //var json= Newtonsoft.Json.JsonConvert.DeserializeObject(retTextDecodeBase64) as Newtonsoft.Json.Linq.JObject;
+            //var ret= json["result"];
+            // if (dic_RetText != null && dic_RetText.Count > 0)
+            // {
+            //     if (dic_RetText.Keys.Contains("result"))
+            //     {
+            //         string retTextResult = dic_RetText["result"].ToString();
+            //         result = retTextResult.Equals("0") ? true : false;
+            //         msg = dic_RetText["res_info"].ToString();
+            //     }
+            // }   
+
+            //string answer = "result=131512015&res_info=[131512015]&res_info_origin=record not found in all db";
+            //string Msg = string.Empty;
+            ////解析
+            ////DataSet ds = CommQuery.ParseRelayPageMethod1(answer, out Msg);
+            //DataSet ds =CommQuery.StringToDataTable(answer,'&','=', out Msg );
+            //BankCardBindService aaa = new BankCardBindService();
+            //string bbb = aaa.GetBankSyncState(0, string.Empty, string.Empty);
         }
     }
 }
