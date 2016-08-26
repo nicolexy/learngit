@@ -1077,7 +1077,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             catch (Exception e)
             {             
                 LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData     public bool QueryWXFCancelAsRepayMent(string uin, out string resultcode), ERROR:" + e.Message.ToString());
-                throw new Exception("查询微信未完成还款交易失败" + e.Message);
+                throw new Exception("查询微信未完成还款交易失败" + e.Message.Replace("'"," "));
             }
 
         }

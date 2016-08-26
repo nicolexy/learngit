@@ -5,9 +5,9 @@
     else if (reason == undefined || reason == "" || reason == null) { $("#error_info").html("理由不能为空！"); return false; }    
     else { return true; }
 }
-function ajaxSubmit() { 
+function ajaxSubmit() {
     var wxid = $("#txt_wxid").val().replace(/^\s+|\s+$/g, "");
-    var reason = $("#txt_reason").text().replace(/^\s+|\s+$/g, "");
+    var reason = $("#txt_reason").val().replace(/^\s+|\s+$/g, "");
     if (validateForm(wxid, reason)) {
         $.post("logOnWxAccount.aspx", { action: "CancelWx", wxid: wxid, reason: reason},
                 function (data) {
