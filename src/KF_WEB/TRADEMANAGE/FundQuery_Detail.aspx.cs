@@ -132,8 +132,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 BankCardBindService bankCardBindService = new BankCardBindService();
                 int bankType = int.Parse(PublicRes.GetInt(dr["FBank_Type"]));
                 //string getBankSyncStateResult = bankCardBindService.GetBankSyncState(bankType, PublicRes.GetString(dr["FBank_List"]), PublicRes.GetString(dr["FListID"]));                
-                DataSet bankSyncStateResultDS = bankCardBindService.GetBankSyncStateDataSet(bankType, PublicRes.GetString(dr["FBank_List"]), PublicRes.GetString(dr["FListID"]));
-                lab_PayResultText.Text = PublicRes.GetDataTableColumnValue(bankSyncStateResultDS.Tables[0], 0, "pay_result").Equals("1") ? "支付结果未知" : "银行扣款成功";
+                //DataSet bankSyncStateResultDS = bankCardBindService.GetBankSyncStateDataSet(bankType, PublicRes.GetString(dr["FBank_List"]), PublicRes.GetString(dr["FListID"]));                
+                //lab_PayResultText.Text = PublicRes.GetDataTableColumnValue(bankSyncStateResultDS.Tables[0], 0, "pay_result").Equals("1") ? "支付结果未知" : "银行扣款成功";
+                string getBankSyncStateResult = bankCardBindService.GetBankSyncState(bankType, PublicRes.GetString(dr["FBank_List"]), PublicRes.GetString(dr["FListID"]));               
+                lab_PayResultText.Text = getBankSyncStateResult;
 
                 labFBank_List.Text = PublicRes.GetString(dr["FBank_List"]);
                 labFBank_Acc.Text = PublicRes.GetString(dr["FBank_Acc"]);

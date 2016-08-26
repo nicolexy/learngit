@@ -8,6 +8,7 @@ using System.Web.Script.Serialization;
 using System.Reflection;
 using System.Linq;
 using SunLibraryEX;
+using SunLibrary;
 
 namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 {
@@ -4284,10 +4285,9 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         /// <param name="keyValueSplitStr">key和value分隔符</param>
         /// <param name="errMsg"></param>
         /// <returns></returns>
-        public static Dictionary<string, string> StringToDictionary(string inputStr, char splitStr, char keyValueSplitStr, out string errMsg)
+        public static Dictionary<string, string> StringToDictionary(string inputStr, char splitStr, char keyValueSplitStr)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
-            errMsg = "";
             try
             {
                 if (!string.IsNullOrEmpty(inputStr))
@@ -4296,8 +4296,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
 
                     if (inputStrArray.Length == 0)
                     {
-                        dic = null;
-                        errMsg = "调用失败,返回结果有误" + inputStr;
+                        dic = null;                        
                     }
                     else
                     {
@@ -4319,6 +4318,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             catch (Exception ex)
             {
                 dic = null;
+                LogHelper.LogInfo(string.Format("CommQuery类StringToDictionary方法调用出错,参数inputStr={0},splitStr={1},keyValueSplitStr={2},错误信息:{3}", inputStr, splitStr, keyValueSplitStr,ex.Message));
             }            
             return dic;
         }

@@ -13,6 +13,7 @@ using TENCENT.OSS.CFT.KF.DataAccess;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using CommLib;
 using CFT.CSOMS.COMMLIB;
+using CFT.Apollo.Logging;
 
 namespace CFT.CSOMS.DAL.BankcardUnbind
 {
@@ -804,23 +805,26 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
         /// <returns>返回格式如下:result=0&res_info=ok&amount=10&bank_billno=201608040000125722&bank_query_source=3&bank_query_time=2016-08-04 12:36:51&bill_no=201608040000125722&pay_result=2&sync_state=15&transaction_id=1216402401321608040000000000</returns>
         public string GetBankSyncState(int bank_type, string bill_no, string transaction_id)
         {
-            string relayip = System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_IP"];
-            int relayport = int.Parse(System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_Por"]);
-            string requesttpe = System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_request_type"];
+            string result = string.Empty;            
             try
             {
+                string relayip = System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_IP"];
+                int relayport = int.Parse(System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_Por"]);
+                string requesttpe = System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_request_type"];
+
                 StringBuilder sb_reqString = new StringBuilder();
                 sb_reqString.AppendFormat("bank_type={0}", bank_type.ToString());
                 sb_reqString.AppendFormat("&bill_no={0}", !string.IsNullOrEmpty(bill_no) ? bill_no : "");
                 sb_reqString.AppendFormat("&transaction_id={0}", !string.IsNullOrEmpty(transaction_id) ? transaction_id : "");
-                return RelayAccessFactory.RelayInvoke(sb_reqString.ToString(), requesttpe, false, false, relayip, relayport, "");
-
+                result= RelayAccessFactory.RelayInvoke(sb_reqString.ToString(), requesttpe, false, false, relayip, relayport, "");
             }
             catch (Exception err)
             {
-                throw new Exception(string.Format("银行查补单状态查询:{0},{1}", relayip, err.Message));
+                //throw new Exception(string.Format("银行查补单状态查询:{0},{1}", relayip, err.Message));
+                result = string.Empty;   
+                LogHelper.LogInfo(string.Format("BankcardbindData类GetBankSyncState方法调用出错,参数bank_type={0},bill_no={1},transaction_id={2},错误信息:{3}", bank_type, bill_no, transaction_id, err.Message));
             }
-
+            return result;
         }
 
         /// <summary>
@@ -832,23 +836,26 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
         /// <returns>返回格式如下:result=0&res_info=ok&amount=10&bank_billno=201608040000125722&bank_query_source=3&bank_query_time=2016-08-04 12:36:51&bill_no=201608040000125722&pay_result=2&sync_state=15&transaction_id=1216402401321608040000000000</returns>
         public DataSet GetBankSyncStateDataSet(int bank_type, string bill_no, string transaction_id)
         {
-            string relayip = System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_IP"];
-            int relayport = int.Parse(System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_Por"]);
-            string requesttpe = System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_request_type"];
+            DataSet ds = null;           
             try
             {
+                string relayip = System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_IP"];
+                int relayport = int.Parse(System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_Por"]);
+                string requesttpe = System.Configuration.ConfigurationManager.AppSettings["bzwq_bank_sync_state_qry_c_request_type"];
+
                 StringBuilder sb_reqString = new StringBuilder();
                 sb_reqString.AppendFormat("bank_type={0}", bank_type.ToString());
                 sb_reqString.AppendFormat("&bill_no={0}", !string.IsNullOrEmpty(bill_no) ? bill_no : "");
                 sb_reqString.AppendFormat("&transaction_id={0}", !string.IsNullOrEmpty(transaction_id) ? transaction_id : "");
-                return RelayAccessFactory.GetDSFromRelayMethod1(sb_reqString.ToString(), requesttpe, relayip, relayport);
-
+                ds= RelayAccessFactory.GetDSFromRelayMethod1(sb_reqString.ToString(), requesttpe, relayip, relayport);
             }
             catch (Exception err)
             {
-                throw new Exception(string.Format("银行查补单状态查询:{0},{1}", relayip, err.Message));
+                //throw new Exception(string.Format("银行查补单状态查询:{0},{1}", relayip, err.Message));
+                ds = null;    
+                LogHelper.LogInfo(string.Format("BankcardbindData类GetBankSyncStateDataSet方法调用出错,参数bank_type={0},bill_no={1},transaction_id={2},错误信息:{3}", bank_type, bill_no, transaction_id, err.Message));
             }
-
+            return ds;
         }
     }
 }
