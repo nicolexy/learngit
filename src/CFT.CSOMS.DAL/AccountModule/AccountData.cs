@@ -77,7 +77,8 @@ namespace CFT.CSOMS.DAL.AccountModule
             LogHelper.LogInfo("注销微信支付账户请求参数：LogOnWxAccountByRelay" + parameterString);
             var relay_result = RelayAccessFactory.RelayInvoke(req, "102585", false, false, ip, port);            
             LogHelper.LogInfo("注销微信支付账户请求Relay的结果" + relay_result);
-           #region relay转发  响应结果处理        
+           #region relay转发  响应结果处理 
+            relay_result = System.Web.HttpUtility.UrlDecode(relay_result);
            var relay_dic = relay_result.ToDictionary();
            if (relay_dic["result"] != "0")
            {
