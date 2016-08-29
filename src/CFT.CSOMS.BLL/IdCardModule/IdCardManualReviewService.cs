@@ -237,7 +237,7 @@ namespace CFT.CSOMS.BLL.IdCardModule
                 }
                
                 dic_Sign.Add("Ver", "1.0");
-                dic_Sign.Add("key", "123456");
+                dic_Sign.Add("key", "e1674ed8b2d4e12b99a06cd48368369d");//开发环境为:123456
                 string ptSign = GetPingTaiSign(dic_Sign); //"edf3ea3fd7d7610188acb1a7fc1433f8";                                
 
                 sb_cgiString.Append("From=2");
