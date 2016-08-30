@@ -8,6 +8,7 @@ using SunLibraryEX;
 using CFT.CSOMS.DAL.WechatPay.Entity;
 using commLib.Entity;
 using commLib.Entity.HKWallet;
+using CFT.Apollo.Logging;
 
 namespace CFT.CSOMS.DAL.ForeignCurrencModule
 {
@@ -160,16 +161,29 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
                 "&memo=" + memo +
                 "&client_ip=" + client_ip
                 ;
-            var relay_result = RelayAccessFactory.RelayInvoke(StringTransCode(req), "101404", true, false, ip, port, "utf-8");
-            var dic = relay_result.ToDictionary();
-            if (dic["result"] == "0")
+            LogHelper.LogInfo(string.Format("101404;StringTransCode"));
+            string strCode = StringTransCode(req);
+            if (!string.IsNullOrEmpty(strCode))
             {
-                return true;
+                LogHelper.LogInfo(string.Format("101404;StringTransCode转码成功{0}"), strCode);
+                var relay_result = RelayAccessFactory.RelayInvoke(strCode, "101404", true, false, ip, port, "utf-8");
+                var dic = relay_result.ToDictionary();
+                if (dic["result"] == "0")
+                {
+                    LogHelper.LogInfo(string.Format("101404;接口调用成功"));
+                    return true;
+                }
+                else
+                {
+                    throw new Exception("重置密码失败:" + relay_result);
+                }
             }
             else
             {
-                throw new Exception("重置密码失败:" + relay_result);
+                LogHelper.LogInfo(string.Format("101404;StringTransCode转码失败"));
+                throw new Exception("重置密码失败:StringTransCode转码失败");
             }
+           
         }
 
         #endregion
@@ -932,16 +946,27 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
         /// <returns></returns>
         protected string StringTransCode(string str, string srcCode = null, string toCode = "utf-8")
         {
-            if (string.IsNullOrWhiteSpace(str))
-                return str;
+            string result = string.Empty;
+            try
+            {
+                if (string.IsNullOrWhiteSpace(str))
+                    return str;
 
-            //var srcEncoding = srcCode == null ? System.Text.Encoding.Default : System.Text.Encoding.GetEncoding(srcCode); //此处编码和解码会出现乱码，编码和解码要对应
-            var srcEncoding = srcCode == null ? System.Text.Encoding.GetEncoding(srcCode) : System.Text.Encoding.GetEncoding(srcCode);
-            var toEncoding = System.Text.Encoding.GetEncoding(toCode);
+                //var srcEncoding = srcCode == null ? System.Text.Encoding.Default : System.Text.Encoding.GetEncoding(srcCode); //此处编码和解码会出现乱码，编码和解码要对应
+                var srcEncoding = srcCode == null ? System.Text.Encoding.GetEncoding(srcCode) : System.Text.Encoding.GetEncoding(srcCode);
+                var toEncoding = System.Text.Encoding.GetEncoding(toCode);
 
-            var buff = srcEncoding.GetBytes(str);
-            var tobuff = System.Text.Encoding.Convert(srcEncoding, toEncoding, buff);
-            return srcEncoding.GetString(tobuff);
+                var buff = srcEncoding.GetBytes(str);
+                var tobuff = System.Text.Encoding.Convert(srcEncoding, toEncoding, buff);
+                result = srcEncoding.GetString(tobuff);
+            }
+            catch (Exception ex)
+            {
+                result = string.Empty;
+                LogHelper.LogInfo(string.Format("101404;StringTransCode:{0}"), ex.Message.ToString());
+            }
+            return result;
+            
         }
         #endregion
 
