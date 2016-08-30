@@ -37,15 +37,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             if (actionName.Equals("ReceiveReview"))
             {
-                ReceiveReview();
+                ReceiveReview();//批量领单
             }
             else if (actionName.Equals("LoadReview"))
             {
-                LoadReview();
+                LoadReview();//查询
             }
             else if (actionName.Equals("SaveReview"))
             {
-                SaveReview();
+                SaveReview();//人工审核
             }
             else if (actionName.Equals("ReSend"))
             {

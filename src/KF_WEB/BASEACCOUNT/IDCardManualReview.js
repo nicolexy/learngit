@@ -3,7 +3,7 @@
     $("#div_ReveiwIdCard").dialog("close");
     //时间:起
     $("#tbx_beginDate").datebox({
-        value: SetDate(-30),
+        value: getCurrentMonthFirst(),
         ShowSeconds: false
     });
     //时间:止
@@ -12,8 +12,8 @@
         ShowSeconds: false
     });
 
-    LoadCommonCombobox("ddl_ReviewStatus", "id", "name", 150, 200, false, "请选择", false, false, "IDCardManualReview_LoadReveiwStatus", 0);
-    LoadCommonCombobox("ddl_ReviewResult", "id", "name", 150, 200, false, "请选择", false, false, "IDCardManualReview_LoadReveiwResult", 0);
+    LoadCommonCombobox("ddl_ReviewStatus", "id", "name", 150, 200, true, "全部", false, false, "IDCardManualReview_LoadReveiwStatus", 0);
+    LoadCommonCombobox("ddl_ReviewResult", "id", "name", 150, 200, true, "全部", false, false, "IDCardManualReview_LoadReveiwResult", 0);
     $("#txt_ReviewCount").numberspinner({
         min: 1,
         max: 50,
@@ -22,7 +22,7 @@
     $("#txt_ReviewCount").numberspinner("setValue", 50);  // 设置值
 
     $("#btn_ReceiveReview").click(function () {
-        var uid = $("#Label_uid").val();
+        var uid = $("[id$='Label_uid']").text();// $("#Label_uid").val();
         var uin = $("#txt_uin").val();
         var reviewCount = $("#txt_ReviewCount").numberspinner("getValue");
         var beginDate = $("#tbx_beginDate").datebox("getValue");
@@ -56,13 +56,27 @@
 
     //
     $("#btn_Search").click(function () {
-
-        var uid = $("#Label_uid").val();
+        var uid = $("[id$='Label_uid']").text();//$("#Label_uid").text();
         var uin = $("#txt_uin").val();
         $("#ddl_ReviewStatus").combobox("getValue");
         var reviewCount = $("#txt_ReviewCount").numberspinner("getValue");
         var beginDate = $("#tbx_beginDate").datebox("getValue");
         var endDate = $("#txt_EndDate").datebox("getValue");
+        if (beginDate.length < 1 || beginDate==null)
+        {
+            $.messager.alert("提示", "请选择开始日期", "info", null);
+            return;
+        }
+        else if (endDate.length < 1 || endDate==null)
+        {
+            $.messager.alert("提示", "请选择结束日期", "info", null);
+            return;
+        }
+        if (beginDate > endDate)
+        {
+            $.messager.alert("提示", "开始日期不能大于结束日期", "info", null);
+            return;
+        }
         var datas = {
             uid: uid,
             uin: uin,
@@ -83,7 +97,7 @@
             }
         });
         var queryData = {
-            uid: $("#Label_uid").val(),
+            uid: $("[id$='Label_uid']").text(),
             uin: $("#txt_uin").val(),
             reviewStatus: $("#ddl_ReviewStatus").combobox("getValue"),
             reviewResult: $("#ddl_ReviewResult").combobox("getValue"),
@@ -129,6 +143,26 @@
                      { field: 'Fuin', title: '用户帐号', halign: 'center', align: 'left', width: $(this).width() },
                      { field: 'Fmodify_time1', title: '审核时间', halign: 'center', align: 'left', width: $(this).width() },
                      {
+                         field: 'Fstate', title: '审核状态', halign: 'center', align: 'left', width: $(this).width(),
+                         formatter: function (value, row, index) {
+                             var Fstate = "";
+                             if (value == "1") {
+                                 Fstate = "未领单";
+                             }
+                             else if (value == "2") {
+                                 Fstate = "已领单";
+                             }
+                             else if (value == "3") {
+                                 Fstate = "推送到实名系统失败";
+                             }
+                             else if (value == "4") {
+                                 Fstate = "推送成功";
+                             }
+                             var span = "<span>" + Fstate + "</span>";
+                             return span;
+                         }
+                     },
+                     {
                          field: 'Fresult', title: '审核结果', halign: 'center', align: 'left', width: $(this).width(),
                          formatter: function (value, row, index) {
                              var Fresult = "";
@@ -172,7 +206,16 @@
                       {
                           field: '详细类容', title: '详细类容', halign: 'center', align: 'center', width: $(this).width(),
                           formatter: function (value, row, index) {
-                              var span = "<span><a href='#'  onclick='ReviewIdCard(" + index + ")'>详细类容</a></span>";
+                              var span = "";
+                              if (value == "" || value.length < 1)
+                              {
+                                  span = "<span></span>";
+                              }
+                              else if (value == uid)
+                              {
+                                  span = "<span><a href='#'  onclick='ReviewIdCard(" + index + ")'>详细类容</a></span>";
+                              }
+                              //var span = "<span><a href='#'  onclick='ReviewIdCard(" + index + ")'>详细类容</a></span>";
                               return span;
                           }
 
