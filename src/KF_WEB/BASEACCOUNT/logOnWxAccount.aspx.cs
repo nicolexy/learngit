@@ -41,12 +41,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string uin = string.Empty;
             string msg = string.Empty;
             string username = Session["uid"].ToString();
-            string clientip = HttpContext.Current.Request.UserHostAddress == "::1" ? "127.0.0.1" : HttpContext.Current.Request.UserHostAddress;
-            if (Session["oa_ticket"] == null || string.IsNullOrEmpty(Session["oa_ticket"].ToString()))
+            string clientip = HttpContext.Current.Request.UserHostAddress == "::1" ? "127.0.0.1" : HttpContext.Current.Request.UserHostAddress;          
+            HttpCookie cookie = Request.Cookies["TCOA_TICKET"];
+            if (null == cookie)
             {
                 return "{\"ret\":\"oa_ticket不合法！\"}"; 
-            }
-            string oaticket = Session["oa_ticket"].ToString();
+            }            
+            string oaticket = cookie.Value.ToString();    
             uin = WeChatHelper.GetUINByWxid(wxid, out msg);
             if(!string.IsNullOrEmpty(msg)){
                 return "{\"ret\":\"微信号不合法！\"}"; 
