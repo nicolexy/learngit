@@ -179,13 +179,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                 string objid = DateTime.Now.ToString("yyyyMMddHHmmssfff");
                 string ReturnUrl = "http://kf.cf.com/NewQueryInfoPages/GetFundRatePageRedeem.aspx?RedeemType=NonMonetaryFundRedeem_view&objid=" + objid;
-                string uid = new AccountService().QQ2Uid(lbl_uin.Text);
-#if DEBUG
-                uid = "123456789";
-                lblHB_fund_code.Text = "990001";
-                lblHB_spid.Text = "1230258701";
-#endif
-                parameters[0] = new ZWCheck_Service.Param() { ParamName = "uin", ParamValue = lbl_uin.Text };
+                string uid = new AccountService().QQ2Uid(lbl_uin.Text.Trim());
+//#if DEBUG
+//                uid = "123456789";
+//                lblHB_fund_code.Text = "990001";
+//                lblHB_spid.Text = "1230258701";
+//#endif
+                parameters[0] = new ZWCheck_Service.Param() { ParamName = "uin", ParamValue = lbl_uin.Text.Trim() };
                 parameters[1] = new ZWCheck_Service.Param() { ParamName = "uid", ParamValue = uid };
                 parameters[2] = new ZWCheck_Service.Param() { ParamName = "spid", ParamValue = lbl_spid.Text };
                 parameters[3] = new ZWCheck_Service.Param() { ParamName = "fund_code", ParamValue = lbl_fund_code.Text };
@@ -288,14 +288,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                 string objid = DateTime.Now.ToString("yyyyMMddHHmmssfff");
                 string ReturnUrl = "http://kf.cf.com/NewQueryInfoPages/GetFundRatePageRedeem.aspx?RedeemType=MonetaryFundRedeem_view&objid=" + objid;
-                string uid = new AccountService().QQ2Uid(lbl_uin.Text);
-#if DEBUG
-                uid = "123456789";
-                lblHB_fund_code.Text = "000397";
-                lblHB_spid.Text = "1217608401";
-#endif
+                string uid = new AccountService().QQ2Uid(lblHB_uin.Text.Trim());
+//#if DEBUG
+//                uid = "123456789";
+//                lblHB_fund_code.Text = "000397";
+//                lblHB_spid.Text = "1217608401";
+//#endif
 
-                parameters[0] = new ZWCheck_Service.Param() { ParamName = "uin", ParamValue = lblHB_uin.Text };
+                parameters[0] = new ZWCheck_Service.Param() { ParamName = "uin", ParamValue = lblHB_uin.Text.Trim() };
                 parameters[1] = new ZWCheck_Service.Param() { ParamName = "uid", ParamValue = uid };
                 parameters[2] = new ZWCheck_Service.Param() { ParamName = "spid", ParamValue = lblHB_spid.Text };
                 parameters[3] = new ZWCheck_Service.Param() { ParamName = "fund_code", ParamValue = lblHB_fund_code.Text };
