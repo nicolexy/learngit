@@ -333,6 +333,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
             try
             {
+                this.tableQueryResult.Visible = true;
                 this.pager.CurrentPageIndex = pageIndex;
                 var profits = fundBLLService.BindProfitList(tradeId: tradeId,
                                                             beginDateStr: beginDate.ToString("yyyyMMdd"),
@@ -378,6 +379,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         {
             try
             {
+                this.tableBankRollList.Visible = true;
                 this.bankRollListPager.CurrentPageIndex = pageIndex;
                 int max = pager.PageSize;
                 int start = max * (pageIndex - 1);
@@ -475,6 +477,50 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                      + "&card_tail=" + ViewState["card_tail"].ToString()
                      + "&mobile=" + ViewState["mobile"].ToString()
                      + "&bank_type=" + ViewState["bank_type"].ToString();
+
+                        string Ftype = ViewState["Ftype"].ToString();
+                        if (Ftype == "1")//货币强赎
+                        {
+                            dr["URL"] = "GetFundRatePageRedeem.aspx?RedeemType=MonetaryFundRedeem"
+                                      + "&uin=" + ViewState["uin"].ToString()
+                                      + "&spid=" + ViewState["fundSPId"].ToString()
+                                      + "&fund_code=" + ViewState["fundCode"].ToString()
+                                      + "&fund_name=" + ViewState["fund_name"].ToString()
+                                      + "&total_fee=" + dr["Fbalance"].ToString()
+                                      + "&acct_type=2"
+                                      + "&channel_id=68|fm_6_qs_1"
+                                      + "&bind_serialno=" + ViewState["bind_serialno"].ToString()
+                                      + "&card_tail=" + ViewState["card_tail"].ToString()
+                                      + "&bank_type=" + ViewState["bank_type"].ToString()
+                                      + "&cur_type="
+                                      + "&close_id=";
+                        }
+                        else if (Ftype == "2")//定期基金 没有强赎
+                        {
+                            dr["URL"] = "NULL";
+                        }
+                        else if (Ftype == "7")//投连险在 查询交易明细
+                        {
+                            dr["URL"] = "NULL";
+                        }
+                        else //非货币强赎
+                        {
+                            dr["URL"] = "GetFundRatePageRedeem.aspx?RedeemType=NonMonetaryFundRedeem"
+                                       + "&uin=" + ViewState["uin"].ToString()
+                                       + "&spid=" + ViewState["fundSPId"].ToString()
+                                       + "&fund_code=" + ViewState["fundCode"].ToString()
+                                       + "&fund_name=" + ViewState["fund_name"].ToString()
+                                       + "&total_fee=" + dr["Fbalance"].ToString()
+                                       + "&acct_type=2"
+                                       + "&channel_id=68|fm_6_qs_1"
+                                       + "&bind_serialno=" + ViewState["bind_serialno"].ToString()
+                                       + "&card_tail=" + ViewState["card_tail"].ToString()
+                                       + "&bank_type=" + ViewState["bank_type"].ToString()
+                                       + "&cur_type=" 
+                                       + "&close_id=" 
+                                       + "&Ftype=" + Ftype;
+                        }
+
                     }
                     else
                     {
@@ -659,8 +705,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 var fundSPId = ViewState["fundSPId"].ToString();
                 if (close_flag == "2")//封闭即定期
                 {
-                    this.tableCloseFundRoll.Visible = true;
-                    this.tableBankRollList.Visible = true;
+                    //this.tableCloseFundRoll.Visible = true;
+                    //this.tableBankRollList.Visible = true;
                     //BindCloseFundRoll(ViewState["tradeId"].ToString(), fundCode, beginDate, endDate, 1);
                     //BindBankRollList(ViewState["uin"].ToString(), fundSPId, ViewState["curtype"].ToString(), beginDate, endDate, 1, redirectionType, memo);
                 }
@@ -668,10 +714,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                 {
                     dgCloseFundRoll.DataSource = null;
                     dgCloseFundRoll.DataBind();
-                    this.tableQueryResult.Visible = true;
-                    this.tableBankRollList.Visible = true;
-                    this.tableBankRollListNotChildren.Visible = true;
-                    this.tableCloseFundRoll.Visible = true;
+                    //this.tableQueryResult.Visible = true;
+                    //this.tableBankRollList.Visible = true;
+                    //this.tableBankRollListNotChildren.Visible = true;
+                    //this.tableCloseFundRoll.Visible = true;
                     ExhibitionDataGridColumns(dgCloseFundRoll, true, null);         //显示所有字段 查询交易明细
                     if (close_flag == "3") //半封闭
                     {
@@ -731,6 +777,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
         {
             try
             {
+                this.tableCloseFundRoll.Visible = true;
                 this.CloseFundRollPager.CurrentPageIndex = pageIndex;
                 int max = pager.PageSize;
                 int start = max * (pageIndex - 1);
@@ -768,27 +815,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                                 + "&fund_name=" + setConfig.convertToBase64(ViewState["fund_name"].ToString()); //中文字段 , 使用base64 防止乱码
                             ;
                             string Ftype = ViewState["Ftype"].ToString();
-                            if (Ftype == "1")//货币强赎
-                            {
-                                dr["URL"] = "GetFundRatePageRedeem.aspx?RedeemType=MonetaryFundRedeem"
-                                           + "&uin=" + ViewState["uin"].ToString()
-                                           + "&spid=" + ViewState["fundSPId"].ToString()
-                                           + "&fund_code=" + ViewState["fundCode"].ToString()
-                                           + "&fund_name=" + ViewState["fund_name"].ToString()
-                                           + "&total_fee=" + dr["Fstart_total_fee"].ToString()
-                                           + "&acct_type=2"
-                                           + "&channel_id=68|fm_6_qs_1"
-                                           + "&bind_serialno=" + ViewState["bind_serialno"].ToString()
-                                           + "&card_tail=" + ViewState["card_tail"].ToString()
-                                           + "&bank_type=" + ViewState["bank_type"].ToString()
-                                           + "&cur_type=" + ViewState["curtype"].ToString()
-                                           + "&close_id=" + dr["FDate"].ToString();
-                            }
-                            else if (Ftype == "2")//非货币强赎
-                            {
-                                dr["URL"] = "";
-                            }
-                            else //非货币强赎
+                           
+                            if (Ftype == "7")//非货币强赎
                             {
                                 dr["URL"] = "GetFundRatePageRedeem.aspx?RedeemType=NonMonetaryFundRedeem"
                                              + "&uin=" + ViewState["uin"].ToString()
@@ -804,6 +832,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
                                              + "&cur_type=" + ViewState["curtype"].ToString()
                                              + "&close_id=" + dr["FDate"].ToString()
                                              + "&Ftype=" + Ftype;
+                            }
+                            else //非货币强赎
+                            {
+                                dr["URL"] = "NULL";
 
                             }
                         }
@@ -855,7 +887,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                     var AlterEndStrategy_btn = e.Item.FindControl("AlterEndStrategy");
 
-                    if (CloseFundApply_btn.NavigateUrl == "") 
+                    if (CloseFundApply_btn.NavigateUrl == "NULL") 
                     {
                         CloseFundApply_btn.Visible = false;
                     }

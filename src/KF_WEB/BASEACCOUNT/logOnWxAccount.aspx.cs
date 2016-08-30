@@ -42,13 +42,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string msg = string.Empty;
             string username = Session["uid"].ToString();
             string clientip = HttpContext.Current.Request.UserHostAddress == "::1" ? "127.0.0.1" : HttpContext.Current.Request.UserHostAddress;
-            string oaticket = string.IsNullOrEmpty(Session["Ticket"].ToString()) ? Session["SzKey"].ToString() : Session["Ticket"].ToString();
+            if (Session["oa_ticket"] == null || string.IsNullOrEmpty(Session["oa_ticket"].ToString()))
+            {
+                return "{\"ret\":\"oa_ticket不合法！\"}"; 
+            }
+            string oaticket = Session["oa_ticket"].ToString();
             uin = WeChatHelper.GetUINByWxid(wxid, out msg);
             if(!string.IsNullOrEmpty(msg)){
                 return "{\"ret\":\"微信号不合法！\"}"; 
             }            
             bool state = new AccountService().LogOnWxAccount(uin, username, oaticket, clientip, reason, out msg);
-            ret = string.Format(state ? "{\"ret\":\"注销成功！\"}" : "{\"ret\":\"注销失败【{0}】\"}",msg);
+            ret = state ? "{\"ret\":\"注销成功！\"}" : "{\"ret\":\"注销失败【" + msg + "】\"}";
             return ret;
         }
     }

@@ -184,9 +184,20 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         tableName.Append(yearMonth);
                         StringBuilder sb = new StringBuilder();
                         sb.Append("SELECT *,'" + tableName + "' AS TableName FROM " + tableName + " ");
-                        sb.Append("WHERE Foperator='" + uid + "' ");
-                        sb.Append("AND Fstate='" + reviewStatus + "' ");
-                        sb.Append("AND Fresult='" + reviewResult + "' ");
+                        sb.Append("WHERE 1=1 ");
+                        if (reviewStatus > 0)
+                        {
+                            sb.Append("AND Fstate='" + reviewStatus + "' ");
+                            if (reviewStatus > 1)
+                            {
+                                sb.Append("AND Foperator='" + uid + "' ");
+                            }
+                        }
+                        if (reviewResult > -1)
+                        {
+                            sb.Append("AND Fresult='" + reviewResult + "' ");
+                        }
+                        
                         if (!string.IsNullOrEmpty(uin))
                         {
                             sb.Append("AND Fuin='" + uin + "' ");

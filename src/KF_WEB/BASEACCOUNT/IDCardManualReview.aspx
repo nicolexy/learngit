@@ -129,10 +129,13 @@
                                 </tr>
                                 <tr>
                                     <td style="width: 20%; text-align: right"></td>
-                                    <td style="width: 30%"></td>
+                                    <td style="width: 30%">
+                                         <span style="color:red;">注:不能跨月查询</span>
+                                    </td>
                                     <td style="width: 20%; text-align: left">
                                         <%--<input type="button" id="btn_Search" value="查 询" />--%>
                                         <a href="javascript:void(0)" id="btn_Search" class="easyui-linkbutton" iconcls="icon-search" plain="true">查 询</a>
+                                       
                                         <%--<asp:Button ID="btn_Search" runat="server" Text="查 询" OnClick="btn_Search_Click"></asp:Button>--%>
 
                                     </td>

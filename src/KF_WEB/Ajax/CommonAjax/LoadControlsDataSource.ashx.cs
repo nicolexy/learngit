@@ -68,18 +68,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                 DataTable dt = new DataTable();
                 dt.Columns.Add("id");
                 dt.Columns.Add("name");
+                dt.Columns.Add("orderStr");
                 DataRow dr1 = dt.NewRow();
                 dr1["id"] = "1";
                 dr1["name"] = "未领单";
+                dr1["orderStr"] = "1";
+
                 DataRow dr2 = dt.NewRow();
                 dr2["id"] = "2";
                 dr2["name"] = "已领单";
+                dr2["orderStr"] = "2";
+
                 DataRow dr3 = dt.NewRow();
                 dr3["id"] = "3";
                 dr3["name"] = "推送到实名系统失败";
+                dr3["orderStr"] = "3";
+
                 DataRow dr4 = dt.NewRow();
                 dr4["id"] = "4";
                 dr4["name"] = "推送成功";
+                dr4["orderStr"] = "4";
+
                 dt.Rows.Add(dr1);
                 dt.Rows.Add(dr2);
                 dt.Rows.Add(dr3);
@@ -90,12 +99,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                     DataRow row = dt.NewRow();
                     row["id"] = 0;
                     row["name"] = showSelectText;
+                    row["orderStr"] = "0";
                     dt.Rows.Add(row);
                    
                 }
                 DataTable dt2 = dt.Copy();
                 DataView defaultView = dt.DefaultView;
-                defaultView.Sort = "id";
+                defaultView.Sort = "orderStr";
                 defaultView.ToTable().AcceptChanges();
                 dt2 = defaultView.ToTable();
                 result = CreateComboboxJson(dt2, "id", "name");
@@ -120,15 +130,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                 DataTable dt = new DataTable();
                 dt.Columns.Add("id");
                 dt.Columns.Add("name");
+                dt.Columns.Add("orderStr");
+
                 DataRow dr1 = dt.NewRow();
                 dr1["id"] = "0";
                 dr1["name"] = "未处理";
+                dr1["orderStr"] = "1";
+
                 DataRow dr2 = dt.NewRow();
                 dr2["id"] = "1";
                 dr2["name"] = "通过";
+                dr2["orderStr"] = "2";
+
                 DataRow dr3 = dt.NewRow();
                 dr3["id"] = "2";
-                dr3["name"] = "驳回"; 
+                dr3["name"] = "驳回";
+                dr3["orderStr"] = "3";
+
                 dt.Rows.Add(dr1);
                 dt.Rows.Add(dr2);
                 dt.Rows.Add(dr3);
@@ -138,12 +156,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                     DataRow row = dt.NewRow();
                     row["id"] = -1;
                     row["name"] = showSelectText;
+                    row["orderStr"] = 0;
                     dt.Rows.Add(row);
+                    
 
                 }
                 DataTable dt2 = dt.Copy();
                 DataView defaultView = dt.DefaultView;
-                defaultView.Sort = "id";
+                defaultView.Sort = "orderStr";
                 defaultView.ToTable().AcceptChanges();
                 dt2 = defaultView.ToTable();
                 result = CreateComboboxJson(dt2, "id", "name");
