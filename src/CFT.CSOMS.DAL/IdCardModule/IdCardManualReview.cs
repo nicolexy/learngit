@@ -126,6 +126,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         sb.Append(") tb1");
 
                         sb.Append(")");
+                        LogHelper.LogInfo(string.Format("{0} 用户[{1}]执行查询操作,查询SQL:{2}",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),uid,sb.ToString() ));
                         int updateResult = fmda.ExecSqlNum(sb.ToString());
                         if (updateResult == 0)
                         {
@@ -206,10 +207,11 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         {
                             sb.Append("ORDER BY " + order + " ");
                         }
+                        
                         dtTotal = fmda.GetTable(sb.ToString());
                         total += dtTotal.Rows.Count;
-
                         sb.Append("LIMIT " + startIndex + "," + pageSize + "  ");
+                        LogHelper.LogInfo(string.Format("{0} 用户[{1}]执行查询操作,查询SQL:{2}",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),uid,sb.ToString() ));
                         dt = fmda.GetTable(sb.ToString());
 
                     }

@@ -196,7 +196,7 @@
                              else if (value == "4") {
                                  Fmemo = "证件号码与原注册证件号码不符";
                              }
-                             else if (value == "4") {
+                             else if (value == "5") {
                                  Fmemo = "其他原因";
                              }
                              var span = "<span>" + Fmemo + "</span>";
@@ -207,18 +207,14 @@
                           field: '详细类容', title: '详细类容', halign: 'center', align: 'center', width: $(this).width(),
                           formatter: function (value, row, index) {
                               var span = "";
-                              if (value == "" || value.length < 1)
-                              {
+                              if (row.Foperator == "" || row.Foperator.length < 1 || row.Foperator == "undefined") {
                                   span = "<span></span>";
                               }
-                              else if (value == uid)
-                              {
+                              else if (row.Foperator == uid) {
                                   span = "<span><a href='#'  onclick='ReviewIdCard(" + index + ")'>详细类容</a></span>";
-                              }
-                              //var span = "<span><a href='#'  onclick='ReviewIdCard(" + index + ")'>详细类容</a></span>";
+                              }                              
                               return span;
                           }
-
                       }
 
             ]], onLoadSuccess: function () {

@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Tencent.DotNet.Common.UI;
 using CFT.CSOMS.BLL.ForeignCurrencyModule;
+using SunLibrary;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
 {
@@ -58,10 +59,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
 
                 bool result = false;
                 //注意：快速重置和申诉重置调用的接口是一样的。
+                LogHelper.LogInfo(string.Format("{0}调用接口开始"),DateTime.Now.ToString());
                 if (sign == "quick_reset" || sign == "appeal_reset")
                 {
                     result = bll.ResetPassWord(uin, uid, trueName, contact, reason, "", ip);
                 }
+                LogHelper.LogInfo(string.Format("{0}调用接口结束"), DateTime.Now.ToString());
                 //else if (sign == "appeal_reset")
                 //{
                 //    throw new Exception("暂未开放申诉重置功能!");
@@ -80,6 +83,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             catch (Exception ex)
             {
                 WebUtils.ShowMessage(this.Page, PublicRes.GetErrorMsg(ex.Message));
+                LogHelper.LogInfo(string.Format("调用接口出错{0}"), PublicRes.GetErrorMsg(ex.Message));
             }
         }
 
