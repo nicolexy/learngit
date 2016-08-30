@@ -42,7 +42,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string msg = string.Empty;
             string username = Session["uid"].ToString();
             string clientip = HttpContext.Current.Request.UserHostAddress == "::1" ? "127.0.0.1" : HttpContext.Current.Request.UserHostAddress;
-            if (string.IsNullOrEmpty(Session["oa_ticket"].ToString()))
+            if (Session["oa_ticket"] == null || string.IsNullOrEmpty(Session["oa_ticket"].ToString()))
             {
                 return "{\"ret\":\"oa_ticket不合法！\"}"; 
             }
