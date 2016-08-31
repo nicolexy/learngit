@@ -51,10 +51,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 sb.Append("Cookie" + Request.Cookies.Keys[i] + ":" + Request.Cookies[i].Value.ToString());
             }
+            SunLibrary.LogHelper.LogInfo("GetLogOnWxResult-Current_Cookie_Session:" + sb.ToString());
             HttpCookie cookie = Request.Cookies["TCOA_TICKET"];
             if (null == cookie)
             {
-                return "{\"ret\":\"oa_ticket不合法！"+sb.ToString()+"\"}"; 
+                return "{\"ret\":\"oa_ticket不合法！\"}"; 
             }            
             string oaticket = cookie.Value.ToString();    
             uin = WeChatHelper.GetUINByWxid(wxid, out msg);
