@@ -43,7 +43,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
         }
 
         private void GetCookie(string requestUrl)
-        {                            
+        {
             string cookieName = string.Empty;
             try
             {
@@ -80,11 +80,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 TimeSpan ts = DateTime.Parse(dtnow.AddDays(1).ToString("yyyy-MM-dd 00:01:00")).Subtract(dtnow);
                 cookie.Expires = dtnow + ts;
                 //加入此cookie
-                Response.Cookies.Add(cookie);                                
+                Response.Cookies.Add(cookie);
                 StringBuilder builder = new StringBuilder();
                 builder.Append("[");
                 builder.Append("{");
-                builder.Append("\"cookie\":");                
+                builder.Append("\"cookie\":");
                 builder.Append("\"" + cookie.Value + "\",");
                 builder.Append("\"requestUrl\":");
                 builder.Append("\"" + requestUrl + "\"");
@@ -95,9 +95,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 Response.End();
             }
             catch (Exception ex)
-            { 
-            
-            }            
+            {
+
+            }
         }
 
         private void test()
@@ -142,7 +142,64 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             //BankCardBindService aaa = new BankCardBindService();
             //string bbb = aaa.GetBankSyncState(0, string.Empty, string.Empty);
             //string seq_no = Guid.NewGuid().ToString("N").Substring(0, 30);
-            string kf_auth_ocr_audit_QueryUrl = System.Configuration.ConfigurationManager.AppSettings["kf_auth_ocr_audit_QueryUrl"];
+            //string kf_auth_ocr_audit_QueryUrl = System.Configuration.ConfigurationManager.AppSettings["kf_auth_ocr_audit_QueryUrl"];
+
+            #region  身份证审核接口            
+            StringBuilder sb_reviewResult = new StringBuilder();
+            //sb_reviewResult.Append("{");
+            //sb_reviewResult.Append("\"PlatCode\":");
+            //sb_reviewResult.Append("\"180220000\",");
+            //sb_reviewResult.Append("\"PlatMsg\":");
+            //sb_reviewResult.Append("\"PlatSpid length is out of range[10,10].\",");
+            //sb_reviewResult.Append("\"SeqNo\":");
+            //sb_reviewResult.Append("\"e7b7d12b5b7e4997ac09b5d3c8231c\",");
+            //sb_reviewResult.Append("}");
+
+            sb_reviewResult.Append("{");
+            sb_reviewResult.Append("\"PlatCode\":");
+            sb_reviewResult.Append("\"0\",");
+            sb_reviewResult.Append("\"PlatMsg\":");
+            sb_reviewResult.Append("\"Request Accepted\",");
+            sb_reviewResult.Append("\"RetText\":");
+            sb_reviewResult.Append("\"eyJyZXN1bHQiOiIxOTQ5MDIwMDA0IiwicmVzX2luZm8iOiJbMTk0OTAyMDAwNF3mgqjnmoTmk43kvZzlt7Lmj5DkuqTvvIzor7fnoa7orqTmmK/lkKblt7LnlJ/mlYjjgIIifQ==\",");
+            sb_reviewResult.Append("\"SeqNo\":");
+            sb_reviewResult.Append("\"1471002616\",");
+            sb_reviewResult.Append("\"Sign\":");
+            sb_reviewResult.Append("\"2AD13DC30C226F717C7A04F071FDDF0D\"");
+            sb_reviewResult.Append("}");
+
+
+
+            bool result = false;
+            string msg = string.Empty;
+            //平台调用接口返回结果                
+            var reviewResultJson = Newtonsoft.Json.JsonConvert.DeserializeObject(sb_reviewResult.ToString()) as Newtonsoft.Json.Linq.JObject;
+            if (reviewResultJson != null && reviewResultJson.Count > 0)
+            {
+                string platCode = reviewResultJson["PlatCode"].ToString();
+                if (platCode.Equals("0"))
+                {
+                    result = true;
+                    //调用接口返回结果
+                    string retText = reviewResultJson["RetText"].ToString();
+                    string retTextDecodeBase64 = IdCardManualReviewService.DecodeBase64(retText);
+
+                    var retTextDecodeBase64Json = Newtonsoft.Json.JsonConvert.DeserializeObject(retTextDecodeBase64) as Newtonsoft.Json.Linq.JObject;
+                    if (retTextDecodeBase64Json != null && retTextDecodeBase64Json.Count > 0)
+                    {
+                        string retTextResult = retTextDecodeBase64Json["result"].ToString();
+                        result = retTextResult.Equals("0") ? true : false;
+                        msg = retTextDecodeBase64Json["res_info"].ToString();
+                        string aaa = retTextDecodeBase64Json.ToString();
+                    }
+                }
+                else
+                {
+                    result = false;
+                    msg = reviewResultJson["PlatMsg"].ToString();
+                }
+            }
+            #endregion
         }
     }
 }
