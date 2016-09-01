@@ -55,8 +55,7 @@
     <script type="text/javascript" src="js/LogOnWxAccount.js"></script>
     <script type="text/javascript">
         $(function () {
-            $("input[type=text],#txt_reason").bind("focus", fucusClear);
-            initCookie();
+            $("input[type=text],#txt_reason").bind("focus", fucusClear);           
         });
        
     </script>
