@@ -30,9 +30,7 @@ function initCookie() {
     form.target = 'getCookie';
     form.action = 'http://passport.oa.com/modules/passport/signin.ashx?url='+host; 
 
-    document.body.appendChild(form);
-
-    Cookie.setCookie = function () {
-        form.submit();
-    }
+    document.body.appendChild(form); 
+    form.submit();
+    
 }
