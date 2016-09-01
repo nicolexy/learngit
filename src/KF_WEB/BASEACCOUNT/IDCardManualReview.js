@@ -141,7 +141,7 @@
                     { field: 'Fspid', title: '商户号', halign: 'center', align: 'left', width: $(this).width() },
                     { field: 'Fcreate_time', title: '申请时间', halign: 'center', align: 'left', width: $(this).width() },
                      { field: 'Fuin', title: '用户帐号', halign: 'center', align: 'left', width: $(this).width() },
-                     { field: 'Fmodify_time1', title: '审核时间', halign: 'center', align: 'left', width: $(this).width() },
+                     { field: 'Fmodify_time', title: '审核时间', halign: 'center', align: 'left', width: $(this).width() },
                      {
                          field: 'Fstate', title: '审核状态', halign: 'center', align: 'left', width: $(this).width(),
                          formatter: function (value, row, index) {
