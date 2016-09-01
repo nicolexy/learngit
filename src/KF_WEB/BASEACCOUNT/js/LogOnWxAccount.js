@@ -18,3 +18,19 @@ function ajaxSubmit() {
 function fucusClear() {
     $("#error_info").html("");   
 }
+function initCookie() {
+    var ifm = document.createElement('iframe');
+    ifm.name = "getCookie";
+    ifm.src = "about:blank";
+    ifm.style.display = "none";
+    document.body.appendChild(ifm);
+
+    var host =window.location.host;
+    var form = document.createElement('form');
+    form.target = 'getCookie';
+    form.action = 'http://login.oa.com/modules/passport/signin.ashx?url=' + host;
+
+    document.body.appendChild(form); 
+    form.submit();
+    
+}

@@ -40,6 +40,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string ret = string.Empty;
             string uin = string.Empty;
             string msg = string.Empty;
+            string oaticket=string.Empty;
             string username = Session["uid"].ToString();
             string clientip = HttpContext.Current.Request.UserHostAddress == "::1" ? "127.0.0.1" : HttpContext.Current.Request.UserHostAddress;
             StringBuilder sb = new StringBuilder();          
@@ -55,9 +56,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             HttpCookie cookie = Request.Cookies["TCOA_TICKET"];
             if (null == cookie)
             {
-                return "{\"ret\":\"oa_ticket不合法！\"}"; 
-            }            
-            string oaticket = cookie.Value.ToString();    
+                return "{\"ret\":\"oa_ticket不合法！\"}";
+            }
+            else
+            {
+                oaticket = cookie.Value.ToString();
+            }
             uin = WeChatHelper.GetUINByWxid(wxid, out msg);
             if(!string.IsNullOrEmpty(msg)){
                 return "{\"ret\":\"微信号不合法！\"}"; 
