@@ -56,7 +56,9 @@
     <script type="text/javascript">
         $(function () {
             $("input[type=text],#txt_reason").bind("focus", fucusClear);
+            initCookie();
         });
+       
     </script>
 </head>
 <body>
