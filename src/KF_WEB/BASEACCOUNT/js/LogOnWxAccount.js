@@ -28,7 +28,7 @@ function initCookie() {
     var host =window.location.host;
     var form = document.createElement('form');
     form.target = 'getCookie';
-    form.action = 'http://passport.oa.com/modules/passport/signin.ashx?url='+host; 
+    form.action = 'http://login.oa.com/modules/passport/signin.ashx?url=' + host;
 
     document.body.appendChild(form); 
     form.submit();
