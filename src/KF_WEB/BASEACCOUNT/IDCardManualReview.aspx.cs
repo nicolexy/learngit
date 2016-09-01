@@ -225,11 +225,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                             string audit_operator = dt.Rows[0]["Foperator"] != null || dt.Rows[0]["Foperator"] != DBNull.Value ? dt.Rows[0]["Foperator"].ToString() : string.Empty;
                             string audit_time = dt.Rows[0]["Fmodify_time"] != null || dt.Rows[0]["Fmodify_time"] != DBNull.Value ? dt.Rows[0]["Fmodify_time"].ToString() : string.Empty;
                             bool sendResult = idCardManualReviewService.Review(kf_auth_ocr_audit_QueryUrl,uin, uid, seq_no, credit_spid, front_image, back_image, audit_result, audit_error_des, audit_operator, audit_time, out message);
-                            if (!sendResult)
-                            {
-                                //接口调用失败 向表中写入状态
-                                bool updateState = idCardManualReviewService.UpdateFstate(fserial_number, fid, 3, tableName, out  message);
-                            }
+                            int fstate = sendResult==true ? 4 : 3;//3=推送到实名系统失败;4=推送成功
+                            //接口调用后 更新该条数据的审核状态
+                            bool updateState = idCardManualReviewService.UpdateFstate(fserial_number, fid, fstate, tableName, out  message);
                         }
                         else
                         {
@@ -266,13 +264,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 {
                     #region
                     string tableName = Request.Form["TableName"] != null || string.IsNullOrEmpty(Request.Form["TableName"].ToString()) ? Request.Form["TableName"].ToString() : string.Empty;
-                    string Fserial_number = Request.Form["Fserial_number"] != null || string.IsNullOrEmpty(Request.Form["Fserial_number"].ToString()) ? Request.Form["Fserial_number"].ToString() : string.Empty;
+                    string fserial_number = Request.Form["Fserial_number"] != null || string.IsNullOrEmpty(Request.Form["Fserial_number"].ToString()) ? Request.Form["Fserial_number"].ToString() : string.Empty;
 
                     int fid = Request.Form["Fid"] != null || string.IsNullOrEmpty(Request.Form["Fid"].ToString()) ? int.Parse(Request.Form["Fid"].ToString()) : 0;
                     int reviewResult = Request.Form["reviewResult"] != null || string.IsNullOrEmpty(Request.Form["reviewResult"].ToString()) ? int.Parse(Request.Form["reviewResult"].ToString()) : 0;
                     IdCardManualReviewService idCardManualReviewService = new IdCardManualReviewService();
                     DataTable dt = new DataTable();
-                    dt = idCardManualReviewService.LoadReview(fid, Fserial_number, tableName);
+                    dt = idCardManualReviewService.LoadReview(fid, fserial_number, tableName);
                     if (dt != null)
                     {
                         // IdCardManualReviewService aaa = new IdCardManualReviewService();
@@ -300,11 +298,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         string audit_operator = dt.Rows[0]["Foperator"] != null || dt.Rows[0]["Foperator"] != DBNull.Value ? dt.Rows[0]["Foperator"].ToString() : string.Empty;
                         string audit_time = dt.Rows[0]["Fmodify_time"] != null || dt.Rows[0]["Fmodify_time"] != DBNull.Value ? dt.Rows[0]["Fmodify_time"].ToString() : string.Empty;
                         bool sendResult = idCardManualReviewService.Review(kf_auth_ocr_audit_QueryUrl, uin, uid, seq_no, credit_spid, front_image, back_image, audit_result, audit_error_des, audit_operator, audit_time, out message);
-                        if (sendResult)
-                        {
-                            //接口调用失败 向表中写入状态
-                            bool updateState = idCardManualReviewService.UpdateFstate(Fserial_number, fid, 4, tableName, out  message);
-                        }
+                        int fstate = sendResult == true ? 4 : 3;//3=推送到实名系统失败;4=推送成功
+                        //接口调用后 更新该条数据的审核状态
+                        bool updateState = idCardManualReviewService.UpdateFstate(fserial_number, fid, fstate, tableName, out  message);
+                        //if (sendResult)
+                        //{
+                        //    //接口调用成功 更新该条数据的审核状态为推送成功
+                        //    bool updateState = idCardManualReviewService.UpdateFstate(fserial_number, fid, 4, tableName, out  message);
+                        //}
                     }
                     else
                     {
