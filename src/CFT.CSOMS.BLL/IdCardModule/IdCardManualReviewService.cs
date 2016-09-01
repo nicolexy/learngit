@@ -139,6 +139,7 @@ namespace CFT.CSOMS.BLL.IdCardModule
         /// <returns>返回格式如下:result=0&res_info=ok&amount=10&bank_billno=201608040000125722&bank_query_source=3&bank_query_time=2016-08-04 12:36:51&bill_no=201608040000125722&pay_result=2&sync_state=15&transaction_id=1216402401321608040000000000</returns>
         public bool Review(string uin, string uid, string seq_no, string credit_spid, string front_image, string back_image, int audit_result, string audit_error_des, string audit_operator, string audit_time, out string msg)
         {
+            LogHelper.LogInfo(string.Format("IdCardManualReviewService.Review,uin={0},uid={1},seq_no={2},credit_spid={3},front_image={4},back_image={5},audit_result={6},audit_error_des={7},audit_operator={8},audit_time={9}", uin, uid, seq_no, credit_spid, front_image, back_image, audit_result, audit_error_des, audit_operator, audit_time));
             string reviewResult = string.Empty;//{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiI5OTIyNDAyNCIsInJlc19pbmZvIjoiWzk5MjI0MDI0XeaCqOeahOaTjeS9nOW3suaPkOS6pO+8jOivt+ehruiupOaYr+WQpuW3sueUn+aViOOAgiJ9","SeqNo":"1471002616","Sign":"B97DB9D330050661066307CF7EF2CB1C"
             StringBuilder sb_cgiString = new StringBuilder();
             StringBuilder sb_reqString = new StringBuilder();
@@ -149,6 +150,7 @@ namespace CFT.CSOMS.BLL.IdCardModule
                 uid = AccountData.ConvertToFuid(uin);
                 if (!string.IsNullOrEmpty(uid))
                 {
+                    LogHelper.LogInfo("IdCardManualReviewService.Review,uid:" + uid);
                     ////接口签名
                     //Dictionary<string, string> dic = new Dictionary<string, string>();
                     //dic.Add("uin", uin.ToString());
@@ -212,6 +214,7 @@ namespace CFT.CSOMS.BLL.IdCardModule
                     sb_reqString.AppendFormat("&audit_time={0}", DateTime.Parse(audit_time).ToString("YYYY-MM-dd HH:mm:ss"));
                     byte[] bytes = Encoding.Default.GetBytes(sb_reqString.ToString());
                     string reqTextStr = Convert.ToBase64String(bytes);
+                    LogHelper.LogInfo("IdCardManualReviewService.Review,reqTextStr:" + reqTextStr);
                     //sb_cgiString.Append("&ReqText=dWluPTIwMTMxMTA3OTAyNDEzOUB3eC50ZW5wYXkuY29tJnVpZD0yOTk3MDg1MTUmc2VxX25vPTExNDcwOTkyNDkzMDAwMDAwMDEmY3JlZGl0X3NwaWQ9MTAwMDAwMDMmZnJvbnRfaW1hZ2U9MjAxNjA0MjUxNDI3NTkxNzAyMzExJmJhY2tfaW1hZ2U9MjAxNjA0MjUxNDI3NTkxNzAyMzEyJmF1ZGl0X3Jlc3VsdD0xJmF1ZGl0X2Vycm9yX2Rlcz1pbWFnZSBub3QgY2xlYXImYXVkaXRfb3BlcmF0b3I9aGVpZGl6aGFuZyZhdWRpdF90aW1lPTIwMTYtMDgtMTEgMTA6MDA6MDAmc2lnbj1lZGYzZWEzZmQ3ZDc2MTAxODhhY2IxYTdmYzE0MzNmOA==");
 
                     //平台签名：参数URL串+平台商户key的MD5值（参数URL串要求：按参数名ASCII顺序，为空的参数不参与签名）
@@ -241,7 +244,7 @@ namespace CFT.CSOMS.BLL.IdCardModule
                     dic_Sign.Add("Ver", "1.0");
                     dic_Sign.Add("key", "e1674ed8b2d4e12b99a06cd48368369d");//开发环境为:123456
                     string ptSign = GetPingTaiSign(dic_Sign); //"edf3ea3fd7d7610188acb1a7fc1433f8";                                
-
+                    LogHelper.LogInfo("IdCardManualReviewService.Review,ptSign:" + ptSign);
                     sb_cgiString.Append("From=2");
                     sb_cgiString.Append("&GateType=2");
                     sb_cgiString.Append("&OutPutType=2");
@@ -256,8 +259,9 @@ namespace CFT.CSOMS.BLL.IdCardModule
                     IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
                     //调用接口平台返回格式，业务逻辑返回包含在RetText中,将RetText用Base64解码得到业务逻辑返回结果
                     //{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiIxOTQ5MDIwMDA0IiwicmVzX2luZm8iOiJbMTk0OTAyMDAwNF3mgqjnmoTmk43kvZzlt7Lmj5DkuqTvvIzor7fnoa7orqTmmK/lkKblt7LnlJ/mlYjjgIIifQ==","SeqNo":"1471002616","Sign":"2AD13DC30C226F717C7A04F071FDDF0D"}
+                    LogHelper.LogInfo("IdCardManualReviewService.Review,sb_cgiString:" + sb_cgiString.ToString());
                     reviewResult = idCardManualReviewDAL.Review(sb_cgiString.ToString());
-
+                    LogHelper.LogInfo("IdCardManualReviewService.Review,reviewResult:" + reviewResult);
                     //平台调用接口返回结果                
                     var reviewResultJson = Newtonsoft.Json.JsonConvert.DeserializeObject(reviewResult) as Newtonsoft.Json.Linq.JObject;
                     if (reviewResultJson != null && reviewResultJson.Count > 0)

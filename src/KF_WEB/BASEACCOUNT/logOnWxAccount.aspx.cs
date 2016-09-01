@@ -46,21 +46,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             StringBuilder sb = new StringBuilder();          
             for (int i = 0; i < Page.Session.Count; i++)
             {
-                sb.Append("Session"+Session.Keys[i]+":"+Session[i].ToString());
-            }        
-            for (int i = 0; i < Request.Cookies.Count; i++)
-            {
-                sb.Append("Cookie" + Request.Cookies.Keys[i] + ":" + Request.Cookies[i].Value.ToString());
-            }
+                sb.Append("Session："+Session.Keys[i]+":"+Session[i].ToString());
+            } 
             SunLibrary.LogHelper.LogInfo("GetLogOnWxResult-Current_Cookie_Session:" + sb.ToString());
-            HttpCookie cookie = Request.Cookies["TCOA_TICKET"];
-            if (null == cookie)
+            if (Session["TCOA_TICKET"] == null)
             {
                 return "{\"ret\":\"oa_ticket不合法！\"}";
             }
             else
             {
-                oaticket = cookie.Value.ToString();
+                oaticket = Session["TCOA_TICKET"].ToString();
             }
             uin = WeChatHelper.GetUINByWxid(wxid, out msg);
             if(!string.IsNullOrEmpty(msg)){

@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using CFT.CSOMS.BLL.IdCardModule;
+using SunLibrary;
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
     public partial class IDCardManualReview : TENCENT.OSS.CFT.KF.KF_Web.PageBase
@@ -189,10 +190,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 bool updateResult = idCardManualReviewService.Update(fserial_number, fid, reviewResult, memo, tableName, foperator, out  message);
                 if (updateResult)
                 {
+                    LogHelper.LogInfo("IDCardManualReview.SaveReview,updateResult:更新成功");
                     DataTable dt = new DataTable();
                     dt = idCardManualReviewService.LoadReview(fid, fserial_number, tableName);
                     if (dt != null)
                     {
+                        LogHelper.LogInfo("IDCardManualReview.SaveReview,LoadReview:" + dt.Rows.Count);
                         // IdCardManualReviewService aaa = new IdCardManualReviewService();
                         //string uin="201311079024139@wx.tenpay.com";
                         // uid="299708515";
@@ -227,6 +230,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     else
                     {
                         message = "没有该数据";
+                        LogHelper.LogInfo("IdCardManualReviewService.Review,message:" + message);
                     }
 
                 }

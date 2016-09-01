@@ -270,7 +270,8 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             }
             catch (Exception err)
             {
-                throw new Exception("Service处理失败！");
+                log4net.LogManager.GetLogger(" 实名认证处理查询: ").Error(err.ToString());
+                throw new Exception("Service处理失败！" + err.ToString());
             }
         }
 

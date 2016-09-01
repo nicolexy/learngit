@@ -181,17 +181,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 				return true;
 
 			SensitiveVerifyService.Result ret = Common.AllUserRight.CheckSession(ticket,url,ip,sessionID,loginName,szKey);
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append("登录信息记录：");
-            sb.AppendFormat("ret.auth_apply_url【{0}】",ret.auth_apply_url);
-            sb.AppendFormat("ret.auth_cm_com_session_key【{0}】",ret.auth_cm_com_session_key);
-            sb.AppendFormat("ret.login_url【{0}】",ret.login_url);
-            sb.AppendFormat("ret.operation_name【{0}】",ret.operation_name);      
-            sb.AppendFormat("ret.status_info【{0}】",ret.status_info);
-            sb.AppendFormat("ret.user_name【{0}】",ret.user_name);
-            sb.AppendFormat("ret.logout_url【{0}】", ret.logout_url); 
-
-            SunLibrary.LogHelper.LogInfo(sb.ToString());
 			if(CheckSPReturnResult(ret,page))
 			{	
 				// 新敏感权限系统没有OperaID的获取了，应该如何和旧系统兼容？

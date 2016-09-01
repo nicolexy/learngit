@@ -1129,7 +1129,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             else if (strDBType.ToUpper() == "RU")
             {
                 //sConnStr = String.Format(connModule, f_strDataSource_ru, f_strUserID_ru, f_strPassword_ru, f_strDatabase_ru);
-                return DbConnectionString.Instance.GetConnectionString("RU");
+                sConnStr = DbConnectionString.Instance.GetConnectionString("RU");
             }
             else if (strDBType.ToUpper() == "CRT")
             {
@@ -1387,6 +1387,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 var index = strDBType.Substring(2, strDBType.Length - 2);
                 return DbConnectionString.Instance.GetConnectionString("zw" + index);
             }
+            
             return sConnStr;//.Replace("[", "{").Replace("]", "}");
         }
 
