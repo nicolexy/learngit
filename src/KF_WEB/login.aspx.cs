@@ -29,10 +29,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
+
             if (Request.QueryString["oaAuthentication"] =="1")
             {   //Oa ¼øÈ¨ ticket  »ñÈ¡
                 Session["oa_ticket"] = Request.QueryString["ticket"];
                 return;
+            }
+            if (Request.QueryString["ticket"] != null)
+            {
+                Session["TCOA_TICKET"] = Request.QueryString["ticket"];                
             }
 
 			if(classLibrary.getData.IsNewSensitivePowerMode)
