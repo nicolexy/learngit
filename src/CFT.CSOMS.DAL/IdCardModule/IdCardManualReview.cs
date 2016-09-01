@@ -271,7 +271,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
         
 
         public bool Update(string fserial_numbe, int fid, int fresult, string memo, string tableName, string foperator, out string message)
-        {
+        {            
             DataSet ds = new DataSet();
             bool returnResult = false;
             message = string.Empty;
@@ -359,13 +359,14 @@ namespace CFT.CSOMS.DAL.IdCardModule
 
             StringBuilder sb_cgi = new StringBuilder();
             string msg = "";
-            string res = string.Empty;
-            //cgi = System.Configuration.ConfigurationManager.AppSettings["UserControlFinCgi"].ToString();
-            sb_cgi.Append("http://10.123.7.25/finance_pay/kf_auth_ocr_audit.fcgi");//测试 cgi
-            sb_cgi.Append("?");
-            sb_cgi.Append(reqStr);
-            // 测试 cgi = "http://check.cf.com/cgi-bin/v1.0/BauClrBan.cgi?uid=400061433&type=1009&sum=2850&opera=1100000000";
-            // LogHelper.LogInfo("RemoveUserControlFin send req:" + cgi);                     
+            string res = string.Empty;            
+            //10.49.130.221
+            //10.49.130.211
+            //10.49.130.133
+            string kf_auth_ocr_audit_QueryUrl = System.Configuration.ConfigurationManager.AppSettings["kf_auth_ocr_audit_QueryUrl"];
+            sb_cgi.Append(kf_auth_ocr_audit_QueryUrl);            
+            sb_cgi.Append(reqStr);                        
+            LogHelper.LogInfo(string.Format("IdCardManualReview.Review(string reqStr),请求cji地址:{0}"), sb_cgi.ToString());      
             try
             {
                 res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(sb_cgi.ToString(), "", out msg);
@@ -376,7 +377,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
             }
             catch (Exception err)
             {
-                LogHelper.LogInfo("IdCardManualReview.Review:" + err.Message);
+                LogHelper.LogInfo(string.Format("IdCardManualReview.Review(string reqStr),请求cji地址:{0},错误信息:{1}"), sb_cgi.ToString(), err.Message);
                 throw new Exception(string.Format("OCR客服审核接口:{0}", err.Message));
             }
             return res;

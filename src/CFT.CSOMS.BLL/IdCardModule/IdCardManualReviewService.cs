@@ -85,7 +85,7 @@ namespace CFT.CSOMS.BLL.IdCardModule
         {
             DataTable dt = new DataTable();
             try
-            {                
+            {
                 IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
                 dt = idCardManualReviewDAL.LoadReview(fid, fserial_numbe, tableName);
             }
@@ -96,14 +96,14 @@ namespace CFT.CSOMS.BLL.IdCardModule
             return dt;
         }
 
-        public bool Update(string fserial_numbe,int fid, int fresult, string memo, string tableName, string foperator, out string message)
+        public bool Update(string fserial_numbe, int fid, int fresult, string memo, string tableName, string foperator, out string message)
         {
             bool receiveResult = false;
             message = string.Empty;
             try
             {
                 IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
-                receiveResult = idCardManualReviewDAL.Update(fserial_numbe,fid, fresult, memo, tableName, foperator, out  message);
+                receiveResult = idCardManualReviewDAL.Update(fserial_numbe, fid, fresult, memo, tableName, foperator, out  message);
 
             }
             catch (Exception ex)
@@ -137,7 +137,7 @@ namespace CFT.CSOMS.BLL.IdCardModule
         /// <param name="bill_no"></param>
         /// <param name="transaction_id"></param>
         /// <returns>返回格式如下:result=0&res_info=ok&amount=10&bank_billno=201608040000125722&bank_query_source=3&bank_query_time=2016-08-04 12:36:51&bill_no=201608040000125722&pay_result=2&sync_state=15&transaction_id=1216402401321608040000000000</returns>
-        public bool Review(string uin, string uid, string seq_no, string credit_spid, string front_image, string back_image, int audit_result, string audit_error_des, string audit_operator, string audit_time,out string msg)
+        public bool Review(string uin, string uid, string seq_no, string credit_spid, string front_image, string back_image, int audit_result, string audit_error_des, string audit_operator, string audit_time, out string msg)
         {
             string reviewResult = string.Empty;//{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiI5OTIyNDAyNCIsInJlc19pbmZvIjoiWzk5MjI0MDI0XeaCqOeahOaTjeS9nOW3suaPkOS6pO+8jOivt+ehruiupOaYr+WQpuW3sueUn+aViOOAgiJ9","SeqNo":"1471002616","Sign":"B97DB9D330050661066307CF7EF2CB1C"
             StringBuilder sb_cgiString = new StringBuilder();
@@ -146,196 +146,198 @@ namespace CFT.CSOMS.BLL.IdCardModule
             bool result = false;
             try
             {
-                uid = AccountData.ConvertToFuid(uin)!=null?AccountData.ConvertToFuid(uin):"123456789";
-                //接口签名
-                Dictionary<string, string> dic = new Dictionary<string, string>();
-                dic.Add("uin", uin.ToString());
+                uid = AccountData.ConvertToFuid(uin);
                 if (!string.IsNullOrEmpty(uid))
                 {
-                    dic.Add("uid", uid.ToString());
-                }
-                if (!string.IsNullOrEmpty(seq_no))
-                {
-                    dic.Add("seq_no", seq_no);
-                }
-                if (!string.IsNullOrEmpty(credit_spid))
-                {
-                    dic.Add("credit_spid", credit_spid);
-                }
-                if (!string.IsNullOrEmpty(front_image))
-                {
-                    dic.Add("front_image", front_image);
-                }
-                if (!string.IsNullOrEmpty(back_image))
-                {
-                    dic.Add("back_image", back_image);
-                }
-                if (audit_result>0)
-                {
-                    dic.Add("audit_result", audit_result.ToString());
-                }
-                if (!string.IsNullOrEmpty(audit_error_des))
-                {
-                    dic.Add("audit_error_des", audit_error_des);
-                }
-                if (!string.IsNullOrEmpty(audit_operator))
-                {
-                    dic.Add("audit_operator", audit_operator);
-                } 
-                if (!string.IsNullOrEmpty(audit_time))
-                {
-                    dic.Add("audit_time", DateTime.Parse(audit_time).ToString("YYYY-MM-dd HH:mm:ss"));
-                }
-               
-                
-                dic.Add("key", "12345");//开发联调环境key: 12345
-                string sign = GetReviewSign(dic); //"edf3ea3fd7d7610188acb1a7fc1433f8";
+                    ////接口签名
+                    //Dictionary<string, string> dic = new Dictionary<string, string>();
+                    //dic.Add("uin", uin.ToString());
+                    //if (!string.IsNullOrEmpty(uid))
+                    //{
+                    //    dic.Add("uid", uid.ToString());
+                    //}
+                    //if (!string.IsNullOrEmpty(seq_no))
+                    //{
+                    //    dic.Add("seq_no", seq_no);
+                    //}
+                    //if (!string.IsNullOrEmpty(credit_spid))
+                    //{
+                    //    dic.Add("credit_spid", credit_spid);
+                    //}
+                    //if (!string.IsNullOrEmpty(front_image))
+                    //{
+                    //    dic.Add("front_image", front_image);
+                    //}
+                    //if (!string.IsNullOrEmpty(back_image))
+                    //{
+                    //    dic.Add("back_image", back_image);
+                    //}
+                    //if (audit_result>0)
+                    //{
+                    //    dic.Add("audit_result", audit_result.ToString());
+                    //}
+                    //if (!string.IsNullOrEmpty(audit_error_des))
+                    //{
+                    //    dic.Add("audit_error_des", audit_error_des);
+                    //}
+                    //if (!string.IsNullOrEmpty(audit_operator))
+                    //{
+                    //    dic.Add("audit_operator", audit_operator);
+                    //} 
+                    //if (!string.IsNullOrEmpty(audit_time))
+                    //{
+                    //    dic.Add("audit_time", DateTime.Parse(audit_time).ToString("YYYY-MM-dd HH:mm:ss"));
+                    //}
 
-                //标准格式
-                //标准格式https://10.123.7.25/finance_pay/kf_auth_ocr_audit.fcgi?
-                //From=2&GateType=2&OutPutType=2&PlatSpid=2000000501&PlatTimeStamp=1471002616
-                //&ReqText=dWluPTIwMTMxMTA3OTAyNDEzOUB3eC50ZW5wYXkuY29tJnVpZD0yOTk3MDg1MTUmc2VxX25vPTExNDcwOTkyNDkzMDAwMDAwMDEmY3JlZGl0X3NwaWQ9MTAwMDAwMDMmZnJvbnRfaW1hZ2U9MjAxNjA0MjUxNDI3NTkxNzAyMzExJmJhY2tfaW1hZ2U9MjAxNjA0MjUxNDI3NTkxNzAyMzEyJmF1ZGl0X3Jlc3VsdD0xJmF1ZGl0X2Vycm9yX2Rlcz1pbWFnZSBub3QgY2xlYXImYXVkaXRfb3BlcmF0b3I9aGVpZGl6aGFuZyZhdWRpdF90aW1lPTIwMTYtMDgtMTEgMTA6MDA6MDAmc2lnbj1lZGYzZWEzZmQ3ZDc2MTAxODhhY2IxYTdmYzE0MzNmOA==
-                //&SeqNo=1471002616&Uin=201311079024139@wx.tenpay.com&Ver=1.0
-                //&Sign=db4182c43ce4ba347209cbae7b9a2c08
 
-                //业务签名
-                sb_reqString.AppendFormat("uin={0}", uin.ToString());
-                sb_reqString.AppendFormat("&seq_no={0}", seq_no);
-                sb_reqString.AppendFormat("&credit_spid={0}", credit_spid);
-                sb_reqString.AppendFormat("&front_image={0}", front_image);
-                sb_reqString.AppendFormat("&back_image={0}", back_image);
-                sb_reqString.AppendFormat("&audit_result={0}", audit_result);
-                sb_reqString.AppendFormat("&audit_error_des={0}", audit_error_des);
-                sb_reqString.AppendFormat("&audit_operator={0}", audit_operator);
-                sb_reqString.AppendFormat("&audit_time={0}", DateTime.Parse(audit_time).ToString("YYYY-MM-dd HH:mm:ss"));
-                byte[] bytes = Encoding.Default.GetBytes(sb_reqString.ToString());
-                string reqTextStr = Convert.ToBase64String(bytes);
-                //sb_cgiString.Append("&ReqText=dWluPTIwMTMxMTA3OTAyNDEzOUB3eC50ZW5wYXkuY29tJnVpZD0yOTk3MDg1MTUmc2VxX25vPTExNDcwOTkyNDkzMDAwMDAwMDEmY3JlZGl0X3NwaWQ9MTAwMDAwMDMmZnJvbnRfaW1hZ2U9MjAxNjA0MjUxNDI3NTkxNzAyMzExJmJhY2tfaW1hZ2U9MjAxNjA0MjUxNDI3NTkxNzAyMzEyJmF1ZGl0X3Jlc3VsdD0xJmF1ZGl0X2Vycm9yX2Rlcz1pbWFnZSBub3QgY2xlYXImYXVkaXRfb3BlcmF0b3I9aGVpZGl6aGFuZyZhdWRpdF90aW1lPTIwMTYtMDgtMTEgMTA6MDA6MDAmc2lnbj1lZGYzZWEzZmQ3ZDc2MTAxODhhY2IxYTdmYzE0MzNmOA==");
+                    //dic.Add("key", "12345");//开发联调环境key: 12345
+                    //string sign = GetReviewSign(dic); //"edf3ea3fd7d7610188acb1a7fc1433f8";
 
-                //平台签名：参数URL串+平台商户key的MD5值（参数URL串要求：按参数名ASCII顺序，为空的参数不参与签名）
-                Dictionary<string, string> dic_Sign = new Dictionary<string, string>();
-                dic_Sign.Add("From", "2");
-                dic_Sign.Add("GateType", "2");
-                dic_Sign.Add("OutPutType", "2");
+                    //标准格式
+                    //标准格式https://10.123.7.25/finance_pay/kf_auth_ocr_audit.fcgi?
+                    //From=2&GateType=2&OutPutType=2&PlatSpid=2000000501&PlatTimeStamp=1471002616
+                    //&ReqText=dWluPTIwMTMxMTA3OTAyNDEzOUB3eC50ZW5wYXkuY29tJnVpZD0yOTk3MDg1MTUmc2VxX25vPTExNDcwOTkyNDkzMDAwMDAwMDEmY3JlZGl0X3NwaWQ9MTAwMDAwMDMmZnJvbnRfaW1hZ2U9MjAxNjA0MjUxNDI3NTkxNzAyMzExJmJhY2tfaW1hZ2U9MjAxNjA0MjUxNDI3NTkxNzAyMzEyJmF1ZGl0X3Jlc3VsdD0xJmF1ZGl0X2Vycm9yX2Rlcz1pbWFnZSBub3QgY2xlYXImYXVkaXRfb3BlcmF0b3I9aGVpZGl6aGFuZyZhdWRpdF90aW1lPTIwMTYtMDgtMTEgMTA6MDA6MDAmc2lnbj1lZGYzZWEzZmQ3ZDc2MTAxODhhY2IxYTdmYzE0MzNmOA==
+                    //&SeqNo=1471002616&Uin=201311079024139@wx.tenpay.com&Ver=1.0
+                    //&Sign=db4182c43ce4ba347209cbae7b9a2c08
 
-                if (!string.IsNullOrEmpty(credit_spid))
-                {
-                    dic_Sign.Add("PlatSpid", credit_spid);
-                }
-                string platTimeStamp = CommQuery.GetTimeStamp();
-                dic_Sign.Add("PlatTimeStamp", platTimeStamp);//"1471002616"
-                               
-                if (!string.IsNullOrEmpty(reqTextStr))
-                {
-                    dic_Sign.Add("ReqText", reqTextStr);
-                }
-                dic_Sign.Add("SeqNo", seq_no);//"1471002616"
-                
-                if (!string.IsNullOrEmpty(uin))
-                {
-                    dic_Sign.Add("Uin", uin);
-                }
-               
-                dic_Sign.Add("Ver", "1.0");
-                dic_Sign.Add("key", "e1674ed8b2d4e12b99a06cd48368369d");//开发环境为:123456
-                string ptSign = GetPingTaiSign(dic_Sign); //"edf3ea3fd7d7610188acb1a7fc1433f8";                                
+                    //业务签名
+                    sb_reqString.AppendFormat("uin={0}", uin.ToString());
+                    sb_reqString.AppendFormat("&seq_no={0}", seq_no);
+                    sb_reqString.AppendFormat("&credit_spid={0}", credit_spid);
+                    sb_reqString.AppendFormat("&front_image={0}", front_image);
+                    sb_reqString.AppendFormat("&back_image={0}", back_image);
+                    sb_reqString.AppendFormat("&audit_result={0}", audit_result);
+                    sb_reqString.AppendFormat("&audit_error_des={0}", audit_error_des);
+                    sb_reqString.AppendFormat("&audit_operator={0}", audit_operator);
+                    sb_reqString.AppendFormat("&audit_time={0}", DateTime.Parse(audit_time).ToString("YYYY-MM-dd HH:mm:ss"));
+                    byte[] bytes = Encoding.Default.GetBytes(sb_reqString.ToString());
+                    string reqTextStr = Convert.ToBase64String(bytes);
+                    //sb_cgiString.Append("&ReqText=dWluPTIwMTMxMTA3OTAyNDEzOUB3eC50ZW5wYXkuY29tJnVpZD0yOTk3MDg1MTUmc2VxX25vPTExNDcwOTkyNDkzMDAwMDAwMDEmY3JlZGl0X3NwaWQ9MTAwMDAwMDMmZnJvbnRfaW1hZ2U9MjAxNjA0MjUxNDI3NTkxNzAyMzExJmJhY2tfaW1hZ2U9MjAxNjA0MjUxNDI3NTkxNzAyMzEyJmF1ZGl0X3Jlc3VsdD0xJmF1ZGl0X2Vycm9yX2Rlcz1pbWFnZSBub3QgY2xlYXImYXVkaXRfb3BlcmF0b3I9aGVpZGl6aGFuZyZhdWRpdF90aW1lPTIwMTYtMDgtMTEgMTA6MDA6MDAmc2lnbj1lZGYzZWEzZmQ3ZDc2MTAxODhhY2IxYTdmYzE0MzNmOA==");
 
-                sb_cgiString.Append("From=2");
-                sb_cgiString.Append("&GateType=2");
-                sb_cgiString.Append("&OutPutType=2");
-                sb_cgiString.Append("&PlatSpid=" + credit_spid + "");
-                sb_cgiString.Append("&PlatTimeStamp=" + platTimeStamp + "");//1471002616
-                sb_cgiString.Append("&ReqText=" + reqTextStr + "");
-                sb_cgiString.Append("&SeqNo=" + seq_no + "");//1471002616
-                sb_cgiString.Append("&Uin=" + uin.ToString() + "");
-                sb_cgiString.Append("&Ver=1.0");
-                sb_cgiString.Append("&Sign=" + ptSign + "");
-                //sb_cgiString.Append("&Sign=dcd9708d7f1e43159462012c49afe76a");
-                IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
-                //调用接口平台返回格式，业务逻辑返回包含在RetText中,将RetText用Base64解码得到业务逻辑返回结果
-                //{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiIxOTQ5MDIwMDA0IiwicmVzX2luZm8iOiJbMTk0OTAyMDAwNF3mgqjnmoTmk43kvZzlt7Lmj5DkuqTvvIzor7fnoa7orqTmmK/lkKblt7LnlJ/mlYjjgIIifQ==","SeqNo":"1471002616","Sign":"2AD13DC30C226F717C7A04F071FDDF0D"}
-                reviewResult = idCardManualReviewDAL.Review(sb_cgiString.ToString());
+                    //平台签名：参数URL串+平台商户key的MD5值（参数URL串要求：按参数名ASCII顺序，为空的参数不参与签名）
+                    Dictionary<string, string> dic_Sign = new Dictionary<string, string>();
+                    dic_Sign.Add("From", "2");
+                    dic_Sign.Add("GateType", "2");
+                    dic_Sign.Add("OutPutType", "2");
 
-                //平台调用接口返回结果                
-                var reviewResultJson = Newtonsoft.Json.JsonConvert.DeserializeObject(reviewResult) as Newtonsoft.Json.Linq.JObject;
-                if (reviewResultJson != null && reviewResultJson.Count > 0)
-                {
-                    string platCode = reviewResultJson["PlatCode"].ToString();
-                    if (platCode.Equals("0"))
+                    if (!string.IsNullOrEmpty(credit_spid))
                     {
-                        result = true;
-                        //调用接口返回结果
-                        string retText = reviewResultJson["RetText"].ToString();
-                        string retTextDecodeBase64 = DecodeBase64(retText);
+                        dic_Sign.Add("PlatSpid", credit_spid);
+                    }
+                    string platTimeStamp = CommQuery.GetTimeStamp();
+                    dic_Sign.Add("PlatTimeStamp", platTimeStamp);//"1471002616"
 
-                        var retTextDecodeBase64Json = Newtonsoft.Json.JsonConvert.DeserializeObject(retTextDecodeBase64) as Newtonsoft.Json.Linq.JObject;
-                        if (retTextDecodeBase64Json != null && retTextDecodeBase64Json.Count > 0)
+                    if (!string.IsNullOrEmpty(reqTextStr))
+                    {
+                        dic_Sign.Add("ReqText", reqTextStr);
+                    }
+                    dic_Sign.Add("SeqNo", seq_no);//"1471002616"
+
+                    if (!string.IsNullOrEmpty(uin))
+                    {
+                        dic_Sign.Add("Uin", uin);
+                    }
+
+                    dic_Sign.Add("Ver", "1.0");
+                    dic_Sign.Add("key", "e1674ed8b2d4e12b99a06cd48368369d");//开发环境为:123456
+                    string ptSign = GetPingTaiSign(dic_Sign); //"edf3ea3fd7d7610188acb1a7fc1433f8";                                
+
+                    sb_cgiString.Append("From=2");
+                    sb_cgiString.Append("&GateType=2");
+                    sb_cgiString.Append("&OutPutType=2");
+                    sb_cgiString.Append("&PlatSpid=" + credit_spid + "");
+                    sb_cgiString.Append("&PlatTimeStamp=" + platTimeStamp + "");//1471002616
+                    sb_cgiString.Append("&ReqText=" + reqTextStr + "");
+                    sb_cgiString.Append("&SeqNo=" + seq_no + "");//1471002616
+                    sb_cgiString.Append("&Uin=" + uin.ToString() + "");
+                    sb_cgiString.Append("&Ver=1.0");
+                    sb_cgiString.Append("&Sign=" + ptSign + "");
+                    //sb_cgiString.Append("&Sign=dcd9708d7f1e43159462012c49afe76a");
+                    IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
+                    //调用接口平台返回格式，业务逻辑返回包含在RetText中,将RetText用Base64解码得到业务逻辑返回结果
+                    //{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiIxOTQ5MDIwMDA0IiwicmVzX2luZm8iOiJbMTk0OTAyMDAwNF3mgqjnmoTmk43kvZzlt7Lmj5DkuqTvvIzor7fnoa7orqTmmK/lkKblt7LnlJ/mlYjjgIIifQ==","SeqNo":"1471002616","Sign":"2AD13DC30C226F717C7A04F071FDDF0D"}
+                    reviewResult = idCardManualReviewDAL.Review(sb_cgiString.ToString());
+
+                    //平台调用接口返回结果                
+                    var reviewResultJson = Newtonsoft.Json.JsonConvert.DeserializeObject(reviewResult) as Newtonsoft.Json.Linq.JObject;
+                    if (reviewResultJson != null && reviewResultJson.Count > 0)
+                    {
+                        string platCode = reviewResultJson["PlatCode"].ToString();
+                        if (platCode.Equals("0"))
                         {
-                            string retTextResult = retTextDecodeBase64Json["result"].ToString();
-                            result = retTextResult.Equals("0") ? true : false;
-                            msg = retTextDecodeBase64Json["res_info"].ToString();
+                            result = true;
+                            //调用接口返回结果
+                            string retText = reviewResultJson["RetText"].ToString();
+                            string retTextDecodeBase64 = DecodeBase64(retText);
+
+                            var retTextDecodeBase64Json = Newtonsoft.Json.JsonConvert.DeserializeObject(retTextDecodeBase64) as Newtonsoft.Json.Linq.JObject;
+                            if (retTextDecodeBase64Json != null && retTextDecodeBase64Json.Count > 0)
+                            {
+                                string retTextResult = retTextDecodeBase64Json["result"].ToString();
+                                result = retTextResult.Equals("0") ? true : false;
+                                msg = retTextDecodeBase64Json["res_info"].ToString();
+                            }
+                        }
+                        else
+                        {
+                            result = false;
+                            msg = reviewResultJson["PlatMsg"].ToString();
                         }
                     }
-                    else
-                    {
-                        result = false;
-                        msg = reviewResultJson["PlatMsg"].ToString();
-                    }
+
+
+                    //Dictionary<string,string> dic_PT = CommQuery.StringToDictionary(reviewResult,',',':', out msg);
+                    //if (dic_PT != null && dic_PT.Count>0)
+                    //{
+                    //    if (dic_PT.Keys.Contains("PlatCode"))
+                    //    {
+                    //      string platCode=dic_PT["PlatCode"].ToString();
+                    //      if (platCode.Equals("0"))
+                    //      {
+                    //          result = true;
+                    //          if (dic_PT.Keys.Contains("RetText"))
+                    //          {
+                    //              //调用接口返回结果
+                    //              string retText = dic_PT["RetText"].ToString();
+                    //              string retTextDecodeBase64 = DecodeBase64(retText);
+                    //              Dictionary<string, string> dic_RetText = CommQuery.StringToDictionary(retTextDecodeBase64, ',', ':', out msg);
+                    //              if (dic_RetText != null && dic_RetText.Count > 0)
+                    //              {
+                    //                  if (dic_RetText.Keys.Contains("result"))
+                    //                  {
+                    //                      string retTextResult = dic_RetText["result"].ToString();
+                    //                      result = retTextResult.Equals("0") ? true : false;
+                    //                      msg = dic_RetText["res_info"].ToString();
+                    //                  }
+                    //              }                                                            
+                    //          }
+                    //      }
+                    //      else
+                    //      {
+                    //          result = false;
+                    //          msg = dic_PT["PlatMsg"].ToString();
+                    //      }
+                    //    }
+                    //}
+
+
+                    //string platCode = reviewResult.Split(',')[0];
+                    //string platCodeResult = platCode.Substring(platCode.IndexOf("=") + 1);
+                    //if (!string.IsNullOrEmpty(platCodeResult) && platCodeResult.Equals("0"))
+                    //{
+                    //    result = true;
+                    //    string RetText = reviewResult.Split(',')[2];
+                    //    string RetTextResult = RetText.Substring(RetText.IndexOf("=") + 1);
+                    //}
+                    //else
+                    //{
+                    //    result = false;
+                    //    msg = "调用OCR客服审核接口失败,请联系客服人员r。";
+                    //}
                 }
-
-
-                //Dictionary<string,string> dic_PT = CommQuery.StringToDictionary(reviewResult,',',':', out msg);
-                //if (dic_PT != null && dic_PT.Count>0)
-                //{
-                //    if (dic_PT.Keys.Contains("PlatCode"))
-                //    {
-                //      string platCode=dic_PT["PlatCode"].ToString();
-                //      if (platCode.Equals("0"))
-                //      {
-                //          result = true;
-                //          if (dic_PT.Keys.Contains("RetText"))
-                //          {
-                //              //调用接口返回结果
-                //              string retText = dic_PT["RetText"].ToString();
-                //              string retTextDecodeBase64 = DecodeBase64(retText);
-                //              Dictionary<string, string> dic_RetText = CommQuery.StringToDictionary(retTextDecodeBase64, ',', ':', out msg);
-                //              if (dic_RetText != null && dic_RetText.Count > 0)
-                //              {
-                //                  if (dic_RetText.Keys.Contains("result"))
-                //                  {
-                //                      string retTextResult = dic_RetText["result"].ToString();
-                //                      result = retTextResult.Equals("0") ? true : false;
-                //                      msg = dic_RetText["res_info"].ToString();
-                //                  }
-                //              }                                                            
-                //          }
-                //      }
-                //      else
-                //      {
-                //          result = false;
-                //          msg = dic_PT["PlatMsg"].ToString();
-                //      }
-                //    }
-                //}
-
-
-                //string platCode = reviewResult.Split(',')[0];
-                //string platCodeResult = platCode.Substring(platCode.IndexOf("=") + 1);
-                //if (!string.IsNullOrEmpty(platCodeResult) && platCodeResult.Equals("0"))
-                //{
-                //    result = true;
-                //    string RetText = reviewResult.Split(',')[2];
-                //    string RetTextResult = RetText.Substring(RetText.IndexOf("=") + 1);
-                //}
-                //else
-                //{
-                //    result = false;
-                //    msg = "调用OCR客服审核接口失败,请联系客服人员r。";
-                //}
-
             }
             catch (Exception err)
-            {                
+            {
                 LogHelper.LogInfo("IdCardManualReviewService.Review:" + err.Message);
                 result = false;
                 throw new Exception(string.Format("OCR客服审核接口:{0}", err.Message));
