@@ -137,7 +137,7 @@ namespace CFT.CSOMS.BLL.IdCardModule
         /// <param name="bill_no"></param>
         /// <param name="transaction_id"></param>
         /// <returns>返回格式如下:result=0&res_info=ok&amount=10&bank_billno=201608040000125722&bank_query_source=3&bank_query_time=2016-08-04 12:36:51&bill_no=201608040000125722&pay_result=2&sync_state=15&transaction_id=1216402401321608040000000000</returns>
-        public bool Review(string uin, string uid, string seq_no, string credit_spid, string front_image, string back_image, int audit_result, string audit_error_des, string audit_operator, string audit_time, out string msg)
+        public bool Review(string kf_auth_ocr_audit_QueryUrl,string uin, string uid, string seq_no, string credit_spid, string front_image, string back_image, int audit_result, string audit_error_des, string audit_operator, string audit_time, out string msg)
         {
             LogHelper.LogInfo(string.Format("IdCardManualReviewService.Review,uin={0},uid={1},seq_no={2},credit_spid={3},front_image={4},back_image={5},audit_result={6},audit_error_des={7},audit_operator={8},audit_time={9}", uin, uid, seq_no, credit_spid, front_image, back_image, audit_result, audit_error_des, audit_operator, audit_time));
             string reviewResult = string.Empty;//{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiI5OTIyNDAyNCIsInJlc19pbmZvIjoiWzk5MjI0MDI0XeaCqOeahOaTjeS9nOW3suaPkOS6pO+8jOivt+ehruiupOaYr+WQpuW3sueUn+aViOOAgiJ9","SeqNo":"1471002616","Sign":"B97DB9D330050661066307CF7EF2CB1C"
@@ -260,7 +260,11 @@ namespace CFT.CSOMS.BLL.IdCardModule
                     //调用接口平台返回格式，业务逻辑返回包含在RetText中,将RetText用Base64解码得到业务逻辑返回结果
                     //{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiIxOTQ5MDIwMDA0IiwicmVzX2luZm8iOiJbMTk0OTAyMDAwNF3mgqjnmoTmk43kvZzlt7Lmj5DkuqTvvIzor7fnoa7orqTmmK/lkKblt7LnlJ/mlYjjgIIifQ==","SeqNo":"1471002616","Sign":"2AD13DC30C226F717C7A04F071FDDF0D"}
                     LogHelper.LogInfo("IdCardManualReviewService.Review,sb_cgiString:" + sb_cgiString.ToString());
-                    reviewResult = idCardManualReviewDAL.Review(sb_cgiString.ToString());
+                    StringBuilder sb_cgi = new StringBuilder();
+                    sb_cgi.Append(kf_auth_ocr_audit_QueryUrl);
+                    sb_cgi.Append(sb_cgiString.ToString());
+                    LogHelper.LogInfo("IdCardManualReviewService.Review,sb_cgi:" + sb_cgi.ToString());
+                    reviewResult = idCardManualReviewDAL.Review(sb_cgi.ToString());
                     LogHelper.LogInfo("IdCardManualReviewService.Review,reviewResult:" + reviewResult);
                     //平台调用接口返回结果                
                     var reviewResultJson = Newtonsoft.Json.JsonConvert.DeserializeObject(reviewResult) as Newtonsoft.Json.Linq.JObject;
