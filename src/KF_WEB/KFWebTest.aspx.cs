@@ -16,7 +16,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             LogHelper.LogInfo(" public partial class KFWebTest : TENCENT.OSS.CFT.KF.KF_Web.PageBase  ");
             if (Request["wechatname"] != null)
             {
-                LogHelper.LogInfo(" KFWebTest.aspx  wechatname ：" + Request["wechatname"].ToString());
+                LogHelper.LogInfo(" KFWebTest.aspx  request key ：" + Request["wechatname"].ToString());
 
                 if (Request["wechatname"] != null)
                 {
@@ -24,6 +24,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                     WeChatInfo(Request["wechatname"].ToString());
                 }
             }
+
+
+            if (Request["dbkey"] != null)
+            {
+                LogHelper.LogInfo(" KFWebTest.aspx  request key ：" + Request["dbkey"].ToString());
+
+                if (Request["dbkey"] != null)
+                {
+                    LogHelper.LogInfo(" KFWebTest.aspx  dbkey ：" + Request["dbkey"].ToString());
+                    GetDBConnStr(Request["dbkey"].ToString());
+                }
+            }
+        }
+
+        private void GetDBConnStr(string strkey) {
+           string dbstr = PublicRes.GetConnString(strkey.Trim());
+
+           LogHelper.LogInfo(" test.aspx  private void GetDBConnStr  strKey：" +strkey+",dbstr:"+ dbstr);
+
+           Response.Write(dbstr);
+           Response.End();
         }
 
 
