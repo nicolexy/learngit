@@ -363,7 +363,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
             //10.49.130.221
             //10.49.130.211
             //10.49.130.133
-            string kf_auth_ocr_audit_QueryUrl = System.Configuration.ConfigurationManager.AppSettings["kf_auth_ocr_audit_QueryUrl"];
+            string kf_auth_ocr_audit_QueryUrl = System.Configuration.ConfigurationManager.AppSettings["kf_auth_ocr_audit_QueryUrl"].ToString();
             //LogHelper.LogInfo(string.Format("IdCardManualReview.Review(string reqStr),kf_auth_ocr_audit_QueryUrl:{0}", kf_auth_ocr_audit_QueryUrl));
             sb_cgi.Append(kf_auth_ocr_audit_QueryUrl);
             sb_cgi.Append(reqStr);
