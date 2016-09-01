@@ -141,6 +141,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             //DataSet ds =CommQuery.StringToDataTable(answer,'&','=', out Msg );
             //BankCardBindService aaa = new BankCardBindService();
             //string bbb = aaa.GetBankSyncState(0, string.Empty, string.Empty);
+            //string seq_no = Guid.NewGuid().ToString("N").Substring(0, 30);
+            string kf_auth_ocr_audit_QueryUrl = System.Configuration.ConfigurationManager.AppSettings["kf_auth_ocr_audit_QueryUrl"];
         }
     }
 }
