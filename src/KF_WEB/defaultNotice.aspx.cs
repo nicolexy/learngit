@@ -163,9 +163,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             sb_reviewResult.Append("\"RetText\":");
             sb_reviewResult.Append("\"eyJyZXN1bHQiOiIxOTQ5MDIwMDA0IiwicmVzX2luZm8iOiJbMTk0OTAyMDAwNF3mgqjnmoTmk43kvZzlt7Lmj5DkuqTvvIzor7fnoa7orqTmmK/lkKblt7LnlJ/mlYjjgIIifQ==\",");
             sb_reviewResult.Append("\"SeqNo\":");
-            sb_reviewResult.Append("\"d1614fbc8b994ce48ae48d1f1b1604\",");
+            sb_reviewResult.Append("\"2147260162500000027\",");
             sb_reviewResult.Append("\"Sign\":");
-            sb_reviewResult.Append("\"368A4978CB5F509E830F5D4D7D79CF6C\"");
+            sb_reviewResult.Append("\"FC1A867BF4BA253E5409642D13B0312E\"");
             sb_reviewResult.Append("}");
 
 
