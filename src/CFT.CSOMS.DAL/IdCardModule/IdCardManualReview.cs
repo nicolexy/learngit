@@ -354,12 +354,12 @@ namespace CFT.CSOMS.DAL.IdCardModule
             return returnResult;
         }
 
-        public string Review(string reqStr)
+        public bool Review(string reqStr,out string message)
         {
-
+            bool result = true;
             StringBuilder sb_cgi = new StringBuilder();
-            string msg = "";
-            string res = string.Empty;            
+            string errorMsg = "";
+            message = string.Empty;            
             //10.49.130.221
             //10.49.130.211
             //10.49.130.133
@@ -372,18 +372,20 @@ namespace CFT.CSOMS.DAL.IdCardModule
             
             try
             {
-                res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(sb_cgi.ToString(), "", out msg);
-                if (msg != "")
+                message = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(sb_cgi.ToString(), "", out errorMsg);
+                if (!string.IsNullOrEmpty(errorMsg))
                 {
-                    throw new Exception(msg);
+                    result = false;
+                    message = errorMsg;
                 }
             }
             catch (Exception err)
             {
                 LogHelper.LogInfo(string.Format("IdCardManualReview.Review,请求cji地址:{0},错误信息:{1}", sb_cgi.ToString(), err.Message));
-                throw new Exception(string.Format("OCR客服审核接口:{0}", err.Message));
+                result = false;
+                //throw new Exception(string.Format("OCR客服审核接口:{0}", err.Message));
             }
-            return res;
+            return result;
         }
     }
 }
