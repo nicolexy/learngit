@@ -137,12 +137,10 @@ namespace CFT.CSOMS.BLL.IdCardModule
         /// <param name="bill_no"></param>
         /// <param name="transaction_id"></param>
         /// <returns>返回格式如下:result=0&res_info=ok&amount=10&bank_billno=201608040000125722&bank_query_source=3&bank_query_time=2016-08-04 12:36:51&bill_no=201608040000125722&pay_result=2&sync_state=15&transaction_id=1216402401321608040000000000</returns>
-        public bool Review(string kf_auth_ocr_audit_QueryUrl,string uin, string uid, string seq_no, string credit_spid, string front_image, string back_image, int audit_result, string audit_error_des, string audit_operator, string audit_time, out string msg)
+        public bool Review(string uin, string uid, string seq_no, string credit_spid, string front_image, string back_image, int audit_result, string audit_error_des, string audit_operator, string audit_time, out string msg)
         {
-            LogHelper.LogInfo(string.Format("IdCardManualReviewService.Review,uin={0},uid={1},seq_no={2},credit_spid={3},front_image={4},back_image={5},audit_result={6},audit_error_des={7},audit_operator={8},audit_time={9}", uin, uid, seq_no, credit_spid, front_image, back_image, audit_result, audit_error_des, audit_operator, audit_time));
-            string reviewResult = string.Empty;//{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiI5OTIyNDAyNCIsInJlc19pbmZvIjoiWzk5MjI0MDI0XeaCqOeahOaTjeS9nOW3suaPkOS6pO+8jOivt+ehruiupOaYr+WQpuW3sueUn+aViOOAgiJ9","SeqNo":"1471002616","Sign":"B97DB9D330050661066307CF7EF2CB1C"
-            StringBuilder sb_cgiString = new StringBuilder();
-            StringBuilder sb_reqString = new StringBuilder();
+            //LogHelper.LogInfo(string.Format("IdCardManualReviewService.Review,uin={0},uid={1},seq_no={2},credit_spid={3},front_image={4},back_image={5},audit_result={6},audit_error_des={7},audit_operator={8},audit_time={9}", uin, uid, seq_no, credit_spid, front_image, back_image, audit_result, audit_error_des, audit_operator, audit_time));
+            string reviewResult = string.Empty;//{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiI5OTIyNDAyNCIsInJlc19pbmZvIjoiWzk5MjI0MDI0XeaCqOeahOaTjeS9nOW3suaPkOS6pO+8jOivt+ehruiupOaYr+WQpuW3sueUn+aViOOAgiJ9","SeqNo":"1471002616","Sign":"B97DB9D330050661066307CF7EF2CB1C"                        
             msg = "";
             bool result = false;
             try
@@ -150,7 +148,9 @@ namespace CFT.CSOMS.BLL.IdCardModule
                 uid = AccountData.ConvertToFuid(uin);
                 if (!string.IsNullOrEmpty(uid))
                 {
-                    LogHelper.LogInfo("IdCardManualReviewService.Review,uid:" + uid);
+                    //LogHelper.LogInfo("IdCardManualReviewService.Review,uid:" + uid);
+
+                    #region 接口签名
                     ////接口签名
                     //Dictionary<string, string> dic = new Dictionary<string, string>();
                     //dic.Add("uin", uin.ToString());
@@ -194,15 +194,10 @@ namespace CFT.CSOMS.BLL.IdCardModule
 
                     //dic.Add("key", "12345");//开发联调环境key: 12345
                     //string sign = GetReviewSign(dic); //"edf3ea3fd7d7610188acb1a7fc1433f8";
+                    #endregion
 
-                    //标准格式
-                    //标准格式https://10.123.7.25/finance_pay/kf_auth_ocr_audit.fcgi?
-                    //From=2&GateType=2&OutPutType=2&PlatSpid=2000000501&PlatTimeStamp=1471002616
-                    //&ReqText=dWluPTIwMTMxMTA3OTAyNDEzOUB3eC50ZW5wYXkuY29tJnVpZD0yOTk3MDg1MTUmc2VxX25vPTExNDcwOTkyNDkzMDAwMDAwMDEmY3JlZGl0X3NwaWQ9MTAwMDAwMDMmZnJvbnRfaW1hZ2U9MjAxNjA0MjUxNDI3NTkxNzAyMzExJmJhY2tfaW1hZ2U9MjAxNjA0MjUxNDI3NTkxNzAyMzEyJmF1ZGl0X3Jlc3VsdD0xJmF1ZGl0X2Vycm9yX2Rlcz1pbWFnZSBub3QgY2xlYXImYXVkaXRfb3BlcmF0b3I9aGVpZGl6aGFuZyZhdWRpdF90aW1lPTIwMTYtMDgtMTEgMTA6MDA6MDAmc2lnbj1lZGYzZWEzZmQ3ZDc2MTAxODhhY2IxYTdmYzE0MzNmOA==
-                    //&SeqNo=1471002616&Uin=201311079024139@wx.tenpay.com&Ver=1.0
-                    //&Sign=db4182c43ce4ba347209cbae7b9a2c08
-
-                    //业务签名
+                    #region 业务签名
+                    StringBuilder sb_reqString = new StringBuilder();
                     sb_reqString.AppendFormat("uin={0}", uin.ToString());
                     sb_reqString.AppendFormat("&seq_no={0}", seq_no);
                     sb_reqString.AppendFormat("&credit_spid={0}", credit_spid);
@@ -214,19 +209,17 @@ namespace CFT.CSOMS.BLL.IdCardModule
                     sb_reqString.AppendFormat("&audit_time={0}", DateTime.Parse(audit_time).ToString("YYYY-MM-dd HH:mm:ss"));
                     byte[] bytes = Encoding.Default.GetBytes(sb_reqString.ToString());
                     string reqTextStr = Convert.ToBase64String(bytes);
-                    LogHelper.LogInfo("IdCardManualReviewService.Review,reqTextStr:" + reqTextStr);
+                    //LogHelper.LogInfo("IdCardManualReviewService.Review,reqTextStr:" + reqTextStr);
                     //sb_cgiString.Append("&ReqText=dWluPTIwMTMxMTA3OTAyNDEzOUB3eC50ZW5wYXkuY29tJnVpZD0yOTk3MDg1MTUmc2VxX25vPTExNDcwOTkyNDkzMDAwMDAwMDEmY3JlZGl0X3NwaWQ9MTAwMDAwMDMmZnJvbnRfaW1hZ2U9MjAxNjA0MjUxNDI3NTkxNzAyMzExJmJhY2tfaW1hZ2U9MjAxNjA0MjUxNDI3NTkxNzAyMzEyJmF1ZGl0X3Jlc3VsdD0xJmF1ZGl0X2Vycm9yX2Rlcz1pbWFnZSBub3QgY2xlYXImYXVkaXRfb3BlcmF0b3I9aGVpZGl6aGFuZyZhdWRpdF90aW1lPTIwMTYtMDgtMTEgMTA6MDA6MDAmc2lnbj1lZGYzZWEzZmQ3ZDc2MTAxODhhY2IxYTdmYzE0MzNmOA==");
+                    #endregion
 
-                    //平台签名：参数URL串+平台商户key的MD5值（参数URL串要求：按参数名ASCII顺序，为空的参数不参与签名）
+                    #region //平台签名：参数URL串+平台商户key的MD5值（参数URL串要求：按参数名ASCII顺序，为空的参数不参与签名）
+                    //调用实名系统的银行接口 申请的客服商户号：1000077701，对应的密钥：c0df1a64cb1431fb34f400db1d0ac3b4
                     Dictionary<string, string> dic_Sign = new Dictionary<string, string>();
                     dic_Sign.Add("From", "2");
                     dic_Sign.Add("GateType", "2");
                     dic_Sign.Add("OutPutType", "2");
-
-                    if (!string.IsNullOrEmpty(credit_spid))
-                    {
-                        dic_Sign.Add("PlatSpid", credit_spid);
-                    }
+                    dic_Sign.Add("PlatSpid", "1000077701");
                     string platTimeStamp = CommQuery.GetTimeStamp();
                     dic_Sign.Add("PlatTimeStamp", platTimeStamp);//"1471002616"
 
@@ -242,13 +235,28 @@ namespace CFT.CSOMS.BLL.IdCardModule
                     }
 
                     dic_Sign.Add("Ver", "1.0");
-                    dic_Sign.Add("key", "e1674ed8b2d4e12b99a06cd48368369d");//开发环境为:123456
-                    string ptSign = GetPingTaiSign(dic_Sign); //"edf3ea3fd7d7610188acb1a7fc1433f8";                                
-                    LogHelper.LogInfo("IdCardManualReviewService.Review,ptSign:" + ptSign);
+                    dic_Sign.Add("key", "c0df1a64cb1431fb34f400db1d0ac3b4");//开发环境为:123456  ；e1674ed8b2d4e12b99a06cd48368369d
+                    string ptSign = GetPingTaiSign(dic_Sign); //"edf3ea3fd7d7610188acb1a7fc1433f8";   
+                    #endregion
+
+                    #region 拼接接口https://10.123.7.25/finance_pay/kf_auth_ocr_audit.fcgi?后的请求串
+                    //LogHelper.LogInfo("IdCardManualReviewService.Review,ptSign:" + ptSign);
+                    //标准格式
+                    //https://10.123.7.25/finance_pay/kf_auth_ocr_audit.fcgi?
+                    //From=2
+                    //&GateType=2
+                    //&OutPutType=2
+                    //&PlatSpid=1000077701  
+                    //&PlatTimeStamp=1471002616
+                    //&ReqText=dWluPTIwMTMxMTA3OTAyNDEzOUB3eC50ZW5wYXkuY29tJnVpZD0yOTk3MDg1MTUmc2VxX25vPTExNDcwOTkyNDkzMDAwMDAwMDEmY3JlZGl0X3NwaWQ9MTAwMDAwMDMmZnJvbnRfaW1hZ2U9MjAxNjA0MjUxNDI3NTkxNzAyMzExJmJhY2tfaW1hZ2U9MjAxNjA0MjUxNDI3NTkxNzAyMzEyJmF1ZGl0X3Jlc3VsdD0xJmF1ZGl0X2Vycm9yX2Rlcz1pbWFnZSBub3QgY2xlYXImYXVkaXRfb3BlcmF0b3I9aGVpZGl6aGFuZyZhdWRpdF90aW1lPTIwMTYtMDgtMTEgMTA6MDA6MDAmc2lnbj1lZGYzZWEzZmQ3ZDc2MTAxODhhY2IxYTdmYzE0MzNmOA==
+                    //&SeqNo=1471002616&Uin=201311079024139@wx.tenpay.com
+                    //&Ver=1.0
+                    //&Sign=db4182c43ce4ba347209cbae7b9a2c08
+                    StringBuilder sb_cgiString = new StringBuilder();
                     sb_cgiString.Append("From=2");
                     sb_cgiString.Append("&GateType=2");
                     sb_cgiString.Append("&OutPutType=2");
-                    sb_cgiString.Append("&PlatSpid=" + credit_spid + "");
+                    sb_cgiString.Append("&PlatSpid=1000077701");
                     sb_cgiString.Append("&PlatTimeStamp=" + platTimeStamp + "");//1471002616
                     sb_cgiString.Append("&ReqText=" + reqTextStr + "");
                     sb_cgiString.Append("&SeqNo=" + seq_no + "");//1471002616
@@ -256,15 +264,14 @@ namespace CFT.CSOMS.BLL.IdCardModule
                     sb_cgiString.Append("&Ver=1.0");
                     sb_cgiString.Append("&Sign=" + ptSign + "");
                     //sb_cgiString.Append("&Sign=dcd9708d7f1e43159462012c49afe76a");
+                    #endregion
+
+                    #region 调用OCR客服审核接口 并对接口返回值进行处理
                     IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
                     //调用接口平台返回格式，业务逻辑返回包含在RetText中,将RetText用Base64解码得到业务逻辑返回结果
                     //{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiIxOTQ5MDIwMDA0IiwicmVzX2luZm8iOiJbMTk0OTAyMDAwNF3mgqjnmoTmk43kvZzlt7Lmj5DkuqTvvIzor7fnoa7orqTmmK/lkKblt7LnlJ/mlYjjgIIifQ==","SeqNo":"1471002616","Sign":"2AD13DC30C226F717C7A04F071FDDF0D"}
-                    LogHelper.LogInfo("IdCardManualReviewService.Review,sb_cgiString:" + sb_cgiString.ToString());
-                    StringBuilder sb_cgi = new StringBuilder();
-                    sb_cgi.Append(kf_auth_ocr_audit_QueryUrl);
-                    sb_cgi.Append(sb_cgiString.ToString());
-                    LogHelper.LogInfo("IdCardManualReviewService.Review,sb_cgi:" + sb_cgi.ToString());
-                    reviewResult = idCardManualReviewDAL.Review(sb_cgi.ToString());
+                    //LogHelper.LogInfo("IdCardManualReviewService.Review,sb_cgiString:" + sb_cgiString.ToString());
+                    reviewResult = idCardManualReviewDAL.Review(sb_cgiString.ToString());
                     LogHelper.LogInfo("IdCardManualReviewService.Review,reviewResult:" + reviewResult);
                     //平台调用接口返回结果                
                     var reviewResultJson = Newtonsoft.Json.JsonConvert.DeserializeObject(reviewResult) as Newtonsoft.Json.Linq.JObject;
@@ -284,6 +291,7 @@ namespace CFT.CSOMS.BLL.IdCardModule
                                 string retTextResult = retTextDecodeBase64Json["result"].ToString();
                                 result = retTextResult.Equals("0") ? true : false;
                                 msg = retTextDecodeBase64Json["res_info"].ToString();
+                                LogHelper.LogInfo("IdCardManualReviewService.Review,retTextResult:" + retTextDecodeBase64Json.ToString());
                             }
                         }
                         else
@@ -342,6 +350,7 @@ namespace CFT.CSOMS.BLL.IdCardModule
                     //    result = false;
                     //    msg = "调用OCR客服审核接口失败,请联系客服人员r。";
                     //}
+                    #endregion
                 }
             }
             catch (Exception err)

@@ -357,17 +357,19 @@ namespace CFT.CSOMS.DAL.IdCardModule
         public string Review(string reqStr)
         {
 
-            //StringBuilder sb_cgi = new StringBuilder();
+            StringBuilder sb_cgi = new StringBuilder();
             string msg = "";
             string res = string.Empty;            
             //10.49.130.221
             //10.49.130.211
             //10.49.130.133
-            //string kf_auth_ocr_audit_QueryUrl = System.Configuration.ConfigurationManager.AppSettings["kf_auth_ocr_audit_QueryUrl"];
-            //LogHelper.LogInfo(string.Format("IdCardManualReview.Review(string reqStr),kf_auth_ocr_audit_QueryUrl:{0}"), kf_auth_ocr_audit_QueryUrl); 
-            //sb_cgi.Append(kf_auth_ocr_audit_QueryUrl);            
-            //sb_cgi.Append(reqStr);                        
-            LogHelper.LogInfo(string.Format("IdCardManualReview.Review(string reqStr),请求cji地址:{0}"), reqStr);      
+            string kf_auth_ocr_audit_QueryUrl = System.Configuration.ConfigurationManager.AppSettings["kf_auth_ocr_audit_QueryUrl"].ToString();
+            //LogHelper.LogInfo(string.Format("IdCardManualReview.Review(string reqStr),kf_auth_ocr_audit_QueryUrl:{0}", kf_auth_ocr_audit_QueryUrl));
+            sb_cgi.Append(kf_auth_ocr_audit_QueryUrl);
+            sb_cgi.Append(reqStr);
+            string logMessage = string.Format("IdCardManualReview.Review,请求cji地址:{0}", sb_cgi.ToString());
+            LogHelper.LogInfo(logMessage);
+            
             try
             {
                 res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(reqStr, "", out msg);
@@ -378,7 +380,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
             }
             catch (Exception err)
             {
-                LogHelper.LogInfo(string.Format("IdCardManualReview.Review(string reqStr),请求cji地址:{0},错误信息:{1}"), reqStr, err.Message);
+                LogHelper.LogInfo(string.Format("IdCardManualReview.Review,请求cji地址:{0},错误信息:{1}", sb_cgi.ToString(), err.Message));
                 throw new Exception(string.Format("OCR客服审核接口:{0}", err.Message));
             }
             return res;

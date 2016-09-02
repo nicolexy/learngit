@@ -178,103 +178,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string message = string.Empty;
             try
             {
-                if (System.Configuration.ConfigurationManager.AppSettings["kf_auth_ocr_audit_QueryUrl"] != null)
+                #region                
+                string foperator = this.Label_uid.Text;//
+                string Fuin = Request.Form["Fuin"] != null || string.IsNullOrEmpty(Request.Form["Fuin"].ToString()) ? Request.Form["Fuin"].ToString() : string.Empty;
+                string memo = Request.Form["Fmemo"] != null || string.IsNullOrEmpty(Request.Form["Fmemo"].ToString()) ? Request.Form["Fmemo"].ToString() : string.Empty;
+                string tableName = Request.Form["TableName"] != null || string.IsNullOrEmpty(Request.Form["TableName"].ToString()) ? Request.Form["TableName"].ToString() : string.Empty;
+                string fserial_number = Request.Form["Fserial_number"] != null || string.IsNullOrEmpty(Request.Form["Fserial_number"].ToString()) ? Request.Form["Fserial_number"].ToString() : string.Empty;
+
+                int fid = Request.Form["Fid"] != null || string.IsNullOrEmpty(Request.Form["Fid"].ToString()) ? int.Parse(Request.Form["Fid"].ToString()) : 0;
+                int reviewResult = Request.Form["reviewResult"] != null || string.IsNullOrEmpty(Request.Form["reviewResult"].ToString()) ? int.Parse(Request.Form["reviewResult"].ToString()) : 0;
+                IdCardManualReviewService idCardManualReviewService = new IdCardManualReviewService();
+                bool updateResult = idCardManualReviewService.Update(fserial_number, fid, reviewResult, memo, tableName, foperator, out  message);
+                if (updateResult)
                 {
-                    #region
-                    string kf_auth_ocr_audit_QueryUrl = System.Configuration.ConfigurationManager.AppSettings["kf_auth_ocr_audit_QueryUrl"].ToString();
-                    string foperator = this.Label_uid.Text;//
-                    string Fuin = Request.Form["Fuin"] != null || string.IsNullOrEmpty(Request.Form["Fuin"].ToString()) ? Request.Form["Fuin"].ToString() : string.Empty;
-                    string memo = Request.Form["Fmemo"] != null || string.IsNullOrEmpty(Request.Form["Fmemo"].ToString()) ? Request.Form["Fmemo"].ToString() : string.Empty;
-                    string tableName = Request.Form["TableName"] != null || string.IsNullOrEmpty(Request.Form["TableName"].ToString()) ? Request.Form["TableName"].ToString() : string.Empty;
-                    string fserial_number = Request.Form["Fserial_number"] != null || string.IsNullOrEmpty(Request.Form["Fserial_number"].ToString()) ? Request.Form["Fserial_number"].ToString() : string.Empty;
-
-                    int fid = Request.Form["Fid"] != null || string.IsNullOrEmpty(Request.Form["Fid"].ToString()) ? int.Parse(Request.Form["Fid"].ToString()) : 0;
-                    int reviewResult = Request.Form["reviewResult"] != null || string.IsNullOrEmpty(Request.Form["reviewResult"].ToString()) ? int.Parse(Request.Form["reviewResult"].ToString()) : 0;
-                    IdCardManualReviewService idCardManualReviewService = new IdCardManualReviewService();
-                    bool updateResult = idCardManualReviewService.Update(fserial_number, fid, reviewResult, memo, tableName, foperator, out  message);
-                    if (updateResult)
-                    {
-                        LogHelper.LogInfo("IDCardManualReview.SaveReview,updateResult:更新成功");
-                        DataTable dt = new DataTable();
-                        dt = idCardManualReviewService.LoadReview(fid, fserial_number, tableName);
-                        if (dt != null)
-                        {
-                            LogHelper.LogInfo("IDCardManualReview.SaveReview,LoadReview:" + dt.Rows.Count);
-                            // IdCardManualReviewService aaa = new IdCardManualReviewService();
-                            //string uin="201311079024139@wx.tenpay.com";
-                            // uid="299708515";
-                            // string seq_no="1147099249300000001";
-                            // string credit_spid="10000003";
-                            // string front_image="201604251427591702311";
-                            // string back_image="201604251427591702312";
-                            // int audit_result=1;
-                            // string audit_error_des="image not clear";
-                            // string audit_operator="heidizhang";
-                            // string audit_time = "2016-08-11 10:00:00";
-                            // string sign="edf3ea3fd7d7610188acb1a7fc1433f8";
-                            // string result = aaa.Review( uin,uid,  seq_no,  credit_spid,  front_image,  back_image,  audit_result,  audit_error_des,  audit_operator,  audit_time);
-
-                            string uin = dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;
-                            string uid = string.Empty;// dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;                        
-                            string seq_no = Guid.NewGuid().ToString("N").Substring(0, 30);// "1147099249300000001";// dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;
-                            string credit_spid = dt.Rows[0]["Fspid"] != null || dt.Rows[0]["Fspid"] != DBNull.Value ? dt.Rows[0]["Fspid"].ToString() : string.Empty;
-                            string front_image = dt.Rows[0]["Fimage_file1"] != null || dt.Rows[0]["Fimage_file1"] != DBNull.Value ? dt.Rows[0]["Fimage_file1"].ToString() : string.Empty;
-                            string back_image = dt.Rows[0]["Fimage_file2"] != null || dt.Rows[0]["Fimage_file2"] != DBNull.Value ? dt.Rows[0]["Fimage_file2"].ToString() : string.Empty;
-                            int audit_result = dt.Rows[0]["Fresult"] != null || dt.Rows[0]["Fresult"] != DBNull.Value ? int.Parse(PublicRes.GetInt(dt.Rows[0]["Fresult"].ToString())) : 0;
-                            string audit_error_des = dt.Rows[0]["Fmemo"] != null || dt.Rows[0]["Fmemo"] != DBNull.Value ? dt.Rows[0]["Fmemo"].ToString() : string.Empty;
-                            string audit_operator = dt.Rows[0]["Foperator"] != null || dt.Rows[0]["Foperator"] != DBNull.Value ? dt.Rows[0]["Foperator"].ToString() : string.Empty;
-                            string audit_time = dt.Rows[0]["Fmodify_time"] != null || dt.Rows[0]["Fmodify_time"] != DBNull.Value ? dt.Rows[0]["Fmodify_time"].ToString() : string.Empty;
-                            bool sendResult = idCardManualReviewService.Review(kf_auth_ocr_audit_QueryUrl,uin, uid, seq_no, credit_spid, front_image, back_image, audit_result, audit_error_des, audit_operator, audit_time, out message);
-                            if (!sendResult)
-                            {
-                                //接口调用失败 向表中写入状态
-                                bool updateState = idCardManualReviewService.UpdateFstate(fserial_number, fid, 3, tableName, out  message);
-                            }
-                        }
-                        else
-                        {
-                            message = "没有该数据";
-                            LogHelper.LogInfo("IdCardManualReviewService.Review,message:" + message);
-                        }
-
-                    }
-                    #endregion
-                }
-                else
-                {
-                    message = "连接到实名系统的地址为空!";
-                }
-
-            }
-            catch (Exception ex)
-            {
-
-            }
-            Response.Write(message);
-            Response.End();
-        }
-
-
-        private void ReSend()
-        {
-            string message = string.Empty;
-            try
-            {
-                //string foperator = this.Label_uid.Text;//
-                //string Fuin = Request.Form["Fuin"] != null || string.IsNullOrEmpty(Request.Form["Fuin"].ToString()) ? Request.Form["Fuin"].ToString() : string.Empty;                
-                if (System.Configuration.ConfigurationManager.AppSettings["kf_auth_ocr_audit_QueryUrl"] != null)
-                {
-                    #region
-                    string tableName = Request.Form["TableName"] != null || string.IsNullOrEmpty(Request.Form["TableName"].ToString()) ? Request.Form["TableName"].ToString() : string.Empty;
-                    string Fserial_number = Request.Form["Fserial_number"] != null || string.IsNullOrEmpty(Request.Form["Fserial_number"].ToString()) ? Request.Form["Fserial_number"].ToString() : string.Empty;
-
-                    int fid = Request.Form["Fid"] != null || string.IsNullOrEmpty(Request.Form["Fid"].ToString()) ? int.Parse(Request.Form["Fid"].ToString()) : 0;
-                    int reviewResult = Request.Form["reviewResult"] != null || string.IsNullOrEmpty(Request.Form["reviewResult"].ToString()) ? int.Parse(Request.Form["reviewResult"].ToString()) : 0;
-                    IdCardManualReviewService idCardManualReviewService = new IdCardManualReviewService();
+                    LogHelper.LogInfo("IDCardManualReview.SaveReview,updateResult:更新成功");
                     DataTable dt = new DataTable();
-                    dt = idCardManualReviewService.LoadReview(fid, Fserial_number, tableName);
+                    dt = idCardManualReviewService.LoadReview(fid, fserial_number, tableName);
                     if (dt != null)
-                    {
+                    {                        
                         // IdCardManualReviewService aaa = new IdCardManualReviewService();
                         //string uin="201311079024139@wx.tenpay.com";
                         // uid="299708515";
@@ -288,10 +209,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         // string audit_time = "2016-08-11 10:00:00";
                         // string sign="edf3ea3fd7d7610188acb1a7fc1433f8";
                         // string result = aaa.Review( uin,uid,  seq_no,  credit_spid,  front_image,  back_image,  audit_result,  audit_error_des,  audit_operator,  audit_time);
-                        string kf_auth_ocr_audit_QueryUrl = System.Configuration.ConfigurationManager.AppSettings["kf_auth_ocr_audit_QueryUrl"].ToString();
+
                         string uin = dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;
-                        string uid = string.Empty;// dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;
-                        string seq_no = Guid.NewGuid().ToString("N").Substring(0, 30); //"1147099249300000001";// dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;
+                        string uid = string.Empty;// dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;                        
+                        string seq_no = Guid.NewGuid().ToString("N").Substring(0, 30);// "1147099249300000001";// dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;
                         string credit_spid = dt.Rows[0]["Fspid"] != null || dt.Rows[0]["Fspid"] != DBNull.Value ? dt.Rows[0]["Fspid"].ToString() : string.Empty;
                         string front_image = dt.Rows[0]["Fimage_file1"] != null || dt.Rows[0]["Fimage_file1"] != DBNull.Value ? dt.Rows[0]["Fimage_file1"].ToString() : string.Empty;
                         string back_image = dt.Rows[0]["Fimage_file2"] != null || dt.Rows[0]["Fimage_file2"] != DBNull.Value ? dt.Rows[0]["Fimage_file2"].ToString() : string.Empty;
@@ -299,28 +220,93 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         string audit_error_des = dt.Rows[0]["Fmemo"] != null || dt.Rows[0]["Fmemo"] != DBNull.Value ? dt.Rows[0]["Fmemo"].ToString() : string.Empty;
                         string audit_operator = dt.Rows[0]["Foperator"] != null || dt.Rows[0]["Foperator"] != DBNull.Value ? dt.Rows[0]["Foperator"].ToString() : string.Empty;
                         string audit_time = dt.Rows[0]["Fmodify_time"] != null || dt.Rows[0]["Fmodify_time"] != DBNull.Value ? dt.Rows[0]["Fmodify_time"].ToString() : string.Empty;
-                        bool sendResult = idCardManualReviewService.Review(kf_auth_ocr_audit_QueryUrl, uin, uid, seq_no, credit_spid, front_image, back_image, audit_result, audit_error_des, audit_operator, audit_time, out message);
-                        if (sendResult)
-                        {
-                            //接口调用失败 向表中写入状态
-                            bool updateState = idCardManualReviewService.UpdateFstate(Fserial_number, fid, 4, tableName, out  message);
-                        }
+                        bool sendResult = idCardManualReviewService.Review(uin, uid, seq_no, credit_spid, front_image, back_image, audit_result, audit_error_des, audit_operator, audit_time, out message);
+                        int fstate = sendResult == true ? 4 : 3;//3=推送到实名系统失败;4=推送成功
+                        //接口调用后 更新该条数据的审核状态
+                        bool updateState = idCardManualReviewService.UpdateFstate(fserial_number, fid, fstate, tableName, out  message);
                     }
                     else
                     {
                         message = "没有该数据";
+                        LogHelper.LogInfo("IdCardManualReviewService.Review,message:" + message);
                     }
-                    #endregion
+
+                }
+                #endregion
+
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogInfo("IDCardManualReview.SaveReview,提交失败:" + ex.Message);
+            }
+            Response.Write(message);
+            Response.End();
+        }
+
+
+        private void ReSend()
+        {
+            string message = string.Empty;
+            try
+            {
+                //string foperator = this.Label_uid.Text;//
+                //string Fuin = Request.Form["Fuin"] != null || string.IsNullOrEmpty(Request.Form["Fuin"].ToString()) ? Request.Form["Fuin"].ToString() : string.Empty;                
+                #region
+                string tableName = Request.Form["TableName"] != null || string.IsNullOrEmpty(Request.Form["TableName"].ToString()) ? Request.Form["TableName"].ToString() : string.Empty;
+                string fserial_number = Request.Form["Fserial_number"] != null || string.IsNullOrEmpty(Request.Form["Fserial_number"].ToString()) ? Request.Form["Fserial_number"].ToString() : string.Empty;
+
+                int fid = Request.Form["Fid"] != null || string.IsNullOrEmpty(Request.Form["Fid"].ToString()) ? int.Parse(Request.Form["Fid"].ToString()) : 0;
+                int reviewResult = Request.Form["reviewResult"] != null || string.IsNullOrEmpty(Request.Form["reviewResult"].ToString()) ? int.Parse(Request.Form["reviewResult"].ToString()) : 0;
+                IdCardManualReviewService idCardManualReviewService = new IdCardManualReviewService();
+                DataTable dt = new DataTable();
+                dt = idCardManualReviewService.LoadReview(fid, fserial_number, tableName);
+                if (dt != null)
+                {
+                    // IdCardManualReviewService aaa = new IdCardManualReviewService();
+                    //string uin="201311079024139@wx.tenpay.com";
+                    // uid="299708515";
+                    // string seq_no="1147099249300000001";
+                    // string credit_spid="10000003";
+                    // string front_image="201604251427591702311";
+                    // string back_image="201604251427591702312";
+                    // int audit_result=1;
+                    // string audit_error_des="image not clear";
+                    // string audit_operator="heidizhang";
+                    // string audit_time = "2016-08-11 10:00:00";
+                    // string sign="edf3ea3fd7d7610188acb1a7fc1433f8";
+                    // string result = aaa.Review( uin,uid,  seq_no,  credit_spid,  front_image,  back_image,  audit_result,  audit_error_des,  audit_operator,  audit_time);
+                    
+                    string uin = dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;
+                    string uid = string.Empty;// dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;
+                    string seq_no = Guid.NewGuid().ToString("N").Substring(0, 30); //"1147099249300000001";// dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;
+                    string credit_spid = dt.Rows[0]["Fspid"] != null || dt.Rows[0]["Fspid"] != DBNull.Value ? dt.Rows[0]["Fspid"].ToString() : string.Empty;
+                    string front_image = dt.Rows[0]["Fimage_file1"] != null || dt.Rows[0]["Fimage_file1"] != DBNull.Value ? dt.Rows[0]["Fimage_file1"].ToString() : string.Empty;
+                    string back_image = dt.Rows[0]["Fimage_file2"] != null || dt.Rows[0]["Fimage_file2"] != DBNull.Value ? dt.Rows[0]["Fimage_file2"].ToString() : string.Empty;
+                    int audit_result = dt.Rows[0]["Fresult"] != null || dt.Rows[0]["Fresult"] != DBNull.Value ? int.Parse(PublicRes.GetInt(dt.Rows[0]["Fresult"].ToString())) : 0;
+                    string audit_error_des = dt.Rows[0]["Fmemo"] != null || dt.Rows[0]["Fmemo"] != DBNull.Value ? dt.Rows[0]["Fmemo"].ToString() : string.Empty;
+                    string audit_operator = dt.Rows[0]["Foperator"] != null || dt.Rows[0]["Foperator"] != DBNull.Value ? dt.Rows[0]["Foperator"].ToString() : string.Empty;
+                    string audit_time = dt.Rows[0]["Fmodify_time"] != null || dt.Rows[0]["Fmodify_time"] != DBNull.Value ? dt.Rows[0]["Fmodify_time"].ToString() : string.Empty;
+                    bool sendResult = idCardManualReviewService.Review(uin, uid, seq_no, credit_spid, front_image, back_image, audit_result, audit_error_des, audit_operator, audit_time, out message);
+                    int fstate = sendResult == true ? 4 : 3;//3=推送到实名系统失败;4=推送成功
+                    //接口调用后 更新该条数据的审核状态
+                    bool updateState = idCardManualReviewService.UpdateFstate(fserial_number, fid, fstate, tableName, out  message);
+                    //if (sendResult)
+                    //{
+                    //    //接口调用成功 更新该条数据的审核状态为推送成功
+                    //    bool updateState = idCardManualReviewService.UpdateFstate(fserial_number, fid, 4, tableName, out  message);
+                    //}
                 }
                 else
                 {
-                    message = "连接到实名系统的地址为空!";
+                    message = "没有该数据";
                 }
+                #endregion
                
             }
             catch (Exception ex)
             {
                 message = "重新提交失败";
+                LogHelper.LogInfo("IDCardManualReview.ReSend,重新提交失败:" + ex.Message);
             }
             Response.Write(message);
             Response.End();
