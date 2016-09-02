@@ -20,10 +20,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             if (!IsPostBack)
             {
                 string actionName = Request.QueryString["getAction"] == null ? string.Empty : Request.QueryString["getAction"].ToString();
-                string requestUrl = Request.QueryString["requestUrl"] == null ? string.Empty : Request.QueryString["requestUrl"].ToString();
-                //requestUrl = "/RefundManage/RefundRegistration.aspx";
                 if (!string.IsNullOrEmpty(actionName))
                 {
+                    string requestUrl = Request.QueryString["requestUrl"] == null ? string.Empty : Request.QueryString["requestUrl"].ToString();
+                    requestUrl = Server.UrlDecode(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(requestUrl)));
+                    //requestUrl = "/RefundManage/RefundRegistration.aspx";
+
                     DoAction(actionName, requestUrl);
                 }
             }
