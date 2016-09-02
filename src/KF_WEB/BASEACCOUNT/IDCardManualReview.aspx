@@ -58,6 +58,7 @@
     <script type="text/javascript" src="../SCRIPTS/jquery-easyui-1.5/jquery.easyui.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="../SCRIPTS/jquery-easyui-1.5/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
     <link href="../SCRIPTS/jquery-easyui-1.5/themes/default/easyui.css" rel="stylesheet" />
+    <link href="../SCRIPTS/jquery-easyui-1.5/themes/color.css" rel="stylesheet" />
     <link href="../SCRIPTS/jquery-easyui-1.5/themes/icon.css" rel="stylesheet" />
     <script src="../SCRIPTS/KF.js"></script>
     <script src="../SCRIPTS/LoadControlsDataSource.js"></script>
@@ -65,12 +66,7 @@
 </head>
 <body>
     <form id="Form1" method="post" runat="server">
-        
-        <div id="toolbar" style="width: 100%">
-            <table cellspacing="1" cellpadding="0" width="99%" align="center" bgcolor="#666666" border="0">
-                <tr bgcolor="#e4e5f7">
-                    <td valign="middle" colspan="2" height="20">
-                        <table height="90%" cellspacing="0" cellpadding="1" width="97%" border="0">
+        <table style="height:15px;width:100%; background-color:#e4e5f7;border:0; padding:1px;">
                             <tr>
                                 <td width="80%" height="18"><font color="#ff0000"><STRONG><FONT color="#ff0000">&nbsp;</FONT></STRONG><IMG height="16" src="../IMAGES/Page/post.gif" width="20">
 										身份证影印件客服人工审核</font>
@@ -80,14 +76,9 @@
                                     <asp:Label ID="Label_uid" runat="server">Label</asp:Label></span></td>
                             </tr>
                         </table>
-                    </td>
-                </tr>
-                <tr bgcolor="#ffffff">
-                    <td>
-<%--                        <div align="center"></div>
-                        <div align="left">--%>
-                            <table height="100%" cellspacing="0" cellpadding="1" width="100%" border="0">
-                                <tr>
+        <div id="toolbar" style="width: 100%">
+            <table style="width: 100%">
+                <tr>
                                     <td style="width: 20%; text-align: right">
                                         <label id="lab_StartDate">开始日期：</label></td>
                                     <td style="width: 30%">
@@ -141,81 +132,80 @@
                                     </td>
                                     <td style="width: 30%"></td>
                                 </tr>
-                            </table>
-                        <%--</div>--%>
-
-                    </td>
-
-                </tr>
             </table>
         </div>
-        <div id="div_IDCardManualReviewList" style="width: 99%">
+        <br />
+        <div id="div_IDCardManualReviewList" style="width: 100%">
             <table id="tb_IDCardManualReviewList"></table>
         </div>
         <div id="div_ReveiwIdCard" class="easyui-dialog">
-            <table border="0" style="width: 100%; text-align: left; line-height: 20px; margin-top: 10px">
+            <table border="0" style="width: 100%; text-align: left; line-height: 20px; ">
                 <tr style="text-align: left">
-                    <th colspan="2" style="width: 10%; color: red; text-align: center;" colspan="">提交资料(***流水号***)
+                    <th colspan="4" style=" text-align: center;" colspan="">提交资料(***流水号***)
                     </th>
                 </tr>
                 <tr style="text-align: left">
-                    <th style="width: 30%; text-align: right">用户帐号：
-                    </th>
-                    <td style="width: 70%">
+                    <td style="width: 15%; text-align: right">
+                        <b>用户帐号：</b>
+                    </td>
+                    <td style="width: 85%" colspan="3">
                         <label id="lab_Fuin"></label>
                     </td>
                 </tr>
 
                 <tr style="text-align: left">
-                    <th style="width: 30%; text-align: right">用户姓名：
-                    </th>
-                    <td style="width: 70%">
+                    <td style="width: 15%; text-align: right">
+                        <b>用户姓名：</b>
+                    </td>
+                    <td style="width: 85%" colspan="3">
                         <label id="lab_Fname"></label>
                     </td>
                 </tr>
-                <tr style="text-align: left">
-                    <th style="width: 30%; text-align: right">证件号码：
-                    </th>
-                    <td style="width: 70%">
+                <tr style="text-align: left" colspan="3">
+                    <td style="width: 15%; text-align: right">
+                        <b>证件号码：</b>
+                    </td>
+                    <td style="width: 85%">
                         <label id="lab_Fidentitycard"></label>
                     </td>
                 </tr>
                 <tr>
 
-                    <th style="width: 30%; text-align: right">失败原因：
-                    </th>
-                    <td style="width: 70%">
+                    <td style="width: 15%; text-align: right">
+                        <b>失败原因：</b>
+                    </td>
+                    <td style="width: 85%" colspan="3">
                         <input type="text" id="txt_Fmemo" />
                     </td>
                 </tr>
                 <tr>
-                    <th colspan="2" style="width: 10%; text-align: center">身份证扫描件
+                    <th colspan="4" style="width: 100%; text-align: center">身份证扫描件
                     </th>
-
                 </tr>
                 <tr>
-                    <td style="width: 50%; text-align: center">
-                        <span>正面</span><br />
-                        <img id="ima_IDCardZ" src="" style="width: 300px; height: 300px" />
-                    </td>
-                    <td style="width: 50%; text-align: center">
-                        <span>反面</span><br />
-                        <img id="ima_IDCardF" src="" style="width: 300px; height: 300px" />
-                    </td>
+                    <td colspan="4">
+                        <table style="width:100%">
+                            <tr>
+                                <td style="width: 50%; text-align: center;"><b>正面</b></td>
+                                <td style="width: 50%; text-align: center; "><b>反面</b></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 50%; text-align: center;"><img id="ima_IDCardZ" src="" style="width: 100%; height: 320px" /></td>
+                                <td style="width: 50%; text-align: center;"><img id="ima_IDCardF" src="" style="width: 100%; height: 320px" /></td>
+                            </tr>
+                        </table>
+                    </td> 
                 </tr>
                 <tr>
-                    <th colspan="2" style="width: 10%; color: red; text-align: center;">
+                    <td colspan="4" style="color: red; text-align: center;">
                         <input id="hid_TableName" type="hidden" />
                         <input id="hid_Fid" type="hidden" />
                         <input id="hid_Fserial_number" type="hidden" />
 
-                        <a href="javascript:void(0)" id="a_Yes" class="easyui-linkbutton" iconcls="icon-save" plain="true">通过</a>&nbsp;&nbsp;&nbsp;
-                        <a href="javascript:void(0)" id="a_No" class="easyui-linkbutton" iconcls="icon-save" plain="true">拒绝</a>&nbsp;&nbsp;&nbsp;
+                        <a href="javascript:void(0)" id="a_Yes" class="easyui-linkbutton" iconcls="icon-ok" plain="true">通过</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="javascript:void(0)" id="a_No" class="easyui-linkbutton" iconcls="icon-no" plain="true">拒绝</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <a href="javascript:void(0)" id="a_ReSend" class="easyui-linkbutton" iconcls="icon-save" plain="true">重新提交</a>
-                        <%--    <input id="btn_Yes" type="button" value="通过"/>
-                        <input id="btn_No" type="button" value="拒绝"/>
-                        <input id="btn_ReSend" type="button" value="重新提交"/>--%>
-                    </th>
+                    </td>
                 </tr>
             </table>
         </div>

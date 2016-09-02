@@ -375,6 +375,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
                 message = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(sb_cgi.ToString(), "", out errorMsg);
                 if (!string.IsNullOrEmpty(errorMsg))
                 {
+                    LogHelper.LogInfo("IdCardManualReview.Review,message = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI,错误信息:" + errorMsg);
                     result = false;
                     message = errorMsg;
                 }
@@ -384,6 +385,26 @@ namespace CFT.CSOMS.DAL.IdCardModule
                 LogHelper.LogInfo(string.Format("IdCardManualReview.Review,请求cji地址:{0},错误信息:{1}", sb_cgi.ToString(), err.Message));
                 result = false;
                 //throw new Exception(string.Format("OCR客服审核接口:{0}", err.Message));
+            }
+            return result;
+        }
+
+
+
+        public string ReviewByRelay(string reqStr)
+        {
+            string result = string.Empty;
+            try
+            {
+                string relayip = System.Configuration.ConfigurationManager.AppSettings["kf_auth_ocr_audit_IP"];
+                int relayport = int.Parse(System.Configuration.ConfigurationManager.AppSettings["kf_auth_ocr_audit_Por"]);
+                string requesttpe = System.Configuration.ConfigurationManager.AppSettings["kf_auth_ocr_audit_request_type"];
+                result = RelayAccessFactory.RelayInvoke(reqStr, requesttpe, false, false, relayip, relayport, "");
+            }
+            catch (Exception err)
+            {                
+                result = string.Empty;
+                LogHelper.LogInfo(string.Format("IdCardManualReview类ReviewByRelay方法调用出错,参数reqStr={0},错误信息:{3}", reqStr, err.Message));
             }
             return result;
         }
