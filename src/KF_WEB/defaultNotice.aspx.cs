@@ -20,10 +20,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             if (!IsPostBack)
             {
                 string actionName = Request.QueryString["getAction"] == null ? string.Empty : Request.QueryString["getAction"].ToString();
-                string requestUrl = Request.QueryString["requestUrl"] == null ? string.Empty : Request.QueryString["requestUrl"].ToString();
-                //requestUrl = "/RefundManage/RefundRegistration.aspx";
                 if (!string.IsNullOrEmpty(actionName))
                 {
+                    string requestUrl = Request.QueryString["requestUrl"] == null ? string.Empty : Request.QueryString["requestUrl"].ToString();
+                    requestUrl = Server.UrlDecode(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(requestUrl)));
+                    //requestUrl = "/RefundManage/RefundRegistration.aspx";
+
                     DoAction(actionName, requestUrl);
                 }
             }
@@ -163,9 +165,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             sb_reviewResult.Append("\"RetText\":");
             sb_reviewResult.Append("\"eyJyZXN1bHQiOiIxOTQ5MDIwMDA0IiwicmVzX2luZm8iOiJbMTk0OTAyMDAwNF3mgqjnmoTmk43kvZzlt7Lmj5DkuqTvvIzor7fnoa7orqTmmK/lkKblt7LnlJ/mlYjjgIIifQ==\",");
             sb_reviewResult.Append("\"SeqNo\":");
-            sb_reviewResult.Append("\"1471002616\",");
+            sb_reviewResult.Append("\"d1614fbc8b994ce48ae48d1f1b1604\",");
             sb_reviewResult.Append("\"Sign\":");
-            sb_reviewResult.Append("\"2AD13DC30C226F717C7A04F071FDDF0D\"");
+            sb_reviewResult.Append("\"368A4978CB5F509E830F5D4D7D79CF6C\"");
             sb_reviewResult.Append("}");
 
 

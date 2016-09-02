@@ -372,7 +372,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
             
             try
             {
-                res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(reqStr, "", out msg);
+                res = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(sb_cgi.ToString(), "", out msg);
                 if (msg != "")
                 {
                     throw new Exception(msg);

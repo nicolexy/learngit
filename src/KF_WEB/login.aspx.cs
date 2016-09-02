@@ -93,7 +93,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 string url_Host = HttpContext.Current.Request.Url.Host;
                 int port = HttpContext.Current.Request.Url.Port;
                 string url_Host_port = port > 0 ? url_Host + ":" + port.ToString() : url_Host;
-                string url = string.IsNullOrEmpty(requestUrl) ? "defaultNotice.aspx" : "defaultNotice.aspx?requestUrl=" +url_Host_port+ requestUrl + "";
+                string url = string.IsNullOrEmpty(requestUrl) ? "defaultNotice.aspx" : "defaultNotice.aspx?requestUrl=" + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Server.UrlEncode( requestUrl))) + "";
                 Response.Redirect(url, false);  
 				return;
 			}
@@ -110,7 +110,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             {
                 if (Request["returnurl"] != null && !string.IsNullOrEmpty(Request["returnurl"].ToString()))
                 {
-                    redirectUrl = Server.HtmlDecode(Request["returnurl"].ToString());
+                    redirectUrl = Server.UrlDecode(Request["returnurl"].ToString());
                 }
             }
             catch
