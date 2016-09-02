@@ -139,8 +139,7 @@ namespace CFT.CSOMS.BLL.IdCardModule
         /// <returns>返回格式如下:result=0&res_info=ok&amount=10&bank_billno=201608040000125722&bank_query_source=3&bank_query_time=2016-08-04 12:36:51&bill_no=201608040000125722&pay_result=2&sync_state=15&transaction_id=1216402401321608040000000000</returns>
         public bool Review(string uin, string uid, string seq_no, string credit_spid, string front_image, string back_image, int audit_result, string audit_error_des, string audit_operator, string audit_time, out string msg)
         {
-            //LogHelper.LogInfo(string.Format("IdCardManualReviewService.Review,uin={0},uid={1},seq_no={2},credit_spid={3},front_image={4},back_image={5},audit_result={6},audit_error_des={7},audit_operator={8},audit_time={9}", uin, uid, seq_no, credit_spid, front_image, back_image, audit_result, audit_error_des, audit_operator, audit_time));
-            string reviewResult = string.Empty;//{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiI5OTIyNDAyNCIsInJlc19pbmZvIjoiWzk5MjI0MDI0XeaCqOeahOaTjeS9nOW3suaPkOS6pO+8jOivt+ehruiupOaYr+WQpuW3sueUn+aViOOAgiJ9","SeqNo":"1471002616","Sign":"B97DB9D330050661066307CF7EF2CB1C"                        
+            //LogHelper.LogInfo(string.Format("IdCardManualReviewService.Review,uin={0},uid={1},seq_no={2},credit_spid={3},front_image={4},back_image={5},audit_result={6},audit_error_des={7},audit_operator={8},audit_time={9}", uin, uid, seq_no, credit_spid, front_image, back_image, audit_result, audit_error_des, audit_operator, audit_time));            
             msg = "";
             bool result = false;
             try
@@ -151,49 +150,61 @@ namespace CFT.CSOMS.BLL.IdCardModule
                     //LogHelper.LogInfo("IdCardManualReviewService.Review,uid:" + uid);
 
                     #region 接口签名
-                    ////接口签名
+                    //接口签名md5($uin$uid$seq_no$credit_spid$front_image$back_image$audit_result$audit_error_des$audit_operator$audit_time$key)开发联调环境key: 1234
+                    StringBuilder sb_sign = new StringBuilder();
                     //Dictionary<string, string> dic = new Dictionary<string, string>();
                     //dic.Add("uin", uin.ToString());
-                    //if (!string.IsNullOrEmpty(uid))
-                    //{
-                    //    dic.Add("uid", uid.ToString());
-                    //}
-                    //if (!string.IsNullOrEmpty(seq_no))
-                    //{
-                    //    dic.Add("seq_no", seq_no);
-                    //}
-                    //if (!string.IsNullOrEmpty(credit_spid))
-                    //{
-                    //    dic.Add("credit_spid", credit_spid);
-                    //}
-                    //if (!string.IsNullOrEmpty(front_image))
-                    //{
-                    //    dic.Add("front_image", front_image);
-                    //}
-                    //if (!string.IsNullOrEmpty(back_image))
-                    //{
-                    //    dic.Add("back_image", back_image);
-                    //}
-                    //if (audit_result>0)
-                    //{
-                    //    dic.Add("audit_result", audit_result.ToString());
-                    //}
-                    //if (!string.IsNullOrEmpty(audit_error_des))
-                    //{
-                    //    dic.Add("audit_error_des", audit_error_des);
-                    //}
-                    //if (!string.IsNullOrEmpty(audit_operator))
-                    //{
-                    //    dic.Add("audit_operator", audit_operator);
-                    //} 
-                    //if (!string.IsNullOrEmpty(audit_time))
-                    //{
-                    //    dic.Add("audit_time", DateTime.Parse(audit_time).ToString("YYYY-MM-dd HH:mm:ss"));
-                    //}
+                    sb_sign.Append(uin.ToString());
+                    if (!string.IsNullOrEmpty(uid))
+                    {
+                        //dic.Add("uid", uid.ToString());
+                        sb_sign.Append(uid.ToString());//uid
+                    }
+                    if (!string.IsNullOrEmpty(seq_no))
+                    {
+                        //dic.Add("seq_no", seq_no);
+                        sb_sign.Append(seq_no.ToString());//seq_no
+                    }
+                    if (!string.IsNullOrEmpty(credit_spid))
+                    {
+                        //dic.Add("credit_spid", credit_spid);
+                        sb_sign.Append(credit_spid.ToString());//credit_spid
+                    }
+                    if (!string.IsNullOrEmpty(front_image))
+                    {
+                        //dic.Add("front_image", front_image);
+                        sb_sign.Append(front_image.ToString());//front_image
+                    }
+                    if (!string.IsNullOrEmpty(back_image))
+                    {
+                        //dic.Add("back_image", back_image);
+                        sb_sign.Append(back_image.ToString());//back_image
+                    }
+                    if (audit_result > 0)
+                    {
+                        //dic.Add("audit_result", audit_result.ToString());
+                        sb_sign.Append(audit_result.ToString());//audit_result
+                    }
+                    if (!string.IsNullOrEmpty(audit_error_des))
+                    {
+                        //dic.Add("audit_error_des", audit_error_des);
+                        sb_sign.Append(audit_error_des.ToString());//audit_error_des
+                    }
+                    if (!string.IsNullOrEmpty(audit_operator))
+                    {
+                        //dic.Add("audit_operator", audit_operator);
+                        sb_sign.Append(audit_operator.ToString());//audit_operator
+                    }
+                    if (!string.IsNullOrEmpty(audit_time))
+                    {
+                        //dic.Add("audit_time", DateTime.Parse(audit_time).ToString("yyyy-MM-dd HH:mm:ss"));
+                        sb_sign.Append(DateTime.Parse(audit_time).ToString("yyyy-MM-dd HH:mm:ss"));//audit_time
+                    }
 
-
-                    //dic.Add("key", "12345");//开发联调环境key: 12345
-                    //string sign = GetReviewSign(dic); //"edf3ea3fd7d7610188acb1a7fc1433f8";
+                    //dic.Add("key", "e1674ed8b2d4e12b99a06cd48368369d");//开发联调环境key: 12345
+                    sb_sign.Append("e1674ed8b2d4e12b99a06cd48368369d");//key
+                    string sb_sign_ToUTF8 = ToUTF8(sb_sign.ToString());
+                    string sign = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_sign_ToUTF8, "MD5").ToLower();// GetReviewSign(dic); //"edf3ea3fd7d7610188acb1a7fc1433f8";
                     #endregion
 
                     #region 业务签名
@@ -206,7 +217,9 @@ namespace CFT.CSOMS.BLL.IdCardModule
                     sb_reqString.AppendFormat("&audit_result={0}", audit_result);
                     sb_reqString.AppendFormat("&audit_error_des={0}", audit_error_des);
                     sb_reqString.AppendFormat("&audit_operator={0}", audit_operator);
-                    sb_reqString.AppendFormat("&audit_time={0}", DateTime.Parse(audit_time).ToString("YYYY-MM-dd HH:mm:ss"));
+                    sb_reqString.AppendFormat("&audit_time={0}", DateTime.Parse(audit_time).ToString("yyyy-MM-dd HH:mm:ss"));
+                    sb_reqString.AppendFormat("&sign={0}", sign);
+
                     byte[] bytes = Encoding.Default.GetBytes(sb_reqString.ToString());
                     string reqTextStr = Convert.ToBase64String(bytes);
                     //LogHelper.LogInfo("IdCardManualReviewService.Review,reqTextStr:" + reqTextStr);
@@ -271,35 +284,45 @@ namespace CFT.CSOMS.BLL.IdCardModule
                     //调用接口平台返回格式，业务逻辑返回包含在RetText中,将RetText用Base64解码得到业务逻辑返回结果
                     //{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiIxOTQ5MDIwMDA0IiwicmVzX2luZm8iOiJbMTk0OTAyMDAwNF3mgqjnmoTmk43kvZzlt7Lmj5DkuqTvvIzor7fnoa7orqTmmK/lkKblt7LnlJ/mlYjjgIIifQ==","SeqNo":"1471002616","Sign":"2AD13DC30C226F717C7A04F071FDDF0D"}
                     //LogHelper.LogInfo("IdCardManualReviewService.Review,sb_cgiString:" + sb_cgiString.ToString());
-                    reviewResult = idCardManualReviewDAL.Review(sb_cgiString.ToString());
+                    string reviewResult = string.Empty;//{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiI5OTIyNDAyNCIsInJlc19pbmZvIjoiWzk5MjI0MDI0XeaCqOeahOaTjeS9nOW3suaPkOS6pO+8jOivt+ehruiupOaYr+WQpuW3sueUn+aViOOAgiJ9","SeqNo":"1471002616","Sign":"B97DB9D330050661066307CF7EF2CB1C"                        
+                    bool isReviewSuccess = idCardManualReviewDAL.Review(sb_cgiString.ToString(), out reviewResult);
                     LogHelper.LogInfo("IdCardManualReviewService.Review,reviewResult:" + reviewResult);
-                    //平台调用接口返回结果                
-                    var reviewResultJson = Newtonsoft.Json.JsonConvert.DeserializeObject(reviewResult) as Newtonsoft.Json.Linq.JObject;
-                    if (reviewResultJson != null && reviewResultJson.Count > 0)
+                    if (isReviewSuccess)
                     {
-                        string platCode = reviewResultJson["PlatCode"].ToString();
-                        if (platCode.Equals("0"))
+                        //平台调用接口返回结果                
+                        var reviewResultJson = Newtonsoft.Json.JsonConvert.DeserializeObject(reviewResult) as Newtonsoft.Json.Linq.JObject;
+                        if (reviewResultJson != null && reviewResultJson.Count > 0)
                         {
-                            result = true;
-                            //调用接口返回结果
-                            string retText = reviewResultJson["RetText"].ToString();
-                            string retTextDecodeBase64 = DecodeBase64(retText);
-
-                            var retTextDecodeBase64Json = Newtonsoft.Json.JsonConvert.DeserializeObject(retTextDecodeBase64) as Newtonsoft.Json.Linq.JObject;
-                            if (retTextDecodeBase64Json != null && retTextDecodeBase64Json.Count > 0)
+                            string platCode = reviewResultJson["PlatCode"].ToString();
+                            if (platCode.Equals("0"))
                             {
-                                string retTextResult = retTextDecodeBase64Json["result"].ToString();
-                                result = retTextResult.Equals("0") ? true : false;
-                                msg = retTextDecodeBase64Json["res_info"].ToString();
-                                LogHelper.LogInfo("IdCardManualReviewService.Review,retTextResult:" + retTextDecodeBase64Json.ToString());
+                                result = true;
+                                //调用接口返回结果
+                                string retText = reviewResultJson["RetText"].ToString();
+                                string retTextDecodeBase64 = DecodeBase64(retText);
+
+                                var retTextDecodeBase64Json = Newtonsoft.Json.JsonConvert.DeserializeObject(retTextDecodeBase64) as Newtonsoft.Json.Linq.JObject;
+                                if (retTextDecodeBase64Json != null && retTextDecodeBase64Json.Count > 0)
+                                {
+                                    string retTextResult = retTextDecodeBase64Json["result"].ToString();
+                                    result = retTextResult.Equals("0") ? true : false;
+                                    msg = retTextDecodeBase64Json["res_info"].ToString();
+                                    LogHelper.LogInfo("IdCardManualReviewService.Review,retTextResult:" + retTextDecodeBase64Json.ToString());
+                                }
+                            }
+                            else
+                            {
+                                result = false;
+                                msg = reviewResultJson["PlatMsg"].ToString();
                             }
                         }
-                        else
-                        {
-                            result = false;
-                            msg = reviewResultJson["PlatMsg"].ToString();
-                        }
                     }
+                    else
+                    {
+                        result = false;
+                        msg = reviewResult;
+                    }
+                    
 
 
                     //Dictionary<string,string> dic_PT = CommQuery.StringToDictionary(reviewResult,',',':', out msg);
@@ -357,7 +380,7 @@ namespace CFT.CSOMS.BLL.IdCardModule
             {
                 LogHelper.LogInfo("IdCardManualReviewService.Review:" + err.Message);
                 result = false;
-                throw new Exception(string.Format("OCR客服审核接口:{0}", err.Message));
+                msg = "审核出错：" + err.Message.ToString();                
             }
             return result;
         }
@@ -370,12 +393,10 @@ namespace CFT.CSOMS.BLL.IdCardModule
                 StringBuilder sb = new StringBuilder();
                 foreach (var item in dic)
                 {
-                    sb.Append(item.Value).Append("&");
+                    sb.Append(item.Value);
                 }
-                sb.ToString().TrimEnd('&');
-                string result = sb.ToString().TrimEnd('&');
-                sign = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(result, "md5").ToLower();
-
+                string result = ToUTF8(sb.ToString());
+                sign = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(result, "MD5").ToLower();
             }
             catch (Exception ex)
             {

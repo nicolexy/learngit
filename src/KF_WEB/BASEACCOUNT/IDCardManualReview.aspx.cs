@@ -212,7 +212,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                         string uin = dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;
                         string uid = string.Empty;// dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;                        
-                        string seq_no = Guid.NewGuid().ToString("N").Substring(0, 30);// "1147099249300000001";// dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;
+                        string seq_no = dt.Rows[0]["Fserial_number"] != null || dt.Rows[0]["Fserial_number"] != DBNull.Value ? dt.Rows[0]["Fserial_number"].ToString() : string.Empty;//Guid.NewGuid().ToString("N").Substring(0, 30);// "1147099249300000001";// 
                         string credit_spid = dt.Rows[0]["Fspid"] != null || dt.Rows[0]["Fspid"] != DBNull.Value ? dt.Rows[0]["Fspid"].ToString() : string.Empty;
                         string front_image = dt.Rows[0]["Fimage_file1"] != null || dt.Rows[0]["Fimage_file1"] != DBNull.Value ? dt.Rows[0]["Fimage_file1"].ToString() : string.Empty;
                         string back_image = dt.Rows[0]["Fimage_file2"] != null || dt.Rows[0]["Fimage_file2"] != DBNull.Value ? dt.Rows[0]["Fimage_file2"].ToString() : string.Empty;
@@ -278,7 +278,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     
                     string uin = dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;
                     string uid = string.Empty;// dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;
-                    string seq_no = Guid.NewGuid().ToString("N").Substring(0, 30); //"1147099249300000001";// dt.Rows[0]["Fuin"] != null || dt.Rows[0]["Fuin"] != DBNull.Value ? dt.Rows[0]["Fuin"].ToString() : string.Empty;
+                    string seq_no = dt.Rows[0]["Fserial_number"] != null || dt.Rows[0]["Fserial_number"] != DBNull.Value ? dt.Rows[0]["Fserial_number"].ToString() : string.Empty;//Guid.NewGuid().ToString("N").Substring(0, 30);// "1147099249300000001";// 
                     string credit_spid = dt.Rows[0]["Fspid"] != null || dt.Rows[0]["Fspid"] != DBNull.Value ? dt.Rows[0]["Fspid"].ToString() : string.Empty;
                     string front_image = dt.Rows[0]["Fimage_file1"] != null || dt.Rows[0]["Fimage_file1"] != DBNull.Value ? dt.Rows[0]["Fimage_file1"].ToString() : string.Empty;
                     string back_image = dt.Rows[0]["Fimage_file2"] != null || dt.Rows[0]["Fimage_file2"] != DBNull.Value ? dt.Rows[0]["Fimage_file2"].ToString() : string.Empty;
