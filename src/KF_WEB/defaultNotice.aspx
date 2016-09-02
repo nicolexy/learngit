@@ -114,11 +114,11 @@
             }
     </style>
     <script type="text/javascript">      
-        $(function () {           
+        $(function () {
             $("#btn_Sure").css("display", "none");
             $.ajax({
                 type: 'get',
-                url: "defaultNotice.aspx?getAction=GetCookie",
+                url: "defaultNotice.aspx?getAction=GetCookie&requestUrl=<%= Request.QueryString["requestUrl"]==null?"":Request.QueryString["requestUrl"].ToString()%>&v=123",
                 dataType: "text",
                 success: function (data) {
                     //if (data == "True") {
@@ -156,7 +156,7 @@
             $("#btn_Sure").click(function () {
                 $.ajax({
                     type: 'get',
-                    url: "defaultNotice.aspx?getAction=SetCookie",
+                    url: "defaultNotice.aspx?getAction=SetCookie&requestUrl=<%= Request.QueryString["requestUrl"]==null?"":Request.QueryString["requestUrl"].ToString()%>&v=123",
                     dataType: "text",
                     success: function (data) {
                         var dataObj = eval("(" + data + ")");
