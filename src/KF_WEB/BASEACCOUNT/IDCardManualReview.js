@@ -62,18 +62,15 @@
         var reviewCount = $("#txt_ReviewCount").numberspinner("getValue");
         var beginDate = $("#tbx_beginDate").datebox("getValue");
         var endDate = $("#txt_EndDate").datebox("getValue");
-        if (beginDate.length < 1 || beginDate==null)
-        {
+        if (beginDate.length < 1 || beginDate == null) {
             $.messager.alert("提示", "请选择开始日期", "info", null);
             return;
         }
-        else if (endDate.length < 1 || endDate==null)
-        {
+        else if (endDate.length < 1 || endDate == null) {
             $.messager.alert("提示", "请选择结束日期", "info", null);
             return;
         }
-        if (beginDate > endDate)
-        {
+        if (beginDate > endDate) {
             $.messager.alert("提示", "开始日期不能大于结束日期", "info", null);
             return;
         }
@@ -90,8 +87,7 @@
             data: datas,
             dataType: "text",
             success: function (data) {
-                if (data.length > 0)
-                {
+                if (data.length > 0) {
                     $.messager.alert('提示', data, 'Info');
                 }
             }
@@ -106,10 +102,10 @@
         };
         var divWidth = $("#div_IDCardManualReviewList").width();
         var divHeight = $("#div_IDCardManualReviewList").height();
-        
+
         $('#tb_IDCardManualReviewList').datagrid({
             width: divWidth * 99 / 100,
-            height: $(document).height() * 80 / 100,
+            height: $(document).height() * 73 / 100,
             toolbar: "toolbar",
             delay: 1000,
             mode: 'remote',
@@ -123,65 +119,63 @@
             sortOrder: ' desc ',
             showFooter: true,
             rownumbers: true,
-            singleSelect: false,
-            fitColumns: true,
+            singleSelect: true,
+            fitColumns: false,
             url: 'IDCardManualReview.aspx?getAction=LoadReview',
             queryParams: queryData,  //异步查询的参数
 
             columns: [[
                 { field: 'Fid', hidden: true },
-                { field: 'Fname', hidden: true },                
-                { field: 'Fidentitycard', hidden: true },                
+                { field: 'Fname', hidden: true },
+                { field: 'Fidentitycard', hidden: true },
                 { field: 'Fimage_path1', hidden: true },
                 { field: 'Fimage_path2', hidden: true },
                 { field: 'Fimage_file1', hidden: true },
                 { field: 'Fimage_file2', hidden: true },
                  //{ title: '', field: 'productpkid', width: $(this).width(), checkbox: true },
-                    { field: 'Fserial_number', title: '流水号', halign: 'center', align: 'left', width: $(this).width() },
-                    { field: 'Fspid', title: '商户号', halign: 'center', align: 'left', width: $(this).width() },
-                    { field: 'Fcreate_time', title: '申请时间', halign: 'center', align: 'left', width: $(this).width() },
-                     { field: 'Fuin', title: '用户帐号', halign: 'center', align: 'left', width: $(this).width() },
-                     { field: 'Fmodify_time', title: '审核时间', halign: 'center', align: 'left', width: $(this).width() },
+                    { field: 'Fserial_number', title: '流水号', halign: 'center', align: 'left', width: divWidth * 12 / 100 },
+                    { field: 'Fspid', title: '商户号', halign: 'center', align: 'left', width: divWidth * 7.5 / 100 },
+                    { field: 'Fcreate_time', title: '申请时间', halign: 'center', align: 'left', width: divWidth * 10 / 100, sortable: true },
+                     { field: 'Fuin', title: '用户帐号', halign: 'center', align: 'left', width: divWidth * 17 / 100 },
+                     { field: 'Fmodify_time', title: '审核时间', halign: 'center', align: 'left', width: divWidth * 10 / 100, sortable: true },
                      {
-                         field: 'Fstate', title: '审核状态', halign: 'center', align: 'left', width: $(this).width(),
+                         field: 'Fstate', title: '审核状态', halign: 'center', align: 'left', width: divWidth * 10 / 100, sortable: true,
                          formatter: function (value, row, index) {
-                             var Fstate = "";
+                             var span = "<span></span>";
                              if (value == "1") {
-                                 Fstate = "未领单";
+                                 span = "<span>未领单</span>";
                              }
                              else if (value == "2") {
-                                 Fstate = "已领单";
+                                 span = "<span>已领单</span>";
                              }
                              else if (value == "3") {
-                                 Fstate = "推送到实名系统失败";
+                                 span = "<span style='color:red'>推送到实名系统失败</span>";
                              }
                              else if (value == "4") {
-                                 Fstate = "推送成功";
+                                 span = "<span style='color:green'>推送成功</span>";
                              }
-                             var span = "<span>" + Fstate + "</span>";
                              return span;
                          }
                      },
                      {
-                         field: 'Fresult', title: '审核结果', halign: 'center', align: 'left', width: $(this).width(),
+                         field: 'Fresult', title: '审核结果', halign: 'center', align: 'left', width: divWidth * 5 / 100, sortable: true,
                          formatter: function (value, row, index) {
-                             var Fresult = "";
+                             var span = "<span></span>";
                              if (value == "0") {
-                                 Fresult = "未处理";
+                                 span = "<span>未处理</span>";
                              }
                              else if (value == "1") {
-                                 Fresult = "通过";
+                                 span = "<span style='color:green'>通过</span>";
                              }
                              else if (value == "2") {
-                                 Fresult = "驳回";
+                                 span = "<span style='color:red'>驳回</span>";
                              }
-                             var span = "<span>" + Fresult + "</span>";
                              return span;
                          }
                      },
-                     { field: 'Foperator', title: '处理人', halign: 'center', align: 'left', width: $(this).width() },
+                     { field: 'Foperator', title: '处理人', halign: 'center', align: 'left', width: divWidth * 7 / 100, sortable: true },
                      {
-                         field: 'Fmemo', title: '审核信息', halign: 'center', align: 'left', width: $(this).width(),
+                         field: 'Fmemo', title: '审核信息', halign: 'center', align: 'left', width: divWidth * 13 / 100,
                          formatter: function (value, row, index) {
                              var Fmemo = "";
                              if (value == "1") {
@@ -204,7 +198,7 @@
                          }
                      },
                       {
-                          field: '详细类容', title: '详细类容', halign: 'center', align: 'center', width: $(this).width(),
+                          field: '详细类容', title: '详细类容', halign: 'center', align: 'center', width: divWidth * 5 / 100,
                           formatter: function (value, row, index) {
                               var span = "";
                               if (row.Foperator == "" || row.Foperator.length < 1 || row.Foperator == "undefined") {
@@ -212,7 +206,7 @@
                               }
                               else if (row.Foperator == uid) {
                                   span = "<span><a href='#'  onclick='ReviewIdCard(" + index + ")'>详细类容</a></span>";
-                              }                              
+                              }
                               return span;
                           }
                       }
@@ -237,22 +231,26 @@
             url: "IDCardManualReview.aspx?getAction=SaveReview",
             data: postDatas,
             dataType: "text",
-            success: function (result) {
-                if (result.length > 0) {
-                    $.messager.alert("提示", result, "info", null);
-                }
-                else {
-                    $.messager.alert('提示', '操作成功', 'Info');
-                    $("#div_ReveiwIdCard").dialog("close");
-                    $("#tb_IDCardManualReviewList").datagrid("load");
-                }
+            success: function (data) {
+                var dataObj = eval("(" + data + ")");
+                $.each(dataObj, function (idx, item) {
+                    var result = item.result;
+                    var message = item.message;
+                    if (message.length > 0)
+                    {
+                        $.messager.alert('提示', message, 'Info');
+                    }                    
+                    if (result == "true" || result == "True") {
+                        $("#div_ReveiwIdCard").dialog("close");
+                        $("#tb_IDCardManualReviewList").datagrid("load");
+                    }
+                });
             }
         });
     });
     $("#a_No").click(function () {
         var selectedFmemo = $("#txt_Fmemo").combobox("getValue");
-        if (selectedFmemo == 0)
-        {
+        if (selectedFmemo == 0) {
             $.messager.alert("提示", "请选择失败原因", "info", null);
             return;
         }
@@ -269,23 +267,19 @@
             url: "IDCardManualReview.aspx?getAction=SaveReview",
             data: postDatas,
             dataType: "text",
-            success: function (result) {
-                if (result.length > 0) {
-                    $.messager.alert("提示", result, "info", null);
-                }
-                else {
-                    $.messager.alert('提示', '操作成功', 'Info');
-                    $("#div_ReveiwIdCard").dialog("close");
-                    $("#tb_IDCardManualReviewList").datagrid("load");
-                }
-                //if (data == "Success") {
-                //    $.messager.alert('提示', '操作成功', 'Info');
-                //    $("#div_ReveiwIdCard").dialog("close");
-                //    //$("#tb_LoanList").datagrid("load");
-                //}
-                //else {
-                //    $.messager.alert('提示', '操作失败', 'Info');
-                //}
+            success: function (data) {
+                var dataObj = eval("(" + data + ")");
+                $.each(dataObj, function (idx, item) {
+                    var result = item.result;
+                    var message = item.message;                    
+                    if (message.length > 0) {
+                        $.messager.alert('提示', message, 'Info');
+                    }
+                    if (result == "true" || result == "True") {
+                        $("#div_ReveiwIdCard").dialog("close");
+                        $("#tb_IDCardManualReviewList").datagrid("load");
+                    }
+                });
             }
         });
     });
@@ -303,22 +297,18 @@
             data: postDatas,
             dataType: "text",
             success: function (result) {
-                if (result.length > 0) {
-                    $.messager.alert("提示", result, "info", null);
-                }
-                else {
-                    $.messager.alert('提示', '操作成功', 'Info');
-                    $("#div_ReveiwIdCard").dialog("close");
-                    $("#tb_IDCardManualReviewList").datagrid("load");
-                }
-                //if (data == "Success") {
-                //    $.messager.alert('提示', '操作成功', 'Info');
-                //    $("#div_ReveiwIdCard").dialog("close");
-                //    //$("#tb_LoanList").datagrid("load");
-                //}
-                //else {
-                //    $.messager.alert('提示', '操作失败', 'Info');
-                //}
+                var dataObj = eval("(" + data + ")");
+                $.each(dataObj, function (idx, item) {
+                    var result = item.result;
+                    var message = item.message;
+                    if (message.length > 0) {
+                        $.messager.alert('提示', message, 'Info');
+                    }
+                    if (result == "true" || result == "True") {
+                        $("#div_ReveiwIdCard").dialog("close");
+                        $("#tb_IDCardManualReviewList").datagrid("load");
+                    }
+                });
             }
         });
     });
@@ -342,12 +332,12 @@ function ReviewIdCard(index) {
     var TableName = rows[index]["TableName"];
     var Fmemo = rows[index]["Fmemo"];
 
-    
+
 
     var tableWidth = $(document).width() * 100 / 100;
     var divHeight = $(document).height() * 100 / 100;
     $("#div_ReveiwIdCard").dialog({
-        title: '审核身份证',
+        title: '审核身份证,流水号：' + Fserial_number,
         width: tableWidth * 60 / 100,
         height: divHeight * 80 / 100,
         //resizable: true,
@@ -372,7 +362,7 @@ function ReviewIdCard(index) {
                 url: "IDCardManualReview.aspx?getAction=Decryptor",
                 data: postFname,
                 dataType: "text",
-                success: function (data) {                    
+                success: function (data) {
                     $("#lab_Fname").text(data);
                 }
             });
@@ -386,7 +376,7 @@ function ReviewIdCard(index) {
                 url: "IDCardManualReview.aspx?getAction=Decryptor",
                 data: postFidentitycard,
                 dataType: "text",
-                success: function (data) {                    
+                success: function (data) {
                     $("#lab_Fidentitycard").text(data);
                 }
             });
@@ -428,7 +418,7 @@ function ReviewIdCard(index) {
                 $("#a_Yes").hide();
                 $("#a_No").hide();
                 $("#a_ReSend").hide();
-            }            
+            }
         }
     });
     $("#div_ReveiwIdCard").window("center");
