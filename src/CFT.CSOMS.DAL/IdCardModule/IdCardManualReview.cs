@@ -373,7 +373,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
             try
             {
                 message = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI(sb_cgi.ToString(), "", out errorMsg);
-                if (!string.IsNullOrEmpty(errorMsg))
+                if (string.IsNullOrEmpty(message)||!string.IsNullOrEmpty(errorMsg))
                 {
                     LogHelper.LogInfo("IdCardManualReview.Review,message = TENCENT.OSS.C2C.Finance.Common.CommLib.commRes.GetFromCGI,错误信息:" + errorMsg);
                     result = false;
@@ -384,6 +384,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
             {
                 LogHelper.LogInfo(string.Format("IdCardManualReview.Review,请求cji地址:{0},错误信息:{1}", sb_cgi.ToString(), err.Message));
                 result = false;
+                message = err.Message.ToString();
                 //throw new Exception(string.Format("OCR客服审核接口:{0}", err.Message));
             }
             return result;
