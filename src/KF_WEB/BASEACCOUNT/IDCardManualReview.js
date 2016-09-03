@@ -236,7 +236,10 @@
                 $.each(dataObj, function (idx, item) {
                     var result = item.result;
                     var message = item.message;
-                    $.messager.alert('提示', message, 'Info');
+                    if (message.length > 0)
+                    {
+                        $.messager.alert('提示', message, 'Info');
+                    }                    
                     if (result == "true" || result == "True") {
                         $("#div_ReveiwIdCard").dialog("close");
                         $("#tb_IDCardManualReviewList").datagrid("load");
@@ -268,8 +271,10 @@
                 var dataObj = eval("(" + data + ")");
                 $.each(dataObj, function (idx, item) {
                     var result = item.result;
-                    var message = item.message;
-                    $.messager.alert('提示', message, 'Info');
+                    var message = item.message;                    
+                    if (message.length > 0) {
+                        $.messager.alert('提示', message, 'Info');
+                    }
                     if (result == "true" || result == "True") {
                         $("#div_ReveiwIdCard").dialog("close");
                         $("#tb_IDCardManualReviewList").datagrid("load");
@@ -296,7 +301,9 @@
                 $.each(dataObj, function (idx, item) {
                     var result = item.result;
                     var message = item.message;
-                    $.messager.alert('提示', message, 'Info');
+                    if (message.length > 0) {
+                        $.messager.alert('提示', message, 'Info');
+                    }
                     if (result == "true" || result == "True") {
                         $("#div_ReveiwIdCard").dialog("close");
                         $("#tb_IDCardManualReviewList").datagrid("load");

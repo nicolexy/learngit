@@ -144,57 +144,43 @@ namespace CFT.CSOMS.BLL.IdCardModule
             bool result = false;
             try
             {
-                //uid = AccountData.ConvertToFuid(uin);               
                 #region 接口签名
-                //接口签名md5($uin$uid$seq_no$credit_spid$front_image$back_image$audit_result$audit_error_des$audit_operator$audit_time$key)开发联调环境key: 1234
+                //接口签名md5($uin$seq_no$credit_spid$front_image$back_image$audit_result$audit_error_des$audit_operator$audit_time$key)开发联调环境key: 1234
                 StringBuilder sb_sign = new StringBuilder();
-                //Dictionary<string, string> dic = new Dictionary<string, string>();
-                //dic.Add("uin", uin.ToString());
                 sb_sign.Append(uin.ToString());
-                
                 if (!string.IsNullOrEmpty(seq_no))
                 {
-                    //dic.Add("seq_no", seq_no);
                     sb_sign.Append(seq_no.ToString());//seq_no
                 }
                 if (!string.IsNullOrEmpty(credit_spid))
                 {
-                    //dic.Add("credit_spid", credit_spid);
                     sb_sign.Append(credit_spid.ToString());//credit_spid
                 }
                 if (!string.IsNullOrEmpty(front_image))
                 {
-                    //dic.Add("front_image", front_image);
                     sb_sign.Append(front_image.ToString());//front_image
                 }
                 if (!string.IsNullOrEmpty(back_image))
                 {
-                    //dic.Add("back_image", back_image);
                     sb_sign.Append(back_image.ToString());//back_image
                 }
                 if (audit_result > 0)
                 {
-                    //dic.Add("audit_result", audit_result.ToString());
                     sb_sign.Append(audit_result.ToString());//audit_result
                 }
                 if (!string.IsNullOrEmpty(audit_error_des))
                 {
-                    //dic.Add("audit_error_des", audit_error_des);
                     sb_sign.Append(audit_error_des.ToString());//audit_error_des
                 }
                 if (!string.IsNullOrEmpty(audit_operator))
                 {
-                    //dic.Add("audit_operator", audit_operator);
                     sb_sign.Append(audit_operator.ToString());//audit_operator
                 }
                 if (!string.IsNullOrEmpty(audit_time))
                 {
-                    //dic.Add("audit_time", DateTime.Parse(audit_time).ToString("yyyy-MM-dd HH:mm:ss"));
                     sb_sign.Append(DateTime.Parse(audit_time).ToString("yyyy-MM-dd HH:mm:ss"));//audit_time
                 }
-
-                //dic.Add("key", "e1674ed8b2d4e12b99a06cd48368369d");//开发联调环境key: 12345
-                sb_sign.Append("e1674ed8b2d4e12b99a06cd48368369d");//key
+                sb_sign.Append("e1674ed8b2d4e12b99a06cd48368369d");//key //开发联调环境key: 12345
                 LogHelper.LogInfo("IdCardManualReviewService.Review,sb_sign:" + sb_sign.ToString());
                 string sb_sign_ToUTF8 = ToUTF8(sb_sign.ToString());
                 string sign = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_sign_ToUTF8, "MD5").ToLower();// GetReviewSign(dic); //"edf3ea3fd7d7610188acb1a7fc1433f8";
@@ -264,21 +250,24 @@ namespace CFT.CSOMS.BLL.IdCardModule
                 sb_cgiString.Append("&GateType=2");
                 sb_cgiString.Append("&OutPutType=2");
                 sb_cgiString.Append("&PlatSpid=1000077701");
-                sb_cgiString.Append("&PlatTimeStamp=" + platTimeStamp + "");//1471002616
+                sb_cgiString.Append("&PlatTimeStamp=" + platTimeStamp + "");
                 sb_cgiString.Append("&ReqText=" + reqTextStr + "");
-                sb_cgiString.Append("&SeqNo=" + seq_no + "");//1471002616
+                sb_cgiString.Append("&SeqNo=" + seq_no + "");
                 sb_cgiString.Append("&Uin=" + uin.ToString() + "");
                 sb_cgiString.Append("&Ver=1.0");
                 sb_cgiString.Append("&Sign=" + ptSign + "");
-                //sb_cgiString.Append("&Sign=dcd9708d7f1e43159462012c49afe76a");
+                //LogHelper.LogInfo("IdCardManualReviewService.Review,sb_cgiString:" + sb_cgiString.ToString());
                 #endregion
 
                 #region 调用OCR客服审核接口 并对接口返回值进行处理
-                IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
-                //调用接口平台返回格式，业务逻辑返回包含在RetText中,将RetText用Base64解码得到业务逻辑返回结果
-                //{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiIxOTQ5MDIwMDA0IiwicmVzX2luZm8iOiJbMTk0OTAyMDAwNF3mgqjnmoTmk43kvZzlt7Lmj5DkuqTvvIzor7fnoa7orqTmmK/lkKblt7LnlJ/mlYjjgIIifQ==","SeqNo":"1471002616","Sign":"2AD13DC30C226F717C7A04F071FDDF0D"}
-                //LogHelper.LogInfo("IdCardManualReviewService.Review,sb_cgiString:" + sb_cgiString.ToString());
-                string reviewResult = string.Empty;//{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiI5OTIyNDAyNCIsInJlc19pbmZvIjoiWzk5MjI0MDI0XeaCqOeahOaTjeS9nOW3suaPkOS6pO+8jOivt+ehruiupOaYr+WQpuW3sueUn+aViOOAgiJ9","SeqNo":"1471002616","Sign":"B97DB9D330050661066307CF7EF2CB1C"                        
+                IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();                
+                
+                //调用平台接口返回结果 
+                //{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiIxOTQ5MDIwMDA0IiwicmVzX2luZm8iOiJbMTk0OTAyMDAwNF3mgqjnmoTmk43kvZzlt7Lmj5DkuqTvvIzor7fnoa7orqTmmK/lkKblt7LnlJ/mlYjjgIIifQ==","SeqNo":"1471002616","Sign":"2AD13DC30C226F717C7A04F071FDDF0D"}                
+                //当PlatCode=0时表示调用金融网关接口成功，业务逻辑返回包含在RetText中,将RetText用Base64解码得到业务逻辑返回结果
+                //当PlatCode>0时表示调用金融网关接口失败，PlatMsg为调用失败的原因
+                
+                string reviewResult = string.Empty;
                 bool isReviewSuccess = idCardManualReviewDAL.Review(sb_cgiString.ToString(), out reviewResult);
                 LogHelper.LogInfo("IdCardManualReviewService.Review,reviewResult:" + reviewResult);
                 if (isReviewSuccess)
@@ -289,10 +278,13 @@ namespace CFT.CSOMS.BLL.IdCardModule
                     {
                         string platCode = reviewResultJson["PlatCode"].ToString();
                         if (platCode.Equals("0"))
-                        {
-                            result = true;
+                        {                            
                             //调用接口返回结果
                             string retText = reviewResultJson["RetText"].ToString();
+                            //将RetText用Base64解码得到业务逻辑返回结果
+                            //返回格式:{"result":"0","res_info":"ok"}                
+                            //当result=0时表示业务处理成功
+                            //当result!=0时表示业务处理失败,res_info为失败原因
                             string retTextDecodeBase64 = DecodeBase64(retText);
 
                             var retTextDecodeBase64Json = Newtonsoft.Json.JsonConvert.DeserializeObject(retTextDecodeBase64) as Newtonsoft.Json.Linq.JObject;
@@ -300,14 +292,14 @@ namespace CFT.CSOMS.BLL.IdCardModule
                             {
                                 string retTextResult = retTextDecodeBase64Json["result"].ToString();
                                 result = retTextResult.Equals("0") ? true : false;
-                                msg = retTextDecodeBase64Json["res_info"].ToString();
+                                msg = retTextResult.Equals("0") ? "审核成功,实名认证系统更新成功。" : ("实名认证系统更新失败:" + retTextDecodeBase64Json["res_info"].ToString());
                                 LogHelper.LogInfo("IdCardManualReviewService.Review,retTextResult:" + retTextDecodeBase64Json.ToString());
                             }
                         }
                         else
                         {
                             result = false;
-                            msg = reviewResultJson["PlatMsg"].ToString();
+                            msg ="调用金融网关fcgi接口失败:"+ reviewResultJson["PlatMsg"].ToString();
                         }
                     }
                 }
@@ -316,57 +308,6 @@ namespace CFT.CSOMS.BLL.IdCardModule
                     result = false;
                     msg = reviewResult;
                 }
-
-
-
-                //Dictionary<string,string> dic_PT = CommQuery.StringToDictionary(reviewResult,',',':', out msg);
-                //if (dic_PT != null && dic_PT.Count>0)
-                //{
-                //    if (dic_PT.Keys.Contains("PlatCode"))
-                //    {
-                //      string platCode=dic_PT["PlatCode"].ToString();
-                //      if (platCode.Equals("0"))
-                //      {
-                //          result = true;
-                //          if (dic_PT.Keys.Contains("RetText"))
-                //          {
-                //              //调用接口返回结果
-                //              string retText = dic_PT["RetText"].ToString();
-                //              string retTextDecodeBase64 = DecodeBase64(retText);
-                //              Dictionary<string, string> dic_RetText = CommQuery.StringToDictionary(retTextDecodeBase64, ',', ':', out msg);
-                //              if (dic_RetText != null && dic_RetText.Count > 0)
-                //              {
-                //                  if (dic_RetText.Keys.Contains("result"))
-                //                  {
-                //                      string retTextResult = dic_RetText["result"].ToString();
-                //                      result = retTextResult.Equals("0") ? true : false;
-                //                      msg = dic_RetText["res_info"].ToString();
-                //                  }
-                //              }                                                            
-                //          }
-                //      }
-                //      else
-                //      {
-                //          result = false;
-                //          msg = dic_PT["PlatMsg"].ToString();
-                //      }
-                //    }
-                //}
-
-
-                //string platCode = reviewResult.Split(',')[0];
-                //string platCodeResult = platCode.Substring(platCode.IndexOf("=") + 1);
-                //if (!string.IsNullOrEmpty(platCodeResult) && platCodeResult.Equals("0"))
-                //{
-                //    result = true;
-                //    string RetText = reviewResult.Split(',')[2];
-                //    string RetTextResult = RetText.Substring(RetText.IndexOf("=") + 1);
-                //}
-                //else
-                //{
-                //    result = false;
-                //    msg = "调用OCR客服审核接口失败,请联系客服人员r。";
-                //}
                 #endregion
             }
             catch (Exception err)
@@ -384,58 +325,44 @@ namespace CFT.CSOMS.BLL.IdCardModule
             msg = "";
             bool result = false;
             try
-            {
-                //uid = AccountData.ConvertToFuid(uin);               
+            {                           
                 #region 接口签名
-                //接口签名md5($uin$uid$seq_no$credit_spid$front_image$back_image$audit_result$audit_error_des$audit_operator$audit_time$key)开发联调环境key: 1234
+                //接口签名md5($uin$seq_no$credit_spid$front_image$back_image$audit_result$audit_error_des$audit_operator$audit_time$key)开发联调环境key: 1234
                 StringBuilder sb_sign = new StringBuilder();
-                //Dictionary<string, string> dic = new Dictionary<string, string>();
-                //dic.Add("uin", uin.ToString());
                 sb_sign.Append(uin.ToString());
-
                 if (!string.IsNullOrEmpty(seq_no))
                 {
-                    //dic.Add("seq_no", seq_no);
                     sb_sign.Append(seq_no.ToString());//seq_no
                 }
                 if (!string.IsNullOrEmpty(credit_spid))
                 {
-                    //dic.Add("credit_spid", credit_spid);
                     sb_sign.Append(credit_spid.ToString());//credit_spid
                 }
                 if (!string.IsNullOrEmpty(front_image))
                 {
-                    //dic.Add("front_image", front_image);
                     sb_sign.Append(front_image.ToString());//front_image
                 }
                 if (!string.IsNullOrEmpty(back_image))
                 {
-                    //dic.Add("back_image", back_image);
                     sb_sign.Append(back_image.ToString());//back_image
                 }
                 if (audit_result > 0)
                 {
-                    //dic.Add("audit_result", audit_result.ToString());
                     sb_sign.Append(audit_result.ToString());//audit_result
                 }
                 if (!string.IsNullOrEmpty(audit_error_des))
                 {
-                    //dic.Add("audit_error_des", audit_error_des);
                     sb_sign.Append(audit_error_des.ToString());//audit_error_des
                 }
                 if (!string.IsNullOrEmpty(audit_operator))
                 {
-                    //dic.Add("audit_operator", audit_operator);
                     sb_sign.Append(audit_operator.ToString());//audit_operator
                 }
                 if (!string.IsNullOrEmpty(audit_time))
                 {
-                    //dic.Add("audit_time", DateTime.Parse(audit_time).ToString("yyyy-MM-dd HH:mm:ss"));
                     sb_sign.Append(DateTime.Parse(audit_time).ToString("yyyy-MM-dd HH:mm:ss"));//audit_time
-                }
-
-                //dic.Add("key", "e1674ed8b2d4e12b99a06cd48368369d");//开发联调环境key: 12345
-                sb_sign.Append("e1674ed8b2d4e12b99a06cd48368369d");//key
+                }                
+                sb_sign.Append("e1674ed8b2d4e12b99a06cd48368369d");//key //开发联调环境key: 12345
                 LogHelper.LogInfo("IdCardManualReviewService.Review,sb_sign:" + sb_sign.ToString());
                 string sb_sign_ToUTF8 = ToUTF8(sb_sign.ToString());
                 string sign = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_sign_ToUTF8, "MD5").ToLower();// GetReviewSign(dic); //"edf3ea3fd7d7610188acb1a7fc1433f8";
@@ -505,97 +432,63 @@ namespace CFT.CSOMS.BLL.IdCardModule
                 sb_cgiString.Append("&GateType=2");
                 sb_cgiString.Append("&OutPutType=2");
                 sb_cgiString.Append("&PlatSpid=1000077701");
-                sb_cgiString.Append("&PlatTimeStamp=" + platTimeStamp + "");//1471002616
+                sb_cgiString.Append("&PlatTimeStamp=" + platTimeStamp + "");
                 sb_cgiString.Append("&ReqText=" + reqTextStr + "");
-                sb_cgiString.Append("&SeqNo=" + seq_no + "");//1471002616
+                sb_cgiString.Append("&SeqNo=" + seq_no + "");
                 sb_cgiString.Append("&Uin=" + uin.ToString() + "");
                 sb_cgiString.Append("&Ver=1.0");
                 sb_cgiString.Append("&Sign=" + ptSign + "");
-                //sb_cgiString.Append("&Sign=dcd9708d7f1e43159462012c49afe76a");
+                //LogHelper.LogInfo("IdCardManualReviewService.Review,sb_cgiString:" + sb_cgiString.ToString());
                 #endregion
 
                 #region 调用OCR客服审核接口 并对接口返回值进行处理
                 IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
-                //调用接口平台返回格式，业务逻辑返回包含在RetText中,将RetText用Base64解码得到业务逻辑返回结果
-                //{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiIxOTQ5MDIwMDA0IiwicmVzX2luZm8iOiJbMTk0OTAyMDAwNF3mgqjnmoTmk43kvZzlt7Lmj5DkuqTvvIzor7fnoa7orqTmmK/lkKblt7LnlJ/mlYjjgIIifQ==","SeqNo":"1471002616","Sign":"2AD13DC30C226F717C7A04F071FDDF0D"}
-                //LogHelper.LogInfo("IdCardManualReviewService.Review,sb_cgiString:" + sb_cgiString.ToString());
-                string reviewResult = string.Empty;//{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiI5OTIyNDAyNCIsInJlc19pbmZvIjoiWzk5MjI0MDI0XeaCqOeahOaTjeS9nOW3suaPkOS6pO+8jOivt+ehruiupOaYr+WQpuW3sueUn+aViOOAgiJ9","SeqNo":"1471002616","Sign":"B97DB9D330050661066307CF7EF2CB1C"                        
+                //调用平台接口返回结果 
+                //{"PlatCode":"0","PlatMsg":"Request Accepted","RetText":"eyJyZXN1bHQiOiIxOTQ5MDIwMDA0IiwicmVzX2luZm8iOiJbMTk0OTAyMDAwNF3mgqjnmoTmk43kvZzlt7Lmj5DkuqTvvIzor7fnoa7orqTmmK/lkKblt7LnlJ/mlYjjgIIifQ==","SeqNo":"1471002616","Sign":"2AD13DC30C226F717C7A04F071FDDF0D"}                
+                //当PlatCode=0时表示调用金融网关接口成功，业务逻辑返回包含在RetText中,将RetText用Base64解码得到业务逻辑返回结果
+                //当PlatCode>0时表示调用金融网关接口失败，PlatMsg为调用失败的原因
+                
+                string reviewResult = string.Empty;
                 reviewResult = idCardManualReviewDAL.ReviewByRelay(sb_cgiString.ToString());
                 LogHelper.LogInfo("IdCardManualReviewService.Review,reviewResult:" + reviewResult);
-                //平台调用接口返回结果                
-                var reviewResultJson = Newtonsoft.Json.JsonConvert.DeserializeObject(reviewResult) as Newtonsoft.Json.Linq.JObject;
-                if (reviewResultJson != null && reviewResultJson.Count > 0)
-                {                    
-                    string platCode = reviewResultJson["PlatCode"].ToString();
-                    if (platCode.Equals("0"))
-                    {                        
-                        //调用接口返回结果
-                        string retText = reviewResultJson["RetText"].ToString();
-                        string retTextDecodeBase64 = DecodeBase64(retText);
-
-                        var retTextDecodeBase64Json = Newtonsoft.Json.JsonConvert.DeserializeObject(retTextDecodeBase64) as Newtonsoft.Json.Linq.JObject;
-                        if (retTextDecodeBase64Json != null && retTextDecodeBase64Json.Count > 0)
-                        {
-                            string retTextResult = retTextDecodeBase64Json["result"].ToString();
-                            result = retTextResult.Equals("0") ? true : false;
-                            msg = retTextDecodeBase64Json["res_info"].ToString();
-                            LogHelper.LogInfo("IdCardManualReviewService.Review,retTextResult:" + retTextDecodeBase64Json.ToString());
-                        }
-                    }
-                    else
+                if (!string.IsNullOrEmpty(reviewResult))
+                {
+                    //平台调用接口返回结果                
+                    var reviewResultJson = Newtonsoft.Json.JsonConvert.DeserializeObject(reviewResult) as Newtonsoft.Json.Linq.JObject;
+                    if (reviewResultJson != null && reviewResultJson.Count > 0)
                     {
-                        result = false;
-                        msg = reviewResultJson["PlatMsg"].ToString();
-                    }
+                        string platCode = reviewResultJson["PlatCode"].ToString();
+                        if (platCode.Equals("0"))
+                        {
+                            //调用接口返回结果
+                            string retText = reviewResultJson["RetText"].ToString();
+                            //将RetText用Base64解码得到业务逻辑返回结果
+                            //返回格式:{"result":"0","res_info":"ok"}                
+                            //当result=0时表示业务处理成功
+                            //当result!=0时表示业务处理失败,res_info为失败原因
+                            string retTextDecodeBase64 = DecodeBase64(retText);
+
+                            var retTextDecodeBase64Json = Newtonsoft.Json.JsonConvert.DeserializeObject(retTextDecodeBase64) as Newtonsoft.Json.Linq.JObject;
+                            if (retTextDecodeBase64Json != null && retTextDecodeBase64Json.Count > 0)
+                            {
+                                string retTextResult = retTextDecodeBase64Json["result"].ToString();
+                                result = retTextResult.Equals("0") ? true : false;
+                                msg = retTextResult.Equals("0") ? "审核成功,实名认证系统更新成功。" : ("实名认证系统更新失败:" + retTextDecodeBase64Json["res_info"].ToString());
+                                LogHelper.LogInfo("IdCardManualReviewService.Review,retTextResult:" + retTextDecodeBase64Json.ToString());
+                            }
+                        }
+                        else
+                        {
+                            result = false;
+                            msg = "调用金融网关fcgi接口失败:" + reviewResultJson["PlatMsg"].ToString();
+                        }
+                    }                    
                 }
-                //Dictionary<string,string> dic_PT = CommQuery.StringToDictionary(reviewResult,',',':', out msg);
-                //if (dic_PT != null && dic_PT.Count>0)
-                //{
-                //    if (dic_PT.Keys.Contains("PlatCode"))
-                //    {
-                //      string platCode=dic_PT["PlatCode"].ToString();
-                //      if (platCode.Equals("0"))
-                //      {
-                //          result = true;
-                //          if (dic_PT.Keys.Contains("RetText"))
-                //          {
-                //              //调用接口返回结果
-                //              string retText = dic_PT["RetText"].ToString();
-                //              string retTextDecodeBase64 = DecodeBase64(retText);
-                //              Dictionary<string, string> dic_RetText = CommQuery.StringToDictionary(retTextDecodeBase64, ',', ':', out msg);
-                //              if (dic_RetText != null && dic_RetText.Count > 0)
-                //              {
-                //                  if (dic_RetText.Keys.Contains("result"))
-                //                  {
-                //                      string retTextResult = dic_RetText["result"].ToString();
-                //                      result = retTextResult.Equals("0") ? true : false;
-                //                      msg = dic_RetText["res_info"].ToString();
-                //                  }
-                //              }                                                            
-                //          }
-                //      }
-                //      else
-                //      {
-                //          result = false;
-                //          msg = dic_PT["PlatMsg"].ToString();
-                //      }
-                //    }
-                //}
-
-
-                //string platCode = reviewResult.Split(',')[0];
-                //string platCodeResult = platCode.Substring(platCode.IndexOf("=") + 1);
-                //if (!string.IsNullOrEmpty(platCodeResult) && platCodeResult.Equals("0"))
-                //{
-                //    result = true;
-                //    string RetText = reviewResult.Split(',')[2];
-                //    string RetTextResult = RetText.Substring(RetText.IndexOf("=") + 1);
-                //}
-                //else
-                //{
-                //    result = false;
-                //    msg = "调用OCR客服审核接口失败,请联系客服人员r。";
-                //}
+                else
+                {
+                    result = false;
+                    msg = "调用金融网关fcgi接口失败" ;
+                }                
                 #endregion
             }
             catch (Exception err)
