@@ -296,7 +296,7 @@
             url: "IDCardManualReview.aspx?getAction=ReSend",
             data: postDatas,
             dataType: "text",
-            success: function (result) {
+            success: function (data) {
                 var dataObj = eval("(" + data + ")");
                 $.each(dataObj, function (idx, item) {
                     var result = item.result;
