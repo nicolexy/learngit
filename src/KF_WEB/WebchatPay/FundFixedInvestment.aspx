@@ -130,6 +130,7 @@
                 <asp:BoundColumn DataField="Flstate" HeaderText="计划状态" />
                 <asp:BoundColumn DataField="Fbank_type" HeaderText="银行类型" />
                 <asp:BoundColumn DataField="Fcard_tail" HeaderText="卡尾号" />
+                 <asp:BoundColumn DataField="Fcease_reason" HeaderText="失败原因" />
                 <asp:ButtonColumn Text="其他" CommandName="other" />
                 <asp:ButtonColumn Text="还款记录" CommandName="KKrecord" />
             </Columns>
