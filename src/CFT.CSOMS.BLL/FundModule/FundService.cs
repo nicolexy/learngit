@@ -1458,12 +1458,16 @@ namespace CFT.CSOMS.BLL.FundModule
                                     Fstate == "2" ? "终止" :
                                     "未知:" + Fstate;
 
-                    //string Fcease_reason = dr["Fcease_reason"].ToString();
-                    //dr["Fcease_reason"] = Fcease_reason == "0" ? "没有终止" :
-                    //                Fcease_reason == "1" ? "用户终止" :
-                    //                Fcease_reason == "2" ? "到期终止" :
-                    //                Fcease_reason == "3" ? "连续多期提现失败终止" :
-                    //                "未知:" + Fcease_reason;
+                    string Fcease_reason = dr["Fcease_reason"].ToString();
+                    dr["Fcease_reason"] = Fcease_reason == "0" ? "没有终止" :
+                                    Fcease_reason == "1" ? "用户终止" :
+                                    Fcease_reason == "2" ? "到期终止" :
+                                    Fcease_reason == "3" ? "连续多期提现失败终止" :
+                                    Fcease_reason == "4" ? "提现资金不足终止" :
+                                    Fcease_reason == "5" ? "余额不足终止" :
+                                    Fcease_reason == "6" ? "提前还款" :
+                                    Fcease_reason == "7" ? "超过赎回时间" :
+                                    "未知:" + Fcease_reason;
 
                     string Fbussi_type = dr["Fbussi_type"].ToString();
                     dr["Fbussi_type"] =  Fbussi_type == "1" ? "借记卡类还款（房贷）" :

@@ -210,56 +210,62 @@ namespace TENCENT.OSS.CFT.KF.Common
 				//加入所有的权限。
 
 
-                rights[80] = new OneRight("BankClassifyInfo", 80, "银行分类信息");
-                rights[86] = new OneRight("FCXGAccountPassWordReset", 86, "外币账户重置密码");
-                rights[23] = new OneRight("InfoCenter", 23, "基础信息管理");
-                rights[24] = new OneRight("PayManagement", 24, "支付管理 ");
-                rights[25] = new OneRight("TradeManagement", 25, "交易管理");
-                rights[26] = new OneRight("SPInfoManagement", 26, "商户信息管理");
-                rights[27] = new OneRight("SystemManagement", 27, "系统管理");
-                rights[28] = new OneRight("ShowIDCrad", 28, "身份证查询");
+                rights[181] = new OneRight("BankClassifyInfo", 181, "银行分类信息");
+                rights[182] = new OneRight("FCXGAccountPassWordReset", 182, "外币账户重置密码");
+                rights[176] = new OneRight("InfoCenter", 176, "基础信息管理");
+                rights[177] = new OneRight("PayManagement", 177, "支付管理 ");
+                rights[178] = new OneRight("TradeManagement", 178, "交易管理");
+                rights[179] = new OneRight("SPInfoManagement", 179, "商户信息管理");
+                rights[180] = new OneRight("SystemManagement", 180, "系统管理");
+                rights[196] = new OneRight("ShowIDCrad", 196, "身份证查询");
 				rights[18] = new OneRight("UserReport",18,"意见投诉");
 				rights[19] = new OneRight("HistoryModify",19,"资料修改历史");
 				rights[81] = new OneRight("FreezeUser",81,"冻结帐户按钮");
 				rights[82] = new OneRight("FreezeBalance",82,"冻结可用余额按钮");
 				rights[85] = new OneRight("LockTradeList",85,"锁定交易单按钮");
-				rights[181] = new OneRight("UnFreezeUser",87,"解冻帐户按钮");
-				rights[185] = new OneRight("UnLockTradeList",88,"解锁交易单按钮");
-				rights[21] = new OneRight("CFTUserPick",21,"财付通自助申诉处理");
-                rights[155] = new OneRight("CFTUserPickQuer", 155, "财付通自助申诉处理查询");//二级权限 查询记录及1000元金额以下审批
+				rights[183] = new OneRight("UnFreezeUser",183,"解冻帐户按钮");
+				rights[184] = new OneRight("UnLockTradeList",184,"解锁交易单按钮");
+                rights[195] = new OneRight("CFTUserPick", 195, "财付通自助申诉处理");
+                rights[192] = new OneRight("CFTUserPickQuer", 192, "财付通自助申诉处理查询");//二级权限 查询记录及1000元金额以下审批
 
-                rights[161] = new OneRight("NameAbnormalCheck", 161, "姓名异常审批");
-                rights[165] = new OneRight("ClearMobileNumber", 165, "手机号码清理");
-				rights[110] = new OneRight("DrawAndApprove",110,"自助商户领单和审核");
-				rights[90] = new OneRight("DeleteCrt",90,"删除个人证书");
+                rights[206] = new OneRight("NameAbnormalCheck", 206, "姓名异常审批");
+                rights[208] = new OneRight("ClearMobileNumber", 208, "手机号码清理");
+                rights[191] = new OneRight("DrawAndApprove", 191, "自助商户领单和审核");
+                rights[199] = new OneRight("DeleteCrt", 199, "删除个人证书");
                 rights[150] = new OneRight("MobileConfig", 150, "手机分流配置");
                 rights[151] = new OneRight("BussComplain", 151, "商户投诉新增修改");
                 rights[152] = new OneRight("LCTQuery", 152, "理财通查询");
-                rights[153] = new OneRight("BalanceControl", 153, "理财通余额控制");
+                rights[204] = new OneRight("BalanceControl", 204, "理财通余额控制");
                 
                 //lxl 20140731
-                rights[154] = new OneRight("UnFinanceControl", 154, "资金受控解控");
+                rights[205] = new OneRight("UnFinanceControl", 205, "资金受控解控");
 
-                rights[91] = new OneRight("UnFreezeChannelFK", 91, "解冻风控冻结渠道");
-                rights[92] = new OneRight("UnFreezeChannelPP", 92, "解冻拍拍冻结渠道");
-                rights[93] = new OneRight("UnFreezeChannelYH", 93, "解冻用户冻结渠道");
-                rights[94] = new OneRight("UnFreezeChannelSH", 94, "解冻商户冻结渠道");
-                rights[95] = new OneRight("UnFreezeChannelBG", 95, "解冻BG接口冻结渠道");
+                rights[185] = new OneRight("UnFreezeChannelFK", 185, "解冻风控冻结渠道");
+                rights[186] = new OneRight("UnFreezeChannelPP", 186, "解冻拍拍冻结渠道");
+                rights[187] = new OneRight("UnFreezeChannelYH", 187, "解冻用户冻结渠道");
+                rights[188] = new OneRight("UnFreezeChannelSH", 188, "解冻商户冻结渠道");
+                rights[189] = new OneRight("UnFreezeChannelBG", 189, "解冻BG接口冻结渠道");
 
-                rights[96] = new OneRight("ModifyFundPayCard", 96, "理财通安全卡解绑");
-                rights[97] = new OneRight("ModifyFundPayCardByCS", 97, "理财通安全卡解绑(客服)");
-                rights[99] = new OneRight("InternetBankRefund", 99, "网银提交账务退款");
-                rights[156] = new OneRight("PayBusinessCMD", 162, "网银提交账务退款");
-                rights[166] = new OneRight("RefundCheck", 166, "退款登记");
+                rights[200] = new OneRight("ModifyFundPayCard", 200, "理财通安全卡解绑");
+                rights[201] = new OneRight("ModifyFundPayCardByCS", 201, "理财通安全卡解绑(客服)");
+                rights[202] = new OneRight("InternetBankRefund", 202, "网银提交账务退款");
+                rights[162] = new OneRight("PayBusinessCMD", 162, "网银提交账务退款");
+                rights[193] = new OneRight("RefundCheck", 193, "退款登记");
 
-                rights[102] = new OneRight("RefundMerchantCheck", 102, "退款商户录入");
-                rights[20] = new OneRight("BatchCancellation", 20, "批量注销");
+                rights[203] = new OneRight("RefundMerchantCheck", 203, "退款商户录入");
+                rights[194] = new OneRight("BatchCancellation", 194, "批量注销");
                 //增加代扣调整按钮权限
-                rights[31] = new OneRight("DKAdjust", 31, "代扣调整状态");
+                rights[198] = new OneRight("DKAdjust", 198, "代扣调整状态");
 
                 rights[169] = new OneRight("RealNameCertification", 169, "实名认证白名单设置");
 
                 rights[170] = new OneRight("IceOutPPSecurityMoney", 170, "解冻拍拍保证金订单");
+                rights[171] = new OneRight("LCTMenu", 171, "理财通菜单");
+                rights[172] = new OneRight("HandQMenu", 172, "手Q支付菜单");
+                rights[173] = new OneRight("CreditQueryMenu", 173, "信用卡还款菜单");
+                rights[174] = new OneRight("FastPayMenu", 174, "快捷支付菜单");
+                rights[175] = new OneRight("TencentbusinessMenu", 175, "购买公司业务菜单");
+
                 rights[196] = new OneRight("SensitiveRole", 196, "敏感权限");
 				ht = new Hashtable(RIGHTCOUNT);
 				for(int i=0 ; i< RIGHTCOUNT; i++)
