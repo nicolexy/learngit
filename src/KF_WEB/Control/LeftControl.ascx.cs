@@ -44,7 +44,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
         protected CreditPayControl CreditPayControl1;
         protected WebchatPayControl WebchatPayControl1;
         protected FundControl FundControl1;
-        
+
         protected TravelPlatform TravelPlatform1;
         protected ForeignCurrencyPay ForeignCurrencyPay1;
         protected ForeignCurrencyAccount ForeignCurrencyAccount1;
@@ -70,89 +70,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             if (!this.IsPostBack)
             {
                 InitAllMenu();
-
-                try
-                {
-                    SysManage1.Visible = true;
-                    //ActivityCooperation1.Visible = true;
-                    baseAccount1.Visible = false;
-                    accountOperate1.Visible = false;
-                    tradeManage1.Visible = false;
-                    accountManage1.Visible = false;
-                    RiskConManage1.Visible = true;
-                    OverseasPay1.Visible = true;
-                    TravelPlatform1.Visible = true;
-
-
-                    AccountLedgerManage1.Visible = true;
-                    AccountOperaManage1.Visible = true;
-                    BankBillManage1.Visible = true;
-                    //FastPay1.Visible = true;
-                    FundAccountManage1.Visible = true;
-                    LifeFeeDetailManage1.Visible = true;
-                    MicroPay1.Visible = true;
-                    ForeignCurrencyPay1.Visible = true;
-                    ForeignCardPay1.Visible = true;
-                    ForeignCurrencyAccount1.Visible = true;
-                    NameAuthened1.Visible = true;
-                    SelfHelpAppealManage1.Visible = true;
-                    //VIPAccountManage.Visible = true;
-
-                    DKManageControl1.Visible = true;
-                    DFManageControl1.Visible = true;
-
-                    CreditPayControl1.Visible = true;
-                    WebchatPayControl1.Visible = true;
-                    PNRQuery1.Visible = true;
-
-                    if (classLibrary.getData.IsTestMode)
-                    {
-                        FreezeManage1.Visible = true;
-                        SpecialManageControl1.Visible = true;
-                    }
-                    else
-                    {
-                        FreezeManage1.Visible = false;
-                        SpecialManageControl1.Visible = false;
-                    }
-
-
-                    string szkey = Session["SzKey"].ToString();
-                    //int operid = Int32.Parse(Session["OperID"].ToString());
-
-                    //if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "baseAccount"))
-                    if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
-                    {
-                        baseAccount1.Visible = true;
-                        accountOperate1.Visible = true;
-                        //accountManage1.Visible = true;
-                    }
-
-                    if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("PayManagement", this))  //支付管理下的菜单，都需要申请该权限
-                    {
-                        WebchatPayControl1.Visible=false;
-                        FundControl1.Visible = false;
-                        //FastPay1.Visible=false;
-                        CreditPayControl1.Visible=false;
-                        OverseasPay1.Visible=false;
-                        MicroPay1.Visible=false;
-                        ForeignCurrencyPay1.Visible=false;
-                        ForeignCardPay1.Visible=false;
-                        HandQBusiness.Visible = false;
-                    }
-
-                    //if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "tradeManage"))
-                    if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("TradeManagement", this))
-                    {
-                        tradeManage1.Visible = true;
-                    }
-                    //TokenCoin1.Visible = true;
-                }
-                catch (Exception ex)
-                {
-                    //				Response.Redirect("连接超时！");
-                    string str = ex.Message;
-                }
             }
         }
 
@@ -183,6 +100,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             #region 基础信息管理
             if (classLibrary.ClassLib.ValidateRight("InfoCenter", this))
             {
+                baseAccount1.Visible = true;
+                NameAuthened1.Visible = true;
+                accountOperate1.Visible = true;
+                SelfHelpAppealManage1.Visible = true;
+                RiskConManage1.Visible = true;
+                FundAccountManage1.Visible = true;
+                WebchatPayControl1.Visible = true;
+
+                baseAccount1.AddSubMenu("个人账户信息", "BaseAccount/InfoCenter.aspx");
+                baseAccount1.AddSubMenu("QQ帐号回收", "BaseAccount/QQReclaim.aspx");
+                baseAccount1.AddSubMenu("受控资金查询", "TradeManage/UserControledFundPage.aspx");
+                baseAccount1.AddSubMenu("手机绑定查询", "TradeManage/MobileBindingQuery.aspx");
+                baseAccount1.AddSubMenu("腾讯信用查询", "BaseAccount/TencentCreditQuery.aspx");
+                baseAccount1.AddSubMenu("银行账号信息", "BaseAccount/UserBankInfoQuery.aspx");
+                baseAccount1.AddSubMenu("个人信息", "BaseAccount/ChangeUserInfo.aspx");
+
+                accountOperate1.AddSubMenu("账户姓名修改", "BaseAccount/changeUserName_2.aspx");
+                accountOperate1.AddSubMenu("证件号码清理", "BaseAccount/ClearCreidNew.aspx");
+                accountOperate1.AddSubMenu("财付通帐号恢复", "BaseAccount/RecoverQQ.aspx");
+                accountOperate1.AddSubMenu("帐户销户记录", "BaseAccount/logOnUser.aspx");
+                accountOperate1.AddSubMenu("批量注销", "BaseAccount/logOnUserBatch.aspx");
+                accountOperate1.AddSubMenu("帐户QQ修改", "BaseAccount/ChangeQQOld.aspx");
+                accountOperate1.AddSubMenu("提现单拦截", "BaseAccount/FetchListIntercept.aspx");
+                accountOperate1.AddSubMenu("微信支付账户注销", "BaseAccount/logOnWxAccount.aspx");
 
                 SelfHelpAppealManage1.AddSubMenu("我发起的审批", "BaseAccount/StartCheck.aspx");
                 SelfHelpAppealManage1.AddSubMenu("客服统计查询", "BaseAccount/KFTotalQuery.aspx");
@@ -192,45 +133,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 }
                 SelfHelpAppealManage1.AddSubMenu("自助申诉查询", "BaseAccount/CFTUserAppeal.aspx");
 
+                RiskConManage1.AddSubMenu("二次登录密码撤销", "Trademanage/SuspendSecondPasseword.aspx");
+                RiskConManage1.AddSubMenu("资金流水查询", "BaseAccount/BankrollHistoryLog.aspx");
+                RiskConManage1.AddSubMenu("风控解冻审核", "FreezeManage/FreezeQuery.aspx");
+                RiskConManage1.AddSubMenu("特殊申诉处理", "FreezeManage/FreezeNewQuery.aspx");
+                RiskConManage1.AddSubMenu("报表统计输出", "FreezeManage/FreezeCount.aspx");
+                RiskConManage1.AddSubMenu("手机绑定数清理", "BaseAccount/ClearMobileNumber.aspx");
+                if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("DeleteCrt", this))
+                {
+                    RiskConManage1.AddSubMenu("个人证书管理", "Trademanage/CrtQuery.aspx");
+                }
+                //FreezeList
+                RiskConManage1.AddSubMenu("财付盾查询", "BaseAccount/CFDQuery.aspx");
+                RiskConManage1.AddSubMenu("手机令牌", "Trademanage/MobileTokenQuery.aspx");
+                RiskConManage1.AddSubMenu("冻结操作查询", "BaseAccount/FreezeList.aspx");
+                RiskConManage1.AddSubMenu("冻结资金记录", "BaseAccount/FreezeFinQuery.aspx");
+                RiskConManage1.AddSubMenu("冻结资金查询(新）", "BaseAccount/FreezeFinQuery2.aspx");
+                if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("IceOutPPSecurityMoney", this))
+                {
+                    RiskConManage1.AddSubMenu("拍拍保证金解冻", "Trademanage/IceOutPPSecurityMoney.aspx");
+                }
+                // RiskConManage1.AddSubMenu("提现冻结资金查询", "BaseAccount/CashOutFreezeQuery.aspx");   该功能下线，2016-01-05 darrenran
 
-                SysManage1.AddSubMenu("系统公告管理", "SysManage/SysBulletinManage.aspx");
-                SysManage1.AddSubMenu("银行接口维护管理", "SysManage/BankInterfaceManage.aspx");
-                SysManage1.AddSubMenu("银行分类信息管理", "SysManage/BankClassifyManage.aspx");
-
-                BGBatchMenuControl.Title = "BG批量处理";
-                BGBatchMenuControl.AddSubMenu("历史订单迁移", "TradeManage/OrderMigration.aspx");
-                BGBatchMenuControl.AddSubMenu("历史交易单迁移", "TradeManage/TradeMigration.aspx");
-                BGBatchMenuControl.AddSubMenu("退款商户录入", "InternetBank/RefundMerchant.aspx");
-                BGBatchMenuControl.AddSubMenu("订单实时查询", "TradeManage/RealTimeOrderQuery.aspx");
-
-
-
-
-                baseAccount1.AddSubMenu("个人账户信息", "BaseAccount/InfoCenter.aspx");              
-                baseAccount1.AddSubMenu("QQ帐号回收", "BaseAccount/QQReclaim.aspx");
-               
-                //baseAccount1.AddSubMenu("用户受控资金查询", "TradeManage/QueryUserControledFinPage.aspx");
-                baseAccount1.AddSubMenu("受控资金查询", "TradeManage/UserControledFundPage.aspx");
-              //  baseAccount1.AddSubMenu("手机绑定查询", "TradeManage/MobileBindQuery.aspx");
-                baseAccount1.AddSubMenu("手机绑定查询", "TradeManage/MobileBindingQuery.aspx");   
-                baseAccount1.AddSubMenu("腾讯信用查询", "BaseAccount/TencentCreditQuery.aspx");
-
-                accountOperate1.AddSubMenu("账户姓名修改", "BaseAccount/changeUserName_2.aspx");
-                accountOperate1.AddSubMenu("证件号码清理", "BaseAccount/ClearCreidNew.aspx");
-                accountOperate1.AddSubMenu("财付通帐号恢复", "BaseAccount/RecoverQQ.aspx");
-                accountOperate1.AddSubMenu("帐户销户记录", "BaseAccount/logOnUser.aspx");
-                accountOperate1.AddSubMenu("批量注销", "BaseAccount/logOnUserBatch.aspx");
-                accountOperate1.AddSubMenu("帐户QQ修改", "BaseAccount/ChangeQQOld.aspx");
-                accountOperate1.AddSubMenu("提现单拦截", "BaseAccount/FetchListIntercept.aspx");
-
-                //FastPay1.AddSubMenu("一点通业务", "BaseAccount/BankCardUnbind.aspx");
-                //FastPay1.AddSubMenu("一点通业务(新)", "BaseAccount/BankCardUnbindNew.aspx");
-              
-                //FastPay1.AddSubMenu("银行卡查询", "TradeManage/BankCardQueryNew.aspx");
-                //FastPay1.AddSubMenu("银行参考号查询", "TradeManage/BankRefereNoQuery.aspx");
-
-                //FastPay1.AddSubMenu("姓名生僻字", "BaseAccount/RareNameQuery.aspx");
-                //FastPay1.AddSubMenu("卡信息查询", "BaseAccount/CardInfoQuery.aspx");
 
                 FundAccountManage1.AddSubMenu("签约解约查询", "NewQueryInfoPages/QueryInverestorSignPage.aspx");
                 FundAccountManage1.AddSubMenu("基金交易查询", "NewQueryInfoPages/QueryFundInfoPage.aspx");
@@ -238,29 +162,29 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 FundAccountManage1.AddSubMenu("基金账户查询", "NewQueryInfoPages/GetUserFundAccountInfoPage.aspx");
                 //FundAccountManage1.AddSubMenu("理财通查询", "NewQueryInfoPages/GetFundRatePage.aspx");
 
+                //微信支付
+                WebchatPayControl1.AddSubMenu("微信支付帐号", "WebchatPay/WechatInfoQuery.aspx");
+                WebchatPayControl1.AddSubMenu("小额刷卡", "WebchatPay/SmallCreditCardQuery.aspx");
+                WebchatPayControl1.AddSubMenu("跨境汇款", "WebchatPay/CrossBorderRemittances.aspx");
 
+            }
+            #endregion
 
-                RiskConManage1.AddSubMenu("二次登录密码撤销", "Trademanage/SuspendSecondPasseword.aspx");
-                RiskConManage1.AddSubMenu("资金流水查询", "BaseAccount/BankrollHistoryLog.aspx");
-                RiskConManage1.AddSubMenu("风控解冻审核", "FreezeManage/FreezeQuery.aspx");
-                RiskConManage1.AddSubMenu("特殊申诉处理", "FreezeManage/FreezeNewQuery.aspx");
-                RiskConManage1.AddSubMenu("报表统计输出", "FreezeManage/FreezeCount.aspx");
-                RiskConManage1.AddSubMenu("手机绑定数清理", "BaseAccount/ClearMobileNumber.aspx");
-
-                //tradeManage1.AddSubMenu("提现记录查询", "TradeManage/PickQuery.aspx");
-                tradeManage1.AddSubMenu("提现记录查询", "TradeManage/PickQueryNew.aspx");
-                tradeManage1.AddSubMenu("退款单查询", "TradeManage/B2CReturnQuery.aspx");
-                tradeManage1.AddSubMenu("同步记录查询", "TradeManage/SynRecordQuery.aspx");
-                tradeManage1.AddSubMenu("商户交易清单", "TradeManage/TradeLogList.aspx");
-
-
-                //tradeManage1.AddSubMenu("用户手机充值记录查询", "TradeManage/MobileRechargeQuery.aspx");
-                tradeManage1.AddSubMenu("银行订单号查询", "TradeManage/BankBillNoQuery.aspx");
-
-                //VIPAccountManage.AddSubMenu("财付值流水","VIPAccount/PropertyTurnover.aspx");
-                //VIPAccountManage.AddSubMenu("银行卡查询", "VIPAccount/QueryBankCard.aspx");
-              //  VIPAccountManage.AddSubMenu("财付值流水", "VIPAccount/PropertyTurnover.aspx");
-                //VIPAccountManage.AddSubMenu("图标管理", "VIPAccount/IconManagement.aspx");
+            #region 支付管理
+            if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("PayManagement", this))
+            {
+                CreditPayControl1.Visible = true;
+                OverseasPay1.Visible = true;
+                MicroPay1.Visible = true;
+                ForeignCurrencyPay1.Visible = true;
+                ForeignCardPay1.Visible = true;
+                HKWalletPay.Visible = true;
+                //信用支付
+                CreditPayControl1.AddSubMenu("基本信息", "CreditPay/QueryCreditUserInfo.aspx");
+                CreditPayControl1.AddSubMenu("账单查询", "CreditPay/QueryCreditBillList.aspx");
+                CreditPayControl1.AddSubMenu("欠款查询", "CreditPay/QueryCreditDebt.aspx");
+                CreditPayControl1.AddSubMenu("还款查询", "CreditPay/QueryRefund.aspx");
+                CreditPayControl1.AddSubMenu("资金流水查询", "CreditPay/QueryCapitalRoll.aspx");
 
                 OverseasPay1.AddSubMenu("外卡交易查询", "NewQueryInfoPages/QueryForeignCard.aspx");
                 OverseasPay1.AddSubMenu("运通账号信息查询", "NewQueryInfoPages/QueryYTInfo.aspx");
@@ -272,8 +196,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 OverseasPay1.AddSubMenu("外汇汇率查询", "NewQueryInfoPages/QueryForeignExchangeRate.aspx");
                 OverseasPay1.AddSubMenu("境外微信小额支付查询", "NewQueryInfoPages/QueryWeiXinMircoPay.aspx");
 
-           
-               
+                MicroPay1.AddSubMenu("子帐户查询", "BaseAccount/ChildrenQuery.aspx");
+                MicroPay1.AddSubMenu("子帐户订单查询", "BaseAccount/ChildrenOrderFromQuery.aspx");
+                MicroPay1.AddSubMenu("子帐户订单查询(新)", "BaseAccount/ChildrenOrderFromQueryNew.aspx");
+                MicroPay1.AddSubMenu("历史订单查询", "BaseAccount/ChildrenHistoryOrderQuery.aspx");
+
+
+                ForeignCurrencyPay1.AddSubMenu("订单查询", "ForeignCurrencyPay/FCOrderQuery.aspx");
+                ForeignCurrencyPay1.AddSubMenu("退款查询", "ForeignCurrencyPay/FCRefundQuery.aspx");
+                ForeignCurrencyPay1.AddSubMenu("拒付查询", "ForeignCurrencyPay/FCRefusePayQuery.aspx");
+                ForeignCurrencyPay1.AddSubMenu("账户流水查询", "ForeignCurrencyPay/FCRollQuery.aspx");
+                ForeignCurrencyPay1.AddSubMenu("外币用户交易查询", "ForeignCurrencyPay/FCUserTradeQuery.aspx");
+
+                ForeignCardPay1.AddSubMenu("订单查询", "ForeignCardPay/FCardOrderQuery.aspx");
+                ForeignCardPay1.AddSubMenu("拒付查询", "ForeignCardPay/FCardRefusePayQuery.aspx");
+                ForeignCardPay1.AddSubMenu("账户流水查询", "ForeignCardPay/FCardRollQuery.aspx");
 
                 //HK钱包支付
                 HKWalletPay.AddSubMenu("帐号查询", "ForeignCurrencyPay/FCXGAccountQuery.aspx");
@@ -284,124 +221,60 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 HKWalletPay.AddSubMenu("商户查询", "ForeignCurrencyPay/FCXGSPQuery.aspx");
                 HKWalletPay.AddSubMenu("实名信息查询", "ForeignCurrencyPay/RealNameInformationQuery.aspx");
                 HKWalletPay.AddSubMenu("实名处理查询", "ForeignCurrencyPay/RealNameCheck.aspx");
-                //活动合作
-                //ActivityCooperation1.AddSubMenu("打折密码", "NewQueryInfoPages/QueryDiscountCode.aspx");
-                //ActivityCooperation1.AddSubMenu("用户参加的活动", "NewQueryInfoPages/QueryUserJoinActivity.aspx");
-                //ActivityCooperation1.AddSubMenu("活动日志查询", "NewQueryInfoPages/QueryActivityLogs.aspx");
-                //ActivityCooperation1.AddSubMenu("微信活动查询", "NewQueryInfoPages/QueryWebchatPayActivity.aspx");
-                //ActivityCooperation1.AddSubMenu("乐刷卡活动查询", "Activity/QueryLeShuaKaActivity.aspx");
-                //ActivityCooperation1.AddSubMenu("理财通活动查询", "Activity/QueryLCTActivity.aspx");
-                //ActivityCooperation1.AddSubMenu("新活动添加", "Activity/LctActivityAdd.aspx");
-
-                //财付券管理
-                //TokenCoin1.AddSubMenu("财付券查询", "TokenCoin/GwqQuery.aspx");
-                //TokenCoin1.AddSubMenu("财付券查询明细", "TokenCoin/GwqShow.aspx");
-
-                //信用支付
-                CreditPayControl1.AddSubMenu("基本信息", "CreditPay/QueryCreditUserInfo.aspx");
-                CreditPayControl1.AddSubMenu("账单查询", "CreditPay/QueryCreditBillList.aspx");
-                CreditPayControl1.AddSubMenu("欠款查询", "CreditPay/QueryCreditDebt.aspx");
-                CreditPayControl1.AddSubMenu("还款查询", "CreditPay/QueryRefund.aspx");
-                CreditPayControl1.AddSubMenu("资金流水查询", "CreditPay/QueryCapitalRoll.aspx");
-
-                //微信支付
-                WebchatPayControl1.AddSubMenu("微信支付帐号", "WebchatPay/WechatInfoQuery.aspx");
-                //WebchatPayControl1.AddSubMenu("AA收款帐号", "WebchatPay/WechatAACollection.aspx");
-                //WebchatPayControl1.AddSubMenu("理财通查询", "NewQueryInfoPages/GetFundRatePage.aspx");
-                //WebchatPayControl1.AddSubMenu("理财通安全卡", "WebchatPay/SafeCardManage.aspx");
-                //WebchatPayControl1.AddSubMenu("生活化理财", "WebchatPay/FundFixedInvestment.aspx");
-                //WebchatPayControl1.AddSubMenu("理财通预约买入", "WebchatPay/LCTReserveOrder.aspx");
-                //WebchatPayControl1.AddSubMenu("微信红包查询", "WebchatPay/WechatRedPacket.aspx");
-                WebchatPayControl1.AddSubMenu("小额刷卡", "WebchatPay/SmallCreditCardQuery.aspx");
-                //WebchatPayControl1.AddSubMenu("微信信用卡还款", "WebchatPay/CreditCardRefundQuery.aspx");
-                //WebchatPayControl1.AddSubMenu("理财通增值券", "WebchatPay/AddedValueTicketQuery.aspx");
-                //WebchatPayControl1.AddSubMenu("合约机查询", "WebchatPay/QueryContractMachine.aspx");
-                //WebchatPayControl1.AddSubMenu("实时还款查询", "WebchatPay/QueryRealtimeRepayment.aspx");
-                WebchatPayControl1.AddSubMenu("跨境汇款", "WebchatPay/CrossBorderRemittances.aspx");
             }
             #endregion
 
-          
-           
-            if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("DeleteCrt", this))
+            #region 系统管理
+            if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SystemManagement", this))
             {
-                RiskConManage1.AddSubMenu("个人证书管理", "Trademanage/CrtQuery.aspx");
-            }
+                SysManage1.Visible = true;
+                FreezeManage1.Visible = true;
+                SpecialManageControl1.Visible = true;
+                BGBatchMenuControl.Visible = true;
 
+                SysManage1.AddSubMenu("系统公告管理", "SysManage/SysBulletinManage.aspx");
+                SysManage1.AddSubMenu("银行接口维护管理", "SysManage/BankInterfaceManage.aspx");
+                SysManage1.AddSubMenu("银行分类信息管理", "SysManage/BankClassifyManage.aspx");
 
-
-
-
-
-            //MediumTradeManage1.AddSubMenu("中介订单查询", "TradeManage/OrderQuery.aspx");
-            tradeManage1.AddSubMenu("交易记录查询", "TradeManage/TradeLogQuery.aspx");
-            tradeManage1.AddSubMenu("交易记录查询(新)", "TradeManage/TradeLogQueryNew.aspx");
-            //FundQuery
-          //  BankBillManage1.AddSubMenu("订单实时调帐", "TradeManage/RealtimeOrder.aspx");
-            tradeManage1.AddSubMenu("充值记录查询", "TradeManage/FundQuery.aspx");
-            tradeManage1.AddSubMenu("充值记录查询(新)", "TradeManage/FundQueryNew.aspx");
-            tradeManage1.AddSubMenu("银行订单查询", "TradeManage/BankOrderListQuery.aspx");
-            tradeManage1.AddSubMenu("转账单查询", "TradeManage/TransferQuery.aspx");
-            //tradeManage1.AddSubMenu("历史交易单迁移", "TradeManage/TradeMigration.aspx");
-            //tradeManage1.AddSubMenu("历史订单迁移", "TradeManage/OrderMigration.aspx");
-            //UserBankInfoQuery
-            baseAccount1.AddSubMenu("银行账号信息", "BaseAccount/UserBankInfoQuery.aspx");
-
-            //ChangeUserInfo
-            baseAccount1.AddSubMenu("个人信息", "BaseAccount/ChangeUserInfo.aspx");
-            MicroPay1.AddSubMenu("子帐户查询", "BaseAccount/ChildrenQuery.aspx");
-            MicroPay1.AddSubMenu("子帐户订单查询", "BaseAccount/ChildrenOrderFromQuery.aspx");
-            MicroPay1.AddSubMenu("子帐户订单查询(新)", "BaseAccount/ChildrenOrderFromQueryNew.aspx");
-            MicroPay1.AddSubMenu("历史订单查询", "BaseAccount/ChildrenHistoryOrderQuery.aspx");
-
-
-            //FreezeList
-            RiskConManage1.AddSubMenu("财付盾查询", "BaseAccount/CFDQuery.aspx");
-            RiskConManage1.AddSubMenu("手机令牌", "Trademanage/MobileTokenQuery.aspx");
-            RiskConManage1.AddSubMenu("冻结操作查询", "BaseAccount/FreezeList.aspx");
-            
-            RiskConManage1.AddSubMenu("冻结资金记录", "BaseAccount/FreezeFinQuery.aspx");
-            RiskConManage1.AddSubMenu("冻结资金查询(新）", "BaseAccount/FreezeFinQuery2.aspx");
-
-            if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("IceOutPPSecurityMoney", this))
-            {
-                RiskConManage1.AddSubMenu("拍拍保证金解冻", "Trademanage/IceOutPPSecurityMoney.aspx");
-            }
-           // RiskConManage1.AddSubMenu("提现冻结资金查询", "BaseAccount/CashOutFreezeQuery.aspx");   该功能下线，2016-01-05 darrenran
-
-
-
-            accountOperate1.AddSubMenu("微信支付账户注销", "BaseAccount/logOnWxAccount.aspx");
-
-
-            ForeignCurrencyPay1.AddSubMenu("订单查询", "ForeignCurrencyPay/FCOrderQuery.aspx");
-            ForeignCurrencyPay1.AddSubMenu("退款查询", "ForeignCurrencyPay/FCRefundQuery.aspx");
-            ForeignCurrencyPay1.AddSubMenu("拒付查询", "ForeignCurrencyPay/FCRefusePayQuery.aspx");
-            ForeignCurrencyPay1.AddSubMenu("账户流水查询", "ForeignCurrencyPay/FCRollQuery.aspx");
-            ForeignCurrencyPay1.AddSubMenu("外币用户交易查询", "ForeignCurrencyPay/FCUserTradeQuery.aspx");
-
- 
-            ForeignCardPay1.AddSubMenu("订单查询", "ForeignCardPay/FCardOrderQuery.aspx");
-            ForeignCardPay1.AddSubMenu("拒付查询", "ForeignCardPay/FCardRefusePayQuery.aspx");
-            ForeignCardPay1.AddSubMenu("账户流水查询", "ForeignCardPay/FCardRollQuery.aspx");
-
-         
-
-           
-            //FastPay1.AddSubMenu("快捷额度查询", "FastPay/FastPayLimitQuery.aspx");
-            //if (AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "tradeManage"))
-            #region 支付管理
-            if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("", this))
-            {
-
+                BGBatchMenuControl.Title = "BG批量处理";
+                BGBatchMenuControl.AddSubMenu("历史订单迁移", "TradeManage/OrderMigration.aspx");
+                BGBatchMenuControl.AddSubMenu("历史交易单迁移", "TradeManage/TradeMigration.aspx");
+                BGBatchMenuControl.AddSubMenu("退款商户录入", "InternetBank/RefundMerchant.aspx");
+                BGBatchMenuControl.AddSubMenu("订单实时查询", "TradeManage/RealTimeOrderQuery.aspx");
             }
             #endregion
+
             #region  交易管理
             if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("TradeManagement", this))
             {
+                tradeManage1.Visible = true;
+                LifeFeeDetailManage1.Visible = true;
+                InternetBank.Visible = true;
+                BankBillManage1.Visible = true;
+
                 tradeManage1.AddSubMenu("未完成交易单查询", "TradeManage/UnFinishTradeQuery.aspx");
                 tradeManage1.AddSubMenu("注销前交易查询", "TradeManage/BeforeCancelTradeQuery.aspx");
                 tradeManage1.AddSubMenu("中介订单查询", "TradeManage/OrderQuery.aspx");
+                //MediumTradeManage1.AddSubMenu("中介订单查询", "TradeManage/OrderQuery.aspx");
+                tradeManage1.AddSubMenu("交易记录查询", "TradeManage/TradeLogQuery.aspx");
+                tradeManage1.AddSubMenu("交易记录查询(新)", "TradeManage/TradeLogQueryNew.aspx");
+                //FundQuery
+                //  BankBillManage1.AddSubMenu("订单实时调帐", "TradeManage/RealtimeOrder.aspx");
+                tradeManage1.AddSubMenu("充值记录查询", "TradeManage/FundQuery.aspx");
+                tradeManage1.AddSubMenu("充值记录查询(新)", "TradeManage/FundQueryNew.aspx");
+                tradeManage1.AddSubMenu("银行订单查询", "TradeManage/BankOrderListQuery.aspx");
+                tradeManage1.AddSubMenu("转账单查询", "TradeManage/TransferQuery.aspx");
+                //tradeManage1.AddSubMenu("历史交易单迁移", "TradeManage/TradeMigration.aspx");
+                //tradeManage1.AddSubMenu("历史订单迁移", "TradeManage/OrderMigration.aspx");
+                //UserBankInfoQuery
+                tradeManage1.AddSubMenu("提现记录查询", "TradeManage/PickQueryNew.aspx");
+                tradeManage1.AddSubMenu("退款单查询", "TradeManage/B2CReturnQuery.aspx");
+                tradeManage1.AddSubMenu("同步记录查询", "TradeManage/SynRecordQuery.aspx");
+                tradeManage1.AddSubMenu("商户交易清单", "TradeManage/TradeLogList.aspx");
+                //tradeManage1.AddSubMenu("用户手机充值记录查询", "TradeManage/MobileRechargeQuery.aspx");
+                tradeManage1.AddSubMenu("银行订单号查询", "TradeManage/BankBillNoQuery.aspx");
+
+
 
                 LifeFeeDetailManage1.AddSubMenu("生活缴费查询", "TradeManage/FeeQuery.aspx");
                 LifeFeeDetailManage1.AddSubMenu("邮储汇款查询", "RemitCheck/RemitQueryNew.aspx");
@@ -423,8 +296,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
             #region  商户信息管理
             if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SPInfoManagement", this))
-            { 
+            {
                 accountManage1.Visible = true;
+                PNRQuery1.Visible = true;
+                AccountLedgerManage1.Visible = true;
+                AccountOperaManage1.Visible = true;
+                DKManageControl1.Visible = true;
+                DFManageControl1.Visible = true;
+                TravelPlatform1.Visible = true;
+                ForeignCurrencyAccount1.Visible = true;
+
                 accountManage1.AddSubMenu("提现规则查询", "TradeManage/AppealDSettings.aspx");
                 accountManage1.AddSubMenu("直付商户查询", "BaseAccount/PayBusinessQuery.aspx");
                 accountManage1.AddSubMenu("结算查询", "TradeManage/SettQuery.aspx");
@@ -515,9 +396,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             }
             #endregion
 
+            #region 理财通
             if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("LCTMenu", this))
             {
                 //理财通
+                FundControl1.Visible = true;
                 FundControl1.AddSubMenu("理财通查询", "NewQueryInfoPages/GetFundRatePage.aspx");
                 FundControl1.AddSubMenu("理财通安全卡", "WebchatPay/SafeCardManage.aspx");
                 FundControl1.AddSubMenu("生活化理财", "WebchatPay/FundFixedInvestment.aspx");
@@ -527,16 +410,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 FundControl1.AddSubMenu("理财通转投查询", "WebchatPay/LCTSwitchQuery.aspx");
                 FundControl1.AddSubMenu("报价交易查询", "WebchatPay/QuotationTransactionQuery.aspx");
             }
+            #endregion
+
+            #region  手q支付
             if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("HandQMenu", this))
             {
+                HandQBusiness.Visible = true;
                 //手Q支付
                 HandQBusiness.AddSubMenu("手Q红包查询", "HandQBusiness/FindHandQRedPacket.aspx");
                 //HandQBusiness.AddSubMenu("手Q还款查询", "HandQBusiness/RefundHandQQuery.aspx");
                 HandQBusiness.AddSubMenu("手Q转账查询", "HandQBusiness/HandQTransQuery.aspx");
             }
+            #endregion
 
+            #region 信用卡还款
             if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("CreditQueryMenu", this))
             {
+                CreditPayMenuControl.Visible = true;
                 //信用卡还款
                 CreditPayMenuControl.Title = "信用卡还款";
 
@@ -545,12 +435,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 CreditPayMenuControl.AddSubMenu("微信信用卡还款", "WebchatPay/CreditCardRefundQuery.aspx");
                 CreditPayMenuControl.AddSubMenu("实时还款查询", "WebchatPay/QueryRealtimeRepayment.aspx");
             }
+            #endregion
 
+            #region 快捷支付
             if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("FastPayMenu", this))
             {
                 //快捷支付
+                FastPayMenuControl.Visible = true;
                 FastPayMenuControl.Title = "快捷支付";
-
                 FastPayMenuControl.AddSubMenu("一点通业务", "BaseAccount/BankCardUnbind.aspx");
                 FastPayMenuControl.AddSubMenu("一点通业务(新)", "BaseAccount/BankCardUnbindNew.aspx");
                 FastPayMenuControl.AddSubMenu("银行卡查询", "TradeManage/BankCardQueryNew.aspx");
@@ -558,14 +450,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 FastPayMenuControl.AddSubMenu("姓名生僻字", "BaseAccount/RareNameQuery.aspx");
                 FastPayMenuControl.AddSubMenu("卡信息查询", "BaseAccount/CardInfoQuery.aspx");
             }
+            #endregion
 
+            #region 购买公司业务
             if (TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("TencentbusinessMenu", this))
             {
                 //购买公司业务
+                TencentbusinessMenuControl.Visible = true;
                 TencentbusinessMenuControl.Title = "购买公司业务";
                 TencentbusinessMenuControl.AddSubMenu("退款登记", "InternetBank/RefundQuery.aspx");
-                
             }
+            #endregion
         }
 
 

@@ -133,6 +133,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         private void CheckDate()
         {
+            bool result = true;
             string message = string.Empty;
             try
             {
@@ -142,14 +143,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 int totalMonth = DateTime.Parse(endDate).Year * 12 + DateTime.Parse(endDate).Month - DateTime.Parse(beginDate).Year * 12 - DateTime.Parse(beginDate).Month;
                 if (totalMonth >= 1)
                 {
+                    result = false;
                     message = string.Format("查询日期不能超过一个月");
                 }               
             }
             catch (Exception ex)
             {
-                message = string.Empty;
+                message = string.Format("查询日期输入出现错误:{0}",ex.Message.ToString());
+                result = false;
             }
-            Response.Write(message);
+            StringBuilder builder = new StringBuilder();
+            builder.Append("[");
+            builder.Append("{");
+            builder.Append("\"result\":");
+            builder.Append("\"" + result + "\",");
+            builder.Append("\"message\":");
+            builder.Append("\"" + message + "\"");
+            builder.Append("}");
+            builder.Append("]");
+            Response.Write(builder.ToString());
             Response.End();
         }
 

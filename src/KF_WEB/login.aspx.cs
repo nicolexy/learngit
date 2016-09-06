@@ -38,7 +38,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             if (Request.QueryString["ticket"] != null)
             {
                 Session["TCOA_TICKET"] = Request.QueryString["ticket"];                
-            }
+            }           
+            string cur_url = System.Web.HttpUtility.UrlEncode(Request.Url.AbsolutePath);
+            string final_url = "http://passport.oa.com/modules/passport/signin.ashx?url=" + cur_url;
+            SunLibrary.LogHelper.LogInfo("Kf.cf.comµÇÂ¼Ò³ÐÅÏ¢¼ÇÂ¼:" + final_url);
+            //if (Request.QueryString["ticket"] == null || Session["TCOA_TICKET"]==null)
+            //{
+            //    string url = System.Web.HttpUtility.UrlEncode(Request.Url.AbsolutePath);
+            //    string final = "http://passport.oa.com/modules/passport/signin.ashx?url=" + url;
+            //    Response.Redirect(final, false);
+            //    return;
+            //}
+            //else
+            //{
+            //    Session["TCOA_TICKET"] = Request.QueryString["ticket"];
+            //}
 
 			if(classLibrary.getData.IsNewSensitivePowerMode)
 			{

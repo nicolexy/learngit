@@ -42,13 +42,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string msg = string.Empty;
             string oaticket=string.Empty;
             string username = Session["uid"].ToString();
-            string clientip = HttpContext.Current.Request.UserHostAddress == "::1" ? "127.0.0.1" : HttpContext.Current.Request.UserHostAddress;
-            StringBuilder sb = new StringBuilder();          
-            for (int i = 0; i < Page.Session.Count; i++)
-            {
-                sb.Append("Session："+Session.Keys[i]+":"+Session[i].ToString());
-            } 
-            SunLibrary.LogHelper.LogInfo("GetLogOnWxResult-Current_Cookie_Session:" + sb.ToString());
+            string clientip = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.Utility.GetIP();              
             if (Session["TCOA_TICKET"] == null)
             {
                 return "{\"ret\":\"oa_ticket不合法！\"}";

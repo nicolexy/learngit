@@ -41,6 +41,38 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
                 throw new Exception("GetMD5HashFromFile() fail,error:" + ex.Message + ex.StackTrace);
             }
         }
+
+        /// <summary>
+        /// 获取客户端IP地址
+        /// </summary>
+        /// <returns>若失败则返回回送地址</returns>
+        public static string GetIP()
+        {
+            string userHostAddress = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString().Split(',')[0].Trim();
+            if (string.IsNullOrEmpty(userHostAddress))
+            {
+                userHostAddress = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+            }
+            if (string.IsNullOrEmpty(userHostAddress))
+            {
+                userHostAddress = HttpContext.Current.Request.UserHostAddress;
+            }
+            if (!string.IsNullOrEmpty(userHostAddress) && IsIP(userHostAddress))
+            {
+                return userHostAddress;
+            }
+            return "127.0.0.1";
+        }
+
+        /// <summary>
+        /// 检查IP地址格式
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <returns></returns>
+        public static bool IsIP(string ip)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(ip, @"^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$");
+        }
     }
 
     public static class IEnumerableEx
