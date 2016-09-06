@@ -263,9 +263,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
 				return true;
 
 			SensitiveVerifyService.Result retResult = AllUserRight.CheckAuth(opName,userName,sessionKey,url,ip,sessionID);
-
-            int RightID = GetPowerID(opName);
-            LogHelper.LogInfo(string.Format("敏感权限日志:userName={0}&RightID={1}&opName={2}status={3}",userName, RightID, opName, retResult.status));
 			return CheckSPReturnResult(retResult,page);
 		}
 
