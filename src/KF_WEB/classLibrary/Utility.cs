@@ -48,10 +48,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
         /// <returns>若失败则返回回送地址</returns>
         public static string GetIP()
         {
-            string userHostAddress = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString().Split(',')[0].Trim();
+            string userHostAddress = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
             if (string.IsNullOrEmpty(userHostAddress))
             {
                 userHostAddress = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+            }
+            else
+            {
+                userHostAddress = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString().Split(',')[0].Trim();
             }
             if (string.IsNullOrEmpty(userHostAddress))
             {
@@ -73,7 +77,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
         {
             return System.Text.RegularExpressions.Regex.IsMatch(ip, @"^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$");
         }
-    }
+  
+     
+ 
+   }      
 
     public static class IEnumerableEx
     {
