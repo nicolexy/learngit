@@ -87,9 +87,19 @@
             data: datas,
             dataType: "text",
             success: function (data) {
-                if (data.length > 0) {
-                    $.messager.alert('提示', data, 'Info');
-                }
+                //if (data.length > 0) {
+                //    $.messager.alert('提示', data, 'Info');
+                //}
+
+                var dataObj = eval("(" + data + ")");
+                $.each(dataObj, function (idx, item) {
+                    var result = item.result;
+                    var message = item.message;
+                    if ((result == "false" || result == "False" || !result) && message.length > 0) {
+                        $.messager.alert('提示', message, 'Info');
+                        return;
+                    }
+                });
             }
         });
         var queryData = {
