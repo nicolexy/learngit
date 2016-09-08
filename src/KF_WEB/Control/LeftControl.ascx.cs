@@ -234,12 +234,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 
                 SysManage1.AddSubMenu("系统公告管理", "SysManage/SysBulletinManage.aspx");
                 SysManage1.AddSubMenu("银行接口维护管理", "SysManage/BankInterfaceManage.aspx");
-                SysManage1.AddSubMenu("银行分类信息管理", "SysManage/BankClassifyManage.aspx");
+                SysManage1.AddSubMenu("银行分类信息管理", "SysManage/BankClassifyManage.aspx");//页面权限位：BankClassifyInfo
 
                 BGBatchMenuControl.Title = "BG批量处理";
                 BGBatchMenuControl.AddSubMenu("历史订单迁移", "TradeManage/OrderMigration.aspx");
                 BGBatchMenuControl.AddSubMenu("历史交易单迁移", "TradeManage/TradeMigration.aspx");
-                BGBatchMenuControl.AddSubMenu("退款商户录入", "InternetBank/RefundMerchant.aspx");
+                BGBatchMenuControl.AddSubMenu("退款商户录入", "InternetBank/RefundMerchant.aspx");//页面权限位：RefundMerchantCheck
                 BGBatchMenuControl.AddSubMenu("订单实时查询", "TradeManage/RealTimeOrderQuery.aspx");
             }
             #endregion
@@ -262,7 +262,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 //  BankBillManage1.AddSubMenu("订单实时调帐", "TradeManage/RealtimeOrder.aspx");
                 tradeManage1.AddSubMenu("充值记录查询", "TradeManage/FundQuery.aspx");
                 tradeManage1.AddSubMenu("充值记录查询(新)", "TradeManage/FundQueryNew.aspx");
-                tradeManage1.AddSubMenu("银行订单查询", "TradeManage/BankOrderListQuery.aspx");
+                tradeManage1.AddSubMenu("银行订单查询", "TradeManage/BankOrderListQuery.aspx");//页面权限位：InternetBankRefund
                 tradeManage1.AddSubMenu("转账单查询", "TradeManage/TransferQuery.aspx");
                 //tradeManage1.AddSubMenu("历史交易单迁移", "TradeManage/TradeMigration.aspx");
                 //tradeManage1.AddSubMenu("历史订单迁移", "TradeManage/OrderMigration.aspx");
@@ -318,7 +318,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 accountManage1.AddSubMenu("T+0付款查询", "TradeManage/BatPayQuery.aspx");
                 accountManage1.AddSubMenu("微信/财付通商户信息互查", "WebchatPay/WechatMerchantTrans.aspx");
                 accountManage1.AddSubMenu("商户订单查询财付通订单", "TradeManage/QuerySpOrderPage.aspx");
-                accountManage1.AddSubMenu("自助BD商户查询", "BaseAccount/SelfQuery.aspx");
+                accountManage1.AddSubMenu("自助BD商户查询", "BaseAccount/SelfQuery.aspx");//页面权限：DrawAndApprove
 
                 PNRQuery1.AddSubMenu("PNR签约关系查询", "BaseAccount/PNRQuery.aspx");
                 PNRQuery1.AddSubMenu("PNR订单查询", "TradeManage/PNROrderQuery.aspx");
@@ -358,14 +358,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 //DrawAndApprove
 
                 //AccountOperaManage1.AddSubMenu("自助商户审核", "BaseAccount/SelfQueryApprove.aspx");//20160715 龙海军: 客服系统查询页面屏蔽，代码先保留，做成可恢复，防止后续业务变更需要重新使用
-                AccountOperaManage1.AddSubMenu("商户修改资料审核", "BaseAccount/DomainApprove.aspx");
-                AccountOperaManage1.AddSubMenu("商户营改增审核", "BaseAccount/ValueAddedTaxApprove.aspx");
-                AccountOperaManage1.AddSubMenu("商户营改增查询", "BaseAccount/ValueAddedTaxQuery.aspx");
+                AccountOperaManage1.AddSubMenu("商户修改资料审核", "BaseAccount/DomainApprove.aspx");//页面权限位：DrawAndApprove
+                AccountOperaManage1.AddSubMenu("商户营改增审核", "BaseAccount/ValueAddedTaxApprove.aspx");//页面权限位：DrawAndApprove
+                AccountOperaManage1.AddSubMenu("商户营改增查询", "BaseAccount/ValueAddedTaxQuery.aspx");//页面权限位：DrawAndApprove
                 AccountOperaManage1.AddSubMenu("结算规则查询", "TradeManage/AppealSSetting.aspx");
                 //AccountOperaManage1.AddSubMenu("证书通知黑名单管理", "SpSettle/CertBlackList.aspx");
 
 
-                DKManageControl1.AddSubMenu("代扣单笔查询", "NewQueryInfoPages/QueryDKInfoPage.aspx");
+                DKManageControl1.AddSubMenu("代扣单笔查询", "NewQueryInfoPages/QueryDKInfoPage.aspx");//页面权限位：DKAdjust
                 DKManageControl1.AddSubMenu("代扣批量查询", "NewQueryInfoPages/QueryDKListInfoPage.aspx");
                 DKManageControl1.AddSubMenu("银行批次查询", "NewQueryInfoPages/QueryBankListInfoPage.aspx");
                 DKManageControl1.AddSubMenu("代扣限额查询", "NewQueryInfoPages/QueryDKLimitPage.aspx");
@@ -381,7 +381,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 }
                 //yinhuang处理加载菜单要验证权限问题
                 //DKAdjust
-                DKManageControl1.AddSubMenu("调整状态查询", "NewQueryInfoPages/DK_QueryAdjust.aspx");
+                DKManageControl1.AddSubMenu("调整状态查询", "NewQueryInfoPages/DK_QueryAdjust.aspx");//页面权限位：DKAdjust
 
                 DFManageControl1.AddSubMenu("代付单笔查询", "NewQueryInfoPages/DFDetailQuery.aspx");
                 DFManageControl1.AddSubMenu("代付批量查询", "NewQueryInfoPages/DFBatchQuery.aspx");
@@ -448,7 +448,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 FastPayMenuControl.AddSubMenu("银行卡查询", "TradeManage/BankCardQueryNew.aspx");
                 FastPayMenuControl.AddSubMenu("银行参考号查询", "TradeManage/BankRefereNoQuery.aspx");
                 FastPayMenuControl.AddSubMenu("姓名生僻字", "BaseAccount/RareNameQuery.aspx");
-                FastPayMenuControl.AddSubMenu("卡信息查询", "BaseAccount/CardInfoQuery.aspx");
+                FastPayMenuControl.AddSubMenu("卡信息查询", "BaseAccount/CardInfoQuery.aspx");//页面权限位：InternetBankRefund
             }
             #endregion
 
@@ -458,7 +458,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 //购买公司业务
                 TencentbusinessMenuControl.Visible = true;
                 TencentbusinessMenuControl.Title = "购买公司业务";
-                TencentbusinessMenuControl.AddSubMenu("退款登记", "InternetBank/RefundQuery.aspx");
+                TencentbusinessMenuControl.AddSubMenu("退款登记", "InternetBank/RefundQuery.aspx");//页面权限位：InternetBankRefund
             }
             #endregion
         }

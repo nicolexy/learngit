@@ -20,7 +20,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 	{
 	    ForeignCardService fcs=new ForeignCardService();
 		protected void Page_Load(object sender, System.EventArgs e)
-		{
+        {
+            if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("PayManagement", this)) Response.Redirect("../login.aspx?wh=1");
 			if (!Page.IsPostBack)
 			{
 				this.TextBoxBeginDate.Value = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");

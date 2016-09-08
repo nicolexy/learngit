@@ -18,7 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
             if (!IsPostBack)
             {
                 this.lb_operatorID.Text = uid = Session["uid"] as string;
-                if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
+                if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("PayManagement", this))
                 {
                     Response.Redirect("../login.aspx?wh=1");
                 }

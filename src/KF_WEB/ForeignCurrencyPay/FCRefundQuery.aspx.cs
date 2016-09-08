@@ -37,7 +37,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
 
                 if (!IsPostBack)
                 {
-                    if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
+                    if (!classLibrary.ClassLib.ValidateRight("PayManagement", this)) Response.Redirect("../login.aspx?wh=1");
 
                     var mdListId = Request.QueryString["mdlistid"] as string;  //通过url 传入财付通订单号查询
                     if (!string.IsNullOrEmpty(mdListId))

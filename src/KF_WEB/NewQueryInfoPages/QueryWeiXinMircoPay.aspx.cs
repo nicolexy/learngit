@@ -26,7 +26,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
             {
                 Label_uid.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
-                if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this))
+                if (!classLibrary.ClassLib.ValidateRight("PayManagement", this))
                 {
                     Response.Redirect("../login.aspx?wh=1");
                 }

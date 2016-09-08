@@ -18,7 +18,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             if (!IsPostBack)
             {
                 this.lb_operatorID.Text = Session["uid"] as string;
-                if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
+                if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("TradeManagement", this))
                 {
                     Response.Redirect("../login.aspx?wh=1");
                 }

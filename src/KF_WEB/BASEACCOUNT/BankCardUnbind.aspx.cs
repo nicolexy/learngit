@@ -31,7 +31,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
 
-                if (!ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
+                if (!ClassLib.ValidateRight("FastPayMenu", this)) Response.Redirect("../login.aspx?wh=1");
 
                 this.rbtn_bkt_JJK.CheckedChanged += new EventHandler(rbtns_CheckedChanged);
                 this.rbtn_bkt_XYK.CheckedChanged += new EventHandler(rbtns_CheckedChanged);

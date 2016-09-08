@@ -32,7 +32,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                 this.txtStime.Text = Stime.ToString("yyyy-MM-dd");
                 this.txtEtime.Text = Etime.ToString("yyyy-MM-dd");
 
-                if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
+                if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("PayManagement", this))
                 {
                     Response.Redirect("../login.aspx?wh=1");
                 }
