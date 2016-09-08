@@ -17,6 +17,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
         string ip = "";
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("PayManagement", this))
+            {
+                Response.Redirect("../login.aspx?wh=1");
+            }
             if (!IsPostBack)
             {
                 pager1.RecordCount = 10000;

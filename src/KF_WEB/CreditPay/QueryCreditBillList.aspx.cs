@@ -27,6 +27,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreidtPay
 		{
 			try
 			{
+                if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("PayManagement", this))
+                {
+                    Response.Redirect("../login.aspx?wh=1");
+                }
 				Label1.Text = Session["uid"].ToString();
 				string szkey = Session["SzKey"].ToString();
 

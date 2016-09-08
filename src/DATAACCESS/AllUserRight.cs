@@ -68,7 +68,7 @@ namespace TENCENT.OSS.CFT.KF.Common
             rights[200] = new OneRight("ModifyFundPayCard", 200, "理财通安全卡解绑");
             rights[201] = new OneRight("ModifyFundPayCardByCS", 201, "理财通安全卡解绑(客服)");
             rights[202] = new OneRight("InternetBankRefund", 202, "网银提交账务退款");
-            rights[162] = new OneRight("PayBusinessCMD", 162, "网银提交账务退款");
+            rights[207] = new OneRight("PayBusinessCMD", 207, "修改联系人手机");
             rights[193] = new OneRight("RefundCheck", 193, "退款登记");
 
             rights[203] = new OneRight("RefundMerchantCheck", 203, "退款商户录入");

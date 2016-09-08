@@ -49,7 +49,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 					int operid = Int32.Parse(Session["OperID"].ToString());
  
 					//if (!AllUserRight.ValidRight(szkey,operid,PublicRes.GROUPID, "InfoCenter")) Response.Redirect("../login.aspx?wh=1");
-					if(!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
+                    if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("TradeManagement", this)) Response.Redirect("../login.aspx?wh=1");
 				}
 				catch  //如果没有登陆或者没有权限就跳出
 				{

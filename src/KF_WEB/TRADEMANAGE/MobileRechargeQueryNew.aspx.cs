@@ -24,7 +24,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 string szkey = Session["SzKey"].ToString();
                 int operid = Int32.Parse(Session["OperID"].ToString());
 
-                if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
+                if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("TradeManagement", this))
                 {
                     WebUtils.ShowMessageAndRedirect(this.Page, "您请求访问的权限不足，无法访问该页面。请联系负责人设置相应权限即可访问。", "../login.aspx");
 

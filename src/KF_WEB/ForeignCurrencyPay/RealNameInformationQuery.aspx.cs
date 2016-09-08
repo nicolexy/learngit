@@ -15,7 +15,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("PayManagement", this))
+            {
+                Response.Redirect("../login.aspx?wh=1");
+            }
         }
 
         protected void btn_Query_Click(object sender, EventArgs e)

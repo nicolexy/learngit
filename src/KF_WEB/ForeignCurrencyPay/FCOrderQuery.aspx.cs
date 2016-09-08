@@ -36,10 +36,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.ForeignCurrencyPay
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
 
-                if (!IsPostBack)
-                {
-                    if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
-                }
+                //if (!IsPostBack)
+                //{
+                    if (!classLibrary.ClassLib.ValidateRight("PayManagement", this)) Response.Redirect("../login.aspx?wh=1");
+                //}
                 this.btnQuery.Attributes.Add("onclick", "return CheckEmail();");
             }
             catch

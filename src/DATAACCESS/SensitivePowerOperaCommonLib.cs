@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Collections;
 using TENCENT.OSS.CFT.KF.Common;
 using SensitiveVerifyService;
+using CFT.Apollo.Logging;
 
 namespace TENCENT.OSS.CFT.KF.Common
 {
@@ -79,6 +80,15 @@ namespace TENCENT.OSS.CFT.KF.Common
 			rq.local_session_id = sessionID;
 
 			Result retResult = authService.CheckAuth(rq);
+
+            string msg = "敏感权限日志：operation_id=" + opID + "&" +
+                         "user_name=" + userName + "&" +
+                         "auth_cm_com_session_key=" + sessionKey + "&" +
+                         "user_url=" + url + "&" +
+                         "user_ip=" + ip + "&" +
+                         "local_session_id=" + sessionID + "&" +
+                         "status=" + retResult.status;
+            LogHelper.LogInfo(msg);
 
 			return retResult;
 		}
@@ -249,7 +259,7 @@ namespace TENCENT.OSS.CFT.KF.Common
                 rights[200] = new OneRight("ModifyFundPayCard", 200, "理财通安全卡解绑");
                 rights[201] = new OneRight("ModifyFundPayCardByCS", 201, "理财通安全卡解绑(客服)");
                 rights[202] = new OneRight("InternetBankRefund", 202, "网银提交账务退款");
-                rights[162] = new OneRight("PayBusinessCMD", 162, "网银提交账务退款");
+                rights[207] = new OneRight("PayBusinessCMD", 207, "修改联系人手机");
                 rights[193] = new OneRight("RefundCheck", 193, "退款登记");
 
                 rights[203] = new OneRight("RefundMerchantCheck", 203, "退款商户录入");

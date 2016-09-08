@@ -38,7 +38,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.SpSettle
                 int operid = Int32.Parse(Session["OperID"].ToString());
                 BalanceRollPager.RecordCount = 10000;
                 BalanceRollPager.CurrentPageIndex = 1;
-				if(!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
+                if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SPInfoManagement", this)) Response.Redirect("../login.aspx?wh=1");
             }
             catch
             {
