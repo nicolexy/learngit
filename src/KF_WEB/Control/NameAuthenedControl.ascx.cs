@@ -75,9 +75,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
 			menuControl.AddSubMenu("实名处理查询","BaseAccount/UserClassQuery.aspx");
 
 
-			menuControl.AddSubMenu("证件状态查询",spkfurl + "cgi-bin/authen_id_query.cgi" 
-				+ "?szkey=" + szkey + "&" + strsessionid + "&loginname=" + loginname
-				+ "&ip=" + ip + "&md5=" + md5value);
+            //menuControl.AddSubMenu("证件状态查询",spkfurl + "cgi-bin/authen_id_query.cgi" 
+            //    + "?szkey=" + szkey + "&" + strsessionid + "&loginname=" + loginname
+            //    + "&ip=" + ip + "&md5=" + md5value);
 
 			menuControl.AddSubMenu("认证状态查询","NewQueryInfoPages/QueryAuthenInfoPage.aspx");
 
