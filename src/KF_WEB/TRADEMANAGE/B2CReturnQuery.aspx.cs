@@ -35,7 +35,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				string szkey = Session["SzKey"].ToString();
 				int operid = Int32.Parse(Session["OperID"].ToString());
 
-				if(!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter",this)) Response.Redirect("../login.aspx?wh=1");
+                if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("TradeManagement", this)) Response.Redirect("../login.aspx?wh=1");
 			}
 
 			catch

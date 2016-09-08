@@ -16,7 +16,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             if (!IsPostBack)
             {
                 this.lb_operatorID.Text = op_uid = Session["uid"] as string;
-                if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("InfoCenter", this))
+                if (!TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("PayManagement", this))
                 {
                     Response.Redirect("../login.aspx?wh=1");
                 }

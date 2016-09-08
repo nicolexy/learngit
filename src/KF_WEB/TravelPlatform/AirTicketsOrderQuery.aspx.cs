@@ -36,7 +36,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TravelPlatform
                 Label1.Text = Session["uid"].ToString();
                 string szkey = Session["SzKey"].ToString();
 
-                if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
+                if (!classLibrary.ClassLib.ValidateRight("SPInfoManagement", this)) Response.Redirect("../login.aspx?wh=1");
 
                 if (!IsPostBack)
                 {
