@@ -1,11 +1,14 @@
-﻿using CFT.CSOMS.COMMLIB;
+﻿using CFT.CSOMS.BLL.CFTAccountModule;
+using CFT.CSOMS.COMMLIB;
 using SunLibrary;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TENCENT.OSS.CFT.KF.Common;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web
 {
@@ -39,12 +42,42 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
         }
 
         private void GetDBConnStr(string strkey) {
-           string dbstr = CommLib.DbConnectionString.Instance.GetConnectionString((strkey.Trim().ToUpper());
+           string dbstr = CommLib.DbConnectionString.Instance.GetConnectionString(strkey.Trim().ToUpper());
 
            LogHelper.LogInfo(" test.aspx  private void GetDBConnStr  strKey：" +strkey+",dbstr:"+ dbstr);
 
+            string qq="404968099";
+                if (Request["qq"] != null){
+                    qq = Request["qq"].ToString();
+                }
+            this.Label1.Text = dbstr;
+
+            bindshimingrzData(qq);
+
            Response.Write(dbstr);
-           Response.End();
+
+        }
+
+
+        private void bindshimingrzData(string qq)
+        {
+            string fuin = classLibrary.setConfig.replaceMStr(qq);
+
+            int max = 20;
+            int start = 1;
+
+            DataSet ds = new AuthenInfoService().GetUserClassQueryListForThis(fuin, start, max);
+
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                this.GridView1.DataSource = ds.Tables[0].DefaultView;
+                this.GridView1.DataBind();
+            }
+            else
+            {
+                throw new LogicException("bindshimingrzData没有找到记录！");
+            }
+
         }
 
 
