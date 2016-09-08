@@ -39,7 +39,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
         }
 
         private void GetDBConnStr(string strkey) {
-           string dbstr = PublicRes.GetConnString(strkey.Trim());
+           string dbstr = CommLib.DbConnectionString.Instance.GetConnectionString((strkey.Trim().ToUpper());
 
            LogHelper.LogInfo(" test.aspx  private void GetDBConnStr  strKey：" +strkey+",dbstr:"+ dbstr);
 
