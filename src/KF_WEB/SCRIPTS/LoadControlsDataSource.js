@@ -78,7 +78,7 @@ function LoadBrandAndProductTypeGroupForWorkingDaiesCombogrid(controlId, isMulti
 ///isEditable 
 ///type 
 ///value 
-function LoadCommonCombobox(controlId, valueField, textField, width, panelWidth, isShowSelect, showSelectText, isMultiple, isEditable, type, value) {
+function LoadCommonCombobox(controlId, valueField, textField, width, panelWidth, isShowSelect, showSelectText, isMultiple, isEditable, type, value) {    
     //var postDatas = {
     //    isShowSelect: isShowSelect,
     //    showSelectText: showSelectText,
@@ -94,7 +94,7 @@ function LoadCommonCombobox(controlId, valueField, textField, width, panelWidth,
         multiple: isMultiple,
         editable: isEditable,
         method: "get",        
-        url: '/Ajax/CommonAjax/LoadControlsDataSource.ashx?getAction=LoadCommonCombobox&isShowSelect=' + isShowSelect + '&showSelectText=' + showSelectText + '&type=' + type + '',
+        url: '/Ajax/CommonAjax/LoadControlsDataSource.ashx?getAction=LoadCommonCombobox&isShowSelect=' + isShowSelect + '&showSelectText=' + escape(showSelectText) + '&type=' + type + '',
         //queryParams: postDatas,        
         onLoadSuccess: function () {
             if ((value != null && value != "undefined") && (value.toString().length > 0 && value > 0)) {

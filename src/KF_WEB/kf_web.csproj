@@ -176,6 +176,9 @@
     <Compile Include="Ajax\CommonAjax\LoadControlsDataSource.ashx.cs">
       <DependentUpon>LoadControlsDataSource.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Ajax\CommonAjax\NPOIExportToExcels.ashx.cs">
+      <DependentUpon>NPOIExportToExcels.ashx</DependentUpon>
+    </Compile>
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -3480,6 +3483,20 @@
     <Content Include="NewQueryInfoPages\TestPage.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="NPOI\binary\dotnet2\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="NPOI\binary\dotnet2\NPOI.dll" />
+    <Content Include="NPOI\binary\dotnet2\NPOI.OOXML.dll" />
+    <Content Include="NPOI\binary\dotnet2\NPOI.OpenXml4Net.dll" />
+    <Content Include="NPOI\binary\dotnet2\NPOI.OpenXmlFormats.dll" />
+    <Content Include="NPOI\binary\dotnet4\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="NPOI\binary\dotnet4\NPOI.dll" />
+    <Content Include="NPOI\binary\dotnet4\NPOI.OOXML.dll" />
+    <Content Include="NPOI\binary\dotnet4\NPOI.OpenXml4Net.dll" />
+    <Content Include="NPOI\binary\dotnet4\NPOI.OpenXmlFormats.dll" />
+    <Content Include="NPOI\binary\dotnet4\NPOI.XML" />
+    <Content Include="NPOI\binary\License.txt" />
+    <Content Include="NPOI\binary\Read Me.txt" />
+    <Content Include="NPOI\binary\Release Notes.txt" />
     <Content Include="RefundManage\AddInformation.aspx" />
     <Content Include="RefundManage\BankEmailManage.aspx" />
     <Content Include="RefundManage\SendPaymentAbnorNotify.aspx" />
@@ -4937,6 +4954,7 @@
     </Content>
     <Content Include="Configs\Log4net.config" />
     <Content Include="Ajax\CommonAjax\LoadControlsDataSource.ashx" />
+    <Content Include="Ajax\CommonAjax\NPOIExportToExcels.ashx" />
     <None Include="DataAccess.dll.log4net" />
     <Content Include="packages.config" />
     <Content Include="Data\Sys_BankClassify.ashx" />

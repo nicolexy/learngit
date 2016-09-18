@@ -115,7 +115,8 @@
     </style>
     <script type="text/javascript">      
         $(function () {
-            $("#btn_Sure").css("display", "none");
+            //$("#btn_Sure").css("display", "none");
+            $("#btn_Sure").hide();
             $.ajax({
                 type: 'get',
                 url: "defaultNotice.aspx?getAction=GetCookie&requestUrl=<%= Request.QueryString["requestUrl"]==null?"":Request.QueryString["requestUrl"].ToString()%>&v=123",
@@ -145,11 +146,13 @@
             $("#cb_CheckNotice").click(function () {
 
                 if ($("#cb_CheckNotice").is(':checked')) {
-                    $("#btn_Sure").css("display", "block");
+                    //$("#btn_Sure").css("display", "block");
+                    $("#btn_Sure").show();
                     //$("#btn_Sure").removeAttr("disabled");
                 }
                 else {
-                    $("#btn_Sure").css("display", "none");
+                    //$("#btn_Sure").css("display", "none");
+                    $("#btn_Sure").hide();
                 }
             })
 
@@ -216,7 +219,7 @@
             <span>同意以上内容</span>
             <br />
             <br />
-            <button id="btn_Sure" class="btn" style="margin-left: 270px">确定</button>
+            <button id="btn_Sure" class="btn" style="margin-left: 30px">确定</button>
             <%--background-color: #cc4125; --%>
         </div>
     </div>

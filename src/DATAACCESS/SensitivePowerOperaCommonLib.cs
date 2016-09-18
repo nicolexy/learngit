@@ -277,6 +277,8 @@ namespace TENCENT.OSS.CFT.KF.Common
                 rights[175] = new OneRight("TencentbusinessMenu", 175, "购买公司业务菜单");
 
                 rights[196] = new OneRight("SensitiveRole", 196, "敏感权限");
+                rights[206] = new OneRight("IDCardManualReview_ReviewCount", 206, "身份证影印件批量领单权限");
+                rights[210] = new OneRight("IDCardManualReview_SeeDetail", 210, "身份证影印件查看详情权限");
 				ht = new Hashtable(RIGHTCOUNT);
 				for(int i=0 ; i< RIGHTCOUNT; i++)
 				{

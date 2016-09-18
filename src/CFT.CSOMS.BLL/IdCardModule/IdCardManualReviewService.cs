@@ -73,6 +73,22 @@ namespace CFT.CSOMS.BLL.IdCardModule
             return dt;
         }
 
+        public DataTable LoadReviewForExport(string uid, string uin, int reviewStatus, int reviewResult, string beginDate, string endDate,  string order)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                List<string> yearMonths = GetYearMonthList(DateTime.Parse(beginDate).ToString("yyyy-MM"), DateTime.Parse(endDate).ToString("yyyy-MM"), 5);
+                IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
+                dt = idCardManualReviewDAL.LoadReviewForExport(uid, uin, reviewStatus, reviewResult, yearMonths, order);
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+            }
+            return dt;
+        }
+
 
         /// <summary>
         /// 加载审核信息
@@ -113,15 +129,13 @@ namespace CFT.CSOMS.BLL.IdCardModule
             return receiveResult;
         }
 
-        public bool UpdateFstate(string fserial_numbe, int fid, int fstate, string tableName, out string message)
+        public bool UpdateFstate(string fserial_numbe, int fid, int fstate, string tableName)
         {
             bool receiveResult = false;
-            message = string.Empty;
             try
             {
                 IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
-                receiveResult = idCardManualReviewDAL.UpdateFstate(fserial_numbe, fid, fstate, tableName, out  message);
-
+                receiveResult = idCardManualReviewDAL.UpdateFstate(fserial_numbe, fid, fstate, tableName);
             }
             catch (Exception ex)
             {
@@ -214,13 +228,13 @@ namespace CFT.CSOMS.BLL.IdCardModule
                 dic_Sign.Add("OutPutType", "2");
                 dic_Sign.Add("PlatSpid", "1000077701");
                 string platTimeStamp = CommQuery.GetTimeStamp();
-                dic_Sign.Add("PlatTimeStamp", platTimeStamp);//"1471002616"
+                dic_Sign.Add("PlatTimeStamp", platTimeStamp);
 
                 if (!string.IsNullOrEmpty(reqTextStr))
                 {
                     dic_Sign.Add("ReqText", reqTextStr);
                 }
-                dic_Sign.Add("SeqNo", seq_no);//"1471002616"
+                dic_Sign.Add("SeqNo", seq_no);
 
                 if (!string.IsNullOrEmpty(uin))
                 {
@@ -292,7 +306,30 @@ namespace CFT.CSOMS.BLL.IdCardModule
                             {
                                 string retTextResult = retTextDecodeBase64Json["result"].ToString();
                                 result = retTextResult.Equals("0") ? true : false;
-                                msg = retTextResult.Equals("0") ? "审核成功,实名认证系统更新成功。" : ("实名认证系统更新失败:" + retTextDecodeBase64Json["res_info"].ToString());
+                                if (retTextResult.Equals("0"))
+                                {
+                                    msg = "实名认证系统更新成功。";
+                                }
+                                else if (retTextResult.Equals("99224024"))
+                                {
+                                    //这种是用户多次重传照片，征信那边对应好几张照片，跟实名系统那边存的有不一致，会发个版本优化下，减少这种情况，这种也先不审核
+                                    msg = "实名认证系统更新失败:" + " OCR信息错误。";
+                                }
+                                else if (retTextResult.Equals("99224025"))
+                                {
+                                    //这种一般是征信接口超时了，征信那边成功了，实名系统那边没有数据，直接放弃不需要审核
+                                    msg = "实名认证系统更新失败:" + " 数据库中无OCR记录。";
+                                }
+                                else if (retTextResult.Equals("99225006 "))
+                                {
+                                    //这种完全不需要处理，用户已经ocr成功了
+                                    msg = "重入错误，用户OCR已成功。";
+                                    result = true;
+                                }
+                                else
+                                {
+                                    msg = "实名认证系统更新失败:" + retTextDecodeBase64Json["res_info"].ToString();
+                                }                                
                                 LogHelper.LogInfo("IdCardManualReviewService.Review,retTextResult:" + retTextDecodeBase64Json.ToString());
                             }
                         }
@@ -472,8 +509,31 @@ namespace CFT.CSOMS.BLL.IdCardModule
                             if (retTextDecodeBase64Json != null && retTextDecodeBase64Json.Count > 0)
                             {
                                 string retTextResult = retTextDecodeBase64Json["result"].ToString();
-                                result = retTextResult.Equals("0") ? true : false;
-                                msg = retTextResult.Equals("0") ? "审核成功,实名认证系统更新成功。" : ("实名认证系统更新失败:" + retTextDecodeBase64Json["res_info"].ToString());
+                                result = retTextResult.Equals("0") ? true : false;                                
+                                if (retTextResult.Equals("0"))
+                                {
+                                    msg = "实名认证系统更新成功。";
+                                }
+                                else if (retTextResult.Equals("99224024"))
+                                {
+                                    //这种是用户多次重传照片，征信那边对应好几张照片，跟实名系统那边存的有不一致，会发个版本优化下，减少这种情况，这种也先不审核
+                                    msg = "实名认证系统更新失败:" + " OCR信息错误。";
+                                }
+                                else if (retTextResult.Equals("99224025"))
+                                {
+                                    //这种一般是征信接口超时了，征信那边成功了，实名系统那边没有数据，直接放弃不需要审核
+                                    msg = "实名认证系统更新失败:" + " 数据库中无OCR记录。";
+                                }
+                                else if (retTextResult.Equals("99225006 "))
+                                {
+                                    //这种完全不需要处理，用户已经ocr成功了
+                                    msg = "重入错误，用户OCR已成功。";
+                                    result = true;
+                                }
+                                else
+                                {
+                                    msg = "实名认证系统更新失败:" + retTextDecodeBase64Json["res_info"].ToString();
+                                } 
                                 LogHelper.LogInfo("IdCardManualReviewService.Review,retTextResult:" + retTextDecodeBase64Json.ToString());
                             }
                         }
