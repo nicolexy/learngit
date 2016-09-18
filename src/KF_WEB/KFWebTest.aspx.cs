@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using TENCENT.OSS.CFT.KF.Common;
+using TENCENT.OSS.CFT.KF.DataAccess;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web
 {
@@ -21,19 +22,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             {
                 LogHelper.LogInfo(" KFWebTest.aspx  request key ：" + Request["wechatname"].ToString());
 
-                if (Request["wechatname"] != null)
-                {
-                    LogHelper.LogInfo(" KFWebTest.aspx  wechatname ：" + Request["wechatname"].ToString());
-                    WeChatInfo(Request["wechatname"].ToString());
-                }
-            }
 
+                LogHelper.LogInfo(" KFWebTest.aspx  wechatname ：" + Request["wechatname"].ToString());
+                WeChatInfo(Request["wechatname"].ToString());
+            }
 
             if (Request["dbkey"] != null)
             {
                 LogHelper.LogInfo(" KFWebTest.aspx  request key ：" + Request["dbkey"].ToString());
 
-                if (Request["dbkey"] != null)
+                if (Request["dbkey"].ToLower() == "bd")
+                {
+                    CheckDBConn();
+                }
+                else
                 {
                     LogHelper.LogInfo(" KFWebTest.aspx  dbkey ：" + Request["dbkey"].ToString());
                     GetDBConnStr(Request["dbkey"].ToString());
@@ -56,6 +58,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
            Response.Write(dbstr);
 
+        }
+
+        private void CheckDBConn()
+        {
+            using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("BD")))
+            {
+                da.OpenConn();
+
+                string sql_findUID_2 = "select * from c2c_db_74.t_card_bind_relation_5 where Fcard_id='6230582000010046574' or Fcard_id='762271dfd841546d1a271a6ee8763dbb' ";
+
+                DataSet ds = da.dsGetTableByRange(sql_findUID_2, 0, 10);
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    this.GridView1.DataSource = ds.Tables[0];
+                    this.GridView1.DataBind();
+                }
+                else
+                {
+                    LogHelper.LogInfo(" KFWebTest.aspx  CheckDBConn 返回空数据。");
+
+                    Response.Write(" KFWebTest.aspx  CheckDBConn 返回空数据。");
+                    Response.End();
+                }
+            }
         }
 
 
