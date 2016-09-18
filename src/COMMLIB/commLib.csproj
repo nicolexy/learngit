@@ -105,6 +105,10 @@
       <HintPath>..\packages\CFT.Apollo.CommunicationFramework.3.3.0\lib\net40\icecs_gb2312.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\KF_WEB\NPOI\binary\2.1.3\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Interop.ADODB">
       <HintPath>..\Assemblies\Interop.ADODB.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -126,6 +130,18 @@
     </Reference>
     <Reference Include="MySql.Data.Apollo">
       <HintPath>..\packages\MySql.Data.Apllo.6.95.5494.24500\lib\MySql.Data.Apollo.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>..\KF_WEB\NPOI\binary\2.1.3\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\KF_WEB\NPOI\binary\2.1.3\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\KF_WEB\NPOI\binary\2.1.3\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>..\KF_WEB\NPOI\binary\2.1.3\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="SunLibrary">
       <HintPath>..\packages\SunLibrary.1.1.5280.31038\lib\net40\SunLibrary.dll</HintPath>
@@ -181,6 +197,7 @@
     <Compile Include="Entity\HKWallet\HKWalletTransRollList.cs" />
     <Compile Include="Entity\QueryWeiXinMircoPay.cs" />
     <Compile Include="Entity\UploadFileModel.cs" />
+    <Compile Include="ExcelHelper.cs" />
     <Compile Include="FPSFileHelper.cs" />
     <Compile Include="GenID.cs">
       <SubType>Code</SubType>
@@ -188,6 +205,7 @@
     <Compile Include="getData.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="JsonHelper.cs" />
     <Compile Include="loger.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -198,6 +216,7 @@
     <Compile Include="NewMailSend.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="NPOIExportToExcel.cs" />
     <Compile Include="SunlibraryEx.cs" />
     <Compile Include="WeChatHelper.cs" />
     <None Include="App.config">

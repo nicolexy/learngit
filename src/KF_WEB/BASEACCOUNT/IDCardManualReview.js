@@ -1,5 +1,6 @@
 ﻿$(function () {
-
+    IsHaveRightForReviewCount();
+    IsHaveRightForSeeDetail();
     $("#div_ReveiwIdCard").dialog("close");
     //时间:起
     $("#tbx_beginDate").datebox({
@@ -42,10 +43,15 @@
             dataType: "text",
             data: datas,
             url: "IDCardManualReview.aspx?getAction=ReceiveReview",
-            success: function (result) {
-                if (result.length > 0) {
-                    $.messager.alert("提示", result, "info", null);
-                }
+            success: function (returnData) {
+                var dataObj = eval("(" + returnData + ")");
+                $.each(dataObj, function (idx, item) {
+                    var result = item.result;
+                    var message = item.message;
+                    if (message.length > 0) {
+                        $.messager.alert('提示', message, 'Info');
+                    }
+                });
 
             },
             error: function () {
@@ -58,7 +64,7 @@
     $("#btn_Search").click(function () {
         var uid = $("[id$='Label_uid']").text();//$("#Label_uid").text();
         var uin = $("#txt_uin").val();
-        $("#ddl_ReviewStatus").combobox("getValue");
+        var isHaveRightForSeeDetail=$("#hid_IsHaveRightForSeeDetail").val();        
         var reviewCount = $("#txt_ReviewCount").numberspinner("getValue");
         var beginDate = $("#tbx_beginDate").datebox("getValue");
         var endDate = $("#txt_EndDate").datebox("getValue");
@@ -74,10 +80,7 @@
             $.messager.alert("提示", "开始日期不能大于结束日期", "info", null);
             return;
         }
-        var datas = {
-            uid: uid,
-            uin: uin,
-            reviewCount: reviewCount,
+        var datas = {                 
             beginDate: beginDate,
             endDate: endDate
         };
@@ -95,7 +98,7 @@
                 $.each(dataObj, function (idx, item) {
                     var result = item.result;
                     var message = item.message;
-                    if ((result == "false" || result == "False" || !result) && message.length > 0) {
+                    if ((result == "false" || result == "False") && message.length > 0) {
                         $.messager.alert('提示', message, 'Info');
                         return;
                     }
@@ -189,33 +192,49 @@
                          formatter: function (value, row, index) {
                              var Fmemo = "";
                              if (value == "1") {
-                                 Fmemo = "未显示图片";
+                                 Fmemo = "未提供照片";
                              }
                              else if (value == "2") {
-                                 Fmemo = "未提供身份证扫描件";
+                                 Fmemo = "上传非身份证照片";
                              }
                              else if (value == "3") {
-                                 Fmemo = "上传的扫描件不够完整、清晰、有效";
+                                 Fmemo = "身份证件不清晰不完整";
                              }
                              else if (value == "4") {
-                                 Fmemo = "证件号码与原注册证件号码不符";
+                                 Fmemo = "身份证证件号不一致";
                              }
                              else if (value == "5") {
                                  Fmemo = "其他原因";
+                             }
+                             else if (value == "6") {
+                                 Fmemo = "身份证姓名和提供姓名不符";
+                             }
+                             else if (value == "7") {
+                                 Fmemo = "身份证签发机关和地址不一致";
+                             }
+                             else if (value == "8") {
+                                 Fmemo = "两张均为正面或反面";
+                             }
+                             else if (value == "9") {
+                                 Fmemo = "身份证证件虚假";
+                             }
+                             else if (value == "10") {
+                                 Fmemo = "身份证已超过有效期";
                              }
                              var span = "<span>" + Fmemo + "</span>";
                              return span;
                          }
                      },
                       {
-                          field: '详细类容', title: '详细类容', halign: 'center', align: 'center', width: divWidth * 5 / 100,
+                          field: '详细内容', title: '详细内容', halign: 'center', align: 'center', width: divWidth * 5 / 100,
                           formatter: function (value, row, index) {
                               var span = "";
-                              if (row.Foperator == "" || row.Foperator.length < 1 || row.Foperator == "undefined") {
-                                  span = "<span></span>";
+                              //当前登录人员是该审核数据的领单人员或者当前登录人员有权限查看详细则可以点击详细内容进入详细查看
+                              if (row.Foperator == uid || isHaveRightForSeeDetail == "True" || isHaveRightForSeeDetail == "true") {
+                                  span = "<span><a href='#'  onclick='ReviewIdCard(" + index + ")'>详细内容</a></span>";
                               }
-                              else if (row.Foperator == uid) {
-                                  span = "<span><a href='#'  onclick='ReviewIdCard(" + index + ")'>详细类容</a></span>";
+                              else {//if (row.Foperator == "" || row.Foperator.length < 1 || row.Foperator == "undefined")                                  
+                                  span = "<span></span>";
                               }
                               return span;
                           }
@@ -258,6 +277,7 @@
             }
         });
     });
+
     $("#a_No").click(function () {
         var selectedFmemo = $("#txt_Fmemo").combobox("getValue");
         if (selectedFmemo == 0) {
@@ -293,6 +313,7 @@
             }
         });
     });
+
     $("#a_ReSend").click(function () {
         var postDatas = {
             Fuin: $("#lab_Fuin").text(),
@@ -323,7 +344,104 @@
         });
     });
 
+    $("#a_DownloadReviewData").click(function () {
+        var uid = $("[id$='Label_uid']").text();//$("#Label_uid").text();
+        var uin = $("#txt_uin").val();        
+        var reviewCount = $("#txt_ReviewCount").numberspinner("getValue");
+        var beginDate = $("#tbx_beginDate").datebox("getValue");
+        var endDate = $("#txt_EndDate").datebox("getValue");
+        if (beginDate.length < 1 || beginDate == null) {
+            $.messager.alert("提示", "请选择开始日期", "info", null);
+            return;
+        }
+        else if (endDate.length < 1 || endDate == null) {
+            $.messager.alert("提示", "请选择结束日期", "info", null);
+            return;
+        }
+        if (beginDate > endDate) {
+            $.messager.alert("提示", "开始日期不能大于结束日期", "info", null);
+            return;
+        }
+
+        var url = "/Ajax/CommonAjax/NPOIExportToExcels.ashx?getAction=ExportIDCardManualReviewDataToExcel&uid=" + uid + "&uin=" + uin + "&reviewCount=" + reviewCount + "&reviewStatus=" + $("#ddl_ReviewStatus").combobox("getValue") + "&reviewResult=" + $("#ddl_ReviewResult").combobox("getValue") + "&beginDate=" + beginDate + "&endDate=" + endDate + ""
+        $("#Form1").attr("action", url);//设置表单提交的对象
+        $("#Form1").submit();//提交表单
+
+        //var datas = {
+        //    uid: uid,
+        //    uin: uin,
+        //    reviewCount: reviewCount,
+        //    reviewStatus: $("#ddl_ReviewStatus").combobox("getValue"),
+        //    reviewResult: $("#ddl_ReviewResult").combobox("getValue"),
+        //    beginDate: beginDate,
+        //    endDate: endDate
+        //};
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/Ajax/CommonAjax/NPOIExportToExcels.ashx?getAction=ExportIDCardManualReviewDataToExcel",
+        //    data: datas,
+        //    dataType: "text",
+        //    success: function (data) {
+        //        var dataObj = eval("(" + data + ")");
+        //        $.each(dataObj, function (idx, item) {
+        //            var result = item.result;
+        //            var message = item.message;
+        //            if ((result == "false" || result == "False") && message.length > 0) {
+        //                $.messager.alert('提示', message, 'Info');
+        //                return;
+        //            }
+        //        });
+        //    }
+        //});
+    })
+
 })
+
+function IsHaveRightForReviewCount()
+{
+    $.ajax({
+        type: "POST",
+        url: "IDCardManualReview.aspx?getAction=IsHaveRightForReviewCount",
+        //data: postDatas,
+        dataType: "text",
+        success: function (data) {
+            var dataObj = eval("(" + data + ")");
+            $.each(dataObj, function (idx, item) {
+                var result = item.result;
+                var message = item.message;               
+                if (result == "true" || result == "True") {
+                    //$("#btn_ReceiveReview").show();
+                    $("#td_ReviewCountName").show();
+                    $("#td_ReviewCount").show();
+                    
+                }
+                else {                    
+                    //$("#btn_ReceiveReview").hide();
+                    $("#td_ReviewCountName").hide();
+                    $("#td_ReviewCount").hide();
+                }
+            });
+        }
+    });
+}
+
+
+function IsHaveRightForSeeDetail() {
+    $.ajax({
+        type: "POST",
+        url: "IDCardManualReview.aspx?getAction=IsHaveRightForSeeDetail",
+        //data: postDatas,
+        dataType: "text",
+        success: function (data) {
+            var dataObj = eval("(" + data + ")");
+            $.each(dataObj, function (idx, item) {
+                var result = item.result;
+                var message = item.message;
+                $("#hid_IsHaveRightForSeeDetail").val(result);
+            });
+        }
+    });
+}
 
 function ReviewIdCard(index) {
     var rows = $("#tb_IDCardManualReviewList").datagrid('getData').rows;
@@ -347,7 +465,7 @@ function ReviewIdCard(index) {
     var tableWidth = $(document).width() * 100 / 100;
     var divHeight = $(document).height() * 100 / 100;
     $("#div_ReveiwIdCard").dialog({
-        title: '审核身份证,流水号：' + Fserial_number,
+        title: '【身份证影印件审核】,流水号：' + Fserial_number,
         width: tableWidth * 60 / 100,
         height: divHeight * 80 / 100,
         //resizable: true,
@@ -358,8 +476,8 @@ function ReviewIdCard(index) {
         modal: true,
         //toolbar: '#tb_HaiKangPriceProtectionReport_toolbar',
         onBeforeOpen: function () {
-
-
+            $("#lab_Fname").text("");
+            $("#lab_Fidentitycard").text("");
         },
         onOpen: function () {
             //解密姓名
@@ -372,10 +490,22 @@ function ReviewIdCard(index) {
                 url: "IDCardManualReview.aspx?getAction=Decryptor",
                 data: postFname,
                 dataType: "text",
-                success: function (data) {
-                    $("#lab_Fname").text(data);
+                success: function (retrunData) {                   
+                    var dataObj = eval("(" + retrunData + ")");
+                    $.each(dataObj, function (idx, item) {
+                        var result = item.result;
+                        var message = item.message;
+                        
+                        if (result == "true" || result == "True") {
+                            $("#lab_Fname").text(message);
+                        }
+                        else {
+                            $("#lab_Fname").text("");
+                        }
+                    });
                 }
             });
+
             //解密身份证
             //var deFidentitycard = "";
             var postFidentitycard = {
@@ -386,8 +516,19 @@ function ReviewIdCard(index) {
                 url: "IDCardManualReview.aspx?getAction=Decryptor",
                 data: postFidentitycard,
                 dataType: "text",
-                success: function (data) {
-                    $("#lab_Fidentitycard").text(data);
+                success: function (retrunData) {                    
+                    var dataObj = eval("(" + retrunData + ")");
+                    $.each(dataObj, function (idx, item) {
+                        var result = item.result;
+                        var message = item.message;
+                       
+                        if (result == "true" || result == "True") {
+                            $("#lab_Fidentitycard").text(message);
+                        }
+                        else {
+                            $("#lab_Fidentitycard").text("");
+                        }
+                    });
                 }
             });
             $("#lab_Fuin").text(Fuin);
@@ -401,6 +542,39 @@ function ReviewIdCard(index) {
             var bbb = $("#hid_IdCaredServerPath").val() + "?" + Fimage_path2;
             $("#ima_IDCardZ").attr("src", aaa);
             $("#ima_IDCardF").attr("src", bbb);
+
+            $("#ima_IDCardZ,#ima_IDCardF").bind("contextmenu", function () {
+                return false;
+            });
+            $("#div_ima_IDCardZ").empty();
+            var index = 0;
+            for (var i = 20; i < $("#div_ima_IDCardZ").width() ; i += 200) {
+                index = index + 50;
+                for (var j = 20; j < $("#div_ima_IDCardZ").height() ; j += 300) {
+                    var span = "<div style='color:gray;width:50px;margin-top:" + index + "px;margin-left:" + (index + 10) + "px;transform:rotate(-45deg)'><span>" + $("[id$='Label_uid']").text() + "</span></div>";
+                    $("#div_ima_IDCardZ").append(span);
+                }
+            }
+
+            $("#div_ima_IDCardF").empty();
+            var index2 = 0;
+            for (var i = 20; i < $("#div_ima_IDCardF").width() ; i += 200) {
+                index2 = index2 + 50;
+                for (var j = 20; j < $("#div_ima_IDCardF").height() ; j += 300) {
+                    var span = "<div style='color:gray;width:50px;margin-top:" + index2 + "px;margin-left:" + (index2 + 10) + "px;transform:rotate(-45deg)'><span>" + $("[id$='Label_uid']").text() + "</span></div>";
+                    $("#div_ima_IDCardF").append(span);
+                }
+            }
+            //$("#div_ima_IDCardZ").text($("[id$='Label_uid']").text());
+            //$("#div_ima_IDCardF").text($("[id$='Label_uid']").text());
+            //$("#ima_IDCardZ").watermark({
+            //    text: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+            //    textWidth: 3000,
+            //    gravity: 'w',
+            //    opacity: 1,
+            //    margin: 3
+            //});
+
             if (Fstate <= 1) {
                 //未领单，不能做任何操作
                 $("#a_Yes").hide();
