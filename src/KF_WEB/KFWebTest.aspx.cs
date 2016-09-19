@@ -76,7 +76,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
-                    this.GridView1.DataSource = ds.Tables[0];
+                    this.GridView1.DataSource = ds.Tables[0].DefaultView;
                     this.GridView1.DataBind();
                 }
                 else
