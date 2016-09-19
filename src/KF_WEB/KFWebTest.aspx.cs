@@ -31,7 +31,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             {
                 LogHelper.LogInfo(" KFWebTest.aspx  request key ：" + Request["dbkey"].ToString());
 
-                if (Request["gofunc"].ToLower() == "checkdbconn")
+                if (Request["gofunc"] != null && Request["gofunc"].ToLower() == "checkdbconn")
                 {
                     LogHelper.LogInfo(" KFWebTest.aspx  dbkey ：" + Request["dbkey"].ToString());
                     CheckDBConn(Request["dbkey"].ToString());
