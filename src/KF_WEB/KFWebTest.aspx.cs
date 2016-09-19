@@ -31,9 +31,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             {
                 LogHelper.LogInfo(" KFWebTest.aspx  request key ：" + Request["dbkey"].ToString());
 
-                if (Request["dbkey"].ToLower() == "bd")
+                if (Request["gofunc"].ToLower() == "checkdbconn")
                 {
-                    CheckDBConn();
+                    LogHelper.LogInfo(" KFWebTest.aspx  dbkey ：" + Request["dbkey"].ToString());
+                    CheckDBConn(Request["dbkey"].ToString());
                 }
                 else
                 {
@@ -60,9 +61,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
         }
 
-        private void CheckDBConn()
+        private void CheckDBConn(string strkey)
         {
-            using (MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("BD")))
+            string dbstr = CommLib.DbConnectionString.Instance.GetConnectionString(strkey.Trim().ToUpper());
+
+            LogHelper.LogInfo(" test.aspx  private void GetDBConnStr  strKey：" + strkey + ",dbstr:" + dbstr);
+            using (MySqlAccess da = new MySqlAccess(dbstr))
             {
                 da.OpenConn();
 
