@@ -119,10 +119,10 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         sb.Append("UPDATE " + tableName + " ");
                         sb.Append("SET Foperator='" + uid + "',");
                         sb.Append("Fstate=2 ");
-                        sb.Append("WHERE Fidentitycard IN(");
+                        sb.Append("WHERE Fserial_number IN(");
 
-                        sb.Append("select tb1.Fidentitycard from(");
-                        sb.Append("SELECT Fidentitycard FROM " + tableName + " WHERE Fstate=1 AND Foperator IS NULL ORDER BY Fcreate_time ASC  LIMIT 0," + reviewCount + " ");
+                        sb.Append("select tb1.Fserial_number from(");
+                        sb.Append("SELECT Fserial_number FROM " + tableName + " WHERE Fstate=1 AND Foperator IS NULL ORDER BY Fcreate_time ASC  LIMIT 0," + reviewCount + " ");
                         sb.Append(") tb1");
 
                         sb.Append(")");
@@ -131,6 +131,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         if (updateResult == 0)
                         {
                             message = "领单失败";
+                            returnResult = false;
                         }
                         else
                         {
@@ -143,6 +144,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
             catch (Exception ex)
             {
                 returnResult = false;
+                message = "领单失败";
                 LogHelper.LogInfo("IdCardManualReview.ReceiveNeedReviewIdCardData2:" + ex.Message);
             }
             finally
@@ -163,7 +165,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
         /// <param name="reviewResult"></param>
         /// <param name="yearMonths"></param>
         /// <returns></returns>
-        public DataTable LoadReview(string uid, string uin, int reviewStatus, int reviewResult, List<string> yearMonths, int pageSize, int pageNumber, string order, ref int total)
+        public DataTable LoadReview(string uid, string uin, int reviewStatus, int reviewResult, List<string> yearMonths, string beginDate, string endDate, int pageSize, int pageNumber, string order, ref int total)
         {
             DataTable dt = new DataTable();
             total = 0;
@@ -189,10 +191,10 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         if (reviewStatus > 0)
                         {
                             sb.Append("AND Fstate='" + reviewStatus + "' ");
-                            if (reviewStatus > 1)
-                            {
-                                sb.Append("AND Foperator='" + uid + "' ");
-                            }
+                            //if (reviewStatus > 1)
+                            //{
+                            //    sb.Append("AND Foperator='" + uid + "' ");
+                            //}
                         }
                         if (reviewResult > -1)
                         {
@@ -202,6 +204,14 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         if (!string.IsNullOrEmpty(uin))
                         {
                             sb.Append("AND Fuin='" + uin + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(beginDate))
+                        {
+                            sb.Append(" AND date_format(Fcreate_time, '%Y-%m-%d')>='" + beginDate + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(endDate))
+                        {
+                            sb.Append(" AND date_format(Fcreate_time, '%Y-%m-%d')<='" + endDate + "' ");
                         }
                         if (!string.IsNullOrEmpty(order))
                         {
@@ -230,6 +240,86 @@ namespace CFT.CSOMS.DAL.IdCardModule
             return dt;
         }
 
+
+        public DataTable LoadReviewForExport(string uid, string uin, int reviewStatus, int reviewResult, List<string> yearMonths, string beginDate, string endDate, string order)
+        {
+            DataTable dt = new DataTable();
+            //total = 0;
+            var fmda = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
+            try
+            {
+                //通过帐号分配任务                    
+                fmda.OpenConn();
+                fmda.StartTran();
+
+                if (yearMonths.Count > 0)
+                {
+                    StringBuilder tableName = new StringBuilder();
+                    tableName.Append("c2c_fmdb.t_check_identitycard_");
+                    //int startIndex = ((pageNumber - 1) * pageSize);
+                    DataTable dtTotal = new DataTable();
+                    foreach (var yearMonth in yearMonths)
+                    {
+                        tableName.Append(yearMonth);
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append("SELECT Fserial_number AS '流水号',Fspid AS '商户号',Fcreate_time AS '申请时间',Fuin AS '用户帐号',Fmodify_time AS '审核时间' , ");
+                        sb.Append("CASE Fstate WHEN 1 THEN '未领单' WHEN 2 THEN '已领单' WHEN 3 THEN '推送到实名系统失败' WHEN 4 THEN '推送成功' END AS '审核状态', ");
+                        sb.Append("CASE Fresult WHEN 0 THEN '未处理' WHEN 1 THEN '通过' WHEN 2 THEN '驳回' END AS '审核结果', ");
+                        sb.Append("Foperator AS '处理人',  ");
+                        sb.Append("CASE Fmemo WHEN 1 THEN '未提供照片' WHEN 2 THEN '上传非身份证照片' WHEN 3 THEN '身份证件不清晰不完整' WHEN 4 THEN '身份证证件号不一致' WHEN 5 THEN '其他原因' WHEN 6 THEN '身份证姓名和提供姓名不符' WHEN 7 THEN '身份证签发机关和地址不一致' WHEN 8 THEN '两张均为正面或反面' WHEN 9 THEN '身份证证件虚假' WHEN 10 THEN '身份证已超过有效期' END AS '审核信息'  ");
+                        sb.Append("FROM " + tableName + "  ");
+                        sb.Append("WHERE 1=1 ");
+                        if (reviewStatus > 0)
+                        {
+                            sb.Append("AND Fstate='" + reviewStatus + "' ");
+                            //if (reviewStatus > 1)
+                            //{
+                            //    sb.Append("AND Foperator='" + uid + "' ");
+                            //}
+                        }
+                        if (reviewResult > -1)
+                        {
+                            sb.Append("AND Fresult='" + reviewResult + "' ");
+                        }
+                        
+                        if (!string.IsNullOrEmpty(uin))
+                        {
+                            sb.Append("AND Fuin='" + uin + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(beginDate))
+                        {
+                            sb.Append(" AND date_format(Fcreate_time, '%Y-%m-%d')>='" + beginDate + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(endDate))
+                        {
+                            sb.Append(" AND date_format(Fcreate_time, '%Y-%m-%d')<='" + endDate + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(order))
+                        {
+                            sb.Append("ORDER BY " + order + " ");
+                        }
+                        
+                        dtTotal = fmda.GetTable(sb.ToString());
+                        //total += dtTotal.Rows.Count;
+                        //sb.Append("LIMIT " + startIndex + "," + pageSize + "  ");
+                        LogHelper.LogInfo(string.Format("{0} 用户[{1}]执行查询操作,查询SQL:{2}",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),uid,sb.ToString() ));
+                        dt = fmda.GetTable(sb.ToString());
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+            }
+            finally
+            {
+                fmda.Commit();
+                fmda.CloseConn();
+                fmda.Dispose();
+            }
+            return dt;
+        }
         /// <summary>
         /// 加载审核信息
         /// </summary>
@@ -315,11 +405,10 @@ namespace CFT.CSOMS.DAL.IdCardModule
             return returnResult;
         }
 
-        public bool UpdateFstate(string fserial_numbe, int fid, int fstate,string tableName, out string message)
+        public bool UpdateFstate(string fserial_numbe, int fid, int fstate,string tableName)
         {
             DataSet ds = new DataSet();
             bool returnResult = false;
-            message = string.Empty;
             var fmda = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
             try
             {
@@ -332,11 +421,10 @@ namespace CFT.CSOMS.DAL.IdCardModule
                 int updateResult = fmda.ExecSqlNum(sb.ToString());
                 if (updateResult == 0)
                 {
-                    message = "保存失败";
+                    returnResult = false;
                 }
                 else
                 {
-                    message = string.Format("保存成功", updateResult);
                     returnResult = true;
                 }
             }

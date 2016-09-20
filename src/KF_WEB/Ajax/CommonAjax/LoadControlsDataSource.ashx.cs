@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.SessionState;
+using commLib;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
 {
@@ -37,7 +38,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
 
         public void LoadCommonCombobox(HttpContext context)
         {
-            bool isShowSelect = context.Request.QueryString["isShowSelect"] != null || string.IsNullOrEmpty(context.Request.QueryString["isShowSelect"].ToString()) ? bool.Parse(context.Request.QueryString["isShowSelect"].ToString()) : false;           
+            bool isShowSelect = context.Request.QueryString["isShowSelect"] != null || string.IsNullOrEmpty(context.Request.QueryString["isShowSelect"].ToString()) ? bool.Parse(context.Request.QueryString["isShowSelect"].ToString()) : false;
             string showSelectText = context.Request.QueryString["showSelectText"] != null || string.IsNullOrEmpty(context.Request.QueryString["showSelectText"].ToString()) ? context.Request.QueryString["showSelectText"].ToString() : string.Empty;
             string type = context.Request.QueryString["type"] != null || string.IsNullOrEmpty(context.Request.QueryString["type"].ToString()) ? context.Request.QueryString["type"].ToString() : string.Empty;
             if (type.Equals("IDCardManualReview_LoadReveiwStatus"))
@@ -186,29 +187,74 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
             string result = string.Empty;
             try
             {
+
+
                 DataTable dt = new DataTable();
                 dt.Columns.Add("id");
                 dt.Columns.Add("name");
+                #region
+                //1 = "未提供照片";
+                //2 = "上传非身份证照片";
+                //3 = "身份证件不清晰不完整";
+                //4 = "身份证证件号不一致";
+                //5 = "其他原因";
+                //6 = "身份证姓名和提供姓名不符";
+                //7 = "身份证签发机关和地址不一致";
+                //8 = "两张均为正面或反面";
+                //9 = "身份证证件虚假";
+                //10 = "身份证已超过有效期";
+
                 DataRow dr1 = dt.NewRow();
                 dr1["id"] = "1";
-                dr1["name"] = "未显示图片";
+                dr1["name"] = "未提供照片";//未显示图片
+                dt.Rows.Add(dr1);
+
                 DataRow dr2 = dt.NewRow();
                 dr2["id"] = "2";
-                dr2["name"] = "未提供身份证扫描件";
+                dr2["name"] = "上传非身份证照片";//未提供身份证扫描件
+                dt.Rows.Add(dr2);
+
                 DataRow dr3 = dt.NewRow();
                 dr3["id"] = "3";
-                dr3["name"] = "上传的扫描件不够完整、清晰、有效";
+                dr3["name"] = "身份证件不清晰不完整";//上传的扫描件不够完整、清晰、有效
+                dt.Rows.Add(dr3);
+
                 DataRow dr4 = dt.NewRow();
                 dr4["id"] = "4";
-                dr4["name"] = "证件号码与原注册证件号码不符";
+                dr4["name"] = "身份证证件号不一致";//证件号码与原注册证件号码不符
+                dt.Rows.Add(dr4);
+
                 DataRow dr5 = dt.NewRow();
                 dr5["id"] = "5";
                 dr5["name"] = "其他原因"; 
-                dt.Rows.Add(dr1);
-                dt.Rows.Add(dr2);
-                dt.Rows.Add(dr3);
-                dt.Rows.Add(dr4);
                 dt.Rows.Add(dr5);
+
+                DataRow dr6 = dt.NewRow();
+                dr6["id"] = "6";
+                dr6["name"] = "身份证姓名和提供姓名不符";
+                dt.Rows.Add(dr6);
+
+                DataRow dr7 = dt.NewRow();
+                dr7["id"] = "7";
+                dr7["name"] = "身份证签发机关和地址不一致";
+                dt.Rows.Add(dr7);
+
+                DataRow dr8 = dt.NewRow();
+                dr8["id"] = "8";
+                dr8["name"] = "两张均为正面或反面";
+                dt.Rows.Add(dr8);
+
+                DataRow dr9 = dt.NewRow();
+                dr9["id"] = "9";
+                dr9["name"] = "身份证证件虚假";
+                dt.Rows.Add(dr9);
+
+                DataRow dr10 = dt.NewRow();
+                dr10["id"] = "10";
+                dr10["name"] = "身份证已超过有效期";
+                dt.Rows.Add(dr10);
+                #endregion
+
                 if (isShowSelect)
                 {
                     DataRow row = dt.NewRow();
@@ -253,7 +299,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                         builder.Append("\"id\": ");
                         builder.Append(dt.Rows[i][keyName] + ",");
                         builder.Append("\"name\": ");
-                        builder.Append("\"" + this.JsonCharFilter(dt.Rows[i][valueName].ToString()) + "\"");
+                        builder.Append("\"" + JsonHelper.JsonCharFilter(dt.Rows[i][valueName].ToString()) + "\"");
                         builder.Append("},");
                     }
                     if (i == (dt.Rows.Count - 1))
@@ -262,7 +308,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                         builder.Append("\"id\": ");
                         builder.Append(dt.Rows[i][keyName] + ",");
                         builder.Append("\"name\": ");
-                        builder.Append("\"" + this.JsonCharFilter(dt.Rows[i][valueName].ToString()) + "\"");
+                        builder.Append("\"" + JsonHelper.JsonCharFilter(dt.Rows[i][valueName].ToString()) + "\"");
                         builder.Append("}");
                     }
                 }
@@ -272,86 +318,5 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
             builder.Append("[]");
             return builder.ToString();
         }
-
- 
-
- 
-
-
-        public string GetJsonFromDataTable(DataTable dt, int total, bool isshowtotal = true)
-        {
-            StringBuilder builder = new StringBuilder();
-            if (dt.Rows.Count == 0)
-            {
-                builder.Append("{ ");
-                builder.Append("\"rows\":[ ");
-                builder.Append("]");
-                if (isshowtotal)
-                {
-                    builder.Append(",");
-                    builder.Append("\"total\":");
-                    builder.Append(total);
-                }
-                builder.Append("}");
-                return builder.ToString();
-            }
-            builder.Append("{ ");
-            builder.Append("\"rows\":[ ");
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                builder.Append("{ ");
-                for (int j = 0; j < dt.Columns.Count; j++)
-                {
-                    if (j < (dt.Columns.Count - 1))
-                    {
-                        builder.Append("\"" + dt.Columns[j].ColumnName.ToString().ToLower() + "\":\"" + this.JsonCharFilter(dt.Rows[i][j].ToString()) + "\",");
-                    }
-                    else if (j == (dt.Columns.Count - 1))
-                    {
-                        builder.Append("\"" + dt.Columns[j].ColumnName.ToString().ToLower() + "\":\"" + this.JsonCharFilter(dt.Rows[i][j].ToString()) + "\"");
-                    }
-                }
-                if (i == (dt.Rows.Count - 1))
-                {
-                    builder.Append("} ");
-                }
-                else
-                {
-                    builder.Append("}, ");
-                }
-            }
-            builder.Append("]");
-            if (isshowtotal)
-            {
-                builder.Append(",");
-                builder.Append("\"total\":");
-                builder.Append(total);
-            }
-            builder.Append("}");
-            return builder.ToString();
-        }
-
-
-        public string JsonCharFilter(string sourceStr)
-        {
-            sourceStr = sourceStr.Replace(@"\", @"\\");
-            sourceStr = sourceStr.Replace("\"", "\\\"");
-            sourceStr = sourceStr.Replace("\b", @"\b");
-            sourceStr = sourceStr.Replace("\t", @"\t");
-            sourceStr = sourceStr.Replace("\n", @"\n");
-            sourceStr = sourceStr.Replace("\f", @"\f");
-            sourceStr = sourceStr.Replace("\r", @"\r");
-            sourceStr = sourceStr.Replace("\r\n", "");
-            sourceStr = sourceStr.Replace("（", "(");
-            sourceStr = sourceStr.Replace("）", ")");
-            return sourceStr;
-        }
-
- 
-
- 
-
- 
-
     }
 }

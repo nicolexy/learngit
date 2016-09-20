@@ -176,6 +176,9 @@
     <Compile Include="Ajax\CommonAjax\LoadControlsDataSource.ashx.cs">
       <DependentUpon>LoadControlsDataSource.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Ajax\CommonAjax\NPOIExportToExcels.ashx.cs">
+      <DependentUpon>NPOIExportToExcels.ashx</DependentUpon>
+    </Compile>
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -192,13 +195,6 @@
     </Compile>
     <Compile Include="Auto\BatchFreezeAppeal.aspx.designer.cs">
       <DependentUpon>BatchFreezeAppeal.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="BaseAccount\AgencyBusinessQuery.aspx.cs">
-      <DependentUpon>AgencyBusinessQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="BaseAccount\AgencyBusinessQuery.aspx.designer.cs">
-      <DependentUpon>AgencyBusinessQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\BankCardUnbind.aspx.cs">
       <DependentUpon>BankCardUnbind.aspx</DependentUpon>
@@ -458,13 +454,6 @@
     </Compile>
     <Compile Include="BaseAccount\MerchantInfoModifyQuery.aspx.designer.cs">
       <DependentUpon>MerchantInfoModifyQuery.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="BaseAccount\DepositAccountQuery.aspx.cs">
-      <DependentUpon>DepositAccountQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="BaseAccount\DepositAccountQuery.aspx.designer.cs">
-      <DependentUpon>DepositAccountQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\Define.cs">
       <SubType>Code</SubType>
@@ -2236,26 +2225,12 @@
     <Compile Include="TradeManage\ComplainBussinessDetail.aspx.designer.cs">
       <DependentUpon>ComplainBussinessDetail.aspx</DependentUpon>
     </Compile>
-    <Compile Include="TradeManage\ComplainBussinessInput.aspx.cs">
-      <DependentUpon>ComplainBussinessInput.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TradeManage\ComplainBussinessInput.aspx.designer.cs">
-      <DependentUpon>ComplainBussinessInput.aspx</DependentUpon>
-    </Compile>
     <Compile Include="TradeManage\ComplainUserDetail.aspx.cs">
       <DependentUpon>ComplainUserDetail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\ComplainUserDetail.aspx.designer.cs">
       <DependentUpon>ComplainUserDetail.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="TradeManage\ComplainUserInput.aspx.cs">
-      <DependentUpon>ComplainUserInput.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TradeManage\ComplainUserInput.aspx.designer.cs">
-      <DependentUpon>ComplainUserInput.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\ContractQuery.aspx.cs">
       <DependentUpon>ContractQuery.aspx</DependentUpon>
@@ -2312,20 +2287,6 @@
     </Compile>
     <Compile Include="TradeManage\FreezeReason.aspx.designer.cs">
       <DependentUpon>FreezeReason.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="TradeManage\FundCardQuery_Detail.aspx.cs">
-      <DependentUpon>FundCardQuery_Detail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TradeManage\FundCardQuery_Detail.aspx.designer.cs">
-      <DependentUpon>FundCardQuery_Detail.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="TradeManage\FundCardQuery_DetailNew.aspx.cs">
-      <DependentUpon>FundCardQuery_DetailNew.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TradeManage\FundCardQuery_DetailNew.aspx.designer.cs">
-      <DependentUpon>FundCardQuery_DetailNew.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\FundQuery.aspx.cs">
       <DependentUpon>FundQuery.aspx</DependentUpon>
@@ -2404,26 +2365,12 @@
     <Compile Include="TradeManage\MobileBindQuery.aspx.designer.cs">
       <DependentUpon>MobileBindQuery.aspx</DependentUpon>
     </Compile>
-    <Compile Include="TradeManage\MobileRechargeConfig.aspx.cs">
-      <DependentUpon>MobileRechargeConfig.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TradeManage\MobileRechargeConfig.aspx.designer.cs">
-      <DependentUpon>MobileRechargeConfig.aspx</DependentUpon>
-    </Compile>
     <Compile Include="TradeManage\MobileRechargeConfigEdit.aspx.cs">
       <DependentUpon>MobileRechargeConfigEdit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TradeManage\MobileRechargeConfigEdit.aspx.designer.cs">
       <DependentUpon>MobileRechargeConfigEdit.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="TradeManage\MobileRechargeConfigValidDate.aspx.cs">
-      <DependentUpon>MobileRechargeConfigValidDate.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TradeManage\MobileRechargeConfigValidDate.aspx.designer.cs">
-      <DependentUpon>MobileRechargeConfigValidDate.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\MobileRechargeConfigValidDateEdit.aspx.cs">
       <DependentUpon>MobileRechargeConfigValidDateEdit.aspx</DependentUpon>
@@ -2438,13 +2385,6 @@
     </Compile>
     <Compile Include="TradeManage\MobileRechargeDetail.aspx.designer.cs">
       <DependentUpon>MobileRechargeDetail.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="TradeManage\MobileRechargeQuery.aspx.cs">
-      <DependentUpon>MobileRechargeQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TradeManage\MobileRechargeQuery.aspx.designer.cs">
-      <DependentUpon>MobileRechargeQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\MobileTokenQuery.aspx.cs">
       <DependentUpon>MobileTokenQuery.aspx</DependentUpon>
@@ -2487,13 +2427,6 @@
     </Compile>
     <Compile Include="TradeManage\PayLimitManage.aspx.designer.cs">
       <DependentUpon>PayLimitManage.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="TradeManage\PhoneBillQuery.aspx.cs">
-      <DependentUpon>PhoneBillQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TradeManage\PhoneBillQuery.aspx.designer.cs">
-      <DependentUpon>PhoneBillQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\PickQueryNew.aspx.cs">
       <DependentUpon>PickQueryNew.aspx</DependentUpon>
@@ -2638,13 +2571,6 @@
     <Compile Include="TradeManage\SettShow.aspx.cs">
       <DependentUpon>SpidShow.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TradeManage\ShouFuYiQuery.aspx.cs">
-      <DependentUpon>ShouFuYiQuery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TradeManage\ShouFuYiQuery.aspx.designer.cs">
-      <DependentUpon>ShouFuYiQuery.aspx</DependentUpon>
     </Compile>
     <Compile Include="TradeManage\ShutRefund.aspx.cs">
       <DependentUpon>ShutRefund.aspx</DependentUpon>
@@ -2990,9 +2916,6 @@
     <Content Include="Auto\BatchFreezeAppeal.aspx">
       <SubType>Form</SubType>
     </Content>
-    <Content Include="BaseAccount\AgencyBusinessQuery.aspx">
-      <SubType>Form</SubType>
-    </Content>
     <Content Include="BaseAccount\BankCardUnbind.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -3065,9 +2988,6 @@
       <SubType>Form</SubType>
     </Content>
     <Content Include="BaseAccount\MerchantInfoModifyQuery.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="BaseAccount\DepositAccountQuery.aspx">
       <SubType>Form</SubType>
     </Content>
     <Content Include="BaseAccount\detailCheck.aspx" />
@@ -3480,6 +3400,20 @@
     <Content Include="NewQueryInfoPages\TestPage.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="NPOI\binary\dotnet2\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="NPOI\binary\dotnet2\NPOI.dll" />
+    <Content Include="NPOI\binary\dotnet2\NPOI.OOXML.dll" />
+    <Content Include="NPOI\binary\dotnet2\NPOI.OpenXml4Net.dll" />
+    <Content Include="NPOI\binary\dotnet2\NPOI.OpenXmlFormats.dll" />
+    <Content Include="NPOI\binary\dotnet4\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="NPOI\binary\dotnet4\NPOI.dll" />
+    <Content Include="NPOI\binary\dotnet4\NPOI.OOXML.dll" />
+    <Content Include="NPOI\binary\dotnet4\NPOI.OpenXml4Net.dll" />
+    <Content Include="NPOI\binary\dotnet4\NPOI.OpenXmlFormats.dll" />
+    <Content Include="NPOI\binary\dotnet4\NPOI.XML" />
+    <Content Include="NPOI\binary\License.txt" />
+    <Content Include="NPOI\binary\Read Me.txt" />
+    <Content Include="NPOI\binary\Release Notes.txt" />
     <Content Include="RefundManage\AddInformation.aspx" />
     <Content Include="RefundManage\BankEmailManage.aspx" />
     <Content Include="RefundManage\SendPaymentAbnorNotify.aspx" />
@@ -4937,6 +4871,7 @@
     </Content>
     <Content Include="Configs\Log4net.config" />
     <Content Include="Ajax\CommonAjax\LoadControlsDataSource.ashx" />
+    <Content Include="Ajax\CommonAjax\NPOIExportToExcels.ashx" />
     <None Include="DataAccess.dll.log4net" />
     <Content Include="packages.config" />
     <Content Include="Data\Sys_BankClassify.ashx" />
@@ -5026,9 +4961,7 @@
     </Content>
     <Content Include="TradeManage\CGIInfoQuery.aspx" />
     <Content Include="TradeManage\ComplainBussinessDetail.aspx" />
-    <Content Include="TradeManage\ComplainBussinessInput.aspx" />
     <Content Include="TradeManage\ComplainUserDetail.aspx" />
-    <Content Include="TradeManage\ComplainUserInput.aspx" />
     <Content Include="TradeManage\ContractQuery.aspx" />
     <Content Include="TradeManage\IceOutPPSecurityMoney.aspx" />
     <Content Include="TradeManage\js\IceOutPPSecurityMoney.js" />
@@ -5042,10 +4975,6 @@
     <Content Include="TradeManage\CrtQuery.aspx" />
     <Content Include="TradeManage\FeeQuery.aspx" />
     <Content Include="TradeManage\FreezeReason.aspx" />
-    <Content Include="TradeManage\FundCardQuery_Detail.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="TradeManage\FundCardQuery_DetailNew.aspx" />
     <Content Include="TradeManage\FundQuery.aspx" />
     <Content Include="TradeManage\FundQueryNew.aspx" />
     <Content Include="TradeManage\FundQuery_Detail.aspx" />
@@ -5065,14 +4994,9 @@
     </Content>
     <Content Include="TradeManage\MobileBindingQuery.aspx" />
     <Content Include="TradeManage\MobileBindQuery.aspx" />
-    <Content Include="TradeManage\MobileRechargeConfig.aspx" />
     <Content Include="TradeManage\MobileRechargeConfigEdit.aspx" />
-    <Content Include="TradeManage\MobileRechargeConfigValidDate.aspx" />
     <Content Include="TradeManage\MobileRechargeConfigValidDateEdit.aspx" />
     <Content Include="TradeManage\MobileRechargeDetail.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="TradeManage\MobileRechargeQuery.aspx">
       <SubType>Form</SubType>
     </Content>
     <Content Include="TradeManage\MobileTokenQuery.aspx" />
@@ -5085,7 +5009,6 @@
       <SubType>Form</SubType>
     </Content>
     <Content Include="TradeManage\PayLimitManage.aspx" />
-    <Content Include="TradeManage\PhoneBillQuery.aspx" />
     <Content Include="TradeManage\PickQueryNew.aspx" />
     <Content Include="TradeManage\PickQuery_Detail.aspx" />
     <Content Include="TradeManage\PNROperateQuery.aspx" />
@@ -5129,7 +5052,6 @@
     <Content Include="TradeManage\SettShow.aspx">
       <SubType>Form</SubType>
     </Content>
-    <Content Include="TradeManage\ShouFuYiQuery.aspx" />
     <Content Include="TradeManage\ShutRefund.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -5504,10 +5426,6 @@
     <EmbeddedResource Include="Auto\BatchFreezeAppeal.aspx.resx">
       <DependentUpon>BatchFreezeAppeal.aspx.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BaseAccount\AgencyBusinessQuery.aspx.resx">
-      <DependentUpon>AgencyBusinessQuery.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\BankCardUnbind.aspx.resx">
       <DependentUpon>BankCardUnbind.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -5598,10 +5516,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\MerchantInfoModifyQuery.aspx.resx">
       <DependentUpon>MerchantInfoModifyQuery.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BaseAccount\DepositAccountQuery.aspx.resx">
-      <DependentUpon>DepositAccountQuery.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseAccount\detailCheck.aspx.resx">
@@ -6224,14 +6138,8 @@
     <EmbeddedResource Include="TradeManage\ComplainBussinessDetail.aspx.resx">
       <DependentUpon>ComplainBussinessDetail.aspx.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TradeManage\ComplainBussinessInput.aspx.resx">
-      <DependentUpon>ComplainBussinessInput.aspx.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\ComplainUserDetail.aspx.resx">
       <DependentUpon>ComplainUserDetail.aspx.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TradeManage\ComplainUserInput.aspx.resx">
-      <DependentUpon>ComplainUserInput.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\ContractQuery.aspx.resx">
       <DependentUpon>ContractQuery.aspx.cs</DependentUpon>
@@ -6250,12 +6158,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\FreezeReason.aspx.resx">
       <DependentUpon>FreezeReason.aspx.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TradeManage\FundCardQuery_Detail.aspx.resx">
-      <DependentUpon>FundCardQuery_Detail.aspx.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TradeManage\FundCardQuery_DetailNew.aspx.resx">
-      <DependentUpon>FundCardQuery_DetailNew.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\FundQuery.aspx.resx">
       <DependentUpon>FundQuery.aspx.cs</DependentUpon>
@@ -6298,9 +6200,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\PayLimitManage.aspx.resx">
       <DependentUpon>PayLimitManage.aspx.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TradeManage\PhoneBillQuery.aspx.resx">
-      <DependentUpon>PhoneBillQuery.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\PickQuery_Detail.aspx.resx">
       <DependentUpon>PickQuery_Detail.aspx.cs</DependentUpon>
@@ -6361,9 +6260,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\SettShow.aspx.resx">
       <DependentUpon>SettShow.aspx.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TradeManage\ShouFuYiQuery.aspx.resx">
-      <DependentUpon>ShouFuYiQuery.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TradeManage\ShutRefund.aspx.resx">
       <DependentUpon>ShutRefund.aspx.cs</DependentUpon>
