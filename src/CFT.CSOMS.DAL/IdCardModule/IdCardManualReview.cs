@@ -165,7 +165,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
         /// <param name="reviewResult"></param>
         /// <param name="yearMonths"></param>
         /// <returns></returns>
-        public DataTable LoadReview(string uid, string uin, int reviewStatus, int reviewResult, List<string> yearMonths, int pageSize, int pageNumber, string order, ref int total)
+        public DataTable LoadReview(string uid, string uin, int reviewStatus, int reviewResult, List<string> yearMonths, string beginDate, string endDate, int pageSize, int pageNumber, string order, ref int total)
         {
             DataTable dt = new DataTable();
             total = 0;
@@ -205,6 +205,14 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         {
                             sb.Append("AND Fuin='" + uin + "' ");
                         }
+                        if (!string.IsNullOrEmpty(beginDate))
+                        {
+                            sb.Append(" AND date_format(Fcreate_time, '%Y-%m-%d')>='" + beginDate + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(endDate))
+                        {
+                            sb.Append(" AND date_format(Fcreate_time, '%Y-%m-%d')<='" + endDate + "' ");
+                        }
                         if (!string.IsNullOrEmpty(order))
                         {
                             sb.Append("ORDER BY " + order + " ");
@@ -233,7 +241,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
         }
 
 
-        public DataTable LoadReviewForExport(string uid, string uin, int reviewStatus, int reviewResult, List<string> yearMonths,  string order)
+        public DataTable LoadReviewForExport(string uid, string uin, int reviewStatus, int reviewResult, List<string> yearMonths, string beginDate, string endDate, string order)
         {
             DataTable dt = new DataTable();
             //total = 0;
@@ -277,6 +285,14 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         if (!string.IsNullOrEmpty(uin))
                         {
                             sb.Append("AND Fuin='" + uin + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(beginDate))
+                        {
+                            sb.Append(" AND date_format(Fcreate_time, '%Y-%m-%d')>='" + beginDate + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(endDate))
+                        {
+                            sb.Append(" AND date_format(Fcreate_time, '%Y-%m-%d')<='" + endDate + "' ");
                         }
                         if (!string.IsNullOrEmpty(order))
                         {
