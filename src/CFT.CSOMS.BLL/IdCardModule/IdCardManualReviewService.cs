@@ -64,7 +64,7 @@ namespace CFT.CSOMS.BLL.IdCardModule
             {
                 List<string> yearMonths = GetYearMonthList(DateTime.Parse(beginDate).ToString("yyyy-MM"), DateTime.Parse(endDate).ToString("yyyy-MM"), 5);
                 IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
-                dt = idCardManualReviewDAL.LoadReview(uid, uin, reviewStatus, reviewResult, yearMonths, pageSize, pageNumber, order, ref  total);
+                dt = idCardManualReviewDAL.LoadReview(uid, uin, reviewStatus, reviewResult, yearMonths,  beginDate,  endDate,pageSize, pageNumber, order, ref  total);
             }
             catch (Exception ex)
             {
@@ -80,7 +80,7 @@ namespace CFT.CSOMS.BLL.IdCardModule
             {
                 List<string> yearMonths = GetYearMonthList(DateTime.Parse(beginDate).ToString("yyyy-MM"), DateTime.Parse(endDate).ToString("yyyy-MM"), 5);
                 IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
-                dt = idCardManualReviewDAL.LoadReviewForExport(uid, uin, reviewStatus, reviewResult, yearMonths, order);
+                dt = idCardManualReviewDAL.LoadReviewForExport(uid, uin, reviewStatus, reviewResult, yearMonths,  beginDate,  endDate, order);
             }
             catch (Exception ex)
             {
