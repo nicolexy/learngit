@@ -175,9 +175,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
 #endif
                     #endregion
 #if !DEBUG
-                    dt = idCardManualReviewService.LoadReviewForExport(uid, uin, reviewStatus, reviewResult, beginDate, endDate, pageSize, pageNumber, str2 + " " + str, ref total);
+                     dt = idCardManualReviewService.LoadReviewForExport(uid, uin, reviewStatus, reviewResult, beginDate, endDate,  str2 + " " + str);
 #endif
-                    dt = idCardManualReviewService.LoadReviewForExport(uid, uin, reviewStatus, reviewResult, beginDate, endDate,  str2 + " " + str);
+
                     NPOIExportToExcel exportToExcel = new NPOIExportToExcel();
                     exportToExcel.dt = dt;
                     exportToExcel.lineTitle =string.Empty;
