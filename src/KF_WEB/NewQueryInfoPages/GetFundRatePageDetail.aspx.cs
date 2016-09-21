@@ -45,7 +45,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.NewQueryInfoPages
 
                 if (!IsPostBack)
                 {
-                    if (classLibrary.ClassLib.ValidateRight("InfoCenter", this))
+                    if (classLibrary.ClassLib.ValidateRight("LCTQuery", this))
                     {
                         Func<string, string> GetQueryString = name =>
                         {
