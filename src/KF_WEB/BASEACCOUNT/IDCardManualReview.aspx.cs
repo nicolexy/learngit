@@ -142,7 +142,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     }
                     catch (Exception ex)
                     {
-                        LogHelper.LogInfo("IDCardManualReview.IsHaveRightForSeeDetail,获取查看详情权限失败:" + ex.Message);
+                        LogHelper.LogInfo("IDCardManualReview.IsHaveRightForSeeDetail,获取查看详情权限失败:" + ex.ToString());
                     }
 
                     IdCardManualReviewService idCardManualReviewService = new IdCardManualReviewService();
@@ -500,7 +500,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
-                LogHelper.LogInfo("IDCardManualReview.IsHaveRightForReviewCount,获取批量领单权限失败:" + ex.Message);
+                LogHelper.LogInfo("IDCardManualReview.IsHaveRightForReviewCount,获取批量领单权限失败:" + ex.ToString());
                 result = false;
             }
             StringBuilder builder = new StringBuilder();
@@ -526,7 +526,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             catch (Exception ex)
             {
-                LogHelper.LogInfo("IDCardManualReview.IsHaveRightForSeeDetail,获取查看详情权限失败:" + ex.Message);
+                LogHelper.LogInfo("IDCardManualReview.IsHaveRightForSeeDetail,获取查看详情权限失败:" + ex.ToString());
                 result = false;
             }
             StringBuilder builder = new StringBuilder();
