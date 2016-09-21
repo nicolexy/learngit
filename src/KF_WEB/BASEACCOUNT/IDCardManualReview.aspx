@@ -189,7 +189,7 @@
                             <tr>
                                 <td style="width: 50%; text-align: center;">
                                     <div style="position:relative">
-                                        <img id="ima_IDCardZ"  src="" style="width: 100%; height: 430px" />
+                                        <img id="ima_IDCardZ"  src="" style="width: 100%; height:600px" />
                                         <div id="div_ima_IDCardZ"   style="position:absolute;z-index:2;width: 100%; height: 320px;left:2px;top:2px;"></div>
                                     </div>
                                     
@@ -198,7 +198,7 @@
                                 <td style="width: 50%; text-align: center;">
                                     
                                     <div style="position:relative">
-                                       <img id="ima_IDCardF" src="" style="width: 100%; height: 430px" />
+                                       <img id="ima_IDCardF" src="" style="width: 100%; height: 600px" />
                                         <div id="div_ima_IDCardF" style="position:absolute;z-index:2;width: 100%; height: 320px;left:2px;top:2px"></div>
                                     </div>
                                 </td>

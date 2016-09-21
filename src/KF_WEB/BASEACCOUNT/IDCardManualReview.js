@@ -466,8 +466,8 @@ function ReviewIdCard(index) {
     var divHeight = $(document).height() * 100 / 100;
     $("#div_ReveiwIdCard").dialog({
         title: '【身份证影印件审核】,流水号：' + Fserial_number,
-        width: tableWidth * 60 / 100,
-        height: divHeight * 80 / 100,
+        width: tableWidth * 90 / 100,
+        height: divHeight * 95 / 100,
         //resizable: true,
         maximizable: false,
         //minimizable:true,

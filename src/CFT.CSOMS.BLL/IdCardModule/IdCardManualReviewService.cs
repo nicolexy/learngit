@@ -57,14 +57,14 @@ namespace CFT.CSOMS.BLL.IdCardModule
         /// <param name="endDate">查询结束日期</param>
         /// <param name="receiveCount">批处理数量</param>
         /// <returns></returns>
-        public DataTable LoadReview(string uid, string uin, int reviewStatus, int reviewResult, string beginDate, string endDate, int pageSize, int pageNumber, string order, ref int total)
+        public DataTable LoadReview(string uid, string uin, int reviewStatus, int reviewResult, string beginDate, string endDate, bool isHaveRightForSeeDetail,int pageSize, int pageNumber, string order, ref int total)
         {
             DataTable dt = new DataTable();
             try
             {
                 List<string> yearMonths = GetYearMonthList(DateTime.Parse(beginDate).ToString("yyyy-MM"), DateTime.Parse(endDate).ToString("yyyy-MM"), 5);
                 IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
-                dt = idCardManualReviewDAL.LoadReview(uid, uin, reviewStatus, reviewResult, yearMonths,  beginDate,  endDate,pageSize, pageNumber, order, ref  total);
+                dt = idCardManualReviewDAL.LoadReview(uid, uin, reviewStatus, reviewResult, yearMonths, beginDate, endDate, isHaveRightForSeeDetail,pageSize, pageNumber, order, ref  total);
             }
             catch (Exception ex)
             {
