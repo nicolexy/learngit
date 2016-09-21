@@ -67,11 +67,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             else if (actionName.Equals("IsHaveRightForSeeDetail"))
             {
-                IsHaveRightForSeeDetail();//获取是否有批量领取任务的权限
-            }
-            else if (actionName.Equals("DownloadReviewData"))
-            {
-                DownloadReviewData();
+                IsHaveRightForSeeDetail();//获取是否有查看详情的权限
             }
         }
 
@@ -139,6 +135,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 }
                 else
                 {
+                    bool isHaveRightForSeeDetail = false;                    
+                    try
+                    {
+                        isHaveRightForSeeDetail = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("IDCardManualReview_SeeDetail", this);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.LogInfo("IDCardManualReview.IsHaveRightForSeeDetail,获取查看详情权限失败:" + ex.Message);
+                    }
+
                     IdCardManualReviewService idCardManualReviewService = new IdCardManualReviewService();
                     int total = 0;
                     DataTable dt = new DataTable();
@@ -245,7 +251,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 #endif
                     #endregion
 #if !DEBUG
-                    dt = idCardManualReviewService.LoadReview(uid, uin, reviewStatus, reviewResult, beginDate, endDate, pageSize, pageNumber, str2 + " " + str, ref total);
+                    dt = idCardManualReviewService.LoadReview(uid, uin, reviewStatus, reviewResult, beginDate, endDate,isHaveRightForSeeDetail, pageSize, pageNumber, str2 + " " + str, ref total);
 #endif
                     message = JsonHelper.DataTableToJson(dt, total, true);
                     //message=" { "rows":[ { "Fid":"12","Fserial_number":"1147105501600000005","Fspid":"2000000501","Fcreate_time":"2016/8/13 9:12:24","Fuin":"195806606","Fname":"SEZyxazimzM=","Fidentitycard":"TG/Jqoya4pb3/R3Qe2Vr0jSMNoV4R3Ju","Fmodify_time":"2016/8/15 16:42:07","Fimage_path1":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005","Fimage_path2":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005","Fimage_file1":"1-1-5-64-0-1-3016181900461","Fimage_file2":"1-1-5-64-0-1-3016181900461","Fstate":"2","Fresult":"0","Fmemo":"0","Foperator":"1100000000","Fstandby1":"","Fstandby2":"","Fstandby3":"","Fstandby4":"","Fstandby5":"","TableName":"c2c_fmdb.t_check_identitycard_201608"}, { "Fid":"13","Fserial_number":"1147105531500000006","Fspid":"2000000501","Fcreate_time":"2016/8/13 9:12:24","Fuin":"195806606","Fname":"SEZyxazimzM=","Fidentitycard":"TG/Jqoya4pb3/R3Qe2Vr0jSMNoV4R3Ju","Fmodify_time":"2016/8/15 15:40:53","Fimage_path1":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105531500000006","Fimage_path2":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105531500000006","Fimage_file1":"1-1-5-64-0-1-3016181900461","Fimage_file2":"1-1-5-64-0-1-3016181900461","Fstate":"2","Fresult":"0","Fmemo":"4","Foperator":"1100000000","Fstandby1":"","Fstandby2":"","Fstandby3":"","Fstandby4":"","Fstandby5":"","TableName":"c2c_fmdb.t_check_identitycard_201608"}, { "Fid":"14","Fserial_number":"1234","Fspid":"1234567890","Fcreate_time":"2016/8/12 0:00:00","Fuin":"abcd@wx.tenpay.com","Fname":"guoyueqiang","Fidentitycard":"360726","Fmodify_time":"","Fimage_path1":"image_path1","Fimage_path2":"image_path2","Fimage_file1":"image_file1","Fimage_file2":"image_file2","Fstate":"1","Fresult":"0","Fmemo":"","Foperator":"","Fstandby1":"","Fstandby2":"","Fstandby3":"","Fstandby4":"","Fstandby5":"","TableName":"c2c_fmdb.t_check_identitycard_201608"} ],"total":3}";
@@ -484,23 +490,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             Response.End();
         }
 
-
-        protected void btn_Search_Click(object sender, EventArgs e)
-        {
-            IdCardManualReviewService idCardManualReviewService = new IdCardManualReviewService();
-            try
-            {
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-        }
-
         private void IsHaveRightForReviewCount()
         {
-            bool result = true;
+            bool result = false;
             string message = string.Empty;
             try
             {
@@ -526,7 +518,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
         private void IsHaveRightForSeeDetail()
         {
-            bool result = true;
+            bool result = false;
             string message = string.Empty;
             try
             {
@@ -548,54 +540,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             builder.Append("]");
             Response.Write(builder.ToString());
             Response.End();
-        }
-
-        private void DownloadReviewData()
-        {
-            string message = string.Empty;
-            try
-            {
-                string str = (base.Request.Form["order"] != null) ? base.Request.Form["order"].ToString() : "asc";
-                int pageNumber = (base.Request.Form["page"] != null) ? int.Parse(base.Request.Form["page"].ToString()) : 1;
-                int pageSize = (base.Request.Form["rows"] != null) ? int.Parse(base.Request.Form["rows"].ToString()) : 15;
-                string str2 = (base.Request.Form["sort"] != null) ? base.Request.Form["sort"].ToString() : "Fcreate_time ";
-
-                string uid = this.Label_uid.Text;// Request.Form["uid"] != null || string.IsNullOrEmpty(Request.Form["uid"].ToString()) ? Request.Form["uid"].ToString() : string.Empty;
-                string uin = Request.Form["uin"] != null || string.IsNullOrEmpty(Request.Form["uin"].ToString()) ? Request.Form["uin"].ToString() : string.Empty;
-                int reviewStatus = Request.Form["reviewStatus"] != null || string.IsNullOrEmpty(Request.Form["reviewStatus"].ToString()) ? int.Parse(Request.Form["reviewStatus"].ToString()) : 1;
-                int reviewResult = Request.Form["reviewResult"] != null || string.IsNullOrEmpty(Request.Form["reviewResult"].ToString()) ? int.Parse(Request.Form["reviewResult"].ToString()) : 0;
-                string beginDate = Request.Form["beginDate"] != null || string.IsNullOrEmpty(Request.Form["beginDate"].ToString()) ? Request.Form["beginDate"].ToString() : string.Empty;
-                string endDate = Request.Form["endDate"] != null || string.IsNullOrEmpty(Request.Form["endDate"].ToString()) ? Request.Form["endDate"].ToString() : string.Empty;
-                int totalMonth = DateTime.Parse(endDate).Year * 12 + DateTime.Parse(endDate).Month - DateTime.Parse(beginDate).Year * 12 - DateTime.Parse(beginDate).Month;
-                if (totalMonth >= 1)
-                {
-                    message = string.Format("查询日期不能超过一个月");
-                }
-                else
-                {
-                    IdCardManualReviewService idCardManualReviewService = new IdCardManualReviewService();
-                    int total = 0;
-                    DataTable dt = new DataTable();
-                    dt = idCardManualReviewService.LoadReview(uid, uin, reviewStatus, reviewResult, beginDate, endDate, pageSize, pageNumber, str2 + " " + str, ref total);
-                    NPOIExportToExcel exportToExcel = new NPOIExportToExcel();
-                    exportToExcel.dt = dt;
-                    exportToExcel.lineTitle = "";
-                    exportToExcel.excelName = "身份证影印件审核";
-                    exportToExcel.sheetName = "身份证影印件审核";
-                    exportToExcel.ExportExcel();
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        protected void btn_DownloadnLoanInfoListByKeMu_Click(object sender, EventArgs e)
-        {
-
-
-
         }
     }
 }
