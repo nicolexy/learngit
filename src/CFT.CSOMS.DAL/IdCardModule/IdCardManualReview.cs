@@ -165,7 +165,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
         /// <param name="reviewResult"></param>
         /// <param name="yearMonths"></param>
         /// <returns></returns>
-        public DataTable LoadReview(string uid, string uin, int reviewStatus, int reviewResult, List<string> yearMonths, string beginDate, string endDate, int pageSize, int pageNumber, string order, ref int total)
+        public DataTable LoadReview(string uid, string uin, int reviewStatus, int reviewResult, List<string> yearMonths, string beginDate, string endDate, bool isHaveRightForSeeDetail, int pageSize, int pageNumber, string order, ref int total)
         {
             DataTable dt = new DataTable();
             total = 0;
@@ -191,6 +191,17 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         if (reviewStatus > 0)
                         {
                             sb.Append("AND Fstate='" + reviewStatus + "' ");
+                            if (reviewStatus == 2)//已领单
+                            {
+                                //当审核状态是已领单时，当前登录人没有【查看详情】的权限时只能查看自己领取的审核单
+                                if (!isHaveRightForSeeDetail)
+                                {
+                                    sb.Append("AND Foperator='" + uid + "' ");
+                                }
+                            }
+                           
+                            //
+                           
                             //if (reviewStatus > 1)
                             //{
                             //    sb.Append("AND Foperator='" + uid + "' ");
