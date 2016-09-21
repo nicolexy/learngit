@@ -14605,7 +14605,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             MySqlAccess da = null;
             try
             {
-                da = new MySqlAccess(PublicRes.GetConnString("BD"));
+                da = new MySqlAccess(PublicRes.GetConnString("CBR"));
                 da.OpenConn();
 
                 if (bankID == "")
@@ -15143,7 +15143,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod(Description = "同步银行卡绑定")]
         public bool SynchronBankCardBind(string bankType, string cardTail, string bankId)
         {
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("BD"));
+            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("CBR"));
             try
             {
                 if (string.IsNullOrEmpty(cardTail))

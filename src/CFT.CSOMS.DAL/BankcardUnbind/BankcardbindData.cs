@@ -123,7 +123,7 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
             MySqlAccess da = null;
             try
             {
-                da = MySQLAccessFactory.GetMySQLAccess("BD");
+                da = MySQLAccessFactory.GetMySQLAccess("CBR");
                 da.OpenConn();
 
                 if (bankID == "")
