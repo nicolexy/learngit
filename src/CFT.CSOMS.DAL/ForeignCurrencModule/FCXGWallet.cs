@@ -9,6 +9,7 @@ using CFT.CSOMS.DAL.WechatPay.Entity;
 using commLib.Entity;
 using commLib.Entity.HKWallet;
 using CFT.Apollo.Logging;
+using TENCENT.OSS.C2C.Finance.Common.CommLib;
 
 namespace CFT.CSOMS.DAL.ForeignCurrencModule
 {
@@ -125,9 +126,26 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
                 "&memo=" + memo +
                 "&client_ip=" + client_ip
                 ;
-            var relay_result = RelayAccessFactory.RelayInvoke(StringTransCode(req), "101403", true, false, ip, port, "utf-8");
-            var dic = relay_result.ToDictionary();
-            if (dic["result"] == "0")
+            StringBuilder sb_strCode = new StringBuilder();
+            Dictionary<string, string> resultToDictionary = CommQuery.StringToDictionary(req, '&', '=');
+            int index = 0;
+            foreach (var dic in resultToDictionary)
+            {
+                index++;
+                string result = StringTransCode(dic.Value);
+                if (index < resultToDictionary.Count)
+                {
+                    sb_strCode.Append(dic.Key).Append("=").Append(result).Append("&");
+                }
+                else
+                {
+                    sb_strCode.Append(dic.Key).Append("=").Append(result);
+                }
+
+            }
+            var relay_result = RelayAccessFactory.RelayInvoke(sb_strCode.ToString(), "101403", true, false, ip, port, "utf-8");
+            var dicResult = relay_result.ToDictionary();
+            if (dicResult["result"] == "0")
             {
                 return true;
             }
@@ -161,26 +179,43 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
                 "&memo=" + memo +
                 "&client_ip=" + client_ip
                 ;
-            LogHelper.LogInfo(string.Format("101404;StringTransCode"));
-            string strCode = StringTransCode(req);
-            if (!string.IsNullOrEmpty(strCode))
+            //LogHelper.LogInfo(string.Format("101404;StringTransCode"));
+            //string strCode = StringTransCode(req);
+            StringBuilder sb_strCode = new StringBuilder();
+            Dictionary<string, string> resultToDictionary = CommQuery.StringToDictionary(req, '&', '=');
+            int index = 0;
+            foreach (var dic in resultToDictionary)
             {
-                LogHelper.LogInfo(string.Format("101404;StringTransCode转码成功{0}"), strCode);
-                var relay_result = RelayAccessFactory.RelayInvoke(strCode, "101404", true, false, ip, port, "utf-8");
-                var dic = relay_result.ToDictionary();
-                if (dic["result"] == "0")
+                index++;
+                string result = StringTransCode(dic.Value);
+                if (index < resultToDictionary.Count)
                 {
-                    LogHelper.LogInfo(string.Format("101404;接口调用成功"));
-                    return true;
+                    sb_strCode.Append(dic.Key).Append("=").Append(result).Append("&");
                 }
                 else
                 {
+                    sb_strCode.Append(dic.Key).Append("=").Append(result);
+                }
+
+            }
+            if (!string.IsNullOrEmpty(sb_strCode.ToString()))
+            {
+                //LogHelper.LogInfo(string.Format("101404;StringTransCode转码成功{0}", sb_strCode.ToString()));
+                var relay_result = RelayAccessFactory.RelayInvoke(sb_strCode.ToString(), "101404", true, false, ip, port, "utf-8");
+                var dicResult = relay_result.ToDictionary();
+                if (dicResult["result"] == "0")
+                {
+                    //LogHelper.LogInfo(string.Format("101404;接口调用成功"));
+                    return true;
+                }
+                else
+                {                    
                     throw new Exception("重置密码失败:" + relay_result);
                 }
             }
             else
             {
-                LogHelper.LogInfo(string.Format("101404;StringTransCode转码失败"));
+                LogHelper.LogInfo("101404;StringTransCode转码失败");
                 throw new Exception("重置密码失败:StringTransCode转码失败");
             }
            
@@ -248,9 +283,28 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
                     "&memo=" + memo +
                     "&client_ip=" + client_ip
                     ;
-                var result = RelayAccessFactory.RelayInvoke(StringTransCode(req), "101402", true, false, ip, port, "utf-8");
-                var dic = result.ToDictionary();
-                return dic["result"] == "0";
+
+                StringBuilder sb_strCode = new StringBuilder();
+                Dictionary<string, string> resultToDictionary = CommQuery.StringToDictionary(req, '&', '=');
+                int index = 0;
+                foreach (var dic in resultToDictionary)
+                {
+                    index++;
+                    string result = StringTransCode(dic.Value);
+                    if (index < resultToDictionary.Count)
+                    {
+                        sb_strCode.Append(dic.Key).Append("=").Append(result).Append("&");
+                    }
+                    else
+                    {
+                        sb_strCode.Append(dic.Key).Append("=").Append(result);
+                    }
+
+                }
+
+                var relayInvokeResult = RelayAccessFactory.RelayInvoke(sb_strCode.ToString(), "101402", true, false, ip, port, "utf-8");
+                var dicReuslt = relayInvokeResult.ToDictionary();
+                return dicReuslt["result"] == "0";
             }
             catch (Exception ex)
             {
@@ -952,8 +1006,8 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
                 if (string.IsNullOrWhiteSpace(str))
                     return str;
 
-                //var srcEncoding = srcCode == null ? System.Text.Encoding.Default : System.Text.Encoding.GetEncoding(srcCode); //此处编码和解码会出现乱码，编码和解码要对应
-                var srcEncoding = srcCode == null ? System.Text.Encoding.GetEncoding(srcCode) : System.Text.Encoding.GetEncoding(srcCode);
+                var srcEncoding = srcCode == null ? System.Text.Encoding.Default : System.Text.Encoding.GetEncoding(srcCode); //此处编码和解码会出现乱码，编码和解码要对应
+                //var srcEncoding = srcCode == null ? System.Text.Encoding.GetEncoding(toCode) : System.Text.Encoding.GetEncoding(srcCode);
                 var toEncoding = System.Text.Encoding.GetEncoding(toCode);
 
                 var buff = srcEncoding.GetBytes(str);
@@ -963,7 +1017,7 @@ namespace CFT.CSOMS.DAL.ForeignCurrencModule
             catch (Exception ex)
             {
                 result = string.Empty;
-                LogHelper.LogInfo(string.Format("101404;StringTransCode:{0}"), ex.Message.ToString());
+                LogHelper.LogInfo(string.Format("101404;StringTransCode:{0}", ex.Message.ToString()));
             }
             return result;
             
