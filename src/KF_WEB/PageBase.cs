@@ -30,6 +30,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 {
                     Response.Write("<script type='text/javascript'>window.parent.location.href = '../login.aspx?returnurl=" + Server.UrlEncode(Request.Url.PathAndQuery) + "';</script>");
                     Response.End();
+                    //Response.Redirect("../login.aspx?returnurl=" + Server.UrlEncode(Request.Url.PathAndQuery));
                 }
 
                 //页面请求，日志记录

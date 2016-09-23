@@ -11,7 +11,7 @@ using commLib;
 using SunLibrary;
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
-    public partial class IDCardManualReview : TENCENT.OSS.CFT.KF.KF_Web.PageBase
+    public partial class IDCardManualReview : System.Web.UI.Page//TENCENT.OSS.CFT.KF.KF_Web.PageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

@@ -490,12 +490,11 @@ function ReviewIdCard(index) {
                 url: "IDCardManualReview.aspx?getAction=Decryptor",
                 data: postFname,
                 dataType: "text",
-                success: function (retrunData) {                   
+                success: function (retrunData) {
                     var dataObj = eval("(" + retrunData + ")");
                     $.each(dataObj, function (idx, item) {
                         var result = item.result;
                         var message = item.message;
-                        
                         if (result == "true" || result == "True") {
                             $("#lab_Fname").text(message);
                         }
@@ -516,12 +515,11 @@ function ReviewIdCard(index) {
                 url: "IDCardManualReview.aspx?getAction=Decryptor",
                 data: postFidentitycard,
                 dataType: "text",
-                success: function (retrunData) {                    
+                success: function (retrunData) {
                     var dataObj = eval("(" + retrunData + ")");
                     $.each(dataObj, function (idx, item) {
                         var result = item.result;
                         var message = item.message;
-                       
                         if (result == "true" || result == "True") {
                             $("#lab_Fidentitycard").text(message);
                         }
