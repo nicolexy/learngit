@@ -17,11 +17,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             if (!Page.IsPostBack)
             {
+                string getAction = Request.QueryString["getAction"] != null ? Request.QueryString["getAction"].ToString() : string.Empty;
+                if (!string.IsNullOrEmpty(getAction))
+                {
+                    Action(getAction);
+                }
                 try
                 {
-                    this.Label_uid.Text = Session["uid"].ToString();
+                    this.Label_uid.Text =Session["uid"]==null?string.Empty: Session["uid"].ToString();
                     hid_IdCaredServerPath.Value = System.Configuration.ConfigurationManager.AppSettings["IDCardManualReview_zx_sm_get_imagefcgi"].ToString();
-                    string szkey = Session["SzKey"].ToString();
+                    string szkey =Session["SzKey"]==null?string.Empty: Session["SzKey"].ToString();
                     if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
                 }
                 catch  //如果没有登陆或者没有权限就跳出
@@ -29,11 +34,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     Response.Redirect("../login.aspx?wh=1");
                 }
             }
-            string getAction = Request.QueryString["getAction"] != null ? Request.QueryString["getAction"].ToString() : string.Empty;
-            if (!string.IsNullOrEmpty(getAction))
-            {
-                Action(getAction);
-            }
+         
         }
         public void Action(string actionName)
         {
@@ -305,7 +306,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string message = string.Empty;
             try
             {
-                string decryptorStr = Request.Form["DecryptorStr"] != null || string.IsNullOrEmpty(Request.Form["DecryptorStr"].ToString()) ? Request.Form["DecryptorStr"].ToString() : string.Empty;
+                string decryptorStr = Request.Form["DecryptorStr"] == null || string.IsNullOrEmpty(Request.Form["DecryptorStr"].ToString()) ?string.Empty: Request.Form["DecryptorStr"].ToString();
                 if (!string.IsNullOrEmpty(decryptorStr))
                 {
                     BankLib.BankIOX aa = new BankLib.BankIOX();
