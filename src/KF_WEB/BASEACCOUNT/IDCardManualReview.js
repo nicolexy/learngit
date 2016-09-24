@@ -52,7 +52,8 @@
                 //        $.messager.alert('提示', message, 'Info');
                 //    }
                 //});
-                $("#ddl_ReviewStatus").combobox.setValue("2");
+                $("#ddl_ReviewStatus").combobox("setValue", "2");
+                
                 //$("#tb_IDCardManualReviewList").datagrid("load");
                 $("#btn_Search").click();
             },
