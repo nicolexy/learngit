@@ -185,11 +185,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
         {
             string result = string.Empty;
             try
-            {
-
-                int a = 1;
-                var b = a.GetType();
-              
+            {              
                 DataTable dt = new DataTable();
                 dt.Columns.Add("id");
                 dt.Columns.Add("name");
