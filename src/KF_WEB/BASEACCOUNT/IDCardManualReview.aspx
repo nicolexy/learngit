@@ -63,7 +63,7 @@
     <link href="../SCRIPTS/jquery-easyui-1.5/themes/icon.css" rel="stylesheet" />
     <script src="../SCRIPTS/KF.js"></script>
     <script src="../SCRIPTS/LoadControlsDataSource.js"></script>        
-    <script src="IDCardManualReview.js"></script>
+    <script src="IDCardManualReview.js?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]%>"></script>
     
 </head>
 <body>
