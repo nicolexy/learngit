@@ -277,7 +277,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         sb.Append("CASE Fstate WHEN 1 THEN '未领单' WHEN 2 THEN '已领单' WHEN 3 THEN '推送到实名系统失败' WHEN 4 THEN '推送成功' END AS '审核状态', ");
                         sb.Append("CASE Fresult WHEN 0 THEN '未处理' WHEN 1 THEN '通过' WHEN 2 THEN '驳回' END AS '审核结果', ");
                         sb.Append("Foperator AS '处理人',  ");
-                        sb.Append("CASE Fmemo WHEN 1 THEN '未提供照片' WHEN 2 THEN '上传非身份证照片' WHEN 3 THEN '身份证件不清晰不完整' WHEN 4 THEN '身份证证件号不一致' WHEN 5 THEN '其他原因' WHEN 6 THEN '身份证姓名和提供姓名不符' WHEN 7 THEN '身份证签发机关和地址不一致' WHEN 8 THEN '两张均为正面或反面' WHEN 9 THEN '身份证证件虚假' WHEN 10 THEN '身份证已超过有效期' END AS '审核信息'  ");
+                        sb.Append("CASE Fmemo WHEN 1 THEN '未显示图片' WHEN 2 THEN '上传非身份证照片' WHEN 3 THEN '身份证不清晰不完整' WHEN 4 THEN '身份证证件号不一致' WHEN 5 THEN '其他原因' WHEN 6 THEN '身份证姓名和提供姓名不符' WHEN 7 THEN '身份证签发机关和地址不一致' WHEN 8 THEN '两张均为正面或者反面' WHEN 9 THEN '身份证证件虚假' WHEN 10 THEN '身份证已超过有效期' WHEN 11 THEN '身份证照片非原件' END AS '审核信息'  ");
                         sb.Append("FROM " + tableName + "  ");
                         sb.Append("WHERE 1=1 ");
                         if (reviewStatus > 0)
