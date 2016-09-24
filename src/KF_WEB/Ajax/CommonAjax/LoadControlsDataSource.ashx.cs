@@ -204,21 +204,34 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                 //9 = "身份证证件虚假";
                 //10 = "身份证已超过有效期";
 
+                //将失败原因按照下面排序展示：
+                //两张均为正面或者反面 1
+                //身份证不清晰不完整     2
+                //身份证姓名和提供姓名不符 3
+                //身份证证件号不一致     4
+                //身份证签发机关和地址不一致 5
+                //身份证已超过有效期 6
+                //身份证照片非原件  7
+                //身份证证件虚假  8
+                //未显示图片   9
+                //上传非身份证照片   10
+                //其他原因    9999
+
                 DataRow dr1 = dt.NewRow();
                 dr1["id"] = "1";
-                dr1["name"] = "未提供照片";//未显示图片
-                dr1["orderStr"] = 8;
+                dr1["name"] = "未显示图片";//未显示图片
+                dr1["orderStr"] = 9;
                 dt.Rows.Add(dr1);
 
                 DataRow dr2 = dt.NewRow();
                 dr2["id"] = "2";
                 dr2["name"] = "上传非身份证照片";//未提供身份证扫描件
-                dr2["orderStr"] = 6;//6
+                dr2["orderStr"] = 10;//10
                 dt.Rows.Add(dr2);
 
                 DataRow dr3 = dt.NewRow();
                 dr3["id"] = "3";
-                dr3["name"] = "身份证件不清晰不完整";//上传的扫描件不够完整、清晰、有效
+                dr3["name"] = "身份证不清晰不完整";//上传的扫描件不够完整、清晰、有效
                 dr3["orderStr"] = 2;//2
                 dt.Rows.Add(dr3);
 
@@ -240,29 +253,37 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                 dr6["orderStr"] = 3;//3
                 dt.Rows.Add(dr6);
 
+
                 DataRow dr7 = dt.NewRow();
                 dr7["id"] = "7";
                 dr7["name"] = "身份证签发机关和地址不一致";
-                dr7["orderStr"] = 7;
+                dr7["orderStr"] = 5;
                 dt.Rows.Add(dr7);
 
                 DataRow dr8 = dt.NewRow();
                 dr8["id"] = "8";
-                dr8["name"] = "两张均为正面或反面";
+                dr8["name"] = "两张均为正面或者反面";
                 dr8["orderStr"] = 1;//1
                 dt.Rows.Add(dr8);
 
                 DataRow dr9 = dt.NewRow();
                 dr9["id"] = "9";
                 dr9["name"] = "身份证证件虚假";
-                dr9["orderStr"] = 9;
+                dr9["orderStr"] =8;
                 dt.Rows.Add(dr9);
 
                 DataRow dr10 = dt.NewRow();
                 dr10["id"] = "10";
                 dr10["name"] = "身份证已超过有效期";
-                dr10["orderStr"] =5;//5 
+                dr10["orderStr"] =6;//6
                 dt.Rows.Add(dr10);
+
+
+                DataRow dr11 = dt.NewRow();
+                dr11["id"] = "11";
+                dr11["name"] = "身份证照片非原件";
+                dr11["orderStr"] = 7;
+                dt.Rows.Add(dr11);
                 #endregion
 
                 if (isShowSelect)
