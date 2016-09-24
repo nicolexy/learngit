@@ -69,7 +69,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                 DataTable dt = new DataTable();
                 dt.Columns.Add("id");
                 dt.Columns.Add("name");
-                dt.Columns.Add("orderStr");
+                dt.Columns.Add("orderStr", Type.GetType("System.Int32"));
                 DataRow dr1 = dt.NewRow();
                 dr1["id"] = "1";
                 dr1["name"] = "未领单";
@@ -131,7 +131,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                 DataTable dt = new DataTable();
                 dt.Columns.Add("id");
                 dt.Columns.Add("name");
-                dt.Columns.Add("orderStr");
+                dt.Columns.Add("orderStr", Type.GetType("System.Int32"));
 
                 DataRow dr1 = dt.NewRow();
                 dr1["id"] = "0";
@@ -188,11 +188,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
             try
             {
 
-
+                int a = 1;
+                var b = a.GetType();
+              
                 DataTable dt = new DataTable();
                 dt.Columns.Add("id");
                 dt.Columns.Add("name");
-                dt.Columns.Add("orderStr");
+                dt.Columns.Add("orderStr", Type.GetType("System.Int32"));
                 #region
                 //1 = "未提供照片";
                 //2 = "上传非身份证照片";
