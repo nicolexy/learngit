@@ -195,13 +195,13 @@
                          formatter: function (value, row, index) {
                              var Fmemo = "";
                              if (value == "1") {
-                                 Fmemo = "未提供照片";
+                                 Fmemo = "未显示图片";
                              }
                              else if (value == "2") {
                                  Fmemo = "上传非身份证照片";
                              }
                              else if (value == "3") {
-                                 Fmemo = "身份证件不清晰不完整";
+                                 Fmemo = "身份证不清晰不完整";
                              }
                              else if (value == "4") {
                                  Fmemo = "身份证证件号不一致";
@@ -216,13 +216,16 @@
                                  Fmemo = "身份证签发机关和地址不一致";
                              }
                              else if (value == "8") {
-                                 Fmemo = "两张均为正面或反面";
+                                 Fmemo = "两张均为正面或者反面";
                              }
                              else if (value == "9") {
                                  Fmemo = "身份证证件虚假";
                              }
                              else if (value == "10") {
                                  Fmemo = "身份证已超过有效期";
+                             }
+                             else if (value == "11") {
+                                 Fmemo = "身份证照片非原件";
                              }
                              var span = "<span>" + Fmemo + "</span>";
                              return span;
