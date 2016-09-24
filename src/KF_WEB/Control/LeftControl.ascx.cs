@@ -282,7 +282,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 LifeFeeDetailManage1.AddSubMenu("公交卡充值查询", "TradeManage/BusCardPrepaidQuery.aspx");
                 LifeFeeDetailManage1.AddSubMenu("手机充值卡充值查询", "TradeManage/MobileRechargeQueryNew.aspx");
 
-            
+                InternetBank.AddSubMenu("会员优惠额度", "InternetBank/MermberDiscount.aspx");
+                InternetBank.AddSubMenu("自动续费查询", "InternetBank/AtuoRenewQuery.aspx");
 
                 BankBillManage1.AddSubMenu("汇总退单数据", "TradeManage/RefundMain.aspx");
                 BankBillManage1.AddSubMenu("退单汇总查询", "RefundManage/RefundTotalQuery.aspx");
@@ -458,8 +459,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 TencentbusinessMenuControl.Visible = true;
                 TencentbusinessMenuControl.Title = "购买公司业务";
                 TencentbusinessMenuControl.AddSubMenu("退款登记", "InternetBank/RefundQuery.aspx");//页面权限位：InternetBankRefund
-                TencentbusinessMenuControl.AddSubMenu("会员优惠额度", "InternetBank/MermberDiscount.aspx");
-                TencentbusinessMenuControl.AddSubMenu("自动续费查询", "InternetBank/AtuoRenewQuery.aspx");
             }
             #endregion
         }
