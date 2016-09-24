@@ -429,7 +429,7 @@ function IsHaveRightForReviewCount() {
                     $("#td_ReviewCount").hide();
                     if (message == "NoRight") {
                         var loginPath = item.loginPath;
-                        window.parent.location.href = loginPath;
+                        window.location.href = loginPath;
                     }
                 }
             });
@@ -454,7 +454,7 @@ function IsHaveRightForSeeDetail() {
                 if (result == "false" || result == "False") {
                     if (message == "NoRight") {
                         var loginPath = item.loginPath;
-                        window.parent.location.href = loginPath;
+                        window.location.href = loginPath;
                     }
                 }
             });
@@ -523,7 +523,7 @@ function ReviewIdCard(index) {
                                 var loginPath = item.loginPath;
                                 $.messager.confirm("操作提示", "页面超时,是否刷新？", function (data) {
                                     if (data) {
-                                       window.parent.location.href = loginPath;
+                                       window.location.href = loginPath;
                                     }
                                 });
                             }
@@ -556,7 +556,7 @@ function ReviewIdCard(index) {
                                 var loginPath = item.loginPath;
                                 $.messager.confirm("操作提示", "页面超时,是否刷新？", function (data) {
                                     if (data) {
-                                        window.parent.location.href = loginPath;
+                                        window.location.href = loginPath;
                                     }
                                 });
                             }
