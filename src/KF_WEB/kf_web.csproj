@@ -3295,7 +3295,6 @@
     <Content Include="Images\Page\menu_off.gif" />
     <Content Include="Images\Page\menu_on.gif" />
     <Content Include="Images\Page\oicq.gif" />
-    <Content Include="Images\Page\pagewaterbg.png" />
     <Content Include="Images\Page\post.gif" />
     <Content Include="Images\Page\succeed.gif" />
     <Content Include="Images\Page\u0_original.png" />
@@ -4898,7 +4897,6 @@
     <Content Include="SpSettle\SettleRuleQuery.aspx" />
     <Content Include="SpSettle\SettleReqDetail.aspx" />
     <Content Include="SpSettle\SettleReqQuery.aspx" />
-    <Content Include="Styles\basepagestyle.css" />
     <Content Include="Styles\common.css" />
     <Content Include="Styles\local.css" />
     <Content Include="Styles\ossstyle.css" />

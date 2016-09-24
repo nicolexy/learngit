@@ -78,7 +78,7 @@ function LoadBrandAndProductTypeGroupForWorkingDaiesCombogrid(controlId, isMulti
 ///isEditable 
 ///type 
 ///value 
-function LoadCommonCombobox(controlId, valueField, textField, width, panelWidth, isShowSelect, showSelectText, isMultiple, isEditable, type, value) {    
+function LoadCommonCombobox(controlId, valueField, textField, width, panelWidth,panelHeight, isShowSelect, showSelectText, isMultiple, isEditable, type, value) {    
     //var postDatas = {
     //    isShowSelect: isShowSelect,
     //    showSelectText: showSelectText,
@@ -91,6 +91,7 @@ function LoadCommonCombobox(controlId, valueField, textField, width, panelWidth,
         textField: textField,
         width: width,
         panelWidth: panelWidth,
+        panelHeight: panelHeight == null || panelHeight == "" || panelHeight == "undefined" ? "auto" : panelHeight,
         multiple: isMultiple,
         editable: isEditable,
         method: "get",        

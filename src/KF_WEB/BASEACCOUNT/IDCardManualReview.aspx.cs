@@ -16,24 +16,56 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
-            {
-                try
+            { 
+                if (Session["uid"] == null)
                 {
-                    this.Label_uid.Text = Session["uid"].ToString();
-                    hid_IdCaredServerPath.Value = System.Configuration.ConfigurationManager.AppSettings["IDCardManualReview_zx_sm_get_imagefcgi"].ToString();
-                    string szkey = Session["SzKey"].ToString();
-                    if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
+                    if (Request.QueryString["getAction"] != null)
+                    {
+                        StringBuilder builder = new StringBuilder();
+                        builder.Append("[");
+                        builder.Append("{");
+                        builder.Append("\"result\":");
+                        builder.Append("\"False\",");
+                        builder.Append("\"message\":");
+                        builder.Append("\"NoRight\",");
+                        builder.Append("\"loginPath\":");
+                        builder.Append("\"../login.aspx?returnurl=" + Server.UrlEncode(Request.Url.AbsolutePath) + "\"");
+                        builder.Append("}");
+                        builder.Append("]");
+                        Response.Write(builder.ToString());
+                        Response.End();
+                    }
+                    else
+                    {
+                        
+                        Response.Write("<script type='text/javascript'>window.parent.location.href = '../login.aspx?returnurl=" + Server.UrlEncode(Request.Url.PathAndQuery) + "';</script>");
+                    }
+
+                    Response.End();
+                    //Response.Redirect("../login.aspx?returnurl=" + Server.UrlEncode(Request.Url.PathAndQuery));
                 }
-                catch  //如果没有登陆或者没有权限就跳出
-                {
+              
+                try
+                {                
+                    this.Label_uid.Text =Session["uid"]==null?string.Empty: Session["uid"].ToString();
+                    hid_IdCaredServerPath.Value = System.Configuration.ConfigurationManager.AppSettings["IDCardManualReview_zx_sm_get_imagefcgi"].ToString();
+                    string szkey =Session["SzKey"]==null?string.Empty: Session["SzKey"].ToString();
+                    if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this))
+                    {
+                        Response.Redirect("../login.aspx?wh=1");
+                    }                   
+                }
+                catch(Exception ex)  //如果没有登陆或者没有权限就跳出
+                {                    
                     Response.Redirect("../login.aspx?wh=1");
                 }
+                string getAction = Request.QueryString["getAction"] != null ? Request.QueryString["getAction"].ToString() : string.Empty;
+                if (!string.IsNullOrEmpty(getAction))
+                {
+                    Action(getAction);
+                }
             }
-            string getAction = Request.QueryString["getAction"] != null ? Request.QueryString["getAction"].ToString() : string.Empty;
-            if (!string.IsNullOrEmpty(getAction))
-            {
-                Action(getAction);
-            }
+         
         }
         public void Action(string actionName)
         {
@@ -253,6 +285,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 #if !DEBUG
                     dt = idCardManualReviewService.LoadReview(uid, uin, reviewStatus, reviewResult, beginDate, endDate,isHaveRightForSeeDetail, pageSize, pageNumber, str2 + " " + str, ref total);
 #endif
+
                     message = JsonHelper.DataTableToJson(dt, total, true);
                     //message=" { "rows":[ { "Fid":"12","Fserial_number":"1147105501600000005","Fspid":"2000000501","Fcreate_time":"2016/8/13 9:12:24","Fuin":"195806606","Fname":"SEZyxazimzM=","Fidentitycard":"TG/Jqoya4pb3/R3Qe2Vr0jSMNoV4R3Ju","Fmodify_time":"2016/8/15 16:42:07","Fimage_path1":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005","Fimage_path2":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005","Fimage_file1":"1-1-5-64-0-1-3016181900461","Fimage_file2":"1-1-5-64-0-1-3016181900461","Fstate":"2","Fresult":"0","Fmemo":"0","Foperator":"1100000000","Fstandby1":"","Fstandby2":"","Fstandby3":"","Fstandby4":"","Fstandby5":"","TableName":"c2c_fmdb.t_check_identitycard_201608"}, { "Fid":"13","Fserial_number":"1147105531500000006","Fspid":"2000000501","Fcreate_time":"2016/8/13 9:12:24","Fuin":"195806606","Fname":"SEZyxazimzM=","Fidentitycard":"TG/Jqoya4pb3/R3Qe2Vr0jSMNoV4R3Ju","Fmodify_time":"2016/8/15 15:40:53","Fimage_path1":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105531500000006","Fimage_path2":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105531500000006","Fimage_file1":"1-1-5-64-0-1-3016181900461","Fimage_file2":"1-1-5-64-0-1-3016181900461","Fstate":"2","Fresult":"0","Fmemo":"4","Foperator":"1100000000","Fstandby1":"","Fstandby2":"","Fstandby3":"","Fstandby4":"","Fstandby5":"","TableName":"c2c_fmdb.t_check_identitycard_201608"}, { "Fid":"14","Fserial_number":"1234","Fspid":"1234567890","Fcreate_time":"2016/8/12 0:00:00","Fuin":"abcd@wx.tenpay.com","Fname":"guoyueqiang","Fidentitycard":"360726","Fmodify_time":"","Fimage_path1":"image_path1","Fimage_path2":"image_path2","Fimage_file1":"image_file1","Fimage_file2":"image_file2","Fstate":"1","Fresult":"0","Fmemo":"","Foperator":"","Fstandby1":"","Fstandby2":"","Fstandby3":"","Fstandby4":"","Fstandby5":"","TableName":"c2c_fmdb.t_check_identitycard_201608"} ],"total":3}";
                 }
@@ -305,7 +338,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             string message = string.Empty;
             try
             {
-                string decryptorStr = Request.Form["DecryptorStr"] != null || string.IsNullOrEmpty(Request.Form["DecryptorStr"].ToString()) ? Request.Form["DecryptorStr"].ToString() : string.Empty;
+                string decryptorStr = Request.Form["DecryptorStr"] == null || string.IsNullOrEmpty(Request.Form["DecryptorStr"].ToString()) ?string.Empty: Request.Form["DecryptorStr"].ToString();
                 if (!string.IsNullOrEmpty(decryptorStr))
                 {
                     BankLib.BankIOX aa = new BankLib.BankIOX();
