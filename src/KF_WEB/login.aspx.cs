@@ -108,7 +108,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 int port = HttpContext.Current.Request.Url.Port;
                 string url_Host_port = port > 0 ? url_Host + ":" + port.ToString() : url_Host;
                 string url = string.IsNullOrEmpty(requestUrl) ? "defaultNotice.aspx" : "defaultNotice.aspx?requestUrl=" + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Server.UrlEncode( requestUrl))) + "";
-                Response.Redirect(url, false);  
+                //Response.Redirect(url, false);  
+                Response.Write("<script type='text/javascript'>window.location.href='" + url+ "';</script>");
+                Response.End();
 				return;
 			}
 		}
