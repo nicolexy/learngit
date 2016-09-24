@@ -106,65 +106,6 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
                         <uc1:WebchatPayControl ID="WebchatPayControl1" runat="server"  Visible="false"/><!--微信支付-->
                   </td>
                 </tr>
-
-                 <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('tradeManagement')">
-                  <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>交易管理</strong></td>  
-                </tr>
-                <tr id="tradeManagement" name="menu_two" style="display:none">
-                  <td >
-                        <uc1:TradeManage id="tradeManage1" runat="server" Visible="false"></uc1:TradeManage> <!--交易查询-->
-			            <uc1:LifeFeeDetailManage id="LifeFeeDetailManage1" runat="Server" Visible="false"></uc1:LifeFeeDetailManage><!--生活缴费-->
-                        <uc1:InternetBank ID="InternetBank" runat="server"  Visible="false"/><!--网银查询-->
-                        <uc1:BankBillManage id="BankBillManage1" runat="server" Visible="false"></uc1:BankBillManage><!--银行账单-->
-                  </td>
-                </tr>
-
-                <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('fundManagement')">
-                  <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>理财通</strong></td>
-                </tr>
-                 <tr id="fundManagement" name="menu_two" style="display:none">
-                  <td>
-                         <uc1:FundControl runat="server" ID="FundControl1"  Visible="false"/><!--理财通--> 
-                  </td>
-                </tr>
-
-                    <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('HandQ')">
-                  <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>手Q支付</strong></td>
-                </tr>
-                 <tr id="HandQ" name="menu_two" style="display:none">
-                  <td>
-                          <uc1:HandQBusiness ID="HandQBusiness" runat="server"  Visible="false"/><!--手Q业务-->
-                  </td>
-                </tr>
-
-                <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('CreditCardPayment')">
-                 <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>信用卡还款</strong></td>
-                </tr>
-                 <tr id="CreditCardPayment" name="menu_two" style="display:none">
-                  <td>
-                        <uc1:MenuControl runat="server" ID="CreditPayMenuControl"  Visible="false"/><!--信用卡还款-->
-                  </td>
-                </tr>
-
-                
-                    <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('FastPay')">
-                  <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>快捷支付</strong></td>
-                </tr>
-                 <tr id="FastPay" name="menu_two" style="display:none">
-                  <td>
-                         <uc1:MenuControl runat="server" ID="FastPayMenuControl"  Visible="false"/> <!--快捷支付-->
-                  </td>
-                </tr>
-
-                   <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('Tencentbusiness')">
-                  <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>购买公司业务</strong></td>
-                </tr>
-                 <tr id="Tencentbusiness" name="menu_two" style="display:none">
-                  <td>
-                        <uc1:MenuControl runat="server" ID="TencentbusinessMenuControl"  Visible="false"/> <!--购买公司业务-->
-                  </td>
-                </tr>
-
                 <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('payManagement')">
                   <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>支付管理</strong></td>
                 </tr>
@@ -182,7 +123,17 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
                         <uc1:HKWalletPay runat="server" ID="HKWalletPay"  Visible="false"/> <!--HK钱包支付-->
                   </td>
                 </tr>
-               
+                <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('tradeManagement')">
+                  <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>交易管理</strong></td>  
+                </tr>
+                <tr id="tradeManagement" name="menu_two" style="display:none">
+                  <td >
+                        <uc1:TradeManage id="tradeManage1" runat="server" Visible="false"></uc1:TradeManage> <!--交易查询-->
+			            <uc1:LifeFeeDetailManage id="LifeFeeDetailManage1" runat="Server" Visible="false"></uc1:LifeFeeDetailManage><!--生活缴费-->
+                        <uc1:InternetBank ID="InternetBank" runat="server"  Visible="false"/><!--网银查询-->
+                        <uc1:BankBillManage id="BankBillManage1" runat="server" Visible="false"></uc1:BankBillManage><!--银行账单-->
+                  </td>
+                </tr>
                 <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('bussInfo')">
                   <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>商户信息管理</strong></td>
                 </tr>
@@ -210,7 +161,50 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
                         <uc1:MenuControl runat="server" ID="BGBatchMenuControl"  Visible="false"/> <!--BG批量处理-->
                   </td>
                 </tr>
-                 
+                 <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('fundManagement')">
+                  <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>理财通</strong></td>
+                </tr>
+                 <tr id="fundManagement" name="menu_two" style="display:none">
+                  <td>
+                         <uc1:FundControl runat="server" ID="FundControl1"  Visible="false"/><!--理财通--> 
+                  </td>
+                </tr>
+
+                    <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('HandQ')">
+                  <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>手Q支付</strong></td>
+                </tr>
+                 <tr id="HandQ" name="menu_two" style="display:none">
+                  <td>
+                          <uc1:HandQBusiness ID="HandQBusiness" runat="server"  Visible="false"/><!--手Q业务-->
+                  </td>
+                </tr>
+
+                    <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('CreditCardPayment')">
+                  <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>信用卡还款</strong></td>
+                </tr>
+                 <tr id="CreditCardPayment" name="menu_two" style="display:none">
+                  <td>
+                        <uc1:MenuControl runat="server" ID="CreditPayMenuControl"  Visible="false"/><!--信用卡还款-->
+                  </td>
+                </tr>
+
+                    <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('FastPay')">
+                  <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>快捷支付</strong></td>
+                </tr>
+                 <tr id="FastPay" name="menu_two" style="display:none">
+                  <td>
+                         <uc1:MenuControl runat="server" ID="FastPayMenuControl"  Visible="false"/> <!--快捷支付-->
+                  </td>
+                </tr>
+
+                    <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('Tencentbusiness')">
+                  <td style="background-image:url(images/page/menu_bk.gif); height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;<strong>购买公司业务</strong></td>
+                </tr>
+                 <tr id="Tencentbusiness" name="menu_two" style="display:none">
+                  <td>
+                        <uc1:MenuControl runat="server" ID="TencentbusinessMenuControl"  Visible="false"/> <!--购买公司业务-->
+                  </td>
+                </tr>
             </table>
 			
 		</td>
