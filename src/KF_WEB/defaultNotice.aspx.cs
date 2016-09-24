@@ -23,13 +23,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 if (!string.IsNullOrEmpty(actionName))
                 {
                     string requestUrl = Request.QueryString["requestUrl"] == null ? string.Empty : Request.QueryString["requestUrl"].ToString();
-                    requestUrl = Server.UrlDecode(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(requestUrl)));
-                    //requestUrl = "/RefundManage/RefundRegistration.aspx";
-
+                    try
+                    {
+                        requestUrl = Server.UrlDecode(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(requestUrl))); // !string.IsNullOrEmpty(IdCardManualReviewService.DecodeBase64(requestUrl)) ? IdCardManualReviewService.DecodeBase64(requestUrl).Replace("%2f", "/") : string.Empty;
+                        //requestUrl = "/RefundManage/RefundRegistration.aspx";
+                    }
+                    catch (Exception ex)
+                    {
+                        requestUrl = Request.QueryString["requestUrl"] == null ? string.Empty : Request.QueryString["requestUrl"].ToString();
+                    }
+                    Default defaultAspx = new Default();
+                    defaultAspx.requestUrl = requestUrl;
                     DoAction(actionName, requestUrl);
                 }
             }            
-            //test();
+            //test();            
         }
 
         private void DoAction(string actionName, string requestUrl)
@@ -41,6 +49,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             else if (actionName.Equals("SetCookie"))
             {
                 SetCookie(requestUrl);
+            }
+            else if (actionName.Equals("Redirect"))
+            {
+                Redirect(requestUrl);
             }
         }
 
@@ -102,6 +114,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             }
         }
 
+        private void Redirect(string requestUrl)
+        {
+            if (!string.IsNullOrEmpty(requestUrl))
+            {
+                //requestUrl = !string.IsNullOrEmpty(IdCardManualReviewService.DecodeBase64(requestUrl)) ? IdCardManualReviewService.DecodeBase64(requestUrl).Replace("%2f","/") : string.Empty;// Server.UrlDecode(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(requestUrl)));
+                string url = HttpContext.Current.Request.Url.Host; //取 域名： 
+                Response.Redirect(IdCardManualReviewService.DecodeBase64(requestUrl).Replace("%2f", "/"));                
+            }
+        }
+
         private void test()
         {
             //测试代码
@@ -157,18 +179,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
             #region  身份证审核接口
 
-            IdCardManualReviewService aaa = new IdCardManualReviewService();
-            string uin = "085e9858e1e04c9e0e785c35c@wx.tenpay.com";
-            string seq_no = "2147260162500000027";
-            string credit_spid = "40000101";
-            string front_image = "2-1-7-76-3-4-3108004981288";
-            string back_image = "2-1-7-10-3-4-3108010381312";
-            int audit_result = 2;
-            string audit_error_des = "image not clear";
-            string audit_operator = "v_xjsun";
-            string audit_time = "2016-09-02 17:12:00";
-            string mes = string.Empty;
-            bool result = aaa.Review(uin, seq_no, credit_spid, front_image, back_image, audit_result, audit_error_des, audit_operator, audit_time, out mes);
+            //IdCardManualReviewService aaa = new IdCardManualReviewService();
+            //string uin = "085e9858e1e04c9e0e785c35c@wx.tenpay.com";
+            //string seq_no = "2147260162500000027";
+            //string credit_spid = "40000101";
+            //string front_image = "2-1-7-76-3-4-3108004981288";
+            //string back_image = "2-1-7-10-3-4-3108010381312";
+            //int audit_result = 2;
+            //string audit_error_des = "image not clear";
+            //string audit_operator = "v_xjsun";
+            //string audit_time = "2016-09-02 17:12:00";
+            //string mes = string.Empty;
+            //bool result = aaa.Review(uin, seq_no, credit_spid, front_image, back_image, audit_result, audit_error_des, audit_operator, audit_time, out mes);
 
             //测试代码
             // string retTextDecodeBase64 = DecodeBase64("eyJyZXN1bHQiOiIxOTQ5MDIwMDA0IiwicmVzX2luZm8iOiJbMTk0OTAyMDAwNF3mgqjnmoTmk43kvZzlt7Lmj5DkuqTvvIzor7fnoa7orqTmmK/lkKblt7LnlJ/mlYjjgIIifQ==");
@@ -253,6 +275,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             //    }
             //}
             #endregion
-        }
+      
+        }       
     }
 }

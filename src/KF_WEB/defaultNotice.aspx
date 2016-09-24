@@ -116,10 +116,10 @@
     <script type="text/javascript">      
         $(function () {
             //$("#btn_Sure").css("display", "none");
-            $("#btn_Sure").hide();
+            $("#btn_Sure").hide();            
             $.ajax({
                 type: 'get',
-                url: "defaultNotice.aspx?getAction=GetCookie&requestUrl=<%= Request.QueryString["requestUrl"]==null?"":Request.QueryString["requestUrl"].ToString()%>&v=123",
+                url: "defaultNotice.aspx?getAction=GetCookie&requestUrl=<%= Request.QueryString["requestUrl"]==null?"":Request.QueryString["requestUrl"].ToString()%>&v=123",                
                 dataType: "text",
                 success: function (data) {
                     //if (data == "True") {
@@ -135,6 +135,7 @@
                         if (cookie.length > 0) {
                             if (requestUrl.length > 0) {
                                 location.href = requestUrl;
+                                //Redirect(requestUrl);
                             }
                         }
                         else {
@@ -172,6 +173,7 @@
                                 if (requestUrl.length > 0)
                                 {
                                     location.href =requestUrl;
+                                    //Redirect(requestUrl);
                                 }
                             }                            
                         })
@@ -199,6 +201,17 @@
             document.getElementById(show_div).style.display = 'none';
             document.getElementById(bg_div).style.display = 'none';
         };
+
+        function Redirect(url)
+        {
+            $.ajax({
+                type: 'get',
+                url: "defaultNotice.aspx?getAction=Redirect&requestUrl=" + url + "",
+                dataType: "text",
+                success: function (data) {                   
+                }
+             });
+        }
     </script>
 </head>
 <body style="margin:0px">

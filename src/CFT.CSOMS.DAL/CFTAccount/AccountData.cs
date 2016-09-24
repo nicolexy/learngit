@@ -1538,7 +1538,22 @@ namespace CFT.CSOMS.DAL.CFTAccount
             req += "&uid=" + fuid;
             if (fcurtype == "1")
             {
-                req += "&curtype=" + fcurtype;
+                string acc_set = "";	//用户所属核心SET编号
+                string request = "MSG_NO=101604" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + "&qry_delete_user=1&uid=" + fuid;
+                var ip = Apollo.Common.Configuration.AppSettings.Get<string>("TransferQuery_RelayIP", "10.128.129.212");
+                var port = Apollo.Common.Configuration.AppSettings.Get<int>("TransferQuery_RelayPort", 22000);
+                var answer = RelayAccessFactory.RelayInvoke(request, "101604", false, false, ip, port, "utf-8");
+                Dictionary<string, string> dic = answer.ToDictionary('&', '=');
+
+                if (dic.ContainsKey("acc_set"))
+                {
+                    acc_set = dic["acc_set"];
+                }
+                else 
+                {
+                    throw new Exception("request:" + request + ";reponse:" + answer);
+                }
+                req += "&curtype=" + fcurtype + "&acc_set=" + acc_set;
                 DataSet userDs = CommQuery.GetDSForServiceFromICE(req, "qry_user_balance_slave_c", false, out errMsg);
                 if (userDs != null && userDs.Tables.Count > 0 && userDs.Tables[0] != null && userDs.Tables[0].Columns.Count > 0)
                 {
