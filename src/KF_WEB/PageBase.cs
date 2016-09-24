@@ -28,7 +28,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             //{
                 if (Session["uid"] == null)
                 {
-                    LogHelper.LogInfo(requestRecord, "KFWebPageRequest");
                     Response.Write("<script type='text/javascript'>window.parent.location.href = '../login.aspx?returnurl=" + Server.UrlEncode(Request.Url.PathAndQuery) + "';</script>");
                     Response.End();
                 }

@@ -23,7 +23,7 @@ namespace KF_Web
 		
 		protected void Application_Start(Object sender, EventArgs e)
 		{
-            CFT.Apollo.Logging.LogHelper.LogInfo("Application_Start--站点启动", "Global");
+            CFT.Apollo.Logging.LogHelper.LogInfo("=================Application_Start--站点启动==========================", "Global");
 		}
  
 		protected void Session_Start(Object sender, EventArgs e)
