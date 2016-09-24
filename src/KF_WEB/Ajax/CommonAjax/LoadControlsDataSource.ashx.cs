@@ -72,22 +72,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                 DataRow dr1 = dt.NewRow();
                 dr1["id"] = "1";
                 dr1["name"] = "未领单";
-                dr1["orderStr"] = "1";
+                dr1["orderStr"] =1;
 
                 DataRow dr2 = dt.NewRow();
                 dr2["id"] = "2";
                 dr2["name"] = "已领单";
-                dr2["orderStr"] = "2";
+                dr2["orderStr"] = 2;
 
                 DataRow dr3 = dt.NewRow();
                 dr3["id"] = "3";
                 dr3["name"] = "推送到实名系统失败";
-                dr3["orderStr"] = "3";
+                dr3["orderStr"] = 3;
 
                 DataRow dr4 = dt.NewRow();
                 dr4["id"] = "4";
                 dr4["name"] = "推送成功";
-                dr4["orderStr"] = "4";
+                dr4["orderStr"] = 4;
 
                 dt.Rows.Add(dr1);
                 dt.Rows.Add(dr2);
@@ -99,7 +99,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                     DataRow row = dt.NewRow();
                     row["id"] = 0;
                     row["name"] = showSelectText;
-                    row["orderStr"] = "0";
+                    row["orderStr"] = 0;
                     dt.Rows.Add(row);
                    
                 }
@@ -135,17 +135,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                 DataRow dr1 = dt.NewRow();
                 dr1["id"] = "0";
                 dr1["name"] = "未处理";
-                dr1["orderStr"] = "1";
+                dr1["orderStr"] = 1;
 
                 DataRow dr2 = dt.NewRow();
                 dr2["id"] = "1";
                 dr2["name"] = "通过";
-                dr2["orderStr"] = "2";
+                dr2["orderStr"] = 2;
 
                 DataRow dr3 = dt.NewRow();
                 dr3["id"] = "2";
                 dr3["name"] = "驳回";
-                dr3["orderStr"] = "3";
+                dr3["orderStr"] = 3;
 
                 dt.Rows.Add(dr1);
                 dt.Rows.Add(dr2);
@@ -191,6 +191,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                 DataTable dt = new DataTable();
                 dt.Columns.Add("id");
                 dt.Columns.Add("name");
+                dt.Columns.Add("orderStr");
                 #region
                 //1 = "未提供照片";
                 //2 = "上传非身份证照片";
@@ -206,51 +207,61 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                 DataRow dr1 = dt.NewRow();
                 dr1["id"] = "1";
                 dr1["name"] = "未提供照片";//未显示图片
+                dr1["orderStr"] = 8;
                 dt.Rows.Add(dr1);
 
                 DataRow dr2 = dt.NewRow();
                 dr2["id"] = "2";
                 dr2["name"] = "上传非身份证照片";//未提供身份证扫描件
+                dr2["orderStr"] = 6;//6
                 dt.Rows.Add(dr2);
 
                 DataRow dr3 = dt.NewRow();
                 dr3["id"] = "3";
                 dr3["name"] = "身份证件不清晰不完整";//上传的扫描件不够完整、清晰、有效
+                dr3["orderStr"] = 2;//2
                 dt.Rows.Add(dr3);
 
                 DataRow dr4 = dt.NewRow();
                 dr4["id"] = "4";
                 dr4["name"] = "身份证证件号不一致";//证件号码与原注册证件号码不符
+                dr4["orderStr"] =4;//4
                 dt.Rows.Add(dr4);
 
                 DataRow dr5 = dt.NewRow();
                 dr5["id"] = "5";
-                dr5["name"] = "其他原因"; 
+                dr5["name"] = "其他原因";
+                dr5["orderStr"] = 9999;
                 dt.Rows.Add(dr5);
 
                 DataRow dr6 = dt.NewRow();
                 dr6["id"] = "6";
                 dr6["name"] = "身份证姓名和提供姓名不符";
+                dr6["orderStr"] = 3;//3
                 dt.Rows.Add(dr6);
 
                 DataRow dr7 = dt.NewRow();
                 dr7["id"] = "7";
                 dr7["name"] = "身份证签发机关和地址不一致";
+                dr7["orderStr"] = 7;
                 dt.Rows.Add(dr7);
 
                 DataRow dr8 = dt.NewRow();
                 dr8["id"] = "8";
                 dr8["name"] = "两张均为正面或反面";
+                dr8["orderStr"] = 1;//1
                 dt.Rows.Add(dr8);
 
                 DataRow dr9 = dt.NewRow();
                 dr9["id"] = "9";
                 dr9["name"] = "身份证证件虚假";
+                dr9["orderStr"] = 9;
                 dt.Rows.Add(dr9);
 
                 DataRow dr10 = dt.NewRow();
                 dr10["id"] = "10";
                 dr10["name"] = "身份证已超过有效期";
+                dr10["orderStr"] =5;//5 
                 dt.Rows.Add(dr10);
                 #endregion
 
@@ -259,12 +270,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                     DataRow row = dt.NewRow();
                     row["id"] = 0;
                     row["name"] = showSelectText;
+                    row["orderStr"] = 0;
                     dt.Rows.Add(row);
 
                 }
                 DataTable dt2 = dt.Copy();
                 DataView defaultView = dt.DefaultView;
-                defaultView.Sort = "id";
+                defaultView.Sort = "orderStr";
+                //defaultView.Sort = "id";
                 defaultView.ToTable().AcceptChanges();
                 dt2 = defaultView.ToTable();
                 result = CreateComboboxJson(dt2, "id", "name");

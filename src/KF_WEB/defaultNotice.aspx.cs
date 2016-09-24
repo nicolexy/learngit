@@ -31,7 +31,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                     catch (Exception ex)
                     {
                         requestUrl = Request.QueryString["requestUrl"] == null ? string.Empty : Request.QueryString["requestUrl"].ToString();
-                    }                                        
+                    }
+                    Default defaultAspx = new Default();
+                    defaultAspx.requestUrl = requestUrl;
                     DoAction(actionName, requestUrl);
                 }
             }            

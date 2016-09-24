@@ -22,6 +22,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 	/// </summary>
 	public partial class Default : System.Web.UI.Page
 	{
+        public string requestUrl = string.Empty;
 		public string path;
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
@@ -35,13 +36,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 			}
 			// 在此处放置用户代码以初始化页面
 			//if (Session["uid"] == null)
-			if (Session["uid"] == null && !classLibrary.getData.IsNewSensitivePowerMode)
-			{
-				//Response.Redirect("login.aspx");
-				GetCurrentUser();
-			}
-			else
-				path = "middle.htm";
+            if (Session["uid"] == null && !classLibrary.getData.IsNewSensitivePowerMode)
+            {
+                //Response.Redirect("login.aspx");
+                GetCurrentUser();
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(requestUrl))
+                {
+                    path = "middle.htm";
+                }
+                else
+                {
+                    path = requestUrl;
+                }
+            }
+				
 			
 			//Response.Write("<script language=javascript>window.WorkArea.location='" + path + "'</script>"); 
 		}
