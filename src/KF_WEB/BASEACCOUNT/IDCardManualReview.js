@@ -44,17 +44,29 @@
             data: datas,
             url: "IDCardManualReview.aspx?getAction=ReceiveReview",
             success: function (returnData) {
-                //var dataObj = eval("(" + returnData + ")");
-                //$.each(dataObj, function (idx, item) {
-                //    var result = item.result;
-                //    var message = item.message;
-                //    if (message.length > 0) {
-                //        $.messager.alert('提示', message, 'Info');
-                //    }
-                //});
-                $("#ddl_ReviewStatus").combobox("setValue", "2");                
-                //$("#tb_IDCardManualReviewList").datagrid("load");
-                $("#btn_Search").click();
+                var dataObj = eval("(" + returnData + ")");
+                $.each(dataObj, function (idx, item) {
+                    var result = item.result;
+                    var message = item.message;
+                    if (message.length > 0) {                        
+                        if (message == "NoRight") {
+                            var loginPath = item.loginPath;
+                            $.messager.confirm("操作提示", "页面超时,是否刷新？", function (data) {
+                                if (data) {
+                                    window.location.href = loginPath;
+                                }
+                            });
+                        }
+                        else {
+                            //$.messager.alert('提示', message, 'Info');
+                            $("#ddl_ReviewStatus").combobox("setValue", "2");
+                            //$("#tb_IDCardManualReviewList").datagrid("load");
+                            $("#btn_Search").click();
+                        }
+                    }
+                });
+                
+               
             },
             error: function () {
                 $.messager.alert("错误", "出错了!", "info", null);
@@ -101,8 +113,20 @@
                     var result = item.result;
                     var message = item.message;
                     if ((result == "false" || result == "False") && message.length > 0) {
-                        $.messager.alert('提示', message, 'Info');
-                        return;
+                        
+                        if (message == "NoRight") {
+                            var loginPath = item.loginPath;
+                            $.messager.confirm("操作提示", "页面超时,是否刷新？", function (data) {
+                                if (data) {
+                                    window.location.href = loginPath;
+                                }
+                            });
+                        }
+                        else {
+                            $.messager.alert('提示', message, 'Info');
+                            return;
+                        }
+                        
                     }
                 });
             }
@@ -276,8 +300,19 @@
                         $("#tb_IDCardManualReviewList").datagrid("load");
                     }
                     else {
-                        if (message.length > 0) {
-                            $.messager.alert('提示', message, 'Info');
+                        if (message.length > 0) {                          
+                            
+                            if (message == "NoRight") {
+                                var loginPath = item.loginPath;
+                                $.messager.confirm("操作提示", "页面超时,是否刷新？", function (data) {
+                                    if (data) {
+                                        window.location.href = loginPath;
+                                    }
+                                });
+                            }
+                            else {
+                                $.messager.alert('提示', message, 'Info');
+                            }
                         }
                     }
                 });
@@ -316,7 +351,18 @@
                     }
                     else {
                         if (message.length > 0) {
-                            $.messager.alert('提示', message, 'Info');
+
+                            if (message == "NoRight") {
+                                var loginPath = item.loginPath;
+                                $.messager.confirm("操作提示", "页面超时,是否刷新？", function (data) {
+                                    if (data) {
+                                        window.location.href = loginPath;
+                                    }
+                                });
+                            }
+                            else {
+                                $.messager.alert('提示', message, 'Info');
+                            }
                         }
                     }
                 });
@@ -342,12 +388,25 @@
                 $.each(dataObj, function (idx, item) {
                     var result = item.result;
                     var message = item.message;
-                    if (message.length > 0) {
-                        $.messager.alert('提示', message, 'Info');
-                    }
+                    
                     if (result == "true" || result == "True") {
                         $("#div_ReveiwIdCard").dialog("close");
                         $("#tb_IDCardManualReviewList").datagrid("load");
+                    }
+                    else {
+                        if (message.length > 0) {
+                            if (message == "NoRight") {
+                                var loginPath = item.loginPath;
+                                $.messager.confirm("操作提示", "页面超时,是否刷新？", function (data) {
+                                    if (data) {
+                                        window.location.href = loginPath;
+                                    }
+                                });
+                            }
+                            else {
+                                $.messager.alert('提示', message, 'Info');
+                            }
+                        }                       
                     }
                 });
             }
@@ -431,6 +490,7 @@ function IsHaveRightForReviewCount() {
                         var loginPath = item.loginPath;
                         window.location.href = loginPath;
                     }
+
                 }
             });
         }
