@@ -9,31 +9,35 @@ using System.Web.UI.WebControls;
 using CFT.CSOMS.BLL.BankCardBindModule;
 using CFT.CSOMS.BLL.IdCardModule;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
+
 namespace TENCENT.OSS.CFT.KF.KF_Web
 {
     public partial class defaultNotice : System.Web.UI.Page
     {
         string uid = string.Empty;
+         public string requestUrl = string.Empty;
         protected void Page_Load(object sender, EventArgs e)
         {
             uid = Session["uid"] == null ? string.Empty : Session["uid"].ToString();
             if (!IsPostBack)
             {
+                //string requestUrl = string.Empty;
+                try
+                {
+                    string aaa = Request.QueryString["requestUrl"] == null ? string.Empty : Request.QueryString["requestUrl"].ToString();
+                    requestUrl = Server.UrlDecode(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(aaa))); // !string.IsNullOrEmpty(IdCardManualReviewService.DecodeBase64(requestUrl)) ? IdCardManualReviewService.DecodeBase64(requestUrl).Replace("%2f", "/") : string.Empty;
+                    //requestUrl = "/RefundManage/RefundRegistration.aspx";
+                }
+                catch (Exception ex)
+                {
+                    requestUrl = Request.QueryString["requestUrl"] == null ? string.Empty : Request.QueryString["requestUrl"].ToString();
+                }                
+                //Default defaultAspx = new Default();
+               // defaultAspx.requestUrl = requestUrl;
+
                 string actionName = Request.QueryString["getAction"] == null ? string.Empty : Request.QueryString["getAction"].ToString();
                 if (!string.IsNullOrEmpty(actionName))
-                {
-                    string requestUrl = Request.QueryString["requestUrl"] == null ? string.Empty : Request.QueryString["requestUrl"].ToString();
-                    try
-                    {
-                        requestUrl = Server.UrlDecode(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(requestUrl))); // !string.IsNullOrEmpty(IdCardManualReviewService.DecodeBase64(requestUrl)) ? IdCardManualReviewService.DecodeBase64(requestUrl).Replace("%2f", "/") : string.Empty;
-                        //requestUrl = "/RefundManage/RefundRegistration.aspx";
-                    }
-                    catch (Exception ex)
-                    {
-                        requestUrl = Request.QueryString["requestUrl"] == null ? string.Empty : Request.QueryString["requestUrl"].ToString();
-                    }
-                    Default defaultAspx = new Default();
-                    defaultAspx.requestUrl = requestUrl;
+                {                                                           
                     DoAction(actionName, requestUrl);
                 }
             }            

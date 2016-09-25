@@ -14,6 +14,7 @@ using Tencent.DotNet.OSS.Web.UI;
 using TENCENT.OSS.CFT.KF.Common;
 using TENCENT.OSS.CFT.KF.DataAccess;
 using TENCENT.OSS.CFT.KF.KF_Web.Query_Service;
+using SunLibrary;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web
@@ -32,7 +33,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
             if (Request.QueryString["oaAuthentication"] =="1")
             {   //Oa ¼øÈ¨ ticket  »ñÈ¡
-                Session["oa_ticket"] = Request.QueryString["ticket"];
+                Session["oa_ticket"] = Request.QueryString["ticket"];                
                 return;
             }
             if (Request.QueryString["ticket"] != null)
@@ -55,17 +56,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             //}
 
 			if(classLibrary.getData.IsNewSensitivePowerMode)
-			{
+			{                
 				NewPowerCheck();
 			}
 			else
 			{
+               
 				if(Request.QueryString["key"] != null)
 				{
 					Session["SzKey"] = Request.QueryString["key"].Trim();
 					Session["OperID"] = Request.QueryString["id"].Trim();
-					Session["uid"] = Request.QueryString["LoginName"].Trim();
-                    Response.Redirect("defaultNotice.aspx", false);
+					Session["uid"] = Request.QueryString["LoginName"].Trim();                    
+                    Response.Redirect("defaultNotice.aspx", false);                    
 					return;
 				}
 				else
@@ -74,12 +76,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 					if(!classLibrary.getData.IsTestMode)
 					{
 						string url = ConfigurationManager.AppSettings["CMUrl"];
-						string adminurl = url + ConfigurationManager.AppSettings["GROUPID"];
+						string adminurl = url + ConfigurationManager.AppSettings["GROUPID"];                        
 						Response.Redirect(adminurl);
 						return;	
 					}
 					else
-					{
+					{                        
 						Response.Redirect("defaultNotice.aspx",false);
 					}
 				}
@@ -108,7 +110,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 int port = HttpContext.Current.Request.Url.Port;
                 string url_Host_port = port > 0 ? url_Host + ":" + port.ToString() : url_Host;
                 string url = string.IsNullOrEmpty(requestUrl) ? "defaultNotice.aspx" : "defaultNotice.aspx?requestUrl=" + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Server.UrlEncode( requestUrl))) + "";
-                //Response.Redirect(url, false);  
+                //string url = string.IsNullOrEmpty(requestUrl) ? "defaultNotice.aspx" : "defaultNotice.aspx?requestUrl=" + requestUrl + "";
+                //Response.Redirect(url, false);                  
                 Response.Write("<script type='text/javascript'>window.location.href='" + url+ "';</script>");
                 Response.End();
 				return;
