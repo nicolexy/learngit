@@ -46,20 +46,23 @@ namespace KF_Web
 
 		}
 
-		protected void Application_Error(Object sender, EventArgs e)
-		{
+        protected void Application_Error(Object sender, EventArgs e)
+        {
             Exception error = Server.GetLastError();
             if (error != null)
             {
                 HttpContext ctx = HttpContext.Current;
                 Exception ex = error.GetBaseException();
+
                 if (ex != null)
                 {
                     string errorStr = TENCENT.OSS.CFT.KF.KF_Web.PageBase.GetRequestError(ctx);
                     CFT.Apollo.Logging.LogHelper.LogError(string.Format("=========Application_Error========== 获取到异常：\r\n {0} \r\n请求详细信息:{1}", ex.ToString(), errorStr), "Global");
                 }
+                //将获取的异常记录并清空
+                Server.ClearError();
             }
-		}
+        }
 
 		protected void Session_End(Object sender, EventArgs e)
 		{
@@ -68,7 +71,6 @@ namespace KF_Web
 
 		protected void Application_End(Object sender, EventArgs e)
 		{
-
             CFT.Apollo.Logging.LogHelper.LogInfo("=================Application_End--站点关闭============,===站点关闭原因：" + GetShutdownReson(System.Web.Hosting.HostingEnvironment.ShutdownReason.ToString()), "Global");
 		}
 
