@@ -26,6 +26,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 		public string path;
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
+            requestUrl = Request.QueryString["requestUrl"];
 			if(classLibrary.getData.IsTestMode && !classLibrary.getData.IsNewSensitivePowerMode)
 			{
 				Session["uid"] = "1100000000";
