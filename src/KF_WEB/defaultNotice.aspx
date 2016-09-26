@@ -116,8 +116,15 @@
     <script type="text/javascript">      
         $(function () {
             //$("#btn_Sure").css("display", "none");
-            $("#btn_Sure").hide();            
-            $.ajax({
+            $("#btn_Sure").hide();
+            var requestUrl = '<%= Request.QueryString["requestUrl"]==null?"":Request.QueryString["requestUrl"].ToString()%>';   
+         
+                var cookValue = getCookie("TencentKFCFSystemloginStatus"); 
+                if (cookValue == null || cookValue == "" || cookValue == "undefined") {
+                    ShowDiv("div_Notice", "back");
+                }            
+
+           <%-- $.ajax({
                 type: 'get',
                 url: "defaultNotice.aspx?getAction=GetCookie&requestUrl=<%= Request.QueryString["requestUrl"]==null?"":Request.QueryString["requestUrl"].ToString()%>&v=123",                
                 dataType: "text",
@@ -143,7 +150,7 @@
                         }
                     })
                 }
-            });
+            });--%>
             $("#cb_CheckNotice").click(function () {
 
                 if ($("#cb_CheckNotice").is(':checked')) {
@@ -158,7 +165,7 @@
             })
 
             $("#btn_Sure").click(function () {
-                $.ajax({
+                <%--$.ajax({
                     type: 'get',
                     url: "defaultNotice.aspx?getAction=SetCookie&requestUrl=<%= Request.QueryString["requestUrl"]==null?"":Request.QueryString["requestUrl"].ToString()%>&v=123",
                     dataType: "text",
@@ -178,9 +185,13 @@
                             }                            
                         })
                     }
-                });
+                });--%>
                 //CloseDiv("div_Notice", "back");
                 //register("xiaolin");
+
+                var cookValue = '<%=Session["uid"]==null?"":Session["uid"].ToString()%>';                      
+                setCookie("TencentKFCFSystemloginStatus", cookValue, 1)                
+                CloseDiv("div_Notice", "back");               
             });
         })
         //弹出隐藏层
@@ -212,11 +223,46 @@
                 }
              });
         }
+
+        //设置cookie
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + "; " + expires;
+        }
+        //获取cookie
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1);
+                if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
+            }
+            return "";
+        }
+        //清除cookie  
+        function clearCookie(name) {
+            setCookie(name, "", -1);
+        }
+        function checkCookie() {
+            var user = getCookie("username");
+            if (user != "") {
+                alert("Welcome again " + user);
+            } else {
+                user = prompt("Please enter your name:", "");
+                if (user != "" && user != null) {
+                    setCookie("username", user, 365);
+                }
+            }
+        }
+     
     </script>
 </head>
 <body style="margin:0px">
     <div style="overflow-y:hidden">
-        <iframe id="ifr_Main" frameborder="0" src="default.aspx" style="width: 100%; height: 100%;"></iframe>
+        <iframe id="ifr_Main" frameborder="0" src="default.aspx?requestUrl=<%=requestUrl%>" style="width: 100%; height: 100%;"></iframe>
     </div>
     <div id="back" class="black_overlay"></div>
     <div id="div_Notice" class="white_content  yuanjiao" style="font-family: 'Microsoft YaHei'">

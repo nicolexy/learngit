@@ -20,6 +20,7 @@
         max: 200,
         editable: true
     });
+    
     $("#txt_ReviewCount").numberspinner("setValue", 200);  // 设置值
 
     $("#btn_ReceiveReview").click(function () {
@@ -44,17 +45,32 @@
             data: datas,
             url: "IDCardManualReview.aspx?getAction=ReceiveReview",
             success: function (returnData) {
-                //var dataObj = eval("(" + returnData + ")");
-                //$.each(dataObj, function (idx, item) {
-                //    var result = item.result;
-                //    var message = item.message;
-                //    if (message.length > 0) {
-                //        $.messager.alert('提示', message, 'Info');
-                //    }
-                //});
-                $("#ddl_ReviewStatus").combobox("setValue", "2");                
-                //$("#tb_IDCardManualReviewList").datagrid("load");
-                $("#btn_Search").click();
+                var dataObj = eval("(" + returnData + ")");
+                $.each(dataObj, function (idx, item) {
+                    var result = item.result;
+                    var message = item.message;
+                    if (message != "undefined" && message.length > 0) {
+                        if (message == "NoRight") {
+                            //var loginPath = item.loginPath;
+                            $.messager.confirm("操作提示", "页面超时,是否刷新？", function (data) {
+                                if (data) {
+                                    var loginPath = item.loginPath;
+                                    window.location.href = (loginPath == null || loginPath == "" || loginPath == "undefined" ? "../login.aspx?wh=1" : loginPath);
+                                    return;
+                                }
+                            });
+                        }
+                        else {
+                            //$.messager.alert('提示', message, 'Info');
+                            $("#ddl_ReviewStatus").combobox("setValue", "2");
+                            $("#ddl_ReviewResult").combobox("setValue", "0");                            
+                            $("#tbx_beginDate").datebox("setValue", getCurrentMonthFirst());
+                            $("#txt_EndDate").datebox("setValue", SetDate(0));
+                            $("#txt_uin").val("");
+                            $("#btn_Search").click();//$("#tb_IDCardManualReviewList").datagrid("load");
+                        }
+                    }
+                });                               
             },
             error: function () {
                 $.messager.alert("错误", "出错了!", "info", null);
@@ -98,11 +114,25 @@
 
                 var dataObj = eval("(" + data + ")");
                 $.each(dataObj, function (idx, item) {
-                    var result = item.result;
-                    var message = item.message;
-                    if ((result == "false" || result == "False") && message.length > 0) {
-                        $.messager.alert('提示', message, 'Info');
-                        return;
+                    var result = item.result;                    
+                    if (result == "false" || result == "False") {
+                        var message = item.message;
+                        if (message != "undefined" && message.length > 0) {
+                            if (message == "NoRight") {
+                                //var loginPath = item.loginPath;
+                                $.messager.confirm("操作提示", "页面超时,是否刷新？", function (data) {
+                                    if (data) {
+                                        var loginPath = item.loginPath;
+                                        window.location.href = (loginPath == null || loginPath == "" || loginPath == "undefined" ? "../login.aspx?wh=1" : loginPath);
+                                        return;
+                                    }
+                                });
+                            }
+                            else {
+                                $.messager.alert('提示', message, 'Info');
+                                return;
+                            }
+                        }
                     }
                 });
             }
@@ -245,7 +275,11 @@
                           }
                       }
 
-            ]], onLoadSuccess: function () {
+            ]], onLoadSuccess: function (data) {
+
+            },
+            onLoadError: function () {
+
             }
         });
     });
@@ -269,17 +303,32 @@
                 var dataObj = eval("(" + data + ")");
                 $.each(dataObj, function (idx, item) {
                     var result = item.result;
-                    var message = item.message;
+                    
      
                     if (result == "true" || result == "True") {
                         $("#div_ReveiwIdCard").dialog("close");
                         $("#tb_IDCardManualReviewList").datagrid("load");
                     }
-                    else {
-                        if (message.length > 0) {
-                            $.messager.alert('提示', message, 'Info');
+                    else if (result == "false" || result == "False") {
+                            var message = item.message;
+                            if (message != "undefined" && message.length > 0) {
+                                if (message == "NoRight") {
+                                    //var loginPath = item.loginPath;
+                                    $.messager.confirm("操作提示", "页面超时,是否刷新？", function (data) {
+                                        if (data) {
+                                            var loginPath = item.loginPath;
+                                            window.location.href = (loginPath == null || loginPath == "" || loginPath == "undefined" ? "../login.aspx?wh=1" : loginPath);
+                                            return;
+                                        }
+                                    });
+                                }
+                                else {
+                                    $.messager.alert('提示', message, 'Info');
+                                    return;
+                                }
+                            }
                         }
-                    }
+                    
                 });
             }
         });
@@ -307,16 +356,28 @@
             success: function (data) {
                 var dataObj = eval("(" + data + ")");
                 $.each(dataObj, function (idx, item) {
-                    var result = item.result;
-                    var message = item.message;
-
+                    var result = item.result;                    
                     if (result == "true" || result == "True") {
                         $("#div_ReveiwIdCard").dialog("close");
                         $("#tb_IDCardManualReviewList").datagrid("load");
                     }
-                    else {
-                        if (message.length > 0) {
-                            $.messager.alert('提示', message, 'Info');
+                    else if (result == "false" || result == "False") {
+                        var message = item.message;
+                        if (message != "undefined" && message.length > 0) {
+                            if (message == "NoRight") {
+                                //var loginPath = item.loginPath;
+                                $.messager.confirm("操作提示", "页面超时,是否刷新？", function (data) {
+                                    if (data) {
+                                        var loginPath = item.loginPath;
+                                        window.location.href = (loginPath == null || loginPath == "" || loginPath == "undefined" ? "../login.aspx?wh=1" : loginPath);
+                                        return;
+                                    }
+                                });
+                            }
+                            else {
+                                $.messager.alert('提示', message, 'Info');
+                                return;
+                            }
                         }
                     }
                 });
@@ -340,14 +401,29 @@
             success: function (data) {
                 var dataObj = eval("(" + data + ")");
                 $.each(dataObj, function (idx, item) {
-                    var result = item.result;
-                    var message = item.message;
-                    if (message.length > 0) {
-                        $.messager.alert('提示', message, 'Info');
-                    }
+                    var result = item.result;                    
                     if (result == "true" || result == "True") {
                         $("#div_ReveiwIdCard").dialog("close");
                         $("#tb_IDCardManualReviewList").datagrid("load");
+                    }
+                    else if (result == "false" || result == "False") {
+                        var message = item.message;
+                        if (message != "undefined" && message.length > 0) {
+                            if (message == "NoRight") {
+                                //var loginPath = item.loginPath;
+                                $.messager.confirm("操作提示", "页面超时,是否刷新？", function (data) {
+                                    if (data) {
+                                        var loginPath = item.loginPath;
+                                        window.location.href = (loginPath == null || loginPath == "" || loginPath == "undefined" ? "../login.aspx?wh=1" : loginPath);
+                                        return;
+                                    }
+                                });
+                            }
+                            else {
+                                $.messager.alert('提示', message, 'Info');
+                                return;
+                            }
+                        }
                     }
                 });
             }
@@ -429,8 +505,10 @@ function IsHaveRightForReviewCount() {
                     $("#td_ReviewCount").hide();
                     if (message == "NoRight") {
                         var loginPath = item.loginPath;
-                        window.location.href = loginPath;
+                        window.location.href = (loginPath == null || loginPath == "" || loginPath == "undefined" ? "../login.aspx?wh=1" : loginPath);
+                        return;
                     }
+
                 }
             });
         }
@@ -454,7 +532,8 @@ function IsHaveRightForSeeDetail() {
                 if (result == "false" || result == "False") {
                     if (message == "NoRight") {
                         var loginPath = item.loginPath;
-                        window.location.href = loginPath;
+                        window.location.href = (loginPath == null || loginPath == "" || loginPath == "undefined" ? "../login.aspx?wh=1" : loginPath);
+                        return;
                     }
                 }
             });
@@ -499,16 +578,20 @@ function ReviewIdCard(index) {
             $("#lab_Fidentitycard").text("");
         },
         onOpen: function () {
+            
             //解密姓名
             //var deFname = "";
             var postFname = {
-                DecryptorStr: Fname
+                DecryptorStr: Fname,                
+                Type: "Name",
+                Rand: "" + Math.random()
             };
             $.ajax({
                 type: "POST",
                 url: "IDCardManualReview.aspx?getAction=Decryptor",
                 data: postFname,
                 dataType: "text",
+                async : false ,
                 success: function (retrunData) {
                     var dataObj = eval("(" + retrunData + ")");
                     $.each(dataObj, function (idx, item) {
@@ -517,15 +600,22 @@ function ReviewIdCard(index) {
                         if (result == "true" || result == "True") {
                             $("#lab_Fname").text(message);
                         }
-                        else {
-                            $("#lab_Fname").text("");
-                            if (message == "NoRight") {
-                                var loginPath = item.loginPath;
-                                $.messager.confirm("操作提示", "页面超时,是否刷新？", function (data) {
-                                    if (data) {
-                                       window.location.href = loginPath;
-                                    }
-                                });
+                        else if (result == "false" || result == "False") {
+                            if (message != "undefined" && message.length > 0) {
+                                if (message == "NoRight") {
+                                    //var loginPath = item.loginPath;
+                                    $.messager.confirm("操作提示", "页面超时,是否刷新？", function (data) {
+                                        if (data) {
+                                            var loginPath = item.loginPath;
+                                            window.location.href = (loginPath == null || loginPath == "" || loginPath == "undefined" ? "../login.aspx?wh=1" : loginPath);
+                                            return;
+                                        }
+                                    });
+                                }
+                                else {
+                                    $.messager.alert('提示', message, 'Info');
+                                    return;
+                                }
                             }
                         }
                     });
@@ -535,13 +625,16 @@ function ReviewIdCard(index) {
             //解密身份证
             //var deFidentitycard = "";
             var postFidentitycard = {
-                DecryptorStr: Fidentitycard
+                DecryptorStr: Fidentitycard,
+                Type: "Identitycard",
+                Rand: "" + Math.random()
             };
             $.ajax({
                 type: "POST",
                 url: "IDCardManualReview.aspx?getAction=Decryptor",
                 data: postFidentitycard,
                 dataType: "text",
+                async: false,
                 success: function (retrunData) {
                     var dataObj = eval("(" + retrunData + ")");
                     $.each(dataObj, function (idx, item) {
@@ -550,15 +643,22 @@ function ReviewIdCard(index) {
                         if (result == "true" || result == "True") {
                             $("#lab_Fidentitycard").text(message);
                         }
-                        else {
-                            $("#lab_Fidentitycard").text("");
-                            if (message == "NoRight") {
-                                var loginPath = item.loginPath;
-                                $.messager.confirm("操作提示", "页面超时,是否刷新？", function (data) {
-                                    if (data) {
-                                        window.location.href = loginPath;
-                                    }
-                                });
+                        else if (result == "false" || result == "False") {
+                            if (message != "undefined" && message.length > 0) {
+                                if (message == "NoRight") {
+                                    //var loginPath = item.loginPath;
+                                    $.messager.confirm("操作提示", "页面超时,是否刷新？", function (data) {
+                                        if (data) {
+                                            var loginPath = item.loginPath;
+                                            window.location.href = (loginPath == null || loginPath == "" || loginPath == "undefined" ? "../login.aspx?wh=1" : loginPath);
+                                            return;
+                                        }
+                                    });
+                                }
+                                else {
+                                    $.messager.alert('提示', message, 'Info');
+                                    return;
+                                }
                             }
                         }
                     });

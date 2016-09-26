@@ -29,19 +29,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         builder.Append("\"message\":");
                         builder.Append("\"NoRight\",");
                         builder.Append("\"loginPath\":");
-                        builder.Append("\"../login.aspx?returnurl=" + Server.UrlEncode(Request.Url.AbsolutePath) + "\"");
+                        builder.Append("\"../login.aspx?returnUrl=" + Server.UrlEncode(Request.Url.AbsolutePath) + "\"");
                         builder.Append("}");
                         builder.Append("]");
                         Response.Write(builder.ToString());
                         Response.End();
                     }
                     else
-                    {
-                        
-                        Response.Write("<script type='text/javascript'>window.parent.location.href = '../login.aspx?returnurl=" + Server.UrlEncode(Request.Url.PathAndQuery) + "';</script>");
+                    {                        
+                        Response.Write("<script type='text/javascript'>window.parent.location.href = '../login.aspx?returnUrl=" + Server.UrlEncode(Request.Url.PathAndQuery) + "';</script>");
+                        Response.End();
                     }
-
-                    Response.End();
+                   
                     //Response.Redirect("../login.aspx?returnurl=" + Server.UrlEncode(Request.Url.PathAndQuery));
                 }
               
@@ -180,6 +179,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     IdCardManualReviewService idCardManualReviewService = new IdCardManualReviewService();
                     int total = 0;
                     DataTable dt = new DataTable();
+                    
                     #region
 #if DEBUG
 
