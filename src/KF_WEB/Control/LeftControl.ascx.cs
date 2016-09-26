@@ -249,7 +249,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
             {
                 tradeManage1.Visible = true;
                 LifeFeeDetailManage1.Visible = true;
-                InternetBank.Visible = true;
+                //InternetBank.Visible = true;
                 BankBillManage1.Visible = true;
 
                 tradeManage1.AddSubMenu("未完成交易单查询", "TradeManage/UnFinishTradeQuery.aspx");
