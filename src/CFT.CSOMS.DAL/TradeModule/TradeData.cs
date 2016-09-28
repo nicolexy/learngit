@@ -1333,16 +1333,18 @@ namespace CFT.CSOMS.DAL.TradeModule
                          "|stime:" + dtBegin.ToString("yyyy-MM-dd HH:mm:ss") +
                         "|etime:" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss");
                 ds = new PublicRes().QueryCommRelay8020("2216", fields, istr, imax);
-                try
-                {
-                    DataSet dsForWX = QueryWxBuyOrderByUid(Int64.Parse(fuid.Trim()), dtBegin, dtEnd, istr, imax);//微信买家纬度订单
-                    //添加将微信订单数据
-                    ds = PublicRes.ToOneDataset(ds, dsForWX);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("添加将微信订单数据失败：" + ex);
-                }
+                #region 微信买家纬度用户订单查询QueryWxBuyOrderByUid request_type=100878该接口已下线
+                //try
+                //{
+                //    DataSet dsForWX = QueryWxBuyOrderByUid(Int64.Parse(fuid.Trim()), dtBegin, dtEnd, istr, imax);//微信买家纬度订单
+                //    //添加将微信订单数据
+                //    ds = PublicRes.ToOneDataset(ds, dsForWX);
+                //}
+                //catch (Exception ex)
+                //{
+                //    throw new Exception("添加将微信订单数据失败：" + ex);
+                //}
+                #endregion
             }
             else if (iIDType == 9)  //根据QQ号码查卖家交易单
             {
