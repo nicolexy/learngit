@@ -10355,27 +10355,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                         return null;
                     }
                     DataSet ds = cuser.GetResultX(iPageStart, iPageMax, dbConn);//支持多台DB的查询 20121112
+                    #region 微信买家纬度用户订单查询QueryWxBuyOrderByUid request_type=100878该接口已下线
+                    //DataSet dsForWX = new DataSet();
+                    //if (!string.IsNullOrEmpty(buyqqInnerID.Trim()))
+                    //{
+                    //    dsForWX = (new TradeService()).QueryWxBuyOrderByUid(int.Parse(buyqqInnerID.Trim()), u_BeginTime, u_EndTime);//微信买家纬度订单
 
-                    DataSet dsForWX = new DataSet();
-                    if (!string.IsNullOrEmpty(buyqqInnerID.Trim()))
-                    {
-                        dsForWX = (new TradeService()).QueryWxBuyOrderByUid(int.Parse(buyqqInnerID.Trim()), u_BeginTime, u_EndTime);//微信买家纬度订单
+                    //    //添加将微信订单数据
 
-                        //添加将微信订单数据
-
-                        if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                        {
-                            GetResultFormWXOrder(dsForWX, ds);
-                        }
-                        else
-                        {
-                            DataTable dt = ds.Tables[0].Clone();
-                            DataSet temp = new DataSet();
-                            temp.Tables.Add(dt);
-                            GetResultFormWXOrder(dsForWX, temp);
-                            return temp;
-                        }
-                    }
+                    //    if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                    //    {
+                    //        GetResultFormWXOrder(dsForWX, ds);
+                    //    }
+                    //    else
+                    //    {
+                    //        DataTable dt = ds.Tables[0].Clone();
+                    //        DataSet temp = new DataSet();
+                    //        temp.Tables.Add(dt);
+                    //        GetResultFormWXOrder(dsForWX, temp);
+                    //        return temp;
+                    //    }
+                    //}
+                    #endregion
 
                     return ds;
                 }
@@ -10485,20 +10486,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     {
                         return 0;
                     }
+                    #region 微信买家纬度用户订单查询QueryWxBuyOrderByUid request_type=100878该接口已下线
+                    //DataSet dsForWX = new DataSet();
+                    //if (!string.IsNullOrEmpty(buyqqInnerID.Trim()))
+                    //{
+                    //    dsForWX = (new TradeService()).QueryWxBuyOrderByUid(int.Parse(buyqqInnerID.Trim()), u_BeginTime, u_EndTime);//微信买家纬度订单
+                    //}
 
-                    DataSet dsForWX = new DataSet();
-                    if (!string.IsNullOrEmpty(buyqqInnerID.Trim()))
-                    {
-                        dsForWX = (new TradeService()).QueryWxBuyOrderByUid(int.Parse(buyqqInnerID.Trim()), u_BeginTime, u_EndTime);//微信买家纬度订单
-                    }
+                    //int WxCount = 0;
+                    //if (dsForWX != null && dsForWX.Tables.Count > 0 && dsForWX.Tables[0].Rows.Count > 0)
+                    //{
+                    //    WxCount = dsForWX.Tables[0].Rows.Count;
+                    //}
+                    #endregion
 
-                    int WxCount = 0;
-                    if (dsForWX != null && dsForWX.Tables.Count > 0 && dsForWX.Tables[0].Rows.Count > 0)
-                    {
-                        WxCount = dsForWX.Tables[0].Rows.Count;
-                    }
-
-                    return (cuser.GetCount(dbConn) + WxCount);//支持多台DB的查询 20121112
+                    return cuser.GetCount(dbConn);//支持多台DB的查询 20121112
                 }
                 else
                 {
