@@ -70,6 +70,7 @@
 									<%--<asp:BoundColumn Visible="False" DataField="KeyID"></asp:BoundColumn>--%>
                                     <asp:BoundColumn Visible="False" DataField="ApplyCpInfoID"></asp:BoundColumn>
 									<asp:BoundColumn Visible="False" DataField="TableFlag"></asp:BoundColumn>
+                                     <asp:BoundColumn Visible="False" DataField="SPID"></asp:BoundColumn>
 									<asp:BoundColumn DataField="CompanyName" HeaderText="¹«Ë¾Ãû³Æ">
 										<HeaderStyle Width="200px"></HeaderStyle>
                                     </asp:BoundColumn>

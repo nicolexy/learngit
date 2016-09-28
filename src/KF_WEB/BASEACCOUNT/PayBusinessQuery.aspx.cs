@@ -180,8 +180,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
                     //DataSet ds1 = qs.GetPayBusinessInfo(e.Item.Cells[0].Text);
                     string KeyID = e.Item.Cells[0].Text;
+                    string spid = e.Item.Cells[2].Text;
                     //  DataSet ds1 = new SPOAService().GetSpInfo(" and ApplyCpInfoID="+KeyID, 2, 0);
-                    DataSet ds1 = new SPOAService().GetSpInfo("", KeyID, "", "", "", "", 2, 0);
+                    DataSet ds1 = new SPOAService().GetSpInfo(spid, KeyID, "", "", "", "", 2, 0);
 
                    
                     
