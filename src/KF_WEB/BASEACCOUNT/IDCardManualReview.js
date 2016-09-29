@@ -15,12 +15,12 @@
     
     //审核开始日期
     $("#txt_ModifyBeginDate").datebox({
-        value: getCurrentMonthFirst(),
+        value: "",//getCurrentMonthFirst(),
         ShowSeconds: false
     });
     //审核结束日期
     $("#txt_ModifyEndDate").datebox({
-        value: SetDate(0),
+        //value: SetDate(0),
         ShowSeconds: false
     });
     LoadCommonCombobox("ddl_Fmemo", "id", "name", 200, 250, 300, true, "请选择", false, false, "IDCardManualReview_LoadFmemo", 0);
@@ -80,8 +80,8 @@
                             $("#ddl_Fmemo").combobox("setValue", "0");
                             $("#tbx_beginDate").datebox("setValue", getCurrentMonthFirst());
                             $("#txt_EndDate").datebox("setValue", SetDate(0));
-                            $("#txt_ModifyBeginDate").datebox("setValue", getCurrentMonthFirst());
-                            $("#txt_ModifyEndDate").datebox("setValue", SetDate(0));
+                            $("#txt_ModifyBeginDate").datebox("setValue", "");
+                            $("#txt_ModifyEndDate").datebox("setValue", "");
                             $("#txt_Foperator").val("");
                             $("#txt_uin").val("");
                             $("#btn_Search").click();//$("#tb_IDCardManualReviewList").datagrid("load");
@@ -120,17 +120,11 @@
             return;
         }
 
-        if (modifyBeginDate.length < 1 || modifyBeginDate == null) {
-            $.messager.alert("提示", "请选择审核开始日期", "info", null);
-            return;
-        }
-        else if (modifyEndDate.length < 1 || modifyEndDate == null) {
-            $.messager.alert("提示", "请选择审核开始日期", "info", null);
-            return;
-        }
-        if (modifyBeginDate > modifyEndDate) {
-            $.messager.alert("提示", "审核开始日期不能大于审核开始日期", "info", null);
-            return;
+        if ((modifyBeginDate.length > 0 && modifyBeginDate != null)&&(modifyEndDate.length >0 && modifyEndDate != null)) {
+            if (modifyBeginDate > modifyEndDate) {
+                $.messager.alert("提示", "审核开始日期不能大于审核开始日期", "info", null);
+                return;
+            }
         }
        
         var datas = {
@@ -304,19 +298,20 @@
                      {
                          field: 'AgreeRemark', title: '通过备注', halign: 'center', align: 'left', width: divWidth * 5 / 100, sortable: true,
                          formatter: function (value, row, index) {
-                             var agreeRemark = "";  
-                             if (value == "0" || value == "1" || value == "") {
-                                 agreeRemark = "需要人工审核";
-                             }
-                             else if (value == "2") {
-                                 agreeRemark = "系统可优化";
-                             }
+                             var agreeRemark = "";
+                             if (row.Fresult==1)
+                             {
+                                 if (value == "0" || value == "1" || value == "") {
+                                     agreeRemark = "需要人工审核";
+                                 }
+                                 else if (value == "2") {
+                                     agreeRemark = "系统可优化";
+                                 }
+                             }                             
                              var span = "<span>" + agreeRemark + "</span>";
                              return span;
                          }
-                     },
-                     
-                     { field: 'Foperator', title: '处理人', halign: 'center', align: 'left', width: divWidth * 7 / 100, sortable: true },
+                     },                                          
                      {
                          field: 'Fmemo', title: '审核信息', halign: 'center', align: 'left', width: divWidth * 13 / 100,
                          formatter: function (value, row, index) {
@@ -358,6 +353,7 @@
                              return span;
                          }
                      },
+                     { field: 'Foperator', title: '处理人', halign: 'center', align: 'left', width: divWidth * 7 / 100, sortable: true },
                       {
                           field: '详细内容', title: '详细内容', halign: 'center', align: 'center', width: divWidth * 5 / 100,
                           formatter: function (value, row, index) {
