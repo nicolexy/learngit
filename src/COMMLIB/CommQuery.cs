@@ -670,7 +670,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
             //				servicename =  "ex_common_query_service";
             //			}
 
-            if (strCmd == "query_order_service")//走query_order_service去的单独去查询查询andrewguo 20120525
+            if (strCmd == "query_order_service" || strCmd == "cq_query_order_service")//走query_order_service去的单独去查询查询andrewguo 20120525
             {
                 //2016-1-14 v_yqyqguo 添加路由参数
                 var dic= strWhere.ToDictionary();
