@@ -167,7 +167,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
         public static string INSERT_SPMREFUND = "FINANCE_OD_INSERT_SPMREFUND";
 
         //public static string QUERY_ORDER = "FINANCE_OD_QUERY_ORDER";
-        public static string QUERY_ORDER = "cq_query_order_service";//通过接口查询订单yinhuang 14/8/9
+        public static string QUERY_ORDER = "query_order_service";//通过接口查询订单yinhuang 14/8/9
         public static string UPDATE_ORDER = "FINANCE_OD_UPDATE_ORDER";
 
         public static string QUERY_TCBANKROLL = "FINANCE_OD_TCBANKROLL";  //正常查询
