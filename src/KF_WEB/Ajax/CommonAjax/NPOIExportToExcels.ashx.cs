@@ -44,17 +44,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                 //int pageSize = (context.Request.QueryString["rows"] != null) ? int.Parse(context.Request.QueryString["rows"].ToString()) : 15;
                 string str2 = (context.Request.QueryString["sort"] != null) ? context.Request.QueryString["sort"].ToString() : "Fcreate_time ";
 
-                string uid = context.Request.QueryString["uid"] != null || string.IsNullOrEmpty(context.Request.QueryString["uid"].ToString()) ? context.Request.QueryString["uid"].ToString() : string.Empty;
-                string uin = context.Request.QueryString["uin"] != null || string.IsNullOrEmpty(context.Request.QueryString["uin"].ToString()) ? context.Request.QueryString["uin"].ToString() : string.Empty;
-                int reviewStatus = context.Request.QueryString["reviewStatus"] != null || string.IsNullOrEmpty(context.Request.QueryString["reviewStatus"].ToString()) ? int.Parse(context.Request.QueryString["reviewStatus"].ToString()) : 1;
-                int reviewResult = context.Request.QueryString["reviewResult"] != null || string.IsNullOrEmpty(context.Request.QueryString["reviewResult"].ToString()) ? int.Parse(context.Request.QueryString["reviewResult"].ToString()) : 0;
-                string beginDate = context.Request.QueryString["beginDate"] != null || string.IsNullOrEmpty(context.Request.QueryString["beginDate"].ToString()) ? context.Request.QueryString["beginDate"].ToString() : string.Empty;
-                string endDate = context.Request.QueryString["endDate"] != null || string.IsNullOrEmpty(context.Request.QueryString["endDate"].ToString()) ? context.Request.QueryString["endDate"].ToString() : string.Empty;
+                string uid = context.Request.QueryString["uid"] != null && !string.IsNullOrEmpty(context.Request.QueryString["uid"].ToString()) ? context.Request.QueryString["uid"].ToString() : string.Empty;
+                string uin = context.Request.QueryString["uin"] != null && !string.IsNullOrEmpty(context.Request.QueryString["uin"].ToString()) ? context.Request.QueryString["uin"].ToString() : string.Empty;
+                int reviewStatus = context.Request.QueryString["reviewStatus"] != null && !string.IsNullOrEmpty(context.Request.QueryString["reviewStatus"].ToString()) ? int.Parse(context.Request.QueryString["reviewStatus"].ToString()) : 1;
+                int reviewResult = context.Request.QueryString["reviewResult"] != null && !string.IsNullOrEmpty(context.Request.QueryString["reviewResult"].ToString()) ? int.Parse(context.Request.QueryString["reviewResult"].ToString()) : 0;
+                string beginDate = context.Request.QueryString["beginDate"] != null && !string.IsNullOrEmpty(context.Request.QueryString["beginDate"].ToString()) ? context.Request.QueryString["beginDate"].ToString() : string.Empty;
+                string endDate = context.Request.QueryString["endDate"] != null && !string.IsNullOrEmpty(context.Request.QueryString["endDate"].ToString()) ? context.Request.QueryString["endDate"].ToString() : string.Empty;
+
+                string modifyBeginDate = context.Request.QueryString["modifyBeginDate"] != null && !string.IsNullOrEmpty(context.Request.QueryString["modifyBeginDate"].ToString()) ? context.Request.QueryString["modifyBeginDate"].ToString() : string.Empty;
+                string modifyEndDate = context.Request.QueryString["modifyEndDate"] != null && !string.IsNullOrEmpty(context.Request.QueryString["modifyEndDate"].ToString()) ? context.Request.QueryString["modifyEndDate"].ToString() : string.Empty;
+                string foperator = context.Request.QueryString["foperator"] != null && !string.IsNullOrEmpty(context.Request.QueryString["foperator"].ToString()) ? context.Request.QueryString["foperator"].ToString() : string.Empty;
+                int fmemo = context.Request.QueryString["fmemo"] != null && !string.IsNullOrEmpty(context.Request.QueryString["fmemo"].ToString()) ? int.Parse(context.Request.QueryString["fmemo"].ToString()) : 0;
+
                 int totalMonth = DateTime.Parse(endDate).Year * 12 + DateTime.Parse(endDate).Month - DateTime.Parse(beginDate).Year * 12 - DateTime.Parse(beginDate).Month;
-                if (totalMonth >= 1)
+                int totalModifyMonth = DateTime.Parse(modifyEndDate).Year * 12 + DateTime.Parse(modifyEndDate).Month - DateTime.Parse(modifyBeginDate).Year * 12 - DateTime.Parse(modifyBeginDate).Month;
+                if (totalMonth >= 1 || totalModifyMonth>1)
                 {
                     bool result = false;
-                    message = string.Format("查询日期不能超过一个月");
+                    message = string.Format("{0}日期范围不能超过一个月", totalMonth >= 1 ? "申请" : "审核");
                     StringBuilder builder = new StringBuilder();
                     builder.Append("[");
                     builder.Append("{");
@@ -175,7 +182,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
 #endif
                     #endregion
 #if !DEBUG
-                     dt = idCardManualReviewService.LoadReviewForExport(uid, uin, reviewStatus, reviewResult, beginDate, endDate,  str2 + " " + str);
+                     dt = idCardManualReviewService.LoadReviewForExport(uid, uin, reviewStatus, reviewResult, beginDate, endDate, modifyBeginDate, modifyEndDate, foperator, fmemo, str2 + " " + str);
 #endif
 
                     NPOIExportToExcel exportToExcel = new NPOIExportToExcel();
