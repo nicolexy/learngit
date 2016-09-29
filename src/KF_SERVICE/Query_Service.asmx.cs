@@ -10521,7 +10521,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 OrderQueryClassZJ cuser = new OrderQueryClassZJ(listid);
                 string errMsg = "";
-                DataSet ds = CommQuery.GetDataSetFromICE(cuser.ICESQL, CommQuery.QUERY_ORDER, out errMsg);
+                DataSet ds = CommQuery.GetDataSetFromICE(cuser.ICESQL, "cq_query_order_service", out errMsg);
 
                 return ds;
             }
