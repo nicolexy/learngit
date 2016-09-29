@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using CFT.CSOMS.BLL.CFTAccountModule;
 using CFT.CSOMS.BLL.IdCardModule;
 using commLib;
 using SunLibrary;
@@ -88,6 +89,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 CheckDate();
             }
+            else if (actionName.Equals("CheckModifyData"))
+            {
+                CheckModifyData();
+            }
+                
             else if (actionName.Equals("Decryptor"))
             {
                 Decryptor();
@@ -109,10 +115,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             try
             {
                 string uid = this.Label_uid.Text;//Request.Form["uid"] != null || string.IsNullOrEmpty(Request.Form["uid"].ToString()) ? Request.Form["uid"].ToString() : string.Empty;
-                string uin = Request.Form["uin"] != null || string.IsNullOrEmpty(Request.Form["uin"].ToString()) ? Request.Form["uin"].ToString() : string.Empty;
-                string reviewCount = Request.Form["reviewCount"] != null || string.IsNullOrEmpty(Request.Form["reviewCount"].ToString()) ? Request.Form["reviewCount"].ToString() : "50";
-                string beginDate = Request.Form["beginDate"] != null || string.IsNullOrEmpty(Request.Form["beginDate"].ToString()) ? Request.Form["beginDate"].ToString() : string.Empty;
-                string endDate = Request.Form["endDate"] != null || string.IsNullOrEmpty(Request.Form["endDate"].ToString()) ? Request.Form["endDate"].ToString() : string.Empty;
+                string uin = Request.Form["uin"] != null && !string.IsNullOrEmpty(Request.Form["uin"].ToString()) ? Request.Form["uin"].ToString() : string.Empty;
+                string reviewCount = Request.Form["reviewCount"] != null && !string.IsNullOrEmpty(Request.Form["reviewCount"].ToString()) ? Request.Form["reviewCount"].ToString() : "50";
+                string beginDate = Request.Form["beginDate"] != null && !string.IsNullOrEmpty(Request.Form["beginDate"].ToString()) ? Request.Form["beginDate"].ToString() : string.Empty;
+                string endDate = Request.Form["endDate"] != null && !string.IsNullOrEmpty(Request.Form["endDate"].ToString()) ? Request.Form["endDate"].ToString() : string.Empty;
                 int totalMonth = DateTime.Parse(endDate).Year * 12 + DateTime.Parse(endDate).Month - DateTime.Parse(beginDate).Year * 12 - DateTime.Parse(beginDate).Month;
                 if (totalMonth >= 1)
                 {
@@ -154,11 +160,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 string str2 = (base.Request.Form["sort"] != null) ? base.Request.Form["sort"].ToString() : "Fcreate_time ";
 
                 string uid = this.Label_uid.Text;// Request.Form["uid"] != null || string.IsNullOrEmpty(Request.Form["uid"].ToString()) ? Request.Form["uid"].ToString() : string.Empty;
-                string uin = Request.Form["uin"] != null || string.IsNullOrEmpty(Request.Form["uin"].ToString()) ? Request.Form["uin"].ToString() : string.Empty;
-                int reviewStatus = Request.Form["reviewStatus"] != null || string.IsNullOrEmpty(Request.Form["reviewStatus"].ToString()) ? int.Parse(Request.Form["reviewStatus"].ToString()) : 1;
-                int reviewResult = Request.Form["reviewResult"] != null || string.IsNullOrEmpty(Request.Form["reviewResult"].ToString()) ? int.Parse(Request.Form["reviewResult"].ToString()) : 0;
-                string beginDate = Request.Form["beginDate"] != null || string.IsNullOrEmpty(Request.Form["beginDate"].ToString()) ? Request.Form["beginDate"].ToString() : string.Empty;
-                string endDate = Request.Form["endDate"] != null || string.IsNullOrEmpty(Request.Form["endDate"].ToString()) ? Request.Form["endDate"].ToString() : string.Empty;
+                string userName = Request.Form["uin"] != null && !string.IsNullOrEmpty(Request.Form["uin"].ToString()) ? Request.Form["uin"].ToString() : string.Empty;
+                int reviewStatus = Request.Form["reviewStatus"] != null && !string.IsNullOrEmpty(Request.Form["reviewStatus"].ToString()) ? int.Parse(Request.Form["reviewStatus"].ToString()) : 1;
+                int reviewResult = Request.Form["reviewResult"] != null && !string.IsNullOrEmpty(Request.Form["reviewResult"].ToString()) ? int.Parse(Request.Form["reviewResult"].ToString()) : 0;
+                string beginDate = Request.Form["beginDate"] != null && !string.IsNullOrEmpty(Request.Form["beginDate"].ToString()) ? Request.Form["beginDate"].ToString() : string.Empty;
+                string endDate = Request.Form["endDate"] != null && !string.IsNullOrEmpty(Request.Form["endDate"].ToString()) ? Request.Form["endDate"].ToString() : string.Empty;
+
+                string modifyBeginDate = Request.Form["modifyBeginDate"] != null && !string.IsNullOrEmpty(Request.Form["modifyBeginDate"].ToString()) ? Request.Form["modifyBeginDate"].ToString() : string.Empty;
+                string modifyEndDate = Request.Form["modifyEndDate"] != null && !string.IsNullOrEmpty(Request.Form["modifyEndDate"].ToString()) ? Request.Form["modifyEndDate"].ToString() : string.Empty;
+                string foperator = Request.Form["foperator"] != null && !string.IsNullOrEmpty(Request.Form["foperator"].ToString()) ? Request.Form["foperator"].ToString() : string.Empty;
+                int fmemo = Request.Form["fmemo"] != null && !string.IsNullOrEmpty(Request.Form["fmemo"].ToString()) ? int.Parse(Request.Form["fmemo"].ToString()) : 0;
+                string usertype = Request.Form["usertype"] != null && !string.IsNullOrEmpty(Request.Form["usertype"].ToString()) ? Request.Form["usertype"].ToString() : "WeChatCft";
+                string uin = string.Empty;
+                if (!string.IsNullOrEmpty(userName))
+                { 
+                    uin = AccountService.GetQQID(usertype, userName);
+                }
+                
+
                 int totalMonth = DateTime.Parse(endDate).Year * 12 + DateTime.Parse(endDate).Month - DateTime.Parse(beginDate).Year * 12 - DateTime.Parse(beginDate).Month;
                 if (totalMonth >= 1)
                 {
@@ -179,112 +198,125 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     IdCardManualReviewService idCardManualReviewService = new IdCardManualReviewService();
                     int total = 0;
                     DataTable dt = new DataTable();
+                    if (classLibrary.getData.IsTestMode && !classLibrary.getData.IsNewSensitivePowerMode)
+                    {
+                        #region
+                        dt.Columns.Add("Fid");
+                        dt.Columns.Add("Fserial_number");
+                        dt.Columns.Add("Fspid");
+                        dt.Columns.Add("Fcreate_time");
+                        dt.Columns.Add("Fuin");
+                        dt.Columns.Add("Fname");
+                        dt.Columns.Add("Fidentitycard");
+                        dt.Columns.Add("Fmodify_time");
+                        dt.Columns.Add("Fimage_path1");
+                        dt.Columns.Add("Fimage_path2");
+                        dt.Columns.Add("Fimage_file1");
+                        dt.Columns.Add("Fimage_file2");
+                        dt.Columns.Add("Fstate");
+                        dt.Columns.Add("Fresult");
+                        dt.Columns.Add("Fmemo");
+                        dt.Columns.Add("Foperator");
+                        dt.Columns.Add("AgreeRemark");
+                        dt.Columns.Add("Fstandby1");
+                        dt.Columns.Add("Fstandby2");
+                        dt.Columns.Add("Fstandby3");
+                        dt.Columns.Add("Fstandby4");
+                        dt.Columns.Add("Fstandby5");
+                        dt.Columns.Add("TableName");
+                        DataRow dr1 = dt.NewRow();
+                        dr1["Fid"] = "12";
+                        dr1["Fserial_number"] = "1147105501600000005";
+                        dr1["Fspid"] = "2000000501";
+                        dr1["Fcreate_time"] = "2016/8/13 9:12:24";
+                        dr1["Fuin"] = "195806606";
+                        dr1["Fname"] = "SEZyxazimzM=";
+                        dr1["Fidentitycard"] = "TG/Jqoya4pb3/R3Qe2Vr0jSMNoV4R3Ju";
+                        dr1["Fmodify_time"] = "2016/8/15 16:42:07";
+                        dr1["Fimage_path1"] = "ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005";
+                        dr1["Fimage_path2"] = "ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005";
+                        dr1["Fimage_file1"] = "1-1-5-64-0-1-3016181900461";
+                        dr1["Fimage_file2"] = "1-1-5-64-0-1-3016181900461";
+                        dr1["Fstate"] = "2";
+                        dr1["Fresult"] = "0";
+                        dr1["Fmemo"] = "0";
+                        dr1["AgreeRemark"] = "0";
+                        dr1["Foperator"] = "1100000000";
+                        dr1["Fstandby1"] = "";
+                        dr1["Fstandby2"] = "";
+                        dr1["Fstandby3"] = "";
+                        dr1["Fstandby4"] = "";
+                        dr1["Fstandby5"] = "";
+                        dr1["TableName"] = "c2c_fmdb.t_check_identitycard_201608";
+                        dt.Rows.Add(dr1);
+
+                        DataRow dr2 = dt.NewRow();
+                        dr2["Fid"] = "13";
+                        dr2["Fserial_number"] = "1147105531500000006";
+                        dr2["Fspid"] = "2000000501";
+                        dr2["Fcreate_time"] = "2016/8/13 9:12:24";
+                        dr2["Fuin"] = "195806606";
+                        dr2["Fname"] = "SEZyxazimzM=";
+                        dr2["Fidentitycard"] = "TG/Jqoya4pb3/R3Qe2Vr0jSMNoV4R3Ju";
+                        dr2["Fmodify_time"] = "2016/8/15 16:42:07";
+                        dr2["Fimage_path1"] = "ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005";
+                        dr2["Fimage_path2"] = "ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005";
+                        dr2["Fimage_file1"] = "1-1-5-64-0-1-3016181900461";
+                        dr2["Fimage_file2"] = "1-1-5-64-0-1-3016181900461";
+                        dr2["Fstate"] = "2";
+                        dr2["Fresult"] = "0";
+                        dr2["Fmemo"] = "0";
+                        dr2["Foperator"] = "1100000000";
+                        dr2["AgreeRemark"] = "1";
+                        dr2["Fstandby1"] = "";
+                        dr2["Fstandby2"] = "";
+                        dr2["Fstandby3"] = "";
+                        dr2["Fstandby4"] = "";
+                        dr2["Fstandby5"] = "";
+                        dr2["TableName"] = "c2c_fmdb.t_check_identitycard_201608";
+                        dt.Rows.Add(dr2);
+
+                        DataRow dr3 = dt.NewRow();
+                        dr3["Fid"] = "12";
+                        dr3["Fserial_number"] = "1147105531500000007";
+                        dr3["Fspid"] = "2000000501";
+                        dr3["Fcreate_time"] = "2016/8/13 9:12:24";
+                        dr3["Fuin"] = "195806606";
+                        dr3["Fname"] = "SEZyxazimzM=";
+                        dr3["Fidentitycard"] = "TG/Jqoya4pb3/R3Qe2Vr0jSMNoV4R3Ju";
+                        dr3["Fmodify_time"] = "2016/8/15 16:42:07";
+                        dr3["Fimage_path1"] = "ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005";
+                        dr3["Fimage_path2"] = "ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005";
+                        dr3["Fimage_file1"] = "1-1-5-64-0-1-3016181900461";
+                        dr3["Fimage_file2"] = "1-1-5-64-0-1-3016181900461";
+                        dr3["Fstate"] = "2";
+                        dr3["Fresult"] = "0";
+                        dr3["Fmemo"] = "0";
+                        dr3["Foperator"] = "1100000000";
+                        dr3["AgreeRemark"] = "2";
+                        dr3["Fstandby1"] = "";
+                        dr3["Fstandby2"] = "";
+                        dr3["Fstandby3"] = "";
+                        dr3["Fstandby4"] = "";
+                        dr3["Fstandby5"] = "";
+                        dr3["TableName"] = "c2c_fmdb.t_check_identitycard_201608";
+                        dt.Rows.Add(dr3);
+                        #endregion
+                    }
+                    else
+                    {
+                        dt = idCardManualReviewService.LoadReview(uid, uin, reviewStatus, reviewResult, beginDate, endDate, isHaveRightForSeeDetail, modifyBeginDate, modifyEndDate, foperator, fmemo, pageSize, pageNumber, str2 + " " + str, ref total);
+                    }
+//                    #region
+//#if DEBUG
+
                     
-                    #region
-#if DEBUG
 
-                    dt.Columns.Add("Fid");
-                    dt.Columns.Add("Fserial_number");
-                    dt.Columns.Add("Fspid");
-                    dt.Columns.Add("Fcreate_time");
-                    dt.Columns.Add("Fuin");
-                    dt.Columns.Add("Fname");
-                    dt.Columns.Add("Fidentitycard");
-                    dt.Columns.Add("Fmodify_time");
-                    dt.Columns.Add("Fimage_path1");
-                    dt.Columns.Add("Fimage_path2");
-                    dt.Columns.Add("Fimage_file1");
-                    dt.Columns.Add("Fimage_file2");
-                    dt.Columns.Add("Fstate");
-                    dt.Columns.Add("Fresult");
-                    dt.Columns.Add("Fmemo");
-                    dt.Columns.Add("Foperator");
-                    dt.Columns.Add("Fstandby1");
-                    dt.Columns.Add("Fstandby2");
-                    dt.Columns.Add("Fstandby3");
-                    dt.Columns.Add("Fstandby4");
-                    dt.Columns.Add("Fstandby5");
-                    dt.Columns.Add("TableName");
-                    DataRow dr1 = dt.NewRow();
-                    dr1["Fid"] = "12";
-                    dr1["Fserial_number"] = "1147105501600000005";
-                    dr1["Fspid"] = "2000000501";
-                    dr1["Fcreate_time"] = "2016/8/13 9:12:24";
-                    dr1["Fuin"] = "195806606";
-                    dr1["Fname"] = "SEZyxazimzM=";
-                    dr1["Fidentitycard"] = "TG/Jqoya4pb3/R3Qe2Vr0jSMNoV4R3Ju";
-                    dr1["Fmodify_time"] = "2016/8/15 16:42:07";
-                    dr1["Fimage_path1"] = "ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005";
-                    dr1["Fimage_path2"] = "ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005";
-                    dr1["Fimage_file1"] = "1-1-5-64-0-1-3016181900461";
-                    dr1["Fimage_file2"] = "1-1-5-64-0-1-3016181900461";
-                    dr1["Fstate"] = "2";
-                    dr1["Fresult"] = "0";
-                    dr1["Fmemo"] = "0";
-                    dr1["Foperator"] = "1100000000";
-                    dr1["Fstandby1"] = "";
-                    dr1["Fstandby2"] = "";
-                    dr1["Fstandby3"] = "";
-                    dr1["Fstandby4"] = "";
-                    dr1["Fstandby5"] = "";
-                    dr1["TableName"] = "c2c_fmdb.t_check_identitycard_201608";
-                    dt.Rows.Add(dr1);
-
-                    DataRow dr2 = dt.NewRow();
-                    dr2["Fid"] = "13";
-                    dr2["Fserial_number"] = "1147105531500000006";
-                    dr2["Fspid"] = "2000000501";
-                    dr2["Fcreate_time"] = "2016/8/13 9:12:24";
-                    dr2["Fuin"] = "195806606";
-                    dr2["Fname"] = "SEZyxazimzM=";
-                    dr2["Fidentitycard"] = "TG/Jqoya4pb3/R3Qe2Vr0jSMNoV4R3Ju";
-                    dr2["Fmodify_time"] = "2016/8/15 16:42:07";
-                    dr2["Fimage_path1"] = "ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005";
-                    dr2["Fimage_path2"] = "ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005";
-                    dr2["Fimage_file1"] = "1-1-5-64-0-1-3016181900461";
-                    dr2["Fimage_file2"] = "1-1-5-64-0-1-3016181900461";
-                    dr2["Fstate"] = "2";
-                    dr2["Fresult"] = "0";
-                    dr2["Fmemo"] = "0";
-                    dr2["Foperator"] = "1100000000";
-                    dr2["Fstandby1"] = "";
-                    dr2["Fstandby2"] = "";
-                    dr2["Fstandby3"] = "";
-                    dr2["Fstandby4"] = "";
-                    dr2["Fstandby5"] = "";
-                    dr2["TableName"] = "c2c_fmdb.t_check_identitycard_201608";
-                    dt.Rows.Add(dr2);
-
-                    DataRow dr3 = dt.NewRow();
-                    dr3["Fid"] = "12";
-                    dr3["Fserial_number"] = "1147105531500000006";
-                    dr3["Fspid"] = "2000000501";
-                    dr3["Fcreate_time"] = "2016/8/13 9:12:24";
-                    dr3["Fuin"] = "195806606";
-                    dr3["Fname"] = "SEZyxazimzM=";
-                    dr3["Fidentitycard"] = "TG/Jqoya4pb3/R3Qe2Vr0jSMNoV4R3Ju";
-                    dr3["Fmodify_time"] = "2016/8/15 16:42:07";
-                    dr3["Fimage_path1"] = "ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005";
-                    dr3["Fimage_path2"] = "ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005";
-                    dr3["Fimage_file1"] = "1-1-5-64-0-1-3016181900461";
-                    dr3["Fimage_file2"] = "1-1-5-64-0-1-3016181900461";
-                    dr3["Fstate"] = "2";
-                    dr3["Fresult"] = "0";
-                    dr3["Fmemo"] = "0";
-                    dr3["Foperator"] = "1100000000";
-                    dr3["Fstandby1"] = "";
-                    dr3["Fstandby2"] = "";
-                    dr3["Fstandby3"] = "";
-                    dr3["Fstandby4"] = "";
-                    dr3["Fstandby5"] = "";
-                    dr3["TableName"] = "c2c_fmdb.t_check_identitycard_201608";
-                    dt.Rows.Add(dr3);
-
-#endif
-                    #endregion
-#if !DEBUG
-                    dt = idCardManualReviewService.LoadReview(uid, uin, reviewStatus, reviewResult, beginDate, endDate,isHaveRightForSeeDetail, pageSize, pageNumber, str2 + " " + str, ref total);
-#endif
+//#endif
+//                    #endregion
+//#if !DEBUG
+                    
+//#endif
 
                     message = JsonHelper.DataTableToJson(dt, total, true);
                     //message=" { "rows":[ { "Fid":"12","Fserial_number":"1147105501600000005","Fspid":"2000000501","Fcreate_time":"2016/8/13 9:12:24","Fuin":"195806606","Fname":"SEZyxazimzM=","Fidentitycard":"TG/Jqoya4pb3/R3Qe2Vr0jSMNoV4R3Ju","Fmodify_time":"2016/8/15 16:42:07","Fimage_path1":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005","Fimage_path2":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005","Fimage_file1":"1-1-5-64-0-1-3016181900461","Fimage_file2":"1-1-5-64-0-1-3016181900461","Fstate":"2","Fresult":"0","Fmemo":"0","Foperator":"1100000000","Fstandby1":"","Fstandby2":"","Fstandby3":"","Fstandby4":"","Fstandby5":"","TableName":"c2c_fmdb.t_check_identitycard_201608"}, { "Fid":"13","Fserial_number":"1147105531500000006","Fspid":"2000000501","Fcreate_time":"2016/8/13 9:12:24","Fuin":"195806606","Fname":"SEZyxazimzM=","Fidentitycard":"TG/Jqoya4pb3/R3Qe2Vr0jSMNoV4R3Ju","Fmodify_time":"2016/8/15 15:40:53","Fimage_path1":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105531500000006","Fimage_path2":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105531500000006","Fimage_file1":"1-1-5-64-0-1-3016181900461","Fimage_file2":"1-1-5-64-0-1-3016181900461","Fstate":"2","Fresult":"0","Fmemo":"4","Foperator":"1100000000","Fstandby1":"","Fstandby2":"","Fstandby3":"","Fstandby4":"","Fstandby5":"","TableName":"c2c_fmdb.t_check_identitycard_201608"}, { "Fid":"14","Fserial_number":"1234","Fspid":"1234567890","Fcreate_time":"2016/8/12 0:00:00","Fuin":"abcd@wx.tenpay.com","Fname":"guoyueqiang","Fidentitycard":"360726","Fmodify_time":"","Fimage_path1":"image_path1","Fimage_path2":"image_path2","Fimage_file1":"image_file1","Fimage_file2":"image_file2","Fstate":"1","Fresult":"0","Fmemo":"","Foperator":"","Fstandby1":"","Fstandby2":"","Fstandby3":"","Fstandby4":"","Fstandby5":"","TableName":"c2c_fmdb.t_check_identitycard_201608"} ],"total":3}";
@@ -305,9 +337,44 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             try
             {
 
-                string beginDate = Request.Form["beginDate"] != null || string.IsNullOrEmpty(Request.Form["beginDate"].ToString()) ? Request.Form["beginDate"].ToString() : string.Empty;
-                string endDate = Request.Form["endDate"] != null || string.IsNullOrEmpty(Request.Form["endDate"].ToString()) ? Request.Form["endDate"].ToString() : string.Empty;
+                string beginDate = Request.Form["beginDate"] != null && !string.IsNullOrEmpty(Request.Form["beginDate"].ToString()) ? Request.Form["beginDate"].ToString() : string.Empty;
+                string endDate = Request.Form["endDate"] != null && !string.IsNullOrEmpty(Request.Form["endDate"].ToString()) ? Request.Form["endDate"].ToString() : string.Empty;
                 int totalMonth = DateTime.Parse(endDate).Year * 12 + DateTime.Parse(endDate).Month - DateTime.Parse(beginDate).Year * 12 - DateTime.Parse(beginDate).Month;
+                if (totalMonth >= 1)
+                {
+                    result = false;
+                    message = string.Format("查询日期不能超过一个月");
+                }
+            }
+            catch (Exception ex)
+            {
+                message = string.Format("查询日期输入出现错误:{0}", ex.Message.ToString());
+                result = false;
+            }
+            StringBuilder builder = new StringBuilder();
+            builder.Append("[");
+            builder.Append("{");
+            builder.Append("\"result\":");
+            builder.Append("\"" + result + "\",");
+            builder.Append("\"message\":");
+            builder.Append("\"" + message + "\"");
+            builder.Append("}");
+            builder.Append("]");
+            Response.Write(builder.ToString());
+            Response.End();
+        }
+
+
+        private void CheckModifyData()
+        {
+            bool result = true;
+            string message = string.Empty;
+            try
+            {
+
+                string modifyBeginDate = Request.Form["modifyBeginDate"] != null && !string.IsNullOrEmpty(Request.Form["modifyBeginDate"].ToString()) ? Request.Form["modifyBeginDate"].ToString() : string.Empty;
+                string modifyEndDate = Request.Form["modifyEndDate"] != null && !string.IsNullOrEmpty(Request.Form["modifyEndDate"].ToString()) ? Request.Form["modifyEndDate"].ToString() : string.Empty;
+                int totalMonth = DateTime.Parse(modifyEndDate).Year * 12 + DateTime.Parse(modifyEndDate).Month - DateTime.Parse(modifyBeginDate).Year * 12 - DateTime.Parse(modifyBeginDate).Month;
                 if (totalMonth >= 1)
                 {
                     result = false;
@@ -367,21 +434,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         private void SaveReview()
         {
             bool result = false;
-            string returnMessage = string.Empty;
+            string returnMessage = "身份证影印件审核";
             string message = string.Empty;
             try
             {
                 #region
                 string foperator = this.Label_uid.Text;//
-                string Fuin = Request.Form["Fuin"] != null || string.IsNullOrEmpty(Request.Form["Fuin"].ToString()) ? Request.Form["Fuin"].ToString() : string.Empty;
-                string memo = Request.Form["Fmemo"] != null || string.IsNullOrEmpty(Request.Form["Fmemo"].ToString()) ? Request.Form["Fmemo"].ToString() : string.Empty;
-                string tableName = Request.Form["TableName"] != null || string.IsNullOrEmpty(Request.Form["TableName"].ToString()) ? Request.Form["TableName"].ToString() : string.Empty;
-                string fserial_number = Request.Form["Fserial_number"] != null || string.IsNullOrEmpty(Request.Form["Fserial_number"].ToString()) ? Request.Form["Fserial_number"].ToString() : string.Empty;
+                string Fuin = Request.Form["Fuin"] != null && !string.IsNullOrEmpty(Request.Form["Fuin"].ToString()) ? Request.Form["Fuin"].ToString() : string.Empty;
+                string memo = Request.Form["Fmemo"] != null && !string.IsNullOrEmpty(Request.Form["Fmemo"].ToString()) ? Request.Form["Fmemo"].ToString() : string.Empty;
+                string tableName = Request.Form["TableName"] != null && !string.IsNullOrEmpty(Request.Form["TableName"].ToString()) ? Request.Form["TableName"].ToString() : string.Empty;
+                string fserial_number = Request.Form["Fserial_number"] != null && !string.IsNullOrEmpty(Request.Form["Fserial_number"].ToString()) ? Request.Form["Fserial_number"].ToString() : string.Empty;
 
-                int fid = Request.Form["Fid"] != null || string.IsNullOrEmpty(Request.Form["Fid"].ToString()) ? int.Parse(Request.Form["Fid"].ToString()) : 0;
-                int reviewResult = Request.Form["reviewResult"] != null || string.IsNullOrEmpty(Request.Form["reviewResult"].ToString()) ? int.Parse(Request.Form["reviewResult"].ToString()) : 0;
+                int fid = Request.Form["Fid"] != null && !string.IsNullOrEmpty(Request.Form["Fid"].ToString()) ? int.Parse(Request.Form["Fid"].ToString()) : 0;
+                int reviewResult = Request.Form["reviewResult"] != null && !string.IsNullOrEmpty(Request.Form["reviewResult"].ToString()) ? int.Parse(Request.Form["reviewResult"].ToString()) : 0;
+                int agreeRemark = Request.Form["AgreeRemark"] != null && !string.IsNullOrEmpty(Request.Form["AgreeRemark"].ToString()) ? int.Parse(Request.Form["AgreeRemark"].ToString()) : 1;
+                returnMessage = returnMessage + (reviewResult == 1 ? "[通过]" : "[拒绝]");
                 IdCardManualReviewService idCardManualReviewService = new IdCardManualReviewService();
-                bool updateResult = idCardManualReviewService.Update(fserial_number, fid, reviewResult, memo, tableName, foperator, out  message);
+                bool updateResult = idCardManualReviewService.Update(fserial_number, fid, reviewResult, memo, tableName, foperator, agreeRemark, out  message);
                 if (updateResult)
                 {
                     LogHelper.LogInfo("IDCardManualReview.SaveReview,updateResult:更新成功");
@@ -416,15 +485,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                             //接口调用后 更新该条数据的审核状态
                             bool updateState = idCardManualReviewService.UpdateFstate(fserial_number, fid, fstate, tableName);
                             result = updateState;
-                            returnMessage = "身份证影印件审核" + (reviewResult == 1 ? "[通过]" : "[拒绝]") + (updateState == true ? "成功" : "失败") + "<br/>" + message;
+                            returnMessage = returnMessage + (updateState == true ? "成功" : "失败") + "<br/>" + message;
                         }
                     }
                     else
                     {
                         result = false;
-                        LogHelper.LogInfo("IdCardManualReviewService.Review,message:" + message);
+                        message = string.Format("系统中不存在流水号为[{0}]的身份证影印件待审数据", fserial_number);
+                        returnMessage = returnMessage + "失败" + "<br/>" + message;
+                        LogHelper.LogInfo("IdCardManualReviewService.Review,message:" + returnMessage);
                     }
 
+                }
+                else
+                {
+                    returnMessage = returnMessage + "失败" + "<br/>" + message;
                 }
                 #endregion
 
@@ -433,7 +508,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 LogHelper.LogInfo("IDCardManualReview.SaveReview,提交失败:" + ex.Message);
                 result = false;
-                message = "审核失败:" + ex.Message.ToString();
+                returnMessage = returnMessage + ("失败") + "<br/>" + message;
             }
 
             StringBuilder builder = new StringBuilder();
@@ -453,15 +528,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             bool result = false;
             string message = string.Empty;
-            string returnMessage = string.Empty;
+            string returnMessage = "身份证影印件审核";
             try
             {
                 #region
-                string tableName = Request.Form["TableName"] != null || string.IsNullOrEmpty(Request.Form["TableName"].ToString()) ? Request.Form["TableName"].ToString() : string.Empty;
-                string fserial_number = Request.Form["Fserial_number"] != null || string.IsNullOrEmpty(Request.Form["Fserial_number"].ToString()) ? Request.Form["Fserial_number"].ToString() : string.Empty;
+                string tableName = Request.Form["TableName"] != null && !string.IsNullOrEmpty(Request.Form["TableName"].ToString()) ? Request.Form["TableName"].ToString() : string.Empty;
+                string fserial_number = Request.Form["Fserial_number"] != null && !string.IsNullOrEmpty(Request.Form["Fserial_number"].ToString()) ? Request.Form["Fserial_number"].ToString() : string.Empty;
 
-                int fid = Request.Form["Fid"] != null || string.IsNullOrEmpty(Request.Form["Fid"].ToString()) ? int.Parse(Request.Form["Fid"].ToString()) : 0;
-                int reviewResult = Request.Form["reviewResult"] != null || string.IsNullOrEmpty(Request.Form["reviewResult"].ToString()) ? int.Parse(Request.Form["reviewResult"].ToString()) : 0;
+                int fid = Request.Form["Fid"] != null && !string.IsNullOrEmpty(Request.Form["Fid"].ToString()) ? int.Parse(Request.Form["Fid"].ToString()) : 0;
+                int reviewResult = Request.Form["reviewResult"] != null && !string.IsNullOrEmpty(Request.Form["reviewResult"].ToString()) ? int.Parse(Request.Form["reviewResult"].ToString()) : 0;
+                returnMessage = returnMessage + (reviewResult == 1 ? "[通过]" : "[拒绝]");
                 IdCardManualReviewService idCardManualReviewService = new IdCardManualReviewService();
                 DataTable dt = new DataTable();
                 dt = idCardManualReviewService.LoadReview(fid, fserial_number, tableName);
@@ -492,14 +568,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         //接口调用后 更新该条数据的审核状态
                         bool updateState = idCardManualReviewService.UpdateFstate(fserial_number, fid, fstate, tableName);
                         result = updateState;
-                        //message = message + "<br/>" + (sendResult == true ? "推送到实名系统成功" : "推送到实名系统失败");
-                        returnMessage = "身份证影印件审核" + (reviewResult == 1 ? "[通过]" : "[拒绝]") + (updateState == true ? "成功" : "失败") + "<br/>" + message;
+                        //message = message + "<br/>" + (sendResult == true ? "推送到实名系统成功" : "推送到实名系统失败");                        
+                        returnMessage = returnMessage + (updateState == true ? "成功" : "失败") + "<br/>" + message;
                     }
                 }
                 else
                 {
                     result = false;
                     message = string.Format("系统中不存在流水号为[{0}]的身份证影印件待审数据", fserial_number);
+                    returnMessage = returnMessage + "失败" + "<br/>" + message;
                 }
                 #endregion
 
@@ -509,6 +586,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 LogHelper.LogInfo("IDCardManualReview.ReSend,重新提交失败:" + ex.Message);
                 result = false;
                 message = "审核失败:" + ex.Message.ToString();
+                returnMessage = returnMessage + ("失败") + "<br/>" + message;
             }
             StringBuilder builder = new StringBuilder();
             builder.Append("[");

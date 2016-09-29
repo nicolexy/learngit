@@ -2,7 +2,6 @@
 
 function ShowDetailImg(divid,imgid,imgsrc)
 {
-
 	imgid.src=imgsrc.src;
 	
 	

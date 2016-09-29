@@ -165,7 +165,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
         /// <param name="reviewResult"></param>
         /// <param name="yearMonths"></param>
         /// <returns></returns>
-        public DataTable LoadReview(string uid, string uin, int reviewStatus, int reviewResult, List<string> yearMonths, string beginDate, string endDate, bool isHaveRightForSeeDetail, int pageSize, int pageNumber, string order, ref int total)
+        public DataTable LoadReview(string uid, string uin, int reviewStatus, int reviewResult, List<string> yearMonths, string beginDate, string endDate, bool isHaveRightForSeeDetail,string modifyBeginDate,string modifyEndDate,string foperator,int fmemo, int pageSize, int pageNumber, string order, ref int total)
         {
             DataTable dt = new DataTable();
             total = 0;
@@ -186,7 +186,9 @@ namespace CFT.CSOMS.DAL.IdCardModule
                     {
                         tableName.Append(yearMonth);
                         StringBuilder sb = new StringBuilder();
-                        sb.Append("SELECT *,'" + tableName + "' AS TableName FROM " + tableName + " ");
+                        sb.Append("SELECT Fid,Fname,Fidentitycard,Fimage_path1,Fimage_path2,Fimage_file1,Fimage_file2,Fserial_number,Fspid,Fcreate_time,Fuin,Fmodify_time,Fstate,Fresult, ");
+                        sb.Append("Foperator,Fmemo,Fstandby1 AS AgreeRemark,");
+                        sb.Append("'" + tableName + "' AS TableName FROM " + tableName + " ");
                         sb.Append("WHERE 1=1 ");
                         if (reviewStatus > 0)
                         {
@@ -224,6 +226,24 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         {
                             sb.Append(" AND date_format(Fcreate_time, '%Y-%m-%d')<='" + endDate + "' ");
                         }
+
+                        if (!string.IsNullOrEmpty(modifyBeginDate))
+                        {
+                            sb.Append(" AND date_format(Fmodify_time, '%Y-%m-%d')>='" + modifyBeginDate + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(modifyEndDate))
+                        {
+                            sb.Append(" AND date_format(Fmodify_time, '%Y-%m-%d')<='" + modifyEndDate + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(foperator))
+                        {
+                            sb.Append("AND Foperator='" + foperator + "' ");
+                        }
+                        if (fmemo > 0)
+                        {
+                            sb.Append("AND Fmemo='" + fmemo + "' ");
+                        }
+
                         if (!string.IsNullOrEmpty(order))
                         {
                             sb.Append("ORDER BY " + order + " ");
@@ -252,7 +272,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
         }
 
 
-        public DataTable LoadReviewForExport(string uid, string uin, int reviewStatus, int reviewResult, List<string> yearMonths, string beginDate, string endDate, string order)
+        public DataTable LoadReviewForExport(string uid, string uin, int reviewStatus, int reviewResult, List<string> yearMonths, string beginDate, string endDate, string modifyBeginDate,string modifyEndDate,string foperator,int fmemo,string order)
         {
             DataTable dt = new DataTable();
             //total = 0;
@@ -277,7 +297,8 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         sb.Append("CASE Fstate WHEN 1 THEN '未领单' WHEN 2 THEN '已领单' WHEN 3 THEN '推送到实名系统失败' WHEN 4 THEN '推送成功' END AS '审核状态', ");
                         sb.Append("CASE Fresult WHEN 0 THEN '未处理' WHEN 1 THEN '通过' WHEN 2 THEN '驳回' END AS '审核结果', ");
                         sb.Append("Foperator AS '处理人',  ");
-                        sb.Append("CASE Fmemo WHEN 1 THEN '未显示图片' WHEN 2 THEN '上传非身份证照片' WHEN 3 THEN '身份证不清晰不完整' WHEN 4 THEN '身份证证件号不一致' WHEN 5 THEN '其他原因' WHEN 6 THEN '身份证姓名和提供姓名不符' WHEN 7 THEN '身份证签发机关和地址不一致' WHEN 8 THEN '两张均为正面或者反面' WHEN 9 THEN '身份证证件虚假' WHEN 10 THEN '身份证已超过有效期' WHEN 11 THEN '身份证照片非原件' END AS '审核信息'  ");
+                        sb.Append("CASE Fmemo WHEN 1 THEN '未显示图片' WHEN 2 THEN '上传非身份证照片' WHEN 3 THEN '身份证不清晰不完整' WHEN 4 THEN '身份证证件号不一致' WHEN 5 THEN '其他原因' WHEN 6 THEN '身份证姓名和提供姓名不符' WHEN 7 THEN '身份证签发机关和地址不一致' WHEN 8 THEN '两张均为正面或者反面' WHEN 9 THEN '身份证证件虚假' WHEN 10 THEN '身份证已超过有效期' WHEN 11 THEN '身份证照片非原件' END AS '审核信息',  ");
+                        sb.Append("CASE Fstandby1 WHEN '2' THEN '系统可优化' ELSE '需要人工审核' END AS '通过备注' ");
                         sb.Append("FROM " + tableName + "  ");
                         sb.Append("WHERE 1=1 ");
                         if (reviewStatus > 0)
@@ -304,6 +325,23 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         if (!string.IsNullOrEmpty(endDate))
                         {
                             sb.Append(" AND date_format(Fcreate_time, '%Y-%m-%d')<='" + endDate + "' ");
+                        }
+
+                        if (!string.IsNullOrEmpty(modifyBeginDate))
+                        {
+                            sb.Append(" AND date_format(Fmodify_time, '%Y-%m-%d')>='" + modifyBeginDate + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(modifyEndDate))
+                        {
+                            sb.Append(" AND date_format(Fmodify_time, '%Y-%m-%d')<='" + modifyEndDate + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(foperator))
+                        {
+                            sb.Append("AND Foperator='" + foperator + "' ");
+                        }
+                        if (fmemo > 0)
+                        {
+                            sb.Append("AND Fmemo='" + fmemo + "' ");
                         }
                         if (!string.IsNullOrEmpty(order))
                         {
@@ -369,9 +407,9 @@ namespace CFT.CSOMS.DAL.IdCardModule
             }
             return dt;
         }
-        
 
-        public bool Update(string fserial_numbe, int fid, int fresult, string memo, string tableName, string foperator, out string message)
+
+        public bool Update(string fserial_numbe, int fid, int fresult, string memo, string tableName, string foperator, int agreeRemark, out string message)
         {            
             DataSet ds = new DataSet();
             bool returnResult = false;
@@ -384,9 +422,13 @@ namespace CFT.CSOMS.DAL.IdCardModule
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE " + tableName + " ");
                 sb.Append("SET Fresult=" + fresult + ",");
-                if (fresult == 2)
+                if (fresult == 1)//通过
                 {
-                sb.Append("Fmemo='" + memo + "', ");
+                    sb.Append("Fstandby1=" + agreeRemark + ", ");
+                }
+                else if (fresult == 2)//驳回
+                {                    
+                    sb.Append("Fmemo='" + memo + "', ");
                 }
                 sb.Append("Foperator='" + foperator + "', ");
                 sb.Append("Fmodify_time=sysdate() ");
@@ -405,8 +447,9 @@ namespace CFT.CSOMS.DAL.IdCardModule
             catch (Exception ex)
             {
                 returnResult = false;
+                message = "保存失败";
                 LogHelper.LogInfo("IdCardManualReview.Update:" + ex.Message);
-            }
+            }                
             finally
             {
                 fmda.Commit();
