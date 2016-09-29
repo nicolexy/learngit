@@ -57,14 +57,14 @@ namespace CFT.CSOMS.BLL.IdCardModule
         /// <param name="endDate">查询结束日期</param>
         /// <param name="receiveCount">批处理数量</param>
         /// <returns></returns>
-        public DataTable LoadReview(string uid, string uin, int reviewStatus, int reviewResult, string beginDate, string endDate, bool isHaveRightForSeeDetail,int pageSize, int pageNumber, string order, ref int total)
+        public DataTable LoadReview(string uid, string uin, int reviewStatus, int reviewResult, string beginDate, string endDate, bool isHaveRightForSeeDetail,string modifyBeginDate,string modifyEndDate,string foperator,int fmemo,int pageSize, int pageNumber, string order, ref int total)
         {
             DataTable dt = new DataTable();
             try
             {
                 List<string> yearMonths = GetYearMonthList(DateTime.Parse(beginDate).ToString("yyyy-MM"), DateTime.Parse(endDate).ToString("yyyy-MM"), 5);
                 IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
-                dt = idCardManualReviewDAL.LoadReview(uid, uin, reviewStatus, reviewResult, yearMonths, beginDate, endDate, isHaveRightForSeeDetail,pageSize, pageNumber, order, ref  total);
+                dt = idCardManualReviewDAL.LoadReview(uid, uin, reviewStatus, reviewResult, yearMonths, beginDate, endDate, isHaveRightForSeeDetail, modifyBeginDate, modifyEndDate, foperator, fmemo,pageSize, pageNumber, order, ref  total);
             }
             catch (Exception ex)
             {
@@ -73,14 +73,14 @@ namespace CFT.CSOMS.BLL.IdCardModule
             return dt;
         }
 
-        public DataTable LoadReviewForExport(string uid, string uin, int reviewStatus, int reviewResult, string beginDate, string endDate,  string order)
+        public DataTable LoadReviewForExport(string uid, string uin, int reviewStatus, int reviewResult, string beginDate, string endDate,string modifyBeginDate,string modifyEndDate,string foperator,int fmemo,  string order)
         {
             DataTable dt = new DataTable();
             try
             {
                 List<string> yearMonths = GetYearMonthList(DateTime.Parse(beginDate).ToString("yyyy-MM"), DateTime.Parse(endDate).ToString("yyyy-MM"), 5);
                 IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
-                dt = idCardManualReviewDAL.LoadReviewForExport(uid, uin, reviewStatus, reviewResult, yearMonths,  beginDate,  endDate, order);
+                dt = idCardManualReviewDAL.LoadReviewForExport(uid, uin, reviewStatus, reviewResult, yearMonths, beginDate, endDate, modifyBeginDate, modifyEndDate, foperator, fmemo, order);
             }
             catch (Exception ex)
             {
@@ -112,19 +112,20 @@ namespace CFT.CSOMS.BLL.IdCardModule
             return dt;
         }
 
-        public bool Update(string fserial_numbe, int fid, int fresult, string memo, string tableName, string foperator, out string message)
+        public bool Update(string fserial_numbe, int fid, int fresult, string memo, string tableName, string foperator,int agreeRemark, out string message)
         {
             bool receiveResult = false;
             message = string.Empty;
             try
             {
                 IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
-                receiveResult = idCardManualReviewDAL.Update(fserial_numbe, fid, fresult, memo, tableName, foperator, out  message);
+                receiveResult = idCardManualReviewDAL.Update(fserial_numbe, fid, fresult, memo, tableName, foperator, agreeRemark, out  message);
 
             }
             catch (Exception ex)
             {
                 receiveResult = false;
+                message = "保存失败";
             }
             return receiveResult;
         }
