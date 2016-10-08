@@ -409,36 +409,36 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             this.Fmemo.Text = ds.Tables[0].Rows[0]["Fmemo"].ToString(); //交易说明
 
             //yinhuang 2014.08.01
-            DataTable wx_dt = null;
-            try
-            {
-                //担心接口还未上线，导致客服现有功能使用不了，暂时这样处理
-                wx_dt = new WechatPayService().QueryWxTrans(ds.Tables[0].Rows[0]["Flistid"].ToString()); //查询微信转账业务
-            }
-            catch (Exception ex)
-            {
-                LogError("TradeManage.TradeLogQuery", "private void BindTradeInfo(int iType)查询微信转账业务出错", ex);
-            }
-            if (wx_dt != null && wx_dt.Rows.Count > 0)
-            {
-                LB_Fcoding.Text = PublicRes.objectToString(wx_dt, "wx_trade_id");//子账户关联订单号
-                string scene = PublicRes.objectToString(wx_dt, "scene");//区分微信转账，面对面付款
-                if (scene == "0")
-                {
-                    this.LB_Fexplain.Text = "微信转账";
-                }
-                else
-                {
-                    this.LB_Fexplain.Text = "面对面付款";
-                }
-                //通过卖家交易单反查付款方
-                this.LB_Fbuyid.Text = PublicRes.objectToString(wx_dt, "pay_openid");
-            }
-            else
-            {
+            //DataTable wx_dt = null;
+            //try
+            //{
+            //    //担心接口还未上线，导致客服现有功能使用不了，暂时这样处理
+            //    wx_dt = new WechatPayService().QueryWxTrans(ds.Tables[0].Rows[0]["Flistid"].ToString()); //查询微信转账业务
+            //}
+            //catch (Exception ex)
+            //{
+            //    LogError("TradeManage.TradeLogQuery", "private void BindTradeInfo(int iType)查询微信转账业务出错", ex);
+            //}
+            //if (wx_dt != null && wx_dt.Rows.Count > 0)
+            //{
+            //    LB_Fcoding.Text = PublicRes.objectToString(wx_dt, "wx_trade_id");//子账户关联订单号
+            //    string scene = PublicRes.objectToString(wx_dt, "scene");//区分微信转账，面对面付款
+            //    if (scene == "0")
+            //    {
+            //        this.LB_Fexplain.Text = "微信转账";
+            //    }
+            //    else
+            //    {
+            //        this.LB_Fexplain.Text = "面对面付款";
+            //    }
+            //    //通过卖家交易单反查付款方
+            //    this.LB_Fbuyid.Text = PublicRes.objectToString(wx_dt, "pay_openid");
+            //}
+            //else
+            //{
                 this.LB_Fbuyid.Text = ds.Tables[0].Rows[0]["Fbuyid"].ToString();
                 this.LB_Fexplain.Text = ds.Tables[0].Rows[0]["Fmemo"].ToString();
-            }
+            //}
 
             bool isC2C = false;
             int type = 0;

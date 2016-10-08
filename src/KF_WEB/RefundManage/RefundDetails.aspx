@@ -336,6 +336,8 @@
                     <asp:button id="btnRefuse" runat="server" Width="90px" Height="30px" Text="审批拒绝" BorderStyle="Groove" onclick="btnRefuse_Click"></asp:button>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <asp:button id="btnCW" runat="server" Width="90px" Height="30px" Text="转向财务处理" BorderStyle="Groove" onclick="btnTransferCW_Click"></asp:button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <asp:button id="btnReset" runat="server" Width="90px" Height="30px" Text="重置" BorderStyle="Groove" OnClick="btnReset_Click" Visible="false"></asp:button>
           
                 <br />
                 <br />
