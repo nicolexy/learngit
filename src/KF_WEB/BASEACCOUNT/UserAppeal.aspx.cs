@@ -428,18 +428,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             object obj = e.Item.Cells[8].FindControl("queryButton");
             if (obj != null)
             {
-                long balance = long.Parse(e.Item.Cells[7].Text.Trim());//账户资金
-                LinkButton lb = (LinkButton)obj;
-                if (balance / 100 >= 1000)//账户资金在1000元（包含1000元）以上的需申请一级权限（可处理任何金额的申诉）
+                long balance;
+                if (long.TryParse(e.Item.Cells[7].Text.Trim(), out balance))//账户资金
                 {
-                    if (bool.Parse(ViewState["CFTUserPick"].ToString()))
+                    LinkButton lb = (LinkButton)obj;
+                    if (balance / 100 >= 1000)//账户资金在1000元（包含1000元）以上的需申请一级权限（可处理任何金额的申诉）
+                    {
+                        if (bool.Parse(ViewState["CFTUserPick"].ToString()))
+                        {
+                            lb.Visible = true;
+                        }
+                    }
+                    else//1000元以下审批，已登录页面就说明有权限
                     {
                         lb.Visible = true;
                     }
-                }
-                else//1000元以下审批，已登录页面就说明有权限
-                {
-                    lb.Visible = true;
                 }
             }
         }   

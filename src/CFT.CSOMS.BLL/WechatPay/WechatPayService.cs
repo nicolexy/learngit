@@ -248,10 +248,10 @@ namespace CFT.CSOMS.BLL.WechatPay
             return dt;
         }
 
-        public DataTable QueryWxTrans(string prime_trans_id)
-        {
-            return new TradePayData().QueryWxTrans(prime_trans_id);
-        }
+        //public DataTable QueryWxTrans(string prime_trans_id)
+        //{
+        //    return new TradePayData().QueryWxTrans(prime_trans_id);
+        //}
 
         /// <summary>
         /// 发送的红包
