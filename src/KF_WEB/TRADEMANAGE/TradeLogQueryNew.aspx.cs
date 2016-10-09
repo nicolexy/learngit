@@ -149,7 +149,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
                 //绑定交易单基础信息
                 Session["ListID"] = listID;
-                BindTradeInfo(iType, listID);                                     
+                BindTradeInfo(iType, listID);
 
                 iFrameHeight = "85";   //iFame显示区域的高度
 
@@ -466,71 +466,62 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     this.LB_FsaleidCFT.Text = dsCoinWalPay.Tables[0].Rows[0]["rcv_openid"].ToString();
                 }
             }
-
-            if (ds.Tables[0].Rows[0]["Flistid"].ToString() != "")
-            {
-                var listID = ds.Tables[0].Rows[0]["Flistid"].ToString();
-                Query_Service.Query_Service qs = new Query_Service.Query_Service();
-                DataSet dsState = qs.GetQueryListDetail(listID);
-
-                if (dsState != null && dsState.Tables.Count > 0 && dsState.Tables[0].Rows.Count > 0)
+            if (string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Ftrade_state"].ToString()))
+            {                
+                ds.Tables[0].Columns.Add("Ftrade_stateName");
+                classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0], "Ftrade_state", "Ftrade_stateName", "PAY_STATE");
+                this.lblTradeState.Text = ds.Tables[0].Rows[0]["Ftrade_stateName"].ToString();
+                if (isC2C && !string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Flistid"].ToString()))
                 {
-                    dsState.Tables[0].Columns.Add("Ftrade_stateName");
-                    classLibrary.setConfig.GetColumnValueFromDic(dsState.Tables[0], "Ftrade_state", "Ftrade_stateName", "PAY_STATE");
-                    this.lblTradeState.Text = dsState.Tables[0].Rows[0]["Ftrade_stateName"].ToString();
-                    if (isC2C)
+                    var listID = ds.Tables[0].Rows[0]["Flistid"].ToString();
+                    myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
+                    var dsList = myService.GetBankRollList_withID(DateTime.Now.AddDays(-PublicRes.PersonInfoDayCount), DateTime.Now.AddDays(1), listID, 1, 50);
+                    bool isRefund = false;
+                    bool isCompelete = false;
+                    if (dsList != null && dsList.Tables.Count > 0 && dsList.Tables[0].Rows.Count > 0)
                     {
-                        myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-                        var dsList = myService.GetBankRollList_withID(DateTime.Now.AddDays(-PublicRes.PersonInfoDayCount), DateTime.Now.AddDays(1), listID, 1, 50);
-                        bool isRefund = false;
-                        bool isCompelete = false;
-                        if (dsList != null && dsList.Tables.Count > 0 && dsList.Tables[0].Rows.Count > 0)
+                        foreach (DataRow row in dsList.Tables[0].Rows)
                         {
-                            foreach (DataRow row in dsList.Tables[0].Rows)
+                            var state = row["Fsubject"].ToString();
+                            int stateNum = 0;
+                            if (int.TryParse(state, out stateNum))
                             {
-                                var state = row["Fsubject"].ToString();
-                                int stateNum = 0;
-                                if (int.TryParse(state, out stateNum))
+                                if (stateNum == 5 || stateNum == 6)
                                 {
-                                    if (stateNum == 5 || stateNum == 6)
-                                    {
-                                        isRefund = true;
-                                    }
-                                    else if (stateNum == 3 || stateNum == 4 || stateNum == 8)
-                                    {
-                                        isCompelete = true;
-                                    }
+                                    isRefund = true;
+                                }
+                                else if (stateNum == 3 || stateNum == 4 || stateNum == 8)
+                                {
+                                    isCompelete = true;
                                 }
                             }
-                            //BG_SUBJECT	1	充值支付（中介收货款）
-                            //BG_SUBJECT	2	充值支付
-                            //BG_SUBJECT	3	买家确认
-                            //BG_SUBJECT	4	买家确认（自动提现）
-                            //BG_SUBJECT	5	退款
-                            //BG_SUBJECT	6	退款（退卖家货款）
-                            //BG_SUBJECT	7	充值支付（余额支付）
-                            //BG_SUBJECT	8	买家确认（卖家收货款）
-                            //BG_SUBJECT	9	快速交易
-                            //BG_SUBJECT	10	余额支付
-                            //BG_SUBJECT	11	充值
-                            //BG_SUBJECT	12	充值转帐
-                            //BG_SUBJECT	13	转帐
-                            //BG_SUBJECT	14	提现
                         }
+                        //BG_SUBJECT	1	充值支付（中介收货款）
+                        //BG_SUBJECT	2	充值支付
+                        //BG_SUBJECT	3	买家确认
+                        //BG_SUBJECT	4	买家确认（自动提现）
+                        //BG_SUBJECT	5	退款
+                        //BG_SUBJECT	6	退款（退卖家货款）
+                        //BG_SUBJECT	7	充值支付（余额支付）
+                        //BG_SUBJECT	8	买家确认（卖家收货款）
+                        //BG_SUBJECT	9	快速交易
+                        //BG_SUBJECT	10	余额支付
+                        //BG_SUBJECT	11	充值
+                        //BG_SUBJECT	12	充值转帐
+                        //BG_SUBJECT	13	转帐
+                        //BG_SUBJECT	14	提现
+                    }
 
-                        if (isRefund)
-                        {
-                            this.lblTradeState.Text = "转入退款";
-                        }
-                        else if (isCompelete)
-                        {
-                            this.lblTradeState.Text = "交易完成";
-                        }
+                    if (isRefund)
+                    {
+                        this.lblTradeState.Text = "转入退款";
+                    }
+                    else if (isCompelete)
+                    {
+                        this.lblTradeState.Text = "交易完成";
                     }
                 }
-            }
-
-
+            }         
 
             if (ds.Tables[0].Rows[0]["Flstate"].ToString() == "1") //如果是锁定状态
             {
@@ -551,36 +542,36 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             //手q转账单查询   
             if (lbTradeType.Text.ToUpper().Contains("B2C"))
             {
-                 BindHandQTransfer(LB_Fbuyid.Text,fcoding);
+                BindHandQTransfer(LB_Fbuyid.Text, fcoding);
             }
 
             setIframePath();
             SetButtonVisible(); //furion 20050802;
         }
 
-        private void BindHandQTransfer(string uin,string listId)
-        {           
+        private void BindHandQTransfer(string uin, string listId)
+        {
             try
-            { 
-                    string errorMsg = "";
-                    if (!string.IsNullOrEmpty(listId) && !string.IsNullOrEmpty(uin))
+            {
+                string errorMsg = "";
+                if (!string.IsNullOrEmpty(listId) && !string.IsNullOrEmpty(uin))
+                {
+                    DataSet dsMobileQTransfer = new TradeService().GetUnfinishedMobileQTransferByListId(uin, listId, out errorMsg);
+                    if (!string.IsNullOrEmpty(errorMsg))
                     {
-                        DataSet dsMobileQTransfer = new TradeService().GetUnfinishedMobileQTransferByListId(uin, listId, out errorMsg);
-                        if (!string.IsNullOrEmpty(errorMsg))
-                        {                          
+                        return;
+                    }
+                    if (dsMobileQTransfer != null && dsMobileQTransfer.Tables.Count > 0 && dsMobileQTransfer.Tables[0].Rows.Count == 1)
+                    {
+                        if (dsMobileQTransfer.Tables[0].Rows[0]["result"].ToString() == "0")
+                        {
+                            LB_Fsaleid.Text = dsMobileQTransfer.Tables[0].Rows[0]["seller_uin"].ToString();
+                            LB_Fsale_name.Text = dsMobileQTransfer.Tables[0].Rows[0]["seller_name"].ToString();
+                        }
+                        else
+                        {
                             return;
                         }
-                        if (dsMobileQTransfer != null && dsMobileQTransfer.Tables.Count > 0 && dsMobileQTransfer.Tables[0].Rows.Count == 1)
-                        {
-                            if (dsMobileQTransfer.Tables[0].Rows[0]["result"].ToString() == "0")
-                            {
-                                LB_Fsaleid.Text = dsMobileQTransfer.Tables[0].Rows[0]["seller_uin"].ToString();
-                                LB_Fsale_name.Text = dsMobileQTransfer.Tables[0].Rows[0]["seller_name"].ToString();
-                            }
-                            else
-                            {
-                                return;
-                            }
                     }
                 }
             }
