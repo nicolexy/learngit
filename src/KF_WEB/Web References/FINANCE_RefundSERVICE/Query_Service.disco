@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
-  <contractRef ref="http://admintk.cf.com/FINANCE_SERVICE/Query_Service.asmx?wsdl" docRef="http://admintk.cf.com/FINANCE_SERVICE/Query_Service.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
-  <soap address="http://admintk.cf.com/FINANCE_SERVICE/Query_Service.asmx" xmlns:q1="http://Tencent.com/OSS/C2C/Finance/Query_WebService" binding="q1:Query_ServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <contractRef ref="http://admintk64.cf.com/FINANCE_SERVICE/Query_Service.asmx?wsdl" docRef="http://admintk64.cf.com/FINANCE_SERVICE/Query_Service.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://admintk64.cf.com/FINANCE_SERVICE/Query_Service.asmx" xmlns:q1="http://Tencent.com/OSS/C2C/Finance/Query_WebService" binding="q1:Query_ServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://admintk64.cf.com/FINANCE_SERVICE/Query_Service.asmx" xmlns:q2="http://Tencent.com/OSS/C2C/Finance/Query_WebService" binding="q2:Query_ServiceSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
 </discovery>

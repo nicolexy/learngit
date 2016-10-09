@@ -5255,18 +5255,18 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\Finance_ManageService\Finance_Manage.disco" />
-    <Content Include="Web References\FINANCE_RefundSERVICE\Query_Service.disco" />
+    <None Include="Web References\FINANCE_RefundSERVICE\Query_Service.disco" />
     <Content Include="Web References\FQuery_Service\C2CDB_T_TC_BANK.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <Content Include="Web References\FQuery_Service\FreezeInfo.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\FINANCE_RefundSERVICE\Query_Service.wsdl" />
-    <Content Include="Web References\FINANCE_RefundSERVICE\Reference.map">
+    <None Include="Web References\FINANCE_RefundSERVICE\Query_Service.wsdl" />
+    <None Include="Web References\FINANCE_RefundSERVICE\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <Content Include="Web References\FINANCE_RefundSERVICE\C2CDB_T_TC_BANK1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -5352,6 +5352,15 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <Content Include="Web References\FINANCE_RefundSERVICE\T_ZWDic_Info1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_FILE_LISTINFO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_PAYREFUND_RULEINFO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_REFUND_TO_BANK_RULEINFO.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\FQuery_Service\Query_Service.wsdl" />
@@ -6492,10 +6501,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>finance_web_ZWBatchPay_Service_BatchPay_Service</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://admintk.cf.com/FINANCE_SERVICE/Query_Service.asmx">
+    <WebReferenceUrl Include="http://admintk64.cf.com/FINANCE_SERVICE/Query_Service.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\FINANCE_RefundSERVICE\</RelPath>
-      <UpdateFromURL>http://admintk.cf.com/FINANCE_SERVICE/Query_Service.asmx</UpdateFromURL>
+      <UpdateFromURL>http://admintk64.cf.com/FINANCE_SERVICE/Query_Service.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
