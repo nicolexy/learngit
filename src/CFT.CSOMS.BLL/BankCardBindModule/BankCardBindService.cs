@@ -711,6 +711,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                         dr["Fbind_status"] = GetBindStatus(dr["Fbind_status"].ToString());
                         dr["Fbind_flag"] = GetBindFlag(dr["Fbind_flag"].ToString());
                         dr["Fcre_type"] = GetCreType(dr["Fcre_type"].ToString());
+                        dr["Fbank_type"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fbank_type"].ToString());
                     }
                 }
             }
