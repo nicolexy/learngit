@@ -279,6 +279,13 @@
     <Compile Include="BaseAccount\CFTUserCheck.aspx.designer.cs">
       <DependentUpon>CFTUserCheck.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\CFTUserCheckPwd.aspx.cs">
+      <DependentUpon>CFTUserCheckPwd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\CFTUserCheckPwd.aspx.designer.cs">
+      <DependentUpon>CFTUserCheckPwd.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\CFTUserPick.aspx.cs">
       <DependentUpon>CFTUserPick.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -742,6 +749,13 @@
     <Compile Include="BaseAccount\UserAppealCheck.aspx.designer.cs">
       <DependentUpon>UserAppealCheck.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\UserAppealCheckPwd.aspx.cs">
+      <DependentUpon>UserAppealCheckPwd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\UserAppealCheckPwd.aspx.designer.cs">
+      <DependentUpon>UserAppealCheckPwd.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\UserBankAccountQuery.aspx.cs">
       <DependentUpon>UserBankAccountQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -972,6 +986,13 @@
     </Compile>
     <Compile Include="Control\TravelPlatform.ascx.designer.cs">
       <DependentUpon>TravelPlatform.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Control\UserAppealCheckPwdControl.ascx.cs">
+      <DependentUpon>UserAppealCheckPwdControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Control\UserAppealCheckPwdControl.ascx.designer.cs">
+      <DependentUpon>UserAppealCheckPwdControl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Control\UserNameControl.ascx.cs">
       <DependentUpon>UserNameControl.ascx</DependentUpon>
@@ -2946,6 +2967,7 @@
     <Content Include="BaseAccount\CFTUserCheck.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="BaseAccount\CFTUserCheckPwd.aspx" />
     <Content Include="BaseAccount\CFTUserPick.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -3076,6 +3098,7 @@
     </Content>
     <Content Include="BaseAccount\UserAppeal.aspx" />
     <Content Include="BaseAccount\UserAppealCheck.aspx" />
+    <Content Include="BaseAccount\UserAppealCheckPwd.aspx" />
     <Content Include="BaseAccount\UserBankAccountQuery.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -3144,6 +3167,7 @@
       <SubType>UserControl</SubType>
     </Content>
     <Content Include="Control\TravelPlatform.ascx" />
+    <Content Include="Control\UserAppealCheckPwdControl.ascx" />
     <Content Include="Control\UserNameControl.ascx" />
     <Content Include="Control\WebchatPayControl.ascx" />
     <Content Include="Control\CreditPayControl.ascx" />

@@ -8,7 +8,6 @@ using CFT.Apollo.CommunicationFramework;
 using System.Collections;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using System.Data;
-using CFT.Apollo.CommunicationFramework;
 using CFT.Apollo.Logging;
 
 namespace CFT.CSOMS.DAL.Infrastructure
@@ -182,7 +181,7 @@ namespace CFT.CSOMS.DAL.Infrastructure
             string Msg = "";
             paramsStr = RequestStringHelperEx.MiddleRequestEncrypt(paramsStr, true, "");
             paramsStr = "request_type=" + serviceCode + "&ver=1&head_u=&sp_id=20000000000&" + paramsStr;
-            string answer = RelayAccessFactory.RelayInvoke(paramsStr, relayIP, relayPort, coding, invisible, relayDefaultSPId);
+            string answer = RelayAccessFactory.RelayInvoke(paramsStr, relayIP, relayPort, coding, invisible, relayDefaultSPId);           
             DataSet ds = null;
             if (answer == "")
             {
