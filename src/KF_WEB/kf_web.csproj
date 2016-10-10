@@ -420,6 +420,13 @@
     <Compile Include="BaseAccount\IDCardManualReview.aspx.designer.cs">
       <DependentUpon>IDCardManualReview.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\IDCardManualReviewReport.aspx.cs">
+      <DependentUpon>IDCardManualReviewReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\IDCardManualReviewReport.aspx.designer.cs">
+      <DependentUpon>IDCardManualReviewReport.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\InfoCenterDelRecord.aspx.cs">
       <DependentUpon>InfoCenterDelRecord.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2999,8 +3006,10 @@
     <Content Include="BaseAccount\FreezeFinQuery2.aspx" />
     <Content Include="BaseAccount\GatherLog.aspx" />
     <Content Include="BaseAccount\IDCardManualReview.aspx" />
-    <Content Include="BaseAccount\IDCardManualReview.js" />
+    <Content Include="BaseAccount\IDCardManualReviewReport.aspx" />
     <Content Include="BaseAccount\InfoCenterDelRecord.aspx" />
+    <Content Include="BaseAccount\js\IDCardManualReview.js" />
+    <Content Include="BaseAccount\js\IDCardManualReviewReport.js" />
     <Content Include="BaseAccount\js\LogOnWxAccount.js" />
     <Content Include="BaseAccount\js\RealNameCertifation.js" />
     <Content Include="BaseAccount\logOnUserBatch.aspx" />
