@@ -114,11 +114,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 baseAccount1.AddSubMenu("手机绑定查询", "TradeManage/MobileBindingQuery.aspx");
                 baseAccount1.AddSubMenu("腾讯信用查询", "BaseAccount/TencentCreditQuery.aspx");
                 baseAccount1.AddSubMenu("银行账号信息", "BaseAccount/UserBankInfoQuery.aspx");
-                if (classLibrary.ClassLib.ValidateRight("SensitiveRole", this)
-                    && classLibrary.ClassLib.ValidateRight("ChangeUserInfo", this))
-                {
-                    baseAccount1.AddSubMenu("个人信息", "BaseAccount/ChangeUserInfo.aspx");
-                }
+                baseAccount1.AddSubMenu("个人信息", "BaseAccount/ChangeUserInfo.aspx");
+                 
                 accountOperate1.AddSubMenu("账户姓名修改", "BaseAccount/changeUserName_2.aspx");
                 accountOperate1.AddSubMenu("证件号码清理", "BaseAccount/ClearCreidNew.aspx");
                 accountOperate1.AddSubMenu("财付通帐号恢复", "BaseAccount/RecoverQQ.aspx");
