@@ -69,12 +69,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 this.Label_uid.Text = Session["uid"].ToString();                                
                 string sr = Session["SzKey"].ToString();
-                if (!ClassLib.ValidateRight("InfoCenter", this)||
-                    !ClassLib.ValidateRight("SensitiveRole", this) ||
-                    !ClassLib.ValidateRight("ChangeUserInfo", this)
-                    )
+                if (!ClassLib.ValidateRight("InfoCenter", this))
                 {
                     Response.Redirect("../login.aspx?wh=1");
+                }
+                if (!ClassLib.ValidateRight("SensitiveRole", this) ||
+                    !ClassLib.ValidateRight("ChangeUserInfo", this))
+                {
+                    LinkButton1_Edit.Enabled = false;
                 }
 
             }
@@ -521,6 +523,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             try
             {
+                if (!ClassLib.ValidateRight("SensitiveRole", this) ||
+                    !ClassLib.ValidateRight("ChangeUserInfo", this)) 
+                {
+                    WebUtils.ShowMessage(this.Page, "你没有权限执行此操作！");
+                    return;
+                }
                 this.TX_Memo.ReadOnly = false;      
                 this.TX_Memo.BorderWidth = 1;
                 this.TX_Memo.BackColor = Color.GreenYellow;

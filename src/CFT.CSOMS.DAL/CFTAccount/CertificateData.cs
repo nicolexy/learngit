@@ -108,23 +108,34 @@ namespace CFT.CSOMS.DAL.CFTAccount
         /// <returns></returns>
         private string GetTableName(string tableName, string creid)
         {
-            if (creid.Length > 2)
+            if (System.Text.RegularExpressions.Regex.IsMatch(creid, "^[0-9]*$"))
             {
-                string s_db = "";
-                string l_s = creid.Substring(creid.Length - 1);
-
-                if (l_s.ToUpper() == "X")
-                {
-                    s_db = "00";
-                    tableName = "statistics_db_" + s_db + "." + tableName + "_0";
-                }
-                else
-                {
-                    s_db = creid.Substring(creid.Length - 2);
-                    tableName = "statistics_db_" + s_db + "." + tableName + "_" + creid.Substring(creid.Length - 3, 1);
-                }
+                string s_db = creid.Substring(creid.Length - 2);
+                tableName = "statistics_db_" + s_db + "." + tableName + "_" + creid.Substring(creid.Length - 3, 1);
+            }
+            else
+            {
+                tableName = "statistics_db_00." + tableName + "_0";
             }
             return tableName;
+
+            //if (creid.Length > 2)
+            //{
+            //    string s_db = "";
+            //    string l_s = creid.Substring(creid.Length - 1);
+
+            //    if (l_s.ToUpper() == "X")
+            //    {
+            //        s_db = "00";
+            //        tableName = "statistics_db_" + s_db + "." + tableName + "_0";
+            //    }
+            //    else
+            //    {
+            //        s_db = creid.Substring(creid.Length - 2);
+            //        tableName = "statistics_db_" + s_db + "." + tableName + "_" + creid.Substring(creid.Length - 3, 1);
+            //    }
+            //}
+            //return tableName;
         }
     }
 }
