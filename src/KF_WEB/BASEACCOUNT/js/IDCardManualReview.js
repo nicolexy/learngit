@@ -546,18 +546,24 @@
             $.messager.alert("提示", "开始日期不能大于结束日期", "info", null);
             return;
         }
-        if (modifyBeginDate.length < 1 || modifyBeginDate == null) {
-            $.messager.alert("提示", "请选择审核开始日期", "info", null);
-            return;
+        if ((modifyBeginDate.length > 0 && modifyBeginDate != null) && (modifyEndDate.length > 0 && modifyEndDate != null)) {
+            if (modifyBeginDate > modifyEndDate) {
+                $.messager.alert("提示", "审核开始日期不能大于审核开始日期", "info", null);
+                return;
+            }
         }
-        else if (modifyEndDate.length < 1 || modifyEndDate == null) {
-            $.messager.alert("提示", "请选择审核开始日期", "info", null);
-            return;
-        }
-        if (modifyBeginDate > modifyEndDate) {
-            $.messager.alert("提示", "审核开始日期不能大于审核开始日期", "info", null);
-            return;
-        }
+        //if (modifyBeginDate.length < 1 || modifyBeginDate == null) {
+        //    $.messager.alert("提示", "请选择审核开始日期", "info", null);
+        //    return;
+        //}
+        //else if (modifyEndDate.length < 1 || modifyEndDate == null) {
+        //    $.messager.alert("提示", "请选择审核开始日期", "info", null);
+        //    return;
+        //}
+        //if (modifyBeginDate > modifyEndDate) {
+        //    $.messager.alert("提示", "审核开始日期不能大于审核开始日期", "info", null);
+        //    return;
+        //}
         var parms = "";
         parms += ("&uid=" + uid);
         parms += ("&uin=" + uin);

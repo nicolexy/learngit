@@ -327,14 +327,14 @@ namespace CFT.CSOMS.DAL.IdCardModule
                             sb.Append(" AND date_format(Fcreate_time, '%Y-%m-%d')<='" + endDate + "' ");
                         }
 
-                        if (!string.IsNullOrEmpty(modifyBeginDate))
-                        {
-                            sb.Append(" AND date_format(Fmodify_time, '%Y-%m-%d')>='" + modifyBeginDate + "' ");
-                        }
-                        if (!string.IsNullOrEmpty(modifyEndDate))
-                        {
-                            sb.Append(" AND date_format(Fmodify_time, '%Y-%m-%d')<='" + modifyEndDate + "' ");
-                        }
+                        //if (!string.IsNullOrEmpty(modifyBeginDate))
+                        //{
+                        //    sb.Append(" AND date_format(Fmodify_time, '%Y-%m-%d')>='" + modifyBeginDate + "' ");
+                        //}
+                        //if (!string.IsNullOrEmpty(modifyEndDate))
+                        //{
+                        //    sb.Append(" AND date_format(Fmodify_time, '%Y-%m-%d')<='" + modifyEndDate + "' ");
+                        //}
                         if (!string.IsNullOrEmpty(foperator))
                         {
                             sb.Append("AND Foperator='" + foperator + "' ");
@@ -372,6 +372,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
         public DataTable LoadHZReport(string uid, List<string> yearMonths, string modifyBeginDate, string modifyEndDate, string foperator, int pageSize, int pageNumber, string order, ref int total)
         {
             DataTable dt = new DataTable();
+            total = 0;
             var fmda = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
             try
             {
@@ -381,6 +382,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
                 {
                     StringBuilder tableName = new StringBuilder();
                     tableName.Append("c2c_fmdb.t_check_identitycard_");
+                    int startIndex = ((pageNumber - 1) * pageSize);
                     DataTable dtTotal = new DataTable();
                     foreach (var yearMonth in yearMonths)
                     {
@@ -396,14 +398,14 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         sb.Append("SUM(TB1.审核拒绝量) AS '审核拒绝量',  ");
                         sb.Append("CAST((SUM(TB1.审核拒绝量)*100/SUM(TB1.已处理量)) AS DECIMAL(5,2))  AS '审核拒绝率'  ");
                         sb.Append("FROM (  ");
-			            sb.Append("SELECT   ");
-			            sb.Append("(date_format(Fmodify_time, '%Y-%m-%d')) AS '时间',	  ");
-			            sb.Append("0 AS '进单量',		  ");
-			            sb.Append("SUM(CASE WHEN Fresult=1 THEN 1 ELSE 0 END )   AS '审核通过量',  ");
-			            sb.Append("SUM(CASE WHEN Fresult=2 THEN 1 ELSE 0 END)   AS '审核拒绝量',  ");
-			            sb.Append("COUNT(Fid) AS '已处理量'  ");
+                        sb.Append("SELECT   ");
+                        sb.Append("(date_format(Fmodify_time, '%Y-%m-%d')) AS '时间',	  ");
+                        sb.Append("0 AS '进单量',		  ");
+                        sb.Append("SUM(CASE WHEN Fresult=1 THEN 1 ELSE 0 END )   AS '审核通过量',  ");
+                        sb.Append("SUM(CASE WHEN Fresult=2 THEN 1 ELSE 0 END)   AS '审核拒绝量',  ");
+                        sb.Append("COUNT(Fid) AS '已处理量'  ");
                         sb.Append("FROM " + tableName + "  ");
-			            sb.Append("WHERE 1=1 AND Fresult!=0  ");
+                        sb.Append("WHERE 1=1 AND Fresult!=0  ");
                         if (!string.IsNullOrEmpty(modifyBeginDate))
                         {
                             sb.Append(" AND date_format(Fmodify_time, '%Y-%m-%d')>='" + modifyBeginDate + "' ");
@@ -412,16 +414,16 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         {
                             sb.Append(" AND date_format(Fmodify_time, '%Y-%m-%d')<='" + modifyEndDate + "' ");
                         }
-			            sb.Append("GROUP BY (date_format(Fmodify_time, '%Y-%m-%d'))  ");
+                        sb.Append("GROUP BY (date_format(Fmodify_time, '%Y-%m-%d'))  ");
                         sb.Append(" UNION  ");
                         sb.Append("SELECT   ");
-			            sb.Append("(date_format(Fcreate_time, '%Y-%m-%d')) AS '时间',  ");	
-			            sb.Append("COUNT(Fserial_number) AS '进单量',		  ");
-			            sb.Append("0 AS '审核通过量',  ");
-			            sb.Append("0 AS '审核拒绝量',  ");
-			            sb.Append("0 AS '已处理量'  ");
-			            sb.Append("FROM " + tableName + "  ");
-			            sb.Append("WHERE 1=1   ");
+                        sb.Append("(date_format(Fcreate_time, '%Y-%m-%d')) AS '时间',  ");
+                        sb.Append("COUNT(Fserial_number) AS '进单量',		  ");
+                        sb.Append("0 AS '审核通过量',  ");
+                        sb.Append("0 AS '审核拒绝量',  ");
+                        sb.Append("0 AS '已处理量'  ");
+                        sb.Append("FROM " + tableName + "  ");
+                        sb.Append("WHERE 1=1   ");
                         if (!string.IsNullOrEmpty(modifyBeginDate))
                         {
                             sb.Append(" AND date_format(Fcreate_time, '%Y-%m-%d')>='" + modifyBeginDate + "' ");
@@ -430,11 +432,12 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         {
                             sb.Append(" AND date_format(Fcreate_time, '%Y-%m-%d')<='" + modifyEndDate + "' ");
                         }
-			            sb.Append("GROUP BY (date_format(Fcreate_time, '%Y-%m-%d'))	  ");							
+                        sb.Append("GROUP BY (date_format(Fcreate_time, '%Y-%m-%d'))	  ");
                         sb.Append(") AS TB1 GROUP BY TB1.`时间`  ");
-                        sb.Append("WHERE 1=1 ");
                         sb.Append("ORDER BY TB1.`时间` ");
                         dtTotal = fmda.GetTable(sb.ToString());
+                        total += dtTotal.Rows.Count;
+                        sb.Append("LIMIT " + startIndex + "," + pageSize + "  ");
                         LogHelper.LogInfo(string.Format("{0} 用户[{1}]执行查询操作,查询SQL:{2}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), uid, sb.ToString()));
                         dt = fmda.GetTable(sb.ToString());
                     }
@@ -455,6 +458,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
         public DataTable LoadPersonalReviewReport(string uid, List<string> yearMonths, string modifyBeginDate, string modifyEndDate, string foperator, int pageSize, int pageNumber, string order, ref int total)
         {
             DataTable dt = new DataTable();
+            total = 0;
             var fmda = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
             try
             {
@@ -464,10 +468,11 @@ namespace CFT.CSOMS.DAL.IdCardModule
                 {
                     StringBuilder tableName = new StringBuilder();
                     tableName.Append("c2c_fmdb.t_check_identitycard_");
+                    int startIndex = ((pageNumber - 1) * pageSize);
                     DataTable dtTotal = new DataTable();
                     foreach (var yearMonth in yearMonths)
                     {
-                        tableName.Append(yearMonth);                        
+                        tableName.Append(yearMonth);
                         StringBuilder sb = new StringBuilder();
                         sb.Append("SELECT TB1.`处理人`, ");
                         sb.Append("TB1.审核时间,  ");
@@ -482,7 +487,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         sb.Append("SUM(CASE WHEN Fresult=1 THEN 1 ELSE 0 END) AS '通过', ");
                         sb.Append("SUM(CASE WHEN Fresult=2 THEN 1 ELSE 0 END) AS '拒绝', ");
                         sb.Append("MIN(Fmodify_time) AS '当天第一单处理时间', ");
-                        sb.Append("CASEMAX(Fmodify_time) AS '当天最后一单处理时间',  ");
+                        sb.Append("MAX(Fmodify_time) AS '当天最后一单处理时间',  ");
                         sb.Append("COUNT(Fid) AS '汇总' ");
                         sb.Append("FROM " + tableName + "  ");
                         sb.Append("WHERE 1=1 AND Fresult!=0 ");
@@ -502,6 +507,8 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         sb.Append(") AS TB1 GROUP BY TB1.`处理人`,TB1.`审核时间` ");
                         sb.Append("ORDER BY TB1.`处理人` ASC,TB1.`审核时间` ASC ");
                         dtTotal = fmda.GetTable(sb.ToString());
+                        total += dtTotal.Rows.Count;
+                        sb.Append("LIMIT " + startIndex + "," + pageSize + "  ");
                         LogHelper.LogInfo(string.Format("{0} 用户[{1}]执行查询操作,查询SQL:{2}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), uid, sb.ToString()));
                         dt = fmda.GetTable(sb.ToString());
                     }
@@ -522,6 +529,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
         public DataTable LoadFailReasonReport(string uid, List<string> yearMonths, string modifyBeginDate, string modifyEndDate, string foperator, int pageSize, int pageNumber, string order, ref int total)
         {
             DataTable dt = new DataTable();
+            total = 0;
             var fmda = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
             try
             {
@@ -531,6 +539,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
                 {
                     StringBuilder tableName = new StringBuilder();
                     tableName.Append("c2c_fmdb.t_check_identitycard_");
+                    int startIndex = ((pageNumber - 1) * pageSize);
                     DataTable dtTotal = new DataTable();
                     foreach (var yearMonth in yearMonths)
                     {
@@ -576,6 +585,8 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         sb.Append("GROUP BY (date_format(Fmodify_time, '%Y-%m-%d')) ");
                         sb.Append(") AS TB1 GROUP BY TB1.`审核时间` ");
                         dtTotal = fmda.GetTable(sb.ToString());
+                        total += dtTotal.Rows.Count;
+                        sb.Append("LIMIT " + startIndex + "," + pageSize + "  ");
                         LogHelper.LogInfo(string.Format("{0} 用户[{1}]执行查询操作,查询SQL:{2}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), uid, sb.ToString()));
                         dt = fmda.GetTable(sb.ToString());
                     }
@@ -643,6 +654,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
                 StringBuilder sb = new StringBuilder();
                 sb.Append("SELECT COUNT(Fid) AS Total FROM " + tableName + " ");
                 sb.Append("WHERE (date_format(Fcreate_time, '%Y-%m-%d'))<='" + endDate + "' ");
+                sb.Append("LIMIT 0,1");
                 dt = fmda.GetTable(sb.ToString());
             }
             catch (Exception ex)
@@ -668,6 +680,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
                 StringBuilder sb = new StringBuilder();
                 sb.Append("SELECT COUNT(Fid) AS Total FROM " + tableName + " ");
                 sb.Append("WHERE Fresult=0 AND  (date_format(Fcreate_time, '%Y-%m-%d'))<='" + endDate + "' ");
+                sb.Append("LIMIT 0,1");
                 dt = fmda.GetTable(sb.ToString());
             }
             catch (Exception ex)

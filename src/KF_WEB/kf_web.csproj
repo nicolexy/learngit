@@ -1197,6 +1197,27 @@
     <Compile Include="Control\VIPAccountManageControl.ascx.designer.cs">
       <DependentUpon>VIPAccountManageControl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="CreditPay\AccountSearch.aspx.cs">
+      <DependentUpon>AccountSearch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreditPay\AccountSearch.aspx.designer.cs">
+      <DependentUpon>AccountSearch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CreditPay\BillSearch.aspx.cs">
+      <DependentUpon>BillSearch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreditPay\BillSearch.aspx.designer.cs">
+      <DependentUpon>BillSearch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CreditPay\DetailSearch.aspx.cs">
+      <DependentUpon>DetailSearch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreditPay\DetailSearch.aspx.designer.cs">
+      <DependentUpon>DetailSearch.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CreditPay\QueryCapitalRoll.aspx.cs">
       <DependentUpon>QueryCapitalRoll.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3241,6 +3262,12 @@
     <Content Include="Control\VIPAccountManageControl.ascx">
       <SubType>UserControl</SubType>
     </Content>
+    <Content Include="CreditPay\AccountSearch.aspx" />
+    <Content Include="CreditPay\BillSearch.aspx" />
+    <Content Include="CreditPay\DetailSearch.aspx" />
+    <Content Include="CreditPay\JS\AccountSearch.js" />
+    <Content Include="CreditPay\JS\BillSearch.js" />
+    <Content Include="CreditPay\JS\DetailSearch.js" />
     <Content Include="CreditPay\QueryCapitalRoll.aspx" />
     <Content Include="CreditPay\QueryCreditDebt.aspx" />
     <Content Include="CreditPay\QueryRefund.aspx" />
