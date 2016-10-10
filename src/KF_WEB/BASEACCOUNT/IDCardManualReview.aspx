@@ -28,7 +28,8 @@ img {
 
       
     </style>    
-    <script src="../SCRIPTS/jquery-1.7.2/jquery.min.js"></script>    
+    <%--<script src="../SCRIPTS/jquery-1.7.2/jquery.min.js"></script>   --%> 
+    <script src="../SCRIPTS/jquery-1.9.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/normalize.css" />
     	
 
@@ -40,7 +41,7 @@ img {
     <link href="../SCRIPTS/jquery-easyui-1.5/themes/icon.css" rel="stylesheet" />
     <script src="../SCRIPTS/KF.js"></script>
     <script src="../SCRIPTS/LoadControlsDataSource.js?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]%>"></script>         
-    <script src="IDCardManualReview.js?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]%>"></script>
+    <script src="js/IDCardManualReview.js?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]%>"></script>    
 
     
 	<%--<link rel="stylesheet" type="text/css" href="../SCRIPTS/viewerjs/css/default.css"/>--%>
@@ -75,19 +76,19 @@ img {
                     <td style="width: 20%; text-align: right">
                         <label id="lab_EndDate">申请结束日期：</label></td>
                     <td style="width: 30%">
-                        <input type="text" runat="server" id="txt_EndDate" />
+                        <input type="text"  id="txt_EndDate" />
                     </td>
                 </tr>
                  <tr>
                     <td style="width: 20%; text-align: right">
                         <label id="lab_ModifyBeginDate">审核开始日期：</label></td>
                     <td style="width: 30%">
-                        <input type="text" runat="server" id="txt_ModifyBeginDate" />
+                        <input type="text"  id="txt_ModifyBeginDate" />
                     </td>
                     <td style="width: 20%; text-align: right">
                         <label id="lab_ModifyEndDate">审核结束日期：</label></td>
                     <td style="width: 30%">
-                        <input type="text" runat="server" id="txt_ModifyEndDate" />
+                        <input type="text"  id="txt_ModifyEndDate" />
                     </td>
                 </tr>
                 <tr>
@@ -107,7 +108,7 @@ img {
                     <td style="width: 20%; text-align: right">
                         <label id="lab_Foperator">审核人：</label></td>
                     <td style="width: 30%">
-                        <input type="text" runat="server" id="txt_Foperator" />
+                        <input type="text"  id="txt_Foperator" />
                     </td>
                     <td  style="width: 20%; text-align: right">
                         <label id="lab_Fmemo">失败原因：</label></td>
@@ -119,7 +120,7 @@ img {
                     <td style="width: 20%; text-align: right">
                         <label id="lab_uin">帐号：</label></td>
                     <td style="width: 30%">
-                        <input type="text" runat="server" id="txt_uin" />
+                        <input type="text" id="txt_uin" />
                          <input id="WeChatId" name="IDType" type="radio" value="WeChatId"  /><label>微信帐号</label>
                          <input id="WeChatQQ" name="IDType"  type="radio"  value="WeChatQQ" /><label>微信绑定QQ</label>
                          <input id="WeChatMobile" name="IDType"  type="radio" value="WeChatMobile" /><label>微信绑定手机</label>

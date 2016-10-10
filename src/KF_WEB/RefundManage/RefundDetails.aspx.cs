@@ -91,7 +91,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
                   {
                       BindData();    
                   }
-                  
+
+                  if (RefundPublicFun.OPERATOR.Trim().Contains(Session["uid"].ToString()))
+                  {
+                      btnReset.Visible = true;
+                  }
               }
               catch (Exception eSys)
               {
@@ -700,6 +704,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.RefundManage
             {
                 log.ErrorFormat("审批拒绝：操作者：{0} 退款号：{1} 发送邮件给资料提交者发送失败:{2}", Session["uid"].ToString(), ViewState["foldId"].ToString(), ex.Message); 
             }
+        }
+        //重置
+        protected void btnReset_Click(object sender, EventArgs e)
+        {
+            if (!RefundPublicFun.OPERATOR.Trim().Contains(Session["uid"].ToString().Trim()))
+            {
+                return;
+            }
+            string foldId = ViewState["foldId"].ToString();
+            string sql = "update c2c_zwdb.t_refund_KF set FcheckID = null,Fstate =0,FHisCheckID =FHisCheckID+FcheckID+'|'  where FoldId = '" + foldId + "' limit 1 ;";
+            new RefundService().RequestInfoChange(sql, Session["uid"].ToString().Trim());
         }
         /*
         //作废

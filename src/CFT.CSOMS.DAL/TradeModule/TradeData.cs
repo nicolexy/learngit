@@ -1612,7 +1612,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             string reqString = "flag=2&uin=" + uin + "&transaction_id=" + transactionId;
             try
             {                
-                return RelayAccessFactory.GetDSFromRelayAnsNotEncr2(reqString, "10", relayip, relayport);
+                return RelayAccessFactory.GetDSFromRelayAnsNotEncr2(reqString, "10", relayip, relayport,"utf-8");
             }
             catch (Exception err)
             {

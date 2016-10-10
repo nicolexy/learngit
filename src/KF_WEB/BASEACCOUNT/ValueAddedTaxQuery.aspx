@@ -133,10 +133,10 @@
 								<asp:TextBox id="txtTaxInvoiceMemo" Width="600px" Runat="server" ReadOnly="True" TextMode="MultiLine"></asp:TextBox></TD>
 						</TR>
 						<TR>
-							<TD colSpan="3" align="center">
+							<TD colSpan="6" align="center">
 								<asp:Button id="btnAllModify" Text="允许全量信息修改" Runat="server" Visible="False" onclick="btnAllModify_Click"></asp:Button></TD>
-							<TD colSpan="3" align="center">
-								<asp:Button id="btnLittleModify" Text="允许收件人信息修改" Runat="server" Visible="False" onclick="btnLittleModify_Click"></asp:Button></TD>
+							<%--<TD colSpan="3" align="center">
+								<asp:Button id="btnLittleModify" Text="允许收件人信息修改" Runat="server" Visible="False" onclick="btnLittleModify_Click"></asp:Button></TD>--%>
 						</TR>
 					</TABLE>
 				</asp:Panel>

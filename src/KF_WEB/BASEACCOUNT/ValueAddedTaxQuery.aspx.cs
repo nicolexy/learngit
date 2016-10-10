@@ -36,7 +36,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     if (!classLibrary.ClassLib.ValidateRight("DrawAndApprove", this)) Response.Redirect("../login.aspx?wh=1");
                     
                     btnAllModify.Attributes["onClick"]= "return confirm('确定允许全量信息修改吗？');";
-					btnLittleModify.Attributes["onClick"]= "return confirm('确定收件人信息修改吗？');";
+                    //btnLittleModify.Attributes["onClick"]= "return confirm('确定收件人信息修改吗？');";
 				}
 			}
 			catch
@@ -240,12 +240,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 )
 			{
 				this.btnAllModify.Visible = true;
-				this.btnLittleModify.Visible = true;
+                //this.btnLittleModify.Visible = true;
 			}
 			else
 			{
 				this.btnAllModify.Visible = false;
-				this.btnLittleModify.Visible = false;
+                //this.btnLittleModify.Visible = false;
 			}
 		}
 		#region 获得查询字符串
@@ -284,19 +284,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
 		}
 
-		protected void btnLittleModify_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-				Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-				qs.ValueAddedTaxModify(this.lblSpid.Text,6);
-				BindDataDetail(this.lblSpid.Text);
-			}
-			catch(Exception ex)
-			{
-				WebUtils.ShowMessage(this.Page,"操作失败！" + classLibrary.setConfig.replaceMStr(ex.Message) );
-			}
-		}
+        //protected void btnLittleModify_Click(object sender, System.EventArgs e)
+        //{
+        //    try
+        //    {
+        //        Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+        //        qs.ValueAddedTaxModify(this.lblSpid.Text,6);
+        //        BindDataDetail(this.lblSpid.Text);
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        WebUtils.ShowMessage(this.Page,"操作失败！" + classLibrary.setConfig.replaceMStr(ex.Message) );
+        //    }
+        //}
 
 	}
 }

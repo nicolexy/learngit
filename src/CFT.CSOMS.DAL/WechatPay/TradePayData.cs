@@ -35,31 +35,31 @@ namespace CFT.CSOMS.DAL.WechatPay
                 {"QueryReceiveById",101201},
             };
         }
-        public DataTable QueryWxTrans(string prime_trans_id)
-        {
-            if (string.IsNullOrEmpty(prime_trans_id))
-            {
-                throw new Exception("prime_trans_id不能为空！");
-            }
+        //public DataTable QueryWxTrans(string prime_trans_id)
+        //{
+        //    if (string.IsNullOrEmpty(prime_trans_id))
+        //    {
+        //        throw new Exception("prime_trans_id不能为空！");
+        //    }
 
-            string msg;
+        //    string msg;
 
-            string serviceName = "wxt_pay_qryprime_service";
-            string req = "prime_trans_id=" + prime_trans_id;
-            DataSet ds = CommQuery.GetOneTableFromICE(req, "", serviceName, true, out msg);
-            if (msg != "")
-            {
-                LogHelper.LogError(msg);
-                throw new Exception(msg);
-            }
+        //    string serviceName = "wxt_pay_qryprime_service";
+        //    string req = "prime_trans_id=" + prime_trans_id;
+        //    DataSet ds = CommQuery.GetOneTableFromICE(req, "", serviceName, true, out msg);
+        //    if (msg != "")
+        //    {
+        //        LogHelper.LogError(msg);
+        //        throw new Exception(msg);
+        //    }
 
-            if (ds != null && ds.Tables.Count > 0)
-            {
-                return ds.Tables[0];
-            }
+        //    if (ds != null && ds.Tables.Count > 0)
+        //    {
+        //        return ds.Tables[0];
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
         /// <summary>
         /// 查询实时还款详情

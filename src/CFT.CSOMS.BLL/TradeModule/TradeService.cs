@@ -321,35 +321,35 @@ namespace CFT.CSOMS.BLL.TradeModule
                     }
 
 
-                    DataTable wx_dt = null;
-                    try
-                    {
-                        wx_dt = new WechatPayService().QueryWxTrans(ds.Tables[0].Rows[0]["Flistid"].ToString()); //查询微信转账业务
-                    }
-                    catch (Exception ex)
-                    {
-                        log4net.ILog tmpLog = log4net.LogManager.GetLogger("查询微信转账业务");
-                        tmpLog.ErrorFormat("查询微信转账业务：出错：{0} ", ex);
-                    }
-                    if (wx_dt != null && wx_dt.Rows.Count > 0)
-                    {
-                        ds.Tables[0].Rows[0]["Fcoding"] = PublicRes.objectToString(wx_dt, "wx_trade_id");//子账户关联订单号
-                        string scene = PublicRes.objectToString(wx_dt, "scene");//区分微信转账，面对面付款
-                        if (scene == "0")
-                        {
-                            ds.Tables[0].Rows[0]["Fexplain"] = "微信转账";
-                        }
-                        else
-                        {
-                            ds.Tables[0].Rows[0]["Fexplain"] = "面对面付款";
-                        }
-                        //通过卖家交易单反查付款方
-                        ds.Tables[0].Rows[0]["Fbuyid"] = PublicRes.objectToString(wx_dt, "pay_openid");
-                    }
-                    else
-                    {
+                    //DataTable wx_dt = null;
+                    //try
+                    //{
+                    //    wx_dt = new WechatPayService().QueryWxTrans(ds.Tables[0].Rows[0]["Flistid"].ToString()); //查询微信转账业务
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    log4net.ILog tmpLog = log4net.LogManager.GetLogger("查询微信转账业务");
+                    //    tmpLog.ErrorFormat("查询微信转账业务：出错：{0} ", ex);
+                    //}
+                    //if (wx_dt != null && wx_dt.Rows.Count > 0)
+                    //{
+                    //    ds.Tables[0].Rows[0]["Fcoding"] = PublicRes.objectToString(wx_dt, "wx_trade_id");//子账户关联订单号
+                    //    string scene = PublicRes.objectToString(wx_dt, "scene");//区分微信转账，面对面付款
+                    //    if (scene == "0")
+                    //    {
+                    //        ds.Tables[0].Rows[0]["Fexplain"] = "微信转账";
+                    //    }
+                    //    else
+                    //    {
+                    //        ds.Tables[0].Rows[0]["Fexplain"] = "面对面付款";
+                    //    }
+                    //    //通过卖家交易单反查付款方
+                    //    ds.Tables[0].Rows[0]["Fbuyid"] = PublicRes.objectToString(wx_dt, "pay_openid");
+                    //}
+                    //else
+                    //{
                         ds.Tables[0].Rows[0]["Fexplain"] = ds.Tables[0].Rows[0]["Fmemo"].ToString();
-                    }
+                    //}
 
                     //查询卖家财付通账号
                     string fcoding = ds.Tables[0].Rows[0]["Fcoding"].ToString();

@@ -297,8 +297,8 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         sb.Append("CASE Fstate WHEN 1 THEN '未领单' WHEN 2 THEN '已领单' WHEN 3 THEN '推送到实名系统失败' WHEN 4 THEN '推送成功' END AS '审核状态', ");
                         sb.Append("CASE Fresult WHEN 0 THEN '未处理' WHEN 1 THEN '通过' WHEN 2 THEN '驳回' END AS '审核结果', ");
                         sb.Append("Foperator AS '处理人',  ");
-                        sb.Append("CASE Fmemo WHEN 1 THEN '未显示图片' WHEN 2 THEN '上传非身份证照片' WHEN 3 THEN '身份证不清晰不完整' WHEN 4 THEN '身份证证件号不一致' WHEN 5 THEN '其他原因' WHEN 6 THEN '身份证姓名和提供姓名不符' WHEN 7 THEN '身份证签发机关和地址不一致' WHEN 8 THEN '两张均为正面或者反面' WHEN 9 THEN '身份证证件虚假' WHEN 10 THEN '身份证已超过有效期' WHEN 11 THEN '身份证照片非原件' END AS '审核信息',  ");
-                        sb.Append("CASE Fstandby1 WHEN '2' THEN '系统可优化' ELSE '需要人工审核' END AS '通过备注' ");
+                        sb.Append("CASE Fmemo WHEN 1 THEN '未显示图片' WHEN 2 THEN '上传非身份证照片' WHEN 3 THEN '身份证不清晰不完整' WHEN 4 THEN '身份证证件号不一致' WHEN 5 THEN '其他原因' WHEN 6 THEN '身份证姓名和提供姓名不符' WHEN 7 THEN '身份证签发机关和地址不一致' WHEN 8 THEN '两张均为正面或者反面' WHEN 9 THEN '身份证证件虚假' WHEN 10 THEN '身份证已超过有效期' WHEN 11 THEN '身份证照片非原件' END AS '审核信息'  ");
+                        //sb.Append("CASE Fstandby1 WHEN '2' THEN '系统可优化' ELSE '需要人工审核' END AS '通过备注' ");
                         sb.Append("FROM " + tableName + "  ");
                         sb.Append("WHERE 1=1 ");
                         if (reviewStatus > 0)
@@ -369,6 +369,230 @@ namespace CFT.CSOMS.DAL.IdCardModule
             }
             return dt;
         }
+        public DataTable LoadHZReport(string uid, List<string> yearMonths, string modifyBeginDate, string modifyEndDate, string foperator, int pageSize, int pageNumber, string order, ref int total)
+        {
+            DataTable dt = new DataTable();
+            var fmda = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
+            try
+            {
+                fmda.OpenConn();
+                fmda.StartTran();
+                if (yearMonths.Count > 0)
+                {
+                    StringBuilder tableName = new StringBuilder();
+                    tableName.Append("c2c_fmdb.t_check_identitycard_");
+                    DataTable dtTotal = new DataTable();
+                    foreach (var yearMonth in yearMonths)
+                    {
+                        tableName.Append(yearMonth);
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append("SELECT TB1.时间,  ");
+                        sb.Append("0 AS '总工单量',  ");
+                        sb.Append("0 AS '待审核总量', ");
+                        sb.Append("SUM(TB1.进单量) AS '进单量',  ");
+                        sb.Append("SUM(TB1.已处理量) AS '已处理量',  ");
+                        sb.Append("SUM(TB1.审核通过量) AS '审核通过量',  ");
+                        sb.Append("CAST((SUM(TB1.审核通过量)*100/SUM(TB1.已处理量)) AS DECIMAL(5,2)) AS '审核通过率',  ");
+                        sb.Append("SUM(TB1.审核拒绝量) AS '审核拒绝量',  ");
+                        sb.Append("CAST((SUM(TB1.审核拒绝量)*100/SUM(TB1.已处理量)) AS DECIMAL(5,2))  AS '审核拒绝率'  ");
+                        sb.Append("FROM (  ");
+			            sb.Append("SELECT   ");
+			            sb.Append("(date_format(Fmodify_time, '%Y-%m-%d')) AS '时间',	  ");
+			            sb.Append("0 AS '进单量',		  ");
+			            sb.Append("SUM(CASE WHEN Fresult=1 THEN 1 ELSE 0 END )   AS '审核通过量',  ");
+			            sb.Append("SUM(CASE WHEN Fresult=2 THEN 1 ELSE 0 END)   AS '审核拒绝量',  ");
+			            sb.Append("COUNT(Fid) AS '已处理量'  ");
+                        sb.Append("FROM " + tableName + "  ");
+			            sb.Append("WHERE 1=1 AND Fresult!=0  ");
+                        if (!string.IsNullOrEmpty(modifyBeginDate))
+                        {
+                            sb.Append(" AND date_format(Fmodify_time, '%Y-%m-%d')>='" + modifyBeginDate + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(modifyEndDate))
+                        {
+                            sb.Append(" AND date_format(Fmodify_time, '%Y-%m-%d')<='" + modifyEndDate + "' ");
+                        }
+			            sb.Append("GROUP BY (date_format(Fmodify_time, '%Y-%m-%d'))  ");
+                        sb.Append(" UNION  ");
+                        sb.Append("SELECT   ");
+			            sb.Append("(date_format(Fcreate_time, '%Y-%m-%d')) AS '时间',  ");	
+			            sb.Append("COUNT(Fserial_number) AS '进单量',		  ");
+			            sb.Append("0 AS '审核通过量',  ");
+			            sb.Append("0 AS '审核拒绝量',  ");
+			            sb.Append("0 AS '已处理量'  ");
+			            sb.Append("FROM " + tableName + "  ");
+			            sb.Append("WHERE 1=1   ");
+                        if (!string.IsNullOrEmpty(modifyBeginDate))
+                        {
+                            sb.Append(" AND date_format(Fcreate_time, '%Y-%m-%d')>='" + modifyBeginDate + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(modifyEndDate))
+                        {
+                            sb.Append(" AND date_format(Fcreate_time, '%Y-%m-%d')<='" + modifyEndDate + "' ");
+                        }
+			            sb.Append("GROUP BY (date_format(Fcreate_time, '%Y-%m-%d'))	  ");							
+                        sb.Append(") AS TB1 GROUP BY TB1.`时间`  ");
+                        sb.Append("WHERE 1=1 ");
+                        sb.Append("ORDER BY TB1.`时间` ");
+                        dtTotal = fmda.GetTable(sb.ToString());
+                        LogHelper.LogInfo(string.Format("{0} 用户[{1}]执行查询操作,查询SQL:{2}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), uid, sb.ToString()));
+                        dt = fmda.GetTable(sb.ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+            }
+            finally
+            {
+                fmda.Commit();
+                fmda.CloseConn();
+                fmda.Dispose();
+            }
+            return dt;
+        }
+        public DataTable LoadPersonalReviewReport(string uid, List<string> yearMonths, string modifyBeginDate, string modifyEndDate, string foperator, int pageSize, int pageNumber, string order, ref int total)
+        {
+            DataTable dt = new DataTable();
+            var fmda = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
+            try
+            {
+                fmda.OpenConn();
+                fmda.StartTran();
+                if (yearMonths.Count > 0)
+                {
+                    StringBuilder tableName = new StringBuilder();
+                    tableName.Append("c2c_fmdb.t_check_identitycard_");
+                    DataTable dtTotal = new DataTable();
+                    foreach (var yearMonth in yearMonths)
+                    {
+                        tableName.Append(yearMonth);                        
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append("SELECT TB1.`处理人`, ");
+                        sb.Append("TB1.审核时间,  ");
+                        sb.Append("SUM(TB1.通过) AS '通过', ");
+                        sb.Append("SUM(TB1.拒绝) AS '拒绝',");
+                        sb.Append("TB1.当天第一单处理时间,");
+                        sb.Append("TB1.当天最后一单处理时间, ");
+                        sb.Append("SUM(TB1.汇总) AS '汇总'  ");
+                        sb.Append("FROM (");
+                        sb.Append("SELECT Foperator AS '处理人', ");
+                        sb.Append("(date_format(Fmodify_time, '%Y-%m-%d')) AS '审核时间',   ");
+                        sb.Append("SUM(CASE WHEN Fresult=1 THEN 1 ELSE 0 END) AS '通过', ");
+                        sb.Append("SUM(CASE WHEN Fresult=2 THEN 1 ELSE 0 END) AS '拒绝', ");
+                        sb.Append("MIN(Fmodify_time) AS '当天第一单处理时间', ");
+                        sb.Append("CASEMAX(Fmodify_time) AS '当天最后一单处理时间',  ");
+                        sb.Append("COUNT(Fid) AS '汇总' ");
+                        sb.Append("FROM " + tableName + "  ");
+                        sb.Append("WHERE 1=1 AND Fresult!=0 ");
+                        if (!string.IsNullOrEmpty(modifyBeginDate))
+                        {
+                            sb.Append(" AND date_format(Fmodify_time, '%Y-%m-%d')>='" + modifyBeginDate + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(modifyEndDate))
+                        {
+                            sb.Append(" AND date_format(Fmodify_time, '%Y-%m-%d')<='" + modifyEndDate + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(foperator))
+                        {
+                            sb.Append("AND Foperator='" + foperator + "' ");
+                        }
+                        sb.Append("GROUP BY Foperator,(date_format(Fmodify_time, '%Y-%m-%d')) ");
+                        sb.Append(") AS TB1 GROUP BY TB1.`处理人`,TB1.`审核时间` ");
+                        sb.Append("ORDER BY TB1.`处理人` ASC,TB1.`审核时间` ASC ");
+                        dtTotal = fmda.GetTable(sb.ToString());
+                        LogHelper.LogInfo(string.Format("{0} 用户[{1}]执行查询操作,查询SQL:{2}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), uid, sb.ToString()));
+                        dt = fmda.GetTable(sb.ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+            }
+            finally
+            {
+                fmda.Commit();
+                fmda.CloseConn();
+                fmda.Dispose();
+            }
+            return dt;
+        }
+        public DataTable LoadFailReasonReport(string uid, List<string> yearMonths, string modifyBeginDate, string modifyEndDate, string foperator, int pageSize, int pageNumber, string order, ref int total)
+        {
+            DataTable dt = new DataTable();
+            var fmda = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
+            try
+            {
+                fmda.OpenConn();
+                fmda.StartTran();
+                if (yearMonths.Count > 0)
+                {
+                    StringBuilder tableName = new StringBuilder();
+                    tableName.Append("c2c_fmdb.t_check_identitycard_");
+                    DataTable dtTotal = new DataTable();
+                    foreach (var yearMonth in yearMonths)
+                    {
+                        tableName.Append(yearMonth);
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append("SELECT TB1.审核时间,  ");
+                        sb.Append("SUM(TB1.未显示图片) AS '未显示图片',  ");
+                        sb.Append("SUM(TB1.上传非身份证照片) AS '上传非身份证照片',  ");
+                        sb.Append("SUM(TB1.身份证不清晰不完整) AS '身份证不清晰不完整',  ");
+                        sb.Append("SUM(TB1.身份证证件号不一致) AS '身份证证件号不一致',  ");
+                        sb.Append("SUM(TB1.其他原因) AS '其他原因',  ");
+                        sb.Append("SUM(TB1.身份证姓名和提供姓名不符) AS '身份证姓名和提供姓名不符',  ");
+                        sb.Append("SUM(TB1.身份证签发机关和地址不一致) AS '身份证签发机关和地址不一致',  ");
+                        sb.Append("SUM(TB1.两张均为正面或者反面) AS '两张均为正面或者反面',  ");
+                        sb.Append("SUM(TB1.身份证证件虚假) AS '身份证证件虚假',  ");
+                        sb.Append("SUM(TB1.身份证已超过有效期) AS '身份证已超过有效期',  ");
+                        sb.Append("SUM(TB1.身份证照片非原件) AS '身份证照片非原件',  ");
+                        sb.Append("SUM(TB1.汇总) AS '汇总'  ");
+                        sb.Append("FROM (");
+                        sb.Append("SELECT (date_format(Fmodify_time, '%Y-%m-%d')) AS '审核时间',  ");
+                        sb.Append("SUM(CASE WHEN Fmemo='1' THEN 1 ELSE 0 END) AS '未显示图片',  ");
+                        sb.Append("SUM(CASE WHEN Fmemo='2' THEN 1 ELSE 0 END) AS '上传非身份证照片',  ");
+                        sb.Append("SUM(CASE WHEN Fmemo='3' THEN 1 ELSE 0 END) AS '身份证不清晰不完整',  ");
+                        sb.Append("SUM(CASE WHEN Fmemo='4' THEN 1 ELSE 0 END) AS '身份证证件号不一致',  ");
+                        sb.Append("SUM(CASE WHEN Fmemo='5' THEN 1 ELSE 0 END) AS '其他原因',  ");
+                        sb.Append("SUM(CASE WHEN Fmemo='6' THEN 1 ELSE 0 END) AS '身份证姓名和提供姓名不符',  ");
+                        sb.Append("SUM(CASE WHEN Fmemo='7' THEN 1 ELSE 0 END) AS '身份证签发机关和地址不一致',  ");
+                        sb.Append("SUM(CASE WHEN Fmemo='8' THEN 1 ELSE 0 END) AS '两张均为正面或者反面',  ");
+                        sb.Append("SUM(CASE WHEN Fmemo='9' THEN 1 ELSE 0 END) AS '身份证证件虚假',  ");
+                        sb.Append("SUM(CASE WHEN Fmemo='10' THEN 1 ELSE 0 END) AS '身份证已超过有效期',  ");
+                        sb.Append("SUM(CASE WHEN Fmemo='11' THEN 1 ELSE 0 END) AS '身份证照片非原件',  ");
+                        sb.Append("COUNT(Fid) AS '汇总' ");
+                        sb.Append("FROM " + tableName + "  ");
+                        sb.Append("WHERE 1=1 ");
+                        if (!string.IsNullOrEmpty(modifyBeginDate))
+                        {
+                            sb.Append(" AND date_format(Fmodify_time, '%Y-%m-%d')>='" + modifyBeginDate + "' ");
+                        }
+                        if (!string.IsNullOrEmpty(modifyEndDate))
+                        {
+                            sb.Append(" AND date_format(Fmodify_time, '%Y-%m-%d')<='" + modifyEndDate + "' ");
+                        }
+                        sb.Append("GROUP BY (date_format(Fmodify_time, '%Y-%m-%d')) ");
+                        sb.Append(") AS TB1 GROUP BY TB1.`审核时间` ");
+                        dtTotal = fmda.GetTable(sb.ToString());
+                        LogHelper.LogInfo(string.Format("{0} 用户[{1}]执行查询操作,查询SQL:{2}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), uid, sb.ToString()));
+                        dt = fmda.GetTable(sb.ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+            }
+            finally
+            {
+                fmda.Commit();
+                fmda.CloseConn();
+                fmda.Dispose();
+            }
+            return dt;
+        }
         /// <summary>
         /// 加载审核信息
         /// </summary>
@@ -408,6 +632,56 @@ namespace CFT.CSOMS.DAL.IdCardModule
             return dt;
         }
 
+        public DataTable LoadAllReview(string tableName,string endDate)
+        {
+            DataTable dt = new DataTable();
+            var fmda = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
+            try
+            {                  
+                fmda.OpenConn();
+                fmda.StartTran();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("SELECT COUNT(Fid) AS Total FROM " + tableName + " ");
+                sb.Append("WHERE (date_format(Fcreate_time, '%Y-%m-%d'))<='" + endDate + "' ");
+                dt = fmda.GetTable(sb.ToString());
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+            }
+            finally
+            {
+                fmda.Commit();
+                fmda.CloseConn();
+                fmda.Dispose();
+            }
+            return dt;
+        }
+        public DataTable LoadWaitReview(string tableName, string endDate)
+        {
+            DataTable dt = new DataTable();
+            var fmda = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
+            try
+            {                  
+                fmda.OpenConn();
+                fmda.StartTran();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("SELECT COUNT(Fid) AS Total FROM " + tableName + " ");
+                sb.Append("WHERE Fresult=0 AND  (date_format(Fcreate_time, '%Y-%m-%d'))<='" + endDate + "' ");
+                dt = fmda.GetTable(sb.ToString());
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+            }
+            finally
+            {
+                fmda.Commit();
+                fmda.CloseConn();
+                fmda.Dispose();
+            }
+            return dt;
+        }
 
         public bool Update(string fserial_numbe, int fid, int fresult, string memo, string tableName, string foperator, int agreeRemark, out string message)
         {            

@@ -69,7 +69,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 this.Label_uid.Text = Session["uid"].ToString();                                
                 string sr = Session["SzKey"].ToString();
-                if (!ClassLib.ValidateRight("InfoCenter", this)) Response.Redirect("../login.aspx?wh=1");
+                if (!ClassLib.ValidateRight("InfoCenter", this)||
+                    !ClassLib.ValidateRight("SensitiveRole", this) ||
+                    !ClassLib.ValidateRight("ChangeUserInfo", this)
+                    )
+                {
+                    Response.Redirect("../login.aspx?wh=1");
+                }
 
             }
             catch  //如果没有登陆或者没有权限就跳出

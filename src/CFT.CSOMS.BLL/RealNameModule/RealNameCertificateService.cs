@@ -889,6 +889,22 @@ namespace CFT.CSOMS.BLL.RealNameModule
                 {
                     sb.Append("微信社交认证;");
                 }
+                if (0 != (authen_channel_state & (0x1 << 59)))
+                {
+                    sb.Append("影印件留存成功;");
+                }
+                if (0 != (authen_channel_state & (0x1 << 60)))
+                {
+                    sb.Append("影印件审核中;");
+                }
+                if (0 != (authen_channel_state & (0x1 << 61)))
+                {
+                    sb.Append("影印件审核失败;");
+                }
+                if (0 != (authen_channel_state & (0x1 << 62)))
+                {
+                    sb.Append("影印件审核超时;");
+                }
             }
             return sb.ToString();
         }

@@ -90,6 +90,77 @@ namespace CFT.CSOMS.BLL.IdCardModule
         }
 
 
+        public DataTable LoadHZReport(string uid,string  modifyBeginDate, string modifyEndDate,string  foperator,int pageSize, int pageNumber, string order, ref int total)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                List<string> yearMonths = GetYearMonthList(DateTime.Parse(modifyBeginDate).ToString("yyyy-MM"), DateTime.Parse(modifyEndDate).ToString("yyyy-MM"), 5);
+                IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
+                dt = idCardManualReviewDAL.LoadHZReport(uid, yearMonths,  modifyBeginDate, modifyEndDate, foperator,  pageSize, pageNumber, order, ref  total);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {                      
+                        var endDate = row["时间"] == "" || row["时间"] == null || row["时间"] == DBNull.Value ? string.Empty : row["时间"].ToString();
+                        if (!string.IsNullOrEmpty(endDate))
+                        {
+                            List<string> yearMonths2 = GetYearMonthList("2016-08", DateTime.Parse(endDate).ToString("yyyy-MM"), 5);
+                            int totalReview = 0;//总工单量
+                            int totalWaitReview = 0;//待审核总量
+                            foreach (string yearMonth in yearMonths2)
+                            {
+                                totalReview+=LoadAllReview(yearMonth, endDate);
+                                totalWaitReview += LoadWaitReview(yearMonth, endDate);
+                            }
+                            if (totalReview > 0)
+                            {
+                                row["总工单量"] = totalReview;
+                            }
+                            if (totalWaitReview > 0)
+                            {
+                                row["待审核总量"] = totalWaitReview;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+            }
+            return dt;
+        }
+        public DataTable LoadPersonalReviewReport(string uid, string modifyBeginDate, string modifyEndDate, string foperator, int pageSize, int pageNumber, string order, ref int total)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                List<string> yearMonths = GetYearMonthList(DateTime.Parse(modifyBeginDate).ToString("yyyy-MM"), DateTime.Parse(modifyEndDate).ToString("yyyy-MM"), 5);
+                IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
+                dt = idCardManualReviewDAL.LoadPersonalReviewReport(uid, yearMonths, modifyBeginDate, modifyEndDate, foperator, pageSize, pageNumber, order, ref  total);
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+            }
+            return dt;
+        }
+        public DataTable LoadFailReasonReport(string uid, string modifyBeginDate, string modifyEndDate, string foperator, int pageSize, int pageNumber, string order, ref int total)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                List<string> yearMonths = GetYearMonthList(DateTime.Parse(modifyBeginDate).ToString("yyyy-MM"), DateTime.Parse(modifyEndDate).ToString("yyyy-MM"), 5);
+                IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
+                dt = idCardManualReviewDAL.LoadFailReasonReport(uid, yearMonths, modifyBeginDate, modifyEndDate, foperator, pageSize, pageNumber, order, ref  total);
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+            }
+            return dt;
+        }
         /// <summary>
         /// 加载审核信息
         /// </summary>
@@ -110,6 +181,44 @@ namespace CFT.CSOMS.BLL.IdCardModule
                 dt = null;
             }
             return dt;
+        }
+        public int LoadAllReview(string tableName, string endDate)
+        {
+            int result = 0;
+            try
+            {
+                IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
+                DataTable dt = new DataTable();
+                dt = idCardManualReviewDAL.LoadAllReview(tableName, endDate);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    result = int.Parse(dt.Rows[0]["Total"].ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                result = 0;
+            }
+            return result;
+        }
+        public int LoadWaitReview(string tableName, string endDate)
+        {
+            int result = 0;
+            try
+            {
+                IdCardManualReview idCardManualReviewDAL = new IdCardManualReview();
+                DataTable dt = new DataTable();
+                dt = idCardManualReviewDAL.LoadWaitReview(tableName, endDate);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    result = int.Parse(dt.Rows[0]["Total"].ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                result = 0;
+            }
+            return result;
         }
 
         public bool Update(string fserial_numbe, int fid, int fresult, string memo, string tableName, string foperator,int agreeRemark, out string message)
