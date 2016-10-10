@@ -10,7 +10,7 @@
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
     
     
-    public partial class IDCardManualReview {
+    public partial class IDCardManualReviewReport {
         
         /// <summary>
         /// Head1 control.
@@ -22,15 +22,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
         protected global::System.Web.UI.HtmlControls.HtmlHead Head1;
         
         /// <summary>
-        /// Form1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm Form1;
-        
-        /// <summary>
         /// Label_uid control.
         /// </summary>
         /// <remarks>
@@ -38,23 +29,5 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label_uid;
-        
-        /// <summary>
-        /// tbx_beginDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText tbx_beginDate;
-        
-        /// <summary>
-        /// hid_IdCaredServerPath control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hid_IdCaredServerPath;
     }
 }

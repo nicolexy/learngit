@@ -56,7 +56,7 @@
             cache: false,
             dataType: "text",
             data: datas,
-            url: "IDCardManualReview.aspx?getAction=ReceiveReview&Rand=" + Math.random() + "",
+            url: "/BaseAccount/IDCardManualReview.aspx?getAction=ReceiveReview&Rand=" + Math.random() + "",
             success: function (returnData) {
                 var dataObj = eval("(" + returnData + ")");
                 $.each(dataObj, function (idx, item) {
@@ -133,7 +133,7 @@
         };
         $.ajax({
             type: "POST",
-            url: "IDCardManualReview.aspx?getAction=CheckDate&Rand=" + Math.random() + "",
+            url: "/BaseAccount/IDCardManualReview.aspx?getAction=CheckDate&Rand=" + Math.random() + "",
             data: datas,
             dataType: "text",
             async: false,
@@ -243,7 +243,7 @@
             rownumbers: true,
             singleSelect: true,
             fitColumns: false,
-            url: "IDCardManualReview.aspx?getAction=LoadReview&Rand=" + Math.random() + "",
+            url: "/BaseAccount/IDCardManualReview.aspx?getAction=LoadReview&Rand=" + Math.random() + "",
             queryParams: queryData,  //异步查询的参数
 
             columns: [[
@@ -391,7 +391,7 @@
 
         $.ajax({
             type: "POST",
-            url: "IDCardManualReview.aspx?getAction=SaveReview&Rand=" + Math.random() + "",
+            url: "/BaseAccount/IDCardManualReview.aspx?getAction=SaveReview&Rand=" + Math.random() + "",
             data: postDatas,
             dataType: "text",
             success: function (data) {
@@ -445,7 +445,7 @@
         };
         $.ajax({
             type: "POST",
-            url: "IDCardManualReview.aspx?getAction=SaveReview&Rand=" + Math.random() + "",
+            url: "/BaseAccount/IDCardManualReview.aspx?getAction=SaveReview&Rand=" + Math.random() + "",
             data: postDatas,
             dataType: "text",
             success: function (data) {
@@ -490,7 +490,7 @@
         };
         $.ajax({
             type: "POST",
-            url: "IDCardManualReview.aspx?getAction=ReSend&Rand=" + Math.random() + "",
+            url: "/BaseAccount/IDCardManualReview.aspx?getAction=ReSend&Rand=" + Math.random() + "",
             data: postDatas,
             dataType: "text",
             success: function (data) {
@@ -621,7 +621,7 @@
 function IsHaveRightForReviewCount() {
     $.ajax({
         type: "POST",
-        url: "IDCardManualReview.aspx?getAction=IsHaveRightForReviewCount&Rand=" + Math.random() + "",
+        url: "/BaseAccount/IDCardManualReview.aspx?getAction=IsHaveRightForReviewCount&Rand=" + Math.random() + "",
         //data: postDatas,
         dataType: "text",
         success: function (data) {
@@ -654,7 +654,7 @@ function IsHaveRightForReviewCount() {
 function IsHaveRightForSeeDetail() {
     $.ajax({
         type: "POST",
-        url: "IDCardManualReview.aspx?getAction=IsHaveRightForSeeDetail&Rand=" + Math.random() + "",
+        url: "/BaseAccount/IDCardManualReview.aspx?getAction=IsHaveRightForSeeDetail&Rand=" + Math.random() + "",
         //data: postDatas,
         dataType: "text",
         success: function (data) {
@@ -726,7 +726,7 @@ function ReviewIdCard(index) {
             };
             $.ajax({
                 type: "POST",
-                url: "IDCardManualReview.aspx?getAction=Decryptor&Rand=" + Math.random() + "",
+                url: "/BaseAccount/IDCardManualReview.aspx?getAction=Decryptor&Rand=" + Math.random() + "",
                 data: postFname,
                 dataType: "text",
                 async : false ,
@@ -769,7 +769,7 @@ function ReviewIdCard(index) {
             };
             $.ajax({
                 type: "POST",
-                url: "IDCardManualReview.aspx?getAction=Decryptor&Rand=" + Math.random() + "",
+                url: "/BaseAccount/IDCardManualReview.aspx?getAction=Decryptor&Rand=" + Math.random() + "",
                 data: postFidentitycard,
                 dataType: "text",
                 async: false,
