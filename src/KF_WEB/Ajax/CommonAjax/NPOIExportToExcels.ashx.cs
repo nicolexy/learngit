@@ -57,8 +57,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                 int fmemo = context.Request.QueryString["fmemo"] != null && !string.IsNullOrEmpty(context.Request.QueryString["fmemo"].ToString()) ? int.Parse(context.Request.QueryString["fmemo"].ToString()) : 0;
 
                 int totalMonth = DateTime.Parse(endDate).Year * 12 + DateTime.Parse(endDate).Month - DateTime.Parse(beginDate).Year * 12 - DateTime.Parse(beginDate).Month;
-                int totalModifyMonth = DateTime.Parse(modifyEndDate).Year * 12 + DateTime.Parse(modifyEndDate).Month - DateTime.Parse(modifyBeginDate).Year * 12 - DateTime.Parse(modifyBeginDate).Month;
-                if (totalMonth >= 1 || totalModifyMonth>1)
+                //int totalModifyMonth = DateTime.Parse(modifyEndDate).Year * 12 + DateTime.Parse(modifyEndDate).Month - DateTime.Parse(modifyBeginDate).Year * 12 - DateTime.Parse(modifyBeginDate).Month;
+                if (totalMonth >= 1)//|| totalModifyMonth>1
                 {
                     bool result = false;
                     message = string.Format("{0}日期范围不能超过一个月", totalMonth >= 1 ? "申请" : "审核");
