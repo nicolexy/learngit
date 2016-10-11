@@ -107,14 +107,14 @@
             queryParams: queryData,  //异步查询的参数
 
             columns: [[
-                    { field: '审核时间', title: '审核时间', halign: 'center', align: 'left', width: $(this).width() },
-                    { field: '总工单量', title: '总工单量', halign: 'center', align: 'right', width: $(this).width() },
-                    { field: '待审核总量', title: '待审核总量', halign: 'center', align: 'right', width: $(this).width()},
-                     { field: '进单量', title: '进单量', halign: 'center', align: 'right', width: $(this).width() },
-                     { field: '已处理量', title: '已处理量', halign: 'center', align: 'right', width: $(this).width()},
-                     { field: '审核通过量', title: '审核通过量', halign: 'center', align: 'right', width: $(this).width() },
+                    { field: 'Date', title: '审核时间', halign: 'center', align: 'left', width: $(this).width() },
+                    { field: 'ZongGongDanLiang', title: '总工单量', halign: 'center', align: 'right', width: $(this).width() },
+                    { field: 'DaiShenHeZongLiang', title: '待审核总量', halign: 'center', align: 'right', width: $(this).width() },
+                     { field: 'JinDanLiang', title: '进单量', halign: 'center', align: 'right', width: $(this).width() },
+                     { field: 'YiChuLiLiang', title: '已处理量', halign: 'center', align: 'right', width: $(this).width() },
+                     { field: 'ShenHeTongGuoLiang', title: '审核通过量', halign: 'center', align: 'right', width: $(this).width() },
                      {
-                         field: '审核通过率', title: '审核通过率', halign: 'center', align: 'right', width: $(this).width(),
+                         field: 'ShenHeTongGuoLv', title: '审核通过率', halign: 'center', align: 'right', width: $(this).width(),
                          formatter: function (value, row, index) {                             
                              if (value != null && value != "" && value != "undefined") {
                                  return value.toString() + "%";
@@ -124,9 +124,9 @@
                              }
                          }
                      },
-                     { field: '审核拒绝量', title: '审核拒绝量', halign: 'center', align: 'right', width: $(this).width() },
+                     { field: 'ShenHeJuJueLiang', title: '审核拒绝量', halign: 'center', align: 'right', width: $(this).width() },
                      {
-                         field: '审核拒绝率', title: '审核拒绝率', halign: 'center', align: 'right', width: $(this).width(),
+                         field: 'ShenHeJuJueLv', title: '审核拒绝率', halign: 'center', align: 'right', width: $(this).width(),
                          formatter: function (value, row, index) {
                              if (value != null && value != "" && value != "undefined") {
                                  return value.toString() + "%";
@@ -239,14 +239,14 @@
             queryParams: queryData,  //异步查询的参数
 
             columns: [[
-                    { field: '处理人', title: '处理人(按首字母排序)', halign: 'center', align: 'left', width: $(this).width() },
-                    { field: '审核时间', title: '审核时间', halign: 'center', align: 'left', width: $(this).width() },
+                    { field: 'Foperator', title: '处理人(按首字母排序)', halign: 'center', align: 'left', width: $(this).width() },
+                    { field: 'Fmodify_time', title: '审核时间', halign: 'center', align: 'left', width: $(this).width() },
                     //{ field: '未处理', title: '未处理', halign: 'center', align: 'right', width: $(this).width() },
-                     { field: '通过', title: '通过', halign: 'center', align: 'right', width: $(this).width() },
-                     { field: '拒绝', title: '拒绝', halign: 'center', align: 'right', width: $(this).width() },
-                     { field: '当天第一单处理时间', title: '当天第一单处理时间', halign: 'center', align: 'left', width: $(this).width() },
-                     { field: '当天最后一单处理时间', title: '当天最后一单处理时间', halign: 'center', align: 'left', width: $(this).width() },
-                     { field: '汇总', title: '汇总', halign: 'center', align: 'right', width: $(this).width() }                     
+                     { field: 'Agree', title: '通过', halign: 'center', align: 'right', width: $(this).width() },
+                     { field: 'Refuse', title: '拒绝', halign: 'center', align: 'right', width: $(this).width() },
+                     { field: 'CurrentDayFirstFmodify_time', title: '当天第一单处理时间', halign: 'center', align: 'left', width: $(this).width() },
+                     { field: 'CurrentDayLastFmodify_time', title: '当天最后一单处理时间', halign: 'center', align: 'left', width: $(this).width() },
+                     { field: 'Total', title: '汇总', halign: 'center', align: 'right', width: $(this).width() }
             ]], onLoadSuccess: function (data) {
 
             },
@@ -349,18 +349,19 @@
             queryParams: queryData,  //异步查询的参数
 
             columns: [[
-                    { field: '审核时间', title: '审核时间', halign: 'center', align: 'left', width: $(this).width() },
-                    { field: '两张均为正面或负面', title: '两张均为正面或负面', halign: 'center', align: 'right', width: $(this).width() },
-                    { field: '身份证不清晰不完整', title: '身份证不清晰不完整', halign: 'center', align: 'right', width: $(this).width() },
-                     { field: '身份证姓名和提供姓名不符', title: '身份证姓名和提供姓名不符', halign: 'center', align: 'right', width: $(this).width() },
-                     { field: '身份证证件号不一致', title: '身份证证件号不一致', halign: 'center', align: 'right', width: $(this).width() },
-                     { field: '身份证签发机关和地址不一致', title: '身份证签发机关和地址不一致', halign: 'center', align: 'right', width: $(this).width() },
-                     { field: '身份证已超过有效期', title: '身份证已超过有效期', halign: 'center', align: 'right', width: $(this).width() },
-                     { field: '身份证照片非原件', title: '身份证照片非原件', halign: 'center', align: 'right', width: $(this).width() },
-                     { field: '身份证证件虚假', title: '身份证证件虚假', halign: 'center', align: 'right', width: $(this).width() },
-                     { field: '未显示图片', title: '未显示图片', halign: 'center', align: 'right', width: $(this).width() },
-                     { field: '上传非身份证照片', title: '上传非身份证照片', halign: 'center', align: 'right', width: $(this).width() },
-                     { field: '其他原因', title: '其他原因', halign: 'center', align: 'right', width: $(this).width() },
+                    { field: 'Fmodify_time', title: '审核时间', halign: 'center', align: 'left', width: $(this).width() },
+                    { field: 'Fmemo8', title: '两张均为正面或负面', halign: 'center', align: 'right', width: $(this).width() },
+                    { field: 'Fmemo3', title: '身份证不清晰不完整', halign: 'center', align: 'right', width: $(this).width() },
+                     { field: 'Fmemo6', title: '身份证姓名和提供姓名不符', halign: 'center', align: 'right', width: $(this).width() },
+                     { field: 'Fmemo4', title: '身份证证件号不一致', halign: 'center', align: 'right', width: $(this).width() },
+                     { field: 'Fmemo7', title: '身份证签发机关和地址不一致', halign: 'center', align: 'right', width: $(this).width() },
+                     { field: 'Fmemo10', title: '身份证已超过有效期', halign: 'center', align: 'right', width: $(this).width() },
+                     { field: 'Fmemo11', title: '身份证照片非原件', halign: 'center', align: 'right', width: $(this).width() },
+                     { field: 'Fmemo9', title: '身份证证件虚假', halign: 'center', align: 'right', width: $(this).width() },
+                     { field: 'Fmemo1', title: '未显示图片', halign: 'center', align: 'right', width: $(this).width() },
+                     { field: 'Fmemo2', title: '上传非身份证照片', halign: 'center', align: 'right', width: $(this).width() },
+                     { field: 'Fmemo5', title: '其他原因', halign: 'center', align: 'right', width: $(this).width() },
+                     { field: 'Total', title: '汇总', halign: 'center', align: 'right', width: $(this).width() },
             ]], onLoadSuccess: function (data) {
 
             },

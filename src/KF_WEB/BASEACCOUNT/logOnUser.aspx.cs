@@ -401,7 +401,7 @@ namespace TENCENT.OSS.C2C.KF.KF_Web.BaseAccount
 
                     ViewState["Cached" + qqid] = balance;
                     var yuan = MoneyTransfer.FenToYuan(balance);
-                    Response.Write("<script type='text/javascript'>function T(){ confirm(' 该账户余额：" + yuan + "元 \\r\\n 一旦注销成功无法恢复，请确认是否继续注销？')&& document.getElementById('btLogOn').click();}if(window.attachEvent){window.attachEvent('onload',T());}else{window.addEventListener('load',T(),true);}</script>");     
+                    Response.Write("<script type='text/javascript'>function T(){ confirm(' 该账户余额：" + yuan + "元 \\r\\n 一旦注销成功无法恢复，请确认是否继续注销？')&& document.getElementById('btLogOn').click();}if(window.attachEvent){window.attachEvent('onload',T);}else{window.addEventListener('load',T,false);}</script>");     
                     return;
                 }
 
