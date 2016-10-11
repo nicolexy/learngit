@@ -110,8 +110,9 @@ namespace CFT.CSOMS.BLL.IdCardModule
                             int totalWaitReview = 0;//待审核总量
                             foreach (string yearMonth in yearMonths2)
                             {
-                                totalReview+=LoadAllReview(yearMonth, endDate);
-                                totalWaitReview += LoadWaitReview(yearMonth, endDate);
+                                string tableName = "c2c_fmdb.t_check_identitycard_" + yearMonth;
+                                totalReview += LoadAllReview(tableName, endDate);
+                                totalWaitReview += LoadWaitReview(tableName, endDate);
                             }
                             if (totalReview > 0)
                             {
