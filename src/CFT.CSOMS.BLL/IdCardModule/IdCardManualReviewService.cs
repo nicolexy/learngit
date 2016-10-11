@@ -101,8 +101,8 @@ namespace CFT.CSOMS.BLL.IdCardModule
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     foreach (DataRow row in dt.Rows)
-                    {                      
-                        var endDate = row["时间"] == "" || row["时间"] == null || row["时间"] == DBNull.Value ? string.Empty : row["时间"].ToString();
+                    {
+                        var endDate = row["Date"] == "" || row["Date"] == null || row["Date"] == DBNull.Value ? string.Empty : row["Date"].ToString();
                         if (!string.IsNullOrEmpty(endDate))
                         {
                             List<string> yearMonths2 = GetYearMonthList("2016-08", DateTime.Parse(endDate).ToString("yyyy-MM"), 5);
@@ -115,11 +115,11 @@ namespace CFT.CSOMS.BLL.IdCardModule
                             }
                             if (totalReview > 0)
                             {
-                                row["总工单量"] = totalReview;
+                                row["ZongGongDanLiang"] = totalReview;
                             }
                             if (totalWaitReview > 0)
                             {
-                                row["待审核总量"] = totalWaitReview;
+                                row["DaiShenHeZongLiang"] = totalWaitReview;
                             }
                         }
                     }
