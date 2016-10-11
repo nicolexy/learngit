@@ -128,6 +128,8 @@ namespace CFT.CSOMS.BLL.IdCardModule
             catch (Exception ex)
             {
                 dt = null;
+                string message = string.Format("方法LoadHZReport查询数据库出错:{0}", ex.ToString());
+                LogHelper.LogInfo(message);
             }
             return dt;
         }
