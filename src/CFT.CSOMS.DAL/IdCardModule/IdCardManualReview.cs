@@ -250,7 +250,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         }
                         
                         dtTotal = fmda.GetTable(sb.ToString());
-                        total += dtTotal.Rows.Count;
+                        total += (dtTotal == null || dtTotal.Rows.Count < 1) ? 0 : dtTotal.Rows.Count;
                         sb.Append("LIMIT " + startIndex + "," + pageSize + "  ");
                         LogHelper.LogInfo(string.Format("{0} 用户[{1}]执行查询操作,查询SQL:{2}",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),uid,sb.ToString() ));
                         dt = fmda.GetTable(sb.ToString());
@@ -261,6 +261,8 @@ namespace CFT.CSOMS.DAL.IdCardModule
             catch (Exception ex)
             {
                 dt = null;
+                string message = string.Format("方法LoadReview查询数据库出错:{0}", ex.ToString());
+                LogHelper.LogInfo(message);
             }
             finally
             {
@@ -360,6 +362,8 @@ namespace CFT.CSOMS.DAL.IdCardModule
             catch (Exception ex)
             {
                 dt = null;
+                string message = string.Format("方法LoadReviewForExport查询数据库出错:{0}", ex.ToString());
+                LogHelper.LogInfo(message);
             }
             finally
             {
@@ -435,8 +439,10 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         sb.Append("GROUP BY (date_format(Fcreate_time, '%Y-%m-%d'))	  ");
                         sb.Append(") AS TB1 GROUP BY TB1.`时间`  ");
                         sb.Append("ORDER BY TB1.`时间` ");
+
                         dtTotal = fmda.GetTable(sb.ToString());
-                        total += dtTotal.Rows.Count;
+                        total += (dtTotal == null || dtTotal.Rows.Count < 1) ? 0 : dtTotal.Rows.Count;
+                        LogHelper.LogInfo("返回table行数:" + total.ToString());
                         sb.Append("LIMIT " + startIndex + "," + pageSize + "  ");
                         LogHelper.LogInfo(string.Format("{0} 用户[{1}]执行查询操作,查询SQL:{2}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), uid, sb.ToString()));
                         dt = fmda.GetTable(sb.ToString());
@@ -446,6 +452,8 @@ namespace CFT.CSOMS.DAL.IdCardModule
             catch (Exception ex)
             {
                 dt = null;
+                string message = string.Format("方法LoadHZReport查询数据库出错:{0}", ex.ToString());
+                LogHelper.LogInfo(message);
             }
             finally
             {
@@ -506,8 +514,11 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         sb.Append("GROUP BY Foperator,(date_format(Fmodify_time, '%Y-%m-%d')) ");
                         sb.Append(") AS TB1 GROUP BY TB1.`处理人`,TB1.`审核时间` ");
                         sb.Append("ORDER BY TB1.`处理人` ASC,TB1.`审核时间` ASC ");
+
                         dtTotal = fmda.GetTable(sb.ToString());
-                        total += dtTotal.Rows.Count;
+                        
+                        total += (dtTotal == null || dtTotal.Rows.Count < 1) ? 0 : dtTotal.Rows.Count;
+                        LogHelper.LogInfo("返回table行数:" + total.ToString());
                         sb.Append("LIMIT " + startIndex + "," + pageSize + "  ");
                         LogHelper.LogInfo(string.Format("{0} 用户[{1}]执行查询操作,查询SQL:{2}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), uid, sb.ToString()));
                         dt = fmda.GetTable(sb.ToString());
@@ -517,6 +528,8 @@ namespace CFT.CSOMS.DAL.IdCardModule
             catch (Exception ex)
             {
                 dt = null;
+                string message = string.Format("方法LoadPersonalReviewReport查询数据库出错:{0}", ex.ToString());
+                LogHelper.LogInfo(message);
             }
             finally
             {
@@ -584,8 +597,10 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         }
                         sb.Append("GROUP BY (date_format(Fmodify_time, '%Y-%m-%d')) ");
                         sb.Append(") AS TB1 GROUP BY TB1.`审核时间` ");
+
                         dtTotal = fmda.GetTable(sb.ToString());
-                        total += dtTotal.Rows.Count;
+                        total += (dtTotal == null || dtTotal.Rows.Count < 1) ? 0 : dtTotal.Rows.Count;
+                        LogHelper.LogInfo("返回table行数:" + total.ToString());
                         sb.Append("LIMIT " + startIndex + "," + pageSize + "  ");
                         LogHelper.LogInfo(string.Format("{0} 用户[{1}]执行查询操作,查询SQL:{2}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), uid, sb.ToString()));
                         dt = fmda.GetTable(sb.ToString());
@@ -595,6 +610,8 @@ namespace CFT.CSOMS.DAL.IdCardModule
             catch (Exception ex)
             {
                 dt = null;
+                string message = string.Format("方法LoadFailReasonReport查询数据库出错:{0}", ex.ToString());
+                LogHelper.LogInfo(message);
             }
             finally
             {
