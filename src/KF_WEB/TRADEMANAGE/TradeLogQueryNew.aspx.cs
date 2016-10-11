@@ -466,14 +466,83 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     this.LB_FsaleidCFT.Text = dsCoinWalPay.Tables[0].Rows[0]["rcv_openid"].ToString();
                 }
             }
-            if (string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Ftrade_state"].ToString()))
-            {                
-                ds.Tables[0].Columns.Add("Ftrade_stateName");
-                classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0], "Ftrade_state", "Ftrade_stateName", "PAY_STATE");
-                this.lblTradeState.Text = ds.Tables[0].Rows[0]["Ftrade_stateName"].ToString();
-                if (isC2C && !string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Flistid"].ToString()))
+            //if (string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Ftrade_state"].ToString()))
+            //{                
+            //    ds.Tables[0].Columns.Add("Ftrade_stateName");
+            //    classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0], "Ftrade_state", "Ftrade_stateName", "PAY_STATE");
+            //    this.lblTradeState.Text = ds.Tables[0].Rows[0]["Ftrade_stateName"].ToString();
+            //    if (isC2C && !string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Flistid"].ToString()))
+            //    {
+            //        var listID = ds.Tables[0].Rows[0]["Flistid"].ToString();
+            //        myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
+            //        var dsList = myService.GetBankRollList_withID(DateTime.Now.AddDays(-PublicRes.PersonInfoDayCount), DateTime.Now.AddDays(1), listID, 1, 50);
+            //        bool isRefund = false;
+            //        bool isCompelete = false;
+            //        if (dsList != null && dsList.Tables.Count > 0 && dsList.Tables[0].Rows.Count > 0)
+            //        {
+            //            foreach (DataRow row in dsList.Tables[0].Rows)
+            //            {
+            //                var state = row["Fsubject"].ToString();
+            //                int stateNum = 0;
+            //                if (int.TryParse(state, out stateNum))
+            //                {
+            //                    if (stateNum == 5 || stateNum == 6)
+            //                    {
+            //                        isRefund = true;
+            //                    }
+            //                    else if (stateNum == 3 || stateNum == 4 || stateNum == 8)
+            //                    {
+            //                        isCompelete = true;
+            //                    }
+            //                }
+            //            }
+            //            //BG_SUBJECT	1	充值支付（中介收货款）
+            //            //BG_SUBJECT	2	充值支付
+            //            //BG_SUBJECT	3	买家确认
+            //            //BG_SUBJECT	4	买家确认（自动提现）
+            //            //BG_SUBJECT	5	退款
+            //            //BG_SUBJECT	6	退款（退卖家货款）
+            //            //BG_SUBJECT	7	充值支付（余额支付）
+            //            //BG_SUBJECT	8	买家确认（卖家收货款）
+            //            //BG_SUBJECT	9	快速交易
+            //            //BG_SUBJECT	10	余额支付
+            //            //BG_SUBJECT	11	充值
+            //            //BG_SUBJECT	12	充值转帐
+            //            //BG_SUBJECT	13	转帐
+            //            //BG_SUBJECT	14	提现
+            //        }
+
+            //        if (isRefund)
+            //        {
+            //            this.lblTradeState.Text = "转入退款";
+            //        }
+            //        else if (isCompelete)
+            //        {
+            //            this.lblTradeState.Text = "交易完成";
+            //        }
+            //    }
+            //} 
+            if (ds.Tables[0].Rows[0]["Flistid"].ToString() != "")
+            {
+                var listID = ds.Tables[0].Rows[0]["Flistid"].ToString();
+                Query_Service.Query_Service qs = new Query_Service.Query_Service();
+                DataSet dsState = qs.GetQueryListDetail(listID);
+
+                if (dsState != null && dsState.Tables.Count > 0 && dsState.Tables[0].Rows.Count > 0)
                 {
-                    var listID = ds.Tables[0].Rows[0]["Flistid"].ToString();
+                    dsState.Tables[0].Columns.Add("Ftrade_stateName");
+                    classLibrary.setConfig.GetColumnValueFromDic(dsState.Tables[0], "Ftrade_state", "Ftrade_stateName", "PAY_STATE");
+                    this.lblTradeState.Text = dsState.Tables[0].Rows[0]["Ftrade_stateName"].ToString();
+                   
+                }
+                else
+                {
+                    ds.Tables[0].Columns.Add("Ftrade_stateName");
+                    classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0], "Ftrade_state", "Ftrade_stateName", "RLIST_STATE");
+                    this.lblTradeState.Text = ds.Tables[0].Rows[0]["Ftrade_stateName"].ToString();
+                }
+                if (isC2C)
+                {
                     myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
                     var dsList = myService.GetBankRollList_withID(DateTime.Now.AddDays(-PublicRes.PersonInfoDayCount), DateTime.Now.AddDays(1), listID, 1, 50);
                     bool isRefund = false;
@@ -521,7 +590,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                         this.lblTradeState.Text = "交易完成";
                     }
                 }
-            }         
+            }
 
             if (ds.Tables[0].Rows[0]["Flstate"].ToString() == "1") //如果是锁定状态
             {

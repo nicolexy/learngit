@@ -34,25 +34,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             {   //Oa 鉴权 ticket  获取
                 Session["oa_ticket"] = Request.QueryString["ticket"];                
                 return;
-            }
-            if (Request.QueryString["ticket"] != null)
-            {
-                Session["TCOA_TICKET"] = Request.QueryString["ticket"];                
-            }
-            string cur_url = System.Web.HttpUtility.UrlEncode(Request.Url.AbsoluteUri);
-            string final_url = "http://passport.oa.com/modules/passport/signin.ashx?url=" + cur_url;
-            SunLibrary.LogHelper.LogInfo("Kf.cf.com登录页信息记录:" + final_url);
-            //if (Request.QueryString["ticket"] == null || Session["TCOA_TICKET"]==null)
-            //{
-            //    string cur_url = System.Web.HttpUtility.UrlEncode(Request.Url.AbsolutePath);
-            //    string final_url = "http://passport.oa.com/modules/passport/signin.ashx?url=" + cur_url;
-            //    Response.Redirect(final_url, false);
-            //    return;
-            //}
-            //else
-            //{
-            //    Session["TCOA_TICKET"] = Request.QueryString["ticket"];
-            //}
+            }           
 
 			if(classLibrary.getData.IsNewSensitivePowerMode)
 			{                
