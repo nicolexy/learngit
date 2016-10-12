@@ -140,7 +140,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             #endregion
 
             #region 结果处理
-            if (DS_Bankroll != null && DS_Bankroll.Tables.Count != 0)
+            if (DS_Bankroll != null && DS_Bankroll.Tables.Count != 0&&DS_Bankroll.Tables[0].Rows.Count>0)
             {
                 DS_Bankroll.Tables[0].Columns.Add("FpaynumStr", typeof(string));
                 DS_Bankroll.Tables[0].Columns.Add("FbalanceStr", typeof(string));
