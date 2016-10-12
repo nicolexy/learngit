@@ -41,37 +41,36 @@
         <table style="width: 100%">
 
             <tr>
-                <td style="width: 8%; min-width: 100px; text-align: right">
+                <td style="width: 5%; min-width: 100px; text-align: right">
                     <label id="lab_ModifyBeginDate">审核开始日期：</label></td>
-                <td style="width: 25%; min-width: 150px;">
-                    <input type="text"  id="txt_ModifyBeginDate" />
+                <td style="width: 10%; min-width: 150px;">
+                    <input type="text" id="txt_ModifyBeginDate" />
                 </td>
-                <td style="width: 8%; min-width: 100px; text-align: right">
+                <td style="width: 5%; min-width: 100px; text-align: right">
                     <label id="lab_ModifyEndDate">审核结束日期：</label></td>
-                <td style="width: 25%; min-width: 150px;">
-                    <input type="text"  id="txt_ModifyEndDate" />
+                <td style="width: 10%; min-width: 150px;">
+                    <input type="text" id="txt_ModifyEndDate" />
                 </td>
-                <td style="width: 8%; min-width: 100px; text-align: right">
+                <td style="width: 5%; min-width: 100px; text-align: right">
                     <label id="lab_Foperator">审核人：</label></td>
-                <td style="width: 25%; min-width: 150px;">
-                    <input type="text"  id="txt_Foperator" />
+                <td style="width: 10%; min-width: 150px;">
+                    <input type="text" id="txt_Foperator" />
 
                 </td>
-            </tr>
-            <tr>
-                <td colspan="6" style="text-align: center">
+                <td  style="text-align: left">
 
                     <a href="javascript:void(0)" id="btn_LoadHZReport" class="easyui-linkbutton" iconcls="icon-search" plain="true">个人汇总报表查询</a>&nbsp;&nbsp;&nbsp;
                         <a href="javascript:void(0)" id="btn_LoadPersonalReviewReport" class="easyui-linkbutton" iconcls="icon-search" plain="true">个人审核情况报表查询</a>&nbsp;&nbsp;&nbsp;
                         <a href="javascript:void(0)" id="btn_LoadFailReasonReport" class="easyui-linkbutton" iconcls="icon-search" plain="true">失败原因报表查询</a>&nbsp;&nbsp;&nbsp;
                         <span style="color: red;">注:不能跨月查询</span>
-                    <%--<a href="javascript:void(0)" id="a_DownloadReviewData" class="easyui-linkbutton" iconcls="icon-print" plain="true">导出</a>--%>                        
                 </td>
-                <td style="width: 30%"></td>
+            </tr>
+            <tr>
+                
+                
             </tr>
         </table>
     </div>
-    <br />
     <div id="div_HZReport" style="width: 100%">
         <table id="tb_HZReport"></table>
     </div>

@@ -86,8 +86,9 @@
         var divHeight = $("#div_Report").height();
         //$("#tb_Report").datagrid("loadData", { total: 0, rows: [] });
         $('#tb_HZReport').datagrid({
+            title: "个人汇总报表",
             width: divWidth * 99 / 100,
-            height: $(document).height() * 88 / 100,
+            height: $(document).height() * 92 / 100,
             toolbar: "toolbar",
             delay: 1000,
             mode: 'remote',
@@ -95,8 +96,8 @@
             textField: '审核时间',
             loadMsg: "数据加载中，请稍后...",
             pagination: true,
-            pageSize: '30',
-            pageList: [10, 20, 30, 50],
+            pageSize: '31',
+            pageList: [10, 20, 31, 50],
             sortName: '审核时间',
             sortOrder: ' desc ',
             showFooter: true,
@@ -218,8 +219,9 @@
         var divHeight = $("#div_Report").height();
         //$("#tb_Report").datagrid("loadData", { total: 0, rows: [] });
         $('#td_PersonalReviewReport').datagrid({
+            title: "个人审核情况报表",
             width: divWidth * 99 / 100,
-            height: $(document).height() * 88 / 100,
+            height: $(document).height() * 92 / 100,
             toolbar: "toolbar",
             delay: 1000,
             mode: 'remote',
@@ -328,8 +330,9 @@
         var divHeight = $("#div_Report").height();
         //$("#tb_Report").datagrid("loadData", { total: 0, rows: [] });
         $('#td_FailReasonReport').datagrid({
+            title: "失败原因报表",
             width: divWidth * 99 / 100,
-            height: $(document).height() * 88 / 100,
+            height: $(document).height() * 92 / 100,
             toolbar: "toolbar",
             delay: 1000,
             mode: 'remote',
@@ -337,8 +340,8 @@
             textField: '审核时间',
             loadMsg: "数据加载中，请稍后...",
             pagination: true,
-            pageSize: '30',
-            pageList: [10, 20, 30, 50],
+            pageSize: '31',
+            pageList: [10, 20, 31, 50],
             sortName: 'Fcreate_time',
             sortOrder: ' desc ',
             showFooter: true,
