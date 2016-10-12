@@ -117,27 +117,27 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     if (classLibrary.getData.IsTestMode && !classLibrary.getData.IsNewSensitivePowerMode)
                     {
                         #region
-                        dt.Columns.Add("审核时间");
-                        dt.Columns.Add("总工单量");
-                        dt.Columns.Add("待审核总量");
-                        dt.Columns.Add("进单量");
-                        dt.Columns.Add("已处理量");
-                        dt.Columns.Add("审核通过量");
-                        dt.Columns.Add("审核通过率");
-                        dt.Columns.Add("审核拒绝量");
-                        dt.Columns.Add("审核拒绝率");
+                        dt.Columns.Add("Date");
+                        dt.Columns.Add("ZongGongDanLiang");
+                        dt.Columns.Add("DaiShenHeZongLiang");
+                        dt.Columns.Add("JinDanLiang");
+                        dt.Columns.Add("YiChuLiLiang");
+                        dt.Columns.Add("ShenHeTongGuoLiang");
+                        dt.Columns.Add("ShenHeTongGuoLv");
+                        dt.Columns.Add("ShenHeJuJueLiang");
+                        dt.Columns.Add("ShenHeJuJueLv");
                         for (int i = 0; i < 30; i++)
                         {
                             DataRow dr = dt.NewRow();
-                            dr["审核时间"] = DateTime.Parse(modifyBeginDate).AddDays(i).ToString("yyyy-MM-dd");
-                            dr["总工单量"] = i+1000;
-                            dr["待审核总量"] = i+500;
-                            dr["进单量"] = i + 300;
-                            dr["已处理量"] = i + 1000;
-                            dr["审核通过量"] = i + 1000;
-                            dr["审核通过率"] = 60;
-                            dr["审核拒绝量"] = i + 1000;
-                            dr["审核拒绝率"] = 40;
+                            dr["Date"] = DateTime.Parse(modifyBeginDate).AddDays(i).ToString("yyyy-MM-dd");
+                            dr["ZongGongDanLiang"] = i + 1000;
+                            dr["DaiShenHeZongLiang"] = i + 500;
+                            dr["JinDanLiang"] = i + 300;
+                            dr["YiChuLiLiang"] = i + 1000;
+                            dr["ShenHeTongGuoLiang"] = i + 1000;
+                            dr["ShenHeTongGuoLv"] = 60;
+                            dr["ShenHeJuJueLiang"] = i + 1000;
+                            dr["ShenHeJuJueLv"] = 40;
                             dt.Rows.Add(dr);
                         }                        
                         #endregion
@@ -157,7 +157,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                     //#endif
 
-                    message = JsonHelper.DataTableToJson(dt, total, true);
+                    //message = JsonHelper.DataTableToJson(dt, total, true);
+                    message = idCardManualReviewService.DataTableToJsonForHZReport(dt, total, true);
                     //message=" { "rows":[ { "Fid":"12","Fserial_number":"1147105501600000005","Fspid":"2000000501","Fcreate_time":"2016/8/13 9:12:24","Fuin":"195806606","Fname":"SEZyxazimzM=","Fidentitycard":"TG/Jqoya4pb3/R3Qe2Vr0jSMNoV4R3Ju","Fmodify_time":"2016/8/15 16:42:07","Fimage_path1":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005","Fimage_path2":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005","Fimage_file1":"1-1-5-64-0-1-3016181900461","Fimage_file2":"1-1-5-64-0-1-3016181900461","Fstate":"2","Fresult":"0","Fmemo":"0","Foperator":"1100000000","Fstandby1":"","Fstandby2":"","Fstandby3":"","Fstandby4":"","Fstandby5":"","TableName":"c2c_fmdb.t_check_identitycard_201608"}, { "Fid":"13","Fserial_number":"1147105531500000006","Fspid":"2000000501","Fcreate_time":"2016/8/13 9:12:24","Fuin":"195806606","Fname":"SEZyxazimzM=","Fidentitycard":"TG/Jqoya4pb3/R3Qe2Vr0jSMNoV4R3Ju","Fmodify_time":"2016/8/15 15:40:53","Fimage_path1":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105531500000006","Fimage_path2":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105531500000006","Fimage_file1":"1-1-5-64-0-1-3016181900461","Fimage_file2":"1-1-5-64-0-1-3016181900461","Fstate":"2","Fresult":"0","Fmemo":"4","Foperator":"1100000000","Fstandby1":"","Fstandby2":"","Fstandby3":"","Fstandby4":"","Fstandby5":"","TableName":"c2c_fmdb.t_check_identitycard_201608"}, { "Fid":"14","Fserial_number":"1234","Fspid":"1234567890","Fcreate_time":"2016/8/12 0:00:00","Fuin":"abcd@wx.tenpay.com","Fname":"guoyueqiang","Fidentitycard":"360726","Fmodify_time":"","Fimage_path1":"image_path1","Fimage_path2":"image_path2","Fimage_file1":"image_file1","Fimage_file2":"image_file2","Fstate":"1","Fresult":"0","Fmemo":"","Foperator":"","Fstandby1":"","Fstandby2":"","Fstandby3":"","Fstandby4":"","Fstandby5":"","TableName":"c2c_fmdb.t_check_identitycard_201608"} ],"total":3}";
                 }
             }
@@ -198,25 +199,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     if (classLibrary.getData.IsTestMode && !classLibrary.getData.IsNewSensitivePowerMode)
                     {
                         #region
-                        dt.Columns.Add("处理人");
-                        dt.Columns.Add("审核时间");
+                        dt.Columns.Add("Foperator");
+                        dt.Columns.Add("Fmodify_time");
                         dt.Columns.Add("未处理");
-                        dt.Columns.Add("通过");
-                        dt.Columns.Add("拒绝");
-                        dt.Columns.Add("当天第一单处理时间");
-                        dt.Columns.Add("当天最后一单处理时间");
-                        dt.Columns.Add("汇总");
+                        dt.Columns.Add("Agree");
+                        dt.Columns.Add("Refuse");
+                        dt.Columns.Add("CurrentDayFirstFmodify_time");
+                        dt.Columns.Add("CurrentDayLastFmodify_time");
+                        dt.Columns.Add("Total");
                         for (int i = 0; i < 30; i++)
                         {
                             DataRow dr = dt.NewRow();
-                            dr["处理人"] ="v_hjlong";
-                            dr["审核时间"] = DateTime.Parse(modifyBeginDate).AddDays(i).ToString("yyyy-MM-dd");
+                            dr["Foperator"] = "v_hjlong";
+                            dr["Fmodify_time"] = DateTime.Parse(modifyBeginDate).AddDays(i).ToString("yyyy-MM-dd");
                             dr["未处理"] = i + 1000;
-                            dr["通过"] = i + 500;
-                            dr["拒绝"] = i + 300;
-                            dr["当天第一单处理时间"] = DateTime.Parse(modifyBeginDate).AddDays(i).ToString("yyyy-MM-dd");
-                            dr["当天最后一单处理时间"] = DateTime.Parse(modifyBeginDate).AddDays(i).ToString("yyyy-MM-dd");
-                            dr["汇总"] = i + 1000;
+                            dr["Agree"] = i + 500;
+                            dr["Refuse"] = i + 300;
+                            dr["CurrentDayFirstFmodify_time"] = DateTime.Parse(modifyBeginDate).AddDays(i).ToString("yyyy-MM-dd");
+                            dr["CurrentDayLastFmodify_time"] = DateTime.Parse(modifyBeginDate).AddDays(i).ToString("yyyy-MM-dd");
+                            dr["Total"] = i + 1000;
                             dt.Rows.Add(dr);
                         }
                         #endregion
@@ -277,33 +278,35 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     if (classLibrary.getData.IsTestMode && !classLibrary.getData.IsNewSensitivePowerMode)
                     {
                         #region
-                        dt.Columns.Add("审核时间");
-                        dt.Columns.Add("两张均为正面或负面");
-                        dt.Columns.Add("身份证不清晰不完整");
-                        dt.Columns.Add("身份证姓名和提供姓名不符");
-                        dt.Columns.Add("身份证证件号不一致");
-                        dt.Columns.Add("身份证签发机关和地址不一致");
-                        dt.Columns.Add("身份证已超过有效期");
-                        dt.Columns.Add("身份证照片非原件");
-                        dt.Columns.Add("身份证证件虚假");
-                        dt.Columns.Add("未显示图片");
-                        dt.Columns.Add("上传非身份证照片");
-                        dt.Columns.Add("其他原因");
+                        dt.Columns.Add("Fmodify_time");
+                        dt.Columns.Add("Fmemo8");
+                        dt.Columns.Add("Fmemo3");
+                        dt.Columns.Add("Fmemo6");
+                        dt.Columns.Add("Fmemo4");
+                        dt.Columns.Add("Fmemo7");
+                        dt.Columns.Add("Fmemo10");
+                        dt.Columns.Add("Fmemo11");
+                        dt.Columns.Add("Fmemo9");
+                        dt.Columns.Add("Fmemo1");
+                        dt.Columns.Add("Fmemo2");
+                        dt.Columns.Add("Fmemo5");
+                        dt.Columns.Add("Total");
                         for (int i = 0; i < 30; i++)
                         {
                             DataRow dr = dt.NewRow();
-                            dr["审核时间"] = DateTime.Parse(modifyBeginDate).AddDays(i).ToString("yyyy-MM-dd");
-                            dr["两张均为正面或负面"] = i + 1000;
-                            dr["身份证不清晰不完整"] = i + 500;
-                            dr["身份证姓名和提供姓名不符"] = i + 300;
-                            dr["身份证证件号不一致"] = i + 1000;
-                            dr["身份证签发机关和地址不一致"] = i + 1000;
-                            dr["身份证已超过有效期"] = 60;
-                            dr["身份证照片非原件"] = i + 1000;
-                            dr["身份证证件虚假"] = 40;
-                            dr["未显示图片"] = 50;
-                            dr["上传非身份证照片"] = 60;
-                            dr["其他原因"] = 70;
+                            dr["Fmodify_time"] = DateTime.Parse(modifyBeginDate).AddDays(i).ToString("yyyy-MM-dd");
+                            dr["Fmemo8"] = i + 1000;
+                            dr["Fmemo3"] = i + 500;
+                            dr["Fmemo6"] = i + 300;
+                            dr["Fmemo4"] = i + 1000;
+                            dr["Fmemo7"] = i + 1000;
+                            dr["Fmemo10"] = 60;
+                            dr["Fmemo11"] = i + 1000;
+                            dr["Fmemo9"] = 40;
+                            dr["Fmemo1"] = 50;
+                            dr["Fmemo2"] = 60;
+                            dr["Fmemo5"] = 70;
+                            dr["Total"] = 50000;
                             dt.Rows.Add(dr);
                         }
                         #endregion
@@ -323,7 +326,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 
                     //#endif
 
-                    message = JsonHelper.DataTableToJson(dt, total, true);
+                    //message = JsonHelper.DataTableToJson(dt, total, true);
+                    message = idCardManualReviewService.DataTableToJsonForFailReasonReport(dt, total, true);
+                    
                     //message=" { "rows":[ { "Fid":"12","Fserial_number":"1147105501600000005","Fspid":"2000000501","Fcreate_time":"2016/8/13 9:12:24","Fuin":"195806606","Fname":"SEZyxazimzM=","Fidentitycard":"TG/Jqoya4pb3/R3Qe2Vr0jSMNoV4R3Ju","Fmodify_time":"2016/8/15 16:42:07","Fimage_path1":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005","Fimage_path2":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105501600000005","Fimage_file1":"1-1-5-64-0-1-3016181900461","Fimage_file2":"1-1-5-64-0-1-3016181900461","Fstate":"2","Fresult":"0","Fmemo":"0","Foperator":"1100000000","Fstandby1":"","Fstandby2":"","Fstandby3":"","Fstandby4":"","Fstandby5":"","TableName":"c2c_fmdb.t_check_identitycard_201608"}, { "Fid":"13","Fserial_number":"1147105531500000006","Fspid":"2000000501","Fcreate_time":"2016/8/13 9:12:24","Fuin":"195806606","Fname":"SEZyxazimzM=","Fidentitycard":"TG/Jqoya4pb3/R3Qe2Vr0jSMNoV4R3Ju","Fmodify_time":"2016/8/15 15:40:53","Fimage_path1":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105531500000006","Fimage_path2":"ent_no=10000003&req_data=FAD02DDB476FC071DDD0F0C4FB33885740C3B3181A70EDCD4EB5EADEAA88514643BB1F9AD403207242646194A636EB6AD5ED27BC462EF8063EDABCCB7C2DC624&seq_no=1147105531500000006","Fimage_file1":"1-1-5-64-0-1-3016181900461","Fimage_file2":"1-1-5-64-0-1-3016181900461","Fstate":"2","Fresult":"0","Fmemo":"4","Foperator":"1100000000","Fstandby1":"","Fstandby2":"","Fstandby3":"","Fstandby4":"","Fstandby5":"","TableName":"c2c_fmdb.t_check_identitycard_201608"}, { "Fid":"14","Fserial_number":"1234","Fspid":"1234567890","Fcreate_time":"2016/8/12 0:00:00","Fuin":"abcd@wx.tenpay.com","Fname":"guoyueqiang","Fidentitycard":"360726","Fmodify_time":"","Fimage_path1":"image_path1","Fimage_path2":"image_path2","Fimage_file1":"image_file1","Fimage_file2":"image_file2","Fstate":"1","Fresult":"0","Fmemo":"","Foperator":"","Fstandby1":"","Fstandby2":"","Fstandby3":"","Fstandby4":"","Fstandby5":"","TableName":"c2c_fmdb.t_check_identitycard_201608"} ],"total":3}";
                 }
             }

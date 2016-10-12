@@ -831,7 +831,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.InternetBank
                                     }
                                     catch (Exception ex)
                                     {
-                                        LogHelper.LogError(" btnRefundEmail_Click  BatchRefundSingleCheck接口调用异常：" + ex.Message + ex.StackTrace);
+                                        //LogHelper.LogError(" btnRefundEmail_Click  BatchRefundSingleCheck接口调用异常：" + ex.Message + ex.StackTrace);
+                                        LogHelper.LogError(" btnRefundEmail_Click  BatchRefundSingleCheck接口调用异常：" + ex);
+
                                     }
                                     #endregion
 

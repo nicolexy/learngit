@@ -441,8 +441,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         sb.Append("ORDER BY TB1.Date ");
 
                         dtTotal = fmda.GetTable(sb.ToString());
-                        total += (dtTotal == null || dtTotal.Rows.Count < 1) ? 0 : dtTotal.Rows.Count;
-                        LogHelper.LogInfo("返回table行数:" + total.ToString());
+                        total += (dtTotal == null || dtTotal.Rows.Count < 1) ? 0 : dtTotal.Rows.Count;                        
                         sb.Append("LIMIT " + startIndex + "," + pageSize + "  ");
                         LogHelper.LogInfo(string.Format("{0} 用户[{1}]执行查询操作,查询SQL:{2}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), uid, sb.ToString()));
                         dt = fmda.GetTable(sb.ToString());
@@ -516,8 +515,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
 
                         dtTotal = fmda.GetTable(sb.ToString());
                         
-                        total += (dtTotal == null || dtTotal.Rows.Count < 1) ? 0 : dtTotal.Rows.Count;
-                        LogHelper.LogInfo("返回table行数:" + total.ToString());
+                        total += (dtTotal == null || dtTotal.Rows.Count < 1) ? 0 : dtTotal.Rows.Count;                        
                         sb.Append("LIMIT " + startIndex + "," + pageSize + "  ");
                         LogHelper.LogInfo(string.Format("{0} 用户[{1}]执行查询操作,查询SQL:{2}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), uid, sb.ToString()));
                         dt = fmda.GetTable(sb.ToString());
@@ -597,8 +595,7 @@ namespace CFT.CSOMS.DAL.IdCardModule
                         sb.Append(") AS TB1 GROUP BY TB1.Fmodify_time ");
 
                         dtTotal = fmda.GetTable(sb.ToString());
-                        total += (dtTotal == null || dtTotal.Rows.Count < 1) ? 0 : dtTotal.Rows.Count;
-                        LogHelper.LogInfo("返回table行数:" + total.ToString());
+                        total += (dtTotal == null || dtTotal.Rows.Count < 1) ? 0 : dtTotal.Rows.Count;                        
                         sb.Append("LIMIT " + startIndex + "," + pageSize + "  ");
                         LogHelper.LogInfo(string.Format("{0} 用户[{1}]执行查询操作,查询SQL:{2}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), uid, sb.ToString()));
                         dt = fmda.GetTable(sb.ToString());
