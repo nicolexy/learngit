@@ -304,7 +304,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     this.txtConnetionName.Text.Trim(), this.txtPhone.Text.Trim(), this.txtMobile.Text.Trim(), this.txtQQNo.Text.Trim(), this.txtEmail.Text.Trim(),
                     ViewState["CompanyAddress"].ToString(), ViewState["Postalcode"].ToString());
 
-                DataSet ds = new SPOAService().GetSpInfo("", ViewState["KeyID"].ToString(), "", "", "", "", 2, 0);
+                DataSet ds = new SPOAService().GetSpInfo(lblFspid.Text.Trim(), ViewState["KeyID"].ToString(), "", "", "", "", 2, 0);
 
                 this.txtConnetionName.Text = ds.Tables[0].Rows[0]["ContactUser"].ToString();
                 //this.txtPhone.Text = ds.Tables[0].Rows[0]["ContactPhone"].ToString();
@@ -350,7 +350,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
 
-                DataSet ds = new SPOAService().GetSpInfo("", ViewState["KeyID"].ToString(), "", "", "", "", 2, 0);
+                DataSet ds = new SPOAService().GetSpInfo(lblFspid.Text.Trim(), ViewState["KeyID"].ToString(), "", "", "", "", 2, 0);
 
                 if (ds.Tables[0].Rows.Count == 1)
                 {
