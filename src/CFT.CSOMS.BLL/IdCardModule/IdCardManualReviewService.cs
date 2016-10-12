@@ -8,6 +8,7 @@ using CFT.Apollo.Logging;
 using CFT.CSOMS.DAL.CFTAccount;
 using CFT.CSOMS.DAL.IdCardModule;
 using CFT.CSOMS.DAL.Infrastructure;
+using commLib;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 
 namespace CFT.CSOMS.BLL.IdCardModule
@@ -110,8 +111,9 @@ namespace CFT.CSOMS.BLL.IdCardModule
                             int totalWaitReview = 0;//待审核总量
                             foreach (string yearMonth in yearMonths2)
                             {
-                                totalReview+=LoadAllReview(yearMonth, endDate);
-                                totalWaitReview += LoadWaitReview(yearMonth, endDate);
+                                string tableName = "c2c_fmdb.t_check_identitycard_" + yearMonth;
+                                totalReview += LoadAllReview(tableName, endDate);
+                                totalWaitReview += LoadWaitReview(tableName, endDate);
                             }
                             if (totalReview > 0)
                             {
@@ -801,6 +803,185 @@ namespace CFT.CSOMS.BLL.IdCardModule
                 }
             }
             return list;
+        }
+
+        public  string DataTableToJsonForHZReport(DataTable dt, int total, bool isShowTotal = true)
+        {
+            //int ZongGongDanLiang = 0;
+            //int DaiShenHeZongLiang = 0;
+            int JinDanLiang = 0;
+            int YiChuLiLiang = 0;
+            int ShenHeTongGuoLiang = 0;
+            int ShenHeJuJueLiang = 0;
+
+            StringBuilder builder = new StringBuilder();
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                builder.Append("{ ");
+                builder.Append("\"rows\":[ ");
+                builder.Append("]");
+                if (isShowTotal)
+                {
+                    builder.Append(",");
+                    builder.Append("\"total\":");
+                    builder.Append(total);
+                }
+                builder.Append("}");
+                return builder.ToString();
+            }
+            builder.Append("{ ");
+            builder.Append("\"rows\":[ ");
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                builder.Append("{ ");
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    if (j < (dt.Columns.Count - 1))
+                    {
+                        builder.Append("\"" + dt.Columns[j].ColumnName.ToString() + "\":\"" + JsonHelper.JsonCharFilter(dt.Rows[i][j].ToString()) + "\",");
+                    }
+                    else if (j == (dt.Columns.Count - 1))
+                    {
+                        builder.Append("\"" + dt.Columns[j].ColumnName.ToString() + "\":\"" + JsonHelper.JsonCharFilter(dt.Rows[i][j].ToString()) + "\"");
+                    }                   
+                }
+                if (i == (dt.Rows.Count - 1))
+                {
+                    builder.Append("} ");
+                }
+                else
+                {
+                    builder.Append("}, ");
+                }
+
+                #region 计算列合计的值
+                //ZongGongDanLiang += (dt.Rows[i]["ZongGongDanLiang"] == null || dt.Rows[i]["ZongGongDanLiang"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["ZongGongDanLiang"].ToString()));
+                //DaiShenHeZongLiang += (dt.Rows[i]["DaiShenHeZongLiang"] == null || dt.Rows[i]["DaiShenHeZongLiang"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["DaiShenHeZongLiang"].ToString()));
+                JinDanLiang += (dt.Rows[i]["JinDanLiang"] == null || dt.Rows[i]["JinDanLiang"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["JinDanLiang"].ToString()));
+                YiChuLiLiang += (dt.Rows[i]["YiChuLiLiang"] == null || dt.Rows[i]["YiChuLiLiang"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["YiChuLiLiang"].ToString()));
+                ShenHeTongGuoLiang += (dt.Rows[i]["ShenHeTongGuoLiang"] == null || dt.Rows[i]["ShenHeTongGuoLiang"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["ShenHeTongGuoLiang"].ToString()));
+                ShenHeJuJueLiang += (dt.Rows[i]["ShenHeJuJueLiang"] == null || dt.Rows[i]["ShenHeJuJueLiang"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["ShenHeJuJueLiang"].ToString()));
+                #endregion
+            }
+            builder.Append("]");
+            builder.Append(",\"footer\":[");       //添加footer开始
+            builder.Append("{ ");
+            builder.Append("\"Date\":").Append("\"<span style='color:red;font-size:14px;font-weight:bolder'>合计</span>\",");
+            //builder.Append("\"ZongGongDanLiang\":").Append("\"" + ZongGongDanLiang + "\",");
+            //builder.Append("\"DaiShenHeZongLiang\":").Append("\"" + DaiShenHeZongLiang + "\",");
+            builder.Append("\"JinDanLiang\":").Append("\"" + JinDanLiang + "\",");
+            builder.Append("\"YiChuLiLiang\":").Append("\"" + YiChuLiLiang + "\",");
+            builder.Append("\"ShenHeTongGuoLiang\":").Append("\"" + ShenHeTongGuoLiang + "\",");
+            builder.Append("\"ShenHeJuJueLiang\":").Append("\"" + ShenHeJuJueLiang + "\"");            
+            builder.Append("}"); 
+            builder.Append("]"); //添加footer结束
+            if (isShowTotal)
+            {
+                builder.Append(",");
+                builder.Append("\"total\":");
+                builder.Append(total);
+            }
+            builder.Append("}");
+            return builder.ToString();
+        }
+
+        public string DataTableToJsonForFailReasonReport(DataTable dt, int total, bool isShowTotal = true)
+        {
+            int Fmemo1 = 0;
+            int Fmemo2 = 0;
+            int Fmemo3 = 0;
+            int Fmemo4 = 0;
+            int Fmemo5 = 0;
+            int Fmemo6 = 0;
+            int Fmemo7 = 0;
+            int Fmemo8 = 0;
+            int Fmemo9 = 0;
+            int Fmemo10 = 0;
+            int Fmemo11= 0;
+            int Total = 0;
+
+            StringBuilder builder = new StringBuilder();
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                builder.Append("{ ");
+                builder.Append("\"rows\":[ ");
+                builder.Append("]");
+                if (isShowTotal)
+                {
+                    builder.Append(",");
+                    builder.Append("\"total\":");
+                    builder.Append(total);
+                }
+                builder.Append("}");
+                return builder.ToString();
+            }
+            builder.Append("{ ");
+            builder.Append("\"rows\":[ ");
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                builder.Append("{ ");
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    if (j < (dt.Columns.Count - 1))
+                    {
+                        builder.Append("\"" + dt.Columns[j].ColumnName.ToString() + "\":\"" + JsonHelper.JsonCharFilter(dt.Rows[i][j].ToString()) + "\",");
+                    }
+                    else if (j == (dt.Columns.Count - 1))
+                    {
+                        builder.Append("\"" + dt.Columns[j].ColumnName.ToString() + "\":\"" + JsonHelper.JsonCharFilter(dt.Rows[i][j].ToString()) + "\"");
+                    }
+                }
+                if (i == (dt.Rows.Count - 1))
+                {
+                    builder.Append("} ");
+                }
+                else
+                {
+                    builder.Append("}, ");
+                }
+
+                #region 计算列合计的值
+                Fmemo1 += (dt.Rows[i]["Fmemo1"] == null || dt.Rows[i]["Fmemo1"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["Fmemo1"].ToString()));
+                Fmemo2 += (dt.Rows[i]["Fmemo2"] == null || dt.Rows[i]["Fmemo2"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["Fmemo2"].ToString()));
+                Fmemo3 += (dt.Rows[i]["Fmemo3"] == null || dt.Rows[i]["Fmemo3"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["Fmemo3"].ToString()));
+                Fmemo4 += (dt.Rows[i]["Fmemo4"] == null || dt.Rows[i]["Fmemo4"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["Fmemo4"].ToString()));
+                Fmemo5 += (dt.Rows[i]["Fmemo5"] == null || dt.Rows[i]["Fmemo5"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["Fmemo5"].ToString()));
+                Fmemo6 += (dt.Rows[i]["Fmemo6"] == null || dt.Rows[i]["Fmemo6"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["Fmemo6"].ToString()));
+                Fmemo7 += (dt.Rows[i]["Fmemo7"] == null || dt.Rows[i]["Fmemo7"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["Fmemo7"].ToString()));
+                Fmemo8 += (dt.Rows[i]["Fmemo8"] == null || dt.Rows[i]["Fmemo8"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["Fmemo8"].ToString()));
+                Fmemo9 += (dt.Rows[i]["Fmemo9"] == null || dt.Rows[i]["Fmemo9"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["Fmemo9"].ToString()));
+                Fmemo10 += (dt.Rows[i]["Fmemo10"] == null || dt.Rows[i]["Fmemo10"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["Fmemo10"].ToString()));
+                Fmemo11 += (dt.Rows[i]["Fmemo11"] == null || dt.Rows[i]["Fmemo11"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["Fmemo11"].ToString()));
+                Total += (dt.Rows[i]["Total"] == null || dt.Rows[i]["Total"] == DBNull.Value ? 0 : int.Parse(dt.Rows[i]["Total"].ToString()));
+                
+                #endregion
+            }
+            builder.Append("]");
+            builder.Append(",\"footer\":[");       //添加footer开始
+            builder.Append("{ ");
+            builder.Append("\"Fmodify_time\":").Append("\"<span style='color:red;font-size:14px;font-weight:bolder'>合计</span>\",");
+            builder.Append("\"Fmemo8\":").Append("\"" + Fmemo8 + "\",");
+            builder.Append("\"Fmemo3\":").Append("\"" + Fmemo3 + "\",");
+            builder.Append("\"Fmemo6\":").Append("\"" + Fmemo6 + "\",");
+            builder.Append("\"Fmemo4\":").Append("\"" + Fmemo4 + "\",");
+            builder.Append("\"Fmemo7\":").Append("\"" + Fmemo7 + "\",");
+            builder.Append("\"Fmemo10\":").Append("\"" + Fmemo10 + "\",");
+            builder.Append("\"Fmemo11\":").Append("\"" + Fmemo11 + "\",");
+            builder.Append("\"Fmemo9\":").Append("\"" + Fmemo9 + "\",");
+            builder.Append("\"Fmemo1\":").Append("\"" + Fmemo1 + "\",");
+            builder.Append("\"Fmemo2\":").Append("\"" + Fmemo2 + "\",");
+            builder.Append("\"Fmemo5\":").Append("\"" + Fmemo5 + "\",");
+            builder.Append("\"Total\":").Append("\"" + Total + "\"");
+            builder.Append("}");
+            builder.Append("]"); //添加footer结束
+            if (isShowTotal)
+            {
+                builder.Append(",");
+                builder.Append("\"total\":");
+                builder.Append(total);
+            }
+            builder.Append("}");
+            return builder.ToString();
         }
     }
 }
