@@ -41,6 +41,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 	
 		protected void Page_Load(object sender, System.EventArgs e)
         {
+            TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("ChangeUserInfo", this);
             LogHelper.LogInfo(" test.aspx  ");
 
             if (Request["wechatname"] != null)
