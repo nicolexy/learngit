@@ -2893,6 +2893,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             catch (Exception e)
             {
                 sign = 0;
+                LogHelper.LogError("public DataSet GetBankRollList_withID:"+ListID+"->" + e.ToString());
                 throw new Exception("service发生错误,请联系管理员！" + e.ToString());
                 return null;
             }
