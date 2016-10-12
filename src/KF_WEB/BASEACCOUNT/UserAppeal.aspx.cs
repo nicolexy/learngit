@@ -287,28 +287,35 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-
-                        if (ftype == 5 || ftype == 6 || ftype == 99)
+                        string typeName = dr["FTypeName"].ToString().Trim();
+                        if (typeName == "找回密码")
                         {
-                            //这四种类型增加数据库、表两个参数
-                            dr["URL"] = "CFTUserCheck.aspx?fid=" + dr["FID"].ToString() + "&flist_id=&db=" + dr["DBName"] + "&tb=" + dr["tableName"];
+                            dr["URL"] = "CFTUserCheckPwd.aspx?fid=" + dr["FID"].ToString() + "&flist_id=&db=" + dr["DBName"] + "&tb=" + dr["tableName"]; 
                         }
                         else
                         {
-                            if (ftype == 1)
+                            if (ftype == 5 || ftype == 6 || ftype == 99)
                             {
-                                dr["URL"] = "CFTUserCheckPwd.aspx?fid=" + dr["FID"].ToString() + "&flist_id=&db=" + dr["DBName"] + "&tb=" + dr["tableName"]; ;
+                                //这四种类型增加数据库、表两个参数
+                                dr["URL"] = "CFTUserCheck.aspx?fid=" + dr["FID"].ToString() + "&flist_id=&db=" + dr["DBName"] + "&tb=" + dr["tableName"];
                             }
                             else
                             {
-                                dr["URL"] = "CFTUserCheck.aspx?fid=" + dr["FID"].ToString() + "&flist_id=&db=&tb=";
+                                if (ftype == 1)
+                                {
+                                    dr["URL"] = "CFTUserCheckPwd.aspx?fid=" + dr["FID"].ToString() + "&flist_id=&db=" + dr["DBName"] + "&tb=" + dr["tableName"]; 
+                                }
+                                else
+                                {
+                                    dr["URL"] = "CFTUserCheck.aspx?fid=" + dr["FID"].ToString() + "&flist_id=&db=&tb=";
+                                }
                             }
-                        }
 
-                        //在这里增加大金额红字显示。（因为已经有VIP查询选择项，所以不用处理VIP红字）
-                        if (dr["Fuincolor"].ToString() == "BIGMONEY")
-                        {
-                            dr["FUin"] = "<FONT color=\"red\">" + dr["Fuin"] + "</FONT>";
+                            //在这里增加大金额红字显示。（因为已经有VIP查询选择项，所以不用处理VIP红字）
+                            if (dr["Fuincolor"].ToString() == "BIGMONEY")
+                            {
+                                dr["FUin"] = "<FONT color=\"red\">" + dr["Fuin"] + "</FONT>";
+                            }
                         }
                     }
                 }

@@ -29,16 +29,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         protected void Page_Load(object sender, System.EventArgs e)
         {
             if (!IsPostBack)
-            {
-                try
-                {
-                    //绑定第一页数据
-                    BindData(1);
-                }
-                catch (Exception err)
-                {
-                    WebUtils.ShowMessage(this.Page, "操作超时！请重新查询。" + PublicRes.GetErrorMsg(err.Message) + ", stacktrace" + err.StackTrace);
-                }
+            {           
+               BindData(1);               
             }
         }
 
