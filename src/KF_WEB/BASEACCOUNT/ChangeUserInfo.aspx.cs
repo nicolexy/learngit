@@ -73,8 +73,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 {
                     Response.Redirect("../login.aspx?wh=1");
                 }
-                if (!ClassLib.ValidateRight("SensitiveRole", this) ||
-                    !ClassLib.ValidateRight("ChangeUserInfo", this))
+                if (!ClassLib.ValidateRight("SensitiveRole", this))
                 {
                     LinkButton1_Edit.Enabled = false;
                 }
@@ -523,8 +522,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
         {
             try
             {
-                if (!ClassLib.ValidateRight("SensitiveRole", this) ||
-                    !ClassLib.ValidateRight("ChangeUserInfo", this)) 
+                if (!ClassLib.ValidateRight("SensitiveRole", this))
                 {
                     WebUtils.ShowMessage(this.Page, "你没有权限执行此操作！");
                     return;
