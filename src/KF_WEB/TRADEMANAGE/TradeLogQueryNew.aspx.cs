@@ -538,7 +538,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 else
                 {
                     ds.Tables[0].Columns.Add("Ftrade_stateName");
-                    classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0], "Ftrade_state", "Ftrade_stateName", "RLIST_STATE");
+                    classLibrary.setConfig.GetColumnValueFromDic(ds.Tables[0], "Ftrade_state", "Ftrade_stateName", "PAY_STATE");
                     this.lblTradeState.Text = ds.Tables[0].Rows[0]["Ftrade_stateName"].ToString();
                 }
                 if (isC2C)
