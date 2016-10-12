@@ -16,6 +16,7 @@ using System.Web.Services.Protocols;
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using System.Configuration;
+using CFT.CSOMS.BLL.SPOA;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -207,7 +208,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     if (buss_ds != null && buss_ds.Tables[0].Rows.Count == 1) 
                     {
                         string keyId = buss_ds.Tables[0].Rows[0]["ApplyCpInfoID"].ToString();
-                        DataSet ds1 = qs.GetPayBusinessInfo(keyId);
+                        //DataSet ds1 = qs.GetPayBusinessInfo(keyId);
+                        DataSet ds1 = new SPOAService().GetSpInfo(dr["SPID"].ToString(), keyId, "", "", "", "", 2, 0);
                         if (ds1 != null && ds1.Tables[0].Rows.Count == 1) {
                             emailTo = ds1.Tables[0].Rows[0]["ContactEmail"].ToString();
                         }
