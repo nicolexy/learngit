@@ -251,7 +251,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             }
 
             string oldfmemo = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fmemo"]);
-            string fmemo = "1测试1";
+            string fmemo = "企业C账户整改";
 
             if (modifyAttType(qqid, atttype, oldatttype))
             {
