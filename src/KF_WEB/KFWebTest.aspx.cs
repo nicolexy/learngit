@@ -239,9 +239,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
             {
                 LogHelper.LogInfo(" KFWebTest.aspx new AccountService().GetUserInfo  qqid=" + qqid + "未获取到数据");
-
-                Response.Write(" KFWebTest.aspx  new AccountService().GetUserInfo  UpdateUserInfoAttr qqid=" + qqid + "未获取到数据");
-                Response.End();
                 return false;
             }
 
