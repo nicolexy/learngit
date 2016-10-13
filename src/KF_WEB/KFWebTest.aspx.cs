@@ -224,7 +224,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
         private bool UpdateUserInfoAttr(string qqid)
         {
             int accountType = 0;
-            DataSet ds = new AccountService().GetUserInfo(qqid, accountType, 1, 1);
+            
+            DataSet ds =null;
+            try
+            {
+                ds = new AccountService().GetUserInfo(qqid, accountType, 1, 1);
+            }
+            catch (Exception ep) {
+                LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ------------UpdateUserInfoAttr1---{1}--0------qqid={0}------", qqid, ep.Message));
+                LogHelper.LogError(string.Format(" KFWebTest.aspx ------------UpdateUserInfoAttr2---{1}--0------qqid={0}------", qqid, ep.ToString()));
+                return false;
+            }
+
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
             {
                 LogHelper.LogInfo(" KFWebTest.aspx new AccountService().GetUserInfo  qqid=" + qqid + "未获取到数据");
