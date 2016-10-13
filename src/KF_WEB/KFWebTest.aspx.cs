@@ -189,7 +189,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             string oldatttype = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fatt_id"]);
             string fcre_type = ds.Tables[0].Rows[0]["Fcre_type"].ToString();
 
-            //获得用户帐户信息
+            //获得用户帐户信息 
             string userType = null;
             string userType_str = null;
             string Msg = null;
