@@ -239,8 +239,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         this.lblPickType.Text = "未找到数据";
                         this.lblFBalance.Text = "未找到数据";
 
-                        try
-                        {
                             DataSet ds2 = qs.GetPayBusinessElseInfo(ds1.Tables[0].Rows[0]["SPID"].ToString().Trim());
                             DataSet ds3 = PermitPara.QueryDicAccName();
                             T_USER_MED ds4 = qs.GetUserMedInfo(ds1.Tables[0].Rows[0]["SPID"].ToString().Trim(), 1, 1);
@@ -277,8 +275,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                                 }
                             }
 
-                        }
-                        catch { }
                     }
                     else
                     {

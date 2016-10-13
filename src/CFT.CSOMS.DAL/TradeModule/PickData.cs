@@ -15,6 +15,8 @@ using CFT.CSOMS.COMMLIB;
 using System.Xml;
 using System.Collections;
 using SunLibraryEX;
+using CFT.Apollo.Bow.Extend;
+using CFT.Apollo.Bow.Withdraw;
 
 namespace CFT.CSOMS.DAL.TradeModule
 {
@@ -126,6 +128,21 @@ namespace CFT.CSOMS.DAL.TradeModule
             DataSet ds = multi_query(param, 0, 1, false);
             return ds;
         }
+
+
+        /// <summary>
+        /// 按提记录按单号查询--NEW
+        /// </summary>
+        /// <returns></returns>
+        public DataTable QueryPickByListidNew(string listid)
+        {
+            WithdrawRepository obj = new WithdrawRepository();
+            obj.GetItemByListid(listid).ToDataTable();
+
+         //   var pageItem = new Apollo.Bow.Infrastructure.PageItem() { Offset = 0, PageCount = int.Parse(fnum.ToString()) };
+           return obj.GetItemByListid(listid).ToDataTable();
+        }
+
 
 
         /// <summary>

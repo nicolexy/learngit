@@ -32,12 +32,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CFT.Apollo.Bow, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CFT.Apollo.Bow.1.2.2\lib\CFT.Apollo.Bow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CFT.Apollo.Bow.Extend, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CFT.Apollo.Bow.Extend.1.1.0\lib\CFT.Apollo.Bow.Extend.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="CFT.Apollo.Common, Version=3.1.5496.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CFT.Apollo.Common.3.1.5496.0\lib\CFT.Apollo.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CFT.Apollo.CommunicationFramework, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CFT.Apollo.CommunicationFramework.3.3.0\lib\net40\CFT.Apollo.CommunicationFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CFT.Apollo.Data, Version=3.3.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CFT.Apollo.Data.3.3.0.4\lib\CFT.Apollo.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CFT.Apollo.Logging, Version=1.0.5494.24493, Culture=neutral, processorArchitecture=MSIL">
@@ -55,6 +67,10 @@
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CFT.Apollo.log4net.1.0.0.15\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Apollo, Version=6.95.5494.24493, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.Apllo.6.95.5494.24500\lib\MySql.Data.Apollo.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>

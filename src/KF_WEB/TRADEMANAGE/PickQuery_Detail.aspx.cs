@@ -17,6 +17,7 @@ using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using CFT.CSOMS.BLL.TradeModule;
 using CFT.CSOMS.BLL.TransferMeaning;
+using CFT.Apollo.Logging;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -117,7 +118,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				}
 
 			}
-             
+
+            LogHelper.LogInfo("µ÷ÓÃ CFT.Apollo.Bow.Withdraw.WithdrawRepository.GetItemByListid");
             DataTable dt = pickservice.GetPickListDetail(listid);
 
 			if(dt != null && dt.Rows.Count > 0 )
