@@ -245,7 +245,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     dt = view.ToTable();
                     dt = PublicRes.GetPagedTable(dt, index, pager.PageSize);
                     ds.Tables.Add(dt);
-                }               
+                }
 
                 ds = qs.GetCFTUserAppealListFunction(ds);//先排序再处理内部信息
             }
@@ -294,28 +294,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                         //}
                         //else
                         //{
-                            if (ftype == 5 || ftype == 6 || ftype == 99)
-                            {
-                                //这四种类型增加数据库、表两个参数
-                                dr["URL"] = "CFTUserCheck.aspx?fid=" + dr["FID"].ToString() + "&flist_id=&db=" + dr["DBName"] + "&tb=" + dr["tableName"];
-                            }
-                            else
-                            {
-                                //if (ftype == 1)
-                                //{
-                                //    dr["URL"] = "CFTUserCheckPwd.aspx?fid=" + dr["FID"].ToString() + "&flist_id=&db=" + dr["DBName"] + "&tb=" + dr["tableName"]; 
-                                //}
-                                //else
-                                //{
-                                    dr["URL"] = "CFTUserCheck.aspx?fid=" + dr["FID"].ToString() + "&flist_id=&db=&tb=";
-                                //}
-                            }
+                        if (ftype == 1 || ftype == 5 || ftype == 6 || ftype == 99)
+                        {
+                            //这四种类型增加数据库、表两个参数
+                            dr["URL"] = "CFTUserCheck.aspx?fid=" + dr["FID"].ToString() + "&flist_id=&db=" + dr["DBName"] + "&tb=" + dr["tableName"];
+                        }
+                        else
+                        {
+                            //if (ftype == 1)
+                            //{
+                            //    dr["URL"] = "CFTUserCheckPwd.aspx?fid=" + dr["FID"].ToString() + "&flist_id=&db=" + dr["DBName"] + "&tb=" + dr["tableName"]; 
+                            //}
+                            //else
+                            //{
+                            dr["URL"] = "CFTUserCheck.aspx?fid=" + dr["FID"].ToString() + "&flist_id=&db=&tb=";
+                            //}
+                        }
 
-                            //在这里增加大金额红字显示。（因为已经有VIP查询选择项，所以不用处理VIP红字）
-                            if (dr["Fuincolor"].ToString() == "BIGMONEY")
-                            {
-                                dr["FUin"] = "<FONT color=\"red\">" + dr["Fuin"] + "</FONT>";
-                            }
+                        //在这里增加大金额红字显示。（因为已经有VIP查询选择项，所以不用处理VIP红字）
+                        if (dr["Fuincolor"].ToString() == "BIGMONEY")
+                        {
+                            dr["FUin"] = "<FONT color=\"red\">" + dr["Fuin"] + "</FONT>";
+                        }
                         //}
                     }
                 }
@@ -435,8 +435,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     //}
                     //else
                     //{
-                        Response.Write("<script>window.open('UserAppealCheck.aspx?BeginDate=" + begindate.ToString("yyyy-MM-dd") + "&EndDate=" + enddate.ToString("yyyy-MM-dd") + "&fstate=" +
-                            ddlState.SelectedValue + "&ftype=" + ddlType.SelectedValue + "&qqtype=&Count=" + TicketsCount.ToString() + "&SortType=" + SortType + "&dotype=" + DDL_DoType.SelectedValue + "','_blank','');</script>");
+                    Response.Write("<script>window.open('UserAppealCheck.aspx?BeginDate=" + begindate.ToString("yyyy-MM-dd") + "&EndDate=" + enddate.ToString("yyyy-MM-dd") + "&fstate=" +
+                        ddlState.SelectedValue + "&ftype=" + ddlType.SelectedValue + "&qqtype=&Count=" + TicketsCount.ToString() + "&SortType=" + SortType + "&dotype=" + DDL_DoType.SelectedValue + "','_blank','');</script>");
                     //}
                 }
 
