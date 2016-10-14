@@ -174,61 +174,120 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-              if (!fileqqid.HasFile)
+            //var maxWorkThread = 0;
+            //var maxThread = 0;
+            //System.Threading.ThreadPool.GetMaxThreads(out maxWorkThread, out maxThread);
+
+
+            if (!fileqqid.HasFile)
+            {
+                throw new ArgumentNullException("请上传文件");
+
+                LogHelper.LogInfo(" KFWebTest.aspx  请上传文件");
+            }
+
+            if (System.IO.Path.GetExtension(fileqqid.FileName).ToLower() == ".txt")
+            {
+                string filePath = Server.MapPath("~/") + "PLFile//";
+                string path = filePath + System.IO.Path.GetFileName(fileqqid.FileName);
+
+                if (!System.IO.Directory.Exists(filePath))
                 {
-                   throw new ArgumentNullException("请上传文件");
+                    System.IO.Directory.CreateDirectory(filePath);
+                }
 
-                   LogHelper.LogInfo(" KFWebTest.aspx  请上传文件" );
-              }
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
 
-              if (System.IO.Path.GetExtension(fileqqid.FileName).ToLower() == ".txt")
-              {
-                  string path = Server.MapPath("~/") + "PLFile//" + System.IO.Path.GetFileName(fileqqid.FileName);
+                fileqqid.PostedFile.SaveAs(path);
+                LogHelper.LogInfo(" KFWebTest.aspx  保存文件路径  path=" + path);
 
-                  if (System.IO.File.Exists(path)) {
-                      System.IO.File.Delete(path);
-                  }
+                var sourcefileContent = System.IO.File.ReadAllLines(path);
 
-                  if (!System.IO.Directory.Exists(Server.MapPath("~/") + "PLFile//")) {
-                      System.IO.Directory.CreateDirectory(Server.MapPath("~/") + "PLFile//");
-                  }
+                #region old code
+                //Dictionary<int,int> indexList = new Dictionary<int,int>();
 
-                  fileqqid.PostedFile.SaveAs(path);
+                //int maxRows = 1000;
+                //if (sourcefileContent != null && sourcefileContent.Length > maxRows)
+                //{
+                //    int plusNum = sourcefileContent.Length / maxRows;
+                //    int plusNum2 = sourcefileContent.Length % maxRows;
+                //    int baseAddNum = maxRows;
 
-                  LogHelper.LogInfo(" KFWebTest.aspx  保存文件路径  path=" + path);
+                //    for (int i = 0; i < plusNum; i++)
+                //    {
+                //        indexList.Add(baseAddNum - maxRows, baseAddNum);
 
-                  var sourcefileContent = System.IO.File.ReadAllLines(path);
+                //        baseAddNum += maxRows;
 
-                  System.Threading.Thread td = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart(delegate
-                  {
-                      foreach (var item in sourcefileContent)
-                      {
-                          var qqid = item.Trim();
-                          if (UpdateUserInfoAttr(qqid))
-                          {
-                              LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改成功--1------qqid={0}------", item));
-                          }
-                          else
-                          {
-                              LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改失败--0------qqid={0}------", item));
-                          }
+                //        if (plusNum2 > 0 && baseAddNum >= sourcefileContent.Length)
+                //        {
+                //            indexList.Add(indexList[baseAddNum - 2*maxRows], sourcefileContent.Length);
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    indexList.Add(0, sourcefileContent.Length);
+                //}
 
-                          System.Threading.Thread.Sleep(5);
-                      }
-                  }));
+                //foreach (var qqlist in indexList)
+                //{
+                //    System.Threading.Thread td = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart(delegate(object qqidfile)
+                //    {
+                //        var currFileContent = (KeyValuePair<int, int>)qqidfile;
+                //        for (int qqIndex = currFileContent.Key; qqIndex < currFileContent.Value; qqIndex++)
+                //         {
+                //             var qqid = sourcefileContent[qqIndex];
+                //            //if (UpdateUserInfoAttr(qqid))
+                //            //{
+                //            //    LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改成功--1------qqid={0}---------{1}--{2}-", qqid, currFileContent.Key, currFileContent.Value));
+                //            //}
+                //            //else
+                //            //{
+                //                LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改失败--0------qqid={0}---------{1}--{2}-", qqid, currFileContent.Key, currFileContent.Value));
+                //            //}
 
-                  td.Start();
+                //            System.Threading.Thread.Sleep(2);
+                //        }
+                //    }));
 
-                  Response.Write("KFWebTest.aspx  正在执行…………");
-              }
-              else {
+                //    td.Start(qqlist);
+                //}
 
-                  LogHelper.LogInfo(" KFWebTest.aspx  文件格式不合法。非txt");
+#endregion
 
-                  Response.Write("KFWebTest.aspx  文件格式不合法。非txt");
-              }
 
-              Response.End();
+                if (sourcefileContent != null && sourcefileContent.Length > 0)
+                {
+                    System.Threading.Tasks.Parallel.ForEach(sourcefileContent, delegate(string qqid)
+                        {
+                            if (UpdateUserInfoAttr(qqid))
+                            {
+                                LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改成功--1------qqid={0}----------", qqid));
+                            }
+                            else
+                            {
+                                LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改失败--0------qqid={0}----------", qqid));
+                            }
+
+                        });
+                }
+
+                Response.Write("KFWebTest.aspx  正在执行…………");
+            }
+            else
+            {
+
+                LogHelper.LogInfo(" KFWebTest.aspx  文件格式不合法。非txt");
+
+                Response.Write("KFWebTest.aspx  文件格式不合法。非txt");
+            }
+
+
+            Response.End();
         }
 
 
