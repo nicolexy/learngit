@@ -257,23 +257,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 //    td.Start(qqlist);
                 //}
 
-#endregion
+                #endregion
 
 
                 if (sourcefileContent != null && sourcefileContent.Length > 0)
                 {
-                    System.Threading.Tasks.Parallel.ForEach(sourcefileContent, delegate(string qqid)
-                        {
-                            if (UpdateUserInfoAttr(qqid))
-                            {
-                                LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改成功--1------qqid={0}----------", qqid));
-                            }
-                            else
-                            {
-                                LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改失败--0------qqid={0}----------", qqid));
-                            }
+                    System.Threading.Thread td = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart(delegate
+                      {
+                          System.Threading.Tasks.Parallel.ForEach(sourcefileContent, delegate(string qqid)
+                              {
+                                  if (UpdateUserInfoAttr(qqid))
+                                  {
+                                      LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改成功--1------qqid={0}----------", qqid));
+                                  }
+                                  else
+                                  {
+                                      LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改失败--0------qqid={0}----------", qqid));
+                                  }
 
-                        });
+                              });
+                      }));
+
+                    td.Start();
                 }
 
                 Response.Write("KFWebTest.aspx  正在执行…………");
