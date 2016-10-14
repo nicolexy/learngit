@@ -195,27 +195,40 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
                   fileqqid.PostedFile.SaveAs(path);
 
+                  LogHelper.LogInfo(" KFWebTest.aspx  保存文件路径  path=" + path);
 
                   var sourcefileContent = System.IO.File.ReadAllLines(path);
 
-                  foreach (var item in sourcefileContent)
+                  System.Threading.Thread td = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart(delegate
                   {
-                      var qqid = item.Trim();
-                      if (UpdateUserInfoAttr(qqid))
+                      foreach (var item in sourcefileContent)
                       {
-                          LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改成功--1------qqid={0}------", item));
-                      }
-                      else {
-                          LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改失败--0------qqid={0}------", item));
-                      }
-                  }
+                          var qqid = item.Trim();
+                          if (UpdateUserInfoAttr(qqid))
+                          {
+                              LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改成功--1------qqid={0}------", item));
+                          }
+                          else
+                          {
+                              LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改失败--0------qqid={0}------", item));
+                          }
 
-                  LogHelper.LogInfo(" KFWebTest.aspx  path=" + path);
+                          System.Threading.Thread.Sleep(5);
+                      }
+                  }));
+
+                  td.Start();
+
+                  Response.Write("KFWebTest.aspx  正在执行…………");
               }
               else {
 
                   LogHelper.LogInfo(" KFWebTest.aspx  文件格式不合法。非txt");
+
+                  Response.Write("KFWebTest.aspx  文件格式不合法。非txt");
               }
+
+              Response.End();
         }
 
 
@@ -231,8 +244,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 ds = new AccountService().GetUserInfo(qqid, accountType, 1, 1);
             }
             catch (Exception ep) {
-                LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ------------UpdateUserInfoAttr1---{1}--0------qqid={0}------", qqid, ep.Message));
-                LogHelper.LogError(string.Format(" KFWebTest.aspx ------------UpdateUserInfoAttr2---{1}--0------qqid={0}------", qqid, ep.ToString()));
+                //LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ------------UpdateUserInfoAttr1-----0------qqid={0}-----{1}-", qqid, ep.Message));
+                LogHelper.LogError(string.Format(" KFWebTest.aspx ------------UpdateUserInfoAttr2-----0------qqid={0}-----{1}-", qqid, ep.ToString()));
                 return false;
             }
 
