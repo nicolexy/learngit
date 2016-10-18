@@ -49,24 +49,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount {
         protected global::System.Web.UI.HtmlControls.HtmlInputText tbx_beginDate;
         
         /// <summary>
-        /// txt_EndDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txt_EndDate;
-        
-        /// <summary>
-        /// txt_uin control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txt_uin;
-        
-        /// <summary>
         /// hid_IdCaredServerPath control.
         /// </summary>
         /// <remarks>

@@ -46,7 +46,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
             if (Request["reqtype"] != null)
             {
-                var reqtype= Request["reqtype"].ToString().ToLower();
+                var reqtype = Request["reqtype"].ToString().ToLower();
                 LogHelper.LogInfo(" KFWebTest.aspx  request reqtype ：" + reqtype);
 
                 switch (reqtype)
@@ -66,20 +66,22 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
         }
 
-        private void GetDBConnStr(string strkey) {
-           string dbstr = CommLib.DbConnectionString.Instance.GetConnectionString(strkey.Trim().ToUpper());
+        private void GetDBConnStr(string strkey)
+        {
+            string dbstr = CommLib.DbConnectionString.Instance.GetConnectionString(strkey.Trim().ToUpper());
 
-           LogHelper.LogInfo(" test.aspx  private void GetDBConnStr  strKey：" +strkey+",dbstr:"+ dbstr);
+            LogHelper.LogInfo(" test.aspx  private void GetDBConnStr  strKey：" + strkey + ",dbstr:" + dbstr);
 
-            string qq="404968099";
-                if (Request["qq"] != null){
-                    qq = Request["qq"].ToString();
-                }
+            string qq = "404968099";
+            if (Request["qq"] != null)
+            {
+                qq = Request["qq"].ToString();
+            }
             this.Label1.Text = dbstr;
 
             bindshimingrzData(qq);
 
-           Response.Write(dbstr);
+            Response.Write(dbstr);
 
         }
 
@@ -91,13 +93,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             try
             {
                 CommMailSend.SendMsg("yukini@tencent.com", actiontype, "Fqqid=380885873", 2);
+                LogHelper.LogInfo(" KFWebTest.aspx  SendEmail ok");
             }
             catch (Exception ep)
             {
                 LogHelper.LogError(" KFWebTest.aspx  SendEmail ：" + ep);
+            }
+            finally
+            {
                 try
                 {
                     CommMailSend.SendMsg("yukini@tencent.com", actiontype, "Fqqid=yukini@tencent.com", 1);
+                    LogHelper.LogInfo(" KFWebTest.aspx  SendEmail ok");
                 }
                 catch (Exception ep2)
                 {
@@ -118,7 +125,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 //start
                 string qqid = QQID.Trim();
 
-          
+
                 string errMsg = "";
                 string strSql = "uin=" + qqid;
                 string struid = CommQuery.GetOneResultFromICE(strSql, CommQuery.QUERY_RELATION, "fuid", out errMsg);
@@ -165,40 +172,198 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
         }
 
 
-        private void UpdateUserInfoAttr(string qqid){
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            //var maxWorkThread = 0;
+            //var maxThread = 0;
+            //System.Threading.ThreadPool.GetMaxThreads(out maxWorkThread, out maxThread);
+
+
+            if (!fileqqid.HasFile)
+            {
+                throw new ArgumentNullException("请上传文件");
+
+                LogHelper.LogInfo(" KFWebTest.aspx  请上传文件");
+            }
+
+            if (System.IO.Path.GetExtension(fileqqid.FileName).ToLower() == ".txt")
+            {
+                string filePath = Server.MapPath("~/") + "PLFile//";
+                string path = filePath + System.IO.Path.GetFileName(fileqqid.FileName);
+
+                if (!System.IO.Directory.Exists(filePath))
+                {
+                    System.IO.Directory.CreateDirectory(filePath);
+                }
+
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+
+                fileqqid.PostedFile.SaveAs(path);
+                LogHelper.LogInfo(" KFWebTest.aspx  保存文件路径  path=" + path);
+
+                var sourcefileContent = System.IO.File.ReadAllLines(path);
+
+                #region old code
+                //Dictionary<int,int> indexList = new Dictionary<int,int>();
+
+                //int maxRows = 1000;
+                //if (sourcefileContent != null && sourcefileContent.Length > maxRows)
+                //{
+                //    int plusNum = sourcefileContent.Length / maxRows;
+                //    int plusNum2 = sourcefileContent.Length % maxRows;
+                //    int baseAddNum = maxRows;
+
+                //    for (int i = 0; i < plusNum; i++)
+                //    {
+                //        indexList.Add(baseAddNum - maxRows, baseAddNum);
+
+                //        baseAddNum += maxRows;
+
+                //        if (plusNum2 > 0 && baseAddNum >= sourcefileContent.Length)
+                //        {
+                //            indexList.Add(indexList[baseAddNum - 2*maxRows], sourcefileContent.Length);
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    indexList.Add(0, sourcefileContent.Length);
+                //}
+
+                //foreach (var qqlist in indexList)
+                //{
+                //    System.Threading.Thread td = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart(delegate(object qqidfile)
+                //    {
+                //        var currFileContent = (KeyValuePair<int, int>)qqidfile;
+                //        for (int qqIndex = currFileContent.Key; qqIndex < currFileContent.Value; qqIndex++)
+                //         {
+                //             var qqid = sourcefileContent[qqIndex];
+                //            //if (UpdateUserInfoAttr(qqid))
+                //            //{
+                //            //    LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改成功--1------qqid={0}---------{1}--{2}-", qqid, currFileContent.Key, currFileContent.Value));
+                //            //}
+                //            //else
+                //            //{
+                //                LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改失败--0------qqid={0}---------{1}--{2}-", qqid, currFileContent.Key, currFileContent.Value));
+                //            //}
+
+                //            System.Threading.Thread.Sleep(2);
+                //        }
+                //    }));
+
+                //    td.Start(qqlist);
+                //}
+
+                #endregion
+
+
+                if (sourcefileContent != null && sourcefileContent.Length > 0)
+                {
+                    System.Threading.Thread td = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart(delegate
+                      {
+                          System.Threading.Tasks.Parallel.ForEach(sourcefileContent, delegate(string qqid)
+                              {
+                                  if (UpdateUserInfoAttr(qqid))
+                                  {
+                                      //LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改成功--1------qqid={0}----------", qqid));
+                                  }
+                                  else
+                                  {
+                                      LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改失败--0------qqid={0}----------", qqid));
+                                  }
+
+                              });
+                      }));
+
+                    td.Start();
+                }
+
+                Response.Write("KFWebTest.aspx  正在执行…………");
+            }
+            else
+            {
+
+                LogHelper.LogInfo(" KFWebTest.aspx  文件格式不合法。非txt");
+
+                Response.Write("KFWebTest.aspx  文件格式不合法。非txt");
+            }
+
+
+            Response.End();
+        }
+
+
+
+
+        private bool UpdateUserInfoAttr(string qqid)
+        {
             int accountType = 0;
-            DataSet ds = new AccountService().GetUserInfo(qqid, accountType, 1, 1);
+            
+            DataSet ds =null;
+            try
+            {
+                ds = new AccountService().GetUserInfo(qqid, accountType, 1, 1);
+            }
+            catch (Exception ep) {
+                //LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ------------UpdateUserInfoAttr1-----0------qqid={0}-----{1}-", qqid, ep.Message));
+                LogHelper.LogError(string.Format(" KFWebTest.aspx ------------UpdateUserInfoAttr2-----0------qqid={0}-----{1}-", qqid, ep.ToString()));
+                LogHelper.LogInfo(string.Format("==========,{0},{1},{2},{3}", qqid, "", "", ""));
+                return false;
+            }
+
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
             {
-                LogHelper.LogInfo(" KFWebTest.aspx  qqid=" + qqid + "未获取到数据");
+                LogHelper.LogError(" KFWebTest.aspx new AccountService().GetUserInfo  qqid=" + qqid + "未获取到数据");
 
-                Response.Write(" KFWebTest.aspx  UpdateUserInfoAttr qqid=" + qqid + "未获取到数据");
-                Response.End();
-                return;
+                return false;
             }
 
             string atttype = "108";
             string oldatttype = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fatt_id"]);
             string fcre_type = ds.Tables[0].Rows[0]["Fcre_type"].ToString();
 
-            //获得用户帐户信息
-            string userType = null;
-            string userType_str = null;
-            string Msg = null;
-            bool exeSign = new AccountService().GetUserType(qqid, accountType, out userType, out userType_str, out Msg);
+            //获得用户帐户信息 
+            string userType = "";
+            string userType_str = "";
+            string Msg = "";
+            bool exeSign = false;
+
+            try
+            {
+                exeSign = new AccountService().GetUserType(qqid, accountType, out userType, out userType_str, out Msg);
+            }
+            catch(Exception ef)
+            {
+                LogHelper.LogInfo(" KFWebTest.aspx new AccountService().GetUserType  qqid=" + qqid + "获取帐号类型失败," + ef);
+                userType = string.Empty;
+            }
 
             if (exeSign == false)
             {
                 userType = string.Empty;
-                LogHelper.LogInfo(" KFWebTest.aspx  userType=" + userType + "未获取到数据");
+                //LogHelper.LogInfo(" KFWebTest.aspx  userType=" + userType + "未获取到数据");
             }
 
-            string oldfmemo = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fmemo"]);
-            string fmemo = "1测试1";
-            if (modifyAttType(qqid, atttype, oldatttype))
-            {
-                upgradeLog(qqid, fcre_type, userType, oldatttype, atttype, oldfmemo,fmemo);
-            }
+            //string oldfmemo = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fmemo"]);
+            //string fmemo = "企业C账户整改";
+
+
+
+            string fcompany_name = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fcompany_name"]);
+            LogHelper.LogInfo(string.Format("==========,{0},{1},{2},{3}", qqid, oldatttype, userType, fcompany_name));
+
+            return true;
+
+            //if (modifyAttType(qqid, atttype, oldatttype))
+            //{
+            //  return upgradeLog(qqid, fcre_type, userType, oldatttype, atttype, oldfmemo, fmemo);
+            //}
+            //else {
+            //    return false;
+            //}
         }
 
         /// <summary>
@@ -211,7 +376,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
         /// <returns></returns>
         private bool modifyAttType(string qqid, string atttype, string oldattid)
         {
-         string   Msg = string.Empty;
+            string Msg = string.Empty;
 
             try
             {
@@ -221,23 +386,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 strSql += "&attid=" + atttype;
                 strSql += "&modify_time=" + CommQuery.ICEEncode(strNowTimeStander);
 
-                Msg=string.Format("qqid={0},   atttype={1},    oldattid={2},",qqid,atttype,oldattid);
+                Msg = string.Format("qqid={0},   atttype={1},    oldattid={2},", qqid, atttype, oldattid);
 
                 if (CommQuery.ExecSqlFromICE(strSql, CommQuery.UPDATE_USERATT, out Msg) < 0)
                 {
-                    Msg +=  ",修改用户属性类型失败！";
+                    Msg += ",修改用户属性类型失败！";
                     LogHelper.LogInfo(" KFWebTest.aspx  " + Msg);
                     return false;
                 }
-                else{
-                 Msg +=",修改用户属性类型成功！";
-                LogHelper.LogInfo(" KFWebTest.aspx  " + Msg);
-                return true;
+                else
+                {
+                    Msg += ",修改用户属性类型成功！";
+                    LogHelper.LogInfo(" KFWebTest.aspx  " + Msg);
+                    return true;
                 }
             }
             catch (Exception e)
             {
-                Msg +=",修改用户属性类型异常！[" + e.ToString().Replace("'", "’") + "]";
+                Msg += ",修改用户属性类型异常！[" + e.ToString().Replace("'", "’") + "]";
                 LogHelper.LogError(" KFWebTest.aspx  " + Msg);
                 return false;
             }
@@ -249,26 +415,28 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             string Msg = string.Empty;
             try
             {
-                bool operSucc =  new AccountService().AddChangeUserInfoLog(qqid,
+                bool operSucc = new AccountService().AddChangeUserInfoLog(qqid,
                     fcre_type, fcre_type,
                     userType, userType,
                     atttype, oldatttype,
                     fmemo, oldfmemo,
                     Session["uid"].ToString());
 
-                Msg="qqid=" + qqid + ",fcre_type="+fcre_type  + ",userType=" +userType + ",  oldatttype= "+oldatttype+", atttype= "+atttype+" , oldfmemo="+oldfmemo+",fmemo= "+fmemo;
+                Msg = "qqid=" + qqid + ",fcre_type=" + fcre_type + ",userType=" + userType + ",  oldatttype= " + oldatttype + ", atttype= " + atttype + " , oldfmemo=" + oldfmemo + ",fmemo= " + fmemo;
                 if (operSucc)
                 {
                     Msg += ",修改用户属性类型成功！";
                 }
-                else {
+                else
+                {
 
                     Msg += ",修改用户属性类型失败！";
                 }
                 LogHelper.LogInfo(" KFWebTest.aspx  " + Msg);
                 return operSucc;
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
 
                 Msg += ",修改用户属性类型异常！[" + e.ToString().Replace("'", "’") + "]";
                 LogHelper.LogError(" KFWebTest.aspx  " + Msg);
@@ -276,7 +444,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             }
 
         }
-        
+
         #endregion
 
 
@@ -344,7 +512,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
             retInfo += "_=_" + WeChatHelper.GetXYKHKOpenIdFromWeChatName(wechatName);
 
-            tempopenid = WeChatHelper.GetFCXGOpenIdFromWeChatName(wechatName,Request.UserHostAddress);
+            tempopenid = WeChatHelper.GetFCXGOpenIdFromWeChatName(wechatName, Request.UserHostAddress);
             retInfo += "_=_" + tempopenid + "_=_Request IP:" + Request.UserHostAddress;
 
             LogHelper.LogInfo(" test.aspx  private void WeChatInfo  retInfo：" + retInfo);
@@ -352,7 +520,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             Response.Write(retInfo);
             Response.End();
         }
-
 
     }
 }

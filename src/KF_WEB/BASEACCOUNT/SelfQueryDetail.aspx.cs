@@ -146,7 +146,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 this.txtSuperiorSpid.Text = ds.Tables[0].Rows[0]["SuperiorSpid"].ToString();
                 //lxl 20140703
                // DataSet ds1 = new SPOAService().GetSpInfo(" and SPID='" + ViewState["SPID"].ToString() + "'", 1, 0);
-                DataSet ds1 = new SPOAService().GetSpInfo(ViewState["SPID"].ToString(), "", "", "", "", "", 1, 0);
+                DataSet ds1 = new SPOAService().GetSpInfo(ViewState["SPID"].ToString(), ViewState["ApplyCpInfoID"].ToString(), "", "", "", "", 1, 0);
                 
                 if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
                 {

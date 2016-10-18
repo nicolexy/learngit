@@ -17,7 +17,7 @@ using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
 using CFT.CSOMS.BLL.TradeModule;
 using CFT.CSOMS.BLL.TransferMeaning;
-using CFT.Apollo.Logging;
+using TENCENT.OSS.C2C.Finance.BankLib;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -118,8 +118,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				}
 
 			}
-
-            LogHelper.LogInfo("调用 CFT.Apollo.Bow.Withdraw.WithdrawRepository.GetItemByListid");
+             
             DataTable dt = pickservice.GetPickListDetail(listid);
 
 			if(dt != null && dt.Rows.Count > 0 )
@@ -172,7 +171,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 				labFmodify_time.Text = PublicRes.GetDateTime(dr["FModify_time"]);
 
                 labFbankName.Text = PublicRes.GetString(dr["Fbank_name"]);
-                labFbankID.Text = GetBankIDName(dr["Fbankid"].ToString());
+                labFbankID.Text = GetExtractCashType(dr["Fproduct"].ToString(), dr["Fbusiness_type"].ToString());
                 labFbankType.Text = PublicRes.GetString(Transfer.returnDicStr("BANK_TYPE", PublicRes.GetInt(dr["Fbank_Type"])));
                 labFmemo.Text = PublicRes.GetString(dr["Fmemo"]);
                 try
@@ -212,6 +211,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 }
             }
             return "未知：(" + bankId + ")";
+        }
+
+        /// <summary>
+        /// 映射提现类型
+        /// </summary>     
+        private string GetExtractCashType(string Fproduct, string Fbusiness_type)
+        {
+            string result = string.Empty;
+            string key = string.Format("{0}-{1}", Fproduct, Fbusiness_type);
+            result = BankIO.GetExtractCashType(key);
+            return result;
         }
 	}
 }

@@ -56,6 +56,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 menuControl.AddSubMenu("账单查询", "CreditPay/QueryCreditBillList.aspx");
                 menuControl.AddSubMenu("欠款查询", "CreditPay/QueryCreditDebt.aspx");
                 menuControl.AddSubMenu("还款查询", "CreditPay/QueryRefund.aspx");
+                //menuControl.AddSubMenu("账户查询", "CreditPay/AccountSearch.aspx");
+                //menuControl.AddSubMenu("账单查询", "CreditPay/BillSearch.aspx");
+                //menuControl.AddSubMenu("明细查询", "CreditPay/DetailSearch.aspx");
 			}
 		}
 			

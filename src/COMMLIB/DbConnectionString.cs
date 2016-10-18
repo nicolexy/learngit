@@ -64,6 +64,7 @@ namespace CommLib
                 {
                     #if DEBUG
                     connectionString = "Driver={mysql ODBC 5.2a Driver}; Database=mysql;Server=10.12.72.253;UID=root;PWD=root1234;charset=latin1;Option=3";                    
+                    //connectionString = "Database=oss-cft-spoa;Server=10.123.9.166;UID=root;PWD=root1234;Character Set=gbk";                    
                     #else
                     connectionString = ConnectionStringHelper.Get(dataSourceName);
                     #endif

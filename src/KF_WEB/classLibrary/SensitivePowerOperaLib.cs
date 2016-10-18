@@ -442,6 +442,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
                 rights[175] = new OneRight("TencentbusinessMenu", 175, "购买公司业务菜单");
 
                 rights[196] = new OneRight("SensitiveRole", 196, "敏感权限");
+
+                rights[211] = new OneRight("ChangeUserInfo", 211, "个人信息");
 				ht = new Hashtable(RIGHTCOUNT);
 				for(int i=0 ; i< RIGHTCOUNT; i++)
 				{

@@ -42,16 +42,16 @@ namespace CFT.CSOMS.BLL.InternetBank
                     }
                 }
 
-                DataTable wx_dt = new WechatPayService().QueryWxTrans(FOrderId); //查询微信转账业务
-                if (wx_dt != null && wx_dt.Rows.Count > 0)
-                {
-                    string wxTradeId = PublicRes.objectToString(wx_dt, "wx_trade_id");//子账户关联订单号
-                    if (wxTradeId.Contains("mkt") || wxTradeId.Contains("wxp"))
-                    {
-                        LogHelper.LogError("当前订单为微信大单，禁止录入！");
-                        throw new Exception("当前订单为微信大单，禁止录入！");
-                    }
-                }
+                //DataTable wx_dt = new WechatPayService().QueryWxTrans(FOrderId); //查询微信转账业务
+                //if (wx_dt != null && wx_dt.Rows.Count > 0)
+                //{
+                //    string wxTradeId = PublicRes.objectToString(wx_dt, "wx_trade_id");//子账户关联订单号
+                //    if (wxTradeId.Contains("mkt") || wxTradeId.Contains("wxp"))
+                //    {
+                //        LogHelper.LogError("当前订单为微信大单，禁止录入！");
+                //        throw new Exception("当前订单为微信大单，禁止录入！");
+                //    }
+                //}
             }
             catch (Exception ex)
             {

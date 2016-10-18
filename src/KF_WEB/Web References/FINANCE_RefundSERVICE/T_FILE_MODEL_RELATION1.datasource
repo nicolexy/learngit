@@ -6,5 +6,5 @@
     cause the file to be unrecognizable by the program.
 -->
 <GenericObjectDataSource DisplayName="T_FILE_MODEL_RELATION" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
-   <TypeInfo>TENCENT.OSS.CFT.KF.KF_Web.FINANCE_RefundSERVICE.T_FILE_MODEL_RELATION, Web References.FINANCE_RefundSERVICE.Reference.cs, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
+   <TypeInfo>TENCENT.OSS.CFT.KF.KF_Web.FINANCE_RefundSERVICE.T_FILE_MODEL_RELATION</TypeInfo>
 </GenericObjectDataSource>

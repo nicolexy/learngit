@@ -64,7 +64,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             return dt;
         }
 
-        private void BindData(int i, int pageIndex)
+        private void  BindData(int i, int pageIndex)
         {
             if (Session["uid"] == null)
             {

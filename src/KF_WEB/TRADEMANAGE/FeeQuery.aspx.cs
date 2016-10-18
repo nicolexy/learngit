@@ -244,25 +244,25 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     return acc = "未知";
                 }
 
-                DataTable wx_dt = null;
-                try
-                {
-                    //担心接口还未上线，导致客服现有功能使用不了，暂时这样处理
-                    wx_dt = new WechatPayService().QueryWxTrans(ds.Tables[0].Rows[0]["Flistid"].ToString()); //查询微信转账业务
-                }
-                catch
-                {
-                }
+                //DataTable wx_dt = null;
+                //try
+                //{
+                //    //担心接口还未上线，导致客服现有功能使用不了，暂时这样处理
+                //    wx_dt = new WechatPayService().QueryWxTrans(ds.Tables[0].Rows[0]["Flistid"].ToString()); //查询微信转账业务
+                //}
+                //catch
+                //{
+                //}
 
-                if (wx_dt != null && wx_dt.Rows.Count > 0)
-                {
-                    //通过卖家交易单反查付款方
-                    acc = PublicRes.objectToString(wx_dt, "pay_openid");
-                }
-                else
-                {
+                //if (wx_dt != null && wx_dt.Rows.Count > 0)
+                //{
+                //    //通过卖家交易单反查付款方
+                //    acc = PublicRes.objectToString(wx_dt, "pay_openid");
+                //}
+                //else
+                //{
                     acc = ds.Tables[0].Rows[0]["Fbuyid"].ToString();
-                }
+                //}
                 return acc;
             }
             catch { return acc; }

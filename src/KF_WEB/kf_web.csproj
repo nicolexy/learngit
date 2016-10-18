@@ -295,6 +295,13 @@
     <Compile Include="BaseAccount\CFTUserCheck.aspx.designer.cs">
       <DependentUpon>CFTUserCheck.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\CFTUserCheckPwd.aspx.cs">
+      <DependentUpon>CFTUserCheckPwd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\CFTUserCheckPwd.aspx.designer.cs">
+      <DependentUpon>CFTUserCheckPwd.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\CFTUserPick.aspx.cs">
       <DependentUpon>CFTUserPick.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -428,6 +435,13 @@
     </Compile>
     <Compile Include="BaseAccount\IDCardManualReview.aspx.designer.cs">
       <DependentUpon>IDCardManualReview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BaseAccount\IDCardManualReviewReport.aspx.cs">
+      <DependentUpon>IDCardManualReviewReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\IDCardManualReviewReport.aspx.designer.cs">
+      <DependentUpon>IDCardManualReviewReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaseAccount\InfoCenterDelRecord.aspx.cs">
       <DependentUpon>InfoCenterDelRecord.aspx</DependentUpon>
@@ -758,6 +772,13 @@
     <Compile Include="BaseAccount\UserAppealCheck.aspx.designer.cs">
       <DependentUpon>UserAppealCheck.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BaseAccount\UserAppealCheckPwd.aspx.cs">
+      <DependentUpon>UserAppealCheckPwd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaseAccount\UserAppealCheckPwd.aspx.designer.cs">
+      <DependentUpon>UserAppealCheckPwd.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\UserBankAccountQuery.aspx.cs">
       <DependentUpon>UserBankAccountQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -989,6 +1010,13 @@
     <Compile Include="Control\TravelPlatform.ascx.designer.cs">
       <DependentUpon>TravelPlatform.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Control\UserAppealCheckPwdControl.ascx.cs">
+      <DependentUpon>UserAppealCheckPwdControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Control\UserAppealCheckPwdControl.ascx.designer.cs">
+      <DependentUpon>UserAppealCheckPwdControl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Control\UserNameControl.ascx.cs">
       <DependentUpon>UserNameControl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1184,6 +1212,27 @@
     </Compile>
     <Compile Include="Control\VIPAccountManageControl.ascx.designer.cs">
       <DependentUpon>VIPAccountManageControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="CreditPay\AccountSearch.aspx.cs">
+      <DependentUpon>AccountSearch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreditPay\AccountSearch.aspx.designer.cs">
+      <DependentUpon>AccountSearch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CreditPay\BillSearch.aspx.cs">
+      <DependentUpon>BillSearch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreditPay\BillSearch.aspx.designer.cs">
+      <DependentUpon>BillSearch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CreditPay\DetailSearch.aspx.cs">
+      <DependentUpon>DetailSearch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreditPay\DetailSearch.aspx.designer.cs">
+      <DependentUpon>DetailSearch.aspx</DependentUpon>
     </Compile>
     <Compile Include="CreditPay\QueryCapitalRoll.aspx.cs">
       <DependentUpon>QueryCapitalRoll.aspx</DependentUpon>
@@ -2962,6 +3011,7 @@
     <Content Include="BaseAccount\CFTUserCheck.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="BaseAccount\CFTUserCheckPwd.aspx" />
     <Content Include="BaseAccount\CFTUserPick.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -2993,8 +3043,10 @@
     <Content Include="BaseAccount\FreezeFinQuery2.aspx" />
     <Content Include="BaseAccount\GatherLog.aspx" />
     <Content Include="BaseAccount\IDCardManualReview.aspx" />
-    <Content Include="BaseAccount\IDCardManualReview.js" />
+    <Content Include="BaseAccount\IDCardManualReviewReport.aspx" />
     <Content Include="BaseAccount\InfoCenterDelRecord.aspx" />
+    <Content Include="BaseAccount\js\IDCardManualReview.js" />
+    <Content Include="BaseAccount\js\IDCardManualReviewReport.js" />
     <Content Include="BaseAccount\js\LogOnWxAccount.js" />
     <Content Include="BaseAccount\js\RealNameCertifation.js" />
     <Content Include="BaseAccount\logOnUserBatch.aspx" />
@@ -3092,6 +3144,7 @@
     </Content>
     <Content Include="BaseAccount\UserAppeal.aspx" />
     <Content Include="BaseAccount\UserAppealCheck.aspx" />
+    <Content Include="BaseAccount\UserAppealCheckPwd.aspx" />
     <Content Include="BaseAccount\UserBankAccountQuery.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -3160,6 +3213,7 @@
       <SubType>UserControl</SubType>
     </Content>
     <Content Include="Control\TravelPlatform.ascx" />
+    <Content Include="Control\UserAppealCheckPwdControl.ascx" />
     <Content Include="Control\UserNameControl.ascx" />
     <Content Include="Control\WebchatPayControl.ascx" />
     <Content Include="Control\CreditPayControl.ascx" />
@@ -3224,6 +3278,12 @@
     <Content Include="Control\VIPAccountManageControl.ascx">
       <SubType>UserControl</SubType>
     </Content>
+    <Content Include="CreditPay\AccountSearch.aspx" />
+    <Content Include="CreditPay\BillSearch.aspx" />
+    <Content Include="CreditPay\DetailSearch.aspx" />
+    <Content Include="CreditPay\JS\AccountSearch.js" />
+    <Content Include="CreditPay\JS\BillSearch.js" />
+    <Content Include="CreditPay\JS\DetailSearch.js" />
     <Content Include="CreditPay\QueryCapitalRoll.aspx" />
     <Content Include="CreditPay\QueryCreditDebt.aspx" />
     <Content Include="CreditPay\QueryRefund.aspx" />
@@ -3463,6 +3523,10 @@
     </Content>
     <Content Include="SCRIPTS\IdentityIDValidate.js" />
     <Content Include="SCRIPTS\jquery-1.11.3.min.js" />
+    <Content Include="SCRIPTS\jquery-1.7.2\jquery.js" />
+    <Content Include="SCRIPTS\jquery-1.7.2\jquery.min.js" />
+    <Content Include="SCRIPTS\jquery-1.9.1\jquery.js" />
+    <Content Include="SCRIPTS\jquery-1.9.1\jquery.min.js" />
     <Content Include="SCRIPTS\jquery-3.0.0.js" />
     <Content Include="SCRIPTS\jquery-3.0.0.min.js" />
     <Content Include="SCRIPTS\jquery-easyui-1.4.2\changelog.txt" />
@@ -4906,6 +4970,54 @@
     <Content Include="SCRIPTS\My97DatePicker\skin\whyGreen\datepicker.css" />
     <Content Include="SCRIPTS\My97DatePicker\skin\whyGreen\img.gif" />
     <Content Include="SCRIPTS\My97DatePicker\WdatePicker.js" />
+    <Content Include="SCRIPTS\viewerjs\assets\css\bootstrap.min.css" />
+    <Content Include="SCRIPTS\viewerjs\assets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\emma-watson-1.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\emma-watson-2.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\emma-watson-3.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\emma-watson-4.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\emma-watson-5.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\emma-watson-6.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\emma-watson-7.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\emma-watson-8.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\emma-watson-9.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\thumbnails\emma-watson-1.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\thumbnails\emma-watson-2.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\thumbnails\emma-watson-3.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\thumbnails\emma-watson-4.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\thumbnails\emma-watson-5.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\thumbnails\emma-watson-6.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\thumbnails\emma-watson-7.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\thumbnails\emma-watson-8.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\img\thumbnails\emma-watson-9.jpg" />
+    <Content Include="SCRIPTS\viewerjs\assets\js\bootstrap.min.js" />
+    <Content Include="SCRIPTS\viewerjs\assets\js\jquery.min.js" />
+    <Content Include="SCRIPTS\viewerjs\assets\js\main.js" />
+    <Content Include="SCRIPTS\viewerjs\css\default.css" />
+    <Content Include="SCRIPTS\viewerjs\css\main.css" />
+    <Content Include="SCRIPTS\viewerjs\css\normalize.css" />
+    <Content Include="SCRIPTS\viewerjs\dist\viewer.css" />
+    <Content Include="SCRIPTS\viewerjs\dist\viewer.js" />
+    <Content Include="SCRIPTS\viewerjs\dist\viewer.min.css" />
+    <Content Include="SCRIPTS\viewerjs\dist\viewer.min.js" />
+    <Content Include="SCRIPTS\viewerjs\fonts\icomoon.svg" />
+    <Content Include="SCRIPTS\viewerjs\src\img\icons.png" />
+    <Content Include="SCRIPTS\viewerjs\src\js\bind.js" />
+    <Content Include="SCRIPTS\viewerjs\src\js\build.js" />
+    <Content Include="SCRIPTS\viewerjs\src\js\defaults.js" />
+    <Content Include="SCRIPTS\viewerjs\src\js\handlers.js" />
+    <Content Include="SCRIPTS\viewerjs\src\js\init.js" />
+    <Content Include="SCRIPTS\viewerjs\src\js\intro.js" />
+    <Content Include="SCRIPTS\viewerjs\src\js\methods.js" />
+    <Content Include="SCRIPTS\viewerjs\src\js\others.js" />
+    <Content Include="SCRIPTS\viewerjs\src\js\outro.js" />
+    <Content Include="SCRIPTS\viewerjs\src\js\plugin.js" />
+    <Content Include="SCRIPTS\viewerjs\src\js\prototype.js" />
+    <Content Include="SCRIPTS\viewerjs\src\js\render.js" />
+    <Content Include="SCRIPTS\viewerjs\src\js\template.js" />
+    <Content Include="SCRIPTS\viewerjs\src\js\utilities.js" />
+    <Content Include="SCRIPTS\viewerjs\src\js\variables.js" />
+    <Content Include="SCRIPTS\viewerjs\src\js\viewer.js" />
     <Content Include="SpSettle\AdjustQuery.aspx" />
     <Content Include="SpSettle\CertBlackList.aspx" />
     <Content Include="SpSettle\OrderAccountQuery.aspx" />
@@ -5168,6 +5280,28 @@
     <Content Include="SCRIPTS\jquery-easyui-1.4.2\demo\treegrid\treegrid_data3.json" />
     <Content Include="SCRIPTS\jquery-easyui-1.4.2\demo\tree\tree_data1.json" />
     <Content Include="SCRIPTS\jquery-easyui-1.4.2\demo\tree\tree_data2.json" />
+    <Content Include="SCRIPTS\viewerjs\assets\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="SCRIPTS\viewerjs\assets\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="SCRIPTS\viewerjs\assets\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="SCRIPTS\viewerjs\assets\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="SCRIPTS\viewerjs\fonts\icomoon.eot" />
+    <Content Include="SCRIPTS\viewerjs\fonts\icomoon.ttf" />
+    <Content Include="SCRIPTS\viewerjs\fonts\icomoon.woff" />
+    <Content Include="SCRIPTS\viewerjs\src\img\icons.psd" />
+    <Content Include="SCRIPTS\viewerjs\src\scss\viewer.scss" />
+    <Content Include="SCRIPTS\viewerjs\src\scss\_button.scss" />
+    <Content Include="SCRIPTS\viewerjs\src\scss\_canvas.scss" />
+    <Content Include="SCRIPTS\viewerjs\src\scss\_container.scss" />
+    <Content Include="SCRIPTS\viewerjs\src\scss\_footer.scss" />
+    <Content Include="SCRIPTS\viewerjs\src\scss\_icons.scss" />
+    <Content Include="SCRIPTS\viewerjs\src\scss\_mixins.scss" />
+    <Content Include="SCRIPTS\viewerjs\src\scss\_navbar.scss" />
+    <Content Include="SCRIPTS\viewerjs\src\scss\_player.scss" />
+    <Content Include="SCRIPTS\viewerjs\src\scss\_title.scss" />
+    <Content Include="SCRIPTS\viewerjs\src\scss\_toolbar.scss" />
+    <Content Include="SCRIPTS\viewerjs\src\scss\_tooltip.scss" />
+    <Content Include="SCRIPTS\viewerjs\src\scss\_utilities.scss" />
+    <Content Include="SCRIPTS\viewerjs\src\scss\_variables.scss" />
     <None Include="Web References\Agent_Service\Agent_Service.wsdl" />
     <None Include="Web References\Agent_Service\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -5199,18 +5333,18 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\Finance_ManageService\Finance_Manage.disco" />
-    <Content Include="Web References\FINANCE_RefundSERVICE\Query_Service.disco" />
+    <None Include="Web References\FINANCE_RefundSERVICE\Query_Service.disco" />
     <Content Include="Web References\FQuery_Service\C2CDB_T_TC_BANK.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <Content Include="Web References\FQuery_Service\FreezeInfo.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\FINANCE_RefundSERVICE\Query_Service.wsdl" />
-    <Content Include="Web References\FINANCE_RefundSERVICE\Reference.map">
+    <None Include="Web References\FINANCE_RefundSERVICE\Query_Service.wsdl" />
+    <None Include="Web References\FINANCE_RefundSERVICE\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <Content Include="Web References\FINANCE_RefundSERVICE\C2CDB_T_TC_BANK1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -5296,6 +5430,15 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <Content Include="Web References\FINANCE_RefundSERVICE\T_ZWDic_Info1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_FILE_LISTINFO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_PAYREFUND_RULEINFO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\FINANCE_RefundSERVICE\T_REFUND_TO_BANK_RULEINFO.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\FQuery_Service\Query_Service.wsdl" />
@@ -6436,10 +6579,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>finance_web_ZWBatchPay_Service_BatchPay_Service</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://admintk.cf.com/FINANCE_SERVICE/Query_Service.asmx">
+    <WebReferenceUrl Include="http://admintk64.cf.com/FINANCE_SERVICE/Query_Service.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\FINANCE_RefundSERVICE\</RelPath>
-      <UpdateFromURL>http://admintk.cf.com/FINANCE_SERVICE/Query_Service.asmx</UpdateFromURL>
+      <UpdateFromURL>http://admintk64.cf.com/FINANCE_SERVICE/Query_Service.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

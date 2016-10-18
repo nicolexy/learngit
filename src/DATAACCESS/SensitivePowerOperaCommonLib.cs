@@ -81,13 +81,10 @@ namespace TENCENT.OSS.CFT.KF.Common
 
 			Result retResult = authService.CheckAuth(rq);
 
-            string msg = "敏感权限日志：operation_id=" + opID + "&" +
-                         "user_name=" + userName + "&" +
-                         "auth_cm_com_session_key=" + sessionKey + "&" +
-                         "user_url=" + url + "&" +
-                         "user_ip=" + ip + "&" +
-                         "local_session_id=" + sessionID + "&" +
-                         "status=" + retResult.status;
+            string msg = "敏感权限日志：operation_id=" + opID +
+                         "&opName=" + opName +
+                         "&user_name=" + userName +
+                         "&status=" + retResult.status;
             LogHelper.LogInfo(msg);
 
 			return retResult;
@@ -279,6 +276,7 @@ namespace TENCENT.OSS.CFT.KF.Common
                 rights[196] = new OneRight("SensitiveRole", 196, "敏感权限");
                 rights[206] = new OneRight("IDCardManualReview_ReviewCount", 206, "身份证影印件批量领单权限");
                 rights[210] = new OneRight("IDCardManualReview_SeeDetail", 210, "身份证影印件查看详情权限");
+                rights[211] = new OneRight("ChangeUserInfo", 211, "个人信息");
 				ht = new Hashtable(RIGHTCOUNT);
 				for(int i=0 ; i< RIGHTCOUNT; i++)
 				{
@@ -303,7 +301,8 @@ namespace TENCENT.OSS.CFT.KF.Common
 					return iRightID;
 				}
 				catch (System.Exception ex)
-				{
+                {
+                    LogHelper.LogInfo("权限位:" + powerName + ";message:" + ex.ToString());
 					return -1;
 				}
 			}

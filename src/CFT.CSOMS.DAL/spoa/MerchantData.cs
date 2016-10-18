@@ -163,19 +163,19 @@ namespace CFT.CSOMS.DAL.SPOA
         /// <returns></returns>
         public bool InsertOrUpdateSPContactInfo(SPContact aci, string uid, string ip)
         {
-            string servicename="ui_common_update_service";
             try
             {
                 //修改客服联系邮箱
-              //  if (!UpdateServerEmail(aci, uid, ip)) return false;
+                //  if (!UpdateServerEmail(aci, uid, ip)) return false;
 
                 string inmsg = "spid=" + aci.spid;
-                inmsg += "&CMD=" + CommQuery.ICEEncode("MOD_SP_CONTACT_INFO");
-
+                inmsg += "&op_id=" + aci.spid;
+                inmsg += "&channelid=3";
                 inmsg += "&role=1|2|3|4|5|6|7";
-                inmsg += "&name1=" + aci.name1;
+
+                inmsg += "&mer_contacter=" + aci.name1;
                 inmsg += "&tele1=" + aci.tele1;
-                inmsg += "&mobile1=" + aci.mobile1;
+                inmsg += "&acc_mobile=" + aci.mobile1;
                 inmsg += "&standbya1=" + aci.standbya1;
                 //inmsg += "&email1=" + aci;   //联系人的email  spoa不用修改，其它系统提交修改
 
@@ -197,7 +197,7 @@ namespace CFT.CSOMS.DAL.SPOA
                 inmsg += "&name5=" + aci.name5;
                 inmsg += "&tele5=" + aci.tele5;
                 inmsg += "&qqnum5=" + aci.qqnum5;
-                inmsg += "&email5=" + aci.email5;
+                inmsg += "&mer_email=" + aci.email5;
 
                 inmsg += "&name6=" + aci.name6;
                 inmsg += "&tele6=" + aci.tele6;
@@ -211,7 +211,7 @@ namespace CFT.CSOMS.DAL.SPOA
                 string reply;
                 short result;
                 string msg;
-                if (ICEAccessFactory.ICEMiddleInvoke("ui_common_update_service", inmsg, true, out reply, out result, out msg))
+                if (ICEAccessFactory.ICEMiddleInvoke("ui_update_contact_info_c", inmsg, true, out reply, out result, out msg))
                 {
                     if (reply.IndexOf("result=0") == -1)
                     {
@@ -240,8 +240,9 @@ namespace CFT.CSOMS.DAL.SPOA
             try
             {
                 string inmsg = "spid=" + CommQuery.ICEEncode(aci.spid);
-                inmsg += "&CMD=" + CommQuery.ICEEncode("FINANCE_MERINFO_STANDBY_XX");
-                inmsg += "&standby6=" + CommQuery.ICEEncode((aci.email5 == "" ? aci.email1 : aci.email5).ToString());
+                inmsg += "&op_id=" + CommQuery.ICEEncode(aci.spid);
+                inmsg += "&channelid=" + CommQuery.ICEEncode("3");
+                inmsg += "&mer_email=" + CommQuery.ICEEncode((aci.email5 == "" ? aci.email1 : aci.email5).ToString());
                 inmsg += "&client_ip=" + CommQuery.ICEEncode(ip);
                 inmsg += "&operator_id=" + CommQuery.ICEEncode(uid);
                 inmsg += "&module=" +"修改外卡商户客服联系邮箱";
@@ -250,7 +251,7 @@ namespace CFT.CSOMS.DAL.SPOA
                 string reply;
                 short result;
                 string msg;
-                if (ICEAccessFactory.ICEMiddleInvoke("ui_common_update_service", inmsg,true,out reply, out result, out msg))
+                if (ICEAccessFactory.ICEMiddleInvoke("ui_update_mer_emailContact_c", inmsg, true, out reply, out result, out msg))
                 {
                     if (reply.IndexOf("result=0") == -1)
                     {

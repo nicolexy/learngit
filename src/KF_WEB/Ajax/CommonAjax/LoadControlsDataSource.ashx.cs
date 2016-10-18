@@ -18,8 +18,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/plain";
-            
-            string getAction = context.Request.QueryString["getAction"] != null || string.IsNullOrEmpty(context.Request.QueryString["getAction"].ToString()) ? context.Request.QueryString["getAction"].ToString() : string.Empty;
+
+            string getAction = context.Request.QueryString["getAction"] != null && !string.IsNullOrEmpty(context.Request.QueryString["getAction"].ToString()) ? context.Request.QueryString["getAction"].ToString() : string.Empty;
             if (!string.IsNullOrEmpty(getAction))
             {
                 Action(getAction, context);
@@ -38,9 +38,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
 
         public void LoadCommonCombobox(HttpContext context)
         {
-            bool isShowSelect = context.Request.QueryString["isShowSelect"] != null || string.IsNullOrEmpty(context.Request.QueryString["isShowSelect"].ToString()) ? bool.Parse(context.Request.QueryString["isShowSelect"].ToString()) : false;
-            string showSelectText = context.Request.QueryString["showSelectText"] != null || string.IsNullOrEmpty(context.Request.QueryString["showSelectText"].ToString()) ? context.Request.QueryString["showSelectText"].ToString() : string.Empty;
-            string type = context.Request.QueryString["type"] != null || string.IsNullOrEmpty(context.Request.QueryString["type"].ToString()) ? context.Request.QueryString["type"].ToString() : string.Empty;
+            bool isShowSelect = context.Request.QueryString["isShowSelect"] != null && !string.IsNullOrEmpty(context.Request.QueryString["isShowSelect"].ToString()) ? bool.Parse(context.Request.QueryString["isShowSelect"].ToString()) : false;
+            string showSelectText = context.Request.QueryString["showSelectText"] != null && !string.IsNullOrEmpty(context.Request.QueryString["showSelectText"].ToString()) ? context.Request.QueryString["showSelectText"].ToString() : string.Empty;
+            string type = context.Request.QueryString["type"] != null && !string.IsNullOrEmpty(context.Request.QueryString["type"].ToString()) ? context.Request.QueryString["type"].ToString() : string.Empty;
             if (type.Equals("IDCardManualReview_LoadReveiwStatus"))
             {
                 //身份证审核加载审核状态
