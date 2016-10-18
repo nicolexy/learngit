@@ -268,7 +268,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                               {
                                   if (UpdateUserInfoAttr(qqid))
                                   {
-                                      LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改成功--1------qqid={0}----------", qqid));
+                                      //LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ----------Button1_Click--UpdateUserInfoAttr---修改成功--1------qqid={0}----------", qqid));
                                   }
                                   else
                                   {
@@ -310,12 +310,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             catch (Exception ep) {
                 //LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ------------UpdateUserInfoAttr1-----0------qqid={0}-----{1}-", qqid, ep.Message));
                 LogHelper.LogError(string.Format(" KFWebTest.aspx ------------UpdateUserInfoAttr2-----0------qqid={0}-----{1}-", qqid, ep.ToString()));
+                LogHelper.LogInfo(string.Format("==========,{0},{1},{2},{3}", qqid, "", "", ""));
                 return false;
             }
 
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
             {
                 LogHelper.LogInfo(" KFWebTest.aspx new AccountService().GetUserInfo  qqid=" + qqid + "未获取到数据");
+
                 return false;
             }
 
@@ -332,19 +334,26 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             if (exeSign == false)
             {
                 userType = string.Empty;
-                LogHelper.LogInfo(" KFWebTest.aspx  userType=" + userType + "未获取到数据");
+                //LogHelper.LogInfo(" KFWebTest.aspx  userType=" + userType + "未获取到数据");
             }
 
-            string oldfmemo = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fmemo"]);
-            string fmemo = "企业C账户整改";
+            //string oldfmemo = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fmemo"]);
+            //string fmemo = "企业C账户整改";
 
-            if (modifyAttType(qqid, atttype, oldatttype))
-            {
-              return upgradeLog(qqid, fcre_type, userType, oldatttype, atttype, oldfmemo, fmemo);
-            }
-            else {
-                return false;
-            }
+
+
+            string fcompany_name = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fcompany_name"]);
+            LogHelper.LogInfo(string.Format("==========,{0},{1},{2},{3}", qqid, oldatttype, userType, fcompany_name));
+
+            return true;
+
+            //if (modifyAttType(qqid, atttype, oldatttype))
+            //{
+            //  return upgradeLog(qqid, fcre_type, userType, oldatttype, atttype, oldfmemo, fmemo);
+            //}
+            //else {
+            //    return false;
+            //}
         }
 
         /// <summary>
