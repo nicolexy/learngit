@@ -316,7 +316,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
             {
-                LogHelper.LogInfo(" KFWebTest.aspx new AccountService().GetUserInfo  qqid=" + qqid + "未获取到数据");
+                LogHelper.LogError(" KFWebTest.aspx new AccountService().GetUserInfo  qqid=" + qqid + "未获取到数据");
 
                 return false;
             }
@@ -326,10 +326,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             string fcre_type = ds.Tables[0].Rows[0]["Fcre_type"].ToString();
 
             //获得用户帐户信息 
-            string userType = null;
-            string userType_str = null;
-            string Msg = null;
-            bool exeSign = new AccountService().GetUserType(qqid, accountType, out userType, out userType_str, out Msg);
+            string userType = "";
+            string userType_str = "";
+            string Msg = "";
+            bool exeSign = false;
+
+            try
+            {
+                exeSign = new AccountService().GetUserType(qqid, accountType, out userType, out userType_str, out Msg);
+            }
+            catch(Exception ef)
+            {
+                LogHelper.LogInfo(" KFWebTest.aspx new AccountService().GetUserType  qqid=" + qqid + "获取帐号类型失败," + ef);
+                userType = string.Empty;
+            }
 
             if (exeSign == false)
             {
