@@ -2513,6 +2513,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         //				fstrSql = "Select * from c2c_db.t_tcbankroll_list where flistid='" + f_strID + "'";
         //			}
         //		}
+
+        /// <summary>
+        /// Î´µ÷ÓÃ
+        /// </summary>
+        /// <param name="strID"></param>
+        /// <param name="iIDType"></param>
+        /// <param name="u_BeginTime"></param>
+        /// <param name="u_EndTime"></param>
+        /// <param name="isHistory"></param>
         public Q_TCBANKROLL_LIST(string strID, int iIDType, DateTime u_BeginTime, DateTime u_EndTime, bool isHistory)
         {
             //			f_strID = strID;
