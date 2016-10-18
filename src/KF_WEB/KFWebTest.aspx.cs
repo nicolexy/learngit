@@ -310,14 +310,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             catch (Exception ep) {
                 //LogHelper.LogInfo(string.Format(" KFWebTest.aspx  ------------UpdateUserInfoAttr1-----0------qqid={0}-----{1}-", qqid, ep.Message));
                 LogHelper.LogError(string.Format(" KFWebTest.aspx ------------UpdateUserInfoAttr2-----0------qqid={0}-----{1}-", qqid, ep.ToString()));
+                LogHelper.LogInfo(string.Format("==========,{0},{1},{2},{3}", qqid, "", "", ""));
                 return false;
             }
 
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
             {
-                //LogHelper.LogInfo(" KFWebTest.aspx new AccountService().GetUserInfo  qqid=" + qqid + "未获取到数据");
+                LogHelper.LogInfo(" KFWebTest.aspx new AccountService().GetUserInfo  qqid=" + qqid + "未获取到数据");
 
-                LogHelper.LogInfo(string.Format("==========,{0},{1},{2},{3}", qqid, "", "", ""));
                 return false;
             }
 
