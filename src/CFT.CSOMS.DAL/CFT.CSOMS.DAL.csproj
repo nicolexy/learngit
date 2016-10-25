@@ -150,6 +150,7 @@
     <Compile Include="SysManageModule\BankClassifyData.cs" />
     <Compile Include="SysManageModule\SysManageData.cs" />
     <Compile Include="TradeModule\PickData.cs" />
+    <Compile Include="TradeModule\RechargeData.cs" />
     <Compile Include="TradeModule\SettleData.cs" />
     <Compile Include="TradeModule\TradeData.cs" />
     <Compile Include="TravelModule\AirTickets.cs" />

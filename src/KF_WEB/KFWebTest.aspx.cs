@@ -1,4 +1,5 @@
 ﻿using CFT.CSOMS.BLL.CFTAccountModule;
+using CFT.CSOMS.BLL.TransferMeaning;
 using CFT.CSOMS.COMMLIB;
 using SunLibrary;
 using System;
@@ -181,9 +182,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
             if (!fileqqid.HasFile)
             {
+                LogHelper.LogInfo(" KFWebTest.aspx  请上传文件");
+
                 throw new ArgumentNullException("请上传文件");
 
-                LogHelper.LogInfo(" KFWebTest.aspx  请上传文件");
             }
 
             if (System.IO.Path.GetExtension(fileqqid.FileName).ToLower() == ".txt")
@@ -350,10 +352,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             //string oldfmemo = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fmemo"]);
             //string fmemo = "企业C账户整改";
 
-
-
+            int attid = 0;
+            var attValue = string.Empty;
+            if (int.TryParse(oldatttype, out attid))
+            {
+                attValue = Transfer.convertProAttType(attid);
+            }
             string fcompany_name = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fcompany_name"]);
-            LogHelper.LogInfo(string.Format("==========,{0},{1},{2},{3}", qqid, oldatttype, userType, fcompany_name));
+            LogHelper.LogInfo(string.Format("==========,{0},{1},{2},{3}", qqid, attValue, userType, fcompany_name));
 
             return true;
 

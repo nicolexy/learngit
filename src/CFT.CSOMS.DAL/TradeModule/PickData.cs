@@ -137,9 +137,9 @@ namespace CFT.CSOMS.DAL.TradeModule
         public DataTable QueryPickByListidNew(string listid)
         {
             WithdrawRepository obj = new WithdrawRepository();
-            obj.GetItemByListid(listid).ToDataTable();
+            //obj.GetItemByListid(listid).ToDataTable();
 
-         //   var pageItem = new Apollo.Bow.Infrastructure.PageItem() { Offset = 0, PageCount = int.Parse(fnum.ToString()) };
+          // var pageItem = new Apollo.Bow.Infrastructure.PageItem() { Offset = 0, PageCount = int.Parse(fnum.ToString()) };
            return obj.GetItemByListid(listid).ToDataTable();
         }
 

@@ -13,6 +13,7 @@ using CFT.CSOMS.DAL.Infrastructure;
 using CFT.CSOMS.BLL.WechatPay;
 using System.Xml;
 using CFT.CSOMS.DAL.FundModule;
+using CFT.Apollo.Bow.Trade;
 
 namespace CFT.CSOMS.BLL.TradeModule
 {
@@ -481,6 +482,26 @@ namespace CFT.CSOMS.BLL.TradeModule
                 return null;
             }
 
+        }
+
+        /// <summary>
+        /// 查询交易单信息
+        /// CFT.Apollo.Bow
+        /// </summary>
+        /// <returns></returns>
+        public DataSet GetTradeDataById(string u_ID)
+        {
+            return new TradeData().GetTradeDataById(u_ID);
+        }
+
+        /// <summary>
+        /// 查询交易单信息
+        /// CFT.Apollo.Bow
+        /// </summary>
+        /// <returns></returns>
+        public TradeItem GetTradeModelById(string u_ID)
+        {
+            return new TradeData().GetTradeModelById(u_ID);
         }
 
         /// <summary>

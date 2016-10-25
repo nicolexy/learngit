@@ -32,8 +32,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CFT.Apollo.Bow, Version=1.3.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CFT.Apollo.Bow.1.3.7\lib\CFT.Apollo.Bow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CFT.Apollo.Bow.Extend, Version=1.2.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CFT.Apollo.Bow.Extend.1.2.8\lib\CFT.Apollo.Bow.Extend.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="CFT.Apollo.Common, Version=3.1.5496.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CFT.Apollo.Common.3.1.5496.0\lib\CFT.Apollo.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CFT.Apollo.CommunicationFramework, Version=1.1.5435.33704, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CFT.Apollo.CommunicationFramework.1.1.5435.33704\lib\CFT.Apollo.CommunicationFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CFT.Apollo.Data, Version=3.3.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CFT.Apollo.Data.3.3.0.4\lib\CFT.Apollo.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CFT.Apollo.Logging">
@@ -42,6 +58,10 @@
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CFT.Apollo.log4net.1.0.0.15\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.5.26024, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.Apllo.6.9.5.26024\lib\MySql.Data.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -107,6 +127,7 @@
     <Compile Include="SysManageModule\BankClassifyService.cs" />
     <Compile Include="SysManageModule\SysManageService.cs" />
     <Compile Include="TradeModule\PickService.cs" />
+    <Compile Include="TradeModule\RechargeData.cs" />
     <Compile Include="TradeModule\SettleService.cs" />
     <Compile Include="TradeModule\TradeService.cs" />
     <Compile Include="TransferMeaning\TransferMeaning.cs" />
