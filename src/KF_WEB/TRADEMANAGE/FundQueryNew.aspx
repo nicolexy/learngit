@@ -12,6 +12,9 @@
 		<style type="text/css">@import url( ../STYLES/ossstyle.css?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]??DateTime.Now.ToString("yyyyMMddHHmmss") %> ); BODY { BACKGROUND-IMAGE: url(../IMAGES/Page/bg01.gif) }
 	.style5 { COLOR: #000000 }
 	.style6 { COLOR: #ff0000 }
+		    .auto-style1 {
+                height: 25px;
+            }
 		</style>
 		<script src="../Scripts/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
 	</HEAD>
@@ -100,7 +103,7 @@
 							<asp:ListItem Value="4">付款中</asp:ListItem>
 							<asp:ListItem Value="5">作废</asp:ListItem>
 						</asp:dropdownlist></TD>
-					<TD style="HEIGHT: 25px" align="right">
+					<TD align="right" class="auto-style1">
 						<asp:label id="Label6" runat="server">金额限度</asp:label></TD>
 					<TD style="HEIGHT: 25px">
 						<asp:textbox id="tbFNum" runat="server" Width="88px" BorderStyle="Groove">0.00</asp:textbox><FONT face="宋体">-

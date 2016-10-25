@@ -1,0 +1,1225 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CFT.Apollo.Bow</name>
+    </assembly>
+    <members>
+        <member name="T:CFT.Apollo.Bow.CommonQueryServiceRequest">
+            <summary>
+            请求
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.CommonQueryServiceRequest.Reqid">
+            <summary>
+            为请求编号，通过该编号从配置中找到对应的SQL语句模板
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.CommonQueryServiceRequest.fields">
+            <summary>
+            fields=f1:v1|f2:v2|f3:v3|,f1为模版中字段名, v1为该字段的值
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.CommonQueryServiceRequest.db_field">
+            <summary>
+            分库分表字段，如果是单表，可不传
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.CommonQueryServiceRequest.offset">
+            <summary>
+            为偏移量, flag=2时，必须送offset
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.CommonQueryServiceRequest.limit">
+            <summary>
+            为单次查询条数, flag=2时，必须送limit
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.CommonQueryServiceData.total">
+            <summary>
+            是指满足查询条件的记录总条数
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.CommonQueryServiceData.ret_num">
+            <summary>
+            是本次查询返回的记录条数
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.CommonQueryServiceData.record">
+            <summary>
+            查询到的数据
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.CommonQueryServiceResponse.result">
+            <summary>
+            返回结果-0表示成功
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.CommonQueryServiceResponse.res_info">
+            <summary>
+            结果信息
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.CommonQueryServiceResponse.rec_info">
+            <summary>
+            结果的具体内容,如果返回结果错误该属性为空
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Bow.DataMapAttribute">
+            <summary>
+            数据库字段映射
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Bow.DataMapAttribute.#ctor(System.String)">
+            <summary>
+            构造函数 
+            </summary>
+            <param name="DataColumnName"></param>
+        </member>
+        <member name="P:CFT.Apollo.Bow.DataMapAttribute.DataColumnName">
+            <summary>
+            数据库字段名称
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Infrastructure.BowException">
+            <summary>
+            Bow业务异常
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Infrastructure.BowException.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Infrastructure.BowException.#ctor(System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="message">异常信息</param>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Infrastructure.BowException.#ctor(System.String,System.Exception)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="message">异常信息</param>
+            <param name="innerException">原始异常</param>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Infrastructure.Entity">
+            <summary>
+            数据基类
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Infrastructure.IRepository`1">
+            <summary>
+            通用接口
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Infrastructure.PageItem">
+            <summary>
+            分页相关参数
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Infrastructure.PageItem.Offset">
+            <summary>
+            页数,从0开始
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Infrastructure.PageItem.PageCount">
+            <summary>
+            每页的条数
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Result">
+            <summary>
+            更新操作返回结果
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Result.ResultCode">
+            <summary>
+            1成功，2失败
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Result.ResultInfo">
+            <summary>
+            原因描述
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Receive.ReceiveItem">
+            <summary>
+            收款单实体
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.TdeID">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.ListID">
+            <summary>
+            交易单ID
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.SPID">
+            <summary>
+            机构代码名称
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.UID">
+            <summary>
+            腾讯账户的ID号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.TCBankID">
+            <summary>
+            信用卡绑定支付标志
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.BorrowType">
+            <summary>
+            借贷类型：入（冗余）	
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.Subject">
+            <summary>
+            科目
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.Cash">
+            <summary>
+            交易的金额
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.State">
+            <summary>
+            当前付款状态
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.sign">
+            <summary>
+            标志
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.BankList">
+            <summary>
+            银行订单号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.BankAcc">
+            <summary>
+            银行返回的订单号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.BankType">
+            <summary>
+            对方银行的类型 ：工商银行 招商银行
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.CurType">
+            <summary>
+            币种代码
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.AUID">
+            <summary>
+            对方的内部id号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.AID">
+            <summary>
+            对方的ID（银行帐号，QQ）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.AName">
+            <summary>
+            对方的名称 
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.Prove">
+            <summary>
+            记帐凭证	
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.IP">
+            <summary>
+            客户的IP地址 	
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.Memo">
+            <summary>
+            备注/说明
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.PayFrontTime">
+            <summary>
+            付款前时间
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.PayTime">
+            <summary>
+            付款时间（本地）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.PayTimeAcc">
+            <summary>
+            付款时间（帐务时间）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.BankTime">
+            <summary>
+            银行返回的时间戳
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Receive.ReceiveItem.BusiFlag">
+            <summary>
+            业务标记字段
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Receive.ReceiveRepository.GetItem(System.Int32,System.String,System.String,System.String)">
+            <summary>
+            查询收款单
+            </summary>
+            <param name="BankType">银行类型</param>
+            <param name="BankBillNo">给银行的订单号</param>
+            <param name="ListID">财付通订单号</param>
+            <param name="BankAcc">银行返回的订单号(非必填)</param>
+            <returns></returns>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Recharge.RechargeItem">
+            <summary>
+            充值单
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.ListID">
+            <summary>
+            交易单ID号（收款单的ID）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.SPID">
+            <summary>
+            机构代码名称（发起者）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.UID">
+            <summary>
+            腾讯帐户的ID号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.PayBind">
+            <summary>
+            标记：(以前记录在Ftc_bankid)信用卡绑定支付标志,Flist_type字段
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.BorrowType">
+            <summary>
+            借贷类型：入（冗余）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.Subject">
+            <summary>
+            科目
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.Num">
+             <summary>
+            交易金额
+             </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.State">
+            <summary>
+            当前付款状态
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.Sign">
+            <summary>
+            交易标记
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.BankListID">
+            <summary>
+            银行订单号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.BankBackID">
+            <summary>
+            银行返回的订单号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.BankType">
+            <summary>
+            银行类型（工商银行 招商银行）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.CurType">
+            <summary>
+            币种代码
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.AUID">
+            <summary>
+            对方的内部ID号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.AID">
+            <summary>
+            对方的ID（银行帐号，QQ）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.AName">
+            <summary>
+            对方的名称
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.Prove">
+            <summary>
+            记帐凭证
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.IP">
+            <summary>
+            客户的IP地址
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.Memo">
+            <summary>
+            备注/说明
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.PayFrontTime">
+            <summary>
+            付款前时间
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.PayTime">
+            <summary>
+            付款时间（本地）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.PayTimeAcc">
+            <summary>
+            付款时间（帐务时间）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.BankTime">
+            <summary>
+            银行返回的时间
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Recharge.RechargeItem.ModifyTime">
+            <summary>
+            最后修改时间（本地）
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Recharge.RechargeRepository">
+            <summary>
+            充值单操作类
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Recharge.RechargeRepository.GetItem(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            查询充值单
+            </summary>
+            <param name="listid">交易单ID</param>
+            <param name="bankListid">银行订单号</param>
+            <param name="bankType">对方银行类型（工商银行，交通银行）</param>
+            <param name="curtype">币种</param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Recharge.RechargeRepository.GetAll">
+            <summary>
+            未实现
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Recharge.RechargeRepository.Get(System.String)">
+            <summary>
+            未实现
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Recharge.RechargeRepository.Add(CFT.Apollo.Bow.Recharge.RechargeItem)">
+            <summary>
+            未实现
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Recharge.RechargeRepository.Modify(CFT.Apollo.Bow.Recharge.RechargeItem)">
+            <summary>
+            未实现
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Recharge.RechargeRepository.Remove(CFT.Apollo.Bow.Recharge.RechargeItem)">
+            <summary>
+            未实现
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Recharge.SignState">
+            <summary>
+            交易状态
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Recharge.SignState.Success">
+            <summary>
+            成功
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Recharge.SignState.False">
+            <summary>
+            失败
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Recharge.SignState.Wait">
+            <summary>
+            等待付款
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Bow.RelayService.CoreQueryService.CoreQueryCommunication.Communicate``1(CFT.Apollo.CommunicationFramework.RelayRequest,System.String,System.Func{System.Collections.Generic.IDictionary{System.String,System.String},``0},System.Boolean,System.Boolean,System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+            获取CoreQueryServer的数据
+            </summary>
+            <typeparam name="T">CoreQueryServer中的数据格式</typeparam>
+            <param name="request">请求参数</param>
+            <param name="serviceCode">服务编码(RequestType)</param>
+            <param name="map">转换函数</param>
+            <param name="encrypt">是否加密，默认不加密</param>
+            <param name="invisible">胡老板的底层也没写这个参数是干啥用的，所以我也不知道</param>
+            <param name="relayIP">relay服务的IP地址</param>
+            <param name="relayPort">relay服务的端口号</param>
+            <param name="relayDefaultSPId">胡老板又没写注释</param>
+            <param name="timeout">超时次数</param>
+            <returns></returns>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Trade.TradeItem">
+            <summary>
+            交易单实体
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Trade.TradeItem.ListID">
+            <summary>
+            交易单的ID号（交易单号,C2C生成）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Trade.TradeItem.SPID">
+            <summary>
+            机构代码名称（发起者）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Trade.TradeItem.BankListID">
+            <summary>
+            给银行的订单号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Trade.TradeItem.BankBackID">
+            <summary>
+            银行返回的订单号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Trade.TradeItem.PayType">
+            <summary>
+            付款类型
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Trade.TradeItem.CreateTime">
+            <summary>
+            定单创建时间（本地系统时间）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Trade.TradeItem.ModifyTime">
+            <summary>
+            最后修改时间（本地系统时间）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Trade.TradeItem.Memo">
+            <summary>
+            交易说明
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Trade.TradeItem.Explain">
+            <summary>
+            备注（后台人员操作记录）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Trade.TradeItem.ChannelID">
+            <summary>
+            渠道编号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Trade.TradeItem.TotalNum">
+            <summary>
+            交易总金额
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Trade.TradeItem.State">
+            <summary>
+            交易状态
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Trade.TradeItem.ListState">
+            <summary>
+            交易单状态
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Trade.TradeItem.Uid">
+            <summary>
+            内部id
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Trade.TradeRepository">
+            <summary>
+            交易单操作类
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Trade.TradeRepository.GetItem(System.String)">
+            <summary>
+            查询交易单信息
+            </summary>
+            <param name="listid">交易单ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Trade.TradeRepository.Map(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            单笔交易单解析方法
+            </summary>
+            <param name="dicData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Trade.TradeRepository.GetAll">
+            <summary>
+            未实现
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Trade.TradeRepository.Get(System.String)">
+            <summary>
+            未实现
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Trade.TradeRepository.Add(CFT.Apollo.Bow.Trade.TradeItem)">
+            <summary>
+            未实现
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Trade.TradeRepository.Modify(CFT.Apollo.Bow.Trade.TradeItem)">
+            <summary>
+            未实现
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Trade.TradeRepository.Remove(CFT.Apollo.Bow.Trade.TradeItem)">
+            <summary>
+            未实现
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Withdraw.ChargePayerType">
+            <summary>
+             手续费支付方
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.ChargePayerType.PayByReceiver">
+            <summary>
+            到账方支付（银行卡持有人）
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.ChargePayerType.PayBySender">
+            <summary>
+            出款人支付（财付通提现方）
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Withdraw.FetchType">
+            <summary>
+            提现类型
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.FetchType.ClearFetch">
+            <summary>
+             结算提现
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.FetchType.Other">
+            <summary>
+            其他
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Withdraw.OperateUserType">
+            <summary>
+            操作的用户类型
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.OperateUserType.CommondUser">
+            <summary>
+             普通财付通帐号
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.OperateUserType.BusinessUser">
+            <summary>
+            商户操作员帐号
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.OperateUserType.Operator">
+            <summary>
+             财付通操作员帐号
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.OperateUserType.PayCard">
+             <summary>
+            信用卡还款
+             </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.OperateUserType.CommondUserMD5">
+             <summary>
+            普通账户md5密码方式 
+             </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.OperateUserType.BusinessUserMD5">
+            <summary>
+             商户操作员md5密码方式
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Recharge.PayBindType">
+            <summary>
+            信用卡绑定支付
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Recharge.PayBindType.NotBind">
+            <summary>
+            未绑定（没有匹配到对帐单）
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Recharge.PayBindType.Bind">
+            <summary>
+            已绑定（已匹配到对帐单）
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Withdraw.PayState">
+            <summary>
+             当前付款状态
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.PayState.PayBefore">
+            <summary>
+             付款前
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.PayState.PayAfter">
+            <summary>
+             付款后
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Withdraw.RefundTicketFlag">
+            <summary>
+            退票标记（预留）
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.RefundTicketFlag.NoRefundTiket">
+            <summary>
+            未退票（默认)
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.RefundTicketFlag.RefundTiket">
+            <summary>
+            已退票
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.RefundTicketFlag.None">
+            <summary>
+            没有值
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Withdraw.UserType">
+            <summary>
+            账户类型
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.UserType.People">
+            <summary>
+            个人
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.UserType.Company">
+            <summary>
+            公司
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Withdraw.WithdrawItem">
+            <summary>
+            提现单
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawItem.#ctor">
+            <summary>
+            通用构造函数
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawItem.CreateItemForSucess(System.String,System.String,System.Int32,System.Int64,System.Int32,System.String,System.String,System.String,System.String,System.String,CFT.Apollo.Bow.Withdraw.UserType,System.String,System.String,System.String,System.String,System.Int32,System.String,System.String)">
+            <summary>
+            用于生成调用提现直接成功方法的实体
+            </summary>
+            <param name="listid">提现单的ID号</param>
+            <param name="spid">商户SPID</param>
+            <param name="curType">币种类型</param>
+            <param name="num">提现金额</param>
+            <param name="bankType">银行类型</param>
+            <param name="bankname">银行名称</param>
+            <param name="area">area</param>
+            <param name="city">city</param>
+            <param name="bankid">银行卡号</param>
+            <param name="aname">真实姓名</param>
+            <param name="usertype">用户类型</param>
+            <param name="memo">取消提现说明(可不填)</param>
+            <param name="IP">用户的IP地址(可不填)</param>
+            <param name="drawid">外部单号(可不填)</param>
+            <param name="bankmemo">给银行的备注(可不填)</param>
+            <param name="businessType">业务类型(可不填)</param>
+            <param name="spSerial">明细序列号</param>
+            <param name="spOperator">商户操作员</param>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawItem.#ctor(System.String,System.String,System.Int32,System.Int64,System.Int32,System.String,System.String,System.String,System.String,System.String,CFT.Apollo.Bow.Withdraw.UserType,System.String,System.String,System.String,System.String,System.Int32,System.String,System.String)">
+            <summary>
+            用于提现直接成功的构造函数
+            </summary>
+            <param name="listid">提现单的ID号</param>
+            <param name="spid">商户SPID</param>
+            <param name="curType">币种类型</param>
+            <param name="num">提现金额</param>
+            <param name="bankType">银行类型</param>
+            <param name="bankname">银行名称</param>
+            <param name="area">area</param>
+            <param name="city">city</param>
+            <param name="bankid">银行卡号</param>
+            <param name="aname">真实姓名</param>
+            <param name="usertype">用户类型</param>
+            <param name="memo">取消提现说明(可不填)</param>
+            <param name="IP">用户的IP地址(可不填)</param>
+            <param name="drawid">外部单号(可不填)</param>
+            <param name="bankmemo">给银行的备注(可不填)</param>
+            <param name="businessType">业务类型(可不填)</param>
+            <param name="spSerial">明细序列号</param>
+            <param name="spOperator">商户操作员</param>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawItem.CreateItemForReturn(System.String,System.String,System.Int32,System.Int64,System.Int64,System.String,System.String,System.String)">
+             <summary>
+            用于生成调用退票方法的实体
+             </summary>
+             <param name="uid">出款方的财付通内部ID号</param>
+             <param name="listId">交易单（退款单）ID号</param>
+             <param name="cultype">货币代码</param>
+             <param name="num">提现金额（银行到账金额）</param>
+             <param name="charge">手续费</param>
+             <param name="chargeRecvUid">手续费收取方内部帐号</param>
+             <param name="memo"> 付款备注/业务说明</param>
+             <param name="refundTicketList">退票关联单号</param>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawItem.#ctor(System.String,System.String,System.Int32,System.Int64,System.Int64,System.String,System.String,System.String)">
+            <summary>
+            退票专用构造函数
+            </summary>
+            <param name="uid">出款方的财付通内部ID号</param>
+            <param name="listId">交易单（退款单）ID号</param>
+            <param name="cultype">货币代码</param>
+            <param name="num">提现金额（银行到账金额）</param>
+            <param name="charge">手续费</param>
+            <param name="chargeRecvUid">手续费收取方内部帐号</param>
+            <param name="memo"> 付款备注/业务说明</param>
+            <param name="refundTicketList">退票关联单号</param>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.ListId">
+            <summary>
+            交易单（退款单）ID号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.DrawId">
+            <summary>
+            外部系统交易号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.SpBatch">
+            <summary>
+            付款渠道
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.SpSerial">
+            <summary>
+            商户代付序列号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.SpOperator">
+            <summary>
+            商户操作员
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.Spid">
+            <summary>
+            机构代码名称（发起者）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.Bankid">
+            <summary>
+            老方式记录产品业务类型。新方式使用Fproduct,和Fbusiness_type并把Fbankid设置为1000000000。
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.State">
+            <summary>
+            当前付款状态：1：付款前 2：付款后
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.Product">
+            <summary>
+            产品标识
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.BusinessType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.Charge">
+            <summary>
+            手续费
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.ChargePayer">
+            <summary>
+            手续费支付方：1：到账方支付（银行卡持有人）2：出款人支付（财付通提现方）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.ChargeRecvUid">
+            <summary>
+            手续费收取方内部帐号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.BorrowType">
+            <summary>
+            借贷类型
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.Subject">
+            <summary>
+            交易科目，对于提现业务，就是14提现
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.Num">
+            <summary>
+            提现金额（银行到账金额）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.Sign">
+            <summary>
+            交易标记,状态包括：等待付款、付款中（已经被分流到准实时或者直付）、成功、失败、退款…
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.BankList">
+            <summary>
+            银行定单号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.BankAcc">
+            <summary>
+            银行返回的订单号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.BankType">
+            <summary>
+            腾讯银行的类型 实际出款银行
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.CurType">
+            <summary>
+            币种代码
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.Uid">
+            <summary>
+            出款方的财付通内部ID号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.Aid">
+            <summary>
+            出款方的财付通号码
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.AbankType">
+            <summary>
+            财付通出款银行的类型 ：工商银行 招商银行
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.Abankid">
+            <summary>
+            收款银行的帐号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.Aname">
+            <summary>
+            出款方的财付通名称: Ftruename
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.Prove">
+            <summary>
+            记帐凭证
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.IP">
+            <summary>
+            IP地址
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.Memo">
+            <summary>
+            付款备注/业务说明
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.BankMemo">
+            <summary>
+            银行备注/提交给银行的说明
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.Result">
+            <summary>
+            付款结果/说明
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.RefundTicketFlag">
+            <summary>
+            退票标记（预留）：0：未退票（默认）1：已退票
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.RefundTicketList">
+            <summary>
+            退票关联单号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.PayFrontTime">
+            <summary>
+            付款前时间
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.PayFrontTimeAcc">
+            <summary>
+            付款前时间(帐务时间)
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.PayTimeAcc">
+            <summary>
+            付款的时间(帐务时间)帐务系统传入
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.PayTime">
+            <summary>
+            付款的时间（本地）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.ModifyTime">
+            <summary>
+            最后修改时间（本地）
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.BankName">
+            <summary>
+            银行名称/开户行名称
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.Area">
+            <summary>
+            开户地区，省级
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.City">
+            <summary>
+            开户城市
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.AccName">
+            <summary>
+            账户名称：个人：Ftruename,企业：Fcomname
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItem.UserType">
+            <summary>
+            账户类型：1 个人2 公司
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Withdraw.WithdrawItemRequst">
+            <summary>
+            查询提现单
+            </summary>
+        </member>
+        <member name="F:CFT.Apollo.Bow.Withdraw.WithdrawItemRequst.ServiceCode">
+            <summary>
+            服务编码
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawItemRequst.ToString">
+            <summary>
+            序列化提供给Relay使用
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItemRequst.MSGNO">
+            <summary>
+            消息号
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Bow.Withdraw.WithdrawItemRequst.TransactionId">
+            <summary>
+            交易单（退款单）ID号
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Withdraw.WithdrawRepository">
+            <summary>
+            提现单操作
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawRepository.GetItemByListid(System.String)">
+            <summary>
+            单笔查询提现单
+            </summary>
+            <param name="listid">交易单ID</param>
+            <returns>请求成功返回提现单,参数返回返回ArgumentNullException，如果是Relay结果错误抛出BowException</returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawRepository.Map(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            单笔提现单解析方法
+            </summary>
+            <param name="dicData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawRepository.GetItemsByUid(System.String,System.String,System.String,System.Int64,CFT.Apollo.Bow.Withdraw.PayState,System.String,CFT.Apollo.Bow.Withdraw.RefundTicketFlag,CFT.Apollo.Bow.Infrastructure.PageItem)">
+            <summary>
+            批量查询提现单[根据uid查]
+            </summary>
+            <param name="uid">出款方的财付通内部ID号</param>
+            <param name="abankType">财付通出款银行的类型 ：工商银行 招商银行</param>
+            <param name="payFrontTimeAcc">付款前时间(帐务时间)</param>
+            <param name="num">提现金额（银行到账金额）</param>
+            <param name="state">当前付款状态：1：付款前2：付款后</param>
+            <param name="sign">交易标记</param>
+            <param name="refundTicketFlag">退票标记（预留）：0：未退票（默认）1：已退票</param>
+            <param name="page">分页参数</param>
+            <returns>提现单列表</returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawRepository.GetDataTableByUid(System.String,System.String,System.String,System.Int64,CFT.Apollo.Bow.Withdraw.PayState,System.String,CFT.Apollo.Bow.Withdraw.RefundTicketFlag,CFT.Apollo.Bow.Infrastructure.PageItem)">
+            <summary>
+            批量查询提现单[根据uid查]
+            </summary>
+            <param name="uid">出款方的财付通内部ID号</param>
+            <param name="abankType">财付通出款银行的类型 ：工商银行 招商银行</param>
+            <param name="payFrontTimeAcc">付款前时间(帐务时间)</param>
+            <param name="num">提现金额（银行到账金额）</param>
+            <param name="state">当前付款状态：1：付款前2：付款后</param>
+            <param name="sign">交易标记</param>
+            <param name="refundTicketFlag">退票标记（预留）：0：未退票（默认）1：已退票</param>
+            <param name="page">分页参数</param>
+            <returns>提现单列表</returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawRepository.GetItemsByAbankid(System.String,System.String,System.String,System.String,CFT.Apollo.Bow.Withdraw.PayState,System.String,CFT.Apollo.Bow.Withdraw.RefundTicketFlag,CFT.Apollo.Bow.Infrastructure.PageItem)">
+            <summary>
+            批量查询提现单[根据银行帐号查]
+            </summary>
+            <param name="abankid">银行帐号</param>
+            <param name="abankType">财付通出款银行的类型 ：工商银行 招商银行</param>
+            <param name="payFrontTimeAcc">付款前时间(帐务时间)</param>
+            <param name="num">提现金额（银行到账金额）</param>
+            <param name="state">当前付款状态：1：付款前2：付款后</param>
+            <param name="sign">交易标记</param>
+            <param name="refundTicketFlag">退票标记（预留）：0：未退票（默认）1：已退票</param>
+            <param name="page">分页参数</param>
+            <returns>提现单列表</returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawRepository.GetDataTableByAbankid(System.String,System.String,System.String,System.String,CFT.Apollo.Bow.Withdraw.PayState,System.String,CFT.Apollo.Bow.Withdraw.RefundTicketFlag,CFT.Apollo.Bow.Infrastructure.PageItem)">
+            <summary>
+            批量查询提现单[根据银行帐号查]
+            </summary>
+            <param name="abankid">银行帐号</param>
+            <param name="abankType">财付通出款银行的类型 ：工商银行 招商银行</param>
+            <param name="payFrontTimeAcc">付款前时间(帐务时间)</param>
+            <param name="num">提现金额（银行到账金额）</param>
+            <param name="state">当前付款状态：1：付款前2：付款后</param>
+            <param name="sign">交易标记</param>
+            <param name="refundTicketFlag">退票标记（预留）：0：未退票（默认）1：已退票</param>
+            <param name="page">分页参数</param>
+            <returns>提现单列表</returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawRepository.GetItemsByFlistid(System.String,System.String,System.String,System.String,CFT.Apollo.Bow.Withdraw.PayState,System.String,CFT.Apollo.Bow.Withdraw.RefundTicketFlag,CFT.Apollo.Bow.Infrastructure.PageItem)">
+            <summary>
+             批量查询提现单[根据单号查]
+            </summary>
+            <param name="listid">单号</param>
+            <param name="abankType">财付通出款银行的类型 ：工商银行 招商银行</param>
+            <param name="payFrontTimeAcc">付款前时间(帐务时间)</param>
+            <param name="num">提现金额（银行到账金额）</param>
+            <param name="state">当前付款状态：1：付款前2：付款后</param>
+            <param name="sign">交易标记</param>
+            <param name="refundTicketFlag">退票标记（预留）：0：未退票（默认）1：已退票</param>
+            <param name="page">分页参数</param>
+            <returns>提现单列表</returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawRepository.GetDataTableByFlistid(System.String,System.String,System.String,System.String,CFT.Apollo.Bow.Withdraw.PayState,System.String,CFT.Apollo.Bow.Withdraw.RefundTicketFlag,CFT.Apollo.Bow.Infrastructure.PageItem)">
+            <summary>
+             批量查询提现单[根据单号查]
+            </summary>
+            <param name="listid">单号</param>
+            <param name="abankType">财付通出款银行的类型 ：工商银行 招商银行</param>
+            <param name="payFrontTimeAcc">付款前时间(帐务时间)</param>
+            <param name="num">提现金额（银行到账金额）</param>
+            <param name="state">当前付款状态：1：付款前2：付款后</param>
+            <param name="sign">交易标记</param>
+            <param name="refundTicketFlag">退票标记（预留）：0：未退票（默认）1：已退票</param>
+            <param name="page">分页参数</param>
+            <returns>提现单列表</returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawRepository.UpdateItem(CFT.Apollo.Bow.Withdraw.WithdrawItem,System.String)">
+            <summary>
+            退票更新
+            </summary>
+            <param name="withdrawItem">提现单实体相关参数。注意使用WithdrawItem.CreateItemForReturn生成</param>
+            <param name="watchWord">口令</param>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawRepository.AddItem(CFT.Apollo.Bow.Withdraw.WithdrawItem,CFT.Apollo.Bow.Withdraw.FetchType,System.String,CFT.Apollo.Bow.Withdraw.OperateUserType,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            提现直接成功。提现单实体注意使用WithdrawItem.CreateItemForSucess生成
+            </summary>
+            <param name="withdrawItem">提现单实体,请使用WithdrawItem.CreateItemForSucess生成</param>
+            <param name="fetchType">提现类型：1-结算提现，其他不填</param>
+            <param name="OPID">操作员的ID号</param>
+            <param name="OPUT">用户类型</param>
+            <param name="OPPassword">信用卡还款的支付密码</param>
+            <param name="watchWord">口令</param>
+            <param name="productType">产品类型</param>
+            <param name="bankResultMemo">银行返回备注</param>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawRepository.GetAll">
+            <summary>
+            未实现
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawRepository.Get(System.String)">
+            <summary>
+            未实现
+            </summary>
+            <param name="Id">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawRepository.Add(CFT.Apollo.Bow.Withdraw.WithdrawItem)">
+            <summary>
+            未实现
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawRepository.Modify(CFT.Apollo.Bow.Withdraw.WithdrawItem)">
+            <summary>
+            未实现
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Withdraw.WithdrawRepository.Remove(CFT.Apollo.Bow.Withdraw.WithdrawItem)">
+            <summary>
+            未实现
+            </summary>
+            <param name="item"></param>
+        </member>
+    </members>
+</doc>

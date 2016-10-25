@@ -14,6 +14,8 @@ using CFT.Apollo.Logging;
 using CFT.CSOMS.COMMLIB;
 using System.Xml;
 using SunLibraryEX;
+using CFT.Apollo.Bow.Extend;
+using CFT.Apollo.Bow.Trade;
 
 namespace CFT.CSOMS.DAL.TradeModule
 {
@@ -337,6 +339,57 @@ namespace CFT.CSOMS.DAL.TradeModule
             }
 
         }
+
+        /// <summary>
+        /// 查询交易单信息
+        /// CFT.Apollo.Bow
+        /// </summary>
+        /// <returns></returns>
+        public DataSet GetTradeDataById(string u_ID)
+        {
+            var ds = new DataSet();
+
+            try
+            {
+                CFT.Apollo.Bow.Trade.TradeRepository trade = new Apollo.Bow.Trade.TradeRepository();
+                var dtable = trade.GetItem(u_ID).ToDataTable();
+
+                if (dtable != null && dtable.Rows.Count > 0)
+                {
+                    ds.Tables.Add(dtable);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData   public DataSet GetTradeDataById(string u_ID:" + u_ID + "), ERROR:" + ex.ToString());
+            }
+
+            return ds;
+        }
+
+        /// <summary>
+        /// 查询交易单信息
+        /// CFT.Apollo.Bow
+        /// </summary>
+        /// <returns></returns>
+        public TradeItem GetTradeModelById(string u_ID)
+        {
+            var tradeModel = new TradeItem();
+
+            try
+            {
+                CFT.Apollo.Bow.Trade.TradeRepository trade = new Apollo.Bow.Trade.TradeRepository();
+                 tradeModel = trade.GetItem(u_ID);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogError("CFT.CSOMS.DAL.TradeModule.TradeData   public DataSet GetTradeModelById(string u_ID:" + u_ID + "), ERROR:" + ex.ToString());
+            }
+
+            return tradeModel;
+        }
+
+
 
         //将银行返回定单号转换成交易单号
         public string ConvertToListID(string sFbankAcc, DateTime sDateTime)

@@ -16,6 +16,7 @@ using CFT.CSOMS.BLL.WechatPay;
 using log4net;
 using CFT.CSOMS.BLL.TradeModule;
 using CFT.CSOMS.BLL.TransferMeaning;
+using CFT.Apollo.Logging;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
@@ -180,7 +181,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
         private string TdeToID(string tdeid)
         {
-            return new PickService().TdeToID(tdeid);
+            LogHelper.LogInfo(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQuery  调用新接口 Apollo.Bow ：new TradeService().GetTradeModelById(),listid={0}", tdeid));
+            string listid = string.Empty;
+            try
+            {
+                var tradeModel = new TradeService().GetTradeModelById(listID);
+
+                listid= tradeModel.ListID;
+            }
+            catch (Exception et)
+            {
+                LogHelper.LogError(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQuery  调用新接口 Apollo.Bow ：new TradeService().GetTradeModelById(),listid={0}，异常：{1}", tdeid));
+            }
+
+            return listid;
+           // return new PickService().TdeToID(tdeid);
         }
 
         private void setIframePath()
@@ -341,7 +356,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             {
 
             }
-            ds = myService.GetPayList(selectStrSession, iType, beginTime, endTime, istr, imax);
+
+            //ds = myService.GetPayList(selectStrSession, iType, beginTime, endTime, istr, imax);
+
+
+            LogHelper.LogInfo(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQuery  调用新接口 Apollo.Bow ：new TradeService().GetTradeDataById(),listid={0},iType={1}", selectStrSession, iType));
+
+            try
+            {
+                ds = new TradeService().GetTradeDataById(listID);
+            }
+            catch (Exception et)
+            {
+                LogHelper.LogError(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQuery  调用新接口 Apollo.Bow ：new TradeService().GetTradeDataById(),listid={0},iType={1} ，异常：{2}", selectStrSession, iType, et.ToString()));
+            }
 
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
             {

@@ -16,6 +16,7 @@ using CFT.CSOMS.BLL.WechatPay;
 using log4net;
 using CFT.CSOMS.BLL.TradeModule;
 using CFT.CSOMS.BLL.TransferMeaning;
+using CFT.Apollo.Logging;
 
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
@@ -76,7 +77,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     string tmp = Request.QueryString["tdeid"];
                     if (tmp != null && tmp.ToString() != "")
                     {
-                        this.TextBox1_ListID.Text = new PickService().TdeToID(tmp);
+
+                        LogHelper.LogInfo(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQueryNew  调用新接口 Apollo.Bow ：new TradeService().GetTradeModelById(),listid={0}", tmp));
+                        string listid=string.Empty;
+                        try
+                        {
+                            var tradeModel = new TradeService().GetTradeModelById(tmp);
+
+                            listid= tradeModel.ListID;
+                        }
+                        catch (Exception et)
+                        {
+                            LogHelper.LogError(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQueryNew  调用新接口 Apollo.Bow ：new TradeService().GetTradeModelById(),listid={0} ，异常：{1}", tmp));
+                        }
+
+
+                        this.TextBox1_ListID.Text = listid;
+                        //this.TextBox1_ListID.Text = new PickService().TdeToID(tmp);
                     }
                     else
                     {
@@ -184,7 +201,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             int imax = 2;
 
-            DataSet ds;
+            DataSet ds=null;
 
             string log = classLibrary.SensitivePowerOperaLib.MakeLog("get", Session["uid"].ToString().Trim(), "[交易记录查询]",
                 selectStrSession, iType.ToString(), beginTime.ToString(), endTime.ToString(), istr.ToString(), imax.ToString());
@@ -194,7 +211,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             }
 
-            ds = new TradeService().GetPayByListid(selectStrSession);
+            //ds = new TradeService().GetPayByListid(selectStrSession);
+
+            LogHelper.LogInfo(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQueryNew  调用新接口 Apollo.Bow ：new TradeService().GetTradeDataById,listid={0},iType={1}", selectStrSession, iType));
+
+            try
+            {
+                ds = new TradeService().GetTradeDataById(selectStrSession);
+            }
+            catch (Exception et)
+            {
+                LogHelper.LogError(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQueryNew  调用新接口 Apollo.Bow ：new TradeService().GetTradeDataById,listid={0},iType={1} ，异常：{2}", selectStrSession, iType, et.ToString()));
+            }
 
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
             {
