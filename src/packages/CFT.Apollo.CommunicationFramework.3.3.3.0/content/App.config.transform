@@ -1,0 +1,12 @@
+﻿<configuration>
+  <configSections>
+    <section name="CFT.Apollo.CommunicationFramework" type="CFT.Apollo.CommunicationFramework.CFConfigurationSection, CFT.Apollo.CommunicationFramework"/>
+  </configSections>
+
+  <CFT.Apollo.CommunicationFramework
+    defaultRelayIP="172.25.38.123"
+    defaultICEIP="172.25.39.53"
+    defaultICEUser="rayguo"
+    defaultICEPassword="1111"
+    />
+</configuration>

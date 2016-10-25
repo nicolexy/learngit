@@ -42,8 +42,11 @@ namespace CFT.CSOMS.BLL.TradeModule
 
         public DataTable GetPickListDetail(string listid)
         {
-            DataSet ds = new PickData().QueryPickByListid(listid, null, null, 0, 0, "0000", "0000");
-            return (ds == null || ds.Tables.Count == 0) ? null : ds.Tables[0];
+            //DataSet ds = new PickData().QueryPickByListid(listid, null, null, 0, 0, "0000", "0000");
+
+            var dt = new PickData().QueryPickByListidNew(listid);
+
+            return (dt == null || dt.Rows.Count == 0) ? null : dt;
         }
 
         public DataSet GetCreditQueryListForFaid(string QQOrEmail, DateTime begindate, DateTime enddate, int istart, int imax)
