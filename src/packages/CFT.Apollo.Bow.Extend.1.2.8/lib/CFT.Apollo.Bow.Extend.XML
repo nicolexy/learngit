@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CFT.Apollo.Bow.Extend</name>
+    </assembly>
+    <members>
+        <member name="M:CFT.Apollo.Bow.Extend.ConvertDBValueExtend.ToDataCellValue(System.Object)">
+            <summary>
+            处理空值
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CFT.Apollo.Bow.Extend.EntityExtend">
+            <summary>
+            实体扩展类
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Extend.EntityExtend.ToDataTable(CFT.Apollo.Bow.Recharge.RechargeItem)">
+            <summary>
+            充值单转DataTable
+            </summary>
+            <param name="item">充值单</param>
+            <returns>充值单对应的DataTable</returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Extend.EntityExtend.ToDataTable(CFT.Apollo.Bow.Trade.TradeItem)">
+            <summary>
+            交易单转DataTable
+            </summary>
+            <param name="item">交易单</param>
+            <returns>交易单对应的DataTable</returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Extend.EntityExtend.ToDataTable(CFT.Apollo.Bow.Withdraw.WithdrawItem)">
+            <summary>
+            提现单转DataTable
+            </summary>
+            <param name="item">提现单</param>
+            <returns>提现单对应的DataTable</returns>
+        </member>
+        <member name="M:CFT.Apollo.Bow.Extend.EntityExtend.ToDataTable(CFT.Apollo.Bow.Trade.WXTradeItem)">
+            <summary>
+            红包交易单转DataTable
+            </summary>
+            <param name="item">交易单</param>
+            <returns>交易单对应的DataTable</returns>
+        </member>
+    </members>
+</doc>
