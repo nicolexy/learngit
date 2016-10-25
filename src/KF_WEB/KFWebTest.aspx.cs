@@ -339,7 +339,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             }
             catch(Exception ef)
             {
-                LogHelper.LogInfo(" KFWebTest.aspx new AccountService().GetUserType  qqid=" + qqid + "获取帐号类型失败," + ef);
+                LogHelper.LogInfo(" KFWebTest.aspx new AccountService().GetUserType   qqid=" + qqid + "获取帐号类型失败," + ef);
                 userType = string.Empty;
             }
 
