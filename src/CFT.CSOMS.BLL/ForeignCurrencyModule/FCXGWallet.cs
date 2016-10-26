@@ -626,6 +626,7 @@ namespace CFT.CSOMS.BLL.ForeignCurrencyModule
                                     cre_type == "10" ? "营业执照" :
                                     cre_type == "11" ? "其它证件" :
                                     cre_type == "21" ? "香港永久身份证" :
+                                    cre_type == "22" ? "香港临时身份证" :
                         "未知：" + cre_type;
                 }
             }
