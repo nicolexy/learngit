@@ -38,9 +38,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 	/// </summary>
     public partial class test : System.Web.UI.Page
 	{
-	
+        private   string GetTName_UserBind(string strID, out string localkey)
+        {
+            localkey = "";
+            string dbname = "c2c_db_" + strID.Substring(strID.Length - 2) + ".t_user_bind_" + strID.Substring(strID.Length - 3, 1);
+            int dbnum = Convert.ToInt32(strID.Substring(strID.Length - 2));
+            if (dbnum <= 49)
+            {
+                localkey = "userbinddb01";
+            }
+            else
+            {
+                localkey = "userbinddb02";
+            }
+            return dbname;
+        }
 		protected void Page_Load(object sender, System.EventArgs e)
         {
+            string lockstr = "";
+            string dbnam = GetTName_UserBind("4544564564645", out lockstr);
+
+            
+           Response.Write ("表名:" + dbnam + ";别名:" + lockstr);
+
+
             TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("ChangeUserInfo", this);
             LogHelper.LogInfo(" test.aspx  ");
 

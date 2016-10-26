@@ -183,7 +183,10 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
         public DataSet GetBankCardBindDetail(string fuid, string findex, string fBDIndex)
         {
             //MySqlAccess da = MySQLAccessFactory.GetMySQLAccess("DataSource_ht");
-            MySqlAccess da=new MySqlAccess(DbConnectionString.Instance.GetConnectionString("BD"));
+            string localkey = "";
+            string dbname = GetTName_UserBind(fuid, out localkey);
+
+            MySqlAccess da = new MySqlAccess(DbConnectionString.Instance.GetConnectionString(localkey));
             try
             {
                 // 2012/5/29 新增加查询字段Fcre_id
@@ -194,7 +197,7 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
                     Sql = "select Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status," +
                                 "Fbank_status,Fcard_tail,Fbank_id,Ftruename,Funchain_time_local,Fmodify_time," +
                                 "Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fcreate_time,Fbind_time_local,Fbind_time_bank,Funchain_time_bank,Fcre_type,Fonce_quota,Fday_quota,Fi_character2 & 0x01 as sms_flag from "
-                                + PublicRes.GetTName("c2c_db", "t_user_bind", fuid) + " where Findex=" + findex + " and fuid=" + fuid;
+                                + dbname + " where Findex=" + findex + " and fuid=" + fuid;
                 }
                 else if (fBDIndex != null && fBDIndex == "2")//该Findex的记录在临时表
                 {
@@ -414,12 +417,16 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
 
                 //filter += " limit " + limStart + "," + limCount;
 
-                da = MySQLAccessFactory.GetMySQLAccess("BD");
+                string localkey = "";
+                string dbname = GetTName_UserBind(fuid, out localkey);
+
+
+                da = MySQLAccessFactory.GetMySQLAccess(localkey);
                 da.OpenConn();
                 // 有一个专门是Fprotocol_no分表的数据表，所以跟据条件判断查哪个表，因为功能目前暂缓，暂不做
                 // 2012/5/29 新增查询证件号码项
                 string Sql = "select 1 as FBDIndex , Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
-                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from " + PublicRes.GetTName("c2c_db", "t_user_bind", fuid) + " where " + filter;
+                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from " + dbname + " where " + filter;
                 //加查临时表
                 string Sql2 = "select 2 as FBDIndex , Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
                     "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from c2c_db.t_user_bind_tmp where " + filter;
@@ -436,6 +443,22 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
                 if (da != null)
                     da.Dispose();
             }
+        }
+
+        public string GetTName_UserBind(string fuid, out string localkey)
+        {
+            localkey = "";
+            string dbname = PublicRes.GetTName("c2c_db", "t_user_bind", fuid);
+            int dbnum = Convert.ToInt32(fuid.Substring(fuid.Length - 2));
+            if (dbnum <= 49)
+            {
+                localkey = "userbinddb01";
+            }
+            else
+            {
+                localkey = "userbinddb02";
+            }
+            return dbname;
         }
 
      /// <summary>

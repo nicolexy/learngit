@@ -2500,6 +2500,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 throw new Exception("Service处理失败！" + msg);
             }
         }
+
+        private static string GetTName_UserBind(string fuid, out string localkey)
+        {
+            localkey = "";
+            string dbname = PublicRes.GetTName("c2c_db", "t_user_bind", fuid);
+            int dbnum = Convert.ToInt32(fuid.Substring(fuid.Length - 2));
+            if (dbnum <= 49)
+            {
+                localkey = "userbinddb01";
+            }
+            else
+            {
+                localkey = "userbinddb02";
+            }
+            return dbname;
+        }
+
         private static DataSet QueryBankCardForManJian(string fuid, int queryType)
         {
             MySqlAccess da = null;
@@ -2515,10 +2532,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     // 快捷支付
                     filter += " and Fbind_type >=10 and Fbind_type<=19 ";
                 }
-                da = new MySqlAccess(PublicRes.GetConnString("BD"));
+                string localkey = "";
+                string dbname = GetTName_UserBind(fuid, out localkey);
+
+                da = new MySqlAccess(PublicRes.GetConnString(localkey));
                 da.OpenConn();
                 string Sql = "select Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
-                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone from " + PublicRes.GetTName("t_user_bind", fuid) + " where " + filter;
+                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone from " + dbname + " where " + filter;
                 return da.dsGetTotalData(Sql);
             }
             catch (Exception err)
@@ -14464,10 +14484,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod(Description = "查询账号的银行卡绑定记录")]
         public DataSet GetBankCardBindList(string u_QQID, string Fbank_type)
         {
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("BD"));
+            MySqlAccess da = null;
             try
             {
-                da.OpenConn();
                 string fuid = PublicRes.ConvertToFuid(u_QQID);
 
                 if (fuid == null || fuid.Trim() == "")
@@ -14475,13 +14494,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     throw new Exception("查找不到指定的记录，请确认你的输入是否正确！");
                 }
 
+                string localkey = "";
+                string dbname = GetTName_UserBind(fuid, out localkey);
+                da = new MySqlAccess(PublicRes.GetConnString(localkey));
+                da.OpenConn();
                 string filter = "fuid=" + fuid;
                 if (Fbank_type != "")
                     filter += " and Fbank_type=" + Fbank_type;
                 // 有一个专门是Fprotocol_no分表的数据表，所以跟据条件判断查哪个表，因为功能目前暂缓，暂不做
                 // 2012/5/29 新增查询证件号码项
                 string Sql = "select Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
-                             "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id from " + PublicRes.GetTName("t_user_bind", fuid) + " where " + filter;
+                             "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id from " + dbname + " where " + filter;
                 return da.dsGetTotalData(Sql);
             }
             catch (Exception err)
@@ -14497,9 +14520,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         [WebMethod(Description = "查询特定的银行卡绑定记录")]
         public DataSet GetBankCardBind(string fuid, string Findex, string FBDIndex)
         {
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("BD"));
+            MySqlAccess da = null;
             try
             {
+                string localkey = "";
+                string dbname = GetTName_UserBind(fuid, out localkey);
+                da = new MySqlAccess(PublicRes.GetConnString(localkey));
                 // 2012/5/29 新增加查询字段Fcre_id
                 da.OpenConn();
                 string Sql = "";
@@ -14508,7 +14534,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     Sql = "select Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status," +
                                 "Fbank_status,Fcard_tail,Fbank_id,Ftruename,Funchain_time_local,Fmodify_time," +
                                 "Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fcreate_time,Fbind_time_local,Fbind_time_bank,Funchain_time_bank,Fcre_type,Fonce_quota,Fday_quota,Fi_character2 & 0x01 as sms_flag from "
-                                + PublicRes.GetTName("t_user_bind", fuid) + " where Findex=" + Findex + " and fuid=" + fuid;
+                                + dbname + " where Findex=" + Findex + " and fuid=" + fuid;
                 }
                 else if (FBDIndex != null && FBDIndex == "2")//该Findex的记录在临时表
                 {
@@ -14728,13 +14754,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
 
                 //filter += " limit " + limStart + "," + limCount;
-
-                da = new MySqlAccess(PublicRes.GetConnString("BD"));
+                string localkey = "";
+                string dbname = GetTName_UserBind(fuid, out localkey);
+                da = new MySqlAccess(PublicRes.GetConnString(localkey));
                 da.OpenConn();
                 // 有一个专门是Fprotocol_no分表的数据表，所以跟据条件判断查哪个表，因为功能目前暂缓，暂不做
                 // 2012/5/29 新增查询证件号码项
                 string Sql = "select 1 as FBDIndex , Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
-                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4 from " + PublicRes.GetTName("t_user_bind", fuid) + " where " + filter;
+                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4 from " + dbname + " where " + filter;
                 //加查临时表
                 string Sql2 = "select 2 as FBDIndex ,Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
                     "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4 from c2c_db.t_user_bind_tmp where " + filter;
@@ -15082,13 +15109,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
 
                 //filter += " limit " + limStart + "," + limCount;
+                string localkey = "";
+                string dbname = GetTName_UserBind(fuid, out localkey);
 
-                da = new MySqlAccess(PublicRes.GetConnString("BD"));
+                da = new MySqlAccess(PublicRes.GetConnString(localkey));
                 da.OpenConn();
                 // 有一个专门是Fprotocol_no分表的数据表，所以跟据条件判断查哪个表，因为功能目前暂缓，暂不做
                 // 2012/5/29 新增查询证件号码项
                 string Sql = "select 1 as FBDIndex , Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
-                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from " + PublicRes.GetTName("t_user_bind", fuid) + " where " + filter;
+                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from " + dbname + " where " + filter;
                 //加查临时表
                 string Sql2 = "select 2 as FBDIndex , Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
                     "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from c2c_db.t_user_bind_tmp where " + filter;
@@ -15107,41 +15136,45 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
 
-        [WebMethod(Description = "解除绑定银行卡")]
-        public void ModifyBankCardBind(string fuid, string Findex, string Fmemo)
-        {
-            MySqlAccess da = new MySqlAccess(PublicRes.GetConnString("BD"));
-            try
-            {
-                da.OpenConn();
-                string Sql = " select Fbind_flag,Fbind_status,Fbank_status from " + PublicRes.GetTName("t_user_bind", fuid) + " where Findex=" + Findex + " and fuid=" + fuid;
-                DataSet ds = da.dsGetTotalData(Sql);
+        //[WebMethod(Description = "解除绑定银行卡")]
+        //public void ModifyBankCardBind(string fuid, string Findex, string Fmemo)
+        //{
+        //    MySqlAccess da = null;
+        //    try
+        //    {
+        //        string localkey = "";
+        //        string dbname = GetTName_UserBind(fuid, out localkey);
+        //        da = new MySqlAccess(PublicRes.GetConnString(localkey));
 
-                if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count != 1)
-                {
-                    throw new Exception("没有查找到相应的记录！");
-                }
-                else if (ds.Tables[0].Rows[0]["Fbind_flag"].ToString() == "2" && ds.Tables[0].Rows[0]["Fbind_status"].ToString() == "4" && ds.Tables[0].Rows[0]["Fbank_status"].ToString() == "3")
-                {
-                    throw new Exception("该记录已处于解除绑定状态！");
-                }
-                else
-                {
-                    Sql = "update " + PublicRes.GetTName("t_user_bind", fuid) + " set Fbind_flag = 2,Fbind_status = 4,Fbank_status = 3," +
-                          "Funchain_time_local = '" + PublicRes.strNowTimeStander + "',Fmodify_time = '" + PublicRes.strNowTimeStander + "'," +
-                          "Fmemo = '" + Fmemo + "' where Findex = " + Findex + " and fuid=" + fuid;
-                    da.ExecSqlNum(Sql);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            finally
-            {
-                da.Dispose();
-            }
-        }
+        //        da.OpenConn();
+        //        string Sql = " select Fbind_flag,Fbind_status,Fbank_status from " + dbname + " where Findex=" + Findex + " and fuid=" + fuid;
+        //        DataSet ds = da.dsGetTotalData(Sql);
+
+        //        if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count != 1)
+        //        {
+        //            throw new Exception("没有查找到相应的记录！");
+        //        }
+        //        else if (ds.Tables[0].Rows[0]["Fbind_flag"].ToString() == "2" && ds.Tables[0].Rows[0]["Fbind_status"].ToString() == "4" && ds.Tables[0].Rows[0]["Fbank_status"].ToString() == "3")
+        //        {
+        //            throw new Exception("该记录已处于解除绑定状态！");
+        //        }
+        //        else
+        //        {
+        //            Sql = "update " + PublicRes.GetTName("t_user_bind", fuid) + " set Fbind_flag = 2,Fbind_status = 4,Fbank_status = 3," +
+        //                  "Funchain_time_local = '" + PublicRes.strNowTimeStander + "',Fmodify_time = '" + PublicRes.strNowTimeStander + "'," +
+        //                  "Fmemo = '" + Fmemo + "' where Findex = " + Findex + " and fuid=" + fuid;
+        //            da.ExecSqlNum(Sql);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        da.Dispose();
+        //    }
+        //}
 
         [WebMethod(Description = "同步银行卡绑定")]
         public bool SynchronBankCardBind(string bankType, string cardTail, string bankId)
