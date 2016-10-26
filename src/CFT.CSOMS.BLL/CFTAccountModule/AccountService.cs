@@ -584,7 +584,8 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                         dr["Fuseable_fee"] = MoneyTransfer.FenToYuan((l_balance - l_cron).ToString());   //可用余额=帐户余额减去冻结余额
 
                         int tempAtt = 0;
-                        if (dr["Att_id"].ToString() != "")
+                        log4net.LogManager.GetLogger("GetUserAccountFromWechat attid-" + (ds.Tables[0].Columns.Contains("Att_id")?"1":"0"));
+                        if (ds.Tables[0].Columns.Contains("Att_id") && dr["Att_id"].ToString() != "")
                         {
                             tempAtt = int.Parse(dr["Att_id"].ToString());
                         }
