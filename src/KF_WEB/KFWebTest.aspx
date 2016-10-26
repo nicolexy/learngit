@@ -18,7 +18,7 @@
         <div>
         <asp:Label ID="Label2" runat="server" Text="修改个人信息，qq账户属性："></asp:Label>
         <asp:FileUpload ID="fileqqid" runat="server" />
-        <asp:Button ID="Button1" runat="server" Text="执行22" OnClick="Button1_Click" />
+        <asp:Button ID="Button1" runat="server" Text="执行2332" OnClick="Button1_Click" />
             </div>
     </form>
 </body>
