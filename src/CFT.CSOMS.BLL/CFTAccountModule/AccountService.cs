@@ -562,6 +562,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                         {
                             string realname_str = "";
                             int state = new AuthenInfoService().GetUserClassInfo(dr["fqqid"].ToString(), out realname_str);
+                            dr["Frealname_state"] = realname_str;
                         }
 
                         string str_state = PublicRes.objectToString(ds.Tables[0], "Fstate");
