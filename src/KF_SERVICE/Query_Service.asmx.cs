@@ -32,6 +32,7 @@ using CFT.CSOMS.BLL.Infrastructure;
 using CFT.CSOMS.BLL.ForeignCardModule;
 using CFT.CSOMS.BLL.CFTAccountModule;
 using CFT.CSOMS.BLL.CheckModoule;
+using CommLib;
 
 namespace TENCENT.OSS.CFT.KF.KF_Service
 {
@@ -2534,8 +2535,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 }
                 string localkey = "";
                 string dbname = GetTName_UserBind(fuid, out localkey);
-
-                da = new MySqlAccess(PublicRes.GetConnString(localkey));
+                da = new MySqlAccess(DbConnectionString.Instance.GetConnectionString(localkey));
                 da.OpenConn();
                 string Sql = "select Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
                     "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone from " + dbname + " where " + filter;
@@ -14496,7 +14496,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
                 string localkey = "";
                 string dbname = GetTName_UserBind(fuid, out localkey);
-                da = new MySqlAccess(PublicRes.GetConnString(localkey));
+                da = new MySqlAccess(DbConnectionString.Instance.GetConnectionString(localkey));
                 da.OpenConn();
                 string filter = "fuid=" + fuid;
                 if (Fbank_type != "")
@@ -14525,7 +14525,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             {
                 string localkey = "";
                 string dbname = GetTName_UserBind(fuid, out localkey);
-                da = new MySqlAccess(PublicRes.GetConnString(localkey));
+                da = new MySqlAccess(DbConnectionString.Instance.GetConnectionString(localkey));
                 // 2012/5/29 新增加查询字段Fcre_id
                 da.OpenConn();
                 string Sql = "";
@@ -14756,7 +14756,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //filter += " limit " + limStart + "," + limCount;
                 string localkey = "";
                 string dbname = GetTName_UserBind(fuid, out localkey);
-                da = new MySqlAccess(PublicRes.GetConnString(localkey));
+                da = new MySqlAccess(DbConnectionString.Instance.GetConnectionString(localkey));
                 da.OpenConn();
                 // 有一个专门是Fprotocol_no分表的数据表，所以跟据条件判断查哪个表，因为功能目前暂缓，暂不做
                 // 2012/5/29 新增查询证件号码项
@@ -15111,8 +15111,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 //filter += " limit " + limStart + "," + limCount;
                 string localkey = "";
                 string dbname = GetTName_UserBind(fuid, out localkey);
-
-                da = new MySqlAccess(PublicRes.GetConnString(localkey));
+                da = new MySqlAccess(DbConnectionString.Instance.GetConnectionString(localkey));
                 da.OpenConn();
                 // 有一个专门是Fprotocol_no分表的数据表，所以跟据条件判断查哪个表，因为功能目前暂缓，暂不做
                 // 2012/5/29 新增查询证件号码项

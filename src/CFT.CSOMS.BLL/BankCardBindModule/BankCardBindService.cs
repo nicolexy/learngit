@@ -656,8 +656,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                 //filter += " limit " + limStart + "," + limCount;
                 string localkey = "";
                 string dbname = new BankcardbindData().GetTName_UserBind(fuid, out localkey);
-
-                da = new MySqlAccess(PublicRes.GetConnString(localkey));
+                da = new MySqlAccess(CommLib.DbConnectionString.Instance.GetConnectionString(localkey));
                 da.OpenConn();
                 // 有一个专门是Fprotocol_no分表的数据表，所以跟据条件判断查哪个表，因为功能目前暂缓，暂不做
                 // 2012/5/29 新增查询证件号码项
