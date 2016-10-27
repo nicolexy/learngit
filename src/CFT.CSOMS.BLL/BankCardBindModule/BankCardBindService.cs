@@ -696,6 +696,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
+                    ds.Tables[0].Columns.Add("Fbank_type_txt", System.Type.GetType("System.String"));
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fonce_quota", "Fonce_quota");
@@ -712,7 +713,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                         dr["Fbind_status"] = GetBindStatus(dr["Fbind_status"].ToString());
                         dr["Fbind_flag"] = GetBindFlag(dr["Fbind_flag"].ToString());
                         dr["Fcre_type"] = GetCreType(dr["Fcre_type"].ToString());
-                        dr["Fbank_type"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fbank_type"].ToString());
+                        dr["Fbank_type_txt"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fbank_type"].ToString());
                     }
                 }
             }
