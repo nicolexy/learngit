@@ -41,6 +41,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\</OutputPath>
@@ -89,12 +90,12 @@
     <Reference Include="AspNetPager">
       <HintPath>..\Assemblies\AspNetPager.dll</HintPath>
     </Reference>
-    <Reference Include="CFT.Apollo.Bow, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CFT.Apollo.Bow.1.1.3\lib\CFT.Apollo.Bow.dll</HintPath>
+    <Reference Include="CFT.Apollo.Bow, Version=1.3.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CFT.Apollo.Bow.1.3.7\lib\CFT.Apollo.Bow.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="CFT.Apollo.Common, Version=3.1.5499.20753, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CFT.Apollo.Common.3.1.5499.20753\lib\CFT.Apollo.Common.dll</HintPath>
+    <Reference Include="CFT.Apollo.Common, Version=3.2.3.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CFT.Apollo.Common.3.2.3.1\lib\CFT.Apollo.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CFT.Apollo.CommunicationFramework, Version=3.3.3.36261, Culture=neutral, processorArchitecture=MSIL">

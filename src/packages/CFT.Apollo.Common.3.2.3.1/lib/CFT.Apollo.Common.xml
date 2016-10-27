@@ -1,0 +1,533 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CFT.Apollo.Common</name>
+    </assembly>
+    <members>
+        <member name="T:CFT.Apollo.Common.Configuration.AppSettings">
+            <summary>
+            获取配置文件appSettings节的内容
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Common.Configuration.AppSettings.Get``1(System.String,``0)">
+            <summary>
+            获取应用程序配置文件(app.config)或(web.config)的应用程序设置项(appSttings)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="Name"></param>
+            <param name="defaultValue"></param>
+            <returns>找到对应的key就返回指定类型的配置值，未找到对应的key或类型转换异常都返回默认值，未指定默认值则返回类型的默认值</returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.Base64Helper.CodeToUrlSuitable(System.Byte[])">
+            <summary>
+            替换标准Base64中的全部三个特殊符号+/=
+            </summary>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.Base64Helper.CodeToUrlSuitableStayPad(System.Byte[])">
+            <summary>
+            只替换标准Base64中+/，保留=
+            </summary>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.Base64Helper.DecodeFromStandard(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="baseString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.CFTCrytographyHerper.DESEncryptString(System.String,System.Byte[],System.Byte[],System.String)">
+            <summary>
+            DES加密 
+            </summary>
+            <param name="string2Encrypted"> 将要被加密的字符串</param>
+            <param name="key">密钥, 如果不传将使用财付通默认</param>
+            <param name="iv"></param>
+            <param name="plainTextCodePageName">默认为GB2312</param>
+            <returns>16进制字符串</returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.CFTCrytographyHerper.DESEncryptBase64(System.String,System.Byte[],System.Byte[],System.String)">
+            <summary>
+            DES加密, 使用默认密钥
+            </summary>
+            <param name="string2Encrypted"> 将要被加密的字符串</param>
+            <param name="plainTextCodePageName">默认为GB2312</param>
+            <returns>Base64 编码字符串</returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.CFTCrytographyHerper.DESEncryptBase64UrlSuitableStayPad(System.String,System.Byte[],System.Byte[],System.String)">
+            <summary>
+            DES加密, 使用默认密钥
+            </summary>
+            <param name="string2Encrypted"> 将要被加密的字符串</param>
+            <param name="plainTextCodePageName">默认为GB2312</param>
+            <returns>Base64 编码字符串, 并替换两种字符: + / 保留=</returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.CFTCrytographyHerper.DESEncryptAndBase64URLEncoded(System.String,System.Byte[],System.Byte[],System.String)">
+            <summary>
+            DES加密, 使用默认密钥
+            </summary>
+            <param name="string2Encrypted"> 将要被加密的字符串</param>
+            <param name="plainTextCodePageName">默认为GB2312</param>
+            <returns>Base64 编码字符串,并URL Encoded</returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.CFTCrytographyHerper.DESEncrypt(System.String,System.Byte[],System.Byte[],System.String)">
+            <summary>
+            CFT标准加密
+            </summary>
+            <param name="string2Encrypted"></param>
+            <param name="key"></param>
+            <param name="iv"></param>
+            <param name="plainTextCodePageName"></param>
+            <returns>字节数组</returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.CFTCrytographyHerper.DESDecryptFromHexString(System.String,System.Byte[],System.Byte[],System.String)">
+            <summary>
+            DES解密
+            </summary>
+            <param name="cipherString">Hex string</param>
+            <param name="plainTextCodePageName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.CFTCrytographyHerper.DESDecryptFromEncodedBase64(System.String,System.Byte[],System.Byte[],System.String)">
+            <summary>
+            先Base64解码，然后DES解密
+            </summary>
+            <param name="cipherString"></param>
+            <param name="plainTextCodePageName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.CFTCrytographyHerper.DESDecryptFromEncodedBase64UrlSuitableStayPad(System.String,System.Byte[],System.Byte[],System.String)">
+            <summary>
+            先Base64解码，然后DES解密
+            </summary>
+            <param name="cipherString">Base64编码过的字符串, + 和 / 已经被替换</param>
+            <param name="plainTextCodePageName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.CFTCrytographyHerper.DESDecryptFromURLEncodedBase64(System.String,System.Byte[],System.Byte[],System.String)">
+            <summary>
+            先Base64解码，然后DES解密
+            </summary>
+            <param name="cipherString"></param>
+            <param name="plainTextCodePageName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.CFTCrytographyHerper.DESDecrypt(System.Byte[],System.Byte[],System.Byte[],System.String)">
+            <summary>
+            DES解密, 使用默认密钥
+            </summary>
+            <param name="src"></param>
+            <param name="key"></param>
+            <param name="iv"></param>
+            <param name="plainTextCodePageName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.DESHelper.Encrypt(System.Byte[],System.Byte[],System.Byte[],System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
+            <summary>
+            DES加密实际函数
+            </summary>
+            <param name="source">源内容</param>
+            <param name="key">加密key</param>
+            <param name="iv">加密初始向量</param>
+            <param name="paddingMode">填充模式</param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.DESHelper.Encrypt(System.String,System.Byte[],System.Byte[],System.String)">
+            <summary>
+            DES加密封装函数
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.DESHelper.Encrypt(System.String,System.Byte[],System.Byte[],System.Text.Encoding)">
+            <summary>
+            DES加密封装函数
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.DESHelper.EncryptAdvanced(System.String,System.Byte[],System.Byte[],System.String,System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
+            <summary>
+            DES加密封装函数，可对更多参数进行设置
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.DESHelper.EncryptAdvanced(System.String,System.Byte[],System.Byte[],System.Text.Encoding,System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
+            <summary>
+            DES加密封装函数，可对更多参数进行设置
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Common.Cryptography.DESHelper.DecryptToBytes(System.Byte[],System.Byte[],System.Byte[],System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
+            <summary>
+            
+            </summary>
+            <param name="sourceString"></param>
+            <param name="key"></param>
+            <param name="iv"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.ArrayEx.Cut``1(``0[],System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="array"></param>
+            <param name="start"></param>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.ArrayEx.Cut``1(``0[],System.Int32)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="array"></param>
+            <param name="start"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.DESRelatedHandle.TripleDESEncryptMethodOne(System.String,System.String)">
+            <summary>
+            3DES特殊加密算法
+            
+            算法过程：
+            将密钥经过MD5后大写，并经过TwoBytesToAscii算法处理
+            将源串与处理后的密钥进行3DES加密
+            加密后的结果经过AsciiToTwoBytes算法处理得到最后的加密串
+            
+            已用于接口：用户实名信息查询
+            </summary>
+            <param name="source">源串</param>
+            <param name="key">密钥</param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.DESRelatedHandle.TripleDESDecryptHandledMethodOne(System.String,System.String)">
+            <summary>
+            3DES特殊解密算法
+            
+            算法过程：
+            将密钥经过MD5后大写，并经过TwoBytesToAscii算法处理
+            将源串经过TwoBytesToAscii算法处理
+            将处理后的源串与处理后的密钥进行3DES解密得到最后的解密字符串
+            
+             已用于接口： 用户实名信息查询
+            </summary>
+            <param name="source">源串</param>
+            <param name="key">密钥</param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.DESRelatedHandle.GetSourceAndKeyByteEncryptOne(System.String,System.String,System.Byte[]@,System.Byte[]@)">
+            <summary>
+            密钥和源串在加密之前的处理函数
+            将密钥经过MD5后大写，并经过TwoBytesToAscii算法处理
+            源串经过gb2312编码
+            </summary>
+            <param name="source">源串</param>
+            <param name="key">密钥</param>
+            <param name="trueSourceBytes">处理后的源串</param>
+            <param name="genkey">处理后的密钥</param>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.DESRelatedHandle.GetSourceAndKeyByteDecryptOne(System.String,System.String,System.Byte[]@,System.Byte[]@)">
+            <summary>
+            密钥和源串在解密之前的处理函数
+            将密钥经过MD5后大写，并经过TwoBytesToAscii算法处理
+            将源串经过TwoBytesToAscii算法处理
+            </summary>
+            <param name="source">源串</param>
+            <param name="key">密钥</param>
+            <param name="trueSourceBytes">处理后的源串</param>
+            <param name="genkey">处理后的密钥</param>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.DESRelatedHandle.TwoBytesToAscii(System.String)">
+            <summary>
+            处理字符串，将字符串处理成1/2长度的char[]
+            处理过程：
+            将字符串按char[]处理，第一个字符左移4位与第二位相加，作为一个字符，放到新的char[]中
+            以此类推，第三个字符左移4位与第四位相加...处理完整个字符串，得到最后的char[]
+            </summary>
+            <param name="str">字符串</param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:CFT.Apollo.Common.Extention.DESRelatedHandle.AsciiToTwoBytes(System.String)" -->
+        <member name="M:CFT.Apollo.Common.Extention.TripleDESHelper.TripleDESDecryptAdvanced(System.Byte[],System.Byte[],System.Byte[],System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
+            <summary>
+            3DES解密算法 通用
+            </summary>
+            <param name="cipherBytes">待解密串byte[]</param>
+            <param name="keyBytes">解密密钥</param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.TripleDESHelper.TripleDESEncrypt(System.Byte[],System.Byte[])">
+            <summary>
+            3DES加密算法 通用
+            </summary>
+            <param name="trueSourceBytes">源串byte[]</param>
+            <param name="keyBytes">密钥byte[]</param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.TripleDESHelper.TripleDESDecrypt(System.Byte[],System.Byte[])">
+            <summary>
+            3DES解密算法 通用
+            </summary>
+            <param name="trueSourceBytes">待解密串byte[]</param>
+            <param name="keyBytes">解密密钥</param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.DataRowEx.GetValueOrDefault``1(System.Data.DataRow,System.String)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="row"></param>
+            <param name="columnName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.DataRowEx.GetValueOrDefault``1(System.Data.DataRow,System.String,``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="row"></param>
+            <param name="columnName"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.IEnumerableEx.ToString(System.Collections.IEnumerable,System.String)">
+            <summary>
+            将数组转换成字符串，用指定的间隔字符间隔
+            </summary>
+            <param name="collections"></param>
+            <param name="separator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.IntEx.TryParse(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="intString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.StringEx.Replace(System.String,System.String,System.Int32,System.Func{System.String,System.String})">
+            <summary>
+            替换带分隔符的字符串的指定节的内容
+            </summary>
+            <param name="oldValue"></param>
+            <param name="separator"></param>
+            <param name="index"></param>
+            <param name="changeMethod"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.StringEx.Replace(System.String,System.String,System.Func{System.String,System.String})">
+            <summary>
+            替换带分隔符的字符串的所有节的内容
+            </summary>
+            <param name="oldValue"></param>
+            <param name="separator"></param>
+            <param name="changeMethod"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.StringEx.ConvertToDictionary(System.String)">
+            <summary>
+            将以&amp;=格式的字符串转换成字典类型
+            </summary>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.StringEx.ConvertToDictionary(System.String,System.Char,System.Char)">
+            <summary>
+            将指定分隔格式的字符串转换成字典类型
+            （两级分隔）
+            </summary>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.StringEx.GetLastString(System.String,System.Int32)">
+            <summary>
+            截取字符串最后几位
+            </summary>
+            <param name="oldValue"></param>
+            <param name="lastLength"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Extention.StringEx.MySQLEscape(System.String)">
+            <summary>
+            Escapes the string.
+            </summary>
+            <param name="value">The string to escape</param>
+            <returns>The string with all quotes escaped.</returns>
+        </member>
+        <member name="P:CFT.Apollo.Common.Net.EMail.Mail.From">
+            <summary>
+            获取或设置发件人邮箱
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Common.Net.EMail.Mail.To">
+            <summary>
+            获取或所设置收件人邮箱，多个收件人用分号隔开
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Common.Net.EMail.Mail.CC">
+            <summary>
+            获取或设置抄送人邮箱，多个抄送人用分号隔开
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Common.Net.EMail.Mail.BCC">
+            <summary>
+            获取或设置密送人邮箱，多个密送人用分号隔开
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Common.Net.EMail.Mail.Body">
+            <summary>
+            获取或设置邮件内容
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Common.Net.EMail.Mail.Priority">
+            <summary>
+            获取或设置邮件优先级，默认值High
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Common.Net.EMail.Mail.IsBodyHtml">
+            <summary>
+            获取或设置邮件内容格式，默认为纯文本邮件
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Common.Net.EMail.Mail.Subject">
+            <summary>
+            获取或设置邮件标题
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Common.Net.EMail.Mail.SubjectEncoding">
+            <summary>
+            获取或设置邮件标题编码,默认采用utf-8
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Common.Net.EMail.Mail.BodyEncoding">
+            <summary>
+            获取或设置邮件正文编码
+            </summary>
+        </member>
+        <member name="P:CFT.Apollo.Common.Net.EMail.Mail.Attachments">
+            <summary>
+            邮件附件列表
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Common.Net.FtpClient.#ctor(System.String,System.Int32,System.String,System.String,System.Int32)">
+            <summary>
+            创建FtpClient
+            </summary>
+            <param name="host">主机</param>
+            <param name="port">端口</param>
+            <param name="username">用户名</param>
+            <param name="password">密码</param>
+            <param name="timeoutMillisecond">超时时间，单位毫秒</param>
+        </member>
+        <member name="P:CFT.Apollo.Common.Net.FtpClient.Timeout">
+            <summary>
+            获取ftp连接超时时间，单位毫秒
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Common.Utilities.CFTStringUtils">
+            <summary>
+            CFT字符串转换工具
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Common.Utilities.CFTStringUtils.GetHexStr(System.String,System.String)">
+            <summary>
+            把字符串转为16进制字符串
+            </summary>
+            <param name="s"></param>
+            <param name="encodingStr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Utilities.CFTStringUtils.GetHexStr(System.Byte[])">
+            <summary>
+            把字节转换为16进制字符串
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Utilities.CFTStringUtils.StringToByteArray(System.String)">
+            <summary>
+            把16进制字符串转成字节数组
+            </summary>
+            <param name="hex"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CFT.Apollo.Common.Utilities.CsvFile">
+            <summary>
+            Csv file handler
+            Fast and customizable
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Common.Utilities.CsvFile.Read``1(CFT.Apollo.Common.Utilities.CsvSource)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="csvSource"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CFT.Apollo.Common.Utilities.CsvFile`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:CFT.Apollo.Common.Utilities.CsvFile`1.#ctor(CFT.Apollo.Common.Utilities.CsvDestination)">
+            <summary>
+            
+            </summary>
+            <param name="csvDestination"></param>
+        </member>
+        <member name="M:CFT.Apollo.Common.Utilities.CsvFile`1.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Common.Utilities.CsvFile`1.#ctor(CFT.Apollo.Common.Utilities.CsvDestination,CFT.Apollo.Common.Utilities.CsvDefinition)">
+            <summary>
+            
+            </summary>
+            <param name="csvDestination"></param>
+            <param name="csvDefinition"></param>
+        </member>
+        <member name="T:CFT.Apollo.Common.Utilities.CsvFileReader`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:CFT.Apollo.Common.Utilities.CsvFileReader`1.#ctor(CFT.Apollo.Common.Utilities.CsvSource)">
+            <summary>
+            
+            </summary>
+            <param name="csvSource"></param>
+        </member>
+        <member name="M:CFT.Apollo.Common.Utilities.CsvFileReader`1.#ctor(CFT.Apollo.Common.Utilities.CsvSource,CFT.Apollo.Common.Utilities.CsvDefinition)">
+            <summary>
+            
+            </summary>
+            <param name="csvSource"></param>
+            <param name="csvDefinition"></param>
+        </member>
+        <member name="M:CFT.Apollo.Common.Utilities.CsvFileReader`1.Reset">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:CFT.Apollo.Common.Utilities.Network">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:CFT.Apollo.Common.Utilities.Network.GetMacAddressInt">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CFT.Apollo.Common.Utilities.Network.GetMacAddressString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

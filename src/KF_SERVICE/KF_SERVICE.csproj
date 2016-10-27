@@ -38,6 +38,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\</OutputPath>
@@ -83,13 +84,13 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CFT.Apollo.Common, Version=3.1.5496.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CFT.Apollo.Common.3.1.5496.0\lib\CFT.Apollo.Common.dll</HintPath>
+    <Reference Include="CFT.Apollo.Common, Version=3.2.3.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CFT.Apollo.Common.3.2.3.1\lib\CFT.Apollo.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="CFT.Apollo.Logging, Version=1.0.5494.24493, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CFT.Apollo.Logging.1.0.5494.24500\lib\net40\CFT.Apollo.Logging.dll</HintPath>
+    <Reference Include="CFT.Apollo.Logging, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CFT.Apollo.Logging.1.1.1.1\lib\net40\CFT.Apollo.Logging.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="icecs, Version=3.0.1.0, Culture=neutral, PublicKeyToken=1f998c50fec78381">
       <SpecificVersion>False</SpecificVersion>
