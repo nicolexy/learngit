@@ -1779,10 +1779,8 @@ namespace CFT.CSOMS.DAL.CFTAccount
             try
             {
                 string fuid = PublicRes.ConvertToFuid(u_QQID);
-                if (fuid == null)
-                    fuid = "0";             
                 string strReq = "uid=" + fuid;
-                string errMsg = "";             
+                string errMsg = "";
                 var task = System.Threading.Tasks.Task<DataTable>.Factory.StartNew(() =>
                 {
                     //使用新线程查询另一个接口   加速页面响应
@@ -1801,7 +1799,6 @@ namespace CFT.CSOMS.DAL.CFTAccount
                 DataTable dt1 = task.Result;
                 if (ds != null && ds.Tables.Count > 0 && dt1 != null)
                 {
-                    ds.Tables[]
                     var dt = ds.Tables[0];
                     if (dt.Rows.Count > 0 && dt1.Rows.Count > 0)
                     {
