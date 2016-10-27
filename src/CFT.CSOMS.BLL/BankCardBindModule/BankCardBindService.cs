@@ -656,8 +656,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                 //filter += " limit " + limStart + "," + limCount;
                 string localkey = "";
                 string dbname = new BankcardbindData().GetTName_UserBind(fuid, out localkey);
-
-                da = new MySqlAccess(PublicRes.GetConnString(localkey));
+                da = new MySqlAccess(CommLib.DbConnectionString.Instance.GetConnectionString(localkey));
                 da.OpenConn();
                 // 有一个专门是Fprotocol_no分表的数据表，所以跟据条件判断查哪个表，因为功能目前暂缓，暂不做
                 // 2012/5/29 新增查询证件号码项
@@ -697,6 +696,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
+                    ds.Tables[0].Columns.Add("Fbank_type_txt", System.Type.GetType("System.String"));
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fonce_quota", "Fonce_quota");
@@ -713,7 +713,7 @@ namespace CFT.CSOMS.BLL.BankCardBindModule
                         dr["Fbind_status"] = GetBindStatus(dr["Fbind_status"].ToString());
                         dr["Fbind_flag"] = GetBindFlag(dr["Fbind_flag"].ToString());
                         dr["Fcre_type"] = GetCreType(dr["Fcre_type"].ToString());
-                        dr["Fbank_type"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fbank_type"].ToString());
+                        dr["Fbank_type_txt"] = TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(dr["Fbank_type"].ToString());
                     }
                 }
             }

@@ -26,7 +26,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             try
             {
                 CFT.Apollo.Bow.Recharge.RechargeRepository recharge = new RechargeRepository();
-                rechargeModel = recharge.GetItem(listid, bankListid, bankType, curtype);
+                rechargeModel = recharge.GetRechargeItem(listid, bankListid, bankType, curtype);
             }
             catch (Exception ex)
             {

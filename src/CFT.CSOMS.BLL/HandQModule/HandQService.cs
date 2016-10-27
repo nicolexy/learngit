@@ -85,9 +85,9 @@ namespace CFT.CSOMS.BLL.HandQModule
                     item["amount_text"] = MoneyTransfer.FenToYuan(item["total_amount"].ToString());
                     item["Title"] = "发出的红包";//string.Format("{0}发出的红包", item["send_name"].ToString());
                     item["refund"] = MoneyTransfer.FenToYuan((int.Parse(item["total_amount"].ToString()) - int.Parse(item["recv_amount"].ToString())).ToString());
-                    //去掉前二位，听说是路由产生的
+                    //去掉前二位，听说是路由产生[不截取，原样输出]
                     string strSendList = item["send_listid"].ToString();
-                    item["send_listidex"] = strSendList.Substring(2);
+                    item["send_listidex"] = strSendList;
                     switch (item["state"].ToString())
                     {
 
