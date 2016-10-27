@@ -666,7 +666,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                 int queryType = paramsHt.ContainsKey("query_type") ? APIUtil.StringToInt(paramsHt["query_type"]) : 0;
                 int bindState = paramsHt.ContainsKey("bind_state") ? APIUtil.StringToInt(paramsHt["bind_state"]) : 99;
-                
+
                 APIUtil.ValidateDate(strBeginDate, "yyyy-MM-dd HH:mm:ss", true);
                 APIUtil.ValidateDate(strBeginDate, "yyyy-MM-dd HH:mm:ss", true);
 
@@ -1019,7 +1019,7 @@ namespace CFT.CSOMS.Service.CSAPI
             }
         }
 
-       
+
         /// <summary>
         /// 获取微信红包-收到的红包
         /// </summary>
@@ -1173,7 +1173,7 @@ namespace CFT.CSOMS.Service.CSAPI
 
                     var sendOpenid = detail_dt.Rows[0]["SendOpenid"].ToString();
                     string send_openid_tmp = GetWxNoByOpenId(sendOpenid);   // string.Format("{0}@wx.tenpay.com", WeChatHelper.GetAcctIdFromOpenId(sendOpenid));
-                  
+
                     foreach (DataRow item in detail_dt.Rows)
                     {
                         item["Amount_text"] = MoneyTransfer.FenToYuan(item["Amount"].ToString());
@@ -1197,9 +1197,9 @@ namespace CFT.CSOMS.Service.CSAPI
             }
         }
 
-       
+
         #endregion
-     
+
         #region 手Q支付
 
         /// <summary>
@@ -1503,13 +1503,13 @@ namespace CFT.CSOMS.Service.CSAPI
         }
 
         #endregion
-    
+
         #region 快捷支付(一点通业务新)
         [WebMethod]
         public void GetBankCardBindListFinalNew()
         {
             try
-            {                
+            {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //必填参数验证
                 APIUtil.ValidateParamsNew(paramsHt, "appid", "query_type", "bind_state", "operator", "offset", "limit", "token");
@@ -1542,7 +1542,7 @@ namespace CFT.CSOMS.Service.CSAPI
                     limCount = 50;
                 int total_num = 0;
                 var infos = new CFT.CSOMS.BLL.BankCardBindModule.BankCardBindService().GetBankCardBindList_FinalNew(
-                    fuin, Fbank_type, bankID, fuid, creID, protocolno, phoneno, strBeginDate, strEndDate, bindState, bind_serialno, Operator, queryType, creType, limStart, limCount,out total_num);
+                    fuin, Fbank_type, bankID, fuid, creID, protocolno, phoneno, strBeginDate, strEndDate, bindState, bind_serialno, Operator, queryType, creType, limStart, limCount, out total_num);
 
                 if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
                 {
@@ -1582,7 +1582,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 maps.Add("bank_name", "bank_name");
                 maps.Add("sms_flag", "sms_flag");//小额名短信通知,0已关闭，1已开启
 
-                APIUtil.Print4DataTable(infos.Tables[0], null, maps,total_num);
+                APIUtil.Print4DataTable(infos.Tables[0], null, maps, total_num);
             }
             catch (ServiceException se)
             {
@@ -1592,6 +1592,55 @@ namespace CFT.CSOMS.Service.CSAPI
             catch (Exception ex)
             {
                 SunLibrary.LoggerFactory.Get("GetBankCardBindListFinalNew").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+        #endregion
+
+        #region 增加测试代码
+        [WebMethod]
+        public void GetFinanceOdTcBankRollDay()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //必填参数验证
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "auid", "query_day","sign","token");
+                //token验证
+                APIUtil.ValidateToken(paramsHt);
+                string errMsg = string.Empty;
+                string auid = paramsHt.ContainsKey("auid") ? paramsHt["auid"].ToString() : "";
+                string sign = paramsHt["sign"].ToString();
+                string query_day= paramsHt["query_day"].ToString();
+                var infos = new CFT.CSOMS.BLL.HandQModule.HandQService().GetFinanceOdTcBankRollDay(auid, sign, query_day, out errMsg);
+                if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+
+                Dictionary<string, string> maps = new Dictionary<string, string>();
+
+                maps.Add("Flist_id", "list_id");
+                maps.Add("Fnum", "num");
+                maps.Add("Fstate", "state");
+                maps.Add("Fbank_list", "bank_list");
+                maps.Add("Fbank_acc", "bank_acc");
+                maps.Add("Fbank_type", "bank_type");
+                maps.Add("Faname", "aname");
+                maps.Add("Fpay_front_time", "pay_front_time");
+                maps.Add("Fbank_time", "bank_time");
+                maps.Add("Fmodify_time", "modify_time");           
+
+                APIUtil.Print4DataTable(infos.Tables[0], null, maps);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetFinanceOdTcBankRollDay").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetFinanceOdTcBankRollDay").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
                 APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
             }
         }
