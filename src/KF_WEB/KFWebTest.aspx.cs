@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -20,37 +22,54 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
     private  string ComputeSha256(string str)
     {
-        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str);
+            byte[] bytes = Encoding.UTF8.GetBytes(str);
 
-        using (System.Security.Cryptography.HMACSHA256 sha256 = new System.Security.Cryptography.HMACSHA256())
-        {
-            byte[] sha256Byte = sha256.ComputeHash(bytes);
+            HMACSHA256 sha2561 = new HMACSHA256();
 
-            var sb = new System.Text.StringBuilder();
-            foreach (byte b in sha256Byte)
+            byte[] sha256Byte1 = sha2561.ComputeHash(bytes);
+
+            var sb1 = new StringBuilder();
+            foreach (byte b1 in sha256Byte1)
             {
-                sb.AppendFormat("{0:x2}", b);
+                sb1.AppendFormat("{0:x2}", b1);
             }
-            return sb.ToString();
+             sb1.ToString();
+
+            using (SHA256Managed sha256 = new SHA256Managed())
+            {
+                byte[] sha256Byte = sha256.ComputeHash(bytes);
+
+                var sb = new StringBuilder();
+                foreach (byte b in sha256Byte)
+                {
+                    sb.AppendFormat("{0:x2}", b);
+                }
+                return sb.ToString();
+            }
+
+
+
+
+
+
         }
-    }
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            //var timestamp = "1477446576";
-            //var xRioSeq = "220c0e0a:0157feada5e2:020381";
-            //var staffId = "79723";
-            //var staffName = "v_swuzhang";
-            //var xExtData =  string.Empty;
-            //var signature = "727BA923DA0763370F4A1EB5A005EC79A63E4AD631AD39E79DB1B2BCDA6F0A51";
-            //var tokenId = "v20vsc036sujn68s0eds7jm0913bs51v";
+            var timestamp = "1477446576";
+            var xRioSeq = "220c0e0a:0157feada5e2:020381";
+            var staffId = "79723";
+            var staffName = "v_swuzhang";
+            var xExtData = string.Empty;
+            var signature = "727BA923DA0763370F4A1EB5A005EC79A63E4AD631AD39E79DB1B2BCDA6F0A51";
+            var tokenId = "v20vsc036sujn68s0eds7jm0913bs51v";
 
-            //DateTimeOffset expiresAtOffset = DateTimeOffset.Now;
-            //var localTimeStamp = expiresAtOffset.ToUniversalTime().UtcDateTime;
-            //var localSignStr = string.Format("{0}{1}{2},{3},{4},{5}{0}", timestamp, tokenId, xRioSeq, staffId, staffName, xExtData);
-            //var localSignature = ComputeSha256(localSignStr);
+            DateTimeOffset expiresAtOffset = DateTimeOffset.Now;
+            var localTimeStamp = expiresAtOffset.ToUniversalTime().UtcDateTime;
+            var localSignStr = string.Format("{0}{1}{2},{3},{4},{5}{0}", timestamp, tokenId, xRioSeq, staffId, staffName, xExtData);
+            var localSignature = ComputeSha256(localSignStr);
 
-    LogHelper.LogInfo(" public partial class KFWebTest : TENCENT.OSS.CFT.KF.KF_Web.PageBase  ");
+            LogHelper.LogInfo(" public partial class KFWebTest : TENCENT.OSS.CFT.KF.KF_Web.PageBase  ");
             if (Request["wechatname"] != null)
             {
                 LogHelper.LogInfo(" KFWebTest.aspx  request key ：" + Request["wechatname"].ToString());
