@@ -2726,7 +2726,7 @@ namespace CFT.CSOMS.Service.CSAPI
             {
                 Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
                 //验证必填参数
-                APIUtil.ValidateParamsNew(paramsHt, "account", "channel", "executor", "executorip", "username", "contact", "reason", "appid", "token");
+                APIUtil.ValidateParamsNew(paramsHt, "account", "channel", "executor","appid", "token");
                 //验证token
                 APIUtil.ValidateToken(paramsHt);
 

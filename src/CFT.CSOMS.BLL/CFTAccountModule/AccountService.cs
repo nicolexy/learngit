@@ -514,6 +514,14 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                             return null;
                     }
                 }
+                //获取产品属性
+                string fuid_att = PublicRes.ConvertToFuid(QQID);
+                if (fuid_att == null)
+                    fuid_att = "0";
+                string strReq = "uid=" + fuid_att;
+                string errMsg = "";             
+                string fatt_id = CommQuery.GetOneResultFromICE(strReq, CommQuery.QUERY_USERATT, "Fatt_id", out errMsg);
+                fatt_id = QueryInfo.GetString(fatt_id);
 
                 //如果数据不为空且不是快速交易用户
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -534,7 +542,8 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                     ds.Tables[0].Columns.Add("Femial_state", typeof(string));     //邮箱关联状态
                     ds.Tables[0].Columns.Add("Fmobile_state", typeof(string));    //手机关联状态
                     ds.Tables[0].Columns.Add("Fbpay_state_str", typeof(string));  //余额支付状态
-
+                    ds.Tables[0].Columns.Add("Frealname_state", typeof(string));  //实名状态               
+                 
                     #region 转换字段
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
@@ -548,6 +557,12 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                         MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fquota_pay", "Fquota_pay_str");
                         MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Ffetch", "Ffetch_str");
                         MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fsave", "Fsave_str");
+                        
+                        if (string.IsNullOrEmpty(dr["fqqid"].ToString()))
+                        {
+                            string realname_str = "";
+                            int state = new AuthenInfoService().GetUserClassInfo(dr["fqqid"].ToString(), out realname_str);
+                        }
 
                         string str_state = PublicRes.objectToString(ds.Tables[0], "Fstate");
                         if (str_state == "1")
@@ -584,10 +599,9 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                         dr["Fuseable_fee"] = MoneyTransfer.FenToYuan((l_balance - l_cron).ToString());   //可用余额=帐户余额减去冻结余额
 
                         int tempAtt = 0;
-                        log4net.LogManager.GetLogger("GetUserAccountFromWechat attid-" + (ds.Tables[0].Columns.Contains("Att_id")?"1":"0"));
-                        if (ds.Tables[0].Columns.Contains("Att_id") && dr["Att_id"].ToString() != "")
+                        if (fatt_id != "")
                         {
-                            tempAtt = int.Parse(dr["Att_id"].ToString());
+                            tempAtt = int.Parse(fatt_id);
                         }
                         if (tempAtt != 0)
                         {

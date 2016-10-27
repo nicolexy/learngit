@@ -1554,6 +1554,7 @@ namespace CFT.CSOMS.Service.CSAPI
                 maps.Add("Fbank_id", "bank_id");
                 maps.Add("Fbank_status", "bank_status");
                 maps.Add("Fbank_type", "bank_type");
+                maps.Add("Fbank_type_txt", "bank_type_txt");
                 maps.Add("Fbind_flag", "bind_flag");
                 maps.Add("Fbind_serialno", "bind_serialno");
                 maps.Add("Fbind_status", "bind_status");

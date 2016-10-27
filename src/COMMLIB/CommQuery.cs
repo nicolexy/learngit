@@ -3299,7 +3299,7 @@ namespace TENCENT.OSS.C2C.Finance.Common.CommLib
                         {
                             if (i == 0 && s.IndexOf("_0") > -1)
                                 dt.Columns.Add(s.Substring(0, s.Length - 2));
-                            if (s.IndexOf("_" + i) > -1)
+                            if (s.EndsWith("_" + i))
                             {
                                 int indextN = ("_" + i).Length;
                                 string fiedlName = s.Substring(0, s.Length - indextN);
