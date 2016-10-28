@@ -88,9 +88,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                         }
                         catch (Exception et)
                         {
-                            LogHelper.LogError(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQueryNew  调用新接口 Apollo.Bow ：new TradeService().GetTradeModelById(),listid={0} ，异常：{1}", tmp));
+                            LogHelper.LogError(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQueryNew  调用新接口 Apollo.Bow ：new TradeService().GetTradeModelById(),listid={0} ，异常：{1}", tmp, et.ToString()));
                         }
-
 
                         this.TextBox1_ListID.Text = listid;
                         //this.TextBox1_ListID.Text = new PickService().TdeToID(tmp);

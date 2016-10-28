@@ -185,13 +185,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             string listid = string.Empty;
             try
             {
-                var tradeModel = new TradeService().GetTradeModelById(listID);
+                var tradeModel = new TradeService().GetTradeModelById(tdeid);
 
                 listid= tradeModel.ListID;
             }
             catch (Exception et)
             {
-                LogHelper.LogError(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQuery  调用新接口 Apollo.Bow ：new TradeService().GetTradeModelById(),listid={0}，异常：{1}", tdeid));
+                LogHelper.LogError(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQuery  调用新接口 Apollo.Bow ：new TradeService().GetTradeModelById(),listid={0}，异常：{1}", tdeid,et.ToString()));
             }
 
             return listid;
