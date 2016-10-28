@@ -558,7 +558,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                         MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Ffetch", "Ffetch_str");
                         MoneyTransfer.FenToYuan_Table(ds.Tables[0], "Fsave", "Fsave_str");
                         
-                        if (string.IsNullOrEmpty(dr["fqqid"].ToString()))
+                        if (!string.IsNullOrEmpty(dr["fqqid"].ToString()))
                         {
                             string realname_str = "";
                             int state = new AuthenInfoService().GetUserClassInfo(dr["fqqid"].ToString(), out realname_str);
