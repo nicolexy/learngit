@@ -341,5 +341,11 @@ namespace CFT.CSOMS.BLL.HandQModule
             DataSet ds = new HandQDAL().GetFinanceOdTcBankRollDay(auid,sign,query_day,out Msg);
             return ds;
         }
+        //测试代码2
+        public DataSet GetFinanceOdTcBankRollDay2(string auid, string sign, string query_day, out string Msg)
+        {
+            DataSet ds = new HandQDAL().GetFinanceOdTcBankRollDay2(auid, sign, query_day, out Msg);
+            return ds;
+        }
     }
 }
