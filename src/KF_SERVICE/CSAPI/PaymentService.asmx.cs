@@ -1645,5 +1645,53 @@ namespace CFT.CSOMS.Service.CSAPI
             }
         }
         #endregion
+        #region 增加测试代码2
+        [WebMethod]
+        public void GetFinanceOdTcBankRollDay2()
+        {
+            try
+            {
+                Dictionary<string, string> paramsHt = APIUtil.GetQueryStrings();
+                //必填参数验证
+                APIUtil.ValidateParamsNew(paramsHt, "appid", "auid", "query_day", "sign", "token");
+                //token验证
+                APIUtil.ValidateToken(paramsHt);
+                string errMsg = string.Empty;
+                string auid = paramsHt.ContainsKey("auid") ? paramsHt["auid"].ToString() : "";
+                string sign = paramsHt["sign"].ToString();
+                string query_day = paramsHt["query_day"].ToString();
+                var infos = new CFT.CSOMS.BLL.HandQModule.HandQService().GetFinanceOdTcBankRollDay2(auid, sign, query_day, out errMsg);
+                if (infos == null || infos.Tables.Count == 0 || infos.Tables[0].Rows.Count == 0)
+                {
+                    throw new ServiceException(APIUtil.ERR_NORECORD, ErroMessage.MESSAGE_NORECORD);
+                }
+
+                Dictionary<string, string> maps = new Dictionary<string, string>();
+
+                maps.Add("Flist_id", "list_id");
+                maps.Add("Fnum", "num");
+                maps.Add("Fstate", "state");
+                maps.Add("Fbank_list", "bank_list");
+                maps.Add("Fbank_acc", "bank_acc");
+                maps.Add("Fbank_type", "bank_type");
+                maps.Add("Faname", "aname");
+                maps.Add("Fpay_front_time", "pay_front_time");
+                maps.Add("Fbank_time", "bank_time");
+                maps.Add("Fmodify_time", "modify_time");
+
+                APIUtil.Print4DataTable(infos.Tables[0], null, maps);
+            }
+            catch (ServiceException se)
+            {
+                SunLibrary.LoggerFactory.Get("GetFinanceOdTcBankRollDay").ErrorFormat("return_code:{0},msg:{1}", se.GetRetcode, se.GetRetmsg);
+                APIUtil.PrintError(se.GetRetcode, se.GetRetmsg);
+            }
+            catch (Exception ex)
+            {
+                SunLibrary.LoggerFactory.Get("GetFinanceOdTcBankRollDay").ErrorFormat("return_code:{0},msg:{1}", APIUtil.ERR_SYSTEM, ex.Message);
+                APIUtil.PrintError(APIUtil.ERR_SYSTEM, ErroMessage.MESSAGE_ERROBUSINESS);
+            }
+        }
+        #endregion
     }
 }
