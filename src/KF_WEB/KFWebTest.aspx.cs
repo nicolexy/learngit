@@ -1,4 +1,5 @@
 ﻿using CFT.CSOMS.BLL.CFTAccountModule;
+using CFT.CSOMS.BLL.TradeModule;
 using CFT.CSOMS.BLL.TransferMeaning;
 using CFT.CSOMS.COMMLIB;
 using SunLibrary;
@@ -47,27 +48,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 return sb.ToString();
             }
 
-
-
-
-
-
+            
         }
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            var timestamp = "1477446576";
-            var xRioSeq = "220c0e0a:0157feada5e2:020381";
-            var staffId = "79723";
-            var staffName = "v_swuzhang";
-            var xExtData = string.Empty;
-            var signature = "727BA923DA0763370F4A1EB5A005EC79A63E4AD631AD39E79DB1B2BCDA6F0A51";
-            var tokenId = "v20vsc036sujn68s0eds7jm0913bs51v";
+            //var timestamp = "1477446576";
+            //var xRioSeq = "220c0e0a:0157feada5e2:020381";
+            //var staffId = "79723";
+            //var staffName = "v_swuzhang";
+            //var xExtData = string.Empty;
+            //var signature = "727BA923DA0763370F4A1EB5A005EC79A63E4AD631AD39E79DB1B2BCDA6F0A51";
+            //var tokenId = "v20vsc036sujn68s0eds7jm0913bs51v";
 
-            DateTimeOffset expiresAtOffset = DateTimeOffset.Now;
-            var localTimeStamp = expiresAtOffset.ToUniversalTime().UtcDateTime;
-            var localSignStr = string.Format("{0}{1}{2},{3},{4},{5}{0}", timestamp, tokenId, xRioSeq, staffId, staffName, xExtData);
-            var localSignature = ComputeSha256(localSignStr);
+            //DateTimeOffset expiresAtOffset = DateTimeOffset.Now;
+            //var localTimeStamp = expiresAtOffset.ToUniversalTime().UtcDateTime;
+            //var localSignStr = string.Format("{0}{1}{2},{3},{4},{5}{0}", timestamp, tokenId, xRioSeq, staffId, staffName, xExtData);
+            //var localSignature = ComputeSha256(localSignStr);
 
             LogHelper.LogInfo(" public partial class KFWebTest : TENCENT.OSS.CFT.KF.KF_Web.PageBase  ");
             if (Request["wechatname"] != null)
@@ -112,9 +109,45 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                         LogHelper.LogInfo(" KFWebTest.aspx  request qqid ：" + qqid);
                         UpdateUserInfoAttr(qqid);
                         break;
+                    case "bow":
+                        var listid = Request["listid"] != null ? Request["listid"].ToString() : "1259051901321610225267518331";
+                        LogHelper.LogInfo(" KFWebTest.aspx  request listid ：" + listid);
+                        BindList(listid);
+                        break;
+                    case "tdetoid":
+                        var tdeid = Request["listid"] != null ? Request["listid"].ToString() : "1259051901321610225267518331";
+                        LogHelper.LogInfo(" KFWebTest.aspx  request listid ：" + tdeid);
+                        TdeToID(tdeid);
+                        break;
                 }
             }
+        }
 
+        private string TdeToID(string listID)
+        {
+            LogHelper.LogInfo(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQuery  调用新接口 Apollo.Bow ：new TradeService().GetTradeModelById(),listid={0}", listID));
+            string listid = string.Empty;
+          
+                var tradeModel = new TradeService().GetTradeModelById(listID);
+
+                this.Label1.Text = "TdeToID:"+ tradeModel.ListID;
+          
+
+            return listid;
+            // return new PickService().TdeToID(tdeid);
+        }
+
+
+        public void BindList(string listid) {
+
+            LogHelper.LogInfo(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQuery  调用新接口 Apollo.Bow ：new TradeService().GetTradeDataById(),listid={0}", listid));
+
+           
+               DataSet ds = new TradeService().GetTradeDataById(listid);
+
+                this.GridView1.DataSource = ds.Tables[0];
+                this.GridView1.DataBind();
+           
         }
 
         private void GetDBConnStr(string strkey)

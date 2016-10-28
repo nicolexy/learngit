@@ -184,5 +184,24 @@ namespace CFT.CSOMS.DAL.HandQModule
            DataSet ds = CommQuery.ParseRelayPageRow1Num(answer, out Msg);
            return ds;
        }
+
+       //测试代码
+       public DataSet GetFinanceOdTcBankRollDay(string auid, string sign, string query_day, out string Msg)
+       {
+           string RequestText = "CMD=FINANCE_OD_TCBANKROLL_DAY";
+           RequestText += "&auid=" + auid + "&sign=" + sign + "&query_day=" + query_day + "&strlimit=limit 0,10";
+           string answer = RelayAccessFactory.RelayInvoke(RequestText, "8020", true, false);
+           DataSet ds = CommQuery.ParseRelayPageRow1Num(answer, out Msg);
+           return ds;
+       }
+       //测试代码
+       public DataSet GetFinanceOdTcBankRollDay2(string auid, string sign, string query_day, out string Msg)
+       {
+           string RequestText = "CMD=FINANCE_OD_TCBANKROLL_DAY";
+           RequestText += "&auid=" + auid + "&sign=" + sign + "&query_day=" + query_day + "&strlimit=limit 0,10";
+           string answer = RelayAccessFactory.RelayInvoke(RequestText, "8020", false, false);
+           DataSet ds = CommQuery.ParseRelayPageRow1Num(answer, out Msg);
+           return ds;
+       }
     }
 }
