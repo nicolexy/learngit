@@ -171,7 +171,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
                 myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
 
-                string selectStrSession = Session["ListID"].ToString();
 
                 DateTime beginTime = DateTime.Parse(ConfigurationManager.AppSettings["sBeginTime"].ToString());
 
@@ -182,7 +181,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 int imax = 2;
 
                 myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
-                ds = myService.GetPayList(selectStrSession, 4, beginTime, endTime, istr, imax);
+                ds = myService.GetPayList(listid, 4, beginTime, endTime, istr, imax);
             }
             else {
                 ds = new TradeService().GetPayByListid(listid);  //绑定交易资料信息
