@@ -5,6 +5,7 @@ using CFT.CSOMS.COMMLIB;
 using SunLibrary;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Security.Cryptography;
@@ -114,6 +115,18 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                         LogHelper.LogInfo(" KFWebTest.aspx  request listid ：" + listid);
                         BindList(listid);
                         break;
+                    case "bowold":
+                        var olistid = Request["listid"] != null ? Request["listid"].ToString() : "1259051901321610225267518331";
+                        LogHelper.LogInfo(" KFWebTest.aspx  request listid ：" + olistid);
+                        if (Request["ser"] != null)
+                        {
+                            BindOldList(olistid, true);
+                        }
+                        else
+                        {
+                            BindOldList(olistid);
+                        }
+                        break;
                     case "tdetoid":
                         var tdeid = Request["listid"] != null ? Request["listid"].ToString() : "1259051901321610225267518331";
                         LogHelper.LogInfo(" KFWebTest.aspx  request listid ：" + tdeid);
@@ -130,8 +143,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
           
                 var tradeModel = new TradeService().GetTradeModelById(listID);
 
-                this.Label1.Text = "TdeToID:"+ tradeModel.ListID;
-          
+                this.Label1.Text = "TdeToID===ListID:" + tradeModel.ListID+ ",BankBackID:" + tradeModel.BankBackID+ ",BankListID:" + tradeModel.BankListID + ",SPID:" + tradeModel.SPID + "---===---Old_TdeToID:" +new PickService().TdeToID(listID);
 
             return listid;
             // return new PickService().TdeToID(tdeid);
@@ -148,6 +160,35 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 this.GridView1.DataSource = ds.Tables[0];
                 this.GridView1.DataBind();
            
+        }
+
+        public void BindOldList(string listid,bool? services=false) {
+            DataSet ds = new DataSet();
+
+            if (services.Value)
+            {  //绑定交易资料信息
+                Query_Service.Query_Service myService = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+
+                myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
+
+                string selectStrSession = Session["ListID"].ToString();
+
+                DateTime beginTime = DateTime.Parse(ConfigurationManager.AppSettings["sBeginTime"].ToString());
+
+                DateTime endTime = DateTime.Parse(ConfigurationManager.AppSettings["sEndTime"].ToString());
+
+                int istr = 1;
+
+                int imax = 2;
+
+                myService.Finance_HeaderValue = classLibrary.setConfig.setFH(this);
+                ds = myService.GetPayList(selectStrSession, 4, beginTime, endTime, istr, imax);
+            }
+            else {
+                ds = new TradeService().GetPayByListid(listid);  //绑定交易资料信息
+            }
+            this.GridView1.DataSource = ds.Tables[0];
+            this.GridView1.DataBind();
         }
 
         private void GetDBConnStr(string strkey)
