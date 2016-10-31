@@ -3,7 +3,7 @@
     IsHaveRightForSeeDetail();
     $("#div_ReveiwIdCard").dialog("close");
     //时间:起
-    $("#tbx_beginDate").datebox({
+    $("#txt_beginDate").datebox({
         value: getCurrentMonthFirst(),
         ShowSeconds: false
     });
@@ -39,7 +39,7 @@
         var uid = $("[id$='Label_uid']").text();// $("#Label_uid").val();
         var uin = $("#txt_uin").val();
         var reviewCount = $("#txt_ReviewCount").numberspinner("getValue");
-        var beginDate = $("#tbx_beginDate").datebox("getValue");
+        var beginDate = $("#txt_beginDate").datebox("getValue");
         var endDate = $("#txt_EndDate").datebox("getValue");
         var datas = {
             uid: uid,
@@ -78,7 +78,7 @@
                             $("#ddl_ReviewStatus").combobox("setValue", "2");
                             $("#ddl_ReviewResult").combobox("setValue", "0");
                             $("#ddl_Fmemo").combobox("setValue", "0");
-                            $("#tbx_beginDate").datebox("setValue", getCurrentMonthFirst());
+                            $("#txt_beginDate").datebox("setValue", getCurrentMonthFirst());
                             $("#txt_EndDate").datebox("setValue", SetDate(0));
                             $("#txt_ModifyBeginDate").datebox("setValue", "");
                             $("#txt_ModifyEndDate").datebox("setValue", "");
@@ -101,7 +101,7 @@
         var uin = $("#txt_uin").val();
         var isHaveRightForSeeDetail = $("#hid_IsHaveRightForSeeDetail").val();
         var reviewCount = $("#txt_ReviewCount").numberspinner("getValue");
-        var beginDate = $("#tbx_beginDate").datebox("getValue");
+        var beginDate = $("#txt_beginDate").datebox("getValue");
         var endDate = $("#txt_EndDate").datebox("getValue");
 
         var modifyBeginDate = $("#txt_ModifyBeginDate").datebox("getValue");
@@ -215,7 +215,7 @@
             usertype: $("input[name=IDType]:checked").val(),
             reviewStatus: $("#ddl_ReviewStatus").combobox("getValue"),
             reviewResult: $("#ddl_ReviewResult").combobox("getValue"),
-            beginDate: $("#tbx_beginDate").datebox("getValue"),
+            beginDate: $("#txt_beginDate").datebox("getValue"),
             endDate: $("#txt_EndDate").datebox("getValue"),
             modifyBeginDate: $("#txt_ModifyBeginDate").datebox("getValue"),
             modifyEndDate: $("#txt_ModifyEndDate").datebox("getValue"),
@@ -529,7 +529,7 @@
         var uid = $("[id$='Label_uid']").text();//$("#Label_uid").text();
         var uin = $("#txt_uin").val();
         var reviewCount = $("#txt_ReviewCount").numberspinner("getValue");
-        var beginDate = $("#tbx_beginDate").datebox("getValue");
+        var beginDate = $("#txt_beginDate").datebox("getValue");
         var endDate = $("#txt_EndDate").datebox("getValue");
         var modifyBeginDate = $("#txt_ModifyBeginDate").datebox("getValue");
         var modifyEndDate = $("#txt_ModifyEndDate").datebox("getValue");

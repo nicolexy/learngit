@@ -4935,6 +4935,8 @@
     <Content Include="Configs\Log4net.config" />
     <Content Include="Ajax\CommonAjax\LoadControlsDataSource.ashx" />
     <Content Include="Ajax\CommonAjax\NPOIExportToExcels.ashx" />
+    <Content Include="CreditPay\JS\BillStatus.json" />
+    <Content Include="CreditPay\JS\SearchType.json" />
     <None Include="DataAccess.dll.log4net" />
     <Content Include="packages.config" />
     <Content Include="Data\Sys_BankClassify.ashx" />
@@ -6692,7 +6694,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>8814</DevelopmentServerPort>
+          <DevelopmentServerPort>35119</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

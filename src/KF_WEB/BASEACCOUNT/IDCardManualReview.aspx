@@ -71,7 +71,7 @@ img {
                     <td style="width: 20%; text-align: right">
                         <label id="lab_StartDate">申请开始日期：</label></td>
                     <td style="width: 30%">
-                        <input type="text" runat="server" id="tbx_beginDate" />
+                        <input type="text" runat="server" id="txt_beginDate" />
                     </td>
                     <td style="width: 20%; text-align: right">
                         <label id="lab_EndDate">申请结束日期：</label></td>

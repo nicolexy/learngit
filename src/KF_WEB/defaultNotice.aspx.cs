@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using CFT.CSOMS.BLL.BankCardBindModule;
+using CFT.CSOMS.BLL.CreditModule;
 using CFT.CSOMS.BLL.IdCardModule;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 
@@ -279,6 +280,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             //    }
             //}
             #endregion
+            //bool searchResult = false;
+            //string errorMessage = string.Empty;
+            //int total = 0;
+            //TencentCreditService tencentCreditService = new TencentCreditService();
+            //string returnResult = tencentCreditService.LoadRefundDetail("369051009",0,"30000000201610171659389990013316", "2016-10-01", "2016-10-18", "1476706748", 30, 1, "aaa", out searchResult, out errorMessage, ref total);
       
         }       
     }

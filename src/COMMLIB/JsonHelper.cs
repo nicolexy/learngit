@@ -733,7 +733,57 @@ namespace commLib
             return jsonBuilder.ToString();
         }
 
+        /// <summary>
+        /// 将DataTable转成Json格式的数据
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static string StringToJson(string str, char splitStr, char keyValueSplitStr)
+        {
+            string result = string.Empty;
+            StringBuilder jsonBuilder = new StringBuilder();
+            try
+            {
+                if (!string.IsNullOrEmpty(str))
+                {
 
+                    string[] strlist1 = str.Split(splitStr); 
+
+                    if (strlist1.Length> 0)
+                    {
+                        jsonBuilder.Append("[");
+                        jsonBuilder.Append("{");
+                        foreach (string strtmp in strlist1)
+                        {                           
+                            string[] strlist2 = strtmp.Split(keyValueSplitStr);
+                            if (strlist2.Length != 2)
+                            {
+                                continue;
+                            }
+                            jsonBuilder.Append("\"").Append("" + strlist2[0].ToString().Trim() + "").Append("\"").Append(":");
+                            jsonBuilder.Append("\"").Append("" + strlist2[1].ToString().Trim() + "").Append("\"").Append(",");
+                        }
+                        jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
+                        jsonBuilder.Append("}");
+                        jsonBuilder.Append("]");
+                    }
+                    else
+                    {
+                        result = string.Empty;                       
+                    }
+                    result = jsonBuilder.ToString();
+                }
+                else
+                {
+                    result=string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                result = string.Empty;
+            }                                  
+            return result;
+        }
 
         public static string JsonCharFilter(string sourceStr)
         {
