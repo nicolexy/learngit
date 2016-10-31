@@ -120,18 +120,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			}
 
-            LogHelper.LogInfo(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.PickQuery_Detail  调用新接口 Apollo.Bow ：pickservice.GetPickListDetail(),listid={0}", listid));
+            DataTable dt = pickservice.GetPickListDetail(listid);
 
-            DataTable dt = null;
-            try
-            {
-                dt = pickservice.GetPickListDetail(listid);
-            }
-            catch (Exception et) {
-                LogHelper.LogError(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.PickQuery_Detail  调用新接口 Apollo.Bow ：pickservice.GetPickListDetail(),listid={0} ，异常：{1}", listid, et.ToString()));
-            }
+            //LogHelper.LogInfo(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.PickQuery_Detail  调用新接口 Apollo.Bow ：pickservice.GetPickListDetail(),listid={0}", listid));
+            //DataTable dt = null;
+            //try
+            //{
+            //    dt = pickservice.GetPickListDetail(listid);
+            //}
+            //catch (Exception et) {
+            //    LogHelper.LogError(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.PickQuery_Detail  调用新接口 Apollo.Bow ：pickservice.GetPickListDetail(),listid={0} ，异常：{1}", listid, et.ToString()));
+            //}
 
-			if(dt != null && dt.Rows.Count > 0 )
+            if (dt != null && dt.Rows.Count > 0 )
 			{
 				DataRow dr = dt.Rows[0];
 				labFListID.Text = PublicRes.GetString(dr["FListID"]);
