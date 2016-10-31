@@ -132,7 +132,79 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                         LogHelper.LogInfo(" KFWebTest.aspx  request listid ：" + tdeid);
                         TdeToID(tdeid);
                         break;
+                    case "rechargebind":
+                        var rechargeid = Request["rechargeid"] != null ? Request["rechargeid"].ToString() : "110321610276540307000";
+                        var banklistid = Request["banklistid"] != null ? Request["banklistid"].ToString() : "201609285461406";
+                        var banktype = Request["banktype"] != null ? Request["banktype"].ToString() : "0";
+                        var curtype = Request["curtype"] != null ? Request["curtype"].ToString() : "0";
+                        LogHelper.LogInfo(" KFWebTest.aspx  request rechargebind ：" + rechargeid);
+
+                        RechargeBindData(rechargeid, banklistid, int.Parse(banktype), int.Parse(curtype));
+                        break;
+                    case "rechargebindold":
+                        var rechargeido = Request["rechargeid"] != null ? Request["rechargeid"].ToString() : "110321610276540307000";
+                        var banklistido = Request["banklistid"] != null ? Request["banklistid"].ToString() : "201609285461406";
+                        var banktypeo = Request["banktype"] != null ? Request["banktype"].ToString() : "0";
+                        var curtypeo = Request["curtype"] != null ? Request["curtype"].ToString() : "0";
+
+                        //queryType= "czd", DateTime? startDate=null, DateTime? endDate = null
+                        var queryType = Request["querytype"] != null ? Request["querytype"].ToString() : "czd";
+                        var startDate = Request["startdate"] != null ? DateTime.Parse(Request["startdate"].ToString()) : DateTime.Now.AddDays(-3);
+                        var endDate = Request["enddate"] != null ? DateTime.Parse(Request["enddate"].ToString()): DateTime.Now;
+                        LogHelper.LogInfo(" KFWebTest.aspx  request rechargebindold ：" + rechargeido);
+
+                        RechargeBindDataOld(rechargeido, banklistido, banktypeo, int.Parse(curtypeo),queryType,startDate,endDate);
+                        break;
                 }
+            }
+        }
+
+        /// <summary>
+        /// 充值单
+        /// </summary>
+        /// <param name="recharge"></param>
+        private void RechargeBindData(string rechargeid,string banklistid="",int banktype=0,int curtype=0)
+        {
+            try
+            {
+                RechargeService recharge = new RechargeService();
+                var rechargeData = recharge.GetRechargeTable(rechargeid, banklistid, banktype, curtype);
+
+                this.GridView1.DataSource = rechargeData;
+                this.GridView1.DataBind();
+            }
+            catch (Exception ef) {
+                var strVal = string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQuery  调用新接口 Apollo.Bow ：new RechargeService().GetRechargeTable(),rechargeid={0},rechargeid={1},rechargeid={2},rechargeid={3},new PickService().TdeToID,异常：{4}",rechargeid,banklistid,banktype,curtype,ef.ToString());
+                this.Label1.Text = strVal;
+
+                LogHelper.LogError(strVal);
+            }
+        }
+
+        private void RechargeBindDataOld(string rechargeid, string banklistid = "", string banktype = "", int curtype = 0,string queryType= "czd", DateTime? startDate=null, DateTime? endDate = null)
+        {
+            /*
+             * queryType:
+             * qq 按帐号
+             czd 充值单号
+             toBank 给银行的订单号
+             BankBack 银行返回订单号
+             * 
+             */
+
+            try
+            {
+                var rechargeData = new TradeService().GetBankRollListByListId(rechargeid, queryType, curtype, startDate.Value,endDate.Value , 0, 0, 20000000, banktype, 0, 20);
+
+                this.GridView1.DataSource = rechargeData;
+                this.GridView1.DataBind();
+            }
+            catch (Exception ef)
+            {
+                var strVal = string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQuery  调用新接口 Apollo.Bow ：new RechargeService().GetRechargeTable(),rechargeid={0},rechargeid={1},rechargeid={2},rechargeid={3},new PickService().TdeToID,异常：{4}", rechargeid, banklistid, banktype, curtype, ef.ToString());
+                this.Label1.Text = strVal;
+
+                LogHelper.LogError(strVal);
             }
         }
 
@@ -140,15 +212,23 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
         {
             LogHelper.LogInfo(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQuery  调用新接口 Apollo.Bow ：new TradeService().GetTradeModelById(),listid={0}", listID));
             string listid = string.Empty;
-          
+            try
+            {
                 var tradeModel = new TradeService().GetTradeModelById(listID);
 
-                this.Label1.Text = "TdeToID===ListID:" + tradeModel.ListID+ ",BankBackID:" + tradeModel.BankBackID+ ",BankListID:" + tradeModel.BankListID + ",SPID:" + tradeModel.SPID + "---===---Old_TdeToID:" +new PickService().TdeToID(listID);
+                this.Label1.Text = "TdeToID===ListID:" + tradeModel.ListID + ",BankBackID:" + tradeModel.BankBackID + ",BankListID:" + tradeModel.BankListID + ",SPID:" + tradeModel.SPID + "---===---Old_TdeToID:" + new PickService().TdeToID(listID);
+            }
+            catch (Exception ef)
+            {
+                var strVal = string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQuery  调用新接口 Apollo.Bow ：new TradeService().GetTradeModelById(),listid={0},new PickService().TdeToID,异常：{1}", listID, ef.ToString());
+                this.Label1.Text = strVal;
 
+                LogHelper.LogError(strVal);
+            }
             return listid;
+            
             // return new PickService().TdeToID(tdeid);
         }
-
 
         public void BindList(string listid) {
 
