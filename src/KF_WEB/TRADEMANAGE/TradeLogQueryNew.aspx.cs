@@ -77,22 +77,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     string tmp = Request.QueryString["tdeid"];
                     if (tmp != null && tmp.ToString() != "")
                     {
+                        //LogHelper.LogInfo(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQueryNew  调用新接口 Apollo.Bow ：new TradeService().GetTradeModelById(),listid={0}", tmp));
+                        //string listid=string.Empty;
+                        //try
+                        //{
+                        //    var tradeModel = new TradeService().GetTradeModelById(tmp);
 
-                        LogHelper.LogInfo(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQueryNew  调用新接口 Apollo.Bow ：new TradeService().GetTradeModelById(),listid={0}", tmp));
-                        string listid=string.Empty;
-                        try
-                        {
-                            var tradeModel = new TradeService().GetTradeModelById(tmp);
+                        //    listid= tradeModel.ListID;
+                        //}
+                        //catch (Exception et)
+                        //{
+                        //    LogHelper.LogError(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQueryNew  调用新接口 Apollo.Bow ：new TradeService().GetTradeModelById(),listid={0} ，异常：{1}", tmp, et.ToString()));
+                        //}
+                        //this.TextBox1_ListID.Text = listid;
 
-                            listid= tradeModel.ListID;
-                        }
-                        catch (Exception et)
-                        {
-                            LogHelper.LogError(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQueryNew  调用新接口 Apollo.Bow ：new TradeService().GetTradeModelById(),listid={0} ，异常：{1}", tmp, et.ToString()));
-                        }
-
-                        this.TextBox1_ListID.Text = listid;
-                        //this.TextBox1_ListID.Text = new PickService().TdeToID(tmp);
+                        this.TextBox1_ListID.Text = new PickService().TdeToID(tmp);
                     }
                     else
                     {
@@ -210,18 +209,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             }
 
-            //ds = new TradeService().GetPayByListid(selectStrSession);
+            ds = new TradeService().GetPayByListid(selectStrSession);
 
-            LogHelper.LogInfo(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQueryNew  调用新接口 Apollo.Bow ：new TradeService().GetTradeDataById,listid={0},iType={1}", selectStrSession, iType));
-
-            try
-            {
-                ds = new TradeService().GetTradeDataById(selectStrSession);
-            }
-            catch (Exception et)
-            {
-                LogHelper.LogError(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQueryNew  调用新接口 Apollo.Bow ：new TradeService().GetTradeDataById,listid={0},iType={1} ，异常：{2}", selectStrSession, iType, et.ToString()));
-            }
+            //LogHelper.LogInfo(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQueryNew  调用新接口 Apollo.Bow ：new TradeService().GetTradeDataById,listid={0},iType={1}", selectStrSession, iType));
+            //try
+            //{
+            //    ds = new TradeService().GetTradeDataById(selectStrSession);
+            //}
+            //catch (Exception et)
+            //{
+            //    LogHelper.LogError(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.TradeLogQueryNew  调用新接口 Apollo.Bow ：new TradeService().GetTradeDataById,listid={0},iType={1} ，异常：{2}", selectStrSession, iType, et.ToString()));
+            //}
 
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
             {

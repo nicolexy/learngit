@@ -14523,27 +14523,34 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             MySqlAccess da = null;
             try
             {
-                string localkey = "";
-                string dbname = GetTName_UserBind(fuid, out localkey);
-                da = new MySqlAccess(DbConnectionString.Instance.GetConnectionString(localkey));
-                // 2012/5/29 新增加查询字段Fcre_id
-                da.OpenConn();
+
                 string Sql = "";
                 if (FBDIndex != null && FBDIndex == "1")
                 {
+                    string localkey = "";
+                    string dbname = GetTName_UserBind(fuid, out localkey);
+                    da = new MySqlAccess(DbConnectionString.Instance.GetConnectionString(localkey));
+                    da.OpenConn();
                     Sql = "select Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status," +
                                 "Fbank_status,Fcard_tail,Fbank_id,Ftruename,Funchain_time_local,Fmodify_time," +
                                 "Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fcreate_time,Fbind_time_local,Fbind_time_bank,Funchain_time_bank,Fcre_type,Fonce_quota,Fday_quota,Fi_character2 & 0x01 as sms_flag from "
                                 + dbname + " where Findex=" + Findex + " and fuid=" + fuid;
+                    DataSet set = da.dsGetTotalData(Sql);
+                    return set;
                 }
                 else if (FBDIndex != null && FBDIndex == "2")//该Findex的记录在临时表
                 {
+                    da = new MySqlAccess(PublicRes.GetConnString("BD"));
+                    da.OpenConn();
                     Sql = "select Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status," +
                                 "Fbank_status,Fcard_tail,Fbank_id,Ftruename,Funchain_time_local,Fmodify_time," +
                                 "Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fcreate_time,Fbind_time_local,Fbind_time_bank,Funchain_time_bank,Fcre_type,Fonce_quota,Fday_quota,Fi_character2 & 0x01 as sms_flag from c2c_db.t_user_bind_tmp where Findex=" + Findex + " and fuid=" + fuid;
+                    DataSet set = da.dsGetTotalData(Sql);
+                    return set;
                 }
-                DataSet set = da.dsGetTotalData(Sql);
-                return set;
+                return null;
+                //DataSet set = da.dsGetTotalData(Sql);
+                //return set;
             }
             catch (Exception err)
             {
@@ -14753,6 +14760,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                     filter += " and Fbank_status=" + bindStatue;
                 }
 
+                DataSet ds1 = null,
+                    ds2 = null;
                 //filter += " limit " + limStart + "," + limCount;
                 string localkey = "";
                 string dbname = GetTName_UserBind(fuid, out localkey);
@@ -14761,12 +14770,17 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 // 有一个专门是Fprotocol_no分表的数据表，所以跟据条件判断查哪个表，因为功能目前暂缓，暂不做
                 // 2012/5/29 新增查询证件号码项
                 string Sql = "select 1 as FBDIndex , Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
-                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4 from " + dbname + " where " + filter;
+                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4 from " + dbname + " where " + filter + " limit " + limStart + "," + limCount;
+                ds1 = da.dsGetTotalData(Sql);
+
                 //加查临时表
+                da = new MySqlAccess(PublicRes.GetConnString("BD"));
+                da.OpenConn();
                 string Sql2 = "select 2 as FBDIndex ,Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
-                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4 from c2c_db.t_user_bind_tmp where " + filter;
-                Sql = "( " + Sql + " ) union all ( " + Sql2 + " ) limit " + limStart + "," + limCount;
-                return da.dsGetTotalData(Sql);
+                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4 from c2c_db.t_user_bind_tmp where " + filter + " limit " + limStart + "," + limCount;
+                ds2 = da.dsGetTotalData(Sql2);
+
+                return ToOneDataset(ds1, ds2);
             }
             catch (Exception err)
             {
@@ -15107,7 +15121,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 {
                     filter += " and Fbank_status=" + bindStatue;
                 }
-
+                DataSet ds1 = null,
+                    ds2 = null;
                 //filter += " limit " + limStart + "," + limCount;
                 string localkey = "";
                 string dbname = GetTName_UserBind(fuid, out localkey);
@@ -15116,12 +15131,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
                 // 有一个专门是Fprotocol_no分表的数据表，所以跟据条件判断查哪个表，因为功能目前暂缓，暂不做
                 // 2012/5/29 新增查询证件号码项
                 string Sql = "select 1 as FBDIndex , Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
-                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from " + dbname + " where " + filter;
+                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from " + dbname + " where " + filter + " limit " + limStart + "," + limCount;
+                ds1 = da.dsGetTotalData(Sql);
+
                 //加查临时表
+                da = new MySqlAccess(PublicRes.GetConnString("BD"));
+                da.OpenConn();
                 string Sql2 = "select 2 as FBDIndex , Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
-                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from c2c_db.t_user_bind_tmp where " + filter;
-                Sql = Sql + " union all " + Sql2 + " limit " + limStart + "," + limCount;
-                return da.dsGetTotalData(Sql);
+                    "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from c2c_db.t_user_bind_tmp where " + filter + " limit " + limStart + "," + limCount;
+                ds2 = da.dsGetTotalData(Sql2);
+                return ToOneDataset(ds1, ds2);
             }
             catch (Exception err)
             {
