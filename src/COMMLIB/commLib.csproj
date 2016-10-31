@@ -180,6 +180,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CommMailSend.cs" />
+    <Compile Include="CommonMethod.cs" />
     <Compile Include="CommQuery.cs">
       <SubType>Code</SubType>
     </Compile>

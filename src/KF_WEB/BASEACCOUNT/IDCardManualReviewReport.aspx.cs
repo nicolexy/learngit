@@ -38,16 +38,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 {
                     Response.Write("<script type='text/javascript'>window.parent.location.href = '../login.aspx?returnUrl=" + Server.UrlEncode(Request.Url.PathAndQuery) + "';</script>");
                     Response.End();
-                }
-
-                //Response.Redirect("../login.aspx?returnurl=" + Server.UrlEncode(Request.Url.PathAndQuery));
+                }                
             }
             else
             {
                 try
                 {
-                    this.Label_uid.Text = Session["uid"] == null ? string.Empty : Session["uid"].ToString();
-                    //hid_IdCaredServerPath.Value = System.Configuration.ConfigurationManager.AppSettings["IDCardManualReview_zx_sm_get_imagefcgi"].ToString();
+                    this.Label_uid.Text = Session["uid"] == null ? string.Empty : Session["uid"].ToString();                    
                     if (!classLibrary.ClassLib.ValidateRight("InfoCenter", this))
                     {
                         Response.Redirect("../login.aspx?wh=1");
