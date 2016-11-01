@@ -185,9 +185,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 CreditPayControl1.AddSubMenu("欠款查询", "CreditPay/QueryCreditDebt.aspx");
                 CreditPayControl1.AddSubMenu("还款查询", "CreditPay/QueryRefund.aspx");
                 CreditPayControl1.AddSubMenu("资金流水查询", "CreditPay/QueryCapitalRoll.aspx");
-                CreditPayControl1.AddSubMenu("账户查询", "CreditPay/AccountSearch.aspx");
-                CreditPayControl1.AddSubMenu("账单查询", "CreditPay/BillSearch.aspx");
-                CreditPayControl1.AddSubMenu("明细查询", "CreditPay/DetailSearch.aspx");
+                //CreditPayControl1.AddSubMenu("账户查询", "CreditPay/AccountSearch.aspx");
+                //CreditPayControl1.AddSubMenu("账单查询", "CreditPay/BillSearch.aspx");
+                //CreditPayControl1.AddSubMenu("明细查询", "CreditPay/DetailSearch.aspx");
 
                 OverseasPay1.AddSubMenu("外卡交易查询", "NewQueryInfoPages/QueryForeignCard.aspx");
                 OverseasPay1.AddSubMenu("运通账号信息查询", "NewQueryInfoPages/QueryYTInfo.aspx");
