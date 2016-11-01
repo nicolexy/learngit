@@ -42,64 +42,104 @@
             <tr>
                 <td style="width: 100%; min-width: 800px;">
                     <label id="lab_Foperator">用户：</label>
-                    <input type="text"  id="txt_Account" />
-                    <input id="QQ" name="AccountType" type="radio" value="1"  checked="checked"/><label>QQ号</label>
+                    <input type="text" id="txt_Account" />
+                    <input id="QQ" name="AccountType" type="radio" value="0" checked="checked" /><label>QQ号</label>
+                    <input id="WebChatAccount" name="AccountType" type="radio" value="1" /><label>微信号</label>
                     <input id="IdCard" name="AccountType" type="radio" value="2" /><label>身份证</label>&nbsp;&nbsp;&nbsp; 
-                    <a href="javascript:void(0)" id="btn_Search" class="easyui-linkbutton" iconcls="icon-search" plain="true">查询</a>                   
+                    <a href="javascript:void(0)" id="btn_Search" class="easyui-linkbutton" iconcls="icon-search" plain="true">查询</a>
                 </td>
             </tr>
         </table>
     </div>
     <br />
     <div style="width: 100%">
-        <table>
+        <table style="width:80%;height:100%;">
             <tr>
-                <td style="width:10%;min-width:100px; text-align:right"><span>姓名:</span></td>
-                <td style="width:40%;min-width:100px; text-align:left"><label id="lab_姓名"></label></td>
-                <td style="width:10%;min-width:100px; text-align:right"><span>身份证号码:</span></td>
-                <td style="width:40%;min-width:100px; text-align:left"><label id="lab_身份证号码"></label></td>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>账户:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_Acct_no"></label>
+                </td>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>账户类型:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_Acct_Type"></label>
+                </td>
             </tr>
             <tr>
-                <td style="width:10%;min-width:100px; text-align:right"><span>手机号:</span></td>
-                <td style="width:40%;min-width:100px; text-align:left"><label id="lab_手机号"></label></td>
-                <td style="width:10%;min-width:100px; text-align:right"><span>是否有体验资格:</span></td>
-                <td style="width:40%;min-width:100px; text-align:left"><label id="lab_是否有体验资格"></label></td>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>姓名:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_Name"></label>
+                </td>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>手机号码:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_Mobile"></label>
+                </td>
+
             </tr>
             <tr>
-                <td style="width:10%;min-width:100px; text-align:right"><span>是否开户:</span></td>
-                <td style="width:40%;min-width:100px; text-align:left"><label id="lab_是否开户"></label></td>
-                <td style="width:10%;min-width:100px; text-align:right"><span>开户时间:</span></td>
-                <td style="width:40%;min-width:100px; text-align:left"><label id="lab_开户时间"></label></td>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>证件号码:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_id_card_no"></label>
+                </td>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>币种类型:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_cur_type"></label>
+                </td>
             </tr>
             <tr>
-                <td style="width:10%;min-width:100px; text-align:right"><span>总额度:</span></td>
-                <td style="width:40%;min-width:100px; text-align:left"><label id="lab_总额度"></label></td>
-                <td style="width:10%;min-width:100px; text-align:right"><span>可用额度:</span></td>
-                <td style="width:40%;min-width:100px; text-align:left"><label id="lab_可用额度"></label></td>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>总授信额度:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_credit_line"></label>
+                </td>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>可用额度:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_credit"></label>
+                </td>
             </tr>
             <tr>
-                <td style="width:10%;min-width:100px; text-align:right"><span>账户状态:</span></td>
-                <td style="width:40%;min-width:100px; text-align:left"><label id="lab_账户状态"></label></td>
-                <td style="width:10%;min-width:100px; text-align:right"><span>已用额度:</span></td>
-                <td style="width:40%;min-width:100px; text-align:left"><label id="lab_已用额度"></label></td>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>冻结额度:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_credit_frezz"></label>
+                </td>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>已用额度:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_credit_used"></label>
+                </td>
             </tr>
             <tr>
-                <td style="width:10%;min-width:100px; text-align:right"><span>财付通状态:</span></td>
-                <td style="width:40%;min-width:100px; text-align:left"><label id="lab_财付通状态"></label></td>
-                <td style="width:10%;min-width:100px; text-align:right"><span>冻结额度:</span></td>
-                <td style="width:40%;min-width:100px; text-align:left"><label id="lab_冻结额度"></label></td>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>财付通状态:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_cft_staus"></label>
+                </td>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>账单日:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_bill_date"></label>
+                </td>
             </tr>
             <tr>
-                <td style="width:10%;min-width:100px; text-align:right"><span>逾期时长:</span></td>
-                <td style="width:40%;min-width:100px; text-align:left"><label id="lab_逾期时长"></label></td>
-                <td style="width:10%;min-width:100px; text-align:right"><span>账单日:</span></td>
-                <td style="width:40%;min-width:100px; text-align:left"><label id="lab_账单日"></label></td>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>还款日:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_repay_date"></label>
+                </td>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>是否逾期:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_IsOverDue"></label>
+                </td>
             </tr>
             <tr>
-                <td style="width:10%;min-width:100px; text-align:right"><span>逾期应还总额:</span></td>
-                <td style="width:40%;min-width:100px; text-align:left"><label id="lab_逾期应还总额"></label></td>
-                <td style="width:10%;min-width:100px; text-align:right"><span>还款日:</span></td>
-                <td style="width:40%;min-width:100px; text-align:left"><label id="lab_还款日"></label></td>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>逾期天数:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_OverdueDays"></label>
+                </td>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>逾期应还总额:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_OverdueBalance"></label>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 10%; min-width: 100px; padding:5px; margin:5px; text-align: right; font-size:larger;font-weight:bold;background-color:#f3f3f3;border-color:#95b8e7"><span>账户状态:</span></td>
+                <td style="width: 40%; min-width: 100px; text-align: left">
+                    <label id="lab_staus"></label>
+                </td>
             </tr>
         </table>
     </div>
