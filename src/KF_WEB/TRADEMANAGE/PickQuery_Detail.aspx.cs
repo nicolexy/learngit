@@ -126,7 +126,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             //DataTable dt = null;
             //try
             //{
-            //    dt = pickservice.GetPickListDetail(listid);
+            //    dt = pickservice.GetPickListDetailNew(listid);
             //}
             //catch (Exception et) {
             //    LogHelper.LogError(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.PickQuery_Detail  调用新接口 Apollo.Bow ：pickservice.GetPickListDetail(),listid={0} ，异常：{1}", listid, et.ToString()));
