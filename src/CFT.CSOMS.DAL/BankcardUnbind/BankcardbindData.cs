@@ -435,6 +435,8 @@ namespace CFT.CSOMS.DAL.BankcardUnbind
                 ds1 = da.dsGetTotalData(Sql);
 
                 //加查临时表
+                da = new MySqlAccess(PublicRes.GetConnString("BD"));
+                da.OpenConn();
                 string Sql2 = "select 2 as FBDIndex , Findex,Fbind_serialno,Fprotocol_no,Fuin,Fuid,Fbank_type,Fbind_flag,Fbind_type,Fbind_status,Fbank_status,right(Fcard_tail,4) as Fcard_tail," +
                     "Fbank_id,Ftruename,Funchain_time_local,Fmodify_time,Fmemo,Fcre_id,Ftelephone,Fmobilephone,Fi_character4,Fbind_time_bank,Fbind_time_local from c2c_db.t_user_bind_tmp where " + filter + " limit " + limStart + "," + limCount;
                 ds2 = da.dsGetTotalData(Sql2);

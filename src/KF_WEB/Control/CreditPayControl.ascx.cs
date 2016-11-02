@@ -59,7 +59,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 //menuControl.AddSubMenu("账户查询", "CreditPay/AccountSearch.aspx");
                 //menuControl.AddSubMenu("账单查询", "CreditPay/BillSearch.aspx");
                 //menuControl.AddSubMenu("明细查询", "CreditPay/DetailSearch.aspx");
-			}
+            }
 		}
 			
 		public void AddSubMenu(string menuName,string url)
