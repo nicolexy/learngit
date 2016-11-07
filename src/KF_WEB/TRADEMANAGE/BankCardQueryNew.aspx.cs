@@ -73,7 +73,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
         /// <summary>
         /// 多音字排序
         /// </summary>
-        class PolyphoneIComparer : IComparer
+        public class PolyphoneIComparer : IComparer
         {
             /// <summary>
             /// 多音字 用同音字  进行比较

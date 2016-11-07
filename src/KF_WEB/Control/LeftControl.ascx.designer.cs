@@ -13,15 +13,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control {
     public partial class LeftControl {
         
         /// <summary>
-        /// InternetBank control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::TENCENT.OSS.CFT.KF.KF_Web.Control.InternetBank InternetBank;
-        
-        /// <summary>
         /// HandQBusiness control.
         /// </summary>
         /// <remarks>
@@ -65,6 +56,15 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::TENCENT.OSS.CFT.KF.KF_Web.Control.HKWalletPay HKWalletPay;
+        
+        /// <summary>
+        /// BankCheckSystemMenu control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::TENCENT.OSS.CFT.KF.KF_Web.Control.MenuControl BankCheckSystemMenu;
         
         /// <summary>
         /// BGBatchMenuControl control.
