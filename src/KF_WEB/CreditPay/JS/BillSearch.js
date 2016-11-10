@@ -1,5 +1,5 @@
 ﻿$(function () {
-   
+
     $("#div_BillDetailInfo").dialog("close");
     //时间:起
     $("#txt_BeginDate").datebox({
@@ -31,7 +31,7 @@
     });
 
     $("#btn_Search").click(function () {
-
+        
         var accountNo = $("#txt_Account").val();
         var accountType = $("input[name=AccountType]:checked").val();
         var billStatus = $("#txt_BillStatus").combobox("getValue");

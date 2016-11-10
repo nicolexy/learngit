@@ -230,11 +230,23 @@ function LoadPayListDatagrid() {
                      field: 'trans_status', title: '交易状态', halign: 'center', align: 'left', width: $(this).width(),
                      formatter: function (value, row, index) {
                          var span = "<span></span>";
-                         if (value == "0") {
-                             span = "<span>支付成功</span>";
+                         //if (value == "0") {
+                         //    span = "<span>支付成功</span>";
+                         //}
+                         //else if (value == "1") {
+                         //    span = "<span>支付失败</span>";
+                         //}
+                         if (value == "10") {
+                             span = "<span>未知结果</span>";
                          }
-                         else if (value == "1") {
-                             span = "<span>支付失败</span>";
+                         else if (value == "20") {
+                             span = "<span>收到冲正请求，准备冲正</span>";
+                         }
+                         else if (value == "30") {
+                             span = "<span>订单信用付支付成功</span>";
+                         }
+                         else if (value == "31") {
+                             span = "<span>关单成功</span>";
                          }
                          return span;
                      }
@@ -406,29 +418,70 @@ function LoadRepayListDatagrid() {
                     field: 'rapay_info', title: '还款类型', halign: 'center', align: 'left', width: $(this).width(),
                     formatter: function (value, row, index) {
                         var span = "<span></span>";
-                        if (value == "0") {
-                            span = "<span>主动还</span>";
-                        }
-                        else if (value == "1") {
-                            span = "<span>代扣</span>";
+                        //if (value == "0") {
+                        //    span = "<span>主动还</span>";
+                        //}
+                        //else if (value == "1") {
+                        //    span = "<span>代扣</span>";
+                        //}
+                        //else if (value == "2") {
+                        //    span = "<span>其他</span>";
+                        //}
+                        if (value == "1") {
+                            span = "<span>逾期还款</span>";
                         }
                         else if (value == "2") {
-                            span = "<span>其他</span>";
+                            span = "<span>当期还款</span>";
+                        }
+                        else if (value == "3") {
+                            span = "<span>未出账单还款</span>";
+                        }
+                        else if (value == "4") {
+                            span = "<span>全部结清</span>";
+                        }
+                        else if (value == "5") {
+                            span = "<span>后台代扣（代扣还款单不区分逾期当期）</span>";
                         }
                         return span;
                     }
                 },
-                 { field: 'repay_channel', title: '还款方式', halign: 'center', align: 'left', width: $(this).width() },
+                 { field: 'repay_channel', title: '还款方式', halign: 'center', align: 'left', width: $(this).width(),
+                     formatter: function (value, row, index) {
+                         var span = "<span></span>";                   
+                         if (value == "1") {
+                             span = "<span>主动还款</span>";
+                         }
+                         else if (value == "2") {
+                             span = "<span>后台代扣</span>";
+                         }                   
+                         return span;
+                     }
+                 },
                  { field: 'balance_orig', title: '还款资金来源', halign: 'center', align: 'left', width: $(this).width() },
                  {
                      field: 'repay_status', title: '还款状态', halign: 'center', align: 'left', width: $(this).width(),
                      formatter: function (value, row, index) {
                          var span = "<span></span>";
-                         if (value == "0") {
-                             span = "<span>成功</span>";
+                         //if (value == "0") {
+                         //    span = "<span>成功</span>";
+                         //}
+                         //else if (value == "1") {
+                         //    span = "<span>失败</span>";
+                         //}
+                         if (value == "10") {
+                             span = "<span>初始化</span>";
                          }
-                         else if (value == "1") {
-                             span = "<span>失败</span>";
+                         else if (value == "20") {
+                             span = "<span>待冲账</span>";
+                         }
+                         else if (value == "30") {
+                             span = "<span>冲账成功</span>";
+                         }
+                         else if (value == "40") {
+                             span = "<span>冲账失败</span>";
+                         }
+                         else if (value == "50") {
+                             span = "<span>无需冲账</span>";
                          }
                          return span;
                      }
@@ -522,7 +575,7 @@ function LoadRefundList()
                         onSelectPage: function (pageNumber, pageSize) {
                             $(this).pagination('loading');
                             $('#hid_RefundListPageNumber').val(Number(pageNumber));
-                            $('#hid_RefundListPageSize').val(NumberpageSize));
+                            $('#hid_RefundListPageSize').val(Number(pageSize));
                             $(this).pagination('loaded');
                             $("#btn_Search").click();
                         }
