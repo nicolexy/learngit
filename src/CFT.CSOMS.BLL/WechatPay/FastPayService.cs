@@ -85,7 +85,7 @@ namespace CFT.CSOMS.BLL.WechatPay
             string ip = System.Configuration.ConfigurationManager.AppSettings["BankInfoIP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["BankInfoPort"].ToString());
             //快捷
-            string requestString = "biz_type=FASTPAY&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit=200&offset=0";
+            string requestString = "biz_type=FASTPAY&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit=250&offset=0";
             DataSet ds = RelayAccessFactory.GetBankInfoFromRelay(requestString, "6508", ip, port, false, false, relayDefaultSPId);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
@@ -103,7 +103,7 @@ namespace CFT.CSOMS.BLL.WechatPay
                 }
             }
             //一点通
-            requestString = "biz_type=ONECLICK&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit=200&offset=0";
+            requestString = "biz_type=ONECLICK&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit=250&offset=0";
             DataSet dsex = RelayAccessFactory.GetBankInfoFromRelay(requestString, "6508", ip, port, false, false, relayDefaultSPId);
             if (dsex != null && dsex.Tables.Count > 0 && dsex.Tables[0].Rows.Count > 0)
             {

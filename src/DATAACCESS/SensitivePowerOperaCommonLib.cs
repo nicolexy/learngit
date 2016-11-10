@@ -252,6 +252,9 @@ namespace TENCENT.OSS.CFT.KF.Common
                 rights[187] = new OneRight("UnFreezeChannelYH", 187, "解冻用户冻结渠道");
                 rights[188] = new OneRight("UnFreezeChannelSH", 188, "解冻商户冻结渠道");
                 rights[189] = new OneRight("UnFreezeChannelBG", 189, "解冻BG接口冻结渠道");
+                rights[212] = new OneRight("UnFreezeChannelBDBP", 212, "被盗被骗冻结");
+                rights[213] = new OneRight("UnFreezeChannelTX", 213, "套现冻结");
+                rights[214] = new OneRight("UnFreezeChannelSD", 214, "涉赌冻结");
 
                 rights[200] = new OneRight("ModifyFundPayCard", 200, "理财通安全卡解绑");
                 rights[201] = new OneRight("ModifyFundPayCardByCS", 201, "理财通安全卡解绑(客服)");

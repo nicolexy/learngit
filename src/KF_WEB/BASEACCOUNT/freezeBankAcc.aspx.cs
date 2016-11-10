@@ -17,6 +17,8 @@ using TENCENT.OSS.CFT.KF.Common;
 using CFT.CSOMS.BLL.FreezeModule;
 using CFT.Apollo.Logging;
 using CFT.CSOMS.BLL.CFTAccountModule;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 {
@@ -25,18 +27,30 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 	/// </summary>
 	public partial class freezeBankAcc : PageBase
 	{
-
-		private string sign;
+        public List<FreezeChannel> FreezeChannels = new List<FreezeChannel>()
+                    {
+                      new FreezeChannel{Value="1",Text="风控冻结",RightName="UnFreezeChannelFK"},
+                      new FreezeChannel{Value="2",Text="拍拍冻结",RightName="UnFreezeChannelPP"},
+                      new FreezeChannel{Value="3",Text="用户冻结",RightName="UnFreezeChannelYH"},
+                      new FreezeChannel{Value="4",Text="商户冻结",RightName="UnFreezeChannelSH"},
+                      new FreezeChannel{Value="5",Text="BG接口冻结",RightName="UnFreezeChannelBG"},
+                      new FreezeChannel{Value="6",Text="涉嫌可疑交易冻结",RightName="UnFreezeChannelFK"},
+                      new FreezeChannel{Value="10",Text="公安部反电诈平台冻结",RightName=""},
+                      new FreezeChannel{Value="11",Text="被盗被骗冻结",RightName="UnFreezeChannelBDBP"},
+                      new FreezeChannel{Value="12",Text="套现冻结",RightName="UnFreezeChannelTX"},
+                      new FreezeChannel{Value="13",Text="涉赌冻结",RightName="UnFreezeChannelSD"}
+                    };
+        private string sign;
 		protected System.Web.UI.WebControls.ImageButton ButtonBeginDate;
 		private string uid;
 	
 		//christy:解冻拍拍简化版帐号时，用户姓名和联系方式是空白显灰无法解冻.所以把用户姓名和联系方式这2个必填项的判断去掉
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			//furion 20050906 不修改以前的任何功能，只加入自已新的东西。
-			// 在此处放置用户代码以初始化页面
-
-			this.cbx_showEndDate.CheckedChanged += new EventHandler(cbx_showEndDate_CheckedChanged);
+            //furion 20050906 不修改以前的任何功能，只加入自已新的东西。
+            // 在此处放置用户代码以初始化页面
+    
+            this.cbx_showEndDate.CheckedChanged += new EventHandler(cbx_showEndDate_CheckedChanged);
 
 			try
 			{
@@ -72,10 +86,21 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     //yinhuang 2013/8/15 增加对微信的处理
                     ViewState["iswechat"] = iswechat;
                     ViewState["tuserName"] = "";
-					BindInfo();
-				}
+                    FreezeChannel();
+                    BindInfo();
+                }
 			}
 		}
+
+        private void FreezeChannel()
+        {
+            ddlFreezeChannel.Items.Clear();
+            foreach (FreezeChannel item in FreezeChannels)
+            {
+                ListItem listitem = new ListItem() { Value = item.Value, Text = item.Text };
+                ddlFreezeChannel.Items.Add(listitem);
+            }
+        }
 
 		private void BindInfo()
 		{
@@ -341,47 +366,57 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     string val = "";
                     string des = "";
 
-                    if (isChannel != "" && isChannel != "0")
+                    //if (isChannel != "" && isChannel != "0")
+                    //{
+                    //    //如果为空,不需要进行权限判断;不为空,则需要进行权限判断.
+                    //    if (isChannel == "1" || isChannel == "6")
+                    //    {
+                    //        //风控渠道
+                    //        val = "UnFreezeChannelFK";
+                    //        des = "风控冻结";
+                    //    }
+                    //    else if (isChannel == "2")
+                    //    {
+                    //        //拍拍
+                    //        val = "UnFreezeChannelPP";
+                    //        des = "拍拍冻结";
+                    //    }
+                    //    else if (isChannel == "3")
+                    //    {
+                    //        //用户
+                    //        val = "UnFreezeChannelYH";
+                    //        des = "用户冻结";
+                    //    }
+                    //    else if (isChannel == "4")
+                    //    {
+                    //        //商户
+                    //        val = "UnFreezeChannelSH";
+                    //        des = "商户冻结";
+                    //    }
+                    //    else if (isChannel == "5")
+                    //    {
+                    //        //BG
+                    //        val = "UnFreezeChannelBG";
+                    //        des = "BG接口冻结";
+                    //    }
+                    //}
+                    //else 
+                    //{
+                    //    val = "UnFreezeChannelFK";
+                    //    des = "风控冻结";
+                    //}
+                    if (FreezeChannels.Exists(p => p.Value == isChannel))
                     {
-                        //如果为空,不需要进行权限判断;不为空,则需要进行权限判断.
-                        if (isChannel == "1" || isChannel == "6")
-                        {
-                            //风控渠道
-                            val = "UnFreezeChannelFK";
-                            des = "风控冻结";
-                        }
-                        else if (isChannel == "2")
-                        {
-                            //拍拍
-                            val = "UnFreezeChannelPP";
-                            des = "拍拍冻结";
-                        }
-                        else if (isChannel == "3")
-                        {
-                            //用户
-                            val = "UnFreezeChannelYH";
-                            des = "用户冻结";
-                        }
-                        else if (isChannel == "4")
-                        {
-                            //商户
-                            val = "UnFreezeChannelSH";
-                            des = "商户冻结";
-                        }
-                        else if (isChannel == "5")
-                        {
-                            //BG
-                            val = "UnFreezeChannelBG";
-                            des = "BG接口冻结";
-                        }
+                        val = FreezeChannels.Where(p => p.Value == isChannel).First().RightName;
+                        des = FreezeChannels.Where(p => p.Value == isChannel).First().Text;
                     }
-                    else 
+                    else
                     {
                         val = "UnFreezeChannelFK";
                         des = "风控冻结";
                     }
 
-                    if (val != "" && !classLibrary.ClassLib.ValidateRight(val, this))
+                    if (val == "" || !classLibrary.ClassLib.ValidateRight(val, this))
                     {
                         //进行权限判断
                         WebUtils.ShowMessage(this.Page, "没有解冻冻结渠道为[" + des + "]的权限！");
@@ -589,4 +624,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
 			
 		}
 	}
+    public class FreezeChannel
+    {
+        public string Value { get; set; }
+        public string Text { get; set; }
+        public string RightName { get; set; }
+    }
 }

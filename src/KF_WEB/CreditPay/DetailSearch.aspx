@@ -11,7 +11,7 @@
         .transparent{filter:alpha(opacity=70);moz-opacity:.70;opacity:.70}
     </style>
     <%--<script src="../SCRIPTS/jquery-1.7.2/jquery.min.js"></script>--%>
-   <script src="../SCRIPTS/jquery-1.9.1/jquery.min.js"></script>
+   <script src="../SCRIPTS/jquery-1.9.1/jquery.min.js"></script>    
     <link rel="stylesheet" type="text/css" href="css/normalize.css" />    
     <script type="text/javascript" src="../SCRIPTS/jquery-easyui-1.5/jquery.easyui.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="../SCRIPTS/jquery-easyui-1.5/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
@@ -21,8 +21,6 @@
     <script src="../SCRIPTS/KF.js"></script>
     <%--<script src="../SCRIPTS/LoadControlsDataSource.js?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]%>"></script>--%>
     <script src="JS/DetailSearch.js?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]%>"></script>
-
-
 </head>
 <body>
     <form id="Form1" method="post" runat="server">
@@ -102,65 +100,11 @@
         <input type="hidden" id="hid_RefundListPageSize" value="20" />
         <input type="hidden" id="hid_RefundListPageNumber" value="1" />
     </div>
-    <%--退款详情--%>
-     <div id="div_RefundDetail"  class="easyui-dialog" style="width: 100%">
-         <%-- <table>
-            <tr>
-                <td style="width: 10%; min-width: 100px; text-align: right"><span>退款去向记录条数:</span></td>
-                <td style="width: 40%; min-width: 100px; text-align: left">
-                    <label id="lab_list_num"></label>
-                </td>
-                <td style="width: 10%; min-width: 100px; text-align: right"><span>原支付时间:</span></td>
-                <td style="width: 40%; min-width: 100px; text-align: left">
-                    <label id="lab_trans_time"></label>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 10%; min-width: 100px; text-align: right"><span>商品名称:</span></td>
-                <td style="width: 40%; min-width: 100px; text-align: left">
-                    <label id="lab_trans_info"></label>
-                </td>
-                <td style="width: 10%; min-width: 100px; text-align: right"><span>退款时间:</span></td>
-                <td style="width: 40%; min-width: 100px; text-align: left">
-                    <label id="lab_refund_time"></label>
-                </td>
-
-            </tr>
-            <tr>
-                <td style="width: 10%; min-width: 100px; text-align: right"><span>商户名称:</span></td>
-                <td style="width: 40%; min-width: 100px; text-align: left">
-                    <label id="lab_sp_name"></label>
-                </td>
-                <td style="width: 10%; min-width: 100px; text-align: right"><span>交易订单号:</span></td>
-                <td style="width: 40%; min-width: 100px; text-align: left">
-                    <label id="lab_trans_id"></label>
-                </td>                
-            </tr>
-            <tr>
-                <td style="width: 10%; min-width: 100px; text-align: right"><span>退款流水号:</span></td>
-                <td style="width: 40%; min-width: 100px; text-align: left">
-                    <label id="lab_refund_flow_id"></label>
-                </td>
-                <td style="width: 10%; min-width: 100px; text-align: right"><span>退款交易订单号:</span></td>
-                <td style="width: 40%; min-width: 100px; text-align: left">
-                    <label id="lab_refund_trans_id"></label>
-                </td>
-               
-            </tr>
-            <tr>
-                 <td style="width: 10%; min-width: 100px; text-align: right"><span>商户订单号:</span></td>
-                <td style="width: 40%; min-width: 100px; text-align: left">
-                    <label id="lab_sp_bill_no"></label>
-                </td>               
-            </tr>          
-        </table>--%>
+    <%--退款详情--%><%--退款去向--%>
+     <div id="div_RefundDetail"  class="easyui-dialog" style="width: 100%">         
         <table id="tab_RefundDetail"></table>
          <table id="tab_RefundQuXiang"></table>
     </div>
-    <%--退款去向--%>
-     <%--<div id="div_RefundQuXiang" class="easyui-dialog" style="width: 100%">
-        <table id="tab_RefundQuXiang"></table>
-    </div>--%>
     </form>
 </body>
 </html>

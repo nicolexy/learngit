@@ -1,3 +1,4 @@
+using CFT.CSOMS.BLL.SPOA;
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -141,8 +142,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 if (IsOpenFreeze)
                 {
                     //恢复结算和挂失，调spoa接口
-                    SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
-                    string spoa_ret = spoaService.RestoreOfSpid(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
+                    //SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
+                    //string spoa_ret = spoaService.RestoreOfSpid(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
+
+                    string spoa_ret = new SPOAService().RestoreOfSpid(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
                     if (spoa_ret == "0")
                     {
 
@@ -155,8 +158,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 if (IsOpenPay)
                 {
                     //开通支付，调spoa接口
-                    SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
-                    string spoa_ret = spoaService.OpenPay(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
+                    //SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
+                    string spoa_ret =new SPOAService().OpenPay(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
                     if (spoa_ret == "0")
                     {
 
@@ -169,8 +172,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 if (IsOpenAgent)
                 {
                     //开通中介，调spoa接口
-                    SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
-                    string spoa_ret = spoaService.OpenAgency(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
+                    //SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
+                    string spoa_ret = new SPOAService().OpenAgency(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
                     if (spoa_ret == "0")
                     {
 
