@@ -15,6 +15,7 @@ using TENCENT.OSS.CFT.KF.KF_Web;
 using System.Web.Services.Protocols;
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
+using CFT.CSOMS.BLL.SPOA;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -104,10 +105,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 					throw new Exception("«Î ‰»Î‘≠“Ú!");
 				}
 
-				//Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
-				//qs.ApplyRefund(this.txtFspid.Text.Trim(),Session["uid"].ToString(),this.txtReason.Text.Trim());
-                SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
-                string spoa_ret = spoaService.OpenRefund(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
+                //Query_Service.Query_Service qs = new TENCENT.OSS.CFT.KF.KF_Web.Query_Service.Query_Service();
+                //qs.ApplyRefund(this.txtFspid.Text.Trim(),Session["uid"].ToString(),this.txtReason.Text.Trim());
+                //SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
+                //string spoa_ret = spoaService.OpenRefund(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
+          
+                string spoa_ret = new SPOAService().OpenRefund(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
+
                 if (spoa_ret == "0")
                 {
 

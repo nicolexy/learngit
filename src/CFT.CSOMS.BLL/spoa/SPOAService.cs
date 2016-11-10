@@ -833,6 +833,38 @@ namespace CFT.CSOMS.BLL.SPOA
                 throw e;
             }
         }
+        /// <summary>
+        /// 开通付款
+        /// </summary>
+        /// <param name="fspid"></param>
+        /// <param name="opuser"></param>
+        /// <param name="freson"></param>
+        /// <returns></returns>
+        public string OpenPay(string fspid, string opuser, string freson)
+        {
+            try
+            {
+                return new SPOAData().OpenPay(fspid, opuser, freson);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public string OpenAgency(string fspid, string opuser, string freson)
+        {
+            try
+            {
+                return new SPOAData().OpenAgency(fspid, opuser, freson);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
     }
 
 }

@@ -349,5 +349,19 @@ namespace CFT.CSOMS.DAL.SPOA
             SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
             return cli.BusinessLogoutApply(fspid, opuser, freson);
         }
+
+        public string OpenPay(string fspid, string opuser, string freson)
+        {
+            SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
+          
+            return cli.OpenPay(fspid, opuser, freson);
+        }
+        public string OpenAgency(string fspid, string opuser, string freson)
+        {
+            SPOAServiceRef.GeneralSPOAServiceClient cli = new SPOAServiceRef.GeneralSPOAServiceClient();
+            return cli.OpenAgency(fspid, opuser, freson);
+        }
+
+
     }
 }

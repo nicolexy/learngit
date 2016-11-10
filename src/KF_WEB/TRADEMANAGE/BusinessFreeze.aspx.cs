@@ -15,6 +15,7 @@ using TENCENT.OSS.CFT.KF.KF_Web;
 using System.Web.Services.Protocols;
 using Tencent.DotNet.Common.UI;
 using Tencent.DotNet.OSS.Web.UI;
+using CFT.CSOMS.BLL.SPOA;
 
 namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 {
@@ -127,8 +128,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 if (IsFreeze)
                 {
                     //暂停结算，直接调spoa接口
-                    SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
-                    string spoa_ret = spoaService.FreezeSP(this.txtFspid.Text.Trim(), this.txtReason.Text.Trim(), Session["uid"].ToString());
+                    //SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
+                    //string spoa_ret = spoaService.FreezeSP(this.txtFspid.Text.Trim(), this.txtReason.Text.Trim(), Session["uid"].ToString());
+                   
+                    string spoa_ret = new SPOAService().FreezeSpid(this.txtFspid.Text.Trim(), this.txtReason.Text.Trim(), Session["uid"].ToString());
+                    
                     if (string.IsNullOrEmpty(spoa_ret))
                     {
                         
@@ -142,8 +146,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 if (IsFreezePay)
                 {
                     //关闭支付，直接调spoa接口
-                    SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
-                    string spoa_ret = spoaService.ClosePay(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
+                    //SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
+                    //string spoa_ret = spoaService.ClosePay(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
+                  
+                    string spoa_ret = new SPOAService().ClosePay(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
                     if (spoa_ret == "0")
                     {
                         
@@ -157,8 +163,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 if (IsAccLoss)
                 {
                     //账号挂失，直接调spoa接口
-                    SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
-                    string spoa_ret = spoaService.LostOfSpid(this.txtFspid.Text.Trim(),Session["uid"].ToString(), this.txtReason.Text.Trim());
+                    //SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
+                    //string spoa_ret = spoaService.LostOfSpid(this.txtFspid.Text.Trim(),Session["uid"].ToString(), this.txtReason.Text.Trim());
+                  
+                    string spoa_ret = new SPOAService().LostOfSpid(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
                     if (spoa_ret == "0")
                     {
                         
@@ -172,8 +180,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 if (IsCloseAgent)
                 {
                     //关闭中介，直接调spoa接口
-                    SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
-                    string spoa_ret = spoaService.CloseAgency(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
+                    //SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
+                    //string spoa_ret = spoaService.CloseAgency(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
+                  
+                    string spoa_ret = new SPOAService().CloseAgency(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
                     if (spoa_ret == "0")
                     {
                         
