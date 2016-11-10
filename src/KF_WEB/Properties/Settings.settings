@@ -20,9 +20,6 @@
     <Setting Name="finance_web_Agent_Service_Agent_Service" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://localhost:61131/Agent_Service.asmx</Value>
     </Setting>
-    <Setting Name="finance_web_SPOA_Service_SPOA_Service" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://10.12.189.114/spoaweb/SPOA_Service.asmx</Value>
-    </Setting>
     <Setting Name="finance_web_FQuery_Service_Query_Service" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://admin.cf.com/FINANCE_SERVICE/Query_Service.asmx</Value>
     </Setting>

@@ -2828,11 +2828,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-    <Compile Include="Web References\SPOA_Service\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
     <Compile Include="Web References\ZWBatchPay_Service\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -5540,11 +5535,6 @@
     </None>
     <None Include="Web References\Query_Service\Query_Service.disco" />
     <None Include="Web References\IVRService\IVRService.disco" />
-    <None Include="Web References\SPOA_Service\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Web References\SPOA_Service\SPOA_Service.disco" />
     <None Include="Web References\ZWBatchPay_Service\batchpay_service.wsdl" />
     <Content Include="Web References\ZWBatchPay_Service\Param.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -6530,7 +6520,6 @@
     <None Include="Web References\Query_Service\UserComplainClass.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SPOA_Service\SPOA_Service.wsdl" />
     <None Include="Web References\ZWCheck_Service\Check_Service.wsdl" />
     <None Include="Web References\ZWCheck_Service\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -6538,17 +6527,6 @@
     </None>
     <None Include="文档\历史更新记录.txt" />
     <WebReferences Include="Web References\" />
-    <WebReferenceUrl Include="http://10.12.189.114/spoaweb/SPOA_Service.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\SPOA_Service\</RelPath>
-      <UpdateFromURL>http://10.12.189.114/spoaweb/SPOA_Service.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>finance_web_SPOA_Service_SPOA_Service</CachedSettingsPropName>
-    </WebReferenceUrl>
     <WebReferenceUrl Include="http://admin.cf.com/FINANCE_SERVICE/Query_Service.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\FQuery_Service\</RelPath>
