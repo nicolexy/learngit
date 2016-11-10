@@ -147,6 +147,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                     return "公众号自助冻结";
                 case "9":
                     return "微信安全";
+                case "10":
+                    return "公安部反电诈平台冻结";
+                case "11":
+                    return "被盗被骗冻结";
+                case "12":
+                    return "套现冻结";
+                case "13":
+                    return "涉赌冻结";
                 default:
                     return "无冻结渠道";
             }
