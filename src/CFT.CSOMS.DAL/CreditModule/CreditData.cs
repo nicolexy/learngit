@@ -44,10 +44,10 @@ namespace CFT.CSOMS.DAL.CreditModule
             string result = string.Empty;
             try
             {
-                var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditSearchAccountInfoIP"] ?? "10.123.9.162";
+                var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditSearchAccountInfoIP"] ?? "10.231.45.238";// "10.123.9.162";
                 var port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TencentCreditSearchAccountInfoPort"] ?? "22000");
                 var key = System.Configuration.ConfigurationManager.AppSettings["TencentCreditSearchAccountInfoKey"] ?? "7tzkfz7u18fbbibf7vb62662vqwnblaq";
-                string requestType = System.Configuration.ConfigurationManager.AppSettings["TencentCreditSearchAccountInfoRequestType"] ?? "111144";
+                string requestType = System.Configuration.ConfigurationManager.AppSettings["TencentCreditSearchAccountInfoRequestType"] ?? "102804";// "111144";
                 var kokenValue = "acct_no=" + accountNo + "&acct_type=" + accountType + "&key=" + key;
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(kokenValue, "md5").ToUpper();
                
@@ -56,6 +56,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 sb_RequestString.Append("&acct_type=").Append(accountType);
                 sb_RequestString.Append("&ts=").Append(timeStamp);
                 sb_RequestString.Append("&sign=").Append(token);
+                LogHelper.LogInfo("SearchAccountInfo_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
             }
             catch (Exception ex)
@@ -84,10 +85,10 @@ namespace CFT.CSOMS.DAL.CreditModule
             string result = string.Empty;
             try
             {
-                var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadBillListIP"] ?? "10.123.9.162";
+                var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadBillListIP"] ?? "10.231.45.238";// "10.123.9.162";
                 var port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadBillListPort"] ?? "22000");
                 var key = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadBillListKey"] ?? "7tzkfz7u18fbbibf7vb62662vqwnblaq";
-                string requestType = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadBillListRequestType"] ?? "111145";                
+                string requestType = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadBillListRequestType"] ?? "102805";// "111145";                
                
                 StringBuilder sb_RequestString = new StringBuilder();
                 if (!string.IsNullOrEmpty(accountNo))
@@ -112,7 +113,8 @@ namespace CFT.CSOMS.DAL.CreditModule
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(kokenValue, "md5");
                 sb_RequestString.Append("&sign=").Append(token);
                 string testRequest = "acct_no=2092833410&acct_type=0&page_offset=0&page_size=1&ts=1476843756&key=7tzkfz7u18fbbibf7vb62662vqwnblaq&sign=c542651e07938d961426bcd33fd64094";
-                result = RelayAccessFactory.RelayInvoke(testRequest.ToString(), requestType, false, false, ip, port);
+                LogHelper.LogInfo("LoadBillList_RequestString:" + sb_RequestString.ToString());
+                result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
             }
             catch (Exception ex)
             {
@@ -140,10 +142,10 @@ namespace CFT.CSOMS.DAL.CreditModule
             string result = string.Empty;
             try
             {
-                var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadBillDetailInfoIP"] ?? "10.123.9.162";
+                var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadBillDetailInfoIP"] ?? "10.231.45.238";// "10.123.9.162";
                 var port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadBillDetailInfoPort"] ?? "22000");
                 var key = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadBillDetailInfoKey"] ?? "7tzkfz7u18fbbibf7vb62662vqwnblaq";
-                string requestType = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadBillDetailInfoRequestType"] ?? "111146";
+                string requestType = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadBillDetailInfoRequestType"] ?? "102807";// "111146";
 
                 StringBuilder sb_RequestString = new StringBuilder();
                 if (!string.IsNullOrEmpty(accountNo))
@@ -167,7 +169,8 @@ namespace CFT.CSOMS.DAL.CreditModule
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(kokenValue, "md5");
                 sb_RequestString.Append("&sign=").Append(token);
                 string testRequest = "acct_no=2092833410&acct_type=0&bill_id=B001706e8930b24b2919459990003275&page_offset=0&page_size=10&ts=1476848739&sign=1b08426d3007846a9ddcb07eacfaf906";
-                result = RelayAccessFactory.RelayInvoke(testRequest.ToString(), requestType, false, false, ip, port);
+                LogHelper.LogInfo("LoadBillDetailInfo_RequestString:" + sb_RequestString.ToString());
+                result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
             }
             catch (Exception ex)
             {
@@ -197,10 +200,10 @@ namespace CFT.CSOMS.DAL.CreditModule
             string result = string.Empty;
             try
             {
-                var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadPayListIP"] ?? "10.123.9.162";
+                var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadPayListIP"] ?? "10.231.45.238";// "10.123.9.162";
                 var port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadLoadPayListPort"] ?? "22000");
                 var key = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadPayListKey"] ?? "7tzkfz7u18fbbibf7vb62662vqwnblaq";
-                string requestType = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadPayListRequestType"] ?? "111140";
+                string requestType = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadPayListRequestType"] ?? "102816";// "111140";
 
                 StringBuilder sb_RequestString = new StringBuilder();
 
@@ -236,8 +239,8 @@ namespace CFT.CSOMS.DAL.CreditModule
 
                 string testRequest = "acct_no=1911162410&acct_type=0&end_date=20161014&page_size=10&req_type=0&start_date=20161010&ts=1476698617&key=7tzkfz7u18fbbibf7vb62662vqwnblaq&sign=c7c35a1e9aa03aa4f1cd1e25acf9af4f";
 
-
-                result = RelayAccessFactory.RelayInvoke(testRequest.ToString(), requestType, false, false, ip, port);//sb_RequestString.ToString()
+                LogHelper.LogInfo("LoadPayList_RequestString:" + sb_RequestString.ToString());
+                result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);//sb_RequestString.ToString()
             }
             catch (Exception ex)
             {
@@ -266,10 +269,10 @@ namespace CFT.CSOMS.DAL.CreditModule
             string result = string.Empty;
             try
             {
-                var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRepayListIP"] ?? "10.123.9.162";
+                var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRepayListIP"] ?? "10.231.45.238";// "10.123.9.162";
                 var port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRepayListPort"] ?? "22000");
                 var key = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRepayListKey"] ?? "7tzkfz7u18fbbibf7vb62662vqwnblaq";
-                string requestType = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRepayListRequestType"] ?? "111141";
+                string requestType = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRepayListRequestType"] ?? "102822";// "111141";
 
                 StringBuilder sb_RequestString = new StringBuilder();
 
@@ -303,7 +306,8 @@ namespace CFT.CSOMS.DAL.CreditModule
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(kokenValue, "md5");
                 sb_RequestString.Append("&sign=").Append(token);
                 string testRquest = "acct_no=2056226882&acct_type=0&end_date=20161017&page_size=1&req_type=0&start_date=20160901&ts=1476710359&key=7tzkfz7u18fbbibf7vb62662vqwnblaq&sign=0435fb1d4a15b14947d67aa37237945a";
-                result = RelayAccessFactory.RelayInvoke(testRquest.ToString(), requestType, false, false, ip, port);
+                LogHelper.LogInfo("LoadRepayList_RequestString:" + sb_RequestString.ToString());
+                result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
             }
             catch (Exception ex)
             {
@@ -332,10 +336,10 @@ namespace CFT.CSOMS.DAL.CreditModule
             string result = string.Empty;
             try
             {
-                var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRefundListIP"] ?? "10.123.9.162";
+                var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRefundListIP"] ?? "10.231.45.238";// "10.123.9.162";
                 var port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRefundListPort"] ?? "22000");
                 var key = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRefundListKey"] ?? "7tzkfz7u18fbbibf7vb62662vqwnblaq";
-                string requestType = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRefundListRequestType"] ?? "111142";
+                string requestType = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRefundListRequestType"] ?? "102824";// "111142";
 
                 StringBuilder sb_RequestString = new StringBuilder();
                 if (!string.IsNullOrEmpty(accountNo))
@@ -368,7 +372,8 @@ namespace CFT.CSOMS.DAL.CreditModule
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(kokenValue, "md5");
                 sb_RequestString.Append("&sign=").Append(token);
                 string testRquest = "acct_no=1911162410&acct_type=0&end_date=20161014&page_size=5&req_type=0&start_date=20161010&ts=1476706748&key=7tzkfz7u18fbbibf7vb62662vqwnblaq&sign=22f40333ae731d16999c56150f02c0d6";
-                result = RelayAccessFactory.RelayInvoke(testRquest.ToString(), requestType, false, false, ip, port);
+                LogHelper.LogInfo("LoadRefundList_RequestString:" + sb_RequestString.ToString());
+                result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
             }
             catch (Exception ex)
             {
@@ -396,10 +401,10 @@ namespace CFT.CSOMS.DAL.CreditModule
             string result = string.Empty;
             try
             {
-                var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRefundDetailIP"] ?? "10.123.9.162";
+                var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRefundDetailIP"] ?? "10.231.45.238";// "10.123.9.162";
                 var port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRefundDetailPort"] ?? "22000");
                 var key = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRefundDetailKey"] ?? "7tzkfz7u18fbbibf7vb62662vqwnblaq";
-                string requestType = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRefundDetailRequestType"] ?? "111143";
+                string requestType = System.Configuration.ConfigurationManager.AppSettings["TencentCreditLoadRefundDetailRequestType"] ?? "102825";// "111143";
 
                 StringBuilder sb_RequestString = new StringBuilder();
                 if (!string.IsNullOrEmpty(accountNo))
@@ -430,8 +435,9 @@ namespace CFT.CSOMS.DAL.CreditModule
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(kokenValue, "md5");
                 sb_RequestString.Append("&sign=").Append(token);
                 string testRquest = "acct_no=2547962691&acct_type=0&end_date=20161020&page_size=1&refund_flow_id=30000000201610251530479990024610&start_date=20161026&ts=1476706748&sign=22f40333ae731d16999c56150f02c0d6";//&key=7tzkfz7u18fbbibf7vb62662vqwnblaq
+                LogHelper.LogInfo("LoadRefundList_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
-                result = "refund_time=20161010%2017%3A24%3A13&refund_trans_id=1091301278501201610254931202&res_info=ok&result=0&sp_bill_no=&sp_name=%CA%D6Q%C9%CC%BB%A7&trans_id=10000000201610251054479990005553&trans_info=&trans_time=&row_0=balance_go%3D%25E4%25BD%2599%25E9%25A2%259D%26refund_amount%3D1%26rf_trans_id%3D%25E5%25A4%2584%25E7%2590%2586%25E4%25B8%25AD&row_1=balance_go%3D%25E4%25BD%2599%25E9%25A2%259D%26refund_amount%3D1%26rf_trans_id%3D%25E5%25A4%2584%25E7%2590%2586%25E4%25B8%25AD&row_2=balance_go%3D%25E4%25BD%2599%25E9%25A2%259D%26refund_amount%3D1%26rf_trans_id%3D%25E5%25A4%2584%25E7%2590%2586%25E4%25B8%25AD";
+                //result = "refund_time=20161010%2017%3A24%3A13&refund_trans_id=1091301278501201610254931202&res_info=ok&result=0&sp_bill_no=&sp_name=%CA%D6Q%C9%CC%BB%A7&trans_id=10000000201610251054479990005553&trans_info=&trans_time=&row_0=balance_go%3D%25E4%25BD%2599%25E9%25A2%259D%26refund_amount%3D1%26rf_trans_id%3D%25E5%25A4%2584%25E7%2590%2586%25E4%25B8%25AD&row_1=balance_go%3D%25E4%25BD%2599%25E9%25A2%259D%26refund_amount%3D1%26rf_trans_id%3D%25E5%25A4%2584%25E7%2590%2586%25E4%25B8%25AD&row_2=balance_go%3D%25E4%25BD%2599%25E9%25A2%259D%26refund_amount%3D1%26rf_trans_id%3D%25E5%25A4%2584%25E7%2590%2586%25E4%25B8%25AD";
             }
             catch (Exception ex)
             {

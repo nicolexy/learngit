@@ -19,7 +19,7 @@
     <link href="../SCRIPTS/jquery-easyui-1.5/themes/color.css" rel="stylesheet" />
     <link href="../SCRIPTS/jquery-easyui-1.5/themes/icon.css" rel="stylesheet" />
     <script src="../SCRIPTS/KF.js"></script>
-    <%--<script src="../SCRIPTS/LoadControlsDataSource.js?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]%>"></script>--%>
+    <script src="../SCRIPTS/LoadControlsDataSource.js?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]%>"></script>
     <script src="JS/DetailSearch.js?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]%>"></script>
 </head>
 <body>
