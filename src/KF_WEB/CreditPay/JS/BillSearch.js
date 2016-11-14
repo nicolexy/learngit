@@ -11,24 +11,26 @@
         value: SetDate(0),
         ShowSeconds: false
     });
-    $("#txt_BillStatus").combobox({
-        delay: 1000,
-        mode: 'remote',
-        valueField: "id",
-        textField: "text",
-        width: 150,
-        panelWidth: 150,
-        panelHeight: 150,
-        multiple: false,
-        editable: false,
-        method: "get",
-        url: 'JS/BillStatus.json',
-        //queryParams: postDatas,        
-        onLoadSuccess: function () {
-            var datas = $("#txt_BillStatus").combobox("getData");
-            $("#txt_BillStatus").combobox("setValue", datas[0].id);
-        }
-    });
+
+    LoadCommonCombobox("txt_BillStatus", "id", "name", 100, 100, 150, true, "全部", false, false, "CreditPay_BillSearch_BillStatus", 0);
+    //$("#txt_BillStatus").combobox({
+    //    delay: 1000,
+    //    mode: 'remote',
+    //    valueField: "id",
+    //    textField: "text",
+    //    width: 150,
+    //    panelWidth: 150,
+    //    panelHeight: 150,
+    //    multiple: false,
+    //    editable: false,
+    //    method: "get",
+    //    url: 'JS/BillStatus.json',
+    //    //queryParams: postDatas,        
+    //    onLoadSuccess: function () {
+    //        var datas = $("#txt_BillStatus").combobox("getData");
+    //        $("#txt_BillStatus").combobox("setValue", datas[0].id);
+    //    }
+    //});
 
     $("#btn_Search").click(function () {
         

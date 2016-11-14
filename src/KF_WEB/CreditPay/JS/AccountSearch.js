@@ -43,7 +43,7 @@
                         }
                     }
                     else {
-
+                         
                         var acct_no = dataObj.acct_no;//渠道账号                           
                         var acct_type = dataObj.acct_type;//渠道账号类型0：qq 1：微信
                         var name = dataObj.name;//姓名，明文

@@ -23,8 +23,6 @@
     <script src="../SCRIPTS/KF.js"></script>
     <script src="../SCRIPTS/LoadControlsDataSource.js?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]%>"></script>
     <script src="JS/AccountSearch.js?v=<%=System.Configuration.ConfigurationManager.AppSettings["PageStyleVersion"]%>"></script>
-
-
 </head>
 <body>
     <table style="height: 15px; width: 100%; background-color: #e4e5f7; border: 0; padding: 1px;">
