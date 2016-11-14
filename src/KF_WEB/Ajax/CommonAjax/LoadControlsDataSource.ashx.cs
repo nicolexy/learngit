@@ -56,7 +56,16 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                 //身份证审核失败原因
                 LoadFmemo(context, isShowSelect, showSelectText);
             }
-            
+            else if (type.Equals("CreditPay_BillSearch_BillStatus"))
+            {
+                //账单查询功能:账单状态
+                LoadCreditPayBillStatus(context, isShowSelect, showSelectText);
+            }
+            else if (type.Equals("CreditPay_DetailSearch_SearchType"))
+            {
+                //明细查询功能:查询类型
+                LoadCreditPaySearchType(context, isShowSelect, showSelectText);
+            }
         }
         /// <summary>
         /// 身份证审核加载审核状态
@@ -283,6 +292,136 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Ajax.CommonAjax
                 dr11["name"] = "身份证照片非原件";
                 dr11["orderStr"] = 7;
                 dt.Rows.Add(dr11);
+                #endregion
+
+                if (isShowSelect)
+                {
+                    DataRow row = dt.NewRow();
+                    row["id"] = 0;
+                    row["name"] = showSelectText;
+                    row["orderStr"] = 0;
+                    dt.Rows.Add(row);
+
+                }
+                DataTable dt2 = dt.Copy();
+                DataView defaultView = dt.DefaultView;
+                defaultView.Sort = "orderStr";
+                //defaultView.Sort = "id";
+                defaultView.ToTable().AcceptChanges();
+                dt2 = defaultView.ToTable();
+                result = CreateComboboxJson(dt2, "id", "name");
+            }
+            catch (Exception ex)
+            {
+                result = "[]";
+            }
+
+            context.Response.Write(result);
+            context.Response.End();
+        }
+
+        /// <summary>
+        /// 账单查询功能:账单状态
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="isShowSelect"></param>
+        /// <param name="showSelectText"></param>
+        public void LoadCreditPayBillStatus(HttpContext context, bool isShowSelect, string showSelectText)
+        {
+            string result = string.Empty;
+            try
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add("id");
+                dt.Columns.Add("name");
+                dt.Columns.Add("orderStr", Type.GetType("System.Int32"));
+                #region              
+                DataRow dr1 = dt.NewRow();
+                dr1["id"] = "10";
+                dr1["name"] = "未出";
+                dr1["orderStr"] = 1;
+                dt.Rows.Add(dr1);
+
+                DataRow dr2 = dt.NewRow();
+                dr2["id"] = "20";
+                dr2["name"] = "已出";
+                dr2["orderStr"] = 2;//10
+                dt.Rows.Add(dr2);
+
+                DataRow dr3 = dt.NewRow();
+                dr3["id"] = "30";
+                dr3["name"] = "逾期";
+                dr3["orderStr"] = 3;//2
+                dt.Rows.Add(dr3);
+
+                DataRow dr4 = dt.NewRow();
+                dr4["id"] = "40";
+                dr4["name"] = "结清";
+                dr4["orderStr"] = 4;//4
+                dt.Rows.Add(dr4);
+
+               
+                #endregion
+
+                if (isShowSelect)
+                {
+                    DataRow row = dt.NewRow();
+                    row["id"] = 0;
+                    row["name"] = showSelectText;
+                    row["orderStr"] = 0;
+                    dt.Rows.Add(row);
+
+                }
+                DataTable dt2 = dt.Copy();
+                DataView defaultView = dt.DefaultView;
+                defaultView.Sort = "orderStr";
+                //defaultView.Sort = "id";
+                defaultView.ToTable().AcceptChanges();
+                dt2 = defaultView.ToTable();
+                result = CreateComboboxJson(dt2, "id", "name");
+            }
+            catch (Exception ex)
+            {
+                result = "[]";
+            }
+
+            context.Response.Write(result);
+            context.Response.End();
+        }
+
+        /// <summary>
+        /// 明细查询功能:查询类型
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="isShowSelect"></param>
+        /// <param name="showSelectText"></param>
+        public void LoadCreditPaySearchType(HttpContext context, bool isShowSelect, string showSelectText)
+        {
+            string result = string.Empty;
+            try
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add("id");
+                dt.Columns.Add("name");
+                dt.Columns.Add("orderStr", Type.GetType("System.Int32"));
+                #region              
+                DataRow dr1 = dt.NewRow();
+                dr1["id"] = "1";
+                dr1["name"] = "支付明细查询";
+                dr1["orderStr"] = 1;
+                dt.Rows.Add(dr1);
+
+                DataRow dr2 = dt.NewRow();
+                dr2["id"] = "2";
+                dr2["name"] = "还款明细查询";
+                dr2["orderStr"] = 2;//10
+                dt.Rows.Add(dr2);
+
+                DataRow dr3 = dt.NewRow();
+                dr3["id"] = "3";
+                dr3["name"] = "退款明细查询";
+                dr3["orderStr"] = 3;//2
+                dt.Rows.Add(dr3);
                 #endregion
 
                 if (isShowSelect)

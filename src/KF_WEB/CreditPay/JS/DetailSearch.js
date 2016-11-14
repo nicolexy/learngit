@@ -14,24 +14,25 @@
         value: SetDate(0),
         ShowSeconds: false
     });
-    $("#ddl_SearchType").combobox({
-        delay: 1000,
-        mode: 'remote',
-        valueField: "id",
-        textField: "text",
-        width: 150,
-        panelWidth: 150,
-        panelHeight: 150,
-        multiple: false,
-        editable: false,
-        method: "get",
-        url: 'JS/SearchType.json',
-        //queryParams: postDatas,        
-        onLoadSuccess: function () {
-            var datas = $("#ddl_SearchType").combobox("getData");
-            $("#ddl_SearchType").combobox("setValue", datas[0].id);
-        }
-    });
+    LoadCommonCombobox("ddl_SearchType", "id", "name", 100, 100, 100, false, "全部", false, false, "CreditPay_DetailSearch_SearchType", 0);
+    //$("#ddl_SearchType").combobox({
+    //    delay: 1000,
+    //    mode: 'remote',
+    //    valueField: "id",
+    //    textField: "text",
+    //    width: 150,
+    //    panelWidth: 150,
+    //    panelHeight: 150,
+    //    multiple: false,
+    //    editable: false,
+    //    method: "get",
+    //    url: 'JS/SearchType.json',
+    //    //queryParams: postDatas,        
+    //    onLoadSuccess: function () {
+    //        var datas = $("#ddl_SearchType").combobox("getData");
+    //        $("#ddl_SearchType").combobox("setValue", datas[0].id);
+    //    }
+    //});
 
     $("#btn_Search").click(function () {
         //$("#hid_PayListnext_row_key").val("0");

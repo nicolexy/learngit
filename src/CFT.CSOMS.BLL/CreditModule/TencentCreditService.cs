@@ -7,6 +7,7 @@ using System.Text;
 using TENCENT.OSS.C2C.Finance.Common.CommLib;
 using commLib;
 using System.Web;
+using CFT.Apollo.Logging;
 
 namespace CFT.CSOMS.BLL.CreditModule
 {
@@ -51,6 +52,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                 }
                 else
                 {
+                    LogHelper.LogInfo("LoadAccountInfo:接口调用失败1");
                     searchResult = false;
                     if (string.IsNullOrEmpty(errorMessage))
                     {
@@ -85,6 +87,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                 sb.Append("}");
                 //sb.Append("]");
                 returnResult = sb.ToString();
+                LogHelper.LogInfo("LoadAccountInfo:接口调用失败2");
             }
             return returnResult;
         }
@@ -299,6 +302,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                     sb.Append("}");
                     //sb.Append("]");
                     returnResult = sb.ToString();
+                    LogHelper.LogInfo("LoadBillList:接口调用失败1");
                 }
             }
             catch (Exception ex)
@@ -318,6 +322,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                 sb.Append("}");
                 //sb.Append("]");
                 returnResult = sb.ToString();
+                LogHelper.LogInfo("LoadBillList:接口调用失败2");
             }
             return returnResult;
         }
@@ -521,6 +526,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                     sb.Append("}");
                     //sb.Append("]");
                     returnResult = sb.ToString();
+                    LogHelper.LogInfo("LoadBillDetailInfo:接口调用失败1");
                 }
             }
             catch (Exception ex)
@@ -540,6 +546,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                 sb.Append("}");
                 //sb.Append("]");
                 returnResult = sb.ToString();
+                LogHelper.LogInfo("LoadBillDetailInfo:接口调用失败2");
             }
             return returnResult;
         }
@@ -734,6 +741,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                     sb.Append("}");
                     //sb.Append("]");
                     returnResult = sb.ToString();
+                    LogHelper.LogInfo("LoadPayList:接口调用失败1");
                 }
             }
             catch (Exception ex)
@@ -753,6 +761,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                 sb.Append("}");
                 //sb.Append("]");
                 returnResult = sb.ToString();
+                LogHelper.LogInfo("LoadPayList:接口调用失败2");
             }
             return returnResult;
         }
@@ -956,6 +965,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                     sb.Append("}");
                     //sb.Append("]");
                     returnResult = sb.ToString();
+                    LogHelper.LogInfo("LoadRepayList:接口调用失败1");
                 }
             }
             catch (Exception ex)
@@ -975,6 +985,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                 sb.Append("}");
                 //sb.Append("]");
                 returnResult = sb.ToString();
+                LogHelper.LogInfo("LoadRepayList:接口调用失败2");
             }
             return returnResult;
         }
@@ -1168,6 +1179,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                     sb.Append("}");
                     //sb.Append("]");
                     returnResult = sb.ToString();
+                    LogHelper.LogInfo("LoadRefundList:接口调用失败1");
                 }
             }
             catch (Exception ex)
@@ -1187,6 +1199,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                 sb.Append("}");
                 //sb.Append("]");
                 returnResult = sb.ToString();
+                LogHelper.LogInfo("LoadRefundList:接口调用失败2");
             }
             return returnResult;
         }
@@ -1548,6 +1561,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                     sb.Append("}");
                     //sb.Append("]");
                     returnResult = sb.ToString();
+                    LogHelper.LogInfo("LoadRefundDetail:接口调用失败1");
                 }
             }
             catch (Exception ex)
@@ -1567,6 +1581,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                 sb.Append("}");
                 //sb.Append("]");
                 returnResult = sb.ToString();
+                LogHelper.LogInfo("LoadRefundDetail:接口调用失败2");
             }
             return returnResult;
         }
@@ -1767,6 +1782,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                     sb.Append("}");
                     //sb.Append("]");
                     returnResult = sb.ToString();
+                    LogHelper.LogInfo("LoadRefundQuXiangInfo:接口调用失败1");
                 }
             }
             catch (Exception ex)
@@ -1786,6 +1802,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                 sb.Append("}");
                 //sb.Append("]");
                 returnResult = sb.ToString();
+                LogHelper.LogInfo("LoadRefundQuXiangInfo:接口调用失败2");
             }
             return returnResult;
         }
