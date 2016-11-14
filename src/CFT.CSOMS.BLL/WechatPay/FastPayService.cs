@@ -85,41 +85,62 @@ namespace CFT.CSOMS.BLL.WechatPay
             string ip = System.Configuration.ConfigurationManager.AppSettings["BankInfoIP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["BankInfoPort"].ToString());
             //快捷
-            string requestString = "biz_type=FASTPAY&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit=250&offset=0";
-            DataSet ds = RelayAccessFactory.GetBankInfoFromRelay(requestString, "6508", ip, port, false, false, relayDefaultSPId);
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            string requestString = "biz_type=FASTPAY&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit=100&offset={0}";
+            int offset = 0;
+            while (true)
             {
-                foreach (DataRow dr in ds.Tables[0].Rows)
+                string requsetstr = string.Format(requestString, offset);
+                DataSet dsTemp = RelayAccessFactory.GetBankInfoFromRelay(requsetstr, "6508", ip, port, false, false, relayDefaultSPId);
+                if (dsTemp != null && dsTemp.Tables.Count > 0 && dsTemp.Tables[0].Rows.Count > 0)
                 {
-                    if (ht.ContainsKey(dr["bank_name"].ToString().Trim()))
+                    foreach (DataRow dr in dsTemp.Tables[0].Rows)
                     {
-                        string strBankID = ht[dr["bank_name"].ToString().Trim()].ToString();
-                        ht[dr["bank_name"].ToString().Trim()] = string.Format("{0}|{1}", strBankID, dr["bank_type"].ToString());
-                    }
-                    else
-                    {
-                        ht[dr["bank_name"].ToString().Trim()] = dr["bank_type"].ToString();
+                        if (ht.ContainsKey(dr["bank_name"].ToString().Trim()))
+                        {
+                            string strBankID = ht[dr["bank_name"].ToString().Trim()].ToString();
+                            ht[dr["bank_name"].ToString().Trim()] = string.Format("{0}|{1}", strBankID, dr["bank_type"].ToString());
+                        }
+                        else
+                        {
+                            ht[dr["bank_name"].ToString().Trim()] = dr["bank_type"].ToString();
+                        }
                     }
                 }
+                else
+                {
+                    break;
+                }
+                offset = (offset + 1) * 100;
             }
-            //一点通
-            requestString = "biz_type=ONECLICK&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit=250&offset=0";
-            DataSet dsex = RelayAccessFactory.GetBankInfoFromRelay(requestString, "6508", ip, port, false, false, relayDefaultSPId);
-            if (dsex != null && dsex.Tables.Count > 0 && dsex.Tables[0].Rows.Count > 0)
-            {
 
-                foreach (DataRow dr in dsex.Tables[0].Rows)
+            //一点通
+            requestString = "biz_type=ONECLICK&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit=100&offset={0}";
+            offset = 0;
+            while (true)
+            {
+                string requsetstr = string.Format(requestString, offset);
+                DataSet dsTemp = RelayAccessFactory.GetBankInfoFromRelay(requsetstr, "6508", ip, port, false, false, relayDefaultSPId);
+                if (dsTemp != null && dsTemp.Tables.Count > 0 && dsTemp.Tables[0].Rows.Count > 0)
                 {
-                    if (ht.ContainsKey(dr["bank_name"].ToString().Trim()))
+                    foreach (DataRow dr in dsTemp.Tables[0].Rows)
                     {
-                        string strBankID = ht[dr["bank_name"].ToString().Trim()].ToString();
-                        ht[dr["bank_name"].ToString().Trim()] = string.Format("{0}|{1}", strBankID, dr["bank_type"].ToString());
+                        if (ht.ContainsKey(dr["bank_name"].ToString().Trim()))
+                        {
+                            string strBankID = ht[dr["bank_name"].ToString().Trim()].ToString();
+                            ht[dr["bank_name"].ToString().Trim()] = string.Format("{0}|{1}", strBankID, dr["bank_type"].ToString());
+                        }
+                        else
+                        {
+                            ht[dr["bank_name"].ToString().Trim()] = dr["bank_type"].ToString();
+                        }
                     }
-                    else
-                    {
-                        ht[dr["bank_name"].ToString().Trim()] = dr["bank_type"].ToString();
-                    }
+
                 }
+                else
+                {
+                    break;
+                }
+                offset = (offset + 1) * 100;
             }
             return ht;
         }
