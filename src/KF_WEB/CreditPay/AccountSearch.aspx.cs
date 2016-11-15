@@ -86,33 +86,31 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
                
                 if (classLibrary.getData.IsTestMode && !classLibrary.getData.IsNewSensitivePowerMode)
                 {
-                    //searchResult = true;
+                    searchResult = true;
                     //errorMessage = string.Empty;
-                    //builder.Append("[");
-                    //builder.Append("{");
-                    //builder.Append("\"result\":").Append("\"0\",");
-                    //builder.Append("\"res_info\":").Append("\"请求执行成功\",");
-                    //builder.Append("\"acct_no\":").Append("\"haydenlong\",");
-                    //builder.Append("\"acct_type\":").Append("\"1\",");
-                    //builder.Append("\"name\":").Append("\"你的姓名\",");
-                    //builder.Append("\"mobile\":").Append("\"手机号码\",");
-                    //builder.Append("\"id_card_type\":").Append("\"01\",");
-                    //builder.Append("\"id_card_no\":").Append("\"123456789111111111\",");
-                    //builder.Append("\"cur_type\":").Append("\"1\",");
-                    //builder.Append("\"credit_line\":").Append("\"500000\",");
-                    //builder.Append("\"credit\":").Append("\"500000\",");
-                    //builder.Append("\"credit_used\":").Append("\"30000\",");
-                    //builder.Append("\"credit_freeze\":").Append("\"1000\",");
-                    //builder.Append("\"status\":").Append("\"10\",");
-                    //builder.Append("\"cft_status\":").Append("\"1\",");
-                    //builder.Append("\"bill_date\":").Append("\"20161012\",");
-                    //builder.Append("\"repay_date\":").Append("\"20161012\",");
-                    //builder.Append("\"is_overdue\":").Append("\"0\",");
-                    //builder.Append("\"overdue_days\":").Append("\"30\",");
-                    //builder.Append("\"overdue_balance\":").Append("\"600000\"");
-                    //builder.Append("}");
-                    //builder.Append("]");                    
-                    returnResult = tencentCreditService.LoadAccountInfo(accountNo, accountType, out searchResult, out errorMessage);
+                    StringBuilder sb = new StringBuilder();
+                    //sb.Append("[");
+                    sb.Append("{");
+                    sb.Append("\"acct_no\":").Append("\"776460954\",");
+                    sb.Append("\"acct_type\":").Append("\"QQ\",");
+                    sb.Append("\"cft_status\":").Append("\"开通\",");
+                    sb.Append("\"credit\":").Append("\"15504\",");
+                    sb.Append("\"credit_freeze\":").Append("\"0\",");
+                    sb.Append("\"credit_line\":").Append("\"20000\",");
+                    sb.Append("\"credit_used\":").Append("\"4496\",");
+                    sb.Append("\"id_card_no\":").Append("\"1\",");
+                    sb.Append("\"cur_type\":").Append("\"430 * **********0914\",");
+                    sb.Append("\"id_card_type\":").Append("\"身份证\",");
+                    sb.Append("\"is_never_pay\":").Append("\"0\",");
+                    sb.Append("\"is_overdue\":").Append("\"未逾期\",");
+                    sb.Append("\"mobile\":").Append("\"186 * ***7025\",");
+                    sb.Append("\"name\":").Append("\"刘德奇\",");
+                    sb.Append("\"res_info\":").Append("\"ok\",");
+                    sb.Append("\"result\":").Append("\"0\",");
+                    sb.Append("\"status\":").Append("\"开户成功，可正常使用\"");
+                    sb.Append("}");
+                    //sb.Append("]");
+                    returnResult = sb.ToString();// tencentCreditService.LoadAccountInfo(accountNo, accountType, out searchResult, out errorMessage);                    
                 }
                 else
                 {
