@@ -113,7 +113,7 @@ namespace CFT.CSOMS.BLL.CreditModule
 
                     if (strlist1.Length > 0)
                     {
-                        jsonBuilder.Append("[");
+                        //jsonBuilder.Append("[");
                         jsonBuilder.Append("{");
                         for (int i = 0; i < strlist1.Length; i++)
                         {
@@ -219,7 +219,7 @@ namespace CFT.CSOMS.BLL.CreditModule
                         }
                         jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
                         jsonBuilder.Append("}");
-                        jsonBuilder.Append("]");
+                        //jsonBuilder.Append("]");
                     }
                     else
                     {
