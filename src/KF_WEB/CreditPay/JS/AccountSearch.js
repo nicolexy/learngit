@@ -74,7 +74,7 @@
                         $("#lab_credit_frezz").text(credit_freeze);
                         $("#lab_credit_used").text(credit_used);
                         $("#lab_cft_staus").text(cft_status);
-                        $("#lab_bill_date").text(repay_date);
+                        $("#lab_bill_date").text(bill_date);
                         $("#lab_repay_date").text(repay_date);
                         $("#lab_IsOverDue").text(is_overdue);
                         $("#lab_OverdueDays").text(overdue_days);
