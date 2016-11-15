@@ -136,6 +136,13 @@ function LoadPayList()
 
             }
             else {
+                var layout = "";
+                if (data.nextpage_flg == 0) {
+                    layout = ['prev', 'manual'];
+                }
+                else {
+                    layout = ['prev', 'manual', 'next'];
+                }
                 $("#hid_PayListnextpage_flg").val(data.nextpage_flg);
                 $("#hid_PayListnext_row_key").val(data.next_row_key);
                 LoadPayListDatagrid();
@@ -152,7 +159,7 @@ function LoadPayList()
                         displayMsg: "", // '当前显示 {from} - {to} 条记录   共 {total} 条记录',
                         showPageList: false,
                         showRefresh: false,
-                        layout: ['prev', 'manual', 'next'],
+                        layout: layout,
                         onSelectPage: function (pageNumber, pageSize) {
                             $(this).pagination('loading');
                             $('#hid_PayListPageNumber').val(Number(pageNumber));
@@ -325,6 +332,13 @@ function LoadRepayList()
 
             }
             else {
+                var layout = "";
+                if (data.nextpage_flg == 0) {
+                    layout = ['prev', 'manual'];
+                }
+                else {
+                    layout = ['prev', 'manual', 'next'];
+                }
                 $("#hid_RepayListnextpage_flg").val(data.nextpage_flg);
                 $("#hid_RepayListnext_row_key").val(data.next_row_key);
                 LoadRepayListDatagrid();
@@ -341,7 +355,7 @@ function LoadRepayList()
                         displayMsg: "", // '当前显示 {from} - {to} 条记录   共 {total} 条记录',
                         showPageList: false,
                         showRefresh: false,
-                        layout: ['prev', 'manual', 'next'],
+                        layout: layout,
                         onSelectPage: function (pageNumber, pageSize) {
                             $(this).pagination('loading');
                             $('#hid_RepayListPageNumber').val(Number(pageNumber));
@@ -556,9 +570,17 @@ function LoadRefundList()
 
             }
             else {
+                var layout = "";
+                if (data.nextpage_flg == 0) {
+                    layout = ['prev', 'manual'];
+                }
+                else {
+                    layout = ['prev', 'manual', 'next'];
+                }
                 $("#hid_RefundListnextpage_flg").val(data.nextpage_flg);
                 $("#hid_RefundListnext_row_key").val(data.next_row_key);
                 LoadRefundListDatagrid();
+               
                 $("#tb_RefundList").datagrid('loadData', data); //将数据绑定到datagrid   
                 var pg = $("#tb_RefundList").datagrid("getPager");
                 if (pg) {
@@ -572,7 +594,7 @@ function LoadRefundList()
                         displayMsg: "", // '当前显示 {from} - {to} 条记录   共 {total} 条记录',
                         showPageList: false,
                         showRefresh: false,
-                        layout: ['prev', 'manual', 'next'],
+                        layout: layout,
                         onSelectPage: function (pageNumber, pageSize) {
                             $(this).pagination('loading');
                             $('#hid_RefundListPageNumber').val(Number(pageNumber));

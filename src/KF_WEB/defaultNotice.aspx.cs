@@ -162,7 +162,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             //            }
             //            else if (result.Equals("131515001"))
             //            {
-                            
+
             //                pay_result = "参数错误";
             //            }
             //            else if (result.Equals("131512009"))
@@ -177,7 +177,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             //{
             //    //throw new Exception("GetBankSyncState Service处理失败！" + err.Message);
             //    pay_result = string.Empty;
-                
+
             //}
 
             #endregion
@@ -285,7 +285,66 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
             //int total = 0;
             //TencentCreditService tencentCreditService = new TencentCreditService();
             //string returnResult = tencentCreditService.LoadRefundDetail("369051009",0,"30000000201610171659389990013316", "2016-10-01", "2016-10-18", "1476706748", 30, 1, "aaa", out searchResult, out errorMessage, ref total);
-      
+
+            #region 信用付接口签名测试
+            //string accountNo = "2108197068";
+            //int accountType = 0;
+            //int req_type = 0;
+            ////string trans_id = "2092833410";
+            //string beginDate = "20161101";
+            //string endDate = "20161130";
+            //string timeStamp = "2";
+            //#region tokenValue
+            //Dictionary<string, string> dic = new Dictionary<string, string>();
+            //if (!string.IsNullOrEmpty(accountNo))
+            //{
+            //    dic.Add("acct_no", accountNo);
+            //}
+            //if (accountType >= 0)
+            //{
+            //    dic.Add("acct_type", accountType.ToString());
+            //}
+            //if (req_type >= 0)
+            //{
+            //    dic.Add("req_type", req_type.ToString());
+            //}
+            ////if (!string.IsNullOrEmpty(trans_id))
+            ////{
+            ////    dic.Add("trans_id", trans_id);
+            ////}
+            //if (!string.IsNullOrEmpty(beginDate))
+            //{
+            //    dic.Add("start_date", beginDate);
+            //}
+            //if (!string.IsNullOrEmpty(endDate))
+            //{
+            //    dic.Add("end_date", endDate);
+            //}
+
+            //dic.Add("ts", timeStamp);
+            
+            //Dictionary<string, string> dicAsc = dic.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value); ;
+            //dicAsc.Add("key", "bs1hat86vpw6mkrqrxn92nywn1mr345k");
+            //StringBuilder sb_tokenValue = new StringBuilder();
+            //if (dicAsc != null && dicAsc.Count > 0)
+            //{
+            //    int i = 0;
+            //    foreach (var item in dicAsc)
+            //    {
+            //        i++;
+            //        if (i < dicAsc.Count)
+            //        {
+            //            sb_tokenValue.Append(item.Key).Append("=").Append(item.Value).Append("&");
+            //        }
+            //        else
+            //        {
+            //            sb_tokenValue.Append(item.Key).Append("=").Append(item.Value);
+            //        }
+            //    }
+            //}
+            //#endregion
+            //var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
+            #endregion
         }       
     }
 }
