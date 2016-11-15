@@ -33,7 +33,6 @@
     //});
 
     $("#btn_Search").click(function () {
-        
         var accountNo = $("#txt_Account").val();
         var accountType = $("input[name=AccountType]:checked").val();
         var billStatus = $("#txt_BillStatus").combobox("getValue");
@@ -104,6 +103,13 @@
                                             
                 }
                 else {
+                    var layout = "";
+                    if (data.nextpage_flg == 0) {
+                        layout = ['prev', 'manual'];
+                    }
+                    else {
+                        layout = ['prev', 'manual', 'next'];
+                    }
                     $("#hid_BillListnextpage_flg").val(data.nextpage_flg);
                     LoadBillList();
                     $("#tb_BillList").datagrid('loadData', data); //将数据绑定到datagrid   
@@ -119,7 +125,7 @@
                             displayMsg: "", // '当前显示 {from} - {to} 条记录   共 {total} 条记录',
                             showPageList: false,
                             showRefresh: false,
-                            layout: ['prev', 'manual', 'next'],
+                            layout: layout,
                             onSelectPage: function (pageNumber, pageSize) {
                                 $(this).pagination('loading');
                                 $('#hid_BillListPageNumber').val(Number(pageNumber));
@@ -397,6 +403,13 @@ function LoadBillDetail(bill_id) {
 
             }
             else {
+                var layout = "";
+                if (data.nextpage_flg == 0) {
+                    layout = ['prev', 'manual'];
+                }
+                else {
+                    layout = ['prev', 'manual', 'next'];
+                }
                 $("#hid_BillDetailInfonextpage_flg").val(data.nextpage_flg);
                 LoadBillDetailDatagrid();
                 $("#tb_BillDetailInfo").datagrid('loadData', data); //将数据绑定到datagrid   
@@ -412,7 +425,7 @@ function LoadBillDetail(bill_id) {
                         displayMsg: "", // '当前显示 {from} - {to} 条记录   共 {total} 条记录',
                         showPageList: false,
                         showRefresh: false,
-                        layout: ['prev', 'manual', 'next'],
+                        layout: layout,
                         onSelectPage: function (pageNumber, pageSize) {
                             $(this).pagination('loading');
                             $('#hid_BillDetailInfoPageNumber').val(Number(pageNumber));
