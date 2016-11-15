@@ -64,6 +64,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 Dictionary<string, string> dicAsc= dic.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);                
                 dicAsc.Add("key", key);
                 StringBuilder sb_tokenValue = new StringBuilder();
+                StringBuilder sb_RequestString = new StringBuilder();
                 if (dicAsc != null && dicAsc.Count > 0)
                 {
                     int i= 0;
@@ -72,25 +73,23 @@ namespace CFT.CSOMS.DAL.CreditModule
                         i++;
                         if (i < dicAsc.Count)
                         {
-                            sb_tokenValue.Append(item.Key).Append("=").Append(item.Value).Append("&");
+                            sb_tokenValue.Append(item.Key).Append("=").Append(item.Value).Append("&");                                                                               
                         }
                         else
                         {
-                            sb_tokenValue.Append(item.Key).Append("=").Append(item.Value);
+                            sb_tokenValue.Append(item.Key).Append("=").Append(item.Value);                                                    
+                        }
+                        if (!item.Key.Equals("key"))
+                        {
+                            sb_RequestString.Append(item.Key).Append("=").Append(item.Value).Append("&");
                         }
                     }
                 }
                 #endregion
 
-                //var tokenValue = "acct_no=" + accountNo + "&acct_type=" + accountType + "&key=" + key;
-                //var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(tokenValue, "md5");
                 LogHelper.LogInfo("SearchAccountInfo_sb_tokenValue:" + sb_tokenValue.ToString());
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
-                StringBuilder sb_RequestString = new StringBuilder();
-                sb_RequestString.Append("acct_no=").Append(accountNo);
-                sb_RequestString.Append("&acct_type=").Append(accountType);
-                sb_RequestString.Append("&ts=").Append(timeStamp);
-                sb_RequestString.Append("&sign=").Append(token);
+                sb_RequestString.Append("sign=").Append(token);
                 LogHelper.LogInfo("SearchAccountInfo_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
             }
@@ -155,6 +154,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 Dictionary<string, string> dicAsc = dic.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
                 dicAsc.Add("key", key);
                 StringBuilder sb_tokenValue = new StringBuilder();
+                StringBuilder sb_RequestString = new StringBuilder();
                 if (dicAsc != null && dicAsc.Count > 0)
                 {
                     int i = 0;
@@ -169,32 +169,17 @@ namespace CFT.CSOMS.DAL.CreditModule
                         {
                             sb_tokenValue.Append(item.Key).Append("=").Append(item.Value);
                         }
+                        if (!item.Key.Equals("key"))
+                        {
+                            sb_RequestString.Append(item.Key).Append("=").Append(item.Value).Append("&");
+                        }
                     }
                 }
                 #endregion
                 LogHelper.LogInfo("LoadBillList_sb_tokenValue:" + sb_tokenValue.ToString());
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
-            
-                StringBuilder sb_RequestString = new StringBuilder();
-                if (!string.IsNullOrEmpty(accountNo))
-                {
-                    sb_RequestString.Append("acct_no=").Append(accountNo);
-                    sb_RequestString.Append("&acct_type=").Append(accountType);
-                }
-                sb_RequestString.Append("&ts=").Append(timeStamp);
-                if (!string.IsNullOrEmpty(beginDate))
-                {
-                    sb_RequestString.Append("&start_date=").Append(DateTime.Parse(beginDate).ToString("yyyyMMdd"));
-                }
-                if (!string.IsNullOrEmpty(beginDate))
-                {
-                    sb_RequestString.Append("&end_date=").Append(DateTime.Parse(endDate).ToString("yyyyMMdd"));
-                }
-
-                sb_RequestString.Append("&status=").Append(billStatus);
-                sb_RequestString.Append("&page_size=").Append(pageSize);
-                sb_RequestString.Append("&page_offset=").Append(pageNumber - 1);                
-                sb_RequestString.Append("&sign=").Append(token);
+                sb_RequestString.Append("sign=").Append(token);
+                
                 //string testRequest = "acct_no=2092833410&acct_type=0&page_offset=0&page_size=1&ts=1476843756&key=7tzkfz7u18fbbibf7vb62662vqwnblaq&sign=c542651e07938d961426bcd33fd64094";
                 LogHelper.LogInfo("LoadBillList_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
@@ -263,6 +248,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 Dictionary<string, string> dicAsc = dic.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
                 dicAsc.Add("key", key);
                 StringBuilder sb_tokenValue = new StringBuilder();
+                StringBuilder sb_RequestString = new StringBuilder();
                 if (dicAsc != null && dicAsc.Count > 0)
                 {
                     int i = 0;
@@ -277,33 +263,17 @@ namespace CFT.CSOMS.DAL.CreditModule
                         {
                             sb_tokenValue.Append(item.Key).Append("=").Append(item.Value);
                         }
+                        if (!item.Key.Equals("key"))
+                        {
+                            sb_RequestString.Append(item.Key).Append("=").Append(item.Value).Append("&");
+                        }
                     }
                 }
                 #endregion
                 LogHelper.LogInfo("LoadBillDetailInfo_sb_tokenValue:" + sb_tokenValue.ToString());
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
+                sb_RequestString.Append("sign=").Append(token);
                 
-                StringBuilder sb_RequestString = new StringBuilder();
-                if (!string.IsNullOrEmpty(accountNo))
-                {
-                    sb_RequestString.Append("acct_no=").Append(accountNo);
-                    sb_RequestString.Append("&acct_type=").Append(accountType);
-                }
-                sb_RequestString.Append("&ts=").Append(timeStamp);
-                sb_RequestString.Append("&bill_id=").Append(billId);
-                if (!string.IsNullOrEmpty(beginDate))
-                {
-                    sb_RequestString.Append("&start_date=").Append(DateTime.Parse(beginDate).ToString("yyyyMMdd"));
-                }
-                if (!string.IsNullOrEmpty(endDate))
-                {
-                    sb_RequestString.Append("&end_date=").Append(DateTime.Parse(endDate).ToString("yyyyMMdd"));
-                }               
-                sb_RequestString.Append("&page_size=").Append(pageSize);
-                sb_RequestString.Append("&page_offset=").Append(pageNumber-1);
-                //var tokenValue = sb_RequestString.ToString() + "&key=" + key;
-                //var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(tokenValue, "md5");
-                sb_RequestString.Append("&sign=").Append(token);
                 //string testRequest = "acct_no=2092833410&acct_type=0&bill_id=B001706e8930b24b2919459990003275&page_offset=0&page_size=10&ts=1476848739&sign=1b08426d3007846a9ddcb07eacfaf906";
                 LogHelper.LogInfo("LoadBillDetailInfo_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
@@ -374,6 +344,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 Dictionary<string, string> dicAsc = dic.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
                 dicAsc.Add("key", key);
                 StringBuilder sb_tokenValue = new StringBuilder();
+                StringBuilder sb_RequestString = new StringBuilder();
                 if (dicAsc != null && dicAsc.Count > 0)
                 {
                     int i = 0;
@@ -388,46 +359,17 @@ namespace CFT.CSOMS.DAL.CreditModule
                         {
                             sb_tokenValue.Append(item.Key).Append("=").Append(item.Value);
                         }
+                        if (!item.Key.Equals("key"))
+                        {
+                            sb_RequestString.Append(item.Key).Append("=").Append(item.Value).Append("&");
+                        }
                     }
                 }
                 #endregion
                 LogHelper.LogInfo("LoadPayList_sb_tokenValue:" + sb_tokenValue.ToString());
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
-                
-                StringBuilder sb_RequestString = new StringBuilder();
-
-                if (!string.IsNullOrEmpty(accountNo))
-                {
-                    sb_RequestString.Append("acct_no=").Append(accountNo);
-                    sb_RequestString.Append("&acct_type=").Append(accountType);
-                }
-                sb_RequestString.Append("&ts=").Append(timeStamp);
-                sb_RequestString.Append("&req_type=").Append(req_type);
-                if (!string.IsNullOrEmpty(trans_id))
-                {
-                    sb_RequestString.Append("&trans_id=").Append(trans_id);
-                }
-
-                if (!string.IsNullOrEmpty(beginDate))
-                {
-                    sb_RequestString.Append("&start_date=").Append(DateTime.Parse(beginDate).ToString("yyyyMMdd"));
-                }
-                if (!string.IsNullOrEmpty(endDate))
-                {
-                    sb_RequestString.Append("&end_date=").Append(DateTime.Parse(endDate).ToString("yyyyMMdd"));
-                }  
-                sb_RequestString.Append("&page_size=").Append(pageSize);
-                if (!string.IsNullOrEmpty(next_row_key) && !next_row_key.Equals("0"))
-                {
-                    sb_RequestString.Append("&next_row_key=").Append(next_row_key);
-                }
-
-                //var tokenValue = sb_RequestString.ToString() + "&key=" + key;
-                //var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(tokenValue, "md5");
-                sb_RequestString.Append("&sign=").Append(token);
-
+                sb_RequestString.Append("sign=").Append(token);                
                 //string testRequest = "acct_no=1911162410&acct_type=0&end_date=20161014&page_size=10&req_type=0&start_date=20161010&ts=1476698617&key=7tzkfz7u18fbbibf7vb62662vqwnblaq&sign=c7c35a1e9aa03aa4f1cd1e25acf9af4f";
-
                 LogHelper.LogInfo("LoadPayList_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);//sb_RequestString.ToString()
             }
@@ -500,6 +442,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 Dictionary<string, string> dicAsc = dic.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
                 dicAsc.Add("key", key);
                 StringBuilder sb_tokenValue = new StringBuilder();
+                StringBuilder sb_RequestString = new StringBuilder();
                 if (dicAsc != null && dicAsc.Count > 0)
                 {
                     int i = 0;
@@ -514,43 +457,17 @@ namespace CFT.CSOMS.DAL.CreditModule
                         {
                             sb_tokenValue.Append(item.Key).Append("=").Append(item.Value);
                         }
+                        if (!item.Key.Equals("key"))
+                        {
+                            sb_RequestString.Append(item.Key).Append("=").Append(item.Value).Append("&");
+                        }
                     }
                 }
                 #endregion
                 LogHelper.LogInfo("LoadRepayList_sb_tokenValue:" + sb_tokenValue.ToString());
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
-
-                StringBuilder sb_RequestString = new StringBuilder();
-
-                if (!string.IsNullOrEmpty(accountNo))
-                {
-                    sb_RequestString.Append("acct_no=").Append(accountNo);
-                    sb_RequestString.Append("&acct_type=").Append(accountType);
-                }
-                sb_RequestString.Append("&ts=").Append(timeStamp);
-                sb_RequestString.Append("&req_type=").Append(req_type);
-                if (!string.IsNullOrEmpty(trans_id))
-                {
-                    sb_RequestString.Append("&trans_id=").Append(trans_id);
-                }
-
-                if (!string.IsNullOrEmpty(beginDate))
-                {
-                    sb_RequestString.Append("&start_date=").Append(DateTime.Parse(beginDate).ToString("yyyyMMdd"));
-                }
-                if (!string.IsNullOrEmpty(endDate))
-                {
-                    sb_RequestString.Append("&end_date=").Append(DateTime.Parse(endDate).ToString("yyyyMMdd"));
-                }  
-                sb_RequestString.Append("&page_size=").Append(pageSize);
-                if (!string.IsNullOrEmpty(next_row_key) && !next_row_key.Equals("0"))
-                {
-                    sb_RequestString.Append("&next_row_key=").Append(next_row_key);
-                }
-
-                //var tokenValue = sb_RequestString.ToString() + "&key=" + key;
-                //var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(tokenValue, "md5");
-                sb_RequestString.Append("&sign=").Append(token);
+                sb_RequestString.Append("sign=").Append(token);
+                
                 //string testRquest = "acct_no=2056226882&acct_type=0&end_date=20161017&page_size=1&req_type=0&start_date=20160901&ts=1476710359&key=7tzkfz7u18fbbibf7vb62662vqwnblaq&sign=0435fb1d4a15b14947d67aa37237945a";
                 LogHelper.LogInfo("LoadRepayList_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
@@ -624,6 +541,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 Dictionary<string, string> dicAsc = dic.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
                 dicAsc.Add("key", key);
                 StringBuilder sb_tokenValue = new StringBuilder();
+                StringBuilder sb_RequestString = new StringBuilder();
                 if (dicAsc != null && dicAsc.Count > 0)
                 {
                     int i = 0;
@@ -638,42 +556,16 @@ namespace CFT.CSOMS.DAL.CreditModule
                         {
                             sb_tokenValue.Append(item.Key).Append("=").Append(item.Value);
                         }
+                        if (!item.Key.Equals("key"))
+                        {
+                            sb_RequestString.Append(item.Key).Append("=").Append(item.Value).Append("&");
+                        }
                     }
                 }
                 #endregion
                 LogHelper.LogInfo("LoadRefundList_sb_tokenValue:" + sb_tokenValue.ToString());
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
-
-                StringBuilder sb_RequestString = new StringBuilder();
-                if (!string.IsNullOrEmpty(accountNo))
-                {
-                    sb_RequestString.Append("acct_no=").Append(accountNo);
-                    sb_RequestString.Append("&acct_type=").Append(accountType);
-                }
-                sb_RequestString.Append("&ts=").Append(timeStamp);
-                sb_RequestString.Append("&req_type=").Append(req_type);
-                if (!string.IsNullOrEmpty(trans_id))
-                {
-                    sb_RequestString.Append("&trans_id=").Append(trans_id);
-                }
-
-                if (!string.IsNullOrEmpty(beginDate))
-                {
-                    sb_RequestString.Append("&start_date=").Append(DateTime.Parse(beginDate).ToString("yyyyMMdd"));
-                }
-                if (!string.IsNullOrEmpty(endDate))
-                {
-                    sb_RequestString.Append("&end_date=").Append(DateTime.Parse(endDate).ToString("yyyyMMdd"));
-                }  
-                sb_RequestString.Append("&page_size=").Append(pageSize);
-                if (!string.IsNullOrEmpty(next_row_key) && !next_row_key.Equals("0"))
-                {
-                    sb_RequestString.Append("&next_row_key=").Append(next_row_key);
-                }
-                
-                //var tokenValue = sb_RequestString.ToString() + "&key=" + key;
-                //var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(tokenValue, "md5");
-                sb_RequestString.Append("&sign=").Append(token);
+                sb_RequestString.Append("sign=").Append(token);               
                 //string testRquest = "acct_no=1911162410&acct_type=0&end_date=20161014&page_size=5&req_type=0&start_date=20161010&ts=1476706748&key=7tzkfz7u18fbbibf7vb62662vqwnblaq&sign=22f40333ae731d16999c56150f02c0d6";
                 LogHelper.LogInfo("LoadRefundList_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
@@ -742,6 +634,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 Dictionary<string, string> dicAsc = dic.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
                 dicAsc.Add("key", key);
                 StringBuilder sb_tokenValue = new StringBuilder();
+                StringBuilder sb_RequestString = new StringBuilder();
                 if (dicAsc != null && dicAsc.Count > 0)
                 {
                     int i = 0;
@@ -756,40 +649,17 @@ namespace CFT.CSOMS.DAL.CreditModule
                         {
                             sb_tokenValue.Append(item.Key).Append("=").Append(item.Value);
                         }
+                        if (!item.Key.Equals("key"))
+                        {
+                            sb_RequestString.Append(item.Key).Append("=").Append(item.Value).Append("&");
+                        }
                     }
                 }
                 #endregion
                 LogHelper.LogInfo("LoadRefundDetail_sb_tokenValue:" + sb_tokenValue.ToString());
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
-
-                StringBuilder sb_RequestString = new StringBuilder();
-                if (!string.IsNullOrEmpty(accountNo))
-                {
-                    sb_RequestString.Append("acct_no=").Append(accountNo);
-                    sb_RequestString.Append("&acct_type=").Append(accountType);
-                }
-                sb_RequestString.Append("&ts=").Append(timeStamp);
-                if (!string.IsNullOrEmpty(refund_flow_id))
-                {
-                    sb_RequestString.Append("&refund_flow_id=").Append(refund_flow_id);
-                }                
-                if (!string.IsNullOrEmpty(c_rchg_id))
-                {
-                    sb_RequestString.Append("&c_rchg_id=").Append(c_rchg_id);
-                }
-                if (!string.IsNullOrEmpty(beginDate))
-                {
-                    sb_RequestString.Append("&start_date=").Append(DateTime.Parse(beginDate).ToString("yyyyMMdd"));
-                }
-                if (!string.IsNullOrEmpty(endDate))
-                {
-                    sb_RequestString.Append("&end_date=").Append(DateTime.Parse(endDate).ToString("yyyyMMdd"));
-                }  
-                //sb_RequestString.Append("&page_size=").Append(pageSize);
-                //sb_RequestString.Append("&next_row_key=").Append(pageNumber);
-                //var tokenValue = sb_RequestString.ToString() + "&key=" + key;
-                //var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(tokenValue, "md5");
-                sb_RequestString.Append("&sign=").Append(token);
+                sb_RequestString.Append("sign=").Append(token);
+                
                 //string testRquest = "acct_no=2547962691&acct_type=0&end_date=20161020&page_size=1&refund_flow_id=30000000201610251530479990024610&start_date=20161026&ts=1476706748&sign=22f40333ae731d16999c56150f02c0d6";//&key=7tzkfz7u18fbbibf7vb62662vqwnblaq
                 LogHelper.LogInfo("LoadRefundDetail_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);

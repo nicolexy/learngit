@@ -31,8 +31,11 @@
     //        $("#txt_BillStatus").combobox("setValue", datas[0].id);
     //    }
     //});
-
-    $("#btn_Search").click(function () {
+    $("#txt_Account").change(function () {
+        $("#hid_BillListnextpage_flg").val("True");
+        $("#hid_BillDetailInfonextpage_flg").val("True");
+    });
+    $("#btn_Search").click(function () {        
         var accountNo = $("#txt_Account").val();
         var accountType = $("input[name=AccountType]:checked").val();
         var billStatus = $("#txt_BillStatus").combobox("getValue");
@@ -104,7 +107,7 @@
                 }
                 else {
                     var layout = "";
-                    if (data.nextpage_flg == 0) {
+                    if (data.nextpage_flg == "False") {
                         layout = ['prev', 'manual'];
                     }
                     else {
@@ -404,7 +407,7 @@ function LoadBillDetail(bill_id) {
             }
             else {
                 var layout = "";
-                if (data.nextpage_flg == 0) {
+                if (data.nextpage_flg == "False") {
                     layout = ['prev', 'manual'];
                 }
                 else {
