@@ -121,8 +121,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
                 string errorMessage = string.Empty;
                 int total = 0;
                
-                if (bool.Parse(nextpage_flg) || nextpage_flg.Equals("1"))
-                {
+                //if (bool.Parse(nextpage_flg) || nextpage_flg.Equals("1"))
+                //{
                     if (classLibrary.getData.IsTestMode && !classLibrary.getData.IsNewSensitivePowerMode)
                     {
                         returnResult = tencentCreditService.LoadPayList(accountNo, accountType, req_type = 0, trans_id, beginDate, endDate, timeStamp, pageSize, pageNumber, next_row_key, sortStr + " " + orderStr, out searchResult, out errorMessage, ref total);
@@ -146,20 +146,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
                         builder.Append("}");
                         //builder.Append("]");
                     }
-                }
-                else
-                {
-                    searchResult = false;
-                    errorMessage = "没有数据了";
-                    //builder.Append("[");
-                    builder.Append("{");
-                    builder.Append("\"result\":");
-                    builder.Append("\"" + searchResult + "\",");
-                    builder.Append("\"res_info\":");
-                    builder.Append("\"" + errorMessage + "\"");
-                    builder.Append("}");
-                    //builder.Append("]");
-                }
+                //}
+                //else
+                //{
+                //    searchResult = false;
+                //    errorMessage = "没有数据了";
+                //    //builder.Append("[");
+                //    builder.Append("{");
+                //    builder.Append("\"result\":");
+                //    builder.Append("\"" + searchResult + "\",");
+                //    builder.Append("\"res_info\":");
+                //    builder.Append("\"" + errorMessage + "\"");
+                //    builder.Append("}");
+                //    //builder.Append("]");
+                //}
             }
             catch (Exception ex)
             {
@@ -212,8 +212,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
                 string errorMessage = string.Empty;
                 int total = 0;               
 
-                if (bool.Parse(nextpage_flg) || nextpage_flg.Equals("1"))
-                {
+                //if (bool.Parse(nextpage_flg) || nextpage_flg.Equals("1"))
+                //{
                     if (classLibrary.getData.IsTestMode && !classLibrary.getData.IsNewSensitivePowerMode)
                     {
                         returnResult = tencentCreditService.LoadRepayList(accountNo, accountType, req_type = 0, trans_id, beginDate, endDate, timeStamp, pageSize, pageNumber, next_row_key, sortStr + " " + orderStr, out searchResult, out errorMessage, ref total);
@@ -237,20 +237,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
                         builder.Append("}");
                         //builder.Append("]");
                     }
-                }
-                else
-                {
-                    searchResult = false;
-                    errorMessage = "没有数据了";
-                    //builder.Append("[");
-                    builder.Append("{");
-                    builder.Append("\"result\":");
-                    builder.Append("\"" + searchResult + "\",");
-                    builder.Append("\"res_info\":");
-                    builder.Append("\"" + errorMessage + "\"");
-                    builder.Append("}");
-                    //builder.Append("]");
-                }
+                //}
+                //else
+                //{
+                //    searchResult = false;
+                //    errorMessage = "没有数据了";
+                //    //builder.Append("[");
+                //    builder.Append("{");
+                //    builder.Append("\"result\":");
+                //    builder.Append("\"" + searchResult + "\",");
+                //    builder.Append("\"res_info\":");
+                //    builder.Append("\"" + errorMessage + "\"");
+                //    builder.Append("}");
+                //    //builder.Append("]");
+                //}
             }
             catch (Exception ex)
             {
@@ -301,8 +301,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
                 string errorMessage = string.Empty;
                 int total = 0;
                 //nextpage_flg 后续是否还有数据 ;0：没数据;1：有数据
-                if (bool.Parse(nextpage_flg) || nextpage_flg.Equals("1"))
-                {
+                //if (bool.Parse(nextpage_flg) || nextpage_flg.Equals("1"))
+                //{
                     if (classLibrary.getData.IsTestMode && !classLibrary.getData.IsNewSensitivePowerMode)
                     {
                         returnResult = tencentCreditService.LoadRefundList(accountNo, accountType, req_type = 0, trans_id, beginDate, endDate, timeStamp, pageSize, pageNumber, next_row_key, sortStr + " " + orderStr, out searchResult, out errorMessage, ref total);
@@ -326,20 +326,20 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
                         builder.Append("}");
                         //builder.Append("]");
                     }
-                }
-                else
-                {
-                    searchResult = false;
-                    errorMessage = "没有数据了";
-                    //builder.Append("[");
-                    builder.Append("{");
-                    builder.Append("\"result\":");
-                    builder.Append("\"" + searchResult + "\",");
-                    builder.Append("\"res_info\":");
-                    builder.Append("\"" + errorMessage + "\"");
-                    builder.Append("}");
-                    //builder.Append("]");
-                }
+                //}
+                //else
+                //{
+                //    searchResult = false;
+                //    errorMessage = "没有数据了";
+                //    //builder.Append("[");
+                //    builder.Append("{");
+                //    builder.Append("\"result\":");
+                //    builder.Append("\"" + searchResult + "\",");
+                //    builder.Append("\"res_info\":");
+                //    builder.Append("\"" + errorMessage + "\"");
+                //    builder.Append("}");
+                //    //builder.Append("]");
+                //}
                 
             }
             catch (Exception ex)

@@ -1151,15 +1151,7 @@ namespace CFT.CSOMS.BLL.CreditModule
             searchResult = false;
             try
             {
-                CreditData creditDataDAL = new CreditData();
-                accountNo = "2108197068";
-                accountType = 0;
-                req_type = 0;
-                trans_id = "2092833410";
-                beginDate = "20161101";
-                endDate = "20161130";
-                timeStamp = "2";
-
+                CreditData creditDataDAL = new CreditData();               
                 string interfaceRetrunResult = creditDataDAL.LoadRefundList(accountNo, accountType, req_type, trans_id, beginDate, endDate, timeStamp, pageSize, pageNumber, next_row_key, order, out  errorMessage);
                 if (!string.IsNullOrEmpty(interfaceRetrunResult))
                 {

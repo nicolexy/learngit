@@ -33,7 +33,11 @@
     //        $("#ddl_SearchType").combobox("setValue", datas[0].id);
     //    }
     //});
-
+    $("#txt_Account").change(function () {
+        $("#hid_PayListnextpage_flg").val("True");
+        $("#hid_RepayListnextpage_flg").val("True");
+        $("#hid_RefundListnextpage_flg").val("True");
+    });
     $("#btn_Search").click(function () {
         //$("#hid_PayListnext_row_key").val("0");
         //$("#hid_RepayListnext_row_key").val("0");
@@ -63,7 +67,7 @@
         }
 
         ///searchType 1=支付明细查询；2=还款明细查询；3=退款明细查询
-        if (searchType == 1) {
+        if (searchType == 1) {        
             //支付查询
             LoadPayList();            
         }
@@ -73,6 +77,7 @@
         }
         else if (searchType == 3) {
             //退款查询
+           
             LoadRefundList();
         }
     });
@@ -86,7 +91,7 @@ function LoadPayList()
     var transID = $("#txt_TransID").val();
     var beginDate = $("#txt_BeginDate").datebox("getValue");
     var endDate = $("#txt_EndDate").datebox("getValue");
-
+    
     var queryData = {
         accountNo: accountNo,
         accountType: accountType,
@@ -136,15 +141,15 @@ function LoadPayList()
 
             }
             else {
-                var layout = "";
-                if (data.nextpage_flg == 0) {
+                var layout = "";                               
+                if (data.nextpage_flg == "False") {
                     layout = ['prev', 'manual'];
                 }
                 else {
                     layout = ['prev', 'manual', 'next'];
                 }
                 $("#hid_PayListnextpage_flg").val(data.nextpage_flg);
-                $("#hid_PayListnext_row_key").val(data.next_row_key);
+                $("#hid_PayListnext_row_key").val(data.next_row_key);                
                 LoadPayListDatagrid();
                 $("#tb_PayList").datagrid('loadData', data); //将数据绑定到datagrid   
                 var pg = $("#tb_PayList").datagrid("getPager");
@@ -333,7 +338,7 @@ function LoadRepayList()
             }
             else {
                 var layout = "";
-                if (data.nextpage_flg == 0) {
+                if (data.nextpage_flg == "False") {
                     layout = ['prev', 'manual'];
                 }
                 else {
@@ -571,7 +576,7 @@ function LoadRefundList()
             }
             else {
                 var layout = "";
-                if (data.nextpage_flg == 0) {
+                if (data.nextpage_flg == "False") {
                     layout = ['prev', 'manual'];
                 }
                 else {
