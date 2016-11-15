@@ -46,7 +46,7 @@ namespace CFT.CSOMS.DAL.CreditModule
             {
                 var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditSearchAccountInfoIP"] ?? "10.231.45.238";// "10.123.9.162";
                 var port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TencentCreditSearchAccountInfoPort"] ?? "22000");
-                var key = System.Configuration.ConfigurationManager.AppSettings["TencentCreditSearchAccountInfoKey"] ?? "bs1hat86vpw6mkrqrxn92nywn1mr345k";// "7tzkfz7u18fbbibf7vb62662vqwnblaq";
+                var key =  System.Configuration.ConfigurationManager.AppSettings["TencentCreditSearchAccountInfoKey"] ?? "bs1hat86vpw6mkrqrxn92nywn1mr345k";// "7tzkfz7u18fbbibf7vb62662vqwnblaq";
                 string requestType = System.Configuration.ConfigurationManager.AppSettings["TencentCreditSearchAccountInfoRequestType"] ?? "102804";// "111144";
 
                 #region tokenValue
@@ -84,7 +84,7 @@ namespace CFT.CSOMS.DAL.CreditModule
 
                 //var tokenValue = "acct_no=" + accountNo + "&acct_type=" + accountType + "&key=" + key;
                 //var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(tokenValue, "md5");
-                var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5");
+                var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
                 StringBuilder sb_RequestString = new StringBuilder();
                 sb_RequestString.Append("acct_no=").Append(accountNo);
                 sb_RequestString.Append("&acct_type=").Append(accountType);
@@ -171,7 +171,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                     }
                 }
                 #endregion
-                var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5");
+                var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
 
                 StringBuilder sb_RequestString = new StringBuilder();
                 if (!string.IsNullOrEmpty(accountNo))
@@ -278,7 +278,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                     }
                 }
                 #endregion
-                var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5");
+                var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
 
                 StringBuilder sb_RequestString = new StringBuilder();
                 if (!string.IsNullOrEmpty(accountNo))
@@ -388,7 +388,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                     }
                 }
                 #endregion
-                var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5");
+                var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
 
                 StringBuilder sb_RequestString = new StringBuilder();
 
@@ -513,7 +513,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                     }
                 }
                 #endregion
-                var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5");
+                var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
 
                 StringBuilder sb_RequestString = new StringBuilder();
 
@@ -636,7 +636,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                     }
                 }
                 #endregion
-                var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5");
+                var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
 
                 StringBuilder sb_RequestString = new StringBuilder();
                 if (!string.IsNullOrEmpty(accountNo))
@@ -753,7 +753,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                     }
                 }
                 #endregion
-                var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5");
+                var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
 
                 StringBuilder sb_RequestString = new StringBuilder();
                 if (!string.IsNullOrEmpty(accountNo))
