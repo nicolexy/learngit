@@ -92,6 +92,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 sb_RequestString.Append("sign=").Append(token);
                 LogHelper.LogInfo("SearchAccountInfo_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
+                LogHelper.LogInfo("SearchAccountInfo_result:" + result);
             }
             catch (Exception ex)
             {
@@ -183,6 +184,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 //string testRequest = "acct_no=2092833410&acct_type=0&page_offset=0&page_size=1&ts=1476843756&key=7tzkfz7u18fbbibf7vb62662vqwnblaq&sign=c542651e07938d961426bcd33fd64094";
                 LogHelper.LogInfo("LoadBillList_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
+                LogHelper.LogInfo("LoadBillList_result:" + result);
             }
             catch (Exception ex)
             {
@@ -277,6 +279,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 //string testRequest = "acct_no=2092833410&acct_type=0&bill_id=B001706e8930b24b2919459990003275&page_offset=0&page_size=10&ts=1476848739&sign=1b08426d3007846a9ddcb07eacfaf906";
                 LogHelper.LogInfo("LoadBillDetailInfo_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
+                LogHelper.LogInfo("LoadBillDetailInfo_result:" + result);
             }
             catch (Exception ex)
             {
@@ -372,6 +375,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 //string testRequest = "acct_no=1911162410&acct_type=0&end_date=20161014&page_size=10&req_type=0&start_date=20161010&ts=1476698617&key=7tzkfz7u18fbbibf7vb62662vqwnblaq&sign=c7c35a1e9aa03aa4f1cd1e25acf9af4f";
                 LogHelper.LogInfo("LoadPayList_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);//sb_RequestString.ToString()
+                LogHelper.LogInfo("LoadPayList_result:" + result);
             }
             catch (Exception ex)
             {
@@ -471,6 +475,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 //string testRquest = "acct_no=2056226882&acct_type=0&end_date=20161017&page_size=1&req_type=0&start_date=20160901&ts=1476710359&key=7tzkfz7u18fbbibf7vb62662vqwnblaq&sign=0435fb1d4a15b14947d67aa37237945a";
                 LogHelper.LogInfo("LoadRepayList_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
+                LogHelper.LogInfo("LoadRepayList_result:" + result);
             }
             catch (Exception ex)
             {
@@ -569,6 +574,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 //string testRquest = "acct_no=1911162410&acct_type=0&end_date=20161014&page_size=5&req_type=0&start_date=20161010&ts=1476706748&key=7tzkfz7u18fbbibf7vb62662vqwnblaq&sign=22f40333ae731d16999c56150f02c0d6";
                 LogHelper.LogInfo("LoadRefundList_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
+                LogHelper.LogInfo("LoadRefundList_result:" + result);
             }
             catch (Exception ex)
             {
@@ -663,6 +669,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 //string testRquest = "acct_no=2547962691&acct_type=0&end_date=20161020&page_size=1&refund_flow_id=30000000201610251530479990024610&start_date=20161026&ts=1476706748&sign=22f40333ae731d16999c56150f02c0d6";//&key=7tzkfz7u18fbbibf7vb62662vqwnblaq
                 LogHelper.LogInfo("LoadRefundDetail_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
+                LogHelper.LogInfo("LoadRefundDetail_result:" + result);
                 //result = "refund_time=20161010%2017%3A24%3A13&refund_trans_id=1091301278501201610254931202&res_info=ok&result=0&sp_bill_no=&sp_name=%CA%D6Q%C9%CC%BB%A7&trans_id=10000000201610251054479990005553&trans_info=&trans_time=&row_0=balance_go%3D%25E4%25BD%2599%25E9%25A2%259D%26refund_amount%3D1%26rf_trans_id%3D%25E5%25A4%2584%25E7%2590%2586%25E4%25B8%25AD&row_1=balance_go%3D%25E4%25BD%2599%25E9%25A2%259D%26refund_amount%3D1%26rf_trans_id%3D%25E5%25A4%2584%25E7%2590%2586%25E4%25B8%25AD&row_2=balance_go%3D%25E4%25BD%2599%25E9%25A2%259D%26refund_amount%3D1%26rf_trans_id%3D%25E5%25A4%2584%25E7%2590%2586%25E4%25B8%25AD";
             }
             catch (Exception ex)
