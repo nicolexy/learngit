@@ -624,15 +624,17 @@ namespace CFT.CSOMS.BLL.CreditModule
                                 for (int j = 0; j < rowStrReplaceArray.Length; j++)
                                 {
                                     string[] aaa = rowStrReplaceArray[j].Split('=');
+                                    string filedName = aaa[0].ToString().Trim();
+                                    string filedValue = (string.IsNullOrEmpty(aaa[1]) ? string.Empty : aaa[1].ToString().Trim());
                                     if (j < rowStrReplaceArray.Length - 1)
                                     {
-                                        jsonBuilder.Append("\"").Append("" + aaa[0].ToString().Trim() + "").Append("\"").Append(":");
-                                        jsonBuilder.Append("\"").Append("" + (string.IsNullOrEmpty(aaa[1]) ? string.Empty : aaa[1].ToString().Trim()) + "").Append("\"").Append(",");
+                                        jsonBuilder.Append("\"").Append("" + filedName + "").Append("\"").Append(":");
+                                        jsonBuilder.Append("\"").Append("" + filedValue + "").Append("\"").Append(",");
                                     }
                                     else
                                     {
-                                        jsonBuilder.Append("\"").Append("" + aaa[0].ToString().Trim() + "").Append("\"").Append(":");
-                                        jsonBuilder.Append("\"").Append("" + (string.IsNullOrEmpty(aaa[1]) ? string.Empty : aaa[1].ToString().Trim()) + "").Append("\"").Append("");
+                                        jsonBuilder.Append("\"").Append("" + filedName + "").Append("\"").Append(":");
+                                        jsonBuilder.Append("\"").Append("" + filedValue + "").Append("\"").Append("");
                                     }
                                 }
                                 if (i < strlist1.Length - 1)
@@ -847,15 +849,17 @@ namespace CFT.CSOMS.BLL.CreditModule
                                 for (int j = 0; j < rowStrReplaceArray.Length; j++)
                                 {
                                     string[] aaa = rowStrReplaceArray[j].Split('=');
+                                    string filedName = aaa[0].ToString().Trim();
+                                    string filedValue = (string.IsNullOrEmpty(aaa[1]) ? string.Empty : aaa[1].ToString().Trim());
                                     if (j < rowStrReplaceArray.Length - 1)
                                     {
-                                        jsonBuilder.Append("\"").Append("" + aaa[0].ToString().Trim() + "").Append("\"").Append(":");
-                                        jsonBuilder.Append("\"").Append("" + (string.IsNullOrEmpty(aaa[1]) ? string.Empty : aaa[1].ToString().Trim()) + "").Append("\"").Append(",");
+                                        jsonBuilder.Append("\"").Append("" + filedName + "").Append("\"").Append(":");
+                                        jsonBuilder.Append("\"").Append("" + filedValue + "").Append("\"").Append(",");
                                     }
                                     else
                                     {
-                                        jsonBuilder.Append("\"").Append("" + aaa[0].ToString().Trim() + "").Append("\"").Append(":");
-                                        jsonBuilder.Append("\"").Append("" + (string.IsNullOrEmpty(aaa[1]) ? string.Empty : aaa[1].ToString().Trim()) + "").Append("\"").Append("");
+                                        jsonBuilder.Append("\"").Append("" + filedName + "").Append("\"").Append(":");
+                                        jsonBuilder.Append("\"").Append("" + filedValue + "").Append("\"").Append("");
                                     }
                                 }
                                 if (i < strlist1.Length - 1)
@@ -1061,15 +1065,21 @@ namespace CFT.CSOMS.BLL.CreditModule
                                 for (int j = 0; j < rowStrReplaceArray.Length; j++)
                                 {
                                     string[] aaa = rowStrReplaceArray[j].Split('=');
+                                    string filedName = aaa[0].ToString().Trim();
+                                    string filedValue = (string.IsNullOrEmpty(aaa[1]) ? string.Empty : aaa[1].ToString().Trim());
+                                    if (filedName.Equals("balance_orig"))
+                                    {
+                                        filedValue= TENCENT.OSS.C2C.Finance.BankLib.BankIO.QueryBankName(filedName);
+                                    }
                                     if (j < rowStrReplaceArray.Length - 1)
                                     {
-                                        jsonBuilder.Append("\"").Append("" + aaa[0].ToString().Trim() + "").Append("\"").Append(":");
-                                        jsonBuilder.Append("\"").Append("" + (string.IsNullOrEmpty(aaa[1]) ? string.Empty : aaa[1].ToString().Trim()) + "").Append("\"").Append(",");
+                                        jsonBuilder.Append("\"").Append("" + filedName + "").Append("\"").Append(":");
+                                        jsonBuilder.Append("\"").Append("" + filedValue + "").Append("\"").Append(",");
                                     }
                                     else
                                     {
-                                        jsonBuilder.Append("\"").Append("" + aaa[0].ToString().Trim() + "").Append("\"").Append(":");
-                                        jsonBuilder.Append("\"").Append("" + (string.IsNullOrEmpty(aaa[1]) ? string.Empty : aaa[1].ToString().Trim()) + "").Append("\"").Append("");
+                                        jsonBuilder.Append("\"").Append("" + filedName + "").Append("\"").Append(":");
+                                        jsonBuilder.Append("\"").Append("" + filedValue + "").Append("\"").Append("");
                                     }
                                 }
                                 if (i < strlist1.Length - 1)
@@ -1285,15 +1295,17 @@ namespace CFT.CSOMS.BLL.CreditModule
                                 for (int j = 0; j < rowStrReplaceArray.Length; j++)
                                 {
                                     string[] aaa = rowStrReplaceArray[j].Split('=');
+                                    string filedName = aaa[0].ToString().Trim();
+                                    string filedValue = (string.IsNullOrEmpty(aaa[1]) ? string.Empty : aaa[1].ToString().Trim());
                                     if (j < rowStrReplaceArray.Length - 1)
                                     {
-                                        jsonBuilder.Append("\"").Append("" + aaa[0].ToString().Trim() + "").Append("\"").Append(":");
-                                        jsonBuilder.Append("\"").Append("" + (string.IsNullOrEmpty(aaa[1]) ? string.Empty : aaa[1].ToString().Trim()) + "").Append("\"").Append(",");
+                                        jsonBuilder.Append("\"").Append("" + filedName + "").Append("\"").Append(":");
+                                        jsonBuilder.Append("\"").Append("" + filedValue + "").Append("\"").Append(",");
                                     }
                                     else
                                     {
-                                        jsonBuilder.Append("\"").Append("" + aaa[0].ToString().Trim() + "").Append("\"").Append(":");
-                                        jsonBuilder.Append("\"").Append("" + (string.IsNullOrEmpty(aaa[1]) ? string.Empty : aaa[1].ToString().Trim()) + "").Append("\"").Append("");
+                                        jsonBuilder.Append("\"").Append("" + filedName + "").Append("\"").Append(":");
+                                        jsonBuilder.Append("\"").Append("" + filedValue + "").Append("\"").Append("");
                                     }
                                 }
                                 if (i < strlist1.Length - 1)
@@ -1934,15 +1946,17 @@ namespace CFT.CSOMS.BLL.CreditModule
                                 for (int j = 0; j < rowStrReplaceArray.Length; j++)
                                 {
                                     string[] aaa = rowStrReplaceArray[j].Split('=');
+                                    string filedName = aaa[0].ToString().Trim();
+                                    string filedValue = (string.IsNullOrEmpty(aaa[1]) ? string.Empty : aaa[1].ToString().Trim());
                                     if (j < rowStrReplaceArray.Length - 1)
                                     {
-                                        jsonBuilder.Append("\"").Append("" + aaa[0].ToString().Trim() + "").Append("\"").Append(":");
-                                        jsonBuilder.Append("\"").Append("" + (string.IsNullOrEmpty(aaa[1]) ? string.Empty : aaa[1].ToString().Trim()) + "").Append("\"").Append(",");
+                                        jsonBuilder.Append("\"").Append("" + filedName + "").Append("\"").Append(":");
+                                        jsonBuilder.Append("\"").Append("" + filedValue + "").Append("\"").Append(",");
                                     }
                                     else
                                     {
-                                        jsonBuilder.Append("\"").Append("" + aaa[0].ToString().Trim() + "").Append("\"").Append(":");
-                                        jsonBuilder.Append("\"").Append("" + (string.IsNullOrEmpty(aaa[1]) ? string.Empty : aaa[1].ToString().Trim()) + "").Append("\"").Append("");
+                                        jsonBuilder.Append("\"").Append("" + filedName + "").Append("\"").Append(":");
+                                        jsonBuilder.Append("\"").Append("" + filedValue + "").Append("\"").Append("");
                                     }
                                 }
                                 if (i < strlist1.Length - 1)
