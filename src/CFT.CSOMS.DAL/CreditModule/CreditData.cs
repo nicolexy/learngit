@@ -39,14 +39,14 @@ namespace CFT.CSOMS.DAL.CreditModule
         /// <param name="accountType">账户类型：0=手Q;1=微信；2=身份证(全)</param>
         /// <returns></returns>
         public string SearchAccountInfo(string accountNo, int accountType, string timeStamp, out string errorMessage)
-        {
+        {           
             errorMessage = string.Empty;
             string result = string.Empty;
             try
             {
                 var ip = System.Configuration.ConfigurationManager.AppSettings["TencentCreditSearchAccountInfoIP"] ?? "10.231.45.238";// "10.123.9.162";
                 var port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TencentCreditSearchAccountInfoPort"] ?? "22000");
-                var key =  System.Configuration.ConfigurationManager.AppSettings["TencentCreditSearchAccountInfoKey"] ?? "bs1hat86vpw6mkrqrxn92nywn1mr345k";// "7tzkfz7u18fbbibf7vb62662vqwnblaq";
+                var key = System.Configuration.ConfigurationManager.AppSettings["TencentCreditSearchAccountInfoKey"] ?? "bs1hat86vpw6mkrqrxn92nywn1mr345k";// "7tzkfz7u18fbbibf7vb62662vqwnblaq";
                 string requestType = System.Configuration.ConfigurationManager.AppSettings["TencentCreditSearchAccountInfoRequestType"] ?? "102804";// "111144";
 
                 #region tokenValue
@@ -60,8 +60,8 @@ namespace CFT.CSOMS.DAL.CreditModule
                     dic.Add("acct_type", accountType.ToString());
                 }
                 dic.Add("ts", timeStamp);
-                
-                Dictionary<string, string> dicAsc= dic.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
+                dic.Add("ver", "1");
+                Dictionary<string, string> dicAsc= dic.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);                
                 dicAsc.Add("key", key);
                 StringBuilder sb_tokenValue = new StringBuilder();
                 if (dicAsc != null && dicAsc.Count > 0)
@@ -84,6 +84,7 @@ namespace CFT.CSOMS.DAL.CreditModule
 
                 //var tokenValue = "acct_no=" + accountNo + "&acct_type=" + accountType + "&key=" + key;
                 //var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(tokenValue, "md5");
+                LogHelper.LogInfo("SearchAccountInfo_sb_tokenValue:" + sb_tokenValue.ToString());
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
                 StringBuilder sb_RequestString = new StringBuilder();
                 sb_RequestString.Append("acct_no=").Append(accountNo);
@@ -149,8 +150,8 @@ namespace CFT.CSOMS.DAL.CreditModule
                 dic.Add("ts", timeStamp);
                 dic.Add("status", billStatus.ToString());
                 dic.Add("page_size", pageSize.ToString());
-                dic.Add("page_offset", (pageNumber - 1).ToString());      
-                          
+                dic.Add("page_offset", (pageNumber - 1).ToString());
+                dic.Add("ver", "1");
                 Dictionary<string, string> dicAsc = dic.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
                 dicAsc.Add("key", key);
                 StringBuilder sb_tokenValue = new StringBuilder();
@@ -171,8 +172,9 @@ namespace CFT.CSOMS.DAL.CreditModule
                     }
                 }
                 #endregion
+                LogHelper.LogInfo("LoadBillList_sb_tokenValue:" + sb_tokenValue.ToString());
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
-
+            
                 StringBuilder sb_RequestString = new StringBuilder();
                 if (!string.IsNullOrEmpty(accountNo))
                 {
@@ -257,7 +259,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 dic.Add("ts", timeStamp);                
                 dic.Add("page_size", pageSize.ToString());
                 dic.Add("page_offset", (pageNumber - 1).ToString());
-                         
+                dic.Add("ver", "1");
                 Dictionary<string, string> dicAsc = dic.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
                 dicAsc.Add("key", key);
                 StringBuilder sb_tokenValue = new StringBuilder();
@@ -278,8 +280,9 @@ namespace CFT.CSOMS.DAL.CreditModule
                     }
                 }
                 #endregion
+                LogHelper.LogInfo("LoadBillDetailInfo_sb_tokenValue:" + sb_tokenValue.ToString());
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
-
+                
                 StringBuilder sb_RequestString = new StringBuilder();
                 if (!string.IsNullOrEmpty(accountNo))
                 {
@@ -367,7 +370,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 dic.Add("ts", timeStamp);
                 dic.Add("page_size", pageSize.ToString());
                 dic.Add("page_offset", (pageNumber - 1).ToString());
-                
+                dic.Add("ver", "1");
                 Dictionary<string, string> dicAsc = dic.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
                 dicAsc.Add("key", key);
                 StringBuilder sb_tokenValue = new StringBuilder();
@@ -388,8 +391,9 @@ namespace CFT.CSOMS.DAL.CreditModule
                     }
                 }
                 #endregion
+                LogHelper.LogInfo("LoadPayList_sb_tokenValue:" + sb_tokenValue.ToString());
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
-
+                
                 StringBuilder sb_RequestString = new StringBuilder();
 
                 if (!string.IsNullOrEmpty(accountNo))
@@ -492,7 +496,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 dic.Add("ts", timeStamp);
                 dic.Add("page_size", pageSize.ToString());
                 dic.Add("page_offset", (pageNumber - 1).ToString());
-                
+                dic.Add("ver", "1");
                 Dictionary<string, string> dicAsc = dic.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
                 dicAsc.Add("key", key);
                 StringBuilder sb_tokenValue = new StringBuilder();
@@ -513,6 +517,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                     }
                 }
                 #endregion
+                LogHelper.LogInfo("LoadRepayList_sb_tokenValue:" + sb_tokenValue.ToString());
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
 
                 StringBuilder sb_RequestString = new StringBuilder();
@@ -615,7 +620,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 dic.Add("ts", timeStamp);
                 dic.Add("page_size", pageSize.ToString());
                 dic.Add("page_offset", (pageNumber - 1).ToString());
-                
+                dic.Add("ver", "1");
                 Dictionary<string, string> dicAsc = dic.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
                 dicAsc.Add("key", key);
                 StringBuilder sb_tokenValue = new StringBuilder();
@@ -636,6 +641,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                     }
                 }
                 #endregion
+                LogHelper.LogInfo("LoadRefundList_sb_tokenValue:" + sb_tokenValue.ToString());
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
 
                 StringBuilder sb_RequestString = new StringBuilder();
@@ -732,7 +738,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 dic.Add("ts", timeStamp);
                 dic.Add("page_size", pageSize.ToString());
                 dic.Add("page_offset", (pageNumber - 1).ToString());
-                
+                dic.Add("ver", "1");
                 Dictionary<string, string> dicAsc = dic.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
                 dicAsc.Add("key", key);
                 StringBuilder sb_tokenValue = new StringBuilder();
@@ -753,6 +759,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                     }
                 }
                 #endregion
+                LogHelper.LogInfo("LoadRefundDetail_sb_tokenValue:" + sb_tokenValue.ToString());
                 var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb_tokenValue.ToString(), "md5").ToLower();
 
                 StringBuilder sb_RequestString = new StringBuilder();
@@ -783,8 +790,8 @@ namespace CFT.CSOMS.DAL.CreditModule
                 //var tokenValue = sb_RequestString.ToString() + "&key=" + key;
                 //var token = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(tokenValue, "md5");
                 sb_RequestString.Append("&sign=").Append(token);
-                string testRquest = "acct_no=2547962691&acct_type=0&end_date=20161020&page_size=1&refund_flow_id=30000000201610251530479990024610&start_date=20161026&ts=1476706748&sign=22f40333ae731d16999c56150f02c0d6";//&key=7tzkfz7u18fbbibf7vb62662vqwnblaq
-                LogHelper.LogInfo("LoadRefundList_RequestString:" + sb_RequestString.ToString());
+                //string testRquest = "acct_no=2547962691&acct_type=0&end_date=20161020&page_size=1&refund_flow_id=30000000201610251530479990024610&start_date=20161026&ts=1476706748&sign=22f40333ae731d16999c56150f02c0d6";//&key=7tzkfz7u18fbbibf7vb62662vqwnblaq
+                LogHelper.LogInfo("LoadRefundDetail_RequestString:" + sb_RequestString.ToString());
                 result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
                 //result = "refund_time=20161010%2017%3A24%3A13&refund_trans_id=1091301278501201610254931202&res_info=ok&result=0&sp_bill_no=&sp_name=%CA%D6Q%C9%CC%BB%A7&trans_id=10000000201610251054479990005553&trans_info=&trans_time=&row_0=balance_go%3D%25E4%25BD%2599%25E9%25A2%259D%26refund_amount%3D1%26rf_trans_id%3D%25E5%25A4%2584%25E7%2590%2586%25E4%25B8%25AD&row_1=balance_go%3D%25E4%25BD%2599%25E9%25A2%259D%26refund_amount%3D1%26rf_trans_id%3D%25E5%25A4%2584%25E7%2590%2586%25E4%25B8%25AD&row_2=balance_go%3D%25E4%25BD%2599%25E9%25A2%259D%26refund_amount%3D1%26rf_trans_id%3D%25E5%25A4%2584%25E7%2590%2586%25E4%25B8%25AD";
             }
